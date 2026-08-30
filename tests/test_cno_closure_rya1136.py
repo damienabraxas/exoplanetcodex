@@ -8,9 +8,12 @@ def test_closure_build_is_reproducible_and_never_wavelength_only():
     subprocess.run([sys.executable,"scripts/build_cno_intake_rya1136.py"],cwd=ROOT,check=True)
     rows=list(csv.DictReader((AUDIT/"molecular_physical_crossmatch.csv").open()))
     assert len(rows)==408
-    assert all(r["identity_basis"] in {"", "wavelength+lower_energy+loggf"} for r in rows)
+    assert all(r["identity_basis"] in {"", "wavelength+lower_energy+loggf",
+                                             "wavenumber+band+lower_energy+gf"} for r in rows)
     assert not any(r["identity_basis"]=="wavelength" for r in rows)
     assert sum(r["join_status"]=="PHYSICAL_TUPLE_MATCH" for r in rows)==80
+    assert sum(r["join_status"] in {"PHYSICAL_TUPLE_MATCH", "PRIMARY_TUPLE_MATCH",
+                                    "PRIMARY_UNRESOLVED_SUM_MATCH"} for r in rows)==390
 
 def test_atomic_and_band_ledgers_are_explicit():
     atomic=list(csv.DictReader((AUDIT/"atomic_source_census.csv").open()))
@@ -18,10 +21,11 @@ def test_atomic_and_band_ledgers_are_explicit():
     coverage=list(csv.DictReader((AUDIT/"combined_coverage_matrix.csv").open()))
     assert len(coverage)==12
     assert {r["band"] for r in coverage}=={"FUV","NUV","VIS","RED_OPTICAL","NIR","IR"}
+    assert sum(int(r["matched"]) for r in coverage if r["domain"]=="molecular")==390
 
 def test_final_verdict_is_complete_but_not_falsely_ready():
     verdict=json.loads((AUDIT/"intake_verdict.json").read_text())
     assert verdict["intake_census_complete"] is True
     assert verdict["frozen_ready_for_measurement"] is False
-    assert verdict["verdict"]=="BLOCKED_MOLECULAR_DATA"
+    assert verdict["verdict"]=="INTAKE_COMPLETE_REVIEW_REQUIRED"
     assert "No abundance derived" in verdict["safety"]

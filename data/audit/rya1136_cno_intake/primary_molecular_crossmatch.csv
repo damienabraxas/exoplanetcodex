@@ -1,0 +1,329 @@
+source_row,species,system,band,wavelength_vac_nm,lower_energy_eV,published_loggf,join_status,component_count,summed_loggf,subset_candidate_count,primary_wavelengths_A,primary_energies_eV,primary_loggfs,transition_labels,primary_source,primary_lines
+1,C2,Swan,(0-0),493.812,1.112,0.843,PRIMARY_UNRESOLVED_SUM_MATCH,3,0.843137,7,4938.15280;4938.05150;4938.02773,1.111890;1.111868;1.111765,0.360060;0.365953;0.371954,rR3e(71);rR2f(72);rR1e(73),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2618;1469;328
+2,C2,Swan,(0-0),495.281,1.029,0.651,PRIMARY_UNRESOLVED_SUM_MATCH,5,0.650676,16,4952.79871;4952.78954;4952.75078;4952.54347;4952.50471,1.029047;1.029066;1.029047;1.029066;1.029047,0.352666;0.346424;-3.332425;-3.337573;-6.657214,rR1f(70);rR2e(69);rQ21f(70);rQ32e(69);rP31f(70),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,325;1466;1085;2231;1849
+3,C2,Swan,(0-0),498.060,0.874,0.614,PRIMARY_UNRESOLVED_SUM_MATCH,5,0.609593,8,4980.59915;4980.59257;4980.53572;4980.33021;4980.27334,0.874003;0.874031;0.874003;0.874031;0.874003,0.311855;0.305030;-3.295802;-3.301452;-6.669687,rR1f(64);rR2e(63);rQ21f(64);rQ32e(63);rP31f(64),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,319;1460;1079;2225;1843
+4,C2,Swan,(0-0),498.070,0.874,0.298,PRIMARY_TUPLE_MATCH,1,,0,4980.68830,0.874210,0.298304,rR3f(62),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2609
+5,C2,Swan,(0-0),499.370,0.802,0.588,PRIMARY_UNRESOLVED_SUM_MATCH,5,0.587756,16,4993.69641;4993.71828;4993.66696;4993.46593;4993.44408,0.801745;0.801745;0.801620;0.801620;0.801620,0.283003;-3.272796;0.290181;-6.395737;-3.275695,rR2f(60);rQ32f(60);rR1e(61);rP31e(61);rQ21e(61),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1457;2222;316;1840;1076
+6,C2,Swan,(0-0),503.504,0.584,0.507,PRIMARY_UNRESOLVED_SUM_MATCH,4,0.507027,16,5035.07727;5035.05838;5035.04041;5034.76972,0.583688;0.583688;0.583537;0.583537,0.201503;-3.198543;0.210108;-3.201847,rR2f(50);rQ32f(50);rR1e(51);rQ21e(51),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1447;2212;306;1066
+7,C2,Swan,(0-0),503.518,0.584,0.193,PRIMARY_TUPLE_MATCH,1,,0,5035.18339,0.583749,0.193108,rR3e(49),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2596
+8,C2,Swan,(0-0),503.911,0.564,0.498,PRIMARY_UNRESOLVED_SUM_MATCH,3,0.497993,16,5039.09171;5039.08755;5038.65863,0.563704;0.563646;0.563646,0.192577;0.201306;-6.711137,rR2e(49);rR1f(50);rP31f(50),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1446;305;1829
+9,C2,Swan,(0-0),504.471,1.226,0.851,PRIMARY_UNRESOLVED_SUM_MATCH,3,0.851380,7,5044.78460;5044.68356;5044.66567,1.226668;1.226651;1.226554,0.368530;0.374208;0.379962,pP3e(75);pP2f(76);pP1e(77),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2428;1280;141
+10,C2,Swan,(1-1),504.833,0.555,0.022,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.022569,8,5048.34892;5048.31490,0.554447;0.554342,-0.284248;-0.272750,rR2e(37);rR1f(38),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,28827;27962
+11,C2,Swan,(0-0),505.404,0.489,0.461,PRIMARY_UNRESOLVED_SUM_MATCH,5,0.461000,16,5054.02503;5054.03414;5053.88904;5053.70070;5053.55561,0.488502;0.488572;0.488502;0.488572;0.488502,0.164480;0.154994;-3.158021;-3.166033;-6.731394,rR1f(46);rR2e(45);rQ21f(46);rQ32e(45);rP31f(46),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,301;1442;1061;2207;1825
+12,C2,Swan,(1-1),506.281,0.486,-0.334,PRIMARY_TUPLE_MATCH,1,,0,5062.91156,0.485317,-0.333814,rR1e(33),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,27957
+13,C2,Swan,(0-0),506.458,0.437,0.431,PRIMARY_UNRESOLVED_SUM_MATCH,4,0.430973,16,5064.58408;5064.53791;5064.52175;5064.15417,0.436438;0.436260;0.436438;0.436260,0.124706;0.134880;-3.127008;-6.393181,rR2f(42);rR1e(43);rQ32f(42);rP31e(43),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1439;298;2204;1822
+14,C2,Swan,(0-0),506.470,0.437,0.115,PRIMARY_TUPLE_MATCH,1,,0,5064.69530,0.436521,0.114746,rR3e(41),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2588
+15,C2,Swan,(0-0),506.813,0.420,0.421,PRIMARY_UNRESOLVED_SUM_MATCH,4,0.420669,8,5068.13959;5068.12418;5067.96334;5067.78304,0.419566;0.419481;0.419481;0.419566,0.114167;0.124553;-3.119554;-3.128382,rR2e(41);rR1f(42);rQ21f(42);rQ32e(41),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1438;297;1057;2203
+16,C2,Swan,(0-0),506.825,0.420,0.104,PRIMARY_TUPLE_MATCH,1,,0,5068.26140,0.419797,0.103951,rR3f(40),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2587
+17,C2,Swan,(0-0),507.486,0.388,0.398,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.398850,8,5074.87061;5074.85145,0.387377;0.387283,0.092335;0.103238,rR2e(39);rR1f(40),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1436;295
+18,C2,Swan,(0-0),507.500,0.388,0.082,PRIMARY_TUPLE_MATCH,1,,0,5074.99580,0.387615,0.081619,rR3f(38),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2585
+19,C2,Swan,(0-0),508.767,0.328,0.352,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.352440,8,5087.67447;5087.64610,0.327657;0.327543,0.045315;0.057420,rR2e(35);rR1f(36),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1432;291
+20,C2,Swan,(0-0),508.781,0.328,0.033,PRIMARY_TUPLE_MATCH,1,,0,5087.80739,0.327912,0.033429,rR3f(34),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2581
+21,C2,Swan,(0-0),510.517,0.250,0.272,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.272590,5,5105.19333;5105.14521,0.249809;0.249655,-0.035754;-0.021248,rR2e(29);rR1f(30),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1426;285
+22,C2,Swan,(0-0),510.941,0.710,0.748,STRENGTH_MISMATCH,6,0.713203,0,5109.68454;5109.58381;5109.42550;5109.42433;5109.32478;5109.30053,0.710093;0.710045;0.710093;0.710093;0.710045;0.709911,-6.079622;-3.279112;-3.272543;0.228214;0.235917;0.243709,pR13e(55);pQ12f(56);pQ23e(55);pP3e(55);pP2f(56);pP1e(57),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,880;500;1643;2408;1260;121
+23,C2,Swan,(0-0),513.392,0.137,-0.262,PRIMARY_TUPLE_MATCH,1,,0,5133.91789,0.136816,-0.262352,rR2e(17),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1414
+24,C2,Swan,(0-0),514.265,0.420,0.404,PRIMARY_UNRESOLVED_SUM_MATCH,4,0.404035,8,5143.12020;5142.80751;5142.62605;5142.62764,0.419797;0.419566;0.419481;0.419566,-3.156487;-3.152533;0.108026;0.097439,pQ23f(40);pQ12e(41);pP1f(42);pP2e(41),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1628;485;106;1245
+25,C2,Swan,(0-0),514.274,0.420,0.087,PRIMARY_TUPLE_MATCH,1,,0,5142.74060,0.419797,0.086932,pP3f(40),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2393
+26,C2,Swan,(0-0),514.476,0.103,-0.409,PRIMARY_TUPLE_MATCH,1,,0,5144.75695,0.101357,-0.408650,rR1f(12),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,267
+27,C2,Swan,(0-0),514.502,0.103,-0.444,PRIMARY_TUPLE_MATCH,1,,0,5145.02411,0.101888,-0.443732,rR2e(11),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1408
+28,C2,Swan,(0-0),514.530,0.103,-0.478,PRIMARY_TUPLE_MATCH,1,,0,5145.29124,0.102438,-0.477637,rR3f(10),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2557
+29,C2,Swan,(0-0),514.601,0.388,0.382,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.382005,8,5145.99663;5146.00055,0.387283;0.387377,0.086500;0.075378,pP1f(40);pP2e(39),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,104;1243
+30,C2,Swan,(0-0),515.199,0.328,0.335,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.334993,3,5151.97959;5151.98901,0.327543;0.327657,0.040107;0.027731,pP1f(36);pP2e(35),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,100;1239
+31,C2,Swan,(0-0),516.247,0.206,0.190,PRIMARY_UNRESOLVED_SUM_MATCH,3,0.190054,2,5162.86844;5162.48623;5162.45588,0.205790;0.205790;0.205598,-2.960875;-0.119962;-0.102774,pQ12e(25);pP2e(25);pP1f(26),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,469;1229;90
+32,C2,Swan,(0-0),516.486,0.169,0.115,PRIMARY_UNRESOLVED_SUM_MATCH,2,0.114876,2,5164.87719;5164.83421,0.168115;0.167871,-0.196432;-0.176113,pP2e(21);pP1f(22),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,1225;86
+33,C2,Swan,(1-0),472.765,0.373,-0.138,PRIMARY_UNRESOLVED_SUM_MATCH,3,-0.138061,8,4727.90382;4727.72652;4727.69049,0.372137;0.372038;0.371843,-3.622916;-0.444995;-0.433546,pQ23e(37);pP2f(38);pP1e(39),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,27017;26726;25863
+34,C2,Swan,(1-2),557.646,0.634,-0.137,PRIMARY_UNRESOLVED_SUM_MATCH,2,-0.136772,4,5576.46463;5576.39314,0.633320;0.633058,-0.445602;-0.430140,pP2f(28);pP1e(29),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,30626;29763
+35,C2,Swan,(1-2),558.220,0.583,-0.551,PRIMARY_TUPLE_MATCH,1,,0,5582.20011,0.582543,-0.550538,pP3f(22),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,31493
+36,C2,Swan,(0-1),560.973,0.555,-0.118,PRIMARY_UNRESOLVED_SUM_MATCH,2,-0.117462,4,5609.71930;5609.73258,0.554342;0.554447,-0.412669;-0.424394,pP1f(38);pP2e(37),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,2678;3817
+37,C2,Swan,(0-1),560.988,0.555,-0.436,PRIMARY_TUPLE_MATCH,1,,0,5609.87781,0.554696,-0.436020,pP3f(36),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,4965
+38,C2,Swan,(0-1),561.406,0.526,-0.461,PRIMARY_TUPLE_MATCH,1,,0,5614.05006,0.525924,-0.461213,pP3f(34),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,4963
+39,C2,Swan,(0-1),562.434,0.449,-0.223,PRIMARY_UNRESOLVED_SUM_MATCH,3,-0.222970,2,5624.71983;5624.35121;5624.32059,0.448624;0.448624;0.448467,-3.495355;-0.531741;-0.516850,pQ12e(29);pP2e(29);pP1f(30),data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip,3049;3809;2670
+40,CH,A-X,(1-1),425.420,0.523,-1.506,PRIMARY_TUPLE_MATCH,1,,0,4254.19768,0.522710,-1.506265,R  0.00274,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,8356
+41,CH,A-X,(1-1),425.441,0.523,-1.471,PRIMARY_TUPLE_MATCH,1,,0,4254.40344,0.522858,-1.471130,R -0.00844,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,9351
+42,CH,A-X,(0-0),425.645,0.157,-1.455,PRIMARY_TUPLE_MATCH,1,,0,4256.44557,0.156784,-1.460293,R -0.00153,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,7813
+43,CH,A-X,(1-1),426.518,0.460,-1.575,PRIMARY_TUPLE_MATCH,1,,0,4265.16916,0.459624,-1.574716,R  0.02203,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,6340
+44,CH,A-X,(0-0),427.539,0.074,-1.563,PRIMARY_TUPLE_MATCH,1,,0,4275.38905,0.073792,-1.562869,R -0.00055,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,4789
+45,CH,A-X,(0-0),435.783,0.157,-1.793,PRIMARY_TUPLE_MATCH,1,,0,4357.81863,0.157178,-1.792523,P  0.00308,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,7981
+46,CH,X-X,(1-0),3294.615,0.773,-2.600,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.599519,1,32946.30218;32945.86797,0.774713;0.774654,-2.884240;-2.917495,R  0.0047;R  0.0036,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,44643;44294
+47,CH,X-X,(1-0),3303.095,0.915,-2.523,STRENGTH_MISMATCH,2,-2.535959,0,33030.77149;33031.04427,0.917263;0.917316,-2.853020;-2.821529,R -0.0065;R  0.0003,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,45014;45363
+48,CH,X-X,(1-0),3303.452,0.464,-2.778,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.780788,1,33034.92883;33034.11040,0.464949;0.464862,-3.062604;-3.101921,R  0.0030;R  0.0036,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,43023;42674
+49,CH,X-X,(1-0),3328.182,0.312,-3.234,PRIMARY_TUPLE_MATCH,1,,0,33281.80197,0.314707,-3.233868,R  0.0036,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41594
+50,CH,X-X,(1-0),3328.316,0.312,-3.186,PRIMARY_TUPLE_MATCH,1,,0,33283.17555,0.314766,-3.188928,R -0.0060,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41943
+51,CH,X-X,(1-0),3340.768,0.268,-3.283,PRIMARY_TUPLE_MATCH,1,,0,33407.68767,0.269731,-3.282905,R  0.0033,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41234
+52,CH,X-X,(1-0),3340.912,0.268,-3.235,PRIMARY_TUPLE_MATCH,1,,0,33409.13866,0.269855,-3.235515,R -0.0024,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41583
+53,CH,X-X,(1-0),3341.536,1.229,-2.400,STRENGTH_MISMATCH,4,-2.120057,0,33417.45623;33417.34450;33415.25643;33415.36806,1.231034;1.230990;1.233738;1.233690,-2.708069;-2.736664;-2.736638;-2.708039,R -0.0001;R -0.0073;R -0.0009;R -0.0027,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,46803;46454;46634;46983
+54,CH,X-X,(1-0),3341.748,1.229,-2.421,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.421073,4,33415.25643;33415.36806,1.233738;1.233690,-2.736638;-2.708039,R -0.0009;R -0.0027,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,46634;46983
+55,CH,X-X,(1-0),3354.336,0.227,-3.330,PRIMARY_TUPLE_MATCH,1,,0,33543.41574,0.228775,-3.334918,R -0.0023,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40694
+56,CH,X-X,(1-0),3354.502,0.227,-3.285,PRIMARY_TUPLE_MATCH,1,,0,33545.04728,0.228913,-3.284663,R -0.0036,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41043
+57,CH,X-X,(1-0),3368.937,0.189,-3.391,PRIMARY_TUPLE_MATCH,1,,0,33689.41931,0.191577,-3.390452,R -0.0037,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40334
+58,CH,X-X,(1-0),3369.147,0.190,-3.337,PRIMARY_TUPLE_MATCH,1,,0,33691.46237,0.191688,-3.336793,R -0.0043,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40683
+59,CH,X-X,(1-0),3386.223,0.155,-3.393,PRIMARY_TUPLE_MATCH,1,,0,33862.20568,0.157178,-3.392647,R -0.0023,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40503
+60,CH,X-X,(1-0),3404.767,0.123,-3.516,PRIMARY_TUPLE_MATCH,1,,0,34047.68560,0.125838,-3.515781,R -0.0018,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39614
+61,CH,X-X,(1-0),3405.068,0.124,-3.453,PRIMARY_TUPLE_MATCH,1,,0,34050.66391,0.126000,-3.452850,R -0.0028,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39963
+62,CH,X-X,(1-0),3425.336,0.096,-3.588,PRIMARY_TUPLE_MATCH,1,,0,34253.41194,0.097998,-3.587906,R -0.0052,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39434
+63,CH,X-X,(1-0),3425.709,0.096,-3.518,PRIMARY_TUPLE_MATCH,1,,0,34257.10475,0.098193,-3.518402,R -0.0050,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39783
+64,CH,X-X,(1-0),3426.271,0.096,-3.519,PRIMARY_TUPLE_MATCH,1,,0,34262.71518,0.097949,-3.518499,R -0.0029,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39603
+65,CH,X-X,(2-1),3466.055,1.151,-2.275,PRIMARY_UNRESOLVED_SUM_MATCH,3,-2.277827,2,34660.41111;34660.69949;34657.97945,1.152931;1.152907;1.152907,-2.594989;-2.563573;-5.770419,R -0.0088;R  0.0066;Q  0.0000,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,44672;45023;44964
+66,CH,X-X,(2-1),3481.479,1.293,-2.217,PRIMARY_UNRESOLVED_SUM_MATCH,3,-2.219063,2,34814.84418;34814.66243;34811.19249,1.294816;1.294850;1.294816,-2.505787;-2.535129;-5.790655,R  0.0065;R -0.0069;Q  0.0000,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,45743;45392;45684
+67,CH,X-X,(2-1),3481.883,1.293,-2.219,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.219233,1,34818.78386;34819.00212,1.292624;1.292672,-2.535183;-2.505839,R -0.0061;R  0.0013,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,45572;45923
+68,CH,X-X,(2-1),3490.577,0.639,-2.935,PRIMARY_TUPLE_MATCH,1,,0,34905.75625,0.641659,-2.934428,R -0.0017,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41612
+69,CH,X-X,(2-1),3490.728,0.639,-2.891,PRIMARY_TUPLE_MATCH,1,,0,34907.23055,0.641717,-2.890890,R  0.0004,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41963
+70,CH,X-X,(2-1),3516.531,0.557,-2.984,PRIMARY_TUPLE_MATCH,1,,0,35165.30505,0.559687,-2.983523,R -0.0018,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41243
+71,CH,X-X,(1-0),3527.370,0.021,-3.878,AMBIGUOUS_COMPONENT_MATCH,2,,0,35273.69338;35270.42999,0.021284;0.021331,-3.878465;-3.878332,R -0.0003;R -0.0020,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,38163;38343
+72,CH,X-X,(2-1),3568.989,0.458,-3.210,PRIMARY_TUPLE_MATCH,1,,0,35689.90696,0.459960,-3.209697,R -0.0033,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39632
+73,CH,X-X,(2-1),3569.319,0.458,-3.148,PRIMARY_TUPLE_MATCH,1,,0,35693.17706,0.460116,-3.147666,R -0.0002,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39983
+74,CH,X-X,(2-1),3590.970,0.431,-3.281,PRIMARY_TUPLE_MATCH,1,,0,35909.69214,0.432904,-3.281246,R -0.0001,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39272
+75,CH,X-X,(3-2),3644.955,1.091,-2.329,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.329000,1,36450.08275;36449.03317,1.091816;1.091735,-2.612042;-2.648796,R -0.0018;R  0.0014,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,43059;42706
+76,CH,X-X,(3-2),3650.817,1.041,-2.691,PRIMARY_TUPLE_MATCH,1,,0,36508.16888,1.042470,-2.687474,R  0.0021,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,42166
+77,CH,X-X,(3-2),3650.937,1.041,-2.646,PRIMARY_TUPLE_MATCH,1,,0,36509.36850,1.042558,-2.649478,R -0.0024,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,42519
+78,CH,X-X,(3-2),3652.374,1.442,-2.128,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.128085,1,36523.87656;36523.54306,1.441914;1.441861,-2.414132;-2.444632,R  0.0035;R -0.0060,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,45219;44866
+79,CH,X-X,(3-2),3661.034,1.507,-2.099,PRIMARY_UNRESOLVED_SUM_MATCH,2,-2.099249,1,36610.18937;36610.45744,1.508638;1.508688,-2.415169;-2.385882,R -0.0080;R  0.0013,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,45046;45399
+80,CH,X-X,(2-1),3666.597,0.370,-3.567,PRIMARY_TUPLE_MATCH,1,,0,36665.98407,0.372397,-3.567541,R -0.0029,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,38372
+81,CH,X-X,(3-2),3668.813,0.950,-2.729,PRIMARY_TUPLE_MATCH,1,,0,36688.14631,0.952412,-2.729025,R -0.0041,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41799
+82,CH,X-X,(3-2),3680.588,0.910,-2.815,PRIMARY_TUPLE_MATCH,1,,0,36805.95020,0.911522,-2.815430,R -0.0051,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41266
+83,CH,X-X,(3-2),3680.762,0.910,-2.769,PRIMARY_TUPLE_MATCH,1,,0,36807.60295,0.911637,-2.771747,R -0.0016,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41619
+84,CH,X-X,(3-2),3693.757,0.872,-2.865,PRIMARY_TUPLE_MATCH,1,,0,36937.60647,0.874245,-2.863559,R -0.0048,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40906
+85,CH,X-X,(3-2),3693.976,0.872,-2.817,PRIMARY_TUPLE_MATCH,1,,0,36939.73505,0.874330,-2.816930,R  0.0009,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,41259
+86,CH,X-X,(3-2),3694.527,0.872,-2.864,PRIMARY_TUPLE_MATCH,1,,0,36945.31687,0.873671,-2.863665,R -0.0036,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40726
+87,CH,X-X,(3-2),3710.490,0.837,-2.916,PRIMARY_TUPLE_MATCH,1,,0,37104.93905,0.838799,-2.915841,R -0.0039,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40546
+88,CH,X-X,(3-2),3728.067,0.805,-2.918,PRIMARY_TUPLE_MATCH,1,,0,37280.67313,0.807477,-2.917772,R -0.0009,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,40539
+89,CH,X-X,(3-2),3748.550,0.776,-3.036,PRIMARY_TUPLE_MATCH,1,,0,37485.48142,0.778171,-3.036071,R -0.0010,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39826
+90,CH,X-X,(3-2),3770.038,0.751,-3.107,PRIMARY_TUPLE_MATCH,1,,0,37700.34526,0.752742,-3.106771,R -0.0001,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39466
+91,CH,X-X,(3-2),3770.482,0.751,-3.039,PRIMARY_TUPLE_MATCH,1,,0,37704.79307,0.752922,-3.038395,R  0.0014,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39819
+92,CH,X-X,(3-2),3771.106,0.751,-3.036,PRIMARY_TUPLE_MATCH,1,,0,37711.05938,0.752696,-3.038490,R -0.0047,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39639
+93,CH,X-X,(3-2),3795.461,0.728,-3.110,PRIMARY_TUPLE_MATCH,1,,0,37954.59642,0.730180,-3.109459,R -0.0031,data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz,39459
+174,NH,X-X,(0-0),11311.232,2.138,-1.557,AMBIGUOUS_COMPONENT_MATCH,2,,0,113114.40096;113112.07695,2.134587;2.134914,-1.551582;-1.551697,rR1(35);rR3(33),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,71;200
+175,NH,X-X,(0-0),11471.850,2.027,-1.570,PRIMARY_TUPLE_MATCH,1,,0,114717.91896,2.026837,-1.565579,rR3(32),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,199
+176,NH,X-X,(0-0),11650.680,1.920,-1.584,PRIMARY_TUPLE_MATCH,1,,0,116505.79492,1.920418,-1.580791,rR3(31),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,198
+177,NH,X-X,(0-0),12068.331,1.713,-1.615,AMBIGUOUS_COMPONENT_MATCH,2,,0,120680.39593;120683.00479,1.713042;1.713002,-1.615275;-1.610180,rR3(29);rR2(30),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,196;328
+178,NH,X-X,(0-0),12576.702,1.514,-1.653,AMBIGUOUS_COMPONENT_MATCH,2,,0,125763.70750;125767.19514,1.513738;1.513703,-1.655396;-1.648247,rR3(27);rR2(28),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,194;326
+179,NH,X-X,(0-0),12870.162,1.417,-1.674,AMBIGUOUS_COMPONENT_MATCH,2,,0,128697.71375;128701.70327,1.417400;1.417369,-1.677689;-1.669508,rR3(26);rR2(27),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,193;325
+180,NH,X-X,(1-1),13475.164,1.746,-1.733,AMBIGUOUS_COMPONENT_MATCH,2,,0,134750.00887;134753.88162,1.745577;1.745555,-1.733054;-1.727012,rR3(26);rR2(27),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,1074;1200
+181,NH,X-X,(1-1),13806.663,1.656,-1.754,AMBIGUOUS_COMPONENT_MATCH,2,,0,138064.05491;138068.51130,1.655775;1.655756,-1.755745;-1.748526,rR3(25);rR2(26),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,1073;1199
+182,NH,X-X,(0-0),13941.013,1.143,-1.746,PRIMARY_TUPLE_MATCH,1,,0,139410.02097,1.142950,-1.742957,rR2(24),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,322
+183,NH,X-X,(0-0),14373.640,1.057,-1.774,PRIMARY_TUPLE_MATCH,1,,0,143736.37043,1.056692,-1.770910,rR2(23),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,321
+184,NH,X-X,(1-1),14576.537,1.483,-1.801,AMBIGUOUS_COMPONENT_MATCH,2,,0,145766.57965;145760.76561,1.483218;1.483231,-1.796773;-1.806379,rR2(24);rR3(23),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,1197;1071
+185,NH,X-X,(0-0),14851.890,0.973,-1.804,PRIMARY_TUPLE_MATCH,1,,0,148518.73562,0.973211,-1.800770,rR2(22),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,320
+186,NH,X-X,(1-1),15023.045,1.401,-1.828,PRIMARY_TUPLE_MATCH,1,,0,150231.43483,1.400689,-1.823660,rR2(23),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,1196
+187,NH,X-X,(1-0),2891.001,0.740,-3.411,PRIMARY_TUPLE_MATCH,1,,0,28910.01347,0.740398,-3.410829,rR2(19),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,901
+188,NH,X-X,(1-0),2892.479,0.815,-3.365,PRIMARY_TUPLE_MATCH,1,,0,28924.79681,0.814971,-3.364972,rR2(20),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,902
+189,NH,X-X,(1-0),2892.855,0.601,-3.508,PRIMARY_TUPLE_MATCH,1,,0,28928.54967,0.600788,-3.507606,rR2(17),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,899
+190,NH,X-X,(1-0),2900.364,0.973,-3.278,PRIMARY_TUPLE_MATCH,1,,0,29003.65409,0.973211,-3.277721,rR2(22),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,904
+191,NH,X-X,(1-0),2906.836,1.057,-3.236,PRIMARY_TUPLE_MATCH,1,,0,29068.37021,1.056692,-3.236133,rR2(23),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,905
+192,NH,X-X,(1-0),2907.451,0.416,-3.668,PRIMARY_TUPLE_MATCH,1,,0,29074.50897,0.416435,-3.667801,rR2(14),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,896
+193,NH,X-X,(1-0),2915.442,0.362,-3.726,PRIMARY_TUPLE_MATCH,1,,0,29154.41448,0.361968,-3.726058,rR2(13),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,895
+194,NH,X-X,(2-1),3053.669,0.902,-3.234,PRIMARY_TUPLE_MATCH,1,,0,30536.69012,0.901823,-3.233560,rR2(16),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,2299
+195,NH,X-X,(2-1),3063.770,0.787,-3.339,PRIMARY_TUPLE_MATCH,1,,0,30637.72770,0.787235,-3.338983,rR2(14),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,2297
+196,NH,X-X,(2-1),3066.213,1.321,-2.962,PRIMARY_TUPLE_MATCH,1,,0,30662.13033,1.320789,-2.962025,rR2(22),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,2305
+197,NH,X-X,(2-1),3074.895,1.401,-2.922,PRIMARY_TUPLE_MATCH,1,,0,30748.96435,1.400689,-2.921929,rR2(23),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,2306
+198,NH,X-X,(2-1),3153.969,0.496,-3.811,PRIMARY_TUPLE_MATCH,1,,0,31539.69581,0.495936,-3.811512,rR2(7),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,2290
+199,NH,X-X,(3-2),3231.031,1.248,-3.037,PRIMARY_TUPLE_MATCH,1,,0,32310.31186,1.248333,-3.037404,rR2(16),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,4156
+200,NH,X-X,(3-2),3234.146,1.192,-3.087,PRIMARY_TUPLE_MATCH,1,,0,32341.47568,1.191913,-3.087241,rR2(15),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,4155
+201,NH,X-X,(3-2),3239.229,1.139,-3.139,PRIMARY_TUPLE_MATCH,1,,0,32392.34403,1.138654,-3.139308,rR2(14),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,4154
+202,NH,X-X,(3-2),3246.273,1.088,-3.194,PRIMARY_TUPLE_MATCH,1,,0,32462.75384,1.088623,-3.193851,rR2(13),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,4153
+203,NH,X-X,(3-2),3255.261,1.042,-3.251,PRIMARY_TUPLE_MATCH,1,,0,32552.60857,1.041887,-3.251177,rR2(12),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,4152
+204,NH,X-X,(4-3),3445.428,1.423,-3.049,PRIMARY_TUPLE_MATCH,1,,0,34454.30104,1.422761,-3.048650,rR2(13),data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip,6080
+205,CN,A-X,(0-0),1087.516,0.056,-2.601,PRIMARY_TUPLE_MATCH,1,,0,10875.16510,0.056233,-2.601238,sR21(15.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,347
+206,CN,A-X,(0-0),1087.548,0.089,-2.630,PRIMARY_TUPLE_MATCH,1,,0,10875.48160,0.088991,-2.630489,sR21(19.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,351
+207,CN,A-X,(0-0),1088.369,0.026,-2.591,PRIMARY_TUPLE_MATCH,1,,0,10883.69000,0.025786,-2.590801,sR21(10.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,342
+208,CN,A-X,(0-0),1088.654,0.021,-2.596,PRIMARY_TUPLE_MATCH,1,,0,10886.54041,0.021099,-2.595680,sR21(9.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,341
+209,CN,A-X,(0-0),1090.053,0.190,-2.714,PRIMARY_TUPLE_MATCH,1,,0,10900.53411,0.189875,-2.713911,sR21(28.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,360
+210,CN,A-X,(0-0),1097.755,0.005,-2.241,PRIMARY_TUPLE_MATCH,1,,0,10977.55428,0.004691,-2.240509,rR1(4.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,115
+211,CN,A-X,(0-0),1098.408,0.089,-1.641,PRIMARY_TUPLE_MATCH,1,,0,10984.08372,0.088991,-1.641383,rR1(19.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,130
+212,CN,A-X,(0-0),1099.333,0.108,-1.598,PRIMARY_TUPLE_MATCH,1,,0,10993.33125,0.108163,-1.598424,rR1(21.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,132
+213,CN,A-X,(0-0),1100.843,0.056,-1.531,PRIMARY_TUPLE_MATCH,1,,0,11008.43495,0.056219,-1.530834,qQ2(14.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,566
+214,CN,A-X,(0-0),1101.377,0.177,-1.516,PRIMARY_TUPLE_MATCH,1,,0,11013.77067,0.176789,-1.516290,rR2(26.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1241
+215,CN,A-X,(0-0),1101.568,0.026,-2.103,PRIMARY_TUPLE_MATCH,1,,0,11015.67777,0.025777,-2.103305,pP2(9.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1112
+216,CN,A-X,(0-0),1102.438,0.072,-1.466,PRIMARY_TUPLE_MATCH,1,,0,11024.38448,0.071664,-1.465879,qQ2(16.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,568
+217,CN,A-X,(0-0),1102.478,0.164,-1.508,PRIMARY_TUPLE_MATCH,1,,0,11024.78557,0.164215,-1.507688,rR1(26.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,137
+218,CN,A-X,(0-0),1106.999,0.056,-1.872,PRIMARY_TUPLE_MATCH,1,,0,11069.99530,0.056219,-1.871672,pP2(14.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1117
+219,CN,A-X,(0-0),1107.566,0.098,-1.361,PRIMARY_TUPLE_MATCH,1,,0,11075.66578,0.098344,-1.360630,qQ1(20.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,682
+220,CN,A-X,(0-0),1108.409,0.278,-1.416,PRIMARY_TUPLE_MATCH,1,,0,11084.09634,0.277874,-1.414767,rR2(33.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1248
+221,CN,A-X,(0-0),1109.599,0.294,-1.402,PRIMARY_TUPLE_MATCH,1,,0,11095.99196,0.294150,-1.402374,rR2(34.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1249
+222,CN,A-X,(0-0),1109.630,0.294,-2.411,PRIMARY_TUPLE_MATCH,1,,0,11096.30851,0.294182,-2.411196,rQ21(35.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,808
+223,CN,A-X,(0-0),1110.752,0.080,-1.772,PRIMARY_TUPLE_MATCH,1,,0,11107.52721,0.080086,-1.771888,pP2(17.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1120
+224,CN,A-X,(0-0),1111.153,0.294,-1.385,PRIMARY_TUPLE_MATCH,1,,0,11111.52890,0.294182,-1.385025,rR1(35.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,146
+225,CN,A-X,(0-0),1121.072,0.152,-1.602,PRIMARY_TUPLE_MATCH,1,,0,11210.72098,0.152055,-1.601643,pP2(24.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1127
+226,CN,A-X,(0-0),1123.264,0.152,-1.592,PRIMARY_TUPLE_MATCH,1,,0,11232.64408,0.152078,-1.592321,pP1(25.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,24
+227,CN,A-X,(0-0),1124.156,0.482,-1.299,PRIMARY_TUPLE_MATCH,1,,0,11241.56081,0.481925,-1.298938,rR2(44.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1259
+228,CN,A-X,(0-0),1139.049,0.421,-1.033,PRIMARY_TUPLE_MATCH,1,,0,11390.49411,0.420877,-1.032908,qQ1(42.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,704
+229,CN,A-X,(0-0),1139.477,0.665,-1.236,PRIMARY_TUPLE_MATCH,1,,0,11394.77388,0.664526,-1.236192,rR2(52.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1267
+230,CN,A-X,(0-0),1158.117,0.616,-0.965,PRIMARY_TUPLE_MATCH,1,,0,11581.17170,0.616206,-0.964867,qQ2(50.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,602
+231,CN,A-X,(0-0),1164.500,0.665,-0.943,PRIMARY_TUPLE_MATCH,1,,0,11645.00075,0.664574,-0.943073,qQ1(53.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,715
+232,CN,A-X,(0-0),1171.153,0.525,-1.309,PRIMARY_TUPLE_MATCH,1,,0,11711.52948,0.524940,-1.308678,pP1(47.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,46
+233,CN,A-X,(0-0),1171.531,0.740,-0.930,PRIMARY_TUPLE_MATCH,1,,0,11715.21612,0.740318,-0.929867,qQ2(55.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,607
+234,CN,A-X,(0-0),1175.026,1.052,-1.155,PRIMARY_TUPLE_MATCH,1,,0,11750.26260,1.051777,-1.155150,rR2(66.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1281
+235,CN,A-X,(0-0),1176.093,1.052,-1.148,PRIMARY_TUPLE_MATCH,1,,0,11760.93961,1.051837,-1.147930,rR1(67.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,178
+236,CN,A-X,(0-0),1176.915,0.570,-1.292,PRIMARY_TUPLE_MATCH,1,,0,11769.15809,0.569705,-1.292144,pP1(49.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,48
+237,CN,A-X,(0-0),1178.520,0.593,-1.290,PRIMARY_TUPLE_MATCH,1,,0,11785.20590,0.592711,-1.290162,pP2(49.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1152
+238,CN,A-X,(0-0),1180.309,0.820,-0.911,PRIMARY_TUPLE_MATCH,1,,0,11803.09357,0.820059,-0.911129,qQ2(58.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,610
+239,CN,A-X,(0-0),1182.935,0.616,-1.277,PRIMARY_TUPLE_MATCH,1,,0,11829.35456,0.616252,-1.276582,pP1(51.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,50
+240,CN,A-X,(0-0),1183.367,0.848,-0.905,PRIMARY_TUPLE_MATCH,1,,0,11833.67547,0.847512,-0.905226,qQ2(59.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,611
+241,CN,A-X,(0-0),1185.287,1.146,-1.135,PRIMARY_TUPLE_MATCH,1,,0,11852.87847,1.145796,-1.134746,rR1(70.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,181
+242,CN,A-X,(0-0),1192.460,0.689,-1.255,PRIMARY_TUPLE_MATCH,1,,0,11924.60331,0.689399,-1.254907,pP1(54.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,53
+243,CN,A-X,(0-0),1192.941,0.932,-0.888,PRIMARY_TUPLE_MATCH,1,,0,11929.41048,0.932471,-0.888485,qQ2(62.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,614
+244,CN,A-X,(0-0),1196.268,0.962,-0.883,PRIMARY_TUPLE_MATCH,1,,0,11962.68236,0.961654,-0.883212,qQ2(63.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,615
+245,CN,A-X,(0-0),1197.852,0.740,-1.247,PRIMARY_TUPLE_MATCH,1,,0,11978.52954,0.740318,-1.246827,pP2(55.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1158
+246,CN,A-X,(0-0),1204.843,0.793,-1.234,PRIMARY_TUPLE_MATCH,1,,0,12048.43534,0.793042,-1.233986,pP2(57.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1160
+247,CN,A-X,(0-0),1207.740,1.052,-0.863,PRIMARY_TUPLE_MATCH,1,,0,12077.40394,1.051837,-0.862932,qQ1(67.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,729
+248,CN,A-X,(0-0),1213.380,0.848,-1.217,PRIMARY_TUPLE_MATCH,1,,0,12133.81099,0.847566,-1.216865,pP1(60.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,59
+249,CN,A-X,(0-0),1217.121,0.875,-1.211,PRIMARY_TUPLE_MATCH,1,,0,12171.21709,0.875454,-1.211144,pP1(61.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,60
+250,CN,A-X,(0-0),1220.937,0.904,-1.205,PRIMARY_TUPLE_MATCH,1,,0,12209.37625,0.903775,-1.205588,pP1(62.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,61
+251,CN,A-X,(0-0),1230.508,1.244,-0.837,PRIMARY_TUPLE_MATCH,1,,0,12305.07909,1.243553,-0.837278,qQ1(73.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,735
+252,CN,A-X,(0-0),1234.575,1.277,-0.833,PRIMARY_TUPLE_MATCH,1,,0,12345.75309,1.276977,-0.833435,qQ1(74.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,736
+253,CN,A-X,(0-0),1241.187,1.052,-1.125,STRENGTH_MISMATCH,1,-1.180122,0,12411.87229,1.051837,-1.180122,pP1(67.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,66
+254,CN,A-X,(0-0),1251.670,1.415,-0.819,PRIMARY_TUPLE_MATCH,1,,0,12516.70401,1.414826,-0.819224,qQ1(78.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,740
+255,CN,A-X,(0-0),1254.317,1.146,-1.167,PRIMARY_TUPLE_MATCH,1,,0,12543.17596,1.145796,-1.166569,pP1(70.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,69
+256,CN,A-X,(0-0),1254.353,1.788,-1.077,PRIMARY_TUPLE_MATCH,1,,0,12543.54035,1.788013,-1.076859,rR1(88.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,199
+257,CN,A-X,(0-0),1258.865,1.178,-1.162,PRIMARY_TUPLE_MATCH,1,,0,12588.65814,1.177961,-1.162320,pP1(71.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,70
+258,CN,A-X,(0-0),1277.954,1.311,-1.147,PRIMARY_TUPLE_MATCH,1,,0,12779.54978,1.310818,-1.146602,pP1(75.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,74
+259,CN,A-X,(0-0),1286.869,1.380,-1.143,PRIMARY_TUPLE_MATCH,1,,0,12868.69834,1.379675,-1.143273,pP2(76.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,1179
+260,CN,A-X,(0-0),1293.257,1.415,-1.136,PRIMARY_TUPLE_MATCH,1,,0,12932.57424,1.414826,-1.136093,pP1(78.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,77
+261,CN,A-X,(0-0),1294.349,1.749,-0.797,PRIMARY_TUPLE_MATCH,1,,0,12943.49343,1.748810,-0.797235,qQ2(86.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,638
+262,CN,A-X,(0-0),1311.691,1.867,-0.787,PRIMARY_TUPLE_MATCH,1,,0,13116.90802,1.867450,-0.786875,qQ1(90.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,752
+263,CN,A-X,(0-0),1320.778,1.596,-1.121,PRIMARY_TUPLE_MATCH,1,,0,13207.78942,1.596375,-1.120865,pP1(83.5),data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,82
+264,OH,X-X,(0-0),9389.310,3.070,-1.227,PRIMARY_TUPLE_MATCH,1,,0,93891.39090,3.069935,-1.227425,rR1f(39.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,536
+265,OH,X-X,(0-0),9391.329,3.071,-1.239,PRIMARY_TUPLE_MATCH,1,,0,93903.34010,3.071524,-1.239467,rR2e(38.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,245
+266,OH,X-X,(0-0),9393.967,3.066,-1.228,PRIMARY_TUPLE_MATCH,1,,0,93937.54346,3.065592,-1.227630,rR1e(39.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,73
+267,OH,X-X,(0-0),9395.361,3.068,-1.240,PRIMARY_TUPLE_MATCH,1,,0,93947.09555,3.067984,-1.239661,rR2f(38.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,708
+268,OH,X-X,(0-0),9471.329,2.941,-1.255,PRIMARY_TUPLE_MATCH,1,,0,94706.70718,2.940611,-1.255050,rR2e(37.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,244
+269,OH,X-X,(0-0),9475.080,2.935,-1.243,PRIMARY_TUPLE_MATCH,1,,0,94747.11667,2.934734,-1.242789,rR1e(38.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,72
+270,OH,X-X,(0-0),9476.149,2.937,-1.255,PRIMARY_TUPLE_MATCH,1,,0,94757.48339,2.937140,-1.255275,rR2f(37.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,707
+271,OH,X-X,(0-0),9561.719,2.809,-1.259,PRIMARY_TUPLE_MATCH,1,,0,95612.78819,2.809329,-1.258556,rR1f(37.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,534
+272,OH,X-X,(0-0),9563.237,2.811,-1.271,PRIMARY_TUPLE_MATCH,1,,0,95628.32602,2.810958,-1.271506,rR2e(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,243
+273,OH,X-X,(0-0),9567.666,2.805,-1.259,PRIMARY_TUPLE_MATCH,1,,0,95674.78558,2.805145,-1.258830,rR1e(37.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,71
+274,OH,X-X,(0-0),9568.847,2.808,-1.272,PRIMARY_TUPLE_MATCH,1,,0,95686.10881,2.807566,-1.271761,rR2f(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,706
+275,OH,X-X,(0-0),9665.842,2.681,-1.276,PRIMARY_TUPLE_MATCH,1,,0,96655.96245,2.681055,-1.275454,rR1f(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,533
+276,OH,X-X,(0-0),9667.590,2.683,-1.288,PRIMARY_TUPLE_MATCH,1,,0,96673.55744,2.682708,-1.288845,rR2e(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,242
+277,OH,X-X,(0-0),9672.667,2.677,-1.276,PRIMARY_TUPLE_MATCH,1,,0,96725.91802,2.676964,-1.275761,rR1e(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,70
+278,OH,X-X,(0-0),9673.949,2.679,-1.289,PRIMARY_TUPLE_MATCH,1,,0,96738.36353,2.679402,-1.289128,rR2f(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,705
+279,OH,X-X,(0-0),9913.957,2.429,-1.312,PRIMARY_TUPLE_MATCH,1,,0,99139.10015,2.429258,-1.311992,rR1f(34.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,531
+280,OH,X-X,(0-0),9916.198,2.431,-1.326,PRIMARY_TUPLE_MATCH,1,,0,99161.52397,2.430966,-1.326252,rR2e(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,240
+281,OH,X-X,(0-0),9922.495,2.425,-1.312,PRIMARY_TUPLE_MATCH,1,,0,99225.24039,2.425377,-1.312363,rR1e(34.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,68
+282,OH,X-X,(0-0),10059.522,2.306,-1.332,PRIMARY_TUPLE_MATCH,1,,0,100595.20230,2.306008,-1.331677,rR1f(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,530
+283,OH,X-X,(0-0),10062.063,2.308,-1.346,PRIMARY_TUPLE_MATCH,1,,0,100620.49439,2.307746,-1.346373,rR2e(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,239
+284,OH,X-X,(0-0),10068.922,2.302,-1.332,PRIMARY_TUPLE_MATCH,1,,0,100689.64929,2.302242,-1.332078,rR1e(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,67
+285,OH,X-X,(0-0),10070.666,2.305,-1.347,PRIMARY_TUPLE_MATCH,1,,0,100706.77992,2.304738,-1.346738,rR2f(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,702
+286,OH,X-X,(1-1),10131.250,3.013,-1.304,PRIMARY_TUPLE_MATCH,1,,0,101307.96628,3.012881,-1.303518,rR1f(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2300
+287,OH,X-X,(1-1),10133.160,3.015,-1.315,PRIMARY_TUPLE_MATCH,1,,0,101326.90305,3.014593,-1.315138,rR2e(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2059
+288,OH,X-X,(1-1),10137.598,3.009,-1.304,PRIMARY_TUPLE_MATCH,1,,0,101372.47433,3.009069,-1.303785,rR1e(36.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1917
+289,OH,X-X,(1-1),10139.119,3.012,-1.315,PRIMARY_TUPLE_MATCH,1,,0,101388.22512,3.011514,-1.315399,rR2f(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2442
+290,OH,X-X,(0-0),10220.716,2.185,-1.352,PRIMARY_TUPLE_MATCH,1,,0,102207.26221,2.184701,-1.352334,rR1f(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,529
+291,OH,X-X,(0-0),10223.569,2.186,-1.367,PRIMARY_TUPLE_MATCH,1,,0,102235.80588,2.186473,-1.367474,rR2e(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,238
+292,OH,X-X,(0-0),10230.975,2.181,-1.353,PRIMARY_TUPLE_MATCH,1,,0,102310.21457,2.181057,-1.352765,rR1e(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,66
+293,OH,X-X,(0-0),10232.943,2.184,-1.368,PRIMARY_TUPLE_MATCH,1,,0,102329.49179,2.183576,-1.367864,rR2f(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,701
+294,OH,X-X,(1-1),10247.613,2.892,-1.320,PRIMARY_TUPLE_MATCH,1,,0,102473.12167,2.891889,-1.320125,rR1f(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2299
+295,OH,X-X,(1-1),10254.906,2.888,-1.320,PRIMARY_TUPLE_MATCH,1,,0,102546.60517,2.888164,-1.320428,rR1e(35.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1916
+296,OH,X-X,(1-1),10378.752,2.772,-1.338,PRIMARY_TUPLE_MATCH,1,,0,103785.71030,2.772427,-1.337757,rR1f(34.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2298
+297,OH,X-X,(1-1),10386.977,2.769,-1.338,PRIMARY_TUPLE_MATCH,1,,0,103868.20829,2.768797,-1.338093,rR1e(34.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1915
+298,OH,X-X,(1-1),10388.823,2.771,-1.351,PRIMARY_TUPLE_MATCH,1,,0,103886.99973,2.771284,-1.350828,rR2f(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2440
+299,OH,X-X,(0-0),10398.664,2.065,-1.375,PRIMARY_TUPLE_MATCH,1,,0,103986.86017,2.065470,-1.374011,rR1f(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,528
+300,OH,X-X,(0-0),10401.909,2.067,-1.390,PRIMARY_TUPLE_MATCH,1,,0,104019.11512,2.067279,-1.389599,rR2e(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,237
+301,OH,X-X,(0-0),10409.835,2.062,-1.375,PRIMARY_TUPLE_MATCH,1,,0,104098.56073,2.061954,-1.374470,rR1e(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,65
+302,OH,X-X,(0-0),10412.057,2.064,-1.390,PRIMARY_TUPLE_MATCH,1,,0,104120.37572,2.064498,-1.390013,rR2f(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,700
+303,OH,X-X,(1-1),10525.507,2.655,-1.356,PRIMARY_TUPLE_MATCH,1,,0,105254.17861,2.654632,-1.356421,rR1f(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2297
+304,OH,X-X,(1-1),10528.311,2.656,-1.370,PRIMARY_TUPLE_MATCH,1,,0,105282.03840,2.656429,-1.369726,rR2e(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2056
+305,OH,X-X,(1-1),10534.666,2.651,-1.357,PRIMARY_TUPLE_MATCH,1,,0,105345.78392,2.651104,-1.356792,rR1e(33.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1914
+306,OH,X-X,(1-1),10536.719,2.654,-1.370,PRIMARY_TUPLE_MATCH,1,,0,105366.56098,2.653614,-1.370069,rR2f(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2439
+307,OH,X-X,(0-0),10594.736,1.948,-1.397,PRIMARY_TUPLE_MATCH,1,,0,105947.32849,1.948446,-1.396733,rR1f(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,527
+308,OH,X-X,(0-0),10598.396,1.950,-1.413,PRIMARY_TUPLE_MATCH,1,,0,105983.84840,1.950295,-1.412792,rR2e(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,236
+309,OH,X-X,(0-0),10606.805,1.945,-1.397,PRIMARY_TUPLE_MATCH,1,,0,106068.06748,1.945063,-1.397221,rR1e(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,64
+310,OH,X-X,(0-0),10609.325,1.948,-1.413,PRIMARY_TUPLE_MATCH,1,,0,106092.89243,1.947634,-1.413230,rR2f(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,699
+311,OH,X-X,(1-1),10688.877,2.539,-1.376,PRIMARY_TUPLE_MATCH,1,,0,106888.47627,2.538638,-1.376142,rR1f(32.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2296
+312,OH,X-X,(1-1),10701.276,2.538,-1.390,PRIMARY_TUPLE_MATCH,1,,0,107012.48101,2.537755,-1.390361,rR2f(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2438
+313,OH,X-X,(0-0),10814.575,1.836,-1.437,PRIMARY_TUPLE_MATCH,1,,0,108145.46868,1.835650,-1.437102,rR2e(28.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,235
+314,OH,X-X,(0-0),10823.448,1.831,-1.421,PRIMARY_TUPLE_MATCH,1,,0,108234.13324,1.830511,-1.421069,rR1e(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,63
+315,OH,X-X,(1-1),10870.026,2.425,-1.398,PRIMARY_TUPLE_MATCH,1,,0,108700.22325,2.424578,-1.396942,rR1f(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2295
+316,OH,X-X,(1-1),10881.085,2.421,-1.397,PRIMARY_TUPLE_MATCH,1,,0,108810.53576,2.421274,-1.397375,rR1e(31.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1912
+317,OH,X-X,(1-1),10883.667,2.424,-1.412,PRIMARY_TUPLE_MATCH,1,,0,108836.50507,2.423837,-1.411732,rR2f(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2437
+318,OH,X-X,(0-0),11047.490,1.722,-1.446,PRIMARY_TUPLE_MATCH,1,,0,110474.60358,1.721528,-1.445528,rR1f(28.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,525
+319,OH,X-X,(0-0),11061.494,1.718,-1.446,PRIMARY_TUPLE_MATCH,1,,0,110614.49774,1.718425,-1.446071,rR1e(28.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,62
+320,OH,X-X,(0-0),11064.799,1.721,-1.463,PRIMARY_TUPLE_MATCH,1,,0,110647.18933,1.721059,-1.463068,rR2f(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,697
+321,OH,X-X,(1-1),11070.274,2.313,-1.419,PRIMARY_TUPLE_MATCH,1,,0,110702.92054,2.312580,-1.418859,rR1f(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2294
+322,OH,X-X,(1-1),11074.344,2.314,-1.434,PRIMARY_TUPLE_MATCH,1,,0,110743.47428,2.314490,-1.433801,rR2e(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2053
+323,OH,X-X,(1-1),11085.245,2.312,-1.434,PRIMARY_TUPLE_MATCH,1,,0,110852.27941,2.311990,-1.434219,rR2f(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2436
+324,OH,X-X,(0-0),11323.028,1.609,-1.472,PRIMARY_TUPLE_MATCH,1,,0,113229.63545,1.608927,-1.472282,rR1e(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,61
+325,OH,X-X,(2-2),11402.353,2.763,-1.441,PRIMARY_TUPLE_MATCH,1,,0,114023.42535,2.763191,-1.437835,rR2f(30.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,5259
+326,OH,X-X,(1-1),11534.611,2.095,-1.466,PRIMARY_TUPLE_MATCH,1,,0,115346.21729,2.095286,-1.466197,rR1f(28.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2292
+327,OH,X-X,(1-1),11539.869,2.097,-1.482,PRIMARY_TUPLE_MATCH,1,,0,115398.72603,2.097289,-1.482282,rR2e(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2051
+328,OH,X-X,(1-1),11552.520,2.095,-1.483,PRIMARY_TUPLE_MATCH,1,,0,115524.84353,2.095021,-1.482747,rR2f(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2434
+329,OH,X-X,(0-0),11594.297,1.505,-1.499,PRIMARY_TUPLE_MATCH,1,,0,115942.35188,1.504948,-1.499175,rR1f(26.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,523
+330,OH,X-X,(0-0),11600.511,1.507,-1.517,PRIMARY_TUPLE_MATCH,1,,0,116004.24882,1.506999,-1.517329,rR2e(25.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,232
+331,OH,X-X,(2-2),11607.284,2.656,-1.459,PRIMARY_TUPLE_MATCH,1,,0,116072.84140,2.656375,-1.459383,rR2f(29.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,5258
+332,OH,X-X,(0-0),11610.410,1.502,-1.500,PRIMARY_TUPLE_MATCH,1,,0,116103.24059,1.502139,-1.499768,rR1e(26.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,60
+333,OH,X-X,(0-0),11614.847,1.505,-1.518,PRIMARY_TUPLE_MATCH,1,,0,116147.28703,1.504850,-1.517854,rR2f(25.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,695
+334,OH,X-X,(2-2),11802.571,1.990,-1.492,UNMATCHED,0,,0,,,,,,
+335,OH,X-X,(2-2),11808.606,1.992,-1.508,UNMATCHED,0,,0,,,,,,
+336,OH,X-X,(0-0),11909.114,1.401,-1.528,PRIMARY_TUPLE_MATCH,1,,0,119090.57204,1.400839,-1.527986,rR1f(25.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,522
+337,OH,X-X,(0-0),11916.281,1.403,-1.547,PRIMARY_TUPLE_MATCH,1,,0,119161.93634,1.402952,-1.546748,rR2e(24.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,231
+338,OH,X-X,(0-0),11926.371,1.398,-1.529,PRIMARY_TUPLE_MATCH,1,,0,119262.82569,1.398180,-1.528604,rR1e(25.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,59
+339,OH,X-X,(2-2),12072.425,2.451,-1.506,PRIMARY_TUPLE_MATCH,1,,0,120722.86524,2.451144,-1.505766,rR2e(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4881
+340,OH,X-X,(2-2),12085.045,2.449,-1.506,PRIMARY_TUPLE_MATCH,1,,0,120850.22211,2.449014,-1.506225,rR2f(27.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,5256
+341,OH,X-X,(1-1),12097.574,1.888,-1.519,PRIMARY_TUPLE_MATCH,1,,0,120975.67067,1.887751,-1.518573,rR1f(26.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2290
+342,OH,X-X,(1-1),12104.471,1.890,-1.536,PRIMARY_TUPLE_MATCH,1,,0,121044.56296,1.889866,-1.535889,rR2e(25.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2049
+343,OH,X-X,(1-1),12113.870,1.885,-1.519,PRIMARY_TUPLE_MATCH,1,,0,121138.32419,1.885098,-1.519148,rR1e(26.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1907
+344,OH,X-X,(0-0),12255.683,1.300,-1.558,PRIMARY_TUPLE_MATCH,1,,0,122556.15280,1.299674,-1.558242,rR1f(24.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,521
+345,OH,X-X,(0-0),12263.980,1.302,-1.578,PRIMARY_TUPLE_MATCH,1,,0,122638.86686,1.301855,-1.577649,rR2e(23.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,230
+346,OH,X-X,(0-0),12274.140,1.297,-1.559,PRIMARY_TUPLE_MATCH,1,,0,122740.46450,1.297167,-1.558884,rR1e(24.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,58
+347,OH,X-X,(0-0),12280.260,1.300,-1.577,PRIMARY_TUPLE_MATCH,1,,0,122801.26137,1.299973,-1.578213,rR2f(23.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,693
+348,OH,X-X,(1-0),2969.970,0.067,-4.790,PRIMARY_TUPLE_MATCH,1,,0,29699.69446,0.067397,-4.790053,pP1e(5.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,736
+349,OH,X-X,(1-0),3007.901,0.095,-4.671,PRIMARY_TUPLE_MATCH,1,,0,30079.01439,0.095156,-4.670894,pP1e(6.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,737
+350,OH,X-X,(1-0),3041.476,0.134,-4.629,PRIMARY_TUPLE_MATCH,1,,0,30414.77173,0.133637,-4.629341,pP2f(6.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1790
+351,OH,X-X,(2-1),3043.204,0.467,-4.924,AMBIGUOUS_COMPONENT_MATCH,2,,0,30434.33154;30432.05836,0.466618;0.466566,-4.924885;-4.924928,pP1f(3.5);pP1e(3.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4342;3591
+352,OH,X-X,(1-0),3048.089,0.127,-4.569,PRIMARY_TUPLE_MATCH,1,,0,30480.90380,0.127301,-4.568118,pP1e(7.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,738
+353,OH,X-X,(2-1),3078.689,0.485,-4.733,PRIMARY_TUPLE_MATCH,1,,0,30786.90861,0.484857,-4.732634,pP1e(4.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3592
+354,OH,X-X,(1-0),3084.977,0.170,-4.531,PRIMARY_TUPLE_MATCH,1,,0,30849.78290,0.169563,-4.531382,pP2f(7.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1791
+355,OH,X-X,(2-1),3090.568,0.164,-4.477,ENERGY_MISMATCH,1,,0,30905.18872,1.028358,-7.791770,qP21f(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4541
+356,OH,X-X,(1-0),3131.177,0.210,-4.444,PRIMARY_TUPLE_MATCH,1,,0,31311.77570,0.210141,-4.444091,pP2e(8.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1024
+357,OH,X-X,(1-0),3136.291,0.205,-4.396,PRIMARY_TUPLE_MATCH,1,,0,31362.91473,0.205144,-4.395747,pP1f(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1507
+358,OH,X-X,(2-1),3156.899,0.534,-4.462,PRIMARY_TUPLE_MATCH,1,,0,31568.97967,0.534062,-4.461970,pP1e(6.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3594
+359,OH,X-X,(1-0),3178.454,0.255,-4.365,PRIMARY_TUPLE_MATCH,1,,0,31784.55349,0.254706,-4.365226,pP2f(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1793
+360,OH,X-X,(1-0),3182.625,0.250,-4.322,PRIMARY_TUPLE_MATCH,1,,0,31826.26741,0.249834,-4.321547,pP1e(10.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,741
+361,OH,X-X,(2-1),3192.222,0.571,-4.418,PRIMARY_TUPLE_MATCH,1,,0,31922.25284,0.571460,-4.417968,pP2f(6.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4625
+362,OH,X-X,(1-0),3228.687,0.304,-4.294,PRIMARY_TUPLE_MATCH,1,,0,32286.88908,0.303793,-4.293427,pP2f(10.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1794
+363,OH,X-X,(1-0),3232.359,0.299,-4.254,PRIMARY_TUPLE_MATCH,1,,0,32323.59516,0.299250,-4.253645,pP1e(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,742
+364,OH,X-X,(2-1),3233.526,0.300,-4.254,UNMATCHED,0,,0,,,,,,
+365,OH,X-X,(2-1),3244.888,0.600,-4.262,PRIMARY_TUPLE_MATCH,1,,0,32448.86474,0.600109,-4.262436,pP1e(8.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3596
+366,OH,X-X,(1-0),3281.422,0.357,-4.228,PRIMARY_TUPLE_MATCH,1,,0,32814.23356,0.357135,-4.227554,pP2f(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1795
+367,OH,X-X,(1-0),3282.368,0.358,-4.228,PRIMARY_TUPLE_MATCH,1,,0,32823.68170,0.357578,-4.227640,pP2e(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1027
+368,OH,X-X,(1-0),3286.000,0.354,-4.191,PRIMARY_TUPLE_MATCH,1,,0,32860.00143,0.353662,-4.191185,pP1f(12.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1510
+369,OH,X-X,(2-1),3287.844,0.645,-4.227,PRIMARY_TUPLE_MATCH,1,,0,32878.41166,0.644970,-4.227228,pP2e(8.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3875
+370,OH,X-X,(2-1),3293.622,0.640,-4.179,PRIMARY_TUPLE_MATCH,1,,0,32936.19859,0.639844,-4.178474,pP1f(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4348
+371,OH,X-X,(1-0),3336.790,0.415,-4.167,PRIMARY_TUPLE_MATCH,1,,0,33367.90830,0.414661,-4.166782,pP2f(12.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1796
+372,OH,X-X,(1-0),3339.721,0.411,-4.133,PRIMARY_TUPLE_MATCH,1,,0,33397.21062,0.410630,-4.133076,pP1e(13.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,744
+373,OH,X-X,(2-1),3392.012,0.735,-4.072,PRIMARY_TUPLE_MATCH,1,,0,33920.13407,0.734972,-4.072435,pP2f(10.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4629
+374,OH,X-X,(2-1),3392.877,0.735,-4.073,PRIMARY_TUPLE_MATCH,1,,0,33928.73015,0.735306,-4.072496,pP2e(10.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3877
+375,OH,X-X,(1-0),3394.929,0.476,-4.110,PRIMARY_TUPLE_MATCH,1,,0,33949.29560,0.476299,-4.110468,pP2f(13.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1797
+376,OH,X-X,(1-0),3399.210,0.474,-4.079,PRIMARY_TUPLE_MATCH,1,,0,33992.09973,0.473511,-4.079340,pP1f(14.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1512
+377,OH,X-X,(2-1),3449.427,0.787,-4.006,PRIMARY_TUPLE_MATCH,1,,0,34494.22347,0.786646,-4.004978,pP2e(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3878
+378,OH,X-X,(1-0),3455.986,0.542,-4.058,PRIMARY_TUPLE_MATCH,1,,0,34559.85816,0.541970,-4.058101,pP2f(14.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1798
+379,OH,X-X,(1-0),3460.205,0.539,-4.029,PRIMARY_TUPLE_MATCH,1,,0,34602.04400,0.539487,-4.029083,pP1f(15.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1513
+380,OH,X-X,(2-1),3508.864,0.842,-3.943,PRIMARY_TUPLE_MATCH,1,,0,35088.59075,0.842011,-3.942797,pP2e(12.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3879
+381,OH,X-X,(1-0),3521.648,0.612,-4.009,PRIMARY_TUPLE_MATCH,1,,0,35216.45396,0.612454,-4.009423,pP2e(15.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1031
+382,OH,X-X,(1-0),3522.337,0.608,-3.982,PRIMARY_TUPLE_MATCH,1,,0,35223.35821,0.608086,-3.981890,pP1e(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,747
+383,OH,X-X,(2-1),3573.112,0.897,-3.854,PRIMARY_TUPLE_MATCH,1,,0,35731.04023,0.896813,-3.853738,pP1e(14.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3602
+384,OH,X-X,(1-0),3587.486,0.685,-3.964,PRIMARY_TUPLE_MATCH,1,,0,35874.86587,0.685086,-3.963632,pP2f(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1800
+385,OH,X-X,(1-0),3589.538,0.682,-3.938,PRIMARY_TUPLE_MATCH,1,,0,35895.36644,0.681709,-3.937874,pP1e(17.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,748
+386,OH,X-X,(1-0),3662.565,0.761,-3.897,PRIMARY_TUPLE_MATCH,1,,0,36625.62896,0.760694,-3.896846,pP1f(18.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1516
+387,OH,X-X,(2-1),3707.080,1.027,-3.755,PRIMARY_TUPLE_MATCH,1,,0,37070.71435,1.027113,-3.754639,pP1e(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3604
+388,OH,X-X,(1-0),3732.690,0.843,-3.881,PRIMARY_TUPLE_MATCH,1,,0,37326.88924,0.843318,-3.880869,pP2f(18.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1802
+389,OH,X-X,(1-0),3734.466,0.840,-3.858,PRIMARY_TUPLE_MATCH,1,,0,37344.64061,0.840156,-3.857838,pP1e(19.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,750
+390,OH,X-X,(2-1),3778.804,1.102,-3.736,PRIMARY_TUPLE_MATCH,1,,0,37787.98327,1.102197,-3.735967,pP2e(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3883
+391,OH,X-X,(2-1),3781.716,1.099,-3.710,PRIMARY_TUPLE_MATCH,1,,0,37817.08750,1.099212,-3.710196,pP1f(17.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,4356
+392,OH,X-X,(1-0),3810.926,0.928,-3.843,PRIMARY_TUPLE_MATCH,1,,0,38109.27902,0.927871,-3.843309,pP2f(19.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1803
+393,OH,X-X,(1-0),3813.200,0.929,-3.843,PRIMARY_TUPLE_MATCH,1,,0,38131.99423,0.929223,-3.843541,pP2e(19.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,1035
+394,OH,X-X,(2-0),1528.271,0.205,-5.450,PRIMARY_TUPLE_MATCH,1,,0,15282.69550,0.204674,-5.453295,pP1e(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2467
+395,OH,X-X,(2-0),1541.339,0.255,-5.435,PRIMARY_TUPLE_MATCH,1,,0,15413.37982,0.254979,-5.434809,pP2e(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2749
+396,OH,X-X,(2-0),1557.305,0.299,-5.337,PRIMARY_TUPLE_MATCH,1,,0,15573.02962,0.299250,-5.336600,pP1e(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2469
+397,OH,X-X,(3-1),1605.716,0.639,-4.976,PRIMARY_TUPLE_MATCH,1,,0,16057.15009,0.639400,-4.975538,pP1e(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,6344
+398,OH,X-X,(3-1),1619.657,0.688,-4.957,PRIMARY_TUPLE_MATCH,1,,0,16196.55056,0.688058,-4.956853,pP2e(9.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,6608
+399,OH,X-X,(3-1),1637.262,0.731,-4.858,PRIMARY_TUPLE_MATCH,1,,0,16372.60552,0.730973,-4.858488,pP1f(11.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,7052
+400,OH,X-X,(2-0),1646.055,0.609,-5.108,PRIMARY_TUPLE_MATCH,1,,0,16460.52760,0.609398,-5.107709,pP1f(16.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,3228
+401,OH,X-X,(3-1),1653.911,0.782,-4.806,PRIMARY_TUPLE_MATCH,1,,0,16539.09648,0.781871,-4.806364,pP1e(12.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,6347
+402,OH,X-X,(4-2),1661.001,0.982,-4.816,PRIMARY_TUPLE_MATCH,1,,0,16609.99582,0.982200,-4.816398,pP1e(7.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,10760
+403,OH,X-X,(2-0),1666.055,0.682,-5.069,PRIMARY_TUPLE_MATCH,1,,0,16660.52902,0.681709,-5.068989,pP1e(17.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2475
+404,OH,X-X,(2-0),1687.690,0.759,-5.033,PRIMARY_TUPLE_MATCH,1,,0,16876.88185,0.759095,-5.032175,pP1e(18.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,2476
+405,OH,X-X,(4-2),1689.091,1.059,-4.720,PRIMARY_TUPLE_MATCH,1,,0,16890.88865,1.059372,-4.720393,pP2e(8.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,10983
+406,OH,X-X,(3-1),1690.891,0.897,-4.698,STRENGTH_MISMATCH,1,-4.712090,0,16908.89333,0.896813,-4.712090,pP1e(14.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,6349
+407,OH,X-X,(3-1),1691.392,0.898,-4.712,PRIMARY_TUPLE_MATCH,1,,0,16913.90346,0.897802,-4.712203,pP1f(14.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,7055
+408,OH,X-X,(4-2),1762.372,1.244,-4.454,PRIMARY_TUPLE_MATCH,1,,0,17623.71652,1.243806,-4.454488,pP1e(13.5),data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip,10766
