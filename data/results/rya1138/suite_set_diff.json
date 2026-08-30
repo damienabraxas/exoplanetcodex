@@ -1,0 +1,33 @@
+{
+  "ticket": "RYA-1138",
+  "branch": {
+    "root": "/Users/ryanschmitt/codex/rya1138",
+    "is_canonical_location": true,
+    "ispec_importable": true,
+    "ispec_dir": "/Users/ryanschmitt/codex/ispec",
+    "kp_atlas_present": true,
+    "kp_atlas_dir": "/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas",
+    "python_version": "3.12.13",
+    "collected_tests": 15,
+    "collection_errors": 0,
+    "notes": []
+  },
+  "baseline": {
+    "root": "/Users/ryanschmitt/codex/_setdiff-baseline-origin-main",
+    "is_canonical_location": true,
+    "ispec_importable": true,
+    "ispec_dir": "/Users/ryanschmitt/codex/ispec",
+    "kp_atlas_present": true,
+    "kp_atlas_dir": "/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas",
+    "python_version": "3.12.13",
+    "collected_tests": 17,
+    "collection_errors": 0,
+    "notes": []
+  },
+  "baseline_ref": "origin/main",
+  "new_failures": [],
+  "newly_passing": [],
+  "newly_skipped": [],
+  "branch_summary": "15 passed in 0.53s",
+  "baseline_summary": "17 passed in 0.53s"
+}
