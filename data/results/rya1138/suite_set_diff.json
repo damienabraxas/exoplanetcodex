@@ -8,7 +8,7 @@
     "kp_atlas_present": true,
     "kp_atlas_dir": "/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas",
     "python_version": "3.12.13",
-    "collected_tests": 3565,
+    "collected_tests": 3567,
     "collection_errors": 0,
     "notes": []
   },
@@ -20,14 +20,17 @@
     "kp_atlas_present": true,
     "kp_atlas_dir": "/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas",
     "python_version": "3.12.13",
-    "collected_tests": 3552,
+    "collected_tests": 3563,
     "collection_errors": 0,
     "notes": []
   },
   "baseline_ref": "origin/main",
   "new_failures": [],
-  "newly_passing": [],
+  "newly_passing": [
+    "tests/test_line_key_guard_rya1037.py::test_the_real_tree_passes",
+    "tests/test_line_match_rya1033.py::test_no_rounded_wavelength_join_keys_remain"
+  ],
   "newly_skipped": [],
-  "branch_summary": "8 failed, 3499 passed, 51 skipped, 7 xfailed, 128 warnings in 336.52s (0:05:36)",
-  "baseline_summary": "10 failed, 3484 passed, 51 skipped, 7 xfailed, 128 warnings in 369.62s (0:06:09)"
+  "branch_summary": "8 failed, 3501 passed, 51 skipped, 7 xfailed, 128 warnings in 378.98s (0:06:18)",
+  "baseline_summary": "10 failed, 3490 passed, 56 skipped, 7 xfailed, 128 warnings in 352.24s (0:05:52)"
 }
