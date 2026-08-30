@@ -3612,8 +3612,15 @@ artifacts:
       quoted as a total. Folding in the Fe I reference magnitude would move 7 more products
       over the 0.1 dig-in threshold (9 -> 16 of 46).
       ⚠️ It must NOT be fixed by bolting 0.0699 onto everything: dA/dvmic is a property of
-      the LINE SET (GRADED = depth <= 0.60, weaker; DEEPGRADED = saturated), and the 8 3D
-      products have no microturbulence parameter at all.
+      the LINE SET (GRADED = depth <= 0.60, weaker; DEEPGRADED = saturated).
+      🔴 RYA-1120 CORRECTED THIS NOTE'S OWN CLAIM: it said "the 8 3D products have no
+      microturbulence parameter at all", which decided a physical property from
+      `"3D" in treatment` and swept the <3D> MEAN in with FULL 3D. RYA-1099 refuted that
+      for the mean route BY MEASUREMENT (xi=0 came out +0.137 dex WORSE, because a mean
+      atmosphere averages the velocity structure OUT and the route still runs on an
+      inherited xi). Only the 4 FULL-3D rows (ENGINE-A-3DNLTE) are exempt, and that
+      exemption is recorded WITH its contrary measurement: vmic IS an input axis of the
+      Amarsi MLP and its correction responds at d(aberr)/dxi = +0.0985 dex/(km/s).
       🔴 F2 gf=kurucz on every GRADED/DEEPGRADED row — treatment_axes.LEGACY pins the gf
       axis from the TREATMENT TOKEN while the selector picks on gf_tier == LAB. Measured:
       67/67 lines primary-laboratory on a product labelled kurucz, whose own committed
@@ -5296,3 +5303,9 @@ artifacts:
       python3 scripts/migrate_molecular_transitions_rya1130.py --report data/results/rya1130/molecular_migration_audit.json
     note: >-
       Transition-level provenance audit for every vendored CH, C2, CN, NH, OH, CO, and held rovibrational molecular row. The generator deliberately exits 2 while typed source provenance is incomplete; it still writes this deterministic review artifact before exiting. `frozen_ready=false` is therefore the expected current scientific verdict, not a failed reproduction. No abundance is derived and no oscillator strength is tuned.
+  - artifact: rya1113/uv_fe_uncertainty_audit.json
+    generator: scripts/rya1113_uv_fe_uncertainty_audit.py
+    ticket: RYA-1113
+    invocation: python3 scripts/rya1113_uv_fe_uncertainty_audit.py --check
+    note: >-
+      RYA-1113 — xi-aware uncertainty re-verification of the 8 live near-UV Fe products, via the codex-product-audit skill. READ-ONLY: no value, line, gf or threshold changed (RYA-161); it reads the feed, the band artifacts, canonical_gf and the stellar budget. REPORT-AND-NOTE per RYA-777/813 — the near-UV is a frontier band and its bars are LABELLED against the 0.05 solar gate, never chased toward it. 🔴 F1 CORRECTS THE TICKET'S OWN PREMISE: the expected ~84% Kurucz-gf floor does NOT apply to these products. The near-UV LINE LIST is 1% LAB for Fe I (59/4274) and 2% for Fe II (12/665), but the DEEPGRADED products use only the LAB subset — Fe I 58/58 LAB, measured on the lambda+EP dual key (RYA-1037) — and that pool EXHAUSTS the resource (58 of the 59 in-band LAB Fe I lines), so the line lever is already spent and widening needs new laboratory gf (RYA-1061). 🔴 F3: the dominant term is a BAND-FLAT declared 0.10 dex pseudo-continuum bound, and the two holdings disagree by MORE than it — Fe II returns 7.957 vs 7.697 on the same 12 lines (half-spread 0.130 > 0.10). They are different source spectra (Kurucz 2005 irradiance vs the 1984 atlas) and molecfit corrects no telluric band inside 3000-3780 A, so in this band the difference is continuum realisation, not telluric. 🔴 F5: Fe II ENGINE-A reports n=7 against its 1D-LTE sibling's n=12 on both holdings, so the published NLTE delta is confounded with a 5-line pool change. Also F4 (neither holding's normalisation was probed inside 3000-3780 A), F6 (no per-line artifact exists for Fe II in band) and F7 (no stellar-parameter term reaches the published bar; Fe II has no stellar row at all).
