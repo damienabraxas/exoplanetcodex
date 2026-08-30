@@ -7,6 +7,13 @@
 without changing a gf or deriving an abundance.  Molecular intake stopped at a
 real schema limitation and is now RYA-1130.
 
+This canonical-store inventory is only the denominator.  It is **not** the
+Solar reference line set and must not be described as “the lines Asplund used.”
+RYA-946 now explicitly requires the all-band AGSS21-lineage numerator: the
+transitions actually used to derive each adopted Solar value, recovered from
+AGSS21 itself or from the element-specific source analysis it cites, then joined
+line by line to these manifests.  Fe's RYA-1109 artifact is the template.
+
 The authoritative `data/config/elements_master.json` currently declares **27
 target rows / 26 unique atomic symbols**, not 28 elements.  It contains no Zn.
 That conflicts with RYA-757-era artifacts describing Zn as the 28th canonical
@@ -87,9 +94,13 @@ molecular data into atomic `gf_tier` semantics would erase rather than preserve
 provenance.
 
 After RYA-1130, resume Wave 1 with exact row-level source resolution for the
-pipeline C I, N I, O I/[O I] indicators, then ingest the independently typed
-molecular sources.  Only after zero unresolved crossmatches and complete source
-identifiers should these ledger rows advance from `CROSSMATCH_REVIEW`.
+published Solar C/N/O reference sets across every band actually used by their
+source analyses—not merely the current pipeline indicators—then ingest the
+independently typed molecular sources.  The required join separates
+AGSS21/source-used + Codex-graded, source-used + Codex-ungraded, Codex-graded but
+not source-used, missing, ambiguous, and explicitly source-rejected lines. Only
+after zero unresolved crossmatches and complete source identifiers should these
+ledger rows advance from `CROSSMATCH_REVIEW`.
 
 ## Reproduction
 

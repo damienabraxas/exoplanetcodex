@@ -125,6 +125,7 @@ def build(out_dir: Path = OUT) -> None:
         "registry_symbols": symbols,
         "known_delta": "Zn is described elsewhere as the 28th canonical element but is absent from this authoritative registry; no Zn ledger row was invented.",
         "molecular_scope": "STOPPED: RYA-1130",
+        "solar_reference_line_set_scope": "PENDING: mandatory all-band AGSS21 lineage under RYA-946; these manifests are the Codex denominator, not the lines AGSS21 used",
         "abundances_generated": False,
     }
     (out_dir / "manifest_metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
