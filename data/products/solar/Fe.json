@@ -173,7 +173,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.957,
       "sigma_stat": 0.096,
-      "sigma_syst": 0.1095,
+      "sigma_syst": 0.13,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -185,7 +185,8 @@
         "sha256": "6fed66c0f904ce3343e525731600cb32930f701c1f7acda28156a15a8241615b",
         "artifact_mtime": "2026-08-26T16:19:25Z",
         "ingested_at": "2026-08-26T16:25:00Z"
-      }
+      },
+      "syst_basis": "INTERIM LOWER-BOUND FLOOR (RYA-908/1133): the run's own budget totals 0.1095 dex, dominated by a band-flat 0.10 pseudo-continuum term. RYA-1133 measured the two Kitt Peak holdings returning 7.957 vs 7.697 on the SAME 12 lines - 0.260 dex apart, half-spread 0.130 - so the run's term is breached by its own holdings and 0.130 is published instead. A LOWER bound: two realisations are not the space of them, and all three near-UV atlases are Kitt Peak, so the disagreement can be measured but never adjudicated. Pending RYA-1133's per-ion term."
     },
     {
       "element": "Fe",
@@ -199,7 +200,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.975,
       "sigma_stat": 0.1329,
-      "sigma_syst": 0.1095,
+      "sigma_syst": 0.13,
       "n_lines": 7,
       "n_excluded": 5,
       "dominant_term": "line-to-line scatter",
@@ -211,7 +212,8 @@
         "sha256": "fd293c29a51dcb24ca3cdf0c1586c3c9900dae49816f3a4c2db79073f4ee5b87",
         "artifact_mtime": "2026-08-26T16:19:36Z",
         "ingested_at": "2026-08-26T16:25:00Z"
-      }
+      },
+      "syst_basis": "INTERIM LOWER-BOUND FLOOR (RYA-908/1133): the run's own budget totals 0.1095 dex, dominated by a band-flat 0.10 pseudo-continuum term. RYA-1133 measured the two Kitt Peak holdings returning 7.957 vs 7.697 on the SAME 12 lines - 0.260 dex apart, half-spread 0.130 - so the run's term is breached by its own holdings and 0.130 is published instead. A LOWER bound: two realisations are not the space of them, and all three near-UV atlases are Kitt Peak, so the disagreement can be measured but never adjudicated. Pending RYA-1133's per-ion term."
     },
     {
       "element": "Fe",
@@ -225,7 +227,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.697,
       "sigma_stat": 0.0986,
-      "sigma_syst": 0.1095,
+      "sigma_syst": 0.13,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -237,7 +239,8 @@
         "sha256": "192e58ffe091dda861e14b25157f5a33b9f744f69e9551301baa968c4148f03c",
         "artifact_mtime": "2026-08-26T14:50:34Z",
         "ingested_at": "2026-08-26T14:52:20Z"
-      }
+      },
+      "syst_basis": "INTERIM LOWER-BOUND FLOOR (RYA-908/1133): the run's own budget totals 0.1095 dex, dominated by a band-flat 0.10 pseudo-continuum term. RYA-1133 measured the two Kitt Peak holdings returning 7.957 vs 7.697 on the SAME 12 lines - 0.260 dex apart, half-spread 0.130 - so the run's term is breached by its own holdings and 0.130 is published instead. A LOWER bound: two realisations are not the space of them, and all three near-UV atlases are Kitt Peak, so the disagreement can be measured but never adjudicated. Pending RYA-1133's per-ion term."
     },
     {
       "element": "Fe",
@@ -251,7 +254,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.738,
       "sigma_stat": 0.121,
-      "sigma_syst": 0.1095,
+      "sigma_syst": 0.13,
       "n_lines": 7,
       "n_excluded": 5,
       "dominant_term": "line-to-line scatter",
@@ -263,7 +266,8 @@
         "sha256": "4af51ecafd1e4df25f19b33a3c70085586c9d2fdd4f705c53360a756059e2a81",
         "artifact_mtime": "2026-08-26T14:50:47Z",
         "ingested_at": "2026-08-26T14:52:20Z"
-      }
+      },
+      "syst_basis": "INTERIM LOWER-BOUND FLOOR (RYA-908/1133): the run's own budget totals 0.1095 dex, dominated by a band-flat 0.10 pseudo-continuum term. RYA-1133 measured the two Kitt Peak holdings returning 7.957 vs 7.697 on the SAME 12 lines - 0.260 dex apart, half-spread 0.130 - so the run's term is breached by its own holdings and 0.130 is published instead. A LOWER bound: two realisations are not the space of them, and all three near-UV atlases are Kitt Peak, so the disagreement can be measured but never adjudicated. Pending RYA-1133's per-ion term."
     },
     {
       "element": "Fe",
