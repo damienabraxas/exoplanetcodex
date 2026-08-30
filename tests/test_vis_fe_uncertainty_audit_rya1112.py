@@ -54,7 +54,7 @@ def test_F1_the_band_budget_NOW_CARRIES_A_SOURCED_STELLAR_PARAMETER_TERM():
     from pipeline import error_budget as EB
 
     src = (ROOT / "pipeline" / "error_budget.py").read_text().lower()
-    assert "vmic" in src and "delta_xi" in src, (
+    assert "vmic" in src and "stellar_param_term" in src, (
         "the stellar-parameter term has gone missing from error_budget.py again — "
         "RYA-1112 F1 has REGRESSED")
 

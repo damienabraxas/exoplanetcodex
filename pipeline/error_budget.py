@@ -423,8 +423,10 @@ def zero_point_term(zero_point_dex: float, *, n_anchor: int) -> Term:
 # residual, pseudo-continuum and telluric residual — and NOTHING about the star. Every
 # published `sigma_syst` therefore carried no Teff, no log g and no microturbulence term,
 # while `pipeline/uncertainty_stack.py` derived exactly those and wrote them to
-# `data/audit/uncertainty/solar_uncertainty_rya158.json`. Two budgets, no join: a
-# `git grep` for that artifact returned only its own two stamping scripts. RYA-282 §2
+# the RYA-158 solar stellar-parameter artifact under `data/audit/uncertainty/`.
+# Two budgets, no join: a `git grep` for that artifact returned only its own two
+# stamping scripts. (Deliberately not spelling its filename here: the RYA-1112 test that
+# detects the join is a git grep for that token, and a mention is not a read.) RYA-282 §2
 # made the term MANDATORY in 2026-06; it never travelled to a product.
 #
 # 🔴 AND IT IS NOT ONE NUMBER FOR THE ELEMENT. RYA-1093 measured xi-sensitivity as a
