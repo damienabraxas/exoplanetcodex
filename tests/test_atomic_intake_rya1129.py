@@ -11,6 +11,7 @@ def test_builds_cno_atomic_manifests_without_abundances(tmp_path):
     assert metadata["abundances_generated"] is False
     assert metadata["registry_n_rows_observed"] == metadata["registry_n_targets_declared"]
     assert metadata["registry_n_unique_atomic_symbols"] == 26
+    assert metadata["solar_reference_line_set_scope"].startswith("PENDING:")
 
     for element in ("C", "N", "O"):
         manifest = pd.read_csv(tmp_path / f"{element}_atomic_manifest.csv")
