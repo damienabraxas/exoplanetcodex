@@ -44,6 +44,19 @@ ROOT = Path(__file__).resolve().parents[1]
 #: it has to separate differ by 0.1-2.3 eV, so this is not the binding constraint.
 EP_TOL_EV = line_match.EP_TOL_EV
 
+#: 🔴 A REPRESENTATIONAL EPSILON, NOT A WIDER WINDOW. A wavelength printed to a step S
+#: lies within +/-S/2 of truth INCLUSIVE -- the rounding interval is CLOSED at its edge.
+#: Comparing `|d| <= tol` in floating point fails exactly there: AGSS21 prints 524.70 nm,
+#: the GES list holds 5247.05 A, and the distance evaluates to 0.0500000000001819 against
+#: a 0.05 tolerance. That is 1.8e-13 A of float representation error, and on it the gf
+#: override declared a line ABSENT that is plainly present.
+#:
+#: ⚠️ This is NOT the RYA-1109 move of widening a tolerance until a count improves. 1e-9 A
+#: is physically meaningless -- a millionth of a mA - and cannot admit a different line;
+#: the nearest distinct Fe line anywhere in the GES list is ~1e-3 A away. It exists solely
+#: to make a closed interval actually closed.
+_CLOSED_EDGE_EPS_A = 1e-9
+
 
 class ReferenceLineSetError(RuntimeError):
     """A reference set could not be loaded or measured HONESTLY."""
@@ -308,7 +321,8 @@ def coverage(name: str, pool: pd.DataFrame, *, pool_label: str,
     }
 
 
-def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> dict:
+def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet, *,
+                      on_missing: str = "raise") -> dict:
     """Put the REFERENCE's own log gf on the target lines of an in-memory synthesis list.
 
     Generalised from RYA-1106's Asplund-specific version; the reasoning is unchanged.
@@ -337,7 +351,8 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
     for r in targets.itertuples():
         want_el = str(r.species).replace(" I", " 1").replace(" II", " 2")
         sel = ((el == want_el)
-               & (np.abs(w_A - r.wavelength_air_A) <= spec.match_tol_A)
+               & (np.abs(w_A - r.wavelength_air_A)
+                  <= spec.match_tol_A + _CLOSED_EDGE_EPS_A)
                & (np.abs(ep - r.elo_eV) <= EP_TOL_EV))
         hit = np.flatnonzero(sel)
         if hit.size == 0:
@@ -350,7 +365,7 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
             # the gf then belongs on every row of it. But that is only true while the rows
             # agree on being the same transition -- never resolved by argmin.
             spread = float(np.ptp(w_A[hit]))
-            if spread > spec.match_tol_A:
+            if spread > spec.match_tol_A + _CLOSED_EDGE_EPS_A:
                 ambiguous.append({"wavelength_air_A": round(float(r.wavelength_air_A), 4),
                                   "n_rows": int(hit.size),
                                   "wavelength_spread_A": round(spread, 5)})
@@ -364,7 +379,18 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
                         "loggf_reference": round(float(r.loggf), 4),
                         "delta_dex": round(float(r.loggf - np.mean(before)), 4),
                         "gf_source": str(getattr(r, "gf_source", ""))[:200]})
-    if missing or ambiguous:
+    # 🔴 TWO DIFFERENT FAILURES, AND COLLAPSING THEM WAS WRONG.
+    #   * AMBIGUOUS -- the line IS in the list but we cannot say which row is it. Placing
+    #     a gf there could move the wrong transition, so this always refuses.
+    #   * MISSING   -- the line is NOT in the synthesis list at all (AGSS21's 9786.6 A sits
+    #     past the GES list's 9200 A red edge). Nothing can be measured there by any
+    #     scale, so it is not a "partial override" at all: it is COVERAGE, and the ticket
+    #     asks for coverage to be REPORTED, never silently dropped (RYA-429/711).
+    # `on_missing="report"` is what a replication run passes, and it must then EXCLUDE and
+    # NAME those lines. The default stays "raise" so no existing caller changes behaviour.
+    if on_missing not in ("raise", "report"):
+        raise ReferenceLineSetError(f"on_missing must be 'raise' or 'report', not {on_missing!r}")
+    if ambiguous or (missing and on_missing == "raise"):
         raise ReferenceLineSetError(
             f"the synthesis line list cannot carry {spec.name}'s gf for the whole pool: "
             f"{len(missing)} absent on the lambda+EP dual key (+/-{spec.match_tol_A} A / "
@@ -373,8 +399,13 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
             f"and the rest on ours and report one number for the mixture - refusing "
             f"(RYA-429).")
     deltas = np.array([a["delta_dex"] for a in applied], dtype=float)
+    if deltas.size == 0:
+        raise ReferenceLineSetError(
+            f"{spec.name}: not one target line is in the synthesis list -- nothing to "
+            f"measure. A leg that fits ZERO lines must fail, not emit an empty product.")
     return {
         "line_set": spec.name, "n_targets": int(len(targets)), "n_applied": len(applied),
+        "not_in_synthesis_list": missing,
         "per_line": applied,
         "delta_vs_canonical_dex": {
             "mean": round(float(deltas.mean()), 4),
