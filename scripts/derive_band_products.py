@@ -1164,7 +1164,24 @@ def synthesis_route(a, pol) -> None:
                 observed_conditioning=conditioning_id(a),
                 # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
                 # "no departure applied" from "nobody recorded one" (RYA-833).
-                nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
+                #
+                # 🔴 BUT AN NLTE ROW MUST NOT SAY IT (RYA-1104/RYA-1106). This was an
+                # unconditional `0.0` + "LTE, no departure applied", and `_fit_lines` is
+                # called for the ⟨3D⟩-NLTE leg too -- so every one of the 67 lines of
+                # `synth-mean3D-NLTE-gerber-stagger` shipped carrying a column that says
+                # no departure was applied, while the product's OWN `nlte_effect.json`
+                # measures the departure at +0.037 median, nonzero on 67/67. A reader
+                # filtering "NLTE products where a departure was applied" dropped it.
+                #
+                # `None` is the correct statement for this route, not a smaller number:
+                # the departures enter the RADIATIVE TRANSFER, so there is no additive
+                # per-line delta to report at all, and `band_products.LineMeasurement`
+                # documents `nlte_delta_dex is None` as exactly that -- "no additive
+                # per-line correction exists on this route", which is a DIFFERENT
+                # statement from 0.0 (RYA-712/880). The size of the effect is a paired
+                # DIFFERENCE of two products and lives in `nlte_effect.json`, which is
+                # where it can be computed honestly.
+                **_departure_columns(treatment),
                 # RYA-871 — `select_lines` already returns the EP of the row it picked, and
                 # this route picks AT the list's own wavelength, so the identity is exact
                 # rather than recovered. Carried anyway, for two reasons: the near-UV pool
@@ -1906,6 +1923,27 @@ def _intake_ep(row, wavelength_A: float, element: str, ion: str) -> float:
 MPIA_NLTE_SOURCE = ("Bergemann MPIA per-line delta_nlte (live query, solar node); "
                     "PER-LINE additive correction")
 LTE_NLTE_SOURCE = "none — LTE, no departure applied"
+
+#: 🔴 THE DEPARTURE COLUMNS ARE A FUNCTION OF THE TREATMENT, NOT A CONSTANT (RYA-1106).
+#: Derived from `treatment_axes` rather than from a local list of spellings, because
+#: "everything NLTE" as a maintained list of strings IS the RYA-869 bug class.
+NLTE_IN_TRANSFER_SOURCE = (
+    "departures applied in the radiative transfer — no additive per-line delta exists on "
+    "this route; the effect is the paired difference against this deck's LTE member, "
+    "reported in nlte_effect.json (RYA-1040/1104)")
+
+
+def _departure_columns(treatment: str) -> dict:
+    """What a row may honestly say about departures, from what the treatment IS."""
+    from pipeline import treatment_axes as _tx
+    try:
+        nlte = _tx.axes_for(treatment).is_nlte
+    except Exception:
+        # An unknown treatment is not silently called LTE -- that is the lie this fixes.
+        raise
+    if nlte:
+        return {"nlte_delta_dex": None, "nlte_source": NLTE_IN_TRANSFER_SOURCE}
+    return {"nlte_delta_dex": 0.0, "nlte_source": LTE_NLTE_SOURCE}
 #: ⚠️ ENGINE-B-NLTE has NO additive per-line delta to record. The Gerber departures enter
 #: the radiative transfer, and RYA-712 makes this a SEPARATE PRODUCT rather than a
 #: correction applied to Engine-B-LTE. Reporting a number here would require differencing
