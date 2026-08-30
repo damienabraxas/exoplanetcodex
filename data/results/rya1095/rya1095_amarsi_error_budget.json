@@ -2,23 +2,23 @@
   "ticket": "RYA-1095",
   "budgets": [
     {
-      "run_dir": "/private/tmp/claude-501/-Users-ryanschmitt/1c13a3e2-6af7-4458-a204-36043e6c4533/scratchpad/amarsi/d1",
+      "run_dir": "data/results/rya1095/harps",
       "instrument": "harps",
-      "holding_hint": "/home/damienabraxas/g3d_08d20b",
+      "holding_hint": "/home/damienabraxas/g3dv2_harps",
       "element": "Fe",
       "ion": "I",
       "band": "VIS",
       "treatment": "ENGINE-A-3DNLTE",
-      "handler": "ProfileFitHandler",
-      "A": 7.507115248267186,
+      "handler": "SynthesisHandler",
+      "A": 7.5124005917076175,
       "n_lines": 50,
-      "published_sigma_stat_RAW_SCATTER": 0.1860723961914284,
-      "line_scatter_dex": 0.1861,
-      "sigma_stat_STANDARD_ERROR": 0.0263,
-      "sigma_syst_FLOOR": 0.1705,
-      "gf_rung": "gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 8 of 50 Fe I lines are GF-LAB (primary laboratory gf); the rest are systematic:K07/SCALE-MISMATCH x42. A pool is graded only if every line in it is \u2014 inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one",
-      "dominant_term": "gf scale (UNGRADED)",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02631 dex at n_lines=50",
+      "published_statistical_field": 0.0236,
+      "line_scatter_dex": 0.1668,
+      "sigma_stat_STANDARD_ERROR": 0.0236,
+      "sigma_syst_FLOOR": 0.0577,
+      "gf_rung": "gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0577 dex (1.41x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it \u2014 larger or smaller (RYA-850)",
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02359 dex at n_lines=50",
       "unmeasured_terms": [
         {
           "name": "3D-NLTE network accuracy",
@@ -28,27 +28,27 @@
       "terms": [
         {
           "name": "line-to-line scatter",
-          "dex": 0.18607239619142843,
+          "dex": 0.16684143988715477,
           "averages_down": true,
           "source": "observed spread of the accepted lines"
         },
         {
-          "name": "gf scale (UNGRADED)",
-          "dex": 0.17,
+          "name": "gf scale (cited lab)",
+          "dex": 0.0576541412215983,
           "averages_down": false,
-          "source": "ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not"
+          "source": "RMS of the published per-line laboratory sigma over 50 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound"
         },
         {
           "name": "harness residual",
-          "dex": 0.0129,
+          "dex": 0.0,
           "averages_down": false,
-          "source": "ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
+          "source": "SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
         },
         {
           "name": "3D-NLTE abundance axis",
-          "dex": 0.004296675455034096,
+          "dex": 0.0030191702089602925,
           "averages_down": false,
-          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 23 lines that carry both; RMS 0.00430 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
+          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 22 lines that carry both; RMS 0.00302 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
         },
         {
           "name": "3D-NLTE network accuracy",
@@ -58,27 +58,27 @@
         }
       ],
       "axis_railed_at_grid_ceiling": true,
-      "axis_sensitivity_dex": 0.00028,
+      "axis_sensitivity_dex": 0.00224,
       "sklearn_version_skew": "models written with 1.0.2, loaded with 1.9.0 \u2014 cross-version unpickling. The library warns results may be invalid; the reactivation control is what says whether it is safe."
     },
     {
-      "run_dir": "/private/tmp/claude-501/-Users-ryanschmitt/1c13a3e2-6af7-4458-a204-36043e6c4533/scratchpad/amarsi/d2",
+      "run_dir": "data/results/rya1095/iag",
       "instrument": "iag_fts_solar_atlas",
-      "holding_hint": "/home/damienabraxas/g3d_7215bb",
+      "holding_hint": "/home/damienabraxas/g3dv2_iag",
       "element": "Fe",
       "ion": "I",
       "band": "VIS",
       "treatment": "ENGINE-A-3DNLTE",
-      "handler": "ProfileFitHandler",
-      "A": 7.525988892436543,
+      "handler": "SynthesisHandler",
+      "A": 7.542903868159065,
       "n_lines": 39,
-      "published_sigma_stat_RAW_SCATTER": 0.185104085074514,
-      "line_scatter_dex": 0.1851,
-      "sigma_stat_STANDARD_ERROR": 0.0296,
-      "sigma_syst_FLOOR": 0.1705,
-      "gf_rung": "gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 8 of 39 Fe I lines are GF-LAB (primary laboratory gf); the rest are systematic:K07/SCALE-MISMATCH x31. A pool is graded only if every line in it is \u2014 inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one",
-      "dominant_term": "gf scale (UNGRADED)",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02964 dex at n_lines=39",
+      "published_statistical_field": 0.025,
+      "line_scatter_dex": 0.1562,
+      "sigma_stat_STANDARD_ERROR": 0.025,
+      "sigma_syst_FLOOR": 0.0555,
+      "gf_rung": "gf rung 3 (gf scale (cited lab)): every one of the 39 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0555 dex (1.35x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it \u2014 larger or smaller (RYA-850)",
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02501 dex at n_lines=39",
       "unmeasured_terms": [
         {
           "name": "3D-NLTE network accuracy",
@@ -88,27 +88,27 @@
       "terms": [
         {
           "name": "line-to-line scatter",
-          "dex": 0.185104085074514,
+          "dex": 0.15619874952456844,
           "averages_down": true,
           "source": "observed spread of the accepted lines"
         },
         {
-          "name": "gf scale (UNGRADED)",
-          "dex": 0.17,
+          "name": "gf scale (cited lab)",
+          "dex": 0.05547001962252292,
           "averages_down": false,
-          "source": "ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not"
+          "source": "RMS of the published per-line laboratory sigma over 39 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound"
         },
         {
           "name": "harness residual",
-          "dex": 0.0129,
+          "dex": 0.0,
           "averages_down": false,
-          "source": "ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
+          "source": "SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
         },
         {
           "name": "3D-NLTE abundance axis",
-          "dex": 0.004046489475341834,
+          "dex": 0.0023300501405761737,
           "averages_down": false,
-          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 15 lines that carry both; RMS 0.00405 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
+          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 14 lines that carry both; RMS 0.00233 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
         },
         {
           "name": "3D-NLTE network accuracy",
@@ -118,27 +118,27 @@
         }
       ],
       "axis_railed_at_grid_ceiling": true,
-      "axis_sensitivity_dex": 0.0021,
+      "axis_sensitivity_dex": 0.00366,
       "sklearn_version_skew": "models written with 1.0.2, loaded with 1.9.0 \u2014 cross-version unpickling. The library warns results may be invalid; the reactivation control is what says whether it is safe."
     },
     {
-      "run_dir": "/private/tmp/claude-501/-Users-ryanschmitt/1c13a3e2-6af7-4458-a204-36043e6c4533/scratchpad/amarsi/d3",
+      "run_dir": "data/results/rya1095/kurucz2005",
       "instrument": "kpno_solar_atlas",
-      "holding_hint": "/home/damienabraxas/g3d_9e651a",
+      "holding_hint": "/home/damienabraxas/g3dv2_k2005",
       "element": "Fe",
       "ion": "I",
       "band": "VIS",
       "treatment": "ENGINE-A-3DNLTE",
-      "handler": "ProfileFitHandler",
-      "A": 7.500146750774547,
+      "handler": "SynthesisHandler",
+      "A": 7.504624319712482,
       "n_lines": 50,
-      "published_sigma_stat_RAW_SCATTER": 0.1832669024824703,
-      "line_scatter_dex": 0.1833,
-      "sigma_stat_STANDARD_ERROR": 0.0259,
-      "sigma_syst_FLOOR": 0.1705,
-      "gf_rung": "gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 8 of 50 Fe I lines are GF-LAB (primary laboratory gf); the rest are systematic:K07/SCALE-MISMATCH x42. A pool is graded only if every line in it is \u2014 inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one",
-      "dominant_term": "gf scale (UNGRADED)",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02592 dex at n_lines=50",
+      "published_statistical_field": 0.0225,
+      "line_scatter_dex": 0.1593,
+      "sigma_stat_STANDARD_ERROR": 0.0225,
+      "sigma_syst_FLOOR": 0.0577,
+      "gf_rung": "gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0577 dex (1.41x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it \u2014 larger or smaller (RYA-850)",
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02253 dex at n_lines=50",
       "unmeasured_terms": [
         {
           "name": "3D-NLTE network accuracy",
@@ -148,27 +148,27 @@
       "terms": [
         {
           "name": "line-to-line scatter",
-          "dex": 0.18326690248247038,
+          "dex": 0.1592766388251619,
           "averages_down": true,
           "source": "observed spread of the accepted lines"
         },
         {
-          "name": "gf scale (UNGRADED)",
-          "dex": 0.17,
+          "name": "gf scale (cited lab)",
+          "dex": 0.0576541412215983,
           "averages_down": false,
-          "source": "ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not"
+          "source": "RMS of the published per-line laboratory sigma over 50 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound"
         },
         {
           "name": "harness residual",
-          "dex": 0.0129,
+          "dex": 0.0,
           "averages_down": false,
-          "source": "ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
+          "source": "SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
         },
         {
           "name": "3D-NLTE abundance axis",
-          "dex": 0.003987571777820671,
+          "dex": 0.0027618180261166966,
           "averages_down": false,
-          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 25 lines that carry both; RMS 0.00399 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
+          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 24 lines that carry both; RMS 0.00276 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
         },
         {
           "name": "3D-NLTE network accuracy",
@@ -178,7 +178,67 @@
         }
       ],
       "axis_railed_at_grid_ceiling": true,
-      "axis_sensitivity_dex": 0.00028,
+      "axis_sensitivity_dex": 0.00224,
+      "sklearn_version_skew": "models written with 1.0.2, loaded with 1.9.0 \u2014 cross-version unpickling. The library warns results may be invalid; the reactivation control is what says whether it is safe."
+    },
+    {
+      "run_dir": "data/results/rya1095/kpmf",
+      "instrument": "kpno_solar_atlas",
+      "holding_hint": "/home/damienabraxas/g3dv2_kpmf",
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "treatment": "ENGINE-A-3DNLTE",
+      "handler": "SynthesisHandler",
+      "A": 7.511563393150336,
+      "n_lines": 50,
+      "published_statistical_field": 0.0222,
+      "line_scatter_dex": 0.1566,
+      "sigma_stat_STANDARD_ERROR": 0.0222,
+      "sigma_syst_FLOOR": 0.0577,
+      "gf_rung": "gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0577 dex (1.41x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it \u2014 larger or smaller (RYA-850)",
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02215 dex at n_lines=50",
+      "unmeasured_terms": [
+        {
+          "name": "3D-NLTE network accuracy",
+          "source": "vendor/1L-3NErrors/README.md: the authors state they \"cannot supply errors as such\" for the network's own abundance corrections. Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) publish no per-line accuracy we can read off, and nothing we hold measures the MLP against the 3D non-LTE calculations it was trained on -- so this term is UNMEASURED, not zero (RYA-907)."
+        }
+      ],
+      "terms": [
+        {
+          "name": "line-to-line scatter",
+          "dex": 0.15662464646116983,
+          "averages_down": true,
+          "source": "observed spread of the accepted lines"
+        },
+        {
+          "name": "gf scale (cited lab)",
+          "dex": 0.0576541412215983,
+          "averages_down": false,
+          "source": "RMS of the published per-line laboratory sigma over 50 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound"
+        },
+        {
+          "name": "harness residual",
+          "dex": 0.0,
+          "averages_down": false,
+          "source": "SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)"
+        },
+        {
+          "name": "3D-NLTE abundance axis",
+          "dex": 0.002706624400667985,
+          "averages_down": false,
+          "source": "paired |aberr(pinned axis) - aberr(per-line axis)| over the 22 lines that carry both; RMS 0.00271 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away."
+        },
+        {
+          "name": "3D-NLTE network accuracy",
+          "dex": null,
+          "averages_down": false,
+          "source": "vendor/1L-3NErrors/README.md: the authors state they \"cannot supply errors as such\" for the network's own abundance corrections. Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) publish no per-line accuracy we can read off, and nothing we hold measures the MLP against the 3D non-LTE calculations it was trained on -- so this term is UNMEASURED, not zero (RYA-907)."
+        }
+      ],
+      "axis_railed_at_grid_ceiling": true,
+      "axis_sensitivity_dex": 0.00224,
       "sklearn_version_skew": "models written with 1.0.2, loaded with 1.9.0 \u2014 cross-version unpickling. The library warns results may be invalid; the reactivation control is what says whether it is safe."
     }
   ]
