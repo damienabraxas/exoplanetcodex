@@ -388,6 +388,12 @@ class SynthesisHandler(MeasurementHandler):
             # `.get`, so every existing caller reaches the fit unchanged.
                 nlte_deck_key=context.get("nlte_deck_key"),
                 atmosphere_layers_file=context.get("atmosphere_layers_file"),
+            # 🔴 RYA-1050 RESIDUAL. `measure_line` has taken `ion` all along and dropped
+            # it here, so the NLTE guard one layer down could only ask the element-global
+            # question. This handler is reached with ion="II" from outside the driver
+            # (scripts/rya783_nlte_engagement_probe.py), where no other stage-aware check
+            # runs -- so the stage has to travel with the fit, not be re-derived.
+                ion=ion,
                 tmp_dir=self._tmp_dir)
             # RYA-847 — carry what the fitter measured about whether A(X) was pinned.
             # Placed immediately after the fit and BEFORE any gate, so a rejected line
