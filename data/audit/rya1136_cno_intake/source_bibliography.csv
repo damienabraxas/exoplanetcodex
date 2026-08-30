@@ -1,0 +1,12 @@
+source_id,citation,doi,role,asset,sha256,status
+AGSS21,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141",10.1051/0004-6361/202140445,adopted Solar CNO lineage,article,,SOURCE_IDENTIFIED
+Amarsi2021_Table2,"Amarsi et al. 2021, A&A 656 A113",10.1051/0004-6361/202141384,408 used molecular transitions,data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv,ef6dea9876cc36861a5cef8ad075858f1041887d79b2bc7d1a8a2f536eb05026,ACQUIRED
+Amarsi2019_Table1,"Amarsi, Nissen & Skuladottir 2019, A&A 630 A104",10.1051/0004-6361/201936179,C I/O I atomic model-grid line parameters,data/nlte_grids/amarsi2019_cno/table1.dat,f317e31ab72fb2c3be8a58dda44654910ccb7768aa9bafaa573da58dace48574,ACQUIRED
+Amarsi2020_N,"Amarsi et al. 2020, A&A 642 A62",10.1051/0004-6361/202038650,N I model atom and departure grid,data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json,42c4b03dcf5de616ed4c123e840bd11470caeb40f08165490c6c726b10b2504d,ACQUIRED_PARTIAL_LINEAGE
+Brooke2013_C2,"Brooke et al. 2013, JQSRT 124, 11",10.1016/j.jqsrt.2013.02.025,"C2 wavelengths, energies, transition probabilities",primary paper identified by Amarsi2021 Sect. 2.1,,SOURCE_IDENTIFIED
+Brooke2014_CN,"Brooke et al. 2014, ApJS 210, 23",10.1088/0067-0049/210/2/23,"CN wavelengths, energies, transition probabilities",primary paper identified by Amarsi2021 Sect. 2.1,,SOURCE_IDENTIFIED
+Brooke2015_NH,"Brooke et al. 2015, J. Chem. Phys. 143, 026101",10.1063/1.4923422,"NH wavelengths, energies, transition probabilities",primary paper identified by Amarsi2021 Sect. 2.1,,SOURCE_IDENTIFIED
+Brooke2016_OH,"Brooke et al. 2016, JQSRT 168, 142",10.1016/j.jqsrt.2015.07.021,"OH wavelengths, energies, transition probabilities",primary paper identified by Amarsi2021 Sect. 2.1,,SOURCE_IDENTIFIED
+Masseron2014_CH,"Masseron et al. 2014, A&A 571 A47",10.1051/0004-6361/201423956,"CH wavelengths, energies, transition probabilities",primary paper identified by Amarsi2021 Sect. 2.1,,SOURCE_IDENTIFIED
+Li2015_CO,"Li et al. 2015, ApJS 216, 15",10.1088/0067-0049/216/1/15,"12C16O wavelengths, energies, transition probabilities",data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat,7fd53a540693be2c5b9b63148095aab8b63d0f31e8a202246c8af26618aab56a,ACQUIRED
+BarklemCollet2016,"Barklem & Collet 2016, A&A 588 A96",10.1051/0004-6361/201526961,molecular partition functions and equilibrium constants,primary source identified by Amarsi2021 Sect. 2.3,,SOURCE_IDENTIFIED

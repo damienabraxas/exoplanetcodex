@@ -1,0 +1,23 @@
+{
+  "schema": "codex.cno_intake_summary/1",
+  "ticket": "RYA-1136",
+  "molecular_used_rows": 408,
+  "species_counts": {
+    "C2": 39,
+    "CH": 54,
+    "12C16O": 80,
+    "NH": 31,
+    "CN": 59,
+    "OH": 145
+  },
+  "band_counts": {
+    "VIS": 45,
+    "IR": 241,
+    "NIR": 122
+  },
+  "canonical_matched": 0,
+  "crossmatch_review": 408,
+  "frozen_ready": false,
+  "verdict": "CROSSMATCH_REVIEW",
+  "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity"
+}
