@@ -36,6 +36,20 @@ def test_burheim_and_hfs_guards_are_explicit(tmp_path):
 def test_gate_fails_closed(tmp_path):
     build(tmp_path)
     v=json.loads((tmp_path / "intake_verdict.json").read_text())
-    assert v["UV"] == "BLOCKED_ATOMIC_DATA"
+    assert v["UV"] == "CROSSMATCH_REVIEW"
     assert v["IR"] == "BLOCKED_PIPELINE_COVERAGE"
     assert v["measurement_unblocked"] is False
+
+
+def test_web_followup_is_conservative(tmp_path):
+    build(tmp_path)
+    d = pd.read_csv(tmp_path / "web_source_followup.csv")
+    assert {"Vujnovic et al. 2002", "Johnson, Smith & Parkinson 1986"} <= set(d.source)
+    assert not d.disposition.str.contains("PROMOTE_NOW").any()
+    assert d[(d.wavelength_A - 1670.78861).abs() < .001].iloc[0].disposition == "WAVELENGTH_ONLY_NOT_GF_LAB"
+    assert d.evidence_class.eq("NEGATIVE_RESULT").any()
+    bib = pd.read_csv(tmp_path / "source_bibliography.csv")
+    actionable = bib[bib.source_id.isin(["Vujnovic2002", "Trabert1999", "Johnson1986"])]
+    assert len(actionable) == 3
+    assert actionable.article_url.str.startswith("https://").all()
+    assert bib.loc[bib.source_id.eq("Vujnovic2002"), "download_url"].str.endswith(".pdf").all()

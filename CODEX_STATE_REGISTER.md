@@ -16,7 +16,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v129** · _Last updated: 2026-08-30 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v130** · _Last updated: 2026-08-30 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -277,12 +277,14 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 | component | verdict | value | established by | status | reopen-only-if |
 |---|---|---|---|---|---|
-| Al UV intake | blocked | `BLOCKED_ATOMIC_DATA`; no primary-lab gf in the current UV Al inventory and no FUV/NUV measurement policy | RYA-1132; `data/audit/rya1132_al_intake/` | OPEN | a physically crossmatched primary-lab/evaluated UV source is ingested |
+| Al UV intake | source found, crossmatch owed | `CROSSMATCH_REVIEW`; Vujnovic-2002 laboratory tables and Johnson-1986 Al II 2669 found; no FUV/NUV measurement policy | RYA-1132; `web_source_followup.csv` | OPEN | the source tables are physically crossmatched, normalized, and ingested |
 | Al VIS intake | frozen with fallbacks | `FROZEN_WITH_DOCUMENTED_FALLBACKS`; Burheim identities separated from fallback lines | RYA-1132; `al_line_manifest.csv` | SETTLED-WITH-CAVEAT | the canonical/source tables or physical transition identities change |
 | Al IR intake | blocked | `BLOCKED_PIPELINE_COVERAGE`; atomic evidence inventoried, telluric and red-edge context gates remain | RYA-1132; RYA-1003; RYA-1004 | OPEN | RYA-1003 and RYA-1004 land and the manifest is regenerated |
 | Al measurement gate | closed | no new Solar Al abundance run authorised | RYA-1132 `intake_verdict.json` | OPEN | every adopted measurement line has resolved identity/provenance and its band gate passes |
 
 ## Changelog
+
+- **v130** (2026-08-30) — **RYA-1132 WEB FOLLOW-UP — UV IS NO LONGER A NO-SOURCE WALL; IT IS A CROSSMATCH JOB.** Vujnovic et al. 2002 supplies machine-readable Al I/Al II laboratory branching/intensity measurements and absolute transition probabilities, overlapping manifest lines at 2652/2660 and 3082/3092 A; Johnson et al. 1986 directly measures Al II 2669.157 A. NIST-2008 adds evaluated reference values but remains outside the active primary-lab Codex/Deep grade. Al II 1670 gets a laboratory wavelength, not a laboratory gf. UV moves `BLOCKED_ATOMIC_DATA` -> `CROSSMATCH_REVIEW`; measurement stays closed. No new independent IR source was found beyond sources already carried through Burheim/NIST, so IR remains `BLOCKED_PIPELINE_COVERAGE`.
 
 - **v129** (2026-08-30) — **RYA-1132 — AL INTAKE IS INVENTORIED BUT THE MEASUREMENT GATE STAYS CLOSED.** The frozen asset preserves **505 Al I/II physical candidates/source controls** across UV/VIS/IR and overlays canonical, Burheim, NIST, IGRINS, and CRIRES+ evidence without changing a gf or deriving an abundance. VIS is `FROZEN_WITH_DOCUMENTED_FALLBACKS`; UV is `BLOCKED_ATOMIC_DATA`; IR is `BLOCKED_PIPELINE_COVERAGE` on RYA-1003/1004. The 6696.015/6696.185 identities remain separate, the 11254.9 strong-component/blend-total caveat is explicit, and wavelength-only empirical matches remain HOLD.
 

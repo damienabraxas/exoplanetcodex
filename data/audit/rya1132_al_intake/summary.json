@@ -27,13 +27,13 @@
   "abundances_generated": false,
   "canonical_gf_mutated": false,
   "verdicts": {
-    "UV": "BLOCKED_ATOMIC_DATA",
+    "UV": "CROSSMATCH_REVIEW",
     "VIS": "FROZEN_WITH_DOCUMENTED_FALLBACKS",
     "IR": "BLOCKED_PIPELINE_COVERAGE",
     "overall": "BLOCKED_PIPELINE_COVERAGE",
     "measurement_unblocked": false,
     "reasons": {
-      "UV": "No primary-lab Al I/II gf in the canonical UV inventory; FUV/NUV also lack a declared band policy.",
+      "UV": "Web follow-up found Vujnovic 2002 laboratory transition probabilities and the direct Johnson 1986 Al II 2669 measurement; tables require physical crossmatch, uncertainty normalization, and ingestion. FUV/NUV still lack a declared band policy.",
       "VIS": "Physical identities and adopted sources are explicit; primary-lab Burheim lines remain distinct from fallbacks.",
       "IR": "RYA-1003 telluric verification and RYA-1004 red-edge/context coverage remain open; wavelength-only empirical candidates stay HOLD."
     }
