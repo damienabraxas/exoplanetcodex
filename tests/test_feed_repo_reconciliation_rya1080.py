@@ -160,7 +160,19 @@ _RECONCILE_KEYS = {"copied_to", "sha256", "reingested_by", "reingest_reason"}
 
 #: RYA-1084 re-ingested ten products after clearing their writer, and exactly ONE published
 #: field legitimately moved with them. Named, not tolerated as a class.
-SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
+SANCTIONED = {
+    ("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218),
+    #: 🔴 RYA-908 — the near-UV Fe II systematic floor, raised 0.1095 -> 0.130 dex.
+    #: This is a BAR being made honest, not a value being reconciled: A(Fe) does not move
+    #: on any of the four records, and the guard is right to have stopped it. RYA-1133
+    #: measured the two Kitt Peak holdings disagreeing by 0.260 dex on the SAME 12 lines,
+    #: so the half-spread 0.130 EXCEEDS the 0.10 band-flat pseudo-continuum term the run
+    #: charged -- the published budget was smaller than a disagreement already on the
+    #: table. Sanctioned by Ryan on RYA-908 ("Bar -> honest 0.130 floor, not the false
+    #: 0.1095"), and scoped by `test_the_rya908_sanction_covers_exactly_what_it_says`
+    #: below, because this dict's key drops instrument and treatment.
+    ("Fe", "II", "near-UV", "sigma_syst"): (0.1095, 0.13),
+}
 
 #: 🔴 RYA-1100 — `display` IS NOT A PUBLISHED VALUE, AND THIS GUARD NO LONGER PINS IT.
 #: This check's own docstring scopes it to "was a published NUMBER edited?" -- reconcile
@@ -227,6 +239,59 @@ def test_no_published_value_was_edited_to_reconcile():
     unexpected = {k: v for k, v in edits.items() if SANCTIONED.get(k) != v}
     assert not unexpected, (
         f"a published value changed outside RYA-1084's re-ingest: {unexpected}")
+
+
+def test_the_rya908_sanction_covers_exactly_what_it_says():
+    """⚠️ A SANCTION IS AS WIDE AS ITS KEY, AND THIS DICT'S KEY IS LOSSY.
+
+    `published_value_edits` reports on (element, ion, band, field) but INDEXES on a key
+    that also carries instrument, tier, treatment and path. So one entry above silently
+    forgives every near-UV Fe II `sigma_syst` edit, not the four RYA-908 actually made,
+    and a later unrelated edit to a fifth record would land underneath it unreported.
+
+    This pins the sanction to its real extent, from the feed rather than from the lossy
+    report: exactly four records moved, all of them Fe II near-UV, all 0.1095 -> 0.130,
+    and no OTHER field moved anywhere in the feed. Break any of those and this fails even
+    though the sanctioned entry still matches.
+    """
+    before, after = _index(_baseline_doc()), _index(json.loads(FEED.read_text()))
+    moved, others = [], {}
+    for key, b in before.items():
+        a = after.get(key)
+        if a is None:
+            continue
+        for fk, bv in b.items():
+            if fk == "_prov" or fk in DERIVED_FIELDS or fk not in a or a[fk] == bv:
+                continue
+            if fk == "sigma_syst":
+                moved.append((key, bv, a[fk]))
+            elif SANCTIONED.get((key[0], key[1], key[2], fk)) != (bv, a[fk]):
+                others[key + (fk,)] = (bv, a[fk])
+
+    assert not others, f"a field outside the sanctions moved: {others}"
+    assert len(moved) == 4, f"expected exactly 4 sigma_syst moves, got {len(moved)}: {moved}"
+    for key, bv, av in moved:
+        assert (key[0], key[1], key[2]) == ("Fe", "II", "near-UV"), f"outside scope: {key}"
+        assert (bv, av) == (0.1095, 0.13), f"not the sanctioned floor: {key} {bv}->{av}"
+    assert len({k[5] for k, _, _ in moved}) == 2, "expected both treatments"
+    assert len({k[4] for k, _, _ in moved}) == 1, "expected a single tier (DEEPGRADED)"
+
+
+def test_control_the_rya908_sanction_scope_check_can_actually_fail():
+    """The non-vacuity control for the test above: give it a fifth, unsanctioned move and
+    it must object. Without this, a scope check that silently stopped looking would read
+    exactly like a scope check that found nothing wrong."""
+    live = json.loads(FEED.read_text())
+    victim = next(p for p in live["products"]
+                  if not (p["element"] == "Fe" and p["ion"] == "II"
+                          and p["band"] == "near-UV"))
+    victim["sigma_syst"] = float(victim.get("sigma_syst") or 0.0) + 0.05
+    before, after = _index(_baseline_doc()), _index(live)
+    extra = [k for k, b in before.items()
+             if after.get(k) is not None
+             and b.get("sigma_syst") != after[k].get("sigma_syst")
+             and (k[0], k[1], k[2]) != ("Fe", "II", "near-UV")]
+    assert extra, "the scope check cannot see an out-of-scope sigma_syst edit at all"
 
 
 def test_control_the_baseline_actually_differs_from_today():
