@@ -5289,3 +5289,10 @@ artifacts:
     invocation: python3 scripts/rya1127_key_migration_audit.py --check
     note: >-
       RYA-1127 migration audit for adding `line_set` to the product identity key. Computes every product's key BOTH ways over all four pools and compares the PARTITIONS, because the failure mode of a key change is a wrong SPLIT or MERGE, not a wrong number -- no abundance moves in that ticket. Result on the committed feed: 104 records, 95 old keys -> 95 new keys, partition UNCHANGED, so nothing already published was re-identified. Also stages the RYA-1106 case (not a publish): the four Asplund-replication products collided with the our-graded Amarsi products under the old key and are distinct under the new one. --check exits non-zero on any merge, any split whose members share a line_set, or any record whose line_set cannot be resolved.
+  - artifact: rya1130/molecular_migration_audit.json
+    generator: scripts/migrate_molecular_transitions_rya1130.py
+    ticket: RYA-1130
+    invocation: >-
+      python3 scripts/migrate_molecular_transitions_rya1130.py --report data/results/rya1130/molecular_migration_audit.json
+    note: >-
+      Transition-level provenance audit for every vendored CH, C2, CN, NH, OH, CO, and held rovibrational molecular row. The generator deliberately exits 2 while typed source provenance is incomplete; it still writes this deterministic review artifact before exiting. `frozen_ready=false` is therefore the expected current scientific verdict, not a failed reproduction. No abundance is derived and no oscillator strength is tuned.
