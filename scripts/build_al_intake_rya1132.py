@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
+import re
 
 import numpy as np
 import pandas as pd
@@ -21,18 +23,27 @@ CANONICAL = ROOT / "data/linelists/canonical_gf.csv"
 BURHEIM = ROOT / "data/reference/al_gf_lab/al1_lab_loggf.csv"
 IGRINS = ROOT / "data/literature/igrins_nandakumar_2024/igrins_al_completeness_audit.csv"
 CHIAPPINO = ROOT / "data/audit/rya1059_chiappino/al_completeness_delta.csv"
+VUJ_RAW = ROOT / "data/reference/vujnovic2002_al/raw"
+
+# Manual physical adjudication after reading Vujnovic Table 2.  These are finite
+# A-values with stated uncertainties and unique fine-structure identities.  Limits,
+# ratio-only rows, 3092.839 (no independent uncertainty), and the two lines for which
+# Burheim 2023 is the stronger source are deliberately absent.
+VUJ_PROMOTE_A = {2652.484, 2660.393, 3082.153, 3092.710, 3944.006, 3961.520}
 
 WEB_FOLLOWUP = [
     # species, wavelength, source, DOI, evidence, uncertainty, disposition, note
-    ("Al I", 2652.484, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
-    ("Al I", 2660.393, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 11%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
-    ("Al I", 3082.153, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured branching/intensity ratio; absolute Aki from lifetime."),
-    ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "PHYSICAL_CROSSMATCH_REQUIRED", "The 3092.710/3092.839 pair must be level-resolved, never proximity-selected."),
+    ("Al I", 3944.006, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 10%", "INGESTED_GF_LAB", "Finite Aki and unique fine-structure identity."),
+    ("Al I", 3961.520, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 6%", "INGESTED_GF_LAB", "Finite Aki and unique fine-structure identity."),
+    ("Al I", 2652.484, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "INGESTED_GF_LAB", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 2660.393, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 11%", "INGESTED_GF_LAB", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 3082.153, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "INGESTED_GF_LAB", "Measured branching/intensity ratio; absolute Aki from lifetime."),
+    ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "INGESTED_GF_LAB", "Level-resolved separately from 3092.839."),
     ("Al I", 3092.839, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki not independently stated", "PHYSICAL_CROSSMATCH_REQUIRED", "Intensity-ratio component; do not inherit the 3092.710 uncertainty."),
-    ("Al II", 2669.157, "Johnson, Smith & Parkinson 1986", "10.1086/164569", "PRIMARY_LAB", "Aki=(3.33+/-0.23)e3 s-1 at 90% confidence", "PHYSICAL_CROSSMATCH_REQUIRED", "Direct time-resolved ion-storage lifetime measurement; one decay channel."),
+    ("Al II", 2669.157, "Johnson, Smith & Parkinson 1986", "10.1086/164569", "PRIMARY_LAB", "Aki=(3.33+/-0.23)e3 s-1 at 90% confidence", "INGESTED_GF_LAB", "Direct time-resolved ion-storage lifetime measurement; one decay channel."),
     ("Al II", 1670.78861, "Murphy & Berengut 2014 / Griesmann & Kling 2000", "10.1093/mnras/stt2120", "MIXED", "wavelength 20 m/s; f=theory", "WAVELENGTH_ONLY_NOT_GF_LAB", "Excellent laboratory wavelength, but quoted oscillator strength is theoretical."),
     ("Al I;Al II", np.nan, "Kelleher & Podobedova 2008 NIST critical compilation", "10.1063/1.2734564", "CRITICALLY_EVALUATED", "per-line accuracy grade", "INGEST_EVALUATED_TIER_SEPARATELY", "Reference values only; evaluated is not Codex/Deep primary-lab grade under RYA-946."),
-    ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020560", "SOURCE_TABLE", "29 Al I + 31 Al II absolute-probability rows", "ACQUIRE_AND_NORMALIZE", "Machine-readable tables 2-5; preserve limits and lifetime provenance."),
+    ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020560", "SOURCE_TABLE", "106 rows across tables 2-5", "ACQUIRED_AND_NORMALIZED", "Raw fixed-width tables preserved; limits and lifetime provenance retained."),
     ("Al I", np.nan, "IR literature follow-up", "", "NEGATIVE_RESULT", "", "NO_NEW_GRADING_SOURCE", "Buurman 1986, Davidson 1990, and Buurman & Donszelmann 1990 are already represented through Burheim/NIST; no new source found for held 11254.9, 7835/7836, 8772/8773, or 21208 A."),
 ]
 
@@ -71,6 +82,115 @@ def nearest(frame: pd.DataFrame, w: float, ep: float, wcol: str, epcol: str | No
     c = frame[ok]
     if len(c) != 1: return None
     return c.iloc[0]
+
+
+def _number(raw: str) -> float:
+    return np.nan if not raw.strip() else float(raw.strip())
+
+
+def _upper_j(level: str) -> float:
+    matches = re.findall(r"_(\d+)(?:/(\d+))?_", level)
+    if not matches:
+        return np.nan
+    n, d = matches[-1]
+    return float(n) / float(d or 1)
+
+
+def load_vujnovic() -> pd.DataFrame:
+    """Parse all four CDS J/A+A/388/704 fixed-width source tables."""
+    rows: list[dict] = []
+    specs = {
+        "table2.dat": ("Al I", 2), "table3.dat": ("Al I", 3),
+        "table4.dat": ("Al II", 4), "table5.dat": ("Al II", 5),
+    }
+    for filename, (species, table) in specs.items():
+        for source_row, line in enumerate((VUJ_RAW / filename).read_text().splitlines(), 1):
+            if not line.strip():
+                continue
+            if table == 2:
+                upper, lower, wave = line[0:20].strip(), line[21:36].strip(), _number(line[37:46])
+                intensity, intensity_unc = _number(line[48:52]), _number(line[53:55])
+                branching, branching_unc = _number(line[61:66]), _number(line[66:68])
+                aki_limit, aki, aki_unc = line[69:70].strip(), _number(line[70:75]), _number(line[77:79])
+            elif table in (3, 4):
+                upper, lower, wave = line[0:19].strip(), line[20:35].strip(), _number(line[36:44])
+                intensity, intensity_unc = _number(line[45:49]), _number(line[50:52])
+                branching = branching_unc = aki = aki_unc = np.nan
+                aki_limit = ""
+            else:
+                upper, lower, wave = line[0:13].strip(), line[14:27].strip(), _number(line[28:36])
+                intensity = intensity_unc = np.nan
+                branching, branching_unc = _number(line[38:42]), _number(line[43:46])
+                aki_limit, aki, aki_unc = line[47:48].strip(), _number(line[48:55]), _number(line[58:60])
+            j_upper = _upper_j(upper)
+            finite_aki = np.isfinite(aki) and not aki_limit
+            loggf = (math.log10(1.49919e-16 * (2*j_upper + 1) * wave**2 * aki * 1e8)
+                     if finite_aki and np.isfinite(j_upper) else np.nan)
+            sigma = math.log10(1 + aki_unc/100) if finite_aki and np.isfinite(aki_unc) else np.nan
+            rows.append({"source_row_id":f"vuj2002_t{table}_{source_row:03d}", "table":table,
+                "species":species, "upper_level":upper, "lower_level":lower,
+                "wavelength_A":wave, "intensity_ratio":intensity,
+                "intensity_unc_pct":intensity_unc, "branching_ratio":branching,
+                "branching_unc_pct":branching_unc, "aki_limit":aki_limit,
+                "aki_1e8_s-1":aki, "aki_unc_pct":aki_unc, "upper_J":j_upper,
+                "derived_loggf":loggf, "derived_sigma_dex":sigma,
+                "doi":"10.1051/0004-6361:20020560"})
+    return pd.DataFrame(rows)
+
+
+def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
+    """Overlay only physically adjudicated finite laboratory measurements."""
+    vuj = load_vujnovic()
+    cross_rows = []
+    for _, src in vuj.iterrows():
+        candidates = m[m.species.eq(src.species)].copy()
+        candidates["delta_A"] = (candidates.wavelength_air - src.wavelength_A).abs()
+        near = candidates[candidates.delta_A <= .08].sort_values("delta_A")
+        matched = len(near) == 1
+        target = near.iloc[0] if matched else None
+        promotable = (matched and src.species == "Al I" and
+                      any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A) and
+                      np.isfinite(src.derived_loggf) and np.isfinite(src.derived_sigma_dex))
+        disposition = "GF_LAB_PROMOTED" if promotable else (
+            "MATCHED_NOT_PROMOTED" if matched else "NO_UNIQUE_MANIFEST_MATCH")
+        cross_rows.append({**src.to_dict(), "canonical_line_id":
+            (target.canonical_line_id if matched else ""), "wavelength_delta_A":
+            (target.delta_A if matched else np.nan), "disposition":disposition})
+        if not promotable:
+            continue
+        idx = target.name
+        m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
+                    "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                    "intake_status","source_ticket"]] = [
+            src.derived_loggf, "EXP-VUJNOVIC2002", "PRIMARY_LABORATORY", "GF-LAB",
+            src.derived_sigma_dex, src.doi,
+            f"{src.lower_level} - {src.upper_level}", "FROZEN",
+            "RYA-1132;RYA-1001;Vujnovic2002"]
+        m.loc[idx, "notes"] = ("Vujnovic 2002 finite laboratory Aki ingested; loggf "
+            "derived reproducibly from wavelength, upper J, and Aki. No abundance adoption.")
+
+    # Johnson et al. 1986: direct one-channel Al II 2669.157 measurement.
+    q = m[m.species.eq("Al II")].copy()
+    q["delta_A"] = (q.wavelength_air - 2669.157).abs()
+    q = q[q.delta_A <= .08]
+    if len(q) != 1:
+        raise AssertionError("Al II 2669.157 must have one physical manifest match")
+    idx = q.index[0]
+    johnson_loggf = math.log10(1.49919e-16 * 3 * 2669.157**2 * 3.33e3)
+    johnson_sigma = math.log10(1 + .23/3.33)  # published 90%-confidence bound, conservative
+    m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
+                "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                "intake_status","source_ticket"]] = [
+        johnson_loggf, "EXP-JOHNSON1986", "PRIMARY_LABORATORY", "GF-LAB",
+        johnson_sigma, "10.1086/164569", "3s2 1S0 - 3s3p 3P1o", "FROZEN",
+        "RYA-1132;RYA-1001;Johnson1986"]
+    m.loc[idx, "notes"] = ("Johnson 1986 direct ion-storage Aki ingested; uncertainty "
+        "stored conservatively as the published 90%-confidence logarithmic bound. "
+        "Träbert 1999/NIST remains the higher-precision comparison.")
+
+    vuj.to_csv(out / "vujnovic2002_normalized.csv", index=False)
+    pd.DataFrame(cross_rows).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
+    return m
 
 
 def build(out: Path = OUT) -> dict:
@@ -184,6 +304,7 @@ def build(out: Path = OUT) -> dict:
     m = pd.DataFrame(rows).sort_values(["wavelength_air", "species"]).reset_index(drop=True)
     if m.canonical_line_id.duplicated().any():
         raise AssertionError("manifest IDs must be unique")
+    m = ingest_new_lab_sources(m, out)
     m.to_csv(out / "al_line_manifest.csv", index=False)
 
     grade = m.groupby(["band","gf_source_type"]).size().unstack(fill_value=0).reset_index()
@@ -222,11 +343,11 @@ def build(out: Path = OUT) -> dict:
     follow.to_csv(out / "web_source_followup.csv", index=False)
 
     verdicts = {
-        "UV":"CROSSMATCH_REVIEW", "VIS":"FROZEN_WITH_DOCUMENTED_FALLBACKS",
+        "UV":"PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED", "VIS":"FROZEN_WITH_DOCUMENTED_FALLBACKS",
         "IR":"BLOCKED_PIPELINE_COVERAGE", "overall":"BLOCKED_PIPELINE_COVERAGE",
         "measurement_unblocked":False,
         "reasons":{
-            "UV":"Web follow-up found Vujnovic 2002 laboratory transition probabilities and the direct Johnson 1986 Al II 2669 measurement; tables require physical crossmatch, uncertainty normalization, and ingestion. FUV/NUV still lack a declared band policy.",
+            "UV":"Six finite uncertainty-bearing Vujnovic Al I transitions and the direct Johnson Al II 2669 measurement are physically crossmatched and ingested as GF-LAB. Limits, ratio-only rows, and 3092.839 without an independent uncertainty remain non-promoted. FUV/NUV still lack a declared measurement policy.",
             "VIS":"Physical identities and adopted sources are explicit; primary-lab Burheim lines remain distinct from fallbacks.",
             "IR":"RYA-1003 telluric verification and RYA-1004 red-edge/context coverage remain open; wavelength-only empirical candidates stay HOLD.",
         }}
@@ -247,10 +368,11 @@ or Solar abundance was changed.
 
 ## Verdict
 
-- UV: `CROSSMATCH_REVIEW` - Vujnovic et al. 2002 and Johnson et al. 1986 provide
-  missed laboratory evidence for several manifest lines. Their tables still need
-  level-resolved crossmatching and uncertainty normalization; FUV/NUV also lack
-  a declared measurement policy.
+- UV: `PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED` - all 106 Vujnovic CDS rows are
+  preserved and normalized. Six finite, uncertainty-bearing Al I transitions plus
+  Johnson et al. 1986 Al II 2669 are physically crossmatched and ingested as GF-LAB.
+  Limits, ratio-only rows, and 3092.839 without an independent uncertainty remain
+  non-promoted; FUV/NUV still lack a declared measurement policy.
 - VIS: `FROZEN_WITH_DOCUMENTED_FALLBACKS` - physical identities and evidence
   ceilings are explicit; Burheim laboratory lines are not blurred with fallback gf.
 - IR: `BLOCKED_PIPELINE_COVERAGE` - RYA-1003 telluric verification and RYA-1004
@@ -262,6 +384,10 @@ The 6696.015 Burheim transition remains physically distinct from 6696.185. The
 `log gf=+0.327` from the observed blended-feature total near `+0.354`. IGRINS and
 CRIRES+ wavelength-only evidence remains HOLD unless wavelength plus EP/levels
 establish a unique physical transition.
+
+The ingestion changes seven manifest rows from fallback to GF-LAB without mutating
+`canonical_gf` or deriving an abundance. `vujnovic2002_normalized.csv` and
+`vujnovic2002_crossmatch.csv` retain the complete source accounting.
 
 The web follow-up found no new independent IR source beyond the older Buurman,
 Davidson, and Buurman-Donszelmann measurements already propagated through
@@ -286,10 +412,10 @@ or the 21208 A IGRINS candidate. See `web_source_followup.csv`.
             f"FALLBACK={int((m.gf_source_type=='FALLBACK').sum())}")
         ledger.loc[mask, "canonical_gf_status"] = f"{len(m)} Al I/II physical candidates frozen in RYA-1132 manifest"
         ledger.loc[mask, "HFS_status"] = "COMPONENT SUMS PRESERVED; 11254.9 COMPONENT/BLEND CONFLICT EXPLICIT"
-        ledger.loc[mask, "band_coverage_status"] = "UV CROSSMATCH_REVIEW; VIS FROZEN_WITH_DOCUMENTED_FALLBACKS; IR BLOCKED_PIPELINE_COVERAGE"
+        ledger.loc[mask, "band_coverage_status"] = "UV PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED; VIS FROZEN_WITH_DOCUMENTED_FALLBACKS; IR BLOCKED_PIPELINE_COVERAGE"
         ledger.loc[mask, "source_ticket"] = "RYA-1132"
         ledger.loc[mask, "last_verified"] = "2026-08-30"
-        ledger.loc[mask, "notes"] = "Web follow-up found UV laboratory candidates (Vujnovic 2002; Johnson 1986); physical crossmatch/ingest owed. No new IR source found. No abundance generated."
+        ledger.loc[mask, "notes"] = "Vujnovic CDS tables normalized; six Al I lines plus Johnson Al II 2669 ingested GF-LAB. Limits/ratio-only rows remain held. No new IR source or abundance."
         ledger.to_csv(ledger_path, index=False)
     return summary
 
