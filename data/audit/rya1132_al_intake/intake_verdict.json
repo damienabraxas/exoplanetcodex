@@ -1,0 +1,12 @@
+{
+  "UV": "BLOCKED_ATOMIC_DATA",
+  "VIS": "FROZEN_WITH_DOCUMENTED_FALLBACKS",
+  "IR": "BLOCKED_PIPELINE_COVERAGE",
+  "overall": "BLOCKED_PIPELINE_COVERAGE",
+  "measurement_unblocked": false,
+  "reasons": {
+    "UV": "No primary-lab Al I/II gf in the canonical UV inventory; FUV/NUV also lack a declared band policy.",
+    "VIS": "Physical identities and adopted sources are explicit; primary-lab Burheim lines remain distinct from fallbacks.",
+    "IR": "RYA-1003 telluric verification and RYA-1004 red-edge/context coverage remain open; wavelength-only empirical candidates stay HOLD."
+  }
+}
