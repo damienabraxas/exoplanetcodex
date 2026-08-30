@@ -1,0 +1,175 @@
+J/A+A/388/704   Al I & Al II absolute transition probabilities (Vujnovic+, 2002)
+================================================================================
+Absolute transition probabilities of Al I and Al II spectral lines and
+intensity ratios within multiplets.
+    Vujnovic V., Blagoev K., Fuerboeck C., Neger T., Jaeger H.
+   <Astron. Astrophys. 388, 704 (2002)>
+   =2002A&A...388..704V
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data - lines: formation - methods: laboratory
+
+Abstract:
+    Relative intensity measurements of Al I and Al II spectral lines in
+    the visible and ultraviolet spectral ranges are performed using a
+    capacitively coupled high frequency double hollow electrode discharge.
+    Branching ratios and intensity ratios within multiplets are
+    determined. By using selected lifetimes absolute transition
+    probabilities are calculated.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName    Lrecl  Records  Explanations
+--------------------------------------------------------------------------------
+ReadMe          80        .  This file
+table2.dat     109       29  Al I-intensity ratios within multiplets, and
+                              transition probabilities for the simple part of
+                              the Grotrian diagram
+table3.dat      58       22  Al I-intensity ratios within multiplets for the
+                              complex part of the Grotrian diagram.
+table4.dat      58       24  Al II-intensity ratios within multiplets
+table5.dat      68       31  Al II-branching ratios and transition probabilities
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label   Explanations
+--------------------------------------------------------------------------------
+   1- 20  A20   ---       ULevel  Upper level (1)
+  22- 36  A15   ---       LLevel  Lover level
+  38- 46  F9.3  0.1nm     Lambda  Wavelength
+      48  A1    ---     l_IntR    [~] Limit flag on IntR
+  49- 52  F4.2  ---       IntR    ? Measured intensity ratio
+  54- 55  I2    %       e_IntR    ? Uncertainty percentage on intensity ratio
+  57- 60  F4.2  ---       LS      LS intensity ratio
+  62- 66  F5.3  ---       BranR   ? Measured branching ratio
+  67- 68  I2    %       e_BranR   ? Uncertainty percentage on branching ratio
+      70  A1    ---     l_Aki     Limit flag on Aki
+  71- 75  F5.3  10+8s-1   Aki     This work transition probability
+      76  A1    ---     n_Aki     [)] Uncertainty flag on Aki
+      77  A1    ---   l_e_Aki     Limit flag on e_Aki
+  78- 79  I2    %       e_Aki     ? Uncertainty percentage on transition
+                                     probability
+  81- 85  F5.3  10+8s-1   AkiO    ? Other authors transition probability
+  87-126  A40   ---     r_AkiO    Reference for AkiO (2)
+--------------------------------------------------------------------------------
+Note (1): According to Kaufman and Martin (Kaufman & Martin, 1991,
+    J. Phys. Chem. Ref. Data, 20, 775) the level 3s^2^4d ^2^D is
+    designated as y D, and all higher d levels acquire numbers for one
+    less than previously (5d goes to 4d, and so on).
+Note (2): References:
+    Buurman et al., 1986A&A...164..224B
+    Davidson et al., 1990A&A...238..452D
+    Wiese & Martin, 1980, Transition Probabilities, Part II, Vol. Natl.
+      Stand. Ref. Data system., Natl. Bur. Std. 68 (Washington DC)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table3.dat table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 19  A19   ---     ULevel    Upper level
+  21- 35  A15   ---     LLevel    Lower level
+  37- 44  F8.3  0.1nm   lambda    Wavelength
+  46- 49  F4.2  ---     IntR      Measured intensity ratio
+  51- 52  I2    %     e_IntR      ? Uncertainty percentage on intensity ratio
+  54- 57  F4.2  ---     LS        ? LS intensity ratio
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table5.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label    Explanations
+--------------------------------------------------------------------------------
+   1- 13  A13   ---       ULevel   Upper level
+  15- 27  A13   ---       LLevel   Lower level
+  29- 36  F8.3  0.1nm     Lambda   Wavelength
+      37  A1    ---     n_Lambda   [*] Note on Lambda (1)
+      38  A1    ---     l_BranR    [~] Limit flag on BranR
+  39- 42  F4.2  ---       BranR    ? Branching ratio
+  44- 46  I3    %       e_BranR    ? Uncertainty percentage on BranR
+      48  A1    ---     l_Aki      Limit flag on Aki
+  49- 55  E7.4  10+8s-1   Aki      ? This work transition probability
+      58  A1    ---   l_e_Aki      Limit flag on e_Aki
+  59- 60  I2    %       e_Aki      ? Uncertainty percentage on Aki
+  62- 66  F5.3  10+8s-1   AkiO     ? Chang & Wang (1987, Phys. Rev. A, 36, 3535)
+                                      transition probability
+--------------------------------------------------------------------------------
+Note (1): *: The value for the transition probability of the Al II 3900.675{AA}
+    line was taken over from the work of Tayal & Hibbert (1984, J. Phys.
+    B, 17, 3835) (for procedure see discussion in text).
+--------------------------------------------------------------------------------
+
+Table 1: Lifetimes (tau) of neutral and ionized aluminium. If more than one
+ source is cited, an average of the lifetimes was taken.
+--------------------------------------------------------------------------------
+ Ion   Level des.               tau/ns     Source
+--------------------------------------------------------------------------------
+ Al I  3s^2^4s ^4^S_1/2_         6.85(6)   Buurman et al. (1986), Klose (1997)
+ Al I  3s^2^5s ^4^S_1/2_        19.8(5)    Buurman et al. (1986)
+ Al I  3s^2^4p ^2^P^o^1/2_      60.5(9)    Buurmann & Doenszelmann (1990)
+ Al I  3s^2^4p ^2^P^o^3/2_      65.(2)     Buurmann & Doenszelmann  (1990)
+ Al I  3s^2^5p ^2^P^o^1/2,3/2_ 275.(8)     Buurman et al. (1986)
+ Al I  3s^2^3d ^2^D_3/2,5/2_   14.0(2)     Buurman et al. (1986)
+ Al I  3s^2^4d ^2^D_3/2,5/2_   29.5(7)     Buurman et al. (1986)
+ Al I  3s^2^5d ^2^D_3/2,5/2_   13.2(3)     Davidson et al. (1990)
+ Al I  3s^2^6d ^2^D_3/2,5/2_   14.0(2)     Davidson et al. (1990)
+ Al II 3p ^1^P^o^_1_            0.690(13)  Kernahan et al. (1979), Smith (1970)
+                                           Berry et al. (1970),
+                                           Head et al. (1976)
+ Al II 3p ^3^P^o^_1_         302.(2)x10^3^ Trabert et al. (1999)
+ Al II 4f ^3^F^o^               6.4(5)     Andersen et al.  (1971)
+ Al II 5f ^3^F^o^              14.(2)      Andersen et al.  (1971)
+ Al II 6f ^3^F^o^              15.(1)      Andersen et al.  (1971)
+ Al II 7f ^3^F^o^               5.0(5)     Andersen et al.  (1971)
+ Al II 3d ^3^F^o^_2,3,4_        3.5(3)     Andersen et al.  (1971)
+--------------------------------------------------------------------------------
+
+Table 6. Al II-transition probabilities (Aki) calculated using results
+    of other authors. If more than one source is cited, an average of the
+    transition probabilities was taken.
+--------------------------------------------------------------------------------
+ Upper Level   Lower level    lambda     Aki       Source
+                               {AA}    10^8_s^-1^
+-------------------------------------------------------------------------------
+ 3p ^3^P^o^_1_ 3s^2^ ^1^S^o^ 2669.157 3.3x10^-5^  1% Trabert et al. (1999)
+                                                     Johnson et al. (1986)
+ 3p ^1^P^o^_1_ 3s^2^ ^1^S^o^ 1670.787 14.5           Kernahan et al. (1979)
+                                                     Smith (1970)
+                                                     Berry et al. (1970)
+                                                     Head et al. (1976)
+ 4s ^1^S^o^    3p ^1^P^o^_1_ 2816.185  3.80       5% Tayal & Hibbert (1984)
+                                                     Weiss (1967)
+ 3d ^1^D_2_    3p ^1^P^o^_1_ 1990.531 13.8       10% Tayal & Hibbert (1984)
+                                                     Weiss (1967), Zare (1967)
+                                                     Froese-Fischer &
+                                                                Godefroid (1982)
+ 4p ^1^P^o^_1_ 3p^2^ ^1^D_2_ 4663.056  0.575      5% Tayal & Hibbert (1984)
+                                                     Zare (1967)
+                                                     Victor et al. (1976)
+                                                     Chang & Wang (1987)
+-------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+References:
+   Andersen et al., 1971, Phys. Scri., 4, 52
+   Berry et al., 1970, Phys. Scri., 1, 181
+   Buurman et al., 1986A&A...164..224B
+   Buurmann & Doenszelmann, 1990A&A...227..289B
+   Chang & Wang, 1987, Phys. Rev. A, 36, 3535
+   Davidson et al., 1990A&A...238..452D
+   Froese-Fischer & Godefroid, 1982, Nucl. Instrum. Meth., 202, 307
+   Head et al., 1976, in Atomic Structure and Lifetimes,
+      ed. F. A. Sellin, & D. J. Pegg (NY: Plenum), 147
+   Johnson et al., 1986ApJ...308.1013J
+   Kernahan et al., 1979, Phys. Scri., 19, 267
+   Klose, 1997, Phys. Rev. A, 19, 678
+   Smith, 1970, NIM, 90, 115
+   Tayal & Hibbert, 1984, J. Phys. B, 17, 3835
+   Trabert et al., 1999, J. Phys. B, 32, 637
+   Victor et al., 1976ApJs...31..237V
+   Weiss, 1967, Phys. Rev. A, 9, 1525
+   Zare, 1967, J. Chem. Phys., 47, 3561
+================================================================================
+(End)                                        Patricia Bauer [CDS]    31-May-2002

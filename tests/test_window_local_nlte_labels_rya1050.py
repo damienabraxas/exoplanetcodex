@@ -188,3 +188,136 @@ def test_the_window_number_is_still_reported_because_it_answers_BLENDS():
     the fitting window contribute to the profile in LTE whether or not they are targets."""
     assert "label_coverage(" in DRIVER and "pool_label_coverage(" in DRIVER
     assert "Both numbers are real and they answer different" in GUARD
+
+
+# ── the FOURTH call site, found 2026-08-30 ──────────────────────────────────
+#
+# 🔴 The three sites above are all in the DRIVER. There is a fourth, inside the fit
+# itself, and it could not be fixed the same way: `_fit_synth_flux` had no `ion`
+# parameter, so the caller's stage died at its signature. `SynthesisHandler.measure_line`
+# had the stage all along and dropped it there. That path is reached with ion="II" from
+# OUTSIDE the driver (scripts/rya783_nlte_engagement_probe.py), where none of the three
+# driver guards run -- so on that path the weakest form of the check was the only form.
+
+import ast
+import inspect
+
+import numpy as np
+
+FIT_SRC = (ROOT / "pipeline" / "abundances_derive.py").read_text()
+HANDLER_SRC = (ROOT / "pipeline" / "measure" / "synthesis.py").read_text()
+
+
+def _calls_named(src, func_name):
+    """Every Call node whose callee ends in `func_name` — AST, not grep.
+
+    Read as CODE: a docstring or comment naming the call must not satisfy a test that
+    the call is MADE, and a `grep` for 'ion=' cannot tell an argument from prose.
+    """
+    out = []
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.Call):
+            f = node.func
+            name = f.attr if isinstance(f, ast.Attribute) else getattr(f, "id", None)
+            if name == func_name:
+                out.append(node)
+    return out
+
+
+def test_the_fit_can_be_told_which_stage_it_is_fitting():
+    """The fix is worthless if the signature drops it -- this is where it died before."""
+    from pipeline.abundances_derive import _fit_synth_flux
+    sig = inspect.signature(_fit_synth_flux)
+    assert "ion" in sig.parameters, (
+        "_fit_synth_flux takes no `ion`, so the guard inside it can only ask the "
+        "element-global question no matter what the caller knows")
+    assert sig.parameters["ion"].default is None, (
+        "`ion=None` must stay the default so every existing caller is unchanged")
+
+
+def test_the_fourth_call_site_passes_the_ion():
+    calls = _calls_named(FIT_SRC, "assert_linelist_supports_nlte")
+    assert calls, "the guard call inside the fit has gone missing"
+    for c in calls:
+        kw = {k.arg for k in c.keywords}
+        assert "ion" in kw, (
+            "the guard call inside `_fit_synth_flux` does not name the stage. "
+            "`turbospectrum_species` collapses Fe I and Fe II onto 26.0, so a Z-only "
+            "check clears an Fe II synthesis on Fe I's labels -- an LTE spectrum under "
+            "an NLTE label, which is the outcome this guard exists to refuse")
+
+
+def test_the_handler_forwards_the_stage_it_already_has():
+    """`measure_line(..., ion=...)` knows the answer; the fit one layer down did not."""
+    calls = [c for c in _calls_named(HANDLER_SRC, "_fit")]
+    assert calls, "SynthesisHandler no longer delegates to the validated fit"
+    for c in calls:
+        kw = {k.arg: k.value for k in c.keywords}
+        assert "ion" in kw, "the handler drops `ion` on the way into the fit"
+        assert isinstance(kw["ion"], ast.Name) and kw["ion"].id == "ion", (
+            "forward the `ion` the handler was CALLED with, do not re-derive it")
+
+
+def _two_stage_linelist():
+    """Fe I labelled, Fe II unlabelled, both in one window — the measured GESv6 shape.
+
+    Real numbers this mimics: 4200-6910 A, Fe 1 8194/8243 labelled (99.4%), Fe 2
+    854/8870 (9.6%). A Z-only filter averages them to 49.3% and sees nothing wrong.
+    """
+    n = 8
+    ll = np.zeros(n, dtype=[("turbospectrum_species", "f8"), ("element", "U8"),
+                            ("wave_A", "f8"), ("nlte", "U2"),
+                            ("nlte_label_low", "U16"), ("nlte_label_up", "U16")])
+    ll["turbospectrum_species"] = 26.0            # collapsed: identical for BOTH stages
+    ll["wave_A"] = np.linspace(4300.0, 6800.0, n)
+    ll["nlte"] = "T"
+    ll["element"][:4] = "Fe 1"
+    ll["nlte_label_low"][:4] = "a5D"
+    ll["nlte_label_up"][:4] = "z5F"
+    ll["element"][4:] = "Fe 2"
+    ll["nlte_label_low"][4:] = "none"             # every Fe II line unidentified
+    ll["nlte_label_up"][4:] = "none"
+    return ll
+
+
+def test_a_stage_blind_guard_CLEARS_an_FeII_run_on_FeI_labels():
+    """🔴 THE CONTROL. This is what the fourth site permitted, stated as a passing test.
+
+    Without a stage the guard counts Fe I's four labels and returns happily for a run
+    that will synthesise four Fe II lines, every one of them in LTE. The assertion here
+    is that the OLD behaviour does not raise -- if this ever starts raising, the
+    element-global escape hatch has changed meaning and the tests below are no longer
+    measuring what they claim.
+    """
+    from pipeline.gerber_nlte import assert_linelist_supports_nlte
+    ll = _two_stage_linelist()
+    n = assert_linelist_supports_nlte(ll, 26, "Fe", 4200.0, 6910.0, ion=None)
+    assert n == 4, f"the stage-blind count is Fe I's labels, got {n}"
+
+
+def test_with_the_stage_the_FeII_run_is_REFUSED():
+    from pipeline.gerber_nlte import assert_linelist_supports_nlte, GerberDeckError
+    ll = _two_stage_linelist()
+    with pytest.raises(GerberDeckError, match="NONE carry NLTE level labels"):
+        assert_linelist_supports_nlte(ll, 26, "Fe", 4200.0, 6910.0, ion=2)
+
+
+def test_and_the_FeI_run_on_the_same_list_still_passes():
+    """The refusal must be about the STAGE, not about the list being hard to read."""
+    from pipeline.gerber_nlte import assert_linelist_supports_nlte
+    ll = _two_stage_linelist()
+    assert assert_linelist_supports_nlte(ll, 26, "Fe", 4200.0, 6910.0, ion=1) == 4
+
+
+def test_the_direct_caller_that_runs_no_guard_of_its_own_forwards_it_too():
+    """`scripts/rya759_nearuv_fe_product.py` calls `_fit_synth_flux` DIRECTLY and runs no
+    NLTE guard itself, so the guard inside the fit is the only one on that path. It has
+    no ion axis today (ctx comes from `build_solar_context('Fe', ...)`), which is why
+    this is latent rather than live -- but the wiring must exist before an axis is added.
+    """
+    src = (ROOT / "scripts" / "rya759_nearuv_fe_product.py").read_text()
+    calls = _calls_named(src, "_fit_synth_flux")
+    assert calls, "rya759 no longer calls the fit"
+    for c in calls:
+        assert "ion" in {k.arg for k in c.keywords}, (
+            "rya759 forwards `nlte_deck` but not the stage, and runs no guard of its own")
