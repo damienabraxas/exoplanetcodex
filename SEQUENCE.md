@@ -15,6 +15,12 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-30
+
+- **RYA-1132** (source ingest) — normalized 106 Vujnovic rows; promoted six Al I plus Johnson Al II 2669 to GF-LAB; UV policy still blocked
+- **RYA-1132** (web follow-up) — found UV lab sources; UV moves to crossmatch review, IR has no new source and remains pipeline-blocked
+- **RYA-1132** — froze 505 Al I/II candidates/controls; VIS documented, UV atomic-data-blocked, IR pipeline-blocked; gate stays closed
+
 ## 2026-08-25
 
 - **RYA-1044** — the Engine-B band-product leg was UNREACHABLE since it was "wired" (2 tickets Done, 0 products); now runs, and its first product shows +0.141 of the +0.187 was ATMOSPHERE
@@ -238,4 +244,3 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-711** — the ELEMENT PROTOCOL lands (authored, never merged; RYA-709 cited a file that did not exist). **+Step 3a: an element's curation travels with the element, not the route** — Fe II uncurated 7.656 vs curated 7.466
 - **RYA-906** — physics-axis naming: store `route/scale/model/atmos/gf`, derive the display name, keep `treatment` as a permanent dual label. **Route from the HANDLER, never the label** — `1D-LTE` is used by both routes
 - **RYA-905** — solar_harps `telluric_applied` measured from flux: **not-applied**. 🔴 kpno_solar_atlas scores WORSE (51.3 vs 22.06) on the same metric — the atlases are not uniformly corrected; per-line clean-line selection is the method, not correction
-

@@ -66,8 +66,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : 8920f873ffdf4cd7b59096e8a373e250ff0971964e60a9e17ec7ba1de540f46d
-     rows      : 121
+     sha256    : 8efa4ef9775aaa2155c709c5f5bd8558a20b73e9a680c0b578a1f4904d078a18
+     rows      : 131
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,21 +98,21 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>121</b><span>references</span></div>
-    <div class="src-stat"><b>118</b><span>with verified link</span></div>
+    <div class="src-stat"><b>131</b><span>references</span></div>
+    <div class="src-stat"><b>128</b><span>with verified link</span></div>
     <div class="src-stat"><b>3</b><span>unconfirmed link</span></div>
-    <div class="src-stat"><b>60</b><span>held locally</span></div>
+    <div class="src-stat"><b>69</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
   <div class="src-toc">
     <a href="#solar_reference">Solar reference scales &amp; atlases (12)</a>
-    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (48)</a>
+    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (55)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
-    <a href="#nlte">Non-LTE departures (10)</a>
+    <a href="#nlte">Non-LTE departures (12)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
     <a href="#model_atmosphere">Model atmospheres (3)</a>
     <a href="#benchmark_params">Benchmark stellar parameters (15)</a>
-    <a href="#instrument_line_selection">Instruments &amp; line selection (4)</a>
+    <a href="#instrument_line_selection">Instruments &amp; line selection (5)</a>
     <a href="#cno">Carbon, nitrogen &amp; oxygen (8)</a>
     <a href="#motivation">Why this project exists (7)</a>
     <a href="#method_tool">Methods, codes &amp; tools (6)</a>
@@ -241,7 +241,7 @@
     </ul>
   </section>
   <section class="src-section" id="atomic_data_gf">
-    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">48</span></h2>
+    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">55</span></h2>
     <p class="src-blurb">Where each log gf comes from. The distinction that matters is PRIMARY LABORATORY (branching fractions from a Fourier-transform spectrometer times a measured radiative lifetime, with no reference to the solar spectrum) versus semi-empirical or solar-fitted values, which cannot referee a solar abundance without restating their own input.</p>
     <ul class="src-list">
       <li class="src-entry" id="bard1991">
@@ -282,6 +282,16 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0953-4075/31/15/006" target="_blank" rel="noopener">10.1088/0953-4075/31/15/006 &#8599;</a></div>
         <p class="src-role">GES code BDMQ (1,040 canonical_gf rows).</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">biemont1998</span></div>
+      </li>
+      <li class="src-entry" id="burheim2023">
+        <div class="src-head">
+          <span class="src-cite">Burheim, M.; Hartman, H.; Nilsson, H. (2023). <em>Experimental oscillator strengths of Al I lines for near-infrared astrophysical spectroscopy</em>. A&amp;A 672, A197.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202245394" target="_blank" rel="noopener">10.1051/0004-6361/202245394 &#8599;</a></div>
+        <p class="src-role">THE modern experimental Al I log gf source (FTS + hollow cathode lamp branching fractions x radiative lifetimes). Table 3 lists 12 lines at 2-11% accuracy, 670-4200 nm. RYA-1001 established that 8 of the 12 fall inside our reach and that linelist_solar&#x27;s summed HFS components already reproduce them to &lt;0.001 dex, while canonical_gf does not. Top of the RYA-1001 gf ladder.</p>
+        <p class="src-note">Wavelengths in Tables 1-3 are VACUUM and sit beside a cm^-1 wavenumber column of similar magnitude; RYA-835&#x27;s line list conflated the two columns. Table 2 gives branching fractions with NO log gf -- it does not grade a line. Metadata read from the held published PDF; this corrected the prior first initial J to M. Seven pages, 640346 bytes, sha256 8ac1ab522a916b4091db3c8ee012866684b24030c40ca1fadd129094c4d26955.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-838; RYA-839; RYA-1001; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/aa45394-22.pdf</span> &middot; <span class="src-key">burheim2023</span></div>
       </li>
       <li class="src-entry" id="corliss_bozman1962">
         <div class="src-head">
@@ -368,14 +378,25 @@
         <p class="src-note">Pre-2000 A&amp;A volume; no DOI is registered. Link is the ADS scanned article, downloaded and confirmed to be a real PDF of the published length. Bibcode 1973A&amp;A....26..471G verified two ways: the ADS scanned-article gateway returns 200 for it and 404 for a fabricated bibcode, and SIMBAD&#x27;s bibliographic record returns exactly these authors, this title and these pages.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">garz1973</span></div>
       </li>
+      <li class="src-entry" id="griesmann_kling2000">
+        <div class="src-head">
+          <span class="src-cite">Griesmann, U.; Kling, R. (2000). <em>Interferometric measurement of resonance transition wavelengths in C IV, Si IV, Al III, Al II, and Si II</em>. ApJ 536, L113-L115.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/312738" target="_blank" rel="noopener">10.1086/312738 &#8599;</a></div>
+        <p class="src-role">Precise laboratory wavelength evidence for Al II 1670.7886 A. It supports transition identity and wavelength calibration in RYA-1132; it does not provide an experimental oscillator strength for grading.</p>
+        <p class="src-note">Local arXiv v1 PDF inspected: title/authors match; six pages, 95955 bytes, sha256 cee3ea26e43cdf8544772e617cc5ad5f0a8935860b0b702242662f9b8b5c67a9.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/0004190v1.pdf</span> &middot; <span class="src-key">griesmann_kling2000</span></div>
+      </li>
       <li class="src-entry" id="heiter2021">
         <div class="src-head">
           <span class="src-cite">Heiter, U.; Lind, K.; Bergemann, M.; Asplund, M.; Mikolaitis, S.; Barklem, P. S. (2021). <em>Atomic data for the Gaia-ESO Survey</em>. A&amp;A 645, A106.</span>
           <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201936291" target="_blank" rel="noopener">10.1051/0004-6361/201936291 &#8599;</a></div>
-        <p class="src-role">The published account of the GES line list that seeds 125,958 canonical_gf rows (seed_source synth(GES)).</p>
-        <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">heiter2021</span></div>
+        <p class="src-role">The published account of the GES line list that seeds 125,958 canonical_gf rows (seed_source synth(GES)) — VERIFIED line by line in RYA-1110: over the GBS solar Fe set our gf_synth_ges equals this catalogue log gf on 140 of 141 lines, max difference 0.0009 dex. ALSO THE PER-LINE gf DECODER: VizieR J/A+A/645/A106 geslines.dat carries r_loggf per transition and refs.dat maps all 327 codes to author + bibcode. ⚠️ IT IS GES v6 — Jofre+2014 used v3, so its per-line source is valid provenance for a GBS gf ONLY where the two versions carry the same value.</p>
+        <p class="src-note">On-disk PDF verified from page 1: A&amp;A 645, A106 (2021), DOI 10.1051/0004-6361/201936291 — the A&amp;A manuscript number aa36291-19 matches the DOI suffix. Companions in the same library folder: &#x27;ReadMeGaia-ESO.txt&#x27; (the VizieR J/A+A/645/A106 byte-by-byte ReadMe) and &#x27;ges_refs.bib&#x27; (Heiter+2021&#x27;s BibTeX companion, 4224 lines). The VizieR data themselves are staged at data/reference/heiter2021_ges/ (RYA-1110), md5-pinned to the FITS renderings in SOURCES.json.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-1110</span> &middot; <span class="src-local">local copy: Reference documents/aa36291-19.pdf</span> &middot; <span class="src-key">heiter2021</span></div>
       </li>
       <li class="src-entry" id="ges_linelist_v5">
         <div class="src-head">
@@ -396,14 +417,25 @@
         <p class="src-role">The Ni I 6300.34 gf that sets the [O I] 6300 blend correction — the whole solar oxygen gate depends on it. seed_source &#x27;Johansson2003&#x27; in canonical_gf.</p>
         <div class="src-meta"><span class="src-tickets">RYA-365; RYA-447</span> &middot; <span class="src-key">johansson2003</span></div>
       </li>
+      <li class="src-entry" id="johnson_smith_parkinson1986">
+        <div class="src-head">
+          <span class="src-cite">Johnson, B. C.; Smith, P. L.; Parkinson, W. H. (1986). <em>Transition probability of the Al II 2669 intersystem line</em>. ApJ 308, 1013-1017.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/164569" target="_blank" rel="noopener">10.1086/164569 &#8599;</a></div>
+        <p class="src-role">Direct time-resolved ion-storage measurement of Al II 2669.157 A: A=(3.33 +/- 0.23)e3 s^-1 at 90% confidence. Primary laboratory evidence for the RYA-1132 physical crossmatch; later Träbert et al. 1999 is the higher-precision source adopted by NIST.</p>
+        <p class="src-note">Metadata and result read from the held ADS scan. Five article pages, 553165 bytes, sha256 8ac85c59ee76e21765459e5211847de5149afe12f49606eed393969f8681b927.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/1986ApJ...308.1013J</span> &middot; <span class="src-key">johnson_smith_parkinson1986</span></div>
+      </li>
       <li class="src-entry" id="kelleher2008_al">
         <div class="src-head">
           <span class="src-cite">Kelleher, D. E.; Podobedova, L. I. (2008). <em>Atomic Transition Probabilities of Aluminum. A Critical Compilation</em>. J. Phys. Chem. Ref. Data 37, 709.</span>
-          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1063/1.2734564" target="_blank" rel="noopener">10.1063/1.2734564 &#8599;</a></div>
-        <p class="src-role">Cited verbatim in canonical_gf for an Al/Si grade-C+ line.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-853</span> &middot; <span class="src-key">kelleher2008_al</span></div>
+        <p class="src-role">Critically evaluated Al I-Al XII transition probabilities with per-line source and accuracy grades. Evaluated reference tier for RYA-1132; not promoted as independent primary-laboratory evidence under RYA-946.</p>
+        <p class="src-note">Local published PDF inspected: title/authors and J. Phys. Chem. Ref. Data 37, 709 (2008) match the row; 203 pages, 919028 bytes, sha256 7b04a7b68269e3a229ea2f7e1d8aa878fc0d3ab1ea9adc56cb65ce8c8bb0a49b.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-853; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/jpcrd372008911p.pdf</span> &middot; <span class="src-key">kelleher2008_al</span></div>
       </li>
       <li class="src-entry" id="kelleher2008_namg">
         <div class="src-head">
@@ -511,6 +543,16 @@
         <p class="src-note">On-disk copy is the arXiv v2 preprint (arXiv:0901.4451).</p>
         <div class="src-meta"><span class="src-tickets">RYA-161; RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/0901.4451v2.pdf</span> &middot; <span class="src-key">melendez2009</span></div>
       </li>
+      <li class="src-entry" id="mendoza1995_al">
+        <div class="src-head">
+          <span class="src-cite">Mendoza, C.; Eissner, W.; Le Dourneuf, M.; Zeippen, C. J. (1995). <em>Atomic data for opacity calculations. XXIII. The aluminium isoelectronic sequence</em>. J. Phys. B 28, 3485.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0953-4075/28/16/006" target="_blank" rel="noopener">10.1088/0953-4075/28/16/006 &#8599;</a></div>
+        <p class="src-role">What the GES v6 / canonical_gf tag &#x27;1995JPhB..&#x27; actually is: the Opacity Project ab initio close-coupling calculation for Al I, served by TOPbase. It carries the gf for Al I 5557.063, 6696.023, 6698.673, 8772.865, 8773.896. RYA-1001 identified it by exact value-identity against Burheim 2023&#x27;s independently transcribed M00/TOPbase column (-1.569 and -1.870 on two lines).</p>
+        <p class="src-note">THEORY, NOT A LAB MEASUREMENT. Prior audits read the truncated bibcode as &#x27;1995 J.Phys.B (lab)&#x27; and built an experimental-vs-semi-empirical split on it (RYA-716 comment section 4). Refuted by RYA-1001.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-838; RYA-1001</span> &middot; <span class="src-key">mendoza1995_al</span></div>
+      </li>
       <li class="src-entry" id="obrian1991">
         <div class="src-head">
           <span class="src-cite">O&#x27;Brian, T. R.; Wickliffe, M. E.; Lawler, J. E.; Whaling, W.; Brault, J. W. (1991). <em>Lifetimes, transition probabilities, and level energies in Fe I</em>. JOSA B 8, 1185.</span>
@@ -529,6 +571,16 @@
         <div class="src-link"><a href="https://doi.org/10.1238/physica.regular.061a00323" target="_blank" rel="noopener">10.1238/physica.regular.061a00323 &#8599;</a></div>
         <p class="src-role">GES code PQWB (5,522 canonical_gf rows). Theoretical Ce II gf.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">palmeri2000</span></div>
+      </li>
+      <li class="src-entry" id="papoulia2019">
+        <div class="src-head">
+          <span class="src-cite">Papoulia, A.; Ekman, J.; Jonsson, P. (2019). <em>Extended transition rates and lifetimes in Al I and Al II from systematic multiconfiguration calculations</em>. A&amp;A 621, A16.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201833764" target="_blank" rel="noopener">10.1051/0004-6361/201833764 &#8599;</a></div>
+        <p class="src-role">Independent multiconfiguration theory for Al I/II -- rung 2 of the RYA-1001 gf ladder, and independent of NIST unlike Nordlander &amp; Lind 2017. Burheim 2023 agrees with it to -0.001 dex mean (sd 0.06) and supplies its lifetimes. It remains a theoretical comparator in RYA-1132, not primary-lab grading evidence.</p>
+        <p class="src-note">Local arXiv v1 PDF inspected: title/authors match; 27 pages, 326159 bytes, sha256 a9f293cd6da156b796861dfbf189fb3e08a7d78ac5a8b1cd88d5cddd87014e6f.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1001; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/1808.09478v1.pdf</span> &middot; <span class="src-key">papoulia2019</span></div>
       </li>
       <li class="src-entry" id="pehlivan_rhodin2017">
         <div class="src-head">
@@ -606,6 +658,15 @@
         <p class="src-note">Ticket text said &#x27;stu520&#x27;; the DOI printed on the paper is 10.1093/mnras/stu780. Corrected from the PDF.</p>
         <div class="src-meta"><span class="src-tickets">RYA-799; RYA-824; RYA-836</span> &middot; <span class="src-local">local copy: Reference documents/stu780.pdf</span> &middot; <span class="src-key">ruffoni2014</span></div>
       </li>
+      <li class="src-entry" id="ruffoni2013">
+        <div class="src-head">
+          <span class="src-cite">Ruffoni, M. P.; Pickering, J. C.; Allende Prieto, C.; Nave, G. (2013). <em>Infrared Laboratory Oscillator Strengths of Fe I in the H-Band</em>. ApJ 779, 17.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/779/1/17" target="_blank" rel="noopener">10.1088/0004-637X/779/1/17 &#8599;</a></div>
+        <p class="src-role">EXPERIMENTAL Fe I log gf in the H band, 1.4-1.7 um: 28 transitions measured (FTS branching fractions + laser-induced-fluorescence lifetimes), plus upper limits on 7 more, produced for APOGEE because NO prior experimental data existed there. RYA-1048: this is the gap in our own lab pool -- canonical_gf tops out at 11316.1 A (Belmonte2017 reaches 1033 nm), so J (11796-13195 A) and H (15007-17494 A) have ZERO cited-lab lines and would grade rung 1. Ruffoni 2013 is LABORATORY, not solar-calibrated, so unlike melendez1999 it CAN referee a solar abundance (RYA-161). NOT the same paper as ruffoni2014, which is the optical Gaia-ESO list we already hold.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1048;RYA-787</span> &middot; <span class="src-key">ruffoni2013</span></div>
+      </li>
       <li class="src-entry" id="ryabchikova2015">
         <div class="src-head">
           <span class="src-cite">Ryabchikova, T.; Piskunov, N.; Kurucz, R. L.; Stempels, H. C.; Heiter, U.; Pakhomov, Yu.; Barklem, P. S. (2015). <em>A major upgrade of the VALD database</em>. Physica Scripta 90, 054005.</span>
@@ -672,6 +733,16 @@
         <p class="src-note">Database interface, not a publication — no DOI exists.</p>
         <div class="src-meta"><span class="src-tickets">RYA-376</span> &middot; <span class="src-key">vald3_tool</span></div>
       </li>
+      <li class="src-entry" id="vujnovic2002">
+        <div class="src-head">
+          <span class="src-cite">Vujnovic, V.; Blagoev, K.; Furbock, C.; Neger, T.; Jager, H. (2002). <em>Absolute transition probabilities of Al I and Al II spectral lines and intensity ratios within multiplets</em>. A&amp;A 388, 704-711.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20020560" target="_blank" rel="noopener">10.1051/0004-6361:20020560 &#8599;</a></div>
+        <p class="src-role">Laboratory branching/intensity measurements normalized with published lifetimes. CDS J/A+A/388/704 supplies machine-readable Al I and Al II tables; RYA-1132 must preserve the mixed lifetime provenance and physically crossmatch components before any grade promotion.</p>
+        <p class="src-note">Metadata read from page 1 of the held published PDF. This inspection corrected an earlier web-inferred DOI ending 20020554: the paper itself prints 10.1051/0004-6361:20020560. Eight pages, 130287 bytes, sha256 75067f34827525e4f8f4af59d4fe3e95e7e0830b40cdc51dfabdee1e0fb61b4a.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/aa7151.pdf</span> &middot; <span class="src-key">vujnovic2002</span></div>
+      </li>
       <li class="src-entry" id="whaling_brault1988">
         <div class="src-head">
           <span class="src-cite">Whaling, W.; Brault, J. W. (1988). <em>Comprehensive transition probabilities in Mo I</em>. Physica Scripta 38, 707.</span>
@@ -719,7 +790,7 @@
     </ul>
   </section>
   <section class="src-section" id="nlte">
-    <h2>Non-LTE departures<span class="src-count">10</span></h2>
+    <h2>Non-LTE departures<span class="src-count">12</span></h2>
     <p class="src-blurb">The model atoms and departure-coefficient grids that move an abundance off its LTE value &mdash; including the papers that define where a grid does NOT reach.</p>
     <ul class="src-list">
       <li class="src-entry" id="amarsi2016">
@@ -788,6 +859,26 @@
         <p class="src-role">3D non-LTE Ca II reference; the frontier check for the Ca leg.</p>
         <p class="src-note">Ticket inventory listed no authors for this file; identified from PDF metadata as Lagae, Amarsi &amp; Lind (2025).</p>
         <div class="src-meta"><span class="src-tickets">RYA-561; RYA-663</span> &middot; <span class="src-local">local copy: Reference documents/Metal Poor.pdf</span> &middot; <span class="src-key">lagae2025</span></div>
+      </li>
+      <li class="src-entry" id="nordlander_lind2017">
+        <div class="src-head">
+          <span class="src-cite">Nordlander, T.; Lind, K. (2017). <em>Non-LTE aluminium abundances in late-type stars</em>. A&amp;A 607, A75.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201730427" target="_blank" rel="noopener">10.1051/0004-6361/201730427 &#8599;</a></div>
+        <p class="src-role">The Al solar anchor A(Al) = 6.43 +/- 0.03 (3D-NLTE), adopted verbatim by Asplund 2021. Publishes abundances ON 7835/8772, so it is Al&#x27;s EXTERNAL VALIDATION leg for Phase 1 -- it validates a final value and never selects lines or gf (RYA-161).</p>
+        <p class="src-note">NOT an independent gf source: its Al uncertainties trace to NIST / Kelleher &amp; Podobedova 2008, so counting it as a second source double-counts the NIST rung. Deliberately absent from the RYA-1001 gf ladder.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-1001</span> &middot; <span class="src-key">nordlander_lind2017</span></div>
+      </li>
+      <li class="src-entry" id="roederer_lawler2021">
+        <div class="src-head">
+          <span class="src-cite">Roederer, I. U.; Lawler, J. E. (2021). <em>Detection of Al II in the Ultraviolet Spectra of Metal-Poor Stars: An Empirical LTE Test of NLTE Aluminum Abundance Calculations</em>. ApJ 912, 119.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4357/abf142" target="_blank" rel="noopener">10.3847/1538-4357/abf142 &#8599;</a></div>
+        <p class="src-role">Empirical use of Al II 2669 and provenance guide to the Träbert et al. 1999 laboratory transition probability. It validates the line and NLTE context but is not itself a primary gf measurement.</p>
+        <p class="src-note">Local arXiv v1 PDF inspected: title/authors match; 13 pages, 980577 bytes, sha256 b99e0b23d2305e11d91110d7cde8010109434c708c2d781ce03b18b50411adc7.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/2103.12764v1.pdf</span> &middot; <span class="src-key">roederer_lawler2021</span></div>
       </li>
       <li class="src-entry" id="shi2018">
         <div class="src-head">
@@ -957,9 +1048,9 @@
           <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201322440" target="_blank" rel="noopener">10.1051/0004-6361/201322440 &#8599;</a></div>
-        <p class="src-role">Benchmark [Fe/H] — the adopted alpha Cen A/B metallicity.</p>
-        <p class="src-note">On-disk copy is the arXiv v2 preprint (arXiv:1309.1099).</p>
-        <div class="src-meta"><span class="src-tickets">RYA-384; RYA-479</span> &middot; <span class="src-local">local copy: Reference documents/1309.1099v2.pdf</span> &middot; <span class="src-key">jofre2014</span></div>
+        <p class="src-role">Benchmark [Fe/H] — the adopted alpha Cen A/B metallicity. ALSO the SOURCE PAPER of the GBS reference line set (RYA-1110): VizieR J/A+A/564/A133 carries the per-star line selection and the per-method EWs but NO log gf, and the papers Tables 4/5 carry log gf for the golden lines but no per-star selection — the line set needs both, joined.</p>
+        <p class="src-note">TWO COPIES ON DISK AND THEY ARE NOT INTERCHANGEABLE. &#x27;Reference documents/1309.1099v2.pdf&#x27; is the arXiv v2 preprint, in which the Tables 4/5 gf-reference footnote FAILED TO TYPESET — it reads &quot;References: 102: ????????. 114: ??. ...&quot; — so the integer gf codes cannot be decoded from it (RYA-1110 first pass). &#x27;Reference documents/aa22440-13.pdf&#x27; is the PUBLISHED A&amp;A PDF and DOES carry the footnote; RYA-1110 transcribes it to data/reference/jofre2014_gbs/paper_table45_refcodes.tsv. CITE THE PUBLISHED COPY for anything about the reference codes. Code 190 (Fe I 4985.55) is used in Table 4 body text and defined in NEITHER copy.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-384; RYA-479; RYA-1110</span> &middot; <span class="src-local">local copy: Reference documents/aa22440-13.pdf; Reference documents/1309.1099v2.pdf</span> &middot; <span class="src-key">jofre2014</span></div>
       </li>
       <li class="src-entry" id="jofre2015">
         <div class="src-head">
@@ -1022,7 +1113,7 @@
     </ul>
   </section>
   <section class="src-section" id="instrument_line_selection">
-    <h2>Instruments &amp; line selection<span class="src-count">4</span></h2>
+    <h2>Instruments &amp; line selection<span class="src-count">5</span></h2>
     <p class="src-blurb">External line-selection catalogues and instrument-specific abundance work the Codex cross-checks its own pools against.</p>
     <ul class="src-list">
       <li class="src-entry" id="elgueta2026">
@@ -1062,6 +1153,16 @@
         <div class="src-link"><a href="https://doi.org/10.1086/313261" target="_blank" rel="noopener">10.1086/313261 &#8599;</a></div>
         <p class="src-role">NIR Fe I/II astrophysical (solar-calibrated) gf line list. LINE-LIST SOURCE, not an abundance determination. FIREWALL: solar-tuned gf, cannot referee a solar abundance.</p>
         <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">melendez1999</span></div>
+      </li>
+      <li class="src-entry" id="nandakumar2024">
+        <div class="src-head">
+          <span class="src-cite">Nandakumar, G.; Ryde, N.; Mace, G.; Kaplan, K. F.; Nieuwmunster, N.; Jaffe, D. (2024). <em>Composition of Giants 1 Degree North of the Galactic Center: Detailed Abundance Trends for 21 Elements Observed with IGRINS</em>. ApJ 964, 96.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4357/ad4451" target="_blank" rel="noopener">10.3847/1538-4357/ad4451 &#8599;</a></div>
+        <p class="src-role">Empirical IGRINS H/K abundance-line membership, including Al I candidates. RYA-1056 and RYA-1132 use it for completeness and synthesis-context routing only; it does not supply laboratory gf grades or physical transition identities.</p>
+        <p class="src-note">Metadata read from the held published PDF; 14 pages, 1446660 bytes, sha256 5bf4deb280245cd31a4b0a5b1a28a17249c302f6f98aa6c8a8964707fb73c2af. Machine-readable line material used by the pipeline is separately preserved under data/literature/igrins_nandakumar_2024/.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1056; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/Nandakumar_2024_ApJ_964_96.pdf</span> &middot; <span class="src-key">nandakumar2024</span></div>
       </li>
     </ul>
   </section>
@@ -1349,7 +1450,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 8920f873ffdf4cd7b59096e8a373e250ff0971964e60a9e17ec7ba1de540f46d &middot; 121 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 8efa4ef9775aaa2155c709c5f5bd8558a20b73e9a680c0b578a1f4904d078a18 &middot; 131 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
