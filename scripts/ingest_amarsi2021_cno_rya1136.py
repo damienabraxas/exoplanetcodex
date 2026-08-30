@@ -16,6 +16,22 @@ HOLDING = ROOT / "data/reference/amarsi2021_cno"
 RAW = HOLDING / "raw/table2.dat"
 OUT = HOLDING / "derived/amarsi2021_cno_molecular_lines.csv"
 MANIFEST = HOLDING / "manifest.json"
+AUDIT = ROOT / "data/audit/rya1136_cno_intake"
+
+
+def reporting_band(wavelength_nm: float) -> str:
+    """Use the ratified RYA-1130 reporting bins (converted from Angstrom)."""
+    if wavelength_nm < 200:
+        return "FUV"
+    if wavelength_nm < 400:
+        return "NUV"
+    if wavelength_nm < 700:
+        return "VIS"
+    if wavelength_nm < 1000:
+        return "RED_OPTICAL"
+    if wavelength_nm < 2500:
+        return "NIR"
+    return "IR"
 
 
 def sha256(path: Path) -> str:
@@ -42,6 +58,7 @@ def main() -> None:
                 "delta_nu": line[12:13].strip(),
                 "band": line[14:19].strip(),
                 "wavelength_vac_nm": line[20:29].strip(),
+                "source_band": reporting_band(float(line[20:29])),
                 "lower_energy_eV": line[30:35].strip(),
                 "published_loggf": line[36:42].strip(),
                 "equivalent_width_pm": line[43:49].strip(),
@@ -65,9 +82,46 @@ def main() -> None:
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=rows[0])
+        writer = csv.DictWriter(stream, fieldnames=rows[0], lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
+
+    AUDIT.mkdir(parents=True, exist_ok=True)
+    coverage = Counter((row["species"], row["source_band"]) for row in rows)
+    bands = ("FUV", "NUV", "VIS", "RED_OPTICAL", "NIR", "IR")
+    with (AUDIT / "molecular_coverage_matrix.csv").open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=(
+            "species", "band", "used", "canonical_matched", "ambiguous",
+            "verdict", "note",
+        ), lineterminator="\n")
+        writer.writeheader()
+        for species in expected:
+            for band in bands:
+                used = coverage[(species, band)]
+                writer.writerow({
+                    "species": species,
+                    "band": band,
+                    "used": used,
+                    "canonical_matched": 0,
+                    "ambiguous": used,
+                    "verdict": "CROSSMATCH_REVIEW" if used else "NO_AGSS21_TABLE2_LINES",
+                    "note": ("CDS Table 2 omits rotational quantum identity"
+                             if used else "Negative published selection for this used-line table"),
+                })
+
+    summary = {
+        "schema": "codex.cno_intake_summary/1",
+        "ticket": "RYA-1136",
+        "molecular_used_rows": len(rows),
+        "species_counts": dict(counts),
+        "band_counts": dict(Counter(row["source_band"] for row in rows)),
+        "canonical_matched": 0,
+        "crossmatch_review": len(rows),
+        "frozen_ready": False,
+        "verdict": "CROSSMATCH_REVIEW",
+        "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity",
+    }
+    (AUDIT / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 
     readme = HOLDING / "raw/ReadMe"
     manifest = {
@@ -83,6 +137,7 @@ def main() -> None:
         "retrieved_at": str(date.today()),
         "row_count": len(rows),
         "species_counts": dict(counts),
+        "band_counts": dict(Counter(row["source_band"] for row in rows)),
         "source_files": {
             "raw/ReadMe": sha256(readme),
             "raw/table2.dat": sha256(RAW),
