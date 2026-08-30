@@ -284,3 +284,94 @@ def describe(caps: Capabilities) -> str:
 
 def as_dict(caps: Capabilities) -> dict:
     return asdict(caps)
+
+
+# ── RYA-1140: resolving an EXTERNAL dependency without a worktree-relative path ──
+
+class DependencyNotServedError(RuntimeError):
+    """No candidate root actually serves an external dependency (RYA-1140).
+
+    Raised INSTEAD of returning a path that does not exist. The defect class this
+    fixes is a resolver that hands back a plausible non-existent path, which
+    downstream reads as "the data is absent" -- a SKIP, not a failure.
+    """
+
+
+class AmbiguousDependencyError(RuntimeError):
+    """Two DIFFERENT roots both serve the dependency — it has forked (RYA-1090)."""
+
+
+def resolve_external(name: str, *, env: str, candidates, serves, purpose: str,
+                     strict: bool = False) -> Path | None:
+    """Resolve an external dependency BY CAPABILITY, not by position.
+
+    🔴 THE FOUR CONSTRAINTS PULL AGAINST EACH OTHER, WHICH IS WHY EVERY OBVIOUS FIX
+    IS WRONG:
+
+      1. no username may appear in git      (RYA-810: 15 absolute /Users/<name>/...
+                                             literals, unrunnable by anyone else and a
+                                             disclosure in a shared repo)
+      2. it must work with NO configuration (config nobody sets is config that
+                                             silently does not apply)
+      3. it must NOT be worktree-relative   (RYA-1090 / RYA-1138: canonical only while
+                                             every worktree shares one parent)
+      4. it must survive the parent MOVING  (that move IS the RYA-1090 event)
+
+    (1) and (2) push toward deriving from ambient context; (3) forbids exactly that.
+    `{repo_parent}` resolved the tension by choosing derivation, and that is how
+    RYA-1090's mechanism ended up inside the very register meant to centralise paths.
+
+    The way out: A DERIVED CANDIDATE IS FINE AS LONG AS IT IS VERIFIED. Take an
+    ordered list of candidates and return the first that DEMONSTRABLY SERVES the
+    dependency -- `serves(path)` actually finds the package, the atlas, the tree.
+    Nothing is trusted for its address, so the answer survives the parent moving and
+    still needs no configuration and no username.
+
+    ⚠️ AND IT FAILS THE OTHER WAY. The old resolver's failure mode was to return a
+    plausible path that did not exist; downstream reads that as ABSENCE and turns it
+    into a skip -- and a skipped test is in neither the pass set nor the fail set.
+    Here, nothing serving is a loud raise (`strict`) or an explicit None the caller
+    must handle. Never a confident wrong path.
+
+    If two candidates serve and disagree, that is the fork condition RYA-1090 found in
+    the artifact store, and it is RAISED rather than settled by precedence.
+    """
+    override = os.environ.get(env)
+    if override:
+        p = Path(override).expanduser()
+        if serves(p):
+            return p
+        raise DependencyNotServedError(
+            f"${env} is set to {p} but that path does not serve {name} ({purpose}). "
+            f"An explicit override that does not work is always an error -- it is "
+            f"never silently replaced by a guess.")
+
+    found: list[Path] = []
+    for c in candidates:
+        try:
+            p = Path(c).expanduser()
+        except (TypeError, ValueError):
+            continue
+        if serves(p) and p.resolve() not in {q.resolve() for q in found}:
+            found.append(p)
+
+    if len(found) > 1:
+        raise AmbiguousDependencyError(
+            f"{name} is served by MORE THAN ONE root, so it has forked and the answer "
+            f"depends on which is searched first:\n"
+            + "\n".join(f"    {p}" for p in found)
+            + f"\n  Set ${env} to the one you mean. This is the RYA-1090 shape: the "
+              f"artifact store forked in two, 85 artifacts became unreachable, and "
+              f"nothing raised at any point.")
+    if found:
+        return found[0]
+
+    msg = (f"no root serves {name} ({purpose}). Tried, in order:\n"
+           + "\n".join(f"    {Path(c).expanduser()}" for c in candidates)
+           + f"\n  Set ${env} to a path that does. Refusing to return an unusable "
+             f"path: a resolver that hands back a plausible non-existent directory "
+             f"turns a MISSING DEPENDENCY into what reads downstream as MISSING DATA, "
+             f"and the tests then SKIP rather than fail (RYA-1140).")
+    if strict:
+        raise DependencyNotServedError(msg)
+    return None

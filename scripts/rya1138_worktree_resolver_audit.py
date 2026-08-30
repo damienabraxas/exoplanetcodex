@@ -51,12 +51,42 @@ SELF = "scripts/rya1138_worktree_resolver_audit.py"
 #: Resolvers that escape the repo ON PURPOSE, each with the reason and the override
 #: that makes the dependency explicit. Named individually -- a class-wide exemption
 #: ("anything mentioning ispec is fine") would re-admit the whole defect family.
+#:
+#: ⚠️ KEYED BY (file, FAMILY), NOT BY FILE. `config/constants.py` legitimately holds
+#: the ispec resolver's own candidate list AND, separately, undocumented spectra and
+#: `{repo_parent}` escapes. A file-level key would mark all of them documented the
+#: moment one was -- an exemption silently widening to cover defects nobody reviewed,
+#: which is the failure mode this audit exists to prevent.
 KNOWN_EXTERNAL = {
-    "pipeline/canonical_checkout.py": (
+    ("config/constants.py", "path-register {repo_parent} token"): (
+        "RYA-1140's `_expand_repo_parent()` — the register's own token, now expanded "
+        "against candidate parents and VERIFIED (the expansion must point at "
+        "something that exists) instead of assumed to be `repo.parent`. The remaining "
+        "escapes are the candidate list and the unresolved fallback, which keeps the "
+        "old value so a path naming a not-yet-created directory still resolves and "
+        "nothing begins raising at import."),
+    ("scripts/generate_sources_page.py", "sibling site repo"): (
+        "RYA-1140's `_resolve_site_root()` — the sibling website checkout, searched "
+        "across the parents site repos have actually lived under rather than assumed "
+        "to sit beside this worktree. Falls back to the historical value because the "
+        "target may legitimately not be checked out."),
+    ("config/constants.py", "spectra data volume"): (
+        "RYA-1140's `_resolve_spectra_ext_dir()` — same shape as the ispec resolver: "
+        "the historical `ROOT.parent/...` stays the FIRST candidate so a correctly "
+        "sited checkout resolves unchanged, and the unresolved fallback keeps the old "
+        "value so `skipif(not _HAS_DATA)` behaves exactly as before on a machine that "
+        "genuinely lacks the tree. Looked at, never trusted."),
+    ("config/constants.py", "ispec engine install"): (
+        "RYA-1140's `_resolve_ispec_dir()` — the candidate LIST, the historical "
+        "fallback and the error message all name `ROOT.parent / 'ispec'` on purpose: "
+        "it stays the FIRST candidate so a correctly-sited checkout resolves exactly "
+        "as before, but it is now VERIFIED (the ispec package must actually be there) "
+        "rather than assumed. Escaping to look is fine; escaping to trust is not."),
+    ("pipeline/canonical_checkout.py", "other"): (
         "RYA-1138's own `_canonical_location()` — compares a checkout's parent against "
         "the NAMED `CANONICAL_WORKTREE_PARENT`. It reads the parent in order to "
         "REPORT on it, and resolves nothing through it."),
-    "pipeline/artifact_store.py": (
+    ("pipeline/artifact_store.py", "other"): (
         "RYA-1090's `_legacy_derived_root()` — DELIBERATELY still derives the old "
         "pre-1090 root so the divergence guard can see a store left behind by the old "
         "derivation. It is never used AS the store root; `store_root()` is named."),
@@ -112,15 +142,43 @@ def _mentions_file_or_root(expr: ast.AST) -> str | None:
 #: dependencies -- an engine install and a data volume -- resolved the same wrong way
 #: twenty times. Two named constants fix the family; twenty local edits do not.
 _FAMILIES = (("ispec engine install", ("ispec",)),
-             ("spectra data volume", ("spectra", "exoplanetcodex-data")))
+             ("spectra data volume", ("spectra", "exoplanetcodex-data")),
+             ("path-register {repo_parent} token", ("repo_parent", "codex_root")),
+             ("sibling site repo", ("exoplanetcodex-site", "site_root")))
 
 
-def _family(src: str) -> str:
+def _family(src: str, enclosing: str = "") -> str:
+    """Which dependency this escape reaches for.
+
+    ⚠️ THE ENCLOSING FUNCTION NAME IS CHECKED FIRST, AND IT HAS TO BE. Once RYA-1140
+    routed the eleven spectra sites through one constant, the resolver's own remaining
+    lines read `ROOT.parent.joinpath(*tail)` -- no longer mentioning spectra at all,
+    so text matching dropped them into "other" alongside the unrelated `{repo_parent}`
+    token. Documenting them there would have marked the token reviewed too: an
+    exemption widening to cover a defect nobody looked at, which is precisely what
+    keying by (file, family) was introduced to prevent. Classification has to follow
+    the code's STRUCTURE, not the words left on the line after a refactor.
+    """
+    for name, needles in _FAMILIES:
+        if any(n in enclosing.lower() for n in needles):
+            return name
     low = src.lower()
     for name, needles in _FAMILIES:
         if any(n in low for n in needles):
             return name
     return "other"
+
+
+def _enclosing_defs(tree: ast.AST) -> dict:
+    """line number -> nearest enclosing def name, for every line in a function body."""
+    out = {}
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            end = getattr(node, "end_lineno", node.lineno)
+            for ln in range(node.lineno, end + 1):
+                # innermost wins: a nested def is walked after and overwrites
+                out[ln] = node.name
+    return out
 
 
 def audit() -> list[dict]:
@@ -135,6 +193,7 @@ def audit() -> list[dict]:
         except SyntaxError:
             continue
         source_lines = text.splitlines()
+        enclosing = _enclosing_defs(tree)
         # Steps from the FILE ITSELF up to the repo root -- not the directory depth.
         # `__file__` is the .py file, so `pipeline/x.py` needs TWO `.parent` steps to
         # reach the root, and `Path(__file__).parent.parent` therefore lands exactly ON
@@ -158,14 +217,20 @@ def audit() -> list[dict]:
             above = depth - (file_depth if anchor == "__file__" else 0)
             src = source_lines[node.lineno - 1].strip() if \
                 node.lineno - 1 < len(source_lines) else ""
+            # ⚠️ Computed ONCE. This was called twice with different arguments -- the
+            # reported `family` used the structural form while the exemption lookup
+            # used the text-only one -- so a site could be classified into a family
+            # that WAS documented and still report as undocumented. Two derivations of
+            # one fact will eventually disagree; the fix is to have one.
+            fam = _family(src, enclosing.get(node.lineno, ""))
             findings.append({
                 "file": rel, "line": node.lineno, "anchor": anchor,
                 "file_depth": file_depth, "climbs": depth,
                 "levels_above_repo_root": above,
-                "known_external": rel in KNOWN_EXTERNAL,
-                "why": KNOWN_EXTERNAL.get(rel, ""),
+                "known_external": (rel, fam) in KNOWN_EXTERNAL,
+                "why": KNOWN_EXTERNAL.get((rel, fam), ""),
                 "source": src[:160],
-                "family": _family(src),
+                "family": fam,
             })
     # Deduplicate nested AST nodes that describe the same chain on one line.
     seen, uniq = set(), []

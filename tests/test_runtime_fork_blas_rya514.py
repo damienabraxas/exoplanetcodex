@@ -14,6 +14,8 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from config.constants import ISPEC_DIR as _ISPEC_DIR  # noqa: E402
 BLAS = ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS',
         'VECLIB_MAXIMUM_THREADS', 'NUMEXPR_NUM_THREADS')
 
@@ -36,7 +38,7 @@ def test_each_entry_point_yields_fork_in_fresh_process(mod):
     """A FRESH process importing only this entry point must end up on fork (start method is
     process-global, so each is checked in its own interpreter)."""
     code = (f"import sys; sys.path.insert(0, {str(ROOT)!r}); "
-            f"sys.path.insert(0, {str(ROOT.parent / 'ispec')!r}); "
+            f"sys.path.insert(0, {str(_ISPEC_DIR)!r}); "   # RYA-1140
             "import warnings; warnings.filterwarnings('ignore'); "
             f"import importlib; importlib.import_module({mod!r}); "
             "import multiprocessing as mp, os; "

@@ -45,11 +45,37 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 BIB_CSV = ROOT / "data" / "refs" / "bibliography.csv"
 PAGE = ROOT / "docs" / "site" / "sources" / "index.html"
 
-#: repo-relative default for a sibling checkout of the website repo
-SITE_ROOT_DEFAULT = ROOT.parent / "exoplanetcodex-site"
+#: RYA-1140 — the sibling website checkout, found by CAPABILITY rather than assumed
+#: to sit beside this worktree. `ROOT.parent / "exoplanetcodex-site"` is the RYA-1090
+#: mechanism: correct only while every worktree shares one parent, and silently wrong
+#: the moment they do not. Site checkouts have in fact lived under both ~/codex and
+#: ~/Projects, so the assumption was already false part of the time.
+#:
+#: ⚠️ Unresolved keeps the historical value rather than raising: this is a page
+#: generator, the target may legitimately not be checked out yet, and the caller
+#: already handles a missing site root. The improvement is that when the directory
+#: DOES exist somewhere sensible it is now found instead of missed.
+def _resolve_site_root() -> Path:
+    from pipeline.canonical_checkout import (resolve_external,
+                                             CANONICAL_WORKTREE_PARENT)
+    name = "exoplanetcodex-site"
+    candidates = [ROOT.parent / name, CANONICAL_WORKTREE_PARENT / name,
+                  Path.home() / "Projects" / name]
+    try:
+        found = resolve_external("exoplanetcodex-site checkout",
+                                 env="CODEX_SITE_ROOT", candidates=candidates,
+                                 serves=lambda p: p.is_dir(),
+                                 purpose="website repo for the generated sources page")
+    except Exception:
+        found = None
+    return found or ROOT.parent / name
+
+
+SITE_ROOT_DEFAULT = _resolve_site_root()
 SITE_PAGE_REL = Path("sources") / "index.html"
 
 REQUIRED_COLS = ("key", "authors", "year", "title", "venue", "doi", "url", "category",

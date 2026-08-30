@@ -15,7 +15,8 @@ from pathlib import Path
 import numpy as np, pandas as pd
 warnings.simplefilter('ignore')
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / 'ispec'))
+from config.constants import ISPEC_DIR   # RYA-1140: not the worktree's parent
+sys.path.insert(0, str(ISPEC_DIR))
 import ispec
 import pipeline.abundances_derive as ad
 from pipeline.abundances_derive import (_load_solar_ews, _build_ispec_line_regions,

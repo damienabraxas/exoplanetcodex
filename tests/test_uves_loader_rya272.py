@@ -19,8 +19,9 @@ from pipeline.loaders.uves_loader import (UVESLoader, UVESProductError,    # noq
                                           _WAVE_MIN_A, _WAVE_MAX_A)
 
 REGISTRY = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
-UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
-QUAR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'quarantine'
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+UVES_DIR = SPECTRA_EXT_DIR / 'Procyon' / 'Procyon UVES'
+QUAR = SPECTRA_EXT_DIR / 'Procyon' / 'quarantine'
 ANCHOR = 'ADP.2020-06-15T10:09:57.908.fits'
 GES = 'ADP.2020-12-07T15:34:23.012.fits'
 _HAS_DATA = (UVES_DIR / ANCHOR).exists()

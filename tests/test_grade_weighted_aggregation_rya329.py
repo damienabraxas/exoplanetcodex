@@ -15,7 +15,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT.parent / 'ispec'))
+from config.constants import ISPEC_DIR  # noqa: E402  RYA-1140: not ROOT.parent
+sys.path.insert(0, str(ISPEC_DIR))
 
 import pipeline.abundances_derive as ad  # noqa: E402
 

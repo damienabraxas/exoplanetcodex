@@ -23,7 +23,8 @@ sys.path.insert(0, str(ROOT))
 from config.constants import PHYSICS                                       # noqa: E402
 from pipeline.loaders.uves_loader import UVESLoader, UVESProductError      # noqa: E402
 
-PROC = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon'
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+PROC = SPECTRA_EXT_DIR / 'Procyon'
 UVES_DIR = PROC / 'Procyon UVES'
 QUAR = PROC / 'quarantine'
 REGISTRY = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
