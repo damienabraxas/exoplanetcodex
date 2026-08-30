@@ -6,62 +6,49 @@ RYA-1138 item 5 — path resolution that reads ABOVE its own repo root
   it forks silently the moment they do not (RYA-1090: 85 artifacts lost;
   RYA-1138: a baseline that could not import ispec and inverted a merge).
 
-  scanned: every *.py under rya1138/   escapes found: 22
+  scanned: every *.py under rya1140/   escapes found: 11
 
-  ── ispec engine install  (7 site(s), 7 undocumented)
-     🔴 ONE dependency resolved the same wrong way 7 times.
-     Fixing it is ONE named constant with an env override, not 7 local edits.
-     🔴 config/constants.py:1119  (1 above root)
-         str(ROOT.parent / 'ispec')
-     🔴 pipeline/nlte_corrections.py:148  (1 above root)
-         sys.path.insert(0, str(_REPO_ROOT.parent / 'ispec'))
-     🔴 scratch/rya506_theoew_repro.py:31  (1 above root)
-         sys.path.insert(0, str(_REPO.parent / 'ispec'))
-     🔴 scripts/procyon_fe_2x2.py:59  (1 above root)
-         _ISPEC = _REPO.parent / 'ispec'
-     🔴 scripts/rya305_fe2_triage.py:18  (1 above root)
-         sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / 'ispec'))
-     🔴 tests/test_grade_weighted_aggregation_rya329.py:18  (1 above root)
-         sys.path.insert(0, str(ROOT.parent / 'ispec'))
-     🔴 tests/test_runtime_fork_blas_rya514.py:39  (1 above root)
-         f"sys.path.insert(0, {str(ROOT.parent / 'ispec')!r}); "
+  ── ispec engine install  (3 site(s), 0 undocumented)
+     documented config/constants.py:1201  (1 above root)
+         candidates = [ROOT.parent / 'ispec',            # the historical derivation, first
+         -> RYA-1140's `_resolve_ispec_dir()` — the candidate LIST, the historical fallback and the error message all name `ROOT.parent / 'ispec'` on purpose: it stays the FIRST candidate so a correctly-sited checkout resolves exactly as before, but it is now VERIFIED (the ispec package must actually be there) rather than assumed. Escaping to look is fine; escaping to trust is not.
+     documented config/constants.py:1212  (1 above root)
+         return found or Path(_os.environ.get('ISPEC_DIR', str(ROOT.parent / 'ispec')))
+         -> RYA-1140's `_resolve_ispec_dir()` — the candidate LIST, the historical fallback and the error message all name `ROOT.parent / 'ispec'` on purpose: it stays the FIRST candidate so a correctly-sited checkout resolves exactly as before, but it is now VERIFIED (the ispec package must actually be there) rather than assumed. Escaping to look is fine; escaping to trust is not.
+     documented config/constants.py:1232  (1 above root)
+         f"  Tried: {ROOT.parent / 'ispec'}, {CANONICAL_WORKTREE_PARENT / 'ispec'}, "
+         -> RYA-1140's `_resolve_ispec_dir()` — the candidate LIST, the historical fallback and the error message all name `ROOT.parent / 'ispec'` on purpose: it stays the FIRST candidate so a correctly-sited checkout resolves exactly as before, but it is now VERIFIED (the ispec package must actually be there) rather than assumed. Escaping to look is fine; escaping to trust is not.
 
-  ── spectra data volume  (11 site(s), 11 undocumented)
-     🔴 ONE dependency resolved the same wrong way 11 times.
-     Fixing it is ONE named constant with an env override, not 11 local edits.
-     🔴 config/constants.py:622  (1 above root)
-         'solar_spectra'     : ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration' / 'archiv
-     🔴 config/constants.py:625  (1 above root)
-         'procyon_spectra'   : ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon Harps',
-     🔴 pipeline/cno_synthesis.py:185  (1 above root)
-         uves_dir = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
-     🔴 pipeline/loaders/uves_smoke.py:26  (1 above root)
-         PROC = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon'
-     🔴 scripts/build_uves_registry_rya272.py:27  (1 above root)
-         UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
-     🔴 scripts/intake_ir_atlases_rya390.py:45  (1 above root)
-         RAW = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' /
-     🔴 scripts/intake_solar_atlases_rya459.py:52  (1 above root)
-         STORE = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration')
-     🔴 tests/test_oi777_continuum_localize_rya478.py:14  (1 above root)
-         _UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
-     🔴 tests/test_procyon_uves_arm_rya348.py:15  (1 above root)
-         _UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
-     🔴 tests/test_uves_loader_rya272.py:22  (1 above root)
-         UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
-     🔴 tests/test_uves_loader_rya272.py:23  (1 above root)
-         QUAR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'quarantine'
+  ── path-register {repo_parent} token  (2 site(s), 0 undocumented)
+     documented config/constants.py:1359  (1 above root)
+         for cand in (repo.parent, CANONICAL_WORKTREE_PARENT, Path.home() / 'Projects'):
+         -> RYA-1140's `_expand_repo_parent()` — the register's own token, now expanded against candidate parents and VERIFIED (the expansion must point at something that exists) instead of assumed to be `repo.parent`. The remaining escapes are the candidate list and the unresolved fallback, which keeps the old value so a path naming a not-yet-created directory still resolves and nothing begins raising at import.
+     documented config/constants.py:1369  (1 above root)
+         return raw.replace('{repo_parent}', str(repo.parent))
+         -> RYA-1140's `_expand_repo_parent()` — the register's own token, now expanded against candidate parents and VERIFIED (the expansion must point at something that exists) instead of assumed to be `repo.parent`. The remaining escapes are the candidate list and the unresolved fallback, which keeps the old value so a path naming a not-yet-created directory still resolves and nothing begins raising at import.
 
-  ── other  (4 site(s), 2 undocumented)
-     🔴 config/constants.py:1236  (1 above root)
-         raw = str(raw).replace('{repo_parent}', str(repo.parent)).replace('{repo}', str(repo))
+  ── sibling site repo  (2 site(s), 0 undocumented)
+     documented scripts/generate_sources_page.py:66  (1 above root)
+         candidates = [ROOT.parent / name, CANONICAL_WORKTREE_PARENT / name,
+         -> RYA-1140's `_resolve_site_root()` — the sibling website checkout, searched across the parents site repos have actually lived under rather than assumed to sit beside this worktree. Falls back to the historical value because the target may legitimately not be checked out.
+     documented scripts/generate_sources_page.py:75  (1 above root)
+         return found or ROOT.parent / name
+         -> RYA-1140's `_resolve_site_root()` — the sibling website checkout, searched across the parents site repos have actually lived under rather than assumed to sit beside this worktree. Falls back to the historical value because the target may legitimately not be checked out.
+
+  ── spectra data volume  (2 site(s), 0 undocumented)
+     documented config/constants.py:52  (1 above root)
+         candidates = [ROOT.parent.joinpath(*tail),                 # historical, first
+         -> RYA-1140's `_resolve_spectra_ext_dir()` — same shape as the ispec resolver: the historical `ROOT.parent/...` stays the FIRST candidate so a correctly sited checkout resolves unchanged, and the unresolved fallback keeps the old value so `skipif(not _HAS_DATA)` behaves exactly as before on a machine that genuinely lacks the tree. Looked at, never trusted.
+     documented config/constants.py:64  (1 above root)
+         return found or ROOT.parent.joinpath(*tail)
+         -> RYA-1140's `_resolve_spectra_ext_dir()` — same shape as the ispec resolver: the historical `ROOT.parent/...` stays the FIRST candidate so a correctly sited checkout resolves unchanged, and the unresolved fallback keeps the old value so `skipif(not _HAS_DATA)` behaves exactly as before on a machine that genuinely lacks the tree. Looked at, never trusted.
+
+  ── other  (2 site(s), 0 undocumented)
      documented pipeline/artifact_store.py:97  (1 above root)
          return Path(__file__).resolve().parents[2]
          -> RYA-1090's `_legacy_derived_root()` — DELIBERATELY still derives the old pre-1090 root so the divergence guard can see a store left behind by the old derivation. It is never used AS the store root; `store_root()` is named.
      documented pipeline/canonical_checkout.py:119  (1 above root)
          return root.resolve().parent == CANONICAL_WORKTREE_PARENT.resolve()
          -> RYA-1138's own `_canonical_location()` — compares a checkout's parent against the NAMED `CANONICAL_WORKTREE_PARENT`. It reads the parent in order to REPORT on it, and resolves nothing through it.
-     🔴 scripts/generate_sources_page.py:52  (1 above root)
-         SITE_ROOT_DEFAULT = ROOT.parent / "exoplanetcodex-site"
 
 ============================================================================================

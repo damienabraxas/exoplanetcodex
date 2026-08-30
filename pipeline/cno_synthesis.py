@@ -182,7 +182,8 @@ def _load_procyon_uves_arm() -> tuple:
             f"No CLEAN oi_anchor epoch in {reg_path.name} — the O I 777 primary-O arm needs a "
             f"telluric-CLEAN frame (RYA-271). EXCLUDE/CORRECTABLE epochs are not auto-used.")
     row = anchor.iloc[0]
-    uves_dir = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+    from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+    uves_dir = SPECTRA_EXT_DIR / 'Procyon' / 'Procyon UVES'
     fpath = uves_dir / str(row['filename'])
     if not fpath.exists():
         raise FileNotFoundError(
