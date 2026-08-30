@@ -115,9 +115,19 @@ def read_atmos_multi3d(mesh_file, atmos_file, *, grph_g: float = GRPH_G):
             "anyway would silently reinterpret one variable as another.")
 
     raw = np.fromfile(atmos_file, dtype=np.float32, count=6 * n)
-    # (nx, ny, nz) on disk -> (nz, ny, nx), matching Muspel's permutedims(3, 2, 1)
+    # 🔴 STRIDING. Muspel reads into a Julia (nx, ny, nz) array, and Julia is COLUMN-
+    # major, so on disk **x varies fastest**, then y, then z. numpy is ROW-major, so
+    # `reshape(nx, ny, nz)` would make z the fastest axis — the exact opposite — and the
+    # cube comes back scrambled. Reshaping straight to (nz, ny, nx) in C order puts x
+    # fastest, which matches, AND lands the array already indexed [z, y, x]. No transpose.
+    #
+    # This was wrong in the first version and the marginal checks did NOT catch it: the
+    # min/max of every variable, the z range and the finite count were all still correct,
+    # because scrambling a cube preserves its VALUES. What exposed it was STRUCTURE — the
+    # horizontally-averaged T(z) oscillated 7288<->7985 K instead of rising monotonically
+    # with depth. Check a profile, not a range.
     def _f(k):
-        return np.transpose(raw[k * n:(k + 1) * n].reshape(nx, ny, nz), (2, 1, 0)).astype(np.float64)
+        return raw[k * n:(k + 1) * n].reshape(nz, ny, nx).astype(np.float64)
 
     electron_density = _f(0) / CM_TO_M ** 3          # cm^-3 -> m^-3
     temperature = _f(1)
