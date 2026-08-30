@@ -262,6 +262,36 @@ def gf_provenance(lo_A: float, hi_A: float) -> dict:
                        "coverage is reported by the application itself, not assumed "
                        "from a wavelength bound (RYA-1045)")}
 
+#: RYA-1120 — the xi PERTURBATION HOOK for the RYA-282 §2 campaign.
+#:
+#: sigma_params needs dA/dxi measured on EACH PRODUCT'S OWN POOL, which means running the
+#: same pool at xi +/- a step and differencing. There was no way to do that: `xi` comes
+#: from stars.yaml via `get_star_params`, and the ATMOSPHERE is loaded with it, so an
+#: override applied after the context is built would be inert — the number would move
+#: nothing and the campaign would silently measure dA/dxi = 0 for every product.
+#:
+#: So the override is honoured HERE, before the atmosphere load, and it is LOUD. It
+#: mirrors `abundances_derive.run(xi_override=...)`, the ratified RYA-322 pattern, rather
+#: than inventing a second convention.
+#:
+#: ⚠️ RYA-1099 lost a product to exactly this kind of run: xi is NOT in the artifact stem,
+#: so two perturbed runs write the same filename and the second silently overwrites the
+#: first. Anything driving this must give each xi its own output directory.
+def _xi_override():
+    """The campaign's xi, or None. Env-scoped so no production call site changes."""
+    import os
+    raw = os.environ.get("CODEX_XI_OVERRIDE")
+    if raw is None or str(raw).strip() == "":
+        return None
+    try:
+        return float(raw)
+    except ValueError:
+        raise SystemExit(
+            f"CODEX_XI_OVERRIDE={raw!r} is not a number. A perturbation that cannot be "
+            "parsed must stop the run, not fall back to the nominal xi — that would "
+            "produce a product labelled as perturbed and measured at the default.")
+
+
 def build_solar_context(element: str, resolving_power: float, *,
                         linelist_file: str = None,
                         apply_canonical_gf: bool = True,
@@ -305,6 +335,11 @@ def build_solar_context(element: str, resolving_power: float, *,
     teff, logg = float(p['teff']), float(p['logg'])
     feh = float(p.get('feh', p.get('feh_ref', 0.0)))
     vturb = float(p['xi'])
+    _xi = _xi_override()
+    if _xi is not None:
+        print(f"  \u26a0\ufe0f  xi OVERRIDE (RYA-1120 campaign): {vturb:.4f} -> {_xi:.4f} km/s"
+              f"  \u2014 the atmosphere below is loaded with the OVERRIDE")
+        vturb = _xi
 
     # R is DISCARDED from the resolver on purpose: resolving power is an instrument
     # constant and the caller says which instrument this run is against.
