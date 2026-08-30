@@ -462,7 +462,11 @@ def run_one(key: str, targets: pd.DataFrame, *, tmp_root: Path, out: Path) -> di
             float(per_line["a_published_3dnlte_agss21"].median()), 4),
         "coverage": cov, "gf_override": run["gf_override"],
         "axis": per_line.attrs.get("axis", {}),
-        "artifacts": {k: str((d / v).relative_to(ROOT)) for k, v in (
+        # ⚠️ `d` MUST BE ABSOLUTE HERE. A relative --out made `relative_to(ROOT)` raise
+        # AFTER every fit had already run -- three holdings' compute thrown away at the
+        # last step. `main` now resolves --out, so a relative path is a valid input rather
+        # than a late crash.
+        "artifacts": {k: str((d.resolve() / v).relative_to(ROOT)) for k, v in (
             ("per_line", "asplund_lines_per_line.csv"),
             ("products", "asplund_lines_products.csv"))},
     }
@@ -534,9 +538,11 @@ def main(argv=None) -> int:
     ap.add_argument("--holdings", nargs="+", default=list(HOLDINGS),
                     choices=sorted(HOLDINGS),
                     help="which VIS holdings to run. Amarsi is Fe I VIS only.")
-    ap.add_argument("--out", type=Path, default=OUT_DEFAULT)
+    ap.add_argument("--out", type=Path, default=OUT_DEFAULT,
+                    help="output root; a relative path is resolved against the CWD")
     ap.add_argument("--tmp", type=Path, default=Path("/tmp/rya1106_synth"))
     args = ap.parse_args(argv)
+    args.out = Path(args.out).resolve()
 
     targets = asplund_fe1_lines()
     args.tmp.mkdir(parents=True, exist_ok=True)
