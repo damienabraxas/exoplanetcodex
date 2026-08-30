@@ -44,6 +44,19 @@ ROOT = Path(__file__).resolve().parents[1]
 #: it has to separate differ by 0.1-2.3 eV, so this is not the binding constraint.
 EP_TOL_EV = line_match.EP_TOL_EV
 
+#: 🔴 A REPRESENTATIONAL EPSILON, NOT A WIDER WINDOW. A wavelength printed to a step S
+#: lies within +/-S/2 of truth INCLUSIVE -- the rounding interval is CLOSED at its edge.
+#: Comparing `|d| <= tol` in floating point fails exactly there: AGSS21 prints 524.70 nm,
+#: the GES list holds 5247.05 A, and the distance evaluates to 0.0500000000001819 against
+#: a 0.05 tolerance. That is 1.8e-13 A of float representation error, and on it the gf
+#: override declared a line ABSENT that is plainly present.
+#:
+#: ⚠️ This is NOT the RYA-1109 move of widening a tolerance until a count improves. 1e-9 A
+#: is physically meaningless -- a millionth of a mA - and cannot admit a different line;
+#: the nearest distinct Fe line anywhere in the GES list is ~1e-3 A away. It exists solely
+#: to make a closed interval actually closed.
+_CLOSED_EDGE_EPS_A = 1e-9
+
 
 class ReferenceLineSetError(RuntimeError):
     """A reference set could not be loaded or measured HONESTLY."""
@@ -167,6 +180,50 @@ def load(name: str) -> pd.DataFrame:
     # DECISION RYA-1110 flagged for Ryan. Taking it here would silently turn "GBS's own
     # scale" into "GBS where published, GES elsewhere" and report one number for the
     # mixture -- the confound a replication exists to remove (RYA-161/429).
+    # 🔴 ADOPTED gf ARE JOINED HERE, FROM A SIDECAR, AND NEVER FROM `log_gf_gbs`.
+    # Ryan ratified adopting 12 of GBS's 21 unpublished lines (RYA-1110, 2026-08-30) --
+    # the ones whose reference code reproduces Jofre's PUBLISHED gf exactly on >= 5
+    # held-out lines. The value is Heiter+2021's, so it lives in its own file with its own
+    # provenance columns: writing it into `log_gf_gbs` would make that column assert
+    # something false about a publication and make the 12 indistinguishable from the 138.
+    #
+    # ⚠️ The remaining 9 (1 THIN + 8 RISKY) stay REFUSED. `gf_adopted` records which side
+    # of that line each row is on, so a product can never quietly include one.
+    out["gf_adopted"] = False
+    out["gf_adopted_source"] = ""
+    adopt_path = spec.path.parent / "gbs_gf_adoption_rya1110.csv"
+    if spec.name == "gbs" and adopt_path.exists():
+        ad = pd.read_csv(adopt_path)
+        # 🔴 THE CANONICAL MATCHER, NOT A ROUNDED KEY. An earlier draft of this join keyed
+        # on `round(wavelength, 2)` -- and CI's RYA-1037 AST guard caught it, in a module
+        # whose entire subject is careful line identity. A rounded wavelength is not an
+        # identity (RYA-1033): it splits a matched pair, and Python and numpy round the
+        # same tie differently. Matched here on the lambda+EP dual key at THIS set's
+        # derived tolerance, exactly as every other join in this module.
+        idx = line_match.match(
+            ad["wavelength_air_A"].to_numpy(float),
+            out["wavelength_air_A"].to_numpy(float),
+            want_ep=ad["elo_eV"].to_numpy(float),
+            src_ep=out["elo_eV"].to_numpy(float),
+            require_ep=True, tol_A=spec.match_tol_A).index
+        for k, j in enumerate(np.asarray(idx)):
+            if j < 0:
+                raise ReferenceLineSetError(
+                    f"adopted gf row {k} ({ad.iloc[k]['species']} "
+                    f"{ad.iloc[k]['wavelength_air_A']} A) does not resolve into the {name} "
+                    f"set on the lambda+EP key -- refusing to place a gf by position")
+            if not pd.isna(out.at[j, "loggf"]):
+                raise ReferenceLineSetError(
+                    f"adopted gf would OVERRIDE a published value at "
+                    f"{out.at[j, 'wavelength_air_A']} A -- refusing (RYA-161)")
+            hit = ad.iloc[k]
+            out.at[j, "loggf"] = float(hit["log_gf_adopted"])
+            out.at[j, "gf_adopted"] = True
+            out.at[j, "gf_adopted_source"] = str(hit["gf_adopted_source"])
+            out.at[j, "gf_source"] = (
+                f"ADOPTED (not published by this set): {hit['gf_adopted_source']} | "
+                f"{hit['gf_adopted_basis']} | {hit['gf_adopted_ticket']}")
+
     out["gf_missing"] = out["loggf"].isna()
     if out["gf_missing"].any():
         out.loc[out["gf_missing"], "gf_source"] = (
@@ -264,7 +321,8 @@ def coverage(name: str, pool: pd.DataFrame, *, pool_label: str,
     }
 
 
-def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> dict:
+def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet, *,
+                      on_missing: str = "raise") -> dict:
     """Put the REFERENCE's own log gf on the target lines of an in-memory synthesis list.
 
     Generalised from RYA-1106's Asplund-specific version; the reasoning is unchanged.
@@ -293,7 +351,8 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
     for r in targets.itertuples():
         want_el = str(r.species).replace(" I", " 1").replace(" II", " 2")
         sel = ((el == want_el)
-               & (np.abs(w_A - r.wavelength_air_A) <= spec.match_tol_A)
+               & (np.abs(w_A - r.wavelength_air_A)
+                  <= spec.match_tol_A + _CLOSED_EDGE_EPS_A)
                & (np.abs(ep - r.elo_eV) <= EP_TOL_EV))
         hit = np.flatnonzero(sel)
         if hit.size == 0:
@@ -306,7 +365,7 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
             # the gf then belongs on every row of it. But that is only true while the rows
             # agree on being the same transition -- never resolved by argmin.
             spread = float(np.ptp(w_A[hit]))
-            if spread > spec.match_tol_A:
+            if spread > spec.match_tol_A + _CLOSED_EDGE_EPS_A:
                 ambiguous.append({"wavelength_air_A": round(float(r.wavelength_air_A), 4),
                                   "n_rows": int(hit.size),
                                   "wavelength_spread_A": round(spread, 5)})
@@ -320,7 +379,18 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
                         "loggf_reference": round(float(r.loggf), 4),
                         "delta_dex": round(float(r.loggf - np.mean(before)), 4),
                         "gf_source": str(getattr(r, "gf_source", ""))[:200]})
-    if missing or ambiguous:
+    # 🔴 TWO DIFFERENT FAILURES, AND COLLAPSING THEM WAS WRONG.
+    #   * AMBIGUOUS -- the line IS in the list but we cannot say which row is it. Placing
+    #     a gf there could move the wrong transition, so this always refuses.
+    #   * MISSING   -- the line is NOT in the synthesis list at all (AGSS21's 9786.6 A sits
+    #     past the GES list's 9200 A red edge). Nothing can be measured there by any
+    #     scale, so it is not a "partial override" at all: it is COVERAGE, and the ticket
+    #     asks for coverage to be REPORTED, never silently dropped (RYA-429/711).
+    # `on_missing="report"` is what a replication run passes, and it must then EXCLUDE and
+    # NAME those lines. The default stays "raise" so no existing caller changes behaviour.
+    if on_missing not in ("raise", "report"):
+        raise ReferenceLineSetError(f"on_missing must be 'raise' or 'report', not {on_missing!r}")
+    if ambiguous or (missing and on_missing == "raise"):
         raise ReferenceLineSetError(
             f"the synthesis line list cannot carry {spec.name}'s gf for the whole pool: "
             f"{len(missing)} absent on the lambda+EP dual key (+/-{spec.match_tol_A} A / "
@@ -329,8 +399,13 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
             f"and the rest on ours and report one number for the mixture - refusing "
             f"(RYA-429).")
     deltas = np.array([a["delta_dex"] for a in applied], dtype=float)
+    if deltas.size == 0:
+        raise ReferenceLineSetError(
+            f"{spec.name}: not one target line is in the synthesis list -- nothing to "
+            f"measure. A leg that fits ZERO lines must fail, not emit an empty product.")
     return {
         "line_set": spec.name, "n_targets": int(len(targets)), "n_applied": len(applied),
+        "not_in_synthesis_list": missing,
         "per_line": applied,
         "delta_vs_canonical_dex": {
             "mean": round(float(deltas.mean()), 4),
@@ -349,7 +424,13 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet) -> di
 
 #: Our own products already say which pool they were measured on, in `tier`. The axis is
 #: therefore DERIVED for them rather than stored twice.
-_TIER_TO_LINE_SET = {"GRADED": "our-graded", "DEEPGRADED": "our-deep-graded"}
+#: RYA-1127 adds UNGRADED and ALL. They are not new pools -- they are `--lines-tier`
+#: values that nine quarantined products already carried, and which had no name here
+#: because nothing yet asked this function about them. Putting `line_set` in the identity
+#: key does ask, of every product in every pool, so they are named rather than defaulted.
+#: `CONSISTENT` is still absent and still raises (RYA-1105 retires that tier).
+_TIER_TO_LINE_SET = {"GRADED": "our-graded", "DEEPGRADED": "our-deep-graded",
+                     "UNGRADED": "our-ungraded", "ALL": "our-all"}
 
 
 def line_set_for_product(product: dict) -> str:
@@ -360,20 +441,24 @@ def line_set_for_product(product: dict) -> str:
     A replication product is measured on someone else's list, so nothing already in the
     record implies which; it carries an explicit `line_set` and this returns it.
 
-    Our own products already state their pool in `tier` (GRADED / DEEPGRADED), and those
-    map one-to-one onto `our-graded` / `our-deep-graded`. Storing it again would create a
+    Our own products already state their pool in `tier`, and those tiers map one-to-one
+    onto the `our-*` names (see `_TIER_TO_LINE_SET`). Storing it again would create a
     second source of truth for a value the record already carries -- and the two would be
     free to disagree, which is the defect the model registry exists to end.
 
     ⚠️ IT REFUSES AN UNKNOWN TIER RATHER THAN DEFAULTING. `treatment_axes` warns that a
     derivation which is correct today goes silently wrong the first day the correlation
-    breaks; the guard against that is to fail loudly the day a third tier appears, not to
-    pick the nearest value. A caller that needs a new tier supported must SAY so here.
+    breaks; the guard against that is to fail loudly the day a new tier appears, not to
+    pick the nearest value. A caller that needs a new tier supported must SAY so here --
+    which is exactly what RYA-1127 did when the key started asking about every pool and
+    nine quarantined records answered with tiers this map did not have.
 
-    ⚠️ It does NOT write anything. Back-stamping an explicit `line_set` onto the 66 live
-    products is a feed edit governed by RYA-1080's published-value guard and is a separate
-    ticket; RYA-1111 adds the axis and the replication products, and changes no existing
-    product value (RYA-161).
+    ⚠️ It does NOT write anything, and after RYA-1127 nothing needs it to. Putting
+    `line_set` in the identity key (`product_eligibility.KEY_FIELDS`) raised the obvious
+    question of whether the 66 live products must be back-stamped with an explicit field
+    under RYA-1080's published-value guard. They must not: the key RESOLVES the axis
+    through this function at key-computation time, so the value is derived on demand and
+    no product record was edited (RYA-161).
     """
     stored = str(product.get("line_set") or "").strip()
     if stored:

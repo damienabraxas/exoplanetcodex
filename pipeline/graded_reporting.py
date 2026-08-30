@@ -73,9 +73,15 @@ def base_treatment(treatment: str) -> str:
     `1D-LTE-LABGF` and `1D-LTE` share a base, which is what makes them a comparable pair;
     ENGINE-A and ENGINE-B do not pair with anything today because no lab-gf pool has been
     measured through them.
+
+    ⚠️ THE STRIP IS KEYED ON THE SUFFIX ITSELF, NOT ON `is_graded`. They were the same
+    test while `1D-LTE-LABGF` was the only lab-gf label; RYA-1106 corrected
+    `ENGINE-A-3DNLTE` to gf="lab" and it carries no suffix, so a caller passing the axis
+    would have had six characters chopped off a name that never ended in `-LABGF`.
+    Removing a suffix is a question about the STRING and is now asked of the string.
     """
     t = str(treatment)
-    return t[: -len(GRADED_SUFFIX)] if is_graded(t) else t
+    return t[: -len(GRADED_SUFFIX)] if t.endswith(GRADED_SUFFIX) else t
 
 
 def total_sigma(stat_dex: float, syst_dex: float) -> float:

@@ -58,7 +58,9 @@ def test_the_axis_is_the_ratified_ladder(grid):
         "Synth · 1D-NLTE · Gerber",
         "Synth · <3D>-LTE · Gerber · stagger",
         "Synth · <3D>-NLTE · Gerber · stagger",
-        "EW · 3D-NLTE · Amarsi",
+        # RYA-1106: relabelled at the source -- route from the handler, gf axis
+        # corrected kurucz -> lab, and the name DERIVED from both.
+        "Synth · 3D-NLTE · Amarsi · lab-gf",
     ]
 
 

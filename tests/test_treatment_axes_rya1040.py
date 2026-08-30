@@ -174,6 +174,11 @@ def test_every_legacy_product_is_unchanged():
     every historical product incomparable to its own past (the RYA-874 lesson)."""
     assert T.axes_for("1D-LTE").display == "1D-LTE"
     assert T.axes_for("ENGINE-B-NLTE").display == "Synth · 1D-NLTE · Gerber"
-    assert T.axes_for("ENGINE-A-3DNLTE").display == "EW · 3D-NLTE · Amarsi"
+    # RYA-1106 -- the ONE legacy display this ticket deliberately moves, and it moves
+    # on measured grounds: the route was a stranded handler's (RYA-1104) and the gf
+    # axis said kurucz over a 67/67 primary-laboratory pool. Everything else above is
+    # still asserted unchanged, which is what makes this line a statement rather than
+    # a loosened test.
+    assert T.axes_for("ENGINE-A-3DNLTE").display == "3D-NLTE · Amarsi · lab-gf"
     for label in T.LEGACY:
         assert T.axes_for(label).deck == "none", label

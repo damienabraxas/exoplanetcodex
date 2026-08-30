@@ -12,6 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,15 +123,20 @@ def test_gbs_lines_without_a_published_gf_are_flagged_not_dropped():
     and are refused at measurement. A `heiter2021_log_gf` IS staged for all 21 and taking
     it silently would turn 'GBS's own scale' into 'GBS where published, GES elsewhere' and
     report one number for the mixture. That adoption is RYA-1110's OPEN decision."""
-    gap = rls.gf_gap("gbs")
-    assert gap["n_ref"] == 159
-    assert gap["n_without_published_gf"] == 21
-    assert gap["n_measurable"] == 138
-    assert gap["by_species"] == {"Fe I": 20, "Fe II": 1}
     d = rls.load("gbs")
     assert len(d) == 159, "flagged, NOT dropped"
-    assert len(rls.measurable(d)) == 138
-    assert "OPEN DECISION" in gap["disposition"] or "OPEN" in gap["disposition"]
+    # ⚠️ UPDATED BY RYA-1110's ADOPTION (Ryan, 2026-08-30). 21 lines are still unpublished
+    # BY GBS -- that fact never changes -- but 12 now carry an ADOPTED gf from Heiter+2021
+    # and 9 remain refused. The source artifact still shows all 21 as unpublished; the
+    # adoption is a sidecar, not a rewrite. See test_gbs_gf_adoption_rya1110.py.
+    raw_unpublished = int(pd.read_csv(rls.SETS["gbs"].path).log_gf_gbs.isna().sum())
+    assert raw_unpublished == 21, "the SET still publishes no gf for 21 lines"
+    assert int(d.gf_adopted.sum()) == 12
+    gap = rls.gf_gap("gbs")
+    assert gap["n_ref"] == 159
+    assert gap["n_without_published_gf"] == 9, "the 9 THIN/RISKY stay refused"
+    assert gap["n_measurable"] == 150
+    assert len(rls.measurable(d)) == 150
 
 
 def test_asplund_has_no_gf_gap():
@@ -261,8 +267,15 @@ def test_the_per_line_verdicts_cover_all_21(opts):
     assert opts["tally"]["RISKY"] == 8
 
 
-def test_the_report_adopts_nothing(opts):
-    """RYA-1110's open decision stays Ryan's. This is an options report (RYA-161)."""
+def test_the_report_itself_still_adopts_nothing(opts):
+    """The REPORT remains an options report -- it recommends, it does not decide.
+
+    ⚠️ The adoption that later happened came from a SEPARATE ratified decision (RYA-1110,
+    Ryan 2026-08-30) landing a sidecar, NOT from this report changing. Asserted so the two
+    stay distinguishable: if someone edits the report into a decision, this fails."""
     assert "NOT TAKEN HERE" in opts["decision"]
     d = rls.load("gbs")
-    assert int(d.gf_missing.sum()) == 21, "still refused, nothing quietly filled in"
+    adopted = d[d.gf_adopted]
+    assert len(adopted) == 12
+    for r in adopted.itertuples():
+        assert "RYA-1110" in r.gf_source, "an adopted gf must name the deciding ticket"
