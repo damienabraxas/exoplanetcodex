@@ -5411,3 +5411,43 @@ artifacts:
     invocation: python3 scripts/rya908_feii_nearuv_emit_check.py --check
     note: >-
       RYA-908's two gates, recorded. GATE 1 aggregate identity: the emitted per-line rows belong to the PUBLISHED aggregate, proven by sha256 against the feed on both holdings. GATE 2 LTE-equivalence on the CORRECTED criterion (Ryan, 2026-08-30): the original 'departure = 1' could not be evaluated because the column is nlte_delta_dex, an ADDITIVE dex correction where no departure is 0.0 and 1 would be a 10x correction. Restated as sourced MAGNITUDE (|delta| <= the literature's own solar Fe II correction, -0.0010/-0.0008 Amarsi, 'insignificant' Lind+2017) AND unstructured SHAPE. Measured -0.001 uniform on all 7 served lines, both holdings: PASSES. The tolerance does not defang the phantom detector - a mis-identified Fe II line against a Fe I level would be large and/or structured and breaches either half - while a strict ==0 would have REJECTED the true near-LTE physics as a phantom. Also records the pool-vs-NLTE decomposition, with the estimator (MEDIAN) verified against the published value before anything is built on it.
+  - artifact: rya1138/worktree_resolver_audit.json
+    generator: scripts/rya1138_worktree_resolver_audit.py
+    ticket: RYA-1138
+    invocation: python3 scripts/rya1138_worktree_resolver_audit.py --check
+    note: >-
+      RYA-1090 fixed ONE worktree-relative resolver; this finds the rest. AST-based and
+      DEPTH-AWARE, because the naive grep is worse than useless here: `parents[N]` is
+      correct or a defect depending on how deep the file is, so pattern alone cannot
+      tell them apart and a 150-hit list where 145 are fine does not get read. 🔴 22
+      escapes, but only THREE real dependencies -- ispec (7 sites) and the spectra data
+      volume (11) are each one external dependency resolved the same wrong way many
+      times, fixable by one named constant rather than N local edits. The first version
+      of this audit reported 204 findings from an off-by-one (`__file__` needs
+      len(parts) steps to reach the root, and `parents[N]` climbs N+1); the control
+      `test_the_resolver_audit_does_NOT_flag_correct_in_repo_resolution` pins both.
+  - artifact: rya1138/worktree_resolver_audit.txt
+    generator: scripts/rya1138_worktree_resolver_audit.py
+    ticket: RYA-1138
+    invocation: python3 scripts/rya1138_worktree_resolver_audit.py --check
+    note: >-
+      The human-readable rendering of worktree_resolver_audit.json, grouped by the
+      DEPENDENCY each escape reaches for rather than listed flat -- 22 scattered
+      findings read as 22 problems when they are three.
+  - artifact: rya1138/suite_set_diff.json
+    generator: scripts/suite_set_diff.py
+    ticket: RYA-1138
+    invocation: python3 scripts/suite_set_diff.py --baseline-ref origin/main --check
+    note: >-
+      The merge gate, with the BASELINE'S COMPETENCE CHECKED FIRST. "Failure set
+      unchanged from main" is the only merge check in this repo (the suite has stood at
+      8 red on clean main for weeks, so absolute counts carry no information) -- which
+      makes the baseline load-bearing, and it was hand-built every time. 🔴 On
+      2026-08-30 a hand-built baseline outside ~/codex could not import ispec, reported
+      25 collection errors and ZERO failures, and would have made eleven real
+      regressions read as an IMPROVEMENT. This creates the baseline itself under the
+      canonical parent and REFUSES to emit a verdict unless both sides' capability
+      fingerprints match. Comparability is capability, not address: a location check
+      passes a correctly-sited checkout that cannot import ispec, and fails everything
+      the day the canonical parent moves -- the event that created RYA-1090. Skips are
+      diffed too, since a skipped test is in neither the pass nor the fail set.
