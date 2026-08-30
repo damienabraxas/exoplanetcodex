@@ -82,6 +82,18 @@ LINE_SETS = (
     "gbs",               # the Gaia FGK Benchmark Stars reference set (RYA-1110)
     "our-graded",        # our lab-gf graded pool, at or below the depth gate
     "our-deep-graded",   # the saturated population above the gate (RYA-984/954)
+    # 🔴 RYA-1127 — ADDED BECAUSE THE KEY NOW NEEDS THEM, NOT SPECULATIVELY. Putting
+    # `line_set` into the product identity key means EVERY product must resolve one, and
+    # nine records in `quarantine[]` did not: six carry tier UNGRADED and three carry
+    # tier ALL. Both are real `--lines-tier` values (derive_band_products.py:2102) naming
+    # a real pool of OUR lines -- the non-lab-gf split, and the whole pool undivided -- so
+    # the vocabulary was simply incomplete rather than these being unidentifiable.
+    # Widening it here is the deliberate act `line_set_for_product` demands; the
+    # alternative was to let `key_of` default, which is the RYA-869 class exactly.
+    "our-ungraded",      # our lines BELOW the gf-grade bar (`--lines-tier ungraded`)
+    "our-all",           # our whole pool, graded and ungraded together (`--lines-tier all`)
+    # ⚠️ `consistent` REMAINS ABSENT, deliberately -- RYA-1105 retires that tier, and a
+    # product carrying it must still fail loudly rather than acquire a name here.
 )
 
 
