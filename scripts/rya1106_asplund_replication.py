@@ -462,13 +462,21 @@ def run_one(key: str, targets: pd.DataFrame, *, tmp_root: Path, out: Path) -> di
             float(per_line["a_published_3dnlte_agss21"].median()), 4),
         "coverage": cov, "gf_override": run["gf_override"],
         "axis": per_line.attrs.get("axis", {}),
-        # ⚠️ `d` MUST BE ABSOLUTE HERE. A relative --out made `relative_to(ROOT)` raise
-        # AFTER every fit had already run -- three holdings' compute thrown away at the
-        # last step. `main` now resolves --out, so a relative path is a valid input rather
-        # than a late crash.
-        "artifacts": {k: str((d.resolve() / v).relative_to(ROOT)) for k, v in (
-            ("per_line", "asplund_lines_per_line.csv"),
-            ("products", "asplund_lines_products.csv"))},
+        # 🔴 SIBLING FILENAMES, NOT A PATH FROM THE REPO ROOT. This used to record
+        # `str((d.resolve() / v).relative_to(ROOT))`, which bakes the run's `--out` into
+        # the report: a run written to `data/results/rya1106_v2/` produced a report naming
+        # `data/results/rya1106_v2/...`, so committing those artifacts anywhere else made
+        # the field name files that do not exist. The files sit BESIDE the report by
+        # construction, so naming them is enough and the record stays true wherever the
+        # directory is committed -- the same lesson as RYA-1080's absolute `copied_to`.
+        #
+        # ⚠️ It also removes the last `relative_to(ROOT)` on this path, which raised on any
+        # `--out` outside the repo AFTER every fit had run: three holdings' compute thrown
+        # away at the final step, once already.
+        "artifacts": {"per_line": "asplund_lines_per_line.csv",
+                      "products": "asplund_lines_products.csv",
+                      "budget": "asplund_lines_budgets.txt",
+                      "_note": "beside this report, in this directory"},
     }
 
 
