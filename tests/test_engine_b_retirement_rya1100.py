@@ -81,7 +81,11 @@ def test_display_name_delegates_to_the_axis_registry():
     ("1D-LTE",                           "SYNTH",      "Synth · 1D-LTE"),
     ("1D-LTE",                           "PROFILEFIT", "EW · 1D-LTE"),
     ("ENGINE-B",                         "SYNTH",      "Synth · 1D-LTE"),
-    ("ENGINE-A-3DNLTE",                  "EW-3D",      "EW · 3D-NLTE · Amarsi"),
+    # RYA-1106: EW-3D is retained here as an INPUT because archived records still carry
+    # that stored token, and the derivation must stay correct for them; the live
+    # products now carry SYNTH, asserted on the row below.
+    ("ENGINE-A-3DNLTE",                  "EW-3D",      "EW · 3D-NLTE · Amarsi · lab-gf"),
+    ("ENGINE-A-3DNLTE",                  "SYNTH",      "Synth · 3D-NLTE · Amarsi · lab-gf"),
     ("ENGINE-B-NLTE",                    "SYNTH",      "Synth · 1D-NLTE · Gerber"),
     # the axis-native trio had NO map entry and rendered as bare tokens on the page.
     ("synth-1D-LTE-gerber",              "SYNTH",      "Synth · 1D-LTE · Gerber"),
@@ -89,14 +93,17 @@ def test_display_name_delegates_to_the_axis_registry():
     ("synth-mean3D-NLTE-gerber-stagger", "SYNTH",      "Synth · <3D>-NLTE · Gerber · stagger"),
 ])
 def test_the_published_display_name_matches_the_derived_axes(treatment, route, expected):
-    assert display_name(treatment, gf="kurucz", route=route) == expected
+    # RYA-1106: gf=None asks for the pool the LABEL declares, which is what the
+    # publisher does for a record that stores no gf. Forcing "kurucz" here overrode
+    # that and made the table assert a name for a pool the product does not have.
+    assert display_name(treatment, gf=None, route=route) == expected
 
 
 def test_no_published_product_renders_as_a_bare_treatment_token(live):
     """A label is not a name. If the derived name equals the raw token, the axes did not
     produce a name and the product is shipping under a string nobody owns."""
     for p in live["products"]:
-        got = display_name(p["treatment"], gf="kurucz", route=p["route"])
+        got = display_name(p["treatment"], gf=p.get("gf"), route=p["route"])
         assert got != p["treatment"], f"{p['treatment']} still renders as its own token"
 
 
@@ -181,7 +188,9 @@ def test_every_published_display_is_DERIVABLE_from_its_own_axes(live):
     from scripts.publish_product import display_name
     for pool in ("products", "superseded", "quarantine", "archive"):
         for p in live.get(pool) or []:
-            want = display_name(p["treatment"], gf="kurucz", route=p.get("route"))
+            # RYA-1106: the product's own pool, not a hardcoded one -- see the note in
+            # test_feed_repo_reconciliation_rya1080.
+            want = display_name(p["treatment"], gf=p.get("gf"), route=p.get("route"))
             assert p["display"] == want, (
                 f"{pool}: {p['treatment']} on route={p.get('route')} publishes "
                 f"{p['display']!r} but its axes derive {want!r}")

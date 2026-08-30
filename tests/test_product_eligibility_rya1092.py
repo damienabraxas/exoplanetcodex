@@ -145,15 +145,37 @@ def test_SUPERSEDED_is_never_reachable_from_an_engine_name(doc):
     """
     complete_amarsi = dict(_solid(doc),
                            treatment="ENGINE-A-3DNLTE",
-                           route="EW-3D",
-                           display="EW · 3D-NLTE · Amarsi")
+                           route="SYNTH",
+                           display="Synth · 3D-NLTE · Amarsi · lab-gf")
     codes = {r.code for r in pe.evaluate(complete_amarsi, peers=[])}
     assert "SUPERSEDED" not in codes
     assert "ANOMALOUS_SCATTER" not in codes
-    # The one thing left is a SCHEMA defect the whole EW-3D route shares -- its sigma_stat
-    # is a raw scatter where the rest of the feed publishes a standard error -- and it is
-    # fixed by carrying `stat_basis` into the feed, not by re-measuring Amarsi.
-    assert codes == {"STAT_BASIS_MISMATCH"}, codes
+    # RYA-1106 — THIS USED TO ASSERT {"STAT_BASIS_MISMATCH"} AND NOW ASSERTS NOTHING IS
+    # LEFT. That code fired because the staged record carried route="EW-3D", which
+    # `STAT_BASIS_BY_ROUTE` classifies as a raw `line_scatter`. The route was the stranded
+    # handler's mislabel (RYA-1104); on the corrected `SYNTH` the same lookup returns the
+    # `standard_error` the rest of the feed publishes, which is what this leg has actually
+    # emitted since RYA-1095 rebuilt its budget. The defect was in the label, so correcting
+    # the label is what clears it -- no product was re-measured to get here.
+    assert codes == set(), codes
+
+
+def test_the_EW_3D_route_still_classifies_the_records_that_still_carry_it():
+    """⚠️ CONTROL for the assertion above: the legacy fallback must not have died with it.
+
+    Four ARCHIVED records still carry `route=EW-3D` and predate the `stat_basis` field --
+    they are the pre-RYA-1095 versions whose `sigma_stat` really was a raw scatter. If
+    relabelling the LIVE products had also removed `EW-3D` from `STAT_BASIS_BY_ROUTE`, the
+    archive would silently reclassify as standard errors, so the map is asserted here
+    rather than only being exercised through a record that no longer uses it.
+    """
+    assert pe.stat_basis_of({"route": "EW-3D"}) == "line_scatter"
+    assert pe.stat_basis_of({"route": "SYNTH"}) == "standard_error"
+    # and a record that DECLARES its basis outranks the route it was published on
+    assert pe.stat_basis_of(
+        {"route": "EW-3D",
+         "stat_basis": "measured — RMS of the random terms, 0.0236 dex at n_lines=50"}
+    ) == "standard_error"
 
 
 def test_SUPERSEDED_comes_from_the_record(doc):
@@ -282,7 +304,13 @@ def test_the_amarsi_pools_are_NOT_anomalous_once_the_basis_is_right(doc):
     and it is the reason `ANOMALOUS_SCATTER` was the wrong code: on the corrected runs the
     scatter is 0.156-0.167 against 0.16-0.21 for the 1D pools on the same holdings.
     """
-    amarsi = [p for p in doc["products"] if p.get("route") == "EW-3D"]
+    # ⚠️ RYA-1106 — SELECT ON THE TREATMENT, NOT THE ROUTE. This read `route == "EW-3D"`,
+    # which selected these products by the one field about them that was WRONG: RYA-1104
+    # traced that token to a stranded ProfileFitHandler and RYA-1106 corrected it to
+    # SYNTH. Keying a test on the mislabel means the test passes only while the bug
+    # survives, and goes silent -- `assert amarsi` on an empty list -- the moment it is
+    # fixed. The treatment is the stable identity (RYA-874: never rewritten).
+    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
     assert amarsi, "the Amarsi products should be live"
     peers_1d = [p for p in doc["products"]
                 if p["band"] == "VIS" and p["ion"] == "I" and p["route"] == "SYNTH"]

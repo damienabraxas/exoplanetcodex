@@ -129,8 +129,26 @@ from dataclasses import dataclass
 #: nine fields `scripts/publish_product.KEY_FIELDS` uses. Duplicated as a literal here
 #: only because importing a script from a pipeline module would invert the dependency;
 #: `test_product_eligibility_rya1092` asserts the two lists are equal.
+#:
+#: 🔴 RYA-1127 ADDS `line_set`, AND IT CLOSES A LATENT COLLISION RATHER THAN PREVENTING A
+#: FUTURE ONE. RYA-1106 measured the Amarsi 3D-NLTE method on Asplund's own AGSS21 line
+#: set across the four VIS holdings. Those products pass the eligibility gate, but their
+#: key was IDENTICAL to the our-graded Amarsi products': same element, ion, band,
+#: instrument, holding, tier, selector, route and treatment -- everything except the pool
+#: of lines they were measured on, which the key did not carry.
+#:
+#: ⚠️ AND THE COLLISION WAS BEING MASKED BY A MISLABEL. Before RYA-1106, the our-graded
+#: Amarsi leg stored `route=EW-3D` -- the stranded `ProfileFitHandler`'s route, refuted
+#: line by line by RYA-1104 -- while the replication is `SYNTH`. So `route` was
+#: accidentally supplying the distinguishing axis, and the two products did not collide
+#: only because one of them was wrong. Correcting the label removed the accidental
+#: distinguisher and exposed the real defect: line_set was never in the identity.
+#:
+#: That is the same shape as the lying departure column RYA-1106 also fixed -- a wrong
+#: value quietly doing a job nobody assigned it, so that fixing it looks like it caused
+#: the breakage it revealed.
 KEY_FIELDS = ("element", "ion", "band", "instrument", "holding",
-              "tier", "selector", "route", "treatment")
+              "tier", "selector", "route", "treatment", "line_set")
 
 #: The species a product may claim. Ryan's ruling: {Fe I, Fe II, Al}. `None` for the ion
 #: means any ionisation stage of that element.
@@ -187,8 +205,29 @@ class Ineligible:
     detail: str
 
 
+def line_set_of(product: dict) -> str:
+    """This product's `line_set`, RESOLVED -- never read straight off the record.
+
+    🔴 `product.get("line_set")` IS THE WRONG QUESTION AND WOULD HAVE SILENTLY BROKEN THE
+    KEY. Our own products do not store the field: they state their pool in `tier`, and
+    RYA-1111 derives `our-graded` / `our-deep-graded` from it precisely so the value is
+    not written twice and free to disagree. A plain `.get` therefore returns "" for all 66
+    live products, which would collapse every one of them onto an empty axis -- the key
+    would gain a column that is blank everywhere, look like it was working, and still let
+    the RYA-1106 replication collide with the our-graded leg.
+
+    Resolving instead means an unrecognised pool RAISES here (RYA-869: never default). The
+    import is deferred because this module is deliberately dependency-light and
+    `reference_lineset` pulls in numpy/pandas; the module cache makes it free after the
+    first call.
+    """
+    from pipeline.reference_lineset import line_set_for_product
+    return line_set_for_product(product)
+
+
 def key_of(product: dict) -> str:
-    return "|".join(str(product.get(k) or "") for k in KEY_FIELDS)
+    return "|".join(line_set_of(product) if k == "line_set"
+                    else str(product.get(k) or "") for k in KEY_FIELDS)
 
 
 def species_of(product: dict) -> tuple:
