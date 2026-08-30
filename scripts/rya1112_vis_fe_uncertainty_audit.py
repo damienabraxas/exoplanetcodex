@@ -262,7 +262,11 @@ def audit() -> dict:
                      "legacy route map — correct today, but the basis is not a property of "
                      "those records"),
         },
-        "n_3d_products_where_xi_is_not_applicable": n3d,
+        # RYA-1120: the name says FULL 3D ONLY. The old key was
+        # "n_3d_products_..." while the rule was `"3D" in treatment`, which is
+        # how the <3D> mean got swept in — the key read as if it counted a
+        # physical class when it counted a substring.
+        "n_products_where_xi_is_not_applicable_full_3d_only": n3d,
         "products": products,
     }
 
@@ -306,7 +310,7 @@ def main() -> int:
           f" of {doc['n_products']}   |   over the {SOLAR_GATE_DEX} solar gate: "
           f"{f['F4_gate_is_not_rendered']['products_over_the_solar_gate']} of {doc['n_products']}")
     print(f"3D products where a xi term is NOT APPLICABLE: "
-          f"{doc['n_3d_products_where_xi_is_not_applicable']}")
+          f"{doc['n_products_where_xi_is_not_applicable_full_3d_only']}")
     print("\nFINDINGS")
     for k, v in f.items():
         print(f"  {k}")
