@@ -108,7 +108,7 @@ def term_application() -> dict:
     # the audit scripts that MEASURED it are the instrument, not the product path
     own = [p for p in readers if "rya846" in p or "rya841" in p]
     consumers = [p for p in readers if p not in own]
-    charged = grep('Term("pseudo-continuum"')
+    charged = [p for p in grep('Term("pseudo-continuum"') if p != SELF]
     return {
         "files_referencing_rya846": readers,
         "its_own_audit_scripts": own,
