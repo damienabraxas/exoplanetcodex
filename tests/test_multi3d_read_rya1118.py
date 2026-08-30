@@ -40,12 +40,36 @@ def _write(tmp_path, arrays, *, nx=NX, ny=NY, nz=NZ):
     atm = tmp_path / "atm3d.test"
     with open(atm, "wb") as fh:
         for a in arrays:
-            fh.write(np.asarray(a, dtype=np.float32).astype("<f4").tobytes(order="C"))
+            # 🔴 order="F", NOT "C". Multi3D files are written by column-major (Julia)
+            # code, so **x varies fastest** on disk. The first version of this helper
+            # wrote row-major, which is z-fastest — so the FIXTURE encoded the same
+            # misunderstanding as the reader under test, and the suite passed on a reader
+            # that had x and z transposed. A fixture that shares the code's assumption
+            # tests nothing about that assumption.
+            fh.write(np.asarray(a, dtype=np.float32).astype("<f4").tobytes(order="F"))
     return mesh, atm
 
 
 def _uniform(value):
     return np.full((NX, NY, NZ), value, dtype=np.float32)
+
+
+def _ramped(base, *, dz=100.0, dy=1.0, dx=0.01):
+    """A cube whose value encodes its own (x, y, z) index.
+
+    🔴 EVERY EARLIER TEST HERE USED UNIFORM ARRAYS, WHICH CANNOT DETECT A STRIDING ERROR:
+    permuting a constant cube returns the same constant cube. The real reader shipped with
+    x and z transposed and this suite passed anyway — the bug surfaced only when the
+    horizontally-averaged T(z) of a REAL snapshot came back oscillating instead of rising
+    monotonically. So the fixture now varies along each axis with a different weight, and
+    the read-back is checked ELEMENT BY ELEMENT.
+    """
+    a = np.empty((NX, NY, NZ), dtype=np.float32)
+    for i in range(NX):
+        for j in range(NY):
+            for k in range(NZ):
+                a[i, j, k] = base + dz * k + dy * j + dx * i
+    return a
 
 
 @pytest.fixture
@@ -105,6 +129,50 @@ def test_a_variable_ordering_swap_would_be_caught_by_the_values(tmp_path):
     assert a["temperature"].max() == pytest.approx(4500.0)
     assert a["electron_density"].max() == pytest.approx(2.0e19, rel=1e-6)
     assert a["vy"].max() == pytest.approx(2.0e3, rel=1e-6)
+
+
+def test_striding_matches_the_column_major_source_element_by_element(tmp_path):
+    """🔴 THE REGRESSION TEST FOR THE BUG THIS SUITE MISSED.
+
+    Multi3D is written by column-major (Julia) code, so on disk **x varies fastest**.
+    numpy is row-major, so the natural `reshape(nx, ny, nz)` makes z fastest — the exact
+    opposite — and the cube comes back scrambled while every marginal statistic (min, max,
+    finite count, z range) stays correct. Only per-element structure exposes it.
+    """
+    arrays = [_uniform(1.0e13), _ramped(5000.0), _uniform(1.0),
+              _uniform(2.0), _uniform(3.0), _uniform(1.0e-7)]
+    a = M.read_atmos_multi3d(*_write(tmp_path, arrays))
+    T = a["temperature"]
+    for i in range(NX):
+        for j in range(NY):
+            for k in range(NZ):
+                assert T[k, j, i] == pytest.approx(5000.0 + 100.0 * k + 1.0 * j + 0.01 * i), (
+                    f"value at [z={k}, y={j}, x={i}] is not the one written there — "
+                    "the cube is transposed or mis-strided")
+
+
+def test_the_depth_profile_is_monotonic_not_scrambled(tmp_path):
+    """The check that actually caught the real bug, in miniature.
+
+    A scrambled cube keeps its VALUES and loses its STRUCTURE, so assert on the shape of
+    T(z): with a pure z-ramp the horizontally-averaged profile must rise at every step.
+    On the real snapshot the broken reader gave an oscillation between 7288 K and 7985 K;
+    the fixed one rises monotonically from 4024 K to 11761 K across all 239 steps.
+    """
+    arrays = [_uniform(1.0e13), _ramped(5000.0, dy=0.0, dx=0.0),
+              _uniform(1.0), _uniform(2.0), _uniform(3.0), _uniform(1.0e-7)]
+    a = M.read_atmos_multi3d(*_write(tmp_path, arrays))
+    prof = a["temperature"].mean(axis=(1, 2))
+
+    # ⚠️ ASSERT THE PROFILE, NOT MERELY THAT IT RISES. A monotonic-only check PASSED
+    # against the transposed reader on a fixture this small — the scramble happened to
+    # leave the z-mean rising, so the test proved nothing about the bug it was written
+    # for. (On the real 240-layer snapshot the same diagnostic did catch it: 7288<->7985
+    # oscillating vs 4024->11761 rising.) A miniature needs the exact profile.
+    expected = 5000.0 + 100.0 * np.arange(NZ)
+    assert prof == pytest.approx(expected), (
+        f"T(z) is not the ramp that was written: got {prof}, expected {expected}")
+    assert np.all(np.diff(prof) > 0)
 
 
 def test_a_mesh_that_disagrees_with_the_cube_is_REFUSED(tmp_path):
