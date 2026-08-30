@@ -176,7 +176,8 @@ def override_target_gf(ctx: dict, targets: pd.DataFrame) -> dict:
         t["species"] = "Fe I"
     t["loggf"] = t["loggf_asplund"]
     try:
-        return rls.apply_gf_override(ctx["linelist"], t, rls.SETS["asplund"])
+        return rls.apply_gf_override(ctx["linelist"], t, rls.SETS["asplund"],
+                                     on_missing="report")
     except rls.ReferenceLineSetError as exc:
         raise AsplundRunRefusal(str(exc)) from exc
 
@@ -489,7 +490,8 @@ def render(rep: dict) -> str:
     A("")
     A(f"  Asplund, Amarsi & Grevesse 2021 : {ASPLUND21_FE}")
     A(f"  AGSS21's own published 3D-NLTE  : "
-      f"{rep['holdings'][0]['agss21_published_3dnlte_median']:.3f} (median over the pool)")
+      f"{rep['holdings'][0].get('agss21_published_3dnlte_median', float('nan')):.3f} "
+      f"(median over the pool)")
     A("")
     A("  COVERAGE — every Asplund line a holding could not serve, named:")
     for r in rep["holdings"]:
