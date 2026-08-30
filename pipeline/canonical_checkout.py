@@ -203,29 +203,41 @@ def collect(root: Path, target: str = "tests/", *,
 
 
 def parse_collect_output(out: str) -> tuple[int | None, int | None]:
-    """Split out as a pure function so the parsing can be tested against real pytest
-    output shapes without spending a full collection run to produce each one."""
-    # pytest reports collection three different ways depending on what happened:
-    #   "3527 tests collected in 12.34s"
-    #   "3500 tests collected, 25 errors in 9.30s"
-    #   "!!!! Interrupted: 25 errors during collection !!!!"   (no count at all)
-    # ⚠️ The third form is the dangerous one and the form RYA-908 actually hit: there
-    # is NO test count to compare, so a parser that only looks for "N tests collected"
-    # returns None and a caller that treats None as "unknown, carry on" reproduces the
-    # original defect. None is therefore propagated and `assert_comparable` treats a
-    # None-vs-0 mismatch as a refusal like any other.
-    m_tests = re.search(r"(\d+)\s+tests?\s+collected", out)
-    n_tests = int(m_tests.group(1)) if m_tests else None
+    """Parse pytest's collection summary. Split out as a pure function so the parsing
+    can be tested against real output shapes without paying a collection run each time.
 
-    m_err = (re.search(r"collected,\s*(\d+)\s+errors?", out)
-             or re.search(r"(\d+)\s+errors?\s+during\s+collection", out)
-             or re.search(r"^(\d+)\s+errors?\s+in\s", out, re.M))
-    if m_err:
-        n_errors = int(m_err.group(1))
-    elif n_tests is not None:
+    🔴 SCANNED FROM THE END, AND ANCHORED TO WHOLE LINES. `re.search` over the whole
+    output finds the FIRST match, and `--collect-only` prints every test id before the
+    summary -- so any test whose id contains summary-shaped text is read as the summary.
+
+    That is not hypothetical: this function's OWN parametrized tests carry ids like
+    "3527 tests collected in 12.34s" and "25 errors during collection", and the first
+    version of this parser reported exactly those numbers for a run that actually
+    collected 3563 tests with no errors. The instrument read its own test fixtures and
+    the set-diff harness refused a healthy branch on the strength of it (RYA-1112's
+    lesson, in a new place).
+
+    Anchoring to whole lines and scanning in reverse fixes it structurally: a test id is
+    indented under its module in `-q` output and never occupies a line that matches
+    these patterns from column zero.
+    """
+    lines = [ln.rstrip() for ln in out.splitlines() if ln.strip()]
+    n_tests = n_errors = None
+    for line in reversed(lines[-25:]):
+        if n_tests is None:
+            m = re.match(r"^(\d+)\s+tests?\s+collected(?:,\s*(\d+)\s+errors?)?", line)
+            if m:
+                n_tests = int(m.group(1))
+                if m.group(2):
+                    n_errors = int(m.group(2))
+                continue
+        if n_errors is None:
+            m = re.match(r"^!*\s*Interrupted:\s*(\d+)\s+errors?\s+during\s+collection",
+                         line) or re.match(r"^(\d+)\s+errors?\s+in\s", line)
+            if m:
+                n_errors = int(m.group(1))
+    if n_errors is None and n_tests is not None:
         n_errors = 0
-    else:
-        n_errors = None
     return n_tests, n_errors
 
 

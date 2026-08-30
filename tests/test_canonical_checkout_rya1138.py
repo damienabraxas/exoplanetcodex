@@ -126,6 +126,36 @@ def test_collect_output_parses_every_pytest_shape(text, expected):
     assert cc.parse_collect_output(text) == expected
 
 
+def test_the_parser_is_not_fooled_by_ITS_OWN_test_ids():
+    """🔴 THE INSTRUMENT ENTERED ITS OWN MEASUREMENT — a real bug, found by this
+    harness refusing a healthy branch.
+
+    `--collect-only` prints every test id BEFORE the summary. The parametrized cases
+    above carry ids containing "3527 tests collected" and "25 errors during
+    collection", so a parser using `re.search` over the whole output -- which returns
+    the FIRST match -- read its own fixtures as the summary and reported 3527 tests
+    with 25 collection errors for a run that collected 3563 with none. The set-diff
+    then refused a perfectly good branch, citing numbers that came from itself.
+
+    This is RYA-1112's lesson in a new place, and the reason the parser now scans from
+    the END with whole-line anchoring rather than searching the whole blob.
+    """
+    decoy = "\n".join([
+        "tests/test_canonical_checkout_rya1138.py::test_shapes[3527 tests collected in 12.34s-0]",
+        "tests/test_canonical_checkout_rya1138.py::test_shapes[25 errors during collection]",
+        "tests/test_canonical_checkout_rya1138.py::test_shapes[3500 tests collected, 25 errors in 9.30s]",
+        "",
+        "3563 tests collected in 2.45s",
+    ])
+    assert cc.parse_collect_output(decoy) == (3563, 0)
+
+
+def test_the_parser_reads_the_LAST_summary_not_the_first():
+    """The general form of the above: whatever precedes it, the trailing summary wins."""
+    assert cc.parse_collect_output(
+        "1 tests collected in 0.1s\n...noise...\n999 tests collected in 9s") == (999, 0)
+
+
 # ── the probe cannot echo the prober ──────────────────────────────────────────
 
 def test_the_probe_measures_the_TARGET_not_the_caller():
