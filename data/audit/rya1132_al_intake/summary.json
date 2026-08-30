@@ -18,22 +18,22 @@
     "red-optical": 41
   },
   "by_gf_source_type": {
-    "FALLBACK": 474,
+    "FALLBACK": 467,
     "CRITICALLY_EVALUATED": 19,
-    "PRIMARY_LABORATORY": 11,
+    "PRIMARY_LABORATORY": 18,
     "THEORETICAL": 1
   },
-  "crossmatch_review": 340,
+  "crossmatch_review": 337,
   "abundances_generated": false,
   "canonical_gf_mutated": false,
   "verdicts": {
-    "UV": "CROSSMATCH_REVIEW",
+    "UV": "PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED",
     "VIS": "FROZEN_WITH_DOCUMENTED_FALLBACKS",
     "IR": "BLOCKED_PIPELINE_COVERAGE",
     "overall": "BLOCKED_PIPELINE_COVERAGE",
     "measurement_unblocked": false,
     "reasons": {
-      "UV": "Web follow-up found Vujnovic 2002 laboratory transition probabilities and the direct Johnson 1986 Al II 2669 measurement; tables require physical crossmatch, uncertainty normalization, and ingestion. FUV/NUV still lack a declared band policy.",
+      "UV": "Six finite uncertainty-bearing Vujnovic Al I transitions and the direct Johnson Al II 2669 measurement are physically crossmatched and ingested as GF-LAB. Limits, ratio-only rows, and 3092.839 without an independent uncertainty remain non-promoted. FUV/NUV still lack a declared measurement policy.",
       "VIS": "Physical identities and adopted sources are explicit; primary-lab Burheim lines remain distinct from fallbacks.",
       "IR": "RYA-1003 telluric verification and RYA-1004 red-edge/context coverage remain open; wavelength-only empirical candidates stay HOLD."
     }

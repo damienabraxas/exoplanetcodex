@@ -36,7 +36,7 @@ def test_burheim_and_hfs_guards_are_explicit(tmp_path):
 def test_gate_fails_closed(tmp_path):
     build(tmp_path)
     v=json.loads((tmp_path / "intake_verdict.json").read_text())
-    assert v["UV"] == "CROSSMATCH_REVIEW"
+    assert v["UV"] == "PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED"
     assert v["IR"] == "BLOCKED_PIPELINE_COVERAGE"
     assert v["measurement_unblocked"] is False
 
@@ -56,3 +56,19 @@ def test_web_followup_is_conservative(tmp_path):
     assert len(actionable) == 3
     assert actionable.article_url.str.startswith("https://").all()
     assert bib.loc[bib.source_id.eq("Vujnovic2002"), "download_url"].str.endswith(".pdf").all()
+
+
+def test_vujnovic_and_johnson_are_reproducibly_ingested(tmp_path):
+    build(tmp_path)
+    raw = pd.read_csv(tmp_path / "vujnovic2002_normalized.csv")
+    cross = pd.read_csv(tmp_path / "vujnovic2002_crossmatch.csv")
+    manifest = pd.read_csv(tmp_path / "al_line_manifest.csv")
+    assert len(raw) == 106
+    assert raw.table.value_counts().sort_index().to_dict() == {2: 29, 3: 22, 4: 24, 5: 31}
+    assert cross.disposition.eq("GF_LAB_PROMOTED").sum() == 6
+    promoted = manifest[manifest.gf_source.isin(["EXP-VUJNOVIC2002", "EXP-JOHNSON1986"])]
+    assert len(promoted) == 7
+    assert promoted.gf_grade.eq("GF-LAB").all()
+    assert promoted.gf_sigma_dex.notna().all()
+    assert not manifest[(manifest.wavelength_air - 3092.839).abs() < .001].gf_source.eq(
+        "EXP-VUJNOVIC2002").any()
