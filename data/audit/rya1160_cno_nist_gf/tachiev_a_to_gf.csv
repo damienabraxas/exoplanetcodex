@@ -1,6 +1,13 @@
 species,wavelength_A,lower,upper,g_lower,g_upper,nist_A_s-1,nist_log_gf,nist_grade,match,tachiev_A_s-1,tachiev_uncertainty,tachiev_rel_unc_dex,tachiev_log_gf,delta_dex,verdict
-N I,7442.290,3s 4P 3/2,3p 4S 3/2,4,4,1.190E+07,-0.4010,B+,UNIQUE,1.1956E+07,5.1944E+05,0.0185,-0.4011,-0.0001,"IDENTICAL to NIST -- NIST's value for this line IS Tachiev, so NIST is not an independent check here"
-N I,8216.340,3s 4P 5/2,3p 4P 5/2,6,6,2.260E+07,0.1380,B+,UNIQUE,2.2633E+07,1.5538E+06,0.0288,0.1381,+0.0001,"IDENTICAL to NIST -- NIST's value for this line IS Tachiev, so NIST is not an independent check here"
-N I,8629.240,3s 2P 3/2,3p 2P 3/2,4,4,2.670E+07,0.0763,B+,UNIQUE,2.6783E+07,3.2286E+05,0.0052,0.0777,+0.0014,differs from NIST -- genuinely two sources
-N I,8683.400,3s 4P 3/2,3p 4D 5/2,4,6,1.880E+07,0.1059,B+,UNIQUE,1.8806E+07,8.7823E+05,0.0198,0.1057,-0.0002,"IDENTICAL to NIST -- NIST's value for this line IS Tachiev, so NIST is not an independent check here"
-N I,10108.890,3p 4D 3/2,3d 4F 5/2,4,6,3.020E+07,0.4434,B,UNIQUE,3.0149E+07,2.6176E+06,0.0362,0.4427,-0.0007,"IDENTICAL to NIST -- NIST's value for this line IS Tachiev, so NIST is not an independent check here"
+N I,7442.290,3s 4P 3/2,3p 4S 3/2,4,4,1.190E+07,-0.4031,B+,UNIQUE,1.1956E+07,5.1944E+05,0.0185,-0.4011,+0.0020,"matches NIST within 0.003 dex -- for N I this means NIST's value IS Tachiev (TP T7370), so it is not an independent check"
+N I,8216.340,3s 4P 5/2,3p 4P 5/2,6,6,2.260E+07,0.1375,B+,UNIQUE,2.2633E+07,1.5538E+06,0.0288,0.1381,+0.0006,"matches NIST within 0.003 dex -- for N I this means NIST's value IS Tachiev (TP T7370), so it is not an independent check"
+N I,8629.240,3s 2P 3/2,3p 2P 3/2,4,4,2.670E+07,0.0764,B+,UNIQUE,2.6783E+07,3.2286E+05,0.0052,0.0777,+0.0013,"matches NIST within 0.003 dex -- for N I this means NIST's value IS Tachiev (TP T7370), so it is not an independent check"
+N I,8683.400,3s 4P 3/2,3p 4D 5/2,4,6,1.880E+07,0.1055,B+,UNIQUE,1.8806E+07,8.7823E+05,0.0198,0.1057,+0.0001,"matches NIST within 0.003 dex -- for N I this means NIST's value IS Tachiev (TP T7370), so it is not an independent check"
+N I,10108.890,3p 4D 3/2,3d 4F 5/2,4,6,3.020E+07,0.4434,B,UNIQUE,3.0149E+07,2.6176E+06,0.0362,0.4427,-0.0007,"matches NIST within 0.003 dex -- for N I this means NIST's value IS Tachiev (TP T7370), so it is not an independent check"
+O I,7771.940,3s 5S 2,3p 5P 3,5,7,3.690E+07,0.3690,A,UNIQUE,3.5595E+07,6.5589E+05,0.0079,0.3534,-0.0156,DIFFERS from NIST -- genuinely two sources
+O I,7774.170,3s 5S 2,3p 5P 2,5,5,3.690E+07,0.2232,A,UNIQUE,3.5567E+07,6.5543E+05,0.0079,0.2072,-0.0160,DIFFERS from NIST -- genuinely two sources
+O I,7775.390,3s 5S 2,3p 5P 1,5,3,3.690E+07,0.0015,A,UNIQUE,3.5551E+07,6.5529E+05,0.0079,-0.0147,-0.0162,DIFFERS from NIST -- genuinely two sources
+O I,8446.250,3s 3S 1,3p 3P 0,3,1,3.220E+07,-0.4630,B,UNIQUE,3.1810E+07,2.9948E+06,0.0391,-0.4682,-0.0053,DIFFERS from NIST -- genuinely two sources
+O I,8446.360,3s 3S 1,3p 3P 2,3,5,3.220E+07,0.2360,B,UNIQUE,3.1809E+07,2.9946E+06,0.0391,0.2307,-0.0053,DIFFERS from NIST -- genuinely two sources
+O I,8446.760,3s 3S 1,3p 3P 1,3,3,3.220E+07,0.0142,B,UNIQUE,3.1804E+07,2.9943E+06,0.0391,0.0088,-0.0054,DIFFERS from NIST -- genuinely two sources
+O I,6158.180,3p 5P 3,4d 5D 4,7,9,7.620E+06,-0.4090,B+,ABSENT,,,,,,refused -- not a unique config+term+J match
