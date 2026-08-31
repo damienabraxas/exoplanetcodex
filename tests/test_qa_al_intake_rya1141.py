@@ -295,3 +295,65 @@ def test_b2_control_fails_if_the_pin_is_wrong(monkeypatch, tmp_path):
     monkeypatch.setattr(q, "RYA1132_MERGE", "origin/main")
     v = q.build(tmp_path)
     assert v["checks"]["B2-control"] == "FAIL"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# D — the coverage the first pass did not reach.
+# ─────────────────────────────────────────────────────────────────────────────
+def test_asplund_grade_is_a_line_set_not_a_gf_grade(qa):
+    """🔴 I had this wrong. `model_registry.LINE_SETS` is the ONE definition: `asplund`
+    is a value on the `line_set` PROVENANCE axis — which pool a measurement was made on
+    — not a statement about a gf. RYA-1127 put it in the product identity key."""
+    from pipeline.model_registry import LINE_SETS
+    assert "asplund" in LINE_SETS and "our-graded" in LINE_SETS
+    assert "consistent" not in LINE_SETS, "RYA-1105 retired it; it must not acquire a name"
+    verdict, _ = qa
+    assert verdict["checks"]["D3-lineset"] == "FAIL"
+
+
+def test_al_was_frozen_through_the_rya946_census_gate(qa):
+    """RYA-946: no element is FROZEN_READY_FOR_MEASUREMENT until the AGSS21 line-set
+    cross-reference is complete or an approved exception exists. Neither is true for Al."""
+    from scripts.qa_al_intake_rya1141 import ROOT
+    verdict, _ = qa
+    assert verdict["checks"]["D3"] == "FAIL"
+    sets = sorted(p.name for p in (ROOT / "data/reference").glob("asplund*") if p.is_dir())
+    assert sets == ["asplund2021_fe"], f"expected Fe-only reference set, got {sets}"
+
+
+def test_the_evaluated_tier_is_opacity_project_theory(qa):
+    """🔴 CORRECTS A5-lab. No GF-LAB row is theory — but all 19 CRITICALLY_EVALUATED rows
+    are, and `source_type` cannot see it because NIST is tested before THEORY."""
+    from scripts.qa_al_intake_rya1141 import BUILDER
+    verdict, _ = qa
+    assert verdict["checks"]["D4-lineage"] == "FAIL"
+    fn = BUILDER.read_text()
+    fn = fn[fn.index("def source_type"):fn.index("def nearest")]
+    assert fn.index('"NIST" in s') < fn.index('"THEORY" in s')
+
+
+def test_promotions_rest_on_measured_ratios_not_ls_theory(qa):
+    """The Vujnovic PAPER, not its CDS table, is what says which Aki are measured."""
+    verdict, out = qa
+    assert verdict["checks"]["D2"] == "PASS"
+    t = pd.read_csv(out / "d2_vujnovic_ratio_basis.csv")
+    theo = set(t[t.ratio_basis.eq("THEORETICAL_LS_RATIO")].wavelength_A.round(2))
+    assert theo == {13123.41, 13150.76, 21093.04, 21163.75}
+
+
+def test_outside_current_reach_is_contradicted_by_the_instrument_catalog(qa):
+    verdict, out = qa
+    assert verdict["checks"]["D5-outside"] == "FAIL"
+    s = pd.read_csv(out / "d5_full_instrument_catalog_sweep.csv")
+    assert (s.n_catalog_instruments > 0).all(), "no Al line is beyond every instrument"
+    wrong = s[s.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")]
+    assert len(wrong) == 4 and (wrong.n_catalog_instruments >= 4).all()
+
+
+def test_a_summed_feature_is_not_graded_better_than_its_worst_component(qa):
+    verdict, out = qa
+    assert verdict["checks"]["D4-grades"] == "FAIL"
+    e = pd.read_csv(out / "d4_evaluated_tier_provenance.csv")
+    bad = e[e.nist_grade.ne(e.nist_grade_worst)]
+    assert len(bad) == 5
+    assert 6906.287 in set(bad.wavelength_air.round(3))

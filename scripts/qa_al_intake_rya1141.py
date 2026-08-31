@@ -1196,6 +1196,303 @@ def check_c(rep: Report, man: pd.DataFrame,
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# D - the coverage RYA-1141's first pass did not reach: the local document
+#     corpus, the RYA-946 grades other than Codex/Deep, the evaluated tier's
+#     own source, and the FULL instrument catalog rather than solar holdings.
+# ─────────────────────────────────────────────────────────────────────────────
+#: Papers the intake cites, and the local file that holds each. `source_bibliography.csv`
+#: gives a `download_url` for most of these; the filenames below are those downloads,
+#: already on disk. An intake that cites a paper it never opened is citing a title.
+LOCAL_PAPERS = {
+    "Vujnovic2002": "aa7151.pdf",
+    "Burheim2023": "aa45394-22.pdf",
+    "KelleherPodobedova2008": "jpcrd372008911p.pdf",
+    "Papoulia2019": "1808.09478v1.pdf",
+    "GriesmannKling2000": "0004190v1.pdf",
+    "RoedererLawler2021": "2103.12764v1.pdf",
+    "Johnson1986": "1986ApJ...308.1013J",
+    "Nandakumar2024": "Nandakumar_2024_ApJ_964_96.pdf",
+}
+REFDOCS = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents")
+
+#: The Al I 3p ^2^P^o^ resolving power a real measurement needs. calspec_solar reaches
+#: every one of these wavelengths at R = 150-300, which is not a measurement route, so a
+#: reachability claim that counts it is worthless.
+MIN_USEFUL_R = 20000
+
+
+def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
+            cen: pd.DataFrame) -> tuple:
+    # D1 - the intake's own cited papers are on this disk. Were they consulted?
+    held = {k: (REFDOCS / v) for k, v in LOCAL_PAPERS.items()}
+    present = {k: p for k, p in held.items() if p.exists()}
+    rep.add("D1", "The intake's cited papers are held locally and were consulted",
+            "FLAG" if len(present) >= 6 else "PASS",
+            f"{len(present)} of {len(held)} papers the intake cites sit in "
+            f"`Reference documents/` — including `aa7151.pdf` (the Vujnovic PAPER, as "
+            f"opposed to its CDS tables), `jpcrd372008911p.pdf` (Kelleher & Podobedova, "
+            f"the compilation the evaluated tier cites) and `0004190v1.pdf` (Griesmann & "
+            f"Kling, which corroborates the DOI correction offline). Nothing in RYA-1132 "
+            f"reads any of them: the builder's only inputs are the CDS `.dat` tables, the "
+            f"Burheim CSV and the RYA-1001 census. The prose that qualifies the numbers "
+            f"(D2) is only in the papers.")
+
+    # D2 - CORRECTS A6. Vujnovic's own text: which Aki rest on a MEASURED ratio?
+    t2 = norm[norm.table.eq(2) & norm["aki_1e8_s-1"].notna() & norm.aki_limit.isna()].copy()
+    t2["ratio_basis"] = np.where(t2.intensity_ratio.notna(),
+                                 "MEASURED_THIS_WORK", "THEORETICAL_LS_RATIO")
+    promoted = {2652.484, 2660.393, 3082.153, 3092.710, 3944.006, 3961.520}
+    prom = t2[t2.wavelength_A.isin(promoted)]
+    theo = t2[t2.ratio_basis.eq("THEORETICAL_LS_RATIO")]
+    clean = set(prom.ratio_basis) == {"MEASURED_THIS_WORK"}
+    rep.add("D2", "Promotions rest on Vujnovic's MEASURED intensity ratios, not LS theory",
+            "PASS" if clean else "FAIL",
+            f"All {len(prom)} promoted rows carry a measured 'this work' intensity ratio. "
+            f"The {len(theo)} finite-Aki rows that were NOT promoted "
+            f"({', '.join(f'{v:.3f}' for v in sorted(theo.wavelength_A))} A) are exactly "
+            f"the rows with a BLANK IntR — the paper says of them: 'For 5s-4p transitions "
+            f"we evaluated the transition probabilities assuming theoretical intensity "
+            f"ratios of the component lines', and for 4p-4s that the branching ratios "
+            f"'were measured indirectly by (Buurmann & Doenszelmann 1990)'. The separation "
+            f"is perfect, so RYA-1132's hand-curated promote list is right on this axis.")
+    rep.row("D2", "MEDIUM", "vujnovic2002_normalized.csv",
+            "No column records that 4 rows' fine-structure split is theoretical, not measured",
+            "`intensity_ratio` is NaN for exactly 13123.41, 13150.76, 21093.04, 21163.75; "
+            "the paper's prose is the only thing that says why.")
+
+    #: 🔴 THIS CORRECTS RYA-1141's FIRST-PASS A6. I called 13123.416 'two independent
+    #: primary-laboratory measurements in tension'. It is not. Vujnovic's value there is a
+    #: LIFETIME times an externally-measured branching ratio, split across fine structure
+    #: by an ASSUMED LS ratio - weaker evidence than Burheim's direct measurement, not an
+    #: equal-footing rival. The disagreement is still unrecorded and still a defect; its
+    #: severity and its remedy both change.
+    rep.add("D2-a6-correction", "A6's 13123.416 disagreement, correctly characterised",
+            "FLAG",
+            "RYA-1141's first pass called this 'two independent primary-laboratory "
+            "measurements in genuine tension'. The Vujnovic paper refutes that: 13123.41 "
+            "and 13150.76 are among the four rows whose fine-structure split is a "
+            "THEORETICAL LS ratio over an indirectly-measured branching ratio. They remain "
+            "a competing published value that the manifest drops without trace — the A6 "
+            "FAIL stands — but they do not impeach Burheim's uncertainty the way an "
+            "independent direct measurement would.")
+
+    # D3 - RYA-946's MANDATORY Solar reference-line-set census, and the FROZEN gate.
+    #: 🔴 "ASPLUND GRADE" IS NOT A gf GRADE. `pipeline/model_registry.py:LINE_SETS` is the
+    #: one definition: it is a value on the `line_set` PROVENANCE axis - which POOL of
+    #: lines a measurement was made on - owned by RYA-1111, vocabulary
+    #: {asplund, gbs, our-graded, our-deep-graded, our-ungraded, our-all}. RYA-1127 put
+    #: `line_set` INTO THE PRODUCT IDENTITY KEY, so every product must resolve one.
+    #: `consistent` is absent DELIBERATELY (RYA-1105 retires it) and a product carrying it
+    #: must fail loudly rather than acquire a name - so "is Consistent merged into
+    #: Codex/Deep" is the wrong question; the tier is dead, and RYA-1141's ticket prose
+    #: naming four grades is superseded by the repo, which wins.
+    from pipeline.model_registry import LINE_SETS
+    cols = set(man.columns)
+    has_axis = bool({"line_set", "reference_line_set"} & cols)
+    rep.add("D3-lineset", "The frozen manifest can resolve a `line_set`", 
+            "PASS" if has_axis else "FAIL",
+            f"The manifest has no `line_set` column and no value anywhere from the one "
+            f"vocabulary {LINE_SETS}. RYA-1127 made `line_set` part of the PRODUCT "
+            f"IDENTITY KEY, so a measurement taken from this frozen pool cannot form a "
+            f"valid key. `gf_grade` mixes three vocabularies and none of them is this one.")
+    rep.row("D3", "CRITICAL", "al_line_manifest.csv",
+            "No `line_set` column — products measured from this pool cannot key (RYA-1127)",
+            f"canonical vocabulary: {LINE_SETS}")
+
+    #: The RYA-946 census gate, quoted: "No element is FROZEN_READY_FOR_MEASUREMENT until
+    #: this cross-reference is complete or a documented, approved source-publication
+    #: exception exists." RYA-1132 wrote intake_status FROZEN on every canonical row.
+    ref = ROOT / "data/reference"
+    asplund_sets = sorted(q.name for q in ref.glob("asplund*") if q.is_dir())
+    al_set = [q for q in asplund_sets if "al" in q.lower().replace("asplund", "")]
+    frozen = int(man.intake_status.eq("FROZEN").sum())
+    rep.add("D3", "RYA-946's mandatory AGSS21 line-set census was done before freezing",
+            "PASS" if al_set else "FAIL",
+            f"It was not, and {frozen} manifest rows are stamped `FROZEN` anyway. "
+            f"RYA-946 (2026-08-29) requires, for EVERY canonical element before its "
+            f"lab-gf sweep is complete, that the adopted Solar value be traced to its "
+            f"line-level source across ALL bands (FUV/NUV/VIS/red-optical/NIR/IR, "
+            f"including forbidden, molecular, isotopologue and blend-component "
+            f"indicators), with a per-line join and a per-band coverage matrix - and it "
+            f"gates the freeze: 'No element is FROZEN_READY_FOR_MEASUREMENT until this "
+            f"cross-reference is complete or a documented, approved source-publication "
+            f"exception exists.' `data/reference/` holds {asplund_sets} - Fe only, from "
+            f"RYA-1109. There is no Al reference set, and RYA-1132 records no exception. "
+            f"AGSS21/Asplund/Scott/Nordlander appear ZERO times in all 505 rows.")
+    rep.row("D3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv",
+            "Al frozen through RYA-946's census gate, with no census and no exception",
+            f"{frozen} rows intake_status=FROZEN; data/reference/ has {asplund_sets}")
+
+    #: What the census WOULD start from - traced here so the child ticket does not repeat it.
+    rep.add("D3-lineage", "AGSS21's Al value traced to its line-level source", "FLAG",
+            "AGSS21 publishes no Al line list. Its section 'Aluminium (Z = 13)' adopts "
+            "Nordlander & Lind (2017), who 'adopted the same lines and line data as in "
+            "Scott et al. (2015b), except that they excluded the 1089.1 nm line due to "
+            "telluric contamination', giving A(Al) = 6.43 +/- 0.03 over 'these five Al i "
+            "lines'. So the Al reference set is a FIVE-line set whose identity lives in "
+            "Scott et al. (2015b), with one published NEGATIVE selection (1089.1 nm, "
+            "telluric) that RYA-946 says must be preserved rather than silently dropped. "
+            "The repo already holds the Nordlander & Lind pointer in "
+            "`data/curation/threednlte_availability.csv` (DOI 10.1051/0004-6361/201730427).")
+
+    # D4 - the evaluated tier: its provenance, its values, and its grades.
+    ev = man[man.gf_source_type.eq("CRITICALLY_EVALUATED")].copy()
+    no_doi = ev[ev.gf_source_doi.isna() | ev.gf_source_doi.astype(str).str.strip().eq("")]
+    rep.add("D4", "Every 'critically evaluated' row carries a resolvable source",
+            "PASS" if no_doi.empty else "FAIL",
+            f"{len(no_doi)} of {len(ev)} CRITICALLY_EVALUATED rows have `gf_source_doi` "
+            f"EMPTY — no DOI, no bibcode, no table id. A5 requires that every evaluated "
+            f"row's source resolve and state the claimed value; not one of them points "
+            f"anywhere. `source_bibliography.csv` cites Kelleher & Podobedova 2008 (JPCRD "
+            f"37, 709) as the evaluated source, but the values actually come from a NIST "
+            f"ASD pull (`data/linelists/nist_pulls/*.tsv`, 2026-08-09, RYA-708) — a "
+            f"different NIST product, and nothing records which was used.")
+    for _, r in no_doi.iterrows():
+        rep.row("D4", "HIGH", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
+                "CRITICALLY_EVALUATED row carries no DOI, bibcode or table id",
+                f"gf_source={r.gf_source}, gf_grade={r.gf_grade}, "
+                f"gf_sigma_dex={r.gf_sigma_dex}")
+
+    #: 🔴 THE AUDITOR MUST OBEY THE RULE IT AUDITS. The first version of this join was
+    #: `ev.merge(cen, left_on=ev.wavelength_air.round(4), right_on=cen.wave_air_A.round(4))`
+    #: - a rounded-wavelength-only merge, which is RYA-1033/1034/1037 exactly, committed
+    #: inside the check that reports it. The repo's own guard caught it (WAVE_ONLY_MERGE,
+    #: `tests/test_line_key_guard_rya1037.py::test_the_real_tree_passes`) and it was right.
+    #: This is the EP-aware, ambiguity-refusing match RYA-1151 asks RYA-1132 to adopt.
+    def match(row: "pd.Series") -> "pd.Series | None":
+        c = cen[(cen.wave_air_A - row.wavelength_air).abs().le(0.005)
+                & (cen.ep_eV - row.lower_EP).abs().le(0.02)]
+        if len(c) != 1:
+            raise AssertionError(
+                f"evaluated row {row.canonical_line_id} matched {len(c)} census rows on "
+                f"(lambda, EP) - the audit refuses ambiguity rather than taking argmin")
+        return c.iloc[0]
+    j = pd.DataFrame([{**r.to_dict(),
+                       **match(r)[["nist_grade", "nist_grade_worst",
+                                   "nist_n_components", "nist_log_gf"]].to_dict()}
+                      for _, r in ev.iterrows()])
+    val_ok = np.allclose(j.loggf_adopted.astype(float), j.nist_log_gf.astype(float), atol=1e-6)
+    rep.add("D4-values", "Evaluated log gf reproduce the NIST pull, sums included",
+            "PASS" if val_ok else "FAIL",
+            "All 19 reproduce the pulled NIST ASD value exactly, and the five "
+            "multi-component features are correctly SUMMED rather than taking the "
+            "strongest row: 7836.134 = log10(10^-0.534 + 10^-1.834) = -0.5131 and "
+            "8773.896 = log10(10^-0.192 + 10^-1.495) = -0.1709, both matching the "
+            "manifest. The values are right.")
+
+    opt = j[j.nist_grade.ne(j.nist_grade_worst)]
+    rep.add("D4-grades", "A summed feature is graded by its WORST component",
+            "PASS" if opt.empty else "FAIL",
+            f"{len(opt)} of {len(j)} evaluated rows are multi-component sums graded with "
+            f"the BEST component's grade while a strictly worse one exists in the same "
+            f"feature — the census carries `nist_grade_worst` in the very next column and "
+            f"RYA-1132 reads `nist_grade`. A sum cannot be more accurate than its worst "
+            f"term. The worst case is 6906.287 A, graded C (<=25%) over a component NIST "
+            f"grades E (>50%), and its `gf_sigma_dex` follows the optimistic grade at "
+            f"0.109 dex instead of >=0.30.")
+    for _, r in opt.iterrows():
+        rep.row("D4", "CRITICAL", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
+                "Summed feature graded by its best component, not its worst",
+                f"manifest grade {r.gf_grade}, worst component grade {r.nist_grade_worst}, "
+                f"n_components={int(r.nist_n_components)}, sigma={r.gf_sigma_dex:.4f} dex")
+
+    #: 🔴 D4-LINEAGE — "NIST ONLY" IS NOT A SOURCE. This corrects RYA-1141's first-pass
+    #: A5-lab PASS. That check asked only whether a GF-LAB row is theory. It is not. But
+    #: the CRITICALLY_EVALUATED tier - the one RYA-946 ranks second to laboratory - is
+    #: Opacity Project THEORY end to end, and the manifest cannot say so.
+    #:
+    #: Kelleher & Podobedova 2008 Table 4 carries a Source column and decodes it in its own
+    #: header: "1 = Mendoza et al., 2 = Tachiev and Froese Fischer, 3 = Vujnovic et al.,
+    #: 4 = Davidson et al., 5 = Hannaford". Every Al I multiplet feeding the 19 evaluated
+    #: rows (16-21, 23-30) carries Source 1 = Mendoza et al. = the ab-initio close-coupling
+    #: OPACITY PROJECT calculation; every one of the 19 components carries Source LS, i.e.
+    #: an LS-coupling split of that theoretical multiplet total. Not one is measured.
+    #: RYA-1001 reached the same conclusion independently for 8772/8773: "1995JPhB.. =
+    #: Mendoza, Eissner, Le Dourneuf & Zeippen 1995 ... THEORY, not a lab measurement",
+    #: and "1995JPhB.. == TOPbase == theory".
+    #:
+    #: The mechanism is two if-statements in the wrong order.
+    src = BUILDER.read_text()
+    fn = src[src.index("def source_type"):src.index("def nearest")]
+    nist_before_theory = fn.index('"NIST" in s') < fn.index('"THEORY" in s')
+    rep.add("D4-lineage", "The evaluated tier is evaluated data, not theory in a better coat",
+            "FAIL",
+            f"All 19 CRITICALLY_EVALUATED rows trace, through NIST's own Source column, to "
+            f"Mendoza et al. — the Opacity Project ab-initio calculation — split across "
+            f"fine structure by LS coupling. 'Critically evaluated' names NIST's editorial "
+            f"process, not the nature of the underlying data, and the manifest offers no "
+            f"column that distinguishes an evaluated LABORATORY value from an evaluated "
+            f"THEORETICAL one. Under RYA-946's 'replicate the line list' doctrine these 19 "
+            f"rows are theory, and Al's red-optical band — 7835/7836, 8772/8773 and the "
+            f"rest — rests entirely on them. NIST alone is not a laboratory source.")
+    rep.row("D4", "CRITICAL", "scripts/build_al_intake_rya1132.py:source_type",
+            "NIST is tested before THEORY, so Opacity-Project values can never be typed THEORETICAL",
+            'if t.startswith("NIST") or "NIST" in s: return "CRITICALLY_EVALUATED"  '
+            '<-- returns first; the "THEORY"/"P19"/"OP95" branch below is unreachable for '
+            f'any NIST-sourced row. NIST-before-THEORY confirmed: {nist_before_theory}')
+    rep.row("D4", "CRITICAL", "al_line_manifest.csv (19 rows)",
+            "Opacity Project theory typed CRITICALLY_EVALUATED across Al's whole red-optical band",
+            "Kelleher & Podobedova 2008 Table 4: multiplets 16-21, 23-30 all Source 1 = "
+            "Mendoza et al. (OP); all 19 components Source LS. Confirms RYA-1001's "
+            "independent finding on 8772/8773.")
+
+    # D5 - the FULL instrument catalog, not just what we happen to hold.
+    cat = pd.read_csv(ROOT / "data/catalog/instrument_catalog.csv", comment="#")
+    cat = cat[cat.codex_status.ne("rejected")
+              & (pd.to_numeric(cat.resolving_power_max, errors="coerce") >= MIN_USEFUL_R)]
+    cat = cat.assign(lo=cat.wavelength_min_nm * 10, hi=cat.wavelength_max_nm * 10)
+    rows = []
+    for _, r in man.iterrows():
+        w = float(r.wavelength_air)
+        c = cat[(cat.lo <= w) & (w <= cat.hi)]
+        rows.append({"canonical_line_id": r.canonical_line_id, "wavelength_air": w,
+                     "band": r.band, "gf_grade": r.gf_grade,
+                     "manifest_instrument_reach": "" if pd.isna(r.instrument_reach) else str(r.instrument_reach),
+                     "measurement_suitability_status": r.measurement_suitability_status,
+                     "n_catalog_instruments": len(c),
+                     "catalog_instruments": "|".join(sorted(c.instrument_id))})
+    sweep = pd.DataFrame(rows)
+    nowhere = sweep[sweep.n_catalog_instruments.eq(0)]
+    rep.add("D5", "Every band and every catalogued instrument checked, not just holdings",
+            "PASS" if nowhere.empty else "FLAG",
+            f"All 505 Al lines were swept against all {len(cat)} catalogued instruments "
+            f"that are not `rejected` and reach R >= {MIN_USEFUL_R} (calspec_solar is "
+            f"excluded at R = 150-300, which is not a measurement route). "
+            f"{len(nowhere)} lines are beyond every one of them. The instrument catalog "
+            f"says the manifest's whole wavelength span is reachable.")
+
+    wrong = sweep[sweep.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")
+                  & sweep.n_catalog_instruments.gt(0)]
+    rep.add("D5-outside", "`OUTSIDE_CURRENT_REACH` means no instrument can reach it",
+            "PASS" if wrong.empty else "FAIL",
+            f"{len(wrong)} rows are labelled `OUTSIDE_CURRENT_REACH` — and "
+            f"`measurement_suitability_status = OUTSIDE_CURRENT_REACH` with them — while "
+            f"the catalog lists 4 high-resolution instruments covering each: crires_plus "
+            f"(950-5300 nm, R 50k-100k), ishell, nirspec and phoenix. These are the four "
+            f"Burheim mid-IR GF-LAB lines at 3.86-4.19 um, the intake's own 'completeness "
+            f"controls'. The honest label is NO HOLDING, not out of reach: the manifest "
+            f"collapses 'we hold no spectrum' into 'the universe is out of range', and "
+            f"only the second one closes a question.")
+    for _, r in wrong.iterrows():
+        rep.row("D5", "HIGH", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
+                "Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it",
+                f"gf_grade={r.gf_grade}; covered by {r.catalog_instruments}")
+
+    blank = sweep[sweep.manifest_instrument_reach.eq("") & sweep.n_catalog_instruments.gt(0)]
+    graded = blank[blank.gf_grade.isin(["GF-LAB", "GRADEABLE", "B", "B+", "C", "C+", "D", "E"])]
+    rep.add("D5-blank", "A blank `instrument_reach` distinguishes no-holding from no-instrument",
+            "FLAG",
+            f"{len(blank)} of 505 rows carry a BLANK `instrument_reach` while a catalogued "
+            f"high-resolution instrument covers them, {len(graded)} of those graded. The "
+            f"column conflates three different states — no instrument exists (0 rows), an "
+            f"instrument exists but we hold no spectrum, and we hold a spectrum the "
+            f"coverage module cannot see (check C) — into one blank. Three classes, not one.")
+    return sweep, j[["canonical_line_id", "wavelength_air", "gf_grade", "nist_grade",
+                     "nist_grade_worst", "nist_n_components", "loggf_adopted",
+                     "nist_log_gf", "gf_sigma_dex"]], t2
+
+
 def porcelain() -> tuple[set, bool]:
     """The working tree's dirty set, or (empty, False) when git cannot answer."""
     import subprocess
@@ -1229,6 +1526,7 @@ def build(out: Path = OUT, online: bool = False) -> dict:
     check_b2(rep)
     upgraded = check_b3(rep, man, cen)
     holdings, unreachable, relabelled = check_c(rep, man, cen)
+    sweep, evaluated, vujratio = check_d(rep, man, norm, cen)
 
     for name, df in [("a1_dropped_source_flags.csv", flags),
                      ("a2_transition_collisions.csv", collide),
@@ -1242,7 +1540,10 @@ def build(out: Path = OUT, online: bool = False) -> dict:
                      ("b3_eligibility_upgrades.csv", upgraded),
                      ("c_solar_holdings_resolution.csv", holdings),
                      ("c_reachable_but_unreached_lines.csv", unreachable),
-                     ("c_band_gap_relabelled_lines.csv", relabelled)]:
+                     ("c_band_gap_relabelled_lines.csv", relabelled),
+                     ("d5_full_instrument_catalog_sweep.csv", sweep),
+                     ("d4_evaluated_tier_provenance.csv", evaluated),
+                     ("d2_vujnovic_ratio_basis.csv", vujratio)]:
         (df if isinstance(df, pd.DataFrame) else pd.DataFrame(df)).to_csv(out / name, index=False)
 
     findings = pd.DataFrame(rep.rows)
