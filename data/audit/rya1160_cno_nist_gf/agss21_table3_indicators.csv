@@ -1,0 +1,18 @@
+element,indicator,type,nlte_3D,lte_3D,error_dex,agss21_line_count,codex_note
+C,[C i],forbidden atomic,8.453,8.453,0.034,1,the 872.7 nm line (EP 1.264 eV) — present in our census
+C,C i,permitted atomic,8.470,8.480,0.038,14,"our census holds 16 permitted C I; AGSS21 used 14 — 2 unidentified"
+C,C2 Swan,molecular,,8.455,0.029,39,reproduced exactly from Amarsi Table 2
+C,CH (A-X),molecular electronic,,8.459,0.048,7,Table 2 has 6 — delta -1
+C,CH (dnu=1),molecular rovibrational,,8.470,0.043,51,Table 2 has 48 — delta -3
+C,CO (dnu=1),molecular fundamental,,8.487,0.101,28,reproduced exactly
+C,CO (dnu=2),molecular first overtone,,8.467,0.122,52,reproduced exactly
+N,N i,permitted atomic,7.767,7.780,0.035,5,gf now derived from Tachiev 2002 — RYA-1160
+N,NH (dnu=0),molecular pure rotational,,7.881,0.087,13,reproduced exactly
+N,NH (dnu=1),molecular fundamental,,7.921,0.050,15,Table 2 has 18 — delta +3
+N,CN (0-0),molecular electronic,,7.867,0.072,59,reproduced exactly
+N,CN (dnu>=1),molecular electronic,,7.899,0.078,463,"NOT REJECTED — AGSS21 derives an abundance from these; the RYA-1136 ledger calls them REJECTED"
+O,[O i],forbidden atomic,8.703,8.703,0.051,1,"6300.30; gf NOT from Tachiev (no 2p4->2p4 rows) — traces to Storey & Zeippen"
+O,O i,permitted atomic,8.686,8.805,0.030,3,"the 777 triplet; Tachiev vs NIST differ systematically by -0.016 dex"
+O,OH (dnu=0),molecular pure rotational,,8.690,0.070,84,reproduced exactly
+O,OH (dnu=1),molecular fundamental,,8.707,0.063,50,Table 2 has 46 — delta -4
+O,OH (dnu=2),molecular first overtone,,8.690,0.087,15,reproduced exactly
