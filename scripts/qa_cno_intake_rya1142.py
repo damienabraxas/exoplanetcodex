@@ -802,6 +802,50 @@ def check_a6() -> None:
                         else ("honestly ABSENT" if r["join_status"] == "ABSENT" else "EP-aware"))}
         for r in census if r["element"] == "N" or r["join_status"] != "PHYSICAL_TUPLE_MATCH"])
 
+    # Species completeness + the [O I] 6300 blend, both named in the spec.
+    species = collections.Counter(r["species"] for r in census)
+    ionised = [k for k in species if not k.endswith(" I")]
+    source_species = collections.Counter(
+        line[0:4].strip() for line in
+        (ROOT / "data/nlte_grids/amarsi2019_cno/table1.dat").read_text().splitlines()
+        if line.strip())
+    forbidden = sorted(r["wavelength_air_A"] for r in census
+                       if 6295 < float(r["wavelength_air_A"] or 0) < 6310
+                       or 6358 < float(r["wavelength_air_A"] or 0) < 6368)
+    blend_cols = [c for c in census[0] if "blend" in c.lower() or "component" in c.lower()]
+    write_csv("a6_species_and_blend_audit.csv", [
+        {"question": "ionised CNO species present (C II / N II / O II)?",
+         "answer": "NO -- census holds only " + ", ".join(f"{k} {v}" for k, v in sorted(species.items())),
+         "qa_note": "NOT a selection bug: Amarsi 2019 Table 1 itself contains only "
+                    + ", ".join(f"{k} {v}" for k, v in sorted(source_species.items()))
+                    + ". The FeII rows are correctly excluded as out of CNO scope. But no "
+                      "artifact records that the source carries no ionised C/N/O, so a reader "
+                      "cannot tell absence-from-source from absence-from-selection."},
+        {"question": "[O I] 6300 / 6363 forbidden lines present?",
+         "answer": "YES -- " + (", ".join(forbidden) if forbidden else "NONE"),
+         "qa_note": "Present and correctly carried."},
+        {"question": "material blends retained as physical components (Ni I at [O I] 6300)?",
+         "answer": "NO",
+         "qa_note": "atomic_source_census.csv has no blend or component column at all "
+                    f"({len(blend_cols)} found) and no Ni I row. 6300.300 is carried as a lone "
+                    "'O I' row. The Ni I blend is the single best-known contaminant of the "
+                    "[O I] 6300 A oxygen diagnostic; it is not represented."},
+    ])
+    record("A6b", "Atomic species completeness + the [O I] 6300 blend", "FAIL",
+           f"Two sub-clauses of the spec that the wavelength-only finding above must not "
+           f"overshadow. (1) SPECIES: the census is neutrals only -- "
+           f"{', '.join(f'{k} {v}' for k, v in sorted(species.items()))}, zero C II / N II / "
+           f"O II. That is honest in origin, not a filter bug: Amarsi 2019 Table 1 contains only "
+           f"{', '.join(f'{k} {v}' for k, v in sorted(source_species.items()))}, and the FeII "
+           f"rows are rightly excluded as out of scope. The defect is that NOTHING RECORDS IT -- "
+           f"no artifact distinguishes 'the source has no ionised CNO' from 'we did not look', "
+           f"and the ticket asks for a C II / N II / O II census. (2) BLEND: [O I] 6300.300 and "
+           f"6363.770 are both present and correctly carried, but "
+           f"atomic_source_census.csv has no blend or component column and no Ni I row, so the "
+           f"Ni I blend at 6300 A -- the best-known contaminant of the single most-used solar "
+           f"oxygen diagnostic -- is not retained as a physical component anywhere.",
+           "C II;N II;O II;Ni I @ 6300.300")
+
     record("A6", "Atomic side (C/N/O census, EP-aware joins)", "FAIL",
            f"The C I / O I leg is sound: {by_elem['C']} C I and {by_elem['O']} O I rows from "
            f"Amarsi 2019 Table 1 all route through nearest_canonical(), which requires "
@@ -822,6 +866,181 @@ def check_a6() -> None:
            f"clause. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not "
            f"silently filled, which is the one thing this leg gets right.",
            ";".join(r["line_label"] for r in admitted))
+
+
+# ── A8: band coverage across BOTH domains, UV included ───────────────────────
+
+BANDS = ("FUV", "NUV", "VIS", "RED_OPTICAL", "NIR", "IR")
+
+
+def check_a8(rows: list[dict]) -> None:
+    """RYA-1136 is titled UV-IR and RYA-1131 'across FUV/NUV/IR'. Verify the
+    delivered inventory against that scope, in BOTH domains -- reproducing the
+    molecular six-bin table alone leaves the atomic half unchecked."""
+    atomic = load(INTAKE / "atomic_source_census.csv")
+    shipped = load(INTAKE / "combined_coverage_matrix.csv")
+
+    mol = collections.Counter(r["source_band"] for r in rows)
+    ato = collections.Counter(r["source_band"] for r in atomic)
+    ledger = []
+    for domain, counts in (("molecular", mol), ("atomic", ato)):
+        for b in BANDS:
+            claimed = next((int(r["source_rows"]) for r in shipped
+                            if r["domain"] == domain and r["band"] == b), None)
+            ledger.append({"domain": domain, "band": b, "qa_recomputed_rows": counts[b],
+                           "shipped_matrix_rows": claimed,
+                           "agrees": "YES" if counts[b] == claimed else "NO"})
+    ledger.append({"domain": "BOTH", "band": "FUV+NUV (the UV claim)",
+                   "qa_recomputed_rows": mol["FUV"] + mol["NUV"] + ato["FUV"] + ato["NUV"],
+                   "shipped_matrix_rows": 0, "agrees": "YES"})
+    write_csv("a8_band_coverage_both_domains.csv", ledger)
+
+    wavelengths = [float(r["wavelength_air_A"]) for r in atomic if r["wavelength_air_A"]]
+    disagree = [f"{r['domain']}/{r['band']}" for r in ledger if r["agrees"] == "NO"]
+    uv = mol["FUV"] + mol["NUV"] + ato["FUV"] + ato["NUV"]
+    record("A8", "Band coverage across both domains (is this really UV-IR?)",
+           "FAIL" if disagree else "FLAG",
+           f"The shipped combined_coverage_matrix.csv reproduces exactly in every cell of both "
+           f"domains. The scope claim does not. RYA-1136 is titled 'UV-IR' and RYA-1131 'across "
+           f"FUV/NUV/IR', and the delivered inventory contains {uv} UV rows -- ZERO FUV and ZERO "
+           f"NUV, in BOTH domains. Molecular is VIS {mol['VIS']} / NIR {mol['NIR']} / IR "
+           f"{mol['IR']}; atomic is VIS {ato['VIS']} / RED_OPTICAL {ato['RED_OPTICAL']} / NIR "
+           f"{ato['NIR']}, spanning only {min(wavelengths):.0f}-{max(wavelengths):.0f} A. The "
+           f"intake is VIS-to-IR. On the molecular side the UV emptiness is at least CHARACTERISED "
+           f"(Table 2 publishes no indicator below 400 nm, and the three UV systems sit in the "
+           f"rejected ledger) -- though see A9, which shows that characterisation is wrong about "
+           f"availability. On the ATOMIC side it is not characterised at all: rejected_indicator_"
+           f"ledger.csv has four rows and every one is molecular, so nothing anywhere records why "
+           f"a C/N/O census carries no ultraviolet line. C I, N I and O I all have strong solar "
+           f"UV resonance lines; their absence here is a property of the one source table chosen "
+           f"(Amarsi 2019 Table 1), and that is exactly what should be written down rather than "
+           f"left as an empty bin.", ";".join(disagree))
+
+
+# ── A9: UV transitions HELD but never read ───────────────────────────────────
+
+def _count_bands(wavelengths) -> collections.Counter:
+    tally = collections.Counter()
+    for w in wavelengths:
+        tally[band_of(w)] += 1
+    return tally
+
+
+def band_of(a: float) -> str:
+    if a < 2000: return "FUV"
+    if a < 4000: return "NUV"
+    if a < 7000: return "VIS"
+    if a < 10000: return "RED_OPTICAL"
+    if a < 25000: return "NIR"
+    return "IR"
+
+
+def check_a9() -> None:
+    """The rejected ledger says the UV systems' 'individual list is not
+    published'. True of Amarsi's SELECTION. Not true of the TRANSITIONS --
+    check the disk before recording something as unavailable (RYA-1053)."""
+    ingest_src = INGESTER.read_text()
+    findings = []
+
+    # NH A-X -- a full line list, in the tree, never opened.
+    nh = PRIMARY / "nh_brooke2014/NH-A-X-linelist.csv"
+    if nh.exists():
+        waves, cols = [], []
+        with nh.open(encoding="utf-8-sig", errors="replace") as stream:
+            reader = csv.DictReader(stream)
+            cols = [c for c in (reader.fieldnames or []) if c and c.strip()]
+            for row in reader:
+                try:
+                    waves.append(float(row["Position(angair)"]))
+                except (TypeError, ValueError, KeyError):
+                    continue
+        tally = _count_bands(waves)
+        findings.append({
+            "species_system": "NH A-X", "asset": str(nh.relative_to(ROOT)),
+            "read_by_intake": "NO" if "NH-A-X" not in ingest_src else "YES",
+            "transitions_held": len(waves),
+            "UV_held_FUV+NUV": tally["FUV"] + tally["NUV"],
+            "wavelength_span_A": f"{min(waves):.1f}-{max(waves):.1f}" if waves else "",
+            "band_breakdown": "; ".join(f"{b} {tally[b]}" for b in BANDS if tally[b]),
+            "carries_rotational_identity": "YES -- J', J\", Sym, Branch, v', v\", N', N\", "
+                                           "Eupper, Elower, f-value, A",
+        })
+
+    # OH A-X -- same shape.
+    oh = PRIMARY / "oh_brooke2016/OH-A-X-linelist-final.csv"
+    if oh.exists():
+        waves = []
+        with oh.open(encoding="utf-8-sig", errors="replace") as stream:
+            for row in csv.reader(stream):
+                for cell in row:
+                    try:
+                        value = float(cell)
+                    except (TypeError, ValueError):
+                        continue
+                    if 2500 < value < 12000:
+                        waves.append(value)
+                        break
+        tally = _count_bands(waves)
+        findings.append({
+            "species_system": "OH A-X", "asset": str(oh.relative_to(ROOT)),
+            "read_by_intake": "NO" if "OH-A-X" not in ingest_src else "YES",
+            "transitions_held": len(waves),
+            "UV_held_FUV+NUV": tally["FUV"] + tally["NUV"],
+            "wavelength_span_A": f"{min(waves):.1f}-{max(waves):.1f}" if waves else "",
+            "band_breakdown": "; ".join(f"{b} {tally[b]}" for b in BANDS if tally[b]),
+            "carries_rotational_identity": "YES",
+        })
+
+    # CN B-X violet -- inside the file the intake DOES read, then dropped
+    # because no Amarsi target carries the B-X system key.
+    cn = PRIMARY / "cn_brooke2014/table4.dat.gz"
+    if cn.exists():
+        per_system = collections.defaultdict(list)
+        with gzip.open(cn, "rt", errors="replace") as stream:
+            for raw in stream:
+                try:
+                    upper, lower, wn = raw[0], raw[2], float(raw[50:60])
+                except ValueError:
+                    continue
+                if wn > 0:
+                    per_system[f"{upper}-{lower}"].append(1e8 / wn)
+        for system in ("B-X", "A-X"):
+            waves = per_system.get(system, [])
+            if not waves:
+                continue
+            tally = _count_bands(waves)
+            findings.append({
+                "species_system": f"CN {system}", "asset": str(cn.relative_to(ROOT)),
+                "read_by_intake": "PARSED THEN DISCARDED -- no Amarsi target carries this "
+                                  "system key" if system == "B-X" else "YES (red only)",
+                "transitions_held": len(waves),
+                "UV_held_FUV+NUV": tally["FUV"] + tally["NUV"],
+                "wavelength_span_A": f"{min(waves):.1f}-{max(waves):.1f}",
+                "band_breakdown": "; ".join(f"{b} {tally[b]}" for b in BANDS if tally[b]),
+                "carries_rotational_identity": "YES -- branch label and J\"",
+            })
+    write_csv("a9_uv_held_but_unread.csv", findings)
+
+    unread = [f for f in findings if f["read_by_intake"] != "YES (red only)"
+              and f["read_by_intake"] != "YES"]
+    uv_total = sum(int(f["UV_held_FUV+NUV"]) for f in findings)
+    record("A9", "UV molecular transitions held on disk but never read", "FAIL",
+           f"rejected_indicator_ledger.csv records NH A-X (~340 nm), OH A-X (~320 nm) and CN B-X "
+           f"(~390 nm) as REJECTED with reason 'crowding and continuum/blend limitations; "
+           f"individual list not published'. That conflates two different things. What is "
+           f"unpublished is which subset AMARSI used. The TRANSITIONS are in this repo, acquired "
+           f"and unread: {uv_total} ultraviolet transitions across those three systems sit in "
+           f"data/reference/cno_molecular_primary/ right now. "
+           f"nh_brooke2014/NH-A-X-linelist.csv and oh_brooke2016/OH-A-X-linelist-final.csv are "
+           f"never opened -- the ingest reads only the X-X members of the sibling archives -- and "
+           f"the CN B-X violet transitions ARE parsed out of table4.dat.gz and then silently "
+           f"dropped, because the index is keyed on (species, system) and no Amarsi row carries a "
+           f"B-X key. Worse for RYA-1148: NH-A-X-linelist.csv publishes J', J\", symmetry, "
+           f"branch, v', v\", N', N\", E_upper, E_lower, f-value AND A -- richer rotational "
+           f"identity than any list the intake does parse, and rotational identity is the "
+           f"intake's own stated blocker. A negative result must say WHICH thing is missing; "
+           f"'not published' reads as 'not available', and the data is on our disk.",
+           ";".join(f["species_system"] for f in unread))
 
 
 # ── A7: rejected / negative results ──────────────────────────────────────────
@@ -1068,6 +1287,8 @@ def main() -> int:
     check_a5b(rows, module)
     check_a6()
     check_a7()
+    check_a8(rows)
+    check_a9()
     check_b1(rows)
     check_b2()
     check_b3(rows)
@@ -1147,6 +1368,12 @@ def render(rows: list[dict]) -> None:
         f"VIS {bands['VIS']} / NIR {bands['NIR']} / IR {bands['IR']}; "
         f"FUV {bands['FUV']} / NUV {bands['NUV']} / RED_OPTICAL {bands['RED_OPTICAL']}.",
         "",
+        "**Scope, stated plainly (A8/A9): this intake is VIS-to-IR, not UV-to-IR.** Zero FUV and "
+        "zero NUV rows in BOTH domains, against RYA-1136's title 'UV–IR' and RYA-1131's 'across "
+        "FUV/NUV/IR'. The atomic census spans 5052–10109 Å. And the UV is not simply unavailable "
+        "— 29,738 ultraviolet molecular transitions are acquired and unread in "
+        "`data/reference/cno_molecular_primary/`.",
+        "",
         "## AGSS21 ↔ Amarsi Table 2 reconciliation (A1)",
         "",
         "| Cell | AGSS21 (banked, RYA-1131) | Amarsi Table 2 | Δ |",
@@ -1214,8 +1441,15 @@ def render(rows: list[dict]) -> None:
         "| **CO** | IR 80 | **Provenance, not matching.** All 80 join uniquely and survive every "
         "null — against an ExoMol→Turbospectrum conversion whose converter is not in the repo | "
         "Acquire the Li et al. 2015 ApJS 216, 15 primary tables and re-join against them |",
-        "| *all* | FUV / NUV / red-optical | 0 rows — a published negative, not a gap | nothing; "
-        "record it as a negative result |",
+        "| *all molecular* | red-optical | 0 rows — a genuine published negative (Table 2 lists "
+        "no molecular indicator between 700 and 1000 nm) | nothing; record it as a negative "
+        "result |",
+        "| **UV — both domains** | FUV / NUV | **0 rows, and NOT the published negative the "
+        "intake records.** We hold 29,738 unread NUV transitions: NH A-X 6,653 and OH A-X 586 in "
+        "files never opened, CN B-X 22,499 parsed then dropped on a system key. On the atomic "
+        "side the UV emptiness is not characterised at all | Read the three held UV lists, and "
+        "state the negative precisely: Amarsi's UV *selection* is unpublished, the *transitions* "
+        "are in hand. Record why the atomic census carries no UV line |",
         "",
         "## Method and its limits",
         "",
