@@ -1,0 +1,11 @@
+Fe · NIR · n=25
+  statistical  0.1588 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.15879 dex at n_lines=25
+  systematic   0.0615 dex   (does NOT average down)
+    0.1588  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0537  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 25 lines (Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound
+    0.0300  telluric residual        [SYSTEMATIC] NIR: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  stellar parameters       [SYSTEMATIC] NOT MEASURED for this product: no perturb-and-re-derive has been run on this pool (RYA-282 §2). dA/dp is a property of the LINE SET (RYA-1093), so no element-level number may stand in for it.
+  dominant: line-to-line scatter -- collect more lines
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 25 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0537 dex (1.31x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850)
