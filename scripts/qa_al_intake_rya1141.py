@@ -33,6 +33,7 @@ import hashlib
 import json
 import math
 import re
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -191,25 +192,79 @@ def level_ep_table(cross: pd.DataFrame) -> dict[tuple[str, str], float]:
 EP_IDENTITY_NAMES = {"lower_EP", "ep_eV", "excitation_potential_eV", "epcol", "eptol",
                      "lower_level", "upper_level", "upper_lower_level_identity"}
 
+WAVE_NAMES = ("wave", "lambda", "lam", "delta_a", "wtol", "wcol")
 
-def compares_identity(tree: "ast.AST") -> bool:
-    """Is any physical-identity field used in a COMPARISON inside this function?
 
-    #: 🔴 GREP IS NOT ENOUGH HERE. `ingest_new_lab_sources` DOES mention `lower_level`
-    #: and `upper_level` - it writes them into `upper_lower_level_identity`. A textual
-    #: search for the name therefore reports a physical-identity check that does not
-    #: exist. Only a COMPARISON constrains the join, so that is what this asks for.
+def _names(node: "ast.AST") -> set:
+    import ast as _ast
+    out = set()
+    for sub in _ast.walk(node):
+        if isinstance(sub, _ast.Attribute):
+            out.add(sub.attr)
+        elif isinstance(sub, _ast.Name):
+            out.add(sub.id)
+        elif isinstance(sub, _ast.Constant) and isinstance(sub.value, str):
+            out.add(sub.value)
+    return out
+
+
+def _is_wave(names: set) -> bool:
+    return any(any(w in n.lower() for w in WAVE_NAMES) for n in names)
+
+
+def _is_identity(names: set) -> bool:
+    return bool(names & EP_IDENTITY_NAMES)
+
+
+def join_constrains_identity(fn: "ast.AST") -> tuple[bool, list]:
+    """Does every candidate-narrowing wavelength comparison carry an identity term?
+
+    #: 🔴 SCOPE THE TEST TO THE NARROWING EXPRESSION, NOT THE FUNCTION. RYA-1037's
+    #: shipped guard asks `_enclosing_has_ep()` over the WHOLE enclosing function, so a
+    #: single unrelated `ep` anywhere in it silences every wavelength-only comparison
+    #: below. This asks a narrower question: for each comparison that filters candidates
+    #: BY WAVELENGTH, does the expression that builds that same filter also constrain a
+    #: physical identity? The group is the enclosing statement plus any augmented
+    #: assignment (`ok &= ...`) narrowing the same target - which is exactly how the
+    #: builder's own `nearest()` adds its EP term, so the positive control exercises it.
+    #:
+    #: 🔴 AND A MENTION IS NOT A COMPARISON. `ingest_new_lab_sources` names
+    #: `lower_level` and `upper_level` - it writes them into a provenance string. Only a
+    #: Compare node constrains a join, so only a Compare counts.
     """
     import ast as _ast
-    for node in _ast.walk(tree):
-        if not isinstance(node, _ast.Compare):
+    parent = {}
+    for node in _ast.walk(fn):
+        for child in _ast.iter_child_nodes(node):
+            parent[child] = node
+
+    def statement_of(node):
+        while node in parent and not isinstance(node, _ast.stmt):
+            node = parent[node]
+        return node if isinstance(node, _ast.stmt) else fn
+
+    def targets(stmt) -> set:
+        if isinstance(stmt, _ast.Assign):
+            return {t.id for t in stmt.targets if isinstance(t, _ast.Name)}
+        if isinstance(stmt, (_ast.AugAssign, _ast.AnnAssign)):
+            return {stmt.target.id} if isinstance(stmt.target, _ast.Name) else set()
+        return set()
+
+    augs = [n for n in _ast.walk(fn) if isinstance(n, _ast.AugAssign)]
+    unguarded = []
+    for cmp_node in [n for n in _ast.walk(fn) if isinstance(n, _ast.Compare)]:
+        names = _names(cmp_node)
+        if not _is_wave(names):
             continue
-        for sub in _ast.walk(node):
-            name = (sub.attr if isinstance(sub, _ast.Attribute)
-                    else sub.id if isinstance(sub, _ast.Name) else None)
-            if name in EP_IDENTITY_NAMES:
-                return True
-    return False
+        stmt = statement_of(cmp_node)
+        group = _names(stmt)
+        for tgt in targets(stmt):
+            for aug in augs:
+                if isinstance(aug.target, _ast.Name) and aug.target.id == tgt:
+                    group |= _names(aug)
+        if not _is_identity(group):
+            unguarded.append(getattr(cmp_node, "lineno", -1))
+    return (not unguarded), sorted(unguarded)
 
 
 def check_a2(rep: Report, cross: pd.DataFrame, man: pd.DataFrame):
@@ -217,38 +272,80 @@ def check_a2(rep: Report, cross: pd.DataFrame, man: pd.DataFrame):
     import ast as _ast
     tree = _ast.parse(BUILDER.read_text())
     fns = {n.name: n for n in _ast.walk(tree) if isinstance(n, _ast.FunctionDef)}
-    ingest = compares_identity(fns["ingest_new_lab_sources"])
-    #: CONTROL: the same test must FIRE on `nearest`, the EP-aware helper the builder
-    #: defines and then does not call from the ingest path. A guard that cannot say
-    #: "yes" is not measuring anything.
-    control = compares_identity(fns["nearest"])
-    if not control:
-        rep.add("A2-control", "The identity-comparison test can return True", "FAIL",
-                "The control failed: `nearest`, which demonstrably compares `epcol`, was "
-                "not detected. The A2 result below is not trustworthy.")
-    else:
-        rep.add("A2-control", "The identity-comparison test can return True", "PASS",
-                "The same AST test fires on `nearest`, the builder's own EP-aware matcher "
-                "(`(frame[epcol] - ep).abs() <= eptol`), so a negative on the ingest path "
-                "is a real absence and not a broken detector.")
+    ingest_ok, ingest_lines = join_constrains_identity(fns["ingest_new_lab_sources"])
+    #: CONTROL: the same test must return True for `nearest`, the EP-aware helper the
+    #: builder defines and then does not call from the ingest path. A guard that cannot
+    #: say "yes" is not measuring anything - and `nearest` adds its EP term through
+    #: `ok &= ...`, so this also exercises the augmented-assignment branch.
+    control_ok, _ = join_constrains_identity(fns["nearest"])
+    #: NEGATIVE CONTROL: a function whose wavelength filter is bare, but which mentions
+    #: an identity field somewhere else, must still FAIL. This is the laundering-by-scope
+    #: hole in RYA-1037's `_enclosing_has_ep()`, asserted here so this test cannot inherit it.
+    launder = _ast.parse(
+        "def f(df, w, r):\n"
+        "    note = f'{r.lower_level} - {r.upper_level}'\n"
+        "    return df[(df.wavelength_air - w).abs() <= .08], note\n")
+    launder_ok, _ = join_constrains_identity(
+        [n for n in _ast.walk(launder) if isinstance(n, _ast.FunctionDef)][0])
+    rep.add("A2-control", "The identity-comparison test can say yes, and cannot be laundered",
+            "PASS" if control_ok and not launder_ok else "FAIL",
+            f"Positive control: the test returns True for `nearest`, the builder's own "
+            f"EP-aware matcher, whose EP term arrives via `ok &= (frame[epcol] - ep).abs() "
+            f"<= eptol` - so the augmented-assignment branch is exercised. Negative "
+            f"control: a fixture whose wavelength filter is bare but which MENTIONS "
+            f"`lower_level`/`upper_level` elsewhere still returns False, so this test does "
+            f"not inherit RYA-1037's `_enclosing_has_ep()` whole-function blind spot.")
 
-    if not ingest:
+    if not ingest_ok:
         rep.add("A2", "Crossmatch identity (EP-aware, never wavelength alone)", "FAIL",
-                "RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the "
-                "Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= "
-                "0.08` and nothing else. No excitation potential and no level designation "
-                "appears in any comparison in that function - the level strings it does "
-                "touch are only WRITTEN into `upper_lower_level_identity`. So no promotion "
-                "in this ticket was matched on a physical identity. The builder defines an "
-                "EP-aware matcher, `nearest(..., epcol=..., eptol=0.02)`, and the census "
-                "loop calls it; the promotion path does not.")
+                f"RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the "
+                f"Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= "
+                f"0.08` and nothing else. {len(ingest_lines)} candidate-narrowing "
+                f"wavelength comparisons (lines {ingest_lines}) carry no physical-identity "
+                f"term in the expression that builds the filter - and the level strings "
+                f"the function does touch are only WRITTEN into "
+                f"`upper_lower_level_identity`. So no promotion in this ticket was matched "
+                f"on a physical identity. The builder defines an EP-aware matcher, "
+                f"`nearest(..., epcol=..., eptol=0.02)`, and the census loop calls it; the "
+                f"promotion path does not.")
         rep.row("A2", "CRITICAL", "scripts/build_al_intake_rya1132.py:ingest_new_lab_sources",
                 "Promotion join is wavelength-only, forbidden by RYA-1034",
-                "`near = candidates[candidates.delta_A <= .08]`; the Al II 2669 block "
-                "repeats the pattern. `nearest(..., epcol=...)` exists and is not called here.")
+                f"`near = candidates[candidates.delta_A <= .08]` (line {ingest_lines[0]}); "
+                f"the Al II 2669 block repeats the pattern. `nearest(..., epcol=...)` "
+                f"exists and is not called here.")
     else:
         rep.add("A2", "Crossmatch identity (EP-aware, never wavelength alone)", "PASS",
-                "The ingest join constrains a physical-identity field as well as wavelength.")
+                "Every candidate-narrowing wavelength comparison is conjoined with a "
+                "physical-identity constraint.")
+
+    #: 🔴 AND THE REPO'S OWN GUARD DOES NOT SEE IT. RYA-1037 ships a repo-wide AST scan
+    #: for wavelength-only keys; it is silent on this file, so the defect passed CI.
+    #:
+    #: 🔴 CALL `scan()`, DO NOT SHELL OUT. Running the auditor as a subprocess REWRITES
+    #: `data/audit/rya1037/rya1037_line_key_inventory.json` - a repo artifact outside this
+    #: QA's output directory. A findings-only audit that mutates a file to make a finding
+    #: has entered its own measurement. `scan(root)` is pure and writes nothing.
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from audit_line_keys_rya1037 import scan as _scan_line_keys  # noqa: E402
+    found = _scan_line_keys(ROOT)
+    caught = [f for f in found if "build_al_intake_rya1132" in f.file]
+    rep.add("A2-repo-guard", "RYA-1037's repo-wide wavelength-only guard catches this join",
+            "PASS" if caught else "FAIL",
+            f"It does not. `scripts/audit_line_keys_rya1037.py:scan()` reports {len(found)} "
+            f"findings across the repo - so the scanner runs and is not simply empty - and "
+            f"names `build_al_intake_rya1132.py` zero times. Two independent reasons: its "
+            f"`WAVE_ONLY_TOL` rule matches only the BUILTIN `abs(a - b) <op> tol` inside one "
+            f"expression, while RYA-1132 uses the pandas METHOD `(a - b).abs()` assigned to "
+            f"`delta_A` and then filters in a SEPARATE statement; and its "
+            f"`_enclosing_has_ep()` scopes to the whole function, so one unrelated `ep` "
+            f"would silence it anyway. The guard built to make RYA-1034 unrepeatable did "
+            f"not fire on the next occurrence of RYA-1034.")
+    if not caught:
+        rep.row("A2", "CRITICAL", "scripts/audit_line_keys_rya1037.py",
+                "The repo-wide wavelength-only guard does not detect the RYA-1132 join",
+                f"{len(found)} findings reported elsewhere, zero for "
+                f"build_al_intake_rya1132.py; `WAVE_ONLY_TOL` requires builtin abs() within "
+                f"a single expression, and `_enclosing_has_ep()` is function-scoped.")
 
     # THE NULL. A manifest row claimed by two different (upper J, lower J) pairs is a
     # wavelength-only mismatch caught in the act.  Tables 4 and 5 spell the same Al II
@@ -889,26 +986,55 @@ def check_b1(rep: Report, man: pd.DataFrame, cen: pd.DataFrame,
                 "rya946_window", "measurement_suitability_status"]]
 
 
+#: PR #478's merge commit, PINNED. See `check_b2`.
+RYA1132_MERGE = "04e6afe"
+
+
 def check_b2(rep: Report) -> None:
+    """B2 - `canonical_gf.csv` was not mutated by RYA-1132.
+
+    #: 🔴 PIN THE SHA. THE INSTRUMENT ENTERED ITS OWN MEASUREMENT HERE. This check used
+    #: to find its target with `git log --grep=RYA-1132 --merges -1 origin/main`. Once
+    #: THIS audit's own PR merged - and its merge body names RYA-1132, because that is
+    #: what it audits - the newest matching merge became the AUDITOR'S, so B2 quietly
+    #: started diffing my commit against its parent and still reported PASS. A guard
+    #: that retargets itself onto the thing running it is worse than no guard.
+    #:
+    #: So the commit is named, not searched, and a CONTROL asserts the pinned commit is
+    #: the right one: its diff must contain the RYA-1132 artifacts. If someone repins it
+    #: wrongly, the control fails instead of the check silently passing.
+    """
     import subprocess
+
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True,
+                              text=True, check=True).stdout
+
     try:
-        merge = subprocess.run(["git", "log", "--format=%H", "--grep=RYA-1132",
-                                "--merges", "-1", "origin/main"],
-                               cwd=ROOT, capture_output=True, text=True, check=True
-                               ).stdout.strip()
-        files = subprocess.run(["git", "diff", "--name-only", f"{merge}^1", merge],
-                               cwd=ROOT, capture_output=True, text=True, check=True
-                               ).stdout.split()
+        merge = git("rev-parse", RYA1132_MERGE).strip()
+        subject = git("log", "--format=%s", "-1", merge).strip()
+        files = git("diff", "--name-only", f"{merge}^1", merge).split()
     except Exception as exc:  # pragma: no cover - a shallow clone has no history
         rep.add("B2", "canonical_gf.csv not mutated by RYA-1132", "FLAG",
-                f"Could not read the merge diff ({exc}).")
+                f"Could not read the pinned merge {RYA1132_MERGE} ({exc}).")
         return
-    touched = [f for f in files if "canonical_gf" in f or "linelists" in f]
+
+    signature = [f for f in files if f.startswith("data/audit/rya1132_al_intake/")]
+    right_commit = ("478" in subject and "rya-1132" in subject.lower()
+                    and len(signature) >= 10)
+    rep.add("B2-control", "The pinned commit really is PR #478's merge",
+            "PASS" if right_commit else "FAIL",
+            f"`{merge[:7]}` — \"{subject}\" — and its diff introduces {len(signature)} "
+            f"files under `data/audit/rya1132_al_intake/`. The SHA is pinned rather than "
+            f"searched, because a `--grep=RYA-1132` search now matches THIS audit's own "
+            f"merge commit and would have made B2 diff the auditor against itself.")
+
+    touched = [f for f in files if "canonical_gf" in f or f.startswith("data/linelists/")]
     rep.add("B2", "canonical_gf.csv not mutated by RYA-1132",
-            "PASS" if not touched else "FAIL",
+            "PASS" if not touched and right_commit else "FAIL",
             f"PR #478 (merge {merge[:7]}) touches {len(files)} files and none of them is "
             f"under `data/linelists/`. `canonical_gf.csv` is byte-identical across the "
-            f"merge. The one data file it does change outside its own audit directory is "
+            f"merge. The one data file it changes outside its own audit directory is "
             f"`data/audit/rya1129_atomic_intake/intake_status_ledger.csv`, one row, as "
             f"the builder documents.")
 
@@ -1070,9 +1196,21 @@ def check_c(rep: Report, man: pd.DataFrame,
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+def porcelain() -> tuple[set, bool]:
+    """The working tree's dirty set, or (empty, False) when git cannot answer."""
+    import subprocess
+    try:
+        r = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                           capture_output=True, text=True, check=True).stdout
+        return {ln[3:].strip().strip('"') for ln in r.splitlines() if ln.strip()}, True
+    except Exception:
+        return set(), False
+
+
 def build(out: Path = OUT, online: bool = False) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     before = {p: sha256(p) for p in audited_files()}
+    tree_before, tree_checked = porcelain()
 
     man = pd.read_csv(AUDITED / "al_line_manifest.csv", low_memory=False)
     norm = pd.read_csv(AUDITED / "vujnovic2002_normalized.csv", low_memory=False)
@@ -1114,12 +1252,29 @@ def build(out: Path = OUT, online: bool = False) -> dict:
 
     after = {p: sha256(p) for p in audited_files()}
     mutated = sorted(str(p.relative_to(ROOT)) for p in before if before[p] != after.get(p))
+
+    #: 🔴 HASHING A CHOSEN SET CANNOT SEE A WRITE OUTSIDE IT. An earlier revision of this
+    #: script shelled out to the RYA-1037 auditor and silently rewrote
+    #: `data/audit/rya1037/rya1037_line_key_inventory.json` - a repo file that was not in
+    #: the audited set, so the hash comparison passed while the working tree was dirty.
+    #: The complete question is not "did these 21 files change" but "did ANYTHING change
+    #: outside my own output directory", and only the working tree can answer it. It is a
+    #: DIFF against the tree as it stood when this run started, so a dirty dev checkout
+    #: (or a tmp_path `out`) cannot manufacture a failure this run did not cause.
+    tree_after, _ = porcelain()
+    own = str(out.relative_to(ROOT)) if out.is_relative_to(ROOT) else None
+    stray = sorted(q for q in (tree_after - tree_before)
+                   if not (own and q.startswith(own)))
+    mutated = sorted(set(mutated) | set(stray))
+
     rep.add("NO-MUTATION", "No intake artifact was modified by this QA",
             "PASS" if not mutated else "FAIL",
-            f"{len(before)} audited files hashed before and after every read; "
-            f"{len(mutated)} changed. This auditor writes only under "
-            f"`{out if not out.is_relative_to(ROOT) else out.relative_to(ROOT)}` and "
-            f"excludes its own source file by name.")
+            f"{len(before)} audited files hashed before and after every read, AND the whole "
+            f"working tree diffed against its state at the start of this run for any change "
+            f"outside `{own or out}`"
+            f"{'' if tree_checked else ' (working-tree check unavailable here)'}. "
+            f"{len(mutated)} changed. This auditor excludes its own source file by name, "
+            f"never by pattern.")
 
     verdict = {"ticket": "RYA-1141", "audited": "RYA-1132 (PR #478)",
                "overall": rep.worst, "intake_independently_verified": rep.worst == "PASS",

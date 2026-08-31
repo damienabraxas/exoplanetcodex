@@ -11,7 +11,7 @@ import pandas as pd
 import pytest
 
 from scripts.qa_al_intake_rya1141 import (AUDITED, CANONICAL, audited_files,
-                                          build, compares_identity, SELF)
+                                          build, join_constrains_identity, SELF)
 
 
 @pytest.fixture(scope="module")
@@ -45,10 +45,18 @@ def test_detector_is_not_fooled_by_a_mention_without_a_comparison():
     """`ingest_new_lab_sources` writes `lower_level` into a string. A grep would call
     that an identity check; this must not."""
     import ast
-    mention_only = ast.parse("def f(a, b):\n    return f'{a.lower_level} - {a.upper_level}'\n")
-    compares = ast.parse("def f(a, b):\n    return abs(a.lower_EP - b) <= 0.02\n")
-    assert not compares_identity(mention_only)
-    assert compares_identity(compares)
+
+    def fn(src):
+        return [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)][0]
+
+    mention_only = fn("def f(df, a, w):\n"
+                      "    note = f'{a.lower_level} - {a.upper_level}'\n"
+                      "    return df[(df.wavelength_air - w).abs() <= .08], note\n")
+    compares = fn("def f(df, a, w, ep):\n"
+                  "    return df[((df.wavelength_air - w).abs() <= .08)\n"
+                  "              & ((df.lower_EP - ep).abs() <= .02)]\n")
+    assert not join_constrains_identity(mention_only)[0]
+    assert join_constrains_identity(compares)[0]
 
 
 def test_wavelength_only_join_is_caught_in_the_act(qa):
@@ -196,3 +204,94 @@ def test_canonical_gf_is_byte_identical_after_the_whole_battery(qa):
     assert hashlib.sha256(CANONICAL.read_bytes()).hexdigest() == digest
     assert not any(p.name.startswith("al_line_manifest") and p.parent == AUDITED
                    and p.stat().st_size == 0 for p in AUDITED.iterdir())
+
+
+def test_the_repo_wide_wavelength_guard_does_not_catch_this_join(qa):
+    """RYA-1037 shipped a guard to make RYA-1034 unrepeatable. It did not fire here."""
+    verdict, _ = qa
+    assert verdict["checks"]["A2-repo-guard"] == "FAIL"
+
+
+def test_the_1037_scan_is_called_in_process_and_writes_nothing():
+    """🔴 Shelling out to the auditor REWRITES its inventory JSON — a repo file outside
+    this QA's output directory. `scan()` is pure; assert we call that, not the CLI.
+
+    #: Read through the absolute `SELF`, never a relative path: other modules in the
+    #: suite chdir, and a relative read passes alone and dies in the full run.
+    """
+    from scripts.qa_al_intake_rya1141 import ROOT
+    src = SELF.read_text()
+    assert "from audit_line_keys_rya1037 import scan" in src
+    assert "audit_line_keys_rya1037.py\"]" not in src  # no subprocess invocation
+    inventory = ROOT / "data/audit/rya1037/rya1037_line_key_inventory.json"
+    before = inventory.read_bytes() if inventory.exists() else None
+    from scripts.qa_al_intake_rya1141 import build as _b  # noqa: F401
+    assert (inventory.read_bytes() if inventory.exists() else None) == before
+
+
+def test_no_mutation_check_actually_fails_on_a_stray_write(tmp_path, monkeypatch):
+    """🔴 THE CONTROL ON THE FIREWALL. A hash over a chosen set cannot see a write
+    outside it — an earlier revision of this script dirtied `data/audit/rya1037/` and
+    still reported PASS. Sabotage a check into touching a repo file and require FAIL."""
+    from scripts import qa_al_intake_rya1141 as q
+    probe = q.ROOT / "data/audit/rya1037/stray_probe_test.tmp"
+    original = q.check_a4
+
+    def sabotage(rep, man):
+        probe.write_text("x")
+        return original(rep, man)
+
+    monkeypatch.setattr(q, "check_a4", sabotage)
+    try:
+        v = q.build(tmp_path)
+        assert v["checks"]["NO-MUTATION"] == "FAIL"
+        assert "data/audit/rya1037/stray_probe_test.tmp" in v["artifacts_mutated"]
+    finally:
+        probe.unlink(missing_ok=True)
+
+
+def test_the_identity_test_is_scoped_to_the_narrowing_expression():
+    """🔴 NOT THE WHOLE FUNCTION. RYA-1037's `_enclosing_has_ep()` asks the enclosing
+    function, so one unrelated `ep` silences every wavelength-only comparison below it.
+    A mention elsewhere must not launder a bare wavelength filter."""
+    import ast
+    from scripts.qa_al_intake_rya1141 import join_constrains_identity
+
+    def fn(src):
+        return [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)][0]
+
+    laundered = fn("def f(df, w, r):\n"
+                   "    note = f'{r.lower_level} - {r.upper_level}'\n"
+                   "    return df[(df.wavelength_air - w).abs() <= .08], note\n")
+    conjoined = fn("def g(df, w, ep):\n"
+                   "    ok = (df.wavelength_air - w).abs() <= .08\n"
+                   "    ok &= (df.lower_EP - ep).abs() <= .02\n"
+                   "    return df[ok]\n")
+    assert not join_constrains_identity(laundered)[0]
+    assert join_constrains_identity(conjoined)[0]
+
+
+def test_b2_pins_the_merge_sha_and_proves_it_is_the_right_one(qa):
+    """🔴 THE AUDITOR'S OWN MERGE NAMES RYA-1132. A `--grep=RYA-1132 --merges -1` search
+    therefore retargets B2 onto this audit's commit the moment it lands — and still
+    reports PASS. The SHA is pinned; the control asserts the pin is correct."""
+    verdict, _ = qa
+    assert verdict["checks"]["B2-control"] == "PASS"
+    assert verdict["checks"]["B2"] == "PASS"
+    #: A MENTION IS NOT A USE — the source explains the `--grep` trap in a comment, so a
+    #: substring search would fail on the explanation. Ask the AST for an actual argument.
+    import ast
+    src = SELF.read_text()
+    assert "RYA1132_MERGE = " in src
+    grep_args = [n for n in ast.walk(ast.parse(src))
+                 if isinstance(n, ast.Constant) and isinstance(n.value, str)
+                 and n.value.startswith("--grep")]
+    assert not grep_args, f"B2 must not search for its target: {[n.value for n in grep_args]}"
+
+
+def test_b2_control_fails_if_the_pin_is_wrong(monkeypatch, tmp_path):
+    """A pin nobody checks is just a different way to be wrong."""
+    from scripts import qa_al_intake_rya1141 as q
+    monkeypatch.setattr(q, "RYA1132_MERGE", "origin/main")
+    v = q.build(tmp_path)
+    assert v["checks"]["B2-control"] == "FAIL"
