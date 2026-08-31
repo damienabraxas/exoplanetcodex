@@ -10,8 +10,9 @@
 | A1-burheim | Burheim Table 3 = 12 derived log gf; Table 2 does not leak in | **PASS** |
 | A1-parse | Fixed-width column extraction, refereed by branching closure | **PASS** |
 | A1-flags | CDS limit / note flag columns preserved | **FAIL** |
-| A2-control | The identity-comparison test can return True | **PASS** |
+| A2-control | The identity-comparison test can say yes, and cannot be laundered | **PASS** |
 | A2 | Crossmatch identity (EP-aware, never wavelength alone) | **FAIL** |
+| A2-repo-guard | RYA-1037's repo-wide wavelength-only guard catches this join | **FAIL** |
 | A2-null | Does the missing identity gate actually mis-assign? | **FAIL** |
 | A2-resolution | Would an EP gate alone have been sufficient? | **FLAG** |
 | A2-6696 | 6696.015 vs 6696.185 stay distinct; Burheim cannot leak | **PASS** |
@@ -35,6 +36,7 @@
 | B1 | Inventory reproduced independently from the sources | **PASS** |
 | B1-promotions | The 6 Al I promotions + Johnson Al II 2669, and the rejections | **PASS** |
 | B1-yield | What the seven new GF-LAB promotions actually unblock | **FLAG** |
+| B2-control | The pinned commit really is PR #478's merge | **PASS** |
 | B2 | canonical_gf.csv not mutated by RYA-1132 | **PASS** |
 | B3 | Band verdict strings are the ones claimed | **PASS** |
 | B3-eligibility | 'Eligible' is derived from the evidence the manifest carries | **FLAG** |
@@ -63,13 +65,17 @@ For every multiplet with more than one finite Aki, A_i/sum(A) reproduces the SEP
 
 14 flag bytes across 5 documented CDS columns are never read by the parser, so the reference README's claim that 'source limits remain limits' is false for two of them. `l_e_Aki` ('>') turns a LOWER LIMIT on the uncertainty into a determinate sigma, and `n_Lambda` ('*') - which the CDS ReadMe documents as 'the value ... was taken over from Tayal & Hibbert (1984)' - is the only thing distinguishing a theoretical Aki from a Vujnovic measurement, and it is dropped.
 
-### A2-control - The identity-comparison test can return True: **PASS**
+### A2-control - The identity-comparison test can say yes, and cannot be laundered: **PASS**
 
-The same AST test fires on `nearest`, the builder's own EP-aware matcher (`(frame[epcol] - ep).abs() <= eptol`), so a negative on the ingest path is a real absence and not a broken detector.
+Positive control: the test returns True for `nearest`, the builder's own EP-aware matcher, whose EP term arrives via `ok &= (frame[epcol] - ep).abs() <= eptol` - so the augmented-assignment branch is exercised. Negative control: a fixture whose wavelength filter is bare but which MENTIONS `lower_level`/`upper_level` elsewhere still returns False, so this test does not inherit RYA-1037's `_enclosing_has_ep()` whole-function blind spot.
 
 ### A2 - Crossmatch identity (EP-aware, never wavelength alone): **FAIL**
 
-RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= 0.08` and nothing else. No excitation potential and no level designation appears in any comparison in that function - the level strings it does touch are only WRITTEN into `upper_lower_level_identity`. So no promotion in this ticket was matched on a physical identity. The builder defines an EP-aware matcher, `nearest(..., epcol=..., eptol=0.02)`, and the census loop calls it; the promotion path does not.
+RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= 0.08` and nothing else. 3 candidate-narrowing wavelength comparisons (lines [167, 171, 194]) carry no physical-identity term in the expression that builds the filter - and the level strings the function does touch are only WRITTEN into `upper_lower_level_identity`. So no promotion in this ticket was matched on a physical identity. The builder defines an EP-aware matcher, `nearest(..., epcol=..., eptol=0.02)`, and the census loop calls it; the promotion path does not.
+
+### A2-repo-guard - RYA-1037's repo-wide wavelength-only guard catches this join: **FAIL**
+
+It does not. `scripts/audit_line_keys_rya1037.py:scan()` reports 54 findings across the repo - so the scanner runs and is not simply empty - and names `build_al_intake_rya1132.py` zero times. Two independent reasons: its `WAVE_ONLY_TOL` rule matches only the BUILTIN `abs(a - b) <op> tol` inside one expression, while RYA-1132 uses the pandas METHOD `(a - b).abs()` assigned to `delta_A` and then filters in a SEPARATE statement; and its `_enclosing_has_ep()` scopes to the whole function, so one unrelated `ep` would silence it anyway. The guard built to make RYA-1034 unrepeatable did not fire on the next occurrence of RYA-1034.
 
 ### A2-null - Does the missing identity gate actually mis-assign?: **FAIL**
 
@@ -163,9 +169,13 @@ Promoted at [2652.475, 2660.386, 3082.153, 3092.71, 3944.006, 3961.52] A (the ti
 
 All 7 lines promoted by RYA-1132 have Solar central depth 0.969-0.994, so under RYA-946 every one is DEEP Grade, not Codex Grade, and none enters the 0.05-0.60 measurement window. The intake records this honestly in `measurement_suitability_status`, but the manifest has NO column naming the RYA-946 grade, and it labels these seven 'CANDIDATE_NOT_SELECTED' - a rejection word for lines the contract says should be ROUTED TO SYNTHESIS.
 
+### B2-control - The pinned commit really is PR #478's merge: **PASS**
+
+`04e6afe` — "Merge pull request #478 from damienabraxas/ryandamienschmitt/rya-1132-al-intake-closure" — and its diff introduces 12 files under `data/audit/rya1132_al_intake/`. The SHA is pinned rather than searched, because a `--grep=RYA-1132` search now matches THIS audit's own merge commit and would have made B2 diff the auditor against itself.
+
 ### B2 - canonical_gf.csv not mutated by RYA-1132: **PASS**
 
-PR #478 (merge 04e6afe) touches 25 files and none of them is under `data/linelists/`. `canonical_gf.csv` is byte-identical across the merge. The one data file it does change outside its own audit directory is `data/audit/rya1129_atomic_intake/intake_status_ledger.csv`, one row, as the builder documents.
+PR #478 (merge 04e6afe) touches 25 files and none of them is under `data/linelists/`. `canonical_gf.csv` is byte-identical across the merge. The one data file it changes outside its own audit directory is `data/audit/rya1129_atomic_intake/intake_status_ledger.csv`, one row, as the builder documents.
 
 ### B3 - Band verdict strings are the ones claimed: **PASS**
 
@@ -197,13 +207,14 @@ The column mixes three vocabularies: gf provenance tiers (GF-LAB, VALD3, UNRESOL
 
 ### NO-MUTATION - No intake artifact was modified by this QA: **PASS**
 
-22 audited files hashed before and after every read; 0 changed. This auditor writes only under `data/audit/rya1141_al_intake_qa` and excludes its own source file by name.
+22 audited files hashed before and after every read, AND the whole working tree diffed against its state at the start of this run for any change outside `data/audit/rya1141_al_intake_qa`. 0 changed. This auditor excludes its own source file by name, never by pattern.
 
 ## Findings
 
 | severity | check | subject | finding |
 | --- | --- | --- | --- |
 | CRITICAL | A2 | `scripts/build_al_intake_rya1132.py:ingest_new_lab_sources` | Promotion join is wavelength-only, forbidden by RYA-1034 |
+| CRITICAL | A2 | `scripts/audit_line_keys_rya1037.py` | The repo-wide wavelength-only guard does not detect the RYA-1132 join |
 | CRITICAL | A2 | `alphys_II_3587.0720_0333` | One manifest line claimed by two different physical transitions |
 | CRITICAL | A3 | `data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status` | 'COMPONENT_SUM_VERIFIED' is asserted from a count, never from a sum |
 | CRITICAL | A3 | `canonical_gf Al I 3944.006` | hfs_n_components is wrong and the intake stamped it verified and promoted it |
