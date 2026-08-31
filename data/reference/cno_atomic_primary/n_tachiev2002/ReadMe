@@ -1,0 +1,100 @@
+J/A+A/385/716      N-like and O-like Breit-Pauli energy levels  (Tachiev+, 2002)
+================================================================================
+Breit-Pauli energy levels and transition rates for nitrogen-like and
+oxygen-like sequences.
+    Tachiev G.I., Froese Fischer C.
+   <Astron. Astrophys. 385, 716 (2002)>
+   =2002A&A...385..716T
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data - atomic processes
+
+Abstract:
+    Breit-Pauli results for energy levels, lifetimes, and Lande g_J_
+    factors have been determined for all levels up to 2p^2^ 3d of the
+    nitrogen-like sequence (Z=7-17) and 2p^3^ 3d of the oxygen-like
+    sequence (Z=8-20). Exceptions are some lower members of the sequence
+    where the spectrum included only those levels below the second
+    2p^2^ 4s term in the case of N-like or 2p^3^ 4s in the case of O-like.
+    The computed energy and E1, E2, M1, M2 transition data between all
+    levels, including convergence of the LS line strength for both length
+    and velocity forms, may be viewed at a website,
+    http://www.vuse.vanderbilt.edu/~cff/mchf_collection .
+    In this paper, critically evaluated transition data is presented for
+    NI, OII, MgVI, and SiVIII (N-like sequence) and OI, NeIII, MgV, and
+    SiVII (O-like) for E1 transitions including uncertainty estimates.
+    Tables 4 and 5 include the computed energy adjusted transition rates
+    and uncertainty estimates as absolute values are calculated based on
+    errors from energy adjustment and from LS convergence. The accuracy of
+    energy levels is determined by comparison with experiment. Transition
+    rates with uncertainties are compared with experiment and other
+    theory.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName    Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe          80        .   This file
+table4.dat     148     1167   Transition lines for N-I, O-II, Mg-VI, Si-VIII
+table4.tex      94     1828   LaTeX version of table4.dat
+table5.dat     148     1251   Transition lines for O-I, F-II, Mg-V, Si-VII
+table5.tex      95     2103   LaTeX version of table4.dat
+--------------------------------------------------------------------------------
+
+See also:
+ J/A+AS/125/543 : Effective collision strengths for Mg VI (Ramsbottom+ 1997)
+ http://www.vuse.vanderbilt.edu/~cff/mchf_collection : The MCHF/MCDHF Collection
+
+Byte-by-byte Description of file: table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 20  A20   ---     Conf.L    Lower Configuration
+  22- 24  A3    ---     Term.L    Term Lower configuration
+  26- 29  A4    ---     J.L       J-value Lower configuration
+  31- 50  A20   ---     Conf.U    Upper Configuration
+  52- 54  A3    ---     Term.U    Term Upper Configuration
+  56- 59  A4    ---     J.U       J-value Upper Configuration
+  61- 70  E10.4 cm-1    NI        ? Aki transition rates for N I (G1)
+  72- 81  E10.4 cm-1  e_NI        ? Uncertainties for N I transitions (G2)
+  83- 92  E10.4 cm-1    OII       ? Aki transition rates for O II (G1)
+  94-103  E10.4 cm-1  e_OII       ? Uncertainties for O II transitions (G2)
+ 105-114  E10.4 cm-1    MgVI      ? Aki transition rates for Mg VI (G1)
+ 116-125  E10.4 cm-1  e_MgVI      ? Uncertainties for Mg VI transitions (G2)
+ 127-136  E10.4 cm-1    SiVIII    ? Aki transition rates for Si VIII (G1)
+ 138-147  E10.4 cm-1  e_SiVIII    ? Uncertainties for Si VIII transitions (G2)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table5.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 20  A20   ---     Conf.L    Lower Configuration
+  22- 24  A3    ---     Term.L    Term Lower configuration
+  26- 29  A4    ---     J.L       J-value Lower configuration
+  31- 50  A20   ---     Conf.U    Upper Configuration
+  52- 54  A3    ---     Term.U    Term Upper Configuration
+  56- 60  A5    ---     J.U       J-value Upper Configuration
+  61- 70  E10.4 cm-1    OI        ? Aki transition rates for O I (G1)
+  72- 81  E10.4 cm-1  e_OI        ? Uncertainties for O I transitions (G2)
+  83- 92  E10.4 cm-1    FII       ? Aki transition rates for F II (G1)
+  94-103  E10.4 cm-1  e_FII       ? Uncertainties for F II transitions (G2)
+ 105-114  E10.4 cm-1    MgV       ? Aki transition rates for Mg V (G1)
+ 116-125  E10.4 cm-1  e_MgV       ? Uncertainties for Mg V transitions (G2)
+ 127-136  E10.4 cm-1    SiVII     ? Aki transition rates for Si VII (G1)
+ 138-147  E10.4 cm-1  e_SiVII     ? Uncertainties for Si VII transitions (G2)
+--------------------------------------------------------------------------------
+
+Global notes:
+Note (G1): Note to Transition rates:
+     Transition rates are energy adjusted
+Note (G2): Note to Uncertainties:
+    Uncertainties are expressed as absolute values and are calculated
+    based on errors after energy adjustment. Transitions that have not
+    been adjusted (because of missing observed energies) have no
+    uncertainty values and are not adjusted for energy errors.
+--------------------------------------------------------------------------------
+
+Acknowledgements: Charlotte F. Fischer <cff@vuse.vanderbilt.edu>
+================================================================================
+(End)                                        Patricia Bauer [CDS]    27-Mar-2002
