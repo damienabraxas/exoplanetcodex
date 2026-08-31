@@ -45,12 +45,25 @@
     "C-lines": "FAIL",
     "C-bands": "FAIL",
     "C-alIII": "FLAG",
+    "D1": "FLAG",
+    "D2": "PASS",
+    "D2-a6-correction": "FLAG",
+    "D3-lineset": "FAIL",
+    "D3": "FAIL",
+    "D3-lineage": "FLAG",
+    "D4": "FAIL",
+    "D4-values": "PASS",
+    "D4-grades": "FAIL",
+    "D4-lineage": "FAIL",
+    "D5": "PASS",
+    "D5-outside": "FAIL",
+    "D5-blank": "FLAG",
     "NO-MUTATION": "PASS"
   },
-  "n_findings": 54,
+  "n_findings": 87,
   "by_severity": {
-    "HIGH": 24,
-    "MEDIUM": 17,
-    "CRITICAL": 13
+    "HIGH": 47,
+    "CRITICAL": 22,
+    "MEDIUM": 18
   }
 }
