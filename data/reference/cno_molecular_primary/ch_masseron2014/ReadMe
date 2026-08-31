@@ -1,0 +1,143 @@
+J/A+A/571/A47  Extensive linelist of CH in stellar atmospheres (Masseron+, 2014)
+================================================================================
+CH in stellar atmospheres: an extensive linelist.
+    Masseron T., Plez B., Van Eck S., Colin R., Daoutidis I., Godefroid M.,
+    Coheur P.-F., Bernath P., Jorissen A., Christlieb N.
+   <Astron. Astrophys. 571, A47 (2014)>
+   =2014A&A...571A..47M
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: molecular data - techniques: spectroscopic - stars: carbon
+
+Abstract:
+    The advent of high-resolution spectrographs and detailed stellar
+    atmosphere modelling has strengthened the need for accurate molecular
+    data. Carbon-enhanced metal-poor (CEMP) stars spectra are interesting
+    objects with which to study transitions from the CH molecule. We
+    combine programs for spectral analysis of molecules and
+    stellar-radiative transfer codes to build an extensive CH linelist,
+    including predissociation broadening as well as newly identified
+    levels. We show examples of strong predissociation CH lines in CEMP
+    stars, and we stress the important role played by the CH features in
+    the Bond-Neff feature depressing the spectra of barium stars by as
+    much as 0.2~magnitudes in the {lambda}=3000-5500{AA} range. Because of
+    the extreme thermodynamic conditions prevailing in stellar atmospheres
+    (compared to the laboratory), molecular transitions with high energy
+    levels can be observed. Stellar spectra can thus be used to constrain
+    and improve molecular data.
+
+Description:
+    Linelist for the CH molecules is presented. This includes the A-X,
+    B-X, and C-X electronic transitions up to the last observed
+    vibrational levels (i.e. v>=5 for the X and A states, v>=1 for
+    the B state, and v>=2 for the C state), with rotational levels up
+    to the dissociation energy as listed in Table 13.
+    Concerning the ^13^CH linelists, for the vibrational levels that could
+    not be observed but that exist for ^12^CH ( i.e. X^2^\{Delta}v=4 and
+    5, A^2^\{Delta}v=4 and 5, and C^2^\{Sigma}^+^ v=1 and 2), the
+    Born-Oppenheimer approximation from ^12^CH has been used to determine
+    the transitions. The X-X ro-vibrational transitions up to dissociation
+    are also included for both isotopologues.
+
+    The linelist is available on
+    http://www.astro.ulb.ac.be/~spectrotools/, and will be made available
+    through the VALD database.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName     Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe           80        .   This file
+table14.dat     156   102670   Linelist of the CH molecule
+--------------------------------------------------------------------------------
+
+See also:
+   J/MNRAS/425/34   : ExoMol line lists for BeH, MgH and CaH (Yadin+, 2012)
+   J/MNRAS/434/1469 : ExoMol line lists for SiO (Barton+, 2013)
+   J/MNRAS/437/1828 : ExoMol line list for HCN and HNC (Barber+, 2014)
+   J/MNRAS/440/1649 : ExoMol line lists for CH4 (Yurchenko+, 2014)
+   J/MNRAS/442/1821 : ExoMol line list for NaCl and KCl (Barton+, 2014)
+
+Table 13: Equilibrium constants for ^12^CH
+--------------------------------------------------------------------------------
+ Constant      X^2^{PI} a^3^{SIGMA}^-^ A^2^{DELTA} B^2^{SIGMA}^-^ C^2^{SIGMA}^+^
+ De(cm-1)      29374.0    23349.6       16210.26       4731.57      7549.36
+ D_0_^0^(cm-1) 27959.64
+ re({AA}A)     1.11981    1.0892        1.10366        1.16370      1.12777
+ Te            0.0        6024.40a      23148.7375     24642.425    31809.6428
+ {omega}e      2860.9238  3090.9 a      2923.3763      2255.07      2853.1724
+ {omega}exe    64.58180   102.17 a      90.2           223.2c       120.8564
+ {omega}eye    0.407275   ---           -0.1917
+ {omega}eze    -0.01980   ---           -0.3892
+ Be            14.45924   15.364 b      14.88536       13.3818      14.56066
+ {alpha}e      0.53502    0.553b        -0.591798      1.4828       0.56653
+ {gamma}e      0.001993   ---           -0.047110      ---          -0.08659
+ {epsilon}e    0.000214   ---           0.00782
+--------------------------------------------------------------------------------
+ Notes:
+  a: Constants taken from Kalemos et al. (1999, Journal of Chemical
+      Physics, 111, 9536)
+  b: Constants taken from Lie et al. (1973, J. Chem. Phys., 59, 1887).
+  c: value fixed according to Lie et al. (1973, J. Chem. Phys., 59, 1887)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table14.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+   6- 18  F13.4 0.1nm   lam.Air  [2554/33376282] Wavelength of the transition
+                                                 in air ({AA})
+  21- 34  E14.7 ---     gf       ?=-999 Oscillator strength value
+  39- 49  F11.5 cm-1    Elow     [14/33902] Energy of the lower level
+      52  I1    ---     vl       [0/6] Vibrational quantum number of lower level
+  55- 58  F4.1  ---     J        [0.5/49.5] Rotational angular momentum quantum
+                                            number of the lower level
+  61- 62  I2    ---     Nl       [0/49] Rotational angular momentum number
+                                  of the lower level
+      64  A1    ---     syml     [e/f] Symmetry of the lower level
+  70- 80  F11.5 cm-1    Eup      [2738/57430] Energy of the upper level
+      83  I1    ---     vu       [0/5] Vibrational quantum number of upper level
+  86- 89  F4.1  ---     Ju       [0.5/49.5] Rotational angular momentum number
+                                  of the upper level
+  92- 93  I2    ---     Nu       [0/49] Rotational angular momentum number
+                                  of the upper level
+      95  A1    ---     symu     [e/f] Symmetry of the upper level
+ 100-111  E12.7 s-1     gamrad   Radiative broadening value
+ 113-116  A4    ---     mol      Molecule: 12CH or 13CH
+ 118-120  A3    ---     trans    Electronic states of the transition
+     123  A1    ---     branch   Branch of the transition (P,Q or R)
+ 125-132  F8.5  cm-1    o-c      [-1.7/1.3] Difference between measurement
+                                            and calculation
+ 134-156  A23   ---     Ref      Reference of the measurement and comments (1)
+--------------------------------------------------------------------------------
+Note (1): References are:
+  Bembenek et al. (1997) = Bembenek et al., 1997,
+     Journal of Molecular Spectroscopy, 183, 1
+  Bernath et al. (1991) = Bernath et al., 1991,
+     Journal of Molecular Spectroscopy, 147, 16
+  Colin (2010) = Colin & Bernath, 2010,
+     Journal of Molecular Spectroscopy, 263, 120
+  Heimer (1932) = Heimer, T. 1932, Zeitschrift fur Physik, 78, 771
+  Herzberg & Johns (1969) = Herzberg & Johns, 1969, ApJ, 158, 399
+  Kepa et al. (1996) = Kepa et al., 1996,
+     Journal of Molecular Spectroscopy, 178, 189
+  Kumar et al. (1998) = Kumar et al., 1988, J. Chem. Phys., 109, 3824
+  Li et al. (1999) = Li & Lee, 1999, J. Chem. Phys., 111, 4942
+  Para et al. (1996) = Para, 1996,
+     Journal of Physics B Atomic Molecular Physics, 29, 5765
+  Ubachs et al. (1996) = Ubachs et al., 1986, J. Chem. Phys., 84, 3032
+  Zachwieja et al. (1995) = Zachwieja, 1995,
+     Journal of Molecular Spectroscopy, 170, 285
+  Zachwieja et al. (1997) = Zachwieja, 1997,
+     Journal of Molecular Spectroscopy, 182, 18
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+     Thomas Masseron, tpm40(at)ast.cam.ac.uk
+
+History:
+  * 06-Nov-2014: on-line version
+  * 16-Mar-2017: table14 corrected (from author)
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  03-Oct-2014
