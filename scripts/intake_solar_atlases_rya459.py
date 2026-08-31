@@ -49,7 +49,8 @@ sys.path.insert(0, str(ROOT))          # run from anywhere; import the pipeline 
 # 2000 Å (see extract_uv_composite). Committed atlas outputs are NOT regenerated here.
 from pipeline.wavelength_util import vac_to_air, air_to_vac   # noqa: E402
 
-STORE = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration')
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+STORE = (SPECTRA_EXT_DIR / 'Solar Calibration')
 KP_RAW = STORE / 'Kitt Peak Flux Atlas'
 UV_RAW = STORE / 'UV Composite'
 OUT_KP = ROOT / 'data' / 'solar_reference' / 'kpno_flux_atlas'

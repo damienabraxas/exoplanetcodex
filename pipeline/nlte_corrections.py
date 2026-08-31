@@ -145,7 +145,10 @@ def _load_nlte_regions() -> pd.DataFrame:
 
     try:
         import sys
-        sys.path.insert(0, str(_REPO_ROOT.parent / 'ispec'))
+        # RYA-1140: capability-resolved, not `_REPO_ROOT.parent` (which is the
+        # worktree's parent and forks the moment worktrees move -- RYA-1090).
+        from config.constants import ISPEC_DIR
+        sys.path.insert(0, str(ISPEC_DIR))
         import ispec
         raw = ispec.read_line_regions(_NLTE_REGIONS)
         fe_mask = np.array([str(n).strip() in ('Fe 1', 'Fe 2') for n in raw['note']])

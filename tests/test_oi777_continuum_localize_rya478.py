@@ -11,7 +11,8 @@ import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-_UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+_UVES_ANCHOR = (SPECTRA_EXT_DIR / 'Procyon' /
                 'Procyon UVES' / 'ADP.2020-06-15T10:09:57.908.fits')
 
 from scripts.procyon_oi777_continuum_localize_rya478 import (   # noqa: E402

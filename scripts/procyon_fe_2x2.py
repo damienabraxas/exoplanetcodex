@@ -56,7 +56,7 @@ _REPO = Path(__file__).resolve().parent.parent
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 # iSpec sibling (same convention as nlte_corrections / abundances_derive).
-_ISPEC = _REPO.parent / 'ispec'
+from config.constants import ISPEC_DIR as _ISPEC   # RYA-1140: not _REPO.parent
 if _ISPEC.exists() and str(_ISPEC) not in sys.path:
     sys.path.insert(0, str(_ISPEC))
 

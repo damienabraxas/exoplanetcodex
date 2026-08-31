@@ -28,7 +28,8 @@ import numpy as np
 
 _REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO))
-sys.path.insert(0, str(_REPO.parent / 'ispec'))
+from config.constants import ISPEC_DIR   # RYA-1140: not _REPO.parent
+sys.path.insert(0, str(ISPEC_DIR))
 import warnings; warnings.filterwarnings('ignore')
 from pipeline import abundances_derive as ad   # noqa: E402
 
