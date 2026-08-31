@@ -61,10 +61,12 @@ OUT = ROOT / "data" / "linelists" / "primary_gf"
 #: Ei already in eV, and the TP/Line reference codes preserved.
 RYA822 = ROOT / "scripts" / "rya822_pull_nist_nearuv.py"
 
-#: 3000 A is not a choice -- `canonical_gf` holds zero rows below it, for any element
-#: (RYA-1158). 25000 A is the top of the NIR bin. Pulling outside the store's own span
-#: would produce rows nothing can ever be joined to.
+#: 25000 A IS A HARD CEILING: the Codex holds no stellar spectra beyond it, so a line
+#: above 25000 A can never be measured here no matter how good its atomic data. Do not
+#: pull past it. 3000 A is the matching floor -- `canonical_gf` holds zero rows below it
+#: for any element (RYA-1158), though NIST does have graded CNO down to 900 A.
 LO_A, HI_A = 3000.0, 25000.0
+CEILING_A = 25000.0
 
 SPECIES = ("C I", "C II", "N I", "N II", "O I", "O II")
 
@@ -139,6 +141,9 @@ def main() -> None:
     ap.add_argument("--step-A", type=float, default=2000.0)
     ap.add_argument("--pause-s", type=float, default=0.4)
     a = ap.parse_args()
+    if a.hi_A > CEILING_A:
+        raise SystemExit(f"refusing: --hi-A {a.hi_A:.0f} exceeds the {CEILING_A:.0f} A "
+                         "instrument ceiling; the Codex has no spectra beyond it")
     species = a.species or list(SPECIES)
 
     rya822 = load_rya822()
