@@ -1,11 +1,27 @@
 {
   "ticket": "RYA-1160",
-  "targets": 5,
-  "uniquely_matched": 5,
-  "identical_to_nist": 4,
+  "targets": 12,
+  "uniquely_matched": 11,
   "constant_validated": "yes -- reproduces NIST log gf from NIST A to <=0.002 dex",
   "matching": "configuration + term + J on BOTH levels; never wavelength",
+  "both_sides_from_A": "NIST log gf is recomputed from NIST's own A with the SAME constant, so delta_dex isolates the A difference and not a rounding or formula difference",
   "wavelength_source": "NIST (measured); the graded quantity A comes from Tachiev, so the gf remains independent of NIST",
-  "finding": "4 of 5 uniquely matched lines reproduce NIST's log gf EXACTLY, which means NIST's N I values for those lines are themselves Tachiev & Froese Fischer. Agreement is therefore NOT confirmation -- it is one source seen twice. Any line where the two differ is the only place an actual cross-check exists.",
+  "per_species": {
+    "N I": {
+      "n": 5,
+      "same": 5,
+      "max_abs": 0.002
+    },
+    "O I": {
+      "n": 6,
+      "same": 0,
+      "max_abs": 0.0162
+    }
+  },
+  "finding_N_I": "All 5 N I lines agree with NIST to <=0.002 dex. NIST's N I values for these lines ARE Tachiev & Froese Fischer -- all five NIST rows share TP code T7370. The agreement is therefore NOT confirmation; it is one source seen twice, and the generic NIST pull adds nothing independent for N I.",
+  "finding_O_I": "O I behaves the OPPOSITE way and this is the substantive result. Tachiev and NIST are genuinely different sources for O I and they disagree SYSTEMATICALLY: -0.0156, -0.0160, -0.0162 dex across the 777 triplet (Tachiev A = 3.556e7 vs NIST 3.69e7, a 3.7% difference) and -0.0053 dex across all three 8446 lines. The consistency within each multiplet shows this is a real offset between two calculations, not scatter. The 777 triplet is AGSS21's dominant oxygen indicator, so a 0.016 dex gf offset propagates straight into A(O).",
+  "CAUTION": "AGSS21 names Tachiev & Froese Fischer for N i ONLY. It states no gf source for O i. So the O I rows above are a Tachiev-vs-NIST comparison, NOT an AGSS21-vs-NIST one, and must not be presented as the latter. Which source AGSS21 used for O i is OPEN.",
+  "forbidden_lines_absent": "[O I] 6300/6363 are NOT in Tachiev table5: it contains ZERO 2p(4) -> 2p(4) transitions, so the intra-ground-configuration forbidden lines are outside its scope. AGSS21's [O I] gf therefore comes from elsewhere -- NIST cites TP T4539,T5081 and the repo bibliography points at storey_zeippen2000.",
+  "absent_6158": "O I 6158 is ABSENT: its upper level is 4d and table5 stops at 3d/4s. Correctly refused rather than mismatched.",
   "canonical_gf_modified": false
 }
