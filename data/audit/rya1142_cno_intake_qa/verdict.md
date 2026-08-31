@@ -141,8 +141,8 @@ Direction first, because it matters: the verdict does NOT overstate freeze-readi
 
 | Molecule | Bands used | Blocker | What would close it |
 | --- | --- | --- | --- |
-| **C₂** | VIS 39 | 23 of 39 resolve only as gf-summed subsets, 26 of those by argmin across up to 16 viable subsets; the 0.0753 eV lower-energy origin shift is fitted, not cited | Amarsi's per-line rotational identity (J″, branch) for the Swan lines, and a citation for the energy-origin offset — measured here to lie on a 580.7–645.2 cm⁻¹ plateau with a clean null, so it is data-determined but unsourced |
-| **CH** | NIR/IR 54 | 9 sum-matched, 2 strength-mismatched, 1 ambiguous | J″ from Table 2; the primary side already publishes J, N and parity at bytes 55–95 and we discard them |
+| **C₂** | VIS 39 | 23 of 39 resolve only as gf-summed subsets, and ALL 23 were chosen by argmin across up to 16 viable subsets; the 0.0753 eV lower-energy origin shift is fitted, not cited | Amarsi's per-line rotational identity (J″, branch) for the Swan lines, and a citation for the energy-origin offset — measured here to lie on a 580.7–645.2 cm⁻¹ plateau with a clean null, so it is data-determined but unsourced |
+| **CH** | NIR/IR 54 | 9 sum-matched (3 of them argmin-chosen), 2 strength-mismatched, 1 ambiguous | J″ from Table 2; the primary side already publishes J, N and parity at bytes 55–95 and we discard them |
 | **CN** | NIR 59 | 1 strength mismatch; the 463 rejected red transitions are unverifiable | Acquire the Amarsi 2021 article so the rejection reason and count have a referent |
 | **NH** | NIR 31 | 7 ambiguous Λ-doublet pairs the matcher correctly refuses | J″ and parity from Table 2 — nothing else will separate a doublet whose components differ in the 4th decimal of log gf |
 | **OH** | NIR/IR 145 | 3 unmatched, 1 energy-mismatched, 1 ambiguous | Reconcile the 4 rows against the acquired Brooke 2016 release; they may be a release-version difference |
