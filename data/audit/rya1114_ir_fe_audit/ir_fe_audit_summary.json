@@ -1,0 +1,38 @@
+{
+  "n_live_ir_products": 6,
+  "holding_spread_by_treatment": {
+    "1D-LTE": {
+      "values": {
+        "crires_plus": 7.551,
+        "iag_fts_solar_atlas": 7.546,
+        "kpno_solar_atlas": 7.621
+      },
+      "spread_dex": 0.075,
+      "verdict": "within the 0.1 bound (RYA-1133)"
+    },
+    "ENGINE-A": {
+      "values": {
+        "crires_plus": 7.492,
+        "iag_fts_solar_atlas": 7.599,
+        "kpno_solar_atlas": 7.503
+      },
+      "spread_dex": 0.107,
+      "verdict": "BREACH the 0.1 bound (RYA-1133)"
+    }
+  },
+  "per_line_indicative_kpno_only": {
+    "n_rows": 34,
+    "centre_inside_telluric_band": [],
+    "window_overlaps_telluric_band": [
+      [
+        11119.795,
+        "H2O",
+        "flagged_kept",
+        0.205
+      ]
+    ],
+    "lab_lines": 2,
+    "lab_fraction_pct": 5.9,
+    "ungraded": 22
+  }
+}
