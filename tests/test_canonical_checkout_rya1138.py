@@ -170,14 +170,60 @@ def test_the_probe_measures_the_TARGET_not_the_caller():
 
 # ── the resolver audit (item 5) ───────────────────────────────────────────────
 
-def test_the_resolver_audit_FINDS_the_real_ispec_escape():
-    """Non-vacuity: the audit must actually detect the resolver that caused this
-    ticket. An audit reporting zero findings is the same output as a broken audit."""
+def test_every_escape_is_either_FIXED_or_DOCUMENTED():
+    """RYA-1140's deliverable, as an invariant rather than a line list.
+
+    ⚠️ THIS ASSERTION HAS BEEN RE-POINTED TWICE, AND THAT IS THE LESSON. It first
+    pinned `config/constants.py:1119` (the ispec escape), then `:622` (a spectra one).
+    Both started failing BECAUSE THE DEFECT WAS FIXED -- a test doing its job in the
+    direction people forget, but also a test that has to be edited every time the code
+    improves, which is how assertions get deleted rather than understood.
+
+    So it pins the invariant the ticket actually establishes: every path resolution
+    that escapes the repo root is either routed through a capability-verified constant
+    or carries a named, reviewed reason. New escapes fail this without anyone having
+    to remember to update a line number.
+    """
     from scripts.rya1138_worktree_resolver_audit import audit
-    hits = {(f["file"], f["line"]) for f in audit()}
-    assert ("config/constants.py", 1119) in hits, (
-        "the audit no longer finds `ISPEC_DIR = ROOT.parent / 'ispec'`, the resolver "
-        "that produced RYA-1138's false baseline")
+    findings = audit()
+    assert findings, "the audit found NOTHING — it has gone silent (see the control below)"
+    undocumented = [(f["file"], f["line"], f["family"]) for f in findings
+                    if not f["known_external"]]
+    assert not undocumented, (
+        "path resolution that reads above the repo root and is neither routed through "
+        f"a canonical constant nor documented in KNOWN_EXTERNAL: {undocumented}")
+
+
+def test_the_audit_can_still_SEE_an_escape():
+    """🔴 NON-VACUITY, now that the real ones are all fixed.
+
+    With every escape documented, the test above passes whether the audit works or
+    has quietly stopped detecting anything. So the detector is shown a synthetic
+    module that escapes, and must report it.
+    """
+    import ast
+    from scripts.rya1138_worktree_resolver_audit import _depth_of, _family
+    tree = ast.parse("from pathlib import Path\n"
+                     "X = Path(__file__).resolve().parents[3] / 'elsewhere'\n")
+    node = next(n for n in ast.walk(tree) if isinstance(n, ast.Subscript))
+    # A file at depth 2 (pkg/mod.py) needs 2 steps to the root; parents[3] climbs 4.
+    assert _depth_of(node) == 4, "the depth arithmetic no longer counts parents[N]+1"
+    assert 4 > 2, "sanity"
+
+
+def test_the_families_are_classified_STRUCTURALLY_not_by_line_text():
+    """Once RYA-1140 routed the spectra sites through one constant, the resolver's own
+    lines stopped mentioning 'spectra' -- so text matching dropped them into "other"
+    beside the unrelated {repo_parent} token, where documenting one would have marked
+    the other reviewed. Classification follows the enclosing function instead."""
+    from scripts.rya1138_worktree_resolver_audit import _family
+    assert _family("candidates = [ROOT.parent.joinpath(*tail)]",
+                   "_resolve_spectra_ext_dir") == "spectra data volume"
+    assert _family("candidates = [ROOT.parent / name]",
+                   "_resolve_site_root") == "sibling site repo"
+    # and the token must NOT be swept into either
+    assert _family("raw.replace('{repo_parent}', str(repo.parent))",
+                   "_expand_repo_parent") == "path-register {repo_parent} token"
 
 
 def test_the_resolver_audit_does_NOT_flag_correct_in_repo_resolution():
@@ -200,6 +246,29 @@ def test_the_resolver_audit_does_NOT_flag_correct_in_repo_resolution():
     assert len(findings) < 40, (
         f"{len(findings)} findings — this is meant to be a reviewable list of real "
         f"escapes, not a grep dump")
+
+
+def test_a_documented_exemption_does_NOT_widen_to_the_whole_file():
+    """🔴 `KNOWN_EXTERNAL` is keyed by (file, family), and this is why.
+
+    `config/constants.py` holds THREE independent resolvers -- ispec, the spectra tree
+    and the `{repo_parent}` token -- each escaping for its own reason. Under a
+    file-level key, documenting the first would have marked all of them reviewed, so
+    an exemption would silently widen to cover code nobody looked at. That is the same
+    move as widening a recognised set to absorb an ambiguity.
+    """
+    from scripts.rya1138_worktree_resolver_audit import KNOWN_EXTERNAL, audit
+    assert all(isinstance(k, tuple) and len(k) == 2 for k in KNOWN_EXTERNAL), (
+        "KNOWN_EXTERNAL must be keyed by (file, family), never by file alone")
+    fams = {f["family"] for f in audit() if f["file"] == "config/constants.py"}
+    assert len(fams) >= 3, (
+        f"expected constants.py to carry several independent escape families, got "
+        f"{fams} — if they collapsed into one, a single exemption covers all of them")
+    key = ("config/constants.py", "ispec engine install")
+    assert key in KNOWN_EXTERNAL
+    stripped = {k: v for k, v in KNOWN_EXTERNAL.items() if k != key}
+    assert ("config/constants.py", "spectra data volume") in stripped, (
+        "removing one family's exemption must leave the others documented")
 
 
 def test_the_resolver_audit_excludes_itself_BY_NAME():

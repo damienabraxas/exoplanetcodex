@@ -24,7 +24,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from pipeline.loaders.uves_loader import UVESLoader, UVESProductError   # noqa: E402
 
-UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+UVES_DIR = SPECTRA_EXT_DIR / 'Procyon' / 'Procyon UVES'
 OUT = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
 
 # O I telluric verdicts — verbatim from the RYA-271 audit table (per file/epoch).

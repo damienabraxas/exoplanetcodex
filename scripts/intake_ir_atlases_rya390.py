@@ -42,7 +42,8 @@ sys.path.insert(0, str(ROOT))          # run from anywhere; import the pipeline 
 # source-dedup with zero numerical change (the ≥2000 Å identity boundary never fires).
 from pipeline.wavelength_util import vac_to_air   # noqa: E402
 
-RAW = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' /
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+RAW = (SPECTRA_EXT_DIR /
        'Solar Calibration' / 'IR Reference Atlases')
 OUT = ROOT / 'data' / 'solar_reference' / 'ir_atlases'
 

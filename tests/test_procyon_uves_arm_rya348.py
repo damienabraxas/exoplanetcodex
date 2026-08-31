@@ -12,7 +12,8 @@ import pytest
 import pipeline.cno_synthesis as cs
 
 ROOT = Path(__file__).resolve().parents[1]
-_UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
+from config.constants import SPECTRA_EXT_DIR  # noqa: E402  (RYA-1140)
+_UVES_ANCHOR = (SPECTRA_EXT_DIR / 'Procyon' /
                 'Procyon UVES' / 'ADP.2020-06-15T10:09:57.908.fits')
 
 
