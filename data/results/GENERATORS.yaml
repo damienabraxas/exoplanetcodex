@@ -5478,3 +5478,354 @@ artifacts:
       passes a correctly-sited checkout that cannot import ispec, and fails everything
       the day the canonical parent moves -- the event that created RYA-1090. Skips are
       diffed too, since a skipped test is in neither the pass nor the fail set.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-B_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-B_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1162
+    note: >-
+      Per-line / budget / provenance artifact for a live IR Fe product, produced on
+      the Mac (2026-08-31) by re-running the deriver at the product's own published
+      --lo/--hi, tier and route. Every published field reproduced BYTE-IDENTICALLY
+      (RYA-1084 determinism); no value moved. RYA-1114 F3 recorded that the IR
+      products shipped aggregate-only, which left the per-line halves of its Part E
+      unanswerable. The holding is Mac-local, so this is committed but NOT
+      regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
