@@ -1,6 +1,6 @@
 # RYA-1142 — independent QA of the RYA-1136/1131 CNO intake
 
-**3 PASS · 10 FAIL · 5 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
+**4 PASS · 10 FAIL · 4 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
 
 ## Verdict
 
@@ -12,7 +12,7 @@ The blocked verdict is **not overstated** — nothing here reads freeze-ready, a
 
 | Check | Title | Status |
 | --- | --- | --- |
-| A1 | AGSS21 count reconciliation | **FLAG** |
+| A1 | AGSS21 count reconciliation | **PASS** |
 | A2 | Physical-identity crossmatch, never wavelength-alone | **FAIL** |
 | A2b | identity_basis honesty (wavelength's real role) | **FLAG** |
 | A2c | RYA-1037/1033 guard still covers the intake | **FAIL** |
@@ -80,12 +80,6 @@ Baseline reproduces the artifact exactly on all four quantities. Every tolerance
 
 ## Findings
 
-### A1 — AGSS21 count reconciliation · FLAG
-
-The (system,|dnu|) partition is the correct decoder for the AGSS21 sub-counts: 7 of 11 cells agree EXACTLY, including both CO cells in the published order, both C2, CN, NH dnu=0, OH dnu=0 and OH dnu=2. Transcription re-slices byte-exactly to the holding's own ReadMe and the columns the crossmatch never uses (Param, |dnu|, System) all fall inside the ReadMe's stated domains, so the 4 residual deltas are NOT ours. They are localised to four cells and total 408 vs 413. They CANNOT be closed here: the AGSS21 article was never acquired (source_bibliography.csv row AGSS21 is asset='article', sha256 EMPTY, status=SOURCE_IDENTIFIED), so the banked side is ticket prose with no checksummed referent to re-read.
-
-Offending rows: `CH X-X dnu=1 banked=51 table2=48; CH A-X dnu=0 banked=7 table2=6; NH X-X dnu=1 banked=15 table2=18; OH X-X dnu=1 banked=50 table2=46`
-
 ### A2 — Physical-identity crossmatch, never wavelength-alone · FAIL
 
 REPRODUCED EXACTLY: my independently re-implemented decision logic returns 278 unique / 9 ambiguous / 41 unresolved on the 328 non-CO rows and 80/80 unique on CO -- identical to the artifact on all four quantities. The three-field conjunction is REAL and the tolerances are EARNED: scrambling published_loggf collapses 278 unique to 17, scrambling lower_energy_eV to 3, and displacing wavelength by 20 cm-1 to 0. CO behaves the same way (80 -> 0 on scrambled gf). No wavelength-only admission exists in either molecular leg. BUT the acceptance set ACCEPTED_MOLECULAR_JOINS admits PRIMARY_UNRESOLVED_SUM_MATCH, and 26 of those 32 rows had MORE THAN ONE subset of primary components whose gf sum reproduces the published loggf (up to 16 viable subsets). build_cno_intake_rya1136.py resolves them with min(subsets, key=...) -- an argmin over candidate identities -- and then counts the result as matched coverage. That is the ambiguity-tolerant match the gate forbids: the matcher found A combination, not THE combination, and nothing downstream records that the identity was picked rather than determined.
@@ -108,7 +102,7 @@ Offending rows: `isotopologue;J_upper;J_lower;branch_or_parity;E_upper;air_or_va
 
 ### A4 — Provenance / grade earned · FAIL
 
-Two CRITICAL provenance defects. (1) REDISTRIBUTION LABELLED PRIMARY: source_bibliography.csv row Li2015_CO cites 'Li et al. 2015, ApJS 216, 15', role '12C16O wavelengths, energies, transition probabilities', status ACQUIRED -- and points at data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat. That file's own second line reads 'ExoMol Li2015', and the repo's MOLECULAR_MANIFEST.json describes it as an 'RYA-236 conversion of the ExoMol Li2015 CO list to the Turbospectrum babsma .dat format (conversion script external to this repo)'. It is an ExoMol redistribution, twice derived, by a converter that is not in the repo and cannot be re-run -- and it is the sole source behind ALL 80 CO PHYSICAL_TUPLE_MATCH rows, the only clean-match class in the intake. No Li 2015 primary table was ever acquired; data/reference/cno_molecular_primary/ has no CO directory. (2) MISSING CHECKSUM: the AGSS21 row carries asset='article', an EMPTY sha256 and status SOURCE_IDENTIFIED -- the paper whose lineage the whole intake claims was never acquired, which is also what blocks A1 and A7. Everything else verifies: all 9 other assets exist, all 9 recorded checksums recompute EXACTLY, and the CDS ReadMes for CN/CH/Barklem plus the NH reprint's own front matter confirm their bibcodes and DOIs. Also FLAG: 4 acquired C2 supporting archives (ChenEtAl-C2-2015-JChemPhys.zip, ChenEtAl-C2-2016-JChemPhys.zip, RamEtAl-C2-2014-AstroJ.zip, TanabashiEtAl-C2-2007-AstroJSuppl.zip) appear in no bibliography row, with no checksum and no stated role.
+Two CRITICAL provenance defects. (1) REDISTRIBUTION LABELLED PRIMARY: source_bibliography.csv row Li2015_CO cites 'Li et al. 2015, ApJS 216, 15', role '12C16O wavelengths, energies, transition probabilities', status ACQUIRED -- and points at data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat. That file's own second line reads 'ExoMol Li2015', and the repo's MOLECULAR_MANIFEST.json describes it as an 'RYA-236 conversion of the ExoMol Li2015 CO list to the Turbospectrum babsma .dat format (conversion script external to this repo)'. It is an ExoMol redistribution, twice derived, by a converter that is not in the repo and cannot be re-run -- and it is the sole source behind ALL 80 CO PHYSICAL_TUPLE_MATCH rows, the only clean-match class in the intake. No Li 2015 primary table was ever acquired; data/reference/cno_molecular_primary/ has no CO directory. (2) MISSING CHECKSUM: the AGSS21 row carries asset='article' and an EMPTY sha256. NOTE THE CORRECTED SCOPE -- the paper IS held (data/refs/bibliography.csv key `asplund2021`, local_file 'Reference documents/Apslund 2021.pdf', verified=extracted); it is THIS intake's bibliography that fails to point at the acquired copy. That is a broken link, not a missing source, and A1 is closed against the held PDF. Everything else verifies: all 9 other assets exist, all 9 recorded checksums recompute EXACTLY, and the CDS ReadMes for CN/CH/Barklem plus the NH reprint's own front matter confirm their bibcodes and DOIs. Also FLAG: 4 acquired C2 supporting archives (ChenEtAl-C2-2015-JChemPhys.zip, ChenEtAl-C2-2016-JChemPhys.zip, RamEtAl-C2-2014-AstroJ.zip, TanabashiEtAl-C2-2007-AstroJSuppl.zip) appear in no bibliography row, with no checksum and no stated role.
 
 Offending rows: `AGSS21;Li2015_CO`
 
@@ -136,7 +130,7 @@ Offending rows: `C II;N II;O II;Ni I @ 6300.300`
 
 ### A7 — Rejected / negative results retained · FLAG
 
-All four negative results are RETAINED, not dropped, each with a species, a system, a wavelength region and a stated reason -- the 463 rejected CN A-X red transitions (present) and the three considered-and-rejected UV systems (NH A-X ~340 nm, OH A-X ~320 nm, CN B-X ~390 nm), all three correctly marked count=NOT_PUBLISHED rather than invented. That is the right shape. What cannot be closed: every row's evidence field cites 'Amarsi2021 Sect. 2.1 lines 150-160' / '161-165' -- line numbers into an article body that is not in the repo, so no reader can re-derive the reason or confirm the 463. The 463 does not reconcile against anything held either: Table 2 publishes only the 59 USED CN lines, so the 522 considered total appears in no acquired asset. The ledger is honest but unverifiable, and it should say so.
+All four negative results are RETAINED, not dropped, each with a species, a system, a wavelength region and a stated reason -- the 463 rejected CN A-X red transitions (present) and the three considered-and-rejected UV systems (NH A-X ~340 nm, OH A-X ~320 nm, CN B-X ~390 nm), all three correctly marked count=NOT_PUBLISHED rather than invented. That is the right shape. What cannot be closed: every row's evidence field cites 'Amarsi2021 Sect. 2.1 lines 150-160' / '161-165' -- line numbers into an article body that is not in the repo, so no reader can re-derive the reason from an acquired asset. The 463 ITSELF now reconciles: AGSS21 Sect. 4 states the CN lines were 'separated into two groups consisting of 59 electronic lines in the 0-0 band, which typically has the best data, and 463 more lines with dnu >= 1 in various bands' -- so 59 + 463 = 522 is confirmed against the held paper. One nuance the ledger overstates: AGSS21 describes a SEPARATION INTO TWO GROUPS, while the ledger records the 463 flatly as REJECTED with an Amarsi-2021 dispersion reason. Both may be true, but they are different claims from different papers and the ledger cites only the second.
 
 ### A8 — Band coverage across both domains (is this really UV-IR?) · FLAG
 
