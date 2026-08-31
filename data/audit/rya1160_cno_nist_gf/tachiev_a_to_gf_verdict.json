@@ -1,0 +1,11 @@
+{
+  "ticket": "RYA-1160",
+  "targets": 5,
+  "uniquely_matched": 5,
+  "identical_to_nist": 4,
+  "constant_validated": "yes -- reproduces NIST log gf from NIST A to <=0.002 dex",
+  "matching": "configuration + term + J on BOTH levels; never wavelength",
+  "wavelength_source": "NIST (measured); the graded quantity A comes from Tachiev, so the gf remains independent of NIST",
+  "finding": "4 of 5 uniquely matched lines reproduce NIST's log gf EXACTLY, which means NIST's N I values for those lines are themselves Tachiev & Froese Fischer. Agreement is therefore NOT confirmation -- it is one source seen twice. Any line where the two differ is the only place an actual cross-check exists.",
+  "canonical_gf_modified": false
+}
