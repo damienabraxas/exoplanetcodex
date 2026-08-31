@@ -80,6 +80,49 @@ UPDATE_SCOPE = {
 }
 
 
+def safe_pull(rya822, lo, hi, step, species, pause):
+    """RYA-822's pull, with one fix that only shows up over a wide band.
+
+    astroquery returns masked columns whose dtype depends on what a chunk happens to
+    contain, so a column that is Int64 in one chunk and float64 in the next makes
+    pd.concat raise `cannot safely cast non-equivalent float64 to int64`. It surfaced
+    only above 25000 A. Every column is cast to object BEFORE concat; tidy() re-parses
+    with pd.to_numeric anyway, so nothing is lost and no value is coerced.
+    """
+    import pandas as pd, numpy as np, time
+    from astroquery.nist import Nist
+    import astropy.units as u
+
+    frames = []
+    edges = np.arange(lo, hi, step)
+    for i, a in enumerate(edges):
+        b = min(a + step, hi)
+        t = None
+        for attempt in range(3):
+            try:
+                t = Nist.query(a * u.AA, b * u.AA, linename=species,
+                               wavelength_type="vac+air")
+                break
+            except Exception as e:
+                if attempt == 2:
+                    print(f"  {a:.0f}-{b:.0f} FAILED: {type(e).__name__}")
+                    t = None
+                else:
+                    time.sleep(2 + 3 * attempt)
+        if t is None or len(t) == 0:
+            print(f"  {a:9.1f}-{b:9.1f} A   0 rows")
+            continue
+        df = t.to_pandas().astype(object)
+        df["chunk_lo_A"], df["chunk_hi_A"] = a, b
+        frames.append(df)
+        print(f"  {a:9.1f}-{b:9.1f} A {len(df):5d} rows ({i+1}/{len(edges)})", flush=True)
+        time.sleep(pause)
+    if not frames:
+        raise SystemExit("NIST returned nothing across the whole band — refusing to "
+                         "write an empty pull that would read as 'no data exists'")
+    return pd.concat(frames, ignore_index=True)
+
+
 def load_rya822():
     spec = importlib.util.spec_from_file_location("rya822", RYA822)
     module = importlib.util.module_from_spec(spec)
@@ -105,7 +148,7 @@ def main() -> None:
     summary = {}
     for sp in species:
         print(f"\n=== {sp}  {a.lo_A:.0f}-{a.hi_A:.0f} A ===")
-        raw = rya822.pull(a.lo_A, a.hi_A, a.step_A, sp, a.pause_s)
+        raw = safe_pull(rya822, a.lo_A, a.hi_A, a.step_A, sp, a.pause_s)
         tid = rya822.tidy(raw)
         slug = sp.replace(" ", "")
         dest = OUT / f"nist_asd_{slug}_{int(a.lo_A)}_{int(a.hi_A)}.tsv"
