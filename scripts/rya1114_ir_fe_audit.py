@@ -76,7 +76,11 @@ def xi_coverage(p: dict) -> str:
     for q in h["products"]:
         if (round(q["A"], 3), q["n_lines"], q.get("holding")) == key:
             return f"MEASURED sigma_xi={q['sigma_xi']:.4f}"
-    return "ABSENT — no per-pool dA/dxi exists for this product"
+    # ⚠️ ABSENT does NOT mean this arm was skipped. The xi campaign is BAND-PINNED:
+    # run_campaign.py:132 hardcodes `--lo 4200 --hi 6910` on every unit, so all 15
+    # pools measured VIS only. IAG WAS in the campaign (3 of the 15 units). What is
+    # missing is the BAND axis, not the arm.
+    return "ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped"
 
 
 def perline_indicative() -> dict:
