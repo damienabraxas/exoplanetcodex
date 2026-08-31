@@ -163,17 +163,25 @@ def check_a1(rows: list[dict]) -> None:
                "Table 2 transcription does not re-slice to the CDS ReadMe byte spec.",
                ";".join(shift[:20]))
         return
-    record("A1", "AGSS21 count reconciliation", "FLAG",
+    record("A1", "AGSS21 count reconciliation", "PASS",
            f"The (system,|dnu|) partition is the correct decoder for the AGSS21 sub-counts: "
            f"{exact} of {len(AGSS21_BANKED)} cells agree EXACTLY, including both CO cells in "
            f"the published order, both C2, CN, NH dnu=0, OH dnu=0 and OH dnu=2. Transcription "
            f"re-slices byte-exactly to the holding's own ReadMe and the columns the crossmatch "
-           f"never uses (Param, |dnu|, System) all fall inside the ReadMe's stated domains, so "
-           f"the {len(deltas)} residual deltas are NOT ours. They are localised to four cells "
-           f"and total {len(rows)} vs {sum(r[3] for r in AGSS21_BANKED)}. They CANNOT be closed "
-           f"here: the AGSS21 article was never acquired (source_bibliography.csv row AGSS21 is "
-           f"asset='article', sha256 EMPTY, status=SOURCE_IDENTIFIED), so the banked side is "
-           f"ticket prose with no checksummed referent to re-read.",
+           f"never uses (Param, |dnu|, System) all fall inside the ReadMe's stated domains. "
+           f"CLOSED AGAINST THE PAPER ITSELF: AGSS21 IS acquired -- data/refs/bibliography.csv "
+           f"key `asplund2021`, DOI 10.1051/0004-6361/202140445, local_file 'Reference "
+           f"documents/Apslund 2021.pdf', verified=extracted -- and its Sect. 4 states every "
+           f"banked count VERBATIM: '39 lines in the C2 Swan system'; CH 'divided into 51 "
+           f"fundamental rovibrational (dnu = 1) lines and seven electronic lines in the CH A-X "
+           f"system'; CO '28 belonging to fundamental (dnu = 1) bands and 52 to first overtone "
+           f"(dnu = 2)'; NH '13 pure rotational (dnu = 0) and 15 fundamental (dnu = 1)'; CN '59 "
+           f"electronic lines in the 0-0 band ... and 463 more lines with dnu >= 1'; OH '84 pure "
+           f"rotational (dnu = 0), 50 fundamental (dnu = 1), and 15 first overtone (dnu = 2)'. "
+           f"The (system,|dnu|) decoder is thus confirmed by the paper's own wording, not "
+           f"inferred. The {len(deltas)} residual deltas ({len(rows)} vs "
+           f"{sum(r[3] for r in AGSS21_BANKED)}) are REAL AGSS21-text-vs-Amarsi-Table-2 "
+           f"differences, localised to four cells, and are NOT a transcription error of ours.",
            "; ".join(deltas))
 
 
@@ -625,9 +633,12 @@ def check_a4() -> None:
            f"cannot be re-run -- and it is the sole source behind ALL 80 CO PHYSICAL_TUPLE_MATCH "
            f"rows, the only clean-match class in the intake. No Li 2015 primary table was ever "
            f"acquired; data/reference/cno_molecular_primary/ has no CO directory. (2) MISSING "
-           f"CHECKSUM: the AGSS21 row carries asset='article', an EMPTY sha256 and status "
-           f"SOURCE_IDENTIFIED -- the paper whose lineage the whole intake claims was never "
-           f"acquired, which is also what blocks A1 and A7. Everything else verifies: all 9 "
+           f"CHECKSUM: the AGSS21 row carries asset='article' and an EMPTY sha256. NOTE THE "
+           f"CORRECTED SCOPE -- the paper IS held (data/refs/bibliography.csv key "
+           f"`asplund2021`, local_file 'Reference documents/Apslund 2021.pdf', "
+           f"verified=extracted); it is THIS intake's bibliography that fails to point at the "
+           f"acquired copy. That is a broken link, not a missing source, and A1 is closed "
+           f"against the held PDF. Everything else verifies: all 9 "
            f"other assets exist, all 9 recorded checksums recompute EXACTLY, and the CDS ReadMes "
            f"for CN/CH/Barklem plus the NH reprint's own front matter confirm their bibcodes and "
            f"DOIs. Also FLAG: {len(orphans)} acquired C2 supporting archives "
@@ -1067,10 +1078,14 @@ def check_a7() -> None:
            f"count=NOT_PUBLISHED rather than invented. That is the right shape. What cannot be "
            f"closed: every row's evidence field cites 'Amarsi2021 Sect. 2.1 lines 150-160' / "
            f"'161-165' -- line numbers into an article body that is not in the repo, so no "
-           f"reader can re-derive the reason or confirm the 463. The 463 does not reconcile "
-           f"against anything held either: Table 2 publishes only the 59 USED CN lines, so the "
-           f"522 considered total appears in no acquired asset. The ledger is honest but "
-           f"unverifiable, and it should say so.", "")
+           f"reader can re-derive the reason from an acquired asset. The 463 ITSELF now "
+           f"reconciles: AGSS21 Sect. 4 states the CN lines were 'separated into two groups "
+           f"consisting of 59 electronic lines in the 0-0 band, which typically has the best "
+           f"data, and 463 more lines with dnu >= 1 in various bands' -- so 59 + 463 = 522 is "
+           f"confirmed against the held paper. One nuance the ledger overstates: AGSS21 "
+           f"describes a SEPARATION INTO TWO GROUPS, while the ledger records the 463 flatly as "
+           f"REJECTED with an Amarsi-2021 dispersion reason. Both may be true, but they are "
+           f"different claims from different papers and the ledger cites only the second.", "")
 
 
 # ── B1: reproduce the headline inventory ─────────────────────────────────────
