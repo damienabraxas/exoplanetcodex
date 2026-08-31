@@ -5309,6 +5309,33 @@ artifacts:
     invocation: python3 scripts/rya1133_uv_feii_continuum_bound.py --check
     note: >-
       RYA-1133 — READ-ONLY investigation (RYA-161) of why near-UV Fe II breaches the band-flat 0.10 dex pseudo-continuum bound found by RYA-1113 (7.957 kurucz2005 vs 7.697 molecfit on the same 12 lines, half-spread 0.130). 🔴 Q1: RYA-846's MEASURED normalisation term is applied to NOTHING — grepped, not assumed: it is read by no file outside RYA-841/846's own audit scripts, while error_budget.py:603 charges a flat Term('pseudo-continuum', 0.10) unconditionally. 846's own artifact records assumed_term_dex=0.1 and revised only Fe I cells (Fe II near-UV was zero-product then, RYA-908). 🔴 Q2: 846 measured a DIFFERENT PAIR — the 1984 KP atlas vs Wallace+2011 (NSO) — while the breach is Kurucz 2005 irradiance vs the 1984 KP atlas. Kurucz2005 is in neither of 846's spectra, and every one of 846's candidate terms (0.0526-0.1254) sits at or below the observed 0.130, so applying it would mostly SHRINK the bar. VERDICT (b) with a (c) floor: a distinct term is owed. MECHANISM, measured: the Fe II lab-gf pool is 100% below 3300 A (median 3194.9, clumped 3186-3217) while Fe I's median is 3506.6 — Fe II samples only the worst sub-band, which is why it breaches and Fe I does not. 🔴 STRUCTURAL: the whole band lies below normalization_intake.CONTINUUM_LIMITED_BLUE_EDGE_A = 4500 A, and detect() REFUSES any spectrum entirely below it (UNKNOWN — 'near-UV line blanketing leaves no true continuum in any window; the known-normalised KP1984 atlas fails this test on itself below 4200 A'). Demonstrated here against a VIS control, so it is the instrument's behaviour and not a docstring reading — and it REFINES RYA-1113's F4 from 'never probed' to 'unprobeable by construction'. Also records that KP is the ONLY instrument reaching this band (HARPS is VIS-only BY DESIGN: PIPELINE['wav_min_A']=3780.0 is exactly the near-UV/VIS boundary), and that all three spectra ever compared here are Kitt Peak — so the disagreement can be measured but never adjudicated.
+  - artifact: rya1120/xi_sigma_reported.json
+    generator: scripts/rya1120_sigma_reported.py
+    ticket: RYA-1120
+    invocation: python3 scripts/rya1120_sigma_reported.py --campaign ~/xi_campaign/out --json data/results/rya1120/xi_sigma_reported.json
+    note: >-
+      RYA-1120 / RYA-282 §3 — sigma_reported = sqrt(sigma_SE^2 + sigma_params^2) for the
+      46 live VIS Fe products, from a 15-unit x 2-xi perturb-and-re-derive campaign.
+      32 MEASURED / 10 UNMEASURED / 4 NOT APPLICABLE. dA/dxi is a PER-LINE PAIRED
+      DIFFERENTIAL through pipeline.paired_differential (never a second copy, never a
+      difference of aggregates — line acceptance moves with xi, measured 108->109), and a
+      unit missing either leg is UNMEASURED, never half-differenced. 🔴 THE MEASUREMENT IS
+      THE POINT: dA/dxi spans -0.025 to -0.260 across pools, a ~10x range, so RYA-1089's
+      single -0.24 was never an approximation for other pools — it is a different
+      quantity (RYA-1093). Saturated DEEPGRADED pools cluster on -0.20..-0.26, matching
+      RYA-1089; GRADED pools run -0.025..-0.185. 🔴 A DERIVATIVE ATTACHES ONLY ON A FULL
+      PRODUCT KEY — ion+holding+tier+ROUTE+treatment. Three separate wrong-pool leaks were
+      found and closed: wrong selector (--lines-tier all gave 318 lines against the feed's
+      108), wrong treatment (a fallback that would charge a SUPERSEDED ENGINE-B derivative
+      to a live product), and wrong ROUTE (the feed holds PROFILEFIT n=6 and SYNTH n=67
+      under one 4-tuple; 8 rows were mis-attached before route entered the key). Every row
+      now carries n_paired beside n_lines as a standing tripwire, with no threshold applied
+      (RYA-161). ⚠️ The four solar_iag units first failed with RYA-832's "no line served by
+      any holding", which is NOT a coverage gap: the pool selected exactly (43 = the feed's
+      43) and every flux read failed because the Baker+2020 atlas resolves against the
+      srv_solar root, default /srv/codex — a Sirius mount unset on the Mac. ⚠️ Teff is a
+      DECLARED BOUND, not a measurement, and SOLAR ONLY: delta_Teff = 1.0 K puts that term
+      30x below the published rounding step. No published value moves; delta_xi untouched.
   - artifact: rya1113/uv_fe_uncertainty_audit.json
     generator: scripts/rya1113_uv_fe_uncertainty_audit.py
     ticket: RYA-1113
