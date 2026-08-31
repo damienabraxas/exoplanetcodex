@@ -556,3 +556,58 @@ whole Engine-A leg, so a clean checkout paid minutes of GES-linelist load, EW tr
 MOOG baseline to be told its input was missing; it now fails in ~2 s.
 `_run_synthesis_v2_mode` additionally **refuses to write** a per-line table with zero
 usable rows — never emit a canonical input that looks like a successful run.
+
+## A baseline, a control, and an absence search must all be able to PROVE their reach (RYA-1138)
+
+RYA-1090 fixed one worktree-relative resolver — the artifact store. The *mechanism* it
+found is still live everywhere else, and it does not produce errors. It produces
+**inverted verdicts**: a regression that reads as an improvement, an artifact that reads
+as absent, a mutation test that measures something other than the mutation. Three fired
+in one session (2026-08-30), each caught only by luck.
+
+The pattern is always the same shape — a path resolved **through the worktree's parent**,
+which is canonical only while every worktree shares one parent.
+
+### The standing rules
+
+**1. A set-diff creates its own baseline; it does not accept one.**
+Run `scripts/suite_set_diff.py --baseline-ref origin/main --check`. It creates the
+baseline worktree under the canonical parent itself, probes both sides, and **refuses to
+emit a verdict** unless their capability fingerprints match. Do not hand-roll a baseline
+worktree; siting it was the error, and a tool that sites it correctly cannot make that
+error.
+
+> **What went wrong.** A baseline created in a scratch directory could not resolve
+> `ISPEC_DIR` (`ROOT.parent / 'ispec'`), so 25 test modules failed to *import*. It
+> reported 25 collection errors and **zero failures**. The branch had eleven real
+> failures. Diffed against that baseline, eleven regressions read as an improvement —
+> and the output looked entirely normal.
+
+**Comparability is capability, not address.** "Is it under `~/codex`?" is the wrong
+question: it passes a correctly-sited checkout that cannot import `ispec`, and it fails
+every checkout the day the canonical parent moves — the exact event that created
+RYA-1090. The guard compares what each side *can do*.
+
+**Compare skips, not only failures.** A skipped test is in neither the pass set nor the
+fail set, so a baseline that skips 60 tests the branch runs yields a clean diff while
+measuring nothing.
+
+**2. Never `git checkout` to undo a mutation.**
+A mutation harness that reverts with `git checkout -- <file>` reverts to **HEAD**, which
+silently wipes any uncommitted work in that file — including the fix under test. The
+failures you then observe are real, but they are not measuring your mutation. Use file
+backups (read the bytes, restore the bytes) or mutate from a committed baseline.
+
+**3. An absence search must include provenance-named worktrees.**
+Before declaring an artifact absent, **read the feed's own provenance for the worktree it
+names** and look there. The committed tree plus Sirius is not the search space: RYA-908's
+per-line artifacts were reported as non-existent while sitting in `~/codex/rya1015`, the
+uncommitted worktree the feed's `copied_to` field pointed at. Prove absences with a
+positive control, and extend that habit to *where* you looked.
+
+**4. Resolution that climbs above the repo root is a reportable defect.**
+`scripts/rya1138_worktree_resolver_audit.py --check` parses the AST and flags only paths
+that **escape** the repo root — `parents[2]` is correct from `pipeline/audit/x.py` and a
+defect from `pipeline/x.py`, so the arithmetic, not the pattern, decides. Escaping is
+legitimate for a genuinely external dependency; it is a defect when something *canonical*
+resolves through it. New escapes need a named entry in `KNOWN_EXTERNAL` saying why.
