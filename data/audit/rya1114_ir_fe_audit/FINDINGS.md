@@ -67,15 +67,27 @@ The brief requires "Type B with per-pool dA/dxi (RYA-1120, NOT the single RYA-10
 number)". That harness holds 46 products and **none is IR**;
 `solar_crires_plus_y_wide_rya1054` is not among its holdings at all.
 
-Cause, traced: the xi campaign (`~/xi_campaign/out`, 30 runs = 15 pools × 2 xi) keys
-pools as `Fe{I,II}_<holding>_<TIER>_<ROUTE>` — **with no band**. `FeI_solar_iag_GRADED_SYNTH`
-resolves to `FeI_5002_6910…` — the **VIS** product. IR was never perturbed. The harness
-refuses to borrow a derivative ("it will not difference two aggregates… the derivative
-is a per-line paired differential or it is nothing"), and IR has no per-line data (F3),
-so `sigma_params` is not merely missing for IR — it is currently **unobtainable**.
+**Cause: the xi campaign is BAND-PINNED TO VIS, not band-blind.** `run_campaign.py:132`
+hardcodes `--lo 4200 --hi 6910` for every unit, and its `UNITS` list is keyed
+`(ion, holding, tier, instrument, ROUTE)` with no band axis. So all 15 pools x 2 xi
+measured the VIS window only.
 
-⇒ The xi-aware bar this ticket asks for **cannot be assembled for any IR product today.**
-Every IR bar below is a FLOOR.
+⚠️ **IAG WAS IN THE CAMPAIGN** — 3 of the 15 units are `solar_iag` (GRADED SYNTH,
+GRADED PROFILEFIT, DEEPGRADED). This is NOT a skipped arm and NOT a key collision:
+the campaign deliberately asked for the VIS window on every arm. IAG's output lands as
+`FeI_5002_6910…` rather than `4200_6910` because the Baker floor caps its blue edge at
+5001.1 A — the RYA-1035/v116 span-cap working correctly.
+
+⇒ IR was never perturbed, and the harness refuses to borrow a derivative ("the
+derivative is a per-line paired differential or it is nothing"), so `sigma_params` is
+not merely missing for IR — it is currently **unobtainable**. Every IR bar below is a
+FLOOR.
+
+⚠️ **The remaining work is SMALL and must not be rebuilt.** `derive_band_products`
+already accepts `--lo/--hi`, and the runner, worktrees, env fixes, paired-differential
+machinery and harness all exist and work. What is owed is a band axis on `UNITS` plus
+**three** IR re-runs (IAG 9199-11083, KP 9199-12976, CRIRES+ 9801-10794) — not a new
+campaign.
 
 ### F3 🔴 No per-line artifact exists for ANY live IR product — the audit is BLIND
 

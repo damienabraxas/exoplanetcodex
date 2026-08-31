@@ -1,7 +1,7 @@
 instrument,holding,treatment,display,A,n_lines,n_excluded,sigma_stat_SE,raw_scatter_dex,sigma_syst_published,sigma_syst_rebuilt_graded_bound,budget_terms_unmeasured,xi_dA_dxi,dig_in_gt_0.1,per_line_artifact
-crires_plus,solar_crires_plus_y_wide_rya1054,1D-LTE,Synth · 1D-LTE,7.551,5,0,0.0616,0.1377,0.0615,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,no,ABSENT
-crires_plus,solar_crires_plus_y_wide_rya1054,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.492,2,3,0.07,0.099,0.0615,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,no,ABSENT
-iag_fts_solar_atlas,solar_iag,1D-LTE,Synth · 1D-LTE,7.546,25,3,0.1588,0.794,0.0615,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,YES,ABSENT
-iag_fts_solar_atlas,solar_iag,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.599,6,19,0.0721,0.1766,0.0615,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,no,ABSENT
-kpno_solar_atlas,solar_kpno_molecfit_corrected,1D-LTE,Synth · 1D-LTE,7.621,26,2,0.1746,0.8903,0.0616,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,YES,ABSENT
-kpno_solar_atlas,solar_kpno_molecfit_corrected,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.503,7,19,0.497,1.3149,0.0616,0.0508,stellar parameters,ABSENT — no per-pool dA/dxi exists for this product,YES,ABSENT
+crires_plus,solar_crires_plus_y_wide_rya1054,1D-LTE,Synth · 1D-LTE,7.551,5,0,0.0616,0.1377,0.0615,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,no,ABSENT
+crires_plus,solar_crires_plus_y_wide_rya1054,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.492,2,3,0.07,0.099,0.0615,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,no,ABSENT
+iag_fts_solar_atlas,solar_iag,1D-LTE,Synth · 1D-LTE,7.546,25,3,0.1588,0.794,0.0615,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,YES,ABSENT
+iag_fts_solar_atlas,solar_iag,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.599,6,19,0.0721,0.1766,0.0615,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,no,ABSENT
+kpno_solar_atlas,solar_kpno_molecfit_corrected,1D-LTE,Synth · 1D-LTE,7.621,26,2,0.1746,0.8903,0.0616,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,YES,ABSENT
+kpno_solar_atlas,solar_kpno_molecfit_corrected,ENGINE-A,Synth · 1D-NLTE · Bergemann,7.503,7,19,0.497,1.3149,0.0616,0.0508,stellar parameters,ABSENT — campaign is band-pinned to VIS (run_campaign.py:132); arm not skipped,YES,ABSENT
