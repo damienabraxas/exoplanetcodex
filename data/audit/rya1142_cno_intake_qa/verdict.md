@@ -1,10 +1,10 @@
 # RYA-1142 — independent QA of the RYA-1136/1131 CNO intake
 
-**3 PASS · 8 FAIL · 4 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
+**3 PASS · 10 FAIL · 5 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
 
 ## Verdict
 
-The CNO intake is **NOT independently verified**. Its census is real and its arithmetic reproduces exactly, but the gate stays closed on 8 findings, of which three are CRITICAL by the ticket's own list: a wavelength-only admission (A6), an ambiguity-tolerant argmin match (A2), and a molecular redistribution labelled primary (A4). A fourth, a missing checksum on the AGSS21 article, is what makes A1 and A7 unclosable.
+The CNO intake is **NOT independently verified**. Its census is real and its arithmetic reproduces exactly, but the gate stays closed on 10 findings, of which three are CRITICAL by the ticket's own list: a wavelength-only admission (A6), an ambiguity-tolerant argmin match (A2), and a molecular redistribution labelled primary (A4). A fourth, a missing checksum on the AGSS21 article, is what makes A1 and A7 unclosable.
 
 The blocked verdict is **not overstated** — nothing here reads freeze-ready, and all four of its stated blockers hold under independent recomputation. It is **understated**: three defects this QA found are absent from it, and one of them falsifies its own safety line.
 
@@ -22,7 +22,10 @@ The blocked verdict is **not overstated** — nothing here reads freeze-ready, a
 | A5 | Molecular constants provenance | **FAIL** |
 | A5b | Hand-set C2 energy-origin constant | **FLAG** |
 | A6 | Atomic side (C/N/O census, EP-aware joins) | **FAIL** |
+| A6b | Atomic species completeness + the [O I] 6300 blend | **FAIL** |
 | A7 | Rejected / negative results retained | **FLAG** |
+| A8 | Band coverage across both domains (is this really UV-IR?) | **FLAG** |
+| A9 | UV molecular transitions held on disk but never read | **FAIL** |
 | B1 | Reproduce 408-row inventory + six-bin coverage | **PASS** |
 | B2 | No canonical mutation; RYA-1130 separation intact | **FAIL** |
 | B3 | BLOCKED verdict honestly derived | **FAIL** |
@@ -31,6 +34,8 @@ The blocked verdict is **not overstated** — nothing here reads freeze-ready, a
 ## Reproduced headline claims (B1)
 
 408 used rows — C2 39 / CH 54 / CO 80 / CN 59 / NH 31 / OH 145; VIS 45 / NIR 122 / IR 241; FUV 0 / NUV 0 / RED_OPTICAL 0.
+
+**Scope, stated plainly (A8/A9): this intake is VIS-to-IR, not UV-to-IR.** Zero FUV and zero NUV rows in BOTH domains, against RYA-1136's title 'UV–IR' and RYA-1131's 'across FUV/NUV/IR'. The atomic census spans 5052–10109 Å. And the UV is not simply unavailable — 29,738 ultraviolet molecular transitions are acquired and unread in `data/reference/cno_molecular_primary/`.
 
 ## AGSS21 ↔ Amarsi Table 2 reconciliation (A1)
 
@@ -123,9 +128,25 @@ The C I / O I leg is sound: 17 C I and 26 O I rows from Amarsi 2019 Table 1 all 
 
 Offending rows: `7442.29A;8216.33A;8629.23A;8683.40A`
 
+### A6b — Atomic species completeness + the [O I] 6300 blend · FAIL
+
+Two sub-clauses of the spec that the wavelength-only finding above must not overshadow. (1) SPECIES: the census is neutrals only -- C I 17, N I 5, O I 26, zero C II / N II / O II. That is honest in origin, not a filter bug: Amarsi 2019 Table 1 contains only CI 17, FeII 142, OI 26, and the FeII rows are rightly excluded as out of scope. The defect is that NOTHING RECORDS IT -- no artifact distinguishes 'the source has no ionised CNO' from 'we did not look', and the ticket asks for a C II / N II / O II census. (2) BLEND: [O I] 6300.300 and 6363.770 are both present and correctly carried, but atomic_source_census.csv has no blend or component column and no Ni I row, so the Ni I blend at 6300 A -- the best-known contaminant of the single most-used solar oxygen diagnostic -- is not retained as a physical component anywhere.
+
+Offending rows: `C II;N II;O II;Ni I @ 6300.300`
+
 ### A7 — Rejected / negative results retained · FLAG
 
 All four negative results are RETAINED, not dropped, each with a species, a system, a wavelength region and a stated reason -- the 463 rejected CN A-X red transitions (present) and the three considered-and-rejected UV systems (NH A-X ~340 nm, OH A-X ~320 nm, CN B-X ~390 nm), all three correctly marked count=NOT_PUBLISHED rather than invented. That is the right shape. What cannot be closed: every row's evidence field cites 'Amarsi2021 Sect. 2.1 lines 150-160' / '161-165' -- line numbers into an article body that is not in the repo, so no reader can re-derive the reason or confirm the 463. The 463 does not reconcile against anything held either: Table 2 publishes only the 59 USED CN lines, so the 522 considered total appears in no acquired asset. The ledger is honest but unverifiable, and it should say so.
+
+### A8 — Band coverage across both domains (is this really UV-IR?) · FLAG
+
+The shipped combined_coverage_matrix.csv reproduces exactly in every cell of both domains. The scope claim does not. RYA-1136 is titled 'UV-IR' and RYA-1131 'across FUV/NUV/IR', and the delivered inventory contains 0 UV rows -- ZERO FUV and ZERO NUV, in BOTH domains. Molecular is VIS 45 / NIR 122 / IR 241; atomic is VIS 14 / RED_OPTICAL 33 / NIR 1, spanning only 5052-10109 A. The intake is VIS-to-IR. On the molecular side the UV emptiness is at least CHARACTERISED (Table 2 publishes no indicator below 400 nm, and the three UV systems sit in the rejected ledger) -- though see A9, which shows that characterisation is wrong about availability. On the ATOMIC side it is not characterised at all: rejected_indicator_ledger.csv has four rows and every one is molecular, so nothing anywhere records why a C/N/O census carries no ultraviolet line. C I, N I and O I all have strong solar UV resonance lines; their absence here is a property of the one source table chosen (Amarsi 2019 Table 1), and that is exactly what should be written down rather than left as an empty bin.
+
+### A9 — UV molecular transitions held on disk but never read · FAIL
+
+rejected_indicator_ledger.csv records NH A-X (~340 nm), OH A-X (~320 nm) and CN B-X (~390 nm) as REJECTED with reason 'crowding and continuum/blend limitations; individual list not published'. That conflates two different things. What is unpublished is which subset AMARSI used. The TRANSITIONS are in this repo, acquired and unread: 53231 ultraviolet transitions across those three systems sit in data/reference/cno_molecular_primary/ right now. nh_brooke2014/NH-A-X-linelist.csv and oh_brooke2016/OH-A-X-linelist-final.csv are never opened -- the ingest reads only the X-X members of the sibling archives -- and the CN B-X violet transitions ARE parsed out of table4.dat.gz and then silently dropped, because the index is keyed on (species, system) and no Amarsi row carries a B-X key. Worse for RYA-1148: NH-A-X-linelist.csv publishes J', J", symmetry, branch, v', v", N', N", E_upper, E_lower, f-value AND A -- richer rotational identity than any list the intake does parse, and rotational identity is the intake's own stated blocker. A negative result must say WHICH thing is missing; 'not published' reads as 'not available', and the data is on our disk.
+
+Offending rows: `NH A-X;OH A-X;CN B-X`
 
 ### B2 — No canonical mutation; RYA-1130 separation intact · FAIL
 
@@ -147,7 +168,8 @@ Direction first, because it matters: the verdict does NOT overstate freeze-readi
 | **NH** | NIR 31 | 7 ambiguous Λ-doublet pairs the matcher correctly refuses | J″ and parity from Table 2 — nothing else will separate a doublet whose components differ in the 4th decimal of log gf |
 | **OH** | NIR/IR 145 | 3 unmatched, 1 energy-mismatched, 1 ambiguous | Reconcile the 4 rows against the acquired Brooke 2016 release; they may be a release-version difference |
 | **CO** | IR 80 | **Provenance, not matching.** All 80 join uniquely and survive every null — against an ExoMol→Turbospectrum conversion whose converter is not in the repo | Acquire the Li et al. 2015 ApJS 216, 15 primary tables and re-join against them |
-| *all* | FUV / NUV / red-optical | 0 rows — a published negative, not a gap | nothing; record it as a negative result |
+| *all molecular* | red-optical | 0 rows — a genuine published negative (Table 2 lists no molecular indicator between 700 and 1000 nm) | nothing; record it as a negative result |
+| **UV — both domains** | FUV / NUV | **0 rows, and NOT the published negative the intake records.** We hold 29,738 unread NUV transitions: NH A-X 6,653 and OH A-X 586 in files never opened, CN B-X 22,499 parsed then dropped on a system key. On the atomic side the UV emptiness is not characterised at all | Read the three held UV lists, and state the negative precisely: Amarsi's UV *selection* is unpublished, the *transitions* are in hand. Record why the atomic census carries no UV line |
 
 ## Method and its limits
 
