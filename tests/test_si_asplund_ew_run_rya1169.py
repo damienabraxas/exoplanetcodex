@@ -13,6 +13,9 @@ def test_run_is_exact_source_set_and_never_substitutes():
     assert "no missing line substituted" in text
 
 
-def test_run_checks_tellurics_before_kp_measurement():
+def test_run_uses_only_corrected_1984_and_2005():
     text = (ROOT / "scripts/run_si_asplund_ew_rya1169.py").read_text()
-    assert "exclusion(centre, \"kpno_solar_atlas\")" in text
+    assert "load_kp1984_composite_window" in text
+    assert "_read_kurucz2005_residual" in text
+    assert "load_kp_window(" not in text
+    assert '"raw_1984_policy":"QUARANTINED; never loaded by this runner"' in text
