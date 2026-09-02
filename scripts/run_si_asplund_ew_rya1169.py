@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "scripts"))
 
 DEFAULT_KP = Path("/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas")
-DEFAULT_IAG = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/diagnostics/rya931/input/ref/iag_telfree_solaratlas.fits")
+DEFAULT_K2005 = Path("/Users/ryanschmitt/codex/spectra/KITTS/irradrelwl.dat")
 OUT = ROOT / "data/results/rya1169/asplund_ew_run"
 
 # Scott et al. (2015), electronic Table 2, W_lambda in pm.  These are carried
@@ -48,38 +48,35 @@ def iag_spectrum(path: Path) -> tuple[np.ndarray, np.ndarray]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--kp-dir", type=Path, default=DEFAULT_KP)
-    ap.add_argument("--iag", type=Path, default=DEFAULT_IAG)
+    ap.add_argument("--kurucz2005", type=Path, default=DEFAULT_K2005)
     ap.add_argument("--out", type=Path, default=OUT)
     a = ap.parse_args()
     os.environ["CODEX_KP_ATLAS"] = str(a.kp_dir)
 
-    from measure_band_ew import kp_segments, load_kp_window, window_half_width
+    from measure_band_ew import (kp_segments, load_kp1984_composite_window,
+                                 _read_kurucz2005_residual, window_half_width)
     from pipeline.band_products import equivalent_width
-    from pipeline.telluric_policy import exclusion
 
     src = pd.read_csv(ROOT / "data/results/rya1169/si_asplund_line_test.csv")
     src = src[src.asplund_grade == "asplund"].copy()
     ll = pd.read_csv(ROOT / "data/linelists/linelist_solar.csv", low_memory=False)
     allw = ll.wavelength_air_A.astype(float).to_numpy()
     segs = kp_segments()
-    iw, iff = iag_spectrum(a.iag)
     rows = []
     for line in src.itertuples():
         centre = float(line.depth_source_wavelength_A)
         hw = window_half_width(allw, centre)
-        for holding in ("kpno_1984", "iag_baker2020"):
+        for holding in ("kpno_1984_molecfit_corrected", "kpno_kurucz2005_residual"):
             status = "served"; reason = ""; ew = depth = np.nan; prov = ""
             try:
-                if holding == "kpno_1984":
-                    why = exclusion(centre, "kpno_solar_atlas")
-                    if why:
-                        raise LookupError(why)
-                    w, f, prov = load_kp_window(segs, centre, hw * 3)
+                if holding == "kpno_1984_molecfit_corrected":
+                    w, f, prov = load_kp1984_composite_window(centre, hw * 3, segs)
                 else:
-                    m = np.abs(iw - centre) <= hw * 3
-                    if m.sum() < 12:
-                        raise LookupError(f"IAG Baker has only {int(m.sum())} pixels in window")
-                    w, f, prov = iw[m], iff[m], a.iag.name
+                    w, f = _read_kurucz2005_residual(a.kurucz2005,
+                                                     centre - hw * 3, centre + hw * 3)
+                    if w.size < 12:
+                        raise LookupError(f"Kurucz 2005 has only {w.size} pixels in window")
+                    prov = a.kurucz2005.name
                 ew, method, concern = equivalent_width(w, f, centre, hw, pre_normalised=True)
                 core = np.abs(w - centre) <= min(hw, 0.10)
                 depth = float(1 - np.nanmin(f[core]))
@@ -114,6 +111,7 @@ def main() -> None:
                          "unserved": g.loc[g.status != "served", ["wavelength_air_A", "reason_or_concern"]].to_dict("records")})
     doc = {"ticket":"RYA-1169", "line_set":"asplund", "run_type":"observed EW/depth",
            "n_lines":len(src), "holdings":holdings,
+           "raw_1984_policy":"QUARANTINED; never loaded by this runner",
            "abundance_inversion":"PENDING: requires source-gf override through synthesis/EW engine",
            "firewall":"no missing line substituted; distance from A(Si)=7.51 was not used"}
     (a.out / "si_asplund_ew_summary.json").write_text(json.dumps(doc, indent=2)+"\n")

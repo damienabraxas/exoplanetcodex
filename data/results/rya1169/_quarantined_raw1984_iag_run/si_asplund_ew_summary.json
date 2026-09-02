@@ -5,7 +5,7 @@
   "n_lines": 10,
   "holdings": [
     {
-      "holding": "kpno_1984_molecfit_corrected",
+      "holding": "kpno_1984",
       "n_source_lines": 10,
       "n_served": 9,
       "n_unserved": 1,
@@ -15,22 +15,21 @@
       "unserved": [
         {
           "wavelength_air_A": 7226.2079,
-          "reason_or_concern": "LookupError: window 7225.85-7226.57 A overlaps REGISTERED telluric band 7160-7340 A (H2O), and RYA-940 produced no admissible correction for it. Refusing to serve uncorrected flux under a corrected holding -- measure it on solar_kpno and label it uncorrected."
+          "reason_or_concern": "LookupError: QUARANTINED-TELLURIC: inside the H2O (7160-7340 A) and kpno_solar_atlas is telluric_basis=line_selection, so the observed flux there is not stellar. Excluded by per-line selection (RYA-460/786), not corrected."
         }
       ]
     },
     {
-      "holding": "kpno_kurucz2005_residual",
+      "holding": "iag_baker2020",
       "n_source_lines": 10,
       "n_served": 10,
       "n_unserved": 0,
-      "median_ew_mA": 40.4945,
-      "median_ew_ratio_vs_scott": 0.91837,
-      "median_observed_depth": 0.3078,
+      "median_ew_mA": 42.6523,
+      "median_ew_ratio_vs_scott": 0.95213,
+      "median_observed_depth": 0.3174,
       "unserved": []
     }
   ],
-  "raw_1984_policy": "QUARANTINED; never loaded by this runner",
   "abundance_inversion": "PENDING: requires source-gf override through synthesis/EW engine",
   "firewall": "no missing line substituted; distance from A(Si)=7.51 was not used"
 }
