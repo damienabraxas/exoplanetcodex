@@ -20,6 +20,14 @@ python3 -m pytest tests/test_si_intake_rya1169.py
 `literature_sources.csv` contains clickable DOI/article/arXiv links for every
 paper used in this checkpoint, including direct download landing pages.
 
+The follow-on Asplund membership/depth test is built with
+`scripts/grade_si_asplund_rya1169.py` and written under
+`data/results/rya1169/`. Its all-band matrix keeps UV and IR empty: the adopted
+source set contains no UV rows, and Scott et al. explicitly discarded the
+available near-IR Si I population because only low-accuracy theoretical gf and
+large/uncertain NLTE effects were available. Those gaps must not be filled with
+generic Si candidates and still called Asplund Grade.
+
 Scientific lineage: AGSS21 adopts 7.51 dex. Amarsi & Asplund (2017) derive
 7.51 dex by applying line-by-line 3D non-LTE corrections to the nine Si I
 Solar indicators of Scott et al. (2015), then combining them with Scott's one
