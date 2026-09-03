@@ -51,18 +51,52 @@ HOLDINGS = ROOT / "data/catalog/holdings_manifest_registry.csv"
 INSTRUMENTS = ROOT / "data/catalog/instrument_catalog.csv"
 MODELS = ROOT / "data/catalog/model_registry.csv"
 XI_CAMPAIGN = ROOT / "data/results/rya1120/xi_sigma_reported.json"
+
+#: 🔴 RYA-1185 -- THE BAND-KEYED dA/dxi RUNS, WHICH ARE WHAT RETIRE `ALIASED`.
+#: RYA-1120's run unit is (ion x holding x tier) with NO band, so one measured derivative
+#: was served to products in different bands measured on different line pools -- published
+#: as ALIASED (17 products) or MEASURED_KEY_AMBIGUOUS (13) because the artifact could not
+#: settle it. These three runs measure the derivative IN ITS OWN BAND, so they answer the
+#: question the campaign key could not. They take PRECEDENCE over the campaign wherever
+#: they cover a product, and the campaign remains the source for VIS.
+XI_BAND_RUNS = (
+    ROOT / "data/results/rya1168/nearuv_xi_dadxi.json",     # near-UV, RYA-1168
+    ROOT / "data/results/rya1163/ir_xi_dadxi.json",         # NIR,     RYA-1163
+    ROOT / "data/results/redopt_xi/redopt_xi_dadxi.json",   # red-optical
+)
 ASPLUND = ROOT / "data/results/rya1106/asplund_four_instrument_table.json"
 
 #: RYA-1178 §1: solar xi is PINNED at 1.0; delta_xi is RYA-1089's sourced 0.2912.
 XI_VALUE_KMS, DELTA_XI_KMS = 1.0, 0.2912
 
-#: RYA-946's going-forward grade names (docs/catalog/model_registry_notes.md:142).
-#: `Consistent` is NOT here: RYA-1105 retired it and `model_registry.LINE_SETS` omits it
-#: deliberately, so a product carrying it must fail loudly rather than acquire a name.
+#: Treatments whose model resolves the velocity field xi stands in for, so xi does not
+#: apply. Read off the campaign's own verdict, not asserted: every NOT_APPLICABLE entry in
+#: `xi_sigma_reported.json` is ENGINE-A-3DNLTE and it gives that state to nothing else.
+FULL_3D_TREATMENTS = ("ENGINE-A-3DNLTE",)
+
+#: RYA-946's grade names. `Consistent` is NOT here: RYA-1105 retired it and
+#: `model_registry.LINE_SETS` omits it deliberately, so a product carrying it must fail
+#: loudly rather than acquire a name.
+#:
+#: 🔴 RYA-1185 RENAMES TWO OF THESE, ON RYAN'S RULING, AND THE OLD NAMES WERE NOT RATIFIED.
+#:   "Our Grade"     -> "Codex Grade"     -- "Our Grade" was never a ratified name; it is
+#:                                           the primary-lab-gf tier at or below the 0.60
+#:                                           depth gate.
+#:   "Asplund Grade" -> "Reference Grade" -- the top tier is the REFERENCE tier, named for
+#:                                           what it is (a product measured on an external
+#:                                           published line set) rather than for one
+#:                                           paper. Ryan settled the name in RYA-1185
+#:                                           2026-09-03; it had been an open pick.
+#: `gbs` moves to the same "Reference Grade" for the same reason -- it is the same kind of
+#: product, and `line_set` is what says WHICH reference (that is why RYA-1127 put line_set
+#: in the identity key). No GBS product is live today, so this renames nothing published.
+#: ⚠️ docs/catalog/model_registry_notes.md:142 still records the OLD set as "going-forward";
+#: RYA-1185 Part B corrects it. Repo prose is not the authority here -- the ruling is.
 GRADE_FOR_LINE_SET = {
-    "asplund": "Asplund Grade",
-    "gbs": "Reference Grade (GBS)",
-    "our-graded": "Our Grade",
+    "asplund": "Reference Grade",
+    "asplund-al": "Reference Grade",
+    "gbs": "Reference Grade",
+    "our-graded": "Codex Grade",
     "our-deep-graded": "Deep Grade",
     "our-ungraded": "Ungraded",
     "our-all": "Ungraded",
@@ -154,6 +188,30 @@ def wavelength_range(prod: dict):
                     if m:
                         return ([float(m.group(1)), float(m.group(2))],
                                 f"artifact `{col}` column (stem carries no window)")
+
+    #: 🔴 RYA-1185 -- LAST RESORT: THE BAND'S OWN DEFINITION, AND SAID SO IN THE BASIS.
+    #: The four RYA-1106 Asplund products are published from `asplund_lines_products.csv`,
+    #: whose stem carries no window and whose `provenance` column names a holding rather
+    #: than a span; the RYA-1106 artifacts record `n_asplund_lines`/`n_served` but NO
+    #: window anywhere. So the run's own priced window is not recoverable from the
+    #: artifact, and the honest fallback is the declared BAND -- `pipeline.band_policy`,
+    #: the single definition of what VIS means here.
+    #:
+    #: ⚠️ IT IS A WEAKER CLAIM AND THE `basis` STRING SAYS SO, because it is: a band
+    #: definition is what the band IS, not what this run priced. Substituting the per-line
+    #: min/max was rejected for the same reason the RYA-1095 case above rejects it -- that
+    #: is the span the surviving LINES cover. Any product that lands here is visible as
+    #: such in `wavelength_range_basis`, so a real missing window cannot hide behind it.
+    band = str(prod.get("band") or "")
+    try:
+        from pipeline.band_policy import POLICIES
+        pol = next((q for q in POLICIES if q.name == band), None)
+    except Exception:
+        pol = None
+    if pol is not None:
+        return ([float(pol.lo_A), float(pol.hi_A)],
+                f"the {band} BAND DEFINITION (pipeline.band_policy), not a run window — "
+                f"this product's artifact records no wavelength span of its own")
     return None, None
 
 
@@ -163,6 +221,40 @@ def load_sources():
     models = pd.read_csv(MODELS, comment="#")
     xi = json.loads(XI_CAMPAIGN.read_text())
     return hold, inst, models, xi
+
+
+def xi_band_index() -> dict:
+    """The band-keyed dA/dxi runs, indexed on the FULL product key INCLUDING band.
+
+    ⚠️ THE THREE FILES DO NOT SHARE ONE SCHEMA, AND ONE OF THEM MISLABELS ITS OWN HEADER.
+      * RYA-1163 carries no per-pool `ion`; its species is a TOP-LEVEL "Fe I", so the ion
+        is read from there. A `.get("ion")` alone would silently key all six IR pools on
+        None and match nothing.
+      * The red-optical file's header says `"ticket": "RYA-1168"` and
+        `"window_A": [3000, 3780]` -- a near-UV window -- because it was templated from
+        the near-UV runner and the header was not corrected. Its PER-POOL rows are right
+        (`band: red-optical`, red-optical holdings), so the band is taken per pool and
+        never from the header. Flagged to Ryan in RYA-1185; the artifact is not edited
+        here (RYA-161: it is a published run).
+    """
+    idx = {}
+    for path in XI_BAND_RUNS:
+        if not path.exists():
+            raise SystemExit(f"missing band-keyed xi run: {path.relative_to(ROOT)}")
+        doc = json.loads(path.read_text())
+        sp = (doc.get("species") or "").split()
+        species_ion = sp[-1] if sp else None
+        for e in doc["pools"]:
+            ion = e.get("ion") or species_ion
+            if not ion:
+                raise SystemExit(f"{path.name}: pool {e.get('pool')!r} has no ion and the "
+                                 f"file declares no species -- refusing to guess")
+            k = (ion, e["holding"], e["tier"], e["treatment"], e["band"])
+            if k in idx:
+                raise SystemExit(f"two band-keyed xi entries for {k} -- the band key must "
+                                 f"be unique or a product would silently take one")
+            idx[k] = {**e, "_source": str(path.relative_to(ROOT)), "_ticket": doc.get("ticket")}
+    return idx
 
 
 def model_grid(models: pd.DataFrame, treatment: str) -> str | None:
@@ -191,20 +283,72 @@ def xi_index(xi_doc: dict, feed: dict) -> dict:
     by_key = {}
     for e in xi_doc["products"]:
         by_key.setdefault((e["ion"], e["holding"], e["tier"], e["treatment"], e["route"]), []).append(e)
-    # which bands does each campaign key actually serve in the feed?
+
+    band = xi_band_index()
+
+    #: 🔴 `serves` COUNTS ONLY THE BANDS THAT STILL DRAW ON THE CAMPAIGN -- and that is what
+    #: retires MEASURED_KEY_AMBIGUOUS rather than relabelling it. The ambiguity was never
+    #: "this number might be wrong"; it was "this campaign key also feeds OTHER bands, so
+    #: the artifact cannot prove the derivative is this product's own". Once near-UV,
+    #: red-optical and NIR each have their own band-keyed run, they stop drawing on the
+    #: campaign key at all, the VIS product becomes the only band on it, and the question
+    #: the flag existed to ask is answered by the ARTIFACTS -- not by widening a tolerance
+    #: or renaming a state. Measured: 13 KEY_AMBIGUOUS -> 0, with no VIS derivative changed.
     serves = {}
     for p in feed["products"]:
+        if (p["ion"], p["holding"], p["tier"], p["treatment"], p["band"]) in band:
+            continue
         k = (p["ion"], p["holding"], p["tier"], p["treatment"], p["route"])
         serves.setdefault(k, set()).add(p["band"])
-    return {"by_key": by_key, "serves": serves}
+    return {"by_key": by_key, "serves": serves, "band": band}
 
 
 def xi_terms(prod: dict, idx: dict) -> dict:
     """The xi layer for one product, honest about which pool the derivative came from."""
+    base = {"xi_value_kms": XI_VALUE_KMS, "delta_xi_kms": DELTA_XI_KMS}
+
+    #: A band-keyed run answers for this product's OWN band, so it wins outright.
+    b = idx["band"].get((prod["ion"], prod["holding"], prod["tier"], prod["treatment"],
+                         prod["band"]))
+    if b is not None:
+        #: ⚠️ THE RUN'S OWN `xi_state` DECIDES, NOT THE PRESENCE OF A NUMBER. The CRIRES+
+        #: ENGINE-A NIR pool carries dA_dxi = -0.1225 AND xi_state = UNMEASURED, because it
+        #: paired only 2 lines against the run's declared min_paired = 3. Reading the float
+        #: and ignoring the verdict would publish a 2-line derivative as a measurement.
+        if b.get("xi_state") != "MEASURED" or b.get("dA_dxi") is None:
+            return {**base, "sigma_xi": None, "xi_state": "UNMEASURED",
+                    "xi_note": (f"{b.get('xi_note') or 'not measured'} "
+                                f"[{b['_ticket']}, {b['_source']}] -- the band-keyed run "
+                                f"declined this pool, so no derivative is published for it")}
+        return {**base, "sigma_xi": round(abs(b["dA_dxi"]) * DELTA_XI_KMS, 6),
+                "dA_dxi": b["dA_dxi"], "xi_state": "MEASURED",
+                "xi_note": (f"|dA/dxi|={abs(b['dA_dxi']):.4f} x delta_xi={DELTA_XI_KMS}, "
+                            f"measured IN THIS PRODUCT'S OWN BAND ({prod['band']}) on "
+                            f"{b.get('n_paired')} paired lines by {b['_ticket']} "
+                            f"({b['_source']}). Supersedes the RYA-1120 campaign value, "
+                            f"whose run unit carries no band (RYA-1114 F2)."),
+                "xi_source": b["_source"]}
+
     k = (prod["ion"], prod["holding"], prod["tier"], prod["treatment"], prod["route"])
     entries = idx["by_key"].get(k, [])
     bands = idx["serves"].get(k, set())
-    base = {"xi_value_kms": XI_VALUE_KMS, "delta_xi_kms": DELTA_XI_KMS}
+
+    #: 🔴 RYA-1185 -- FULL 3D IS NOT_APPLICABLE BY WHAT IT IS, NOT BY WHETHER THE CAMPAIGN
+    #: HAPPENED TO RUN IT. xi is a 1D fudge for the velocity field, and a full-3D model
+    #: resolves that field, so the term does not apply -- which is exactly the disposition
+    #: the RYA-1120 campaign itself gives: all four of its NOT_APPLICABLE entries are
+    #: ENGINE-A-3DNLTE and it has no other. Deciding this from campaign MEMBERSHIP instead
+    #: made the four newly published RYA-1106 Asplund products (also ENGINE-A-3DNLTE) fall
+    #: through to NOT_IN_CAMPAIGN -- "we never ran it", which is the wrong reason and reads
+    #: as an owed measurement rather than a term that does not exist.
+    if str(prod.get("treatment") or "") in FULL_3D_TREATMENTS:
+        return {**base, "sigma_xi": 0.0, "xi_state": "NOT_APPLICABLE",
+                "xi_note": ("full 3D resolves the velocity field xi stands in for, so the "
+                            "term does not apply. This is the disposition the RYA-1120 "
+                            "campaign gives every ENGINE-A-3DNLTE product it ran; applied "
+                            "here by TREATMENT so a full-3D product that predates or "
+                            "postdates the campaign gets it too (RYA-1185).")}
+
     if not entries:
         return {**base, "sigma_xi": None, "xi_state": "NOT_IN_CAMPAIGN",
                 "xi_note": ("this (ion, holding, tier, treatment) was never run through "

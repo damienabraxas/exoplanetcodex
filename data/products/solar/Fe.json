@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.87",
-  "updated_at": "2026-09-03T08:09:01Z",
+  "version": "1.92",
+  "updated_at": "2026-09-03T20:59:24Z",
   "products": [
     {
       "element": "Fe",
@@ -40,8 +40,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -99,8 +99,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.046592,
@@ -158,13 +158,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.066976,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2300 x delta_xi=0.2912. The campaign's line count (9) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2300 x delta_xi=0.2912 measured on this product's own 9 paired lines",
       "dA_dxi_dex_per_kms": -0.22999999999999998,
       "sigma_syst_components": {
         "published_syst": 0.0697,
@@ -217,13 +217,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2100 x delta_xi=0.2912. The campaign's line count (3) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2100 x delta_xi=0.2912 measured on this product's own 3 paired lines",
       "dA_dxi_dex_per_kms": -0.21,
       "sigma_syst_components": {
         "published_syst": 0.0697,
@@ -276,13 +276,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.075712,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2600 x delta_xi=0.2912. The campaign's line count (9) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2600 x delta_xi=0.2912 measured on this product's own 9 paired lines",
       "dA_dxi_dex_per_kms": -0.25999999999999995,
       "sigma_syst_components": {
         "published_syst": 0.0697,
@@ -335,13 +335,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.1350 x delta_xi=0.2912. The campaign's line count (3) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1350 x delta_xi=0.2912 measured on this product's own 3 paired lines",
       "dA_dxi_dex_per_kms": -0.13499999999999998,
       "sigma_syst_components": {
         "published_syst": 0.0697,
@@ -395,20 +395,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.066976,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2300 was measured on a pool of 9 lines; this product has 12 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.22999999999999998,
+      "sigma_xi": 0.013832,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0475 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 12 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.0475,
       "sigma_syst_components": {
         "published_syst": 0.13,
-        "sigma_xi": 0.066976
+        "sigma_xi": 0.013832
       },
-      "sigma_syst_complete": 0.146239,
-      "sigma_reported": 0.174934,
+      "sigma_syst_complete": 0.130734,
+      "sigma_reported": 0.162195,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -417,7 +417,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -455,20 +456,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.061152,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2100 was measured on a pool of 3 lines; this product has 7 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.21,
+      "sigma_xi": 0.01456,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 7 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.05,
       "sigma_syst_components": {
         "published_syst": 0.13,
-        "sigma_xi": 0.061152
+        "sigma_xi": 0.01456
       },
-      "sigma_syst_complete": 0.143665,
-      "sigma_reported": 0.195709,
+      "sigma_syst_complete": 0.130813,
+      "sigma_reported": 0.186479,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -477,7 +478,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -515,20 +517,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.075712,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2600 was measured on a pool of 9 lines; this product has 12 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.25999999999999995,
+      "sigma_xi": 0.017472,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0600 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 12 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.06,
       "sigma_syst_components": {
         "published_syst": 0.13,
-        "sigma_xi": 0.075712
+        "sigma_xi": 0.017472
       },
-      "sigma_syst_complete": 0.15044,
-      "sigma_reported": 0.179873,
+      "sigma_syst_complete": 0.131169,
+      "sigma_reported": 0.164095,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -537,7 +539,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -575,20 +578,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.039312,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1350 was measured on a pool of 3 lines; this product has 7 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.13499999999999998,
+      "sigma_xi": 0.011648,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0400 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 7 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.04,
       "sigma_syst_components": {
         "published_syst": 0.13,
-        "sigma_xi": 0.039312
+        "sigma_xi": 0.011648
       },
-      "sigma_syst_complete": 0.135814,
-      "sigma_reported": 0.181897,
+      "sigma_syst_complete": 0.130521,
+      "sigma_reported": 0.17798,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -597,7 +600,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -626,7 +630,7 @@
       },
       "atlas": "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
       "telluric_state": "corrected: cr2res + molecfit",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -634,19 +638,19 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:55Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:21Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.005824,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0200 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 5 paired lines by RYA-1163 (data/results/rya1163/ir_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0615,
-        "sigma_xi": null
+        "sigma_xi": 0.005824
       },
-      "sigma_syst_complete": 0.0615,
-      "sigma_reported": 0.087045,
+      "sigma_syst_complete": 0.061775,
+      "sigma_reported": 0.087239,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "irreducible_dispersion": {
@@ -676,7 +680,9 @@
         "atlas_citation": "RYA-1054: the RYA-794 Y product conditioned over the arm's FULL measured extent, 9800-10796 A, from the SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME normaliser (scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796). Only the window differs, so it inherits RYA-794's telluric and rest-frame verdicts unchanged. WHY IT EXISTS: Elgueta's adopted 10280-10680 win",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1163/ir_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.02
     },
     {
       "element": "Fe",
@@ -705,7 +711,7 @@
       },
       "atlas": "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
       "telluric_state": "corrected: cr2res + molecfit",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -713,13 +719,13 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:56Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:22Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "xi_state": "UNMEASURED",
+      "xi_note": "REFUSED: only 2 paired lines (< 3). Two points define a slope exactly and carry no dispersion; the value would be an artifact of which lines survived. [RYA-1163, data/results/rya1163/ir_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
       "sigma_syst_components": {
         "published_syst": 0.0615,
         "sigma_xi": null
@@ -784,7 +790,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -792,20 +798,20 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:57Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:22Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.059696,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2050 was measured on a pool of 43 lines; this product has 25 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.205,
+      "sigma_xi": 0.01456,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 25 paired lines by RYA-1163 (data/results/rya1163/ir_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.05,
       "sigma_syst_components": {
         "published_syst": 0.0615,
-        "sigma_xi": 0.059696
+        "sigma_xi": 0.01456
       },
-      "sigma_syst_complete": 0.085708,
-      "sigma_reported": 0.180453,
+      "sigma_syst_complete": 0.0632,
+      "sigma_reported": 0.170914,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.794,
@@ -834,7 +840,8 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1163/ir_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -863,7 +870,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -871,20 +878,20 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:57Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:22Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.059696,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2050 was measured on a pool of 37 lines; this product has 6 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.205,
+      "sigma_xi": 0.011648,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0400 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 6 paired lines by RYA-1163 (data/results/rya1163/ir_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.04,
       "sigma_syst_components": {
         "published_syst": 0.0615,
-        "sigma_xi": 0.059696
+        "sigma_xi": 0.011648
       },
-      "sigma_syst_complete": 0.085708,
-      "sigma_reported": 0.112001,
+      "sigma_syst_complete": 0.062593,
+      "sigma_reported": 0.095479,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.177,
@@ -913,7 +920,8 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1163/ir_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -942,7 +950,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -950,20 +958,20 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:58Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:23Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.05096,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1750 was measured on a pool of 67 lines; this product has 26 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17500000000000002,
+      "sigma_xi": 0.015288,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0525 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 26 paired lines by RYA-1163 (data/results/rya1163/ir_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.0525,
       "sigma_syst_components": {
         "published_syst": 0.0616,
-        "sigma_xi": 0.05096
+        "sigma_xi": 0.015288
       },
-      "sigma_syst_complete": 0.079947,
-      "sigma_reported": 0.192033,
+      "sigma_syst_complete": 0.063469,
+      "sigma_reported": 0.185778,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.89,
@@ -992,7 +1000,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1163/ir_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -1021,7 +1030,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1029,20 +1038,20 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:08:59Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:23Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.052416,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1800 was measured on a pool of 61 lines; this product has 7 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17999999999999997,
+      "sigma_xi": 0.013104,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0450 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 7 paired lines by RYA-1163 (data/results/rya1163/ir_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.045,
       "sigma_syst_components": {
         "published_syst": 0.0616,
-        "sigma_xi": 0.052416
+        "sigma_xi": 0.013104
       },
-      "sigma_syst_complete": 0.080883,
-      "sigma_reported": 0.503539,
+      "sigma_syst_complete": 0.062978,
+      "sigma_reported": 0.500974,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 1.315,
@@ -1071,6 +1080,67 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      },
+      "xi_source": "data/results/rya1163/ir_xi_dadxi.json"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "ASPLUND_AGSS21",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.4771,
+      "sigma_stat": 0.0202,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02018 dex at n_lines=21",
+      "route": "SYNTH",
+      "line_set": "asplund",
+      "provenance": {
+        "host": "mac",
+        "path": "data/results/rya1106/harps_molecfit/asplund_lines_products.csv",
+        "copied_to": "data/results/rya1106/harps_molecfit/asplund_lines_products.csv",
+        "sha256": "32c299751bbe1f8296e6724f3523828524b2eb18dfd22775027771880a5940cb",
+        "artifact_mtime": "2026-09-03T20:50:17Z",
+        "ingested_at": "2026-09-03T20:55:00Z"
+      },
+      "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
+      "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
+      "grade": "Reference Grade",
+      "line_set_resolved": "asplund",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        3800.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.17,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.17,
+      "sigma_reported": 0.171196,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "AGSS21's own published log gf on the target lines",
+        "gf_grade": "published reference set",
+        "gf_citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (10.1051/0004-6361/202140445), ingested by RYA-1109",
+        "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
+        "model_grid": "atlas9 / amarsi",
+        "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       }
     },
     {
@@ -1108,8 +1178,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1167,8 +1237,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1226,8 +1296,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1285,8 +1355,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1317,65 +1387,6 @@
       "holding": "solar_harps_molecfit_corrected",
       "tier": "GRADED",
       "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
-      "A": 7.5124,
-      "sigma_stat": 0.0236,
-      "sigma_syst": 0.0577,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02359 dex at n_lines=50",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3dv2_harps/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/rya1095/harps/rya817_3dnlte_products.csv",
-        "sha256": "fd64fae0bde126e1ee5029f37253d483931e029725dfe032900ca37b8c4cac9d",
-        "artifact_mtime": "2026-08-28T11:23:05Z",
-        "ingested_at": "2026-08-28T11:23:54Z"
-      },
-      "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
-      "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
-      "line_set_resolved": "our-graded",
-      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
-      "wavelength_range_A": [
-        4200.0,
-        6908.0
-      ],
-      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
-      "xi_value_kms": 1.0,
-      "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.0,
-      "xi_state": "NOT_APPLICABLE",
-      "xi_note": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for (Ryan, RYA-1120 2026-08-29). Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its correction measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely.",
-      "sigma_syst_components": {
-        "published_syst": 0.0577,
-        "sigma_xi": 0.0
-      },
-      "sigma_syst_complete": 0.0577,
-      "sigma_reported": 0.06234,
-      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "science_provenance": {
-        "gf_source": "laboratory (canonical_gf LAB tier)",
-        "gf_grade": "primary laboratory",
-        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
-        "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
-        "model_grid": "atlas9 / amarsi",
-        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "harps",
-      "holding": "solar_harps_molecfit_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
       "treatment": "1D-LTE",
       "display": "EW \u00b7 1D-LTE",
       "A": 7.498,
@@ -1395,7 +1406,7 @@
       },
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1403,8 +1414,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1454,7 +1465,7 @@
       },
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1462,8 +1473,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1513,7 +1524,7 @@
       },
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1521,8 +1532,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.00728,
@@ -1572,7 +1583,7 @@
       },
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1580,8 +1591,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -1612,6 +1623,65 @@
       "holding": "solar_harps_molecfit_corrected",
       "tier": "GRADED",
       "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5124,
+      "sigma_stat": 0.0236,
+      "sigma_syst": 0.0577,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02359 dex at n_lines=50",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_harps/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/harps/rya817_3dnlte_products.csv",
+        "sha256": "fd64fae0bde126e1ee5029f37253d483931e029725dfe032900ca37b8c4cac9d",
+        "artifact_mtime": "2026-08-28T11:23:05Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
+      },
+      "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
+      "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
+      "grade": "Codex Grade",
+      "line_set_resolved": "our-graded",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        4200.0,
+        6908.0
+      ],
+      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.0577,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.0577,
+      "sigma_reported": 0.06234,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "laboratory (canonical_gf LAB tier)",
+        "gf_grade": "primary laboratory",
+        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
+        "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
+        "model_grid": "atlas9 / amarsi",
+        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.51,
@@ -1631,7 +1701,7 @@
       },
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4 per-exposure, observation-night GDAS (RYA-931)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1639,8 +1709,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -1661,6 +1731,66 @@
         "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "ALL",
+      "selector": "ASPLUND_AGSS21",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5039,
+      "sigma_stat": 0.0147,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01470 dex at n_lines=21",
+      "route": "SYNTH",
+      "line_set": "asplund",
+      "provenance": {
+        "host": "mac",
+        "path": "data/results/rya1106/iag/asplund_lines_products.csv",
+        "copied_to": "data/results/rya1106/iag/asplund_lines_products.csv",
+        "sha256": "1b7122c170b9917e6755764ac4a3351b373bf4745de2426c5c51a32a19376402",
+        "artifact_mtime": "2026-09-03T20:50:17Z",
+        "ingested_at": "2026-09-03T20:55:00Z"
+      },
+      "atlas": "IAG FTS solar flux atlas",
+      "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
+      "grade": "Reference Grade",
+      "line_set_resolved": "asplund",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        3800.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.17,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.17,
+      "sigma_reported": 0.170634,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "AGSS21's own published log gf on the target lines",
+        "gf_grade": "published reference set",
+        "gf_citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (10.1051/0004-6361/202140445), ingested by RYA-1109",
+        "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
+        "model_grid": "atlas9 / amarsi",
+        "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       }
     },
     {
@@ -1698,8 +1828,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -1757,8 +1887,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05824,
@@ -1789,65 +1919,6 @@
       "holding": "solar_iag",
       "tier": "GRADED",
       "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
-      "A": 7.5429,
-      "sigma_stat": 0.025,
-      "sigma_syst": 0.0555,
-      "n_lines": 39,
-      "n_excluded": 4,
-      "dominant_term": null,
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02501 dex at n_lines=39",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3dv2_iag/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/rya1095/iag/rya817_3dnlte_products.csv",
-        "sha256": "8f5563f1cdf660c90abcf906e573144a4e7a1a9ad5de47d3c24f47b32bff4d3a",
-        "artifact_mtime": "2026-08-28T11:23:06Z",
-        "ingested_at": "2026-08-28T11:23:54Z"
-      },
-      "atlas": "IAG FTS solar flux atlas",
-      "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
-      "line_set_resolved": "our-graded",
-      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
-      "wavelength_range_A": [
-        5002.0,
-        6910.0
-      ],
-      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
-      "xi_value_kms": 1.0,
-      "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.0,
-      "xi_state": "NOT_APPLICABLE",
-      "xi_note": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for (Ryan, RYA-1120 2026-08-29). Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its correction measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely.",
-      "sigma_syst_components": {
-        "published_syst": 0.0555,
-        "sigma_xi": 0.0
-      },
-      "sigma_syst_complete": 0.0555,
-      "sigma_reported": 0.060871,
-      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "science_provenance": {
-        "gf_source": "laboratory (canonical_gf LAB tier)",
-        "gf_grade": "primary laboratory",
-        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
-        "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
-        "model_grid": "atlas9 / amarsi",
-        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "iag_fts_solar_atlas",
-      "holding": "solar_iag",
-      "tier": "GRADED",
-      "selector": "GRADED",
       "treatment": "1D-LTE",
       "display": "EW \u00b7 1D-LTE",
       "A": 7.498,
@@ -1867,7 +1938,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1875,8 +1946,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1926,7 +1997,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1934,8 +2005,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1985,7 +2056,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -1993,13 +2064,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2050 x delta_xi=0.2912. The campaign's line count (43) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['NIR', 'VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2050 x delta_xi=0.2912 measured on this product's own 43 paired lines",
       "dA_dxi_dex_per_kms": -0.205,
       "sigma_syst_components": {
         "published_syst": 0.0535,
@@ -2014,6 +2085,65 @@
         "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9",
+        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5429,
+      "sigma_stat": 0.025,
+      "sigma_syst": 0.0555,
+      "n_lines": 39,
+      "n_excluded": 4,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02501 dex at n_lines=39",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_iag/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/iag/rya817_3dnlte_products.csv",
+        "sha256": "8f5563f1cdf660c90abcf906e573144a4e7a1a9ad5de47d3c24f47b32bff4d3a",
+        "artifact_mtime": "2026-08-28T11:23:06Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
+      },
+      "atlas": "IAG FTS solar flux atlas",
+      "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
+      "grade": "Codex Grade",
+      "line_set_resolved": "our-graded",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        5002.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.0555,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.0555,
+      "sigma_reported": 0.060871,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "laboratory (canonical_gf LAB tier)",
+        "gf_grade": "primary laboratory",
+        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
+        "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
+        "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       }
     },
@@ -2044,7 +2174,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2052,13 +2182,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2050 x delta_xi=0.2912. The campaign's line count (37) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['NIR', 'VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2050 x delta_xi=0.2912 measured on this product's own 37 paired lines",
       "dA_dxi_dex_per_kms": -0.205,
       "sigma_syst_components": {
         "published_syst": 0.0535,
@@ -2074,6 +2204,66 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "ALL",
+      "selector": "ASPLUND_AGSS21",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.4713,
+      "sigma_stat": 0.0123,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01233 dex at n_lines=21",
+      "route": "SYNTH",
+      "line_set": "asplund",
+      "provenance": {
+        "host": "mac",
+        "path": "data/results/rya1106/kpno_kurucz2005/asplund_lines_products.csv",
+        "copied_to": "data/results/rya1106/kpno_kurucz2005/asplund_lines_products.csv",
+        "sha256": "dff499d3315e16240074c9f48623b35761ed2a8cf140de44c822b247aecb3e07",
+        "artifact_mtime": "2026-09-03T20:50:17Z",
+        "ingested_at": "2026-09-03T20:54:59Z"
+      },
+      "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
+      "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
+      "grade": "Reference Grade",
+      "line_set_resolved": "asplund",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        3800.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.17,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.17,
+      "sigma_reported": 0.170444,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "AGSS21's own published log gf on the target lines",
+        "gf_grade": "published reference set",
+        "gf_citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (10.1051/0004-6361/202140445), ingested by RYA-1109",
+        "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
+        "model_grid": "atlas9 / amarsi",
+        "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       }
     },
     {
@@ -2111,13 +2301,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.073528,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2525 x delta_xi=0.2912. The campaign's line count (108) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2525 x delta_xi=0.2912 measured on this product's own 108 paired lines",
       "dA_dxi_dex_per_kms": -0.2525,
       "sigma_syst_components": {
         "published_syst": 0.0402,
@@ -2170,13 +2360,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0728,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2500 x delta_xi=0.2912. The campaign's line count (104) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2500 x delta_xi=0.2912 measured on this product's own 104 paired lines",
       "dA_dxi_dex_per_kms": -0.25,
       "sigma_syst_components": {
         "published_syst": 0.0402,
@@ -2192,65 +2382,6 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_kurucz2005_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
-      "A": 7.5046,
-      "sigma_stat": 0.0225,
-      "sigma_syst": 0.0577,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02253 dex at n_lines=50",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3dv2_kurucz2005/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/rya1095/kurucz2005/rya817_3dnlte_products.csv",
-        "sha256": "5a7d01b18fe4b695a6ebc2e16b45051135a5bac5c5587bbb758efa466614cb62",
-        "artifact_mtime": "2026-08-28T11:23:07Z",
-        "ingested_at": "2026-08-28T11:23:55Z"
-      },
-      "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
-      "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
-      "line_set_resolved": "our-graded",
-      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
-      "wavelength_range_A": [
-        4200.0,
-        6910.0
-      ],
-      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
-      "xi_value_kms": 1.0,
-      "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.0,
-      "xi_state": "NOT_APPLICABLE",
-      "xi_note": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for (Ryan, RYA-1120 2026-08-29). Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its correction measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely.",
-      "sigma_syst_components": {
-        "published_syst": 0.0577,
-        "sigma_xi": 0.0
-      },
-      "sigma_syst_complete": 0.0577,
-      "sigma_reported": 0.061932,
-      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "science_provenance": {
-        "gf_source": "laboratory (canonical_gf LAB tier)",
-        "gf_grade": "primary laboratory",
-        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
-        "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
-        "model_grid": "atlas9 / amarsi",
-        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       }
     },
     {
@@ -2280,7 +2411,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2288,8 +2419,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -2339,7 +2470,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2347,8 +2478,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.038438,
@@ -2398,7 +2529,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2406,8 +2537,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:00Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2457,7 +2588,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2465,13 +2596,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912. The campaign's line count (67) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912 measured on this product's own 67 paired lines",
       "dA_dxi_dex_per_kms": -0.17500000000000002,
       "sigma_syst_components": {
         "published_syst": 0.0634,
@@ -2486,6 +2617,65 @@
         "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
+        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5046,
+      "sigma_stat": 0.0225,
+      "sigma_syst": 0.0577,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02253 dex at n_lines=50",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_kurucz2005/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/kurucz2005/rya817_3dnlte_products.csv",
+        "sha256": "5a7d01b18fe4b695a6ebc2e16b45051135a5bac5c5587bbb758efa466614cb62",
+        "artifact_mtime": "2026-08-28T11:23:07Z",
+        "ingested_at": "2026-08-28T11:23:55Z"
+      },
+      "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
+      "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
+      "grade": "Codex Grade",
+      "line_set_resolved": "our-graded",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        4200.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.0577,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.0577,
+      "sigma_reported": 0.061932,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "laboratory (canonical_gf LAB tier)",
+        "gf_grade": "primary laboratory",
+        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
+        "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
+        "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       }
     },
@@ -2516,7 +2706,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2524,13 +2714,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912. The campaign's line count (61) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912 measured on this product's own 61 paired lines",
       "dA_dxi_dex_per_kms": -0.17500000000000002,
       "sigma_syst_components": {
         "published_syst": 0.0634,
@@ -2576,7 +2766,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2584,8 +2774,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2636,7 +2826,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2644,8 +2834,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2696,7 +2886,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2704,8 +2894,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2757,7 +2947,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -2765,8 +2955,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2788,6 +2978,66 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "stagger-mean3d / gerber / stagger",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "ASPLUND_AGSS21",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5037,
+      "sigma_stat": 0.0135,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01351 dex at n_lines=21",
+      "route": "SYNTH",
+      "line_set": "asplund",
+      "provenance": {
+        "host": "mac",
+        "path": "data/results/rya1106/kpno_molecfit/asplund_lines_products.csv",
+        "copied_to": "data/results/rya1106/kpno_molecfit/asplund_lines_products.csv",
+        "sha256": "2c21efb87b4cf1aa671d30786cf00b2a52ca2d14202ec4de687721919127bc22",
+        "artifact_mtime": "2026-09-03T20:50:17Z",
+        "ingested_at": "2026-09-03T20:54:59Z"
+      },
+      "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
+      "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
+      "grade": "Reference Grade",
+      "line_set_resolved": "asplund",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        3800.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.17,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.17,
+      "sigma_reported": 0.170535,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "AGSS21's own published log gf on the target lines",
+        "gf_grade": "published reference set",
+        "gf_citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (10.1051/0004-6361/202140445), ingested by RYA-1109",
+        "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
+        "model_grid": "atlas9 / amarsi",
+        "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       }
     },
     {
@@ -2825,8 +3075,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2884,13 +3134,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.2450 x delta_xi=0.2912. The campaign's line count (104) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['VIS', 'near-UV'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2450 x delta_xi=0.2912 measured on this product's own 104 paired lines",
       "dA_dxi_dex_per_kms": -0.245,
       "sigma_syst_components": {
         "published_syst": 0.0402,
@@ -2906,65 +3156,6 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
-      "A": 7.5116,
-      "sigma_stat": 0.0222,
-      "sigma_syst": 0.0577,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.02215 dex at n_lines=50",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3dv2_kpmf/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/rya1095/kpmf/rya817_3dnlte_products.csv",
-        "sha256": "18892e60fec32c90359fd908d351628c4e380b8d5e843481f9141824ff73f4fa",
-        "artifact_mtime": "2026-08-28T11:23:04Z",
-        "ingested_at": "2026-08-28T11:23:54Z"
-      },
-      "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
-      "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
-      "line_set_resolved": "our-graded",
-      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
-      "wavelength_range_A": [
-        4200.0,
-        6910.0
-      ],
-      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
-      "xi_value_kms": 1.0,
-      "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.0,
-      "xi_state": "NOT_APPLICABLE",
-      "xi_note": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for (Ryan, RYA-1120 2026-08-29). Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its correction measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely.",
-      "sigma_syst_components": {
-        "published_syst": 0.0577,
-        "sigma_xi": 0.0
-      },
-      "sigma_syst_complete": 0.0577,
-      "sigma_reported": 0.061823,
-      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "science_provenance": {
-        "gf_source": "laboratory (canonical_gf LAB tier)",
-        "gf_grade": "primary laboratory",
-        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
-        "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
-        "model_grid": "atlas9 / amarsi",
-        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       }
     },
     {
@@ -2994,7 +3185,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3002,8 +3193,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -3053,7 +3244,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3061,8 +3252,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -3112,7 +3303,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3120,13 +3311,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912. The campaign's line count (67) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['NIR', 'VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1750 x delta_xi=0.2912 measured on this product's own 67 paired lines",
       "dA_dxi_dex_per_kms": -0.17500000000000002,
       "sigma_syst_components": {
         "published_syst": 0.0634,
@@ -3141,6 +3332,65 @@
         "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
+        "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+      "A": 7.5116,
+      "sigma_stat": 0.0222,
+      "sigma_syst": 0.0577,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02215 dex at n_lines=50",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_kpmf/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/kpmf/rya817_3dnlte_products.csv",
+        "sha256": "18892e60fec32c90359fd908d351628c4e380b8d5e843481f9141824ff73f4fa",
+        "artifact_mtime": "2026-08-28T11:23:04Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
+      },
+      "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
+      "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
+      "grade": "Codex Grade",
+      "line_set_resolved": "our-graded",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        4200.0,
+        6910.0
+      ],
+      "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": 0.0,
+      "xi_state": "NOT_APPLICABLE",
+      "xi_note": "full 3D resolves the velocity field xi stands in for, so the term does not apply. This is the disposition the RYA-1120 campaign gives every ENGINE-A-3DNLTE product it ran; applied here by TREATMENT so a full-3D product that predates or postdates the campaign gets it too (RYA-1185).",
+      "sigma_syst_components": {
+        "published_syst": 0.0577,
+        "sigma_xi": 0.0
+      },
+      "sigma_syst_complete": 0.0577,
+      "sigma_reported": 0.061823,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "science_provenance": {
+        "gf_source": "laboratory (canonical_gf LAB tier)",
+        "gf_grade": "primary laboratory",
+        "gf_citation": "Den Hartog et al. 2014 ApJS 215, 23 (10.1088/0067-0049/215/2/23) and Ruffoni et al. 2014 MNRAS 441, 3127 (10.1093/mnras/stu780), as ingested by RYA-945/353",
+        "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
+        "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       }
     },
@@ -3171,7 +3421,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3179,13 +3429,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.052416,
-      "xi_state": "MEASURED_KEY_AMBIGUOUS",
-      "xi_note": "|dA/dxi|=0.1800 x delta_xi=0.2912. The campaign's line count (61) matches this product's, so the derivative is most likely its own \u2014 but the campaign key carries no band and also serves ['NIR', 'VIS', 'red-optical'], so that cannot be proven from the artifact. Band-keying the campaign would settle it (RYA-1114 F2).",
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1800 x delta_xi=0.2912 measured on this product's own 61 paired lines",
       "dA_dxi_dex_per_kms": -0.17999999999999997,
       "sigma_syst_components": {
         "published_syst": 0.0634,
@@ -3230,7 +3480,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3238,8 +3488,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3289,7 +3539,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3297,8 +3547,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3348,7 +3598,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3356,8 +3606,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3408,7 +3658,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3416,8 +3666,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3478,20 +3728,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.073528,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2525 was measured on a pool of 108 lines; this product has 58 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.2525,
+      "sigma_xi": 0.030576,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1050 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 58 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.105,
       "sigma_syst_components": {
         "published_syst": 0.1122,
-        "sigma_xi": 0.073528
+        "sigma_xi": 0.030576
       },
-      "sigma_syst_complete": 0.134146,
-      "sigma_reported": 0.159184,
+      "sigma_syst_complete": 0.116292,
+      "sigma_reported": 0.144459,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -3500,7 +3750,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3539,20 +3790,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.0728,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2500 was measured on a pool of 104 lines; this product has 58 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.25,
+      "sigma_xi": 0.030576,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1050 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 58 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.105,
       "sigma_syst_components": {
         "published_syst": 0.1122,
-        "sigma_xi": 0.0728
+        "sigma_xi": 0.030576
       },
-      "sigma_syst_complete": 0.133749,
-      "sigma_reported": 0.15885,
+      "sigma_syst_complete": 0.116292,
+      "sigma_reported": 0.144459,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -3561,7 +3812,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3600,19 +3852,19 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "UNMEASURED",
-      "xi_note": "no perturb-and-re-derive on this pool; dA/dxi is a property of the LINE SET (RYA-1093) so no element-level number may stand in",
+      "sigma_xi": 0.03276,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1125 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 58 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.1122,
-        "sigma_xi": null
+        "sigma_xi": 0.03276
       },
-      "sigma_syst_complete": 0.1122,
-      "sigma_reported": 0.143711,
+      "sigma_syst_complete": 0.116885,
+      "sigma_reported": 0.147398,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
@@ -3622,7 +3874,9 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.1125
     },
     {
       "element": "Fe",
@@ -3661,20 +3915,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.071344,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2450 was measured on a pool of 104 lines; this product has 58 (bands sharing that campaign key: ['VIS', 'near-UV']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.245,
+      "sigma_xi": 0.03276,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1125 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 58 paired lines by RYA-1168 (data/results/rya1168/nearuv_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.1125,
       "sigma_syst_components": {
         "published_syst": 0.1122,
-        "sigma_xi": 0.071344
+        "sigma_xi": 0.03276
       },
-      "sigma_syst_complete": 0.132962,
-      "sigma_reported": 0.160446,
+      "sigma_syst_complete": 0.116885,
+      "sigma_reported": 0.147398,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -3683,7 +3937,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3712,7 +3967,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3720,20 +3975,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.059696,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2050 was measured on a pool of 43 lines; this product has 69 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.205,
+      "sigma_xi": 0.04368,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 68 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.15,
       "sigma_syst_components": {
         "published_syst": 0.0556,
-        "sigma_xi": 0.059696
+        "sigma_xi": 0.04368
       },
-      "sigma_syst_complete": 0.081578,
-      "sigma_reported": 0.088888,
+      "sigma_syst_complete": 0.070706,
+      "sigma_reported": 0.079028,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -3742,7 +3997,8 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3771,7 +4027,7 @@
       },
       "atlas": "IAG FTS solar flux atlas",
       "telluric_state": "corrected: as delivered \u2014 measured telluric-free to 0.1% in the O2 A-band core (RYA-783/786)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3779,20 +4035,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.059696,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2050 was measured on a pool of 37 lines; this product has 35 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.205,
+      "sigma_xi": 0.049504,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1700 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 35 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.17,
       "sigma_syst_components": {
         "published_syst": 0.0556,
-        "sigma_xi": 0.059696
+        "sigma_xi": 0.049504
       },
-      "sigma_syst_complete": 0.081578,
-      "sigma_reported": 0.091167,
+      "sigma_syst_complete": 0.074445,
+      "sigma_reported": 0.084844,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -3801,7 +4057,8 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3832,7 +4089,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3840,20 +4097,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.05096,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1750 was measured on a pool of 67 lines; this product has 45 (bands sharing that campaign key: ['VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17500000000000002,
+      "sigma_xi": 0.039312,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1350 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 45 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.135,
       "sigma_syst_components": {
         "published_syst": 0.0584,
-        "sigma_xi": 0.05096
+        "sigma_xi": 0.039312
       },
-      "sigma_syst_complete": 0.077508,
-      "sigma_reported": 0.087966,
+      "sigma_syst_complete": 0.070399,
+      "sigma_reported": 0.081772,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -3862,7 +4119,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3893,7 +4151,7 @@
       },
       "atlas": "KPNO Kurucz-2005 solar irradiance (irradiance2005/irradthu.dat, rev. 02jan2010)",
       "telluric_state": "corrected: Kurucz-2005 product is delivered telluric-corrected",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3901,20 +4159,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.05096,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1750 was measured on a pool of 61 lines; this product has 26 (bands sharing that campaign key: ['VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17500000000000002,
+      "sigma_xi": 0.042952,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1475 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 26 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.1475,
       "sigma_syst_components": {
         "published_syst": 0.0584,
-        "sigma_xi": 0.05096
+        "sigma_xi": 0.042952
       },
-      "sigma_syst_complete": 0.077508,
-      "sigma_reported": 0.079481,
+      "sigma_syst_complete": 0.072494,
+      "sigma_reported": 0.0746,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -3923,7 +4181,8 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -3954,7 +4213,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -3962,20 +4221,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.05096,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1750 was measured on a pool of 67 lines; this product has 56 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17500000000000002,
+      "sigma_xi": 0.042952,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1475 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 56 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.1475,
       "sigma_syst_components": {
         "published_syst": 0.0574,
-        "sigma_xi": 0.05096
+        "sigma_xi": 0.042952
       },
-      "sigma_syst_complete": 0.076757,
-      "sigma_reported": 0.109576,
+      "sigma_syst_complete": 0.071691,
+      "sigma_reported": 0.106089,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -3984,7 +4243,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -4015,7 +4275,7 @@
       },
       "atlas": "KPNO 1984 FTS solar flux atlas, molecfit-corrected",
       "telluric_state": "corrected: ESO molecfit 4.4.4, six registered bands (RYA-940)",
-      "grade": "Our Grade",
+      "grade": "Codex Grade",
       "line_set_resolved": "our-graded",
       "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
       "wavelength_range_A": [
@@ -4023,20 +4283,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T08:09:01Z",
-      "code_commit": "5d7581e7a4d23fafd85d9b2eb54e439a08974f73",
+      "generated_at": "2026-09-03T20:59:24Z",
+      "code_commit": "f3688d5d8ad3bb2c7680205f845dc4371af2bf43",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.052416,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1800 was measured on a pool of 61 lines; this product has 28 (bands sharing that campaign key: ['NIR', 'VIS', 'red-optical']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.17999999999999997,
+      "sigma_xi": 0.04368,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 28 paired lines by RYA-1168 (data/results/redopt_xi/redopt_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
+      "dA_dxi_dex_per_kms": -0.15,
       "sigma_syst_components": {
         "published_syst": 0.0574,
-        "sigma_xi": 0.052416
+        "sigma_xi": 0.04368
       },
-      "sigma_syst_complete": 0.077732,
-      "sigma_reported": 0.125713,
+      "sigma_syst_complete": 0.07213,
+      "sigma_reported": 0.122328,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -4045,7 +4305,8 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
-      }
+      },
+      "xi_source": "data/results/redopt_xi/redopt_xi_dadxi.json"
     }
   ],
   "superseded": [
