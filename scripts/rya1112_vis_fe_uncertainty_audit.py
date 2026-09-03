@@ -36,7 +36,9 @@ SET, not of the element:
   * `GRADED`     = LAB lines with feature depth <= 0.60 — the WEAKER population.
   * `DEEPGRADED` = LAB lines with feature depth  > 0.60 — SATURATED BY CONSTRUCTION, where
                    xi bites hardest.
-  * FULL-3D products (ENGINE-A-3DNLTE, 4 of the 46) have no microturbulence: the cube
+  * FULL-3D products (ENGINE-A-3DNLTE, 8 of the 50 as of RYA-1185 — was 4 of 46 before the
+    four RYA-1106 Asplund replications were published into the feed) have no microturbulence:
+    the cube
     resolves the velocity field xi stands in for. The <3D> MEAN (synth-mean3D-*, the other
     4) is NOT exempt -- RYA-1099 measured it at xi=0 as +0.137 dex WORSE, because a mean
     atmosphere averages the velocity structure OUT and still runs on an inherited xi.
@@ -161,6 +163,26 @@ def rca(p: dict) -> tuple[str, str]:
                 f"{n} lines. GRADED selects LAB-gf lines at or below the {DEPTH_HI} depth "
                 f"gate, and on the profile-fit route that pool is small by construction. "
                 f"The bar is honest; widening it needs more lab-gf lines, not a code fix.")
+    #: 🔴 RYA-1185 — THE REPLICATION PRODUCTS' CAUSE IS KNOWN AND SOURCED, so they must not
+    #: fall through to a bare "OPEN". Publishing the four RYA-1106 Asplund rows put four
+    #: products over the dig-in threshold whose budget already NAMES the reason, in its own
+    #: words: `gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 3 of 21 Fe I lines are GF-LAB
+    #: (primary laboratory gf); the rest are GF-NIST x2, systematic:K07 x15,
+    #: systematic:K07/SCALE-MISMATCH x1`. Leaving that as OPEN would have reported a cause we
+    #: hold as a cause we lack.
+    #:
+    #: ⚠️ NOT IRREDUCIBLE, AND NOT OURS TO REDUCE. It is a property of the line list the
+    #: REPLICATION runs on — AGSS21's own published selection — so it cannot be narrowed by
+    #: anything on our side without ceasing to be a replication (RYA-946's fixed-asset rule).
+    if str(p.get("tier")) == "ALL":
+        return ("IRREDUCIBLE-BY-CONSTRUCTION (replication gf scale)",
+                f"{n} lines on an EXTERNAL published line set, so the pool is the source's "
+                f"and not ours to re-select. The budget names the cause: a 0.1700 dex "
+                f"`gf scale (UNGRADED)` blanket over a MIXED pool (3 of 21 lines are GF-LAB, "
+                f"the rest GF-NIST/K07), which is {100 * (1 - stat_share):.0f}% of the "
+                f"variance here — the statistical term is {100 * stat_share:.0f}%. Narrowing "
+                f"it would mean changing the line list the replication is defined by "
+                f"(RYA-946 fixed asset), so it is reported, not reduced (RYA-777).")
     return ("OPEN", "no named cause yet — needs its own RCA")
 
 
@@ -280,8 +302,8 @@ def check(doc: dict) -> list[str]:
         bad.append("the RYA-1089 Fe I sigma_B_vmic is no longer 0.0699 — re-read the audit")
     if not doc["part_A_type_A"]["all_sigma_stat_are_standard_error"]:
         bad.append("a VIS Fe product's sigma_stat is no longer a standard error")
-    if doc["n_products"] != 46:
-        bad.append(f"the live VIS Fe product count moved to {doc['n_products']} (was 46)")
+    if doc["n_products"] != 50:
+        bad.append(f"the live VIS Fe product count moved to {doc['n_products']} (was 50)")
     unnamed = [r for r in doc["products"] if r["over_dig_in"] and not r["rca_verdict"]]
     if unnamed:
         bad.append(f"{len(unnamed)} product(s) over {DIG_IN_DEX} dex with no RCA verdict")

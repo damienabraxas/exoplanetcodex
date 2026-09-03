@@ -2,7 +2,7 @@
   "ticket": "RYA-1112",
   "skill": "codex-product-audit",
   "scope": "live VIS Fe products in data/products/solar/Fe.json",
-  "n_products": 46,
+  "n_products": 50,
   "thresholds": {
     "solar_gate_dex": 0.05,
     "dig_in_dex": 0.1,
@@ -16,8 +16,8 @@
       "reference_dA_dvmic_per_kms": -0.24,
       "sourced_delta_xi_kms": 0.2912,
       "caveat": "the derivative was measured on ONE 62-line pool; it is a REFERENCE MAGNITUDE for the omission, never a per-product value",
-      "products_over_dig_in_now": 9,
-      "products_over_dig_in_if_FeI_vmic_folded_in": 16
+      "products_over_dig_in_now": 13,
+      "products_over_dig_in_if_FeI_vmic_folded_in": 20
     },
     "F2_gf_label_says_kurucz_on_lab_gf_pools": {
       "detail": "treatment_axes.LEGACY pins gf from the TREATMENT TOKEN, but --lines-tier graded selects on gf_tier == LAB. Every GRADED and DEEPGRADED VIS Fe artifact row publishes gf=kurucz.",
@@ -36,15 +36,15 @@
     },
     "F4_gate_is_not_rendered": {
       "detail": "Part D asks the gate render as a LABEL. SOLAR_GATE_DEX lives only in two AUDIT scripts (rya1089, rya1093) and nowhere in the product path; no product record carries a gate/target/flag field. Nothing is blocked \u2014 the failure is the other one: a reader cannot see which bars clear the target.",
-      "products_over_the_solar_gate": 40
+      "products_over_the_solar_gate": 44
     }
   },
   "part_A_type_A": {
     "all_sigma_stat_are_standard_error": true,
-    "stat_basis_field_present_on": 8,
+    "stat_basis_field_present_on": 12,
     "note": "the rest resolve through product_eligibility.STAT_BASIS_BY_ROUTE, the legacy route map \u2014 correct today, but the basis is not a property of those records"
   },
-  "n_products_where_xi_is_not_applicable_full_3d_only": 4,
+  "n_products_where_xi_is_not_applicable_full_3d_only": 8,
   "products": [
     {
       "ion": "II",
@@ -171,6 +171,90 @@
       "rca_note": "9 lines, scatter-dominated (94% of the variance). RYA-1081 measured this pool as a POOL-WIDE arm-specific offset, not a few bad lines \u2014 dropping the worst line moved the median 0.035. Saturation is UNANSWERED there (the per-line COG is Fe I only). Not closed by this audit.",
       "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
       "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
+    },
+    {
+      "ion": "I",
+      "tier": "ALL",
+      "treatment": "ENGINE-A-3DNLTE",
+      "holding": "solar_harps_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.4771,
+      "sigma_stat": 0.0202,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "honest_total_dex": 0.1712,
+      "dominant_term": null,
+      "stat_basis": "standard_error",
+      "stat_basis_field_present": true,
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "rca_verdict": "OPEN",
+      "rca_note": "no named cause yet \u2014 needs its own RCA",
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
+    },
+    {
+      "ion": "I",
+      "tier": "ALL",
+      "treatment": "ENGINE-A-3DNLTE",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "A": 7.5039,
+      "sigma_stat": 0.0147,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "honest_total_dex": 0.1706,
+      "dominant_term": null,
+      "stat_basis": "standard_error",
+      "stat_basis_field_present": true,
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "rca_verdict": "OPEN",
+      "rca_note": "no named cause yet \u2014 needs its own RCA",
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
+    },
+    {
+      "ion": "I",
+      "tier": "ALL",
+      "treatment": "ENGINE-A-3DNLTE",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.5037,
+      "sigma_stat": 0.0135,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "honest_total_dex": 0.1705,
+      "dominant_term": null,
+      "stat_basis": "standard_error",
+      "stat_basis_field_present": true,
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "rca_verdict": "OPEN",
+      "rca_note": "no named cause yet \u2014 needs its own RCA",
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
+    },
+    {
+      "ion": "I",
+      "tier": "ALL",
+      "treatment": "ENGINE-A-3DNLTE",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "A": 7.4713,
+      "sigma_stat": 0.0123,
+      "sigma_syst": 0.17,
+      "n_lines": 21,
+      "honest_total_dex": 0.1704,
+      "dominant_term": null,
+      "stat_basis": "standard_error",
+      "stat_basis_field_present": true,
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "rca_verdict": "OPEN",
+      "rca_note": "no named cause yet \u2014 needs its own RCA",
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
     },
     {
       "ion": "I",
