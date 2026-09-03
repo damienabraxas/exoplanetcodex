@@ -352,3 +352,63 @@ def test_the_audit_refuses_to_quote_the_balance_against_the_3d_anchor():
     # and the balance itself must be stated scale-matched, with its weakness admitted
     assert "one scale by construction" in a["balance_note"]
     assert "does not CONTRADICT" in a["balance_note"]
+
+
+# ── the literature bound is a MEASURED claim, so it must be re-derivable ─────────────
+
+def test_the_mpia_fe_ii_numbers_in_the_limit_are_reproduced_from_the_grid():
+    """🔴 THE ERROR THIS TEST EXISTS TO PREVENT, BECAUSE IT WAS MADE. A first draft of the
+    limit said the MPIA Fe II corrections were "±0.002 dex across the grid at solar" — read
+    off the first five rows of a truncated `describe()` and generalised. The tail is
+    +0.016, eight times that, and the wrong number was on its way into every published
+    Fe II product's provenance.
+
+    So the numbers the limit quotes are re-derived here from the committed grid. A prose
+    bound with no test beside it is a second source of truth for a measured fact.
+    """
+    import pandas as pd
+    df = pd.read_csv(ROOT / "data/nlte_grids/Fe_Bergemann_MPIA.csv")
+    node = (df.teff_K == 5800) & (df.logg.isin([4.3, 4.5])) & (df.feh == 0.0)
+    fe2 = df[(df.ion == "II") & node]
+    fe1 = df[(df.ion == "I") & node]
+    assert len(fe2) == 160 and len(fe1) == 504
+
+    assert round(float(fe2.delta_nlte.median()), 3) == 0.000
+    assert round(float(fe2.delta_nlte.max()), 3) == 0.016
+    assert round(float(fe2.delta_nlte.min()), 3) == -0.002
+    assert int((fe2.delta_nlte.abs() <= 0.005).sum()) == 146
+    # ⚠️ dropna() FIRST. 8 of the 160 node rows are NaN and 3 lines carry no value at
+    # all; a `sort_values().tail()` puts those last and makes the third-from-last look
+    # like the maximum — which is how the wrong tail got into a first draft of this test.
+    tail = fe2.groupby("wave_A").delta_nlte.mean().dropna().nlargest(3).index.tolist()
+    assert sorted(round(w, 3) for w in tail) == [4923.932, 4924.921, 5169.033]
+    # the Fe I control — the comparison that makes "small" mean something
+    assert round(float(fe1.delta_nlte.median()), 3) == 0.011
+    assert round(float(fe1.delta_nlte.max()), 3) == 0.040
+
+    t = G.FE_II_NLTE_LIMIT
+    for s in ("+0.000 dex at the solar node", "146 of 160", "+-0.005", "+0.016",
+              "4923.932", "4924.921", "5169.033", "median +0.011", "+0.040"):
+        assert s in t, f"the limit no longer quotes {s!r}"
+    # and it must not claim a BOUND it does not have
+    assert "median statement and not a bound" in t
+    assert "+-0.002 dex" not in t
+
+
+def test_the_measured_engine_a_effect_on_our_own_fe_ii_lines_is_reproduced():
+    """The other half of the same claim: +0.001 dex per line on the three lines the KPNO
+    VIS Fe II pool shares with the grid. Read off our own per-line product, not the grid."""
+    import csv
+    rows = list(csv.DictReader(
+        (l for l in (ROOT / "data/products/solar/Fe_perline.csv").read_text().splitlines()
+         if not l.startswith("#"))))
+    fe2 = [r for r in rows if r["ion"] == "II" and r["arm"] == "VIS"]
+    lte = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2 if r["engine"] == "1D-LTE"}
+    eng = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2
+           if r["engine"] == "ENGINE-A" and r["status"] == "in_aggregate"}
+    # compare as FLOATS: the CSV writes 6247.557, not 6247.5570, and a string compare
+    # here fails on a trailing zero rather than on the physics.
+    assert sorted(round(float(w), 4) for w in eng) == [6147.7341, 6238.3859, 6247.557]
+    for w, a in eng.items():
+        d = float(a) - float(lte[w])
+        assert abs(d - 0.001) < 5e-5, f"{w}: ENGINE-A minus 1D-LTE = {d:+.6f}, not +0.001"
