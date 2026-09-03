@@ -5526,3 +5526,18 @@ artifacts:
       Audit-only summary from the superseded raw-1984 run. The current RYA-1169 runner
       deliberately rejects that uncorrected holding and uses only the telluric-corrected
       1984 spectrum plus the corrected 2005 spectrum, so it must not reproduce this file.
+
+  - artifact: redopt_xi/redopt_xi_dadxi.json
+    generator: scripts/redoptical_xi.py
+    ticket: RYA-1114
+    note: >-
+      dA/dxi for the three red-optical (6910-9199 A) GRADED Fe I pools, as a per-line
+      PAIRED differential. The LAST band: with this, all 66 live Fe products carry a
+      measured xi term. red-optical had NO audit ticket naming it -- it surfaced only
+      because the RYA-1114 F2 census asked every band. It is also the MOST
+      xi-sensitive band measured (|dA/dxi| 0.135-0.170, bars move +0.008..+0.016 dex,
+      against IR's +0.0002..+0.0007). run_campaign.py:132's hardcoded `--hi 6910` is
+      exactly this band's LOWER edge. Inputs are Mac-local campaign runs
+      (~/xi_campaign/out_redopt, produced by run_redopt.py under per-worker worktree
+      isolation) -- a recorded regenerability gap (RYA-1011), not a silent one.
+
