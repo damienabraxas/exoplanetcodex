@@ -1,4 +1,10 @@
 {
+  "rya946_census_gate": {
+    "satisfied": true,
+    "basis": "registered reference set(s) asplund-al",
+    "ticket": "RYA-1173",
+    "note": "RYA-946: 'No element is FROZEN_READY_FOR_MEASUREMENT until this cross-reference is complete or a documented, approved source-publication exception exists.' Checked at the write; this builder REFUSES to run without it."
+  },
   "UV": "PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED",
   "VIS": "FROZEN_WITH_DOCUMENTED_FALLBACKS",
   "IR": "BLOCKED_PIPELINE_COVERAGE",

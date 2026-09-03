@@ -1303,38 +1303,63 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
     #: The RYA-946 census gate, quoted: "No element is FROZEN_READY_FOR_MEASUREMENT until
     #: this cross-reference is complete or a documented, approved source-publication
     #: exception exists." RYA-1132 wrote intake_status FROZEN on every canonical row.
-    ref = ROOT / "data/reference"
-    asplund_sets = sorted(q.name for q in ref.glob("asplund*") if q.is_dir())
-    al_set = [q for q in asplund_sets if "al" in q.lower().replace("asplund", "")]
+    #:
+    #: ✅ CLOSED BY RYA-1173 (2026-09-03). The census exists: data/reference/asplund2021_al/ and
+    #: data/audit/rya1173_al_agss21_census/.
+    #:
+    #: 🔴 AND THIS CHECK NO LONGER ASKS THE QUESTION THE WAY IT DID. The original asked whether
+    #: `data/reference/asplund*` held a DIRECTORY whose name mentioned the element -- which an
+    #: empty `mkdir` satisfies and which cannot tell a built set from a staged one. It now asks
+    #: `pipeline.reference_census_gate`, which resolves the element through the `line_set`
+    #: REGISTRY and then LOADS the set: a census is a set that is declared, readable, and has
+    #: measurable rows. A weaker test that happened to agree today would be the worse artifact.
+    from pipeline import reference_census_gate as census_gate
+    st = census_gate.census_state("Al")
     frozen = int(man.intake_status.eq("FROZEN").sum())
+    sets = ", ".join(f"{x['line_set']} ({x.get('n_used', 0)} used rows, {x['ticket']})"
+                     for x in st["reference_sets"] if x.get("loads"))
     rep.add("D3", "RYA-946's mandatory AGSS21 line-set census was done before freezing",
-            "PASS" if al_set else "FAIL",
-            f"It was not, and {frozen} manifest rows are stamped `FROZEN` anyway. "
-            f"RYA-946 (2026-08-29) requires, for EVERY canonical element before its "
-            f"lab-gf sweep is complete, that the adopted Solar value be traced to its "
-            f"line-level source across ALL bands (FUV/NUV/VIS/red-optical/NIR/IR, "
-            f"including forbidden, molecular, isotopologue and blend-component "
-            f"indicators), with a per-line join and a per-band coverage matrix - and it "
-            f"gates the freeze: 'No element is FROZEN_READY_FOR_MEASUREMENT until this "
-            f"cross-reference is complete or a documented, approved source-publication "
-            f"exception exists.' `data/reference/` holds {asplund_sets} - Fe only, from "
-            f"RYA-1109. There is no Al reference set, and RYA-1132 records no exception. "
-            f"AGSS21/Asplund/Scott/Nordlander appear ZERO times in all 505 rows.")
-    rep.row("D3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv",
-            "Al frozen through RYA-946's census gate, with no census and no exception",
-            f"{frozen} rows intake_status=FROZEN; data/reference/ has {asplund_sets}")
+            "PASS" if st["satisfied"] else "FAIL",
+            (f"It was, as of RYA-1173. {frozen} manifest rows are stamped `FROZEN` and the "
+             f"census that gates them exists: {sets}. AGSS21 publishes NO Al line list, so the "
+             f"set is reconstructed from the primaries it cites -- Nordlander & Lind 2017 "
+             f"(A&A 607, A75) and Scott et al. 2015b (A&A 573, A25) -- under five extraction "
+             f"controls. The per-line join, per-band coverage matrix, four-way Codex comparison "
+             f"and lineage note are in data/audit/rya1173_al_agss21_census/. "
+             f"⚠️ THIS CLOSES ONE GATE, NOT THE INTAKE: the census's own finding is that Al I "
+             f"10768.363 A -- one of the six lines carrying AGSS21's adopted A(Al) = 6.43 -- is "
+             f"ABSENT from canonical_gf, so that value cannot be replicated on our line list."
+             if st["satisfied"] else
+             f"It was not, and {frozen} manifest rows are stamped `FROZEN` anyway. RYA-946 "
+             f"(2026-08-29) requires, for EVERY canonical element before its lab-gf sweep is "
+             f"complete, that the adopted Solar value be traced to its line-level source across "
+             f"ALL bands (FUV/NUV/VIS/red-optical/NIR/IR, including forbidden, molecular, "
+             f"isotopologue and blend-component indicators), with a per-line join and a per-band "
+             f"coverage matrix - and it gates the freeze. Census state: {st['basis']}."))
+    if not st["satisfied"]:
+        rep.row("D3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv",
+                "Al frozen through RYA-946's census gate, with no census and no exception",
+                f"{frozen} rows intake_status=FROZEN; census state: {st['basis']}")
 
-    #: What the census WOULD start from - traced here so the child ticket does not repeat it.
-    rep.add("D3-lineage", "AGSS21's Al value traced to its line-level source", "FLAG",
+    #: The lineage, now TRACED rather than sketched -- and one number in the original sketch was
+    #: wrong, which is worth leaving visible rather than quietly correcting.
+    #:
+    #: 🔴 "A FIVE-LINE SET" CAME FROM AGSS21'S PROSE AND REPRODUCES FROM NEITHER SOURCE IT CITES.
+    #: Scott et al. 2015b Sect. 5.3 retains SEVEN Al i lines; Nordlander & Lind 2017 Sect. 3.1.5
+    #: disregards exactly one (10891 A, telluric) and its Fig. 8 axis names the remaining SIX
+    #: individually: 6696 6698 7835 8912 10768 10872. RYA-1173 adopts six on the primary's
+    #: authority and records the conflict rather than resolving it silently.
+    rep.add("D3-lineage", "AGSS21's Al value traced to its line-level source", "PASS",
             "AGSS21 publishes no Al line list. Its section 'Aluminium (Z = 13)' adopts "
             "Nordlander & Lind (2017), who 'adopted the same lines and line data as in "
             "Scott et al. (2015b), except that they excluded the 1089.1 nm line due to "
-            "telluric contamination', giving A(Al) = 6.43 +/- 0.03 over 'these five Al i "
-            "lines'. So the Al reference set is a FIVE-line set whose identity lives in "
-            "Scott et al. (2015b), with one published NEGATIVE selection (1089.1 nm, "
-            "telluric) that RYA-946 says must be preserved rather than silently dropped. "
-            "The repo already holds the Nordlander & Lind pointer in "
-            "`data/curation/threednlte_availability.csv` (DOI 10.1051/0004-6361/201730427).")
+            "telluric contamination', giving A(Al) = 6.43 +/- 0.03. ⚠️ CORRECTION TO THIS "
+            "CHECK'S OWN EARLIER TEXT: that is a SIX-line set, not five. AGSS21's prose says "
+            "'these five Al i lines', but Scott retains seven and NL2017 removes exactly one, "
+            "and NL2017's Fig. 8 names the six survivors individually. The '5' reproduces from "
+            "neither source AGSS21 cites; RYA-1173 carries six and records the conflict. The "
+            "published NEGATIVE selection (10891.732 A, telluric) is preserved as a flagged row "
+            "rather than dropped, per RYA-946.")
 
     # D4 - the evaluated tier: its provenance, its values, and its grades.
     ev = man[man.gf_source_type.eq("CRITICALLY_EVALUATED")].copy()
