@@ -54,7 +54,16 @@ def test_the_two_KEY_FIELDS_definitions_still_agree():
 
 def test_two_products_differing_ONLY_in_line_set_get_distinct_keys(doc):
     """🔴 THE RYA-1106 CASE, as a test. This is the whole ticket in four lines."""
-    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    #: 🔴 RYA-1185 -- "OUR OWN" MEANS THE ONES THAT DO NOT STORE THE AXIS, NOT EVERY
+    #: ENGINE-A-3DNLTE PRODUCT. This selected on treatment alone, which was unambiguous
+    #: while the four RYA-1106 Asplund replications were unpublished. RYA-1185 published
+    #: them, and they are ENGINE-A-3DNLTE too -- so the clone below became
+    #: `dict(asplund_row, line_set="asplund")`, i.e. the row compared against ITSELF, and
+    #: the test reported a collision that does not exist (the live feed has 70 products
+    #: and 70 distinct keys). A replication is identified by STORING `line_set`; our own
+    #: products derive it from `tier` and never store it (RYA-1111).
+    amarsi = [p for p in doc["products"]
+              if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     assert amarsi, "the our-graded Amarsi products should be live"
     for ours in amarsi:
         replication = dict(ours, line_set="asplund")
@@ -75,7 +84,9 @@ def test_the_collision_was_REAL_under_the_old_key(doc):
     old_fields = tuple(f for f in pe.KEY_FIELDS if f != "line_set")
     def old_key(p):
         return "|".join(str(p.get(k) or "") for k in old_fields)
-    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    # same scoping as above (RYA-1185): our own products are the ones that store nothing.
+    amarsi = [p for p in doc["products"]
+              if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     for ours in amarsi:
         assert old_key(ours) == old_key(dict(ours, line_set="asplund"))
 
@@ -225,7 +236,8 @@ def test_the_audits_split_detection_is_NOT_vacuous():
     aud = importlib.util.module_from_spec(spec); spec.loader.exec_module(aud)
 
     feed = _json.loads(FEED.read_text())
-    amarsi = [p for p in feed["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    amarsi = [p for p in feed["products"]
+              if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     staged = dict(feed, products=list(feed["products"])
                   + [dict(p, line_set="asplund") for p in amarsi])
     d = Path(tempfile.mkdtemp()) / "solar"; d.mkdir(parents=True)
