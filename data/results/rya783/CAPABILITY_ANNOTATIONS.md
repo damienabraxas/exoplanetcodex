@@ -54,8 +54,11 @@ artifact `data/results/rya1055/atom_ion_reach.json`.
   transitions is the whole Fe I term system; the limit is stage-specific.
 * **`ENGINE-A` cells are NOT annotated.** That leg reads the MPIA/Bergemann per-line delta
   grid (`data/nlte_grids/Fe_Bergemann_MPIA.csv`, 6,400 Fe II rows over 80 lines,
-  3805.5–6586.7 Å), never this atom. Its Fe II corrections are real and small (±0.002 dex
-  across the grid at solar). The limit is a property of the **deck**, not of Fe II.
+  3805.5–6586.7 Å), never this atom. Its Fe II corrections are real and small: measured at
+  the solar node they run **−0.002 to +0.016 dex, median +0.000**, with 146 of 160 entries
+  inside ±0.005 — the tail is the three strong multiplet-42 lines
+  4923.932 / 4924.921 / 5169.033 at +0.015 (Fe I control at the same node: median +0.011, up to +0.040). The limit is
+  a property of the **deck**, not of Fe II.
 
 ## Annotate, do not delete
 

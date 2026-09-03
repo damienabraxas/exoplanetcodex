@@ -409,9 +409,9 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     elif fam == "bergemann":
         source = ("MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid "
                   "(data/nlte_grids/Fe_Bergemann_MPIA.csv) — NOT atom.fe607a. Its Fe II "
-                  "corrections are real and small: +-0.002 dex across the grid at solar, "
-                  "and +0.001 dex per line on the three lines the KPNO VIS Fe II pool "
-                  "shares with it (measured ENGINE-A minus 1D-LTE in Fe_perline.csv)")
+                  "corrections are real and small: median +0.000 dex at the solar node with a range of -0.002 to +0.016 and 146 of 160 grid entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). On our own lines it "
+                  "is +0.001 dex on each of the three the KPNO VIS Fe II pool shares with "
+                  "the grid (ENGINE-A minus 1D-LTE in Fe_perline.csv)")
     elif fam == "amarsi":
         source = ("Amarsi+2022 3D-NLTE MLP (fe2_model.p) — NOT atom.fe607a. Its solar "
                   "Fe II correction is +0.066 dex (RYA-817 control, paper Table 6 "

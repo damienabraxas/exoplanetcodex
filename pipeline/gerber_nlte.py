@@ -186,9 +186,17 @@ DECKS = {
 #   * **Fe II ENGINE-A NLTE is a DIFFERENT MECHANISM and is unaffected.** That leg reads
 #     the MPIA/Bergemann per-line delta grid (`data/nlte_grids/Fe_Bergemann_MPIA.csv`,
 #     6,400 Fe II rows over 80 lines, 3805.5-6586.7 A), never this atom. Its solar Fe II
-#     corrections are real and tiny — +-0.002 dex across the grid at solar, and +0.001 dex
-#     per line on the three lines the KPNO VIS Fe II pool shares with it (6147.7341,
+#     corrections are real and SMALL BUT NOT NEGLIGIBLE-BY-INSPECTION: measured on the
+#     grid at the solar node (Teff 5800, logg 4.3/4.5, [Fe/H] 0) the Fe II deltas run
+#     -0.002 to +0.016 dex with a median of +0.000, and 146 of 160 entries sit inside
+#     +-0.005 — the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 /
+#     5169.033, all at +0.015. (Fe I control at the same
+#     node: median +0.011, up to +0.040.) On OUR OWN lines the effect is +0.001 dex on
+#     each of the three the KPNO VIS Fe II pool shares with the grid (6147.7341,
 #     6238.3859, 6247.5570; ENGINE-A minus 1D-LTE in data/products/solar/Fe_perline.csv).
+#     ⚠️ An earlier draft of this comment said "+-0.002 across the grid", read off the
+#     first five rows of a truncated summary. It is wrong by 8x at the tail; the numbers
+#     above are measured over the whole solar node.
 #   * **Fe II <3D>-LTE is available** via the Frankenstein LTE leg (model 5,
 #     `synth-mean3D-LTE-gerber-stagger`): the <3D>-mean atmosphere is ION-AGNOSTIC, so
 #     Fe II synthesised on it in LTE gets a real <3D>-LTE treatment. RYA-1135 owns that
@@ -233,7 +241,11 @@ FE_II_NLTE_LIMIT = (
     "LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex "
     "(vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the "
     "Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann "
-    "Fe II deltas agree at +-0.002 dex. A two-stage Fe atom is DEFERRED to the off-solar "
+    "Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid "
+    "entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines "
+    "4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so "
+    "'negligible' is a median statement and not a bound (Fe I control at the same "
+    "node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar "
     "programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). "
     "Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); "
     "model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. "
