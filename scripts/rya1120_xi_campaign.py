@@ -136,7 +136,8 @@ def _read_products(outdir):
     return out
 
 
-def dA_dxi(lines_hi, lines_lo, *, step_kms):
+def dA_dxi(lines_hi, lines_lo, *, step_kms, minus_dir=None, plus_dir=None,
+           xi_nominal=None):
     """dA/dxi as a PER-LINE PAIRED DIFFERENTIAL, divided by the central-difference span.
 
     Reuses `pipeline.paired_differential` rather than differencing two aggregates. The
@@ -147,8 +148,31 @@ def dA_dxi(lines_hi, lines_lo, *, step_kms):
     """
     sys.path.insert(0, str(REPO))
     from pipeline.paired_differential import paired_differential
+
+    #: 🔴 RYA-1178 A — THE PAIRING MUST BE PROVEN BY THE ARTIFACTS, NOT BY ISOLATION.
+    #: Before this, `lines_hi` and `lines_lo` were correct only because the caller wrote
+    #: each leg into its own directory and remembered which was which. The near-UV
+    #: worktree collision showed what that is worth: two runs wrote one stem, the second
+    #: overwrote the first, and nothing downstream could have noticed. When the run dirs
+    #: are supplied, their stamps must form the expected nominal -/+ step pair or this
+    #: refuses outright — and the span is then taken FROM THE STAMPS, so the number the
+    #: derivative divides by is the number the runs were actually made at.
+    pair = None
+    if minus_dir is not None or plus_dir is not None:
+        from pipeline.xi_pairing import assert_pair, span_kms
+        if minus_dir is None or plus_dir is None:
+            from pipeline.xi_pairing import XiPairingError
+            raise XiPairingError(
+                "one run directory was supplied without the other — a derivative needs "
+                "both legs; half a pair is a different quantity, not a smaller one.")
+        lo_stamp, hi_stamp = assert_pair(minus_dir, plus_dir, xi_nominal=xi_nominal,
+                                         step_kms=step_kms)
+        pair = {"minus": lo_stamp, "plus": hi_stamp}
+        span = span_kms(lo_stamp, hi_stamp)
+    else:
+        span = 2.0 * float(step_kms)
+
     pd_ = paired_differential(lines_hi, lines_lo)
-    span = 2.0 * float(step_kms)
     d = pd_.as_dict()
     d.update({
         "dA_dxi_paired": pd_.median / span,
@@ -156,6 +180,9 @@ def dA_dxi(lines_hi, lines_lo, *, step_kms):
         "pool_moved": bool(len(lines_hi) != len(lines_lo)),
         "n_hi": int(len(lines_hi)), "n_lo": int(len(lines_lo)),
         "step_kms": float(step_kms),
+        "span_kms": float(span),
+        "xi_pairing": pair,
+        "xi_pairing_verified": pair is not None,
     })
     return d
 
