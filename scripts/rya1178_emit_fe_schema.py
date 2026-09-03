@@ -69,10 +69,52 @@ ASPLUND = ROOT / "data/results/rya1106/asplund_four_instrument_table.json"
 #: RYA-1178 §1: solar xi is PINNED at 1.0; delta_xi is RYA-1089's sourced 0.2912.
 XI_VALUE_KMS, DELTA_XI_KMS = 1.0, 0.2912
 
-#: Treatments whose model resolves the velocity field xi stands in for, so xi does not
-#: apply. Read off the campaign's own verdict, not asserted: every NOT_APPLICABLE entry in
-#: `xi_sigma_reported.json` is ENGINE-A-3DNLTE and it gives that state to nothing else.
-FULL_3D_TREATMENTS = ("ENGINE-A-3DNLTE",)
+#: 🔴 RYA-1185 (Ryan, pre-merge) — `xi_state` MUST DERIVE FROM A STATED RULE, and the rule
+#: is NOT "does the synthesiser receive a microturbulence". THAT WAS CHECKED IN THE CODE AND
+#: THE ANSWER IS "BOTH DO":
+#:
+#:   * <3D> mean:  `abundances_derive.py:876/886` calls `ispec.generate_spectrum(...,
+#:                 microturbulence_vel=vturb, ..., **_atm_file)` — `_atm_file` IS the <3D>
+#:                 route (`atmosphere_layers_file`, the mul23 deck) and `microturbulence_vel`
+#:                 rides the SAME call. No branch drops it for a mean-3D deck.
+#:   * Amarsi 3D:  the MLP takes `vmic` as an EXPLICIT input axis (`pipeline/amarsi3d.py`,
+#:                 training box 0-3 km/s) and its correction moves d(aberr)/dxi = +0.0985
+#:                 dex/(km/s) over 112 of 117 lines.
+#:
+#: So a "does the synthesis carry a xi parameter" rule would make ENGINE-A-3DNLTE UNMEASURED
+#: too, which contradicts the ratified split. The rule that actually separates them is about
+#: the PUBLISHED QUANTITY, not the call signature:
+#:
+#:   NOT_APPLICABLE  the published value has no NET xi dependence.
+#:                   - full 3D (ENGINE-A-3DNLTE): the published number is a SUM,
+#:                     A(3D-NLTE) = A(1D-LTE)(xi) + aberr(xi), whose two halves move
+#:                     OPPOSITELY — the correction tracking xi is the baseline's
+#:                     xi-dependence being undone, not a second one added (Ryan, 2026-08-29).
+#:                   - the replication anchors (`line_set` stored): a reference-set anchor,
+#:                     not a xi-varying measurement of ours.
+#:   UNMEASURED      xi APPLIES to the published value and no valid derivative exists yet.
+#:
+#: ⚠️ THE <3D> MEAN STAYS UNMEASURED, AND THAT IS A MEASUREMENT, NOT A DEFAULT. RYA-1099 ran
+#: the mean route at xi = 0 and it came out **+0.137 dex WORSE**: a mean atmosphere averages
+#: the velocity structure OUT, so the route still runs on an inherited xi. RYA-1099 forbids
+#: the exemption in writing, and `rya1112_vis_fe_uncertainty_audit` asserts the same split
+#: with a test whose name is `..._and_never_from_a_NAME`.
+XI_NOT_APPLICABLE_TREATMENTS = ("ENGINE-A-3DNLTE",)
+
+
+def xi_disposition(prod: dict) -> tuple[str, str] | None:
+    """(state, why) when xi does not apply to this product's published value, else None."""
+    if str(prod.get("treatment") or "") in XI_NOT_APPLICABLE_TREATMENTS:
+        why = ("full 3D resolves the velocity field xi stands in for, so the PUBLISHED value "
+               "carries no net xi dependence: it is a sum A(1D-LTE)(xi) + aberr(xi) whose two "
+               "halves move oppositely. Recorded, not silent — the Amarsi MLP DOES take vmic "
+               "as an input axis and its correction moves d(aberr)/dxi = +0.0985 dex/(km/s); "
+               "the exemption is about the sum, not the call (Ryan, 2026-08-29).")
+        if prod.get("line_set"):
+            why += (" This product is ALSO a reference-set replication anchor, not a "
+                    "xi-varying measurement of ours — N/A on either ground (RYA-1185).")
+        return "NOT_APPLICABLE", why
+    return None
 
 #: RYA-946's grade names. `Consistent` is NOT here: RYA-1105 retired it and
 #: `model_registry.LINE_SETS` omits it deliberately, so a product carrying it must fail
@@ -341,13 +383,9 @@ def xi_terms(prod: dict, idx: dict) -> dict:
     #: made the four newly published RYA-1106 Asplund products (also ENGINE-A-3DNLTE) fall
     #: through to NOT_IN_CAMPAIGN -- "we never ran it", which is the wrong reason and reads
     #: as an owed measurement rather than a term that does not exist.
-    if str(prod.get("treatment") or "") in FULL_3D_TREATMENTS:
-        return {**base, "sigma_xi": 0.0, "xi_state": "NOT_APPLICABLE",
-                "xi_note": ("full 3D resolves the velocity field xi stands in for, so the "
-                            "term does not apply. This is the disposition the RYA-1120 "
-                            "campaign gives every ENGINE-A-3DNLTE product it ran; applied "
-                            "here by TREATMENT so a full-3D product that predates or "
-                            "postdates the campaign gets it too (RYA-1185).")}
+    na = xi_disposition(prod)
+    if na is not None:
+        return {**base, "sigma_xi": 0.0, "xi_state": na[0], "xi_note": na[1]}
 
     if not entries:
         return {**base, "sigma_xi": None, "xi_state": "NOT_IN_CAMPAIGN",
@@ -360,8 +398,20 @@ def xi_terms(prod: dict, idx: dict) -> dict:
         return {**base, "sigma_xi": 0.0, "xi_state": "NOT_APPLICABLE",
                 "xi_note": e.get("xi_note") or "full 3D resolves the velocity field xi stands in for"}
     if e.get("dA_dxi") is None:
+        #: ⚠️ UNMEASURED MUST SAY "xi APPLIES", NOT JUST "no run" (RYA-1185). Read bare, the
+        #: campaign's note is silent about whether the term is owed or absent, and the four
+        #: <3D> mean products are exactly where that ambiguity bites — they look like full 3D
+        #: and are not exempt. RYA-1099 measured it: the mean route at xi = 0 is +0.137 dex
+        #: WORSE, because a mean atmosphere averages the velocity structure OUT.
+        applies = ("xi APPLIES to this product and the derivative is OWED — this is not an "
+                   "exemption. ")
+        if "mean3D" in str(prod.get("treatment") or ""):
+            applies += ("The <3D> MEAN is NOT full 3D: averaging removes the velocity "
+                        "structure, so the route runs on an inherited xi. RYA-1099 measured "
+                        "it at xi = 0 and the result was +0.137 dex WORSE, which forbids the "
+                        "full-3D exemption here in writing. ")
         return {**base, "sigma_xi": None, "xi_state": "UNMEASURED",
-                "xi_note": e.get("xi_note") or "no perturb-and-re-derive on this pool"}
+                "xi_note": applies + (e.get("xi_note") or "no perturb-and-re-derive on this pool")}
     # measured — but on WHICH pool?
     #: 🔴 ALIASED MEANS "PROVABLY A DIFFERENT POOL", NOT "SHARES A KEY". The campaign
     #: key spans bands, so a shared key alone is only ambiguity; what proves the
