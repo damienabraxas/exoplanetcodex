@@ -205,6 +205,44 @@ def main(argv=None) -> int:
                                  if "excluded_reason" in d.columns else []),
         })
 
+    # ── an observation the label audit fell over, recorded rather than dropped ──────
+    # 🔴 TWO PUBLISHED "solar VIS Fe II DEEPGRADED" POOLS, WITH ZERO OVERLAP. Both sit
+    # inside 4200-6910 A and neither shares a single line with the other:
+    #
+    #   data/products/solar/Fe_perline.csv   11 lines, 5256.9-6456.4 A  (RYA-870,
+    #        2026-08-18, sourced from rya847/gated + rya877 -- and it is RYA-877's pool
+    #        that RYA-1055's own headline "0 of 11 labelled" was measured on)
+    #   the live band products              9 lines, 4233.2-4583.8 A
+    #
+    # It does NOT change this ticket's finding -- a deck with zero Fe II bound-bound
+    # transitions is zero for ANY pool, which is the strength of a deck-level result over
+    # a line-list one. But it is why the ticket's "0 of 11" describes a pool the live
+    # products no longer use, and it is the same shape as the pool-drift confound
+    # RYA-880/1113/1120 keep paying for. Reported for Ryan to disposition; NOT acted on
+    # here.
+    import csv as _csv
+    _pl = [r for r in _csv.DictReader(
+               l for l in PERLINE.read_text().splitlines() if not l.startswith("#"))
+           if r["ion"] == "II" and r["arm"] == "VIS"]
+    pool_a = sorted({round(float(r["wavelength_air_A"]), 3) for r in _pl})
+    _lv = ROOT / ("data/results/band_products/FeII_4200_6910_kpno_solar_atlas_"
+                  "solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv")
+    pool_b = []
+    if _lv.exists():
+        import pandas as pd
+        pool_b = sorted(round(float(x), 3)
+                        for x in pd.read_csv(_lv).wavelength_air_A)
+    disjoint_pools = {
+        "Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)": pool_a,
+        "live band product FeII_4200_6910 kpno molecfit DEEPGRADED": pool_b,
+        "overlap": sorted(set(pool_a) & set(pool_b)),
+        "note": ("Two published 'solar VIS Fe II DEEPGRADED' pools inside the same "
+                 "4200-6910 A window sharing NOT ONE line. Does not affect this ticket's "
+                 "finding (a deck with zero Fe II bound-bound transitions is zero for any "
+                 "pool) but it is why RYA-1055's headline '0 of 11 labelled' describes a "
+                 "pool the live products no longer use. FOR RYA TO DISPOSITION."),
+    }
+
     # ── the balance, SCALE-MATCHED ──────────────────────────────────────────────────
     # 🔴 MATCHED ON THE FULL RYA-1127 IDENTITY MINUS THE ION -- band, instrument, holding,
     # tier, SELECTOR, ROUTE and treatment. Dropping `selector` is not a cosmetic looseness:
@@ -248,6 +286,7 @@ def main(argv=None) -> int:
                                                   if r["takes_nlte_from_the_gerber_deck"]),
         "per_line_rows_on_an_nlte_scale": nlte_scale,
         "band_product_per_line_nlte_sources": perline,
+        "two_disjoint_vis_fe_ii_pools": disjoint_pools,
         "rya1113_contradiction": (
             "RESOLVED. RYA-1113 found a live Fe II near-UV NLTE leg at n=7 against its "
             "LTE sibling's n=12 and asked how it can exist if Fe II NLTE is structurally "

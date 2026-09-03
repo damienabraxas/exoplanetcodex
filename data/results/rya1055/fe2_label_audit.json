@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-09-03T22:28:49Z",
+  "generated_at": "2026-09-03T22:50:54Z",
   "n_live_fe_ii_products": 10,
   "n_stamped": 10,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -224,6 +224,34 @@
       "excluded_reasons": []
     }
   ],
+  "two_disjoint_vis_fe_ii_pools": {
+    "Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)": [
+      5256.932,
+      5337.722,
+      5991.371,
+      6084.102,
+      6147.734,
+      6149.246,
+      6238.386,
+      6247.557,
+      6369.459,
+      6432.676,
+      6456.38
+    ],
+    "live band product FeII_4200_6910 kpno molecfit DEEPGRADED": [
+      4233.162,
+      4303.17,
+      4351.762,
+      4385.377,
+      4416.819,
+      4508.28,
+      4522.628,
+      4549.466,
+      4583.829
+    ],
+    "overlap": [],
+    "note": "Two published 'solar VIS Fe II DEEPGRADED' pools inside the same 4200-6910 A window sharing NOT ONE line. Does not affect this ticket's finding (a deck with zero Fe II bound-bound transitions is zero for any pool) but it is why RYA-1055's headline '0 of 11 labelled' describes a pool the live products no longer use. FOR RYA TO DISPOSITION."
+  },
   "rya1113_contradiction": "RESOLVED. RYA-1113 found a live Fe II near-UV NLTE leg at n=7 against its LTE sibling's n=12 and asked how it can exist if Fe II NLTE is structurally unavailable, offering two answers: it is not real NLTE, or the atom has changed. BOTH ARE WRONG. The per-line artifact RYA-908 has since emitted names the source outright -- 7 lines at nlte_delta_dex = -0.001 from 'Bergemann MPIA per-line delta_nlte (live query, solar node)', 5 excluded 'ENGINE-A-NOT-SERVED'. The leg is real NLTE from the MPIA grid, a source this ticket's finding never touched, and the atom was re-measured today at still-zero Fe II bound-bound transitions. \u26a0\ufe0f RYA-1113's OTHER half stands unchanged: the n=7-vs-12 gap is MPIA service coverage, so the published Fe II near-UV NLTE delta IS confounded with a 5-line pool change.",
   "products": [
     {
