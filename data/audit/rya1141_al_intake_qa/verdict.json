@@ -58,11 +58,17 @@
     "D5": "PASS",
     "D5-outside": "FAIL",
     "D5-blank": "FLAG",
+    "E1": "PASS",
+    "E2": "PASS",
+    "E3": "FAIL",
+    "E4": "FAIL",
+    "E5": "PASS",
+    "E6": "FAIL",
     "NO-MUTATION": "PASS"
   },
-  "n_findings": 87,
+  "n_findings": 90,
   "by_severity": {
-    "HIGH": 47,
+    "HIGH": 50,
     "CRITICAL": 22,
     "MEDIUM": 18
   }

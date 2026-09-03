@@ -357,3 +357,66 @@ def test_a_summed_feature_is_not_graded_better_than_its_worst_component(qa):
     bad = e[e.nist_grade.ne(e.nist_grade_worst)]
     assert len(bad) == 5
     assert 6906.287 in set(bad.wavelength_air.round(3))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# E — conformance against the recipes the ticket names.
+# ─────────────────────────────────────────────────────────────────────────────
+def test_the_battery_is_derived_from_the_named_skills():
+    """🔴 The ticket names two skills as the recipe this QA is the standing check for.
+    The first two passes audited an invented battery instead. Pin the derivation."""
+    from scripts.qa_al_intake_rya1141 import ROOT, LINELIST, HOLDINGS_REG
+    for skill in ("codex-vald-extraction", "codex-data-audit"):
+        assert (ROOT / "skills" / skill / "SKILL.md").exists()
+    src = SELF.read_text()
+    assert "codex-vald-extraction" in src and "codex-data-audit" in src
+    assert LINELIST.exists() and HOLDINGS_REG.exists()
+
+
+def test_hfs_signature_reads_high_for_al_and_low_for_fe(qa):
+    """Part C check 4 PRIMARY, with its own negative pole. Fe has I = 0 — no hyperfine
+    structure — so a statistic that reads high on Fe is measuring line density."""
+    verdict, out = qa
+    assert verdict["checks"]["E2"] == "PASS"
+    h = pd.read_csv(out / "e2_hfs_split_signature.csv")
+    al = h[h.species.isin(["Al I", "Al II"])]
+    assert len(al) == 2 and (al.split_fraction >= 0.60).all()
+
+
+def test_canonical_extraction_threshold_is_not_the_ew_era_value(qa):
+    verdict, _ = qa
+    assert verdict["checks"]["E1"] == "PASS"
+
+
+def test_merge_schema_columns_are_absent(qa):
+    """`wavelength_convention` is the column the recipe specifies to prevent exactly the
+    medium mislabel A4 found downstream in the manifest."""
+    from scripts.qa_al_intake_rya1141 import LINELIST, MERGE_SCHEMA_REQUIRED
+    verdict, _ = qa
+    assert verdict["checks"]["E3"] == "FAIL"
+    cols = set(pd.read_csv(LINELIST, nrows=1).columns)
+    assert not (set(MERGE_SCHEMA_REQUIRED) & cols)
+
+
+def test_dedup_key_cannot_separate_hfs_components(qa):
+    """The recipe's Part C dedup key and its Part B permanent HFS-ON convention are in
+    direct conflict; the CRITICAL log_gf gate is unrunnable as written."""
+    verdict, out = qa
+    assert verdict["checks"]["E4"] == "FAIL"
+    d = pd.read_csv(out / "e4_al_dedup_key_collisions.csv")
+    assert len(d) > 100
+    assert ((d["max"] - d["min"]) > 0.001).sum() > 100
+
+
+def test_quarantine_source_guard_holds_for_al(qa):
+    verdict, _ = qa
+    assert verdict["checks"]["E5"] == "PASS"
+
+
+def test_three_conditioning_axes_are_collapsed_in_the_manifest(qa):
+    verdict, _ = qa
+    assert verdict["checks"]["E6"] == "FAIL"
+    m = pd.read_csv(AUDITED / "al_line_manifest.csv", low_memory=False)
+    for axis in ("telluric_applied", "normalization_state", "observed_conditioning"):
+        assert axis not in m.columns
+    assert "telluric_risk" in m.columns

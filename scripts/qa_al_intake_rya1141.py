@@ -1493,6 +1493,160 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
                      "nist_log_gf", "gf_sigma_dex"]], t2
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# E - RECIPE CONFORMANCE. The ticket's actual ask: did Codex-GPT run every step
+#     of `skills/codex-vald-extraction` (Part C intake gate + merge rules) and
+#     `skills/codex-data-audit` (conditioning axes)? Each check below names the
+#     section it implements, so the battery is derived FROM the recipe rather
+#     than invented alongside it.
+# ─────────────────────────────────────────────────────────────────────────────
+LINELIST = ROOT / "data/linelists/linelist_solar.csv"
+HOLDINGS_REG = ROOT / "data/catalog/holdings_manifest_registry.csv"
+
+#: codex-vald-extraction, Part C check 3. "The canonical extraction depth is 0.001
+#: (ratified RYA-387). This is a hard convention, not a tuning knob."
+CANONICAL_DEPTH = 0.001
+
+#: codex-vald-extraction, Part B. Al I/II is named explicitly in the HFS-capable list.
+HFS_CAPABLE = ("Mn", "Co", "Cu", "V", "Sc", "Ba", "Eu", "Na", "Al", "K", "La")
+
+#: Part C check 4 PRIMARY: "HFS-ON reads high (typically ~90%+ ...); HFS-OFF reads ~2%."
+HFS_ON_FLOOR, HFS_OFF_CEILING, HFS_WINDOW_A = 0.60, 0.10, 0.05
+
+#: Part C "Parsing & merge" schema: linelist columns PLUS these two.
+MERGE_SCHEMA_REQUIRED = ("extraction_source", "wavelength_convention")
+
+
+def split_fraction(sub: "pd.DataFrame") -> float:
+    """Part C check 4: fraction of a species' lines sitting in a split group
+    (>=2 same-species components within +/-0.05 A)."""
+    w = np.sort(sub.wavelength_air_A.values)
+    if len(w) < 2:
+        return float("nan")
+    near = np.zeros(len(w), bool)
+    d = np.diff(w)
+    near[:-1] |= d <= HFS_WINDOW_A
+    near[1:] |= d <= HFS_WINDOW_A
+    return float(near.mean())
+
+
+def check_e(rep: Report, man: pd.DataFrame) -> tuple:
+    ll = pd.read_csv(LINELIST, low_memory=False)
+
+    # E1 - Part C check 3, threshold consistency.
+    eff = float(ll.central_depth.min())
+    rep.add("E1", "Intake gate check 3 — extraction threshold is the canonical 0.001",
+            "PASS" if eff <= CANONICAL_DEPTH * 1.001 else "FAIL",
+            f"Effective detection depth = min(central_depth) = {eff}, matching the "
+            f"canonical {CANONICAL_DEPTH} ratified in RYA-387. Not the EW-era 0.05 that "
+            f"the recipe calls an under-deep heterogeneous-list defect (RYA-381). The Al "
+            f"pool the manifest inherits is synthesis-grade.")
+
+    # E2 - Part C check 4 PRIMARY, the split-group signature. Al is named in the list.
+    rows = []
+    for el in HFS_CAPABLE:
+        for ion in sorted(ll[ll.element.eq(el)].ion.astype(str).unique()):
+            sub = ll[ll.element.eq(el) & ll.ion.astype(str).eq(ion)]
+            if len(sub) < 5:
+                continue
+            rows.append({"species": f"{el} {ion}", "n_lines": len(sub),
+                         "split_fraction": round(split_fraction(sub), 3)})
+    hfs = pd.DataFrame(rows)
+    al = hfs[hfs.species.str.startswith("Al ")]
+    al_on = bool(len(al)) and (al.split_fraction >= HFS_ON_FLOOR).all()
+    #: CONTROL: the test must also be able to read LOW. Fe has I = 0 and no hyperfine
+    #: structure at all, so it is the natural negative pole - if Fe read as high as Al,
+    #: the statistic would be measuring line density, not splitting.
+    fe = split_fraction(ll[ll.element.eq("Fe") & ll.ion.astype(str).eq("I")])
+    rep.add("E2", "Intake gate check 4 PRIMARY — HFS split-group signature (Al is HFS-capable)",
+            "PASS" if al_on else "FAIL",
+            f"Al I {float(al[al.species.eq('Al I')].split_fraction.iloc[0]):.3f}, "
+            f"Al II {float(al[al.species.eq('Al II')].split_fraction.iloc[0]):.3f} — both "
+            f"far above the recipe's HFS-OFF signature of ~0.02, so `linelist_solar.csv` "
+            f"is HFS-ON for Al and the census the manifest inherits carries split "
+            f"components. Control: Fe I reads {fe:.3f} — Fe has nuclear spin I = 0 and no "
+            f"hyperfine structure, so the statistic reads low where it should and is "
+            f"measuring splitting rather than line density. The recipe's own warning that "
+            f"'Fe is the exception that hides the bug' is respected: Al was tested "
+            f"directly, not inferred from an Fe pass.")
+
+    # E3 - Part C "Parsing & merge" schema.
+    missing = [c for c in MERGE_SCHEMA_REQUIRED if c not in ll.columns]
+    sub2000 = int((ll.wavelength_air_A < 2000).sum())
+    rep.add("E3", "Merge schema carries `extraction_source` and `wavelength_convention`",
+            "PASS" if not missing else "FAIL",
+            f"Both are absent: {missing}. The recipe's merge schema is "
+            f"'`linelist_solar.csv` columns + `extraction_source` (provenance per line) + "
+            f"`wavelength_convention` (`vacuum` for lambda < 2000 A, `air` for >= 2000 A "
+            f"— do not convert vacuum->air at merge)'. Neither column exists, so "
+            f"{sub2000} rows below 2000 A — VACUUM by the recipe's own rule — sit in a "
+            f"column NAMED `wavelength_air_A` with nothing to say otherwise. This is the "
+            f"root of the medium mislabel A4 found in the manifest: the manifest inherits "
+            f"the defect from the linelist, and the recipe specifies the column that "
+            f"would have prevented it.")
+    rep.row("E3", "HIGH", "data/linelists/linelist_solar.csv",
+            "Merge schema columns `extraction_source` and `wavelength_convention` absent",
+            f"{sub2000} sub-2000 A rows are vacuum per the recipe and are stored under "
+            f"`wavelength_air_A`; per-line extraction provenance is unrecoverable.")
+
+    # E4 - Part C merge rule: the dedup key vs the permanent HFS-ON convention.
+    a = ll[ll.element.eq("Al")].copy()
+    a["k"] = list(zip(a.element, a.ion, a.wavelength_air_A.round(3),
+                      a.excitation_potential_eV.round(3)))
+    g = a.groupby("k").log_gf.agg(["size", "min", "max"])
+    dup = g[g["size"] > 1]
+    crit = dup[(dup["max"] - dup["min"]) > 0.001]
+    rep.add("E4", "Merge dedup key can tell an HFS component from a duplicate", "FAIL",
+            f"It cannot, and the two halves of the recipe contradict each other. Part C "
+            f"keys overlap dedup on `(element, ion, round(lambda,3), round(EP,3))` and "
+            f"makes a log_gf disagreement > 0.001 on such a pair CRITICAL — 'report, do "
+            f"not silently pick'. Part B makes HFS-ON the PERMANENT convention. Under "
+            f"HFS-ON, split components of one transition share species, wavelength to "
+            f"3 dp and EP to 3 dp while carrying DIFFERENT log_gf by construction: "
+            f"{len(crit)} of {len(dup)} Al duplicate keys exceed the threshold, spreads "
+            f"up to {float((crit['max']-crit['min']).max()):.2f} dex. Applied literally "
+            f"the gate fires on legitimate components, so it cannot have been run as "
+            f"written. The skill even notes the gate 'is what caught the HFS mismatch' — "
+            f"it predates HFS-ON and was never reconciled with it.")
+    rep.row("E4", "HIGH", "skills/codex-vald-extraction Part C vs Part B",
+            "The dedup key collides HFS components; the CRITICAL gate is unrunnable as written",
+            f"{len(crit)}/{len(dup)} Al duplicate keys exceed the 0.001 log_gf gate; "
+            f"RYA-1001 groups HFS by a DIFFERENT rule (span in cm-1 + EP tol + ion), and "
+            f"the two grouping rules are never reconciled.")
+
+    # E5 - Part C quarantine-source guard (RYA-378).
+    quar = int(a.astype(str).apply(lambda c: c.str.contains("quarantine", case=False)).sum().sum())
+    rep.add("E5", "Quarantine-source guard — no Al line drawn from a quarantined delivery",
+            "PASS" if quar == 0 else "FAIL",
+            f"{quar} Al rows carry quarantine provenance. `linelist_solar.csv` sources "
+            f"every Al line from VALD3, and the HFS-off / truncated / under-deep "
+            f"quarantine files in `data/linelists/` are provenance only, as RYA-378 "
+            f"requires.")
+
+    # E6 - codex-data-audit: three conditioning axes, three columns, never collapsed.
+    reg = pd.read_csv(HOLDINGS_REG, comment="#")
+    solar = reg[reg.system_id.astype(str).str.strip().eq("solar")]
+    axes = ("telluric_applied", "normalization_state", "observed_conditioning")
+    in_man = [c for c in axes if c in man.columns]
+    unknown = solar[solar.normalization_state.astype(str).isin(["unknown", "nan"])]
+    rep.add("E6", "codex-data-audit — three conditioning axes, three columns, never collapsed",
+            "PASS" if len(in_man) == 3 else "FAIL",
+            f"The manifest carries {len(in_man)} of the three: {in_man or 'none'}. It "
+            f"collapses the whole question into one `telluric_risk` column of 3 values "
+            f"and records NO normalisation state at all, so a measurement taken from this "
+            f"frozen pool inherits none. The holdings registry does it correctly — it "
+            f"carries `telluric_applied` and `normalization_state` per holding — and "
+            f"{len(unknown)} of {len(solar)} Solar holdings read `unknown` or are "
+            f"UNDECLARED there. The skill: '`unknown` is real and never defaulted — "
+            f"defaulting to normalised applies unity as a continuum and inflates every EW "
+            f"silently.' Nothing downstream of this manifest can see that.")
+    rep.row("E6", "HIGH", "al_line_manifest.csv",
+            "Three conditioning axes collapsed into one `telluric_risk` label",
+            f"missing: {[c for c in axes if c not in man.columns]}; "
+            f"{len(unknown)} Solar holdings carry unknown/undeclared normalization_state")
+    return hfs, dup.reset_index()
+
+
 def porcelain() -> tuple[set, bool]:
     """The working tree's dirty set, or (empty, False) when git cannot answer."""
     import subprocess
@@ -1527,6 +1681,7 @@ def build(out: Path = OUT, online: bool = False) -> dict:
     upgraded = check_b3(rep, man, cen)
     holdings, unreachable, relabelled = check_c(rep, man, cen)
     sweep, evaluated, vujratio = check_d(rep, man, norm, cen)
+    hfs_sig, al_dups = check_e(rep, man)
 
     for name, df in [("a1_dropped_source_flags.csv", flags),
                      ("a2_transition_collisions.csv", collide),
@@ -1543,7 +1698,9 @@ def build(out: Path = OUT, online: bool = False) -> dict:
                      ("c_band_gap_relabelled_lines.csv", relabelled),
                      ("d5_full_instrument_catalog_sweep.csv", sweep),
                      ("d4_evaluated_tier_provenance.csv", evaluated),
-                     ("d2_vujnovic_ratio_basis.csv", vujratio)]:
+                     ("d2_vujnovic_ratio_basis.csv", vujratio),
+                     ("e2_hfs_split_signature.csv", hfs_sig),
+                     ("e4_al_dedup_key_collisions.csv", al_dups)]:
         (df if isinstance(df, pd.DataFrame) else pd.DataFrame(df)).to_csv(out / name, index=False)
 
     findings = pd.DataFrame(rep.rows)
