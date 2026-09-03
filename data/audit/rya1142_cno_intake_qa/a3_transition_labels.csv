@@ -1,0 +1,7 @@
+species,example_raw_transition_label,verdict
+C2,rR3e(71);rR2f(72);rR1e(73),genuine rotational branch label
+CH,R  0.00274,"NOT A LABEL: bytes 123-132 of the Masseron record are branch + the observed-minus-calculated residual (ReadMe: branch=123, o-c=125-132); J/N/parity at bytes 55-95 are never read into the label"
+CN,sR21(15.5),genuine rotational branch label
+NH,rR1(35);rR3(33),genuine rotational branch label
+OH,rR1f(39.5),genuine rotational branch label
+12C16O,0.000  199.0 2.41E+01 'X' 'X'   99.0   98.0 'X' 'X'   0.0    0.0  'v1-0_J99-98_Li2015',"NOT A LABEL: split(None,3)[3] leaves the whole remainder of the Turbospectrum record; the real 'v1-0_J99-98_Li2015' identity is buried in it un-parsed"
