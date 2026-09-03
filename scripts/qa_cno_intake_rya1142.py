@@ -857,25 +857,29 @@ def check_a6() -> None:
            f"oxygen diagnostic -- is not retained as a physical component anywhere.",
            "C II;N II;O II;Ni I @ 6300.300")
 
-    record("A6", "Atomic side (C/N/O census, EP-aware joins)", "FAIL",
+    # 🔴 THE STATUS MUST FOLLOW THE EVIDENCE. This was hardcoded "FAIL", so when the
+    # RYA-1143 fix landed the AST scan correctly reported zero wavelength-only
+    # comparisons and the verdict still said FAIL. A check that cannot change its
+    # answer is not a check.
+    echoed = [r for r in census if r["use_status"] == "AGSS21_ADOPTED_FIVE_LINE_SET"
+              and (r.get("published_loggf") or "").strip()
+              and (r.get("published_loggf") or "").strip() == (r.get("codex_loggf") or "").strip()]
+    a6_status = "FAIL" if (wave_only or echoed) else "PASS"
+    record("A6", "Atomic side (C/N/O census, EP-aware joins)", a6_status,
            f"The C I / O I leg is sound: {by_elem['C']} C I and {by_elem['O']} O I rows from "
            f"Amarsi 2019 Table 1 all route through nearest_canonical(), which requires "
            f"wavelength AND excitation potential AND loggf and returns AMBIGUOUS or ABSENT "
            f"rather than guessing -- {by_use['SOURCE_ANALYSIS_GRID_SET']} rows, EP-aware, "
            f"correctly refusing. The N I leg is not. The five-line AGSS21 adopted set is "
            f"selected by `abs(float(r['wavelength_air_A']) - wavelength) <= .05` with NO EP and "
-           f"NO loggf term -- a wavelength-only key, confirmed in the builder's AST "
-           f"({len(wave_only)} wavelength-only comparison(s) vs {len(ep_aware)} EP-aware in "
-           f"atomic_census()). {len(admitted)} of the 5 N I lines are then stamped "
-           f"join_status=PHYSICAL_TUPLE_MATCH, which is exactly the RYA-1034 defect: a lab-tier "
-           f"identity claimed on a wavelength match alone. It is worse than a silent one, "
-           f"because the row then REPORTS lower_EP_eV and published_loggf that were READ OUT OF "
-           f"our own canonical_gf row -- our value round-tripping back as though the primary "
-           f"paper supplied it (RYA-1035's vendor-echo defect), under a column literally named "
-           f"published_loggf. Consequently intake_verdict.json's safety line, 'No abundance "
-           f"derived; no gf tuned; no wavelength-only join admitted', is FALSE on its third "
-           f"clause. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not "
-           f"silently filled, which is the one thing this leg gets right.",
+           f"NO loggf term -- a wavelength-only key, " if wave_only else
+           f"The N I leg is now EP-aware and this check PASSES. AST of atomic_census(): "
+           f"{len(wave_only)} wavelength-only comparison(s) vs {len(ep_aware)} EP-aware. "
+           f"{len(admitted)} of the 5 N I lines carry "
+           f"join_status=PHYSICAL_TUPLE_MATCH. Vendor-echo check (RYA-1035): "
+           f"{len(echoed)} row(s) report a published_loggf identical to our own canonical "
+           f"value. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not "
+           f"silently filled.",
            ";".join(r["line_label"] for r in admitted))
 
 
