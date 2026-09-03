@@ -1,0 +1,36 @@
+{
+  "ticket": "RYA-1169",
+  "line_set": "asplund",
+  "run_type": "observed EW/depth",
+  "n_lines": 10,
+  "holdings": [
+    {
+      "holding": "kpno_1984_molecfit_corrected",
+      "n_source_lines": 10,
+      "n_served": 9,
+      "n_unserved": 1,
+      "median_ew_mA": 46.0936,
+      "median_ew_ratio_vs_scott": 0.96694,
+      "median_observed_depth": 0.33257,
+      "unserved": [
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: window 7225.85-7226.57 A overlaps REGISTERED telluric band 7160-7340 A (H2O), and RYA-940 produced no admissible correction for it. Refusing to serve uncorrected flux under a corrected holding -- measure it on solar_kpno and label it uncorrected."
+        }
+      ]
+    },
+    {
+      "holding": "kpno_kurucz2005_residual",
+      "n_source_lines": 10,
+      "n_served": 10,
+      "n_unserved": 0,
+      "median_ew_mA": 40.4945,
+      "median_ew_ratio_vs_scott": 0.91837,
+      "median_observed_depth": 0.3078,
+      "unserved": []
+    }
+  ],
+  "raw_1984_policy": "QUARANTINED; never loaded by this runner",
+  "abundance_inversion": "PENDING: requires source-gf override through synthesis/EW engine",
+  "firewall": "no missing line substituted; distance from A(Si)=7.51 was not used"
+}
