@@ -198,8 +198,11 @@ def main(argv=None) -> int:
             "nlte_delta_dex_values": sorted({round(float(x), 4) for x in
                                              (delta.dropna() if delta is not None else [])}),
             "nlte_source": src,
-            "excluded_reasons": sorted({str(x) for x in
-                                        d.get("excluded_reason", []).dropna()})[:4],
+            # ⚠️ guarded like `nlte_source` above: `d.get(col, [])` returns a LIST when
+            # the column is absent, and a list has no `.dropna()` — that would crash the
+            # audit on an older artifact instead of reporting it.
+            "excluded_reasons": (sorted({str(x) for x in d["excluded_reason"].dropna()})[:4]
+                                 if "excluded_reason" in d.columns else []),
         })
 
     # ── the balance, SCALE-MATCHED ──────────────────────────────────────────────────
