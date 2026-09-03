@@ -307,3 +307,46 @@ def test_the_gerber_nlte_registry_members_state_the_limit():
     assert "NEVER label it 3D-NLTE" in rows["5"]["notes"]
     # the standing phantom-departure check rides on the mandatory pair
     assert "model 5 == model 6 on Fe II BY CONSTRUCTION" in rows["6"]["notes"]
+
+
+# ── item 3: the live-label confirmation, and the scale it is quoted on ───────────────
+
+AUDIT = ROOT / "data/results/rya1055/fe2_label_audit.json"
+
+
+def test_the_live_label_audit_is_clean_and_reproduces():
+    """Item 3, run rather than believed. The audit exits non-zero if it finds a problem,
+    so this is the guard as well as the record."""
+    r = subprocess.run([sys.executable, "scripts/rya1055_fe2_label_audit.py"],
+                       cwd=ROOT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout + r.stderr
+    a = json.loads(AUDIT.read_text())
+    assert a["problems"] == []
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 10
+    assert a["n_taking_nlte_from_the_gerber_deck"] == 0
+    assert a["per_line_rows_on_an_nlte_scale"] == {"I": 159, "II": 0}
+
+
+def test_the_balance_is_matched_on_the_full_identity_not_a_looser_key():
+    """🔴 Without `selector`, HARPS VIS Fe I offers TWO partners 0.196 dex apart
+    (DEEPGRADED 7.535, DEEPGRADED-LOCALRENORM 7.339) and the reader picks whichever suits.
+    Pin that the key carries every field, and that no pair came back ambiguous."""
+    src = (ROOT / "scripts/rya1055_fe2_label_audit.py").read_text()
+    for field in ("band", "instrument", "holding", "tier", "selector", "route",
+                  "treatment"):
+        assert f'"{field}"' in src.split("KEY = (")[1].split(")")[0], field
+    a = json.loads(AUDIT.read_text())
+    seen = [(b["holding"], b["band"], b["treatment"]) for b in
+            a["ionisation_balance_scale_matched"]]
+    assert len(seen) == len(set(seen)), "a cell matched more than one Fe I partner"
+
+
+def test_the_audit_refuses_to_quote_the_balance_against_the_3d_anchor():
+    """⚠️ The Fe II kurucz2005 VIS cell is 7.466 — the anchor's own digits — on a
+    DIFFERENT scale. The record must carry the caveat, not the coincidence."""
+    a = json.loads(AUDIT.read_text())
+    assert "3D-NLTE" in a["anchor_caveat"] and "1D-NLTE" in a["anchor_caveat"]
+    assert "RYA-669" in a["anchor_caveat"]
+    # and the balance itself must be stated scale-matched, with its weakness admitted
+    assert "one scale by construction" in a["balance_note"]
+    assert "does not CONTRADICT" in a["balance_note"]

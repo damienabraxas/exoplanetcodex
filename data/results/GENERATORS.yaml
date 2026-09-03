@@ -3299,6 +3299,23 @@ artifacts:
       against this artifact where it is staged, and the committed JSON is the record where
       it is not.
 
+  - artifact: rya1055/fe2_label_audit.json
+    generator: scripts/rya1055_fe2_label_audit.py
+    invocation: python3 scripts/rya1055_fe2_label_audit.py --out data/results/rya1055/fe2_label_audit.json
+    ticket: RYA-1055
+    note: >-
+      RYA-1055 item 3: every LIVE Fe II product's label, confirmed rather than asserted --
+      the limit is stamped on all ten, none takes departures from atom.fe607a, and the
+      per-line layer agrees (159 Fe I rows on a 1D-NLTE scale, ZERO Fe II rows). REPORT
+      ONLY, no value re-derived. 🔴 The ionisation balance is quoted SCALE-MATCHED (same
+      band, instrument, holding, tier, selector, route and treatment) rather than against
+      the 7.466 anchor: that anchor is a 3D-NLTE number and these are 1D-NLTE products, so
+      the direct comparison is the RYA-669 ratchet -- and the Fe II kurucz2005 cell reads
+      7.466 to three decimals, the anchor's own digits, which is exactly the kind of
+      arrival-plausible coincidence that never gets challenged. Matching on the FULL
+      identity is load-bearing: without `selector`, HARPS VIS Fe I offers two partners
+      0.196 dex apart (DEEPGRADED 7.535 vs DEEPGRADED-LOCALRENORM 7.339).
+
   - artifact: rya1044/rya783_FeI_VIS_ENGINE-B-NLTE_lines.csv
     generator: scripts/rya1044_rya783_reconciliation.py
     ticket: RYA-1044
