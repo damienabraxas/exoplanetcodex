@@ -92,6 +92,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="data/results/rya1055/fe2_label_audit.json")
+    #: ⚠️ A verifier must not REWRITE the artifact it verifies. Without this a test run
+    #: leaves the tracked file dirty on a `generated_at` stamp alone -- the same class as
+    #: the RYA-776 note that a generated artifact must never stamp `git rev-parse HEAD`.
+    ap.add_argument("--check", action="store_true",
+                    help="re-derive and compare against the committed artifact; write "
+                         "nothing, exit 1 on any difference other than the timestamp")
     a = ap.parse_args(argv)
 
     from pipeline.gerber_nlte import FE_II_NLTE_LIMIT
@@ -205,6 +211,18 @@ def main(argv=None) -> int:
                     "NLTE scale" if not problems else "PROBLEMS FOUND"),
     }
     p = ROOT / a.out
+    if a.check:
+        have = json.loads(p.read_text())
+        g = {k: v for k, v in out.items() if k != "generated_at"}
+        h = {k: v for k, v in have.items() if k != "generated_at"}
+        if g != h:
+            for k in sorted(set(g) | set(h)):
+                if g.get(k) != h.get(k):
+                    print(f"DIFFERS  {k}: committed={h.get(k)!r} derived={g.get(k)!r}",
+                          file=sys.stderr)
+            return 1
+        print(f"{a.out}: matches the live feed")
+        return 1 if problems else 0
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, indent=2) + "\n")
 

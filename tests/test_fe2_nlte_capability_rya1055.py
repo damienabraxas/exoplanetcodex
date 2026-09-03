@@ -317,7 +317,9 @@ AUDIT = ROOT / "data/results/rya1055/fe2_label_audit.json"
 def test_the_live_label_audit_is_clean_and_reproduces():
     """Item 3, run rather than believed. The audit exits non-zero if it finds a problem,
     so this is the guard as well as the record."""
-    r = subprocess.run([sys.executable, "scripts/rya1055_fe2_label_audit.py"],
+    # `--check` re-derives from the LIVE feed and compares; it writes nothing, so the
+    # verifier cannot dirty the artifact it verifies on a timestamp alone.
+    r = subprocess.run([sys.executable, "scripts/rya1055_fe2_label_audit.py", "--check"],
                        cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
     a = json.loads(AUDIT.read_text())
