@@ -395,9 +395,36 @@ def test_the_mpia_fe_ii_numbers_in_the_limit_are_reproduced_from_the_grid():
     assert "+-0.002 dex" not in t
 
 
-def test_the_measured_engine_a_effect_on_our_own_fe_ii_lines_is_reproduced():
-    """The other half of the same claim: +0.001 dex per line on the three lines the KPNO
-    VIS Fe II pool shares with the grid. Read off our own per-line product, not the grid."""
+def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_artifacts():
+    """🔴 QUOTE THE PRODUCT'S OWN ARTIFACT, NOT A NEIGHBOURING ONE.
+
+    A draft of the stamp cited "+0.001 dex on 6147.7341 / 6238.3859 / 6247.5570" from
+    `Fe_perline.csv`. Those numbers are real — and they belong to a DIFFERENT POOL, the
+    RYA-489 replication product's 11-line 5256-6456 A Fe II set. The LIVE VIS band
+    product fits 4233.162 / 4303.170 / 4583.829 and applies -0.001/-0.002: same element,
+    same ion, same treatment, OPPOSITE SIGN. Both pools are pinned here so the two can
+    never again be confused for each other.
+    """
+    import pandas as pd
+    bp = ROOT / "data/results/band_products"
+    served = {}
+    for f in sorted(bp.glob("FeII_*_ENGINE-A_lines.csv")):
+        d = pd.read_csv(f)
+        s = d[d.in_aggregate == True]                                   # noqa: E712
+        served[f.name] = (len(d), len(s),
+                          sorted({round(float(x), 4) for x in s.nlte_delta_dex}))
+    assert len(served) == 5, sorted(served)
+    for name, (n, k, deltas) in served.items():
+        assert deltas and all(-0.0021 <= x <= -0.0009 for x in deltas), (name, deltas)
+        assert k < n, f"{name}: MPIA served every line — the n-drop confound is gone?"
+    # the VIS pools: 3 of 9 served, at -0.001/-0.002
+    vis = [v for k, v in served.items() if "_4200_6910_" in k]
+    assert len(vis) == 3 and all(v[0] == 9 and v[1] == 3 for v in vis), vis
+    # the near-UV pools: 7 of 12 served, at -0.001 — RYA-1113's n=7-vs-12
+    nuv = [v for k, v in served.items() if "_3000_3780_" in k]
+    assert len(nuv) == 2 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
+
+    # and the OTHER pool, so the two stay distinguishable
     import csv
     rows = list(csv.DictReader(
         (l for l in (ROOT / "data/products/solar/Fe_perline.csv").read_text().splitlines()
@@ -406,9 +433,55 @@ def test_the_measured_engine_a_effect_on_our_own_fe_ii_lines_is_reproduced():
     lte = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2 if r["engine"] == "1D-LTE"}
     eng = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2
            if r["engine"] == "ENGINE-A" and r["status"] == "in_aggregate"}
-    # compare as FLOATS: the CSV writes 6247.557, not 6247.5570, and a string compare
-    # here fails on a trailing zero rather than on the physics.
+    # compare as FLOATS: the CSV writes 6247.557, not 6247.5570.
     assert sorted(round(float(w), 4) for w in eng) == [6147.7341, 6238.3859, 6247.557]
     for w, a in eng.items():
         d = float(a) - float(lte[w])
-        assert abs(d - 0.001) < 5e-5, f"{w}: ENGINE-A minus 1D-LTE = {d:+.6f}, not +0.001"
+        assert abs(d - 0.001) < 5e-5, f"{w}: ENGINE-A minus 1D-LTE = {d:+.6f}"
+    # THE POINT: the two pools do not overlap at all.
+    live_vis = {4233.162, 4303.170, 4583.829}
+    assert live_vis & {round(float(w), 3) for w in eng} == set()
+
+
+def test_the_rya1113_contradiction_is_resolved_by_the_per_line_artifacts():
+    """RYA-1113 asked, on this ticket: if Fe II NLTE is structurally unavailable, how does
+    a live n=7 Fe II NLTE leg exist at all? It offered two answers — the leg is not real
+    NLTE, or the atom has changed. Both are wrong, and the per-line artifact RYA-908 has
+    since emitted says which: the source is the MPIA grid, not `atom.fe607a`.
+
+    ⚠️ RYA-1113's OTHER half stands: n=7 against an LTE sibling's n=12 IS a pool change,
+    so the published near-UV Fe II NLTE delta is confounded. That is not fixed here.
+    """
+    import pandas as pd
+    f = (ROOT / "data/results/band_products/FeII_3000_3780_kpno_solar_atlas_"
+         "solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv")
+    d = pd.read_csv(f)
+    served = d[d.in_aggregate == True]                                  # noqa: E712
+    assert len(d) == 12 and len(served) == 7, "RYA-1113's n=7 of 12"
+    srcs = set(served.nlte_source.dropna())
+    assert srcs and all("Bergemann MPIA" in s for s in srcs), srcs
+    assert not any("erber" in s or "fe607a" in s for s in set(d.nlte_source.dropna()))
+    assert sorted({round(float(x), 4) for x in served.nlte_delta_dex}) == [-0.001]
+    # the 5 that dropped out did so for SERVICE coverage, not physics
+    dropped = d[d.in_aggregate != True]                                 # noqa: E712
+    assert len(dropped) == 5
+    assert all("NOT-SERVED" in str(r) for r in dropped.excluded_reason), \
+        sorted(set(dropped.excluded_reason))
+    a = json.loads(AUDIT.read_text())
+    assert "RESOLVED" in a["rya1113_contradiction"]
+    assert "confounded with a 5-line pool change" in a["rya1113_contradiction"]
+
+
+def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
+    """The strongest form of the label audit: `nlte_source` is written at the point the
+    correction is applied (RYA-880), so this is the RUN speaking, not a label being read.
+    Every LTE leg must say so, and no leg may name the deck."""
+    a = json.loads(AUDIT.read_text())
+    per = a["band_product_per_line_nlte_sources"]
+    assert len(per) == 15, len(per)
+    for r in per:
+        for s in r["nlte_source"]:
+            assert "erber" not in s and "fe607a" not in s, (r["artifact"], s)
+        if "_ENGINE-A_" not in r["artifact"]:
+            assert r["n_with_a_nonzero_departure"] == 0, r["artifact"]
+            assert r["nlte_source"] == ["none — LTE, no departure applied"], r["artifact"]
