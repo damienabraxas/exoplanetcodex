@@ -5539,6 +5539,18 @@ artifacts:
       against IR's +0.0002..+0.0007). run_campaign.py:132's hardcoded `--hi 6910` is
       exactly this band's LOWER edge. Inputs are Mac-local campaign runs
       (~/xi_campaign/out_redopt, produced by run_redopt.py under per-worker worktree
+  - artifact: rya1168/nearuv_xi_dadxi.json
+    generator: scripts/rya1168_nearuv_xi.py
+    ticket: RYA-1168
+    note: >-
+      dA/dxi for the four near-UV (3000-3780 A) DEEPGRADED Fe pools, as a per-line
+      PAIRED differential. The missing run behind RYA-1113 F7 ("no stellar-parameter
+      term reaches the published bar"). The arm was never skipped, the BAND was:
+      run_campaign.py:132 hardcodes --lo 4200 --hi 6910 on every unit, so both KP
+      DEEPGRADED pools measured VIS. SEVEN of the eight pools are RYA-1083
+      collisions -- Fe II molecfit 1D-LTE reads +0.0020 naively (near zero, wrong
+      sign) against a paired -0.0120. Inputs are Mac-local campaign runs
+      (~/xi_campaign/out_uv, produced by run_uv.py under PER-WORKER worktree
       isolation) -- a recorded regenerability gap (RYA-1011), not a silent one.
   - artifact: rya1163/ir_xi_dadxi.json
     generator: scripts/rya1163_ir_xi.py
