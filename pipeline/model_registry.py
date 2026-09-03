@@ -78,7 +78,16 @@ STATUSES = ("live", "in-dev", "not-emitted")
 #: to the canonical name -- never silently rewritten in the file.
 LINE_SETS = (
     "-",                 # not model-scoped; the value every roster row carries today
-    "asplund",           # the imported AGSS21 reference set (RYA-1109)
+    "asplund",           # the imported AGSS21 reference set -- Fe, AGSS21's OWN table (RYA-1109)
+    # 🔴 RYA-1173 -- A SEPARATE VALUE, NOT A WIDENING OF `asplund`, BECAUSE THE PROVENANCE CHAIN
+    # IS DIFFERENT. `asplund` is AGSS21 Table A.2, transcribed from AGSS21 itself. AGSS21 publishes
+    # NO Al line list at all; its Al set is reconstructed from Nordlander & Lind (2017) and Scott
+    # et al. (2015b), which AGSS21 only cites. Merging the two under one axis value would make a
+    # product say "measured on AGSS21's published lines" when the lines were never published by
+    # AGSS21 -- and `line_set` is in the product identity key (RYA-1127), so that claim would be
+    # load-bearing. The gf differ in kind too: `asplund`'s are laboratory (Den Hartog, Belmonte),
+    # `asplund-al`'s are Opacity Project theory throughout.
+    "asplund-al",        # the RECONSTRUCTED AGSS21-lineage Al reference set (RYA-1173)
     "gbs",               # the Gaia FGK Benchmark Stars reference set (RYA-1110)
     "our-graded",        # our lab-gf graded pool, at or below the depth gate
     "our-deep-graded",   # the saturated population above the gate (RYA-984/954)

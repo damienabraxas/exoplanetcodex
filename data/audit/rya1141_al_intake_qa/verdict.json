@@ -49,8 +49,8 @@
     "D2": "PASS",
     "D2-a6-correction": "FLAG",
     "D3-lineset": "FAIL",
-    "D3": "FAIL",
-    "D3-lineage": "FLAG",
+    "D3": "PASS",
+    "D3-lineage": "PASS",
     "D4": "FAIL",
     "D4-values": "PASS",
     "D4-grades": "FAIL",
@@ -60,10 +60,10 @@
     "D5-blank": "FLAG",
     "NO-MUTATION": "PASS"
   },
-  "n_findings": 87,
+  "n_findings": 86,
   "by_severity": {
     "HIGH": 47,
-    "CRITICAL": 22,
+    "CRITICAL": 21,
     "MEDIUM": 18
   }
 }
