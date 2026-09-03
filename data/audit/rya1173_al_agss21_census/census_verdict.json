@@ -1,0 +1,112 @@
+{
+  "ticket": "RYA-1173",
+  "discharges": "RYA-946 'Mandatory Solar reference-line-set census - AGSS21 lineage, all bands', for Al. Raised as RYA-1141 check D3 (FAIL).",
+  "element": "Al",
+  "species_in_source_set": [
+    "Al I"
+  ],
+  "census_complete": true,
+  "source_line_list_not_published_wall": false,
+  "wall_note": "AGSS21 publishes no Al line list, but its cited primaries do. The rows were found one step further down the chain, so the RYA-946 wall does not apply.",
+  "reference_line_set": {
+    "line_set": "asplund-al",
+    "path": "data/reference/asplund2021_al/asplund2021_al_lines.csv",
+    "n_used": 6,
+    "n_excluded_by_source": 1,
+    "published_line_count_conflict": {
+      "scott2015b": 7,
+      "nordlander_lind2017": 6,
+      "agss21_prose": 5,
+      "adopted_here": 6,
+      "authority": "the PRIMARY. NL2017 Sect. 3.1.5 removes exactly one line from Scott's seven, and Fig. 8's axis names the remaining six individually: 6696 6698 7835 8912 10768 10872.",
+      "why_not_five": "AGSS21's 'these five Al i lines' reproduces from neither source it cites. It is recorded, NOT resolved: see raw/lineage_quotations.md for the two candidate explanations, neither of which any of the three papers states.",
+      "consequence": "A downstream reader must not inherit 'five'. A replication measuring this set measures SIX lines."
+    }
+  },
+  "match": {
+    "matcher": "pipeline.line_match.match(require_ep=True) -- lambda+EP dual key, strict",
+    "adopted_tol_A": 0.008,
+    "plateau_A": [
+      0.008,
+      0.25
+    ],
+    "plateau_width_ratio": 31.2,
+    "null_max_across_plateau": 0,
+    "basis": "DERIVED, then swept, then nulled. Printing is not the binding term: the two primaries disagree with each other by up to 0.008 A on the SAME transition (Nordlander & Lind 6696.015 vs Scott 6696.023) and canonical_gf follows Scott's scale, so the window must clear ~8 mA. Adopted at the smallest tolerance where the count has plateaued, nothing is ambiguous, and all 8 bodily displacements match NOTHING.",
+    "null_design": "the same sweep with the reference wavelengths displaced bodily by [-11.0, -7.0, -5.0, -3.0, 3.0, 5.0, 7.0, 11.0] A. A window wide enough to match by coincidence matches the displaced set too.",
+    "⚠️ ep_separation_margin": {
+      "pair_A": [
+        6696.015,
+        6698.672
+      ],
+      "delta_EP_eV": 0.0,
+      "delta_lambda_A": 2.657,
+      "levels": [
+        "4s 2S J=1/2 -> 5p 2Po J=3/2",
+        "4s 2S J=1/2 -> 5p 2Po J=1/2"
+      ],
+      "EP_TOL_EV": 0.02,
+      "ep_would_separate_them": false,
+      "note": "The two closest lines in EP share an upper level and differ by 0.000 eV -- 20000000000x BELOW line_match.EP_TOL_EV. EP cannot separate them; only the 2.7 A wavelength gap and the LEVEL can. RYA-1151: an EP tolerance is not a level identity."
+    }
+  },
+  "four_way": {
+    "USED_BY_SOURCE_BUT_UNGRADED_IN_CODEX": 3,
+    "USED_BY_SOURCE_AND_GRADED_BY_CODEX": 2,
+    "GRADED_BY_CODEX_BUT_NOT_USED_BY_SOURCE": 2,
+    "USED_BY_SOURCE_AND_ABSENT_FROM_CODEX": 1,
+    "EXCLUDED_BY_THE_SOURCE_ANALYSIS": 1
+  },
+  "🔴 findings": [
+    {
+      "id": "RYA-1173-F1",
+      "severity": "CRITICAL",
+      "finding": "Al I 10768.363 A -- 4p 2Po(1/2) -> 5d 2D(3/2), one of the SIX lines carrying AGSS21's adopted A(Al) = 6.43 -- is ABSENT from canonical_gf under any species.",
+      "why_it_is_not_an_ingest_gap": "32 rows of C/Fe/Si/Na/Ti/Cr/Mg/Ca lie between 10700 and 10850 A, and its own multiplet partner is held at 10782.045 A. The line is specifically missing.",
+      "consequence": "A replication of AGSS21's Al on our line list can measure at most 5 of the 6 lines. Codex cannot reproduce that solar value as published until the line is ingested."
+    },
+    {
+      "id": "RYA-1173-F2",
+      "severity": "HIGH",
+      "finding": "Every log gf in the AGSS21-lineage Al set is Opacity Project / TOPbase LS-coupling THEORY (Mendoza et al. 1995), on all seven lines and in both primaries.",
+      "consequence": "Matching a Codex line into this set is evidence the lineage USED it and nothing about its gf quality. RYA-946: an AGSS21 abundance value is not a gf grade. Note this is the same defect RYA-1174 reports from the other direction inside RYA-1132's own manifest."
+    },
+    {
+      "id": "RYA-1173-F4",
+      "severity": "HIGH",
+      "finding": "Al I 8912.900 A: Codex holds log gf = -2.348 (KURUCZ) against the source's -1.963 (TOPbase). A 0.385 dex disagreement on a line the AGSS21 lineage uses -- 3.5x the next largest delta in the set.",
+      "delta_loggf_distribution": {
+        "n_matched": 6,
+        "per_line": {
+          "8912.900": -0.385,
+          "6698.672": 0.11,
+          "6696.015": 0.109,
+          "10872.975": -0.0737,
+          "10891.732": -0.0728,
+          "7835.309": 0.04
+        },
+        "largest_abs_dex": 0.385,
+        "next_largest_abs_dex": 0.11,
+        "ratio_largest_to_next": 3.5,
+        "note": "Codex minus published. The published side is Opacity Project THEORY throughout, so this is a theory-vs-whatever-we-hold difference and NOT an error bar."
+      },
+      "consequence": "Measuring this line on OUR gf rather than the published one moves its inferred abundance by about +0.385 dex -- it is weak (EW 3.0 mA, on the linear part of the curve of growth), so the shift is very nearly the gf difference. A 'replication of AGSS21' that silently used canonical gf would not be replicating AGSS21 on this line. RYA-946's fixed-asset rule says the line list is established from the reference study and shared unchanged; this is where the two scales part company.",
+      "not_adjudicated_here": "Which value is right is a gf question, not a census question. Recorded, not resolved (RYA-161)."
+    },
+    {
+      "id": "RYA-1173-F3",
+      "severity": "INFO",
+      "finding": "The two lines Scott weights highest -- 6696.015, 6698.672 A, weights 2+3 of the 9 weight units spread over the SIX used lines -- are exactly the two Al I lines Codex holds at LAB tier, from Burheim et al. 2023.",
+      "⚠️ weight_frame": "9 weight units over Nordlander & Lind's SIX used lines; 10 over Scott's SEVEN. The adopted value rests on the six, so the six are the frame.",
+      "consequence": "Where the source analysis is most confident, so are we."
+    }
+  ],
+  "does_not_unblock": "This census discharges the RYA-946 gate ONLY. Al is not FROZEN_READY_FOR_MEASUREMENT: RYA-1151, RYA-1174, RYA-1176 and RYA-1177 remain open, and RYA-1173-F1 is new.",
+  "counts": {
+    "reference_rows": 7,
+    "analysis_rows_tableA1": 55,
+    "codex_al1_rows": 172,
+    "codex_al1_graded_rows": 4,
+    "codex_al1_lab_rows": 3
+  }
+}

@@ -116,6 +116,14 @@ SCOTT2015B_SUMMARY_AL = {
     "meteoritic": 6.43, "meteoritic_sigma": 0.01,
 }
 
+#: The line Nordlander & Lind published a rejection for, named by its LEVELS. NL2017 Sect. 3.1.5:
+#: "disregarding the line at 10 891 A due to telluric contamination". 10891.732 A is
+#: 4p 2Po(3/2) -> 6s 2S(1/2); its partner 10872.975 A is 4p 2Po(1/2) -> the SAME upper level, so
+#: the pair is separated by the LOWER level and by 18.8 A -- never by EP, which differs by
+#: 0.002 eV, a tenth of EP_TOL_EV.
+EXCLUDED_LOWER_LEVEL = "4p 2Po J=3/2"
+EXCLUDED_UPPER_LEVEL = "6s 2S J=1/2"
+
 #: Nordlander & Lind 2017 Fig. 8's x-axis, verbatim: the six lines of the solar abundance set.
 NL2017_FIG8_LINES = (6696, 6698, 7835, 8912, 10768, 10872)
 
@@ -486,7 +494,13 @@ def build() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
         pair = next(p for p in c3["pairs"] if p["scott_lambda_nm"] == r.lambda_nm)
         x = nl_by_lam[pair["nl_wavelength_A"]]
         h = hfi.loc[r.lambda_nm]
-        excluded = abs(float(x.wavelength_A) - 10891.732) < 0.05
+        #: 🔴 THE EXCLUDED LINE IS IDENTIFIED BY ITS LEVEL, NOT BY ITS WAVELENGTH. A `abs(lambda -
+        #: 10891.732) < 0.05` test stood here, which is the wavelength-only identity this whole
+        #: ticket exists to argue against -- and the set contains a line 18.8 A away sharing the
+        #: SAME upper level, so a wavelength window is the one thing that separates them. The
+        #: level pair is exact.
+        excluded = (_level_key(x.lower_level, x.j_lower) == EXCLUDED_LOWER_LEVEL
+                    and _level_key(x.upper_level, x.j_upper) == EXCLUDED_UPPER_LEVEL)
         rows.append({
             "line_set": "asplund_agss21_al",
             "species": "Al I",

@@ -49,8 +49,8 @@
 | D2 | Promotions rest on Vujnovic's MEASURED intensity ratios, not LS theory | **PASS** |
 | D2-a6-correction | A6's 13123.416 disagreement, correctly characterised | **FLAG** |
 | D3-lineset | The frozen manifest can resolve a `line_set` | **FAIL** |
-| D3 | RYA-946's mandatory AGSS21 line-set census was done before freezing | **FAIL** |
-| D3-lineage | AGSS21's Al value traced to its line-level source | **FLAG** |
+| D3 | RYA-946's mandatory AGSS21 line-set census was done before freezing | **PASS** |
+| D3-lineage | AGSS21's Al value traced to its line-level source | **PASS** |
 | D4 | Every 'critically evaluated' row carries a resolvable source | **FAIL** |
 | D4-values | Evaluated log gf reproduce the NIST pull, sums included | **PASS** |
 | D4-grades | A summed feature is graded by its WORST component | **FAIL** |
@@ -232,15 +232,15 @@ RYA-1141's first pass called this 'two independent primary-laboratory measuremen
 
 ### D3-lineset - The frozen manifest can resolve a `line_set`: **FAIL**
 
-The manifest has no `line_set` column and no value anywhere from the one vocabulary ('-', 'asplund', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all'). RYA-1127 made `line_set` part of the PRODUCT IDENTITY KEY, so a measurement taken from this frozen pool cannot form a valid key. `gf_grade` mixes three vocabularies and none of them is this one.
+The manifest has no `line_set` column and no value anywhere from the one vocabulary ('-', 'asplund', 'asplund-al', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all'). RYA-1127 made `line_set` part of the PRODUCT IDENTITY KEY, so a measurement taken from this frozen pool cannot form a valid key. `gf_grade` mixes three vocabularies and none of them is this one.
 
-### D3 - RYA-946's mandatory AGSS21 line-set census was done before freezing: **FAIL**
+### D3 - RYA-946's mandatory AGSS21 line-set census was done before freezing: **PASS**
 
-It was not, and 164 manifest rows are stamped `FROZEN` anyway. RYA-946 (2026-08-29) requires, for EVERY canonical element before its lab-gf sweep is complete, that the adopted Solar value be traced to its line-level source across ALL bands (FUV/NUV/VIS/red-optical/NIR/IR, including forbidden, molecular, isotopologue and blend-component indicators), with a per-line join and a per-band coverage matrix - and it gates the freeze: 'No element is FROZEN_READY_FOR_MEASUREMENT until this cross-reference is complete or a documented, approved source-publication exception exists.' `data/reference/` holds ['asplund2021_fe'] - Fe only, from RYA-1109. There is no Al reference set, and RYA-1132 records no exception. AGSS21/Asplund/Scott/Nordlander appear ZERO times in all 505 rows.
+It was, as of RYA-1173. 164 manifest rows are stamped `FROZEN` and the census that gates them exists: asplund-al (6 used rows, RYA-1173). AGSS21 publishes NO Al line list, so the set is reconstructed from the primaries it cites -- Nordlander & Lind 2017 (A&A 607, A75) and Scott et al. 2015b (A&A 573, A25) -- under five extraction controls. The per-line join, per-band coverage matrix, four-way Codex comparison and lineage note are in data/audit/rya1173_al_agss21_census/. ⚠️ THIS CLOSES ONE GATE, NOT THE INTAKE: the census's own finding is that Al I 10768.363 A -- one of the six lines carrying AGSS21's adopted A(Al) = 6.43 -- is ABSENT from canonical_gf, so that value cannot be replicated on our line list.
 
-### D3-lineage - AGSS21's Al value traced to its line-level source: **FLAG**
+### D3-lineage - AGSS21's Al value traced to its line-level source: **PASS**
 
-AGSS21 publishes no Al line list. Its section 'Aluminium (Z = 13)' adopts Nordlander & Lind (2017), who 'adopted the same lines and line data as in Scott et al. (2015b), except that they excluded the 1089.1 nm line due to telluric contamination', giving A(Al) = 6.43 +/- 0.03 over 'these five Al i lines'. So the Al reference set is a FIVE-line set whose identity lives in Scott et al. (2015b), with one published NEGATIVE selection (1089.1 nm, telluric) that RYA-946 says must be preserved rather than silently dropped. The repo already holds the Nordlander & Lind pointer in `data/curation/threednlte_availability.csv` (DOI 10.1051/0004-6361/201730427).
+AGSS21 publishes no Al line list. Its section 'Aluminium (Z = 13)' adopts Nordlander & Lind (2017), who 'adopted the same lines and line data as in Scott et al. (2015b), except that they excluded the 1089.1 nm line due to telluric contamination', giving A(Al) = 6.43 +/- 0.03. ⚠️ CORRECTION TO THIS CHECK'S OWN EARLIER TEXT: that is a SIX-line set, not five. AGSS21's prose says 'these five Al i lines', but Scott retains seven and NL2017 removes exactly one, and NL2017's Fig. 8 names the six survivors individually. The '5' reproduces from neither source AGSS21 cites; RYA-1173 carries six and records the conflict. The published NEGATIVE selection (10891.732 A, telluric) is preserved as a flagged row rather than dropped, per RYA-946.
 
 ### D4 - Every 'critically evaluated' row carries a resolvable source: **FAIL**
 
@@ -292,7 +292,6 @@ All 505 Al lines were swept against all 24 catalogued instruments that are not `
 | CRITICAL | C | `alphys_I_13123.4160_0423 (13123.416 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
 | CRITICAL | C | `alphys_I_13150.7530_0425 (13150.753 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
 | CRITICAL | D3 | `al_line_manifest.csv` | No `line_set` column — products measured from this pool cannot key (RYA-1127) |
-| CRITICAL | D3 | `data/audit/rya1132_al_intake/al_line_manifest.csv` | Al frozen through RYA-946's census gate, with no census and no exception |
 | CRITICAL | D4 | `alphys_I_6906.2870_0359 (6906.287 A)` | Summed feature graded by its best component, not its worst |
 | CRITICAL | D4 | `alphys_I_7084.6430_0368 (7084.643 A)` | Summed feature graded by its best component, not its worst |
 | CRITICAL | D4 | `alphys_I_7362.2960_0380 (7362.296 A)` | Summed feature graded by its best component, not its worst |

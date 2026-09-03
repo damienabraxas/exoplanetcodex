@@ -12,9 +12,15 @@ import json
 import math
 from pathlib import Path
 import re
+import sys
 
 import numpy as np
 import pandas as pd
+
+# RYA-1173: this script now imports `pipeline`, so it must be runnable as `python3 scripts/...`
+# as well as through pytest's rootdir. The tests import it as a module, where sys.path is already
+# right; a direct run is not, and the failure is a bare ModuleNotFoundError at the census gate.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data/audit/rya1132_al_intake"
@@ -212,10 +218,59 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
     return m
 
 
+#: 🔴 RYA-1173 -- THE RYA-946 FREEZE GATE, ENFORCED AT THE WRITE.
+#: This builder stamped `intake_status = FROZEN` on 168 rows while the mandatory AGSS21
+#: reference-line-set census did not exist for Al and no exception was recorded. RYA-1141 found it
+#: by reading, four days later. Asking the gate here means the next element to come through this
+#: pattern cannot repeat it: a builder that cannot show a census REFUSES to write FROZEN.
+def _require_census_before_freezing() -> dict:
+    from pipeline.reference_census_gate import require_census
+    return require_census("Al")
+
+
+#: The AGSS21-lineage reference set, matched into the RYA-1001 census ONCE, on the canonical
+#: lambda+EP dual key in strict mode.
+#:
+#: ⚠️ DELIBERATELY NOT THE `.abs() <= .08` PATTERN THE OTHER MEMBERSHIPS USE. Those are
+#: wavelength-only windows (RYA-1151 reports the same shape in this file's gf promotion). This set
+#: is the one where that would be least forgivable: 10872.975 and 10891.732 A share an upper level,
+#: and 6696.015/6698.672 share a LOWER level so their EPs are identical -- the set is separated by
+#: wavelength and by LEVEL, never by EP alone.
+def agss21_membership(c: pd.DataFrame) -> dict[int, dict]:
+    from pipeline import line_match, reference_lineset as rls
+    spec = rls.SETS["asplund-al"]
+    ref = rls.load("asplund-al")
+    sub = c[c.ion.eq("I")]
+    r = line_match.match(ref["wavelength_air_A"].to_numpy(float),
+                         sub["wave_air_A"].to_numpy(float),
+                         want_ep=ref["elo_eV"].to_numpy(float),
+                         src_ep=sub["ep_eV"].to_numpy(float),
+                         require_ep=True, tol_A=spec.match_tol_A)
+    if r.ambiguous:
+        raise RuntimeError(f"AGSS21 Al reference lines are ambiguous against the RYA-1001 census: "
+                           f"{r.ambiguous} -- refusing to place a membership by proximity")
+    out: dict[int, dict] = {}
+    for n, j in enumerate(np.asarray(r.index)):
+        if j < 0:
+            continue
+        row = ref.iloc[n]
+        out[int(sub.index[int(j)])] = {
+            "excluded": bool(row.excluded_by_source),
+            "wavelength_A": float(row.wavelength_air_A),
+        }
+    if len(out) != len(ref):
+        raise RuntimeError(f"only {len(out)} of {len(ref)} AGSS21 Al reference lines resolve into "
+                           f"the RYA-1001 census -- a reference line this manifest cannot name is "
+                           f"a coverage RESULT and must not be silently dropped")
+    return out
+
+
 def build(out: Path = OUT) -> dict:
     out.mkdir(parents=True, exist_ok=True)
+    census_state = _require_census_before_freezing()
     c = pd.read_csv(CENSUS, low_memory=False)
     c = c[c.ion.isin(["I", "II"])].copy()  # Al III is outside this ticket's atomic scope.
+    agss21 = agss21_membership(c)
     can = pd.read_csv(CANONICAL, low_memory=False)
     can = can[can.species.isin(["Al I", "Al II"])].copy()
     bur = pd.read_csv(BURHEIM)
@@ -223,7 +278,7 @@ def build(out: Path = OUT) -> dict:
     chi = pd.read_csv(CHIAPPINO)
 
     rows: list[dict] = []
-    for row_number, (_, r) in enumerate(c.iterrows()):
+    for row_number, (census_index, r) in enumerate(c.iterrows()):
         w, ep = float(r.wave_air_A), float(r.ep_eV)
         species = f"Al {r.ion}"
         cm = nearest(can[can.species == species], w, ep, "wavelength_air_A", "excitation_potential_eV")
@@ -248,6 +303,26 @@ def build(out: Path = OUT) -> dict:
         memberships = ["RYA1001_PHASE0"]
         if ((igr.rya1001_wavelength_candidate_A - w).abs() <= .08).any(): memberships.append("NANDAKUMAR2024_IGRINS")
         if ((chi.wavelength_air_A - w).abs() <= .08).any(): memberships.append("CHIAPPINO2026_CRIRES+")
+        agss = agss21.get(int(census_index))
+        agss_note = ""
+        if agss is not None:
+            memberships.append("AGSS21_NL2017_SCOTT2015B_EXCLUDED" if agss["excluded"]
+                               else "AGSS21_NL2017_SCOTT2015B")
+            # 🔴 A MEMBERSHIP MUST CARRY ITS CONSEQUENCE, NOT JUST NAME A SOURCE (RYA-1173).
+            # Row 401 already said ABSENT_CANONICAL and BELOW_OBSERVABILITY about 10768.365 A -- the
+            # manifest HAD the fact and not its significance, because nothing had computed which
+            # lines the adopted solar abundance actually rests on. Saying "AGSS21_NL2017_SCOTT2015B"
+            # without saying what it means for the number would repeat that in a new column.
+            agss_note = (
+                " AGSS21 LINEAGE: this transition is one of the seven Scott et al. 2015b retained "
+                "for the solar Al abundance AGSS21 adopts (A(Al) = 6.43). "
+                + ("Nordlander & Lind 2017 EXCLUDED it for telluric contamination, so it does NOT "
+                   "carry the adopted value and must not be measured as part of a replication."
+                   if agss["excluded"] else
+                   "It is one of the SIX that carry the adopted value. Its gf here is NOT graded by "
+                   "this membership: the source's own gf is Opacity Project LS-coupling theory "
+                   "(RYA-946 -- an abundance value is not a gf grade).")
+                + " See data/audit/rya1173_al_agss21_census/.")
         problem = []
         if text(r.scale_mismatch).lower() == "true": problem.append("SCALE_MISMATCH")
         if float(r.central_depth) < .05: problem.append("BELOW_OBSERVABILITY")
@@ -281,8 +356,11 @@ def build(out: Path = OUT) -> dict:
             "telluric_risk": "VERIFICATION_REQUIRED" if bool(r.telluric_required_band) else "NOT_FLAGGED",
             "synthesis_context_status": context, "intake_status": intake,
             "measurement_suitability_status": suitability,
-            "rejection_problem_code": "|".join(problem), "source_ticket": "RYA-1132;RYA-1001",
-            "notes": "No abundance adoption; provenance ranking fixed before measurement.",
+            "rejection_problem_code": "|".join(problem),
+            "source_ticket": ("RYA-1132;RYA-1001;RYA-1173" if agss is not None
+                              else "RYA-1132;RYA-1001"),
+            "notes": ("No abundance adoption; provenance ranking fixed before measurement."
+                      + agss_note),
         })
 
     # Preserve new empirical IGRINS candidates absent from the older physical census.
@@ -362,6 +440,14 @@ def build(out: Path = OUT) -> dict:
     follow.to_csv(out / "web_source_followup.csv", index=False)
 
     verdicts = {
+        "rya946_census_gate": {
+            "satisfied": census_state["satisfied"], "basis": census_state["basis"],
+            "ticket": "RYA-1173",
+            "note": ("RYA-946: 'No element is FROZEN_READY_FOR_MEASUREMENT until this "
+                     "cross-reference is complete or a documented, approved source-publication "
+                     "exception exists.' Checked at the write; this builder REFUSES to run "
+                     "without it."),
+        },
         "UV":"PARTIAL_GF_LAB_INGESTED_POLICY_BLOCKED", "VIS":"FROZEN_WITH_DOCUMENTED_FALLBACKS",
         "IR":"BLOCKED_PIPELINE_COVERAGE", "overall":"BLOCKED_PIPELINE_COVERAGE",
         "measurement_unblocked":False,

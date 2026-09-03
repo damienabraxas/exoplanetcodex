@@ -58,6 +58,12 @@ EP_TOL_EV = line_match.EP_TOL_EV
 _CLOSED_EDGE_EPS_A = 1e-9
 
 
+#: What a reference row's `selection_status` may say. Closed, because an unreadable value would
+#: fall through to "measure it" -- the RYA-1072 lesson: never widen a recognised set to absorb an
+#: ambiguity, and never let the else-branch be the permissive one.
+SELECTION_STATUSES = frozenset({"USED_BY_SOURCE_ANALYSIS", "EXCLUDED_BY_SOURCE_ANALYSIS"})
+
+
 class ReferenceLineSetError(RuntimeError):
     """A reference set could not be loaded or measured HONESTLY."""
 
@@ -66,6 +72,7 @@ class ReferenceLineSetError(RuntimeError):
 class ReferenceSet:
     """One external reference line list, and everything needed to read it faithfully."""
     name: str                      # canonical `line_set` value (model_registry.LINE_SETS)
+    element: str                   # the element whose Solar reference set this is (RYA-946 census)
     path: Path
     source: str                    # the citation
     ticket: str
@@ -89,6 +96,7 @@ class ReferenceSet:
 SETS: dict[str, ReferenceSet] = {
     "asplund": ReferenceSet(
         name="asplund",
+        element="Fe",
         path=ROOT / "data" / "reference" / "asplund2021_fe" / "asplund2021_fe_lines.csv",
         source="Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2",
         ticket="RYA-1109",
@@ -103,8 +111,51 @@ SETS: dict[str, ReferenceSet] = {
                "gf source column, so the attribution is collective (RYA-161: flag, do "
                "not guess)."),
     ),
+    #: 🔴 RECONSTRUCTED, NOT TRANSCRIBED -- and the name says so. AGSS21 publishes no Al line
+    #: list, so unlike `asplund` this set is assembled from the primaries AGSS21 cites:
+    #: Nordlander & Lind 2017 (A&A 607, A75) for the line data and the telluric exclusion, and
+    #: Scott et al. 2015b (A&A 573, A25) for the selection, EWs and weights. RYA-1173 built it
+    #: under five extraction controls; the census is data/audit/rya1173_al_agss21_census/.
+    #:
+    #: ⚠️ SEVEN ROWS, SIX MEASURABLE. The seventh (10891.732 A) is present and flagged
+    #: EXCLUDED_BY_SOURCE_ANALYSIS -- Nordlander & Lind dropped it for telluric contamination.
+    #: `measurable()` keys off `gf_missing`, which this set does NOT set (the excluded line has a
+    #: perfectly good published gf), so a caller measuring this set MUST filter on
+    #: `selection_status` as well or it will measure a line the source deliberately rejected.
+    "asplund-al": ReferenceSet(
+        name="asplund-al",
+        element="Al",
+        path=ROOT / "data" / "reference" / "asplund2021_al" / "asplund2021_al_lines.csv",
+        source=("Nordlander & Lind 2017, A&A 607, A75, Table A.1 + Scott et al. 2015b, "
+                "A&A 573, A25, Tables 2 and 3 -- the primaries AGSS21 adopts for Al"),
+        ticket="RYA-1173",
+        native_line_set="asplund_agss21_al",
+        wl_col="wavelength_air_A", ep_col="elo_eV", gf_col="loggf",
+        species_col="species",                  # "Al I"; NOT the `ion` branch, which prefixes "Fe "
+        gf_source_cols=("gf_source_per_line", "gf_source_collective"),
+        match_tol_A=0.008,
+        tol_basis=("DERIVED and NULLED in RYA-1173, and printing is NOT the binding term. Both "
+                   "primaries print lambda to 3 dp, but they disagree with EACH OTHER by up to "
+                   "0.008 A on the same transition (NL2017 6696.015 vs Scott 6696.023) and "
+                   "canonical_gf follows Scott's scale, so the window must clear ~8 mA. The sweep "
+                   "climbs 3->4->5->6 up to 0.008 A and is then FLAT to 0.25 A with a zero null; "
+                   "at 0.5 A the null goes positive and at 1.0 A a second candidate appears. "
+                   "0.008 A is the smallest window inside that plateau."),
+        notes=("🔴 EVERY gf IS OPACITY PROJECT LS-COUPLING THEORY (Mendoza et al. 1995), on all "
+               "seven lines and in both primaries. Matching a line into this set says the AGSS21 "
+               "lineage USED it and nothing about gf quality (RYA-946). "
+               "⚠️ EP DOES NOT SEPARATE THIS SET: 10872.975 and 10891.732 A share an upper level "
+               "and their EPs differ by 0.002 eV, a tenth of EP_TOL_EV. Only the 18.8 A gap and "
+               "the LEVEL tell them apart, so the tolerance must stay far below that (RYA-1151)."),
+        extra={"n_used": 6, "n_excluded_by_source": 1,
+               "excluded_A": [10891.732],
+               "published_line_count_conflict": {"scott2015b": 7, "nordlander_lind2017": 6,
+                                                 "agss21_prose": 5, "adopted": 6},
+               "absent_from_canonical_gf_A": [10768.363]},
+    ),
     "gbs": ReferenceSet(
         name="gbs",
+        element="Fe",
         path=ROOT / "data" / "linelists" / "reference_sets" / "gbs_solar_fe_rya1110.csv",
         source="Jofre et al. 2014, A&A 564, A133, Tables 4/5 (the GBS 'golden' Fe set)",
         ticket="RYA-1110",
@@ -119,6 +170,19 @@ SETS: dict[str, ReferenceSet] = {
                    "0.005 A default"),
     ),
 }
+
+
+def sets_for_element(element: str) -> list[str]:
+    """The registered reference sets for an element, by `line_set` name.
+
+    🔴 THE REGISTRY ANSWERS THIS, NOT A DIRECTORY GLOB. RYA-1141's D3 check asked whether
+    `data/reference/asplund*` contained a directory whose name mentioned the element -- which an
+    empty `mkdir` satisfies, and which cannot tell a built set from a staged one. Asking the
+    registry means the answer is "a set that is declared, loadable and on the `line_set`
+    vocabulary", which is what the RYA-946 gate actually needs to know.
+    """
+    e = str(element).strip().lower()
+    return sorted(n for n, s in SETS.items() if s.element.strip().lower() == e)
 
 
 def _normalise_species(d: pd.DataFrame, spec: ReferenceSet) -> pd.Series:
@@ -160,6 +224,30 @@ def load(name: str) -> pd.DataFrame:
         "source": spec.source,
         "source_ticket": spec.ticket,
     })
+
+    # 🔴 A PUBLISHED NEGATIVE SELECTION IS PART OF THE SET, AND MUST SURVIVE `measurable()`.
+    # RYA-946 requires excluded rows to ship rather than be dropped, and RYA-1173's Al set does
+    # exactly that: Nordlander & Lind rejected 10891.732 A for telluric contamination, and it is
+    # in the file. But `gf_missing` cannot see it -- the line has a perfectly good published gf,
+    # it is the SELECTION that rejects it -- so before this column existed `measurable()` returned
+    # all 7 rows and a caller "replicating AGSS21" would have measured a line AGSS21's own source
+    # threw out. Measured: 7 measurable where the correct answer is 6.
+    #
+    # Sets whose file carries no such column are all-used by construction (asplund is AGSS21's own
+    # table, gbs is Jofre's golden set), so they default to USED and their behaviour is unchanged.
+    if "selection_status" in d.columns:
+        out["selection_status"] = d["selection_status"].fillna("").astype(str).str.strip()
+        out["selection_reason"] = (d["selection_reason"].fillna("").astype(str).str.strip()
+                                   if "selection_reason" in d.columns else "")
+        bad = sorted(set(out["selection_status"]) - set(SELECTION_STATUSES))
+        if bad:
+            raise ReferenceLineSetError(
+                f"{name}: selection_status values {bad} are not in {sorted(SELECTION_STATUSES)}. "
+                f"A selection this module cannot read is one it would silently measure.")
+    else:
+        out["selection_status"] = "USED_BY_SOURCE_ANALYSIS"
+        out["selection_reason"] = ""
+    out["excluded_by_source"] = out["selection_status"].eq("EXCLUDED_BY_SOURCE_ANALYSIS")
     # gf provenance: first non-empty of the declared columns, per line. Recorded as-is.
     prov = pd.Series([""] * len(d), index=d.index, dtype=object)
     for c in spec.gf_source_cols:
@@ -233,8 +321,23 @@ def load(name: str) -> pd.DataFrame:
 
 
 def measurable(ref: pd.DataFrame) -> pd.DataFrame:
-    """The rows a replication may actually measure: those with a published gf."""
-    return ref[~ref["gf_missing"]].reset_index(drop=True)
+    """The rows a replication may actually measure.
+
+    TWO independent reasons a row is not measurable, and they are not the same thing:
+
+      `gf_missing`         the set publishes no gf for it, so there is nothing to measure ON.
+      `excluded_by_source` the source analysis measured it and THREW IT OUT, in print. Measuring
+                           it would not reproduce the source's number; it would reproduce a
+                           number the source rejected.
+
+    Both are refusals, never drops -- the rows stay in `load()`'s frame, named and flagged.
+    """
+    return ref[~ref["gf_missing"] & ~ref["excluded_by_source"]].reset_index(drop=True)
+
+
+def excluded_by_source(ref: pd.DataFrame) -> pd.DataFrame:
+    """The rows the source analysis published a rejection for, with its stated reason."""
+    return ref[ref["excluded_by_source"]].reset_index(drop=True)
 
 
 def gf_gap(name: str) -> dict:
