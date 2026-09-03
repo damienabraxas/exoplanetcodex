@@ -159,11 +159,20 @@ def test_a_partial_gf_override_is_refused(monkeypatch):
 
 def test_the_axis_is_derived_for_our_own_products_over_the_whole_live_feed():
     """Our products already say their pool in `tier`; storing it again would create a
-    second source of truth free to disagree with the first."""
+    second source of truth free to disagree with the first.
+
+    🔴 RYA-1185 splits the feed in two: OUR products (no stored `line_set`, axis derived
+    from `tier`) and REPLICATION products (four RYA-1106 Asplund rows, which store it by
+    design). Both halves are asserted, so this still fails if one of ours starts storing
+    the axis -- the defect the test exists to catch -- rather than being relaxed to admit
+    the new rows."""
     feed = json.loads(FEED.read_text())
-    got = [rls.line_set_for_product(p) for p in feed["products"]]
-    assert set(got) == {"our-graded", "our-deep-graded"}
-    assert len(got) == len(feed["products"])
+    ours = [p for p in feed["products"] if not p.get("line_set")]
+    repl = [p for p in feed["products"] if p.get("line_set")]
+    assert {rls.line_set_for_product(p) for p in ours} == {"our-graded", "our-deep-graded"}
+    assert {rls.line_set_for_product(p) for p in repl} == {"asplund"}
+    assert len(ours) + len(repl) == len(feed["products"])
+    assert len(repl) == 4, "the four RYA-1106 Asplund replications (RYA-1185)"
 
 
 def test_an_unrecognised_tier_is_refused_rather_than_defaulted():

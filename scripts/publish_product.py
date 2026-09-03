@@ -324,6 +324,21 @@ def main() -> int:
                          "nothing else (RYA-946: graded and ungraded are separate "
                          "products, never merged).")
     ap.add_argument("--route", default=None, help="PROFILEFIT | SYNTH | EW-3D")
+    #: 🔴 RYA-1185 -- THE ONE WAY TO PUBLISH A REPLICATION PRODUCT, AND IT DID NOT EXIST.
+    #: RYA-1111/1127 designate a replication as the documented exception that carries an
+    #: EXPLICIT `line_set`: our own rows derive theirs from `tier`, but a product measured
+    #: on someone else's list has nothing in the record that implies which list. `line_set`
+    #: is in KEY_FIELDS, so without this flag the four RYA-1106 Asplund products could only
+    #: be published onto the `our-*` axis their tier derives -- colliding with the working
+    #: product on the same cell, which is the exact collision RYA-1127 put line_set in the
+    #: key to end. RYA-1178 hit this wall and deferred Part 3 rather than hand-append rows
+    #: that bypass this publisher; this is the route it named.
+    ap.add_argument("--line-set", dest="line_set", default=None,
+                    help="explicit `line_set` for a REPLICATION product measured on an "
+                         "external line list (e.g. asplund, asplund-al, gbs). Must be in "
+                         "model_registry.LINE_SETS. Leave unset for our own products: "
+                         "their tier derives it, and storing it twice creates a second "
+                         "source of truth free to disagree (RYA-1111).")
     ap.add_argument("--selector", default=None,
                     help="the line-selection variant as the stem records it (GRADED, "
                          "DEEPGRADED, FROMEW, ...). Part of the KEY: RYA-984 makes two "
@@ -435,6 +450,23 @@ def main() -> int:
         df = pd.read_csv(src)
         rows = normalise(df, holding=a.holding, tier=a.tier, route=a.route,
                          selector=a.selector)
+        if a.line_set:
+            # Validated against the ONE vocabulary, and refused rather than defaulted --
+            # an unknown value here would sail into the identity key.
+            from pipeline.model_registry import LINE_SETS
+            if a.line_set not in LINE_SETS:
+                print(f"REFUSING: --line-set {a.line_set!r} is not in the vocabulary "
+                      f"{LINE_SETS}. Add it to model_registry.LINE_SETS deliberately "
+                      f"(RYA-1111), do not widen the writer.", file=sys.stderr)
+                return 2
+            if a.line_set.startswith("our-"):
+                print(f"REFUSING: --line-set {a.line_set!r} is one of OUR pools, which a "
+                      f"product states through `tier` and must never store twice "
+                      f"(RYA-1111). This flag is for replication products only.",
+                      file=sys.stderr)
+                return 2
+            for r in rows:
+                r["line_set"] = a.line_set
         if not rows:
             print(f"REFUSING: {src.name} carries no row with a value. An empty publish "
                   f"would read as a measurement of nothing (RYA-833) — if the cell is a "
