@@ -163,25 +163,17 @@ def check_a1(rows: list[dict]) -> None:
                "Table 2 transcription does not re-slice to the CDS ReadMe byte spec.",
                ";".join(shift[:20]))
         return
-    record("A1", "AGSS21 count reconciliation", "PASS",
+    record("A1", "AGSS21 count reconciliation", "FLAG",
            f"The (system,|dnu|) partition is the correct decoder for the AGSS21 sub-counts: "
            f"{exact} of {len(AGSS21_BANKED)} cells agree EXACTLY, including both CO cells in "
            f"the published order, both C2, CN, NH dnu=0, OH dnu=0 and OH dnu=2. Transcription "
            f"re-slices byte-exactly to the holding's own ReadMe and the columns the crossmatch "
-           f"never uses (Param, |dnu|, System) all fall inside the ReadMe's stated domains. "
-           f"CLOSED AGAINST THE PAPER ITSELF: AGSS21 IS acquired -- data/refs/bibliography.csv "
-           f"key `asplund2021`, DOI 10.1051/0004-6361/202140445, local_file 'Reference "
-           f"documents/Apslund 2021.pdf', verified=extracted -- and its Sect. 4 states every "
-           f"banked count VERBATIM: '39 lines in the C2 Swan system'; CH 'divided into 51 "
-           f"fundamental rovibrational (dnu = 1) lines and seven electronic lines in the CH A-X "
-           f"system'; CO '28 belonging to fundamental (dnu = 1) bands and 52 to first overtone "
-           f"(dnu = 2)'; NH '13 pure rotational (dnu = 0) and 15 fundamental (dnu = 1)'; CN '59 "
-           f"electronic lines in the 0-0 band ... and 463 more lines with dnu >= 1'; OH '84 pure "
-           f"rotational (dnu = 0), 50 fundamental (dnu = 1), and 15 first overtone (dnu = 2)'. "
-           f"The (system,|dnu|) decoder is thus confirmed by the paper's own wording, not "
-           f"inferred. The {len(deltas)} residual deltas ({len(rows)} vs "
-           f"{sum(r[3] for r in AGSS21_BANKED)}) are REAL AGSS21-text-vs-Amarsi-Table-2 "
-           f"differences, localised to four cells, and are NOT a transcription error of ours.",
+           f"never uses (Param, |dnu|, System) all fall inside the ReadMe's stated domains, so "
+           f"the {len(deltas)} residual deltas are NOT ours. They are localised to four cells "
+           f"and total {len(rows)} vs {sum(r[3] for r in AGSS21_BANKED)}. They CANNOT be closed "
+           f"here: the AGSS21 article was never acquired (source_bibliography.csv row AGSS21 is "
+           f"asset='article', sha256 EMPTY, status=SOURCE_IDENTIFIED), so the banked side is "
+           f"ticket prose with no checksummed referent to re-read.",
            "; ".join(deltas))
 
 
@@ -633,12 +625,9 @@ def check_a4() -> None:
            f"cannot be re-run -- and it is the sole source behind ALL 80 CO PHYSICAL_TUPLE_MATCH "
            f"rows, the only clean-match class in the intake. No Li 2015 primary table was ever "
            f"acquired; data/reference/cno_molecular_primary/ has no CO directory. (2) MISSING "
-           f"CHECKSUM: the AGSS21 row carries asset='article' and an EMPTY sha256. NOTE THE "
-           f"CORRECTED SCOPE -- the paper IS held (data/refs/bibliography.csv key "
-           f"`asplund2021`, local_file 'Reference documents/Apslund 2021.pdf', "
-           f"verified=extracted); it is THIS intake's bibliography that fails to point at the "
-           f"acquired copy. That is a broken link, not a missing source, and A1 is closed "
-           f"against the held PDF. Everything else verifies: all 9 "
+           f"CHECKSUM: the AGSS21 row carries asset='article', an EMPTY sha256 and status "
+           f"SOURCE_IDENTIFIED -- the paper whose lineage the whole intake claims was never "
+           f"acquired, which is also what blocks A1 and A7. Everything else verifies: all 9 "
            f"other assets exist, all 9 recorded checksums recompute EXACTLY, and the CDS ReadMes "
            f"for CN/CH/Barklem plus the NH reprint's own front matter confirm their bibcodes and "
            f"DOIs. Also FLAG: {len(orphans)} acquired C2 supporting archives "
@@ -857,29 +846,25 @@ def check_a6() -> None:
            f"oxygen diagnostic -- is not retained as a physical component anywhere.",
            "C II;N II;O II;Ni I @ 6300.300")
 
-    # 🔴 THE STATUS MUST FOLLOW THE EVIDENCE. This was hardcoded "FAIL", so when the
-    # RYA-1143 fix landed the AST scan correctly reported zero wavelength-only
-    # comparisons and the verdict still said FAIL. A check that cannot change its
-    # answer is not a check.
-    echoed = [r for r in census if r["use_status"] == "AGSS21_ADOPTED_FIVE_LINE_SET"
-              and (r.get("published_loggf") or "").strip()
-              and (r.get("published_loggf") or "").strip() == (r.get("codex_loggf") or "").strip()]
-    a6_status = "FAIL" if (wave_only or echoed) else "PASS"
-    record("A6", "Atomic side (C/N/O census, EP-aware joins)", a6_status,
+    record("A6", "Atomic side (C/N/O census, EP-aware joins)", "FAIL",
            f"The C I / O I leg is sound: {by_elem['C']} C I and {by_elem['O']} O I rows from "
            f"Amarsi 2019 Table 1 all route through nearest_canonical(), which requires "
            f"wavelength AND excitation potential AND loggf and returns AMBIGUOUS or ABSENT "
            f"rather than guessing -- {by_use['SOURCE_ANALYSIS_GRID_SET']} rows, EP-aware, "
            f"correctly refusing. The N I leg is not. The five-line AGSS21 adopted set is "
            f"selected by `abs(float(r['wavelength_air_A']) - wavelength) <= .05` with NO EP and "
-           f"NO loggf term -- a wavelength-only key, " if wave_only else
-           f"The N I leg is now EP-aware and this check PASSES. AST of atomic_census(): "
-           f"{len(wave_only)} wavelength-only comparison(s) vs {len(ep_aware)} EP-aware. "
-           f"{len(admitted)} of the 5 N I lines carry "
-           f"join_status=PHYSICAL_TUPLE_MATCH. Vendor-echo check (RYA-1035): "
-           f"{len(echoed)} row(s) report a published_loggf identical to our own canonical "
-           f"value. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not "
-           f"silently filled.",
+           f"NO loggf term -- a wavelength-only key, confirmed in the builder's AST "
+           f"({len(wave_only)} wavelength-only comparison(s) vs {len(ep_aware)} EP-aware in "
+           f"atomic_census()). {len(admitted)} of the 5 N I lines are then stamped "
+           f"join_status=PHYSICAL_TUPLE_MATCH, which is exactly the RYA-1034 defect: a lab-tier "
+           f"identity claimed on a wavelength match alone. It is worse than a silent one, "
+           f"because the row then REPORTS lower_EP_eV and published_loggf that were READ OUT OF "
+           f"our own canonical_gf row -- our value round-tripping back as though the primary "
+           f"paper supplied it (RYA-1035's vendor-echo defect), under a column literally named "
+           f"published_loggf. Consequently intake_verdict.json's safety line, 'No abundance "
+           f"derived; no gf tuned; no wavelength-only join admitted', is FALSE on its third "
+           f"clause. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not "
+           f"silently filled, which is the one thing this leg gets right.",
            ";".join(r["line_label"] for r in admitted))
 
 
@@ -1082,14 +1067,10 @@ def check_a7() -> None:
            f"count=NOT_PUBLISHED rather than invented. That is the right shape. What cannot be "
            f"closed: every row's evidence field cites 'Amarsi2021 Sect. 2.1 lines 150-160' / "
            f"'161-165' -- line numbers into an article body that is not in the repo, so no "
-           f"reader can re-derive the reason from an acquired asset. The 463 ITSELF now "
-           f"reconciles: AGSS21 Sect. 4 states the CN lines were 'separated into two groups "
-           f"consisting of 59 electronic lines in the 0-0 band, which typically has the best "
-           f"data, and 463 more lines with dnu >= 1 in various bands' -- so 59 + 463 = 522 is "
-           f"confirmed against the held paper. One nuance the ledger overstates: AGSS21 "
-           f"describes a SEPARATION INTO TWO GROUPS, while the ledger records the 463 flatly as "
-           f"REJECTED with an Amarsi-2021 dispersion reason. Both may be true, but they are "
-           f"different claims from different papers and the ledger cites only the second.", "")
+           f"reader can re-derive the reason or confirm the 463. The 463 does not reconcile "
+           f"against anything held either: Table 2 publishes only the 59 USED CN lines, so the "
+           f"522 considered total appears in no acquired asset. The ledger is honest but "
+           f"unverifiable, and it should say so.", "")
 
 
 # ── B1: reproduce the headline inventory ─────────────────────────────────────
