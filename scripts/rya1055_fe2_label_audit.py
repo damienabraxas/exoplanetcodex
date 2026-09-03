@@ -243,6 +243,37 @@ def main(argv=None) -> int:
                  "pool the live products no longer use. FOR RYA TO DISPOSITION."),
     }
 
+    # ── how populated the Fe II half of the MPIA grid actually is ───────────────────
+    # ⚠️ Recorded because it bears on how much the live Fe II NLTE label is worth, and it
+    # is invisible unless you count: the grid's Fe II half is ~120x more sparsely
+    # populated than its Fe I half. No Fe II line is empty across the WHOLE grid, but
+    # three are empty at the solar node, which is the node our products interpolate at.
+    grid_fill = {}
+    _g = ROOT / "data/nlte_grids/Fe_Bergemann_MPIA.csv"
+    if _g.exists():
+        import pandas as pd
+        gdf = pd.read_csv(_g)
+        for stage in ("I", "II"):
+            sub = gdf[gdf.ion == stage]
+            node = sub[(sub.teff_K == 5800) & (sub.logg.isin([4.3, 4.5]))
+                       & (sub.feh == 0.0)]
+            empty = sorted(round(float(w), 3) for w, v in node.groupby("wave_A").delta_nlte
+                           if v.isna().all())
+            grid_fill[f"Fe {stage}"] = {
+                "rows": int(len(sub)),
+                "rows_nan": int(sub.delta_nlte.isna().sum()),
+                "nan_fraction": round(float(sub.delta_nlte.isna().mean()), 4),
+                "lines_empty_at_the_solar_node": empty,
+            }
+        grid_fill["note"] = (
+            "The MPIA grid's Fe II half is far sparser than its Fe I half "
+            f"({grid_fill['Fe II']['nan_fraction']:.1%} NaN vs "
+            f"{grid_fill['Fe I']['nan_fraction']:.2%}). Not a defect in anything this "
+            "ticket changes, and not a reason to doubt the corrections that ARE served "
+            "-- but it is context for how much the Fe II NLTE label carries, and it is "
+            "the mechanism behind the n-drop between an ENGINE-A leg and its LTE "
+            "sibling. FOR RYA TO DISPOSITION.")
+
     # ── the balance, SCALE-MATCHED ──────────────────────────────────────────────────
     # 🔴 MATCHED ON THE FULL RYA-1127 IDENTITY MINUS THE ION -- band, instrument, holding,
     # tier, SELECTOR, ROUTE and treatment. Dropping `selector` is not a cosmetic looseness:
@@ -287,6 +318,7 @@ def main(argv=None) -> int:
         "per_line_rows_on_an_nlte_scale": nlte_scale,
         "band_product_per_line_nlte_sources": perline,
         "two_disjoint_vis_fe_ii_pools": disjoint_pools,
+        "mpia_grid_fill": grid_fill,
         "rya1113_contradiction": (
             "RESOLVED. RYA-1113 found a live Fe II near-UV NLTE leg at n=7 against its "
             "LTE sibling's n=12 and asked how it can exist if Fe II NLTE is structurally "
