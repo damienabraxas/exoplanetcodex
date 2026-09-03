@@ -64,7 +64,43 @@ FEED = ROOT / "data/products/solar/Fe.json"
 INSTRUMENTS = ROOT / "data/catalog/instrument_catalog.csv"
 HOLDINGS = ROOT / "data/catalog/holdings_manifest_registry.csv"
 ASPLUND = ROOT / "data/reference/asplund2021_fe/asplund2021_fe_lines.csv"
+AMARSI_DOMAIN = OUT_DOMAIN = None  # set below, after OUT
 OUT = ROOT / "data" / "audit" / "rya1187_applicability_matrix"
+
+#: 🔴 MEASURED ON SIRIUS, NOT ASSERTED — `amarsi_domain_check.csv`, emitted by running
+#: `pipeline.amarsi3d.classify_line` on all 40 AGSS21 Fe I lines at solar parameters.
+#: The Reference-Grade cells outside VIS are NOT fillable, and the reason is the ENGINE:
+#: every one of the 13 non-VIS AGSS21 Fe I lines falls OUTSIDE the Amarsi 2022 MLP's
+#: training box, all on the same axis —
+#:
+#:     transition energy Eup-Elo outside training [1.8190, 2.5898] eV  (gt02, n=154)
+#:
+#: dE IS the wavelength (dE = hc/lambda), so a redder line has a lower transition energy and
+#: the network was simply never trained that low. Emitting there would be extrapolating the
+#: MLP outside its own declared domain, which `classify_line` refuses by design.
+#:
+#: ✅ AND THE ARTIFACT CONFIRMS ITSELF AGAINST A PUBLISHED NUMBER. 21 of the 40 lines are
+#: in-domain and 19 are out — exactly the `n_lines: 21, n_excluded: 19` that the RYA-1106
+#: four-instrument table publishes for every holding. The domain filter IS that split, which
+#: is a control on this check rather than a coincidence: 6 of the 19 are VIS lines the box
+#: also rejects, so the agreement is not just "everything non-VIS".
+AMARSI_DOMAIN = OUT / "amarsi_domain_check.csv"
+
+#: 🔴 THE TWO BAND TABLES DISAGREE, AND THE DISPUTED SLICE IS EXACTLY WHERE THE LAST GAP WAS.
+#:     config/synth_bands.yaml    red-optical 6910-9199   NIR  9199-13000
+#:     pipeline/band_policy.py    red-optical 6910-10000  NIR 10000-24000
+#: So 9199-10000 A is NIR to one table and red-optical to the other. RYA-1094 already names
+#: this ("band_policy keeps its OWN band table with different boundaries"), and it is not
+#: this ticket's to settle. Measured consequence:
+#:     6910-9199   lab 70   shallow 66   deep 0
+#:     9199-10000  lab 24   shallow 24   deep 0     <- the contested slice
+#:     6910-10000  lab 94   shallow 90   deep 0     <- band_policy's red-optical
+#:     10000-13000 lab  5   shallow  5   deep 0     <- band_policy's NIR
+#: A run over 9199-10000 routes through `band_policy.resolve`, which returns RED-OPTICAL and
+#: therefore the PROFILEFIT route — measured: the run refused with "no measured EWs ...
+#: PROFILEFIT". So the cell cannot be emitted as NIR without first settling which table owns
+#: the slice. Reported, not forced.
+BAND_TABLE_CONFLICT_A = (9199.0, 10000.0)
 
 #: The four DEFINED bands, from `pipeline.band_policy`. H/K are proposed, not defined, and
 #: are reported by RYA-1052 rather than here.
@@ -184,6 +220,25 @@ NLTE_LABEL_EVIDENCE = {
 }
 
 
+def _domain() -> pd.DataFrame:
+    if not AMARSI_DOMAIN.exists():
+        raise SystemExit(f"missing {AMARSI_DOMAIN} — regenerate it on Sirius; the Amarsi "
+                         f"domain verdict cannot be recomputed off-Sirius (needs the MLP)")
+    return pd.read_csv(AMARSI_DOMAIN)
+
+
+def _amarsi_all_out(band: str) -> bool:
+    d = _domain()
+    s = d[d.synth_bands_band == band]
+    return bool(len(s)) and not bool(s.in_amarsi_domain.any())
+
+
+def _amarsi_n_out(band: str) -> int:
+    d = _domain()
+    s = d[d.synth_bands_band == band]
+    return int((~s.in_amarsi_domain).sum())
+
+
 def build() -> dict:
     inst = pd.read_csv(INSTRUMENTS, comment="#")
     feed = json.loads(FEED.read_text())
@@ -207,6 +262,32 @@ def build() -> dict:
                     n = 0
                 elif grade == "Reference Grade":
                     n = n_asp
+                    if n and band != "VIS" and _amarsi_all_out(band):
+                        verdict = "ABSENT_ENGINE_DOMAIN"
+                        why = (f"{n} AGSS21 line(s) fall in {band}, but ALL of the "
+                               f"{_amarsi_n_out(band)} AGSS21 Fe I line(s) here are OUTSIDE "
+                               f"the Amarsi 2022 MLP's training box — every one fails "
+                               f"`transition energy Eup-Elo outside training [1.8190, "
+                               f"2.5898] eV`. dE IS the wavelength, so a redder line is "
+                               f"below the box by construction. The ENGINE-A-3DNLTE route "
+                               f"that produced the four live Reference products cannot "
+                               f"reach here without extrapolating the network outside its "
+                               f"own domain, which classify_line refuses. MEASURED: "
+                               f"amarsi_domain_check.csv.")
+                        rows.append({
+                            "holding": holding, "instrument": instrument, "band": band,
+                            "grade": grade, "band_lo_A": blo, "band_hi_A": bhi,
+                            "covered_lo_A": round(lo, 1), "covered_hi_A": round(hi, 1),
+                            "instrument_reaches_band": True, "span_source": span_src,
+                            "n_lines_at_grade": int(n),
+                            "fe1_lab": cen.get("Fe I", {}).get("lab_lines", 0),
+                            "fe1_shallow": cen.get("Fe I", {}).get("shallow", 0),
+                            "fe1_deep": cen.get("Fe I", {}).get("deep", 0),
+                            "fe1_depth_max": cen.get("Fe I", {}).get("depth_max"),
+                            "fe2_lab": cen.get("Fe II", {}).get("lab_lines", 0),
+                            "fe2_deep": cen.get("Fe II", {}).get("deep", 0),
+                            "verdict": verdict, "reason": why})
+                        continue
                     verdict, why = (("LIVE" if (holding, band, grade) in live_cell else "GAP"),
                                     f"{n} AGSS21 Table A.2 line(s) in {band} within this "
                                     f"holding's coverage") if n else (
@@ -217,7 +298,19 @@ def build() -> dict:
                 else:
                     key = "shallow" if grade == "Codex Grade" else "deep"
                     n = sum(cen[sp][key] for sp in cen)
-                    if n:
+                    contested = (band == "NIR" and hi <= BAND_TABLE_CONFLICT_A[1] + 1e-6)
+                    if n and contested:
+                        verdict = "BLOCKED_BAND_TABLE_CONFLICT"
+                        why = (f"{n} line(s) at this grade, but this holding's NIR coverage "
+                               f"({lo:.0f}-{hi:.0f} A) lies entirely inside the slice the two "
+                               f"band tables dispute: config/synth_bands.yaml calls "
+                               f"9199-13000 NIR while pipeline.band_policy calls 6910-10000 "
+                               f"RED-OPTICAL. A run over this window resolves to red-optical "
+                               f"and takes the PROFILEFIT route (measured: it refused with "
+                               f"'no measured EWs ... PROFILEFIT'), so the product cannot be "
+                               f"emitted as NIR until RYA-1094's two-table conflict is "
+                               f"settled. Not this ticket's to decide.")
+                    elif n:
                         verdict = "LIVE" if (holding, band, grade) in live_cell else "GAP"
                         why = (f"{n} primary-lab-gf Fe line(s) at this depth grade "
                                f"({'<=' if key == 'shallow' else '>'}{DEPTH_HI}) in "

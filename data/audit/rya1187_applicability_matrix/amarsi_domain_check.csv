@@ -1,0 +1,41 @@
+wavelength_air_A,elo_eV,eup_eV,delta_E_eV,synth_bands_band,band_policy_band,in_amarsi_domain,reason
+4445.5,0.08729,2.8755,2.7882,VIS,VIS,False,"transition energy Eup-Elo 2.7882 eV outside training [1.8382, 2.4829] (lt02, n=17);   -> that is a WAVELENGTH statement: the network saw 4994.1-6739.5 A only, and Eup-Elo is hc/lambda_vac by construction"
+4574.2,3.21119,5.92093,2.7097,VIS,VIS,False,"transition energy Eup-Elo 2.7097 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+5247.0,0.08729,2.44956,2.3623,VIS,VIS,True,
+5379.6,3.6946,5.99868,2.3041,VIS,VIS,True,
+5483.1,4.15435,6.41493,2.2606,VIS,VIS,True,
+5538.5,4.21758,6.45554,2.238,VIS,VIS,True,
+5600.2,4.26045,6.47375,2.2133,VIS,VIS,True,
+5618.6,4.20888,6.41493,2.2061,VIS,VIS,True,
+5661.3,4.28435,6.47375,2.1894,VIS,VIS,True,
+5705.5,4.30128,6.47375,2.1725,VIS,VIS,True,
+5775.1,4.22036,6.36665,2.1463,VIS,VIS,True,
+5778.5,2.58811,4.73314,2.145,VIS,VIS,True,
+5784.7,3.39651,5.53924,2.1427,VIS,VIS,True,
+5855.1,4.60759,6.72456,2.117,VIS,VIS,True,
+5956.7,0.859,2.93985,2.0808,VIS,VIS,True,
+6151.6,2.17595,4.19086,2.0149,VIS,VIS,True,
+6240.6,2.22271,4.20888,1.9862,VIS,VIS,True,
+6311.5,2.83159,4.79547,1.9639,VIS,VIS,True,
+6498.9,0.95816,2.86539,1.9072,VIS,VIS,True,
+6518.4,2.83159,4.73314,1.9015,VIS,VIS,True,
+6574.2,0.99011,2.8755,1.8854,VIS,VIS,True,
+6699.1,4.59311,6.44335,1.8502,VIS,VIS,True,
+6793.3,4.07581,5.90041,1.8246,VIS,VIS,True,
+6837.0,4.59311,6.40604,1.8129,VIS,VIS,False,"transition energy Eup-Elo 1.8129 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6843.7,4.54851,6.35967,1.8112,VIS,VIS,False,"transition energy Eup-Elo 1.8112 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6854.8,4.59311,6.40133,1.8082,VIS,VIS,False,"transition energy Eup-Elo 1.8082 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6858.1,4.60759,6.41493,1.8073,VIS,VIS,False,"transition energy Eup-Elo 1.8073 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6999.9,4.10337,5.87412,1.7707,red-optical,red-optical,False,"transition energy Eup-Elo 1.7707 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7008.0,4.1777,5.9464,1.7687,red-optical,red-optical,False,"transition energy Eup-Elo 1.7687 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7219.7,4.07581,5.79265,1.7168,red-optical,red-optical,False,"transition energy Eup-Elo 1.7168 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7401.7,4.18636,5.86098,1.6746,red-optical,red-optical,False,"transition energy Eup-Elo 1.6746 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7443.0,4.18636,5.85168,1.6653,red-optical,red-optical,False,"transition energy Eup-Elo 1.6653 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7912.9,0.859,2.42543,1.5664,red-optical,red-optical,False,"Eup 2.4254 eV outside training [2.4483, 3.9848] (lt02, n=17); transition energy Eup-Elo 1.5664 eV outside training [1.8382, 2.4829] (lt02, n=17);   -> that is a WAVELENGTH statement: the network saw 4994.1-6739.5 A only, and Eup-Elo is hc/lambda_vac by construction"
+8293.5,3.30092,4.79547,1.4945,red-optical,red-optical,False,"transition energy Eup-Elo 1.4945 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8571.8,5.00952,6.45554,1.446,red-optical,red-optical,False,"transition energy Eup-Elo 1.4460 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8598.8,4.38646,5.82794,1.4415,red-optical,red-optical,False,"transition energy Eup-Elo 1.4415 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8876.0,5.02028,6.41674,1.3965,red-optical,red-optical,False,"transition energy Eup-Elo 1.3965 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction; lower level 5.0203 eV is not within 0.02 eV of any level in the training set"
+8906.0,5.06378,6.45554,1.3918,red-optical,red-optical,False,"transition energy Eup-Elo 1.3918 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+9103.6,4.1777,5.53924,1.3615,red-optical,red-optical,False,"transition energy Eup-Elo 1.3615 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+9786.6,4.60759,5.87412,1.2665,NIR,red-optical,False,"transition energy Eup-Elo 1.2665 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
