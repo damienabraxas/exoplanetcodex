@@ -204,7 +204,7 @@ DECKS = {
 #   * **Fe II <3D>-LTE is available** via the Frankenstein LTE leg (model 5,
 #     `synth-mean3D-LTE-gerber-stagger`): the <3D>-mean atmosphere is ION-AGNOSTIC, so
 #     Fe II synthesised on it in LTE gets a real <3D>-LTE treatment. RYA-1135 owns that
-#     run. It is the 3D axis that is missing for Fe II; the NLTE one.
+#     run. It is NOT the 3D axis that is missing for Fe II — it is the NLTE one.
 #   * **Fe I NLTE is unaffected** — 12,635 transitions is the whole Fe I term system.
 #
 # 🔴 AND THE CONSEQUENCE FOR THE MANDATORY <3D> PAIR: model 5 (LTE) and model 6 (NLTE)
