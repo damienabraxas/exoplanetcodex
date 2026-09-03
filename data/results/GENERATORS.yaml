@@ -5479,6 +5479,53 @@ artifacts:
       the day the canonical parent moves -- the event that created RYA-1090. Skips are
       diffed too, since a skipped test is in neither the pass nor the fail set.
 
+  - artifact: rya1169/si_asplund_all_band_matrix.csv
+    generator: scripts/grade_si_asplund_rya1169.py
+    invocation: python3 scripts/grade_si_asplund_rya1169.py
+    ticket: RYA-1169
+  - artifact: rya1169/si_asplund_line_test.csv
+    generator: scripts/grade_si_asplund_rya1169.py
+    invocation: python3 scripts/grade_si_asplund_rya1169.py
+    ticket: RYA-1169
+  - artifact: rya1169/si_asplund_test_summary.json
+    generator: scripts/grade_si_asplund_rya1169.py
+    invocation: python3 scripts/grade_si_asplund_rya1169.py
+    ticket: RYA-1169
+  - artifact: rya1169/asplund_ew_run/si_asplund_ew_per_line.csv
+    generator: scripts/run_si_asplund_ew_rya1169.py
+    invocation: python3 scripts/run_si_asplund_ew_rya1169.py
+    ticket: RYA-1169
+  - artifact: rya1169/asplund_ew_run/si_asplund_ew_summary.json
+    generator: scripts/run_si_asplund_ew_rya1169.py
+    invocation: python3 scripts/run_si_asplund_ew_rya1169.py
+    ticket: RYA-1169
+  - artifact: rya1169/_quarantined_raw1984_iag_run/QUARANTINED.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1169
+    sources:
+      - data/results/rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_per_line.csv
+      - data/results/rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_summary.json
+    note: >-
+      Quarantine notice for the superseded run that incorrectly used the uncorrected
+      1984 Kitt Peak atlas. Retained only to make the invalidation explicit and prevent
+      these measurements from being mistaken for current results.
+  - artifact: rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_per_line.csv
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1169
+    note: >-
+      Audit-only output from the superseded raw-1984 run. The current RYA-1169 runner
+      deliberately rejects that uncorrected holding and uses only the telluric-corrected
+      1984 spectrum plus the corrected 2005 spectrum, so it must not reproduce this file.
+  - artifact: rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_summary.json
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1169
+    note: >-
+      Audit-only summary from the superseded raw-1984 run. The current RYA-1169 runner
+      deliberately rejects that uncorrected holding and uses only the telluric-corrected
+      1984 spectrum plus the corrected 2005 spectrum, so it must not reproduce this file.
   - artifact: rya1163/ir_xi_dadxi.json
     generator: scripts/rya1163_ir_xi.py
     ticket: RYA-1163
