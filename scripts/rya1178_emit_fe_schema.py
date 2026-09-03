@@ -375,11 +375,19 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     🔴 THE LIMIT IS DECK-SPECIFIC AND THE STAMP MUST SAY SO, PER PRODUCT. Fe II ENGINE-A
     reads the MPIA/Bergemann per-line delta grid (6,400 Fe II rows over 80 lines,
     3805.5-6586.7 A), never `atom.fe607a`, so its NLTE label is honest and its corrections
-    are real — measured at +0.001 dex on the three lines the KPNO VIS Fe II pool shares
-    with the grid (`data/products/solar/Fe_perline.csv`, ENGINE-A minus 1D-LTE per line;
-    6147.7341, 6238.3859, 6247.5570). Stamping
-    a blanket "Fe II NLTE unavailable" onto that product would replace one wrong
-    statement with another.
+    are real: every live Fe II product's own per-line artifact records
+    `nlte_source = "Bergemann MPIA per-line delta_nlte (live query, solar node)"` with
+    `nlte_delta_dex` of -0.001 to -0.002 on the lines MPIA serves. Stamping a blanket
+    "Fe II NLTE unavailable" onto that product would replace one wrong statement with
+    another.
+
+    ⚠️ QUOTE THE PRODUCT'S OWN ARTIFACT, NOT A NEIGHBOURING ONE. A draft of this stamp
+    cited "+0.001 dex on 6147.7341 / 6238.3859 / 6247.5570" from
+    `data/products/solar/Fe_perline.csv`. Those numbers are real, but they belong to a
+    DIFFERENT POOL -- the RYA-489 replication product's 11-line 5256-6456 A Fe II set --
+    while the live VIS band product fits 4233.162 / 4303.170 / 4583.829 and applies
+    -0.001/-0.002. Same element, same ion, same treatment, OPPOSITE SIGN, and it would
+    have been written into the wrong product's provenance.
 
     WHICH TREATMENTS THE LIMIT BITES ON IS READ FROM THE REGISTRY, NOT LISTED HERE:
     `model_family == "gerber"` AND a scale carrying NLTE. A Gerber member added to
@@ -409,9 +417,13 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     elif fam == "bergemann":
         source = ("MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid "
                   "(data/nlte_grids/Fe_Bergemann_MPIA.csv) — NOT atom.fe607a. Its Fe II "
-                  "corrections are real and small: median +0.000 dex at the solar node with a range of -0.002 to +0.016 and 146 of 160 grid entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). On our own lines it "
-                  "is +0.001 dex on each of the three the KPNO VIS Fe II pool shares with "
-                  "the grid (ENGINE-A minus 1D-LTE in Fe_perline.csv)")
+                  "corrections are real and small: at the solar node the grid's Fe II "
+                  "deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 "
+                  "entries inside +-0.005 (Fe I control at the same node: median +0.011, "
+                  "up to +0.040). What THIS product actually applied is recorded per "
+                  "line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, "
+                  "RYA-880); across every live Fe II product that is -0.001 to -0.002 "
+                  "dex, on the lines MPIA serves")
     elif fam == "amarsi":
         source = ("Amarsi+2022 3D-NLTE MLP (fe2_model.p) — NOT atom.fe607a. Its solar "
                   "Fe II correction is +0.066 dex (RYA-817 control, paper Table 6 "
