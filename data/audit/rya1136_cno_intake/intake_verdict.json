@@ -7,9 +7,10 @@
   "molecular": {
     "published_used": 408,
     "join_status": {
-      "PRIMARY_UNRESOLVED_SUM_MATCH": 32,
+      "AMBIGUOUS_SUM_MATCH": 26,
       "PRIMARY_TUPLE_MATCH": 278,
       "STRENGTH_MISMATCH": 5,
+      "PRIMARY_UNRESOLVED_SUM_MATCH": 6,
       "AMBIGUOUS_COMPONENT_MATCH": 9,
       "PHYSICAL_TUPLE_MATCH": 80,
       "UNMATCHED": 3,
@@ -28,7 +29,10 @@
     "Nine Amarsi features map to indistinguishable rounded primary components because Table 2 omits rotational labels",
     "Five source-identity matches retain published-strength revision differences",
     "Four OH rows are absent or physically inconsistent in the acquired Brooke release",
-    "Rejected CN count is published (463), but rejected UV transition identities are not published"
+    "Rejected CN count is published (463), but rejected UV transition identities are not published",
+    "26 features are reproduced by MORE THAN ONE subset of primary components; they are fitted, not identified, and are no longer counted as matched coverage",
+    "All 80 CO PHYSICAL_TUPLE_MATCH rows resolve against an ExoMol->Turbospectrum conversion whose converter is not in this repo; the Li 2015 primary was never acquired",
+    "Titled UV-IR but delivered VIS-IR: zero FUV and zero NUV rows in both domains, and the NH A-X / OH A-X / CN B-X ultraviolet transitions are acquired but unread"
   ],
-  "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted"
+  "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted (RYA-1143: the N I five-line join is EP-aware as of this build, and the canonical readback is reported in codex_* columns rather than as published_*)"
 }
