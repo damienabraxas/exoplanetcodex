@@ -147,7 +147,16 @@ def demo_the_rya1106_split() -> dict:
     records are built in memory from the RYA-1106 artifacts and thrown away.
     """
     live = json.loads((FEED / "Fe.json").read_text())
-    amarsi = [p for p in live["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    #: 🔴 RYA-1185 -- "OUR OWN" MEANS THE ONES THAT DO NOT STORE THE AXIS, NOT EVERY
+    #: ENGINE-A-3DNLTE PRODUCT. This selected on treatment alone, which was unambiguous
+    #: while the four RYA-1106 Asplund replications were unpublished. RYA-1185 published
+    #: them, and they are ENGINE-A-3DNLTE too -- so the clone below became
+    #: `dict(asplund_row, line_set="asplund")`, i.e. the row compared against ITSELF, and
+    #: the test reported a collision that does not exist (the live feed has 70 products
+    #: and 70 distinct keys). A replication is identified by STORING `line_set`; our own
+    #: products derive it from `tier` and never store it (RYA-1111).
+    amarsi = [p for p in live["products"]
+              if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     out = []
     for p in amarsi:
         replication = dict(p, line_set="asplund")

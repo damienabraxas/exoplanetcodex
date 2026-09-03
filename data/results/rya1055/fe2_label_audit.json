@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-09-03T22:21:58Z",
+  "generated_at": "2026-09-03T22:28:49Z",
   "n_live_fe_ii_products": 10,
   "n_stamped": 10,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -324,7 +324,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.957,
       "n_lines": 12,
-      "sigma_reported": 0.174934,
+      "sigma_reported": 0.162195,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -339,7 +339,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.975,
       "n_lines": 7,
-      "sigma_reported": 0.195709,
+      "sigma_reported": 0.186479,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -354,7 +354,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.697,
       "n_lines": 12,
-      "sigma_reported": 0.179873,
+      "sigma_reported": 0.164095,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -369,7 +369,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.738,
       "n_lines": 7,
-      "sigma_reported": 0.181897,
+      "sigma_reported": 0.17798,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -473,7 +473,7 @@
       "A_FeI": 7.642,
       "n_FeI": 58,
       "FeII_minus_FeI_dex": 0.315,
-      "sigma_reported_FeII": 0.174934,
+      "sigma_reported_FeII": 0.162195,
       "within_reported_bar": false
     },
     {
@@ -487,7 +487,7 @@
       "A_FeI": 7.651,
       "n_FeI": 58,
       "FeII_minus_FeI_dex": 0.324,
-      "sigma_reported_FeII": 0.195709,
+      "sigma_reported_FeII": 0.186479,
       "within_reported_bar": false
     },
     {
@@ -501,7 +501,7 @@
       "A_FeI": 7.596,
       "n_FeI": 58,
       "FeII_minus_FeI_dex": 0.101,
-      "sigma_reported_FeII": 0.179873,
+      "sigma_reported_FeII": 0.164095,
       "within_reported_bar": true
     },
     {
@@ -515,7 +515,7 @@
       "A_FeI": 7.606,
       "n_FeI": 58,
       "FeII_minus_FeI_dex": 0.132,
-      "sigma_reported_FeII": 0.181897,
+      "sigma_reported_FeII": 0.17798,
       "within_reported_bar": true
     }
   ],
