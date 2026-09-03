@@ -8,19 +8,22 @@ says so in the record rather than inventing one.
 
 WHAT EACH FIELD'S SOURCE OF TRUTH IS — none of it from memory:
   atlas / telluric_state   data/catalog/holdings_manifest_registry.csv + instrument_catalog
-  line_set                 pipeline.reference_lineset.line_set_for_product  (see below)
+  line_set_resolved        pipeline.reference_lineset.line_set_for_product  (see below)
   grade                    derived from line_set, RYA-946's going-forward names
   wavelength_range_A       the artifact stem the product was ingested from
   model_grid               data/catalog/model_registry.csv, keyed on stored_token
   xi terms                 data/results/rya1120/xi_sigma_reported.json, KEYED BY BAND
   Asplund products         data/results/rya1106/asplund_four_instrument_table.json
 
-🔴 `line_set` IS STAMPED BY CALLING THE RESOLVER, NEVER BY RE-DERIVING IT. RYA-1127
-decided deliberately NOT to back-stamp this axis: `line_set_for_product` derives it from
-`tier`, and a stored copy would be a second source of truth free to disagree. But a
-published feed has to be self-describing — a reader cannot import a Python function. So
-the value is written, and it is produced by CALLING that same resolver, so there is still
-exactly one implementation. `--check` re-resolves every stamped value and fails on drift.
+🔴 `line_set` IS NOT STAMPED ON OUR OWN PRODUCTS, AND THAT IS RYA-1127's CALL, NOT THIS
+TICKET'S. The spec asks to populate it. `tests/test_line_set_identity_rya1127.py` asserts
+the opposite in as many words — `assert "line_set" not in ours` — because our tiers map
+one-to-one onto the `our-*` names, so a stored copy is a SECOND SOURCE OF TRUTH free to
+drift from the one the identity key resolves. The spec's stated reason for wanting it
+("so replication vs working products stop colliding on identity") was ALREADY satisfied:
+RYA-1127 fixed that collision by resolving the axis at key-computation time. So the feed
+publishes `line_set_resolved` + `line_set_basis`, labelled derived, and a REPLICATION
+product — the documented exception — is the only kind that carries an explicit `line_set`.
 
 🔴 THE VOCABULARY IS `model_registry.LINE_SETS`, NOT THE TICKET'S EXAMPLE STRINGS. The
 ticket says 'e.g. "codex", "asplund_agss21"'. The canonical values are `our-graded` /
@@ -536,7 +539,8 @@ def null_audit(feed: dict) -> pd.DataFrame:
     fields = ["atlas", "telluric_state", "line_set_resolved", "grade", "wavelength_range_A",
               "generated_at", "code_commit", "xi_value_kms", "delta_xi_kms", "sigma_xi",
               "xi_state", "sigma_syst_complete", "sigma_reported", "science_provenance",
-              "artifact_provenance"]
+              # the artifact block keeps its /1 name — the rename is deferred, see enrich()
+              "provenance"]
     rows = []
     for p in feed["products"]:
         row = {"band": p["band"], "ion": p["ion"], "holding": p["holding"],
