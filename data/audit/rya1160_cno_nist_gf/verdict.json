@@ -1,0 +1,15 @@
+{
+  "ticket": "RYA-1160",
+  "control_rows": 5,
+  "uniquely_matched": 4,
+  "max_abs_delta_dex": 0.001,
+  "values_reproduce": true,
+  "grade_disagreements": 3,
+  "grade_disagreement_detail": [
+    "O I 7771.9440: ours A+ vs NIST A",
+    "O I 7774.1660: ours A+ vs NIST A",
+    "O I 7775.3880: ours A+ vs NIST A"
+  ],
+  "finding": "Values reproduce to <=0.001 dex on every uniquely matched row, which validates the pull, the log gf = log10(gi*fik) computation, the air/vac frame and the EP-aware match. The GRADES do not: the store carries A+ (<=2%) on the O I 777 triplet where NIST ASD publishes A (<=3%). The store claims BETTER precision than the authority it cites, on the most used oxygen diagnostic in the programme -- so any gf_sigma_dex derived from that grade would be too small.",
+  "canonical_gf_modified": false
+}

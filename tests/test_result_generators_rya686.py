@@ -40,6 +40,12 @@ ROOT = repo_root()
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {
     "solar_ba_synthesis_rya559.json",
+    # RYA-1169: these are deliberately retained audit artifacts from the withdrawn
+    # run against the forbidden, uncorrected 1984 Kitt Peak holding.  The corrected
+    # runner cannot reproduce them by design; giving them its generator would falsely
+    # make invalid science look current.
+    "rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_per_line.csv",
+    "rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_summary.json",
     # RYA-1080, added deliberately. The four RYA-817 3D-NLTE outputs the Fe.json feed
     # published with a `copied_to` pointing into /private/tmp/g3d/ -- outside the repo,
     # untracked, gone at the next reboot -- so a non-null field READ as reconciled while
@@ -57,6 +63,9 @@ FROZEN_UNREPRODUCIBLE = {
 FROZEN_HAND_AUTHORED = {
     "sr2_line_selection_rya430.json",
     "rya342_corrected_solar_fe.txt",
+    # RYA-1169: human-readable withdrawal notice attached to the two frozen invalid
+    # outputs above. Its manifest sources point back to those exact audit artifacts.
+    "rya1169/_quarantined_raw1984_iag_run/QUARANTINED.md",
     # RYA-939, added deliberately when the guard was extended to data/processed/.
     # Gaia-ESO Survey pre-stored solar EWs, transcribed under RYA-196. It has no
     # generator because no code in this repo produced the numbers -- inventing one

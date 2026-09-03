@@ -5,7 +5,8 @@ A1,MEDIUM,table2.dat row 10,CDS flag column `n_Aki` = ')' is dropped by the pars
 A1,HIGH,table5.dat row 1,CDS flag column `n_Lambda` = '*' is dropped by the parser,3p^2^ ^1^D_2_ 3p ^1^P^o^_1_ 3900.675* 0.79  13
 A1,MEDIUM,table5.dat row 10,CDS flag column `l_e_Aki` = '>' is dropped by the parser,4f ^3^F^o_2_  3d ^3^D_1_    3587.450  0.98   3
 A1,MEDIUM,table5.dat row 13,CDS flag column `l_e_Aki` = '>' is dropped by the parser,4f ^3^F^o_3_  3d ^3^D_2_    3587.068  0.96   5
-A2,CRITICAL,scripts/build_al_intake_rya1132.py:ingest_new_lab_sources,"Promotion join is wavelength-only, forbidden by RYA-1034","`near = candidates[candidates.delta_A <= .08]`; the Al II 2669 block repeats the pattern. `nearest(..., epcol=...)` exists and is not called here."
+A2,CRITICAL,scripts/build_al_intake_rya1132.py:ingest_new_lab_sources,"Promotion join is wavelength-only, forbidden by RYA-1034","`near = candidates[candidates.delta_A <= .08]` (line 167); the Al II 2669 block repeats the pattern. `nearest(..., epcol=...)` exists and is not called here."
+A2,CRITICAL,scripts/audit_line_keys_rya1037.py,The repo-wide wavelength-only guard does not detect the RYA-1132 join,"54 findings reported elsewhere, zero for build_al_intake_rya1132.py; `WAVE_ONLY_TOL` requires builtin abs() within a single expression, and `_enclosing_has_ep()` is function-scoped."
 A2,CRITICAL,alphys_II_3587.0720_0333,One manifest line claimed by two different physical transitions,"source rows vuj2002_t4_011,vuj2002_t5_012,vuj2002_t5_013 at lambda 3587.068,3587.100,3587.068 A; transitions 4f^3^F^o^_3_ | 3d^3^D_2_ // 4f^3^F^o_2_ | 3d^3^D_3_ // 4f^3^F^o_3_ | 3d^3^D_2_"
 A3,CRITICAL,data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status,"'COMPONENT_SUM_VERIFIED' is asserted from a count, never from a sum","build_al_intake_rya1132.py: ""COMPONENT_SUM_VERIFIED"" if int(r.hfs_n_components) > 1 else ..."
 A3,CRITICAL,canonical_gf Al I 3944.006,hfs_n_components is wrong and the intake stamped it verified and promoted it,"canonical_gf hfs_n_components=1, census component count=4; manifest HFS_status=COMPONENT_SUM_VERIFIED, gf_grade=GF-LAB, gf_source=EXP-VUJNOVIC2002"
@@ -52,3 +53,36 @@ C,HIGH,alphys_I_19302.1310_0467 (19302.131 A),Census NIR line relabelled OUTSIDE
 C,HIGH,alphys_I_19482.2860_0468 (19482.286 A),Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap,"census band=NIR, blind spot=crires_plus, gf_grade=EXCLUDED-SHALLOW, suitability=CANDIDATE_NOT_SELECTED"
 C,HIGH,alphys_I_19497.7080_0469 (19497.708 A),Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap,"census band=NIR, blind spot=crires_plus, gf_grade=EXCLUDED-SHALLOW, suitability=CANDIDATE_NOT_SELECTED"
 C,HIGH,alphys_I_24985.9530_0499 (24985.953 A),Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap,"census band=>24000A (NO DECLARED POLICY), blind spot=nan, gf_grade=EXCLUDED-NO-HOME, suitability=CANDIDATE_NOT_SELECTED"
+D2,MEDIUM,vujnovic2002_normalized.csv,"No column records that 4 rows' fine-structure split is theoretical, not measured","`intensity_ratio` is NaN for exactly 13123.41, 13150.76, 21093.04, 21163.75; the paper's prose is the only thing that says why."
+D3,CRITICAL,al_line_manifest.csv,No `line_set` column — products measured from this pool cannot key (RYA-1127),"canonical vocabulary: ('-', 'asplund', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all')"
+D3,CRITICAL,data/audit/rya1132_al_intake/al_line_manifest.csv,"Al frozen through RYA-946's census gate, with no census and no exception",164 rows intake_status=FROZEN; data/reference/ has ['asplund2021_fe']
+D4,HIGH,alphys_I_6905.6460_0358 (6905.646 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-D, gf_grade=D, gf_sigma_dex=0.1760912591"
+D4,HIGH,alphys_I_6906.2870_0359 (6906.287 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C, gf_grade=C, gf_sigma_dex=0.1091444694"
+D4,HIGH,alphys_I_7083.9690_0367 (7083.969 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0718820073"
+D4,HIGH,alphys_I_7084.6430_0368 (7084.643 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0860366315"
+D4,HIGH,alphys_I_7327.4700_0376 (7327.470 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-D, gf_grade=D, gf_sigma_dex=0.1760912591"
+D4,HIGH,alphys_I_7335.6480_0377 (7335.648 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C, gf_grade=C, gf_sigma_dex=0.096910013"
+D4,HIGH,alphys_I_7335.9870_0378 (7335.987 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-E, gf_grade=E, gf_sigma_dex=0.3010299957"
+D4,HIGH,alphys_I_7361.5680_0379 (7361.568 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0718820073"
+D4,HIGH,alphys_I_7362.2960_0380 (7362.296 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0774544267"
+D4,HIGH,alphys_I_7606.1600_0383 (7606.160 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-D, gf_grade=D, gf_sigma_dex=0.1760912591"
+D4,HIGH,alphys_I_7614.8200_0384 (7614.820 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C, gf_grade=C, gf_sigma_dex=0.096910013"
+D4,HIGH,alphys_I_7615.3370_0385 (7615.337 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-E, gf_grade=E, gf_sigma_dex=0.3010299957"
+D4,HIGH,alphys_I_7835.3090_0386 (7835.309 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-B, gf_grade=B, gf_sigma_dex=0.0413926852"
+D4,HIGH,alphys_I_7836.1340_0387 (7836.134 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-B+, gf_grade=B+, gf_sigma_dex=0.0315087799"
+D4,HIGH,alphys_I_8065.9680_0390 (8065.968 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0718820073"
+D4,HIGH,alphys_I_8075.3530_0391 (8075.353 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0718820073"
+D4,HIGH,alphys_I_8076.2890_0392 (8076.289 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C, gf_grade=C, gf_sigma_dex=0.096910013"
+D4,HIGH,alphys_I_8772.8650_0393 (8772.865 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-B+, gf_grade=B+, gf_sigma_dex=0.0293837777"
+D4,HIGH,alphys_I_8773.8961_0394 (8773.896 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-B+, gf_grade=B+, gf_sigma_dex=0.0314971089"
+D4,CRITICAL,alphys_I_6906.2870_0359 (6906.287 A),"Summed feature graded by its best component, not its worst","manifest grade C, worst component grade E, n_components=2, sigma=0.1091 dex"
+D4,CRITICAL,alphys_I_7084.6430_0368 (7084.643 A),"Summed feature graded by its best component, not its worst","manifest grade C+, worst component grade E, n_components=2, sigma=0.0860 dex"
+D4,CRITICAL,alphys_I_7362.2960_0380 (7362.296 A),"Summed feature graded by its best component, not its worst","manifest grade C+, worst component grade D, n_components=2, sigma=0.0775 dex"
+D4,CRITICAL,alphys_I_7836.1340_0387 (7836.134 A),"Summed feature graded by its best component, not its worst","manifest grade B+, worst component grade C+, n_components=2, sigma=0.0315 dex"
+D4,CRITICAL,alphys_I_8773.8961_0394 (8773.896 A),"Summed feature graded by its best component, not its worst","manifest grade B+, worst component grade C+, n_components=2, sigma=0.0315 dex"
+D4,CRITICAL,scripts/build_al_intake_rya1132.py:source_type,"NIST is tested before THEORY, so Opacity-Project values can never be typed THEORETICAL","if t.startswith(""NIST"") or ""NIST"" in s: return ""CRITICALLY_EVALUATED""  <-- returns first; the ""THEORY""/""P19""/""OP95"" branch below is unreachable for any NIST-sourced row. NIST-before-THEORY confirmed: True"
+D4,CRITICAL,al_line_manifest.csv (19 rows),Opacity Project theory typed CRITICALLY_EVALUATED across Al's whole red-optical band,"Kelleher & Podobedova 2008 Table 4: multiplets 16-21, 23-30 all Source 1 = Mendoza et al. (OP); all 19 components Source LS. Confirms RYA-1001's independent finding on 8772/8773."
+D5,HIGH,alphys_I_38622.2966_burheim08 (38622.297 A),Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it,gf_grade=GF-LAB; covered by crires_plus|ishell|nirspec|phoenix
+D5,HIGH,alphys_I_38710.6325_burheim09 (38710.633 A),Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it,gf_grade=GF-LAB; covered by crires_plus|ishell|nirspec|phoenix
+D5,HIGH,alphys_I_41830.0124_burheim10 (41830.012 A),Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it,gf_grade=GF-LAB; covered by crires_plus|ishell|nirspec|phoenix
+D5,HIGH,alphys_I_41909.2708_burheim11 (41909.271 A),Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it,gf_grade=GF-LAB; covered by crires_plus|ishell|nirspec|phoenix
