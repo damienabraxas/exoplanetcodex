@@ -52,7 +52,7 @@ Found by reconciling the registry against `band_products.TREATMENTS`:
 - **`1D-LTE-LABGF`** (RYA-836) — same engine and route as model 1, differing in one input:
   the oscillator strength comes from a primary laboratory measurement instead of Kurucz.
   `band_products.py:60` documents it as *"a separate member rather than a variant"*. It is a
-  real, live treatment and it is **not** one of the eight models in this roster. Whether it
+  real, live treatment and it is **not** one of the nine models in this roster. Whether it
   should be a ninth row is a scope question for RYA-1101, flagged rather than decided.
 
 ## Model 9 — "Frankenstein's Dog", and the premise that did not survive the code
@@ -139,8 +139,19 @@ The column is opened now, with its guard already in place, so that the vocabular
 `verify_model_registry.py` check (f) refuses any value outside the tuple.
 
 ⚠️ **`consistent` is deliberately absent.** RYA-1105 removes the Consistent tier from the
-active pipeline and the website; the going-forward set is Asplund Grade / Our Grade / Deep
-Grade. But `--lines-tier consistent` is **still live** in `derive_band_products.py`. The code
+active pipeline and the website; the going-forward set is **Reference Grade / Codex Grade /
+Deep Grade**.
+
+⚠️ **RYA-1185 (2026-09-03) RENAMED TWO OF THESE, AND THIS LINE USED TO CARRY THE OLD SET.**
+It read *"Asplund Grade / Our Grade / Deep Grade"*. Both changed on Ryan's ruling:
+
+| was | now | why |
+|---|---|---|
+| `Our Grade` | **`Codex Grade`** | "Our Grade" was never a ratified name; the tier is primary-lab gf at or below the 0.60 depth gate |
+| `Asplund Grade` | **`Reference Grade`** | the top tier is the REFERENCE tier — a product measured on an external published line set — named for what it *is* rather than for one paper. `gbs` joins it for the same reason; `line_set` says WHICH reference (that is why RYA-1127 put it in the identity key) |
+
+The live feed is on the new names as of `Fe.json` v1.92: Codex Grade 42 / Deep Grade 24 /
+Reference Grade 4. `scripts/rya1178_emit_fe_schema.py:GRADE_FOR_LINE_SET` is the one mapping. But `--lines-tier consistent` is **still live** in `derive_band_products.py`. The code
 and this vocabulary genuinely disagree today. Retiring the flag is RYA-1105's job, not this
 ticket's, so the disagreement is recorded here rather than papered over.
 
