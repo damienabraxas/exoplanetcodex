@@ -1,0 +1,4 @@
+question,answer,qa_note
+ionised CNO species present (C II / N II / O II)?,"NO -- census holds only C I 17, N I 5, O I 26","NOT a selection bug: Amarsi 2019 Table 1 itself contains only CI 17, FeII 142, OI 26. The FeII rows are correctly excluded as out of CNO scope. But no artifact records that the source carries no ionised C/N/O, so a reader cannot tell absence-from-source from absence-from-selection."
+[O I] 6300 / 6363 forbidden lines present?,"YES -- 6300.300, 6363.770",Present and correctly carried.
+material blends retained as physical components (Ni I at [O I] 6300)?,NO,atomic_source_census.csv has no blend or component column at all (0 found) and no Ni I row. 6300.300 is carried as a lone 'O I' row. The Ni I blend is the single best-known contaminant of the [O I] 6300 A oxygen diagnostic; it is not represented.

@@ -1,0 +1,15 @@
+identity_field,in_headline_artifact,recoverable_anywhere,note
+molecule,NO,YES,
+isotopologue,NO,NO,
+electronic_system,NO,YES,"system/band live in primary_molecular_crossmatch.csv but the builder does NOT carry them into molecular_physical_crossmatch.csv, so the headline artifact is LESS identified than its own input."
+v_upper,NO,YES,
+v_lower,NO,YES,
+J_upper,NO,NO,
+J_lower,NO,NO,Transition.j_lower is parsed for every primary transition and used only to form gf = f*(2J''+1); it is written to no artifact.
+branch_or_parity,NO,NO,
+E_upper,NO,NO,
+E_lower,NO,YES,
+air_or_vacuum_frame,NO,NO,
+native_intensity_quantity,NO,NO,
+conversion_provenance,NO,NO,
+component_vs_band_normalisation,NO,NO,

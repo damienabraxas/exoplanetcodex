@@ -1,0 +1,35 @@
+{
+  "ticket": "RYA-1169",
+  "line_set": "asplund",
+  "run_type": "observed EW/depth",
+  "n_lines": 10,
+  "holdings": [
+    {
+      "holding": "kpno_1984",
+      "n_source_lines": 10,
+      "n_served": 9,
+      "n_unserved": 1,
+      "median_ew_mA": 46.0936,
+      "median_ew_ratio_vs_scott": 0.96694,
+      "median_observed_depth": 0.33257,
+      "unserved": [
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: QUARANTINED-TELLURIC: inside the H2O (7160-7340 A) and kpno_solar_atlas is telluric_basis=line_selection, so the observed flux there is not stellar. Excluded by per-line selection (RYA-460/786), not corrected."
+        }
+      ]
+    },
+    {
+      "holding": "iag_baker2020",
+      "n_source_lines": 10,
+      "n_served": 10,
+      "n_unserved": 0,
+      "median_ew_mA": 42.6523,
+      "median_ew_ratio_vs_scott": 0.95213,
+      "median_observed_depth": 0.3174,
+      "unserved": []
+    }
+  ],
+  "abundance_inversion": "PENDING: requires source-gf override through synthesis/EW engine",
+  "firewall": "no missing line substituted; distance from A(Si)=7.51 was not used"
+}

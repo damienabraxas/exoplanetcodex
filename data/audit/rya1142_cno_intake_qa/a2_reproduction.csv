@@ -1,0 +1,5 @@
+leg,quantity,mine,theirs,reproduced
+primary(non-CO),UNIQUE == PRIMARY_TUPLE_MATCH,278,278,YES
+primary(non-CO),AMBIGUOUS == AMBIGUOUS_COMPONENT_MATCH,9,9,YES
+primary(non-CO),NONE == sum+strength+unmatched+energy,41,15,NO
+CO,UNIQUE == PHYSICAL_TUPLE_MATCH,80,80,YES

@@ -10,8 +10,12 @@ import json
 import pandas as pd
 import pytest
 
+from pathlib import Path
+
 from scripts.qa_al_intake_rya1141 import (AUDITED, CANONICAL, audited_files,
-                                          build, compares_identity, SELF)
+                                          build, join_constrains_identity, SELF)
+
+ROOT_REF = Path(__file__).resolve().parents[1] / "data" / "reference" / "asplund2021_al"
 
 
 @pytest.fixture(scope="module")
@@ -45,10 +49,18 @@ def test_detector_is_not_fooled_by_a_mention_without_a_comparison():
     """`ingest_new_lab_sources` writes `lower_level` into a string. A grep would call
     that an identity check; this must not."""
     import ast
-    mention_only = ast.parse("def f(a, b):\n    return f'{a.lower_level} - {a.upper_level}'\n")
-    compares = ast.parse("def f(a, b):\n    return abs(a.lower_EP - b) <= 0.02\n")
-    assert not compares_identity(mention_only)
-    assert compares_identity(compares)
+
+    def fn(src):
+        return [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)][0]
+
+    mention_only = fn("def f(df, a, w):\n"
+                      "    note = f'{a.lower_level} - {a.upper_level}'\n"
+                      "    return df[(df.wavelength_air - w).abs() <= .08], note\n")
+    compares = fn("def f(df, a, w, ep):\n"
+                  "    return df[((df.wavelength_air - w).abs() <= .08)\n"
+                  "              & ((df.lower_EP - ep).abs() <= .02)]\n")
+    assert not join_constrains_identity(mention_only)[0]
+    assert join_constrains_identity(compares)[0]
 
 
 def test_wavelength_only_join_is_caught_in_the_act(qa):
@@ -196,3 +208,174 @@ def test_canonical_gf_is_byte_identical_after_the_whole_battery(qa):
     assert hashlib.sha256(CANONICAL.read_bytes()).hexdigest() == digest
     assert not any(p.name.startswith("al_line_manifest") and p.parent == AUDITED
                    and p.stat().st_size == 0 for p in AUDITED.iterdir())
+
+
+def test_the_repo_wide_wavelength_guard_does_not_catch_this_join(qa):
+    """RYA-1037 shipped a guard to make RYA-1034 unrepeatable. It did not fire here."""
+    verdict, _ = qa
+    assert verdict["checks"]["A2-repo-guard"] == "FAIL"
+
+
+def test_the_1037_scan_is_called_in_process_and_writes_nothing():
+    """🔴 Shelling out to the auditor REWRITES its inventory JSON — a repo file outside
+    this QA's output directory. `scan()` is pure; assert we call that, not the CLI.
+
+    #: Read through the absolute `SELF`, never a relative path: other modules in the
+    #: suite chdir, and a relative read passes alone and dies in the full run.
+    """
+    from scripts.qa_al_intake_rya1141 import ROOT
+    src = SELF.read_text()
+    assert "from audit_line_keys_rya1037 import scan" in src
+    assert "audit_line_keys_rya1037.py\"]" not in src  # no subprocess invocation
+    inventory = ROOT / "data/audit/rya1037/rya1037_line_key_inventory.json"
+    before = inventory.read_bytes() if inventory.exists() else None
+    from scripts.qa_al_intake_rya1141 import build as _b  # noqa: F401
+    assert (inventory.read_bytes() if inventory.exists() else None) == before
+
+
+def test_no_mutation_check_actually_fails_on_a_stray_write(tmp_path, monkeypatch):
+    """🔴 THE CONTROL ON THE FIREWALL. A hash over a chosen set cannot see a write
+    outside it — an earlier revision of this script dirtied `data/audit/rya1037/` and
+    still reported PASS. Sabotage a check into touching a repo file and require FAIL."""
+    from scripts import qa_al_intake_rya1141 as q
+    probe = q.ROOT / "data/audit/rya1037/stray_probe_test.tmp"
+    original = q.check_a4
+
+    def sabotage(rep, man):
+        probe.write_text("x")
+        return original(rep, man)
+
+    monkeypatch.setattr(q, "check_a4", sabotage)
+    try:
+        v = q.build(tmp_path)
+        assert v["checks"]["NO-MUTATION"] == "FAIL"
+        assert "data/audit/rya1037/stray_probe_test.tmp" in v["artifacts_mutated"]
+    finally:
+        probe.unlink(missing_ok=True)
+
+
+def test_the_identity_test_is_scoped_to_the_narrowing_expression():
+    """🔴 NOT THE WHOLE FUNCTION. RYA-1037's `_enclosing_has_ep()` asks the enclosing
+    function, so one unrelated `ep` silences every wavelength-only comparison below it.
+    A mention elsewhere must not launder a bare wavelength filter."""
+    import ast
+    from scripts.qa_al_intake_rya1141 import join_constrains_identity
+
+    def fn(src):
+        return [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)][0]
+
+    laundered = fn("def f(df, w, r):\n"
+                   "    note = f'{r.lower_level} - {r.upper_level}'\n"
+                   "    return df[(df.wavelength_air - w).abs() <= .08], note\n")
+    conjoined = fn("def g(df, w, ep):\n"
+                   "    ok = (df.wavelength_air - w).abs() <= .08\n"
+                   "    ok &= (df.lower_EP - ep).abs() <= .02\n"
+                   "    return df[ok]\n")
+    assert not join_constrains_identity(laundered)[0]
+    assert join_constrains_identity(conjoined)[0]
+
+
+def test_b2_pins_the_merge_sha_and_proves_it_is_the_right_one(qa):
+    """🔴 THE AUDITOR'S OWN MERGE NAMES RYA-1132. A `--grep=RYA-1132 --merges -1` search
+    therefore retargets B2 onto this audit's commit the moment it lands — and still
+    reports PASS. The SHA is pinned; the control asserts the pin is correct."""
+    verdict, _ = qa
+    assert verdict["checks"]["B2-control"] == "PASS"
+    assert verdict["checks"]["B2"] == "PASS"
+    #: A MENTION IS NOT A USE — the source explains the `--grep` trap in a comment, so a
+    #: substring search would fail on the explanation. Ask the AST for an actual argument.
+    import ast
+    src = SELF.read_text()
+    assert "RYA1132_MERGE = " in src
+    grep_args = [n for n in ast.walk(ast.parse(src))
+                 if isinstance(n, ast.Constant) and isinstance(n.value, str)
+                 and n.value.startswith("--grep")]
+    assert not grep_args, f"B2 must not search for its target: {[n.value for n in grep_args]}"
+
+
+def test_b2_control_fails_if_the_pin_is_wrong(monkeypatch, tmp_path):
+    """A pin nobody checks is just a different way to be wrong."""
+    from scripts import qa_al_intake_rya1141 as q
+    monkeypatch.setattr(q, "RYA1132_MERGE", "origin/main")
+    v = q.build(tmp_path)
+    assert v["checks"]["B2-control"] == "FAIL"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# D — the coverage the first pass did not reach.
+# ─────────────────────────────────────────────────────────────────────────────
+def test_asplund_grade_is_a_line_set_not_a_gf_grade(qa):
+    """🔴 I had this wrong. `model_registry.LINE_SETS` is the ONE definition: `asplund`
+    is a value on the `line_set` PROVENANCE axis — which pool a measurement was made on
+    — not a statement about a gf. RYA-1127 put it in the product identity key."""
+    from pipeline.model_registry import LINE_SETS
+    assert "asplund" in LINE_SETS and "our-graded" in LINE_SETS
+    assert "consistent" not in LINE_SETS, "RYA-1105 retired it; it must not acquire a name"
+    verdict, _ = qa
+    assert verdict["checks"]["D3-lineset"] == "FAIL"
+
+
+def test_the_rya946_census_gate_is_now_discharged_for_al(qa):
+    """RYA-946: no element is FROZEN_READY_FOR_MEASUREMENT until the AGSS21 line-set
+    cross-reference is complete or an approved exception exists.
+
+    ✅ RYA-1173 built it. This check was D3=FAIL and is now PASS, on the census itself and not on
+    an exception. The negative controls that keep it honest live in
+    `tests/test_reference_census_gate_rya1173.py` -- including one that removes the Al set and
+    asserts the gate goes red again."""
+    from pipeline import reference_census_gate as gate
+    verdict, _ = qa
+    assert verdict["checks"]["D3"] == "PASS"
+    st = gate.census_state("Al")
+    assert st["census_complete"] and st["exception"] is None
+    assert [s["line_set"] for s in st["reference_sets"]] == ["asplund-al"]
+
+
+def test_the_five_line_set_in_d3s_original_text_was_wrong(qa):
+    """🔴 D3's own lineage sketch said 'a FIVE-line set', taking AGSS21's prose at face value.
+    Scott retains seven, NL2017 removes one, and NL2017's Fig. 8 names six. The correction is
+    carried in the check text rather than quietly edited away."""
+    verdict, out = qa
+    assert verdict["checks"]["D3-lineage"] == "PASS"
+    txt = (out / "verdict.md").read_text()
+    assert "SIX-line set, not five" in txt
+    ref = pd.read_csv(ROOT_REF / "asplund2021_al_lines.csv")
+    assert (ref.selection_status == "USED_BY_SOURCE_ANALYSIS").sum() == 6
+
+
+def test_the_evaluated_tier_is_opacity_project_theory(qa):
+    """🔴 CORRECTS A5-lab. No GF-LAB row is theory — but all 19 CRITICALLY_EVALUATED rows
+    are, and `source_type` cannot see it because NIST is tested before THEORY."""
+    from scripts.qa_al_intake_rya1141 import BUILDER
+    verdict, _ = qa
+    assert verdict["checks"]["D4-lineage"] == "FAIL"
+    fn = BUILDER.read_text()
+    fn = fn[fn.index("def source_type"):fn.index("def nearest")]
+    assert fn.index('"NIST" in s') < fn.index('"THEORY" in s')
+
+
+def test_promotions_rest_on_measured_ratios_not_ls_theory(qa):
+    """The Vujnovic PAPER, not its CDS table, is what says which Aki are measured."""
+    verdict, out = qa
+    assert verdict["checks"]["D2"] == "PASS"
+    t = pd.read_csv(out / "d2_vujnovic_ratio_basis.csv")
+    theo = set(t[t.ratio_basis.eq("THEORETICAL_LS_RATIO")].wavelength_A.round(2))
+    assert theo == {13123.41, 13150.76, 21093.04, 21163.75}
+
+
+def test_outside_current_reach_is_contradicted_by_the_instrument_catalog(qa):
+    verdict, out = qa
+    assert verdict["checks"]["D5-outside"] == "FAIL"
+    s = pd.read_csv(out / "d5_full_instrument_catalog_sweep.csv")
+    assert (s.n_catalog_instruments > 0).all(), "no Al line is beyond every instrument"
+    wrong = s[s.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")]
+    assert len(wrong) == 4 and (wrong.n_catalog_instruments >= 4).all()
+
+
+def test_a_summed_feature_is_not_graded_better_than_its_worst_component(qa):
+    verdict, out = qa
+    assert verdict["checks"]["D4-grades"] == "FAIL"
+    e = pd.read_csv(out / "d4_evaluated_tier_provenance.csv")
+    bad = e[e.nist_grade.ne(e.nist_grade_worst)]
+    assert len(bad) == 5
+    assert 6906.287 in set(bad.wavelength_air.round(3))
