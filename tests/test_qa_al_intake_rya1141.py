@@ -10,8 +10,12 @@ import json
 import pandas as pd
 import pytest
 
+from pathlib import Path
+
 from scripts.qa_al_intake_rya1141 import (AUDITED, CANONICAL, audited_files,
                                           build, join_constrains_identity, SELF)
+
+ROOT_REF = Path(__file__).resolve().parents[1] / "data" / "reference" / "asplund2021_al"
 
 
 @pytest.fixture(scope="module")
@@ -311,14 +315,32 @@ def test_asplund_grade_is_a_line_set_not_a_gf_grade(qa):
     assert verdict["checks"]["D3-lineset"] == "FAIL"
 
 
-def test_al_was_frozen_through_the_rya946_census_gate(qa):
+def test_the_rya946_census_gate_is_now_discharged_for_al(qa):
     """RYA-946: no element is FROZEN_READY_FOR_MEASUREMENT until the AGSS21 line-set
-    cross-reference is complete or an approved exception exists. Neither is true for Al."""
-    from scripts.qa_al_intake_rya1141 import ROOT
+    cross-reference is complete or an approved exception exists.
+
+    ✅ RYA-1173 built it. This check was D3=FAIL and is now PASS, on the census itself and not on
+    an exception. The negative controls that keep it honest live in
+    `tests/test_reference_census_gate_rya1173.py` -- including one that removes the Al set and
+    asserts the gate goes red again."""
+    from pipeline import reference_census_gate as gate
     verdict, _ = qa
-    assert verdict["checks"]["D3"] == "FAIL"
-    sets = sorted(p.name for p in (ROOT / "data/reference").glob("asplund*") if p.is_dir())
-    assert sets == ["asplund2021_fe"], f"expected Fe-only reference set, got {sets}"
+    assert verdict["checks"]["D3"] == "PASS"
+    st = gate.census_state("Al")
+    assert st["census_complete"] and st["exception"] is None
+    assert [s["line_set"] for s in st["reference_sets"]] == ["asplund-al"]
+
+
+def test_the_five_line_set_in_d3s_original_text_was_wrong(qa):
+    """🔴 D3's own lineage sketch said 'a FIVE-line set', taking AGSS21's prose at face value.
+    Scott retains seven, NL2017 removes one, and NL2017's Fig. 8 names six. The correction is
+    carried in the check text rather than quietly edited away."""
+    verdict, out = qa
+    assert verdict["checks"]["D3-lineage"] == "PASS"
+    txt = (out / "verdict.md").read_text()
+    assert "SIX-line set, not five" in txt
+    ref = pd.read_csv(ROOT_REF / "asplund2021_al_lines.csv")
+    assert (ref.selection_status == "USED_BY_SOURCE_ANALYSIS").sum() == 6
 
 
 def test_the_evaluated_tier_is_opacity_project_theory(qa):
