@@ -1,0 +1,23 @@
+{
+  "ticket": "RYA-1169",
+  "line_set": "asplund",
+  "native_line_set": "AGSS21_Si_Amarsi2017_Scott2015",
+  "definition": "source membership, orthogonal to gf-quality and depth route",
+  "depth_gate": {
+    "below_floor": "<0.05",
+    "ew_valid": "0.05-0.60 inclusive",
+    "deep_synthesis": ">0.60"
+  },
+  "source_used": 10,
+  "source_rejected": 2,
+  "active_test_passed": 10,
+  "ew_valid": 10,
+  "deep_synthesis": 0,
+  "bands_with_active_rows": [
+    "VIS",
+    "red-optical"
+  ],
+  "all_band_verdict": "PASS_WITH_SOURCE_DEFINED_GAPS",
+  "measurement_readiness": "READY_FOR_ASPLUND_EW_TEST_VIS_REDOPTICAL_ONLY",
+  "firewall": "No UV/IR candidate substituted for an absent published reference member."
+}

@@ -1,0 +1,3 @@
+case,guard_flags_it,expected
+"lambda-only compare, no `ep` in the function",YES,YES
+"SAME compare, unrelated `ep` bound earlier in the SAME function",NO,YES
