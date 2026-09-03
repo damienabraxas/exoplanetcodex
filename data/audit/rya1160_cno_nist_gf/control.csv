@@ -1,0 +1,6 @@
+species,wavelength_air_A,EP_eV,ours_log_gf,ours_nist_grade,ours_tier,match,nist_log_gf,nist_grade,nist_acc_pct,nist_TP_ref,delta_dex,verdict
+C I,5380.3250,7.6850,-1.615,B,NIST-C+,UNIQUE,-1.6144,B,10.0,T6070,-0.0006,values agree; grade agrees
+O I,6300.3040,0.0000,-9.717,A,NIST-C+,AMBIGUOUS(2),,,,,,refused -- not resolvable on wavelength+EP alone
+O I,7771.9440,9.1460,0.369,A+,NIST-C+,UNIQUE,0.3692,A,3.0,"T5803,LS",-0.0002,VALUE AGREES but GRADE DIFFERS: ours A+ vs NIST A
+O I,7774.1660,9.1460,0.223,A+,NIST-C+,UNIQUE,0.2240,A,3.0,"T5803,LS",-0.0010,VALUE AGREES but GRADE DIFFERS: ours A+ vs NIST A
+O I,7775.3880,9.1460,0.002,A+,NIST-C+,UNIQUE,0.0022,A,3.0,"T5803,LS",-0.0002,VALUE AGREES but GRADE DIFFERS: ours A+ vs NIST A

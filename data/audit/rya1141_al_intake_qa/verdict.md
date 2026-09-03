@@ -10,8 +10,9 @@
 | A1-burheim | Burheim Table 3 = 12 derived log gf; Table 2 does not leak in | **PASS** |
 | A1-parse | Fixed-width column extraction, refereed by branching closure | **PASS** |
 | A1-flags | CDS limit / note flag columns preserved | **FAIL** |
-| A2-control | The identity-comparison test can return True | **PASS** |
+| A2-control | The identity-comparison test can say yes, and cannot be laundered | **PASS** |
 | A2 | Crossmatch identity (EP-aware, never wavelength alone) | **FAIL** |
+| A2-repo-guard | RYA-1037's repo-wide wavelength-only guard catches this join | **FAIL** |
 | A2-null | Does the missing identity gate actually mis-assign? | **FAIL** |
 | A2-resolution | Would an EP gate alone have been sufficient? | **FLAG** |
 | A2-6696 | 6696.015 vs 6696.185 stay distinct; Burheim cannot leak | **PASS** |
@@ -35,6 +36,7 @@
 | B1 | Inventory reproduced independently from the sources | **PASS** |
 | B1-promotions | The 6 Al I promotions + Johnson Al II 2669, and the rejections | **PASS** |
 | B1-yield | What the seven new GF-LAB promotions actually unblock | **FLAG** |
+| B2-control | The pinned commit really is PR #478's merge | **PASS** |
 | B2 | canonical_gf.csv not mutated by RYA-1132 | **PASS** |
 | B3 | Band verdict strings are the ones claimed | **PASS** |
 | B3-eligibility | 'Eligible' is derived from the evidence the manifest carries | **FLAG** |
@@ -43,6 +45,19 @@
 | C-lines | No reachable Al line is reported unreachable | **FAIL** |
 | C-bands | RYA-1132's band() covers every band the census does | **FAIL** |
 | C-alIII | Nothing is dropped from the census without being recorded | **FLAG** |
+| D1 | The intake's cited papers are held locally and were consulted | **FLAG** |
+| D2 | Promotions rest on Vujnovic's MEASURED intensity ratios, not LS theory | **PASS** |
+| D2-a6-correction | A6's 13123.416 disagreement, correctly characterised | **FLAG** |
+| D3-lineset | The frozen manifest can resolve a `line_set` | **FAIL** |
+| D3 | RYA-946's mandatory AGSS21 line-set census was done before freezing | **PASS** |
+| D3-lineage | AGSS21's Al value traced to its line-level source | **PASS** |
+| D4 | Every 'critically evaluated' row carries a resolvable source | **FAIL** |
+| D4-values | Evaluated log gf reproduce the NIST pull, sums included | **PASS** |
+| D4-grades | A summed feature is graded by its WORST component | **FAIL** |
+| D4-lineage | The evaluated tier is evaluated data, not theory in a better coat | **FAIL** |
+| D5 | Every band and every catalogued instrument checked, not just holdings | **PASS** |
+| D5-outside | `OUTSIDE_CURRENT_REACH` means no instrument can reach it | **FAIL** |
+| D5-blank | A blank `instrument_reach` distinguishes no-holding from no-instrument | **FLAG** |
 | NO-MUTATION | No intake artifact was modified by this QA | **PASS** |
 
 ## Detail
@@ -63,13 +78,17 @@ For every multiplet with more than one finite Aki, A_i/sum(A) reproduces the SEP
 
 14 flag bytes across 5 documented CDS columns are never read by the parser, so the reference README's claim that 'source limits remain limits' is false for two of them. `l_e_Aki` ('>') turns a LOWER LIMIT on the uncertainty into a determinate sigma, and `n_Lambda` ('*') - which the CDS ReadMe documents as 'the value ... was taken over from Tayal & Hibbert (1984)' - is the only thing distinguishing a theoretical Aki from a Vujnovic measurement, and it is dropped.
 
-### A2-control - The identity-comparison test can return True: **PASS**
+### A2-control - The identity-comparison test can say yes, and cannot be laundered: **PASS**
 
-The same AST test fires on `nearest`, the builder's own EP-aware matcher (`(frame[epcol] - ep).abs() <= eptol`), so a negative on the ingest path is a real absence and not a broken detector.
+Positive control: the test returns True for `nearest`, the builder's own EP-aware matcher, whose EP term arrives via `ok &= (frame[epcol] - ep).abs() <= eptol` - so the augmented-assignment branch is exercised. Negative control: a fixture whose wavelength filter is bare but which MENTIONS `lower_level`/`upper_level` elsewhere still returns False, so this test does not inherit RYA-1037's `_enclosing_has_ep()` whole-function blind spot.
 
 ### A2 - Crossmatch identity (EP-aware, never wavelength alone): **FAIL**
 
-RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= 0.08` and nothing else. No excitation potential and no level designation appears in any comparison in that function - the level strings it does touch are only WRITTEN into `upper_lower_level_identity`. So no promotion in this ticket was matched on a physical identity. The builder defines an EP-aware matcher, `nearest(..., epcol=..., eptol=0.02)`, and the census loop calls it; the promotion path does not.
+RYA-1132's `ingest_new_lab_sources` joins every Vujnovic row and the Johnson Al II row to the manifest on `abs(wavelength_air - lambda) <= 0.08` and nothing else. 3 candidate-narrowing wavelength comparisons (lines [167, 171, 194]) carry no physical-identity term in the expression that builds the filter - and the level strings the function does touch are only WRITTEN into `upper_lower_level_identity`. So no promotion in this ticket was matched on a physical identity. The builder defines an EP-aware matcher, `nearest(..., epcol=..., eptol=0.02)`, and the census loop calls it; the promotion path does not.
+
+### A2-repo-guard - RYA-1037's repo-wide wavelength-only guard catches this join: **FAIL**
+
+It does not. `scripts/audit_line_keys_rya1037.py:scan()` reports 54 findings across the repo - so the scanner runs and is not simply empty - and names `build_al_intake_rya1132.py` zero times. Two independent reasons: its `WAVE_ONLY_TOL` rule matches only the BUILTIN `abs(a - b) <op> tol` inside one expression, while RYA-1132 uses the pandas METHOD `(a - b).abs()` assigned to `delta_A` and then filters in a SEPARATE statement; and its `_enclosing_has_ep()` scopes to the whole function, so one unrelated `ep` would silence it anyway. The guard built to make RYA-1034 unrepeatable did not fire on the next occurrence of RYA-1034.
 
 ### A2-null - Does the missing identity gate actually mis-assign?: **FAIL**
 
@@ -163,9 +182,13 @@ Promoted at [2652.475, 2660.386, 3082.153, 3092.71, 3944.006, 3961.52] A (the ti
 
 All 7 lines promoted by RYA-1132 have Solar central depth 0.969-0.994, so under RYA-946 every one is DEEP Grade, not Codex Grade, and none enters the 0.05-0.60 measurement window. The intake records this honestly in `measurement_suitability_status`, but the manifest has NO column naming the RYA-946 grade, and it labels these seven 'CANDIDATE_NOT_SELECTED' - a rejection word for lines the contract says should be ROUTED TO SYNTHESIS.
 
+### B2-control - The pinned commit really is PR #478's merge: **PASS**
+
+`04e6afe` — "Merge pull request #478 from damienabraxas/ryandamienschmitt/rya-1132-al-intake-closure" — and its diff introduces 12 files under `data/audit/rya1132_al_intake/`. The SHA is pinned rather than searched, because a `--grep=RYA-1132` search now matches THIS audit's own merge commit and would have made B2 diff the auditor against itself.
+
 ### B2 - canonical_gf.csv not mutated by RYA-1132: **PASS**
 
-PR #478 (merge 04e6afe) touches 25 files and none of them is under `data/linelists/`. `canonical_gf.csv` is byte-identical across the merge. The one data file it does change outside its own audit directory is `data/audit/rya1129_atomic_intake/intake_status_ledger.csv`, one row, as the builder documents.
+PR #478 (merge 04e6afe) touches 25 files and none of them is under `data/linelists/`. `canonical_gf.csv` is byte-identical across the merge. The one data file it changes outside its own audit directory is `data/audit/rya1129_atomic_intake/intake_status_ledger.csv`, one row, as the builder documents.
 
 ### B3 - Band verdict strings are the ones claimed: **PASS**
 
@@ -195,15 +218,68 @@ The column mixes three vocabularies: gf provenance tiers (GF-LAB, VALD3, UNRESOL
 
 2 Al III census rows are excluded by the builder ('Al III is outside this ticket's atomic scope'), which is a defensible scope call, but the exclusion appears only in a source comment - no artifact records that the 505 is a filtered denominator.
 
+### D1 - The intake's cited papers are held locally and were consulted: **FLAG**
+
+8 of 8 papers the intake cites sit in `Reference documents/` — including `aa7151.pdf` (the Vujnovic PAPER, as opposed to its CDS tables), `jpcrd372008911p.pdf` (Kelleher & Podobedova, the compilation the evaluated tier cites) and `0004190v1.pdf` (Griesmann & Kling, which corroborates the DOI correction offline). Nothing in RYA-1132 reads any of them: the builder's only inputs are the CDS `.dat` tables, the Burheim CSV and the RYA-1001 census. The prose that qualifies the numbers (D2) is only in the papers.
+
+### D2 - Promotions rest on Vujnovic's MEASURED intensity ratios, not LS theory: **PASS**
+
+All 6 promoted rows carry a measured 'this work' intensity ratio. The 4 finite-Aki rows that were NOT promoted (13123.410, 13150.760, 21093.040, 21163.750 A) are exactly the rows with a BLANK IntR — the paper says of them: 'For 5s-4p transitions we evaluated the transition probabilities assuming theoretical intensity ratios of the component lines', and for 4p-4s that the branching ratios 'were measured indirectly by (Buurmann & Doenszelmann 1990)'. The separation is perfect, so RYA-1132's hand-curated promote list is right on this axis.
+
+### D2-a6-correction - A6's 13123.416 disagreement, correctly characterised: **FLAG**
+
+RYA-1141's first pass called this 'two independent primary-laboratory measurements in genuine tension'. The Vujnovic paper refutes that: 13123.41 and 13150.76 are among the four rows whose fine-structure split is a THEORETICAL LS ratio over an indirectly-measured branching ratio. They remain a competing published value that the manifest drops without trace — the A6 FAIL stands — but they do not impeach Burheim's uncertainty the way an independent direct measurement would.
+
+### D3-lineset - The frozen manifest can resolve a `line_set`: **FAIL**
+
+The manifest has no `line_set` column and no value anywhere from the one vocabulary ('-', 'asplund', 'asplund-al', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all'). RYA-1127 made `line_set` part of the PRODUCT IDENTITY KEY, so a measurement taken from this frozen pool cannot form a valid key. `gf_grade` mixes three vocabularies and none of them is this one.
+
+### D3 - RYA-946's mandatory AGSS21 line-set census was done before freezing: **PASS**
+
+It was, as of RYA-1173. 164 manifest rows are stamped `FROZEN` and the census that gates them exists: asplund-al (6 used rows, RYA-1173). AGSS21 publishes NO Al line list, so the set is reconstructed from the primaries it cites -- Nordlander & Lind 2017 (A&A 607, A75) and Scott et al. 2015b (A&A 573, A25) -- under five extraction controls. The per-line join, per-band coverage matrix, four-way Codex comparison and lineage note are in data/audit/rya1173_al_agss21_census/. ⚠️ THIS CLOSES ONE GATE, NOT THE INTAKE: the census's own finding is that Al I 10768.363 A -- one of the six lines carrying AGSS21's adopted A(Al) = 6.43 -- is ABSENT from canonical_gf, so that value cannot be replicated on our line list.
+
+### D3-lineage - AGSS21's Al value traced to its line-level source: **PASS**
+
+AGSS21 publishes no Al line list. Its section 'Aluminium (Z = 13)' adopts Nordlander & Lind (2017), who 'adopted the same lines and line data as in Scott et al. (2015b), except that they excluded the 1089.1 nm line due to telluric contamination', giving A(Al) = 6.43 +/- 0.03. ⚠️ CORRECTION TO THIS CHECK'S OWN EARLIER TEXT: that is a SIX-line set, not five. AGSS21's prose says 'these five Al i lines', but Scott retains seven and NL2017 removes exactly one, and NL2017's Fig. 8 names the six survivors individually. The '5' reproduces from neither source AGSS21 cites; RYA-1173 carries six and records the conflict. The published NEGATIVE selection (10891.732 A, telluric) is preserved as a flagged row rather than dropped, per RYA-946.
+
+### D4 - Every 'critically evaluated' row carries a resolvable source: **FAIL**
+
+19 of 19 CRITICALLY_EVALUATED rows have `gf_source_doi` EMPTY — no DOI, no bibcode, no table id. A5 requires that every evaluated row's source resolve and state the claimed value; not one of them points anywhere. `source_bibliography.csv` cites Kelleher & Podobedova 2008 (JPCRD 37, 709) as the evaluated source, but the values actually come from a NIST ASD pull (`data/linelists/nist_pulls/*.tsv`, 2026-08-09, RYA-708) — a different NIST product, and nothing records which was used.
+
+### D4-values - Evaluated log gf reproduce the NIST pull, sums included: **PASS**
+
+All 19 reproduce the pulled NIST ASD value exactly, and the five multi-component features are correctly SUMMED rather than taking the strongest row: 7836.134 = log10(10^-0.534 + 10^-1.834) = -0.5131 and 8773.896 = log10(10^-0.192 + 10^-1.495) = -0.1709, both matching the manifest. The values are right.
+
+### D4-grades - A summed feature is graded by its WORST component: **FAIL**
+
+5 of 19 evaluated rows are multi-component sums graded with the BEST component's grade while a strictly worse one exists in the same feature — the census carries `nist_grade_worst` in the very next column and RYA-1132 reads `nist_grade`. A sum cannot be more accurate than its worst term. The worst case is 6906.287 A, graded C (<=25%) over a component NIST grades E (>50%), and its `gf_sigma_dex` follows the optimistic grade at 0.109 dex instead of >=0.30.
+
+### D4-lineage - The evaluated tier is evaluated data, not theory in a better coat: **FAIL**
+
+All 19 CRITICALLY_EVALUATED rows trace, through NIST's own Source column, to Mendoza et al. — the Opacity Project ab-initio calculation — split across fine structure by LS coupling. 'Critically evaluated' names NIST's editorial process, not the nature of the underlying data, and the manifest offers no column that distinguishes an evaluated LABORATORY value from an evaluated THEORETICAL one. Under RYA-946's 'replicate the line list' doctrine these 19 rows are theory, and Al's red-optical band — 7835/7836, 8772/8773 and the rest — rests entirely on them. NIST alone is not a laboratory source.
+
+### D5 - Every band and every catalogued instrument checked, not just holdings: **PASS**
+
+All 505 Al lines were swept against all 24 catalogued instruments that are not `rejected` and reach R >= 20000 (calspec_solar is excluded at R = 150-300, which is not a measurement route). 0 lines are beyond every one of them. The instrument catalog says the manifest's whole wavelength span is reachable.
+
+### D5-outside - `OUTSIDE_CURRENT_REACH` means no instrument can reach it: **FAIL**
+
+4 rows are labelled `OUTSIDE_CURRENT_REACH` — and `measurement_suitability_status = OUTSIDE_CURRENT_REACH` with them — while the catalog lists 4 high-resolution instruments covering each: crires_plus (950-5300 nm, R 50k-100k), ishell, nirspec and phoenix. These are the four Burheim mid-IR GF-LAB lines at 3.86-4.19 um, the intake's own 'completeness controls'. The honest label is NO HOLDING, not out of reach: the manifest collapses 'we hold no spectrum' into 'the universe is out of range', and only the second one closes a question.
+
+### D5-blank - A blank `instrument_reach` distinguishes no-holding from no-instrument: **FLAG**
+
+400 of 505 rows carry a BLANK `instrument_reach` while a catalogued high-resolution instrument covers them, 13 of those graded. The column conflates three different states — no instrument exists (0 rows), an instrument exists but we hold no spectrum, and we hold a spectrum the coverage module cannot see (check C) — into one blank. Three classes, not one.
+
 ### NO-MUTATION - No intake artifact was modified by this QA: **PASS**
 
-22 audited files hashed before and after every read; 0 changed. This auditor writes only under `data/audit/rya1141_al_intake_qa` and excludes its own source file by name.
+22 audited files hashed before and after every read, AND the whole working tree diffed against its state at the start of this run for any change outside `data/audit/rya1141_al_intake_qa`. 0 changed. This auditor excludes its own source file by name, never by pattern.
 
 ## Findings
 
 | severity | check | subject | finding |
 | --- | --- | --- | --- |
 | CRITICAL | A2 | `scripts/build_al_intake_rya1132.py:ingest_new_lab_sources` | Promotion join is wavelength-only, forbidden by RYA-1034 |
+| CRITICAL | A2 | `scripts/audit_line_keys_rya1037.py` | The repo-wide wavelength-only guard does not detect the RYA-1132 join |
 | CRITICAL | A2 | `alphys_II_3587.0720_0333` | One manifest line claimed by two different physical transitions |
 | CRITICAL | A3 | `data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status` | 'COMPONENT_SUM_VERIFIED' is asserted from a count, never from a sum |
 | CRITICAL | A3 | `canonical_gf Al I 3944.006` | hfs_n_components is wrong and the intake stamped it verified and promoted it |
@@ -215,6 +291,14 @@ The column mixes three vocabularies: gf provenance tiers (GF-LAB, VALD3, UNRESOL
 | CRITICAL | A6 | `alphys_I_13123.4160_0423 (13123.416 A)` | Competing Vujnovic primary-lab gf derived in this ticket and then dropped |
 | CRITICAL | C | `alphys_I_13123.4160_0423 (13123.416 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
 | CRITICAL | C | `alphys_I_13150.7530_0425 (13150.753 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
+| CRITICAL | D3 | `al_line_manifest.csv` | No `line_set` column — products measured from this pool cannot key (RYA-1127) |
+| CRITICAL | D4 | `alphys_I_6906.2870_0359 (6906.287 A)` | Summed feature graded by its best component, not its worst |
+| CRITICAL | D4 | `alphys_I_7084.6430_0368 (7084.643 A)` | Summed feature graded by its best component, not its worst |
+| CRITICAL | D4 | `alphys_I_7362.2960_0380 (7362.296 A)` | Summed feature graded by its best component, not its worst |
+| CRITICAL | D4 | `alphys_I_7836.1340_0387 (7836.134 A)` | Summed feature graded by its best component, not its worst |
+| CRITICAL | D4 | `alphys_I_8773.8961_0394 (8773.896 A)` | Summed feature graded by its best component, not its worst |
+| CRITICAL | D4 | `scripts/build_al_intake_rya1132.py:source_type` | NIST is tested before THEORY, so Opacity-Project values can never be typed THEORETICAL |
+| CRITICAL | D4 | `al_line_manifest.csv (19 rows)` | Opacity Project theory typed CRITICALLY_EVALUATED across Al's whole red-optical band |
 | HIGH | A1 | `table5.dat row 1` | CDS flag column `n_Lambda` = '*' is dropped by the parser |
 | HIGH | A6 | `alphys_I_13150.7530_0425 (13150.753 A)` | Competing Vujnovic primary-lab gf derived in this ticket and then dropped |
 | HIGH | A6 | `alphys_I_21093.0290_0480 (21093.029 A)` | Competing Vujnovic primary-lab gf derived in this ticket and then dropped |
@@ -239,6 +323,29 @@ The column mixes three vocabularies: gf provenance tiers (GF-LAB, VALD3, UNRESOL
 | HIGH | C | `alphys_I_19482.2860_0468 (19482.286 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
 | HIGH | C | `alphys_I_19497.7080_0469 (19497.708 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
 | HIGH | C | `alphys_I_24985.9530_0499 (24985.953 A)` | Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap |
+| HIGH | D4 | `alphys_I_6905.6460_0358 (6905.646 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_6906.2870_0359 (6906.287 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7083.9690_0367 (7083.969 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7084.6430_0368 (7084.643 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7327.4700_0376 (7327.470 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7335.6480_0377 (7335.648 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7335.9870_0378 (7335.987 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7361.5680_0379 (7361.568 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7362.2960_0380 (7362.296 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7606.1600_0383 (7606.160 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7614.8200_0384 (7614.820 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7615.3370_0385 (7615.337 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7835.3090_0386 (7835.309 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_7836.1340_0387 (7836.134 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_8065.9680_0390 (8065.968 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_8075.3530_0391 (8075.353 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_8076.2890_0392 (8076.289 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_8772.8650_0393 (8772.865 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D4 | `alphys_I_8773.8961_0394 (8773.896 A)` | CRITICALLY_EVALUATED row carries no DOI, bibcode or table id |
+| HIGH | D5 | `alphys_I_38622.2966_burheim08 (38622.297 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
+| HIGH | D5 | `alphys_I_38710.6325_burheim09 (38710.633 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
+| HIGH | D5 | `alphys_I_41830.0124_burheim10 (41830.012 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
+| HIGH | D5 | `alphys_I_41909.2708_burheim11 (41909.271 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
 | MEDIUM | A1 | `table2.dat row 5` | CDS flag column `l_e_Aki` = '>' is dropped by the parser |
 | MEDIUM | A1 | `table2.dat row 6` | CDS flag column `l_e_Aki` = '>' is dropped by the parser |
 | MEDIUM | A1 | `table2.dat row 10` | CDS flag column `n_Aki` = ')' is dropped by the parser |
@@ -256,6 +363,7 @@ The column mixes three vocabularies: gf provenance tiers (GF-LAB, VALD3, UNRESOL
 | MEDIUM | B3 | `alphys_I_8772.8650_0393 (8772.865 A)` | Manifest calls ELIGIBLE a line the RYA-1001 census tiered CANDIDATE-BLENDED |
 | MEDIUM | B3 | `alphys_I_11253.1890_0406 (11253.189 A)` | Manifest calls ELIGIBLE a line the RYA-1001 census tiered CANDIDATE-BLENDED |
 | MEDIUM | B3 | `alphys_I_15956.6750_0449 (15956.675 A)` | Manifest calls ELIGIBLE a line the RYA-1001 census tiered CANDIDATE-BLENDED |
+| MEDIUM | D2 | `vujnovic2002_normalized.csv` | No column records that 4 rows' fine-structure split is theoretical, not measured |
 
 ## Independently reproduced inventory
 
