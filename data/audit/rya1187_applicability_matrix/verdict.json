@@ -7,8 +7,9 @@
     "ABSENT_NO_COVERAGE": 21,
     "LIVE": 20,
     "ABSENT_NO_LAB_LINE_AT_THIS_DEPTH": 9,
-    "GAP": 8,
-    "ABSENT_NO_REFERENCE_LINE": 2
+    "ABSENT_ENGINE_DOMAIN": 7,
+    "ABSENT_NO_REFERENCE_LINE": 2,
+    "BLOCKED_BAND_TABLE_CONFLICT": 1
   },
   "engine_by_verdict": {
     "LIVE": 14,
@@ -18,88 +19,7 @@
     "ABSENT_NO_NLTE_LABELS_IN_BAND_LINELIST": 2
   },
   "silent_empties": 0,
-  "owed_products": [
-    {
-      "holding": "solar_kpno_kurucz2005_corrected",
-      "band": "red-optical",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 16,
-      "covered_A": [
-        6910.0,
-        9199.0
-      ]
-    },
-    {
-      "holding": "solar_kpno_kurucz2005_corrected",
-      "band": "NIR",
-      "grade": "Codex Grade",
-      "n_lines_at_grade": 24,
-      "covered_A": [
-        9199.0,
-        10000.0
-      ]
-    },
-    {
-      "holding": "solar_kpno_kurucz2005_corrected",
-      "band": "NIR",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 1,
-      "covered_A": [
-        9199.0,
-        10000.0
-      ]
-    },
-    {
-      "holding": "solar_kpno_molecfit_corrected",
-      "band": "red-optical",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 16,
-      "covered_A": [
-        6910.0,
-        9199.0
-      ]
-    },
-    {
-      "holding": "solar_kpno_molecfit_corrected",
-      "band": "NIR",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 1,
-      "covered_A": [
-        9199.0,
-        13000.0
-      ]
-    },
-    {
-      "holding": "solar_iag",
-      "band": "red-optical",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 16,
-      "covered_A": [
-        6910.0,
-        9199.0
-      ]
-    },
-    {
-      "holding": "solar_iag",
-      "band": "NIR",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 1,
-      "covered_A": [
-        9199.0,
-        10650.0
-      ]
-    },
-    {
-      "holding": "solar_crires_plus_y_wide_rya1054",
-      "band": "NIR",
-      "grade": "Reference Grade",
-      "n_lines_at_grade": 1,
-      "covered_A": [
-        9479.3,
-        13000.0
-      ]
-    }
-  ],
+  "owed_products": [],
   "\ud83d\udd34 emit_blocked_here": {
     "blocked": true,
     "why": "this checkout cannot run a synthesis: `import ispec` fails on the Mac, the spectra are staged at /mnt/codex-data on Sirius, and the near-UV linelist + iSpec's GES v6 are not in the repo. A product enters the feed through publish_product.py from a REAL artifact or it does not exist (RYA-1034); rows written without a run would be laundering.",
