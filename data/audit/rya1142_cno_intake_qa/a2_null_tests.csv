@@ -1,0 +1,16 @@
+leg,variant,unique,ambiguous,none,unique_frac
+primary(non-CO),BASELINE,278,9,41,0.8476
+primary(non-CO),NULL scrambled published_loggf,17,0,311,0.0518
+primary(non-CO),NULL scrambled lower_energy_eV,3,1,324,0.0091
+primary(non-CO),NULL wavelength displaced +20 cm-1,0,0,328,0.0000
+primary(non-CO),DROP loggf term,140,184,4,0.4268
+primary(non-CO),DROP lower_energy term,278,9,41,0.8476
+primary(non-CO),DROP vibrational band term,282,9,37,0.8598
+primary(non-CO),DROP wavelength window (band+E+gf only),58,229,41,0.1768
+CO,BASELINE,80,0,0,1.0000
+CO,NULL scrambled published_loggf,0,0,80,0.0000
+CO,NULL scrambled lower_energy_eV,0,0,80,0.0000
+CO,NULL wavelength displaced +0.5 A,0,0,80,0.0000
+CO,DROP loggf term,80,0,0,1.0000
+CO,DROP lower_energy term,80,0,0,1.0000
+CO,DROP wavelength window,76,4,0,0.9500
