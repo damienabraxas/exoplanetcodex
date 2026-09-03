@@ -110,6 +110,11 @@ def test_line_set_stays_derived_and_is_never_stored_on_our_own_products(feed):
     from pipeline.model_registry import LINE_SETS
     from pipeline.reference_lineset import line_set_for_product
     for p in feed["products"]:
+        if p.get("line_set"):
+            # RYA-1185: a REPLICATION product stores the axis — the documented exception
+            # in `line_set_for_product`. Ours, below, still must not.
+            assert p["line_set_resolved"] == p["line_set"]
+            continue
         assert "line_set" not in p, "our own products must not STORE the axis (RYA-1127)"
         assert p["line_set_resolved"] in LINE_SETS
         assert p["line_set_resolved"] == line_set_for_product(p)
@@ -156,21 +161,27 @@ def test_aliased_means_a_provably_different_pool(feed):
             assert "cannot be proven" in p["xi_note"]
 
 
-def test_part3_is_deferred_rather_than_published_around_the_gate(feed):
-    """🔴 Part 3 asked to fold the four RYA-1106 Asplund products into the feed. Appending
-    them from this script was TRIED and it broke 24 tests — RYA-1092's eligibility gate,
-    RYA-1034's 'every product states where it came from', and RYA-1111's own entrypoint
-    guard each caught a row that had bypassed them. A product enters through the canonical
-    publisher or not at all. The assembled record is still built, so the follow-up has it."""
-    import sys
-    sys.path.insert(0, str(ROOT / "scripts"))
-    import rya1178_emit_fe_schema as M
-    assert not [p for p in feed["products"] if p.get("line_set") == "asplund"]
-    hold, inst, models, _ = M.load_sources()
-    rows = M.asplund_products(models, hold)
-    assert len(rows) == 4
-    for r in rows:
-        assert r["line_set"] == "asplund" and r["grade"] == "Asplund Grade"
+def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
+    """🔴 Part 3 asked to fold the four RYA-1106 Asplund products into the feed. RYA-1178
+    TRIED appending them from the emitter and it broke 24 tests — RYA-1092's eligibility
+    gate, RYA-1034's 'every product states where it came from', and RYA-1111's own
+    entrypoint guard each caught a row that had bypassed them. A product enters through the
+    canonical publisher or not at all, so RYA-1178 deferred it.
+
+    ✅ RYA-1185 LANDED IT THE OTHER WAY: `scripts/publish_product.py --line-set asplund`,
+    which is the route RYA-1178 named. This test now asserts the OUTCOME and, crucially,
+    that they came in through the publisher — every one carries the publisher's provenance
+    block (host, sha256, artifact mtime), which is exactly what a hand-appended row lacks
+    and what the 24 failures were about."""
+    asp = [p for p in feed["products"] if p.get("line_set") == "asplund"]
+    assert len(asp) == 4, "the four RYA-1106 Asplund replications"
+    for r in asp:
+        assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
+        assert r["treatment"] == "ENGINE-A-3DNLTE" and r["selector"] == "ASPLUND_AGSS21"
+        # the publisher's fingerprint — a hand-appended row has none of this
+        prov = r["provenance"]
+        assert prov["sha256"] and prov["artifact_mtime"] and prov["ingested_at"]
+        assert prov["copied_to"].startswith("data/results/rya1106/")
         assert r["science_provenance"]["gf_citation"].startswith("Asplund")
 
 
