@@ -54,8 +54,7 @@ C,HIGH,alphys_I_19482.2860_0468 (19482.286 A),Census NIR line relabelled OUTSIDE
 C,HIGH,alphys_I_19497.7080_0469 (19497.708 A),Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap,"census band=NIR, blind spot=crires_plus, gf_grade=EXCLUDED-SHALLOW, suitability=CANDIDATE_NOT_SELECTED"
 C,HIGH,alphys_I_24985.9530_0499 (24985.953 A),Census NIR line relabelled OUTSIDE_CURRENT_INSTRUMENT_REACH by a band() gap,"census band=>24000A (NO DECLARED POLICY), blind spot=nan, gf_grade=EXCLUDED-NO-HOME, suitability=CANDIDATE_NOT_SELECTED"
 D2,MEDIUM,vujnovic2002_normalized.csv,"No column records that 4 rows' fine-structure split is theoretical, not measured","`intensity_ratio` is NaN for exactly 13123.41, 13150.76, 21093.04, 21163.75; the paper's prose is the only thing that says why."
-D3,CRITICAL,al_line_manifest.csv,No `line_set` column — products measured from this pool cannot key (RYA-1127),"canonical vocabulary: ('-', 'asplund', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all')"
-D3,CRITICAL,data/audit/rya1132_al_intake/al_line_manifest.csv,"Al frozen through RYA-946's census gate, with no census and no exception",164 rows intake_status=FROZEN; data/reference/ has ['asplund2021_fe']
+D3,CRITICAL,al_line_manifest.csv,No `line_set` column — products measured from this pool cannot key (RYA-1127),"canonical vocabulary: ('-', 'asplund', 'asplund-al', 'gbs', 'our-graded', 'our-deep-graded', 'our-ungraded', 'our-all')"
 D4,HIGH,alphys_I_6905.6460_0358 (6905.646 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-D, gf_grade=D, gf_sigma_dex=0.1760912591"
 D4,HIGH,alphys_I_6906.2870_0359 (6906.287 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C, gf_grade=C, gf_sigma_dex=0.1091444694"
 D4,HIGH,alphys_I_7083.9690_0367 (7083.969 A),"CRITICALLY_EVALUATED row carries no DOI, bibcode or table id","gf_source=NIST-C+, gf_grade=C+, gf_sigma_dex=0.0718820073"

@@ -1,0 +1,261 @@
+{
+  "ticket": "RYA-1173",
+  "artifact": "asplund2021_al_lines.csv",
+  "what": "The AGSS21-lineage SOLAR Al reference line set: the seven Al I lines Scott et al. 2015b retained, six of which carry the A(Al) = 6.43 that AGSS21 adopts, plus the seventh as a PRESERVED published exclusion.",
+  "generator": "scripts/rya1173_build_asplund_al_lineset.py",
+  "🔴 agss21_publishes_no_al_line_list": "Unlike Fe (AGSS21 Table A.2, RYA-1109), AGSS21 publishes no Al table at all. This set is RECONSTRUCTED from the two papers AGSS21 cites. `SOURCE_LINE_LIST_NOT_PUBLISHED` does NOT apply: the primaries publish the rows, and they are here.",
+  "lineage": [
+    {
+      "step": 1,
+      "paper": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141",
+      "doi": "10.1051/0004-6361/202140445",
+      "contributes": "the adopted solar value A(Al) = 6.43 +/- 0.03, and NOTHING per line"
+    },
+    {
+      "step": 2,
+      "paper": "Nordlander & Lind 2017, A&A 607, A75",
+      "doi": "10.1051/0004-6361/201730427",
+      "contributes": "the analysis AGSS21 adopts; Table A.1 = per-line level identity, E_low, log gf, log gf sigma, VdW; Sect. 3.1.5 = the telluric exclusion; Fig. 8 = the six used lines, named"
+    },
+    {
+      "step": 3,
+      "paper": "Scott, Grevesse, Asplund et al. 2015b, A&A 573, A25",
+      "doi": "10.1051/0004-6361/201424109",
+      "contributes": "the SELECTION (seven lines), the solar EWs, the line weights, the five-model LTE abundances and the 3D+NLTE result, and Table 3's level J identity"
+    }
+  ],
+  "source_copies_read": {
+    "note": "Two copies of one paper are not interchangeable (RYA-1110): both were read for both primaries, and here they agree row for row.",
+    "nordlander_lind2017": [
+      "PUBLISHED: https://www.aanda.org/articles/aa/full_html/2017/11/aa30427-17/ (article + T1 + T2 = Table A.1 + T3 = Table A.2), retrieved 2026-09-03",
+      "arXiv:1708.01949v2 PDF text layer"
+    ],
+    "scott2015b": [
+      "PUBLISHED: https://www.aanda.org/articles/aa/full_html/2015/01/aa24109-14/ (T1 = Table 1, T4 = Table 2, T6 = Table 3), retrieved 2026-09-03",
+      "arXiv:1405.0279v2 PDF, local at 'Reference documents/1405.0279v2.pdf'"
+    ],
+    "asplund2021": [
+      "local PDF 'Reference documents/aa40445-21.pdf'"
+    ]
+  },
+  "🔴 published_line_count_conflict": {
+    "scott2015b": 7,
+    "nordlander_lind2017": 6,
+    "agss21_prose": 5,
+    "adopted_here": 6,
+    "authority": "the PRIMARY. NL2017 Sect. 3.1.5 removes exactly one line from Scott's seven, and Fig. 8's axis names the remaining six individually: 6696 6698 7835 8912 10768 10872.",
+    "why_not_five": "AGSS21's 'these five Al i lines' reproduces from neither source it cites. It is recorded, NOT resolved: see raw/lineage_quotations.md for the two candidate explanations, neither of which any of the three papers states.",
+    "consequence": "A downstream reader must not inherit 'five'. A replication measuring this set measures SIX lines."
+  },
+  "🔴 the_gf_are_theory": "Every log gf in this set is Opacity Project / TOPbase (Mendoza et al. 1995) under the LS-coupling assumption -- theory, not laboratory. Scott says so in Sect. 5.3 and NL2017's per-line reference code agrees on all seven. So the AGSS21-lineage Al set is NOT a lab-gf set, and matching a Codex line to it is NOT evidence of a gf grade (RYA-946: 'an AGSS21 abundance value is not a gf grade').",
+  "selection_note": "10891.732 A is IN this file, flagged EXCLUDED_BY_SOURCE_ANALYSIS with NL2017's published reason (telluric contamination). Scott's Table 2 EW, weight and abundances for it are carried too, so the exclusion can be audited rather than believed.",
+  "band_scope": "The six used lines span VIS (6696, 6698), red-optical (7835, 8912) and NIR (10768, 10872) on this repo's band vocabulary; the excluded line is NIR. There is NO FUV/NUV/near-UV/J/H/K line in the solar abundance set -- and that is a published selection, not a coverage gap: NL2017 analyses the 3961 A resonance line, the 13123/16750 A IR lines and the 12.33 micron emission line as DIAGNOSTICS, and none of them enters the abundance. `nordlander_lind_2017_analysis_lines.csv` carries all 55 Table A.1 rows with that distinction made per row.",
+  "not_the_same_as": "data/reference/asplund2021_fe/ is AGSS21's OWN published Fe table. This set is a RECONSTRUCTION from AGSS21's cited primaries, and its line_set axis value is `asplund-al`, never `asplund` -- the two are different provenance chains and must never share a product-key value.",
+  "controls": {
+    "C1_scott_table1": {
+      "weighted_means_nlte": {
+        "a_lte_3d": 6.4298,
+        "a_lte_mean3d": 6.447,
+        "a_lte_hm": 6.4795,
+        "a_lte_marcs": 6.397,
+        "a_lte_miss": 6.4691,
+        "3D_minus_HM": -0.0497,
+        "3D_minus_mean3D": -0.0172,
+        "recommended": 6.4298
+      },
+      "published": {
+        "a_lte_3d": 6.43,
+        "a_lte_mean3d": 6.45,
+        "a_lte_hm": 6.48,
+        "a_lte_marcs": 6.4,
+        "a_lte_miss": 6.47,
+        "3D_minus_HM": -0.05,
+        "3D_minus_mean3D": -0.02,
+        "recommended": 6.43,
+        "recommended_sigma": 0.04,
+        "meteoritic": 6.43,
+        "meteoritic_sigma": 0.01
+      },
+      "n_checks": 8,
+      "lte_reading_measured_negative": {
+        "means": {
+          "a_lte_3d": 6.4188,
+          "a_lte_mean3d": 6.436,
+          "a_lte_hm": 6.4685,
+          "a_lte_marcs": 6.386,
+          "a_lte_miss": 6.4581
+        },
+        "n_of_5_reproducing": 0,
+        "note": "Every LTE-only mean lands exactly 0.01 dex below the published value while 3D-HM and 3D-<3D> still reproduce -- a wrong reading that looks nearly right. This is why the caption, not the arithmetic, decides."
+      },
+      "weight_direction_discriminant": {
+        "weights_as_transcribed_larger_is_better": 6.4298,
+        "unweighted": 6.4187,
+        "weights_inverted_smaller_is_better": 6.4126
+      },
+      "status": "PASS"
+    },
+    "C2_nlte_column": {
+      "max_residual_dex": 0.0,
+      "n_lines": 7,
+      "status": "PASS"
+    },
+    "C3_cross_paper_level_join": {
+      "n_matched": 7,
+      "n_expected": 7,
+      "max_wavelength_disagreement_A": 0.008,
+      "wavelength_disagreement_note": "MEASURED, and it is why the join is on the LEVEL: the two primaries print the same transition at wavelengths up to 0.008 A apart, 2x the line_match 0.005 A default.",
+      "pairs": [
+        {
+          "scott_lambda_nm": "669.6023",
+          "scott_lambda_A": 6696.023,
+          "nl_wavelength_A": 6696.015,
+          "delta_A": -0.008,
+          "level": "4s 2S J=1/2 -> 5p 2Po J=3/2",
+          "loggf": -1.569,
+          "elo_eV": 3.143
+        },
+        {
+          "scott_lambda_nm": "669.8673",
+          "scott_lambda_A": 6698.673,
+          "nl_wavelength_A": 6698.672,
+          "delta_A": -0.001,
+          "level": "4s 2S J=1/2 -> 5p 2Po J=1/2",
+          "loggf": -1.87,
+          "elo_eV": 3.143
+        },
+        {
+          "scott_lambda_nm": "783.5309",
+          "scott_lambda_A": 7835.309,
+          "nl_wavelength_A": 7835.309,
+          "delta_A": 0.0,
+          "level": "3d 2D J=3/2 -> 6f 2Fo J=5/2",
+          "loggf": -0.689,
+          "elo_eV": 4.022
+        },
+        {
+          "scott_lambda_nm": "891.2900",
+          "scott_lambda_A": 8912.9,
+          "nl_wavelength_A": 8912.9,
+          "delta_A": 0.0,
+          "level": "4p 2Po J=1/2 -> 6d 2D J=3/2",
+          "loggf": -1.963,
+          "elo_eV": 4.085
+        },
+        {
+          "scott_lambda_nm": "1076.8365",
+          "scott_lambda_A": 10768.365,
+          "nl_wavelength_A": 10768.363,
+          "delta_A": -0.002,
+          "level": "4p 2Po J=1/2 -> 5d 2D J=3/2",
+          "loggf": -2.02,
+          "elo_eV": 4.085
+        },
+        {
+          "scott_lambda_nm": "1087.2973",
+          "scott_lambda_A": 10872.973,
+          "nl_wavelength_A": 10872.975,
+          "delta_A": 0.002,
+          "level": "4p 2Po J=1/2 -> 6s 2S J=1/2",
+          "loggf": -1.326,
+          "elo_eV": 4.085
+        },
+        {
+          "scott_lambda_nm": "1089.1736",
+          "scott_lambda_A": 10891.736,
+          "nl_wavelength_A": 10891.732,
+          "delta_A": -0.004,
+          "level": "4p 2Po J=3/2 -> 6s 2S J=1/2",
+          "loggf": -1.027,
+          "elo_eV": 4.087
+        }
+      ],
+      "status": "PASS"
+    },
+    "C4_level_energy_identity": {
+      "n_rows": 55,
+      "n_upper_levels_with_2plus_rows": 14,
+      "medium": "AIR, measured not assumed (see air_reading_measured_negative)",
+      "max_Eup_spread_eV": 0.00036884,
+      "max_Elow_spread_eV": 0.0,
+      "tolerance_eV": 0.001,
+      "tolerance_basis": "E_low is printed to 3 decimals: +/-0.0005 eV per value, so two rows' E_up may differ by up to 0.001 eV. Lambda's 3-decimal printing contributes at most 1.4e-6 eV and is not binding.",
+      "air_reading_measured_negative": {
+        "max_Eup_spread_eV_if_column_read_as_vacuum": 0.00167175,
+        "ratio_to_air_reading": 4.53,
+        "note": "Treating the printed wavelengths as VACUUM inflates the worst spread past the tolerance. The two readings are separable and the table is AIR -- across the 2103-2660 A UV rows as well."
+      },
+      "detection_floor_A": {
+        "3d 2D J=3/2": 0.6897,
+        "4d 2D J=3/2": 14.3052,
+        "4d 2D J=5/2": 15.3026,
+        "4s 2S J=1/2": 1.1313,
+        "5d 2D J=3/2": 5.9606,
+        "5d 2D J=5/2": 6.3692,
+        "5f 2Fo J=5/2": 5.1801,
+        "5s 2S J=1/2": 23.4129,
+        "6d 2D J=3/2": 4.0829,
+        "6d 2D J=5/2": 4.3447,
+        "6f 2Fo J=5/2": 4.1278,
+        "6s 2S J=1/2": 7.1267,
+        "7d 2D J=3/2": 0.3596,
+        "7g 2G J=7/2": 36.2578
+      },
+      "sharpest_level": {
+        "level": "7d 2D J=3/2",
+        "floor_A": 0.3596
+      },
+      "⚠️ blindest_level": {
+        "level": "7g 2G J=7/2",
+        "floor_A": 36.2578,
+        "note": "Sensitivity is hc/lambda^2. This control cannot see a wavelength error smaller than this in this group, and PASS must not be read as uniform coverage across the table."
+      },
+      "mutation_probe": {
+        "level": "7d 2D J=3/2",
+        "displacement_A": 0.7192,
+        "spread_after_eV": 0.00192,
+        "note": "sized to the group's own detection floor, not a fixed nudge"
+      },
+      "status": "PASS"
+    },
+    "C5_fig8_set": {
+      "derived": [
+        6696,
+        6698,
+        7835,
+        8912,
+        10768,
+        10872
+      ],
+      "fig8_axis": [
+        6696,
+        6698,
+        7835,
+        8912,
+        10768,
+        10872
+      ],
+      "label_rule": "wavelength truncated to the integer angstrom, as the axis prints it",
+      "labels_unique_within_tableA1": true,
+      "nearest_non_member_A": {
+        "8912 vs": 8923.555,
+        "10872 vs": 10891.732,
+        "7835 vs": 7836.134,
+        "note": "the nearest Table A.1 rows that do NOT carry a Fig. 8 label"
+      },
+      "status": "PASS"
+    }
+  },
+  "counts": {
+    "n_rows": 7,
+    "n_used": 6,
+    "n_excluded_by_source": 1,
+    "n_analysis_lines_tableA1": 55,
+    "analysis_roles": {
+      "ANALYSIS_LINE_ROLE_NOT_STATED_PER_LINE": 43,
+      "SOLAR_ABUNDANCE_USED": 6,
+      "SOLAR_DIAGNOSTIC_NAMED_IN_TEXT": 5,
+      "SOLAR_ABUNDANCE_EXCLUDED_TELLURIC": 1
+    }
+  }
+}
