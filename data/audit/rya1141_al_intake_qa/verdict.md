@@ -58,6 +58,12 @@
 | D5 | Every band and every catalogued instrument checked, not just holdings | **PASS** |
 | D5-outside | `OUTSIDE_CURRENT_REACH` means no instrument can reach it | **FAIL** |
 | D5-blank | A blank `instrument_reach` distinguishes no-holding from no-instrument | **FLAG** |
+| E1 | Intake gate check 3 — extraction threshold is the canonical 0.001 | **PASS** |
+| E2 | Intake gate check 4 PRIMARY — HFS split-group signature (Al is HFS-capable) | **PASS** |
+| E3 | Merge schema carries `extraction_source` and `wavelength_convention` | **FAIL** |
+| E4 | Merge dedup key can tell an HFS component from a duplicate | **FAIL** |
+| E5 | Quarantine-source guard — no Al line drawn from a quarantined delivery | **PASS** |
+| E6 | codex-data-audit — three conditioning axes, three columns, never collapsed | **FAIL** |
 | NO-MUTATION | No intake artifact was modified by this QA | **PASS** |
 
 ## Detail
@@ -270,6 +276,30 @@ All 505 Al lines were swept against all 24 catalogued instruments that are not `
 
 400 of 505 rows carry a BLANK `instrument_reach` while a catalogued high-resolution instrument covers them, 13 of those graded. The column conflates three different states — no instrument exists (0 rows), an instrument exists but we hold no spectrum, and we hold a spectrum the coverage module cannot see (check C) — into one blank. Three classes, not one.
 
+### E1 - Intake gate check 3 — extraction threshold is the canonical 0.001: **PASS**
+
+Effective detection depth = min(central_depth) = 0.001, matching the canonical 0.001 ratified in RYA-387. Not the EW-era 0.05 that the recipe calls an under-deep heterogeneous-list defect (RYA-381). The Al pool the manifest inherits is synthesis-grade.
+
+### E2 - Intake gate check 4 PRIMARY — HFS split-group signature (Al is HFS-capable): **PASS**
+
+Al I 0.797, Al II 0.824 — both far above the recipe's HFS-OFF signature of ~0.02, so `linelist_solar.csv` is HFS-ON for Al and the census the manifest inherits carries split components. Control: Fe I reads 0.255 — Fe has nuclear spin I = 0 and no hyperfine structure, so the statistic reads low where it should and is measuring splitting rather than line density. The recipe's own warning that 'Fe is the exception that hides the bug' is respected: Al was tested directly, not inferred from an Fe pass.
+
+### E3 - Merge schema carries `extraction_source` and `wavelength_convention`: **FAIL**
+
+Both are absent: ['extraction_source', 'wavelength_convention']. The recipe's merge schema is '`linelist_solar.csv` columns + `extraction_source` (provenance per line) + `wavelength_convention` (`vacuum` for lambda < 2000 A, `air` for >= 2000 A — do not convert vacuum->air at merge)'. Neither column exists, so 42886 rows below 2000 A — VACUUM by the recipe's own rule — sit in a column NAMED `wavelength_air_A` with nothing to say otherwise. This is the root of the medium mislabel A4 found in the manifest: the manifest inherits the defect from the linelist, and the recipe specifies the column that would have prevented it.
+
+### E4 - Merge dedup key can tell an HFS component from a duplicate: **FAIL**
+
+It cannot, and the two halves of the recipe contradict each other. Part C keys overlap dedup on `(element, ion, round(lambda,3), round(EP,3))` and makes a log_gf disagreement > 0.001 on such a pair CRITICAL — 'report, do not silently pick'. Part B makes HFS-ON the PERMANENT convention. Under HFS-ON, split components of one transition share species, wavelength to 3 dp and EP to 3 dp while carrying DIFFERENT log_gf by construction: 136 of 140 Al duplicate keys exceed the threshold, spreads up to 1.71 dex. Applied literally the gate fires on legitimate components, so it cannot have been run as written. The skill even notes the gate 'is what caught the HFS mismatch' — it predates HFS-ON and was never reconciled with it.
+
+### E5 - Quarantine-source guard — no Al line drawn from a quarantined delivery: **PASS**
+
+0 Al rows carry quarantine provenance. `linelist_solar.csv` sources every Al line from VALD3, and the HFS-off / truncated / under-deep quarantine files in `data/linelists/` are provenance only, as RYA-378 requires.
+
+### E6 - codex-data-audit — three conditioning axes, three columns, never collapsed: **FAIL**
+
+The manifest carries 0 of the three: none. It collapses the whole question into one `telluric_risk` column of 3 values and records NO normalisation state at all, so a measurement taken from this frozen pool inherits none. The holdings registry does it correctly — it carries `telluric_applied` and `normalization_state` per holding — and 4 of 13 Solar holdings read `unknown` or are UNDECLARED there. The skill: '`unknown` is real and never defaulted — defaulting to normalised applies unity as a continuum and inflates every EW silently.' Nothing downstream of this manifest can see that.
+
 ### NO-MUTATION - No intake artifact was modified by this QA: **PASS**
 
 22 audited files hashed before and after every read, AND the whole working tree diffed against its state at the start of this run for any change outside `data/audit/rya1141_al_intake_qa`. 0 changed. This auditor excludes its own source file by name, never by pattern.
@@ -347,6 +377,9 @@ All 505 Al lines were swept against all 24 catalogued instruments that are not `
 | HIGH | D5 | `alphys_I_38710.6325_burheim09 (38710.633 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
 | HIGH | D5 | `alphys_I_41830.0124_burheim10 (41830.012 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
 | HIGH | D5 | `alphys_I_41909.2708_burheim11 (41909.271 A)` | Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it |
+| HIGH | E3 | `data/linelists/linelist_solar.csv` | Merge schema columns `extraction_source` and `wavelength_convention` absent |
+| HIGH | E4 | `skills/codex-vald-extraction Part C vs Part B` | The dedup key collides HFS components; the CRITICAL gate is unrunnable as written |
+| HIGH | E6 | `al_line_manifest.csv` | Three conditioning axes collapsed into one `telluric_risk` label |
 | MEDIUM | A1 | `table2.dat row 5` | CDS flag column `l_e_Aki` = '>' is dropped by the parser |
 | MEDIUM | A1 | `table2.dat row 6` | CDS flag column `l_e_Aki` = '>' is dropped by the parser |
 | MEDIUM | A1 | `table2.dat row 10` | CDS flag column `n_Aki` = ')' is dropped by the parser |
