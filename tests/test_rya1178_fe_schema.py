@@ -174,18 +174,27 @@ def test_part3_is_deferred_rather_than_published_around_the_gate(feed):
         assert r["science_provenance"]["gf_citation"].startswith("Asplund")
 
 
+#: The /1 element-product field set, pinned LITERALLY. /2 must be a strict superset.
+SCHEMA_V1_PRODUCT_FIELDS = frozenset({
+    "element", "ion", "band", "instrument", "holding", "tier", "selector", "treatment",
+    "display", "A", "sigma_stat", "sigma_syst", "n_lines", "n_excluded", "dominant_term",
+    "route", "provenance",
+})
+
+
 def test_the_schema_bump_is_additive_only(feed):
-    """/2 is only a safe superset if nothing was dropped. The one reader that pins the
-    identifier accepts both BECAUSE of that, so the claim has to be checked."""
-    import subprocess
-    old = json.loads(subprocess.run(
-        ["git", "show", "HEAD:data/products/solar/Fe.json"],
-        cwd=ROOT, capture_output=True, text=True, check=True).stdout)
+    """/2 is only a safe superset if nothing was dropped — the one reader that pins the
+    identifier accepts both BECAUSE of that, so the claim has to be checked.
+
+    🔴 PINNED LITERALLY, NOT DIFFED AGAINST `HEAD`. The first version of this test read
+    `git show HEAD:...`, which was the pre-change feed until the moment it was committed
+    and this test's own subject afterwards — a guard that silently starts comparing a
+    thing to itself. Never diff a moving ref.
+    """
     assert feed["schema"] == "codex.element_product/2"
-    assert old["schema"] == "codex.element_product/1"
-    assert set(old.keys()) <= set(feed.keys())
-    for a, b in zip(old["products"], feed["products"]):
-        assert set(a.keys()) <= set(b.keys()), "a field was dropped — /2 is not a superset"
+    for p in feed["products"]:
+        missing = SCHEMA_V1_PRODUCT_FIELDS - set(p)
+        assert not missing, f"/2 dropped {sorted(missing)} from {p['holding']}"
 
 
 def test_ir_products_name_their_irreducible(feed):
