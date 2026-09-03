@@ -1,5 +1,7 @@
 # Codex Ticket Sequence — chronological landing log
 
+> **Current as of `main` f3688d5** (2026-09-03, RYA-1185) — the landings below were rebuilt from `git log --merges --first-parent origin/main`, not from the previous text of this file. The 2026-08-31 and 2026-09-03 blocks were missing entirely: this log had stopped at 2026-08-30 while sixteen PRs merged.
+
 **Read this second, after `LEDGERS.md`, for a quick "what happened recently" catch-up.**
 
 One line per merged/landed ticket. Newest first. This is a narrative overlay on
@@ -14,6 +16,26 @@ superseded, add a new line noting the correction, don't edit the original).
 under ~140 chars per line. If you need more, it belongs in the register, not here.
 
 ---
+
+## 2026-09-03
+
+- **RYA-1185** — reconciled register/SEQUENCE/LEDGERS to merged reality (stamped `main f3688d5`) and consolidated `Fe.json` v1.87 → v1.92
+- **RYA-1185** (Part A) — folded the per-band dA/dxi into every product: **17 ALIASED + 13 KEY_AMBIGUOUS → 0**; MEASURED 19 → 51; no published A moved
+- **RYA-1185** (Part A) — carried the 4 RYA-1106 Asplund products into the feed through `publish_product.py --line-set asplund` (the route RYA-1178 named); feed 66 → 70
+- **RYA-1185** (Part A) — grades onto the ratified taxonomy: `Our Grade` → **Codex Grade** (42), `Asplund Grade` → **Reference Grade** (4), Deep Grade (24)
+- **RYA-1168** — dA/dxi for the four near-UV Fe pools; the missing run behind RYA-1113 F7 — the arm was never skipped, the BAND was
+- **RYA-1163** — dA/dxi for the three IR Fe pools; the xi campaign was band-pinned to VIS
+- **red-optical xi** — dA/dxi for the last band, the one nobody had a ticket for; completes per-band xi coverage
+- **RYA-1178** — re-emitted `Fe.json` on a complete publication schema (line_set, atlas/telluric state, wavelength range, xi terms, IR irreducible)
+- **RYA-1173** — built the AGSS21-lineage solar Al reference set from its primaries and enforced RYA-946's census gate; **AGSS21 publishes no Al line list**
+- **RYA-1142** (A6) — the A6 status now follows its own AST evidence instead of being hardcoded
+- **RYA-1143/1144/1150** — fixed the three CNO intake defects the QA found (wavelength-only N I join, echoed "published" values, verdict drift)
+- **RYA-1169** — Si gf-graded line sets + AGSS21 reference census; output deliberately **BLOCKED**, not frozen
+
+## 2026-08-31
+
+- **RYA-1160** — acquired NIST ASD C/N/O gf: 3,611 graded transitions, the first graded gf source CNO has ever had; O I 777 grade was overstated A+ vs A
+- **RYA-1141** (E-series) — audited the Al intake against the recipes the ticket actually names
 
 ## 2026-08-30
 
