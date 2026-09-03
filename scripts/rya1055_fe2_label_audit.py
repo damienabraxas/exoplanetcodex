@@ -23,6 +23,26 @@ WHAT IT CHECKS
 3. **The per-line layer agrees**, which is the sharper check of the two: `scale` is
    1D-NLTE on 159 Fe I rows and on ZERO Fe II rows, so the Gerber route never touched
    Fe II in anything we ship.
+4. **Every Fe II band product's own per-line artifact names its NLTE source**, line by
+   line. This is the strongest available form: `nlte_source` and `nlte_delta_dex` are
+   written at the point the correction is applied (RYA-880), so it is the run speaking
+   rather than a label being read.
+
+🔴 AND IT SETTLES THE CONTRADICTION RYA-1113 FILED ON THIS TICKET. That comment found a
+live Fe II near-UV NLTE leg at n=7 against its LTE sibling's n=12, and asked: if Fe II
+NLTE is structurally unavailable, *how does an n=7 Fe II NLTE leg exist AT ALL?* -- with
+two candidate answers, "it is not real NLTE" or "the atom has changed since". Both are
+wrong, and the per-line artifact RYA-908 has since emitted says so outright:
+
+    7 lines  nlte_delta_dex = -0.001, nlte_source = "Bergemann MPIA per-line delta_nlte
+             (live query, solar node); PER-LINE additive correction"
+    5 lines  excluded, "ENGINE-A-NOT-SERVED: the register..."
+
+So the leg IS real NLTE, from the MPIA per-line grid -- a source this ticket's finding
+never touched -- and this ticket's premise is intact (re-measured on the atom today: still
+zero Fe II bound-bound transitions). The n=7-vs-12 gap is MPIA SERVICE COVERAGE, not
+physics: ⚠️ the published Fe II near-UV NLTE delta is confounded with a 5-line pool
+change, exactly as RYA-1113 said, and that half of its finding stands unchanged.
 
 🔴 AND THE BALANCE IS QUOTED SCALE-MATCHED, WHICH THE HEADLINE PHRASING IS NOT.
 "Fe II VIS ~7.46 is consistent with the Fe I anchor 7.466" pairs two numbers that are NOT
@@ -151,6 +171,37 @@ def main(argv=None) -> int:
     if not nlte_scale["I"]:
         problems.append("the Fe I control is empty — the per-line check measures nothing")
 
+    # ── 4. what the RUNS say, line by line ──────────────────────────────────────────
+    # The label is read from `nlte_source`/`nlte_delta_dex`, written at the point the
+    # correction was applied (RYA-880) -- the run speaking, not a label being believed.
+    BP = ROOT / "data/results/band_products"
+    perline = []
+    for f in sorted(BP.glob("FeII_*_lines.csv")):
+        try:
+            import pandas as pd
+            d = pd.read_csv(f)
+        except Exception as e:                       # a report must not be the thing that breaks
+            problems.append(f"unreadable per-line artifact {f.name}: {e}")
+            continue
+        src = sorted({str(x) for x in d.get("nlte_source", []).dropna()}) \
+            if "nlte_source" in d.columns else []
+        delta = d["nlte_delta_dex"] if "nlte_delta_dex" in d.columns else None
+        n_dep = int((delta.fillna(0) != 0).sum()) if delta is not None else 0
+        gerber = [x for x in src if "erber" in x or "fe607a" in x]
+        if gerber:
+            problems.append(f"🔴 {f.name}: nlte_source names the Gerber deck {gerber}")
+        perline.append({
+            "artifact": f.name,
+            "n_lines": int(len(d)),
+            "n_in_aggregate": int(d["in_aggregate"].sum()) if "in_aggregate" in d else None,
+            "n_with_a_nonzero_departure": n_dep,
+            "nlte_delta_dex_values": sorted({round(float(x), 4) for x in
+                                             (delta.dropna() if delta is not None else [])}),
+            "nlte_source": src,
+            "excluded_reasons": sorted({str(x) for x in
+                                        d.get("excluded_reason", []).dropna()})[:4],
+        })
+
     # ── the balance, SCALE-MATCHED ──────────────────────────────────────────────────
     # 🔴 MATCHED ON THE FULL RYA-1127 IDENTITY MINUS THE ION -- band, instrument, holding,
     # tier, SELECTOR, ROUTE and treatment. Dropping `selector` is not a cosmetic looseness:
@@ -193,6 +244,19 @@ def main(argv=None) -> int:
         "n_taking_nlte_from_the_gerber_deck": sum(1 for r in rows
                                                   if r["takes_nlte_from_the_gerber_deck"]),
         "per_line_rows_on_an_nlte_scale": nlte_scale,
+        "band_product_per_line_nlte_sources": perline,
+        "rya1113_contradiction": (
+            "RESOLVED. RYA-1113 found a live Fe II near-UV NLTE leg at n=7 against its "
+            "LTE sibling's n=12 and asked how it can exist if Fe II NLTE is structurally "
+            "unavailable, offering two answers: it is not real NLTE, or the atom has "
+            "changed. BOTH ARE WRONG. The per-line artifact RYA-908 has since emitted "
+            "names the source outright -- 7 lines at nlte_delta_dex = -0.001 from "
+            "'Bergemann MPIA per-line delta_nlte (live query, solar node)', 5 excluded "
+            "'ENGINE-A-NOT-SERVED'. The leg is real NLTE from the MPIA grid, a source "
+            "this ticket's finding never touched, and the atom was re-measured today at "
+            "still-zero Fe II bound-bound transitions. ⚠️ RYA-1113's OTHER half stands "
+            "unchanged: the n=7-vs-12 gap is MPIA service coverage, so the published "
+            "Fe II near-UV NLTE delta IS confounded with a 5-line pool change."),
         "products": rows,
         "ionisation_balance_scale_matched": balance,
         "balance_note": _balance_note(balance),

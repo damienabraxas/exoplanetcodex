@@ -190,13 +190,17 @@ DECKS = {
 #     grid at the solar node (Teff 5800, logg 4.3/4.5, [Fe/H] 0) the Fe II deltas run
 #     -0.002 to +0.016 dex with a median of +0.000, and 146 of 160 entries sit inside
 #     +-0.005 — the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 /
-#     5169.033, all at +0.015. (Fe I control at the same
-#     node: median +0.011, up to +0.040.) On OUR OWN lines the effect is +0.001 dex on
-#     each of the three the KPNO VIS Fe II pool shares with the grid (6147.7341,
-#     6238.3859, 6247.5570; ENGINE-A minus 1D-LTE in data/products/solar/Fe_perline.csv).
-#     ⚠️ An earlier draft of this comment said "+-0.002 across the grid", read off the
-#     first five rows of a truncated summary. It is wrong by 8x at the tail; the numbers
-#     above are measured over the whole solar node.
+#     5169.033, all at +0.015. (Fe I control at the same node: median +0.011, up to
+#     +0.040.) What our live Fe II products ACTUALLY applied is -0.001 to -0.002 dex,
+#     recorded per line in each product's own `*_ENGINE-A_lines.csv` (`nlte_delta_dex` /
+#     `nlte_source`, RYA-880) -- the run speaking, not a label being read.
+#     ⚠️ TWO DRAFTS OF THIS COMMENT WERE WRONG, both by generalising from a neighbouring
+#     number. The first said "+-0.002 across the grid", read off the first five rows of a
+#     truncated summary -- wrong by 8x at the tail. The second said "+0.001 dex on
+#     6147.7341 / 6238.3859 / 6247.5570", which is a real measurement of the RYA-489
+#     replication product's 11-line 5256-6456 A Fe II set -- a DIFFERENT POOL from the
+#     live band product's 4233.162 / 4303.170 / 4583.829, and of the OPPOSITE SIGN. Quote
+#     the artifact the product was actually built from.
 #   * **Fe II <3D>-LTE is available** via the Frankenstein LTE leg (model 5,
 #     `synth-mean3D-LTE-gerber-stagger`): the <3D>-mean atmosphere is ION-AGNOSTIC, so
 #     Fe II synthesised on it in LTE gets a real <3D>-LTE treatment. RYA-1135 owns that
