@@ -12,6 +12,7 @@
     "A1-flags": "FAIL",
     "A2-control": "PASS",
     "A2": "FAIL",
+    "A2-repo-guard": "FAIL",
     "A2-null": "FAIL",
     "A2-resolution": "FLAG",
     "A2-6696": "PASS",
@@ -35,6 +36,7 @@
     "B1": "PASS",
     "B1-promotions": "PASS",
     "B1-yield": "FLAG",
+    "B2-control": "PASS",
     "B2": "PASS",
     "B3": "PASS",
     "B3-eligibility": "FLAG",
@@ -43,12 +45,25 @@
     "C-lines": "FAIL",
     "C-bands": "FAIL",
     "C-alIII": "FLAG",
+    "D1": "FLAG",
+    "D2": "PASS",
+    "D2-a6-correction": "FLAG",
+    "D3-lineset": "FAIL",
+    "D3": "PASS",
+    "D3-lineage": "PASS",
+    "D4": "FAIL",
+    "D4-values": "PASS",
+    "D4-grades": "FAIL",
+    "D4-lineage": "FAIL",
+    "D5": "PASS",
+    "D5-outside": "FAIL",
+    "D5-blank": "FLAG",
     "NO-MUTATION": "PASS"
   },
-  "n_findings": 53,
+  "n_findings": 86,
   "by_severity": {
-    "HIGH": 24,
-    "MEDIUM": 17,
-    "CRITICAL": 12
+    "HIGH": 47,
+    "CRITICAL": 21,
+    "MEDIUM": 18
   }
 }
