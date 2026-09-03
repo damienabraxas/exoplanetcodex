@@ -36,6 +36,11 @@ def canonical_targets() -> list[dict[str, str]]:
     return targets
 
 
+#: Element-product schema versions this reader is known to understand. /2 (RYA-1178)
+#: adds fields to /1 and removes none.
+ACCEPTED_SCHEMAS = frozenset({"codex.element_product/1", "codex.element_product/2"})
+
+
 def target_progress(star: str, name: str, canonical: list[dict[str, str]]) -> dict:
     completed = []
     for target in canonical:
@@ -43,8 +48,16 @@ def target_progress(star: str, name: str, canonical: list[dict[str, str]]) -> di
         if not path.is_file():
             continue
         document = json.loads(path.read_text(encoding="utf-8"))
-        if document.get("schema") != "codex.element_product/1" or document.get("star") != star:
-            raise ValueError(f"invalid product document: {path}")
+        #: RYA-1178 added fields to the element-product schema and bumped its identifier
+        #: to /2. The change is purely ADDITIVE -- no field was removed or renamed -- so a
+        #: /2 document satisfies every /1 reader, and this counter reads only `products`
+        #: and `ion`, both unchanged. Accepting the set (rather than loosening to a prefix
+        #: match) keeps this a deliberate compatibility statement: a /3 that DID drop a
+        #: field would still fail here, loudly, instead of being waved through.
+        if document.get("schema") not in ACCEPTED_SCHEMAS or document.get("star") != star:
+            raise ValueError(
+                f"invalid product document: {path} "
+                f"(schema {document.get('schema')!r} not in {sorted(ACCEPTED_SCHEMAS)})")
         current = document.get("products", [])
         # `products` is explicitly the store's CURRENT, publishable channel. Archive,
         # quarantine and gaps are separate arrays and therefore cannot inflate progress.
