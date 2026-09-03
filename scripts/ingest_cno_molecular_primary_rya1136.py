@@ -195,8 +195,19 @@ def main() -> None:
                         centroid = sum((1e8 / x.wavelength_vac_A) * x.gf for x in group) / total
                         subsets.append((abs(summed-loggf), abs(centroid-target_wn), group, summed))
             subset_candidate_count = len(subsets)
-            if subsets:
+            if len(subsets) > 1:
+                # 🔴 RYA-1144. This branch used to resolve the tie with
+                # min(subsets, key=...) -- an argmin over candidate IDENTITIES, which is
+                # the "nearest wins" defect RYA-1037 forbids, wearing a third hat
+                # (|dgf|, then centroid distance, then subset size). 26 of 32 rows had
+                # between 2 and 16 subsets that all reproduce the published loggf, and
+                # every one of them was counted as matched coverage. Finding A
+                # combination is not finding THE combination: refuse.
                 _, _, group, summed = min(subsets, key=lambda x: (x[0], x[1], len(x[2])))
+                summed_loggf = f"{summed:.6f}"
+                status, matches = "AMBIGUOUS_SUM_MATCH", list(group)
+            elif subsets:
+                _, _, group, summed = subsets[0]
                 summed_loggf = f"{summed:.6f}"
                 status, matches = "PRIMARY_UNRESOLVED_SUM_MATCH", list(group)
             else:
