@@ -1,10 +1,10 @@
 # RYA-1142 — independent QA of the RYA-1136/1131 CNO intake
 
-**4 PASS · 10 FAIL · 4 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
+**5 PASS · 8 FAIL · 5 FLAG** — findings-only; no intake artifact, atomic manifest, molecular constant or gf value was mutated (see `artifact_integrity.csv`).
 
 ## Verdict
 
-The CNO intake is **NOT independently verified**. Its census is real and its arithmetic reproduces exactly, but the gate stays closed on 10 findings, of which three are CRITICAL by the ticket's own list: a wavelength-only admission (A6), an ambiguity-tolerant argmin match (A2), and a molecular redistribution labelled primary (A4). A fourth, a missing checksum on the AGSS21 article, is what makes A1 and A7 unclosable.
+The CNO intake is **NOT independently verified**. Its census is real and its arithmetic reproduces exactly, but the gate stays closed on 8 findings, of which three are CRITICAL by the ticket's own list: a wavelength-only admission (A6), an ambiguity-tolerant argmin match (A2), and a molecular redistribution labelled primary (A4). A fourth, a missing checksum on the AGSS21 article, is what makes A1 and A7 unclosable.
 
 The blocked verdict is **not overstated** — nothing here reads freeze-ready, and all four of its stated blockers hold under independent recomputation. It is **understated**: three defects this QA found are absent from it, and one of them falsifies its own safety line.
 
@@ -13,7 +13,7 @@ The blocked verdict is **not overstated** — nothing here reads freeze-ready, a
 | Check | Title | Status |
 | --- | --- | --- |
 | A1 | AGSS21 count reconciliation | **PASS** |
-| A2 | Physical-identity crossmatch, never wavelength-alone | **FAIL** |
+| A2 | Physical-identity crossmatch, never wavelength-alone | **FLAG** |
 | A2b | identity_basis honesty (wavelength's real role) | **FLAG** |
 | A2c | RYA-1037/1033 guard still covers the intake | **FAIL** |
 | A3 | Molecular identity completeness | **FAIL** |
@@ -21,7 +21,7 @@ The blocked verdict is **not overstated** — nothing here reads freeze-ready, a
 | A4b | Primary-parser transcription validated physically | **PASS** |
 | A5 | Molecular constants provenance | **FAIL** |
 | A5b | Hand-set C2 energy-origin constant | **FLAG** |
-| A6 | Atomic side (C/N/O census, EP-aware joins) | **FAIL** |
+| A6 | Atomic side (C/N/O census, EP-aware joins) | **PASS** |
 | A6b | Atomic species completeness + the [O I] 6300 blend | **FAIL** |
 | A7 | Rejected / negative results retained | **FLAG** |
 | A8 | Band coverage across both domains (is this really UV-IR?) | **FLAG** |
@@ -80,11 +80,9 @@ Baseline reproduces the artifact exactly on all four quantities. Every tolerance
 
 ## Findings
 
-### A2 — Physical-identity crossmatch, never wavelength-alone · FAIL
+### A2 — Physical-identity crossmatch, never wavelength-alone · FLAG
 
-REPRODUCED EXACTLY: my independently re-implemented decision logic returns 278 unique / 9 ambiguous / 41 unresolved on the 328 non-CO rows and 80/80 unique on CO -- identical to the artifact on all four quantities. The three-field conjunction is REAL and the tolerances are EARNED: scrambling published_loggf collapses 278 unique to 17, scrambling lower_energy_eV to 3, and displacing wavelength by 20 cm-1 to 0. CO behaves the same way (80 -> 0 on scrambled gf). No wavelength-only admission exists in either molecular leg. BUT the acceptance set ACCEPTED_MOLECULAR_JOINS admits PRIMARY_UNRESOLVED_SUM_MATCH, and 26 of those 32 rows had MORE THAN ONE subset of primary components whose gf sum reproduces the published loggf (up to 16 viable subsets). build_cno_intake_rya1136.py resolves them with min(subsets, key=...) -- an argmin over candidate identities -- and then counts the result as matched coverage. That is the ambiguity-tolerant match the gate forbids: the matcher found A combination, not THE combination, and nothing downstream records that the identity was picked rather than determined.
-
-Offending rows: `1;2;3;5;6;8;9;10;11;13;15;17;19;21;24;29;30;31;32;33;34;36;39;54;65;66`
+REPRODUCED EXACTLY: my independently re-implemented decision logic returns 278 unique / 9 ambiguous / 41 unresolved on the 328 non-CO rows and 80/80 unique on CO -- identical to the artifact on all four quantities. The three-field conjunction is REAL and the tolerances are EARNED: scrambling published_loggf collapses 278 unique to 17, scrambling lower_energy_eV to 3, and displacing wavelength by 20 cm-1 to 0. CO behaves the same way (80 -> 0 on scrambled gf). No wavelength-only admission exists in either molecular leg. BUT the acceptance set ACCEPTED_MOLECULAR_JOINS admits PRIMARY_UNRESOLVED_SUM_MATCH, and 0 of those 6 rows had MORE THAN ONE subset of primary components whose gf sum reproduces the published loggf (up to 16 viable subsets). build_cno_intake_rya1136.py resolves them with min(subsets, key=...) -- an argmin over candidate identities -- and then counts the result as matched coverage. That is the ambiguity-tolerant match the gate forbids: the matcher found A combination, not THE combination, and nothing downstream records that the identity was picked rather than determined.
 
 ### A2b — identity_basis honesty (wavelength's real role) · FLAG
 
@@ -96,7 +94,7 @@ The guard exits clean and names NEITHER RYA-1136 script (unexpectedly reports on
 
 ### A3 — Molecular identity completeness · FAIL
 
-390 rows are treated as matched while 9 of 14 identity fields are absent from every artifact: isotopologue, J_upper, J_lower, branch_or_parity, E_upper, air_or_vacuum_frame, native_intensity_quantity, conversion_provenance, component_vs_band_normalisation. Two are not source limitations but losses in our own code: (1) J'' is parsed for all primary transitions and discarded -- it survives only as a factor inside gf; (2) system and vibrational band exist in primary_molecular_crossmatch.csv and are dropped when the builder merges into molecular_physical_crossmatch.csv. Two 'transition label' columns are not labels at all: every CO row carries an unsplit remainder of the Turbospectrum record, and every CH row carries branch + the o-c residual. Table 2 omitting rotational identity is the honest blocker RYA-1136 names; it does not explain discarding the identity the PRIMARY side does publish.
+364 rows are treated as matched while 9 of 14 identity fields are absent from every artifact: isotopologue, J_upper, J_lower, branch_or_parity, E_upper, air_or_vacuum_frame, native_intensity_quantity, conversion_provenance, component_vs_band_normalisation. Two are not source limitations but losses in our own code: (1) J'' is parsed for all primary transitions and discarded -- it survives only as a factor inside gf; (2) system and vibrational band exist in primary_molecular_crossmatch.csv and are dropped when the builder merges into molecular_physical_crossmatch.csv. Two 'transition label' columns are not labels at all: every CO row carries an unsplit remainder of the Turbospectrum record, and every CH row carries branch + the o-c residual. Table 2 omitting rotational identity is the honest blocker RYA-1136 names; it does not explain discarding the identity the PRIMARY side does publish.
 
 Offending rows: `isotopologue;J_upper;J_lower;branch_or_parity;E_upper;air_or_vacuum_frame;native_intensity_quantity;conversion_provenance;component_vs_band_normalisation`
 
@@ -115,12 +113,6 @@ Offending rows: `C2;CH;CN;NH;OH;CO`
 ### A5b — Hand-set C2 energy-origin constant · FLAG
 
 ingest_cno_molecular_primary_rya1136.py adds a hard-coded C2_LOWER_ORIGIN_EV = 0.0753 eV (607.3 cm-1) to every C2 lower energy before the identity test, with no citation and no bibliography row. Swept here: the constant is genuinely data-determined, not arbitrary -- it sits on a plateau of 580.7-645.2 cm-1 (64.5 cm-1 wide, set by the 0.005 eV energy tolerance), the code value lies inside it, and the null is clean: 881 of 1000 sampled offsets yield ZERO matches, with nothing at all outside 565.4-660.6 cm-1. So this is not a free parameter quietly absorbing error. Two things are still wrong with it. It is FITTED rather than sourced -- it was chosen by making the join succeed, which is the shape RYA-161 forbids, and A5 requires typed provenance for exactly this class of constant. And the code's justification, that the shift is 'independently visible across all 39 rows', is overstated: only 15 of the 39 C2 rows ever reach a unique match at the best offset; the other 24 are the sum-matched and strength-mismatched rows, which cannot witness it. Cite it, or derive it from the acquired Brooke/Chen holdings and record the derivation.
-
-### A6 — Atomic side (C/N/O census, EP-aware joins) · FAIL
-
-The C I / O I leg is sound: 17 C I and 26 O I rows from Amarsi 2019 Table 1 all route through nearest_canonical(), which requires wavelength AND excitation potential AND loggf and returns AMBIGUOUS or ABSENT rather than guessing -- 43 rows, EP-aware, correctly refusing. The N I leg is not. The five-line AGSS21 adopted set is selected by `abs(float(r['wavelength_air_A']) - wavelength) <= .05` with NO EP and NO loggf term -- a wavelength-only key, confirmed in the builder's AST (1 wavelength-only comparison(s) vs 0 EP-aware in atomic_census()). 4 of the 5 N I lines are then stamped join_status=PHYSICAL_TUPLE_MATCH, which is exactly the RYA-1034 defect: a lab-tier identity claimed on a wavelength match alone. It is worse than a silent one, because the row then REPORTS lower_EP_eV and published_loggf that were READ OUT OF our own canonical_gf row -- our value round-tripping back as though the primary paper supplied it (RYA-1035's vendor-echo defect), under a column literally named published_loggf. Consequently intake_verdict.json's safety line, 'No abundance derived; no gf tuned; no wavelength-only join admitted', is FALSE on its third clause. The 5th line (10108.90 A) is honestly ABSENT and the N I gap is not silently filled, which is the one thing this leg gets right.
-
-Offending rows: `7442.29A;8216.33A;8629.23A;8683.40A`
 
 ### A6b — Atomic species completeness + the [O I] 6300 blend · FAIL
 
@@ -150,7 +142,7 @@ Offending rows: `canonical_gf.csv:7800 molecular rows`
 
 ### B3 — BLOCKED verdict honestly derived · FAIL
 
-Direction first, because it matters: the verdict does NOT overstate freeze-readiness. frozen_ready_for_measurement is false, summary.json frozen_ready is false, no abundance is derived, and all four blocking_findings HOLD -- I reproduced every count behind them independently. The verdict is nonetheless not honest yet, in three ways. (1) STRING: the ticket asks whether 'BLOCKED_MOLECULAR_DATA' is honestly derived. No artifact contains that string. intake_verdict.json says 'INTAKE_COMPLETE_REVIEW_REQUIRED' and summary.json says 'CROSSMATCH_REVIEW'. (2) UNDERSTATED: the four blockers omit the three defects this QA found -- 26 argmin-resolved identities counted as matched, an ExoMol redistribution standing in for the CO primary, and a wavelength-only N I admission -- and the last of these makes the verdict's safety line, 'no wavelength-only join admitted', FALSE as written. (3) DRIFT: two artifacts in one directory disagree about the same quantity. summary.json reports canonical_matched=0 and crossmatch_review=408; intake_verdict.json reports 390 of 408 in accepted join classes. summary.json is written by the ingest script and intake_verdict.json by the builder, and nothing reconciles them (RYA-1091). A reader who opens summary.json gets a number that is 390 rows stale.
+Direction first, because it matters: the verdict does NOT overstate freeze-readiness. frozen_ready_for_measurement is false, summary.json frozen_ready is false, no abundance is derived, and all four blocking_findings HOLD -- I reproduced every count behind them independently. The verdict is nonetheless not honest yet, in three ways. (1) STRING: the ticket asks whether 'BLOCKED_MOLECULAR_DATA' is honestly derived. No artifact contains that string. intake_verdict.json says 'INTAKE_COMPLETE_REVIEW_REQUIRED' and summary.json says 'INTAKE_COMPLETE_REVIEW_REQUIRED'. (2) UNDERSTATED: the four blockers omit the three defects this QA found -- 0 argmin-resolved identities counted as matched, an ExoMol redistribution standing in for the CO primary, and a wavelength-only N I admission -- and the last of these makes the verdict's safety line, 'no wavelength-only join admitted', FALSE as written. (3) DRIFT: two artifacts in one directory disagree about the same quantity. summary.json reports canonical_matched=0 and crossmatch_review=408; intake_verdict.json reports 364 of 408 in accepted join classes. summary.json is written by the ingest script and intake_verdict.json by the builder, and nothing reconciles them (RYA-1091). A reader who opens summary.json gets a number that is 390 rows stale.
 
 ## What each molecule × band still needs to reach FROZEN_READY
 
