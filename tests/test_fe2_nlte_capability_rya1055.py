@@ -508,3 +508,18 @@ def test_the_two_disjoint_vis_fe_ii_pools_are_recorded_not_dropped():
     assert a["overlap"] == [], "the pools now overlap — re-read this finding"
     assert max(live) < min(perline), "the two windows no longer separate cleanly"
     assert "FOR RYA TO DISPOSITION" in a["note"]
+
+
+def test_the_mpia_grid_fill_rates_are_recorded_with_their_fe_i_control():
+    """⚠️ Context for how much the live Fe II NLTE label carries, invisible unless counted:
+    the MPIA grid's Fe II half is ~120x more sparsely populated than its Fe I half (7.1%
+    NaN vs 0.06%), and three Fe II lines are empty at the very node our products
+    interpolate at. Not a defect in anything this ticket changes — recorded, with the
+    Fe I control beside it so "sparse" means something."""
+    g = json.loads(AUDIT.read_text())["mpia_grid_fill"]
+    assert g["Fe I"]["rows"] == 20160 and g["Fe I"]["rows_nan"] == 12
+    assert g["Fe II"]["rows"] == 6400 and g["Fe II"]["rows_nan"] == 456
+    assert g["Fe II"]["nan_fraction"] > 50 * g["Fe I"]["nan_fraction"]
+    assert g["Fe I"]["lines_empty_at_the_solar_node"] == []
+    assert g["Fe II"]["lines_empty_at_the_solar_node"] == [4319.68, 4577.9, 5722.56]
+    assert "FOR RYA TO DISPOSITION" in g["note"]
