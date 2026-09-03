@@ -15,10 +15,9 @@
     "IR": 241,
     "NIR": 122
   },
-  "canonical_matched": 364,
-  "crossmatch_review": 44,
+  "canonical_matched": 0,
+  "crossmatch_review": 408,
   "frozen_ready": false,
-  "verdict": "INTAKE_COMPLETE_REVIEW_REQUIRED",
-  "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity",
-  "reconciled_with": "intake_verdict.json (RYA-1150)"
+  "verdict": "CROSSMATCH_REVIEW",
+  "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity"
 }
