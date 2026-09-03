@@ -485,3 +485,26 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
         if "_ENGINE-A_" not in r["artifact"]:
             assert r["n_with_a_nonzero_departure"] == 0, r["artifact"]
             assert r["nlte_source"] == ["none — LTE, no departure applied"], r["artifact"]
+
+
+def test_the_two_disjoint_vis_fe_ii_pools_are_recorded_not_dropped():
+    """🔴 TWO PUBLISHED "solar VIS Fe II DEEPGRADED" POOLS, ZERO OVERLAP, same window.
+
+    `Fe_perline.csv` carries 11 lines at 5256.9-6456.4 A (RYA-870, sourced from
+    rya847+rya877 — and it is RYA-877's pool that this ticket's own headline "0 of 11
+    labelled" was measured on). The live band products carry 9 at 4233.2-4583.8 A. Both
+    sit inside 4200-6910 A and they share NOT ONE line.
+
+    It does NOT weaken the finding — a deck with zero Fe II bound-bound transitions is
+    zero for ANY pool, which is the strength of a deck-level result over a line-list one.
+    It is recorded because it is why the ticket's headline number describes a pool the
+    live products no longer use, and because it is FOR RYA TO DISPOSITION, not for this
+    ticket to change.
+    """
+    a = json.loads(AUDIT.read_text())["two_disjoint_vis_fe_ii_pools"]
+    perline = a["Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)"]
+    live = a["live band product FeII_4200_6910 kpno molecfit DEEPGRADED"]
+    assert len(perline) == 11 and len(live) == 9
+    assert a["overlap"] == [], "the pools now overlap — re-read this finding"
+    assert max(live) < min(perline), "the two windows no longer separate cleanly"
+    assert "FOR RYA TO DISPOSITION" in a["note"]
