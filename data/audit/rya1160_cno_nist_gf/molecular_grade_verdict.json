@@ -1,0 +1,36 @@
+{
+  "ticket": "RYA-1160",
+  "rows": 7800,
+  "UNIQUE": 2788,
+  "AMBIGUOUS": 4090,
+  "ABSENT": 922,
+  "per_species": {
+    "C2": {
+      "UNIQUE": 1083,
+      "AMBIGUOUS": 1531,
+      "ABSENT": 40
+    },
+    "CH": {
+      "UNIQUE": 860,
+      "AMBIGUOUS": 1097,
+      "ABSENT": 308
+    },
+    "CN": {
+      "UNIQUE": 765,
+      "AMBIGUOUS": 1428,
+      "ABSENT": 573
+    },
+    "NH": {
+      "UNIQUE": 80,
+      "AMBIGUOUS": 34
+    },
+    "OH": {
+      "ABSENT": 1
+    }
+  },
+  "value_deltas": 2788,
+  "median_abs_delta_dex": 0.005,
+  "max_abs_delta_dex": 9.4662,
+  "canonical_gf_modified": false,
+  "why_not_written": "these 7,800 rows are the RYA-1149 defect -- molecular data inside the ATOMIC store. Grades are emitted for the RYA-1130 molecular store, not stamped in place."
+}
