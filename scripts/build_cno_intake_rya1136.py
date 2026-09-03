@@ -38,6 +38,19 @@ def band(wavelength_A: float) -> str:
     return "IR"
 
 
+#: The AGSS21-adopted N I five-line set: (air wavelength in Angstrom, published lower-level
+#: excitation potential in eV). The EP is what makes the join physical rather than
+#: wavelength-only (RYA-1143); without it these five rows carried an unearned
+#: PHYSICAL_TUPLE_MATCH.
+N_I_ADOPTED_SET = (
+    (7442.29, 10.3301), (8216.33, 10.3359), (8629.23, 10.6900),
+    (8683.40, 10.3301), (10108.90, 11.7529),
+)
+
+#: 🔴 RYA-1144. `AMBIGUOUS_SUM_MATCH` is deliberately ABSENT: a feature whose published
+#: loggf is reproduced by more than one subset of primary components has not been
+#: identified, only fitted, and must not be counted as coverage.
+#: `PRIMARY_UNRESOLVED_SUM_MATCH` now means exactly ONE viable subset.
 ACCEPTED_MOLECULAR_JOINS = {
     "PHYSICAL_TUPLE_MATCH", "PRIMARY_TUPLE_MATCH", "PRIMARY_UNRESOLVED_SUM_MATCH",
 }
@@ -120,11 +133,20 @@ def canonical_rows(element: str) -> list[dict]:
     return list(csv.DictReader((CANON / f"{element}_atomic_manifest.csv").open()))
 
 
-def nearest_canonical(element: str, wavelength_A: float, ep: float, loggf: float) -> tuple[str, str, str]:
+def nearest_canonical(element: str, wavelength_A: float, ep: float,
+                      loggf: float | None) -> tuple[str, str, str]:
+    """Wavelength AND excitation potential, then loggf when the caller has one.
+
+    🔴 `loggf=None` means "the published gf is not in hand". The join then rests on
+    wavelength + EP, which is still a two-field physical identity and still refuses
+    ambiguity -- it is NOT a wavelength-only key. It must never be called with
+    loggf=None merely to make a stubborn line match.
+    """
     candidates = [row for row in canonical_rows(element)
                   if abs(float(row["wavelength_air_A"]) - wavelength_A) <= 0.03
                   and abs(float(row["excitation_potential_eV"]) - ep) <= 0.002]
-    exact = [row for row in candidates if abs(float(row["loggf"]) - loggf) <= 0.01]
+    exact = (candidates if loggf is None else
+             [row for row in candidates if abs(float(row["loggf"]) - loggf) <= 0.01])
     if len(exact) != 1:
         return "", "AMBIGUOUS" if exact else "ABSENT", ""
     row = exact[0]
@@ -150,25 +172,43 @@ def atomic_census() -> list[dict]:
             "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
             "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS", "canonical_line_id": cid,
             "join_status": join, "codex_gf_tier": tier,
+            "codex_loggf": "", "codex_EP_eV": "",
             "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
         })
-    # Amarsi et al. 2020 Table 1: the complete five-line solar N I selection
-    # adopted by AGSS21 (air wavelengths in Angstrom).
-    for wavelength in (7442.29, 8216.33, 8629.23, 8683.40, 10108.90):
-        candidates = [r for r in canonical_rows("N") if abs(float(r["wavelength_air_A"]) - wavelength) <= .05]
-        row = candidates[0] if len(candidates) == 1 else None
+    # Amarsi et al. 2020 Table 1: the complete five-line solar N I selection adopted by
+    # AGSS21 (air wavelengths in Angstrom), with the PUBLISHED excitation potential so
+    # the join has a second physical field to stand on.
+    #
+    # 🔴 RYA-1143. This loop previously selected on `abs(wavelength - w) <= .05` and
+    # nothing else, then stamped the result PHYSICAL_TUPLE_MATCH -- a wavelength-only
+    # key wearing a physical-identity label, which is exactly the RYA-1034 defect. It
+    # also reported `lower_EP_eV` and `published_loggf` READ OUT OF the matched
+    # canonical row, so our own stored value round-tripped back under a column named
+    # `published_loggf` (the RYA-1035 vendor-echo defect).
+    #
+    # Both are fixed here: the join is EP-aware via nearest_canonical(), and the
+    # canonical readback is reported in explicitly-named codex_* columns while the
+    # published_* columns carry the SOURCE's values or stay empty.
+    for wavelength, published_ep in N_I_ADOPTED_SET:
+        cid, join, tier = nearest_canonical("N", wavelength, published_ep, None)
+        row = next((r for r in canonical_rows("N") if r["canonical_line_id"] == cid), None)
         rows.append({
             "reference_line_set": "AmarsiEtAl2020_GALAH_NI_model_atom",
             "use_status": "AGSS21_ADOPTED_FIVE_LINE_SET", "element": "N",
             "species": "N I", "line_label": f"{wavelength:.2f}A", "wavelength_air_A": f"{wavelength:.3f}",
-            "wavelength_vac_A": "", "lower_EP_eV": row["excitation_potential_eV"] if row else "",
-            "published_loggf": row["loggf"] if row else "", "source_band": band(wavelength),
-            "gf_source": row["adopted_source"] if row else "UNRESOLVED",
-            "gf_source_type": row["source_class"] if row else "UNRESOLVED",
-            "canonical_line_id": row["canonical_line_id"] if row else "",
-            "join_status": "PHYSICAL_TUPLE_MATCH" if row else "ABSENT",
-            "codex_gf_tier": row["gf_tier"] if row else "",
-            "ambiguity_note": "Amarsi et al. 2020 Table 1; explicitly adopted by AGSS21",
+            "wavelength_vac_A": "", "lower_EP_eV": f"{published_ep:.4f}",
+            "published_loggf": "", "source_band": band(wavelength),
+            "gf_source": "Amarsi et al. 2020 Table 1 (published loggf not transcribed)",
+            "gf_source_type": "PUBLISHED_SOURCE_NOT_YET_TRANSCRIBED",
+            "canonical_line_id": cid,
+            "join_status": join,
+            "codex_gf_tier": tier,
+            "codex_loggf": row["loggf"] if row else "",
+            "codex_EP_eV": row["excitation_potential_eV"] if row else "",
+            "ambiguity_note": ("Amarsi et al. 2020 Table 1; explicitly adopted by AGSS21. "
+                               "EP-aware join (RYA-1143). published_loggf is EMPTY because "
+                               "the source value has not been transcribed -- the codex_* "
+                               "columns are OUR store, not the paper's."),
         })
     return rows
 
@@ -236,10 +276,42 @@ def main() -> None:
             "Five source-identity matches retain published-strength revision differences",
             "Four OH rows are absent or physically inconsistent in the acquired Brooke release",
             "Rejected CN count is published (463), but rejected UV transition identities are not published",
+            # RYA-1144: these were previously argmin-resolved and counted as coverage.
+            f"{mol_status.get('AMBIGUOUS_SUM_MATCH', 0)} features are reproduced by MORE THAN ONE "
+            "subset of primary components; they are fitted, not identified, and are no longer "
+            "counted as matched coverage",
+            # RYA-1146: the only clean-match class rests on a converted redistribution.
+            "All 80 CO PHYSICAL_TUPLE_MATCH rows resolve against an ExoMol->Turbospectrum "
+            "conversion whose converter is not in this repo; the Li 2015 primary was never acquired",
+            # RYA-1158: the scope claim and the delivered inventory disagree.
+            "Titled UV-IR but delivered VIS-IR: zero FUV and zero NUV rows in both domains, and "
+            "the NH A-X / OH A-X / CN B-X ultraviolet transitions are acquired but unread",
         ],
-        "safety":"No abundance derived; no gf tuned; no wavelength-only join admitted",
+        "safety":("No abundance derived; no gf tuned; no wavelength-only join admitted "
+                  "(RYA-1143: the N I five-line join is EP-aware as of this build, and the "
+                  "canonical readback is reported in codex_* columns rather than as "
+                  "published_*)"),
     }
     (AUDIT / "intake_verdict.json").write_text(json.dumps(verdict, indent=2)+"\n")
+
+    # 🔴 RYA-1150. summary.json is written by the INGEST script and was never revisited,
+    # so it still advertised canonical_matched=0 / crossmatch_review=408 while this file
+    # reported 390 in accepted classes -- two artifacts in one directory 390 rows apart,
+    # and the stale one read clean. The builder now owns it, and a consistency assert
+    # makes a future divergence fail loudly instead of sitting there.
+    accepted = sum(v for k, v in mol_status.items() if k in ACCEPTED_MOLECULAR_JOINS)
+    summary_path = AUDIT / "summary.json"
+    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+    summary.update({
+        "canonical_matched": accepted,
+        "crossmatch_review": len(molecular) - accepted,
+        "verdict": verdict["verdict"],
+        "frozen_ready": verdict["frozen_ready_for_measurement"],
+        "reconciled_with": "intake_verdict.json (RYA-1150)",
+    })
+    summary_path.write_text(json.dumps(summary, indent=2)+"\n")
+    assert summary["canonical_matched"] + summary["crossmatch_review"] == len(molecular), \
+        "summary.json and intake_verdict.json disagree on the molecular total"
 
 
 if __name__ == "__main__": main()
