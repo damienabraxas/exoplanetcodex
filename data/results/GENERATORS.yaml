@@ -5540,4 +5540,16 @@ artifacts:
       exactly this band's LOWER edge. Inputs are Mac-local campaign runs
       (~/xi_campaign/out_redopt, produced by run_redopt.py under per-worker worktree
       isolation) -- a recorded regenerability gap (RYA-1011), not a silent one.
+  - artifact: rya1163/ir_xi_dadxi.json
+    generator: scripts/rya1163_ir_xi.py
+    ticket: RYA-1163
+    note: >-
+      dA/dxi for the three IR (NIR) Fe pools, as a per-line PAIRED differential
+      (RYA-1083 — line acceptance moves with xi, so difference-of-medians is a
+      different statistic; they disagree on 4 of the 6 pools here). Closes the IR
+      third of the gap RYA-1114 F2 found: the RYA-1120 harness covers 46 products
+      and none is IR, because ~/xi_campaign/run_campaign.py:132 hardcodes
+      --lo 4200 --hi 6910 on every unit. The arms were not skipped, the BAND was.
+      Inputs are Mac-local campaign runs (~/xi_campaign/out_ir, produced by
+      run_ir.py) — a recorded regenerability gap (RYA-1011), not a silent one.
 
