@@ -296,10 +296,31 @@ def test_a_stage_blind_guard_CLEARS_an_FeII_run_on_FeI_labels():
 
 
 def test_with_the_stage_the_FeII_run_is_REFUSED():
+    """🔴 RYA-1135 CHANGED *WHY* THIS REFUSES, NOT WHETHER. The assertion used to pin the
+    message "NONE carry NLTE level labels", i.e. the LABEL-COUNT refusal. Fe II is now
+    refused one step earlier, on the ATOM's reach: `atom.fe607a` has no Fe II bound-bound
+    transitions at all, so label coverage cannot decide the case — a pool with labelled
+    Fe II lines would have sailed past the label count and emitted LTE under an NLTE label.
+
+    Pinning the old string would now pass only by accident of ordering, so the assertion
+    moves to what actually matters and keeps its teeth: it is refused, AND the reason names
+    the atom rather than the list."""
     from pipeline.gerber_nlte import assert_linelist_supports_nlte, GerberDeckError
     ll = _two_stage_linelist()
-    with pytest.raises(GerberDeckError, match="NONE carry NLTE level labels"):
+    with pytest.raises(GerberDeckError, match="NO LINE LIST CAN FIX THIS") as e:
         assert_linelist_supports_nlte(ll, 26, "Fe", 4200.0, 6910.0, ion=2)
+    assert "ZERO Fe II bound-bound transitions" in str(e.value)
+
+
+def test_the_FeII_refusal_does_not_depend_on_the_LIST_at_all():
+    """⚠️ CONTROL for the above. If the refusal still keyed on label coverage, handing it a
+    list where every Fe II line IS labelled would let it through — which is precisely the
+    hole RYA-1135 found (854 of 8,870 Fe II lines in the VIS window carry labels). Passing
+    `None` for the linelist is the sharpest form: nothing can be counted, and it still
+    refuses, so the verdict cannot be coming from the list."""
+    from pipeline.gerber_nlte import assert_linelist_supports_nlte, GerberDeckError
+    with pytest.raises(GerberDeckError, match="NO LINE LIST CAN FIX THIS"):
+        assert_linelist_supports_nlte(None, 26, "Fe", 4200.0, 6910.0, ion=2)
 
 
 def test_and_the_FeI_run_on_the_same_list_still_passes():

@@ -1,0 +1,49 @@
+{
+  "ticket": "RYA-1135",
+  "what": "Fe II <3D>-LTE via Frankenstein's LTE leg (model 5), plus the phantom-departure finding.",
+  "product": {
+    "element": "Fe",
+    "ion": "II",
+    "band": "VIS",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_molecfit_corrected",
+    "tier": "DEEPGRADED",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "scale": "<3D>-LTE",
+    "model": "gerber",
+    "atmos": "stagger-mean3d",
+    "deck": "stagger",
+    "route": "synth",
+    "A": 7.64,
+    "n_lines": 9,
+    "n_excluded": 0,
+    "sigma_stat": 0.2946,
+    "sigma_syst": 0.0697,
+    "dominant_term": "line-to-line scatter",
+    "provenance": "gerber:atom.fe607a on <3D> sun_avg3d_stagger.mod (STAGGERmean3D deck read directly, RYA-821/1035; no vendor interpolator); LTE, departures WITHHELD -- the paired comparand. The NLTE effect is (<3D>-NLTE minus <3D>-LTE) on this one atmosphere -- never against a 1D-LTE product, which would report the 1D->mean-3D atmosphere shift as non-LTE physics (RYA-542).",
+    "status": "EXPERIMENTAL_FRONTIER_NOT_ADOPTED",
+    "vs_1D_LTE_same_cell": {
+      "A_1D_LTE": 7.569,
+      "delta_dex": 0.071,
+      "note": "the 1D -> <3D>-mean ATMOSPHERE shift, not NLTE physics (RYA-542)"
+    },
+    "⚠️ rya1099_over_correction_caveat": "the <3D>-mean STAGGER route inflates A(Fe) by +0.08..+0.11 dex in both bands and on every line (RYA-1099). This Fe II number inherits that inflation: the +0.0710 dex it sits above the 1D-LTE cell is consistent with the route's known over-correction and must NOT be read as a physical Fe II result. Frontier/experimental, never a headline or adopted value (RYA-1123 Rule 6).",
+    "⚠️ solar_only_note": "Fe II NLTE is ~0 at solar (Amarsi -0.001/-0.0008; Lind+2017 2.2.4 'insignificant'), which is why an LTE Fe II number is defensible HERE. That breaks off-solar, where the Fe I/Fe II ionisation balance does the log g work."
+  },
+  "model6_mean3D_NLTE": {
+    "emitted": false,
+    "refusal": "NLTE was requested for Fe II but NOT ONE of the 9 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 854 labelled Fe II lines, which is why a window-level check passes here -- they are not the lines being fitted.",
+    "why_this_is_correct": "the RYA-1050/764 guard refused BEFORE synthesising. There is therefore no model 6 artifact to difference against model 5, and the ticket's literal m5-vs-m6 per-line comparison cannot be run for this pool. The refusal IS the answer: no Fe II line here can take a departure, so no phantom exists to detect."
+  },
+  "🔴 phantom_hole_closed": {
+    "finding": "the pre-existing guards key on 'zero labelled lines', but the Fe II defect is not about labels: atom.fe607a has no Fe II bound-bound transitions at all, so bsyn applies departure = 1 to EVERY Fe II line however well labelled. `nlte_ion_capability('Fe','II')` already returns False, but it was consulted ONLY inside the `n == 0` branch to phrase the message — so a pool with even one labelled Fe II line skipped it and would have emitted LTE under an NLTE label.",
+    "labelled_Fe_II_lines_in_window": 854,
+    "total_Fe_II_lines_in_window": 8870,
+    "pooled_lines_labelled": 0,
+    "pooled_lines_total": 9,
+    "was_reachable": true,
+    "why_reachable": "only the accident that this 9-line DEEPGRADED pool contains none of the 854 labelled lines made derive_band_products refuse. A differently-selected Fe II pool passes every pre-existing guard.",
+    "fix": "pipeline.gerber_nlte.assert_linelist_supports_nlte now consults nlte_ion_capability as a GATE, before any label counting. An ion whose atom cannot serve it is refused regardless of label coverage. This is the standing phantom-departure detector, placed where a phantom is born rather than downstream of it."
+  },
+  "rya1055_disposition_3_capability_statement": "Fe II <3D>-LTE available (model 5; the <3D>-mean atmosphere is ion-agnostic). Fe II NLTE is NOT available on the Gerber deck and no line list can enable it. The phantom check is the capability GATE in assert_linelist_supports_nlte, not a model5-vs-model6 difference — model 6 cannot be built for Fe II at all."
+}
