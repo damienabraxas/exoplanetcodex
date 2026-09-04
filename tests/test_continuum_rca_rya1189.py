@@ -129,14 +129,37 @@ def test_the_abundance_shift_is_labelled_a_lower_bound_where_saturated(lines):
     assert "MOOGSILENT" in src, "the owed true-inversion route is no longer named"
 
 
-def test_no_published_value_was_touched():
-    """The ticket is explicit: measure, report, change nothing. The generator writes only
-    under data/results/rya1189/ and reads everything else."""
+def test_the_diagnostic_writes_ONLY_into_its_own_results_directory():
+    """The ticket is explicit: measure, report, change nothing.
+
+    ⚠️ The first version of this test banned the STRING "data/products" and duly failed
+    the moment the script started READING the feed for the closing anchor check -- which
+    is exactly what the ticket asks for. Reading a published value is the job; writing one
+    is the thing to forbid. So the guard is now on the WRITE SITES, parsed rather than
+    grepped: every `to_csv` / `write_text` target must resolve through `out_dir`.
+    """
+    import ast as _ast
     src = (ROOT / "scripts/rya1189_continuum_rca.py").read_text()
-    for forbidden in ("data/products", "data/linelists/canonical_gf.csv\", \"w",
-                      "to_csv(ROOT / \"data/products"):
-        assert forbidden not in src.replace("read_csv(ROOT / \"data/products", "")
-    # it must not import or call the renormaliser
+    tree = _ast.parse(src)
+    # ⚠️ The TARGET is a different node per method, and getting that wrong is how this
+    # guard first failed on its own correct code: `to_csv(path)` takes the path as its
+    # ARGUMENT, while `write_text(content)` takes the CONTENT and the path is the
+    # RECEIVER. Reading args[0] for both asks whether the JSON payload is under out_dir.
+    PATH_IS_ARG = {"to_csv", "to_json", "savefig"}
+    PATH_IS_RECEIVER = {"write_text", "write_bytes", "open"}
+    writes = []
+    for node in _ast.walk(tree):
+        if not (isinstance(node, _ast.Call) and isinstance(node.func, _ast.Attribute)):
+            continue
+        if node.func.attr in PATH_IS_ARG and node.args:
+            writes.append(_ast.unparse(node.args[0]))
+        elif node.func.attr in PATH_IS_RECEIVER:
+            writes.append(_ast.unparse(node.func.value))
+    assert writes, "no write sites found — the parser stopped seeing them"
+    for w in writes:
+        assert "out_dir" in w, f"writes outside its own results directory: {w}"
+
+    # and it must never place a new continuum on a holding
     assert "fit_continuum" not in src, "this diagnostic must never place a new continuum"
     assert "spectra_normalize" not in src
 
