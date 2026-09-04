@@ -22,77 +22,21 @@
     "Belmonte2017": {
       "file": "Belmonte_2017_ApJ_848_125.pdf",
       "cite": "Belmonte et al. 2017, ApJ 848, 125",
-      "rows_parsed": 118,
+      "rows_parsed": 119,
       "refereed_from": "PDF excerpt"
     }
   },
-  "n_refereed": 463,
+  "n_refereed": 464,
   "n_pool_rows": 465,
-  "coverage_frac": 0.9956989247311828,
-  "n_loggf_mismatch": 8,
-  "n_sigma_mismatch": 9,
-  "loggf_mismatches": [
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 2527.435,
-      "ours": 0.09,
-      "paper": 0.11,
-      "delta": 0.020000000000000004
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 2560.557,
-      "ours": -2.061,
-      "paper": -2.11,
-      "delta": -0.04899999999999993
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 2886.317,
-      "ours": -2.039,
-      "paper": -2.09,
-      "delta": -0.05099999999999971
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 3383.979,
-      "ours": -1.006,
-      "paper": -1.11,
-      "delta": -0.10400000000000009
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 3427.12,
-      "ours": -0.067,
-      "paper": -0.1,
-      "delta": -0.033
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 3779.416,
-      "ours": -2.036,
-      "paper": -1.99,
-      "delta": 0.04600000000000004
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 3821.835,
-      "ours": -1.044,
-      "paper": -1.1,
-      "delta": -0.05600000000000005
-    },
-    {
-      "source": "Belmonte2017",
-      "wavelength_air_A": 3935.307,
-      "ours": -2.199,
-      "paper": -1.82,
-      "delta": 0.3789999999999998
-    }
-  ],
-  "verdict": "DEFECTS FOUND",
+  "coverage_frac": 0.9978494623655914,
+  "n_loggf_mismatch": 0,
+  "n_sigma_mismatch": 0,
+  "loggf_mismatches": [],
+  "verdict": "CLEAN over the refereed subset",
   "caveat": "refereed against the tables PRESENT IN THE PDFs. Ruffoni's full Table 3 is online-only ('Only the first upper level is shown here'), so the unrefereed remainder is UNVERIFIED rather than clean (RYA-833).",
   "traps": [
     "Belmonte's table is in NANOMETRES while the Wisconsin tables are in air Angstroms; mixing them matches nothing and reads as 'Belmonte does not cover our lines'",
-    "pdftotext -layout is required \u2014 pypdf's extract_text collapses the columns and the tables become unparseable"
+    "pdftotext -layout keeps the columns aligned; where it is unavailable this falls back to pypdf, which sufficed for Belmonte Table 4 but has collapsed columns on other tables \u2014 the extractor is recorded so a parse can be reproduced with the same one",
+    "\ud83d\udd34 BELMONTE TABLE 4 HAS TWO log gf COLUMNS \u2014 'This Experiment' (footnote d, 'measured in this work') and 'Published' (footnote e, 'from other authors used for comparison', tagged MA74/OB91/BL79/...). Capturing exactly two decimals behind a non-greedy scan slid past every 3-decimal This-Experiment value and read the Published one instead: 11 of 120 lines became 'mismatches', and Fe I 3935.3064 (ours -2.199/0.07 vs May et al. 1974's -1.82/0.18) was reported to RYA-853 as a GENUINE BAD ROW wrong on both axes. It is not. The pair is now taken POSITIONALLY (first 'value \u00b1 unc' in the row), so a typesetter's decimal count cannot choose the column"
   ]
 }

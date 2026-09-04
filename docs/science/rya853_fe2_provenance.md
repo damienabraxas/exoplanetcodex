@@ -101,5 +101,8 @@ and `step0` now emits `ep_eV`, because a guard fed NaN would refuse everything a
   grade rows are done here). The extract-vs-extract disagreements — including `Fe I 6065.49`,
   which this pass independently flagged from the other direction — are still live, and both
   strict xfails still xfail.
-- **Scope 2**: Belmonte Fe I **3935.3064** is still −2.199 / σ 0.070 against the paper's
-  −1.820 / 0.180.
+- **Scope 2**: ✅ **CLOSED, and the open item was withdrawn.** Belmonte Fe I **3935.3064**
+  was carried here as −2.199 / σ 0.070 against "the paper's" −1.820 / 0.180. That −1.820 is
+  the *Published* column — May et al. (1974), which Belmonte tabulates for comparison — not
+  Belmonte's own measurement. Ours reproduces *This Experiment* exactly. Re-refereed with
+  the column read positionally: **464 of 465 lines, zero mismatches on either axis.**

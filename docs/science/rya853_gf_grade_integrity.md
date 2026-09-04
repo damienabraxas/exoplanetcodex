@@ -127,22 +127,54 @@ readable CDS tables** (the full lists the PDFs only excerpt), vendored into
 | Belmonte 2017 *(PDF excerpt — no CDS table)* | 118 | 120 | 98.3% | 8 | 9 |
 | **total** | **463** | **465** | **99.6%** | **8** | **9** |
 
-### 455 of 463 lines (98.3%) reproduce their source paper exactly
+### 464 of 465 lines reproduce their source paper exactly — **zero mismatches**
 
-**Ruffoni and Den Hartog are perfect — 345 lines, zero defects on either value or cited σ.**
-That is the opposite of the NIST extracts (70% wrong) and it clears the pool RYA-850
-promotes.
+**Ruffoni 142/142, Den Hartog 203/203 and Belmonte 119/120 are all perfect, on value AND
+on cited σ.** That is the opposite of the NIST extracts (70% wrong) and it clears the pool
+RYA-850 promotes. The one unrefereed line is in the papers' online-only remainder —
+UNVERIFIED, not clean (RYA-833).
 
-**Every mismatch is Belmonte**, and Belmonte is the only source refereed from a *typeset
-PDF table* rather than a machine-readable one (`J/ApJ/848/125` is a 404 on CDS). Its table
-prints 2 decimals while our stored values carry 3, so the small deltas may be extraction or
-rounding artifacts rather than defects. One is not:
+### 🔴 RETRACTION — the "genuine bad row" was a fifth parser bug
+
+This document previously read:
 
 > 🔴 **Belmonte 3935.307 — ours −2.199, paper −1.820 (Δ +0.379)**, with its σ wrong too
 > (0.070 vs 0.180). Too large for rounding, and wrong on both axes — a genuine bad row.
 
-⚠️ The other seven (≤0.10 dex) and the nine σ differences (±0.01–0.02) **cannot be
-adjudicated without Belmonte's machine-readable table.** They are flagged, not condemned.
+**That is withdrawn. There is no bad row.** Belmonte Table 4 carries **two** log gf
+columns, and the parser read the wrong one. The paper's own footnotes name them:
+
+| footnote | column | what it is |
+|---|---|---|
+| *d* | **This Experiment** | *"The log(gf) values **measured in this work**"* — the value we cite as `PRIMARY LAB Belmonte2017` |
+| *e* | **Published** | *"Values of log(gf)s **from other authors used for comparison**"*, tagged in the trailing reference column |
+
+The 3935.3064 row reads:
+
+```
+393.5307  48350.606 1  22946.814 1  0.0102  16.0  0.91 (17)   −2.199±0.07   −1.82±0.18  MA74
+                                                               ^ ours, exact   ^ May et al. (1974)
+```
+
+So `−1.82 ± 0.18` is a **1974 measurement Belmonte tabulates for comparison**, and our
+stored −2.199 ± 0.07 reproduces Belmonte's own value exactly.
+
+**The mechanism.** The pattern captured `\d\.\d{2}` — *exactly* two decimals — behind a
+non-greedy scan. Belmonte prints most of its own values to 2 dp and some to 3; on a 3 dp
+row the two-decimal capture cannot be followed by `±`, so the scan slid past it onto the
+Published pair. That selects **precisely** the eleven rows whose This-Experiment value has
+three decimals — which is why the "defects" clustered in one source and nowhere else.
+Re-refereed, **all eleven go to Δ 0.000 on both axes.**
+
+**The fix is positional, not a wider regex.** Widening to `\d{2,3}` would repair these
+eleven and leave the next typesetting choice free to break it again. The parser now takes
+the **first `value ± unc` pair in the row**: "This Experiment" always precedes "Published",
+and no earlier column uses `±` (A_ul prints its uncertainty in parentheses).
+
+⚠️ **This is the fourth time on this ticket that a large, regular block of "mismatches"
+turned out to be a parser reading the wrong column or the wrong character** — after the
+U+2212 minus, the U+F0A0 padding and the Den Hartog A_ul off-by-one. The three earlier ones
+were caught before they were reported. This one was reported, and it stood for two weeks.
 
 ### 🔴 Four parser bugs, every one of which produced a confident wrong answer
 
@@ -304,7 +336,10 @@ two-different-pools error — match tier and selector before subtracting.
 5. **Add the offline extract-vs-extract check to CI** — it caught RYA-592's half-applied fix
    with no network and would have caught it a month earlier.
 6. Close the `rya347` ±0.1 Å wavelength-only match on general principle.
-7. Fix the Belmonte Fe I **3935.307** row (stored −2.199 / σ 0.070; paper −1.820 / 0.180).
+7. ~~Fix the Belmonte Fe I **3935.307** row.~~ **WITHDRAWN — there was never a bad
+   row.** The referee was reading Belmonte's *Published* comparison column (May et al.
+   1974) instead of its *This Experiment* column. Ours reproduces the paper exactly;
+   see the retraction above. Nothing to fix in `canonical_gf`.
 
 ## Provenance of this document
 
