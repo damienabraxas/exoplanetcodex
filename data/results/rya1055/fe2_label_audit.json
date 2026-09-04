@@ -1,0 +1,573 @@
+{
+  "ticket": "RYA-1055",
+  "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
+  "generated_at": "2026-09-03T22:58:05Z",
+  "n_live_fe_ii_products": 10,
+  "n_stamped": 10,
+  "n_taking_nlte_from_the_gerber_deck": 0,
+  "per_line_rows_on_an_nlte_scale": {
+    "I": 159,
+    "II": 0
+  },
+  "band_product_per_line_nlte_sources": [
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 12,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 7,
+      "n_with_a_nonzero_departure": 7,
+      "nlte_delta_dex_values": [
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 12,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 12,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 7,
+      "n_with_a_nonzero_departure": 7,
+      "nlte_delta_dex_values": [
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 12,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 3,
+      "n_with_a_nonzero_departure": 3,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 3,
+      "n_with_a_nonzero_departure": 3,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 3,
+      "n_with_a_nonzero_departure": 3,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    }
+  ],
+  "two_disjoint_vis_fe_ii_pools": {
+    "Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)": [
+      5256.932,
+      5337.722,
+      5991.371,
+      6084.102,
+      6147.734,
+      6149.246,
+      6238.386,
+      6247.557,
+      6369.459,
+      6432.676,
+      6456.38
+    ],
+    "live band product FeII_4200_6910 kpno molecfit DEEPGRADED": [
+      4233.162,
+      4303.17,
+      4351.762,
+      4385.377,
+      4416.819,
+      4508.28,
+      4522.628,
+      4549.466,
+      4583.829
+    ],
+    "overlap": [],
+    "note": "Two published 'solar VIS Fe II DEEPGRADED' pools inside the same 4200-6910 A window sharing NOT ONE line. Does not affect this ticket's finding (a deck with zero Fe II bound-bound transitions is zero for any pool) but it is why RYA-1055's headline '0 of 11 labelled' describes a pool the live products no longer use. FOR RYA TO DISPOSITION."
+  },
+  "mpia_grid_fill": {
+    "Fe I": {
+      "rows": 20160,
+      "rows_nan": 12,
+      "nan_fraction": 0.0006,
+      "lines_empty_at_the_solar_node": []
+    },
+    "Fe II": {
+      "rows": 6400,
+      "rows_nan": 456,
+      "nan_fraction": 0.0712,
+      "lines_empty_at_the_solar_node": [
+        4319.68,
+        4577.9,
+        5722.56
+      ]
+    },
+    "note": "The MPIA grid's Fe II half is far sparser than its Fe I half (7.1% NaN vs 0.06%). Not a defect in anything this ticket changes, and not a reason to doubt the corrections that ARE served -- but it is context for how much the Fe II NLTE label carries, and it is the mechanism behind the n-drop between an ENGINE-A leg and its LTE sibling. FOR RYA TO DISPOSITION."
+  },
+  "rya1113_contradiction": "RESOLVED. RYA-1113 found a live Fe II near-UV NLTE leg at n=7 against its LTE sibling's n=12 and asked how it can exist if Fe II NLTE is structurally unavailable, offering two answers: it is not real NLTE, or the atom has changed. BOTH ARE WRONG. The per-line artifact RYA-908 has since emitted names the source outright -- 7 lines at nlte_delta_dex = -0.001 from 'Bergemann MPIA per-line delta_nlte (live query, solar node)', 5 excluded 'ENGINE-A-NOT-SERVED'. The leg is real NLTE from the MPIA grid, a source this ticket's finding never touched, and the atom was re-measured today at still-zero Fe II bound-bound transitions. \u26a0\ufe0f RYA-1113's OTHER half stands unchanged: the n=7-vs-12 gap is MPIA service coverage, so the published Fe II near-UV NLTE delta IS confounded with a 5-line pool change.",
+  "products": [
+    {
+      "band": "VIS",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.966,
+      "n_lines": 9,
+      "sigma_reported": 0.293375,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "n/a \u2014 this product is on an LTE scale",
+      "label_verdict": "CLEAN \u2014 LTE product, claims no NLTE"
+    },
+    {
+      "band": "VIS",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.617,
+      "n_lines": 3,
+      "sigma_reported": 0.831338,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+      "label_verdict": "CLEAN \u2014 NLTE from the MPIA/Bergemann per-line grid, not from atom.fe607a"
+    },
+    {
+      "band": "VIS",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.592,
+      "n_lines": 9,
+      "sigma_reported": 0.316331,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "n/a \u2014 this product is on an LTE scale",
+      "label_verdict": "CLEAN \u2014 LTE product, claims no NLTE"
+    },
+    {
+      "band": "VIS",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.466,
+      "n_lines": 3,
+      "sigma_reported": 0.919288,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+      "label_verdict": "CLEAN \u2014 NLTE from the MPIA/Bergemann per-line grid, not from atom.fe607a"
+    },
+    {
+      "band": "VIS",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.569,
+      "n_lines": 9,
+      "sigma_reported": 0.318958,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "n/a \u2014 this product is on an LTE scale",
+      "label_verdict": "CLEAN \u2014 LTE product, claims no NLTE"
+    },
+    {
+      "band": "VIS",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.46,
+      "n_lines": 3,
+      "sigma_reported": 0.921182,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+      "label_verdict": "CLEAN \u2014 NLTE from the MPIA/Bergemann per-line grid, not from atom.fe607a"
+    },
+    {
+      "band": "near-UV",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.957,
+      "n_lines": 12,
+      "sigma_reported": 0.162195,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "n/a \u2014 this product is on an LTE scale",
+      "label_verdict": "CLEAN \u2014 LTE product, claims no NLTE"
+    },
+    {
+      "band": "near-UV",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.975,
+      "n_lines": 7,
+      "sigma_reported": 0.186479,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+      "label_verdict": "CLEAN \u2014 NLTE from the MPIA/Bergemann per-line grid, not from atom.fe607a"
+    },
+    {
+      "band": "near-UV",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.697,
+      "n_lines": 12,
+      "sigma_reported": 0.164095,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "n/a \u2014 this product is on an LTE scale",
+      "label_verdict": "CLEAN \u2014 LTE product, claims no NLTE"
+    },
+    {
+      "band": "near-UV",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.738,
+      "n_lines": 7,
+      "sigma_reported": 0.17798,
+      "limit_stamped": true,
+      "limit_text_matches_the_single_source": true,
+      "takes_nlte_from_the_gerber_deck": false,
+      "nlte_source": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+      "label_verdict": "CLEAN \u2014 NLTE from the MPIA/Bergemann per-line grid, not from atom.fe607a"
+    }
+  ],
+  "ionisation_balance_scale_matched": [
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "treatment": "1D-LTE",
+      "tier": "DEEPGRADED",
+      "scale": "1D-LTE",
+      "A_FeII": 7.966,
+      "n_FeII": 9,
+      "A_FeI": 7.535,
+      "n_FeI": 109,
+      "FeII_minus_FeI_dex": 0.431,
+      "sigma_reported_FeII": 0.293375,
+      "within_reported_bar": false
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "treatment": "ENGINE-A",
+      "tier": "DEEPGRADED",
+      "scale": "1D-NLTE",
+      "A_FeII": 7.617,
+      "n_FeII": 3,
+      "A_FeI": 7.554,
+      "n_FeI": 105,
+      "FeII_minus_FeI_dex": 0.063,
+      "sigma_reported_FeII": 0.831338,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "VIS",
+      "treatment": "1D-LTE",
+      "tier": "DEEPGRADED",
+      "scale": "1D-LTE",
+      "A_FeII": 7.592,
+      "n_FeII": 9,
+      "A_FeI": 7.421,
+      "n_FeI": 108,
+      "FeII_minus_FeI_dex": 0.171,
+      "sigma_reported_FeII": 0.316331,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "VIS",
+      "treatment": "ENGINE-A",
+      "tier": "DEEPGRADED",
+      "scale": "1D-NLTE",
+      "A_FeII": 7.466,
+      "n_FeII": 3,
+      "A_FeI": 7.431,
+      "n_FeI": 104,
+      "FeII_minus_FeI_dex": 0.035,
+      "sigma_reported_FeII": 0.919288,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "VIS",
+      "treatment": "1D-LTE",
+      "tier": "DEEPGRADED",
+      "scale": "1D-LTE",
+      "A_FeII": 7.569,
+      "n_FeII": 9,
+      "A_FeI": 7.417,
+      "n_FeI": 108,
+      "FeII_minus_FeI_dex": 0.152,
+      "sigma_reported_FeII": 0.318958,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "VIS",
+      "treatment": "ENGINE-A",
+      "tier": "DEEPGRADED",
+      "scale": "1D-NLTE",
+      "A_FeII": 7.46,
+      "n_FeII": 3,
+      "A_FeI": 7.426,
+      "n_FeI": 104,
+      "FeII_minus_FeI_dex": 0.034,
+      "sigma_reported_FeII": 0.921182,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "near-UV",
+      "treatment": "1D-LTE",
+      "tier": "DEEPGRADED",
+      "scale": "1D-LTE",
+      "A_FeII": 7.957,
+      "n_FeII": 12,
+      "A_FeI": 7.642,
+      "n_FeI": 58,
+      "FeII_minus_FeI_dex": 0.315,
+      "sigma_reported_FeII": 0.162195,
+      "within_reported_bar": false
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "near-UV",
+      "treatment": "ENGINE-A",
+      "tier": "DEEPGRADED",
+      "scale": "1D-NLTE",
+      "A_FeII": 7.975,
+      "n_FeII": 7,
+      "A_FeI": 7.651,
+      "n_FeI": 58,
+      "FeII_minus_FeI_dex": 0.324,
+      "sigma_reported_FeII": 0.186479,
+      "within_reported_bar": false
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "near-UV",
+      "treatment": "1D-LTE",
+      "tier": "DEEPGRADED",
+      "scale": "1D-LTE",
+      "A_FeII": 7.697,
+      "n_FeII": 12,
+      "A_FeI": 7.596,
+      "n_FeI": 58,
+      "FeII_minus_FeI_dex": 0.101,
+      "sigma_reported_FeII": 0.164095,
+      "within_reported_bar": true
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "near-UV",
+      "treatment": "ENGINE-A",
+      "tier": "DEEPGRADED",
+      "scale": "1D-NLTE",
+      "A_FeII": 7.738,
+      "n_FeII": 7,
+      "A_FeI": 7.606,
+      "n_FeI": 58,
+      "FeII_minus_FeI_dex": 0.132,
+      "sigma_reported_FeII": 0.17798,
+      "within_reported_bar": true
+    }
+  ],
+  "balance_note": "Fe II minus Fe I on the SAME band, instrument, holding, tier, selector, route and treatment \u2014 one scale by construction, so no correction is applied to either side and no value is re-derived (RYA-161). 7 of 10 matched pairs sit inside the Fe II reported bar; the VIS 1D-NLTE (Bergemann) pairs agree to +0.0630, +0.0350, +0.0340 dex. Closest pair: solar_kpno_molecfit_corrected VIS ENGINE-A at +0.0340 dex (Fe II 7.460 n=3 vs Fe I 7.426 n=104). \u26a0\ufe0f The Fe II bars are wide \u2014 dominated by line-to-line scatter over n=3 \u2014 so 'consistent' here means the balance does not CONTRADICT the Fe I anchor, not that it constrains it.",
+  "anchor_caveat": "\u26a0\ufe0f DO NOT quote the Fe II VIS cells against the 7.466 anchor directly. That anchor is on the 3D-NLTE (gold v3, RYA-553) scale and these are 1D-NLTE products; comparing them mixes two scales, which is the RYA-669 ratchet the RYA-783 report warns about in as many words. The coincidence is inviting -- the kurucz2005 Fe II cell is 7.466 to three decimals, the anchor's own digits -- and a number that looks right on arrival is the one that never gets challenged. The defensible statement is the scale-matched balance above.",
+  "problems": [],
+  "verdict": "CLEAN \u2014 every live Fe II product carries the limit, none takes departures from the Gerber deck, and no Fe II per-line row is on an NLTE scale"
+}

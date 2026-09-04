@@ -1,0 +1,48 @@
+{
+  "atom": "atom.fe607a",
+  "element": "FE",
+  "md5": "d08dc8232ed68eec65f9bb6631e82ea8",
+  "sha256": "53446fe1db5e22e35ad972c3d36b990d27bcf6b13c92c95c00aa57cf1f6d7243",
+  "n_levels_declared": 607,
+  "n_bb_declared": 12635,
+  "n_bb_parsed": 12635,
+  "n_continua_declared": 606,
+  "n_cross_stage_bb": 0,
+  "highest_level_index_in_any_bb": 546,
+  "stages": [
+    {
+      "ion_stage": 1,
+      "n_levels": 548,
+      "level_index_lo": 1,
+      "level_index_hi": 548,
+      "energy_eV_lo": 0.0,
+      "energy_eV_hi": 7.5052,
+      "n_bb_both": 12635,
+      "n_bb_any": 12635,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 2,
+      "n_levels": 58,
+      "level_index_lo": 549,
+      "level_index_hi": 606,
+      "energy_eV_lo": 7.9499,
+      "energy_eV_hi": 23.7531,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    },
+    {
+      "ion_stage": 3,
+      "n_levels": 1,
+      "level_index_lo": 607,
+      "level_index_hi": 607,
+      "energy_eV_lo": 24.1017,
+      "energy_eV_hi": 24.1017,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    }
+  ],
+  "measured_at": "2026-09-03T21:35:38Z"
+}
