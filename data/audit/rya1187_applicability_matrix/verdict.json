@@ -1,0 +1,50 @@
+{
+  "ticket": "RYA-1187",
+  "feed_version": "1.94",
+  "n_cells": 60,
+  "n_engine_cells": 32,
+  "cells_by_verdict": {
+    "ABSENT_NO_COVERAGE": 21,
+    "LIVE": 20,
+    "ABSENT_NO_LAB_LINE_AT_THIS_DEPTH": 9,
+    "ABSENT_ENGINE_DOMAIN": 7,
+    "ABSENT_NO_REFERENCE_LINE": 2,
+    "BLOCKED_BAND_TABLE_CONFLICT": 1
+  },
+  "engine_by_verdict": {
+    "LIVE": 14,
+    "GAP": 9,
+    "UNDETERMINED_IN_CHECKOUT": 4,
+    "ABSENT_ENGINE_BOXED": 3,
+    "ABSENT_NO_NLTE_LABELS_IN_BAND_LINELIST": 2
+  },
+  "silent_empties": 0,
+  "owed_products": [],
+  "\ud83d\udd34 emit_blocked_here": {
+    "blocked": true,
+    "why": "this checkout cannot run a synthesis: `import ispec` fails on the Mac, the spectra are staged at /mnt/codex-data on Sirius, and the near-UV linelist + iSpec's GES v6 are not in the repo. A product enters the feed through publish_product.py from a REAL artifact or it does not exist (RYA-1034); rows written without a run would be laundering.",
+    "runs_on": "Sirius",
+    "what_each_needs": "Reference Grade red-optical/NIR: measure the AGSS21 line set on that holding via `scripts/measure_reference_lineset.py --line-set asplund`, then publish with `--line-set asplund`. NIR Codex on solar_kpno_kurucz2005_corrected: a derive_band_products run over 9199-10000 A on the GRADED selector."
+  },
+  "headline": {
+    "question": "is there a Deep Grade gap in red-optical / NIR?",
+    "answer": "NO \u2014 there is no primary-lab-gf Fe line deep enough in either band",
+    "red_optical": {
+      "lab_lines": 70,
+      "shallow": 66,
+      "deep": 0,
+      "below_floor": 4,
+      "depth_max": 0.583,
+      "depth_median": 0.342
+    },
+    "NIR": {
+      "lab_lines": 29,
+      "shallow": 29,
+      "deep": 0,
+      "below_floor": 0,
+      "depth_max": 0.409,
+      "depth_median": 0.159
+    },
+    "gate": 0.6
+  }
+}
