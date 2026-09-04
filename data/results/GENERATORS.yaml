@@ -33,6 +33,43 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  # ── RYA-1189 — the continuum RCA: is the UV/IR continuum too high? ────────────────
+
+  - artifact: rya1189/rya1189_per_line.csv
+    generator: scripts/rya1189_continuum_rca.py
+    invocation: python3 scripts/rya1189_continuum_rca.py --out-dir data/results/rya1189
+    ticket: RYA-1189
+    note: >-
+      DIAGNOSTIC ONLY -- no product written, no holding renormalised, no published value
+      moved (RYA-161). Per line, the two continuum placements the pipeline itself defines
+      on a pre-normalised holding: CURRENT = 1.0 ("atlas continuum trusted") and LOCAL =
+      band_products.local_continuum, the 95th percentile of the flanking side-bands. Both
+      called from the production module, so this is the pipeline's own two numbers rather
+      than a re-implementation. Carries delta_pct, dEW, dA, REW, blend_frac, blanket_frac
+      and -- the discriminator -- the catalogued absorption summed over the side-band from
+      linelist_solar's own central_depth.
+  - artifact: rya1189/rya1189_per_band.csv
+    generator: scripts/rya1189_continuum_rca.py
+    invocation: python3 scripts/rya1189_continuum_rca.py --out-dir data/results/rya1189
+    ticket: RYA-1189
+    note: >-
+      The per-band aggregate. VIS is the CONTROL and comes out at 1.15% with 10/10
+      side-bands clean, which is what makes the other bands readable.
+  - artifact: rya1189/rya1189_continuum_rca.json
+    generator: scripts/rya1189_continuum_rca.py
+    invocation: python3 scripts/rya1189_continuum_rca.py --out-dir data/results/rya1189
+    ticket: RYA-1189
+    note: >-
+      The computed verdict. 🔴 near-UV is BLEND-DRIVEN: 27.9% shift, but the side-band
+      carries 1.650 of catalogued central depth at 59 lines/A and 0 of 10 side-bands pass
+      SIDEBAND_CLEAN_MIN -- `cont_local` there is a PSEUDO-continuum, so placing the
+      continuum on it would remove real line flux and bias EW LOW. red-optical (3.6%) and
+      NIR-H (8.1%) are NOT blend-driven and are flagged as candidates, with the honest
+      caveat that excluding catalogued blending does not establish a misplaced continuum:
+      uncatalogued absorption (telluric residual after molecfit, missing molecular
+      opacity) is not separated by this measurement. ⚠️ The direction of dA is arithmetic,
+      not evidence -- cont_local < 1 forces A downward in every band -- so "moves toward
+      7.466" is reported as a closing check and is never a fit target.
 
   # ── Solar synthesis measurements (the Sirius class this ticket is about) ──────────
 
