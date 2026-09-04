@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-09-03T22:58:05Z",
+  "generated_at": "2026-09-04T13:58:30Z",
   "n_live_fe_ii_products": 10,
   "n_stamped": 10,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -212,6 +212,19 @@
     },
     {
       "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
       "n_lines": 9,
       "n_in_aggregate": 9,
       "n_with_a_nonzero_departure": 0,
