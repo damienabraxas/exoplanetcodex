@@ -1814,6 +1814,21 @@ artifacts:
       (Ruffoni 2014 stu780.pdf, Den Hartog 2014 ApJS 215/23, Belmonte 2017 ApJ 848/125),
       read off the local Reference documents/ folder -- not VizieR. This is the pool
       RYA-850 promotes, and the NIST pass never touched it.
+  - artifact: rya853/rya853_graded_pool_coverage.json
+    generator: scripts/rya853_graded_pool_coverage.py
+    invocation: python3 scripts/rya853_graded_pool_coverage.py --out data/results/rya853/rya853_graded_pool_coverage.json
+    ticket: RYA-853
+    note: >-
+      Scope 1 coverage, stated rather than implied. The ticket says "sweep the whole pool";
+      the executed pass refereed the 60 rows of the two HAND-MAINTAINED extracts and found
+      70% of their grades wrong. 🔴 The pool has since grown to 1924 graded rows (RYA-822/
+      RYA-945 bulk-ingested Fe I/Fe II from ASD), so the 843 in the ticket text is stale by
+      construction. 1807 of the remainder carry a MACHINE-PULLED grade -- read straight off
+      the ASD response's own `Acc.` column by rya822_pull_nist_nearuv.py:115 -- which is a
+      different provenance class: a grade cannot be TYPED wrong there. ⚠️ That is not a
+      clean bill of health and this artifact does not give one; the machine pull's own
+      failure mode is matching the WRONG LINE, which is exactly the defect the EP guard
+      caught live on Fe I 6065.490. Counted separately and neither reported as the other.
   - artifact: rya853/rya853_fe1_labpool_referee.json
     generator: scripts/rya853_fe1_labpool_referee.py
     invocation: python3 scripts/rya853_fe1_labpool_referee.py

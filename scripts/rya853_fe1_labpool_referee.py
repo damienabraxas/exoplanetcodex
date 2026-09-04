@@ -43,7 +43,9 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -61,7 +63,20 @@ LAB_CSV = ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv"
 OUT = ROOT / "data" / "results" / "rya853"
 
 #: The papers live beside the repo, not in it — they are copyrighted PDFs.
-PAPERS_DIR = Path(codex_root("local_data")).parent / "Reference documents"
+#: ⚠️ WORKTREE-RELATIVE, AND THAT IS WHY IT IS OVERRIDABLE. `local_data` resolves to
+#: `{repo_parent}/data`, so this lands on `<the directory holding the checkout>/Reference
+#: documents`. That is correct from the main clone and WRONG from a per-ticket worktree
+#: under `~/codex/`, where it points at a directory that does not exist -- the RYA-1138
+#: class (a path derived from where you happen to be running produces a false absence).
+#: It fails loudly rather than reporting "no coverage", but a loud failure you cannot
+#: clear from a worktree is still a blocked re-run, so the location is addressable:
+#:     --papers-dir <path>        or        RYA853_PAPERS_DIR=<path>
+#: The resolved directory is printed, so a run always records which copy it refereed.
+def _default_papers_dir() -> Path:
+    env = os.environ.get("RYA853_PAPERS_DIR")
+    if env:
+        return Path(env).expanduser()
+    return Path(codex_root("local_data")).parent / "Reference documents"
 
 #: The machine-readable tables from CDS, vendored so the audit reproduces offline.
 #: These are the FULL line lists the PDFs only excerpt — Ruffoni's Table 3 caption says
@@ -118,10 +133,39 @@ _MINUS = r"[-\u2212\u2013\u2014]"
 
 # λair(Å)  ... log(gf)  ±unc     — Ruffoni Table 5 and Den Hartog Table 5
 _ANGSTROM_ROW = re.compile(
-    rf"^\s*(\d{{4}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2}})\s*(?:±\s*)?(\d\.\d{{2}})\b")
-# λ(nm)  ... log(gf)±unc         — Belmonte Table 4
+    rf"^\s*(\d{{4}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2,3}})\s*(?:±\s*)?(\d\.\d{{2,3}})\b")
+
+# 🔴 BELMONTE TABLE 4 HAS **TWO** log gf COLUMNS, AND THE FIRST VERSION OF THIS PARSER
+# READ THE WRONG ONE. The header is:
+#
+#   Wavelength | Upper Level | Lower Level | BF | UBF | A_ul | This Experiment | Published
+#      (nm)      E(cm-1) J     E(cm-1) J    (%)        (1e6/s)   log(gf)          log(gf)  References
+#
+# "This Experiment" is Belmonte's own measurement — the value we cite as
+# `PRIMARY LAB Belmonte2017`. "Published" is a PREVIOUS author's value that Belmonte
+# tabulates for comparison, tagged in the trailing References column (MA74, OB91, ...).
+#
+# The old pattern captured `{_MINUS}?\d\.\d{{2}}` — EXACTLY two decimals — behind a
+# non-greedy `.*?`. Belmonte prints most "This Experiment" values to 2 dp but some to 3,
+# and on a 3 dp row (`−2.199±0.07`) the two-decimal capture cannot be followed by `±`, so
+# the scan slid past it and matched the NEXT pair: the Published column.
+#
+#   393.5307 ... 0.91 (17)  −2.199±0.07   −1.82±0.18  MA74
+#                            ^ ours, correct  ^ what the old parser read
+#
+# That manufactured 11 "mismatches" out of 120 Belmonte lines, one of which
+# (Fe I 3935.3064, ours −2.199/0.07 vs "paper" −1.82/0.18) was reported on RYA-853 as a
+# GENUINE BAD ROW wrong on both axes and stood for two weeks. It is not a bad row: ours
+# reproduces Belmonte's own measurement EXACTLY. Same family as the Den Hartog
+# column-off-by-one below and RYA-799's scale "defect" that turned out to be labelling.
+#
+# The fix is STRUCTURAL rather than a wider decimal count: take the FIRST `value ± unc`
+# pair in the row. "This Experiment" is always present and always precedes "Published"
+# (rows with no prior literature value carry one pair and a bare `LL` tag), and no earlier
+# column uses `±` — A_ul prints its uncertainty in parentheses. So position decides it,
+# not the number of decimals a typesetter chose.
 _NM_ROW = re.compile(
-    rf"^\s*(\d{{3}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2}})\s*±\s*(\d\.\d{{2,3}})")
+    rf"^\s*(\d{{3}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2,3}})\s*±\s*(\d\.\d{{2,3}})")
 
 
 def _num(tok: str) -> float:
@@ -206,7 +250,17 @@ def parse_paper(key: str, text: str) -> pd.DataFrame:
     return d.drop_duplicates(subset=["paper_wave_A"]).reset_index(drop=True)
 
 
-def main() -> None:
+def main(argv=None) -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--papers-dir", default=None,
+                    help="directory holding the three source-paper PDFs; defaults to "
+                         "$RYA853_PAPERS_DIR, else <checkout parent>/Reference documents")
+    args = ap.parse_args(argv)
+    global PAPERS_DIR
+    PAPERS_DIR = Path(args.papers_dir).expanduser() if args.papers_dir \
+        else _default_papers_dir()
+
     OUT.mkdir(parents=True, exist_ok=True)
     if not LAB_CSV.exists():
         raise SystemExit(f"lab pool absent: {LAB_CSV}")
@@ -215,7 +269,14 @@ def main() -> None:
           + ", ".join(f"{k}={v}" for k, v in lab.source.value_counts().items()))
 
     if not PAPERS_DIR.is_dir():
-        raise SystemExit(f"reference papers not found at {PAPERS_DIR}")
+        raise SystemExit(
+            f"reference papers not found at {PAPERS_DIR}\n"
+            f"  This path is derived from the CHECKOUT'S PARENT, so it differs between the\n"
+            f"  main clone and a per-ticket worktree (RYA-1138). Point it at the papers:\n"
+            f"    --papers-dir '<dir holding Belmonte_2017_ApJ_848_125.pdf>'\n"
+            f"    RYA853_PAPERS_DIR='<same>'\n"
+            f"  Refusing rather than refereeing zero lines and reporting a clean pool.")
+    print(f"[papers] {PAPERS_DIR}")
 
     parsed, origins = {}, {}
     for key, (fname, cite) in PAPERS.items():
@@ -320,8 +381,19 @@ def main() -> None:
             "Belmonte's table is in NANOMETRES while the Wisconsin tables are in air "
             "Angstroms; mixing them matches nothing and reads as 'Belmonte does not cover "
             "our lines'",
-            "pdftotext -layout is required — pypdf's extract_text collapses the columns "
-            "and the tables become unparseable",
+            "pdftotext -layout keeps the columns aligned; where it is unavailable this "
+            "falls back to pypdf, which sufficed for Belmonte Table 4 but has collapsed "
+            "columns on other tables — the extractor is recorded so a parse can be "
+            "reproduced with the same one",
+            "🔴 BELMONTE TABLE 4 HAS TWO log gf COLUMNS — 'This Experiment' (footnote d, "
+            "'measured in this work') and 'Published' (footnote e, 'from other authors "
+            "used for comparison', tagged MA74/OB91/BL79/...). Capturing exactly two "
+            "decimals behind a non-greedy scan slid past every 3-decimal This-Experiment "
+            "value and read the Published one instead: 11 of 120 lines became "
+            "'mismatches', and Fe I 3935.3064 (ours -2.199/0.07 vs May et al. 1974's "
+            "-1.82/0.18) was reported to RYA-853 as a GENUINE BAD ROW wrong on both axes. "
+            "It is not. The pair is now taken POSITIONALLY (first 'value ± unc' in the "
+            "row), so a typesetter's decimal count cannot choose the column",
         ],
     }, indent=2))
     print(f"\n[out] {OUT}/rya853_fe1_labpool_referee.csv")
