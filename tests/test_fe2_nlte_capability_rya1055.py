@@ -478,7 +478,16 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     Every LTE leg must say so, and no leg may name the deck."""
     a = json.loads(AUDIT.read_text())
     per = a["band_product_per_line_nlte_sources"]
-    assert len(per) == 15, len(per)
+    #: 15 -> 16: RYA-1135 added the Fe II <3D>-LTE leg
+    #: (`..._synth-mean3D-LTE-gerber-stagger_lines.csv`). It is a NEW artifact, not a
+    #: changed one — and it is exactly the kind this test exists to police, so it is swept
+    #: in rather than excluded: the per-row assertions below run on it too, and it must
+    #: report `none — LTE, no departure applied` like every other non-ENGINE-A leg. The
+    #: <3D>-mean atmosphere is ion-agnostic; only the departures are ion-specific, and Fe II
+    #: takes none.
+    assert len(per) == 16, len(per)
+    assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
+        "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     for r in per:
         for s in r["nlte_source"]:
             assert "erber" not in s and "fe607a" not in s, (r["artifact"], s)
