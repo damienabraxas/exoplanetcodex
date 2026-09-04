@@ -1207,7 +1207,36 @@ def assert_linelist_supports_nlte(linelist, Z: int, element: str,
     the single worst outcome available here: an LTE synthesis shipped under an NLTE label.
     iSpec does not report `nlte_available` back to the caller, so the check has to happen
     on this side of the call.
+
+    🔴 RYA-1135 — THE ATOM'S REACH IS CHECKED FIRST, AND IT IS A REFUSAL, NOT A FOOTNOTE.
+    Everything below keys on "how many of these lines carry NLTE labels", which is the right
+    question only when the ATOM has transitions for the ion. For Fe II it does not:
+    `atom.fe607a` declares 12,635 bound-bound transitions and not one involves an Fe II
+    level (RYA-1055), so bsyn applies departure = 1 to EVERY Fe II line whatever the list
+    says about it. Labels are irrelevant to the outcome.
+
+    That made the old placement a live hole rather than a style point. `nlte_ion_capability`
+    already returns (False, limit) for Fe II — but it was consulted ONLY inside the
+    `n == 0` branch, to phrase the message. A pool with even ONE labelled Fe II line never
+    reaches that branch, so the verdict was never applied, and the run proceeded to emit an
+    LTE product under an NLTE label. That pool is not hypothetical: 854 of the 8,870 Fe II
+    lines in the 4200-6910 A window ARE labelled, and only the accident that RYA-1135's
+    9-line DEEPGRADED pool contains none of them made `derive_band_products` refuse.
+
+    So the capability verdict now gates the function, before any counting. A species whose
+    atom cannot serve the ion is refused no matter how well its line list is labelled —
+    which is the standing phantom-departure detector RYA-1135 asks for, placed where a
+    phantom is actually born rather than downstream of it.
     """
+    capable, limit = nlte_ion_capability(element, ion) if ion is not None else (None, "")
+    if capable is False:
+        raise GerberDeckError(
+            f"{element} {ion}: NLTE was requested, but this deck's model atom carries NO "
+            f"bound-bound transitions for this ionisation stage, so bsyn would apply "
+            f"departure = 1 to every line and the product would be LTE under an NLTE label "
+            f"(RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS — label coverage is irrelevant "
+            f"when there is nothing in the atom to label against. {limit}")
+
     try:
         # RYA-1050: one selection, shared with `label_coverage`, so the number the guard
         # asserts on and the number the provenance reports cannot disagree.
