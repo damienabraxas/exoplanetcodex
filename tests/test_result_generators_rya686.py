@@ -85,6 +85,18 @@ FROZEN_HAND_AUTHORED = {
     #                      a control row finds no product.
     "rya847/README.md",
     "rya847/rya847_pregate_control.csv",
+    # RYA-1055, added deliberately. The stated capability limit on two PUBLISHED cells of
+    # the rya783 matrix (Fe II VIS ENGINE-B-NLTE 7.470, Fe II red-optical 7.461): they
+    # cannot be regenerated as NLTE by any route we hold, because atom.fe607a declares
+    # 12,635 bound-bound transitions and not one is Fe II. It is HAND_AUTHORED for the
+    # same reason rya847/README.md is -- prose ABOUT an artifact, and the artifact it
+    # annotates is NOT regenerable from this checkout (its inputs are the rya845 run under
+    # /mnt/codex-data) and must not be hand-edited, the disposition RYA-869 already took
+    # for the four cells still carrying its pre-fix bar. The MEASUREMENT it rests on is
+    # registered COMMITTED beside it (rya1055/atom_ion_reach.json), and the matrix
+    # generator now emits the annotation natively, so this file is a record and not a
+    # substitute for either.
+    "rya783/CAPABILITY_ANNOTATIONS.md",
     # RYA-925: narrative/reporting surfaces, not machine-generated measurements.
     # Their machine sources remain registered separately in GENERATORS.yaml.
     "rya925/REPORT.md",

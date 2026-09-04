@@ -108,6 +108,56 @@ def _add_axes(d: "pd.DataFrame") -> "pd.DataFrame":
     return d
 
 
+def _annotate_capability(d: "pd.DataFrame") -> "pd.DataFrame":
+    """RYA-1055 — mark every cell whose NLTE label the shipped deck cannot support.
+
+    🔴 THE TWO CELLS THIS EXISTS FOR. `Fe II VIS ENGINE-B-NLTE 7.470 (n=8)` and
+    `Fe II red-optical ENGINE-B-NLTE 7.461 (n=2)` are in the committed matrix, and they
+    CANNOT be regenerated as NLTE by any route we hold: `atom.fe607a` declares 12,635
+    bound-bound transitions and not one of them is Fe II, so bsyn applies departure = 1
+    to every Fe II line and the synthesis is LTE whatever the label says. Ryan's
+    disposition (2026-08-30, re-ratified 2026-09-03) is ANNOTATE, NOT DELETE: they are
+    the only Fe II Engine-B numbers we hold, and deleting them destroys the record that
+    the question was ever asked. The RYA-1050 pool guard is what stops NEW ones.
+
+    ⚠️ Whether they were EVER NLTE is UNRECORDED and could not be determined — the
+    artifacts predate `provenance.txt`, the RYA-906 axis columns and RYA-880's
+    `nlte_delta_dex`. The NLTE and LTE products do differ per line (median -0.0075 dex),
+    but that is fully explained WITHOUT departures: `ENGINE-B-NLTE` ran on MARCS.GES while
+    `ts-lte` `ENGINE-B` ran on the route's own atmosphere, and RYA-1045 measured that
+    atmosphere step at +0.004 for Fe I on the same instrument. The note says
+    "cannot be shown to be NLTE", which is the claim the evidence supports — not
+    "is wrong".
+
+    The verdict is LOOKED UP through `pipeline.gerber_nlte.nlte_ion_capability`, the same
+    accessor the synthesis guard and the product stamp read, so this report cannot state
+    a reach the pipeline disagrees with.
+    """
+    from pipeline.gerber_nlte import nlte_ion_capability
+
+    notes = []
+    for _, row in d.iterrows():
+        t = str(row.get("treatment", ""))
+        # Only a GERBER-DECK NLTE cell is at issue. ENGINE-A reads the MPIA/Bergemann
+        # per-line grid, which carries real Fe II corrections, and an LTE cell claims
+        # nothing. Widening this to "any NLTE label" would relabel an honest product.
+        if "ENGINE-B-NLTE" not in t and "mean3D-NLTE" not in t:
+            notes.append("")
+            continue
+        capable, limit = nlte_ion_capability(str(row.get("element", "")),
+                                             row.get("ion"))
+        if capable is False:
+            notes.append(
+                f"CANNOT BE SHOWN TO BE NLTE -- LTE-equivalent. {limit} Retained, not "
+                f"deleted: the only {row.get('element')} {row.get('ion')} Engine-B record "
+                f"we hold, and its provenance predates the route/scale/model/atmos "
+                f"columns (RYA-906) and nlte_delta_dex (RYA-880).")
+        else:
+            notes.append("")
+    d["capability_note"] = notes
+    return d
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -125,6 +175,7 @@ def main() -> None:
     # 'ENGINE-B'; the deck is what distinguishes them, so keep the last-writer-free split.
     d["treatment"] = d["treatment"].astype(str)
     d = _add_axes(d)
+    d = _annotate_capability(d)
 
     print("=" * 100)
     print("RYA-783 — Fe PRODUCT MATRIX.  Separate products, never combined (RYA-712).")
@@ -209,6 +260,18 @@ def main() -> None:
         print("  It is synthesis-only (band policy); derive it with")
         print("  `derive_band_products.py --lo 3000 --hi 3780`, which takes the RYA-832")
         print("  synthesis route automatically. Absent here means NOT RUN — not 'blocked'.")
+
+    # ── RYA-1055 — stated capability limits on the cells above ──────────────
+    flagged = d[d.capability_note.astype(str) != ""]
+    if len(flagged):
+        print("\n" + "=" * 100)
+        print("CAPABILITY LIMIT — cells whose NLTE label the shipped deck cannot support")
+        print("=" * 100)
+        for _, x in flagged.iterrows():
+            print(f"  Fe {x.ion} {x.band} {x.treatment}  A={float(x.A):.3f} "
+                  f"n={int(x.n_lines)}  -- CANNOT BE SHOWN TO BE NLTE (LTE-equivalent)")
+        print("  Annotated, NOT deleted (Ryan 2026-08-30/09-03). See")
+        print("  data/results/rya783/CAPABILITY_ANNOTATIONS.md and RYA-1055.")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / "fe_product_matrix.csv"
