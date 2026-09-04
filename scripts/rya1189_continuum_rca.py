@@ -373,7 +373,40 @@ def main(argv=None) -> int:
                 f"live and must be ruled out before any redo.")
 
     # ── the closing check (RYA-161): reported LAST, never a fit target ─────────────
+    #
+    # 🔴 AND THE CHECK ITSELF SEPARATES "CORRECTLY PLACED" FROM "CLOSER TO ASPLUND",
+    # which is the whole reason RYA-161 puts it last. Read against the published feed:
+    #
+    #   near-UV Fe I     7.596 - 7.651   gap to anchor +0.13 .. +0.19   BLEND-DRIVEN
+    #   red-optical Fe I 7.448 - 7.492   gap to anchor -0.02 .. +0.03   NOT blend-driven
+    #
+    # The band with the CLEANEST continuum-error signature is the band that ALREADY sits
+    # on the anchor, and applying its shift (-0.032) would move it AWAY. The band that is
+    # far from the anchor is the one whose shift is blanketing. So "move the UV toward
+    # 7.466" and "place the continuum correctly" are not the same operation here -- they
+    # point at different bands and, in the red-optical, in opposite directions.
+    published = {}
+    feed = ROOT / "data/products/solar/Fe.json"
+    if feed.exists():
+        fe = json.loads(feed.read_text())
+        for pr in fe.get("products", []):
+            if pr.get("ion") != "I":
+                continue
+            published.setdefault(pr["band"], []).append(round(float(pr["A"]), 3))
+
     anchor_check = {
+        "published_A_FeI_by_band": {k: sorted(v) for k, v in sorted(published.items())},
+        "gap_to_anchor_by_band": {
+            k: [round(a - OPTICAL_ANCHOR, 3) for a in sorted(v)]
+            for k, v in sorted(published.items())},
+        "the_separation": (
+            "The band with the cleanest continuum-error signature (red-optical, NOT "
+            "blend-driven) is the band ALREADY on the anchor, and its shift (-0.032) "
+            "would move it AWAY from 7.466. The band furthest from the anchor (near-UV, "
+            "+0.13..+0.19) is the one whose shift is blanketing and must NOT be applied. "
+            "So 'closer to Asplund' and 'correctly placed' point at different bands here, "
+            "and in the red-optical in opposite directions — which is exactly why the "
+            "anchor is a check and never the fit target (RYA-161)."),
         "what": "distance to the optical anchor, computed AFTER placement and used for "
                 "nothing. The local continuum was placed from the data's own side-bands.",
         "anchor": OPTICAL_ANCHOR,
