@@ -1,0 +1,34 @@
+{
+  "ticket": "RYA-853 scope 1 \u2014 graded-pool coverage",
+  "generated_at": "2026-09-04T04:49:18Z",
+  "n_rows_with_a_stored_grade": 1924,
+  "ticket_text_said": 843,
+  "pool_grew_note": "RYA-853 was written against 843 graded lines; RYA-822/RYA-945 have since bulk-ingested Fe I/Fe II from NIST ASD. Any coverage fraction quoted from the ticket text is stale \u2014 re-measure it, do not carry it.",
+  "by_provenance_class": {
+    "machine_pull_from_asd": {
+      "rows": 1807,
+      "sources": {
+        "NIST-C+": 1201,
+        "NIST ASD (astroquery)": 605,
+        "NIST-C+ u25": 1
+      },
+      "grade_origin": "the ASD response's own `Acc.` column, read directly by scripts/rya822_pull_nist_nearuv.py:115",
+      "refereed_by_rya853": false,
+      "risk": "NOT hand-transcription. The failure mode here is matching the WRONG LINE and stamping a correct grade off it \u2014 the defect the EP guard caught live on Fe I 6065.490 (NIST EP 2.608 vs our 4.956). Un-refereed, and not claimed clean."
+    },
+    "hand_maintained_extracts": {
+      "rows_in_the_two_extract_files": 60,
+      "refereed_by_rya853": true,
+      "result": "70% of uniquely-matched grades disagreed with live NIST ASD",
+      "corrections_tabulated": 45
+    }
+  },
+  "lab_tier_pool": {
+    "rows_at_gf_tier_LAB": 453,
+    "refereed_against_source_papers": 464,
+    "loggf_mismatches": 0,
+    "sigma_mismatches": 0,
+    "note": "scope 2. Refereed against Ruffoni 2014 / Den Hartog 2014 / Belmonte 2017's own tables \u2014 the pool RYA-850 promotes. \u26a0\ufe0f `rows_at_gf_tier_LAB` and `refereed_against_source_papers` are DIFFERENT SETS and must not be read as a fraction of each other: the referee runs on the curated `data/reference/fe_gf_lab/fe1_lab_loggf.csv` (465 Fe I lines), while gf_tier==LAB counts canonical_gf rows across Fe I, Fe II and Al I."
+  },
+  "verdict": "The grade audit has refereed the 60 rows of the two hand-maintained extracts. 1807 rows carrying a machine-pulled ASD grade and 57 other graded rows are NOT refereed. 'The graded pool was audited' is therefore FALSE as stated; what is true is that the pool where a grade can be typed wrong was audited, and it was 70% wrong."
+}
