@@ -33,6 +33,46 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  # ── RYA-1190 — frontier-band uncatalogued opacity: resolvable or residual? ─────────
+
+  - artifact: rya1190/rya1190_per_line.csv
+    generator: scripts/rya1190_frontier_opacity.py
+    invocation: python3 scripts/rya1190_frontier_opacity.py --out-dir data/results/rya1190
+    ticket: RYA-1190
+    note: >-
+      DIAGNOSTIC ONLY -- no line added to any list, no published value moved (RYA-161).
+      Per line, the observed side-band 95th percentile against a CATALOGUED-OPACITY
+      ACCOUNTING built from linelist_solar's own central depths as exp(-SUM tau_i), so
+      overlap and saturation behave. ⚠️ It is an accounting, NOT a synthesis differential:
+      Turbospectrum's bsyn_lu is absent from the Mac and MOOG is a Linux ELF, and
+      `spectrum` -- the one arm64 binary present -- is not the production engine (RYA-289).
+      A true differential is owed as a Sirius run. Width is the quadrature of a 1.6 km/s
+      Doppler term and the INSTRUMENTAL width from instrument_catalog.csv, swept x0.6/x2.0.
+  - artifact: rya1190/rya1190_per_band.csv
+    generator: scripts/rya1190_frontier_opacity.py
+    invocation: python3 scripts/rya1190_frontier_opacity.py --out-dir data/results/rya1190
+    ticket: RYA-1190
+    note: >-
+      Per-band aggregate, quoted as EXCESS OVER THE VIS CONTROL. The control's side-bands
+      are line-free by selection and still sit 1.1% below the accounting; that floor is
+      subtracted rather than explained, because this cannot tell a method floor from a
+      small real KP continuum offset.
+  - artifact: rya1190/rya1190_frontier_opacity.json
+    generator: scripts/rya1190_frontier_opacity.py
+    invocation: python3 scripts/rya1190_frontier_opacity.py --out-dir data/results/rya1190
+    ticket: RYA-1190
+    note: >-
+      The verdicts. 🔴 PART A IS REFUTED AS POSED: the production near-UV list IS the
+      vendored VALD3 extract-all -- 0 lines in VALD only, 0 in ours only, over 62,072 rows
+      -- so "complete the line list" adds NOTHING at the 0.001-depth threshold, and the
+      molecular surplus (CH MoLLIST) is the same sub-threshold tail VALD already evaluated
+      and dropped. The one remaining lever, a deeper re-extraction, is BOUNDED at 0.055 of
+      depression against a measured 0.172 deficit -> at most ~32% catalogueable, payoff
+      <= ~0.028 dex against a 0.13-0.19 dex gap. 🔴 PART B: red-optical is OPACITY and
+      specifically UNCORRECTED telluric -- the 7 windows molecfit never touched are MORE
+      depressed than the 3 it acted on -- so a per-band continuum redo there would divide
+      by real absorption. NIR-H is UNDETERMINED: its deficit CHANGES SIGN across the sigma
+      sweep, because CRIRES+'s resolving power makes the accounting insensitive.
   # ── RYA-1189 — the continuum RCA: is the UV/IR continuum too high? ────────────────
 
   - artifact: rya1189/rya1189_per_line.csv
