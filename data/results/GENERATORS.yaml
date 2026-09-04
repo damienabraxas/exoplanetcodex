@@ -33,6 +33,39 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  # ── RYA-1192 — is the telluric correction ACTUALLY applied? ───────────────────────
+
+  - artifact: rya1192/rya1192_per_line.csv
+    generator: scripts/rya1192_telluric_verification.py
+    invocation: python3 scripts/rya1192_telluric_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      VERIFICATION ONLY -- no correction applied, no value moved. Every live Fe product's
+      measured line whose per-line artifact is on disk, compared against its holding's own
+      RAW sibling: `max|corrected - raw|` of exactly zero means the correction never ran
+      there. 🔴 solar_kpno_molecfit_corrected comes back VERIFIED-RAW on 146 of 146
+      near-UV + VIS lines -- RYA-1190 sampled 7 of 10 red-optical windows; at line level it
+      is every one. ⚠️ HARPS is NOT simply "corrected": its corrected and raw products are separately
+      reduced and differ by ~9e-5 everywhere, so a bare max|diff|>0 test called 184 of 185
+      lines corrected on reduction noise. Judged against each holding's OWN baseline from
+      control windows -- KP's is exactly 0.0, HARPS's is 9.15e-05 -- only 6 HARPS lines
+      clear it materially, while its real correction (mean |diff| 0.264 in the O2 B-band)
+      is four orders larger and sits where almost no Fe line does.
+  - artifact: rya1192/rya1192_verification.json
+    generator: scripts/rya1192_telluric_verification.py
+    invocation: python3 scripts/rya1192_telluric_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      The correction map, the band registries and the CRIRES+ verdict. 🔴 THE REGISTRIES
+      DISAGREE: the holding label and telluric_policy.TELLURIC_BANDS both say SIX bands;
+      RYA-940 shipped SEVEN fit manifests, the extra being o2gamma 6270-6300 A. 🔴 KP
+      band coverage measured from the manifests: near-UV 0.0%, VIS 1.7%, red-optical
+      25.0%, NIR 20.1% -- a name asserting a correction over four bands that reaches none
+      of the first. ⚠️ `band_A` is the CORRECTED span and `fit_window_A` is 25 A wider
+      each side; the four lines falling in the pad came back byte-identical to raw, so the
+      pad constrains the fit and is not itself corrected. ⚠️ KP2005, IAG and the CRIRES+
+      raw IDPs are staged on Sirius and UNREADABLE here -- reported UNVERIFIABLE-HERE,
+      never as corrected or raw (RYA-833).
   # ── RYA-1190 — frontier-band uncatalogued opacity: resolvable or residual? ─────────
 
   - artifact: rya1190/rya1190_per_line.csv
