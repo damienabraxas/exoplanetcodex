@@ -1,6 +1,6 @@
 # RYA-1187 — (holding x band x engine x grade) applicability matrix
 
-Built from LINE-LEVEL data against `Fe.json` v1.93. Every cell is a live product or a stated reason; a silent empty is the defect this exists to remove.
+Built from LINE-LEVEL data against `Fe.json` v1.94. Every cell is a live product or a stated reason; a silent empty is the defect this exists to remove.
 
 ## The headline question: Deep Grade in red-optical and NIR
 
