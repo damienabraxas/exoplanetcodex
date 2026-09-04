@@ -1,0 +1,112 @@
+{
+  "ticket": "RYA-1189",
+  "verdict_per_band": {
+    "near-UV": "BLEND-DRIVEN \u2014 the side-band carries 1.650 of catalogued central depth (59 lines/A); `cont_local` is a PSEUDO-continuum, not a continuum. 0 of 10 side-bands pass SIDEBAND_CLEAN_MIN.",
+    "VIS": "NO MATERIAL SHIFT \u2014 current and local placements agree to 1.15%",
+    "red-optical": "NOT BLEND-DRIVEN \u2014 3.61% shift with only 0.0021 of catalogued absorption in the side-band, so OUR LINE LIST does not explain the depression. \u26a0\ufe0f That EXCLUDES catalogued blending; it does NOT establish a misplaced continuum. Two candidates remain and this measurement does not separate them: (1) the continuum really is placed too high, or (2) the side-band carries UNCATALOGUED absorption \u2014 telluric residual after molecfit, or molecular opacity missing from linelist_solar. Both bands flagged here are telluric-heavy, so (2) is live and must be ruled out before any redo.",
+    "NIR-Y": "NO MATERIAL SHIFT \u2014 current and local placements agree to 0.94%",
+    "NIR-H": "NOT BLEND-DRIVEN \u2014 8.11% shift with only 0.0019 of catalogued absorption in the side-band, so OUR LINE LIST does not explain the depression. \u26a0\ufe0f That EXCLUDES catalogued blending; it does NOT establish a misplaced continuum. Two candidates remain and this measurement does not separate them: (1) the continuum really is placed too high, or (2) the side-band carries UNCATALOGUED absorption \u2014 telluric residual after molecfit, or molecular opacity missing from linelist_solar. Both bands flagged here are telluric-heavy, so (2) is live and must be ruled out before any redo."
+  },
+  "spearman_delta_vs_catalogued_absorption": {
+    "rho": 0.5826,
+    "p": 8e-05,
+    "n_lines": 40,
+    "caveat": "one band carries ~500x the absorption of every other; the classification uses thresholds, not this coefficient"
+  },
+  "anchor_check": {
+    "what": "distance to the optical anchor, computed AFTER placement and used for nothing. The local continuum was placed from the data's own side-bands.",
+    "anchor": 7.466,
+    "note": "d_A_dex is NEGATIVE in every band with a material shift, so a per-band placement WOULD move A(Fe) down toward the anchor. That direction is arithmetic -- cont_local < 1 forces it -- and is therefore NOT evidence the placement is right. Whether it is right is decided by the verdict above, not by the direction of travel."
+  },
+  "thresholds": {
+    "big_shift_pct": 3.0,
+    "crowded_absorption": 0.1
+  },
+  "kind": "DIAGNOSTIC \u2014 no product written, no holding renormalised, no value moved",
+  "generated_at": "2026-09-04T13:54:43Z",
+  "half_width_A": 0.18,
+  "placements": {
+    "current": "cont = 1.0 \u2014 band_products.equivalent_width on a pre-normalised holding: 'atlas continuum trusted (data ship pre-normalised as residual flux)'",
+    "local": "band_products.local_continuum \u2014 95th percentile of the flanking side-bands, outside the fitting window"
+  },
+  "sideband_clean_min": 0.97,
+  "per_band": [
+    {
+      "band": "near-UV",
+      "n": 10,
+      "mean_delta_pct": 27.8809,
+      "median_delta_pct": 18.8019,
+      "mean_cont_local": 0.80502,
+      "mean_d_ew_mA": -34.782,
+      "mean_d_A_dex": -0.08604,
+      "mean_blend_frac": 0.8697,
+      "mean_blanket_frac": 1.0,
+      "mean_sideband_catalogued_absorption": 1.6502,
+      "mean_sideband_line_density_per_A": 58.61,
+      "n_sideband_clean": 0,
+      "n_saturated": 10
+    },
+    {
+      "band": "VIS",
+      "n": 10,
+      "mean_delta_pct": 1.1501,
+      "median_delta_pct": 0.5968,
+      "mean_cont_local": 0.9887,
+      "mean_d_ew_mA": -3.011,
+      "mean_d_A_dex": -0.01929,
+      "mean_blend_frac": 0.0597,
+      "mean_blanket_frac": 0.5771,
+      "mean_sideband_catalogued_absorption": 0.0033,
+      "mean_sideband_line_density_per_A": 5.83,
+      "n_sideband_clean": 10,
+      "n_saturated": 5
+    },
+    {
+      "band": "red-optical",
+      "n": 10,
+      "mean_delta_pct": 3.6086,
+      "median_delta_pct": 2.8102,
+      "mean_cont_local": 0.96617,
+      "mean_d_ew_mA": -7.455,
+      "mean_d_A_dex": -0.03192,
+      "mean_blend_frac": 0.0189,
+      "mean_blanket_frac": 0.8134,
+      "mean_sideband_catalogued_absorption": 0.0021,
+      "mean_sideband_line_density_per_A": 1.67,
+      "n_sideband_clean": 5,
+      "n_saturated": 5
+    },
+    {
+      "band": "NIR-Y",
+      "n": 3,
+      "mean_delta_pct": 0.9372,
+      "median_delta_pct": 0.0188,
+      "mean_cont_local": 0.99095,
+      "mean_d_ew_mA": -2.254,
+      "mean_d_A_dex": -0.00651,
+      "mean_blend_frac": 0.1775,
+      "mean_blanket_frac": 0.6197,
+      "mean_sideband_catalogued_absorption": 0.0113,
+      "mean_sideband_line_density_per_A": 8.33,
+      "n_sideband_clean": 2,
+      "n_saturated": 0
+    },
+    {
+      "band": "NIR-H",
+      "n": 7,
+      "mean_delta_pct": 8.1147,
+      "median_delta_pct": 7.6554,
+      "mean_cont_local": 0.92872,
+      "mean_d_ew_mA": -15.853,
+      "mean_d_A_dex": -0.08078,
+      "mean_blend_frac": 0.0177,
+      "mean_blanket_frac": 0.9388,
+      "mean_sideband_catalogued_absorption": 0.0019,
+      "mean_sideband_line_density_per_A": 1.59,
+      "n_sideband_clean": 3,
+      "n_saturated": 0
+    }
+  ],
+  "control_band": "VIS",
+  "optical_anchor_for_the_closing_check_only": 7.466
+}
