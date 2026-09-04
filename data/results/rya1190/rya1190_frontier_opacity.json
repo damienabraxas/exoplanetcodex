@@ -1,0 +1,197 @@
+{
+  "ticket": "RYA-1190",
+  "verdict_per_band": {
+    "near-UV": "OPACITY-DOMINATED \u2014 -0.1721 excess over the control, robust across the sigma sweep, in a band whose catalogued opacity is already complete to the VALD threshold. The deficit is real and is NOT catalogueable from what we hold.",
+    "VIS": "CONTROL \u2014 side-bands line-free by selection; sets the floor",
+    "red-optical": "OPACITY \u2014 and specifically UNCORRECTED telluric, not residual-after-molecfit. The 7 windows the correction never touched are MORE depressed (-0.0382) than the 3 it acted on (-0.0237). A per-band continuum redo here would divide by real absorption.",
+    "NIR-H": "UNDETERMINED \u2014 the deficit is not separable from the line-width assumption: -0.0573 at the physical sigma but +0.0990 at sigma x2, where it CHANGES SIGN and the catalogue over-predicts absorption. Classifying it either way would be reading the sigma, not the data."
+  },
+  "part_A_payoff_estimate": {
+    "near_uv_deficit_excess_over_control": -0.17215,
+    "max_catalogueable_fraction": 0.321,
+    "rya1189_dA_if_all_of_it_were_deblended": -0.086,
+    "estimated_payoff_dex": -0.0276,
+    "published_gap_to_anchor_dex": [
+      0.13,
+      0.19
+    ],
+    "reading": "UPPER BOUND on both factors. Even crediting the weak-line haze with its maximum and crediting a full deblend with RYA-1189's whole -0.086 dex, a completeness build closes ~0.028 dex of a 0.13-0.19 dex gap. \u26a0\ufe0f The -0.086 is itself a lower bound in magnitude (the near-UV lines are saturated), so this estimate is not tight in either direction and is offered as an ORDER, not a number to plan on."
+  },
+  "kind": "DIAGNOSTIC \u2014 nothing added to any list, no published value changed",
+  "generated_at": "2026-09-04T15:54:05Z",
+  "method": {
+    "what": "catalogued-opacity accounting, NOT a synthesis differential",
+    "why": "Turbospectrum's bsyn_lu is absent from this Mac and MOOG is a Linux ELF; `spectrum` is arm64 but is not the production engine (RYA-289). A true synthesis differential is owed as a Sirius run.",
+    "sigma_basis": "quadrature of a 1.6 km/s Doppler width and the INSTRUMENTAL width from instrument_catalog.csv's declared resolving power (geometric mean of min/max); swept x0.6 and x2.0",
+    "resolving_powers_used": {
+      "kpno_solar_atlas": 387298,
+      "crires_plus": 70711
+    },
+    "control_floor_subtracted": -0.0113
+  },
+  "part_A_vald_completeness": {
+    "near-UV": {
+      "available": true,
+      "path": "data/linelists/vald_solar_nearuv_2000_3780_hfson_raw.txt",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "vald_rows": 62072,
+      "production_rows": 62072,
+      "in_vald_only": 0,
+      "in_production_only": 0,
+      "identical_keys": 62044,
+      "extraction_depth_threshold": 0.001,
+      "verdict": "production list IS the VALD extract \u2014 nothing to add at this threshold"
+    },
+    "VIS": {
+      "available": true,
+      "path": "data/linelists/vald_solar_raw.txt",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "vald_rows": 76447,
+      "production_rows": 76449,
+      "in_vald_only": 0,
+      "in_production_only": 2,
+      "identical_keys": 76404,
+      "extraction_depth_threshold": 0.001,
+      "verdict": "production list IS the VALD extract \u2014 nothing to add at this threshold"
+    },
+    "red-optical": {
+      "available": true,
+      "path": "data/linelists/vald_solar_redopt_6910_9500_hfson_raw.txt",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "vald_rows": 12999,
+      "production_rows": 12999,
+      "in_vald_only": 0,
+      "in_production_only": 0,
+      "identical_keys": 12993,
+      "extraction_depth_threshold": 0.001,
+      "verdict": "production list IS the VALD extract \u2014 nothing to add at this threshold"
+    },
+    "NIR-H": {
+      "available": true,
+      "path": "data/linelists/vald_solar_ir_9500_17000_hfson_raw.txt",
+      "window_A": [
+        15007.0,
+        17000.0
+      ],
+      "vald_rows": 5367,
+      "production_rows": 5367,
+      "in_vald_only": 0,
+      "in_production_only": 0,
+      "identical_keys": 5363,
+      "extraction_depth_threshold": 0.001,
+      "verdict": "production list IS the VALD extract \u2014 nothing to add at this threshold"
+    }
+  },
+  "part_A_weak_line_haze_bound": {
+    "vald_header": {
+      "window_A": [
+        2000.0,
+        3780.0
+      ],
+      "selected": 161526,
+      "processed": 2386002,
+      "discarded_below_threshold": 2224476
+    },
+    "discarded_line_density_per_A": 1249.7,
+    "sigma_A_at_3400": 0.01815,
+    "max_tau_from_the_haze": 0.05684,
+    "max_depression_it_could_explain": 0.05526,
+    "basis": "UPPER BOUND: every discarded line placed at exactly the 0.001 depth threshold, and the whole 2000-3780 discard attributed to 3000-3780."
+  },
+  "part_A_molecular_coverage": {
+    "by_species": {
+      "C2": {
+        "n_lines": 175113,
+        "min_A": 4200.0,
+        "max_A": 9199.85
+      },
+      "CH": {
+        "n_lines": 74324,
+        "min_A": 2751.32,
+        "max_A": 99970.11
+      },
+      "CN": {
+        "n_lines": 146110,
+        "min_A": 4200.0,
+        "max_A": 9199.84
+      },
+      "NH": {
+        "n_lines": 61404,
+        "min_A": 3446.8,
+        "max_A": 99988.06
+      },
+      "OH": {
+        "n_lines": 111171,
+        "min_A": 3133.34,
+        "max_A": 99939.24
+      }
+    },
+    "lowest_wavelength_A": 2751.32,
+    "covers_near_uv_3000_3780": true
+  },
+  "per_band": [
+    {
+      "band": "near-UV",
+      "n": 10,
+      "observed_p95": 0.80502,
+      "catalogued_p95": 0.98846,
+      "uncatalogued_residual": -0.18345,
+      "excess_over_control": -0.17215,
+      "residual_at_sigma_x2": -0.13264,
+      "n_windows_telluric_corrected": 0,
+      "n_windows_uncorrected": 10,
+      "residual_where_corrected": null,
+      "residual_where_untouched": -0.18345
+    },
+    {
+      "band": "VIS",
+      "n": 10,
+      "observed_p95": 0.9887,
+      "catalogued_p95": 0.99999,
+      "uncatalogued_residual": -0.0113,
+      "excess_over_control": 0.0,
+      "residual_at_sigma_x2": -0.0107,
+      "n_windows_telluric_corrected": 0,
+      "n_windows_uncorrected": 10,
+      "residual_where_corrected": null,
+      "residual_where_untouched": -0.0113
+    },
+    {
+      "band": "red-optical",
+      "n": 10,
+      "observed_p95": 0.96617,
+      "catalogued_p95": 0.99998,
+      "uncatalogued_residual": -0.03381,
+      "excess_over_control": -0.02251,
+      "residual_at_sigma_x2": -0.03262,
+      "n_windows_telluric_corrected": 3,
+      "n_windows_uncorrected": 7,
+      "residual_where_corrected": -0.02368,
+      "residual_where_untouched": -0.03815
+    },
+    {
+      "band": "NIR-H",
+      "n": 7,
+      "observed_p95": 0.92872,
+      "catalogued_p95": 0.98601,
+      "uncatalogued_residual": -0.05729,
+      "excess_over_control": -0.04599,
+      "residual_at_sigma_x2": 0.09896,
+      "n_windows_telluric_corrected": null,
+      "n_windows_uncorrected": null,
+      "residual_where_corrected": null,
+      "residual_where_untouched": null
+    }
+  ],
+  "control_band": "VIS",
+  "optical_anchor_for_the_closing_check_only": 7.466
+}
