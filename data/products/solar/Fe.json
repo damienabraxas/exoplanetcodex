@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.93",
-  "updated_at": "2026-09-03T21:38:56Z",
+  "version": "1.94",
+  "updated_at": "2026-09-03T22:28:41Z",
   "products": [
     {
       "element": "Fe",
@@ -40,8 +40,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -61,7 +61,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
         "model_grid": "atlas9",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "n/a \u2014 this product is on an LTE scale",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -99,8 +108,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.046592,
@@ -120,7 +129,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
         "model_grid": "atlas9 / bergemann",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -158,8 +176,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.066976,
@@ -179,7 +197,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "n/a \u2014 this product is on an LTE scale",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -217,8 +244,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -238,7 +265,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -276,8 +312,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.075712,
@@ -297,7 +333,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "n/a \u2014 this product is on an LTE scale",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -335,8 +380,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
@@ -356,7 +401,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       }
     },
     {
@@ -395,8 +449,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013832,
@@ -416,7 +470,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "n/a \u2014 this product is on an LTE scale",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       },
       "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
@@ -456,8 +519,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -477,7 +540,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / bergemann",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       },
       "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
@@ -517,8 +589,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.017472,
@@ -538,7 +610,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "n/a \u2014 this product is on an LTE scale",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       },
       "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
@@ -578,8 +659,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -599,7 +680,16 @@
         "gf_citation": "Den Hartog et al. 2014 / Ruffoni et al. 2014, RYA-945/353",
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / bergemann",
-        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
+        "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)",
+        "nlte_capability": {
+          "gerber_deck_ion_reach": "Fe II: 58 levels, ZERO bound-bound transitions in atom.fe607a \u2014 an ionisation reservoir, not a term system. Fe I: 548 levels, 12,635 transitions.",
+          "fe_ii_nlte_available_on_gerber_deck": false,
+          "this_product_takes_nlte_from_the_gerber_deck": false,
+          "nlte_source_for_this_product": "MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) \u2014 NOT atom.fe607a. Its Fe II corrections are real and small: at the solar node the grid's Fe II deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 entries inside +-0.005 (Fe I control at the same node: median +0.011, up to +0.040). What THIS product actually applied is recorded per line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, RYA-880); across every live Fe II product that is -0.001 to -0.002 dex, on the lines MPIA serves",
+          "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+          "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+          "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
+        }
       },
       "xi_source": "data/results/rya1168/nearuv_xi_dadxi.json"
     },
@@ -638,8 +728,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:52Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:37Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.005824,
@@ -719,8 +809,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:53Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:38Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -798,8 +888,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:53Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:38Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -878,8 +968,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:54Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:39Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -958,8 +1048,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:54Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:39Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.015288,
@@ -1038,8 +1128,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013104,
@@ -1120,8 +1210,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -1178,8 +1268,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1237,8 +1327,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1296,8 +1386,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1355,8 +1445,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -1414,8 +1504,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1473,8 +1563,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -1532,8 +1622,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.00728,
@@ -1591,8 +1681,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -1651,8 +1741,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -1709,8 +1799,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -1770,8 +1860,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -1828,8 +1918,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -1887,8 +1977,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05824,
@@ -1946,8 +2036,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -2005,8 +2095,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -2064,8 +2154,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -2124,8 +2214,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -2182,8 +2272,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -2243,8 +2333,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -2301,8 +2391,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.073528,
@@ -2360,8 +2450,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0728,
@@ -2419,8 +2509,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -2478,8 +2568,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.038438,
@@ -2537,8 +2627,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2596,8 +2686,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -2656,8 +2746,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -2714,8 +2804,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -2774,8 +2864,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2834,8 +2924,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2894,8 +2984,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2955,8 +3045,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3017,8 +3107,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -3075,8 +3165,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3134,8 +3224,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -3193,8 +3283,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -3252,8 +3342,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -3311,8 +3401,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -3371,8 +3461,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -3429,8 +3519,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:40Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.052416,
@@ -3488,8 +3578,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3547,8 +3637,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3606,8 +3696,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3666,8 +3756,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3728,8 +3818,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -3790,8 +3880,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -3852,8 +3942,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -3915,8 +4005,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -3975,8 +4065,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -4035,8 +4125,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.049504,
@@ -4097,8 +4187,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:55Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
@@ -4159,8 +4249,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:56Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -4221,8 +4311,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:56Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -4283,8 +4373,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-03T21:38:56Z",
-      "code_commit": "34d6543c92c94f6ac8d89c0f2d8a999ae18ea175",
+      "generated_at": "2026-09-03T22:28:41Z",
+      "code_commit": "845b13d383ba3e6b9906e0407f861ebebee6c54e",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,

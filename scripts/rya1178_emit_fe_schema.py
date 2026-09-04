@@ -542,7 +542,7 @@ def science_provenance(prod: dict, models: pd.DataFrame, hold: pd.DataFrame,
     ls_cite = ("Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
                if line_set == "asplund" else
                "Codex canonical_gf pool, tier %s (RYA-353/945)" % prod.get("tier"))
-    return {
+    out = {
         "gf_source": gf_grade,
         "gf_grade": ("primary laboratory" if line_set in ("our-graded", "our-deep-graded")
                      else "published reference set" if line_set == "asplund" else "fallback"),
@@ -550,6 +550,94 @@ def science_provenance(prod: dict, models: pd.DataFrame, hold: pd.DataFrame,
         "atlas_citation": (str(h.iloc[0].notes)[:400] if not h.empty else None),
         "model_grid": model_grid(models, prod["treatment"]),
         "line_set_citation": ls_cite,
+    }
+    cap = nlte_capability(prod, models)
+    if cap:
+        out["nlte_capability"] = cap
+    return out
+
+
+def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
+    """RYA-1055 item 1 — the STATED CAPABILITY LIMIT, where a reader of the product is.
+
+    Ryan, 2026-09-03: *"Stamp the capability limit where it is read: beside the deck
+    registration AND in every Fe II product's science_provenance."* It is a property of
+    the DECK WE SHIP, not of any one run, so it goes on every Fe II product regardless of
+    which treatment produced that particular number — a reader setting an Fe I NLTE cell
+    beside an Fe II one needs to be told the two are not on the same scale.
+
+    🔴 THE LIMIT IS DECK-SPECIFIC AND THE STAMP MUST SAY SO, PER PRODUCT. Fe II ENGINE-A
+    reads the MPIA/Bergemann per-line delta grid (6,400 Fe II rows over 80 lines,
+    3805.5-6586.7 A), never `atom.fe607a`, so its NLTE label is honest and its corrections
+    are real: every live Fe II product's own per-line artifact records
+    `nlte_source = "Bergemann MPIA per-line delta_nlte (live query, solar node)"` with
+    `nlte_delta_dex` of -0.001 to -0.002 on the lines MPIA serves. Stamping a blanket
+    "Fe II NLTE unavailable" onto that product would replace one wrong statement with
+    another.
+
+    ⚠️ QUOTE THE PRODUCT'S OWN ARTIFACT, NOT A NEIGHBOURING ONE. A draft of this stamp
+    cited "+0.001 dex on 6147.7341 / 6238.3859 / 6247.5570" from
+    `data/products/solar/Fe_perline.csv`. Those numbers are real, but they belong to a
+    DIFFERENT POOL -- the RYA-489 replication product's 11-line 5256-6456 A Fe II set --
+    while the live VIS band product fits 4233.162 / 4303.170 / 4583.829 and applies
+    -0.001/-0.002. Same element, same ion, same treatment, OPPOSITE SIGN, and it would
+    have been written into the wrong product's provenance.
+
+    WHICH TREATMENTS THE LIMIT BITES ON IS READ FROM THE REGISTRY, NOT LISTED HERE:
+    `model_family == "gerber"` AND a scale carrying NLTE. A Gerber member added to
+    `model_registry.csv` tomorrow is covered without touching this file — the hand-kept
+    list is the thing that silently misses one.
+
+    ⚠️ NOTHING HERE MOVES A VALUE. This adds a field; no abundance, sigma, line count or
+    gf is touched (RYA-161).
+    """
+    if str(prod.get("ion")) != "II" or str(prod.get("element")) != "Fe":
+        return None
+    from pipeline.gerber_nlte import FE_II_NLTE_LIMIT, nlte_ion_capability
+
+    capable, _ = nlte_ion_capability("Fe", "II")
+    treatment = str(prod.get("treatment", ""))
+    row = models[models.stored_token.astype(str) == treatment]
+    fam = str(row.iloc[0].model_family) if not row.empty else ""
+    scale = str(row.iloc[0].scale) if not row.empty else ""
+    is_nlte = "NLTE" in scale.upper()
+    on_deck = fam == "gerber" and is_nlte
+
+    if not is_nlte:
+        source = "n/a — this product is on an LTE scale"
+    elif on_deck:
+        source = ("Gerber deck (atom.fe607a) — LTE-EQUIVALENT for Fe II: every Fe II "
+                  "line takes departure = 1")
+    elif fam == "bergemann":
+        source = ("MPIA / Bergemann mafags-os 1D-NLTE per-line delta grid "
+                  "(data/nlte_grids/Fe_Bergemann_MPIA.csv) — NOT atom.fe607a. Its Fe II "
+                  "corrections are real and small: at the solar node the grid's Fe II "
+                  "deltas run -0.002 to +0.016 dex, median +0.000, with 146 of 160 "
+                  "entries inside +-0.005 (Fe I control at the same node: median +0.011, "
+                  "up to +0.040). What THIS product actually applied is recorded per "
+                  "line in its own *_ENGINE-A_lines.csv (nlte_delta_dex / nlte_source, "
+                  "RYA-880); across every live Fe II product that is -0.001 to -0.002 "
+                  "dex, on the lines MPIA serves")
+    elif fam == "amarsi":
+        source = ("Amarsi+2022 3D-NLTE MLP (fe2_model.p) — NOT atom.fe607a. Its solar "
+                  "Fe II correction is +0.066 dex (RYA-817 control, paper Table 6 "
+                  "7.41 -> 7.47)")
+    else:
+        source = (f"UNDETERMINED — treatment {treatment!r} resolves to no "
+                  f"model_registry row, so which NLTE source it used is not established "
+                  f"here. Do not read this as 'the Gerber deck'.")
+
+    return {
+        "gerber_deck_ion_reach": ("Fe II: 58 levels, ZERO bound-bound transitions in "
+                                  "atom.fe607a — an ionisation reservoir, not a term "
+                                  "system. Fe I: 548 levels, 12,635 transitions."),
+        "fe_ii_nlte_available_on_gerber_deck": bool(capable),
+        "this_product_takes_nlte_from_the_gerber_deck": bool(on_deck),
+        "nlte_source_for_this_product": source,
+        "limit": FE_II_NLTE_LIMIT,
+        "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
+        "deferred": ("a two-stage Fe atom is DEFERRED to the off-solar programme, where "
+                     "the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"),
     }
 
 

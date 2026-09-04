@@ -922,6 +922,29 @@ artifacts:
       per-deck runs of scripts/rya783_run_matrix.sh; the deck subdirectories exist because
       both decks emit the same products.csv filename and a shared directory would let the
       second run silently overwrite the first.
+  - artifact: rya783/CAPABILITY_ANNOTATIONS.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1055
+    sources:
+      - data/results/rya1055/atom_ion_reach.json
+      - scripts/rya1055_atom_ion_reach.py
+      - scripts/rya783_fe_matrix_report.py
+      - data/results/rya783/fe_product_matrix.csv
+    note: >-
+      The stated capability limit on two PUBLISHED matrix cells -- Fe II VIS
+      ENGINE-B-NLTE 7.470 (n=8) and Fe II red-optical ENGINE-B-NLTE 7.461 (n=2). They
+      cannot be regenerated as NLTE by any route we hold: atom.fe607a declares 12,635
+      bound-bound transitions and not one is Fe II, so bsyn applies departure = 1 to
+      every Fe II line. Ryan's disposition is ANNOTATE, NOT DELETE (2026-08-30,
+      re-ratified 2026-09-03) -- they are the only Fe II Engine-B numbers we hold and
+      deleting them destroys the record that the question was asked. HAND_AUTHORED
+      because the matrix itself is NOT regenerable from this checkout (its inputs are the
+      RYA-845 run under /mnt/codex-data) and must NOT be hand-edited -- the same
+      disposition RYA-869 took for the four cells still carrying its pre-fix bar. The
+      generator now emits the annotation natively (`_annotate_capability`, a
+      `capability_note` column + a printed CAPABILITY LIMIT block), so a future
+      regeneration carries it without this file.
   - artifact: rya783/fe_product_matrix.png
     generator: scripts/rya783_fe_matrix_report.py
     invocation: python scripts/rya783_fe_matrix_report.py
@@ -3253,6 +3276,46 @@ artifacts:
       ⚠️ Decidable because the artifact carries its own witness: the comparison is against
       the wavelength recorded BESIDE the id, not against a guess.
       `--fail-on-rot` makes it a CI gate.
+  # ── RYA-1055 — which ionisation stages the Gerber model atom can serve ────────────
+
+  - artifact: rya1055/atom_ion_reach.json
+    generator: scripts/rya1055_atom_ion_reach.py
+    invocation: python3 scripts/rya1055_atom_ion_reach.py --atom atom.fe607a --out data/results/rya1055/atom_ion_reach.json
+    ticket: RYA-1055
+    note: >-
+      THE BOUNDING COMPUTATION, and it returned zero. bsyn applies departures PER LINE and
+      falls back to departure = 1 for any line whose levels are unidentified, so whether a
+      deck can do NLTE for {element} {ion} is decided by one property of the atom file:
+      does it declare a bound-bound transition BOTH of whose levels are in that stage?
+      atom.fe607a -- the atom BOTH registered Fe decks load -- declares 607 levels
+      (548 Fe I, 58 Fe II, 1 Fe III) and 12,635 bound-bound transitions, every one of them
+      Fe I -> Fe I. ZERO carry even one Fe II level, and the highest level index appearing
+      in any radiative transition is 546, below the first Fe II level at 549. So the 58
+      Fe II levels are a pure ionisation reservoir and Fe II NLTE is structurally
+      unavailable on this deck -- a DECK limit, not a line-list gap, which is what stopped
+      a VALD Fe II labelling project that could not have worked. Measured on the staged
+      bytes (md5 d08dc8232ed68eec65f9bb6631e82ea8, the value Fe_gerber2023.prov.json
+      pins). The atom is a VENDOR deck, not a repo file: `--check` re-measures and diffs
+      against this artifact where it is staged, and the committed JSON is the record where
+      it is not.
+
+  - artifact: rya1055/fe2_label_audit.json
+    generator: scripts/rya1055_fe2_label_audit.py
+    invocation: python3 scripts/rya1055_fe2_label_audit.py --out data/results/rya1055/fe2_label_audit.json
+    ticket: RYA-1055
+    note: >-
+      RYA-1055 item 3: every LIVE Fe II product's label, confirmed rather than asserted --
+      the limit is stamped on all ten, none takes departures from atom.fe607a, and the
+      per-line layer agrees (159 Fe I rows on a 1D-NLTE scale, ZERO Fe II rows). REPORT
+      ONLY, no value re-derived. 🔴 The ionisation balance is quoted SCALE-MATCHED (same
+      band, instrument, holding, tier, selector, route and treatment) rather than against
+      the 7.466 anchor: that anchor is a 3D-NLTE number and these are 1D-NLTE products, so
+      the direct comparison is the RYA-669 ratchet -- and the Fe II kurucz2005 cell reads
+      7.466 to three decimals, the anchor's own digits, which is exactly the kind of
+      arrival-plausible coincidence that never gets challenged. Matching on the FULL
+      identity is load-bearing: without `selector`, HARPS VIS Fe I offers two partners
+      0.196 dex apart (DEEPGRADED 7.535 vs DEEPGRADED-LOCALRENORM 7.339).
+
   - artifact: rya1044/rya783_FeI_VIS_ENGINE-B-NLTE_lines.csv
     generator: scripts/rya1044_rya783_reconciliation.py
     ticket: RYA-1044
