@@ -3969,6 +3969,86 @@ artifacts:
       but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
       silent one.
 
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910
+      --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected
+      --lines-tier graded --lines-deep-graded --force-synthesis
+      --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1135
+    note: >-
+      Fe II <3D>-LTE (model 5, Frankenstein's LTE leg) -- the 3D axis Fe II can actually
+      have. Produced on SIRIUS (2026-09-04); the <3D> STAGGERmean3D deck and the atlases
+      are Sirius-only, so this is committed but NOT regenerable on the Mac -- a recorded
+      regenerability gap (RYA-1011), not a silent one. Committed past the
+      data/results/band_products/ gitignore for the same reason its 42 Fe II siblings are:
+      `scripts/rya1055_fe2_label_audit.py --check` enumerates these files, so an artifact
+      that exists on one machine only makes that audit fail everywhere else.
+      Its NLTE pair (model 6, --engine-b-deck gerber-mean3d) does NOT exist and cannot:
+      atom.fe607a carries no Fe II bound-bound transitions, so the RYA-1050 guard refuses
+      before synthesising (RYA-1055/RYA-1135).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910
+      --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected
+      --lines-tier graded --lines-deep-graded --force-synthesis
+      --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1135
+    note: >-
+      Fe II <3D>-LTE (model 5, Frankenstein's LTE leg) -- the 3D axis Fe II can actually
+      have. Produced on SIRIUS (2026-09-04); the <3D> STAGGERmean3D deck and the atlases
+      are Sirius-only, so this is committed but NOT regenerable on the Mac -- a recorded
+      regenerability gap (RYA-1011), not a silent one. Committed past the
+      data/results/band_products/ gitignore for the same reason its 42 Fe II siblings are:
+      `scripts/rya1055_fe2_label_audit.py --check` enumerates these files, so an artifact
+      that exists on one machine only makes that audit fail everywhere else.
+      Its NLTE pair (model 6, --engine-b-deck gerber-mean3d) does NOT exist and cannot:
+      atom.fe607a carries no Fe II bound-bound transitions, so the RYA-1050 guard refuses
+      before synthesising (RYA-1055/RYA-1135).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910
+      --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected
+      --lines-tier graded --lines-deep-graded --force-synthesis
+      --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1135
+    note: >-
+      Fe II <3D>-LTE (model 5, Frankenstein's LTE leg) -- the 3D axis Fe II can actually
+      have. Produced on SIRIUS (2026-09-04); the <3D> STAGGERmean3D deck and the atlases
+      are Sirius-only, so this is committed but NOT regenerable on the Mac -- a recorded
+      regenerability gap (RYA-1011), not a silent one. Committed past the
+      data/results/band_products/ gitignore for the same reason its 42 Fe II siblings are:
+      `scripts/rya1055_fe2_label_audit.py --check` enumerates these files, so an artifact
+      that exists on one machine only makes that audit fail everywhere else.
+      Its NLTE pair (model 6, --engine-b-deck gerber-mean3d) does NOT exist and cannot:
+      atom.fe607a carries no Fe II bound-bound transitions, so the RYA-1050 guard refuses
+      before synthesising (RYA-1055/RYA-1135).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910
+      --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected
+      --lines-tier graded --lines-deep-graded --force-synthesis
+      --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1135
+    note: >-
+      Fe II <3D>-LTE (model 5, Frankenstein's LTE leg) -- the 3D axis Fe II can actually
+      have. Produced on SIRIUS (2026-09-04); the <3D> STAGGERmean3D deck and the atlases
+      are Sirius-only, so this is committed but NOT regenerable on the Mac -- a recorded
+      regenerability gap (RYA-1011), not a silent one. Committed past the
+      data/results/band_products/ gitignore for the same reason its 42 Fe II siblings are:
+      `scripts/rya1055_fe2_label_audit.py --check` enumerates these files, so an artifact
+      that exists on one machine only makes that audit fail everywhere else.
+      Its NLTE pair (model 6, --engine-b-deck gerber-mean3d) does NOT exist and cannot:
+      atom.fe607a carries no Fe II bound-bound transitions, so the RYA-1050 guard refuses
+      before synthesising (RYA-1055/RYA-1135).
+
   - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
     generator: scripts/derive_band_products.py
     ticket: RYA-1080
