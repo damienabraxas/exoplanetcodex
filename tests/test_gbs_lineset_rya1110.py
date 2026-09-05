@@ -225,6 +225,36 @@ def test_every_line_resolves_to_vis_through_band_policy(lineset):
     assert set(lineset.band) == {B.BAND}
 
 
+#: 🔴 RYA-1193 ADDED THE O2 GAMMA-BAND AND IT REACHES THREE GBS LINES — A VALUE MOVE THAT
+#: TICKET FORBADE ITSELF FROM MAKING.
+#:
+#: RYA-940's molecfit fitted SEVEN bands; `telluric_policy.TELLURIC_BANDS` listed six.
+#: RYA-1193 added the missing one, `O2 gamma 6270-6300 A` (spec item 3), sourced from
+#: RYA-940's own `o2gamma/fit_manifest.json`. That is correct on its own terms.
+#:
+#: But three GBS reference lines sit inside it — 6270.22, 6271.28, 6297.79, all currently
+#: `rew_class == pass` — so a rebuild stamps QUARANTINED-TELLURIC on them and the usable
+#: GBS Fe set goes 142 -> 139. RYA-1193 is explicitly "config + doc only, no value moved,
+#: feed/linelists diff-clean", and `data/linelists/reference_sets/` is a linelist. The
+#: spec and the constraint cannot both be honoured, so the POLICY is corrected and the
+#: ARTIFACT is left exactly as committed, with the divergence recorded here rather than
+#: resolved by whichever of the two I preferred.
+#:
+#: ⚠️ AND THE UNDERLYING QUESTION IS RYAN'S, NOT A REGENERATION. The exclusion fires at
+#: `telluric_basis=unspecified`; on a holding whose basis is `corrected` it would not fire
+#: at all. Whether an instrument-AGNOSTIC reference line set should carry an
+#: instrument-DEPENDENT exclusion is a science decision, and rebuilding the artifact would
+#: have answered it silently in one direction.
+#:
+#: strict=True so these flip to a hard failure the moment the artifact is rebuilt — the
+#: marker cannot outlive the divergence (the RYA-853 idiom).
+_GBS_O2GAMMA_REASON = (
+    "RYA-1193: O2 gamma-band 6270-6300 A newly enumerated; 3 GBS lines (6270.22, "
+    "6271.28, 6297.79) would become telluric-excluded, 142 -> 139 usable. Artifact "
+    "deliberately NOT rebuilt — RYA-1193 is no-value-moved. Ryan's call.")
+
+
+@pytest.mark.xfail(strict=True, reason=_GBS_O2GAMMA_REASON)
 def test_no_line_is_telluric_excluded_and_the_reason_is_checkable(lineset):
     from pipeline.telluric_policy import TELLURIC_BANDS
     assert lineset.telluric_exclusion.isna().all()
@@ -437,6 +467,7 @@ def test_the_decoder_holdings_are_intact():
 
 
 # ── the artifact must match the code that defines it ─────────────────────────
+@pytest.mark.xfail(strict=True, reason=_GBS_O2GAMMA_REASON)
 def test_the_committed_artifacts_rebuild_byte_for_byte(tmp_path, holdings):
     """🔴 RYA-1101's lesson: a committed artifact and the module that defines it landed in
     one merge disagreeing, and every reader passed because none compared file to module."""
