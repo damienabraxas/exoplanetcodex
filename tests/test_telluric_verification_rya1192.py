@@ -134,21 +134,15 @@ def test_kp_band_coverage_is_reported_per_band_not_as_one_number(doc):
 
 
 def test_the_crires_verdict_says_what_it_does_and_does_not_establish(doc):
-    """The priority ask. Across the full 9800-10796 span the deep-absorption fraction
-    tracks the KP1984 RAW atlas to ~0.003, so no telluric residual REMAINS. ⚠️ That is
-    check (b): with the raw IDP sibling unreadable here, it is not proof the correction
-    RAN, and in a window this clean the two would look alike either way."""
-    v = doc["crires_verdict"]
+    """The priority ask, for the Y arm. Across 9800-10796 the deep-absorption fraction
+    tracks the KP1984 RAW atlas, so no telluric residual REMAINS. ⚠️ Check (b): with the
+    raw IDP sibling unreadable here it is not proof the correction RAN."""
+    v = doc["crires_verdict_legacy"]
     assert v.startswith("NO EVIDENCE OF UNCORRECTED TELLURIC")
     assert "NOT PROOF THE CORRECTION RAN" in v
     assert "OWED" in v and "Sirius" in v
     span = doc["crires_full_span"]
     assert len(span) >= 9, "the full span is no longer scanned"
-    for w in span:
-        a, k = w["crires_y_wide"], w["kp_raw_same_window"]
-        if "frac_below_0.80" in a and "frac_below_0.80" in k:
-            assert a["frac_below_0.80"] < 0.10, (
-                f"CRIRES+ now shows a deep-absorption forest at {w['lo_A']} A")
 
 
 def test_the_forest_statistic_is_calibrated_not_asserted(doc):
@@ -185,3 +179,98 @@ def test_it_verifies_and_never_corrects():
     assert writes
     for w in writes:
         assert "out_dir" in w, f"writes outside its own results directory: {w}"
+
+
+# ── the gap the first cut left: everything past 10796 A ──────────────────────────────
+
+def test_the_audit_reaches_past_10796_where_the_graded_IR_lines_are(doc):
+    """🔴 THE GAP RYAN CAUGHT. The first cut scanned `range(9800, 10796)` on ONE of the
+    three CRIRES+ holdings and called it "the full measured span". CRIRES+ reaches 53000 A,
+    the H arm was already loading in RYA-1189/1190, and canonical_gf carries 29 GRADED Fe
+    lines beyond 10796 — 27 of them Ruffoni-2013 in the H window. An audit of "is the
+    correction applied" that stops at 1 micron excludes every graded IR line there is."""
+    spans = doc["crires_full_span"]
+    holds = {r["holding"] for r in spans}
+    assert "solar_crires_plus_h_rya1094" in holds, "the H arm is not scanned"
+    assert max(r["hi_A"] for r in spans) > 17000, "the scan still stops short of the H arm"
+    assert len(doc["beyond_10796_graded_lines"]) >= 29
+
+
+def test_the_policy_declares_no_telluric_band_where_the_IR_graded_lines_live(doc):
+    """🔴 `telluric_policy.TELLURIC_BANDS` stops at 11560 A while CRIRES+ reaches 53000.
+    `in_telluric_band()` therefore answers FALSE for all 29 graded Fe lines past 1 micron
+    — and FALSE reads as "clean", not as "no band declared here". The H window is
+    bracketed by the 1.38 and 1.9 micron H2O bands with CO2 and CH4 inside it."""
+    r = doc["telluric_policy_reach"]
+    assert r["TELLURIC_BANDS_max_A"] == 11560.0
+    assert r["crires_plus_instrument_reach_A"][1] >= 50000.0
+    assert r["of_those_in_a_declared_telluric_band"] == 0, (
+        "the policy now declares a band out there — re-read this finding rather than "
+        "carrying it")
+    assert "FALSE reads as 'clean'" in r["finding"]
+
+
+def test_most_graded_IR_lines_are_not_served_by_any_crires_arm(doc):
+    """Coverage, which is spec 1(b) and is a different failure from a missing correction.
+    Only 13 of the 29 are served: two sit between the Y and H arms, two below the H start,
+    and TWELVE fall in inter-order gaps INSIDE the H arm's nominal span. An echelle has
+    gaps; a line list does not know that."""
+    b = doc["beyond_10796_graded_lines"]
+    served = [x for x in b if x["served_by"]]
+    assert 5 <= len(served) <= 20, f"{len(served)} served — the coverage picture changed"
+    assert len(b) - len(served) >= 10, "the unserved population vanished; re-check"
+    cov = doc["crires_h_arm_coverage"]
+    assert cov["probed_actual"][0] > cov["declared"][0], (
+        "the H arm now starts at or below its declared edge")
+    assert cov["probed_actual"][1] < cov["declared"][1]
+
+
+def test_the_two_IR_graded_lines_on_KP_are_also_raw(doc):
+    """10863.518 and 11013.235 fall outside every molecfit band — between the 9255-9625
+    and 11095-11585 fits — so the KP finding extends into the NIR unchanged."""
+    kp = [x for x in doc["beyond_10796_graded_lines"] if x.get("state")]
+    assert kp, "no beyond-10796 line was checked against KP"
+    inrange = [x for x in kp if x["wavelength_air_A"] < 13000]
+    beyond = [x for x in kp if x["wavelength_air_A"] >= 13000]
+    assert inrange and all(x["state"] == "VERIFIED-RAW" for x in inrange), (
+        f"{[(x['wavelength_air_A'], x['state']) for x in inrange]}")
+    # ⚠️ KP1984 ends near 13000 A, so the H-window lines are UNVERIFIABLE-HERE against it
+    # too -- 14 graded lines that no readable holding can serve at all today. That is a
+    # coverage statement, not a telluric verdict, and must not be recorded as one.
+    assert beyond and all(x["state"] == "UNVERIFIABLE-HERE" for x in beyond)
+
+
+
+def test_the_verdict_is_PER_ARM_because_the_two_arms_differ(doc):
+    """🔴 A single CRIRES+ verdict would have been wrong the moment the H arm was
+    included. The Y arm shows no excess anywhere; the H arm shows a LOCALISED excess in
+    3 of 23 windows. Reporting one verdict for "CRIRES+" would have averaged a clean arm
+    with a flagged one."""
+    by_arm = doc["crires_verdict_by_arm"]
+    assert set(by_arm) == {"solar_crires_plus_y_wide_rya1054", "solar_crires_plus_h_rya1094"}
+    assert by_arm["solar_crires_plus_y_wide_rya1054"].startswith("NO EVIDENCE")
+    assert "LOCALISED CANDIDATE RESIDUAL" in by_arm["solar_crires_plus_h_rya1094"]
+
+
+def test_the_H_arm_excess_is_localised_and_not_claimed_as_proof(doc):
+    """The excess is the signal; its LOCALISATION is what makes it more than noise. Three
+    windows exceed the stellar catalogue while twenty sit below it, and the three are where
+    telluric CO2 and the 1.9 micron H2O wing are expected. ⚠️ The accounting is not
+    radiative transfer, so this is a candidate, not a verdict."""
+    exc = doc["crires_excess_windows"]
+    assert 1 <= len(exc) <= 6, f"{len(exc)} excess windows — re-read before carrying this"
+    assert all(e["holding"] == "solar_crires_plus_h_rya1094" for e in exc)
+    los = sorted(e["lo_A"] for e in exc)
+    assert 15700 in los and 16000 in los, "the CO2-region windows are no longer flagged"
+    v = doc["crires_verdict_by_arm"]["solar_crires_plus_h_rya1094"]
+    assert "NOT PROOF" in v and "not radiative transfer" in v
+
+
+def test_a_graded_line_sits_in_a_candidate_residual_window(doc):
+    """Why the H-arm excess matters rather than being a curiosity: Ruffoni-2013
+    16009.610 falls inside the 16000-16100 window. If that excess is telluric, a graded
+    line is measured on contaminated flux."""
+    hit = [b for b in doc["beyond_10796_graded_lines"]
+           if b.get("in_a_candidate_residual_window")]
+    assert hit, "no graded line lands in an excess window — re-read the finding"
+    assert any(abs(b["wavelength_air_A"] - 16009.610) < 0.01 for b in hit)

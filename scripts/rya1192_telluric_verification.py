@@ -168,17 +168,53 @@ def compare(inst, corrected, raw, centre, pad, base=None) -> dict:
             "n": int(n)}
 
 
-def forest(inst, hold, lo, hi) -> dict:
-    """Fraction of pixels below DEEP inside a window — check (b)."""
+_CAT = {}
+
+
+def _catalogue_predicted(w, centre, R):
+    """Deep-absorption the STELLAR line list alone predicts here — the comparand for a
+    window with no readable raw sibling. Same accounting as RYA-1190: exp(-SUM tau_i), so
+    overlap and saturation behave. NOT radiative transfer, and it over-predicts, which is
+    why only an EXCESS of observed over predicted is treated as a signal."""
+    if not _CAT:
+        d = pd.read_csv(ROOT / "data/linelists/linelist_solar.csv", low_memory=False)[
+            ["wavelength_air_A", "central_depth"]].dropna()
+        _CAT["w"] = d.wavelength_air_A.to_numpy()
+        _CAT["t"] = -np.log(1.0 - np.clip(d.central_depth.to_numpy(), 0.0, 0.999))
+    sig = float(np.hypot(centre * 1.6 / 2.998e5, (centre / R) / 2.355))
+    m = (_CAT["w"] > w[0] - 2.0) & (_CAT["w"] < w[-1] + 2.0)
+    tau = np.zeros_like(w)
+    for a, t in zip(_CAT["w"][m], _CAT["t"][m]):
+        z = (w - a) / sig
+        k = np.abs(z) < 6
+        if k.any():
+            tau[k] += t * np.exp(-0.5 * z[k] ** 2)
+    return np.exp(-tau)
+
+
+def forest(inst, hold, lo, hi, R=None) -> dict:
+    """Fraction of pixels below DEEP inside a window — check (b).
+
+    With `R` (a resolving power) it also computes what the STELLAR catalogue predicts, so
+    an EXCESS of observed over predicted can be separated from a band that is simply full
+    of stellar lines. That excess is the only telluric-shaped signal available where no
+    raw sibling can be read.
+    """
     try:
         w, f = _load(inst, hold, 0.5 * (lo + hi), 0.5 * (hi - lo))
     except Exception as e:
         return {"state": "UNVERIFIABLE-HERE", "why": str(e)[:80]}
     if len(f) < 20:
         return {"state": "UNVERIFIABLE-HERE", "why": f"only {len(f)} points"}
-    return {"n": int(len(f)), "frac_below_0.80": round(float((f < DEEP).mean()), 4),
-            "frac_below_0.95": round(float((f < 0.95).mean()), 4),
-            "mean_flux": round(float(f.mean()), 5)}
+    out = {"n": int(len(f)), "frac_below_0.80": round(float((f < DEEP).mean()), 4),
+           "frac_below_0.95": round(float((f < 0.95).mean()), 4),
+           "mean_flux": round(float(f.mean()), 5)}
+    if R:
+        p = _catalogue_predicted(w, 0.5 * (lo + hi), R)
+        out["catalogue_frac_below_0.80"] = round(float((p < DEEP).mean()), 4)
+        out["excess_over_catalogue"] = round(out["frac_below_0.80"]
+                                             - out["catalogue_frac_below_0.80"], 4)
+    return out
 
 
 def measured_lines() -> pd.DataFrame:
@@ -258,15 +294,67 @@ def main(argv=None) -> int:
             "kp_molecfit": forest("kpno_solar_atlas", "solar_kpno_molecfit_corrected", lo, hi),
         })
 
-    # ── CRIRES+, the priority: the FULL measured span ──────────────────────────────
+    # ── CRIRES+, the priority: EVERY arm across its FULL span ──────────────────────
+    #
+    # 🔴 THE FIRST CUT OF THIS AUDIT STOPPED AT 10796 A AND THAT WAS WRONG. It scanned one
+    # of the three CRIRES+ holdings -- the Y-wide arm -- and called that "the full measured
+    # span". CRIRES+ reaches 53000 A per instrument_catalog.csv, the H arm
+    # (solar_crires_plus_h_rya1094) was already loading in RYA-1189/1190, and canonical_gf
+    # carries 29 GRADED Fe lines beyond 10796 of which 27 are Ruffoni-2013 in the H window.
+    # Auditing "is the correction applied" over a window that excludes every graded line
+    # past 1 micron answers a question nobody asked.
+    CRIRES_ARMS = (("solar_crires_plus_y_wide_rya1054", 9800, 10796),
+                   ("solar_crires_plus_h_rya1094", 15000, 17500))
     crires = []
-    for lo in range(9800, 10796, 100):
-        hi = min(lo + 100, 10796)
-        crires.append({
-            "lo_A": lo, "hi_A": hi,
-            "crires_y_wide": forest("crires_plus", "solar_crires_plus_y_wide_rya1054", lo, hi),
-            "kp_raw_same_window": forest("kpno_solar_atlas", "solar_kpno", lo, hi),
-        })
+    for hold, a0, a1 in CRIRES_ARMS:
+        for lo in range(a0, a1, 100):
+            hi = min(lo + 100, a1)
+            row = {"holding": hold, "lo_A": lo, "hi_A": hi,
+                   "crires": forest("crires_plus", hold, lo, hi, R=70000.0)}
+            # KP1984 stops at ~13000 A, so it is a comparand for the Y arm only. Where it
+            # cannot reach, say so rather than omitting the column.
+            row["kp_raw_same_window"] = (forest("kpno_solar_atlas", "solar_kpno", lo, hi)
+                                         if hi <= 13000 else
+                                         {"state": "NO-COMPARAND", "why": "KP1984 ends ~13000 A"})
+            crires.append(row)
+
+    # ── beyond 10796: the graded lines the first cut never reached ─────────────────
+    cgf = pd.read_csv(ROOT / "data/linelists/canonical_gf.csv", low_memory=False)
+    lab = cgf[(cgf.species.astype(str).str.startswith("Fe"))
+              & (cgf.wavelength_air_A > 10796)
+              & (cgf.gf_tier.astype(str) == "LAB")]
+    from pipeline.telluric_policy import in_telluric_band
+    beyond = []
+    for _, r in lab.sort_values("wavelength_air_A").iterrows():
+        w = float(r.wavelength_air_A)
+        servedby, npts = None, 0
+        for hold, _, _ in CRIRES_ARMS:
+            try:
+                win = _load("crires_plus", hold, w, 0.5)
+                if len(win[1]) >= 20:
+                    servedby, npts = hold, len(win[1]); break
+            except Exception:
+                pass
+        rec = {"wavelength_air_A": round(w, 4), "species": str(r.species),
+               "lab_source_tag": str(r.lab_source_tag),
+               "policy_says_telluric_band": bool(in_telluric_band(w)),
+               "served_by": servedby, "n_points": npts}
+        if servedby is None:
+            # not on CRIRES+ — is it on KP, and is KP corrected there?
+            rec.update(compare("kpno_solar_atlas", "solar_kpno_molecfit_corrected",
+                               "solar_kpno", w, 0.5,
+                               base=bases.get("solar_kpno_molecfit_corrected")))
+        beyond.append(rec)
+
+    # the H arm's ACTUAL coverage, probed rather than read off the registry
+    h_lo = h_hi = None
+    for c in range(14900, 17600, 25):
+        try:
+            _load("crires_plus", "solar_crires_plus_h_rya1094", float(c), 1.0)
+            h_lo = c if h_lo is None else h_lo
+            h_hi = c
+        except Exception:
+            pass
 
     # ── coverage: does the corrected span reach each product's band at all? ────────
     #
@@ -328,8 +416,31 @@ def main(argv=None) -> int:
         },
         "forest_calibration": calibration,
         "crires_full_span": crires,
+        "crires_h_arm_coverage": {
+            "declared": [15007, 17494],
+            "probed_actual": [h_lo, h_hi],
+            "note": ("probed at 25 A steps. The declared span comes from "
+                     "prenormalised_guard's comment; the arm serves a narrower range, and "
+                     "an echelle also has INTER-ORDER GAPS inside it -- see how many "
+                     "graded lines below come back unserved despite sitting in range."),
+        },
+        "beyond_10796_graded_lines": beyond,
+        "telluric_policy_reach": {
+            "TELLURIC_BANDS_max_A": 11560.0,
+            "crires_plus_instrument_reach_A": [9500.0, 53000.0],
+            "graded_Fe_lines_beyond_10796": int(len(lab)),
+            "of_those_in_a_declared_telluric_band": int(sum(
+                1 for b in beyond if b["policy_says_telluric_band"])),
+            "finding": ("🔴 telluric_policy.TELLURIC_BANDS stops at 11560 A while CRIRES+ "
+                        "reaches 53000 A, so in_telluric_band() answers FALSE for every "
+                        "graded Fe line past 1 micron -- and FALSE reads as 'clean', not "
+                        "as 'no band declared here'. The H window it covers is bracketed "
+                        "by the 1.38 and 1.9 micron H2O bands with CO2 and CH4 inside it; "
+                        "the registry simply does not describe that region."),
+        },
         "band_coverage_by_product": cov,
-        "crires_verdict": (
+        "crires_excess_windows": None,   # filled below
+        "crires_verdict_legacy": (
             "NO EVIDENCE OF UNCORRECTED TELLURIC across the full 9800-10796 A measured "
             "span. Window by window the deep-absorption fraction tracks the KP1984 RAW "
             "atlas to within ~0.003 -- and KP raw is uncorrected, so the deep features "
@@ -353,6 +464,7 @@ def main(argv=None) -> int:
             "consequence' -- nothing in the HARPS Fe pool sits in a band where molecfit "
             "removed anything material."),
         "availability_on_this_machine": availability,
+        "crires_verdict_by_arm": None,   # filled below
         "pad_is_not_corrected": {
             "what": ("fit_window_A is 25 A wider each side than band_A. Every measured "
                      "line falling in the pad but not the core came back byte-identical "
@@ -365,6 +477,43 @@ def main(argv=None) -> int:
                              .rename("n").reset_index().to_dict("records")
                              if len(per_line) else []),
     }
+    # ── verdict per ARM, computed from the excess ──────────────────────────────────
+    EXCESS = 0.02
+    by_arm = {}
+    exc_all = []
+    for hold, _, _ in CRIRES_ARMS:
+        rows = [r for r in crires if r["holding"] == hold
+                and "excess_over_catalogue" in r["crires"]]
+        hot = [r for r in rows if r["crires"]["excess_over_catalogue"] > EXCESS]
+        exc_all.extend({"holding": hold, "lo_A": r["lo_A"], "hi_A": r["hi_A"],
+                        "excess": r["crires"]["excess_over_catalogue"]} for r in hot)
+        if not rows:
+            by_arm[hold] = "NO DATA"
+        elif not hot:
+            by_arm[hold] = (
+                f"NO EVIDENCE OF UNCORRECTED TELLURIC over {rows[0]['lo_A']}-"
+                f"{rows[-1]['hi_A']} A: no window's observed deep-absorption fraction "
+                f"exceeds what the stellar line list alone predicts. ⚠️ Check (b) only — "
+                f"the raw sibling is on Sirius, so this is 'no residual REMAINS', not "
+                f"proof the correction ran.")
+        else:
+            by_arm[hold] = (
+                f"🔴 LOCALISED CANDIDATE RESIDUAL in {len(hot)} of {len(rows)} windows: "
+                + ", ".join(f"{r['lo_A']}-{r['hi_A']} (+{r['crires']['excess_over_catalogue']:.4f})"
+                            for r in hot)
+                + ". Observed deep absorption EXCEEDS the stellar catalogue there while "
+                  "every other window sits below it, and those windows are where telluric "
+                  "CO2 (15700-16100) and the 1.9 micron H2O wing are expected. ⚠️ NOT "
+                  "PROOF: the accounting is not radiative transfer and over-predicts in "
+                  "general, so only the EXCESS and its localisation carry weight. A raw "
+                  "comparison on Sirius would settle it.")
+    doc["crires_verdict_by_arm"] = by_arm
+    doc["crires_excess_windows"] = exc_all
+    # which graded lines fall in an excess window
+    for b in doc["beyond_10796_graded_lines"]:
+        b["in_a_candidate_residual_window"] = any(
+            e["lo_A"] <= b["wavelength_air_A"] <= e["hi_A"] for e in exc_all)
+
     (out_dir / "rya1192_verification.json").write_text(json.dumps(doc, indent=2) + "\n")
 
     print("=== bands molecfit ACTUALLY fitted (from its own manifests) ===")
