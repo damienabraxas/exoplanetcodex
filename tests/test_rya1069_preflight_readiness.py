@@ -162,7 +162,16 @@ def test_the_graded_tier_set_is_imported_not_re_enumerated():
 
 def test_the_telluric_domain_edge_is_derived_from_the_enumerated_bands():
     from pipeline.telluric_policy import TELLURIC_BANDS
-    assert pr.TELLURIC_DOMAIN_MAX_A == max(hi for _lo, hi, _n in TELLURIC_BANDS)
+    # ⚠️ RYA-1193: the authority moved from `max(hi)` to the constant that actually means
+    # "the red end of where we have LOOKED". `max(hi)` now includes H-band SPOT FLAGS from
+    # RYA-1192's measurement, and deriving the gate from those would have asserted a survey
+    # of 11560-17500 A on the strength of three 100 A windows -- measured to flip an
+    # UNCORRECTED 9199-12976 A band from refused to satisfied. Still single-sourced from
+    # telluric_policy and still not re-typed here, which is what RYA-1069 required.
+    from pipeline.telluric_policy import ENUMERATION_COMPLETE_TO_A
+    assert pr.TELLURIC_DOMAIN_MAX_A == ENUMERATION_COMPLETE_TO_A
+    assert pr.TELLURIC_DOMAIN_MAX_A < max(hi for _lo, hi, _n in TELLURIC_BANDS), (
+        "the gate ceiling has drifted back to max(hi) — that relaxes the IR rule")
 
 
 # ── product selection: the RYA-1064 gate ─────────────────────────────────────

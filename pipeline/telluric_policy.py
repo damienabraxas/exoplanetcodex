@@ -103,14 +103,65 @@ _APPLIED_VALUES = ("applied", "not-applied", "unknown")
 # unlisted band is measured as if it were clean, which is the silent version of this bug.
 #
 # Ranges are air wavelengths in Angstrom, inclusive.
+# 🔴 THE RED CEILING IS THE SCIENCE WINDOW, NOT THE INSTRUMENT'S REACH (RYA-1094).
+# CRIRES+ is registered 9500-53000 A, and BOTH Ryan and Mr. Code re-derived that 53000
+# in RYA-1192 as though it were the span to audit. It is not. RYA-1094 settled the window:
+# the LAB-GRADED Fe pool ends at 17277.5 A (H band), K-band and up hold no lab gf at all
+# (none published above 21386 A), and `canonical_gf` is ingested to ~24985 A. So graded IR
+# Fe science ends at the H band and the effective ceiling is ~25000 A; beyond that is
+# unreachable-until-a-lab-source-exists, not owed work. DO NOT ADD BANDS ABOVE ~25000 A --
+# enumerating a region we will never measure invites the next audit to wander out there
+# again.
+IR_SCIENCE_CEILING_A = 25000.0
+
 TELLURIC_BANDS: tuple[tuple[float, float, str], ...] = (
+    # RYA-1193 / RYA-1192 item 2: molecfit FITTED this band (RYA-940 shipped SEVEN
+    # fit manifests) and the policy listed only six, so `in_telluric_band()` answered
+    # False for a region the atlas had actually been corrected in. Edges are
+    # `band_A` from data/audit/rya940_kp1984_telluric/o2gamma/fit_manifest.json.
+    (6270.0, 6300.0, "O2 gamma-band"),
     (6867.0, 6884.0, "O2 B-band"),
     (7160.0, 7340.0, "H2O"),
     (7594.0, 7685.0, "O2 A-band"),
     (8100.0, 8400.0, "H2O"),
     (9280.0, 9600.0, "H2O"),
     (11120.0, 11560.0, "H2O"),
+    # ── H band (RYA-1193, from RYA-1192's measurement) ────────────────────────────
+    # 🔴 WHY THESE EXIST. The graded Fe pool runs to 17277.5 A, and the policy used to
+    # stop at 11560 -- so `in_telluric_band()` returned False for ALL 29 graded Fe lines
+    # past 1 micron, and False READS AS CLEAN rather than as "no band declared here".
+    #
+    # ⚠️ THE EDGES ARE OUR OWN MEASUREMENT, NOT AN ATMOSPHERIC MODEL, AND THAT MATTERS
+    # FOR HOW FAR THEY MAY BE TRUSTED. RYA-1192 scanned the CRIRES+ H arm in 100 A
+    # windows and found observed deep-absorption EXCEEDING what the stellar line list
+    # predicts in exactly three of twenty-three: 15700-15800 (+0.036), 16000-16100
+    # (+0.044) and 17300-17400 (+0.031) -- the CO2 and 1.9 um H2O-wing positions. These
+    # entries span those windows at that 100 A resolution. They are a FLOOR on the
+    # contaminated region, not a complete enumeration of H-band telluric, which is why
+    # `ENUMERATION_COMPLETE_TO_A` below does NOT move with them.
+    (15700.0, 16100.0, "CO2"),
+    (17300.0, 17500.0, "H2O 1.9um wing"),
 )
+
+#: 🔴 THE RED END OF WHERE THE ENUMERATION IS *COMPLETE* -- WHICH IS NOT `max(hi)`.
+#:
+#: `preflight_readiness.TELLURIC_DOMAIN_MAX_A` used to derive from `max(hi for ...
+#: TELLURIC_BANDS)`, on the reasoning that past the reddest listed band there is nothing
+#: to select against, so "no band here" is an absence of LOOKING and must refuse. That
+#: derivation was correct while every entry came from a systematic enumeration.
+#:
+#: It stops being correct the moment SPOT FLAGS are added. The two H-band entries above
+#: are three measured windows, not a survey of 11560-17500 A, so letting the ceiling
+#: follow them would assert we had looked across six thousand Angstrom on the strength of
+#: three hundred. MEASURED consequence, which is why this constant exists rather than a
+#: comment: raising the derived max from 11560 to 17500 flips an UNCORRECTED KP/IAG band
+#: at 9199-12976 A from `ir-band-uncorrected` (refused) to **satisfied**. Adding telluric
+#: knowledge would have RELAXED the telluric gate.
+#:
+#: So the ceiling is pinned to the last systematically enumerated complex and moves only
+#: when the enumeration itself is extended. Still single-sourced here (RYA-1069's rule is
+#: that preflight must not re-type it, and it does not) -- only the derivation changed.
+ENUMERATION_COMPLETE_TO_A = 11560.0
 
 QUARANTINE_TAG = "QUARANTINED-TELLURIC"
 

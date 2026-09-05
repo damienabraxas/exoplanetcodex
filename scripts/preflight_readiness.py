@@ -72,7 +72,14 @@ EVIDENCE_VERIFIED = "verified"
 #: `telluric_policy.TELLURIC_BANDS`, never written down again. Past it the per-line
 #: clean-line selection basis has nothing to select against, so an absence of enumerated
 #: bands there is not evidence of a clean band (see `telluric_satisfied`).
-TELLURIC_DOMAIN_MAX_A = max(hi for _lo, hi, _name in telluric_policy.TELLURIC_BANDS)
+#: ⚠️ RYA-1193 CHANGED THE DERIVATION, NOT THE VALUE. This was
+#: `max(hi for ... TELLURIC_BANDS)`, which was right while every band came from a
+#: systematic enumeration and wrong the moment RYA-1193 added H-band SPOT FLAGS from
+#: RYA-1192's measurement: the max would have jumped 11560 -> 17500 and, measured, flipped
+#: an UNCORRECTED 9199-12976 A band from `ir-band-uncorrected` to satisfied. The authority
+#: is still `telluric_policy` and is still not re-typed here -- it is now the constant that
+#: actually means "the red end of where we have LOOKED".
+TELLURIC_DOMAIN_MAX_A = telluric_policy.ENUMERATION_COMPLETE_TO_A
 
 #: Instrument telluric bases that positively declare "no correction STAGE is owed".
 #: `unspecified` is included on RYA-786's ratified reading -- an instrument registered
