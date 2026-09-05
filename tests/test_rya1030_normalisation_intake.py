@@ -86,7 +86,11 @@ def test_a_telluric_band_is_excluded_from_the_envelope():
     un-normalised signature -- KP1984 failed at 9300 and 9500 A, both inside the
     registered H2O complex, and nowhere else between 4500 and 9900."""
     from pipeline.telluric_policy import TELLURIC_BANDS
-    lo, hi = float(TELLURIC_BANDS[2][0]), float(TELLURIC_BANDS[2][1])   # O2 A-band
+    # ⚠️ SELECT BY NAME, NOT BY INDEX. This read `TELLURIC_BANDS[2]` and relied on the
+    # O2 A-band sitting third. RYA-1193 inserted the O2 gamma-band at 6270 A, which is
+    # BLUER than every existing entry, so index 2 silently became the 7160 H2O complex --
+    # the test would still have passed, on a different band than its comment names.
+    lo, hi = next((float(a), float(b)) for a, b, n in TELLURIC_BANDS if "O2 A" in n)
     ev = detect(*_spectrum(1.0, lo=lo - 2.0, hi=hi + 2.0))
     assert ev.n_telluric_windows > 0
     # what remains outside the band is too little to describe an envelope
