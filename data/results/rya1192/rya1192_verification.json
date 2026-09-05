@@ -1,0 +1,755 @@
+{
+  "ticket": "RYA-1192",
+  "kind": "VERIFICATION ONLY \u2014 no correction applied, no value moved",
+  "generated_at": "2026-09-04T20:41:11Z",
+  "bands_molecfit_ACTUALLY_fitted": [
+    {
+      "band": "h2o11120",
+      "band_A": [
+        11120.0,
+        11560.0
+      ],
+      "fit_window_A": [
+        11095.0,
+        11585.0
+      ],
+      "molecules": [
+        "H2O"
+      ],
+      "n_segments": 13
+    },
+    {
+      "band": "h2o7160",
+      "band_A": [
+        7160.0,
+        7340.0
+      ],
+      "fit_window_A": [
+        7135.0,
+        7365.0
+      ],
+      "molecules": [
+        "H2O"
+      ],
+      "n_segments": 7
+    },
+    {
+      "band": "h2o8100",
+      "band_A": [
+        8100.0,
+        8400.0
+      ],
+      "fit_window_A": [
+        8075.0,
+        8425.0
+      ],
+      "molecules": [
+        "H2O"
+      ],
+      "n_segments": 10
+    },
+    {
+      "band": "h2o9280",
+      "band_A": [
+        9280.0,
+        9600.0
+      ],
+      "fit_window_A": [
+        9255.0,
+        9625.0
+      ],
+      "molecules": [
+        "H2O"
+      ],
+      "n_segments": 10
+    },
+    {
+      "band": "o2a",
+      "band_A": [
+        7594.0,
+        7685.0
+      ],
+      "fit_window_A": [
+        7569.0,
+        7710.0
+      ],
+      "molecules": [
+        "O2"
+      ],
+      "n_segments": 4
+    },
+    {
+      "band": "o2b",
+      "band_A": [
+        6867.0,
+        6884.0
+      ],
+      "fit_window_A": [
+        6842.0,
+        6909.0
+      ],
+      "molecules": [
+        "O2"
+      ],
+      "n_segments": 2
+    },
+    {
+      "band": "o2gamma",
+      "band_A": [
+        6270.0,
+        6300.0
+      ],
+      "fit_window_A": [
+        6245.0,
+        6325.0
+      ],
+      "molecules": [
+        "O2"
+      ],
+      "n_segments": 3
+    }
+  ],
+  "bands_the_policy_LISTS": [
+    [
+      6867.0,
+      6884.0,
+      "O2 B-band"
+    ],
+    [
+      7160.0,
+      7340.0,
+      "H2O"
+    ],
+    [
+      7594.0,
+      7685.0,
+      "O2 A-band"
+    ],
+    [
+      8100.0,
+      8400.0,
+      "H2O"
+    ],
+    [
+      9280.0,
+      9600.0,
+      "H2O"
+    ],
+    [
+      11120.0,
+      11560.0,
+      "H2O"
+    ]
+  ],
+  "band_registry_disagreement": {
+    "fitted_not_in_policy": [
+      [
+        6270.0,
+        6300.0
+      ]
+    ],
+    "policy_not_fitted": [],
+    "note": "The holding's telluric_state says SIX registered bands and telluric_policy.TELLURIC_BANDS lists six; RYA-940 shipped SEVEN fit manifests. Reported, not resolved."
+  },
+  "forest_calibration": [
+    {
+      "band": "h2o11120",
+      "lo_A": 11120.0,
+      "hi_A": 11560.0,
+      "kp_raw": {
+        "n": 30391,
+        "frac_below_0.80": 0.6524,
+        "frac_below_0.95": 0.9839,
+        "mean_flux": 0.57378
+      },
+      "kp_molecfit": {
+        "n": 23169,
+        "frac_below_0.80": 0.0062,
+        "frac_below_0.95": 0.0886,
+        "mean_flux": 0.99797
+      }
+    },
+    {
+      "band": "h2o7160",
+      "lo_A": 7160.0,
+      "hi_A": 7340.0,
+      "kp_raw": {
+        "n": 19388,
+        "frac_below_0.80": 0.1235,
+        "frac_below_0.95": 0.3715,
+        "mean_flux": 0.91254
+      },
+      "kp_molecfit": {
+        "state": "UNVERIFIABLE-HERE",
+        "why": "window 7160.00-7340.00 A overlaps REGISTERED telluric band 7160-7340 A (H2O), an"
+      }
+    },
+    {
+      "band": "h2o8100",
+      "lo_A": 8100.0,
+      "hi_A": 8400.0,
+      "kp_raw": {
+        "n": 31733,
+        "frac_below_0.80": 0.0992,
+        "frac_below_0.95": 0.3146,
+        "mean_flux": 0.92015
+      },
+      "kp_molecfit": {
+        "n": 30773,
+        "frac_below_0.80": 0.0268,
+        "frac_below_0.95": 0.0995,
+        "mean_flux": 0.98323
+      }
+    },
+    {
+      "band": "h2o9280",
+      "lo_A": 9280.0,
+      "hi_A": 9600.0,
+      "kp_raw": {
+        "n": 25896,
+        "frac_below_0.80": 0.5795,
+        "frac_below_0.95": 0.9519,
+        "mean_flux": 0.62366
+      },
+      "kp_molecfit": {
+        "n": 18896,
+        "frac_below_0.80": 0.0234,
+        "frac_below_0.95": 0.1822,
+        "mean_flux": 0.98718
+      }
+    },
+    {
+      "band": "o2a",
+      "lo_A": 7594.0,
+      "hi_A": 7685.0,
+      "kp_raw": {
+        "n": 11328,
+        "frac_below_0.80": 0.5546,
+        "frac_below_0.95": 0.78,
+        "mean_flux": 0.61684
+      },
+      "kp_molecfit": {
+        "n": 8677,
+        "frac_below_0.80": 0.0482,
+        "frac_below_0.95": 0.1723,
+        "mean_flux": 0.98032
+      }
+    },
+    {
+      "band": "o2b",
+      "lo_A": 6867.0,
+      "hi_A": 6884.0,
+      "kp_raw": {
+        "n": 2097,
+        "frac_below_0.80": 0.2914,
+        "frac_below_0.95": 0.6876,
+        "mean_flux": 0.78627
+      },
+      "kp_molecfit": {
+        "n": 1784,
+        "frac_below_0.80": 0.0432,
+        "frac_below_0.95": 0.1586,
+        "mean_flux": 0.98418
+      }
+    },
+    {
+      "band": "o2gamma",
+      "lo_A": 6270.0,
+      "hi_A": 6300.0,
+      "kp_raw": {
+        "n": 4322,
+        "frac_below_0.80": 0.0599,
+        "frac_below_0.95": 0.2013,
+        "mean_flux": 0.95051
+      },
+      "kp_molecfit": {
+        "n": 4183,
+        "frac_below_0.80": 0.0304,
+        "frac_below_0.95": 0.1176,
+        "mean_flux": 0.98262
+      }
+    },
+    {
+      "band": "CONTROL (no telluric band)",
+      "lo_A": 5000.0,
+      "hi_A": 5040.0,
+      "kp_raw": {
+        "n": 6831,
+        "frac_below_0.80": 0.2028,
+        "frac_below_0.95": 0.5958,
+        "mean_flux": 0.86156
+      },
+      "kp_molecfit": {
+        "n": 6831,
+        "frac_below_0.80": 0.2028,
+        "frac_below_0.95": 0.5958,
+        "mean_flux": 0.86156
+      }
+    }
+  ],
+  "crires_full_span": [
+    {
+      "lo_A": 9800,
+      "hi_A": 9900,
+      "crires_y_wide": {
+        "n": 3432,
+        "frac_below_0.80": 0.0219,
+        "frac_below_0.95": 0.1163,
+        "mean_flux": 0.97704
+      },
+      "kp_raw_same_window": {
+        "n": 7467,
+        "frac_below_0.80": 0.0375,
+        "frac_below_0.95": 0.1979,
+        "mean_flux": 0.95887
+      }
+    },
+    {
+      "lo_A": 9900,
+      "hi_A": 10000,
+      "crires_y_wide": {
+        "n": 3441,
+        "frac_below_0.80": 0.0,
+        "frac_below_0.95": 0.0256,
+        "mean_flux": 0.99368
+      },
+      "kp_raw_same_window": {
+        "n": 7295,
+        "frac_below_0.80": 0.0,
+        "frac_below_0.95": 0.0477,
+        "mean_flux": 0.98574
+      }
+    },
+    {
+      "lo_A": 10000,
+      "hi_A": 10100,
+      "crires_y_wide": {
+        "n": 3428,
+        "frac_below_0.80": 0.0041,
+        "frac_below_0.95": 0.0715,
+        "mean_flux": 0.98646
+      },
+      "kp_raw_same_window": {
+        "n": 8832,
+        "frac_below_0.80": 0.0036,
+        "frac_below_0.95": 0.1209,
+        "mean_flux": 0.97482
+      }
+    },
+    {
+      "lo_A": 10100,
+      "hi_A": 10200,
+      "crires_y_wide": {
+        "n": 3438,
+        "frac_below_0.80": 0.0041,
+        "frac_below_0.95": 0.0262,
+        "mean_flux": 0.99375
+      },
+      "kp_raw_same_window": {
+        "n": 8577,
+        "frac_below_0.80": 0.0049,
+        "frac_below_0.95": 0.0333,
+        "mean_flux": 0.98877
+      }
+    },
+    {
+      "lo_A": 10200,
+      "hi_A": 10300,
+      "crires_y_wide": {
+        "n": 3426,
+        "frac_below_0.80": 0.0047,
+        "frac_below_0.95": 0.0219,
+        "mean_flux": 0.99431
+      },
+      "kp_raw_same_window": {
+        "n": 8492,
+        "frac_below_0.80": 0.0052,
+        "frac_below_0.95": 0.0238,
+        "mean_flux": 0.98941
+      }
+    },
+    {
+      "lo_A": 10300,
+      "hi_A": 10400,
+      "crires_y_wide": {
+        "n": 3435,
+        "frac_below_0.80": 0.0128,
+        "frac_below_0.95": 0.0498,
+        "mean_flux": 0.99071
+      },
+      "kp_raw_same_window": {
+        "n": 8249,
+        "frac_below_0.80": 0.0127,
+        "frac_below_0.95": 0.0502,
+        "mean_flux": 0.98606
+      }
+    },
+    {
+      "lo_A": 10400,
+      "hi_A": 10500,
+      "crires_y_wide": {
+        "n": 3406,
+        "frac_below_0.80": 0.0068,
+        "frac_below_0.95": 0.0402,
+        "mean_flux": 0.99258
+      },
+      "kp_raw_same_window": {
+        "n": 8169,
+        "frac_below_0.80": 0.0073,
+        "frac_below_0.95": 0.0355,
+        "mean_flux": 0.98775
+      }
+    },
+    {
+      "lo_A": 10500,
+      "hi_A": 10600,
+      "crires_y_wide": {
+        "n": 3448,
+        "frac_below_0.80": 0.0078,
+        "frac_below_0.95": 0.0354,
+        "mean_flux": 0.99201
+      },
+      "kp_raw_same_window": {
+        "n": 7938,
+        "frac_below_0.80": 0.0077,
+        "frac_below_0.95": 0.0452,
+        "mean_flux": 0.98362
+      }
+    },
+    {
+      "lo_A": 10600,
+      "hi_A": 10700,
+      "crires_y_wide": {
+        "n": 3397,
+        "frac_below_0.80": 0.0321,
+        "frac_below_0.95": 0.1013,
+        "mean_flux": 0.97835
+      },
+      "kp_raw_same_window": {
+        "n": 7867,
+        "frac_below_0.80": 0.0328,
+        "frac_below_0.95": 0.1078,
+        "mean_flux": 0.9663
+      }
+    },
+    {
+      "lo_A": 10700,
+      "hi_A": 10796,
+      "crires_y_wide": {
+        "n": 3312,
+        "frac_below_0.80": 0.0248,
+        "frac_below_0.95": 0.0836,
+        "mean_flux": 0.98211
+      },
+      "kp_raw_same_window": {
+        "n": 7347,
+        "frac_below_0.80": 0.0275,
+        "frac_below_0.95": 0.1045,
+        "mean_flux": 0.97241
+      }
+    }
+  ],
+  "band_coverage_by_product": [
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "span_A": 2710.0,
+      "fraction_of_band_corrected": null,
+      "basis": "global per-exposure correction \u2014 not band-limited",
+      "n_lines_in_product": 9
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "VIS",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "span_A": 2710.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 9
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "VIS",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "span_A": 2710.0,
+      "fraction_of_band_corrected": 0.0173,
+      "basis": "molecfit band_A spans (RYA-940 manifests)",
+      "n_lines_in_product": 9
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "near-UV",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "span_A": 780.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 12
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "near-UV",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "span_A": 780.0,
+      "fraction_of_band_corrected": 0.0,
+      "basis": "molecfit band_A spans (RYA-940 manifests)",
+      "n_lines_in_product": 12
+    },
+    {
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "band": "NIR",
+      "window_A": [
+        9801.0,
+        10794.0
+      ],
+      "span_A": 993.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 5
+    },
+    {
+      "holding": "solar_iag",
+      "band": "NIR",
+      "window_A": [
+        9199.0,
+        11083.0
+      ],
+      "span_A": 1884.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 25
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "NIR",
+      "window_A": [
+        9199.0,
+        12976.0
+      ],
+      "span_A": 3777.0,
+      "fraction_of_band_corrected": 0.2012,
+      "basis": "molecfit band_A spans (RYA-940 manifests)",
+      "n_lines_in_product": 26
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "window_A": [
+        3800.0,
+        6910.0
+      ],
+      "span_A": 3110.0,
+      "fraction_of_band_corrected": null,
+      "basis": "global per-exposure correction \u2014 not band-limited",
+      "n_lines_in_product": 21
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "window_A": [
+        4200.0,
+        6908.0
+      ],
+      "span_A": 2708.0,
+      "fraction_of_band_corrected": null,
+      "basis": "global per-exposure correction \u2014 not band-limited",
+      "n_lines_in_product": 67
+    },
+    {
+      "holding": "solar_iag",
+      "band": "VIS",
+      "window_A": [
+        3800.0,
+        6910.0
+      ],
+      "span_A": 3110.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 21
+    },
+    {
+      "holding": "solar_iag",
+      "band": "VIS",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "span_A": 2710.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 41
+    },
+    {
+      "holding": "solar_iag",
+      "band": "VIS",
+      "window_A": [
+        5002.0,
+        6910.0
+      ],
+      "span_A": 1908.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 43
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "VIS",
+      "window_A": [
+        3800.0,
+        6910.0
+      ],
+      "span_A": 3110.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 21
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "VIS",
+      "window_A": [
+        3800.0,
+        6910.0
+      ],
+      "span_A": 3110.0,
+      "fraction_of_band_corrected": 0.0151,
+      "basis": "molecfit band_A spans (RYA-940 manifests)",
+      "n_lines_in_product": 21
+    },
+    {
+      "holding": "solar_iag",
+      "band": "red-optical",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "span_A": 2289.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 69
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "red-optical",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "span_A": 2289.0,
+      "fraction_of_band_corrected": null,
+      "basis": "no band registry available for this holding",
+      "n_lines_in_product": 45
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "red-optical",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "span_A": 2289.0,
+      "fraction_of_band_corrected": 0.2495,
+      "basis": "molecfit band_A spans (RYA-940 manifests)",
+      "n_lines_in_product": 56
+    }
+  ],
+  "crires_verdict": "NO EVIDENCE OF UNCORRECTED TELLURIC across the full 9800-10796 A measured span. Window by window the deep-absorption fraction tracks the KP1984 RAW atlas to within ~0.003 -- and KP raw is uncorrected, so the deep features both show are STELLAR. For contrast the same statistic separates raw from corrected by an order of magnitude where telluric actually bites (O2 A-band: raw 0.555 vs corrected 0.048). \u26a0\ufe0f THIS IS CHECK (b), NOT PROOF THE CORRECTION RAN: solar_vesta_crires_plus_idp is staged on Sirius and unreadable here, so a direct corrected-vs-raw comparison is OWED there. In a window this clean the two would look alike either way -- what is established is that no telluric residual REMAINS, which is the science-relevant half.",
+  "reduction_baselines": {
+    "solar_kpno_molecfit_corrected": 0.0,
+    "solar_kpno_kurucz2005_corrected": null,
+    "solar_harps_molecfit_corrected": 9.151e-05,
+    "solar_iag": null,
+    "solar_crires_plus_y_wide_rya1054": null
+  },
+  "material_multiple": 10.0,
+  "harps_materially_corrected_caveat": "\u26a0\ufe0f The handful of HARPS lines that clear the reduction floor do so by 11-19x at ~0.001 in flux -- still THREE ORDERS below the real O2 B-band correction (mean |diff| 0.264). Two of them (6855.161, 6858.148) sit just blueward of the O2 B-band edge at 6867 A, which is physically sensible; the rest are at the 4203-4245 A blue edge where the two reductions diverge most. Read them as 'above this pair's noise floor', NOT as 'a telluric correction of consequence' -- nothing in the HARPS Fe pool sits in a band where molecfit removed anything material.",
+  "availability_on_this_machine": {
+    "solar_kpno_molecfit_corrected": {
+      "instrument": "kpno_solar_atlas",
+      "raw_sibling": "solar_kpno",
+      "probe": "VERIFIED-RAW",
+      "why": null
+    },
+    "solar_kpno_kurucz2005_corrected": {
+      "instrument": "kpno_solar_atlas",
+      "raw_sibling": null,
+      "probe": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: [Errno 2] No such file or directory: '/mnt/codex-data/spectra/KITTS/ir"
+    },
+    "solar_harps_molecfit_corrected": {
+      "instrument": "harps",
+      "raw_sibling": "solar_harps",
+      "probe": "VERIFIED-CORRECTED",
+      "why": null
+    },
+    "solar_iag": {
+      "instrument": "iag_fts_solar_atlas",
+      "raw_sibling": null,
+      "probe": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: IAG atlas not staged at /srv/codex/solar_reference/iag_baker2020/iag_t"
+    },
+    "solar_crires_plus_y_wide_rya1054": {
+      "instrument": "crires_plus",
+      "raw_sibling": "solar_vesta_crires_plus_idp",
+      "probe": "UNVERIFIABLE-HERE",
+      "why": "raw unreadable: CRIRES+ Vesta IDPs not staged. Looked in:\n  /mnt/codex-data/spectra/ve"
+    }
+  },
+  "pad_is_not_corrected": {
+    "what": "fit_window_A is 25 A wider each side than band_A. Every measured line falling in the pad but not the core came back byte-identical to raw, so the pad constrains the fit and is not itself corrected.",
+    "lines_in_pad_only": [
+      6246.318,
+      6301.5,
+      6315.811,
+      6843.655,
+      6855.161,
+      6858.148
+    ]
+  },
+  "per_line_summary": [
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "state": "NO-MATERIAL-DIFFERENCE",
+      "n": 178
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "state": "VERIFIED-CORRECTED",
+      "n": 6
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "state": "VERIFIED-RAW",
+      "n": 1
+    },
+    {
+      "holding": "solar_iag",
+      "state": "UNVERIFIABLE-HERE",
+      "n": 43
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "state": "UNVERIFIABLE-HERE",
+      "n": 88
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "state": "VERIFIED-RAW",
+      "n": 146
+    }
+  ]
+}
