@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1192",
   "kind": "VERIFICATION ONLY \u2014 no correction applied, no value moved",
-  "generated_at": "2026-09-04T20:41:11Z",
+  "generated_at": "2026-09-05T15:26:46Z",
   "bands_molecfit_ACTUALLY_fitted": [
     {
       "band": "h2o11120",
@@ -289,13 +289,16 @@
   ],
   "crires_full_span": [
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 9800,
       "hi_A": 9900,
-      "crires_y_wide": {
+      "crires": {
         "n": 3432,
         "frac_below_0.80": 0.0219,
         "frac_below_0.95": 0.1163,
-        "mean_flux": 0.97704
+        "mean_flux": 0.97704,
+        "catalogue_frac_below_0.80": 0.005,
+        "excess_over_catalogue": 0.0169
       },
       "kp_raw_same_window": {
         "n": 7467,
@@ -305,13 +308,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 9900,
       "hi_A": 10000,
-      "crires_y_wide": {
+      "crires": {
         "n": 3441,
         "frac_below_0.80": 0.0,
         "frac_below_0.95": 0.0256,
-        "mean_flux": 0.99368
+        "mean_flux": 0.99368,
+        "catalogue_frac_below_0.80": 0.0,
+        "excess_over_catalogue": 0.0
       },
       "kp_raw_same_window": {
         "n": 7295,
@@ -321,13 +327,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10000,
       "hi_A": 10100,
-      "crires_y_wide": {
+      "crires": {
         "n": 3428,
         "frac_below_0.80": 0.0041,
         "frac_below_0.95": 0.0715,
-        "mean_flux": 0.98646
+        "mean_flux": 0.98646,
+        "catalogue_frac_below_0.80": 0.0099,
+        "excess_over_catalogue": -0.0058
       },
       "kp_raw_same_window": {
         "n": 8832,
@@ -337,13 +346,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10100,
       "hi_A": 10200,
-      "crires_y_wide": {
+      "crires": {
         "n": 3438,
         "frac_below_0.80": 0.0041,
         "frac_below_0.95": 0.0262,
-        "mean_flux": 0.99375
+        "mean_flux": 0.99375,
+        "catalogue_frac_below_0.80": 0.0041,
+        "excess_over_catalogue": 0.0
       },
       "kp_raw_same_window": {
         "n": 8577,
@@ -353,13 +365,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10200,
       "hi_A": 10300,
-      "crires_y_wide": {
+      "crires": {
         "n": 3426,
         "frac_below_0.80": 0.0047,
         "frac_below_0.95": 0.0219,
-        "mean_flux": 0.99431
+        "mean_flux": 0.99431,
+        "catalogue_frac_below_0.80": 0.0053,
+        "excess_over_catalogue": -0.0006
       },
       "kp_raw_same_window": {
         "n": 8492,
@@ -369,13 +384,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10300,
       "hi_A": 10400,
-      "crires_y_wide": {
+      "crires": {
         "n": 3435,
         "frac_below_0.80": 0.0128,
         "frac_below_0.95": 0.0498,
-        "mean_flux": 0.99071
+        "mean_flux": 0.99071,
+        "catalogue_frac_below_0.80": 0.0163,
+        "excess_over_catalogue": -0.0035
       },
       "kp_raw_same_window": {
         "n": 8249,
@@ -385,13 +403,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10400,
       "hi_A": 10500,
-      "crires_y_wide": {
+      "crires": {
         "n": 3406,
         "frac_below_0.80": 0.0068,
         "frac_below_0.95": 0.0402,
-        "mean_flux": 0.99258
+        "mean_flux": 0.99258,
+        "catalogue_frac_below_0.80": 0.0068,
+        "excess_over_catalogue": 0.0
       },
       "kp_raw_same_window": {
         "n": 8169,
@@ -401,13 +422,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10500,
       "hi_A": 10600,
-      "crires_y_wide": {
+      "crires": {
         "n": 3448,
         "frac_below_0.80": 0.0078,
         "frac_below_0.95": 0.0354,
-        "mean_flux": 0.99201
+        "mean_flux": 0.99201,
+        "catalogue_frac_below_0.80": 0.0046,
+        "excess_over_catalogue": 0.0032
       },
       "kp_raw_same_window": {
         "n": 7938,
@@ -417,13 +441,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10600,
       "hi_A": 10700,
-      "crires_y_wide": {
+      "crires": {
         "n": 3397,
         "frac_below_0.80": 0.0321,
         "frac_below_0.95": 0.1013,
-        "mean_flux": 0.97835
+        "mean_flux": 0.97835,
+        "catalogue_frac_below_0.80": 0.0165,
+        "excess_over_catalogue": 0.0156
       },
       "kp_raw_same_window": {
         "n": 7867,
@@ -433,13 +460,16 @@
       }
     },
     {
+      "holding": "solar_crires_plus_y_wide_rya1054",
       "lo_A": 10700,
       "hi_A": 10796,
-      "crires_y_wide": {
+      "crires": {
         "n": 3312,
         "frac_below_0.80": 0.0248,
         "frac_below_0.95": 0.0836,
-        "mean_flux": 0.98211
+        "mean_flux": 0.98211,
+        "catalogue_frac_below_0.80": 0.0214,
+        "excess_over_catalogue": 0.0034
       },
       "kp_raw_same_window": {
         "n": 7347,
@@ -447,8 +477,745 @@
         "frac_below_0.95": 0.1045,
         "mean_flux": 0.97241
       }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15000,
+      "hi_A": 15100,
+      "crires": {
+        "state": "UNVERIFIABLE-HERE",
+        "why": "no crires_plus holding covers 15050.000 +/- 50.000 A (solar_crires_plus_h_rya109"
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15100,
+      "hi_A": 15200,
+      "crires": {
+        "n": 1949,
+        "frac_below_0.80": 0.0318,
+        "frac_below_0.95": 0.1832,
+        "mean_flux": 0.97081,
+        "catalogue_frac_below_0.80": 0.0344,
+        "excess_over_catalogue": -0.0026
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15200,
+      "hi_A": 15300,
+      "crires": {
+        "n": 2044,
+        "frac_below_0.80": 0.0205,
+        "frac_below_0.95": 0.0915,
+        "mean_flux": 0.98038,
+        "catalogue_frac_below_0.80": 0.0475,
+        "excess_over_catalogue": -0.027
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15300,
+      "hi_A": 15400,
+      "crires": {
+        "n": 1211,
+        "frac_below_0.80": 0.0058,
+        "frac_below_0.95": 0.0281,
+        "mean_flux": 0.99591,
+        "catalogue_frac_below_0.80": 0.0215,
+        "excess_over_catalogue": -0.0157
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15400,
+      "hi_A": 15500,
+      "crires": {
+        "n": 1718,
+        "frac_below_0.80": 0.0017,
+        "frac_below_0.95": 0.0629,
+        "mean_flux": 0.99092,
+        "catalogue_frac_below_0.80": 0.0215,
+        "excess_over_catalogue": -0.0198
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15500,
+      "hi_A": 15600,
+      "crires": {
+        "n": 1882,
+        "frac_below_0.80": 0.0181,
+        "frac_below_0.95": 0.1073,
+        "mean_flux": 0.98295,
+        "catalogue_frac_below_0.80": 0.0446,
+        "excess_over_catalogue": -0.0265
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15600,
+      "hi_A": 15700,
+      "crires": {
+        "n": 1968,
+        "frac_below_0.80": 0.0452,
+        "frac_below_0.95": 0.1946,
+        "mean_flux": 0.96691,
+        "catalogue_frac_below_0.80": 0.0681,
+        "excess_over_catalogue": -0.0229
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15700,
+      "hi_A": 15800,
+      "crires": {
+        "n": 1482,
+        "frac_below_0.80": 0.0843,
+        "frac_below_0.95": 0.2294,
+        "mean_flux": 0.94901,
+        "catalogue_frac_below_0.80": 0.0486,
+        "excess_over_catalogue": 0.0357
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15800,
+      "hi_A": 15900,
+      "crires": {
+        "n": 1318,
+        "frac_below_0.80": 0.0728,
+        "frac_below_0.95": 0.2519,
+        "mean_flux": 0.96008,
+        "catalogue_frac_below_0.80": 0.107,
+        "excess_over_catalogue": -0.0342
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15900,
+      "hi_A": 16000,
+      "crires": {
+        "n": 1799,
+        "frac_below_0.80": 0.045,
+        "frac_below_0.95": 0.2123,
+        "mean_flux": 0.96545,
+        "catalogue_frac_below_0.80": 0.0784,
+        "excess_over_catalogue": -0.0334
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16000,
+      "hi_A": 16100,
+      "crires": {
+        "n": 1872,
+        "frac_below_0.80": 0.1042,
+        "frac_below_0.95": 0.2714,
+        "mean_flux": 0.93929,
+        "catalogue_frac_below_0.80": 0.0598,
+        "excess_over_catalogue": 0.0444
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16100,
+      "hi_A": 16200,
+      "crires": {
+        "n": 1960,
+        "frac_below_0.80": 0.0352,
+        "frac_below_0.95": 0.1781,
+        "mean_flux": 0.97091,
+        "catalogue_frac_below_0.80": 0.0714,
+        "excess_over_catalogue": -0.0362
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16200,
+      "hi_A": 16300,
+      "crires": {
+        "n": 1000,
+        "frac_below_0.80": 0.005,
+        "frac_below_0.95": 0.036,
+        "mean_flux": 0.99859,
+        "catalogue_frac_below_0.80": 0.057,
+        "excess_over_catalogue": -0.052
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16300,
+      "hi_A": 16400,
+      "crires": {
+        "n": 1579,
+        "frac_below_0.80": 0.0336,
+        "frac_below_0.95": 0.1501,
+        "mean_flux": 0.97508,
+        "catalogue_frac_below_0.80": 0.0659,
+        "excess_over_catalogue": -0.0323
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16400,
+      "hi_A": 16500,
+      "crires": {
+        "n": 1769,
+        "frac_below_0.80": 0.0243,
+        "frac_below_0.95": 0.1526,
+        "mean_flux": 0.97381,
+        "catalogue_frac_below_0.80": 0.0514,
+        "excess_over_catalogue": -0.0271
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16500,
+      "hi_A": 16600,
+      "crires": {
+        "n": 1840,
+        "frac_below_0.80": 0.0125,
+        "frac_below_0.95": 0.1152,
+        "mean_flux": 0.98291,
+        "catalogue_frac_below_0.80": 0.0446,
+        "excess_over_catalogue": -0.0321
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16600,
+      "hi_A": 16700,
+      "crires": {
+        "n": 1678,
+        "frac_below_0.80": 0.0411,
+        "frac_below_0.95": 0.1526,
+        "mean_flux": 0.9718,
+        "catalogue_frac_below_0.80": 0.0518,
+        "excess_over_catalogue": -0.0107
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16700,
+      "hi_A": 16800,
+      "crires": {
+        "n": 1000,
+        "frac_below_0.80": 0.0,
+        "frac_below_0.95": 0.006,
+        "mean_flux": 1.00069,
+        "catalogue_frac_below_0.80": 0.052,
+        "excess_over_catalogue": -0.052
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16800,
+      "hi_A": 16900,
+      "crires": {
+        "n": 1583,
+        "frac_below_0.80": 0.0133,
+        "frac_below_0.95": 0.0714,
+        "mean_flux": 0.98613,
+        "catalogue_frac_below_0.80": 0.0297,
+        "excess_over_catalogue": -0.0164
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16900,
+      "hi_A": 17000,
+      "crires": {
+        "n": 1720,
+        "frac_below_0.80": 0.0087,
+        "frac_below_0.95": 0.0436,
+        "mean_flux": 0.99162,
+        "catalogue_frac_below_0.80": 0.0209,
+        "excess_over_catalogue": -0.0122
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17000,
+      "hi_A": 17100,
+      "crires": {
+        "n": 1788,
+        "frac_below_0.80": 0.0089,
+        "frac_below_0.95": 0.0761,
+        "mean_flux": 0.98707,
+        "catalogue_frac_below_0.80": 0.0341,
+        "excess_over_catalogue": -0.0252
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17100,
+      "hi_A": 17200,
+      "crires": {
+        "n": 1679,
+        "frac_below_0.80": 0.0268,
+        "frac_below_0.95": 0.0852,
+        "mean_flux": 0.98169,
+        "catalogue_frac_below_0.80": 0.0149,
+        "excess_over_catalogue": 0.0119
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17200,
+      "hi_A": 17300,
+      "crires": {
+        "n": 1000,
+        "frac_below_0.80": 0.0,
+        "frac_below_0.95": 0.015,
+        "mean_flux": 1.00716,
+        "catalogue_frac_below_0.80": 0.019,
+        "excess_over_catalogue": -0.019
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17300,
+      "hi_A": 17400,
+      "crires": {
+        "n": 1368,
+        "frac_below_0.80": 0.0402,
+        "frac_below_0.95": 0.223,
+        "mean_flux": 0.96903,
+        "catalogue_frac_below_0.80": 0.0088,
+        "excess_over_catalogue": 0.0314
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17400,
+      "hi_A": 17500,
+      "crires": {
+        "state": "UNVERIFIABLE-HERE",
+        "why": "no crires_plus holding covers 17450.000 +/- 50.000 A (solar_crires_plus_h_rya109"
+      },
+      "kp_raw_same_window": {
+        "state": "NO-COMPARAND",
+        "why": "KP1984 ends ~13000 A"
+      }
     }
   ],
+  "crires_h_arm_coverage": {
+    "declared": [
+      15007,
+      17494
+    ],
+    "probed_actual": [
+      15025,
+      17475
+    ],
+    "note": "probed at 25 A steps. The declared span comes from prenormalised_guard's comment; the arm serves a narrower range, and an echelle also has INTER-ORDER GAPS inside it -- see how many graded lines below come back unserved despite sitting in range."
+  },
+  "beyond_10796_graded_lines": [
+    {
+      "wavelength_air_A": 10863.518,
+      "species": "Fe I",
+      "lab_source_tag": "RU14",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "VERIFIED-RAW",
+      "max_abs_diff": 0.0,
+      "baseline_abs_diff": 0.0,
+      "n": 73,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 11013.235,
+      "species": "Fe I",
+      "lab_source_tag": "DH14",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "VERIFIED-RAW",
+      "max_abs_diff": 0.0,
+      "baseline_abs_diff": 0.0,
+      "n": 71,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 14679.831,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 14679.831 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 14826.408,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 14826.408 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15051.749,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 20,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15080.22,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 20,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15207.526,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15294.56,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15335.383,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 15335.383 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15591.49,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 15591.490 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15604.22,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 20,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15631.947,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 20,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15648.51,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15682.016,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 20,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15691.853,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15692.747,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 15835.165,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 15835.165 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16009.61,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16009.610 A",
+      "in_a_candidate_residual_window": true
+    },
+    {
+      "wavelength_air_A": 16153.247,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16165.029,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16179.583,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": "solar_crires_plus_h_rya1094",
+      "n_points": 21,
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16198.502,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16198.502 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16324.451,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16324.451 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16382.251,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16382.251 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16396.306,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16396.306 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16537.994,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16537.994 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16541.962,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16541.962 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 16892.361,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 16892.361 A",
+      "in_a_candidate_residual_window": false
+    },
+    {
+      "wavelength_air_A": 17277.479,
+      "species": "Fe I",
+      "lab_source_tag": "RU13",
+      "policy_says_telluric_band": false,
+      "served_by": null,
+      "n_points": 0,
+      "state": "UNVERIFIABLE-HERE",
+      "why": "corrected unreadable: no Kitt Peak segment covers 17277.479 A",
+      "in_a_candidate_residual_window": false
+    }
+  ],
+  "telluric_policy_reach": {
+    "TELLURIC_BANDS_max_A": 11560.0,
+    "crires_plus_instrument_reach_A": [
+      9500.0,
+      53000.0
+    ],
+    "graded_Fe_lines_beyond_10796": 29,
+    "of_those_in_a_declared_telluric_band": 0,
+    "finding": "\ud83d\udd34 telluric_policy.TELLURIC_BANDS stops at 11560 A while CRIRES+ reaches 53000 A, so in_telluric_band() answers FALSE for every graded Fe line past 1 micron -- and FALSE reads as 'clean', not as 'no band declared here'. The H window it covers is bracketed by the 1.38 and 1.9 micron H2O bands with CO2 and CH4 inside it; the registry simply does not describe that region."
+  },
   "band_coverage_by_product": [
     {
       "holding": "solar_harps_molecfit_corrected",
@@ -667,7 +1434,27 @@
       "n_lines_in_product": 56
     }
   ],
-  "crires_verdict": "NO EVIDENCE OF UNCORRECTED TELLURIC across the full 9800-10796 A measured span. Window by window the deep-absorption fraction tracks the KP1984 RAW atlas to within ~0.003 -- and KP raw is uncorrected, so the deep features both show are STELLAR. For contrast the same statistic separates raw from corrected by an order of magnitude where telluric actually bites (O2 A-band: raw 0.555 vs corrected 0.048). \u26a0\ufe0f THIS IS CHECK (b), NOT PROOF THE CORRECTION RAN: solar_vesta_crires_plus_idp is staged on Sirius and unreadable here, so a direct corrected-vs-raw comparison is OWED there. In a window this clean the two would look alike either way -- what is established is that no telluric residual REMAINS, which is the science-relevant half.",
+  "crires_excess_windows": [
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 15700,
+      "hi_A": 15800,
+      "excess": 0.0357
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 16000,
+      "hi_A": 16100,
+      "excess": 0.0444
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "lo_A": 17300,
+      "hi_A": 17400,
+      "excess": 0.0314
+    }
+  ],
+  "crires_verdict_legacy": "NO EVIDENCE OF UNCORRECTED TELLURIC across the full 9800-10796 A measured span. Window by window the deep-absorption fraction tracks the KP1984 RAW atlas to within ~0.003 -- and KP raw is uncorrected, so the deep features both show are STELLAR. For contrast the same statistic separates raw from corrected by an order of magnitude where telluric actually bites (O2 A-band: raw 0.555 vs corrected 0.048). \u26a0\ufe0f THIS IS CHECK (b), NOT PROOF THE CORRECTION RAN: solar_vesta_crires_plus_idp is staged on Sirius and unreadable here, so a direct corrected-vs-raw comparison is OWED there. In a window this clean the two would look alike either way -- what is established is that no telluric residual REMAINS, which is the science-relevant half.",
   "reduction_baselines": {
     "solar_kpno_molecfit_corrected": 0.0,
     "solar_kpno_kurucz2005_corrected": null,
@@ -708,6 +1495,10 @@
       "probe": "UNVERIFIABLE-HERE",
       "why": "raw unreadable: CRIRES+ Vesta IDPs not staged. Looked in:\n  /mnt/codex-data/spectra/ve"
     }
+  },
+  "crires_verdict_by_arm": {
+    "solar_crires_plus_y_wide_rya1054": "NO EVIDENCE OF UNCORRECTED TELLURIC over 9800-10796 A: no window's observed deep-absorption fraction exceeds what the stellar line list alone predicts. \u26a0\ufe0f Check (b) only \u2014 the raw sibling is on Sirius, so this is 'no residual REMAINS', not proof the correction ran.",
+    "solar_crires_plus_h_rya1094": "\ud83d\udd34 LOCALISED CANDIDATE RESIDUAL in 3 of 23 windows: 15700-15800 (+0.0357), 16000-16100 (+0.0444), 17300-17400 (+0.0314). Observed deep absorption EXCEEDS the stellar catalogue there while every other window sits below it, and those windows are where telluric CO2 (15700-16100) and the 1.9 micron H2O wing are expected. \u26a0\ufe0f NOT PROOF: the accounting is not radiative transfer and over-predicts in general, so only the EXCESS and its localisation carry weight. A raw comparison on Sirius would settle it."
   },
   "pad_is_not_corrected": {
     "what": "fit_window_A is 25 A wider each side than band_A. Every measured line falling in the pad but not the core came back byte-identical to raw, so the pad constrains the fit and is not itself corrected.",
