@@ -256,6 +256,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | VALD | manual web extraction (per skill); synthesis-era central-depth 0.001 | RYA-389 [confirm] |
 | [O I] 6300 measured-O | continuum-renorm measurement = **STOP (continuum-limited)**; production adopts Caffau-2015 8.73, [O I] is a cross-check only — do NOT re-attempt the renorm proof | RYA-447→455 (STOP proofs in `pipeline/diagnostics/`); flagged by RYA-530 |
 | IR science window | graded Fe ends **H band 17277.5 Å**; K-band+ **empty of lab gf** (none above 21386 Å); `canonical_gf` ceiling **~24985 Å** ⇒ **do NOT pursue beyond ~25k** — unreachable-until-a-lab-source-exists, not owed work. CRIRES+'s registered 9500–53000 Å is the INSTRUMENT's reach, not the window | RYA-1094; pinned by RYA-1193 (`telluric_policy.IR_SCIENCE_CEILING_A`), after RYA-1192 re-derived 53000 Å from the catalogue |
+| Reference line sets | **INSTRUMENT-AGNOSTIC — a reference set is never tuned for one instrument.** A published set (GBS/Jofré, Asplund) is a property of the PUBLISHED RECORD; telluric reachability is a property of the OBSERVATION and belongs in the per-holding coverage report, never as a per-line column on the set. A set that shrinks when the telluric policy learns a new band is not a reference set | **Ryan's ruling, RYA-1193**, on the O2 gamma-band reaching 3 GBS lines (6270.22/6271.28/6297.79). Set stays **142**; the 3 appear as `n_telluric_excluded` per holding — KP 3, IAG 0 |
 
 ---
 
