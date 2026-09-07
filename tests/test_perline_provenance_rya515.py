@@ -77,25 +77,33 @@ def test_resolved_products_agree_with_their_artifact_on_n_lines(reach):
 
 # --- the finding ------------------------------------------------------------------
 
-def test_the_six_live_fe2_vis_products_still_stand_on_a_ruled_out_line(reach):
-    """§6. Fe II 4303.170 is curated OUT in data/catalog; no Fe II VIS product reflects it.
+@pytest.mark.xfail(
+    strict=True,
+    reason="RYA-515 6: all six live Fe II VIS products still publish the pre-curation "
+           "9-line/3-line pool. RYA-1203 regenerates Fe.json from the post-1191 "
+           "band_products; when it lands this XPASSes and the marker must come off.",
+)
+def test_no_live_fe2_vis_product_stands_on_a_curated_out_line(reach):
+    """6, written as the invariant rather than as the defect.
 
-    This guard is designed to go quiet: it fails while the products are stale and passes
-    the moment they are re-derived against the live curation registry. It asserts the
-    DISAGREEMENT, so it cannot pass vacuously if the artifacts vanish.
+    Asserting the DEFECT (len(stale) == 6) would have to be deleted the moment someone
+    fixed it, and would go red on the branch that did the fixing -- punishing the fix.
+    The invariant is the durable statement: a live product's line count must match the
+    evidence committed beside it. Strict xfail records that it does not hold today and
+    turns the fix into a loud XPASS rather than a silent one.
     """
     vis2 = reach[(reach.ion == "II") & (reach.band == "VIS")]
     assert len(vis2) == 6, "expected 6 live Fe II VIS products"
-    stale = vis2[vis2.resolution.str.startswith("n_lines MISMATCH")
-                 | vis2.resolution.str.startswith("resolved on n_lines")]
-    assert len(stale) == 6, (
-        "every live Fe II VIS product should still be traceable to the pre-curation pool; "
-        f"got {len(stale)} -- if they were re-derived, retire this guard and §6 with it"
+    disagree = vis2[vis2.resolution.str.startswith("n_lines MISMATCH")
+                    | vis2.resolution.str.startswith("resolved on n_lines")]
+    assert disagree.empty, (
+        "these products publish a line pool their own committed evidence does not contain: "
+        + ", ".join(f"{r.holding}/{r.treatment} (A={r.A})" for _, r in disagree.iterrows())
     )
 
 
 def test_only_the_two_harps_products_still_aggregate_4303(prov):
-    """The curated line must not be aggregated anywhere else in the 1573-row table."""
+    """The curated line must not be aggregated anywhere else in the 1464-row table."""
     hit = prov[(abs(prov.wavelength_air_A - 4303.170) < 0.02) & prov.in_aggregate.astype(bool)]
     assert set(hit.treatment) == {"1D-LTE", "ENGINE-A"}
     assert (hit.holding == "solar_harps_molecfit_corrected").all()
