@@ -1,0 +1,693 @@
+{
+  "ticket": "RYA-1191 (A) \u2014 telluric verdict at every graded Fe line",
+  "kind": "VERIFICATION \u2014 no correction applied, no value moved",
+  "generated_at": "2026-09-07T16:28:28Z",
+  "selection_control": {
+    "checked": 36,
+    "exact": 36,
+    "mismatched": [],
+    "verdict": "the selectors reproduce 36 of 36 existing graded artifacts EXACTLY, line for line"
+  },
+  "pad_A": 0.3,
+  "families": [
+    {
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "selector": "GRADED",
+      "window_A": [
+        9801.0,
+        10794.0
+      ],
+      "synth_band": "NIR",
+      "state": "OK",
+      "n_selected": 5,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 5,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "selector": "GRADED",
+      "window_A": [
+        9199.0,
+        11083.0
+      ],
+      "synth_band": "NIR",
+      "state": "OK",
+      "n_selected": 28,
+      "n_in_registered_telluric_band": 14,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 28,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        9199.0,
+        12976.0
+      ],
+      "synth_band": "NIR",
+      "state": "OK",
+      "n_selected": 28,
+      "n_in_registered_telluric_band": 14,
+      "n_quarantined": 0,
+      "n_lifted": 14,
+      "n_kept": 28,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 109,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 109,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "selector": "DEEPGRADED-LOCALRENORM",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 109,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 109,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        4200.0,
+        6908.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 67,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 67,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 67,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 67,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 109,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 109,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "selector": "GRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 67,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 67,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "selector": "GRADED",
+      "window_A": [
+        5002.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 43,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 43,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 109,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 109,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 67,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 67,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 109,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 109,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 67,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 67,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "synth_band": "near-UV",
+      "state": "OK",
+      "n_selected": 58,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 58,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "synth_band": "near-UV",
+      "state": "OK",
+      "n_selected": 58,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 58,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "selector": "GRADED",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "synth_band": "red-optical",
+      "state": "OK",
+      "n_selected": 70,
+      "n_in_registered_telluric_band": 25,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 70,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "synth_band": "red-optical",
+      "state": "OK",
+      "n_selected": 70,
+      "n_in_registered_telluric_band": 25,
+      "n_quarantined": 0,
+      "n_lifted": 25,
+      "n_kept": 70,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "GRADED",
+      "window_A": [
+        6910.0,
+        9199.0
+      ],
+      "synth_band": "red-optical",
+      "state": "OK",
+      "n_selected": 70,
+      "n_in_registered_telluric_band": 25,
+      "n_quarantined": 13,
+      "n_lifted": 12,
+      "n_kept": 57,
+      "had_per_line_artifact": false
+    },
+    {
+      "ion": "II",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 9,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 9,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "II",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 9,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 9,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "II",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        4200.0,
+        6910.0
+      ],
+      "synth_band": "VIS",
+      "state": "OK",
+      "n_selected": 9,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 9,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "II",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "synth_band": "near-UV",
+      "state": "OK",
+      "n_selected": 12,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 12,
+      "had_per_line_artifact": true
+    },
+    {
+      "ion": "II",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "selector": "DEEPGRADED",
+      "window_A": [
+        3000.0,
+        3780.0
+      ],
+      "synth_band": "near-UV",
+      "state": "OK",
+      "n_selected": 12,
+      "n_in_registered_telluric_band": 0,
+      "n_quarantined": 0,
+      "n_lifted": 0,
+      "n_kept": 12,
+      "had_per_line_artifact": true
+    }
+  ],
+  "holding_claim_verdicts": {
+    "solar_kpno_molecfit_corrected": {
+      "corrected_bands": [
+        "O2 gamma-band",
+        "O2 B-band",
+        "O2 A-band",
+        "H2O",
+        "H2O",
+        "H2O"
+      ],
+      "raw_like_bands": [],
+      "no_power_bands": [],
+      "not_covered_bands": [
+        "H2O",
+        "CO2",
+        "H2O 1.9um wing"
+      ],
+      "claim_verdict": "VERIFIED-CORRECTED in all 6 discriminating band(s): O2 gamma-band, O2 B-band, O2 A-band, H2O, H2O, H2O"
+    },
+    "solar_kpno_kurucz2005_corrected": {
+      "corrected_bands": [
+        "O2 B-band",
+        "O2 A-band",
+        "H2O",
+        "H2O"
+      ],
+      "raw_like_bands": [
+        "H2O"
+      ],
+      "no_power_bands": [
+        "O2 gamma-band"
+      ],
+      "not_covered_bands": [
+        "H2O",
+        "CO2",
+        "H2O 1.9um wing"
+      ],
+      "claim_verdict": "\u26a0\ufe0f MIXED \u2014 corrected in 4 band(s) (O2 B-band, O2 A-band, H2O, H2O) and raw-like in 1 (H2O); one holding label is describing two different states"
+    },
+    "solar_harps_molecfit_corrected": {
+      "corrected_bands": [
+        "O2 B-band"
+      ],
+      "raw_like_bands": [
+        "O2 gamma-band"
+      ],
+      "no_power_bands": [],
+      "not_covered_bands": [
+        "H2O",
+        "O2 A-band",
+        "H2O",
+        "H2O",
+        "H2O",
+        "CO2",
+        "H2O 1.9um wing"
+      ],
+      "claim_verdict": "\u26a0\ufe0f MIXED \u2014 corrected in 1 band(s) (O2 B-band) and raw-like in 1 (O2 gamma-band); one holding label is describing two different states"
+    },
+    "solar_iag": {
+      "corrected_bands": [
+        "O2 B-band",
+        "H2O",
+        "O2 A-band",
+        "H2O",
+        "H2O"
+      ],
+      "raw_like_bands": [],
+      "no_power_bands": [
+        "O2 gamma-band"
+      ],
+      "not_covered_bands": [
+        "H2O",
+        "CO2",
+        "H2O 1.9um wing"
+      ],
+      "claim_verdict": "VERIFIED-CORRECTED in all 5 discriminating band(s): O2 B-band, H2O, O2 A-band, H2O, H2O"
+    }
+  },
+  "reduction_floors": {
+    "solar_kpno_molecfit_corrected": 0.0,
+    "solar_harps_molecfit_corrected": 2.898e-05,
+    "solar_iag": 0.08254983,
+    "solar_kpno_kurucz2005_corrected": null
+  },
+  "totals": {
+    "n_graded_lines": 1361,
+    "n_in_registered_telluric_band": 103,
+    "n_unverifiable": 13
+  },
+  "by_state": [
+    {
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "band": "NIR",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 5
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "flux_state": "NO-MATERIAL-DIFFERENCE",
+      "n": 306
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "flux_state": "VERIFIED-CORRECTED",
+      "n": 53
+    },
+    {
+      "holding": "solar_harps_molecfit_corrected",
+      "band": "VIS",
+      "flux_state": "VERIFIED-RAW",
+      "n": 2
+    },
+    {
+      "holding": "solar_iag",
+      "band": "NIR",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 14
+    },
+    {
+      "holding": "solar_iag",
+      "band": "NIR",
+      "flux_state": "VERIFIED-CORRECTED",
+      "n": 14
+    },
+    {
+      "holding": "solar_iag",
+      "band": "VIS",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 219
+    },
+    {
+      "holding": "solar_iag",
+      "band": "red-optical",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 45
+    },
+    {
+      "holding": "solar_iag",
+      "band": "red-optical",
+      "flux_state": "VERIFIED-CORRECTED",
+      "n": 25
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "VIS",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 185
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "near-UV",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 70
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "red-optical",
+      "flux_state": "NO-TELLURIC-BAND-DECLARED",
+      "n": 45
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "band": "red-optical",
+      "flux_state": "VERIFIED-CORRECTED",
+      "n": 25
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "NIR",
+      "flux_state": "PARTIALLY-CORRECTED",
+      "n": 14
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "NIR",
+      "flux_state": "VERIFIED-RAW",
+      "n": 14
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "VIS",
+      "flux_state": "VERIFIED-RAW",
+      "n": 185
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "near-UV",
+      "flux_state": "VERIFIED-RAW",
+      "n": 70
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "red-optical",
+      "flux_state": "UNVERIFIABLE",
+      "n": 13
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "red-optical",
+      "flux_state": "VERIFIED-CORRECTED",
+      "n": 12
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "band": "red-optical",
+      "flux_state": "VERIFIED-RAW",
+      "n": 45
+    }
+  ],
+  "disagreements": {
+    "quarantined_though_the_flux_IS_corrected": {
+      "n": 0,
+      "detail": [],
+      "meaning": "graded lines refused before fitting on a holding whose flux at those wavelengths is verified corrected \u2014 measurable lines thrown away, a pool cost with no data-integrity benefit"
+    },
+    "kept_though_the_flux_is_RAW": {
+      "n": 0,
+      "detail": [],
+      "meaning": "\ud83d\udd34 graded lines carrying an abundance measured on flux that is verified NOT telluric-corrected, inside a registered band"
+    }
+  }
+}

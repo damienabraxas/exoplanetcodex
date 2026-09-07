@@ -1,0 +1,236 @@
+{
+  "ticket": "RYA-1191 \u2014 twin test: telluric offset vs gf-limited width",
+  "generated_at": "2026-09-07T18:01:53Z",
+  "gate": {
+    "max_offset_dex": 0.03,
+    "max_scatter_ratio": 2.0,
+    "source": "Ryan 2026-09-07"
+  },
+  "statistic_note": "\u26a0\ufe0f `sigma_stat` is the printed line scatter divided by sqrt(n); both are carried and named, because comparing one against the other manufactures a 5-8x discrepancy out of arithmetic (RYA-1084).",
+  "pairs": [
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "raw_holding": "solar_kpno_molecfit_corrected",
+      "clean_twin": "solar_iag",
+      "n_kp": 56,
+      "n_iag": 69,
+      "n_matched": 55,
+      "state": "MEASURED",
+      "A_kp": 7.5071,
+      "scatter_kp": 0.4969,
+      "sigma_stat_kp": 0.067,
+      "A_iag": 7.3878,
+      "scatter_iag": 0.288,
+      "sigma_stat_iag": 0.0388,
+      "delta_A": 0.1193,
+      "delta_A_se": 0.0618,
+      "scatter_ratio": 1.725,
+      "shared_scatter": 0.288,
+      "excess_scatter": 0.4049,
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.1193 dex (gate 0.03)",
+      "reading": "\u26a0\ufe0f The width the two SHARE (0.288) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.405) and the offset. Only those two may be blamed on telluric."
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "raw_holding": "solar_kpno_molecfit_corrected",
+      "clean_twin": "solar_iag",
+      "n_kp": 28,
+      "n_iag": 35,
+      "n_matched": 28,
+      "state": "MEASURED",
+      "A_kp": 7.5973,
+      "scatter_kp": 0.5227,
+      "sigma_stat_kp": 0.0988,
+      "A_iag": 7.428,
+      "scatter_iag": 0.149,
+      "sigma_stat_iag": 0.0282,
+      "delta_A": 0.1693,
+      "delta_A_se": 0.1162,
+      "scatter_ratio": 3.507,
+      "shared_scatter": 0.149,
+      "excess_scatter": 0.501,
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.1693 dex (gate 0.03) and WIDTH x3.51 (gate 2.0)",
+      "reading": "\u26a0\ufe0f The width the two SHARE (0.149) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.501) and the offset. Only those two may be blamed on telluric."
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "raw_holding": "solar_kpno_molecfit_corrected",
+      "clean_twin": "solar_iag",
+      "state": "ARTIFACT-MISSING",
+      "why": "kp=NO iag=yes"
+    },
+    {
+      "band": "NIR",
+      "treatment": "ENGINE-A",
+      "raw_holding": "solar_kpno_molecfit_corrected",
+      "clean_twin": "solar_iag",
+      "state": "ARTIFACT-MISSING",
+      "why": "kp=NO iag=yes"
+    }
+  ],
+  "worst_lines": [
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9012.075,
+      "A_kp": 10.166,
+      "A_iag": 6.938,
+      "delta_A": 3.228
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 9012.075,
+      "A_kp": 10.18,
+      "A_iag": 6.953,
+      "delta_A": 3.227
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9163.982,
+      "A_kp": 8.187,
+      "A_iag": 7.549,
+      "delta_A": 0.638
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9164.57,
+      "A_kp": 8.186,
+      "A_iag": 7.55,
+      "delta_A": 0.636
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 7016.39,
+      "A_kp": 7.925,
+      "A_iag": 7.459,
+      "delta_A": 0.466
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 8945.189,
+      "A_kp": 7.928,
+      "A_iag": 7.475,
+      "delta_A": 0.453
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 8945.189,
+      "A_kp": 7.941,
+      "A_iag": 7.489,
+      "delta_A": 0.452
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 7620.513,
+      "A_kp": 7.552,
+      "A_iag": 7.17,
+      "delta_A": 0.382
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 7620.513,
+      "A_kp": 7.567,
+      "A_iag": 7.186,
+      "delta_A": 0.381
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 7653.758,
+      "A_kp": 7.481,
+      "A_iag": 7.145,
+      "delta_A": 0.336
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 7653.758,
+      "A_kp": 7.494,
+      "A_iag": 7.159,
+      "delta_A": 0.335
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 6977.429,
+      "A_kp": 7.617,
+      "A_iag": 7.389,
+      "delta_A": 0.228
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 6977.429,
+      "A_kp": 7.62,
+      "A_iag": 7.392,
+      "delta_A": 0.228
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9147.957,
+      "A_kp": 7.536,
+      "A_iag": 7.375,
+      "delta_A": 0.161
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 9103.636,
+      "A_kp": 7.641,
+      "A_iag": 7.511,
+      "delta_A": 0.13
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9103.636,
+      "A_kp": 7.63,
+      "A_iag": 7.5,
+      "delta_A": 0.13
+    },
+    {
+      "band": "red-optical",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 7664.159,
+      "A_kp": 7.449,
+      "A_iag": 7.569,
+      "delta_A": -0.12
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 7664.159,
+      "A_kp": 7.43,
+      "A_iag": 7.549,
+      "delta_A": -0.119
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 8232.316,
+      "A_kp": 7.297,
+      "A_iag": 7.406,
+      "delta_A": -0.109
+    },
+    {
+      "band": "red-optical",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 8432.174,
+      "A_kp": 5.508,
+      "A_iag": 5.615,
+      "delta_A": -0.107
+    }
+  ]
+}

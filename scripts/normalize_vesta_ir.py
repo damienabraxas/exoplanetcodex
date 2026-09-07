@@ -13,9 +13,19 @@ spectral resolution of ~100000"* and *"a solar spectrum obtained from observatio
 Vesta"*. So this is CRIRES+, not the 2012-13 CRIRES the ticket warns about, and the STOP
 condition does not fire.
 
-**Source B is not available.** The ticket expects 18 CRIRES+ Vesta IDPs per RYA-377; a
-filesystem sweep finds ZERO Vesta FITS on Sirius. Only source A exists, so Step 1
-(molecfit) is not merely skipped-by-preference — there is nothing else to run it on.
+⚠️ **THAT SWEEP IS STALE, AND WHAT IT CONCLUDED IS NO LONGER TRUE (RYA-1191).** This
+paragraph used to read: *"a filesystem sweep finds ZERO Vesta FITS on Sirius. Only source
+A exists, so Step 1 (molecfit) is not merely skipped-by-preference — there is nothing else
+to run it on."* **All 18 CRIRES+ Vesta IDPs are staged** at
+`data.spectra_local/vesta/CRIRESPlus`, and they arrived after that sweep ran. A sentence
+about the state of a filesystem is true on a date, not forever, and every downstream
+telluric verdict for CRIRES+ inherited from this one.
+
+Source B therefore EXISTS, and it turns out to be more than a molecfit input: Elgueta's
+own `table1.dat` dates the solar spectrum to **2022-11-22 00:23**, and those IDPs are
+2022-11-21T23:55 and 2022-11-22T00:03 under programme **60.A-9051(A)** — the SAME
+OBSERVATIONS, reduced twice. So source A and source B are a raw/corrected pair of one
+night, which is what let RYA-1192 verify this product against raw at all.
 
 ⚠️ UNIT TRAP — THE READ-ME'S OWN LABEL IS WRONG
 The sp/ byte-by-byte description gives the wavelength column as `0.1nm` (i.e. Angstrom).
@@ -25,12 +35,25 @@ exactly the Y band, and the 10280-10680 A science window then sits fully inside 
 13707 points. Taking the label at face value would have produced a confident wrong answer
 of precisely the kind the instrument catalog already warns about for the IAG atlas.
 
-TELLURIC RULE — SATISFIED, AND CHECKED RATHER THAN ASSUMED
-The rule is permanent: no IR abundance without verified telluric correction. Measured on
-this spectrum, the science window has **0.10 % of points below 0.5** and a mean of 0.990 —
-no saturated absorption anywhere. For scale, the Kitt Peak atlas runs **51.3 %** below 0.5
-inside the O2 A-band, which is what uncorrected telluric absorption looks like. Elgueta
-selected 10280-10680 A precisely because it is almost telluric-free, and the data agrees.
+TELLURIC RULE — SATISFIED, AND THE EVIDENCE FOR IT HAS BEEN REPLACED (RYA-1191)
+The rule is permanent: no IR abundance without verified telluric correction.
+
+🔴 **THE COMPARISON THIS PARAGRAPH USED TO MAKE WAS NOT MEASURABLE ON THIS SPECTRUM.** It
+read: *"the science window has 0.10 % of points below 0.5 ... For scale, the Kitt Peak
+atlas runs 51.3 % below 0.5 inside the O2 A-band"* — and that framing propagated into the
+holdings registry as the stated evidence that the Elgueta spectra are telluric-corrected.
+The **O2 A-band is 7594-7685 A**; this arm starts at **9796.5 A**. The two numbers are
+from different wavelengths, so one cannot be "for scale" against the other, and the 0.10 %
+is simply the Y science window's own statistic. The window IS clean; nothing written down
+had established that the correction is why.
+
+**The real evidence, measured (RYA-1192):** the raw IDPs of the SAME NIGHT are readable,
+and against a molecfit `MTRANS` telluric transmission fitted on CRIRES+ frames of the same
+band, the raw frame stands at **+14.1 sigma** above its own displaced null while this
+product stands at **-0.3 sigma**, and the raw/product RATIO reproduces the telluric
+transmission at **+8.2 sigma**. The test is shown to have the power to see a residual and
+sees none. Elgueta selected 10280-10680 A because it is nearly telluric-free, and that is
+still true — it is now also verified.
 
 STEP 4 RESULT — THE Y BAND HAS NO ELGUETA-CERTIFIED SOLAR Fe I LINE
 --------------------------------------------------------------------

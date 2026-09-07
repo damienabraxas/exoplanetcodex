@@ -1130,6 +1130,28 @@ def synthesis_route(a, pol) -> None:
     if _bad:
         _drop = {w for w, _ in _bad}
         cand = cand[~cand.wave_A.astype(float).isin(_drop)].reset_index(drop=True)
+    # ── curated exclusions: genuine blends/artifacts, dropped on the science ──────
+    # 🔴 RYA-1191 — SEPARATE FROM THE TELLURIC QUARANTINE ABOVE, AND DELIBERATELY SO. That
+    # one asks whether the FLUX is usable; this asks whether the LINE is. Fe II 4303.170
+    # returns A = 10.0 (+2.5 dex) on flux that is perfectly clean — its window is 43.8%
+    # CH by catalogued depth against Fe II's 11.1%, and the VIS synthesis list carries no
+    # molecular species at all, so the fit had nowhere to put the G band except Fe. No
+    # telluric test would ever have caught it, and no fit-quality cut did.
+    #
+    # Each exclusion is an individual, evidenced call in data/catalog/, never a threshold:
+    # the blend audit finds 164 of 353 graded lines where the target is not the dominant
+    # absorber, and auto-dropping on that would delete a third of the pool on a number
+    # nobody ratified (RYA-161).
+    from pipeline.line_curation import excluded as _curated
+    _cur = [(float(r.wave_A), _curated(f"{a.element} {a.ion}", float(r.wave_A)))
+            for r in cand.itertuples()]
+    _cur = [(w, why) for w, why in _cur if why]
+    if _cur:
+        print(f"  {len(_cur)} candidate(s) CURATED OUT (blend/artifact, not telluric):")
+        for w, why in _cur:
+            print(f"      {w:10.3f}  {why[:110]}")
+        cand = cand[~cand.wave_A.astype(float).isin({w for w, _ in _cur})
+                    ].reset_index(drop=True)
     print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")

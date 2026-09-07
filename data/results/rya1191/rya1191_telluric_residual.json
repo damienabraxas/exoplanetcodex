@@ -1,0 +1,601 @@
+{
+  "ticket": "RYA-1191 (B) \u2014 telluric residual vs uncatalogued blend",
+  "kind": "VERIFICATION \u2014 no correction applied, no value moved",
+  "generated_at": "2026-09-07T15:24:24Z",
+  "template": {
+    "raw": "solar_iag_reiners2016",
+    "corrected": "solar_iag",
+    "what": "their ratio IS the telluric transmission the Baker+2020 correction removed \u2014 one atlas, one instrument, so the ratio carries no instrumental difference",
+    "caveat": "\u26a0\ufe0f LINE POSITIONS ONLY. Airmass and PWV differ between nights, so scoring is by shape correlation and never by depth."
+  },
+  "null_estimator": "per band, r(0) against r(dv) for 58 shifts with |dv| >= 120 km/s; residual at z >= 3.0",
+  "sign_convention": "residual_r is FLIPPED so that LARGER POSITIVE = MORE RESIDUAL TELLURIC. The uncorrected references are in every row as the positive control.",
+  "bands": [
+    {
+      "band": "O2 gamma-band",
+      "lo_A": 6270.0,
+      "hi_A": 6300.0,
+      "state": "MEASURED",
+      "template_min": 0.1724,
+      "template_frac_below_0.95": 0.1177,
+      "catalogued_stellar_depth_per_A": 0.587,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.7639,
+          "residual_z": 17.98,
+          "null_mean": 0.0059,
+          "null_sd": 0.0422,
+          "n": 4879,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 5.993,
+          "side_pct_below_0.8": 5.618,
+          "depth_over_side": 1.07
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.8677,
+          "residual_z": 22.02,
+          "null_mean": -0.0031,
+          "null_sd": 0.0395,
+          "n": 22846,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 7.486,
+          "side_pct_below_0.8": 6.759,
+          "depth_over_side": 1.11
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.23,
+          "residual_z": 4.63,
+          "null_mean": -0.0065,
+          "null_sd": 0.0511,
+          "n": 5297,
+          "note": "claims molecfit",
+          "pct_below_0.8": 3.036,
+          "side_pct_below_0.8": 5.618,
+          "depth_over_side": 0.54
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.0517,
+          "residual_z": -1.53,
+          "null_mean": 0.0302,
+          "null_sd": 0.0536,
+          "n": 4401,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.999,
+          "side_pct_below_0.8": 5.874,
+          "depth_over_side": 0.51
+        },
+        "solar_harps": {
+          "state": "MEASURED",
+          "residual_r": 0.5888,
+          "residual_z": 12.01,
+          "null_mean": 0.0,
+          "null_sd": 0.049,
+          "n": 3400,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 8.6,
+          "side_pct_below_0.8": 5.867,
+          "depth_over_side": 1.47
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.5888,
+          "residual_z": 12.01,
+          "null_mean": 0.0,
+          "null_sd": 0.049,
+          "n": 3400,
+          "note": "claims molecfit",
+          "pct_below_0.8": 8.6,
+          "side_pct_below_0.8": 5.867,
+          "depth_over_side": 1.47
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.0478,
+          "residual_z": -1.46,
+          "null_mean": 0.031,
+          "null_sd": 0.0539,
+          "n": 5711,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.282,
+          "side_pct_below_0.8": 5.609,
+          "depth_over_side": 0.41
+        }
+      },
+      "judged_by": "TEMPLATE (line positions)",
+      "verdict": "references light up at +22.0 sigma; 2 corrected holding(s) clean, 2 carrying a residual. \u26a0\ufe0f NOT A STELLAR BLEND: a line missing from linelist_solar would be in the Sun and would show in EVERY holding, and the clean ones are clean.",
+      "gaps": [
+        "solar_kpno_molecfit_corrected: residual at +4.6 sigma (uncorrected references reach +22.0) \u2014 PARTIAL correction",
+        "solar_harps_molecfit_corrected: residual at +12.0 sigma (uncorrected references reach +22.0) \u2014 essentially UNCORRECTED"
+      ]
+    },
+    {
+      "band": "O2 B-band",
+      "lo_A": 6867.0,
+      "hi_A": 6884.0,
+      "state": "MEASURED",
+      "template_min": 0.0053,
+      "template_frac_below_0.95": 0.6387,
+      "catalogued_stellar_depth_per_A": 0.131,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.9527,
+          "residual_z": 6.39,
+          "null_mean": -0.001,
+          "null_sd": 0.1493,
+          "n": 2562,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 29.137,
+          "side_pct_below_0.8": 7.739,
+          "depth_over_side": 3.77
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.9888,
+          "residual_z": 5.81,
+          "null_mean": -0.0023,
+          "null_sd": 0.1706,
+          "n": 11791,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 44.295,
+          "side_pct_below_0.8": 11.356,
+          "depth_over_side": 3.9
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.2635,
+          "residual_z": 1.62,
+          "null_mean": -0.0094,
+          "null_sd": 0.1683,
+          "n": 2706,
+          "note": "claims molecfit",
+          "pct_below_0.8": 4.316,
+          "side_pct_below_0.8": 7.739,
+          "depth_over_side": 0.56
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.1629,
+          "residual_z": -1.73,
+          "null_mean": -0.0084,
+          "null_sd": 0.0892,
+          "n": 3101,
+          "note": "claims delivered",
+          "pct_below_0.8": 0.629,
+          "side_pct_below_0.8": 1.703,
+          "depth_over_side": 0.37
+        },
+        "solar_harps": {
+          "state": "MEASURED",
+          "residual_r": 0.9328,
+          "residual_z": 5.43,
+          "null_mean": -0.004,
+          "null_sd": 0.1724,
+          "n": 2100,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 41.706,
+          "side_pct_below_0.8": 10.676,
+          "depth_over_side": 3.91
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.2082,
+          "residual_z": -1.95,
+          "null_mean": -0.0179,
+          "null_sd": 0.0978,
+          "n": 1948,
+          "note": "claims molecfit",
+          "pct_below_0.8": 0.772,
+          "side_pct_below_0.8": 0.971,
+          "depth_over_side": 0.8
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.2791,
+          "residual_z": -2.94,
+          "null_mean": -0.0086,
+          "null_sd": 0.092,
+          "n": 2948,
+          "note": "claims delivered",
+          "pct_below_0.8": 0.712,
+          "side_pct_below_0.8": 0.812,
+          "depth_over_side": 0.88
+        }
+      },
+      "verdict": "TEMPLATE TEST HAS NO POWER (saturated band \u2014 the references reach only +6.4 sigma on shape), so this band is judged on DEPTH, where they reach 3.9x their own side windows. 4 corrected holding(s) clean, 0 not.",
+      "judged_by": "DEPTH (template saturated)",
+      "gaps": []
+    },
+    {
+      "band": "H2O",
+      "lo_A": 7160.0,
+      "hi_A": 7340.0,
+      "state": "MEASURED",
+      "template_min": 0.0052,
+      "template_frac_below_0.95": 0.5022,
+      "catalogued_stellar_depth_per_A": 0.185,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.8531,
+          "residual_z": 28.35,
+          "null_mean": 0.0344,
+          "null_sd": 0.0289,
+          "n": 19807,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 12.353,
+          "side_pct_below_0.8": 2.821,
+          "depth_over_side": 4.38
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.968,
+          "residual_z": 32.3,
+          "null_mean": 0.0433,
+          "null_sd": 0.0286,
+          "n": 92929,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 24.875,
+          "side_pct_below_0.8": 4.442,
+          "depth_over_side": 5.6
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: window 7158.00-7342.00 A overlaps REGISTERED telluric band 7160-7340 A",
+          "note": "claims molecfit",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": 2.821,
+          "depth_over_side": null
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.0346,
+          "residual_z": 0.99,
+          "null_mean": 0.006,
+          "null_sd": 0.0288,
+          "n": 19401,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.947,
+          "side_pct_below_0.8": 2.324,
+          "depth_over_side": 1.27
+        },
+        "solar_harps": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 7250.000 +/- 92.000 A (solar_harps 3782.6-6910",
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 7250.000 +/- 92.000 A (solar_harps_molecfit_co",
+          "note": "claims molecfit",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.0529,
+          "residual_z": -2.08,
+          "null_mean": 0.0034,
+          "null_sd": 0.0271,
+          "n": 23232,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.97,
+          "side_pct_below_0.8": 2.417,
+          "depth_over_side": 1.23
+        }
+      },
+      "judged_by": "TEMPLATE (line positions)",
+      "verdict": "references light up at +32.3 sigma; 2 corrected holding(s) clean, 0 carrying a residual",
+      "gaps": []
+    },
+    {
+      "band": "O2 A-band",
+      "lo_A": 7594.0,
+      "hi_A": 7685.0,
+      "state": "MEASURED",
+      "template_min": 0.0013,
+      "template_frac_below_0.95": 0.7849,
+      "catalogued_stellar_depth_per_A": 0.165,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.9483,
+          "residual_z": 4.84,
+          "null_mean": 0.3223,
+          "null_sd": 0.1292,
+          "n": 11810,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 55.464,
+          "side_pct_below_0.8": 2.715,
+          "depth_over_side": 20.43
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.9884,
+          "residual_z": 4.45,
+          "null_mean": 0.3596,
+          "null_sd": 0.1412,
+          "n": 43206,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 66.801,
+          "side_pct_below_0.8": 2.851,
+          "depth_over_side": 23.43
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.249,
+          "residual_z": 0.68,
+          "null_mean": 0.2213,
+          "null_sd": 0.0408,
+          "n": 9626,
+          "note": "claims molecfit",
+          "pct_below_0.8": 4.817,
+          "side_pct_below_0.8": 2.715,
+          "depth_over_side": 1.77
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.058,
+          "residual_z": -0.42,
+          "null_mean": -0.0353,
+          "null_sd": 0.0539,
+          "n": 10501,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.069,
+          "side_pct_below_0.8": 2.589,
+          "depth_over_side": 0.8
+        },
+        "solar_harps": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 7639.500 +/- 47.500 A (solar_harps 3782.6-6910",
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 7639.500 +/- 47.500 A (solar_harps_molecfit_co",
+          "note": "claims molecfit",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.1344,
+          "residual_z": -1.72,
+          "null_mean": -0.0455,
+          "null_sd": 0.0516,
+          "n": 10802,
+          "note": "claims delivered",
+          "pct_below_0.8": 2.146,
+          "side_pct_below_0.8": 2.661,
+          "depth_over_side": 0.81
+        }
+      },
+      "verdict": "TEMPLATE TEST HAS NO POWER (saturated band \u2014 the references reach only +4.8 sigma on shape), so this band is judged on DEPTH, where they reach 23.4x their own side windows. 3 corrected holding(s) clean, 0 not.",
+      "judged_by": "DEPTH (template saturated)",
+      "gaps": []
+    },
+    {
+      "band": "H2O",
+      "lo_A": 8100.0,
+      "hi_A": 8400.0,
+      "state": "MEASURED",
+      "template_min": 0.0031,
+      "template_frac_below_0.95": 0.3854,
+      "catalogued_stellar_depth_per_A": 0.145,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.8972,
+          "residual_z": 29.92,
+          "null_mean": 0.0535,
+          "null_sd": 0.0282,
+          "n": 32247,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 9.92,
+          "side_pct_below_0.8": 3.535,
+          "depth_over_side": 2.81
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.9711,
+          "residual_z": 30.66,
+          "null_mean": 0.0666,
+          "null_sd": 0.0295,
+          "n": 118591,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 18.17,
+          "side_pct_below_0.8": 4.464,
+          "depth_over_side": 4.07
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.0039,
+          "residual_z": -2.3,
+          "null_mean": 0.0476,
+          "null_sd": 0.0224,
+          "n": 31701,
+          "note": "claims molecfit",
+          "pct_below_0.8": 2.681,
+          "side_pct_below_0.8": 3.535,
+          "depth_over_side": 0.76
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.0206,
+          "residual_z": 0.3,
+          "null_mean": 0.0102,
+          "null_sd": 0.0345,
+          "n": 31401,
+          "note": "claims delivered",
+          "pct_below_0.8": 1.629,
+          "side_pct_below_0.8": 3.318,
+          "depth_over_side": 0.49
+        },
+        "solar_harps": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 8250.000 +/- 152.000 A (solar_harps 3782.6-691",
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 8250.000 +/- 152.000 A (solar_harps_molecfit_c",
+          "note": "claims molecfit",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.0944,
+          "residual_z": -2.75,
+          "null_mean": 0.001,
+          "null_sd": 0.0347,
+          "n": 29648,
+          "note": "claims delivered",
+          "pct_below_0.8": 1.49,
+          "side_pct_below_0.8": 3.363,
+          "depth_over_side": 0.44
+        }
+      },
+      "judged_by": "TEMPLATE (line positions)",
+      "verdict": "references light up at +30.7 sigma; 3 corrected holding(s) clean, 0 carrying a residual",
+      "gaps": []
+    },
+    {
+      "band": "H2O",
+      "lo_A": 9280.0,
+      "hi_A": 9600.0,
+      "state": "MEASURED",
+      "template_min": 0.0007,
+      "template_frac_below_0.95": 0.9901,
+      "catalogued_stellar_depth_per_A": 0.072,
+      "holdings": {
+        "solar_kpno": {
+          "state": "MEASURED",
+          "residual_r": 0.9339,
+          "residual_z": 27.7,
+          "null_mean": 0.026,
+          "null_sd": 0.0328,
+          "n": 26287,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 57.951,
+          "side_pct_below_0.8": 16.733,
+          "depth_over_side": 3.46
+        },
+        "solar_iag_reiners2016": {
+          "state": "MEASURED",
+          "residual_r": 0.9938,
+          "residual_z": 30.76,
+          "null_mean": 0.0254,
+          "null_sd": 0.0315,
+          "n": 96531,
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": 85.964,
+          "side_pct_below_0.8": 28.456,
+          "depth_over_side": 3.02
+        },
+        "solar_kpno_molecfit_corrected": {
+          "state": "MEASURED",
+          "residual_r": 0.0391,
+          "residual_z": 3.42,
+          "null_mean": -0.0229,
+          "null_sd": 0.0182,
+          "n": 19563,
+          "note": "claims molecfit",
+          "pct_below_0.8": 2.344,
+          "side_pct_below_0.8": 16.733,
+          "depth_over_side": 0.14
+        },
+        "solar_kpno_kurucz2005_corrected": {
+          "state": "MEASURED",
+          "residual_r": -0.0033,
+          "residual_z": -0.08,
+          "null_mean": -0.0013,
+          "null_sd": 0.0264,
+          "n": 33401,
+          "note": "claims delivered",
+          "pct_below_0.8": 1.251,
+          "side_pct_below_0.8": 1.523,
+          "depth_over_side": 0.82
+        },
+        "solar_harps": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 9440.000 +/- 162.000 A (solar_harps 3782.6-691",
+          "note": "UNCORRECTED REFERENCE",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_harps_molecfit_corrected": {
+          "state": "OUT-OF-SPAN-OR-REFUSED",
+          "why": "LookupError: no harps holding covers 9440.000 +/- 162.000 A (solar_harps_molecfit_c",
+          "note": "claims molecfit",
+          "pct_below_0.8": null,
+          "side_pct_below_0.8": null,
+          "depth_over_side": null
+        },
+        "solar_iag": {
+          "state": "MEASURED",
+          "residual_r": -0.2676,
+          "residual_z": -9.97,
+          "null_mean": -0.0064,
+          "null_sd": 0.0262,
+          "n": 24132,
+          "note": "claims delivered",
+          "pct_below_0.8": 1.036,
+          "side_pct_below_0.8": 1.389,
+          "depth_over_side": 0.75
+        }
+      },
+      "judged_by": "TEMPLATE (line positions)",
+      "verdict": "references light up at +30.8 sigma; 2 corrected holding(s) clean, 1 carrying a residual. \u26a0\ufe0f NOT A STELLAR BLEND: a line missing from linelist_solar would be in the Sun and would show in EVERY holding, and the clean ones are clean.",
+      "gaps": [
+        "solar_kpno_molecfit_corrected: residual at +3.4 sigma (uncorrected references reach +30.8) \u2014 PARTIAL correction"
+      ]
+    },
+    {
+      "band": "H2O",
+      "lo_A": 11120.0,
+      "hi_A": 11560.0,
+      "state": "NO-TEMPLATE",
+      "why": "the IAG pair does not reach this band: IAG (Reiners+2016, blue arm) holds only 0 points near 11340.000 A (spa"
+    },
+    {
+      "band": "CO2",
+      "lo_A": 15700.0,
+      "hi_A": 16100.0,
+      "state": "NO-TEMPLATE",
+      "why": "the IAG pair does not reach this band: IAG (Reiners+2016, blue arm) holds only 0 points near 15900.000 A (spa"
+    },
+    {
+      "band": "H2O 1.9um wing",
+      "lo_A": 17300.0,
+      "hi_A": 17500.0,
+      "state": "NO-TEMPLATE",
+      "why": "the IAG pair does not reach this band: IAG (Reiners+2016, blue arm) holds only 0 points near 17400.000 A (spa"
+    }
+  ],
+  "supersedes": {
+    "artifact": "data/results/rya1192/rya1192_sirius_verification.json",
+    "findings_rejudged": [
+      "solar_kpno_kurucz2005_corrected | H2O 7160-7340 \u2014 RYA-1192 returned VERIFIED-RAW-LIKE from a DEPTH ratio of 4.2 against a 5x bar. Wrong comparand: against the telluric TEMPLATE it is clean, and its own side windows put it level with solar_iag, which is verified corrected there.",
+      "solar_kpno_molecfit_corrected | O2 gamma 6270-6300 \u2014 RYA-1192 returned VERIFIED-CORRECTED from a mean |diff| of 0.030 against a zero floor. That difference is a FEATURELESS ~3.6% rescale (corrected/raw min 1.0000, zero pixels below 0.98); the O2 gamma lines are still there."
+    ],
+    "why_the_earlier_tests_missed_it": "A depth cut cannot see a shallow band and a difference cannot tell a rescale from a line removal. Both are answered by asking whether the flux absorbs AT THE TELLURIC LINE POSITIONS."
+  }
+}
