@@ -99,10 +99,21 @@ from pipeline.telluric_policy import (TELLURIC_BANDS as TELLURIC,  # noqa: E402
                                       exclusion as _telluric_exclusion)
 
 
-def telluric_reason(wave: float, instrument: str | None = None) -> str:
+def telluric_reason(wave: float, instrument: str | None = None,
+                    holding_id: str | None = None) -> str:
     """RYA-786: the INSTRUMENT decides, not just the wavelength — a telluric-corrected
-    atlas (IAG) keeps lines that an uncorrected one (KPNO) must drop."""
-    return _telluric_exclusion(wave, instrument)
+    atlas (IAG) keeps lines that an uncorrected one (KPNO) must drop.
+
+    RYA-1194 adds the third argument, and it is the authoritative one where a caller has
+    it: whether the tellurics were actually taken OUT of a product is a per-HOLDING fact,
+    and one instrument can serve a raw atlas and a corrected sibling.
+
+    🔴 NEVER CALL THIS WITH NO INSTRUMENT (RYA-1196). It is not the neutral setting — with
+    nothing to resolve, the policy's basis is `unspecified` and EVERY band fires
+    unconditionally, which in a measurement path silently over-excludes real lines.
+    `tests/test_telluric_consumer_instrument_rya1196.py` enforces this.
+    """
+    return _telluric_exclusion(wave, instrument, holding_id)
 
 
 # ── the IAG arm (RYA-783) ────────────────────────────────────────────────────
@@ -1587,7 +1598,15 @@ def main() -> None:
 
     rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
-        why = telluric_reason(r.wave_air_A)
+        # RYA-1196: pass the instrument. Omitting it is the MOST aggressive setting, not
+        # the neutral one -- every band fires regardless of what the data actually is.
+        # This driver pins `a.instrument` to kpno_solar_atlas above and has no --holding,
+        # so the instrument-level read is all it can honestly supply; that is the
+        # conservative direction and, KP being telluric_basis=line_selection, it is the
+        # same answer the bare call happened to give. The defect was the reasoning, not
+        # the number -- point this driver at a corrected holding and the bare call would
+        # have thrown its lines away.
+        why = telluric_reason(r.wave_air_A, a.instrument)
         if why:
             skipped.append(dict(wave=r.wave_air_A, reason=why)); continue
         hw = window_half_width(allw, float(r.wave_air_A))
