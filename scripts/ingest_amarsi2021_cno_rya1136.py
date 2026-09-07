@@ -118,9 +118,15 @@ def main() -> None:
                     "species": species,
                     "band": band,
                     "used": used,
-                    "canonical_matched": 0,
-                    "ambiguous": used,
-                    "verdict": "CROSSMATCH_REVIEW" if used else "NO_AGSS21_TABLE2_LINES",
+                    # RYA-1183 B3(3), same defect as summary.json one artifact over: this
+                    # ingest does not run the join, so it must not report its result. It
+                    # used to write canonical_matched=0 and ambiguous=used in every cell,
+                    # which read as a measured zero while the verdict said 364 matched.
+                    # `combined_coverage_matrix.csv` (written by the builder) is where the
+                    # real per-band matched counts live.
+                    "canonical_matched": "JOIN_NOT_RUN",
+                    "ambiguous": "JOIN_NOT_RUN",
+                    "verdict": "JOIN_NOT_RUN" if used else "NO_AGSS21_TABLE2_LINES",
                     "note": ("CDS Table 2 omits rotational quantum identity"
                              if used else "Negative published selection for this used-line table"),
                 })
