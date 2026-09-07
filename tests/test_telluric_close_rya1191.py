@@ -653,3 +653,45 @@ def test_the_guard_reaches_the_aggregation_and_says_what_it_is_not():
     from pipeline.fit_validity import rejection_reason
     r = rejection_reason(4.539)
     assert r.startswith("FIT-NOT-PHYSICAL") and "NON-CONVERGENT FIT, not an outlier" in r
+
+
+# ── the provenance note that cited a bad fit as its evidence ─────────────────────────
+def test_the_irreducible_dispersion_note_no_longer_rests_on_a_bad_fit():
+    """🔴 THE NOTE NAMED ITS OWN COUNTER-EXAMPLE AS PROOF. It read "the widest bars carry
+    the LARGEST n (KP ENGINE-A 1.315 at n=7 is the exception that proves it — CRIRES+
+    curated lab-gf is ~6x tighter at n=5)". That 1.315 is sigma_stat 0.497 x sqrt(7), and
+    it is ONE non-convergent fit: 9437.793 at A = 10.988 here against 4.539 on solar_iag.
+    Guarded it is 0.144 at n=6 — indistinguishable from CRIRES+'s 0.138, so the ~6x ratio
+    was that single line."""
+    import json as _json
+    feed = _json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "IRREDUCIBLE under the current NIR line list. It tracks gf QUALITY" not in raw, (
+        "the refuted claim is back in the feed")
+    assert raw.count("RYA-1191 RE-DERIVED THIS NOTE") == 6, (
+        "every irreducible_dispersion block must carry the correction")
+    assert "NOT more lines\"" not in raw.replace(
+        "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has "
+        "already been removed (RYA-1191)", ""), "a bare 'NOT more lines' claim survives"
+    assert feed, "the feed must still parse"
+
+
+def test_the_note_keeps_the_part_of_the_claim_that_survived():
+    """⚠️ Ryan's instruction was "keep the true one, fix the false one" — not to replace
+    one blanket story with another. Re-measured on guarded pools the many-line NIR bars
+    ARE still the widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line
+    curated ones (CRIRES+ 0.138 at n=5), so "tracks gf quality, not line count" stands.
+    What does not stand is IRREDUCIBLE: it more than halved."""
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "still tracks gf QUALITY rather than line count" in raw
+    assert "would still widen it" in raw
+    assert "it is NOT IRREDUCIBLE" in raw
+    assert "0.895 -> 0.386" in raw and "0.949 -> 0.307" in raw
+
+
+def test_the_stale_dispersion_number_is_flagged_not_silently_left():
+    """⚠️ `dispersion_dex` is derived from the product's own sigma_stat and cannot be
+    corrected by editing prose — it is regenerated when the product is. Saying so is the
+    difference between a known-stale number and a wrong one (RYA-686)."""
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "dispersion_dex above is the PRE-GUARD value" in raw
