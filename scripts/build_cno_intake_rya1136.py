@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import csv
+import os
+import functools
 import bisect
 import hashlib
 import json
@@ -169,6 +171,63 @@ PROVENANCE_GRADES = {
 }
 
 
+#: RYA-854's single source of truth for every reference the project cites. RYA-1170: an
+#: intake must POINT at it, never copy a value out of it -- a copied DOI drifted into a
+#: different paper and stayed wrong through a full QA pass.
+SSOT_BIBLIOGRAPHY = ROOT / "data" / "refs" / "bibliography.csv"
+
+#: `local_file` is stored relative to the CODEX ROOT, one level above the reference
+#: library, and that library is a working directory rather than a repo artifact -- it
+#: differs per machine and is legitimately absent on CI. `generate_sources_page`
+#: audit_library says so explicitly and treats absence as non-fatal; this follows it.
+#: Override for a machine whose library sits elsewhere.
+CODEX_LIBRARY_ROOT = Path(
+    os.environ.get("CODEX_LIBRARY_ROOT", Path.home() / "Documents" / "Exoplanet Codex"))
+
+
+@functools.lru_cache(maxsize=1)
+def ssot_bibliography() -> dict[str, dict]:
+    with SSOT_BIBLIOGRAPHY.open(newline="") as fh:
+        return {r["key"]: r for r in csv.DictReader(fh)}
+
+
+def ssot_local_file(key: str) -> str:
+    """The SSOT's own local_file path for this key, verbatim. '' if it declares none."""
+    return ssot_bibliography()[key]["local_file"].strip()
+
+
+def ssot_local_sha(key: str, source_id: str = "") -> str:
+    """sha256 of the held document -- COMPUTED where the library is reachable, otherwise
+    CARRIED FORWARD from what this artifact already records.
+
+    🔴 A CHECKSUM IS A RECORDED FACT, NOT A PER-RUN MEASUREMENT. The reference library
+    lives above the repo and is absent on CI, and `test_cno_closure_rya1136` re-runs this
+    build there. Recomputing-or-blanking would therefore erase the checksum on every CI
+    run and then trip RYA-1170's own "empty sha256 on a HELD key is a broken link" rule --
+    a guard defeated by the machine it runs on. So on a machine without the library the
+    previously recorded value stands, unchanged, and is neither re-derived nor faked.
+    """
+    rel = ssot_local_file(key)
+    if not rel:
+        return ""
+    path = CODEX_LIBRARY_ROOT / rel
+    if path.is_file():
+        return sha256(path)
+    return _recorded_sha(source_id or key)
+
+
+def _recorded_sha(source_id: str) -> str:
+    """The sha256 this artifact already carries for a row, or '' if it has none yet."""
+    out = AUDIT / "source_bibliography.csv"
+    if not out.exists():
+        return ""
+    with out.open(newline="") as fh:
+        for row in csv.DictReader(fh):
+            if row.get("source_id") == source_id:
+                return (row.get("sha256") or "").strip()
+    return ""
+
+
 def provenance_grade(matched_file: str) -> str:
     """Grade a match by WHERE it matched, from the path. '' for an unmatched row.
 
@@ -275,16 +334,35 @@ def main() -> None:
     write_csv(AUDIT / "molecular_physical_crossmatch.csv", molecular, tuple(molecular[0]))
     write_csv(AUDIT / "atomic_source_census.csv", atomic, tuple(atomic[0]))
 
+    # 🔴 RYA-1170 -- THE DOI IS READ FROM THE SSOT, NOT COPIED BESIDE IT.
+    #
+    # `Amarsi2019_Table1` carried 10.1051/0004-6361/201936179, which Crossref resolves to
+    # Curran & Moss, "Quasi-stellar object redshift estimates", A&A 629 -- a different
+    # paper, different authors, different volume -- as the cited source for the ENTIRE
+    # C I / O I atomic census. data/refs/bibliography.csv held the right DOI
+    # (10.1051/0004-6361/201936265) the whole time. That is RYA-355's single-source
+    # defect: a value duplicated into a second file instead of pointed at one copy, and
+    # the duplicate drifted. Note the row's own CITATION string was right ("A&A 630 A104")
+    # and disagreed with its own DOI.
+    #
+    # So a row that names an `ssot_key` no longer states a DOI at all -- `ssot_doi()`
+    # fetches it, and a divergence is now impossible rather than merely detected. Rows
+    # whose source bibliography.csv does not hold keep their own DOI and say so with an
+    # empty ssot_key; a guard reports them so the absence stays visible.
+    def ssot_doi(key: str) -> str:
+        row = ssot_bibliography()[key]
+        return row["doi"].strip()
+
     sources = [
-        {"source_id":"AGSS21","source_type":"article","citation":"Asplund, Amarsi & Grevesse 2021, A&A 653 A141","doi":"10.1051/0004-6361/202140445","role":"adopted Solar CNO lineage","asset":"article","sha256":"","status":"SOURCE_IDENTIFIED","provenance_note":""},
-        {"source_id":"Amarsi2021_Table2","source_type":"primary_published_table","citation":"Amarsi et al. 2021, A&A 656 A113","doi":"10.1051/0004-6361/202141384","role":"408 used molecular transitions","asset":str(MOLECULAR.relative_to(ROOT)),"sha256":sha256(MOLECULAR),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Amarsi2019_Table1","source_type":"primary_published_table","citation":"Amarsi, Nissen & Skuladottir 2019, A&A 630 A104","doi":"10.1051/0004-6361/201936179","role":"C I/O I atomic model-grid line parameters","asset":str(ATOMIC.relative_to(ROOT)),"sha256":sha256(ATOMIC),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Amarsi2020_N","source_type":"derived_grid","citation":"Amarsi et al. 2020, A&A 642 A62","doi":"10.1051/0004-6361/202038650","role":"N I model atom and departure grid","asset":"data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json","sha256":sha256(ROOT/'data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json'),"status":"ACQUIRED_PARTIAL_LINEAGE","provenance_note":""},
-        {"source_id":"Brooke2013_C2","source_type":"primary_published_table","citation":"Brooke et al. 2013, JQSRT 124, 11","doi":"10.1016/j.jqsrt.2013.02.025","role":"C2 wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip'),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Brooke2014_CN","source_type":"primary_published_table","citation":"Brooke et al. 2014, ApJS 210, 23","doi":"10.1088/0067-0049/210/2/23","role":"CN wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz'),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Brooke2015_NH","source_type":"primary_published_table","citation":"Brooke et al. 2015, J. Chem. Phys. 143, 026101","doi":"10.1063/1.4923422","role":"NH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip'),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Brooke2016_OH","source_type":"primary_published_table","citation":"Brooke et al. 2016, JQSRT 168, 142","doi":"10.1016/j.jqsrt.2015.07.021","role":"OH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip'),"status":"ACQUIRED","provenance_note":""},
-        {"source_id":"Masseron2014_CH","source_type":"primary_published_table","citation":"Masseron et al. 2014, A&A 571 A47","doi":"10.1051/0004-6361/201423956","role":"CH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"AGSS21","source_type":"article","citation":"Asplund, Amarsi & Grevesse 2021, A&A 653 A141","ssot_key":"asplund2021","doi":ssot_doi("asplund2021"),"role":"adopted Solar CNO lineage","asset":ssot_local_file("asplund2021"),"sha256":ssot_local_sha("asplund2021","AGSS21"),"status":"ACQUIRED_REFERENCE_LIBRARY","provenance_note":"RYA-1170 amendment: this row carried asset='article' with an EMPTY sha256 while bibliography.csv key `asplund2021` records the paper as HELD (verified=extracted). That is a broken link, not a missing source, and it is what left the A1/A7 reconciliation with no acquired referent. Now points at the SSOT's own local_file. NOTE the reference library lives one level above the repo and is a working directory, not a repo artifact (see generate_sources_page.audit_library) -- so the checksum is verifiable only where the library is present, and is recorded rather than re-derived elsewhere."},
+        {"source_id":"Amarsi2021_Table2","source_type":"primary_published_table","citation":"Amarsi et al. 2021, A&A 656 A113","ssot_key":"","doi":"10.1051/0004-6361/202141384","role":"408 used molecular transitions","asset":str(MOLECULAR.relative_to(ROOT)),"sha256":sha256(MOLECULAR),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Amarsi2019_Table1","source_type":"primary_published_table","citation":"Amarsi, Nissen & Skuladottir 2019, A&A 630 A104","ssot_key":"amarsi2019","doi":ssot_doi("amarsi2019"),"role":"C I/O I atomic model-grid line parameters","asset":str(ATOMIC.relative_to(ROOT)),"sha256":sha256(ATOMIC),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Amarsi2020_N","source_type":"derived_grid","citation":"Amarsi et al. 2020, A&A 642 A62","ssot_key":"","doi":"10.1051/0004-6361/202038650","role":"N I model atom and departure grid","asset":"data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json","sha256":sha256(ROOT/'data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json'),"status":"ACQUIRED_PARTIAL_LINEAGE","provenance_note":""},
+        {"source_id":"Brooke2013_C2","source_type":"primary_published_table","citation":"Brooke et al. 2013, JQSRT 124, 11","ssot_key":"","doi":"10.1016/j.jqsrt.2013.02.025","role":"C2 wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2014_CN","source_type":"primary_published_table","citation":"Brooke et al. 2014, ApJS 210, 23","ssot_key":"","doi":"10.1088/0067-0049/210/2/23","role":"CN wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2015_NH","source_type":"primary_published_table","citation":"Brooke et al. 2015, J. Chem. Phys. 143, 026101","ssot_key":"","doi":"10.1063/1.4923422","role":"NH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2016_OH","source_type":"primary_published_table","citation":"Brooke et al. 2016, JQSRT 168, 142","ssot_key":"","doi":"10.1016/j.jqsrt.2015.07.021","role":"OH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Masseron2014_CH","source_type":"primary_published_table","citation":"Masseron et al. 2014, A&A 571 A47","ssot_key":"","doi":"10.1051/0004-6361/201423956","role":"CH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz'),"status":"ACQUIRED","provenance_note":""},
         {"source_id":"Li2015_CO","citation":"Li et al. 2015, ApJS 216, 15","doi":"10.1088/0067-0049/216/1/15","source_type":"redistribution","role":"12C16O transition data, TWICE DERIVED: ExoMol redistribution of Li2015, then converted to Turbospectrum babsma format","asset":"data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat","sha256":sha256(TS/'CO/CO_IR_Li2015.dat'),"status":"ACQUIRED_AS_REDISTRIBUTION","provenance_note":"NOT a primary Li 2015 ApJS 216,15 table. The asset's own second line reads 'ExoMol Li2015'; MOLECULAR_MANIFEST records it as an RYA-236 conversion of the ExoMol Li2015 CO list to Turbospectrum babsma (species code 0608.012016) by a converter EXTERNAL to this repo, so the conversion cannot be re-run or verified here. No Li 2015 primary table has been acquired: data/reference/cno_molecular_primary/ has no CO directory. This is the sole source behind all 80 12C16O PHYSICAL_TUPLE_MATCH rows -- the intake's entire clean-match class (RYA-1142 A4, RYA-1180)."},
         {"source_id":"BarklemCollet2016","citation":"Barklem & Collet 2016, A&A 588 A96","doi":"10.1051/0004-6361/201526961","source_type":"primary_published_table","role":"adopted molecular DISSOCIATION ENERGIES (table1.dat) -- partition functions and equilibrium constants NOT acquired","asset":"data/reference/cno_molecular_primary/constants_barklem2016/table1.dat","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/constants_barklem2016/table1.dat'),"status":"ACQUIRED_PARTIAL","provenance_note":"The role previously read 'molecular partition functions and equilibrium constants' while the asset was table1.dat, which is the DISSOCIATION ENERGY table. Per the holding's own ReadMe: table1=dissociation energies (ON DISK), table6=partition functions (ABSENT), table7=equilibrium constants (ABSENT), table2/*=per-molecule constants (ABSENT; list.dat is only its filename index). See molecular_constants_ledger.csv for what is actually acquired (RYA-1142 A5, RYA-1180)."},
     ]
