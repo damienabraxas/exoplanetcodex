@@ -17,7 +17,16 @@ def test_closure_build_is_reproducible_and_never_wavelength_only():
 
 def test_atomic_and_band_ledgers_are_explicit():
     atomic=list(csv.DictReader((AUDIT/"atomic_source_census.csv").open()))
-    assert {r["element"] for r in atomic}=={"C","N","O"}
+    # 🔴 RYA-1183. The SOURCE elements are still exactly C/N/O. Ni appears only as the
+    # [O I] 6300.30 blend component — Ni I 6300.34 is the contaminant that makes the
+    # diagnostic unusable alone, and a census listing the [O I] line without it describes
+    # a feature that does not exist in isolation. It is marked
+    # BLEND_COMPONENT_NOT_A_SOURCE_LINE so it can never be counted as an AGSS21 line.
+    source_rows = [r for r in atomic if r["use_status"] != "BLEND_COMPONENT_NOT_A_SOURCE_LINE"]
+    assert {r["element"] for r in source_rows} == {"C", "N", "O"}
+    blend = [r for r in atomic if r["use_status"] == "BLEND_COMPONENT_NOT_A_SOURCE_LINE"]
+    assert {r["element"] for r in blend} == {"Ni"}
+    assert len(blend) == 1 and blend[0]["blend_role"] == "CONTAMINANT_COMPONENT"
     coverage=list(csv.DictReader((AUDIT/"combined_coverage_matrix.csv").open()))
     assert len(coverage)==12
     assert {r["band"] for r in coverage}=={"FUV","NUV","VIS","RED_OPTICAL","NIR","IR"}
