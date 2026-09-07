@@ -250,8 +250,14 @@ class SynthesisHandler(MeasurementHandler):
         # RYA-786: the telluric decision is PER LINE for a reference atlas. A line inside
         # an enumerated O2/H2O band is quarantined as a stated physics exclusion (RYA-777),
         # never measured and never silently corrected. Lines outside them run.
+        # RYA-1194: pass the HOLDING. "Does this band need correction" (per-instrument)
+        # is not "have the tellurics been taken out of this file" (per-holding), and this
+        # call wants the second: `solar_harps` and `solar_harps_molecfit_corrected` share
+        # one instrument row and must not get one answer. Without a holding in the context
+        # this is the old instrument-only read, which can only over-exclude.
         from pipeline.telluric_policy import exclusion as _telluric_exclusion
-        _why = _telluric_exclusion(c, instrument)
+        _why = _telluric_exclusion(
+            c, instrument, context.get("holding") or context.get("holding_id"))
         if _why:
             return self._quarantine_telluric(element, ion, c, instrument, _why)
 
