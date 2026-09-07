@@ -153,17 +153,29 @@ their-gf run as the control that isolates the atomic-data contribution.
 
 | instrument | holding | span (Å) | span source | in span | telluric-excluded | reachable |
 |---|---|---|---|---|---|---|
-| harps | `solar_harps` | 3782.6 – 6910.0 | `HoldingSpec.span_A` | 142 | 0 | **142** |
-| harps | `solar_harps_molecfit_corrected` | 3782.6 – 6910.0 | `HoldingSpec.span_A` | 142 | 0 | **142** |
-| kpno | `solar_kpno` | 2960 – 13000 | RYA-708 registry (VERIFIED) | 142 | 0 | **142** |
-| kpno | `solar_kpno_molecfit_corrected` | 2960 – 13000 | RYA-708 registry (VERIFIED) | 142 | 0 | **142** |
-| kpno | `solar_kpno_kurucz2005_corrected` | 2990 – 10010 | `HoldingSpec.span_A` | 142 | 0 | **142** |
+| harps | `solar_harps` | 3782.6 – 6910.0 | `HoldingSpec.span_A` | 142 | **3** | **139** |
+| harps | `solar_harps_molecfit_corrected` | 3782.6 – 6910.0 | `HoldingSpec.span_A` | 142 | **3** | **139** |
+| kpno | `solar_kpno` | 2960 – 13000 | RYA-708 registry (VERIFIED) | 142 | **3** | **139** |
+| kpno | `solar_kpno_molecfit_corrected` | 2960 – 13000 | RYA-708 registry (VERIFIED) | 142 | **3** | **139** |
+| kpno | `solar_kpno_kurucz2005_corrected` | 2990 – 10010 | `HoldingSpec.span_A` | 142 | **3** | **139** |
 | iag | `solar_iag` (Baker+2020) | 5001.1 – 11083.5 | `HoldingSpec.span_A` | 132 | 0 | **132** |
 | iag | `solar_iag_reiners2016` | 4047.5 – 5001.1 | `HoldingSpec.span_A` | 10 | 0 | **10** |
 | crires_plus | all four | ≥ 9800 | `HoldingSpec.span_A` | 0 | 0 | 0 |
 
-* **No line is telluric-excluded anywhere.** Not an assumption: the bluest registered
-  telluric complex is O₂ B at 6867 Å and the reddest GBS line is 6820.37 Å.
+* 🔴 **Three lines are telluric-excluded on Kitt Peak and HARPS, and zero on IAG — and the
+  SET is 142 for all of them.** RYA-1193 enumerated the O₂ γ-band 6270–6300 Å (RYA-940
+  fitted seven bands; the policy listed six), which contains 6270.22, 6271.28 and 6297.79.
+  Until then the claim here was "no line is excluded anywhere", which was true only because
+  the bluest registered complex happened to be O₂ B at 6867 Å — an accident of enumeration,
+  not a property of the set.
+
+  **Ryan's ruling (RYA-1193): the reference set is not tuned for one instrument.** The GBS
+  set is a property of the published record; telluric reachability is a property of the
+  observation. So `rew_class` stays at 142 and the exclusion is reported *here*, per
+  holding, against that holding's own `telluric_basis`: Kitt Peak and HARPS are
+  `line_selection` (flux is driven to zero in the O₂ bands) and lose 3; IAG is `corrected`
+  and loses none. The line set itself no longer carries a `telluric_exclusion` column —
+  it was computed with no instrument, so every band fired unconditionally.
 * The two IAG holdings are complementary, not redundant — 132 + 10 = 142 exactly, which is
   the RYA-767 span declaration doing its job.
 * `solar_kpno` and `solar_kpno_molecfit_corrected` declare `span_A=None` because their

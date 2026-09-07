@@ -665,10 +665,37 @@ def build() -> pd.DataFrame:
             "heiter2021_match_distance_mA": f"{hd * 1000:.2f}",
             "delta_gbs_minus_heiter2021": ("" if gbs_gf is None
                                            else f"{gbs_gf - h['loggf']:+.4f}"),
-            # ---- reachability ----
-            "telluric_exclusion": telluric_exclusion(lam) or "",
+            # ---- reachability: DELIBERATELY ABSENT — see _NO_TELLURIC_COLUMN ----
         })
     return pd.DataFrame(out)
+
+
+#: 🔴 THE LINE SET CARRIES NO TELLURIC COLUMN, AND THAT IS A RULING, NOT AN OMISSION.
+#:
+#: It used to carry one: `telluric_exclusion(lam)` — called with NO instrument, so the
+#: policy's basis was `unspecified` and every band fired unconditionally. It read as empty
+#: on all 159 rows only because no enumerated band happened to reach this far blue.
+#:
+#: RYA-1193 added the O2 gamma-band 6270-6300 Å (RYA-940 fitted seven bands; the policy
+#: listed six), which reaches three of the 142: 6270.22, 6271.28, 6297.79. The column would
+#: have stamped them and the usable set would have gone 142 -> 139.
+#:
+#: RYAN'S RULING (RYA-1193): "the reference set will not be tuned because of one
+#: instrument. It must remain agnostic." A GBS replication set is a property of the
+#: PUBLISHED RECORD — Jofré's 159 lines and their -4.8 REW classes. Whether a given
+#: telescope can see through the atmosphere at 6271 Å is a property of the OBSERVATION.
+#: Folding the second into the first would let one instrument's sky silently shrink a
+#: published line set, and a set that shrinks when the policy learns a new band is not a
+#: reference set.
+#:
+#: So the exclusion lives in `coverage()` and ONLY there, where it is evaluated PER
+#: HOLDING with that holding's own instrument — which is what makes it answerable at all:
+#: on a holding whose `telluric_basis` is `corrected` it correctly does not fire, and the
+#: same line is unreachable for one instrument and reachable for the next. `n_reachable`
+#: is per-instrument by construction; `rew_class` stays at 142 for everyone.
+#:
+#: DO NOT reintroduce a per-line telluric column here. Ask the coverage report.
+_NO_TELLURIC_COLUMN = "RYA-1193: reachability is per-instrument; see coverage()"
 
 
 # ── coverage ─────────────────────────────────────────────────────────────────
