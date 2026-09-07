@@ -3,7 +3,8 @@
 <title>Codex calibration tracker</title>
 <style>
 :root{--bg:#0b1020;--panel:#151d32;--rule:#2b3856;--head:#18223a;--fg:#edf2ff;--mut:#9daccc;
-      --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff}
+      --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff;
+      --gold:#e6bf4d}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
 main{max-width:1600px;margin:auto;padding:24px}
 h1{margin:0 0 4px}h2{font-size:1.05rem;margin:0 0 10px}h3{font-size:.95rem;margin:14px 0 6px}
@@ -18,6 +19,8 @@ th{background:var(--head);position:sticky;top:0}
 td:first-child,th:first-child{position:sticky;left:0;background:var(--head);min-width:250px}
 code{color:var(--link);font-size:.85em}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.gref{color:var(--gold)}.gcodex{color:var(--good)}.gdeep{color:var(--mut)}
+.roletag.gref{border-color:var(--gold)}.roletag.gcodex{border-color:var(--good)}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
 .tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 .tsum{margin:6px 0 14px;line-height:1.5}
@@ -25,6 +28,9 @@ code{color:var(--link);font-size:.85em}
 .tsum ul{margin:4px 0 8px 18px;padding:0}
 .tsum li{margin:3px 0}
 .tag{font-size:.8em;color:var(--muted)}
+.insthdr{margin:12px 0 4px;padding:4px 0 4px 10px;font-size:.92rem;border-left:3px solid var(--link);background:rgba(125,184,255,.06)}
+.holdhdr{margin:8px 0 2px 14px;padding:2px 0 2px 10px;font-size:.86rem;color:var(--fg);border-left:2px solid var(--rule)}
+.gradehdr{margin:6px 0 2px 28px;padding:1px 0 1px 9px;font-size:.82rem;border-left:2px dotted var(--rule)}
 .tell5{display:grid;grid-template-columns:150px 210px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 h3{font-size:1em;margin:18px 0 4px;font-weight:600}
 h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
@@ -86,6 +92,8 @@ absences are the content &mdash; showing only finished work would hide what rema
 <section><h2>Error-bar forest</h2><div id="forest"></div></section>
 <section><h2>Product matrix</h2><div class="grid"><table id="matrix"></table></div>
 <p class="muted note" id="unattributed"></p></section>
+<section><h2>Not on the plot <span class="m">&mdash; and why</span></h2>
+<p class="muted note" id="withheldnote"></p><div id="withheld"></div></section>
 <section><h2>Telluric correction</h2>
 <div id="tellsum"></div>
 <p class="muted note">Three different measurements live here and they are <b>not comparable as numbers</b>, so they are not stacked in one column. The solar legs score the fraction of a registered telluric band driven below half continuum; the stellar legs score the D1 residual at pixels molecfit calls telluric-dominated and the star's own line list calls clean; a STATE row is a determination, not a correction, and carries no before/after because nothing was corrected.</p>
@@ -122,6 +130,31 @@ const CLOSED_BANDS={
     +'Nordlander & Lind 2017.'}
 };
 
+// RYA-935 — THE FOREST IS GROUPED UV / VIS / IR, WITH A SUB-SECTION PER INSTRUMENT.
+// This is the shape the public site will carry, and the flat per-policy-band list was
+// not it: `red-optical` and `NIR` are two policy windows of one physical regime, and a
+// reader comparing instruments had to scan four separate plots to find the same arm.
+//
+// 🔴 THE GROUPING IS A HEADING, NOT A MERGE. Each policy band keeps its own identity on
+// every row, because bands sit at different abundance scales and carry different
+// systematics — collapsing red-optical into NIR on the axis would be a real loss. What
+// is shared inside a group is the AXIS, so the instruments in it are comparable, which
+// is the entire point of a forest; where a group spans more than one policy band the
+// row says which band it came from.
+// Reference -> Codex -> Deep, top to bottom, in every section. Declared at module scope
+// on purpose: `byGrade` is a hoisted function declaration and read this before a
+// block-scoped `const` had initialised, which threw and rendered the ENTIRE forest empty.
+const GRADE_ORDER=['Reference Grade','Codex Grade','Deep Grade'];
+//: Reference gold, Codex green, Deep grey — the published quality order, carried in the
+//: colour as well as the position so a row is identifiable without reading the header.
+const GRADE_CLASS={'Reference Grade':'gref','Codex Grade':'gcodex','Deep Grade':'gdeep'};
+const gcls=g=>GRADE_CLASS[g]||'muted';
+const BAND_GROUPS=[
+  {name:'UV',  label:'ultraviolet',      bands:['near-UV']},
+  {name:'VIS', label:'visible',          bands:['VIS']},
+  {name:'IR',  label:'red-optical + infrared', bands:['red-optical','NIR','H']},
+];
+
 function forest(d){
   let h='';
   // holding -> telluric_applied, straight from the instruments registry.
@@ -142,7 +175,15 @@ function forest(d){
       +'border-top-color:var(--link)"></i>statistical (solid)</span>'
       +'<span class="muted"><i style="border-top-style:dashed"></i>systematic (wireframe) '
       +'&mdash; never summed</span>'
-      +'<span class="good"><i style="border-top-width:4px"></i>PRIMARY graded lab-gf</span></div>';
+      +'<span class="good"><i style="border-top-width:4px"></i>PRIMARY graded lab-gf</span>'
+      // The xi pin and its offset are IDENTICAL on every live product, so they are stated
+      // here once rather than repeated on 42 rows as though they were per-row results.
+      +(()=>{const v=new Set(all.map(r=>r.xi_value_kms)), dv=new Set(all.map(r=>r.delta_xi_kms));
+             return (v.size===1&&dv.size===1)
+               ? '<span class="muted">\u03be pinned '+fx([...v][0],3)+' km/s, measured offset '
+                 +'\u0394'+fx([...dv][0],4)+' (RYA-311) \u2014 folded into the systematic '
+                 +'via sigma_syst_complete</span>' : '';})()
+      +'</div>';
     if(cmps.length||ref) h+='<div class="legend">'
       +(ref?'<span class="good"><i></i>'+esc(ref.best_external||'primary')+' '+fx(ref.asplund2021,2)
         +(ref.sigma_external!=null?' &plusmn;'+fx(ref.sigma_external,2):'')+'</span>':'')
@@ -154,22 +195,56 @@ function forest(d){
     // ONE PLOT PER BAND. Bands sit at different abundance scales and carry different
     // systematics; a shared axis compresses each of them to make room for the others,
     // and a band-scoped comparator has nowhere honest to live.
-    for(const b of d.bands){
-      const closed=(CLOSED_BANDS[sp]||{})[b];
-      if(closed){
-        h+='<div class="legend"><span class="muted note"><b>'+esc(b)+'</b> &mdash; '
-          +'<span class="warn">N/A for '+esc(LABEL(sp))+'</span>: '+esc(closed)+'</span></div>';
+    // Live-but-undrawn rows for this species, so a group with nothing on the plot can
+    // say WHY instead of vanishing. `products_withheld` carries both the display
+    // policy's verdict and the gate's; only the former is a live product.
+    const undrawn=(d.products_withheld||[]).filter(
+      p=>p.pool==='products'&&p.element+p.ion===sp);
+    for(const G of BAND_GROUPS){
+      const gb=G.bands.filter(b=>(d.bands||[]).includes(b)||undrawn.some(r=>r.band===b)
+                                 ||all.some(r=>r.band===b));
+      if(!gb.length) continue;
+      const closedIn=gb.filter(b=>(CLOSED_BANDS[sp]||{})[b]);
+      if(closedIn.length===gb.length){
+        h+='<div class="legend"><span class="muted note"><b>'+esc(G.name)+'</b> &mdash; '
+          +'<span class="warn">N/A for '+esc(LABEL(sp))+'</span>: '
+          +esc((CLOSED_BANDS[sp]||{})[closedIn[0]])+'</span></div>';
         continue;
       }
+      const b=gb[0];   // kept for the closed-band lookup below; rows span every band in gb
       // Pre-telluric rows are PROVENANCE, not a second measurement, and at 27 of 43
       // products they dominated both the axis range and the row count. Hide them --
       // but ONLY where a corrected row exists for this band. Fe II VIS has nothing
       // else, and a filter that silently empties a whole ion is a worse failure than
       // a noisy plot. Anything kept here stays labelled 'pre-telluric' below.
-      const inBand=all.filter(r=>r.band===b);
+      const inBand=all.filter(r=>gb.includes(r.band));
       const corrected=inBand.filter(r=>!/^PRE/.test(r.telluric_basis||''));
       const rows=corrected.length?corrected:inBand;
-      if(!rows.length) continue;
+      // 🔴 AN EMPTY BAND MUST STATE ITS REASON, NOT DISAPPEAR. `continue` here is what
+      // made Fe near-UV render as nothing at all: all 8 live near-UV products carry
+      // selector DEEPGRADED, the RYA-1026 display policy draws the graded tier only, so
+      // every one of them is withheld and the band silently vanished from the page. A
+      // reader then cannot tell "withheld by a policy" from "never measured" — which is
+      // precisely the absence-as-conclusion this tracker exists to prevent (RYA-833).
+      if(!rows.length){
+        const held=undrawn.filter(r=>gb.includes(r.band));
+        const why=[...new Set(held.map(r=>r.not_displayed_because).filter(Boolean))];
+        h+='<div class="bandhdr">'+esc(G.name)+' <span class="muted">&middot; '
+          +'<span class="warn">nothing drawn</span></span></div>'
+          +'<div class="muted note" style="margin:2px 0 14px">'
+          +(held.length
+             ? '<b>'+held.length+' live product'+(held.length>1?'s':'')+'</b> in '
+               +esc(gb.join(' / '))+' \u2014 published and gated, withheld from the plot: '
+               +why.map(esc).join(' ')
+               +' <span class="muted">Values: '
+               +held.map(r=>esc((r.element||'')+(r.ion||''))+' '+fx(r.A,3)).join(', ')
+               +'. Listed in full under \u201cNot on the plot\u201d.</span>'
+             : 'no product in '+esc(gb.join(' / '))+' \u2014 '
+               +esc(((d.reachability||{})[(d.instruments[0]||{}).holding+'|'+b])
+                    ||'no run yet, and no gap declared for it in the feed'))
+          +'</div>';
+        continue;
+      }
       const here=cmps.filter(c=>!c.bands||c.bands.includes(b));
       const vals=rows.flatMap(r=>{const m=Math.max(r.sigma_stat||0,r.sigma_syst||0);
                                   return [r.A-m, r.A+m];});
@@ -180,8 +255,11 @@ function forest(d){
       const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=(hi-lo)||1;
       const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
       const gr=(d.graded||[]).filter(g=>g.element+g.ion===sp&&g.band===b);
-      h+='<div class="bandhdr">'+esc(b)+' <span class="muted">&middot; '+rows.length+' product'
-        +(rows.length>1?'s':'')+(gr.length?' + '+gr.length+' graded':'')+'</span></div>';
+      const nHeld=undrawn.filter(r=>gb.includes(r.band)).length;
+      h+='<div class="bandhdr">'+esc(G.name)+' <span class="muted">&middot; '
+        +esc(G.label)+' &middot; '+esc(gb.join(' / '))+' &middot; '+rows.length+' product'
+        +(rows.length>1?'s':'')+(gr.length?' + '+gr.length+' graded':'')
+        +(nHeld?' &middot; <span class="warn">'+nHeld+' withheld</span>':'')+'</span></div>';
       h+=gr.map(g=>{
         const st=g.sigma_stat||0, sy=g.sigma_syst||0;
         const l=x(g.A-st), w=x(g.A+st)-l, sl=x(g.A-sy), sw=x(g.A+sy)-sl;
@@ -200,13 +278,97 @@ function forest(d){
           +'<span class="val note">'+fx(g.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
           +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
       }).join('');
-      h+=rows.map(r=>{
+      // 🔴 SUB-SECTION PER INSTRUMENT, inside the band group. Rows were previously one
+      // undifferentiated stack, so the four holdings of Kitt Peak sat interleaved with
+      // HARPS and IAG and the reader had to reconstruct the grouping from the label of
+      // every row. The instrument is the axis a reader actually compares along.
+      //
+      // Ordered by the INSTRUMENT REGISTRY, not by whatever order the feed happened to
+      // emit, so the same arm sits in the same place in every band group and in every
+      // species — a stack whose order moves between sections cannot be scanned.
+      const instOrder=(d.instruments||[]).map(i=>i.instrument);
+      const byInst=new Map();
+      for(const r of rows){const k=r.instrument||'(unattributed)';
+                           if(!byInst.has(k)) byInst.set(k,[]); byInst.get(k).push(r);}
+      const instKeys=[...byInst.keys()].sort((a,b)=>{
+        const ia=instOrder.indexOf(a), ib=instOrder.indexOf(b);
+        return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));});
+      h+=instKeys.map(inst=>{
+        const irows=byInst.get(inst);
+        // The holdings this instrument contributes HERE. An instrument can serve a
+        // corrected and an uncorrected holding and they are not the same input, so the
+        // sub-header counts holdings rather than implying one (RYA-933/934).
+        // 🔴 ONE INSTRUMENT, SEVERAL HOLDINGS, AND THEY ARE NOT ONE INPUT.
+        // `kpno_solar_atlas` serves BOTH `solar_kpno_kurucz2005_corrected` and
+        // `solar_kpno_molecfit_corrected` -- two different telluric corrections of the
+        // same atlas -- and stacking them under one instrument header put 19 rows in a
+        // pile where the reader had to read each label to tell which correction produced
+        // which number. That is the collapse RYA-933/934 put the holding in the product
+        // stem to prevent, reappearing in the display.
+        //
+        // The sub-section stays keyed on the INSTRUMENT. The holdings split INSIDE it,
+        // each under its own line, so the grouping a reader compares along is unchanged
+        // and the two corrections stop being interleaved.
+        const hOrder=(d.instruments||[]).map(i=>i.holding);
+        const byHold=new Map();
+        for(const r of irows){const k=r.holding||'(no holding named)';
+                              if(!byHold.has(k)) byHold.set(k,[]); byHold.get(k).push(r);}
+        const hKeys=[...byHold.keys()].sort((a,b)=>{
+          const ia=hOrder.indexOf(a), ib=hOrder.indexOf(b);
+          return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));});
+        return '<div class="insthdr"><b>'+esc(inst)+'</b> <span class="muted">&middot; '
+          +irows.length+' product'+(irows.length>1?'s':'')
+          +' &middot; '+hKeys.length+' holding'+(hKeys.length>1?'s':'')+'</span></div>'
+          // A single-holding instrument gets no extra line -- the holding is already on
+          // every row and a header repeating it would be noise.
+          +hKeys.map(hk=>(hKeys.length>1
+              ?'<div class="holdhdr">'+esc(hk)+' <span class="muted">&middot; '
+                +byHold.get(hk).length+' product'+(byHold.get(hk).length>1?'s':'')+'</span></div>'
+              :'')+byGrade(byHold.get(hk))).join('');
+      }).join('');
+      // 🔴 A FURTHER LEVEL: GRADE, under the holding. Reference / Codex / Deep are three
+      // different LINE SELECTIONS, not three opinions on one pool -- Deep is the
+      // saturated lines above the EW depth gate, Reference reproduces a published set
+      // with that paper's own gf. Interleaved on one stack a selection difference reads
+      // as a measurement difference (RYA-842/984), which is the real hazard the old
+      // display gate was reaching for when it withheld two thirds of the products
+      // instead. Separating them shows every number AND keeps the pools apart.
+      //
+      // Ordered Reference -> Codex -> Deep, the published quality order, so the same
+      // grade sits in the same place under every holding. A grade the feed adds falls
+      // through to the end rather than being dropped.
+      function byGrade(rows){
+        const m=new Map();
+        for(const r of rows){const k=r.grade||'(ungraded)';
+                             if(!m.has(k)) m.set(k,[]); m.get(k).push(r);}
+        const keys=[...m.keys()].sort((a,b)=>{
+          const ia=GRADE_ORDER.indexOf(a), ib=GRADE_ORDER.indexOf(b);
+          return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));});
+        // One grade under this holding needs no header -- the badge is already on the row.
+        if(keys.length<2) return renderRows(rows);
+        return keys.map(k=>'<div class="gradehdr"><span class="'+gcls(k)+'"><b>'+esc(k)+'</b></span>'
+            +' <span class="muted">&middot; '+m.get(k).length+' product'
+            +(m.get(k).length>1?'s':'')+' &middot; '
+            +esc([...new Set(m.get(k).map(r=>r.tier||r.selector))].join(' / '))+'</span></div>'
+          +renderRows(m.get(k))).join('');
+      }
+      function renderRows(rows){ return rows.map(r=>{
         // RYA-851: statistical SOLID, systematic WIREFRAME. NEVER summed --
         // error_budget.py:203 deliberately provides no combined(), because
         // collapsing the two is how a frontier number gets misread. The previous
         // version drew a LINEAR sum of both, which inflated every bar past any
         // defensible combination and is what made the bars look like they had grown.
-        const st=(r.sigma_stat||0), sy=(r.sigma_syst||0);
+        const st=(r.sigma_stat||0);
+        // 🔴 THE WIREFRAME IS THE COMPLETE BUDGET, NOT THE PUBLISHED `sigma_syst`.
+        // The feed carries both, and on 51 of the 70 live products they DIFFER: the
+        // folded-xi term enters `sigma_syst_complete` only, and the published
+        // `sigma_syst` therefore understates the real systematic -- 0.0402 against
+        // 0.0838 at the extreme, a factor 2.08. This page drew the smaller of the two
+        // because `sigma_syst_complete` never reached it. Fall back to `sigma_syst`
+        // only where the record carries no complete figure, and SAY which was drawn.
+        const syc=(r.sigma_syst_complete!=null?r.sigma_syst_complete:null);
+        const sy=(syc!=null?syc:(r.sigma_syst||0));
+        const syPartial=(syc==null||r.sigma_syst==null)?false:(syc-r.sigma_syst>5e-4);
         const l=x(r.A-st), w=x(r.A+st)-l;
         const sl=x(r.A-sy), sw=x(r.A+sy)-sl;
         const pre=/^PRE/.test(r.telluric_basis||'');
@@ -217,14 +379,25 @@ function forest(d){
         // Read from the instruments registry — the per-holding `telluric_applied` that
         // RYA-806 established — and NEVER inferred from the holding's name: a name
         // containing "corrected" is not evidence.
+        // 🔴 THE PRODUCT'S STATED `telluric_state` OUTRANKS THE REGISTRY. `TELLURIC` is
+        // the per-HOLDING `telluric_applied` flag, which answers 'applied / not-applied'
+        // for a holding; the feed states, per PRODUCT, WHAT was applied -- "corrected:
+        // ESO molecfit 4.4.4, six registered bands (RYA-940)" vs "corrected: as
+        // delivered". Asking the coarser axis a question the finer one already answers is
+        // RYA-1194's defect; the badge now quotes the record and keeps the registry as
+        // the fallback for a row that states nothing.
         const tstate=pre?null:(TELLURIC[r.holding]||null);
+        const tsaid=pre?null:(r.telluric_state||null);
         const tbadge=pre
           ? '<span class="warn">pre-telluric</span>'
-          : (tstate==='applied'
-              ? '<span class="good">telluric CORRECTED</span>'
-              : (tstate==='not-applied'
-                  ? '<span class="warn">telluric NOT corrected</span>'
-                  : '<span class="muted">telluric '+esc(tstate||'unknown')+'</span>'));
+          : (tsaid
+              ? '<span class="'+(/^corrected/i.test(tsaid)?'good':'warn')+'" title="'
+                +esc(tsaid)+'">'+esc(tsaid.length>58?tsaid.slice(0,57)+'\u2026':tsaid)+'</span>'
+              : (tstate==='applied'
+                  ? '<span class="good">telluric CORRECTED</span>'
+                  : (tstate==='not-applied'
+                      ? '<span class="warn">telluric NOT corrected</span>'
+                      : '<span class="muted">telluric '+esc(tstate||'unknown')+'</span>')));
         // RYA-1031: n BELONGS ON THE ROW. The line count is not decoration -- it is
         // different per arm for real reasons (IAG's file starts at 5001 A so 24 of the
         // 67 graded lines are out of range; the NLTE grid does not serve every line, so
@@ -232,8 +405,37 @@ function forest(d){
         // reading two different pools as the same measurement.
         const nlab=(r.n_lines!=null?' · <b>n='+r.n_lines+'</b>':'')
           +(r.n_excluded?' <span class="muted">('+r.n_excluded+' excl)</span>':'');
-        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)+nlab
-          +'<br><span class="muted">'+esc(r.run_context)
+        // 🔴 THE PUBLISHED GRADE, NOT THE INTERNAL TIER. `tier` is this repo's selector
+        // vocabulary (GRADED / DEEPGRADED / ALL); `grade` is what the public site prints
+        // beside the number (Reference / Codex / Deep). They map one-to-one today and
+        // that is not a reason to show the internal one: a reader comparing this page
+        // with the public one must see the same word.
+        const gbadge=r.grade?' <span class="roletag '+gcls(r.grade)+'">'
+          +esc(r.grade)+'</span>':'';
+        // 🔴 THE FOLDED-xi STATE, WHICH THIS PAGE HAS NEVER SHOWN. xi is folded into
+        // `sigma_syst_complete` and moves the systematic by up to 0.0436 dex, so whether
+        // it was MEASURED, UNMEASURED or NOT_APPLICABLE for this product is part of
+        // reading the bar -- not a footnote.
+        // 🔴 THE BADGE SAYS WHAT VARIES, AND `xi_value_kms` IS NOT IT. A first version
+        // rendered "xi measured 1.000 km/s (delta-0.2912)", which reads as though 1.000
+        // had been measured on this product. It had not: 1.000 is the PIN carried
+        // identically on all 70 live products, and 0.2912 is RYA-311's fixed measured
+        // offset from it. What actually differs per product is whether the SENSITIVITY
+        // dA/dxi could be measured, and therefore whether sigma_xi exists -- which is
+        // what `xi_state` grades. The constants are stated once in the legend instead of
+        // being repeated on every row as though they were results.
+        const xs=r.xi_state||null;
+        const xbadge=xs?' <span class="'+(xs==='MEASURED'?'good':(xs==='UNMEASURED'?'warn':'muted'))
+          +'" title="'+esc(r.xi_note||'')+'">\u03be '
+          +(xs==='MEASURED'
+             ? '\u03c3 '+fx(r.sigma_xi,4)+(r.dA_dxi_dex_per_kms!=null
+                 ?' <span class="muted">(dA/d\u03be '+fx(r.dA_dxi_dex_per_kms,3)+')</span>':'')
+             : (xs==='UNMEASURED'
+                 ? '\u03c3 REFUSED \u2014 too few paired lines'
+                 : 'n/a \u2014 3D resolves the velocity field'))
+          +'</span>':'';
+        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)+nlab+gbadge
+          +'<br><span class="muted">'+esc(r.run_context)+xbadge
           // When the run wrote this number. `committed` is blank for band products
           // (gitignored), so without this a two-day-old row and an hour-old row look
           // identical (RYA-1031).
@@ -257,8 +459,12 @@ function forest(d){
           +'<i class="bar" style="left:'+l+'%;width:'+Math.max(0.4,w)+'%"></i>'
           +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
           +'<span class="val note">'+fx(r.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
-          +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
-      }).join('');
+          +' <span class="'+(syPartial?'warn':'muted')+'" title="'
+          +esc(syPartial?('published sigma_syst '+fx(r.sigma_syst,4)
+               +' understates this: xi is folded into sigma_syst_complete only')
+              :'sigma_syst_complete')+'">&plusmn;'+fx(sy,3)+' sys'
+          +(syPartial?' \u25b2':'')+'</span></span></div>';
+      }).join(''); }
       const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
       let ticks='';
       for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
@@ -292,7 +498,18 @@ async function draw(){
    '<span class="pill">Generated <b>'+esc(d.generated)+'</b></span>'
   +'<span class="pill">'+d.elements.length+' species tracked</span>'
   +'<span class="pill good">'+d.elements_with_products.length+' with products</span>'
-  +'<span class="pill">'+d.products.length+' product rows</span>'
+  // 🔴 "42 product rows" WAS THE ONLY COUNT ON THE PAGE, AND THE FEED HOLDS 70. A reader
+  // comparing this page against the public site saw 42 and had nothing to reconcile it
+  // with -- the 28 the display policy withholds and the 38 the feed itself withdrew were
+  // computed into the JSON and rendered nowhere. Both counts are stated here, and the
+  // rows and reasons are listed below, because a page that shows a subset without saying
+  // so reads as the whole (RYA-833).
+  +'<span class="pill">'+d.products.length+' drawn <span class="muted">of '
+    +(d.products.length+(d.withheld_summary||{}).n_withheld_by_display_policy)
+    +' live in the feed</span></span>'
+  +((d.withheld_summary||{}).n_withdrawn_in_the_feed
+     ?'<span class="pill warn">'+d.withheld_summary.n_withdrawn_in_the_feed
+      +' withdrawn by the gate</span>':'')
   +'<span class="pill muted">refresh '+d.refresh_seconds+'s</span>';
  document.querySelector('#chips').innerHTML=
    '<button class="chip'+(FILTER?'':' sel')+'" data-sp="">All ('+d.elements.length+')</button>'
@@ -301,6 +518,39 @@ async function draw(){
      return '<button class="chip'+(has?' has':'')+(FILTER===sp?' sel':'')+'" data-sp="'+esc(sp)+'">'
        +esc(LABEL(sp))+(has?'':' <span class="muted">no run</span>')+'</button>';
    }).join('');
+ // ── withheld ───────────────────────────────────────────────────────────────────────
+ // Two DIFFERENT questions, kept apart exactly as the generator keeps them apart: the
+ // display policy's "we chose not to draw this" (RYA-1026 selector / telluric) and the
+ // eligibility gate's "this is not publishable" (RYA-1097). Collapsing them into one
+ // count would let a quarantined product and a deliberately-undrawn one read alike.
+ {
+  const ws=d.withheld_summary||{}, all=(d.products_withheld||[]);
+  const bypolicy=all.filter(r=>r.pool==='products');
+  const bygate=all.filter(r=>r.pool&&r.pool!=='products');
+  document.querySelector('#withheldnote').innerHTML=
+    'Nothing here is deleted. '+esc(ws.source||'')+' <b>An empty cell on the plot means '
+   +'\u201cowed a re-run\u201d, never \u201cnothing measured\u201d.</b>';
+  const fmt=rows=>rows.map(r=>'<div class="tell5">'
+      +'<span>'+esc((r.element||'')+(r.ion||''))+' <span class="muted">'+esc(r.band||'')+'</span></span>'
+      +'<span class="muted">'+esc(r.holding||r.instrument||'')+'</span>'
+      +'<span class="val">'+(r.A!=null?fx(r.A,3):'\u2014')
+        +(r.grade?' <span class="muted">'+esc(r.grade)+'</span>':'')+'</span>'
+      +'<span class="muted note">'+esc(r.selector||r.tier||'')+'</span>'
+      +'<span class="note">'+esc(r.not_displayed_because||r.withdrawn_reason||'')
+        // The feed writes `quarantine_codes` as a LIST on 12 records and a BARE STRING on
+      // one (`PRE_CONTINUUM_FIX`), so `.join` threw and took the whole page down with it
+      // -- every section after this one went blank. Normalise rather than assume; a
+      // shape inconsistency upstream must not be able to blank the page.
+      +((()=>{const c=r.withdrawn_codes; if(!c) return '';
+              const a=Array.isArray(c)?c:[c];
+              return a.length?' <span class="warn">['+esc(a.join(', '))+']</span>':'';})())
+      +'</span></div>').join('');
+  document.querySelector('#withheld').innerHTML=
+    '<h3>Withheld by this page\u2019s display policy <span class="m">\u2014 '
+   +bypolicy.length+', live and gated in the feed</span></h3>'+(fmt(bypolicy)||'<p class="muted note">none</p>')
+   +'<h3>Withdrawn by the eligibility gate <span class="m">\u2014 '+bygate.length
+   +', not live anywhere</span></h3>'+(fmt(bygate)||'<p class="muted note">none</p>');
+ }
  document.querySelectorAll('#chips .chip').forEach(b=>b.onclick=()=>setFilter(b.dataset.sp||null));
  forest(d);
  const bands=d.bands;

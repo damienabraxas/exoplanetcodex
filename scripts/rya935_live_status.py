@@ -138,6 +138,16 @@ def telluric_state_of(row: dict, committed: str | None) -> dict:
     not -- every product predating RYA-933/934 -- the date still answers it: the
     corrected holdings did not exist, so nothing could have used them.
     """
+    # 🔴 THE PRODUCT'S OWN STATED STATE OUTRANKS ANYTHING DERIVED HERE. The feed carries
+    # `telluric_state` on all 70 live products -- "corrected: ESO molecfit 4.4.4,
+    # six registered bands (RYA-940)" and four siblings -- and this returned the constant
+    # "named holding" over the top of it, which says only that a holding was NAMED and
+    # nothing whatever about whether it was corrected. That is RYA-1194's finding again:
+    # a per-HOLDING registry lookup answering a question the per-PRODUCT record already
+    # answers, and verified state outranks registry.
+    stated = row.get("telluric_state")
+    if stated:
+        return {"telluric_basis": str(stated), "telluric_epoch": None}
     if row.get("holding"):
         return {"telluric_basis": "named holding", "telluric_epoch": None}
     born = CORRECTED_HOLDING_BORN.get(row["instrument"])
@@ -361,31 +371,62 @@ def _feed_row(rec: dict, *, star: str, feed: Path, pool: str,
     prov = rec.get("provenance") or {}
     copied = prov.get("copied_to")
     artifact = (ROOT / copied) if copied and not Path(copied).is_absolute() else None
-    row = {
+    # 🔴 THE RECORD IS CARRIED THROUGH, NOT RE-LISTED FIELD BY FIELD. This was a
+    # hand-written allowlist of the fields the feed happened to publish on the day
+    # RYA-1097 landed, and the feed kept growing underneath it. By `Fe.json` v1.94 it
+    # publishes, on ALL 70 live products, `grade` (the Reference/Codex/Deep grade the
+    # public site shows), the whole folded-ξ block (`xi_state`, `xi_value_kms`,
+    # `delta_xi_kms`, `sigma_xi`, `dA_dxi_dex_per_kms`, `xi_note`), a stated per-product
+    # `telluric_state`, and `sigma_syst_complete` -- and NOT ONE of them reached this
+    # page, because none of them is named below.
+    #
+    # 🔴 THAT IS RYA-990's FAILURE ONE LAYER IN, AND RYA-990's TEST CANNOT SEE IT.
+    # RYA-990 pinned the invariant "no committed band product goes unseen" against the
+    # FILENAME parser. Every product is indeed seen -- 70 read, 70 rendered or explicitly
+    # withheld. What went unseen is the FIELDS that say what each product is worth. The
+    # sharpest instance: the page draws its systematic wireframe from `sigma_syst`, which
+    # on 51 of the 70 UNDERSTATES the feed's own `sigma_syst_complete` (0.0402 against
+    # 0.0838 at the extreme -- 2.08x), because the ξ term is folded in the complete number
+    # only. An internal page that draws a smaller bar than the feed it audits is worse than
+    # either being wrong alone; it is the surface we check the public one against.
+    #
+    # An allowlist here can only ever describe the feed's past. Carrying the record and
+    # layering the derived fields ON TOP means a field the publisher adds arrives with no
+    # edit in this file -- which is the derive-don't-type property RYA-935 exists for.
+    # `test_live_status_rya990.py` now pins it: a field the feed publishes on every live
+    # product may not be absent from the emitted row.
+    row = dict(rec)
+    # The ONLY key dropped, and it is flattened rather than dropped: the three fields
+    # below are what this page reads out of it. Named here, and asserted in the test, so
+    # "we drop nothing" stays a checkable claim rather than a comment.
+    row.pop("provenance", None)
+    row.update({
         "star": star, "feed": str(feed.relative_to(ROOT)), "pool": pool,
-        "element": rec.get("element"), "ion": rec.get("ion"),
-        "band": rec.get("band"), "instrument": rec.get("instrument"),
-        "holding": rec.get("holding"),
         # 🔴 `holding_source` is 'feed', not 'filename'. The old scanner PARSED the
         # holding out of the stem and had to say so, because a stem from before
         # RYA-933/934 carries none. A published record states it as a field, so the
         # provenance of the provenance changes and the page must not claim otherwise.
         "holding_source": "feed record",
-        "tier": rec.get("tier"), "selector": rec.get("selector"),
-        "route": rec.get("route"), "treatment": rec.get("treatment"),
-        "display": rec.get("display"),
-        "A": rec.get("A"), "sigma_stat": rec.get("sigma_stat"),
-        "sigma_syst": rec.get("sigma_syst"),
-        # RYA-1095: what `sigma_stat` MEANS, carried per product. A bar whose
-        # construction is unstated is not comparable with the one beside it.
-        "stat_basis": rec.get("stat_basis"),
-        "n_lines": rec.get("n_lines"), "n_excluded": rec.get("n_excluded"),
-        "dominant_term": rec.get("dominant_term"),
         "identity": pe.key_of(rec),
         "measured_at": prov.get("artifact_mtime"),
         "ingested_at": prov.get("ingested_at"),
         "source": copied or prov.get("path"),
-    }
+        # RYA-1095: what `sigma_stat` MEANS, carried per product. A bar whose
+        # construction is unstated is not comparable with the one beside it.
+        #
+        # 🔴 RESOLVED THROUGH `pe.stat_basis_of`, NOT READ RAW. Reading `rec["stat_basis"]`
+        # got a non-null answer on 12 of 70 -- the feed carries the field only where the
+        # producing budget wrote one -- so 58 products rendered with a BLANK basis while
+        # the eligibility module resolves all 70 to `standard_error` via its route
+        # fallback. A blank reads as "unknown", which is absence-as-conclusion (RYA-833),
+        # and hand-rolling the lookup here is the second implementation of a rule that
+        # already has one (the `display_state` lesson, three sections down).
+        "stat_basis": pe.stat_basis_of(rec),
+        # The record's own prose is kept beside the classification, not replaced by it:
+        # "measured — RMS of the random terms, 0.02018 dex at n_lines=21" says more than
+        # the token, and the token is what is comparable.
+        "stat_basis_declared": rec.get("stat_basis"),
+    })
     if pool != "products":
         row["withdrawn_reason"] = (rec.get("quarantine_reason")
                                    or rec.get("superseded_reason"))
@@ -1003,18 +1044,29 @@ def main() -> None:
         # CLEAN_WITH_ANOMALY is not CLEAN, and the difference is the anomaly text.
         # Carrying the state without it would render a caveated holding as unqualified.
         row["telluric_anomaly"] = anomaly(holding) if holding else None
-        # The gf-graded tier is what the page reports (RYA-1026). DEEPGRADED is rung 3
-        # too and is still withheld: it is a DIFFERENT line selection (the 109 saturated
-        # lines above the EW depth gate), not a second opinion on the same 67, and
-        # mixing selections in one view reads a selection difference as a measurement
-        # difference (RYA-842/984).
-        sel = str(row.get("selector") or "")
-        if not sel.startswith("GRADED"):
-            row["not_displayed_because"] = (
-                f"selector {sel!r} is not the graded tier; RYA-1026 reports the "
-                f"gf-graded product. Kept on disk and listed here, not deleted")
-            _withheld.append(row)
-        elif state in ("CLEAN", "CLEAN_WITH_ANOMALY"):
+        # 🔴 ALL THREE PUBLISHED GRADES ARE DRAWN: Reference, Codex, Deep. This gate has
+        # now been wrong twice in the same place and both times by drawing a SUBSET while
+        # saying nothing about it. First it drew `selector.startswith("GRADED")` only,
+        # which withheld every DEEPGRADED product and rendered the whole near-UV band as
+        # blank -- all 8 of its live products are deep, because the near-UV lab pool is
+        # deep almost to a line. Then it drew the two measured families and held back the
+        # reference-set reproduction, which is still a subset.
+        #
+        # Ryan's ruling (2026-08-24, recorded verbatim in the feed's own quarantine
+        # record): "the product grid is GRADED / DEEPGRADED / CONSISTENT and nothing
+        # else; whole-pool and leftover-ungraded runs get mentioned, plotted where it
+        # helps, and live in the appendix." Three grades, three published names, all
+        # products. What belongs in the appendix is `tier=ALL`, the whole-pool run, and
+        # the FEED already quarantines those -- so a second selector gate here could only
+        # ever subtract from what the eligibility gate had already settled.
+        #
+        # The selection difference the old comment worried about is real and is handled
+        # where it belongs: every row carries its grade, tier and selector, the forest
+        # groups by band and instrument, and the grade badge sits on the row. A reader
+        # sees WHICH pool each number came from. Hiding two thirds of the products was
+        # never the way to prevent them being confused with each other.
+        row["grade_family"] = str(row.get("grade") or "(ungraded)")
+        if state in ("CLEAN", "CLEAN_WITH_ANOMALY"):
             _science.append(row)
         else:
             row["not_displayed_because"] = (
