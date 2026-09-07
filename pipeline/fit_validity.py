@@ -6,9 +6,24 @@ abundance line that is 4,53? That seems like a bad line."*
 🔴 WHAT WAS ACTUALLY WRONG. `9437.793` returns **A = 4.539 on solar_iag and 10.988 on
 solar_kpno_molecfit_corrected** — the same line, the same gf, 6.4 dex apart — with
 `red_chi2` of 152 and 246 and `excluded_reason` blank on both. The optimiser railed. It is
-not a measurement of anything, and nothing stopped it entering the aggregate: RYA-992
-built the synthesis goodness-of-fit cut and it was never wired in (`SYNTH_CONSTRAINT` is
-still `None`).
+not a measurement of anything, and nothing stopped it entering the aggregate.
+
+⚠️ AND "RYA-992 SHOULD HAVE CAUGHT THIS" IS NOT QUITE RIGHT — I said it first and it is
+worth correcting, because the real reason is more interesting than an omission. RYA-992
+DID land: `synth_gof_cut(instrument)` and the per-arm `ARM_SCALE` registry exist and ARE
+called, from `pipeline/gf_empirical.py`. What it deliberately did not do is put a
+frac_rise THRESHOLD on the band-product route — RYA-847's sweep (9 cells, 581 synthesis
+lines) refuted every candidate threshold, and `constraint_gate` documents
+`SYNTH_CONSTRAINT` as staying "None PERMANENTLY rather than pending" for that reason. That
+was a ratified decision, not a gap.
+
+🔴 THE GAP IS THAT A CONSTRAINT GATE AND A VALIDITY BOUND ARE DIFFERENT QUESTIONS. Both
+arms of `constraint_gate.verdict` ask whether the fit was CONSTRAINED; neither asks
+whether the answer is POSSIBLE. And 9437.793 slips both: its `frac_rise_weaker` is NaN, so
+arm 1's non-minimum check cannot fire (it is guarded by `np.isfinite`), and arm 2 returns
+`GateVerdict(True)` by default because no ratified cut exists. A line carrying NO
+constraint metrics at all is therefore treated as fine — which is the one case where
+"was it constrained?" has no answer and "is 4.53 a possible iron abundance?" still does.
 
 ⚠️ THIS IS NOT AN OUTLIER CUT, AND THE DIFFERENCE IS THE WHOLE JUSTIFICATION. Dropping
 points because they are far from the others is the RYA-981 error — a quota dressed as a
