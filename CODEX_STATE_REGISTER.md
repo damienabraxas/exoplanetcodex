@@ -6,6 +6,8 @@
 
 > **Models:** the canonical 9-model roster is [`data/catalog/model_registry.csv`](data/catalog/model_registry.csv) (RYA-1101) — token, physics axes, nicknames, and the mandatory Frankenstein pair. It is a POINTER, not a copy: do not restate the roster here, and note that bare `ENGINE-B` is ambiguous (see the collision note beside it).
 
+> **IR science window (PINNED, RYA-1094):** graded Fe ends at the **H band, 17277.5 Å**. K-band and up are **empty of lab gf** — none published above 21386 Å. `canonical_gf` is ingested to **~24985 Å**, and the effective ceiling is **~25000 Å**: **do NOT pursue beyond ~25k.** Beyond it is *unreachable-until-a-lab-source-exists*, not owed work. ⚠️ CRIRES+ is registered 9500–53000 Å and that raw reach is **not** the science window — RYA-1192 audited against 53000 because this decision lived only in a closed ticket. Enforced in code by `telluric_policy.IR_SCIENCE_CEILING_A`; the standing row is under *Scope / drift corrections*.
+
 The Linear tickets are an *immutable journal* — every step, dead end, and reversal, recorded and never rewritten. This register is the *mutable ledger* — the single authoritative statement of **what is true right now**, rewritten as things settle, regress, or supersede. When "current state of X" and "what the journal says happened to X" diverge, **this file wins for state**; the journal wins for history.
 
 Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwen etc.) — keep it clean-table, one fact per row, machine-parseable.
@@ -253,6 +255,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Target engine | Turbospectrum synthesis (all 27) + MOOG EW comparison | RYA-285 / constants.py |
 | VALD | manual web extraction (per skill); synthesis-era central-depth 0.001 | RYA-389 [confirm] |
 | [O I] 6300 measured-O | continuum-renorm measurement = **STOP (continuum-limited)**; production adopts Caffau-2015 8.73, [O I] is a cross-check only — do NOT re-attempt the renorm proof | RYA-447→455 (STOP proofs in `pipeline/diagnostics/`); flagged by RYA-530 |
+| IR science window | graded Fe ends **H band 17277.5 Å**; K-band+ **empty of lab gf** (none above 21386 Å); `canonical_gf` ceiling **~24985 Å** ⇒ **do NOT pursue beyond ~25k** — unreachable-until-a-lab-source-exists, not owed work. CRIRES+'s registered 9500–53000 Å is the INSTRUMENT's reach, not the window | RYA-1094; pinned by RYA-1193 (`telluric_policy.IR_SCIENCE_CEILING_A`), after RYA-1192 re-derived 53000 Å from the catalogue |
+| Reference line sets | **INSTRUMENT-AGNOSTIC — a reference set is never tuned for one instrument.** A published set (GBS/Jofré, Asplund) is a property of the PUBLISHED RECORD; telluric reachability is a property of the OBSERVATION and belongs in the per-holding coverage report, never as a per-line column on the set. A set that shrinks when the telluric policy learns a new band is not a reference set | **Ryan's ruling, RYA-1193**, on the O2 gamma-band reaching 3 GBS lines (6270.22/6271.28/6297.79). Set stays **142**; the 3 appear as `n_telluric_excluded` per holding — KP 3, IAG 0 |
 
 ---
 
