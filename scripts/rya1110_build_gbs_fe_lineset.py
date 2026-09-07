@@ -735,7 +735,10 @@ def coverage(df: pd.DataFrame) -> pd.DataFrame:
                 inside = np.zeros(lam.shape, dtype=bool)
             else:
                 inside = (lam >= lo) & (lam <= hi)
-            tell = np.array([bool(telluric_exclusion(float(w), instrument))
+            # RYA-1194: the HOLDING answers this, not the instrument. `solar_harps` and
+            # `solar_harps_molecfit_corrected` are one instrument row and two telluric
+            # states, so an instrument-keyed call gave this report the same number twice.
+            tell = np.array([bool(telluric_exclusion(float(w), instrument, h.holding_id))
                              for w in lam])
             rows.append({
                 "line_set": LINE_SET_TAG,
