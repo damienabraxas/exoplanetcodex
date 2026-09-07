@@ -1,0 +1,28 @@
+{
+  "ticket": "RYA-1181",
+  "claimed_by_ticket_titles": "RYA-1131 'across FUV/NUV/IR'; RYA-1136 'UV-IR'",
+  "delivered": "VIS to IR",
+  "atomic_span_A": [
+    5052.2,
+    10108.9
+  ],
+  "molecular_span_A": [
+    4254.2,
+    150230.5
+  ],
+  "matched_rows_by_band": {
+    "atomic": {
+      "VIS": 14,
+      "RED_OPTICAL": 33,
+      "NIR": 1
+    },
+    "molecular": {
+      "VIS": 45,
+      "IR": 241,
+      "NIR": 122
+    }
+  },
+  "fuv_matched": 0,
+  "nuv_matched": 0,
+  "why_the_uv_bins_are_empty": "Not a null result. Amarsi's UV SELECTION is unpublished, so no UV row enters Table 2 and nothing is matched there. The UV TRANSITIONS are held in this repo and are counted in rejected_indicator_ledger.csv and held_uv_transitions_rya1181.csv (RYA-1181 A9). UV is a FOLLOW-ON, not a gap that was searched and came up empty."
+}
