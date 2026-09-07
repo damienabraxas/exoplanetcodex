@@ -1,0 +1,515 @@
+{
+  "ticket": "RYA-1191 (C, fix) \u2014 CRIRES+ H telluric correction",
+  "generated_at": "2026-09-07T17:07:19Z",
+  "molecules": [
+    "H2O",
+    "CH4",
+    "CO2"
+  ],
+  "h_span_A": [
+    15007.0,
+    17494.0
+  ],
+  "n_graded_lines": 25,
+  "n_graded_on_a_correctable_segment": 25,
+  "graded_not_on_any_segment": [],
+  "plan": [
+    {
+      "file": "ADP.2025-06-06T16:08:50.327.fits",
+      "wlen_id": "H1582",
+      "mjd": 59905.00726757,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 8,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 2,
+          "lo_A": 17205.78,
+          "hi_A": 17311.93,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16810.67,
+          "hi_A": 16908.33,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 1,
+          "lo_A": 16110.89,
+          "hi_A": 16216.08,
+          "n_graded": 4
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16330.84,
+          "hi_A": 16425.78,
+          "n_graded": 2
+        },
+        {
+          "order": 6,
+          "detector": 1,
+          "lo_A": 15663.51,
+          "hi_A": 15765.85,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 2,
+          "lo_A": 15773.21,
+          "hi_A": 15870.7,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15240.18,
+          "hi_A": 15339.81,
+          "n_graded": 2
+        },
+        {
+          "order": 8,
+          "detector": 3,
+          "lo_A": 15041.96,
+          "hi_A": 15129.55,
+          "n_graded": 2
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:08:50.330.fits",
+      "wlen_id": "H1559",
+      "mjd": 59905.011743,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 10,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 1,
+          "lo_A": 16826.12,
+          "hi_A": 16943.6,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16331.65,
+          "hi_A": 16445.77,
+          "n_graded": 2
+        },
+        {
+          "order": 4,
+          "detector": 2,
+          "lo_A": 16453.94,
+          "hi_A": 16563.03,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 15984.17,
+          "hi_A": 16090.21,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16097.62,
+          "hi_A": 16198.44,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 2,
+          "lo_A": 15540.34,
+          "hi_A": 15643.5,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 3,
+          "lo_A": 15650.69,
+          "hi_A": 15748.77,
+          "n_graded": 3
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15007.68,
+          "hi_A": 15112.76,
+          "n_graded": 2
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15120.34,
+          "hi_A": 15220.77,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 3,
+          "lo_A": 15227.76,
+          "hi_A": 15323.25,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:11:04.003.fits",
+      "wlen_id": "H1567",
+      "mjd": 59907.01940251,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 8,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 2,
+          "lo_A": 16537.62,
+          "hi_A": 16644.72,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 1,
+          "lo_A": 15948.62,
+          "hi_A": 16057.66,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 16065.48,
+          "hi_A": 16169.59,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16176.86,
+          "hi_A": 16275.73,
+          "n_graded": 2
+        },
+        {
+          "order": 6,
+          "detector": 1,
+          "lo_A": 15505.7,
+          "hi_A": 15611.78,
+          "n_graded": 2
+        },
+        {
+          "order": 6,
+          "detector": 2,
+          "lo_A": 15619.41,
+          "hi_A": 15720.69,
+          "n_graded": 5
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15197.29,
+          "hi_A": 15295.9,
+          "n_graded": 2
+        },
+        {
+          "order": 7,
+          "detector": 3,
+          "lo_A": 15302.76,
+          "hi_A": 15396.4,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:14:11.197.fits",
+      "wlen_id": "H1575",
+      "mjd": 59907.99433991,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 9,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 3,
+          "lo_A": 17239.13,
+          "hi_A": 17341.77,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16502.26,
+          "hi_A": 16612.44,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 16145.85,
+          "hi_A": 16248.01,
+          "n_graded": 4
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16255.15,
+          "hi_A": 16352.04,
+          "n_graded": 1
+        },
+        {
+          "order": 6,
+          "detector": 1,
+          "lo_A": 15585.88,
+          "hi_A": 15690.08,
+          "n_graded": 5
+        },
+        {
+          "order": 6,
+          "detector": 3,
+          "lo_A": 15803.88,
+          "hi_A": 15898.14,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15164.62,
+          "hi_A": 15266.07,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15273.37,
+          "hi_A": 15370.13,
+          "n_graded": 2
+        },
+        {
+          "order": 8,
+          "detector": 3,
+          "lo_A": 14972.16,
+          "hi_A": 15061.56,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:14:11.200.fits",
+      "wlen_id": "H1575",
+      "mjd": 59907.99718857,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 9,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 3,
+          "lo_A": 17239.13,
+          "hi_A": 17341.77,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16502.26,
+          "hi_A": 16612.44,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 16145.85,
+          "hi_A": 16248.01,
+          "n_graded": 4
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16255.15,
+          "hi_A": 16352.04,
+          "n_graded": 1
+        },
+        {
+          "order": 6,
+          "detector": 1,
+          "lo_A": 15585.88,
+          "hi_A": 15690.08,
+          "n_graded": 5
+        },
+        {
+          "order": 6,
+          "detector": 3,
+          "lo_A": 15803.88,
+          "hi_A": 15898.14,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15164.62,
+          "hi_A": 15266.07,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15273.37,
+          "hi_A": 15370.13,
+          "n_graded": 2
+        },
+        {
+          "order": 8,
+          "detector": 3,
+          "lo_A": 14972.16,
+          "hi_A": 15061.56,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:29:59.732.fits",
+      "wlen_id": "H1582",
+      "mjd": 59905.99822882,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 8,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 2,
+          "lo_A": 17205.78,
+          "hi_A": 17311.92,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16810.67,
+          "hi_A": 16908.33,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 1,
+          "lo_A": 16110.89,
+          "hi_A": 16216.08,
+          "n_graded": 4
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16330.85,
+          "hi_A": 16425.78,
+          "n_graded": 2
+        },
+        {
+          "order": 6,
+          "detector": 1,
+          "lo_A": 15663.51,
+          "hi_A": 15765.85,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 2,
+          "lo_A": 15773.2,
+          "hi_A": 15870.69,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15240.18,
+          "hi_A": 15339.81,
+          "n_graded": 2
+        },
+        {
+          "order": 8,
+          "detector": 3,
+          "lo_A": 15041.95,
+          "hi_A": 15129.55,
+          "n_graded": 2
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:29:59.735.fits",
+      "wlen_id": "H1559",
+      "mjd": 59906.00458678,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 10,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 1,
+          "lo_A": 16826.11,
+          "hi_A": 16943.6,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16331.64,
+          "hi_A": 16445.76,
+          "n_graded": 2
+        },
+        {
+          "order": 4,
+          "detector": 2,
+          "lo_A": 16453.95,
+          "hi_A": 16563.03,
+          "n_graded": 2
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 15984.18,
+          "hi_A": 16090.22,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16097.62,
+          "hi_A": 16198.44,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 2,
+          "lo_A": 15540.34,
+          "hi_A": 15643.5,
+          "n_graded": 3
+        },
+        {
+          "order": 6,
+          "detector": 3,
+          "lo_A": 15650.69,
+          "hi_A": 15748.77,
+          "n_graded": 3
+        },
+        {
+          "order": 7,
+          "detector": 1,
+          "lo_A": 15007.68,
+          "hi_A": 15112.76,
+          "n_graded": 2
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15120.33,
+          "hi_A": 15220.76,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 3,
+          "lo_A": 15227.75,
+          "hi_A": 15323.25,
+          "n_graded": 1
+        }
+      ]
+    }
+  ]
+}
