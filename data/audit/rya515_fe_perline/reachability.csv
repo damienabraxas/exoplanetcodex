@@ -1,22 +1,22 @@
 element,ion,band,holding,tier,route,treatment,line_set,A,n_lines,perline_reachable,resolution,perline_artifact
-Fe,II,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.966,9,True,resolved,FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
-Fe,II,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.617,3,True,resolved,FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
-Fe,II,VIS,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.592,9,True,resolved,FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
-Fe,II,VIS,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.466,3,True,resolved,FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
-Fe,II,VIS,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.569,9,True,resolved,FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
-Fe,II,VIS,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.46,3,True,resolved,FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+Fe,II,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.966,9,True,resolved on n_lines against 2 same-field artifacts (FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE),FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+Fe,II,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.617,3,True,resolved on n_lines against 2 same-field artifacts (FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A),FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+Fe,II,VIS,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.592,9,False,"n_lines MISMATCH: product says 9, artifact(s) have 8",
+Fe,II,VIS,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.466,3,False,"n_lines MISMATCH: product says 3, artifact(s) have 2",
+Fe,II,VIS,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.569,9,False,"n_lines MISMATCH: product says 9, artifact(s) have 8",
+Fe,II,VIS,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.46,3,False,"n_lines MISMATCH: product says 3, artifact(s) have 2",
 Fe,II,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.957,12,True,resolved,FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
 Fe,II,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.975,7,True,resolved,FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
 Fe,II,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.697,12,True,resolved,FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
 Fe,II,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.738,7,True,resolved,FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
-Fe,I,NIR,solar_crires_plus_y_wide_rya1054,GRADED,SYNTH,1D-LTE,,7.551,5,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,NIR,solar_crires_plus_y_wide_rya1054,GRADED,SYNTH,ENGINE-A,,7.492,2,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,NIR,solar_iag,GRADED,SYNTH,1D-LTE,,7.546,25,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,NIR,solar_iag,GRADED,SYNTH,ENGINE-A,,7.599,6,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,NIR,solar_kpno_molecfit_corrected,GRADED,SYNTH,1D-LTE,,7.621,26,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,NIR,solar_kpno_molecfit_corrected,GRADED,SYNTH,ENGINE-A,,7.503,7,False,no artifact on disk (band_products is gitignored; only force-added files are present),
+Fe,I,NIR,solar_crires_plus_y_wide_rya1054,GRADED,SYNTH,1D-LTE,,7.551,5,True,resolved,FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_1D-LTE_lines.csv
+Fe,I,NIR,solar_crires_plus_y_wide_rya1054,GRADED,SYNTH,ENGINE-A,,7.492,2,True,resolved,FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_lines.csv
+Fe,I,NIR,solar_iag,GRADED,SYNTH,1D-LTE,,7.546,25,False,"n_lines MISMATCH: product says 25, artifact(s) have 26",
+Fe,I,NIR,solar_iag,GRADED,SYNTH,ENGINE-A,,7.599,6,False,"n_lines MISMATCH: product says 6, artifact(s) have 7",
+Fe,I,NIR,solar_kpno_molecfit_corrected,GRADED,SYNTH,1D-LTE,,7.621,26,False,"n_lines MISMATCH: product says 26, artifact(s) have 23",
+Fe,I,NIR,solar_kpno_molecfit_corrected,GRADED,SYNTH,ENGINE-A,,7.503,7,False,"n_lines MISMATCH: product says 7, artifact(s) have 6",
 Fe,I,VIS,solar_harps_molecfit_corrected,ALL,SYNTH,ENGINE-A-3DNLTE,asplund,7.4771,21,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.339,109,True,resolved,FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+Fe,I,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.339,109,False,no artifact on disk (band_products is gitignored; only force-added files are present),
 Fe,I,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.35,105,False,no artifact on disk (band_products is gitignored; only force-added files are present),
 Fe,I,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.535,109,True,resolved,FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
 Fe,I,VIS,solar_harps_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.554,105,False,no artifact on disk (band_products is gitignored; only force-added files are present),
@@ -63,9 +63,9 @@ Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.642,58,F
 Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.651,58,False,no artifact on disk (band_products is gitignored; only force-added files are present),
 Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.596,58,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
 Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.606,58,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
-Fe,I,red-optical,solar_iag,GRADED,SYNTH,1D-LTE,,7.448,69,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,red-optical,solar_iag,GRADED,SYNTH,ENGINE-A,,7.461,35,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,red-optical,solar_kpno_kurucz2005_corrected,GRADED,SYNTH,1D-LTE,,7.462,45,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,red-optical,solar_kpno_kurucz2005_corrected,GRADED,SYNTH,ENGINE-A,,7.456,26,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,red-optical,solar_kpno_molecfit_corrected,GRADED,SYNTH,1D-LTE,,7.481,56,False,no artifact on disk (band_products is gitignored; only force-added files are present),
-Fe,I,red-optical,solar_kpno_molecfit_corrected,GRADED,SYNTH,ENGINE-A,,7.492,28,False,no artifact on disk (band_products is gitignored; only force-added files are present),
+Fe,I,red-optical,solar_iag,GRADED,SYNTH,1D-LTE,,7.448,69,True,resolved,FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+Fe,I,red-optical,solar_iag,GRADED,SYNTH,ENGINE-A,,7.461,35,True,resolved,FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+Fe,I,red-optical,solar_kpno_kurucz2005_corrected,GRADED,SYNTH,1D-LTE,,7.462,45,False,"n_lines MISMATCH: product says 45, artifact(s) have 70",
+Fe,I,red-optical,solar_kpno_kurucz2005_corrected,GRADED,SYNTH,ENGINE-A,,7.456,26,False,"n_lines MISMATCH: product says 26, artifact(s) have 35",
+Fe,I,red-optical,solar_kpno_molecfit_corrected,GRADED,SYNTH,1D-LTE,,7.481,56,False,"n_lines MISMATCH: product says 56, artifact(s) have 53",
+Fe,I,red-optical,solar_kpno_molecfit_corrected,GRADED,SYNTH,ENGINE-A,,7.492,28,False,"n_lines MISMATCH: product says 28, artifact(s) have 27",

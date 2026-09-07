@@ -62,9 +62,16 @@ def perline_path(p):
         if not b.endswith("_" + p["treatment"]):
             continue
         stem = b[: -len("_" + p["treatment"])]
-        if not stem.endswith("_" + p["tier"]):
+        # Match on SELECTOR, not tier. Two live products can share ion/band/holding/tier/
+        # route/treatment and differ only here: HARPS Fe I VIS DEEPGRADED publishes 7.339
+        # under selector DEEPGRADED-LOCALRENORM and 7.535 under DEEPGRADED, 0.196 dex apart
+        # (RYA-1112). Resolving on tier alone stamped the one artifact on disk onto BOTH,
+        # and its median is 7.535 -- so the LOCALRENORM product was being given another
+        # product's lines. The selector's own token is what the artifact stem carries.
+        sel = (p.get("selector") or p["tier"]).replace("-", "_")
+        if not stem.endswith("_" + sel):
             continue
-        stem = stem[: -len("_" + p["tier"])]
+        stem = stem[: -len("_" + sel)]
         if not stem.endswith("_" + p["route"]):
             continue
         stem = stem[: -len("_" + p["route"])]
@@ -74,16 +81,36 @@ def perline_path(p):
         cands.append(cand)
     if not cands:
         return None, "no artifact on disk (band_products is gitignored; only force-added files are present)"
-    if len(cands) > 1:
-        return None, "AMBIGUOUS: %d artifacts share this product's fields" % len(cands)
-    t = pd.read_csv(cands[0])
     # n_lines counts the lines that entered the AGGREGATE, not the rows on disk:
     # a row can be present and excluded (e.g. ENGINE-A-NOT-SERVED).
-    n = int(t["in_aggregate"].sum()) if "in_aggregate" in t.columns else len(t)
+    #
+    # The gate is applied to EVERY candidate, not only to a lone survivor. Two
+    # artifacts of one product can coexist on disk when a re-measurement was
+    # committed under a different wavelength stem than the one the published
+    # product was built from -- RYA-1191 committed HARPS Fe II VIS at 4200_6908
+    # beside the shipped 4200_6910. Bailing out on len(cands) > 1 made the two
+    # products this ticket exists to audit (7.966 and 7.617) unreachable, while
+    # value-equality separates them cleanly. Ambiguity is only reported when the
+    # gate itself fails to leave exactly one.
     want = p.get("n_lines")
-    if want is not None and int(want) != n:
-        return None, "n_lines MISMATCH: product says %s, artifact has %d" % (want, n)
-    return cands[0], "resolved"
+    counts = {}
+    for cand in cands:
+        t = pd.read_csv(cand)
+        counts[cand] = int(t["in_aggregate"].sum()) if "in_aggregate" in t.columns else len(t)
+    if want is None:
+        if len(cands) == 1:
+            return cands[0], "resolved"
+        return None, "AMBIGUOUS: %d artifacts share this product's fields and it declares no n_lines" % len(cands)
+    keep = [c for c in cands if counts[c] == int(want)]
+    if len(keep) == 1:
+        why = "resolved" if len(cands) == 1 else (
+            "resolved on n_lines against %d same-field artifacts (%s)"
+            % (len(cands), ", ".join(sorted(os.path.basename(c)[:-len("_lines.csv")] for c in cands if c not in keep))))
+        return keep[0], why
+    if not keep:
+        return None, "n_lines MISMATCH: product says %s, artifact(s) have %s" % (
+            want, ", ".join(str(counts[c]) for c in cands))
+    return None, "AMBIGUOUS: %d artifacts share this product's fields AND its n_lines" % len(keep)
 
 
 def build_provenance(prods):
