@@ -99,6 +99,16 @@ def _mentions_ep(node: ast.AST) -> bool:
     return any(_EP.search(n) for n in _expr_names(node) if n)
 
 
+def _assign_targets(stmt: ast.AST) -> set:
+    """Names this statement binds, so an `ok &= <EP test>` on the same target can be
+    recognised as part of the same decision (RYA-1179)."""
+    if isinstance(stmt, ast.Assign):
+        return {t.id for t in stmt.targets if isinstance(t, ast.Name)}
+    if isinstance(stmt, (ast.AugAssign, ast.AnnAssign)):
+        return {stmt.target.id} if isinstance(stmt.target, ast.Name) else set()
+    return set()
+
+
 @dataclass
 class Finding:
     kind: str
@@ -111,10 +121,22 @@ class Finding:
 
 
 class Visitor(ast.NodeVisitor):
-    def __init__(self, rel: str, src: str, key_positioned: set):
+    def __init__(self, rel: str, src: str, key_positioned: set,
+                 tree: ast.AST | None = None):
         self.rel, self.lines, self.found = rel, src.splitlines(), []
         self._fn_stack: list[ast.AST] = []
         self._key_positioned = key_positioned
+        # RYA-1179: parent links + the module's augmented assignments, so a wavelength
+        # comparison can be scoped to the decision it belongs to rather than to its
+        # whole enclosing function. Built once per file.
+        self._parent: dict = {}
+        self._augassigns: list[ast.AugAssign] = []
+        if tree is not None:
+            for node in ast.walk(tree):
+                for child in ast.iter_child_nodes(node):
+                    self._parent[child] = node
+                if isinstance(node, ast.AugAssign):
+                    self._augassigns.append(node)
 
     def _snip(self, node) -> str:
         i = getattr(node, "lineno", 1) - 1
@@ -137,7 +159,48 @@ class Visitor(ast.NodeVisitor):
             self.visit(node.value)
 
     def _enclosing_has_ep(self) -> bool:
+        """⚠️ FUNCTION-SCOPED, AND THAT IS THE RYA-1179 DEFECT. Kept only so the
+        difference is visible and testable; `_decision_has_ep` is what decides."""
         return any(_mentions_ep(fn) for fn in self._fn_stack)
+
+    def _statement_of(self, node: ast.AST) -> ast.AST | None:
+        while node in self._parent and not isinstance(node, ast.stmt):
+            node = self._parent[node]
+        return node if isinstance(node, ast.stmt) else None
+
+    def _decision_has_ep(self, node: ast.AST) -> bool:
+        """🔴 RYA-1179 — DOES AN EP TERM CONSTRAIN *THIS* DECISION?
+
+        The old test asked `_enclosing_has_ep()`: is an EP-like name anywhere in the
+        enclosing FunctionDef. So one `ep` bound ANYWHERE launders every wavelength-only
+        comparison below it, and the guard reports clean on the very defect it exists to
+        catch. RYA-1142's positive control demonstrated it: an identical lambda-only
+        comparison is FLAGGED with no `ep` in scope and SILENT once an unrelated `ep` is
+        bound earlier in the same function.
+
+        The scope is now the STATEMENT the comparison narrows -- which covers
+        `if lam and ep:`, a comprehension's `if lam and ep`, and `x = lam and ep` alike --
+        plus any augmented assignment narrowing the same target, because `ok = <lambda
+        test>` / `ok &= <EP test>` is one decision written over two lines.
+
+        🔴 AND A MENTION IS NOT A CONSTRAINT (RYA-1141's rule). Only names appearing
+        inside a `Compare` count. A statement may *name* `ep` while writing it into a
+        provenance string, or bind a result to `rows_ep`; neither narrows a join, and the
+        substring-tolerant `_EP` pattern would otherwise be laundered by the variable name
+        alone."""
+        stmt = self._statement_of(node)
+        if stmt is None:
+            return False
+        scope: list[ast.AST] = [stmt]
+        for tgt in _assign_targets(stmt):
+            scope += [a for a in self._augassigns
+                      if isinstance(a.target, ast.Name) and a.target.id == tgt]
+        names: list[str] = []
+        for part in scope:
+            for sub in ast.walk(part):
+                if isinstance(sub, ast.Compare):
+                    names += _expr_names(sub)
+        return any(_EP.search(n) for n in names if n)
 
     def visit_Call(self, node):
         f = node.func
@@ -176,7 +239,7 @@ class Visitor(ast.NodeVisitor):
                 # a self-check; it is not a join between two tables.
                 and not any(isinstance(o, ast.Constant)
                             for o in (left.args[0].left, left.args[0].right))
-                and not self._enclosing_has_ep()):
+                and not self._decision_has_ep(node)):
             self._add("WAVE_ONLY_TOL", node)
         self.generic_visit(node)
 
@@ -261,7 +324,7 @@ def scan(root: Path) -> list[Finding]:
                 tree = ast.parse(p.read_text())
             except SyntaxError:
                 continue
-            v = Visitor(rel, p.read_text(), _key_positions(tree))
+            v = Visitor(rel, p.read_text(), _key_positions(tree), tree)
             v.visit(tree)
             out.extend(v.found)
     return out
