@@ -1,0 +1,9 @@
+# RYA-1191 — lines curated OUT on their scientific merits, each with the evidence that
+# earned it and the ticket that ruled. Read by pipeline.line_curation.excluded().
+#
+# 🔴 NOT A THRESHOLD. RYA-1191's blend audit ranks 353 graded lines and finds 164 where the
+# target is not the dominant absorber; auto-dropping on that would remove a third of the
+# pool on a number nobody ratified. These are individual calls (RYA-161: validate, don't
+# tune). A row with no reason, evidence or ticket is REFUSED by the loader.
+species,wavelength_air_A,band,reason,evidence,ticket,ruled_by
+Fe II,4303.170,VIS,"CH G-band blend artifact — the synthesis list cannot represent the dominant absorber","A = 10.0 (+2.5 dex). RYA-1191 blend audit: 66 catalogued transitions in the 0.62 A fit window, top contaminant CH I at 43.8% of the summed depth against Fe II's 11.1%. The VIS synthesis list GESv6_atom_hfs_iso carries 206 species and NOT ONE molecular, so the fit had nowhere to put the CH absorption except Fe II. RYA-515 independently counted 36 of 65 transitions as CH.",RYA-1191,Ryan Schmitt (RYA-515 amendment 2026-09-07)

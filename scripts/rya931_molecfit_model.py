@@ -75,11 +75,79 @@ def resolve_esorex() -> str:
         + ". Install the ESO molecfit kit or set $ESOREX. Failing here rather "
           "than reporting an uncorrected product -- a missing engine is not a "
           "correction result.")
-# Include the clean 6857-6866 shoulder so the continuum polynomial is anchored
-# on telluric-free pixels; the O2 B band itself runs 6866 A to beyond the S1D
-# red cutoff at 6912.8 A.
-INCLUDE_LO_A, INCLUDE_HI_A = 6857.0, 6911.0
-EXTRACT_LO_A, EXTRACT_HI_A = 6840.0, 6912.0
+# 🔴 RYA-1191 — THE FIT WINDOW IS DERIVED FROM THE BAND REGISTRY, NOT TYPED HERE.
+#
+# It used to be one hardcoded pair, `INCLUDE_LO_A, INCLUDE_HI_A = 6857.0, 6911.0`, chosen
+# when the intake manifest could truthfully record
+# `registered_telluric_bands_in_instrument_range: ['O2 B 6867-6884']` -- one band, so one
+# window. RYA-1193 then added **o2gamma 6270-6300** to `telluric_policy.TELLURIC_BANDS`,
+# and nothing re-scoped this fit. Measured consequence (RYA-1191): HARPS carries the O2
+# gamma lines at **+12.0 sigma** against a displaced null, IDENTICALLY in its raw and its
+# "corrected" product -- molecfit changed the flux there by 1e-5, because 6270-6300 was
+# never inside the window it was given.
+#
+# That is the same defect this ticket exists for, one level up: a BAND-LIMITED correction
+# consumed as if it were global. A hardcoded window cannot notice that the registry grew,
+# so the window is now computed from the registry and the fit follows it automatically.
+# The molecule list needs no change -- the O2 gamma band IS O2.
+#
+# ⚠️ The SHOULDER is the reason a band is padded rather than used raw: molecfit fits a
+# continuum polynomial across the include region, and it must be anchored on telluric-free
+# pixels either side or the continuum absorbs the band.
+_SHOULDER_A = 10.0
+_FITTED_MOLECULES = frozenset({"O2"})
+
+#: 🔴 REGIONS THE REGISTRY UNDERSTATES, KEPT AS A FLOOR SO THIS CAN ONLY EVER WIDEN.
+#: `TELLURIC_BANDS` is a LINE-SELECTION registry: its edges say where a line should be
+#: refused, not where a fit should be constrained. For O2 B it lists 6867-6884, but
+#: RYA-931 fitted 6857-6911 because the band measurably runs from 6866 A to beyond the
+#: S1D red cutoff at 6912.8 A. Deriving the window from the registry alone would have
+#: SHRUNK a working correction by 17 A -- a silent regression dressed as a cleanup. The
+#: derived regions are unioned with these, never substituted for them.
+_EMPIRICAL_REGIONS = (
+    (6857.0, 6911.0, "O2 B — RYA-931 measured extent; the registered 6867-6884 "
+                     "understates it and the band runs past the S1D cutoff"),
+)
+
+
+def include_regions_A(lo_cut: float = 0.0, hi_cut: float = 1.0e9) -> list[tuple[float, float]]:
+    """Fit regions (Å) = every registered telluric band of a FITTED molecule, widened by a
+    continuum shoulder, UNIONED with the empirically established regions above.
+
+    Single-sourced on `telluric_policy.TELLURIC_BANDS` so the fit cannot silently fall
+    behind the registry again, and floored on `_EMPIRICAL_REGIONS` so it cannot silently
+    fall behind the data either. Overlapping regions are merged — molecfit takes
+    WAVE_INCLUDE as disjoint intervals.
+
+    ⚠️ THE MOLECULE TEST IS ON THE NAME'S FIRST TOKEN, NOT A SUBSTRING. `"O2" in "CO2"`
+    is True, and the substring version duly pulled the CO2 15700-16100 band into a HARPS
+    O2 fit — a band 9000 A outside the instrument.
+    """
+    from pipeline.telluric_policy import TELLURIC_BANDS
+    want = []
+    for lo, hi, name in TELLURIC_BANDS:
+        tok = str(name).split()[0].upper() if str(name).strip() else ""
+        if tok not in _FITTED_MOLECULES:
+            continue
+        want.append((float(lo) - _SHOULDER_A, float(hi) + _SHOULDER_A))
+    want.extend((a, b) for a, b, _ in _EMPIRICAL_REGIONS)
+    clipped = []
+    for a, b in want:
+        a, b = max(a, lo_cut), min(b, hi_cut)
+        if b - a > 1.0:
+            clipped.append((a, b))
+    clipped.sort()
+    merged: list[list[float]] = []
+    for a, b in clipped:
+        if merged and a <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], b)
+        else:
+            merged.append([a, b])
+    return [(round(a, 3), round(b, 3)) for a, b in merged]
+
+
+#: The widest span the science table must carry: every fit region plus a margin.
+EXTRACT_MARGIN_A = 17.0
 SOLAR_ATLAS_DEPTH = 0.985      # atlas flux below this is intrinsic solar absorption
 SOLAR_ATLAS_PAD_A = 0.12       # widen each solar interval by this much
 
@@ -111,7 +179,11 @@ def solar_exclusions(atlas: Path, wave_a: np.ndarray) -> list[tuple[float, float
     bad = np.isfinite(solar) & (solar < SOLAR_ATLAS_DEPTH)
     bad = maximum_filter1d(bad.astype(np.uint8),
                            size=max(1, int(round(SOLAR_ATLAS_PAD_A / pixel)))) > 0
-    bad &= (wave_a >= INCLUDE_LO_A) & (wave_a <= INCLUDE_HI_A)
+    _inc = include_regions_A()
+    _in_any = np.zeros_like(wave_a, dtype=bool)
+    for _a, _b in _inc:
+        _in_any |= (wave_a >= _a) & (wave_a <= _b)
+    bad &= _in_any
     edges = np.diff(np.r_[False, bad, False].astype(np.int8))
     starts, stops = np.where(edges == 1)[0], np.where(edges == -1)[0] - 1
     return [(float(wave_a[a] / 1.0e4), float(wave_a[b] / 1.0e4))
@@ -131,7 +203,10 @@ def write_inputs(source: Path, atlas: Path | None, destination: Path) -> dict:
         flux = np.asarray(row["FLUX"], dtype=float)
         error = np.asarray(row["ERR"], dtype=float)
         berv = float(header["HIERARCH ESO DRS BERV"])
-        keep = (wave >= EXTRACT_LO_A) & (wave <= EXTRACT_HI_A) & np.isfinite(flux)
+        _regs = include_regions_A()
+        _elo = min(a for a, _ in _regs) - EXTRACT_MARGIN_A
+        _ehi = max(b for _, b in _regs) + EXTRACT_MARGIN_A
+        keep = (wave >= _elo) & (wave <= _ehi) & np.isfinite(flux)
 
         # RYA-931 root cause: ERR is 100% NaN in every HARPS solar exposure.
         # Selecting on finite ERR yields a zero-row table, which molecfit
@@ -141,7 +216,7 @@ def write_inputs(source: Path, atlas: Path | None, destination: Path) -> dict:
         error_usable = finite_error == int(keep.sum()) and finite_error > 0
         if not keep.any():
             raise SystemExit(
-                f"{source.name}: no finite FLUX pixel in {EXTRACT_LO_A}-{EXTRACT_HI_A} A; "
+                f"{source.name}: no finite FLUX pixel in {_elo:.1f}-{_ehi:.1f} A; "
                 "refusing to write an empty SCIENCE table")
 
         primary = fits.PrimaryHDU()
@@ -164,9 +239,22 @@ def write_inputs(source: Path, atlas: Path | None, destination: Path) -> dict:
     n_rows = int(keep.sum())
     exclusions = solar_exclusions(atlas, wave[keep]) if atlas else []
 
+    # 🔴 MULTI-REGION. molecfit's WAVE_INCLUDE is a TABLE of intervals and always was;
+    # writing one row was a choice made when the registry listed one band, not a limit of
+    # the recipe. Regions are clipped to what this exposure actually covers, so a band
+    # outside the S1D range is dropped here rather than handed to molecfit as empty.
+    _cov_lo, _cov_hi = float(np.nanmin(wave[keep])), float(np.nanmax(wave[keep]))
+    _regions = [(a, b) for a, b in include_regions_A(_cov_lo, _cov_hi) if b > a + 1.0]
+    if not _regions:
+        raise SystemExit(
+            f"no registered telluric band of {_FITTED_MOLECULES} lies inside this "
+            f"exposure's {_cov_lo:.1f}-{_cov_hi:.1f} A coverage — refusing to run a fit "
+            f"with an empty WAVE_INCLUDE rather than emit a no-op 'correction'.")
     fits.BinTableHDU.from_columns([
-        fits.Column(name="LOWER_LIMIT", format="1D", array=[INCLUDE_LO_A / 1.0e4]),
-        fits.Column(name="UPPER_LIMIT", format="1D", array=[INCLUDE_HI_A / 1.0e4]),
+        fits.Column(name="LOWER_LIMIT", format="1D",
+                    array=[a / 1.0e4 for a, _ in _regions]),
+        fits.Column(name="UPPER_LIMIT", format="1D",
+                    array=[b / 1.0e4 for _, b in _regions]),
     ]).writeto(destination / "wave_include.fits", overwrite=True)
     fits.BinTableHDU.from_columns([
         fits.Column(name="LIST_MOLEC", format="4A", array=["O2"]),
@@ -227,7 +315,11 @@ def main() -> None:
 
     esorex = resolve_esorex()
     obs_rv = args.rv_sign * built["berv_kms"] if args.frame == "AIR_RV" else 0.0
-    band_centre_a = 0.5 * (INCLUDE_LO_A + INCLUDE_HI_A)
+    # LSF init only: the widest fit region's centre. The kernel is FITTED (RYA-931), so
+    # this sets a starting width, not the answer.
+    _regs = include_regions_A()
+    _widest = max(_regs, key=lambda r: r[1] - r[0])
+    band_centre_a = 0.5 * (_widest[0] + _widest[1])
     gauss_fwhm_pix = (args.lsf_init_fwhm_pix if args.lsf_init_fwhm_pix else
                       (band_centre_a / args.resolving_power) / built["pixel_step_a"])
     cmd = [

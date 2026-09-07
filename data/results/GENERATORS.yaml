@@ -33,6 +33,312 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  # ── RYA-1191 — the telluric CLOSE for Fe: verified at every graded line ───────────
+  - artifact: rya1191/rya1191_validity_dropped_lines.csv
+    generator: scripts/rya1191_validity_impact.py
+    invocation: python3 scripts/rya1191_validity_impact.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_validity_impact.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_twin_per_line.csv
+    generator: scripts/rya1191_twin_compare.py
+    invocation: python3 scripts/rya1191_twin_compare.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_twin_compare.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_verified.csv
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_correction.json
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_correction_plan.json
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_graded_line_telluric.json
+    generator: scripts/rya1191_graded_line_telluric.py
+    invocation: python3 scripts/rya1191_graded_line_telluric.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_graded_line_telluric.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_blend_audit.json
+    generator: scripts/rya1191_blend_audit.py
+    invocation: python3 scripts/rya1191_blend_audit.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_blend_audit.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_lines.json
+    generator: scripts/rya1191_crires_h_lines.py
+    invocation: python3 scripts/rya1191_crires_h_lines.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_lines.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. IAG red-optical. Reproduces the committed A = 7.448 / n = 69 exactly — the control that shows the re-measure environment is sound before any shift is attributed.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. IAG red-optical. Reproduces the committed A = 7.448 / n = 69 exactly — the control that shows the re-measure environment is sound before any shift is attributed.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. 🔴 THE ONE PRODUCT THIS TICKET'S FIX MOVES. RYA-1191's evidence-based quarantine lift restores 25 graded lines that were refused on flux measured CLEAN (21 in H2O 7160-7340 at +1.0 sigma against uncorrected references at +28/+32, 4 in the O2 A-band). A: 7.462 -> 7.454, n 45 -> 70, and the line scatter TIGHTENS 0.279 -> 0.233 — which is the direction that says the restored lines are real.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. 🔴 THE ONE PRODUCT THIS TICKET'S FIX MOVES. RYA-1191's evidence-based quarantine lift restores 25 graded lines that were refused on flux measured CLEAN (21 in H2O 7160-7340 at +1.0 sigma against uncorrected references at +28/+32, 4 in the O2 A-band). A: 7.462 -> 7.454, n 45 -> 70, and the line scatter TIGHTENS 0.279 -> 0.233 — which is the direction that says the restored lines are real.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. KP-molecfit red-optical, reproducing the committed 7.481 / n = 56. Its twin test against IAG on 55 MATCHED lines gives +0.032 dex, failing Ryan's 0.03 gate.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. KP-molecfit red-optical, reproducing the committed 7.481 / n = 56. Its twin test against IAG on 55 MATCHED lines gives +0.032 dex, failing Ryan's 0.03 gate.
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9199 --hi 11083 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. IAG NIR. ⚠️ It does NOT reproduce the committed product and the reason is the finding: the current code keeps 9437.793 at A = 4.539 (red_chi2 152), giving 7.581 / sigma 0.433 / n = 7 where the committed product is 7.599 / 0.072 / n = 6. The RYA-1191 fit-validity bound restores the committed value exactly.
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9199 --hi 11083 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. IAG NIR. ⚠️ It does NOT reproduce the committed product and the reason is the finding: the current code keeps 9437.793 at A = 4.539 (red_chi2 152), giving 7.581 / sigma 0.433 / n = 7 where the committed product is 7.599 / 0.072 / n = 6. The RYA-1191 fit-validity bound restores the committed value exactly.
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. KP-molecfit NIR, reproducing the committed 7.621 / 7.503. 🔴 Its ENGINE-A sigma_stat 0.502 is NOT gf-limited and NOT telluric — it is one non-convergent line (9437.793, A = 10.988). Dropped, sigma collapses to 0.059, which is TIGHTER than the verified-clean IAG twin's 0.072. The 7x width story inverts.
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. KP-molecfit NIR, reproducing the committed 7.621 / 7.503. 🔴 Its ENGINE-A sigma_stat 0.502 is NOT gf-limited and NOT telluric — it is one non-convergent line (9437.793, A = 10.988). Dropped, sigma collapses to 0.059, which is TIGHTER than the verified-clean IAG twin's 0.072. The 7x width story inverts.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9801 --hi 10794 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. CRIRES+ Y, the science instrument. Verified telluric-clean by RYA-1192 (raw +14.1 sigma above its displaced null, product -0.3) and carrying no graded line inside any registered telluric band.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I
+      --lo 9801 --hi 10794 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
+      gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
+      Sirius from this branch's code, not lifted from an older run. CRIRES+ Y, the science instrument. Verified telluric-clean by RYA-1192 (raw +14.1 sigma above its displaced null, product -0.3) and carrying no graded line inside any registered telluric band.
+  - artifact: rya1191/rya1191_validity_impact.json
+    generator: scripts/rya1191_validity_impact.py
+    invocation: python3 scripts/rya1191_validity_impact.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      What `pipeline.fit_validity` removes and what it does to every product. 🔴 IT GATES
+      THE AGGREGATE, NOT THE FIT, so the post-guard numbers follow arithmetically from the
+      per-line artifacts — a re-run would reproduce them, not discover them. 14 unique
+      lines / 33 (product, line) instances, 1.1% of the in-aggregate graded pool. The
+      bound independently rediscovers Fe II 4303.170 (RYA-515's call, red_chi2 1212) and
+      two of the blend audit's molecular-blend lines (4286.863, 8432.174). ⚠️ THE MOVE IS
+      NOT UNIFORMLY SMALL: graded Fe I medians shift <= 0.021 dex, but the 3-line Fe II VIS
+      ENGINE-A pool moves 0.130 dex and is left at n = 2, the RYA-1031 floor.
+  - artifact: rya1191/rya1191_twin_compare.json
+    generator: scripts/rya1191_twin_compare.py
+    invocation: python3 scripts/rya1191_twin_compare.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      The twin test: a raw-holding product against its verified-clean counterpart on the
+      SAME lines. If a dispersion were gf-limited it would be a property of the line list
+      and identical on both holdings; a statistic that moves when the SPECTRUM changes is
+      about the spectrum. ⚠️ Two traps, both live here: the product aggregates by MEDIAN
+      (verified against products.csv on every graded artifact) and differencing means
+      opened a 0.47 dex gap that one line owns; and `sigma_stat` is the scatter over
+      sqrt(n), so comparing it against a raw scatter manufactures a 5-8x discrepancy
+      (RYA-1084). Only the intersection of the two pools is differenced.
+  - artifact: rya1191/rya1191_crires_h_verified.json
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      🔴 THE CRIRES+ H ARM, ACTUALLY CORRECTED. RYA-1192 flagged three 100 A windows and
+      RYA-1191 (C) could not settle 13 of the 25 graded lines — the per-line window is the
+      right UNIT for an abundance fitted over 1.89 A and has too few telluric pixels for a
+      shape test. Measuring harder was not the answer; correcting the arm was. molecfit
+      (esorex, real per-night GDAS for 2022-11-22, no standard-atmosphere fallback) ran on
+      62 segments of our own Vesta H IDPs, 0 failures. RESULT: 25 of 25 graded lines now
+      carry a verdict and NONE is a residual — 21 have no telluric in their fit window at
+      all, and where there was some it came out (16537.994: contrast 0.342 -> 0.018).
+      ⚠️ Topocentric verification only; it does not RV-condition or emit an Fe product,
+      and no CRIRES+ H Fe product is live to re-measure.
+
+  - artifact: rya1191/rya1191_graded_line_telluric.csv
+    generator: scripts/rya1191_graded_line_telluric.py
+    invocation: python3 scripts/rya1191_graded_line_telluric.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      VERIFICATION -- no correction applied, no value moved. A telluric verdict for EVERY
+      Codex/Deep graded Fe line in EVERY band, which RYA-1192 could not give because no
+      per-line artifact exists for any red-optical, NIR or CRIRES+ product. 🔴 THE LINE SET
+      IS RE-DERIVED, NOT RE-MEASURED, AND THE CONTROL IS THE POINT: the production
+      selectors (`_cand_graded`/`_cand_deep_graded`) are CALLED, never reimplemented, and
+      they reproduce all 36 existing graded artifacts EXACTLY, line for line. Each row
+      carries three facts kept apart -- whether a registered telluric band reaches the
+      line, what production DID with it (kept / quarantined / lifted), and whether the
+      flux there is corrected on the evidence. 🔴 HEADLINE: ZERO graded lines carry an
+      abundance on verified-raw flux inside a telluric band; the KP label defect never
+      reached a number. ⚠️ 14 NIR lines sit on PARTIALLY corrected flux (H2O 9280-9600,
+      +3.4 sigma against references at +30.8) and are reported, not silently dropped.
+  - artifact: rya1191/rya1191_telluric_residual.json
+    generator: scripts/rya1191_telluric_residual.py
+    invocation: python3 scripts/rya1191_telluric_residual.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Telluric residual per holding per registered band, measured against a TEMPLATE: the
+      ratio of the uncorrected Reiners+2016 IAG atlas to the corrected Baker+2020 one,
+      which IS the transmission a real correction removed. 🔴 IT RE-JUDGES TWO RYA-1192
+      VERDICTS, and both were the wrong QUESTION rather than a bad threshold. A DEPTH cut
+      cannot see a shallow band -- Kitt Peak RAW sits 1.07x its own side windows at
+      6270-6300 and the template puts it at +18 sigma. A DIFFERENCE cannot tell a line
+      removal from a CONTINUUM RESCALE -- the RYA-940 o2gamma product is corrected/raw min
+      1.0000 with ZERO pixels below 0.98, a featureless 3.6% brightening that RYA-1192
+      read as a correction. Findings: kurucz2005 is CLEAN in H2O 7160-7340 (RYA-1192 said
+      raw-like); harps is essentially UNCORRECTED at o2gamma (+12 sigma) and kpno_molecfit
+      PARTIAL there (+4.6) and in H2O 9280-9600 (+3.4). ⚠️ Sign is pre-flipped so larger
+      positive always means more residual, and the uncorrected references are in every row
+      as the positive control.
+  - artifact: rya1191/rya1191_blend_audit.csv
+    generator: scripts/rya1191_blend_audit.py
+    invocation: python3 scripts/rya1191_blend_audit.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Blend/quality check on every graded Fe line, VALIDATED against a known artifact
+      before anything else is judged: it rediscovers Fe II 4303.170 with 66 transitions in
+      window (RYA-515 counted 65, independently), top contaminant CH I, molecular share
+      0.4376. 🔴 AND IT FOUND WHY THAT LINE IS AN ARTIFACT. The VIS/red-optical synthesis
+      list is GESv6_ATOM_hfs_iso -- 141,233 rows, 206 species, NOT ONE MOLECULAR. The
+      stellar catalogue carries CH, CN, OH, C2, NH and MgH, and in the G band 4290-4315 A
+      CH is the LARGEST species present (538 rows against Fe's 109). 4303.170 was
+      synthesised against a list in which the dominant absorber does not exist, so the fit
+      had nowhere to put the CH absorption except Fe -- which is what A = 10.0 (+2.5 dex)
+      looks like, and why dropping it is curation rather than tuning (RYA-161). SEVEN
+      graded lines sit in windows where molecules carry >=20% of the catalogue absorption;
+      Fe I red-optical 8432.174 is WORSE than 4303.170 (molecular share 1.0000, all CN,
+      zero catalogued Fe in its fit window). ⚠️ Measured as a DEPTH SHARE, not a count: a
+      window can hold forty transitions that absorb nothing. ⚠️ Nothing is dropped by this
+      script; it ranks, and the dropping is a separate named decision.
+  - artifact: rya1191/rya1191_crires_h_lines.csv
+    generator: scripts/rya1191_crires_h_lines.py
+    invocation: python3 scripts/rya1191_crires_h_lines.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      The CRIRES+ H residual re-asked PER GRADED LINE instead of per 100 A window. 🔴 THE
+      UNIT WAS WRONG: an abundance is fitted over 1.89 A, so a residual 40 A away cannot
+      reach it -- and 2 of the 7 graded lines inside RYA-1192's flagged windows have NO
+      telluric within 5 A of them at all. Ryan's +2.84 sigma window (15700-15800) is
+      RESOLVED BY UNIT: it contains no graded Fe line, so the statistic cannot reach any
+      abundance. ⚠️ The per-line window buys the right unit and pays in power -- the RAW
+      IDP clears 3 sigma at only a few lines, so 13 are UNDETERMINED and must not be read
+      as clean (RYA-833). What settles the ticket is that NO CRIRES+ H Fe product is live,
+      so none of these 25 lines carries a published abundance; the 13 are a PRECONDITION
+      on any future H product.
+
   # ── RYA-1192 — is the telluric correction ACTUALLY applied? ───────────────────────
 
   - artifact: rya1192/rya1192_sirius_verification.json
@@ -58,10 +364,6 @@ artifacts:
       15631.947, 15648.510, 15682.016, 15691.853, 15692.747). ⚠️ Candidates, not a
       disqualification -- the residual is partial (~0.25 against raw frames at ~0.6), so it
       supports a per-line re-check before RYA-1094's H-arm pool carries an abundance.
-    outputs_also:
-      - rya1192/rya1192_sirius_per_line.csv
-      - rya1192/rya1192_sirius_crires_windows.csv
-      - rya1192/rya1192_sirius_graded_ir_coverage.csv
   - artifact: rya1192/rya1192_sirius_per_line.csv
     generator: scripts/rya1192_sirius_verification.py
     invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192

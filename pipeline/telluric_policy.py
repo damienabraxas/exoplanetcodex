@@ -593,6 +593,58 @@ VERIFIED_HOLDING_STATE: dict[str, str] = {
     "solar_kpno_molecfit_corrected":  "raw",        # RYA-1192: RAW on 146/146, max|diff| 0
 }
 
+#: 🔴 MEASURED per-holding PER-BAND telluric state (RYA-1191). The map above cannot hold
+#: this answer, and its own docstring asked for something it turned out not to be:
+#:
+#: RYA-1191 measured every registered telluric band against a telluric TEMPLATE -- the
+#: ratio of the uncorrected Reiners+2016 IAG atlas to the corrected Baker+2020 one, i.e.
+#: the transmission a real correction removed -- and against each band's own depth where
+#: saturation kills the template test. No holding came back with ONE state:
+#:
+#:     solar_kpno_kurucz2005_corrected  CLEAN in H2O 7160-7340 and in the O2 A-band
+#:     solar_kpno_molecfit_corrected    PARTIAL residual in O2 gamma AND H2O 9280-9600
+#:     solar_harps_molecfit_corrected   essentially UNCORRECTED in O2 gamma 6270-6300
+#:
+#: A holding is corrected in some bands and not in others, so "corrected"/"raw" per
+#: holding loses exactly the distinction a line-selection quarantine needs. The table is
+#: GENERATED from the measurement (scripts/rya1191_build_telluric_evidence.py) and CI
+#: diffs it, because a hand-kept copy of a measurement drifts and the stale side passes.
+EVIDENCE = ROOT / "data" / "catalog" / "telluric_correction_evidence.csv"
+
+
+def verified_band_state(holding_id: str, wave_A: float) -> tuple[str, str]:
+    """(state, provenance) for this holding at this wavelength, from MEASUREMENT.
+
+    `state` is one of `clean`, `partial`, `uncorrected`, `undetermined`, or `''` when no
+    band covers the wavelength or nothing has been measured there.
+
+    ⚠️ `partial` AND `undetermined` ARE BOTH REFUSALS, AND THEY ARE NOT THE SAME REFUSAL.
+    A partial correction leaves a measured residual; an undetermined band is one no test
+    had power in. Only the first is a statement about the flux (RYA-833). Neither grants
+    corrected treatment, and the caller can tell them apart because the reason is returned
+    with the state.
+    """
+    if not holding_id:
+        return "", ""
+    if "evidence" not in _catalog_cache:
+        _catalog_cache["evidence"] = (
+            pd.read_csv(EVIDENCE, comment="#") if EVIDENCE.exists()
+            else pd.DataFrame(columns=["holding_id", "band_name", "lo_A", "hi_A",
+                                       "state", "statistic", "value", "reference_value"]))
+    df = _catalog_cache["evidence"]
+    if not len(df):
+        return "", ""
+    hit = df[(df.holding_id.astype(str) == str(holding_id))
+             & (df.lo_A.astype(float) <= float(wave_A))
+             & (float(wave_A) <= df.hi_A.astype(float))]
+    if not len(hit):
+        return "", ""
+    r = hit.iloc[0]
+    return str(r.state), (
+        f"RYA-1191 measured {r.state} in {r.band_name} {r.lo_A:.0f}-{r.hi_A:.0f} A "
+        f"({r.statistic}={r.value} against uncorrected references {r.reference_value})")
+
+
 #: Returned where a holding is registered `applied` but no measurement has confirmed it.
 #: It is NOT a synonym for `line_selection` even though it excludes like one: the caller
 #: can tell "we measured this and it carries tellurics" from "nobody has checked", and
