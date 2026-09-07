@@ -111,17 +111,40 @@ def main(argv=None) -> int:
                            why=f"only {len(m)} line(s) in both pools")
                 rows.append(rec); continue
             d = m.abundance_kp - m.abundance_iag
+
+            # 🔴 THE PRODUCT AGGREGATES BY MEDIAN, AND DIFFERENCING MEANS GOT IT WRONG.
+            # Verified on every graded artifact on disk: `products.csv` A equals the
+            # MEDIAN of the in-aggregate per-line abundances EXACTLY, never the mean. On
+            # the NIR ENGINE-A pool the two are 7.581 and 7.109 — a 0.47 dex gap opened by
+            # one line (9437.793, A = 4.54) that a median ignores and a mean does not. A
+            # twin test built on means would have attributed that entirely to telluric.
+            # `stat_dex` is std/sqrt(n), read off the artifact's own `stat_basis` rather
+            # than reverse-engineered (RYA-1084).
             def stats(x):
-                return (float(np.mean(x)), float(np.std(x, ddof=1)),
+                x = np.asarray(x, float)
+                return (float(np.median(x)), float(np.std(x, ddof=1)),
                         float(np.std(x, ddof=1) / np.sqrt(len(x))))
             mk, sk, ek = stats(m.abundance_kp)
             mi, si, ei = stats(m.abundance_iag)
             rec.update(state="MEASURED",
                        A_kp=round(mk, 4), scatter_kp=round(sk, 4), sigma_stat_kp=round(ek, 4),
                        A_iag=round(mi, 4), scatter_iag=round(si, 4), sigma_stat_iag=round(ei, 4),
-                       # the OFFSET, on the matched pool only
-                       delta_A=round(float(np.mean(d)), 4),
+                       aggregation="median (matches products.csv A exactly on every "
+                                   "graded artifact checked)",
+                       # 🔴 THE GATE IS ON THE DIFFERENCE OF THE PRODUCT STATISTIC, which
+                       # is what ships and what Ryan's scan gated. `delta_A_per_line` is
+                       # reported beside it and is NOT the same number: the median of the
+                       # per-line differences says whether a TYPICAL line agrees, while
+                       # the difference of medians says whether the two POOLS sit apart.
+                       # Red-optical 1D-LTE is +0.032 on the second and +0.002 on the
+                       # first — most lines agree and the pools still differ, which is a
+                       # subset story, not a global offset. Reporting either alone would
+                       # have been a different (and wrong) diagnosis.
+                       delta_A=round(mk - mi, 4),
+                       delta_A_per_line_median=round(float(np.median(d)), 4),
+                       delta_A_per_line_mean=round(float(np.mean(d)), 4),
                        delta_A_se=round(float(np.std(d, ddof=1) / np.sqrt(len(d))), 4),
+                       n_lines_over_1dex=int((d.abs() > 1.0).sum()),
                        # the EXCESS width, over and above the width the clean twin shows
                        scatter_ratio=round(sk / si, 3) if si > 0 else None,
                        shared_scatter=round(min(sk, si), 4),
