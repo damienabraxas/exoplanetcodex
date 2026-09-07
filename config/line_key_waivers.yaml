@@ -259,3 +259,141 @@ waivers:
     ticket: RYA-1037
     reason: >-
       one-off analysis script, not on the production measurement path; reroute when next touched
+
+  # ══ RYA-1179 — EXPOSED BY MAKING THE EP TEST SCOPE-AWARE ══════════════════
+  #
+  # These 19 were INVISIBLE until RYA-1179: `_enclosing_has_ep()` asked whether an
+  # EP-like name appeared anywhere in the enclosing FunctionDef, so one unrelated `ep`
+  # silenced every wavelength-only comparison below it. The test now asks whether an EP
+  # term constrains the SAME decision. Nothing here is new code -- it is the backlog the
+  # hole was hiding, surfaced in one pass and listed for triage on RYA-1179.
+  #
+  # They are waived, not fixed, because RYA-1179 is a GUARD fix: every one of these is a
+  # live join whose repair moves matches, and "if a match changes, that is a finding, not
+  # a silent edit". Each entry says which of two classes it is:
+  #
+  #   [JOIN]    a genuine wavelength-only join between two tables -- a real defect.
+  #   [NON-JOIN] a window, a span-agreement check, a self-exclusion or one named line.
+  #             Not a table join. Kept as a waiver rather than taught to the guard on
+  #             purpose: this guard's stated preference is that "a false positive costs a
+  #             waiver line, a false negative costs another year of this defect", and
+  #             every name-based exclusion added here is a future laundering vector.
+
+  - kind: WAVE_ONLY_TOL
+    file: scripts/derive_band_products.py
+    count: 2
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] 🔴 THE LIVE FEED WRITER, and the worst of the set. `min(deltas,
+      key=lambda x: abs(x - l.wavelength_air_A))` then a 0.06 A tolerance is
+      ARGMIN_ON_WAVE wearing a lambda -- nearest-wins, which the argmin/idxmin rule
+      does not catch because the reduction is spelled `min(..., key=...)`. Two sites,
+      1792 and 2362. Repairing it moves per-line deltas in the published products.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/build_si_intake_rya1169.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] 🔴 Joins lab rows to AGSS21 reference rows on species + 0.03 A and NO EP,
+      then reads `refs[0]` -- first-hit-in-file-order over a set the key cannot separate.
+      This is the RYA-1034 defect in a 2026 intake script, which is what the guard existed
+      to prevent.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya1009_al_gf_pool_rebuild.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] `next((v for k, v in HOLD.items() if abs(k - wavelength) < 0.01), None)`
+      selects a held gf by wavelength alone and writes it into canonical_gf.
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/curate_nonfe_pools.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] argmin over |wavelength difference| then a 0.05 A gate, no EP. Same file
+      already carries a waived ARGMIN_ON_WAVE under RYA-1036; this is its tolerance half.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya1051_gradient_mechanism.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] 🔴 THE EXEMPLAR OF THE HOLE. argmin + 0.05 A with no EP in the join -- and
+      the very next line reads `r.ep` to build the output tuple. An EP that is REPORTED
+      rather than CONSTRAINING is exactly what the function-scoped test could not tell
+      apart, and it silenced this site for as long as the guard has existed.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya1042_mean3d_gate.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] pairs our lines to the Amarsi anchor set on |dlambda| <= MATCH_TOL_A alone.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/measure_cu_v_hfs_synthesis_rya466.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] species + 0.02 A, first match wins, no EP.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya565_eu2_synth_sirius.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] fallback scan over the canonical dict on |dlambda| < 0.01 when the rounded
+      key misses -- the RYA-1033 rounded-key defect and its lambda-only fallback together.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/solar_cno_redo_rya485.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] selects an NLTE delta from the grid on |dlambda| < 0.1 A + teff, no EP.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/build_al_intake_rya1132.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [JOIN] the Al sibling RYA-1141 predicted. Membership against the hardcoded
+      VUJ_PROMOTE_A list at 0.5 mA decides `promotable`. A curated allow-list rather than
+      a table join, and the tolerance is very tight -- but it is still wavelength alone
+      gating a gf promotion, so it is listed rather than excused.
+
+  # ── [NON-JOIN] — surfaced by the same change; not table joins ──
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/coverage.py
+    count: 2
+    ticket: RYA-1179
+    reason: >-
+      [NON-JOIN] compares an instrument's DECLARED span endpoints (wave_min_A/wave_max_A)
+      with the measured ones -- a catalogue-agreement check between two statements about
+      one instrument. A span extremum is a band edge, not a line.
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/kp_atlas_integrity.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [NON-JOIN] checks a segment file's first wavelength against its own FILENAME stem.
+      File-integrity check; the right-hand operand is metadata, not a line.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya684_isotope_gf_audit.py
+    count: 2
+    ticket: RYA-1179
+    reason: >-
+      [NON-JOIN] `abs(r["wave"] - centre) <= hw` collects a blend WINDOW around a centre
+      and sums line strengths in it. Selecting a window, not identifying a line -- the
+      class the audit's docstring already excludes for `w >= lo` / `w <= hi`, written in
+      centre/half-width form.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya346_fe2_core_absorber_diag.py
+    count: 2
+    ticket: RYA-1179
+    reason: >-
+      [NON-JOIN] identifies THE TARGET ITSELF to `continue` past it while collecting blend
+      candidates, and a 1e-3 A self-lookup. Self-exclusion, not a join.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya706_al_deblend_sirius.py
+    count: 1
+    ticket: RYA-1179
+    reason: >-
+      [NON-JOIN] `abs(wavelength_air_A - LINE) < 0.02` where LINE = 6696.023 is a
+      module constant naming ONE known Al I line. Exactly the "names one known line for a
+      self-check" class the audit already excludes -- missed only because the exclusion
+      tests for an ast.Constant and this is a Name bound to one.
