@@ -88,7 +88,8 @@ def _lines(prefix: str, holding: str, treat: str) -> pd.DataFrame | None:
     d = pd.read_csv(hits[0])
     if "in_aggregate" in d:
         d = d[d.in_aggregate.astype(str).str.lower().isin(["true", "1"])]
-    d = d[["wavelength_air_A", "abundance"]].dropna()
+    cols = ["wavelength_air_A", "abundance"] + (["ep_eV"] if "ep_eV" in d else [])
+    d = d[cols].dropna(subset=["wavelength_air_A", "abundance"])
     # 🔴 GUARD FIRST, THEN ASSESS TELLURIC — Ryan, 2026-09-07 20:01. A non-convergent fit
     # in either pool contaminates BOTH the offset and the width, and it was one such line
     # that produced the phantom "sigma 0.497, 6.9x IAG, therefore uncorrected telluric".
@@ -121,7 +122,22 @@ def main(argv=None) -> int:
                            why=f"kp={'yes' if k is not None else 'NO'} "
                                f"iag={'yes' if i is not None else 'NO'}")
                 rows.append(rec); continue
-            m = pd.merge(k, i, on="wavelength_air_A", suffixes=("_kp", "_iag"))
+            # 🔴 THE KEY IS (WAVELENGTH, EP), NOT WAVELENGTH — RYA-1033/1037. A
+            # wavelength-only join is degenerate wherever two transitions share a
+            # wavelength and differ in excitation potential, and `round()` is not even a
+            # function of the value across libraries (6136.615 -> 6136.61 in Python,
+            # 6136.62 in pandas). Both per-line artifacts carry `ep_eV`, so the proper key
+            # is available and there is no reason to join on half of it.
+            #
+            # ⚠️ Here the two sides come from the SAME `_cand_graded` selection, so a
+            # wavelength-only join would in fact have been exact — which is precisely the
+            # kind of "safe today" that stops being safe when someone reuses the helper.
+            _on = ["wavelength_air_A"] + (["ep_eV"] if "ep_eV" in k and "ep_eV" in i
+                                          else [])
+            m = pd.merge(k, i, on=_on, suffixes=("_kp", "_iag"), validate="one_to_one")
+            if len(_on) == 1:
+                rec["key_note"] = ("⚠️ joined on wavelength ALONE — one side carries no "
+                                   "ep_eV, so the key is degenerate (RYA-1033)")
             rec["n_kp"], rec["n_iag"], rec["n_matched"] = len(k), len(i), len(m)
             rec["n_dropped_kp"] = _DROPPED.get((prefix, kp_hold, treat), 0)
             rec["n_dropped_iag"] = _DROPPED.get((prefix, iag_hold, treat), 0)

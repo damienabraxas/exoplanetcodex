@@ -34,6 +34,78 @@
 
 artifacts:
   # ── RYA-1191 — the telluric CLOSE for Fe: verified at every graded line ───────────
+  - artifact: rya1191/rya1191_validity_dropped_lines.csv
+    generator: scripts/rya1191_validity_impact.py
+    invocation: python3 scripts/rya1191_validity_impact.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_validity_impact.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_twin_per_line.csv
+    generator: scripts/rya1191_twin_compare.py
+    invocation: python3 scripts/rya1191_twin_compare.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_twin_compare.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_verified.csv
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_correction.json
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_correction_plan.json
+    generator: scripts/rya1191_crires_h_correct.py
+    invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_verified.json`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_graded_line_telluric.json
+    generator: scripts/rya1191_graded_line_telluric.py
+    invocation: python3 scripts/rya1191_graded_line_telluric.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_graded_line_telluric.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_blend_audit.json
+    generator: scripts/rya1191_blend_audit.py
+    invocation: python3 scripts/rya1191_blend_audit.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_blend_audit.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
+  - artifact: rya1191/rya1191_crires_h_lines.json
+    generator: scripts/rya1191_crires_h_lines.py
+    invocation: python3 scripts/rya1191_crires_h_lines.py --out-dir data/results/rya1191
+    ticket: RYA-1191
+    note: >-
+      Companion artifact of `rya1191/rya1191_crires_h_lines.csv`, written by the same run — see that entry for the
+      finding. It has its own row because RYA-686 requires a generator per FILE, not per
+      run, and an `outputs_also:` list is invisible to that guard (which is how eight
+      RYA-1191 artifacts landed unregistered on the first push).
   - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
     generator: scripts/derive_band_products.py
     invocation: >-
@@ -167,8 +239,6 @@ artifacts:
       two of the blend audit's molecular-blend lines (4286.863, 8432.174). ⚠️ THE MOVE IS
       NOT UNIFORMLY SMALL: graded Fe I medians shift <= 0.021 dex, but the 3-line Fe II VIS
       ENGINE-A pool moves 0.130 dex and is left at n = 2, the RYA-1031 floor.
-    outputs_also:
-      - rya1191/rya1191_validity_dropped_lines.csv
   - artifact: rya1191/rya1191_twin_compare.json
     generator: scripts/rya1191_twin_compare.py
     invocation: python3 scripts/rya1191_twin_compare.py --out-dir data/results/rya1191
@@ -182,8 +252,6 @@ artifacts:
       opened a 0.47 dex gap that one line owns; and `sigma_stat` is the scatter over
       sqrt(n), so comparing it against a raw scatter manufactures a 5-8x discrepancy
       (RYA-1084). Only the intersection of the two pools is differenced.
-    outputs_also:
-      - rya1191/rya1191_twin_per_line.csv
   - artifact: rya1191/rya1191_crires_h_verified.json
     generator: scripts/rya1191_crires_h_correct.py
     invocation: python3 scripts/rya1191_crires_h_correct.py --run && python3 scripts/rya1191_crires_h_correct.py --verify
@@ -199,10 +267,6 @@ artifacts:
       all, and where there was some it came out (16537.994: contrast 0.342 -> 0.018).
       ⚠️ Topocentric verification only; it does not RV-condition or emit an Fe product,
       and no CRIRES+ H Fe product is live to re-measure.
-    outputs_also:
-      - rya1191/rya1191_crires_h_verified.csv
-      - rya1191/rya1191_crires_h_correction.json
-      - rya1191/rya1191_crires_h_correction_plan.json
 
   - artifact: rya1191/rya1191_graded_line_telluric.csv
     generator: scripts/rya1191_graded_line_telluric.py
@@ -221,8 +285,6 @@ artifacts:
       abundance on verified-raw flux inside a telluric band; the KP label defect never
       reached a number. ⚠️ 14 NIR lines sit on PARTIALLY corrected flux (H2O 9280-9600,
       +3.4 sigma against references at +30.8) and are reported, not silently dropped.
-    outputs_also:
-      - rya1191/rya1191_graded_line_telluric.json
   - artifact: rya1191/rya1191_telluric_residual.json
     generator: scripts/rya1191_telluric_residual.py
     invocation: python3 scripts/rya1191_telluric_residual.py --out-dir data/results/rya1191
@@ -261,8 +323,6 @@ artifacts:
       zero catalogued Fe in its fit window). ⚠️ Measured as a DEPTH SHARE, not a count: a
       window can hold forty transitions that absorb nothing. ⚠️ Nothing is dropped by this
       script; it ranks, and the dropping is a separate named decision.
-    outputs_also:
-      - rya1191/rya1191_blend_audit.json
   - artifact: rya1191/rya1191_crires_h_lines.csv
     generator: scripts/rya1191_crires_h_lines.py
     invocation: python3 scripts/rya1191_crires_h_lines.py --out-dir data/results/rya1191
@@ -278,8 +338,6 @@ artifacts:
       as clean (RYA-833). What settles the ticket is that NO CRIRES+ H Fe product is live,
       so none of these 25 lines carries a published abundance; the 13 are a PRECONDITION
       on any future H product.
-    outputs_also:
-      - rya1191/rya1191_crires_h_lines.json
 
   # ── RYA-1192 — is the telluric correction ACTUALLY applied? ───────────────────────
 
@@ -306,10 +364,6 @@ artifacts:
       15631.947, 15648.510, 15682.016, 15691.853, 15692.747). ⚠️ Candidates, not a
       disqualification -- the residual is partial (~0.25 against raw frames at ~0.6), so it
       supports a per-line re-check before RYA-1094's H-arm pool carries an abundance.
-    outputs_also:
-      - rya1192/rya1192_sirius_per_line.csv
-      - rya1192/rya1192_sirius_crires_windows.csv
-      - rya1192/rya1192_sirius_graded_ir_coverage.csv
   - artifact: rya1192/rya1192_sirius_per_line.csv
     generator: scripts/rya1192_sirius_verification.py
     invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192
