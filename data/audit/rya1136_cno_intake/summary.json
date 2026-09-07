@@ -15,9 +15,11 @@
     "IR": 241,
     "NIR": 122
   },
-  "canonical_matched": 0,
-  "crossmatch_review": 408,
+  "canonical_matched": 364,
+  "crossmatch_review": 44,
   "frozen_ready": false,
-  "verdict": "CROSSMATCH_REVIEW",
-  "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity"
+  "verdict": "INTAKE_COMPLETE_REVIEW_REQUIRED",
+  "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity",
+  "reconciled_with": "intake_verdict.json (RYA-1150)",
+  "verdict_label_note": "INTAKE_COMPLETE_REVIEW_REQUIRED, not BLOCKED_MOLECULAR_DATA. The census is complete (intake_census_complete=true); what is withheld is frozen_ready_for_measurement, on the blocking_findings listed in intake_verdict.json. Both artifacts take this string from one writer."
 }
