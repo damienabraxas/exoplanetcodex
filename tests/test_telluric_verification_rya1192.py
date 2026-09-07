@@ -197,17 +197,28 @@ def test_the_audit_reaches_past_10796_where_the_graded_IR_lines_are(doc):
 
 
 def test_the_policy_declares_no_telluric_band_where_the_IR_graded_lines_live(doc):
-    """🔴 `telluric_policy.TELLURIC_BANDS` stops at 11560 A while CRIRES+ reaches 53000.
-    `in_telluric_band()` therefore answers FALSE for all 29 graded Fe lines past 1 micron
-    — and FALSE reads as "clean", not as "no band declared here". The H window is
-    bracketed by the 1.38 and 1.9 micron H2O bands with CO2 and CH4 inside it."""
+    """🔴 THE FINDING AS MEASURED, AND IT HAS SINCE BEEN FIXED — both halves matter.
+
+    RYA-1192 measured: `TELLURIC_BANDS` stopped at 11560 A while CRIRES+ reaches 53000, so
+    `in_telluric_band()` answered FALSE for all 29 graded Fe lines past 1 micron, and FALSE
+    reads as "clean" rather than "no band declared here".
+
+    RYA-1193 closed it by enumerating the H-band CO2 and 1.9 um H2O windows. The ARTIFACT
+    is a historical measurement and still records 11560 — it is not regenerated, because a
+    diagnostic that rewrites itself when the defect is fixed destroys the evidence the fix
+    was needed. So this asserts the artifact's record AND the live policy's repair, and the
+    two are deliberately different."""
     r = doc["telluric_policy_reach"]
-    assert r["TELLURIC_BANDS_max_A"] == 11560.0
+    assert r["TELLURIC_BANDS_max_A"] == 11560.0, "the recorded measurement changed"
     assert r["crires_plus_instrument_reach_A"][1] >= 50000.0
-    assert r["of_those_in_a_declared_telluric_band"] == 0, (
-        "the policy now declares a band out there — re-read this finding rather than "
-        "carrying it")
+    assert r["of_those_in_a_declared_telluric_band"] == 0
     assert "FALSE reads as 'clean'" in r["finding"]
+
+    # ...and the live policy no longer has the hole the artifact recorded (RYA-1193)
+    from pipeline.telluric_policy import TELLURIC_BANDS, in_telluric_band
+    assert max(hi for _lo, hi, _n in TELLURIC_BANDS) > 17000.0, (
+        "the H-band entries RYA-1193 added are gone; the FALSE-reads-as-clean hole is back")
+    assert in_telluric_band(16050.0), "the CO2 window is no longer declared"
 
 
 def test_most_graded_IR_lines_are_not_served_by_any_crires_arm(doc):
