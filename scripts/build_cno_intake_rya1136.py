@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import os
+import re
 import functools
 import bisect
 import hashlib
@@ -107,9 +108,16 @@ def molecular_crossmatch() -> list[dict]:
             "wavelength_vac_nm": row["wavelength_vac_nm"],
             "lower_energy_eV": row["lower_energy_eV"], "published_loggf": row["published_loggf"],
             "source_band": row["source_band"], "join_status": status,
+            # 🔴 RYA-1181 (A3). `system` and the VIBRATIONAL band are published by the
+            # source and were parsed into primary_molecular_crossmatch, then dropped in
+            # the merge to here -- the artifact everything downstream actually reads.
+            # `source_band` is the REPORTING bin (VIS/NIR/IR); it is not the band.
+            "system": row.get("system", ""),
+            "vibrational_band": row.get("band", ""),
             "candidate_count": len(matches), "matched_file": str(match[3]) if match else "",
             "matched_line": match[4] if match else "", "raw_transition_label": match[5] if match else "",
             "identity_basis": "wavelength+lower_energy+loggf" if match else "",
+            **split_transition_label(species, str(match[5]) if match else ""),
             # 🔴 RYA-1180: a match is only as good as what it matched AGAINST, and that was
             # nowhere on the row. Derived from the matched file's PATH, not hardcoded per
             # species, so a future source is graded by where it actually came from.
@@ -129,6 +137,11 @@ def molecular_crossmatch() -> list[dict]:
             row["raw_transition_label"] = match["transition_labels"]
             row["identity_basis"] = "wavenumber+band+lower_energy+gf"
             row["source_provenance_grade"] = provenance_grade(match["primary_source"])
+            # RYA-1181: the primary side publishes these and this merge used to discard them.
+            row["system"] = match.get("system", row.get("system", ""))
+            row["vibrational_band"] = match.get("band", row.get("vibrational_band", ""))
+            row["primary_j_lower"] = match.get("primary_j_lower", "")
+            row.update(split_transition_label(row["species"], match["transition_labels"]))
             row["ambiguity_note"] = (
                 "" if match["join_status"] in {"PRIMARY_TUPLE_MATCH", "PRIMARY_UNRESOLVED_SUM_MATCH"}
                 else match["join_status"]
@@ -226,6 +239,44 @@ def _recorded_sha(source_id: str) -> str:
             if row.get("source_id") == source_id:
                 return (row.get("sha256") or "").strip()
     return ""
+
+
+def split_transition_label(species: str, label: str) -> dict:
+    """🔴 RYA-1181 (A3) — a label column that is an UNSPLIT REMAINDER is not identity.
+
+    Two of the intake's "transition label" columns were whatever the parser had left over:
+
+      CO  the tail of the Turbospectrum record --
+          "0.000 199.0 2.41E+01 'X' 'X' 99.0 98.0 'X' 'X' 0.0 0.0 'v1-0_J99-98_Li2015'"
+          which carries J', J'', v' and v'' inside a string nothing can join on.
+      CH  branch and the observed-minus-calculated residual glued together, "R  0.00274".
+
+    Both are split into named columns here. Fields absent for a species stay EMPTY rather
+    than being invented -- an absent field and a fabricated one must never look alike.
+    """
+    out = {"branch": "", "o_minus_c": "", "j_upper": "", "j_lower_label": "",
+           "v_upper": "", "v_lower": ""}
+    lab = (label or "").strip()
+    if not lab:
+        return out
+    first = lab.split(";")[0].strip()
+    if species == "12C16O":
+        # the Li2015 tag is the only self-describing part: 'v1-0_J99-98_Li2015'
+        m = re.search(r"'v(\d+)-(\d+)_J(\d+)-(\d+)_", first)
+        if m:
+            out["v_upper"], out["v_lower"] = m.group(1), m.group(2)
+            out["j_upper"], out["j_lower_label"] = m.group(3), m.group(4)
+        return out
+    parts = first.split()
+    if parts and re.fullmatch(r"[A-Za-z]{1,3}\d*", parts[0]):
+        out["branch"] = parts[0]
+        if len(parts) > 1:
+            try:
+                float(parts[1])
+                out["o_minus_c"] = parts[1]
+            except ValueError:
+                pass
+    return out
 
 
 def provenance_grade(matched_file: str) -> str:
@@ -416,12 +467,41 @@ def main() -> None:
     write_csv(AUDIT / "conflict_ledger.csv", conflict, tuple(conflict[0]))
 
     rejected = [
-        {"species":"CN","system":"A-X red","band":"14 bands beyond (0-0)","count":"463","wavelength_region":"red/NIR","use_status":"REJECTED","reason":"automatic legacy equivalent widths produced two-to-three-times larger dispersion","evidence":"Amarsi2021 Sect. 2.1 lines 150-160"},
-        {"species":"NH","system":"A-X","band":"unspecified","count":"NOT_PUBLISHED","wavelength_region":"near-UV around 340 nm","use_status":"REJECTED","reason":"crowding and continuum/blend limitations; individual list not published","evidence":"Amarsi2021 Sect. 2.1 lines 161-165"},
-        {"species":"OH","system":"A-X","band":"unspecified","count":"NOT_PUBLISHED","wavelength_region":"near-UV around 320 nm","use_status":"REJECTED","reason":"crowding and continuum/blend limitations; individual list not published","evidence":"Amarsi2021 Sect. 2.1 lines 161-165"},
-        {"species":"CN","system":"B-X","band":"unspecified","count":"NOT_PUBLISHED","wavelength_region":"near-UV around 390 nm","use_status":"REJECTED","reason":"crowding and continuum/blend limitations; individual list not published","evidence":"Amarsi2021 Sect. 2.1 lines 161-165"},
+        {"species":"CN","system":"A-X red","band":"14 bands beyond (0-0)","count":"463","wavelength_region":"red/NIR","use_status":"REJECTED","reason":"automatic legacy equivalent widths produced two-to-three-times larger dispersion","evidence":"Amarsi2021 Sect. 2.1 lines 150-160","transitions_held_at":"","held_count_basis":""},
+        {"species":"NH","system":"A-X","band":"unspecified","count":"6653","wavelength_region":"near-UV around 340 nm","use_status":"NOT_SELECTED_BY_SOURCE","reason":"Amarsi rejected these for crowding and continuum/blend limitations and did not publish WHICH lines were used. The SELECTION is unpublished; the TRANSITIONS are held in this repo and are counted here (RYA-1181/RYA-1142 A9).","evidence":"Amarsi2021 Sect. 2.1 lines 161-165","transitions_held_at":"data/reference/cno_molecular_primary/nh_brooke2014/NH-A-X-linelist.csv","held_count_basis":"RYA-1181 measured, near-UV 2000-4000 A"},
+        {"species":"OH","system":"A-X","band":"unspecified","count":"5400","wavelength_region":"near-UV around 320 nm","use_status":"NOT_SELECTED_BY_SOURCE","reason":"Amarsi rejected these for crowding and continuum/blend limitations and did not publish WHICH lines were used. The SELECTION is unpublished; the TRANSITIONS are held in this repo and are counted here (RYA-1181/RYA-1142 A9).","evidence":"Amarsi2021 Sect. 2.1 lines 161-165","transitions_held_at":"data/reference/cno_molecular_primary/oh_brooke2016/OH-A-X-linelist-final.csv","held_count_basis":"RYA-1181 measured, near-UV 2000-4000 A"},
+        {"species":"CN","system":"B-X","band":"unspecified","count":"45786","wavelength_region":"near-UV around 390 nm","use_status":"NOT_SELECTED_BY_SOURCE","reason":"Amarsi rejected these for crowding and continuum/blend limitations and did not publish WHICH lines were used. The SELECTION is unpublished; the TRANSITIONS are held in this repo and are counted here (RYA-1181/RYA-1142 A9).","evidence":"Amarsi2021 Sect. 2.1 lines 161-165","transitions_held_at":"data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz","held_count_basis":"RYA-1181 measured, near-UV 2000-4000 A"},
     ]
     write_csv(AUDIT / "rejected_indicator_ledger.csv", rejected, tuple(rejected[0]))
+
+    # 🔴 RYA-1181 (A9 / scope truth). RYA-1131 is titled "across FUV/NUV/IR" and RYA-1136
+    # "UV-IR". The DELIVERED inventory is neither: both domains match ZERO rows in FUV and
+    # ZERO in NUV, and the atomic census does not reach below 5052 A at all. Empty bins in
+    # a coverage matrix read as "looked and found nothing"; here nothing was looked at.
+    # Stated as its own record so the claim and the delivery can be compared without
+    # reading two ticket titles. (`intake_verdict.json` is RYA-1183's to correct.)
+    mol = list(csv.DictReader((AUDIT / "molecular_physical_crossmatch.csv").open()))
+    atm = list(csv.DictReader((AUDIT / "atomic_source_census.csv").open()))
+    mol_A = [float(r["wavelength_vac_nm"]) * 10 for r in mol]
+    atm_A = [float(r["wavelength_air_A"]) for r in atm if r.get("wavelength_air_A", "").strip()]
+    (AUDIT / "delivered_scope_rya1181.json").write_text(json.dumps({
+        "ticket": "RYA-1181",
+        "claimed_by_ticket_titles": "RYA-1131 'across FUV/NUV/IR'; RYA-1136 'UV-IR'",
+        "delivered": "VIS to IR",
+        "atomic_span_A": [round(min(atm_A), 1), round(max(atm_A), 1)],
+        "molecular_span_A": [round(min(mol_A), 1), round(max(mol_A), 1)],
+        "matched_rows_by_band": {
+            "atomic": dict(Counter(r["source_band"] for r in atm)),
+            "molecular": dict(Counter(r["source_band"] for r in mol)),
+        },
+        "fuv_matched": 0, "nuv_matched": 0,
+        "why_the_uv_bins_are_empty": (
+            "Not a null result. Amarsi's UV SELECTION is unpublished, so no UV row enters "
+            "Table 2 and nothing is matched there. The UV TRANSITIONS are held in this "
+            "repo and are counted in rejected_indicator_ledger.csv and "
+            "held_uv_transitions_rya1181.csv (RYA-1181 A9). UV is a FOLLOW-ON, not a gap "
+            "that was searched and came up empty."),
+    }, indent=2) + "\n")
 
     mol_status = Counter(r["join_status"] for r in molecular)
     atom_status = Counter(r["join_status"] for r in atomic)
