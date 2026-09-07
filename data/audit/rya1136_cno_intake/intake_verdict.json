@@ -18,11 +18,12 @@
     }
   },
   "atomic": {
-    "source_rows": 48,
+    "source_rows": 49,
     "join_status": {
       "AMBIGUOUS": 1,
       "PHYSICAL_TUPLE_MATCH": 26,
-      "ABSENT": 21
+      "ABSENT": 21,
+      "CARRIED_AS_BLEND_COMPONENT": 1
     }
   },
   "blocking_findings": [
@@ -34,5 +35,27 @@
     "All 80 CO PHYSICAL_TUPLE_MATCH rows resolve against an ExoMol->Turbospectrum conversion whose converter is not in this repo; the Li 2015 primary was never acquired",
     "Titled UV-IR but delivered VIS-IR: zero FUV and zero NUV rows in both domains, and the NH A-X / OH A-X / CN B-X ultraviolet transitions are acquired but unread"
   ],
-  "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted (RYA-1143: the N I five-line join is EP-aware as of this build, and the canonical readback is reported in codex_* columns rather than as published_*)"
+  "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted (RYA-1143: the N I five-line join is EP-aware as of this build, and the canonical readback is reported in codex_* columns rather than as published_*)",
+  "blocker_disposition": {
+    "sum_matches_fitted_not_identified": {
+      "addressed_by": "RYA-1150",
+      "state": "RESOLVED_IN_ACCOUNTING",
+      "detail": "The 26 ambiguous sum-matches are excluded from accepted coverage; they are reported, not counted."
+    },
+    "exomol_co_redistribution": {
+      "addressed_by": "RYA-1180",
+      "state": "STILL_BLOCKING",
+      "detail": "Now labelled a redistribution and graded on all 80 rows (source_provenance_grade=REDISTRIBUTION_VENDORED_SYNTHESIS_LIST), but no Li 2015 primary table has been acquired. The intake's only clean-match class still rests on a twice-derived list."
+    },
+    "n_i_wavelength_only_admission": {
+      "addressed_by": "RYA-1143, confirmed by RYA-1179",
+      "state": "RESOLVED",
+      "detail": "The N I join is EP-aware (nearest_canonical gates on wavelength <=0.03 A AND EP <=0.002 eV in one conjunction). RYA-1179's scope-aware guard does not flag it, so the safety line's 'no wavelength-only join admitted' is now TRUE rather than aspirational."
+    },
+    "uv_scope": {
+      "addressed_by": "RYA-1181",
+      "state": "STILL_BLOCKING",
+      "detail": "Scope now stated as VIS-to-IR and ~105,858 held UV transitions are counted, but zero FUV/NUV rows are delivered and the held UV is staged rather than matched."
+    }
+  }
 }

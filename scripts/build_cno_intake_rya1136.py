@@ -318,6 +318,53 @@ def barklem_adopted_de(path: Path) -> dict[str, tuple[str, str]]:
     return out
 
 
+#: 🔴 RYA-1183 (RYA-1142 A6b) — THE Ni I BLEND AT [O I] 6300 IS A PHYSICAL COMPONENT.
+#:
+#: [O I] 6300.30 is the single most-used solar oxygen diagnostic and it is NOT usable
+#: alone: Ni I 6300.34 sits inside it. `pipeline.cno_synthesis` already treats the feature
+#: as `kind='forbidden_blend'` requiring a joint synthesis with A(Ni) pinned -- but the
+#: atomic census had no blend column and no Ni I row, so the best-known contaminant of the
+#: diagnostic was retained NOWHERE in the intake. A census that lists the [O I] line and
+#: not its blend partner describes a line that does not exist in isolation.
+#:
+#: Every value here is read from our own store (canonical_gf line gf_101075), not typed
+#: from memory, and the row is marked BLEND_COMPONENT so it can never be mistaken for an
+#: AGSS21 source line.
+NI_6300_BLEND_ROW = {
+    "reference_line_set": "JohanssonEtAl2003_ApJ584_L107",
+    "use_status": "BLEND_COMPONENT_NOT_A_SOURCE_LINE", "element": "Ni",
+    "species": "Ni I", "line_label": "6300.34A",
+    "wavelength_air_A": "6300.342", "wavelength_vac_A": "",
+    "lower_EP_eV": "4.2660000", "published_loggf": "-2.110",
+    "source_band": "RED_OPTICAL",
+    "gf_source": "Johansson, Litzen, Lundberg & Zhang 2003, ApJ 584, L107 "
+                 "(arXiv:astro-ph/0301382)",
+    "gf_source_type": "PRIMARY_LABORATORY_BLEND_PARTNER",
+    "canonical_line_id": "gf_101075", "join_status": "CARRIED_AS_BLEND_COMPONENT",
+    "codex_gf_tier": "OTHER", "codex_loggf": "-2.11", "codex_EP_eV": "4.266",
+    "ambiguity_note": ("Not an AGSS21 adopted line. Retained because [O I] 6300.300 cannot "
+                       "be measured without it -- pipeline.cno_synthesis registers the "
+                       "feature as kind='forbidden_blend', '[O I] 6300.30 + Ni I 6300.34 "
+                       "joint synthesis (A(Ni) pinned)'. RYA-1183 / RYA-1142 A6b."),
+    "blend_role": "CONTAMINANT_COMPONENT",
+    "blend_partner_A": "6300.300",
+    "blend_note": "Ni I 6300.34 contaminates [O I] 6300.30; joint synthesis required.",
+}
+
+
+def blend_fields(element: str, wavelength_A: float) -> dict:
+    """Blend/component columns. Only [O I] 6300 is populated, because it is the only
+    feature in this census the pipeline registers as a blend -- an empty column here means
+    'no blend recorded', never 'checked and clean'."""
+    if element == "O" and abs(float(wavelength_A) - 6300.30) <= 0.05:
+        return {"blend_role": "PRIMARY_DIAGNOSTIC_IN_A_BLEND",
+                "blend_partner_A": "6300.342",
+                "blend_note": ("Ni I 6300.34 sits inside this feature; "
+                               "pipeline.cno_synthesis requires a joint synthesis with "
+                               "A(Ni) pinned. Component carried in this census (RYA-1183).")}
+    return {"blend_role": "", "blend_partner_A": "", "blend_note": ""}
+
+
 def atomic_census() -> list[dict]:
     rows = []
     for raw in ATOMIC.read_text().splitlines():
@@ -339,6 +386,7 @@ def atomic_census() -> list[dict]:
             "join_status": join, "codex_gf_tier": tier,
             "codex_loggf": "", "codex_EP_eV": "",
             "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+            **blend_fields(element, air_nm * 10),
         })
     # Amarsi et al. 2020 Table 1: the complete five-line solar N I selection adopted by
     # AGSS21 (air wavelengths in Angstrom), with the PUBLISHED excitation potential so
@@ -374,7 +422,9 @@ def atomic_census() -> list[dict]:
                                "EP-aware join (RYA-1143). published_loggf is EMPTY because "
                                "the source value has not been transcribed -- the codex_* "
                                "columns are OUR store, not the paper's."),
+            **blend_fields("N", wavelength),
         })
+    rows.append(NI_6300_BLEND_ROW)
     return rows
 
 
@@ -540,7 +590,92 @@ def main() -> None:
                   "canonical readback is reported in codex_* columns rather than as "
                   "published_*)"),
     }
+    # 🔴 RYA-1183 B3(2) — A BLOCKER THAT HAS BEEN WORKED ON IS NOT A BLOCKER THAT IS GONE.
+    #
+    # RYA-1179/1180/1181 have all landed since these findings were written, and it would be
+    # easy to read that as "resolved" and drop them. Two of the three are NOT resolved:
+    # those tickets made the defect VISIBLE and RECORDED, which is a different thing from
+    # removing the condition that blocks the freeze. Each blocker now carries its
+    # disposition so the distinction survives the next reader.
+    verdict["blocker_disposition"] = {
+        "sum_matches_fitted_not_identified": {
+            "addressed_by": "RYA-1150",
+            "state": "RESOLVED_IN_ACCOUNTING",
+            "detail": "The 26 ambiguous sum-matches are excluded from accepted coverage; "
+                      "they are reported, not counted.",
+        },
+        "exomol_co_redistribution": {
+            "addressed_by": "RYA-1180",
+            "state": "STILL_BLOCKING",
+            "detail": "Now labelled a redistribution and graded on all 80 rows "
+                      "(source_provenance_grade=REDISTRIBUTION_VENDORED_SYNTHESIS_LIST), "
+                      "but no Li 2015 primary table has been acquired. The intake's only "
+                      "clean-match class still rests on a twice-derived list.",
+        },
+        "n_i_wavelength_only_admission": {
+            "addressed_by": "RYA-1143, confirmed by RYA-1179",
+            "state": "RESOLVED",
+            "detail": "The N I join is EP-aware (nearest_canonical gates on wavelength "
+                      "<=0.03 A AND EP <=0.002 eV in one conjunction). RYA-1179's "
+                      "scope-aware guard does not flag it, so the safety line's "
+                      "'no wavelength-only join admitted' is now TRUE rather than "
+                      "aspirational.",
+        },
+        "uv_scope": {
+            "addressed_by": "RYA-1181",
+            "state": "STILL_BLOCKING",
+            "detail": "Scope now stated as VIS-to-IR and ~105,858 held UV transitions are "
+                      "counted, but zero FUV/NUV rows are delivered and the held UV is "
+                      "staged rather than matched.",
+        },
+    }
     (AUDIT / "intake_verdict.json").write_text(json.dumps(verdict, indent=2)+"\n")
+
+    # 🔴 RYA-1183 (RYA-1142 A6b-1) — AN EMPTY BIN IS NOT A FINDING UNTIL IT SAYS WHY.
+    #
+    # The atomic census is neutrals only, and nothing recorded whether that is the SOURCE's
+    # shape or ours. Measured from the raw table rather than asserted, and the two causes
+    # turn out to be different:
+    #
+    #   C II / N II / O II   ABSENT FROM THE SOURCE. table1.dat carries only CI, OI and
+    #                        FeII species codes -- there is no ionised CNO to admit, so
+    #                        this is not a filter and no ionised row may be fabricated.
+    #   Fe II                PRESENT IN THE SOURCE AND DELIBERATELY EXCLUDED. 142 Fe II
+    #                        rows sit in table1.dat and `atomic_census` drops them
+    #                        (`if species not in {"CI","OI"}`). That IS a filter, and it is
+    #                        recorded as one rather than left looking like an absence.
+    #   N I                  NOT FROM THIS SOURCE AT ALL. table1.dat has no N; the five
+    #                        N I rows come from Amarsi et al. 2020 Table 1.
+    import collections as _c
+    _raw = _c.Counter(l[0:4].strip() for l in ATOMIC.read_text().splitlines() if l[0:4].strip())
+    (AUDIT / "atomic_census_scope_rya1183.json").write_text(json.dumps({
+        "ticket": "RYA-1183",
+        "scope": "NEUTRALS ONLY",
+        "species_codes_present_in_source": dict(sorted(_raw.items())),
+        "source_file": str(ATOMIC.relative_to(ROOT)),
+        "ionised_cno": {
+            "present_in_census": 0,
+            "cause": "ABSENT_FROM_SOURCE",
+            "statement": ("Amarsi 2019 Table 1 contains no C II / N II / O II — its only "
+                          "species codes are CI, OI and FeII. The empty ionised-CNO bins "
+                          "are the source's shape, NOT a filter we applied, and no "
+                          "ionised row is fabricated to fill them."),
+        },
+        "fe_ii": {
+            "present_in_source": _raw.get("FeII", 0),
+            "present_in_census": 0,
+            "cause": "EXCLUDED_BY_THIS_BUILDER",
+            "statement": ("Fe II IS in the source and is deliberately dropped by "
+                          "atomic_census() because this is a CNO intake. Recorded so an "
+                          "absence-by-filter is never read as an absence-by-source."),
+        },
+        "n_i": {
+            "present_in_census": 5,
+            "cause": "DIFFERENT_SOURCE",
+            "statement": ("table1.dat has no nitrogen at all. The five N I rows come from "
+                          "Amarsi et al. 2020 Table 1, the AGSS21-adopted N I set."),
+        },
+    }, indent=2) + "\n")
 
     # 🔴 RYA-1150. summary.json is written by the INGEST script and was never revisited,
     # so it still advertised canonical_matched=0 / crossmatch_review=408 while this file
@@ -556,6 +691,16 @@ def main() -> None:
         "verdict": verdict["verdict"],
         "frozen_ready": verdict["frozen_ready_for_measurement"],
         "reconciled_with": "intake_verdict.json (RYA-1150)",
+        # RYA-1183 B3(1): the status label is taken FROM intake_verdict.json above, so the
+        # two artifacts cannot state different verdicts. `BLOCKED_MOLECULAR_DATA` appears
+        # in no artifact and never did -- the recorded status is
+        # INTAKE_COMPLETE_REVIEW_REQUIRED, which says something different and narrower:
+        # the census IS complete, and what is blocked is the freeze, not the intake.
+        "verdict_label_note": (
+            "INTAKE_COMPLETE_REVIEW_REQUIRED, not BLOCKED_MOLECULAR_DATA. The census is "
+            "complete (intake_census_complete=true); what is withheld is "
+            "frozen_ready_for_measurement, on the blocking_findings listed in "
+            "intake_verdict.json. Both artifacts take this string from one writer."),
     })
     summary_path.write_text(json.dumps(summary, indent=2)+"\n")
     assert summary["canonical_matched"] + summary["crossmatch_review"] == len(molecular), \
