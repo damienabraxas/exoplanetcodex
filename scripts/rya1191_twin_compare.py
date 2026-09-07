@@ -41,13 +41,17 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+import sys
 
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # so `pipeline.` imports resolve from any cwd
 BP = ROOT / "data/results/band_products"
 
 #: The twin pairs Ryan's scan named: the raw-holding product and its verified-clean
@@ -71,6 +75,9 @@ TWINS = [
 GATE_DEX, GATE_SIGMA_RATIO = 0.03, 2.0
 
 
+_DROPPED: dict = {}
+
+
 def _lines(prefix: str, holding: str, treat: str) -> pd.DataFrame | None:
     hits = sorted(glob.glob(str(BP / f"{prefix}*_{holding}_SYNTH_GRADED_{treat}_lines.csv")))
     if not hits:
@@ -81,7 +88,17 @@ def _lines(prefix: str, holding: str, treat: str) -> pd.DataFrame | None:
     d = pd.read_csv(hits[0])
     if "in_aggregate" in d:
         d = d[d.in_aggregate.astype(str).str.lower().isin(["true", "1"])]
-    return d[["wavelength_air_A", "abundance"]].dropna()
+    d = d[["wavelength_air_A", "abundance"]].dropna()
+    # 🔴 GUARD FIRST, THEN ASSESS TELLURIC — Ryan, 2026-09-07 20:01. A non-convergent fit
+    # in either pool contaminates BOTH the offset and the width, and it was one such line
+    # that produced the phantom "sigma 0.497, 6.9x IAG, therefore uncorrected telluric".
+    # Applying `pipeline.fit_validity` here means the offsets below are the real
+    # telluric-candidate signal rather than an artefact of a railed optimiser.
+    from pipeline.fit_validity import fit_is_physical
+    before = len(d)
+    d = d[[fit_is_physical(x, "Fe") for x in d.abundance]]
+    _DROPPED[(prefix, holding, treat)] = before - len(d)
+    return d
 
 
 def main(argv=None) -> int:
@@ -106,6 +123,9 @@ def main(argv=None) -> int:
                 rows.append(rec); continue
             m = pd.merge(k, i, on="wavelength_air_A", suffixes=("_kp", "_iag"))
             rec["n_kp"], rec["n_iag"], rec["n_matched"] = len(k), len(i), len(m)
+            rec["n_dropped_kp"] = _DROPPED.get((prefix, kp_hold, treat), 0)
+            rec["n_dropped_iag"] = _DROPPED.get((prefix, iag_hold, treat), 0)
+            rec["guarded"] = "pipeline.fit_validity applied to BOTH pools before matching"
             if len(m) < 3:
                 rec.update(state="NO-OVERLAP",
                            why=f"only {len(m)} line(s) in both pools")
@@ -163,6 +183,10 @@ def main(argv=None) -> int:
         pl.to_csv(out / "rya1191_twin_per_line.csv", index=False)
     doc = {"ticket": "RYA-1191 — twin test: telluric offset vs gf-limited width",
            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "guard": ("pipeline.fit_validity (|A - 7.46| <= 1.5 dex) applied to both "
+                     "pools BEFORE matching — Ryan 2026-09-07 20:01: guard first, then "
+                     "assess telluric, because a railed fit contaminates both the offset "
+                     "and the width"),
            "gate": {"max_offset_dex": GATE_DEX, "max_scatter_ratio": GATE_SIGMA_RATIO,
                     "source": "Ryan 2026-09-07"},
            "statistic_note": ("⚠️ `sigma_stat` is the printed line scatter divided by "

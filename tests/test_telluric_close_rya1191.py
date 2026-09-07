@@ -472,19 +472,42 @@ def test_sigma_stat_and_the_printed_scatter_are_never_compared(twin):
                 f"{h}: sigma_stat is not scatter/sqrt(n) — the two statistics have drifted")
 
 
-def test_the_red_optical_twin_offset_is_real_and_named(twin):
-    """The finding: KP-molecfit red-optical sits offset from its verified-clean twin on
-    identical lines, and the worst offender is named rather than left in an aggregate."""
+def test_guarding_first_moves_red_optical_inside_the_gate(twin):
+    """🔴 THE ORDER RYAN RULED ON (2026-09-07 20:01): guard first, THEN assess telluric —
+    because a railed fit contaminates the offset and the width alike. It changes the
+    answer. Unguarded, both red-optical pairs failed on offset (+0.119, +0.169) and one on
+    width (x3.51). With `pipeline.fit_validity` applied to BOTH pools before matching they
+    are +0.025 and +0.029 against a 0.03 gate, and every width ratio drops to <= 1.47.
+    Two of the four rows Ryan scanned as garbage are not garbage."""
+    assert "guard" in twin and "guard first" in twin["guard"]
     ro = [p for p in twin["pairs"]
           if p["band"] == "red-optical" and p.get("state") == "MEASURED"]
-    assert ro, "the red-optical twins must both be measured"
-    assert all(abs(p["delta_A"]) > 0.03 for p in ro), [p["delta_A"] for p in ro]
-    # ⚠️ The worst line overall is NIR 9437.793 at 6.449 dex, so the red-optical culprit
-    # is asserted by PRESENCE, not by rank. Ranking across bands would make this test fail
-    # every time a worse line turned up elsewhere, which is not what it is checking.
-    got = {round(w["wavelength_air_A"], 3): w for w in twin["worst_lines"]}
-    assert 9012.075 in got, sorted(got)[:6]
-    assert got[9012.075]["delta_A"] > 3.0, got[9012.075]
+    assert len(ro) == 2
+    for p in ro:
+        assert abs(p["delta_A"]) <= 0.03, p
+        assert p["scatter_ratio"] <= 2.0, p
+        assert "PASSES" in p["verdict"], p["verdict"]
+        assert p["n_dropped_kp"] + p["n_dropped_iag"] > 0, (
+            "if the guard drops nothing here, this result is not about guarding")
+
+
+def test_the_NIR_offset_survives_the_guard_and_is_the_real_signal(twin):
+    """⚠️ AND THE WIDTH STORY DOES NOT SURVIVE IT. What is left after guarding is a value
+    OFFSET in the NIR only — +0.049 dex (1D-LTE) and -0.112 (ENGINE-A), the latter
+    matching Ryan's own post-guard figure exactly — with every width ratio at or below
+    1.47. The "sigma 0.497, 6.9x IAG, therefore uncorrected telluric" reading was one
+    non-convergent line on each side."""
+    nir = [p for p in twin["pairs"] if p["band"] == "NIR" and p.get("state") == "MEASURED"]
+    assert len(nir) == 2
+    assert all(abs(p["delta_A"]) > 0.03 for p in nir), [p["delta_A"] for p in nir]
+    ea = next(p for p in nir if p["treatment"] == "ENGINE-A")
+    assert ea["delta_A"] == pytest.approx(-0.112, abs=0.005)
+    assert ea["A_iag"] == pytest.approx(7.599, abs=0.002), (
+        "the clean twin must land on its shipped value once guarded")
+    for p in twin["pairs"]:
+        if p.get("state") == "MEASURED":
+            assert p["scatter_ratio"] <= 2.0, (
+                f"{p['band']} {p['treatment']}: a width blow-up survived the guard")
 
 
 def test_a_contaminated_line_outside_every_declared_band_is_reported(twin):
@@ -500,7 +523,15 @@ def test_a_contaminated_line_outside_every_declared_band_is_reported(twin):
     w = 9012.075
     assert not any(lo <= w <= hi for lo, hi, _ in TELLURIC_BANDS), (
         "9012.075 is now inside a declared band — re-derive this reasoning")
-    assert any(round(x["wavelength_air_A"], 3) == w for x in twin["worst_lines"])
+    # 🔴 AND IT IS NO LONGER IN THE TWIN OUTLIERS, BECAUSE THE GUARD REMOVED IT FIRST.
+    # 9012.075 returned A = 10.166/10.180 with the pool-maximum red_chi2 of 530 — a
+    # non-convergent fit, caught by `pipeline.fit_validity`, not a telluric offset. Its
+    # 3.2 dex "discrepancy" was never evidence about the registry, and asserting it here
+    # would have kept a refuted reading alive.
+    assert not any(round(x["wavelength_air_A"], 3) == w for x in twin["worst_lines"]), (
+        "9012.075 is back in the twin outliers — the guard is no longer removing it")
+    val = _load(R / "rya1191_validity_impact.json")
+    assert any(round(r["wavelength_air_A"], 3) == w for r in val["dropped_lines"])
     # ⚠️ AND THE TWO CASES ARE DIFFERENT, WHICH IS THE POINT. 9437.793 — the largest
     # discrepancy of all — IS inside a declared band (H2O 9280-9600, where RYA-1191
     # measured kpno_molecfit PARTIAL). So the pool splits into "declared and imperfectly
@@ -549,6 +580,29 @@ def test_two_guards_were_tried_first_and_are_recorded_as_having_failed():
     src = (ROOT / "pipeline/fit_validity.py").read_text()
     assert "1262 of 1366" in src and "334 lines of which only 3" in src
     assert "NOT AN OUTLIER CUT" in src
+
+
+def test_the_existing_constraint_gate_is_described_accurately():
+    """⚠️ A CORRECTION TO MY OWN FIRST ACCOUNT. I wrote that RYA-992's cut "was never wired
+    in". It was: `synth_gof_cut` and `ARM_SCALE` are called from `pipeline/gf_empirical.py`.
+    What RYA-992 deliberately did not do is threshold the band-product route — RYA-847's
+    sweep refuted every candidate and `constraint_gate` documents `SYNTH_CONSTRAINT` as
+    None PERMANENTLY. The real gap is that both arms of that gate ask whether the fit was
+    CONSTRAINED and neither asks whether the answer is POSSIBLE, and a line with NaN
+    `frac_rise_weaker` slips both."""
+    cg = (ROOT / "pipeline/constraint_gate.py").read_text()
+    assert "PERMANENTLY rather than pending" in cg, (
+        "the permanence of SYNTH_CONSTRAINT=None is the fact this reasoning rests on")
+    src = (ROOT / "pipeline/fit_validity.py").read_text()
+    assert "gf_empirical" in src, "the correction must name where RYA-992's cut IS called"
+    assert "DIFFERENT QUESTIONS" in src
+    # arm 1 cannot fire without a frac_rise, which is how the bad line slipped through
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from pipeline.constraint_gate import verdict
+    assert verdict({"frac_rise_weaker": None}).ok
+    assert verdict({"frac_rise_weaker": float("nan")}).ok
+    assert not verdict({"frac_rise_weaker": -0.1}).ok
 
 
 def test_the_bound_rediscovers_the_line_ryan_named_and_the_blend_audit_flagged(validity):
