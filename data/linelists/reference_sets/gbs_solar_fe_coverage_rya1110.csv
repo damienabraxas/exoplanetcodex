@@ -1,6 +1,6 @@
 line_set,band,band_lo_A,band_hi_A,instrument,holding_id,span_lo_A,span_hi_A,span_source,n_lines_selected,n_in_span,n_telluric_excluded,n_reachable,n_reachable_solar_circular,pre_normalised
 gbs,VIS,3800.0,6910.0,harps,solar_harps,3782.60,6910.00,HoldingSpec.span_A,142,142,3,139,3,True
-gbs,VIS,3800.0,6910.0,harps,solar_harps_molecfit_corrected,3782.60,6910.00,HoldingSpec.span_A,142,142,3,139,3,True
+gbs,VIS,3800.0,6910.0,harps,solar_harps_molecfit_corrected,3782.60,6910.00,HoldingSpec.span_A,142,142,0,142,3,True
 gbs,VIS,3800.0,6910.0,kpno_solar_atlas,solar_kpno,2960.00,13000.00,solar_reference_holdings_rya708.csv (VERIFIED),142,142,3,139,3,True
 gbs,VIS,3800.0,6910.0,kpno_solar_atlas,solar_kpno_molecfit_corrected,2960.00,13000.00,solar_reference_holdings_rya708.csv (VERIFIED),142,142,3,139,3,True
 gbs,VIS,3800.0,6910.0,kpno_solar_atlas,solar_kpno_kurucz2005_corrected,2990.00,10010.00,HoldingSpec.span_A,142,142,3,139,3,True
