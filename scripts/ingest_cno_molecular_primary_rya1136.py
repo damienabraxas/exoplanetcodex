@@ -24,10 +24,40 @@ PRIMARY = ROOT / "data/reference/cno_molecular_primary"
 AMARSI = ROOT / "data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv"
 OUT = ROOT / "data/audit/rya1136_cno_intake/primary_molecular_crossmatch.csv"
 HC_EV_CM = 1.0 / 8065.544005
-# Brooke's Swan E'' values are relative to the a-state v=0 band origin,
-# whereas Amarsi tabulates excitation from its adopted molecular zero point.
-# The 0.0753 eV origin shift is independently visible across all 39 rows.
+# Brooke's Swan E'' values are relative to the a-state v=0 band origin, whereas Amarsi
+# tabulates excitation from its adopted molecular zero point.
+#
+# 🔴 RYA-1180 (RYA-1142 A5b) -- DERIVED AND RECORDED, because it was hand-set.
+#
+# This constant is not cited: no source states it. It was chosen, and it is used INSIDE
+# the join criterion (`abs(x.lower_energy_eV - energy) <= 0.005` below), which is the
+# RYA-161 shape -- a constant picked so a match succeeds, then reported as if measured.
+# Deriving it from the MATCHED rows would be circular for exactly that reason.
+#
+# So it is derived from candidates selected WITHOUT the energy cut: wavenumber window
+# (+/-2 cm-1) and vibrational band (v', v'') only, taking the nearest-in-wavenumber
+# candidate per Amarsi row. Measured over the 39 C2 rows:
+#
+#     median offset      0.075702 eV        (Amarsi E_low  -  Brooke raw E'')
+#     36 of 39 rows      0.075 .. 0.077 eV  -- a tight cluster, not a fitted mean
+#     3 outliers         -0.274, -0.211, +0.347 eV -- wrong-J nearest-wavenumber picks
+#     |median - constant| = 0.000402 eV, inside Amarsi's own 0.001 eV print precision
+#
+# So the value below is DATA-DETERMINED and reproduces without the cut that would have
+# made it circular. `tests/test_cno_molecular_provenance_rya1180.py` re-derives it and
+# fails if the cluster moves. It is still not a cited constant, and a published Swan
+# origin would supersede this derivation.
 C2_LOWER_ORIGIN_EV = 0.0753
+#: The derivation above, as data, so a reader does not have to re-run it to check.
+C2_LOWER_ORIGIN_PROVENANCE = {
+    "status": "DERIVED_NOT_CITED",
+    "derived_median_eV": 0.075702,
+    "rows_used": 39,
+    "rows_in_cluster": 36,
+    "cluster_range_eV": (0.075, 0.077),
+    "selection": "wavenumber +/-2 cm-1 and (v', v'') only -- NO energy cut (non-circular)",
+    "ticket": "RYA-1180",
+}
 
 
 @dataclass(frozen=True)
