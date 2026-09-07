@@ -260,6 +260,13 @@ def main() -> None:
             "primary_energies_eV": ";".join(f"{x.lower_energy_eV:.6f}" for x in matches[:8]),
             "primary_loggfs": ";".join(f"{x.loggf:.6f}" for x in matches[:8]),
             "transition_labels": ";".join(x.label for x in matches[:8]),
+            # 🔴 RYA-1181 (RYA-1142 A3). J'' is parsed for EVERY primary transition and was
+            # then thrown away -- it survived only folded inside gf = f*(2J''+1), where it
+            # cannot be read back out. The intake's own stated blocker is missing rotational
+            # identity, and it was discarding the rotational identity the primary side does
+            # publish. Carried now, per matched component, alongside the other per-match
+            # fields.
+            "primary_j_lower": ";".join(f"{x.j_lower:g}" for x in matches[:8]),
             "primary_source": matches[0].source if matches else "",
             "primary_lines": ";".join(str(x.source_line) for x in matches[:8]),
         })
