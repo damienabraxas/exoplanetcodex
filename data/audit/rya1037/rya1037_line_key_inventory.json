@@ -1,7 +1,9 @@
 {
-  "n_findings": 0,
-  "grep_count": 79,
-  "by_kind": {},
+  "n_findings": 19,
+  "grep_count": 104,
+  "by_kind": {
+    "WAVE_ONLY_TOL": 19
+  },
   "n_waived": 54,
   "waived": [
     {
@@ -42,56 +44,56 @@
     {
       "kind": "ROUNDED_WAVE_KEY",
       "file": "pipeline/nlte_corrections.py",
-      "line": 338,
+      "line": 347,
       "snippet": "interp[(ion_i, round(float(wave), 3))] = f",
       "ticket": "RYA-317"
     },
     {
       "kind": "ARGMIN_ON_WAVE",
       "file": "pipeline/nlte_corrections.py",
-      "line": 367,
+      "line": 376,
       "snippet": "j = int(np.abs(w - wave_A).argmin())",
       "ticket": "RYA-317"
     },
     {
       "kind": "ARGMIN_ON_WAVE",
       "file": "pipeline/nlte_corrections.py",
-      "line": 367,
+      "line": 376,
       "snippet": "j = int(np.abs(w - wave_A).argmin())",
       "ticket": "RYA-317"
     },
     {
       "kind": "WAVE_ONLY_TOL",
       "file": "pipeline/nlte_corrections.py",
-      "line": 368,
+      "line": 377,
       "snippet": "if abs(float(w[j]) - wave_A) > tol:",
       "ticket": "RYA-317"
     },
     {
       "kind": "ROUNDED_WAVE_KEY",
       "file": "pipeline/nlte_corrections.py",
-      "line": 641,
+      "line": 650,
       "snippet": "interp[round(float(wave), 3)] = LinearNDInterpolator(pts, g['delta_nlte'].values)",
       "ticket": "RYA-317"
     },
     {
       "kind": "ARGMIN_ON_WAVE",
       "file": "pipeline/nlte_corrections.py",
-      "line": 681,
+      "line": 690,
       "snippet": "j = int(np.abs(w - wave_A).argmin())",
       "ticket": "RYA-317"
     },
     {
       "kind": "ARGMIN_ON_WAVE",
       "file": "pipeline/nlte_corrections.py",
-      "line": 681,
+      "line": 690,
       "snippet": "j = int(np.abs(w - wave_A).argmin())",
       "ticket": "RYA-317"
     },
     {
       "kind": "WAVE_ONLY_TOL",
       "file": "pipeline/nlte_corrections.py",
-      "line": 682,
+      "line": 691,
       "snippet": "if abs(float(w[j]) - wave_A) > tol:",
       "ticket": "RYA-317"
     },
@@ -383,5 +385,120 @@
       "ticket": "RYA-1037"
     }
   ],
-  "findings": []
+  "findings": [
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/coverage.py",
+      "line": 274,
+      "snippet": "agree = abs(lo - i.wave_min_A) < 1.0 and abs(hi - i.wave_max_A) < 1.0"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/coverage.py",
+      "line": 274,
+      "snippet": "agree = abs(lo - i.wave_min_A) < 1.0 and abs(hi - i.wave_max_A) < 1.0"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/curate_nonfe_pools.py",
+      "line": 384,
+      "snippet": "if abs(float(cc.iloc[j]['wavelength_air_A']) - w) <= 0.05:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/kp_atlas_integrity.py",
+      "line": 94,
+      "snippet": "stem_ok = bool(np.isnan(stem_nm) or abs(wave_nm[0] - stem_nm) < 0.05)"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/build_al_intake_rya1132.py",
+      "line": 177,
+      "snippet": "any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A) and"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/build_si_intake_rya1169.py",
+      "line": 127,
+      "snippet": "refs = [x for x in reference_rows if x[\"species\"] == r[\"species\"] and abs(float(x[\"wavelength_air_A\"])-float(r[\"wavelength_air_A\"])) <= .03]"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/derive_band_products.py",
+      "line": 1792,
+      "snippet": "if abs(k - l.wavelength_air_A) < 0.06:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/derive_band_products.py",
+      "line": 2362,
+      "snippet": "if abs(k - l.wavelength_air_A) < 0.06:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/measure_cu_v_hfs_synthesis_rya466.py",
+      "line": 169,
+      "snippet": "if r[c['species']] == 'Cu I' and abs(float(r[c['wavelength_air_A']]) - wl) < 0.02:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya1009_al_gf_pool_rebuild.py",
+      "line": 88,
+      "snippet": "held = next((v for k, v in HOLD.items() if abs(k - float(can.at[i, \"wavelength_air_A\"])) < 0.01), None)"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya1042_mean3d_gate.py",
+      "line": 114,
+      "snippet": "near = [a for a in anchor if abs(a[\"wave_A\"] - w) <= MATCH_TOL_A]"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya1051_gradient_mechanism.py",
+      "line": 77,
+      "snippet": "if abs(aw[i] - r.wavelength_air_A) <= 0.05:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya346_fe2_core_absorber_diag.py",
+      "line": 154,
+      "snippet": "if r['species'] == 'Fe 2' and abs(r['wavelength'] - wave_A) < 0.05:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya346_fe2_core_absorber_diag.py",
+      "line": 195,
+      "snippet": "rec = next(r for r in recs if abs(r['wavelength']-top.wave) < 1e-3 and r['species']==top.species)"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya565_eu2_synth_sirius.py",
+      "line": 219,
+      "snippet": "if abs(w - wave) < 0.01:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya684_isotope_gf_audit.py",
+      "line": 522,
+      "snippet": "and abs(r[\"wave\"] - centre) <= hw]"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya684_isotope_gf_audit.py",
+      "line": 536,
+      "snippet": "in_window = [r for r in rows if abs(r[\"wave\"] - centre) <= hw]"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya706_al_deblend_sirius.py",
+      "line": 141,
+      "snippet": "if row[\"species\"] == \"Al I\" and abs(float(row[\"wavelength_air_A\"]) - LINE) < 0.02:"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/solar_cno_redo_rya485.py",
+      "line": 152,
+      "snippet": "g = grid[(abs(grid['wave_A'] - wl) < 0.1) & (grid['teff_K'] == 5772)]"
+    }
+  ]
 }

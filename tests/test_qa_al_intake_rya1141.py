@@ -210,10 +210,19 @@ def test_canonical_gf_is_byte_identical_after_the_whole_battery(qa):
                    and p.stat().st_size == 0 for p in AUDITED.iterdir())
 
 
-def test_the_repo_wide_wavelength_guard_does_not_catch_this_join(qa):
-    """RYA-1037 shipped a guard to make RYA-1034 unrepeatable. It did not fire here."""
+def test_the_repo_wide_wavelength_guard_now_catches_this_join(qa):
+    """RYA-1037 shipped a guard to make RYA-1034 unrepeatable, and it did not fire here —
+    that FAIL is what RYA-1141 recorded and what RYA-1179 was filed to fix.
+
+    🔴 RYA-1179 rescoped the EP test from the enclosing FunctionDef to the DECISION, and
+    the guard now names this join. Flipped to PASS deliberately: the committed
+    `verdict.json` keeps RYA-1141's historical FAIL, because that was true when it ran;
+    this assertion is about TODAY's code, which the fixture re-runs.
+    """
     verdict, _ = qa
-    assert verdict["checks"]["A2-repo-guard"] == "FAIL"
+    assert verdict["checks"]["A2-repo-guard"] == "PASS", (
+        "the Al wavelength-only join is invisible to the repo guard again — RYA-1179 "
+        "has regressed")
 
 
 def test_the_1037_scan_is_called_in_process_and_writes_nothing():

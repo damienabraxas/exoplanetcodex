@@ -329,8 +329,16 @@ def check_a2(rep: Report, cross: pd.DataFrame, man: pd.DataFrame):
     from audit_line_keys_rya1037 import scan as _scan_line_keys  # noqa: E402
     found = _scan_line_keys(ROOT)
     caught = [f for f in found if "build_al_intake_rya1132" in f.file]
+    _fixed = (f"It does, now. RYA-1179 rescoped the guard's EP test from the whole "
+              f"enclosing function to the DECISION the wavelength comparison belongs to, "
+              f"and `scan()` names `build_al_intake_rya1132.py` {len(caught)} time(s) "
+              f"among {len(found)} findings across the repo. The pandas-method shape "
+              f"(`(a - b).abs()` in a separate statement) is still NOT matched -- what "
+              f"changed is that an unrelated in-scope `ep` no longer launders the "
+              f"builtin-abs form.")
     rep.add("A2-repo-guard", "RYA-1037's repo-wide wavelength-only guard catches this join",
             "PASS" if caught else "FAIL",
+            _fixed if caught else
             f"It does not. `scripts/audit_line_keys_rya1037.py:scan()` reports {len(found)} "
             f"findings across the repo - so the scanner runs and is not simply empty - and "
             f"names `build_al_intake_rya1132.py` zero times. Two independent reasons: its "
