@@ -35,6 +35,74 @@
 artifacts:
   # ── RYA-1192 — is the telluric correction ACTUALLY applied? ───────────────────────
 
+  - artifact: rya1192/rya1192_sirius_verification.json
+    generator: scripts/rya1192_sirius_verification.py
+    invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      VERIFICATION ONLY -- no correction applied, no value moved. The SIRIUS leg, which
+      closes what the Mac could not reach. 🔴 CRIRES+ finally gets check (a): Elgueta's
+      solar epoch (table1.dat, 2022-11-22 00:23) and our Vesta IDPs (2022-11-21/22, prog
+      60.A-9051(A)) are THE SAME OBSERVATIONS, so raw and "corrected" are a genuine pair,
+      correlated against a molecfit MTRANS telluric transmission fitted on CRIRES+ frames
+      of the same band with a per-window displaced-template null. Y arm VERIFIED-CORRECTED;
+      H arm corrected in 15 of 18 telluric windows with a LOCALISED residual in three
+      (15007-15107, 15607-15707, 16607-16707) -- and the three the Mac leg's
+      catalogue-excess proxy flagged (15700-15800, 16000-16100, 17300-17400) are CLEARED,
+      16000-16100 decisively at -1.0 sigma where the raw frame sits at +17.6. ⚠️ Which test
+      answers each band is itself measured: a pair whose reduction floor exceeds the
+      absorption available to remove cannot answer by DIFFERENCE, which is why IAG
+      (Baker/Reiners floor 0.083) is judged on DEPTH and KP (floor exactly 0.0) is not.
+      🔴 CONSEQUENCE, carried to the lines rather than left at window level: SEVEN of the
+      25 served graded Ruffoni-2013 lines sit inside a flagged window (15051.749, 15080.220,
+      15631.947, 15648.510, 15682.016, 15691.853, 15692.747). ⚠️ Candidates, not a
+      disqualification -- the residual is partial (~0.25 against raw frames at ~0.6), so it
+      supports a per-line re-check before RYA-1094's H-arm pool carries an abundance.
+    outputs_also:
+      - rya1192/rya1192_sirius_per_line.csv
+      - rya1192/rya1192_sirius_crires_windows.csv
+      - rya1192/rya1192_sirius_graded_ir_coverage.csv
+  - artifact: rya1192/rya1192_sirius_per_line.csv
+    generator: scripts/rya1192_sirius_verification.py
+    invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      All 462 measured Fe lines, ZERO left UNVERIFIABLE -- the 131 the Mac could not judge
+      (88 kurucz2005 + 43 iag) are closed here. 🔴 solar_iag's raw sibling existed and
+      nobody had used it: solar_iag_reiners2016 is the same IAG FTS atlas uncorrected,
+      SPAN-CAPPED at 5001.1 A so selection can never prefer it to Baker+2020 -- a policy,
+      not the file's extent. 🔴 And the structural finding: NOT ONE of the 462 sits inside
+      a registered telluric band, so the KP label defect (146 of 146 on raw data) is a
+      provenance defect and not an abundance one. ⚠️ Bounded: this inventory is built from
+      the per-line artifacts on disk and none exists for any red-optical, NIR or CRIRES+
+      Fe product -- exactly where the telluric complexes live.
+  - artifact: rya1192/rya1192_sirius_crires_windows.csv
+    generator: scripts/rya1192_sirius_verification.py
+    invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      Per 100 A window per CRIRES+ arm: the raw IDP, the live product and their ratio each
+      correlated against the telluric template, with the z-score of each against that
+      window's OWN displaced-template null. ⚠️ `corr_r` near zero means "no residual" only
+      where `raw_z` is large -- where the template is flat there is nothing to detect and
+      the same number means the test has no power. Power is a per-window property here: an
+      earlier cut gated the whole arm on a median and sent 18 well-powered H windows to
+      UNDETERMINED for missing a chosen multiple by 0.1 sigma.
+  - artifact: rya1192/rya1192_sirius_graded_ir_coverage.csv
+    generator: scripts/rya1192_sirius_verification.py
+    invocation: python3 scripts/rya1192_sirius_verification.py --out-dir data/results/rya1192
+    ticket: RYA-1192
+    note: >-
+      🔴 CORRECTS A FINDING ALREADY ON MAIN. rya1192_verification.json reports 12 graded
+      Ruffoni-2013 lines "in CRIRES+ H inter-order gaps" and 16 of 29 unmeasurable. That
+      came from `len(flux) >= 20` in a +/-0.5 A window of a product sampled at 16.3
+      points/A -- so a NORMALLY SAMPLED line has ~16 points and fails, and the threshold
+      was selecting order-OVERLAP regions rather than served lines. All twelve carry 9-19
+      points; none has zero; the arm's largest step is 1.18 A and only two steps in it
+      exceed 0.5 A. The H arm serves 25 of 29, which is exactly the count RYA-1094
+      registered when it built the product. ⚠️ Half-density sampling is still worse
+      sampling -- reported per line as `n_points`, a precision fact, not a coverage one.
+
   - artifact: rya1192/rya1192_per_line.csv
     generator: scripts/rya1192_telluric_verification.py
     invocation: python3 scripts/rya1192_telluric_verification.py --out-dir data/results/rya1192
