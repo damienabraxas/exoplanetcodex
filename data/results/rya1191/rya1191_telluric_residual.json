@@ -1,12 +1,31 @@
 {
   "ticket": "RYA-1191 (B) \u2014 telluric residual vs uncatalogued blend",
   "kind": "VERIFICATION \u2014 no correction applied, no value moved",
-  "generated_at": "2026-09-07T15:24:24Z",
+  "generated_at": "2026-09-07T22:58:25Z",
   "template": {
     "raw": "solar_iag_reiners2016",
     "corrected": "solar_iag",
     "what": "their ratio IS the telluric transmission the Baker+2020 correction removed \u2014 one atlas, one instrument, so the ratio carries no instrumental difference",
     "caveat": "\u26a0\ufe0f LINE POSITIONS ONLY. Airmass and PWV differ between nights, so scoring is by shape correlation and never by depth."
+  },
+  "clean_window_null": {
+    "windows": [
+      [
+        5500.0,
+        5600.0
+      ],
+      [
+        6000.0,
+        6100.0
+      ],
+      [
+        6400.0,
+        6500.0
+      ]
+    ],
+    "worst_frac": 0.05443366085960576,
+    "worst_min": 0.4759753756541618,
+    "note": "the template is NOT flat where there is no telluric \u2014 this is the level a band must clear before its shape test means anything"
   },
   "null_estimator": "per band, r(0) against r(dv) for 58 shifts with |dv| >= 120 km/s; residual at z >= 3.0",
   "sign_convention": "residual_r is FLIPPED so that LARGER POSITIVE = MORE RESIDUAL TELLURIC. The uncorrected references are in every row as the positive control.",
@@ -18,6 +37,8 @@
       "state": "MEASURED",
       "template_min": 0.1724,
       "template_frac_below_0.95": 0.1177,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": false,
       "catalogued_stellar_depth_per_A": 0.587,
       "holdings": {
         "solar_kpno": {
@@ -105,12 +126,9 @@
           "depth_over_side": 0.41
         }
       },
-      "judged_by": "TEMPLATE (line positions)",
-      "verdict": "references light up at +22.0 sigma; 2 corrected holding(s) clean, 2 carrying a residual. \u26a0\ufe0f NOT A STELLAR BLEND: a line missing from linelist_solar would be in the Sun and would show in EVERY holding, and the clean ones are clean.",
-      "gaps": [
-        "solar_kpno_molecfit_corrected: residual at +4.6 sigma (uncorrected references reach +22.0) \u2014 PARTIAL correction",
-        "solar_harps_molecfit_corrected: residual at +12.0 sigma (uncorrected references reach +22.0) \u2014 essentially UNCORRECTED"
-      ]
+      "verdict": "NO TEMPLATE \u2014 this band's template is 0.1177 of pixels below 0.95 against 0.0544 in windows with NO telluric, so it is not clearly deeper than the reduction difference between the two IAG products. \u26a0\ufe0f NOT a clean verdict: nothing here can be judged by shape (RYA-833).",
+      "judged_by": null,
+      "gaps": []
     },
     {
       "band": "O2 B-band",
@@ -119,6 +137,8 @@
       "state": "MEASURED",
       "template_min": 0.0053,
       "template_frac_below_0.95": 0.6387,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": true,
       "catalogued_stellar_depth_per_A": 0.131,
       "holdings": {
         "solar_kpno": {
@@ -217,6 +237,8 @@
       "state": "MEASURED",
       "template_min": 0.0052,
       "template_frac_below_0.95": 0.5022,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": true,
       "catalogued_stellar_depth_per_A": 0.185,
       "holdings": {
         "solar_kpno": {
@@ -303,6 +325,8 @@
       "state": "MEASURED",
       "template_min": 0.0013,
       "template_frac_below_0.95": 0.7849,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": true,
       "catalogued_stellar_depth_per_A": 0.165,
       "holdings": {
         "solar_kpno": {
@@ -393,6 +417,8 @@
       "state": "MEASURED",
       "template_min": 0.0031,
       "template_frac_below_0.95": 0.3854,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": true,
       "catalogued_stellar_depth_per_A": 0.145,
       "holdings": {
         "solar_kpno": {
@@ -483,6 +509,8 @@
       "state": "MEASURED",
       "template_min": 0.0007,
       "template_frac_below_0.95": 0.9901,
+      "template_frac_below_0.95_in_clean_controls": 0.05443366085960576,
+      "template_clears_the_clean_window_null": true,
       "catalogued_stellar_depth_per_A": 0.072,
       "holdings": {
         "solar_kpno": {
