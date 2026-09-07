@@ -7,7 +7,6 @@ import csv
 import hashlib
 import json
 from collections import Counter
-from datetime import date
 from pathlib import Path
 
 
@@ -16,6 +15,23 @@ HOLDING = ROOT / "data/reference/amarsi2021_cno"
 RAW = HOLDING / "raw/table2.dat"
 OUT = HOLDING / "derived/amarsi2021_cno_molecular_lines.csv"
 MANIFEST = HOLDING / "manifest.json"
+
+#: 🔴 A STATIC FACT. Never a clock reading (RYA-1195).
+#:
+#: This is when the Amarsi+2021 Table 2 files were RETRIEVED from VizieR, and they are
+#: vendored: `raw/table2.dat` and `raw/ReadMe` are git-tracked and this script makes no
+#: network call. Re-running it therefore re-retrieves nothing, and stamping the current
+#: date does not record a fact -- it OVERWRITES one with whenever somebody last ran a
+#: test, in a file git tracks.
+#:
+#: That is not hypothetical. The vendoring commit `c314879` (2026-08-30, RYA-1136) wrote
+#: the true date; `df17f8b` -- RYA-1178, a ticket about `Fe.json`'s publication schema
+#: with nothing to do with CNO -- carried a stray 2026-09-03 into the record, and it was
+#: merged. The value below restores what the vendoring commit recorded.
+#:
+#: If the holding is ever genuinely re-fetched, edit this line in the SAME commit that
+#: updates `raw/`, where the `source_files` hashes will move with it.
+RETRIEVED_AT = "2026-08-30"
 AUDIT = ROOT / "data/audit/rya1136_cno_intake"
 
 
@@ -134,7 +150,7 @@ def main() -> None:
         "catalog_id": "J/A+A/656/A113",
         "article_url": "https://doi.org/10.1051/0004-6361/202141384",
         "catalog_url": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/656/A113",
-        "retrieved_at": str(date.today()),
+        "retrieved_at": RETRIEVED_AT,
         "row_count": len(rows),
         "species_counts": dict(counts),
         "band_counts": dict(Counter(row["source_band"] for row in rows)),
