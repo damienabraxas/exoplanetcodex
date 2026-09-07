@@ -10,12 +10,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
 
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:                      # RYA-1172: run as a script or imported
+    sys.path.insert(0, str(ROOT))
+
+from pipeline.cno_gf_pedigree import pedigree_for  # noqa: E402
+
 ELEMENTS = ROOT / "data/config/elements_master.json"
 GF = ROOT / "data/linelists/canonical_gf.csv"
 OUT = ROOT / "data/audit/rya1129_atomic_intake"
@@ -61,6 +66,19 @@ def _manifest(frame: pd.DataFrame) -> pd.DataFrame:
     result["nist_grade"] = frame.nist_grade
     result["gf_tier"] = frame.gf_tier
     result["source_class"] = frame.apply(_source_class, axis=1)
+    # 🔴 RYA-1172 — "NIST grade" is NOT one authority across CNO. The 2006 Wiese & Fuhr
+    # update is explicitly PARTIAL (C I, C II, N I, N II); O I/O II still rest on the 1996
+    # WFD Monograph 7 / OPACITY Project values. Same label, ten years and a different
+    # method apart, so the vintage and the method travel on the row rather than living in
+    # a paper nobody opens. Species with no held statement read NOT_ESTABLISHED_BY_HELD_
+    # SOURCES; the pedigree is never extended from a neighbouring ionisation stage.
+    _ped = frame.species.map(lambda sp: pedigree_for(sp))
+    result["gf_authority"] = _ped.map(lambda p: p.key)
+    result["gf_authority_compilation"] = _ped.map(lambda p: p.compilation)
+    result["gf_authority_method"] = _ped.map(lambda p: p.method)
+    result["gf_authority_vintage"] = _ped.map(lambda p: p.vintage or "")
+    # ⚠️ Critically-evaluated THEORY, not a laboratory measurement (RYA-1005's Al mistake).
+    result["gf_authority_is_laboratory"] = _ped.map(lambda p: p.is_laboratory)
     result["adopted_source"] = frame.loggf_reference
     result["source_doi"] = frame.gf_source_doi
     result["source_set_membership"] = frame.apply(
