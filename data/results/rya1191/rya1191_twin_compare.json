@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-1191 \u2014 twin test: telluric offset vs gf-limited width",
-  "generated_at": "2026-09-07T18:01:53Z",
+  "generated_at": "2026-09-07T19:40:14Z",
   "gate": {
     "max_offset_dex": 0.03,
     "max_scatter_ratio": 2.0,
@@ -17,18 +17,22 @@
       "n_iag": 69,
       "n_matched": 55,
       "state": "MEASURED",
-      "A_kp": 7.5071,
+      "A_kp": 7.48,
       "scatter_kp": 0.4969,
       "sigma_stat_kp": 0.067,
-      "A_iag": 7.3878,
+      "A_iag": 7.448,
       "scatter_iag": 0.288,
       "sigma_stat_iag": 0.0388,
-      "delta_A": 0.1193,
+      "aggregation": "median (matches products.csv A exactly on every graded artifact checked)",
+      "delta_A": 0.032,
+      "delta_A_per_line_median": 0.002,
+      "delta_A_per_line_mean": 0.1193,
       "delta_A_se": 0.0618,
+      "n_lines_over_1dex": 1,
       "scatter_ratio": 1.725,
       "shared_scatter": 0.288,
       "excess_scatter": 0.4049,
-      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.1193 dex (gate 0.03)",
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.0320 dex (gate 0.03)",
       "reading": "\u26a0\ufe0f The width the two SHARE (0.288) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.405) and the offset. Only those two may be blamed on telluric."
     },
     {
@@ -40,18 +44,22 @@
       "n_iag": 35,
       "n_matched": 28,
       "state": "MEASURED",
-      "A_kp": 7.5973,
+      "A_kp": 7.4915,
       "scatter_kp": 0.5227,
       "sigma_stat_kp": 0.0988,
-      "A_iag": 7.428,
+      "A_iag": 7.459,
       "scatter_iag": 0.149,
       "sigma_stat_iag": 0.0282,
-      "delta_A": 0.1693,
+      "aggregation": "median (matches products.csv A exactly on every graded artifact checked)",
+      "delta_A": 0.0325,
+      "delta_A_per_line_median": 0.013,
+      "delta_A_per_line_mean": 0.1693,
       "delta_A_se": 0.1162,
+      "n_lines_over_1dex": 1,
       "scatter_ratio": 3.507,
       "shared_scatter": 0.149,
       "excess_scatter": 0.501,
-      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.1693 dex (gate 0.03) and WIDTH x3.51 (gate 2.0)",
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.0325 dex (gate 0.03) and WIDTH x3.51 (gate 2.0)",
       "reading": "\u26a0\ufe0f The width the two SHARE (0.149) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.501) and the offset. Only those two may be blamed on telluric."
     },
     {
@@ -59,19 +67,81 @@
       "treatment": "1D-LTE",
       "raw_holding": "solar_kpno_molecfit_corrected",
       "clean_twin": "solar_iag",
-      "state": "ARTIFACT-MISSING",
-      "why": "kp=NO iag=yes"
+      "n_kp": 26,
+      "n_iag": 26,
+      "n_matched": 25,
+      "state": "MEASURED",
+      "A_kp": 7.627,
+      "scatter_kp": 0.9103,
+      "sigma_stat_kp": 0.1821,
+      "A_iag": 7.546,
+      "scatter_iag": 0.9677,
+      "sigma_stat_iag": 0.1935,
+      "aggregation": "median (matches products.csv A exactly on every graded artifact checked)",
+      "delta_A": 0.081,
+      "delta_A_per_line_median": 0.059,
+      "delta_A_per_line_mean": 0.741,
+      "delta_A_se": 0.3217,
+      "n_lines_over_1dex": 5,
+      "scatter_ratio": 0.941,
+      "shared_scatter": 0.9103,
+      "excess_scatter": 0.0,
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET +0.0810 dex (gate 0.03)",
+      "reading": "\u26a0\ufe0f The width the two SHARE (0.910) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.000) and the offset. Only those two may be blamed on telluric."
     },
     {
       "band": "NIR",
       "treatment": "ENGINE-A",
       "raw_holding": "solar_kpno_molecfit_corrected",
       "clean_twin": "solar_iag",
-      "state": "ARTIFACT-MISSING",
-      "why": "kp=NO iag=yes"
+      "n_kp": 7,
+      "n_iag": 7,
+      "n_matched": 7,
+      "state": "MEASURED",
+      "A_kp": 7.503,
+      "scatter_kp": 1.3292,
+      "sigma_stat_kp": 0.5024,
+      "A_iag": 7.581,
+      "scatter_iag": 1.1445,
+      "sigma_stat_iag": 0.4326,
+      "aggregation": "median (matches products.csv A exactly on every graded artifact checked)",
+      "delta_A": -0.078,
+      "delta_A_per_line_median": -0.109,
+      "delta_A_per_line_mean": 0.8799,
+      "delta_A_se": 0.9318,
+      "n_lines_over_1dex": 1,
+      "scatter_ratio": 1.161,
+      "shared_scatter": 1.1445,
+      "excess_scatter": 0.676,
+      "verdict": "\ud83d\udd34 FAILS THE GATE \u2014 OFFSET -0.0780 dex (gate 0.03)",
+      "reading": "\u26a0\ufe0f The width the two SHARE (1.145) is a property of the LINE LIST and belongs to neither holding \u2014 on Ryan's own correction, the NIR width IS gf-limited because the clean twin is wide too. What is attributable to the raw holding is the EXCESS (0.676) and the offset. Only those two may be blamed on telluric."
     }
   ],
   "worst_lines": [
+    {
+      "band": "NIR",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 9437.793,
+      "A_kp": 10.988,
+      "A_iag": 4.539,
+      "delta_A": 6.449
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9437.793,
+      "A_kp": 10.977,
+      "A_iag": 4.528,
+      "delta_A": 6.449
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9454.194,
+      "A_kp": 9.398,
+      "A_iag": 4.855,
+      "delta_A": 4.543
+    },
     {
       "band": "red-optical",
       "treatment": "1D-LTE",
@@ -89,6 +159,38 @@
       "delta_A": 3.227
     },
     {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9214.499,
+      "A_kp": 9.782,
+      "A_iag": 7.521,
+      "delta_A": 2.261
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9350.415,
+      "A_kp": 7.678,
+      "A_iag": 5.707,
+      "delta_A": 1.971
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9410.159,
+      "A_kp": 7.266,
+      "A_iag": 5.52,
+      "delta_A": 1.746
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9259.005,
+      "A_kp": 8.091,
+      "A_iag": 7.451,
+      "delta_A": 0.64
+    },
+    {
       "band": "red-optical",
       "treatment": "1D-LTE",
       "wavelength_air_A": 9163.982,
@@ -103,6 +205,14 @@
       "A_kp": 8.186,
       "A_iag": 7.55,
       "delta_A": 0.636
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9258.267,
+      "A_kp": 8.068,
+      "A_iag": 7.449,
+      "delta_A": 0.619
     },
     {
       "band": "red-optical",
@@ -129,6 +239,30 @@
       "delta_A": 0.452
     },
     {
+      "band": "NIR",
+      "treatment": "ENGINE-A",
+      "wavelength_air_A": 9311.514,
+      "A_kp": 7.657,
+      "A_iag": 7.227,
+      "delta_A": 0.43
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9311.514,
+      "A_kp": 7.646,
+      "A_iag": 7.216,
+      "delta_A": 0.43
+    },
+    {
+      "band": "NIR",
+      "treatment": "1D-LTE",
+      "wavelength_air_A": 9768.313,
+      "A_kp": 7.978,
+      "A_iag": 7.552,
+      "delta_A": 0.426
+    },
+    {
       "band": "red-optical",
       "treatment": "1D-LTE",
       "wavelength_air_A": 7620.513,
@@ -143,94 +277,6 @@
       "A_kp": 7.567,
       "A_iag": 7.186,
       "delta_A": 0.381
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 7653.758,
-      "A_kp": 7.481,
-      "A_iag": 7.145,
-      "delta_A": 0.336
-    },
-    {
-      "band": "red-optical",
-      "treatment": "ENGINE-A",
-      "wavelength_air_A": 7653.758,
-      "A_kp": 7.494,
-      "A_iag": 7.159,
-      "delta_A": 0.335
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 6977.429,
-      "A_kp": 7.617,
-      "A_iag": 7.389,
-      "delta_A": 0.228
-    },
-    {
-      "band": "red-optical",
-      "treatment": "ENGINE-A",
-      "wavelength_air_A": 6977.429,
-      "A_kp": 7.62,
-      "A_iag": 7.392,
-      "delta_A": 0.228
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 9147.957,
-      "A_kp": 7.536,
-      "A_iag": 7.375,
-      "delta_A": 0.161
-    },
-    {
-      "band": "red-optical",
-      "treatment": "ENGINE-A",
-      "wavelength_air_A": 9103.636,
-      "A_kp": 7.641,
-      "A_iag": 7.511,
-      "delta_A": 0.13
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 9103.636,
-      "A_kp": 7.63,
-      "A_iag": 7.5,
-      "delta_A": 0.13
-    },
-    {
-      "band": "red-optical",
-      "treatment": "ENGINE-A",
-      "wavelength_air_A": 7664.159,
-      "A_kp": 7.449,
-      "A_iag": 7.569,
-      "delta_A": -0.12
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 7664.159,
-      "A_kp": 7.43,
-      "A_iag": 7.549,
-      "delta_A": -0.119
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 8232.316,
-      "A_kp": 7.297,
-      "A_iag": 7.406,
-      "delta_A": -0.109
-    },
-    {
-      "band": "red-optical",
-      "treatment": "1D-LTE",
-      "wavelength_air_A": 8432.174,
-      "A_kp": 5.508,
-      "A_iag": 5.615,
-      "delta_A": -0.107
     }
   ]
 }
