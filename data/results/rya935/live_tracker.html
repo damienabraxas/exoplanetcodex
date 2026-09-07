@@ -3,7 +3,8 @@
 <title>Codex calibration tracker</title>
 <style>
 :root{--bg:#0b1020;--panel:#151d32;--rule:#2b3856;--head:#18223a;--fg:#edf2ff;--mut:#9daccc;
-      --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff}
+      --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff;
+      --gold:#e6bf4d}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
 main{max-width:1600px;margin:auto;padding:24px}
 h1{margin:0 0 4px}h2{font-size:1.05rem;margin:0 0 10px}h3{font-size:.95rem;margin:14px 0 6px}
@@ -18,6 +19,8 @@ th{background:var(--head);position:sticky;top:0}
 td:first-child,th:first-child{position:sticky;left:0;background:var(--head);min-width:250px}
 code{color:var(--link);font-size:.85em}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.gref{color:var(--gold)}.gcodex{color:var(--good)}.gdeep{color:var(--mut)}
+.roletag.gref{border-color:var(--gold)}.roletag.gcodex{border-color:var(--good)}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
 .tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 .tsum{margin:6px 0 14px;line-height:1.5}
@@ -27,6 +30,7 @@ code{color:var(--link);font-size:.85em}
 .tag{font-size:.8em;color:var(--muted)}
 .insthdr{margin:12px 0 4px;padding:4px 0 4px 10px;font-size:.92rem;border-left:3px solid var(--link);background:rgba(125,184,255,.06)}
 .holdhdr{margin:8px 0 2px 14px;padding:2px 0 2px 10px;font-size:.86rem;color:var(--fg);border-left:2px solid var(--rule)}
+.gradehdr{margin:6px 0 2px 28px;padding:1px 0 1px 9px;font-size:.82rem;border-left:2px dotted var(--rule)}
 .tell5{display:grid;grid-template-columns:150px 210px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 h3{font-size:1em;margin:18px 0 4px;font-weight:600}
 h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
@@ -137,6 +141,14 @@ const CLOSED_BANDS={
 // is shared inside a group is the AXIS, so the instruments in it are comparable, which
 // is the entire point of a forest; where a group spans more than one policy band the
 // row says which band it came from.
+// Reference -> Codex -> Deep, top to bottom, in every section. Declared at module scope
+// on purpose: `byGrade` is a hoisted function declaration and read this before a
+// block-scoped `const` had initialised, which threw and rendered the ENTIRE forest empty.
+const GRADE_ORDER=['Reference Grade','Codex Grade','Deep Grade'];
+//: Reference gold, Codex green, Deep grey — the published quality order, carried in the
+//: colour as well as the position so a row is identifiable without reading the header.
+const GRADE_CLASS={'Reference Grade':'gref','Codex Grade':'gcodex','Deep Grade':'gdeep'};
+const gcls=g=>GRADE_CLASS[g]||'muted';
 const BAND_GROUPS=[
   {name:'UV',  label:'ultraviolet',      bands:['near-UV']},
   {name:'VIS', label:'visible',          bands:['VIS']},
@@ -312,8 +324,34 @@ function forest(d){
           +hKeys.map(hk=>(hKeys.length>1
               ?'<div class="holdhdr">'+esc(hk)+' <span class="muted">&middot; '
                 +byHold.get(hk).length+' product'+(byHold.get(hk).length>1?'s':'')+'</span></div>'
-              :'')+renderRows(byHold.get(hk))).join('');
+              :'')+byGrade(byHold.get(hk))).join('');
       }).join('');
+      // 🔴 A FURTHER LEVEL: GRADE, under the holding. Reference / Codex / Deep are three
+      // different LINE SELECTIONS, not three opinions on one pool -- Deep is the
+      // saturated lines above the EW depth gate, Reference reproduces a published set
+      // with that paper's own gf. Interleaved on one stack a selection difference reads
+      // as a measurement difference (RYA-842/984), which is the real hazard the old
+      // display gate was reaching for when it withheld two thirds of the products
+      // instead. Separating them shows every number AND keeps the pools apart.
+      //
+      // Ordered Reference -> Codex -> Deep, the published quality order, so the same
+      // grade sits in the same place under every holding. A grade the feed adds falls
+      // through to the end rather than being dropped.
+      function byGrade(rows){
+        const m=new Map();
+        for(const r of rows){const k=r.grade||'(ungraded)';
+                             if(!m.has(k)) m.set(k,[]); m.get(k).push(r);}
+        const keys=[...m.keys()].sort((a,b)=>{
+          const ia=GRADE_ORDER.indexOf(a), ib=GRADE_ORDER.indexOf(b);
+          return (ia<0?99:ia)-(ib<0?99:ib)||String(a).localeCompare(String(b));});
+        // One grade under this holding needs no header -- the badge is already on the row.
+        if(keys.length<2) return renderRows(rows);
+        return keys.map(k=>'<div class="gradehdr"><span class="'+gcls(k)+'"><b>'+esc(k)+'</b></span>'
+            +' <span class="muted">&middot; '+m.get(k).length+' product'
+            +(m.get(k).length>1?'s':'')+' &middot; '
+            +esc([...new Set(m.get(k).map(r=>r.tier||r.selector))].join(' / '))+'</span></div>'
+          +renderRows(m.get(k))).join('');
+      }
       function renderRows(rows){ return rows.map(r=>{
         // RYA-851: statistical SOLID, systematic WIREFRAME. NEVER summed --
         // error_budget.py:203 deliberately provides no combined(), because
@@ -372,8 +410,8 @@ function forest(d){
         // beside the number (Reference / Codex / Deep). They map one-to-one today and
         // that is not a reason to show the internal one: a reader comparing this page
         // with the public one must see the same word.
-        const gbadge=r.grade?' <span class="roletag '
-          +(/^Reference/i.test(r.grade)?'good':'muted')+'">'+esc(r.grade)+'</span>':'';
+        const gbadge=r.grade?' <span class="roletag '+gcls(r.grade)+'">'
+          +esc(r.grade)+'</span>':'';
         // 🔴 THE FOLDED-xi STATE, WHICH THIS PAGE HAS NEVER SHOWN. xi is folded into
         // `sigma_syst_complete` and moves the systematic by up to 0.0436 dex, so whether
         // it was MEASURED, UNMEASURED or NOT_APPLICABLE for this product is part of
