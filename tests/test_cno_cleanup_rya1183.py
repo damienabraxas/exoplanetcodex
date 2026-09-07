@@ -178,9 +178,8 @@ def test_the_summary_survives_either_execution_order():
     ran. The ingest now owns only the intake facts and preserves the join result."""
     ingest = ROOT / "scripts/ingest_amarsi2021_cno_rya1136.py"
     build = ROOT / "scripts/build_cno_intake_rya1136.py"
-    src = ingest.read_text()
-    assert '"canonical_matched": 0' not in src, "the ingest asserts a join it never ran"
-    assert '"verdict": "CROSSMATCH_REVIEW"' not in src
+    # Checked by BEHAVIOUR, not by substring: the ingest legitimately names these columns,
+    # it just must not fill them with a result it did not compute.
 
     def run(*scripts):
         for sc in scripts:
@@ -195,5 +194,12 @@ def test_the_summary_survives_either_execution_order():
         assert d["canonical_matched"] == 364 and d["crossmatch_review"] == 44
         assert d["verdict"] == "INTAKE_COMPLETE_REVIEW_REQUIRED"
     assert a == b, "summary.json depends on which script ran last"
+
+    # the same defect one artifact over: the ingest's coverage matrix asserted a
+    # per-cell canonical_matched=0 while the verdict reported 364 matched
+    with (AUDIT / "molecular_coverage_matrix.csv").open(newline="") as fh:
+        cells = list(csv.DictReader(fh))
+    assert cells and all(c["canonical_matched"] == "JOIN_NOT_RUN" for c in cells), \
+        "the ingest still reports a join result it never computed"
     subprocess.run(["git", "checkout", "--",
                     "data/reference/amarsi2021_cno/manifest.json"], cwd=ROOT)
