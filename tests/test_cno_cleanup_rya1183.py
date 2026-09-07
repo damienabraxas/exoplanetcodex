@@ -169,3 +169,31 @@ def test_canonical_gf_was_not_touched():
     r = subprocess.run(["git", "status", "--porcelain", "data/linelists/canonical_gf.csv"],
                        cwd=ROOT, capture_output=True, text=True)
     assert r.stdout.strip() == ""
+
+
+def test_the_summary_survives_either_execution_order():
+    """🔴 THE ACTUAL ROOT CAUSE OF B3(3). Two scripts wrote summary.json and the ingest
+    hardcoded `canonical_matched: 0` / `verdict: CROSSMATCH_REVIEW` — a pre-join state
+    asserted as fact. Whichever ran last won, so the fix reverted every time the ingest
+    ran. The ingest now owns only the intake facts and preserves the join result."""
+    ingest = ROOT / "scripts/ingest_amarsi2021_cno_rya1136.py"
+    build = ROOT / "scripts/build_cno_intake_rya1136.py"
+    src = ingest.read_text()
+    assert '"canonical_matched": 0' not in src, "the ingest asserts a join it never ran"
+    assert '"verdict": "CROSSMATCH_REVIEW"' not in src
+
+    def run(*scripts):
+        for sc in scripts:
+            r = subprocess.run([sys.executable, str(sc)], cwd=ROOT,
+                               capture_output=True, text=True)
+            assert r.returncode == 0, r.stdout + r.stderr
+        return json.loads(SUMMARY.read_text())
+
+    a = run(build, ingest)
+    b = run(ingest, build)
+    for d in (a, b):
+        assert d["canonical_matched"] == 364 and d["crossmatch_review"] == 44
+        assert d["verdict"] == "INTAKE_COMPLETE_REVIEW_REQUIRED"
+    assert a == b, "summary.json depends on which script ran last"
+    subprocess.run(["git", "checkout", "--",
+                    "data/reference/amarsi2021_cno/manifest.json"], cwd=ROOT)

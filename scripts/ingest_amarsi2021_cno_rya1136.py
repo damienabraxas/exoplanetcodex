@@ -125,19 +125,37 @@ def main() -> None:
                              if used else "Negative published selection for this used-line table"),
                 })
 
-    summary = {
+    # 🔴 RYA-1183 B3(3) — TWO WRITERS, AND THIS ONE ASSERTED A JOIN IT NEVER RAN.
+    #
+    # This block used to write the WHOLE of summary.json, hardcoding
+    # `canonical_matched: 0`, `crossmatch_review: len(rows)` and
+    # `verdict: "CROSSMATCH_REVIEW"` -- a pre-join state stated as fact. But
+    # `build_cno_intake_rya1136` also writes this file, with the REAL join result (364
+    # accepted of 408). So the two disagreed by 364 rows and whichever ran last won: the
+    # QA found the stale numbers, df17f8b committed them, and re-running the ingest
+    # reverted the fix every time.
+    #
+    # This script owns the INTAKE facts -- how many rows the source published and how they
+    # split by species and band. It does not own the JOIN result, so it no longer states
+    # one: those keys are left to the builder, and any values already on disk are
+    # PRESERVED rather than clobbered. Order of execution stops mattering.
+    path = AUDIT / "summary.json"
+    summary = json.loads(path.read_text()) if path.exists() else {}
+    summary.update({
         "schema": "codex.cno_intake_summary/1",
         "ticket": "RYA-1136",
         "molecular_used_rows": len(rows),
         "species_counts": dict(counts),
         "band_counts": dict(Counter(row["source_band"] for row in rows)),
-        "canonical_matched": 0,
-        "crossmatch_review": len(rows),
-        "frozen_ready": False,
-        "verdict": "CROSSMATCH_REVIEW",
         "next_gate": "Join Table 2 rows to exact upstream releases on physical transition identity",
-    }
-    (AUDIT / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    })
+    #: Written only when the join has never run, so a fresh checkout is not silently
+    #: missing the field -- and named so it cannot be mistaken for a computed result.
+    summary.setdefault("canonical_matched", "JOIN_NOT_RUN")
+    summary.setdefault("crossmatch_review", "JOIN_NOT_RUN")
+    summary.setdefault("frozen_ready", False)
+    summary.setdefault("verdict", "JOIN_NOT_RUN")
+    path.write_text(json.dumps(summary, indent=2) + "\n")
 
     readme = HOLDING / "raw/ReadMe"
     manifest = {
