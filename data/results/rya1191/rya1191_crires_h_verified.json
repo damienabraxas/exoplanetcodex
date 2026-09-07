@@ -1,0 +1,289 @@
+{
+  "ticket": "RYA-1191 (C, verify) \u2014 the H arm after correction",
+  "generated_at": "2026-09-07T19:55:08Z",
+  "n_graded_lines": 25,
+  "n_with_a_verdict": 25,
+  "by_state": {
+    "NO-TELLURIC-IN-WINDOW": 63,
+    "CORRECTED": 4,
+    "UNDETERMINED": 2
+  },
+  "per_line_best": [
+    {
+      "wavelength_air_A": 15591.49,
+      "segment": "H1575_o6d1",
+      "n_pixels": 73,
+      "mtrans_min": 0.0,
+      "n_deep_pixels": 31,
+      "state": "UNDETERMINED",
+      "why": "the RAW flux shows only -0.0069 contrast at the telluric pixels \u2014 no positive control",
+      "contrast_raw": -0.0069,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16541.962,
+      "segment": "H1567_o4d2",
+      "n_pixels": 71,
+      "mtrans_min": 0.0,
+      "n_deep_pixels": 61,
+      "state": "UNDETERMINED",
+      "why": "the RAW flux shows only -0.0442 contrast at the telluric pixels \u2014 no positive control",
+      "contrast_raw": -0.0442,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15691.853,
+      "segment": "H1559_o6d3",
+      "n_pixels": 79,
+      "mtrans_min": 0.7685,
+      "n_deep_pixels": 5,
+      "state": "CORRECTED",
+      "why": "telluric contrast +0.0881 -> -0.0835",
+      "contrast_raw": 0.0881,
+      "contrast_corrected": -0.0835
+    },
+    {
+      "wavelength_air_A": 16537.994,
+      "segment": "H1559_o4d2",
+      "n_pixels": 71,
+      "mtrans_min": 0.4189,
+      "n_deep_pixels": 10,
+      "state": "CORRECTED",
+      "why": "telluric contrast +0.3423 -> +0.0181",
+      "contrast_raw": 0.3423,
+      "contrast_corrected": 0.0181
+    },
+    {
+      "wavelength_air_A": 15051.749,
+      "segment": "H1559_o7d1",
+      "n_pixels": 73,
+      "mtrans_min": 0.7593,
+      "n_deep_pixels": 7,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 7 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15080.22,
+      "segment": "H1559_o7d1",
+      "n_pixels": 74,
+      "mtrans_min": 0.9708,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15207.526,
+      "segment": "H1559_o7d2",
+      "n_pixels": 79,
+      "mtrans_min": 0.989,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15294.56,
+      "segment": "H1559_o7d3",
+      "n_pixels": 82,
+      "mtrans_min": 0.9802,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15335.383,
+      "segment": "H1567_o7d3",
+      "n_pixels": 82,
+      "mtrans_min": 0.9703,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15604.22,
+      "segment": "H1559_o6d2",
+      "n_pixels": 75,
+      "mtrans_min": 0.9789,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15631.947,
+      "segment": "H1559_o6d2",
+      "n_pixels": 76,
+      "mtrans_min": 0.9986,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15648.51,
+      "segment": "H1567_o6d2",
+      "n_pixels": 76,
+      "mtrans_min": 0.9901,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15682.016,
+      "segment": "H1559_o6d3",
+      "n_pixels": 79,
+      "mtrans_min": 0.9341,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15692.747,
+      "segment": "H1559_o6d3",
+      "n_pixels": 78,
+      "mtrans_min": 0.7685,
+      "n_deep_pixels": 3,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 3 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 15835.165,
+      "segment": "H1575_o6d3",
+      "n_pixels": 81,
+      "mtrans_min": 0.8285,
+      "n_deep_pixels": 4,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 4 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16009.61,
+      "segment": "H1559_o5d2",
+      "n_pixels": 72,
+      "mtrans_min": 0.5587,
+      "n_deep_pixels": 9,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 9 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16153.247,
+      "segment": "H1559_o5d3",
+      "n_pixels": 77,
+      "mtrans_min": 0.9207,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16165.029,
+      "segment": "H1559_o5d3",
+      "n_pixels": 77,
+      "mtrans_min": 0.9448,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16179.583,
+      "segment": "H1559_o5d3",
+      "n_pixels": 78,
+      "mtrans_min": 0.9795,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16198.502,
+      "segment": "H1567_o5d3",
+      "n_pixels": 77,
+      "mtrans_min": 0.9665,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16324.451,
+      "segment": "H1575_o5d3",
+      "n_pixels": 81,
+      "mtrans_min": 0.8585,
+      "n_deep_pixels": 7,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 7 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16382.251,
+      "segment": "H1559_o4d1",
+      "n_pixels": 67,
+      "mtrans_min": 0.9818,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16396.306,
+      "segment": "H1559_o4d1",
+      "n_pixels": 67,
+      "mtrans_min": 0.9517,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 16892.361,
+      "segment": "H1559_o3d1",
+      "n_pixels": 66,
+      "mtrans_min": 0.9885,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    },
+    {
+      "wavelength_air_A": 17277.479,
+      "segment": "H1575_o3d3",
+      "n_pixels": 75,
+      "mtrans_min": 0.9198,
+      "n_deep_pixels": 0,
+      "state": "NO-TELLURIC-IN-WINDOW",
+      "why": "only 0 pixel(s) below MTRANS 0.90 in this line's +/-1.89 A window \u2014 molecfit found nothing here to remove",
+      "contrast_raw": NaN,
+      "contrast_corrected": NaN
+    }
+  ],
+  "note": "\u26a0\ufe0f A line measured on several segments keeps its best verdict; the per-segment rows are all in the CSV. NO-TELLURIC-IN-WINDOW is a statement about molecfit's own fitted transmission, so it needs no positive control \u2014 there is nothing there to remove."
+}

@@ -1111,6 +1111,8 @@ def synthesis_route(a, pol) -> None:
     # is there a RYA-940 corrected PRODUCT covering this wavelength? H2O 7160-7340 got no
     # admissible fit, so it has no file, so the quarantine still stands there.
     from measure_band_ew import telluric_reason, serves_corrected_flux
+    from pipeline.fit_validity import (fit_is_physical,
+                                       rejection_reason as fit_rejection_reason)
     _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
              for r in cand.itertuples()]
     _lifted = [(w, serves_corrected_flux(a.holding, w)) for w, why in _tell if why]
@@ -1259,6 +1261,22 @@ def synthesis_route(a, pol) -> None:
                 if not _cv.ok:
                     lm.in_aggregate = False
                     lm.excluded_reason = _cv.reason
+            # 🔴 RYA-1191 — AND A FIT THAT RETURNED AN IMPOSSIBLE ABUNDANCE IS NOT ONE
+            # EITHER. The two guards above ask whether the OPTIMISER reported success and
+            # whether the window CONSTRAINED the abundance. Neither asks whether the answer
+            # is physically possible, and 9437.793 walked through both: status 'ok',
+            # constraint verdict ok, and A = 4.539 on solar_iag against 10.988 on
+            # solar_kpno_molecfit_corrected — the same line, the same gf, 6.4 dex apart,
+            # both with `excluded_reason` blank and both in the published aggregate.
+            #
+            # ⚠️ NOT AN OUTLIER CUT (RYA-981/RYA-515): the bound spans a FACTOR OF ~1000 in
+            # iron against a line-to-line scatter of ~0.2 dex, so it can only catch
+            # non-convergence. It removes 15 of 1366 graded lines and moves the product
+            # medians by at most 0.021 dex, while restoring solar_iag NIR ENGINE-A to the
+            # shipped A = 7.599 / sigma 0.072 / n=6 that the current code does not reproduce.
+            if lm.in_aggregate and not fit_is_physical(lm.abundance, a.element):
+                lm.in_aggregate = False
+                lm.excluded_reason = fit_rejection_reason(lm.abundance, a.element)
             lines.append(lm)
         lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
         return lines

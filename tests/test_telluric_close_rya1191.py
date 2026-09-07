@@ -479,9 +479,12 @@ def test_the_red_optical_twin_offset_is_real_and_named(twin):
           if p["band"] == "red-optical" and p.get("state") == "MEASURED"]
     assert ro, "the red-optical twins must both be measured"
     assert all(abs(p["delta_A"]) > 0.03 for p in ro), [p["delta_A"] for p in ro]
-    worst = twin["worst_lines"][0]
-    assert worst["wavelength_air_A"] == pytest.approx(9012.075, abs=0.01)
-    assert worst["delta_A"] > 3.0, worst
+    # ⚠️ The worst line overall is NIR 9437.793 at 6.449 dex, so the red-optical culprit
+    # is asserted by PRESENCE, not by rank. Ranking across bands would make this test fail
+    # every time a worse line turned up elsewhere, which is not what it is checking.
+    got = {round(w["wavelength_air_A"], 3): w for w in twin["worst_lines"]}
+    assert 9012.075 in got, sorted(got)[:6]
+    assert got[9012.075]["delta_A"] > 3.0, got[9012.075]
 
 
 def test_a_contaminated_line_outside_every_declared_band_is_reported(twin):
@@ -497,4 +500,102 @@ def test_a_contaminated_line_outside_every_declared_band_is_reported(twin):
     w = 9012.075
     assert not any(lo <= w <= hi for lo, hi, _ in TELLURIC_BANDS), (
         "9012.075 is now inside a declared band — re-derive this reasoning")
-    assert twin["worst_lines"][0]["wavelength_air_A"] == pytest.approx(w, abs=0.01)
+    assert any(round(x["wavelength_air_A"], 3) == w for x in twin["worst_lines"])
+    # ⚠️ AND THE TWO CASES ARE DIFFERENT, WHICH IS THE POINT. 9437.793 — the largest
+    # discrepancy of all — IS inside a declared band (H2O 9280-9600, where RYA-1191
+    # measured kpno_molecfit PARTIAL). So the pool splits into "declared and imperfectly
+    # corrected" and "not declared at all", and only the second is a registry gap.
+    assert any(lo <= 9437.793 <= hi for lo, hi, _ in TELLURIC_BANDS), (
+        "9437.793 is no longer inside a declared band — the two cases have merged")
+
+
+# ── the fit-validity bound ───────────────────────────────────────────────────────────
+@pytest.fixture(scope="module")
+def validity(): return _load(R / "rya1191_validity_impact.json")
+
+
+def test_a_fit_that_returned_an_impossible_abundance_is_not_a_measurement():
+    """🔴 RYAN, ON FINDING A = 4.53 IN A LIVE POOL: "that seems like a bad line". It is.
+    9437.793 returns A = 4.539 on solar_iag and 10.988 on solar_kpno_molecfit_corrected —
+    same line, same gf, 6.4 dex apart, red_chi2 152 and 246, `excluded_reason` blank on
+    both. The optimiser railed and nothing stopped it entering the aggregate."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from pipeline.fit_validity import fit_is_physical
+    assert not fit_is_physical(4.539) and not fit_is_physical(10.988)
+    assert fit_is_physical(7.46) and fit_is_physical(7.0) and fit_is_physical(8.0)
+    assert fit_is_physical(None) and fit_is_physical(float("nan")), (
+        "absence is a different problem from an impossible value (RYA-833)")
+
+
+def test_the_bound_is_too_wide_to_shape_a_result(validity):
+    """⚠️ NOT AN OUTLIER CUT, AND THAT DISTINCTION IS THE WHOLE JUSTIFICATION. Dropping
+    points for being far from the others is the RYA-981 error, and RYA-515 says so
+    directly for Fe II. This bound spans a FACTOR OF ~1000 in iron against a line-to-line
+    scatter of ~0.2 dex — it can catch non-convergence and nothing else."""
+    b = validity["bound"]
+    assert b["half_width_dex"] >= 1.0, "a tighter bound would start shaping results"
+    assert b["admits"] == [b["centre_A"] - b["half_width_dex"],
+                           b["centre_A"] + b["half_width_dex"]]
+    assert validity["fraction_dropped"] < 0.03, validity["fraction_dropped"]
+
+
+def test_two_guards_were_tried_first_and_are_recorded_as_having_failed():
+    """The bound is on the abundance because the two obvious fit-quality guards do not
+    work on this data: red_chi2 > 10 flags 1262 of 1366 in-aggregate lines (the chi2 is
+    uncalibrated — HARPS's ERR column is all NaN), and missing fit diagnostics flags 334
+    of which only 3 are bad. Recording the dead ends stops the next reader re-proposing
+    them."""
+    src = (ROOT / "pipeline/fit_validity.py").read_text()
+    assert "1262 of 1366" in src and "334 lines of which only 3" in src
+    assert "NOT AN OUTLIER CUT" in src
+
+
+def test_the_bound_rediscovers_the_line_ryan_named_and_the_blend_audit_flagged(validity):
+    """🔴 THREE INDEPENDENT ROUTES, ONE LINE. Fe II 4303.170 was named by RYA-515 from its
+    abundance, found by RYA-1191's blend audit from the CH content of its window, and is
+    caught here by a bound that knows nothing about either — on a red_chi2 of 1212. The
+    blend audit's 4286.863 and 8432.174 come out too."""
+    got = {round(float(r["wavelength_air_A"]), 3) for r in validity["dropped_lines"]}
+    assert 4303.170 in got, "the bound no longer catches the known artifact"
+    assert {4286.863, 8432.174} <= got, "the blend-flagged lines are no longer caught"
+
+
+def test_the_bound_restores_a_shipped_number_the_current_code_does_not(validity):
+    """⚠️ THE CHECK THAT MAKES THIS A FIX RATHER THAN A PREFERENCE. solar_iag NIR ENGINE-A
+    ships A = 7.599 / sigma_stat 0.072 / n = 6. The current code reproduces 7.581 / 0.433 /
+    n = 7 because it keeps 9437.793 at A = 4.539. With the bound the product returns to the
+    committed value exactly."""
+    hit = [r for r in validity["products_affected"]
+           if "9199_11081_iag" in r["artifact"] and r["n_before"] == 7]
+    assert hit, "the IAG NIR ENGINE-A product is no longer in the affected set"
+    r = hit[0]
+    assert r["n_after"] == 6
+    assert r["A_after"] == pytest.approx(7.599, abs=0.002)
+    assert r["sigma_stat_after"] == pytest.approx(0.072, abs=0.002)
+    assert "reproduces_a_shipped_number" in validity
+
+
+def test_the_impact_is_reported_for_every_product_including_the_big_move(validity):
+    """⚠️ THE MOVE IS NOT UNIFORMLY SMALL, AND SAYING SO MATTERS. On the graded Fe I pools
+    the medians shift by at most 0.021 dex; on the 3-line Fe II VIS ENGINE-A pool one
+    dropped line moves A by 0.130 dex and leaves n = 2, exactly the RYA-1031 floor.
+    Quoting the Fe I figure alone would have understated it by 6x."""
+    assert validity["max_abs_delta_A"] >= 0.1, (
+        "if the max move is now small, re-derive — it was 0.140 dex")
+    big = [r for r in validity["products_affected"] if abs(r["delta_A"]) > 0.1]
+    assert big, "the large-move product must stay visible in the artifact"
+    assert any(r["n_after"] <= 2 for r in big), (
+        "a pool driven to the n=2 floor must be visible, not averaged away")
+
+
+def test_the_guard_reaches_the_aggregation_and_says_what_it_is_not():
+    """A bound nothing calls is a note. It runs after the status and constraint guards —
+    both of which 9437.793 passed — and its excluded_reason states that it is rejecting a
+    non-convergent fit, not an outlier."""
+    src = (ROOT / "scripts/derive_band_products.py").read_text()
+    assert "fit_is_physical(lm.abundance, a.element)" in src
+    assert "NOT AN OUTLIER CUT" in src
+    from pipeline.fit_validity import rejection_reason
+    r = rejection_reason(4.539)
+    assert r.startswith("FIT-NOT-PHYSICAL") and "NON-CONVERGENT FIT, not an outlier" in r

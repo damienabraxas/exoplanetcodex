@@ -62,6 +62,12 @@ sys.path.insert(0, str(ROOT / "scripts"))
 H_LO_A, H_HI_A = 15007.0, 17494.0
 MOLECULES = ("H2O", "CH4", "CO2")
 
+#: The window a line's abundance is actually fitted over in the H band — `half_width_A`
+#: from config/synth_bands.yaml, DERIVED there from the 20.51 Doppler-sigma invariant
+#: (RYA-1094), not chosen here. The verification asks its question over exactly the pixels
+#: the fit would use, because a residual outside them cannot reach the abundance.
+FIT_HALF_WIDTH_A = 1.89
+
 
 def h_frames(crires_dir=None):
     from pipeline.crires_telluric import inventory, VESTA_CRIRES_DIR
@@ -189,8 +195,17 @@ def verify(work: Path, out: Path) -> int:
             rows.append(rec)
     d = pd.DataFrame(rows)
     d.to_csv(out / "rya1191_crires_h_verified.csv", index=False)
-    best = (d[d.state.isin(["CORRECTED", "RESIDUAL", "NO-TELLURIC-IN-WINDOW"])]
-            .sort_values("state").drop_duplicates("wavelength_air_A", keep="first"))
+    # 🔴 PRECEDENCE IS WORST-FIRST, NOT ALPHABETICAL. A line measured on several segments
+    # must keep its most ALARMING verdict, not its nicest. Sorting the state strings
+    # alphabetically put CORRECTED and NO-TELLURIC-IN-WINDOW ahead of RESIDUAL, so a line
+    # carrying a residual on one segment and none on another would have been reported
+    # clean. Nothing hits that path in this run (zero RESIDUAL anywhere), which is exactly
+    # when a precedence bug survives to the run where it matters.
+    _RANK = {"RESIDUAL": 0, "UNDETERMINED": 1, "CORRECTED": 2, "NO-TELLURIC-IN-WINDOW": 3}
+    known = d[d.state.isin(_RANK)].copy()
+    known["_rank"] = known.state.map(_RANK)
+    best = (known.sort_values(["_rank", "wavelength_air_A"])
+            .drop_duplicates("wavelength_air_A", keep="first").drop(columns="_rank"))
     doc = {"ticket": "RYA-1191 (C, verify) — the H arm after correction",
            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "n_graded_lines": int(len(lines)),
