@@ -108,6 +108,10 @@ def molecular_crossmatch() -> list[dict]:
             "candidate_count": len(matches), "matched_file": str(match[3]) if match else "",
             "matched_line": match[4] if match else "", "raw_transition_label": match[5] if match else "",
             "identity_basis": "wavelength+lower_energy+loggf" if match else "",
+            # 🔴 RYA-1180: a match is only as good as what it matched AGAINST, and that was
+            # nowhere on the row. Derived from the matched file's PATH, not hardcoded per
+            # species, so a future source is graded by where it actually came from.
+            "source_provenance_grade": provenance_grade(str(match[3]) if match else ""),
             "ambiguity_note": "" if match else "No unique three-field identity in vendored exact-release candidates",
         })
     if PRIMARY_MATCH.exists():
@@ -122,6 +126,7 @@ def molecular_crossmatch() -> list[dict]:
             row["matched_line"] = match["primary_lines"]
             row["raw_transition_label"] = match["transition_labels"]
             row["identity_basis"] = "wavenumber+band+lower_energy+gf"
+            row["source_provenance_grade"] = provenance_grade(match["primary_source"])
             row["ambiguity_note"] = (
                 "" if match["join_status"] in {"PRIMARY_TUPLE_MATCH", "PRIMARY_UNRESOLVED_SUM_MATCH"}
                 else match["join_status"]
@@ -151,6 +156,56 @@ def nearest_canonical(element: str, wavelength_A: float, ep: float,
         return "", "AMBIGUOUS" if exact else "ABSENT", ""
     row = exact[0]
     return row["canonical_line_id"], "PHYSICAL_TUPLE_MATCH", row["gf_tier"]
+
+
+#: Where a matched line actually came from. A join status says the three fields agreed;
+#: it says nothing about whether the thing they agreed with is a primary table or a
+#: redistribution of one -- and RYA-1142 A4 found the intake's ONLY clean-match class
+#: (all 80 12C16O PHYSICAL_TUPLE_MATCH rows) resting entirely on an ExoMol redistribution
+#: converted by a script external to this repo. That has to be visible on the row.
+PROVENANCE_GRADES = {
+    "data/reference/cno_molecular_primary/": "PRIMARY_PUBLISHED_TABLE",
+    "data/linelists/molecular/turbospectrum/": "REDISTRIBUTION_VENDORED_SYNTHESIS_LIST",
+}
+
+
+def provenance_grade(matched_file: str) -> str:
+    """Grade a match by WHERE it matched, from the path. '' for an unmatched row.
+
+    Unrecognised is UNCLASSIFIED, never a default grade: silently calling an unknown
+    source primary is the defect this column exists to stop (RYA-1072 -- an allow-list
+    for the true case must not launder the case it does not recognise).
+    """
+    if not matched_file:
+        return ""
+    for prefix, grade in PROVENANCE_GRADES.items():
+        if matched_file.startswith(prefix):
+            return grade
+    return "UNCLASSIFIED_SOURCE"
+
+
+def barklem_adopted_de(path: Path) -> dict[str, tuple[str, str]]:
+    """{molecule: (De, e_De)} from Barklem & Collet 2016 table1.dat, read POSITIONALLY.
+
+    The CDS byte-by-byte description defines four dissociation-energy columns; only the
+    last is the paper's own adopted value:
+
+        18- 27  HH    Huber & Herzberg 1979      (comparison)
+        40- 49  Luo   Luo 2007                   (comparison)
+        62- 71  G2    G2 theory                  (comparison)
+        84- 93  De    "Dissociation energy adopted"   <- this one
+        94-103  e_De  error in the adopted value
+
+    Splitting on whitespace and taking a value that "looks right" is how RYA-853 captured
+    another author's comparison column as the paper's own number. Byte offsets, or nothing.
+    """
+    out: dict[str, tuple[str, str]] = {}
+    for line in path.read_text().splitlines():
+        mol = line[0:5].strip()
+        if not mol:
+            continue
+        out[mol] = (line[83:93].strip(), line[93:103].strip())
+    return out
 
 
 def atomic_census() -> list[dict]:
@@ -221,23 +276,58 @@ def main() -> None:
     write_csv(AUDIT / "atomic_source_census.csv", atomic, tuple(atomic[0]))
 
     sources = [
-        {"source_id":"AGSS21","citation":"Asplund, Amarsi & Grevesse 2021, A&A 653 A141","doi":"10.1051/0004-6361/202140445","role":"adopted Solar CNO lineage","asset":"article","sha256":"","status":"SOURCE_IDENTIFIED"},
-        {"source_id":"Amarsi2021_Table2","citation":"Amarsi et al. 2021, A&A 656 A113","doi":"10.1051/0004-6361/202141384","role":"408 used molecular transitions","asset":str(MOLECULAR.relative_to(ROOT)),"sha256":sha256(MOLECULAR),"status":"ACQUIRED"},
-        {"source_id":"Amarsi2019_Table1","citation":"Amarsi, Nissen & Skuladottir 2019, A&A 630 A104","doi":"10.1051/0004-6361/201936179","role":"C I/O I atomic model-grid line parameters","asset":str(ATOMIC.relative_to(ROOT)),"sha256":sha256(ATOMIC),"status":"ACQUIRED"},
-        {"source_id":"Amarsi2020_N","citation":"Amarsi et al. 2020, A&A 642 A62","doi":"10.1051/0004-6361/202038650","role":"N I model atom and departure grid","asset":"data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json","sha256":sha256(ROOT/'data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json'),"status":"ACQUIRED_PARTIAL_LINEAGE"},
-        {"source_id":"Brooke2013_C2","citation":"Brooke et al. 2013, JQSRT 124, 11","doi":"10.1016/j.jqsrt.2013.02.025","role":"C2 wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip'),"status":"ACQUIRED"},
-        {"source_id":"Brooke2014_CN","citation":"Brooke et al. 2014, ApJS 210, 23","doi":"10.1088/0067-0049/210/2/23","role":"CN wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz'),"status":"ACQUIRED"},
-        {"source_id":"Brooke2015_NH","citation":"Brooke et al. 2015, J. Chem. Phys. 143, 026101","doi":"10.1063/1.4923422","role":"NH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip'),"status":"ACQUIRED"},
-        {"source_id":"Brooke2016_OH","citation":"Brooke et al. 2016, JQSRT 168, 142","doi":"10.1016/j.jqsrt.2015.07.021","role":"OH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip'),"status":"ACQUIRED"},
-        {"source_id":"Masseron2014_CH","citation":"Masseron et al. 2014, A&A 571 A47","doi":"10.1051/0004-6361/201423956","role":"CH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz'),"status":"ACQUIRED"},
-        {"source_id":"Li2015_CO","citation":"Li et al. 2015, ApJS 216, 15","doi":"10.1088/0067-0049/216/1/15","role":"12C16O wavelengths, energies, transition probabilities","asset":"data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat","sha256":sha256(TS/'CO/CO_IR_Li2015.dat'),"status":"ACQUIRED"},
-        {"source_id":"BarklemCollet2016","citation":"Barklem & Collet 2016, A&A 588 A96","doi":"10.1051/0004-6361/201526961","role":"molecular partition functions and equilibrium constants","asset":"data/reference/cno_molecular_primary/constants_barklem2016/table1.dat","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/constants_barklem2016/table1.dat'),"status":"ACQUIRED"},
+        {"source_id":"AGSS21","source_type":"article","citation":"Asplund, Amarsi & Grevesse 2021, A&A 653 A141","doi":"10.1051/0004-6361/202140445","role":"adopted Solar CNO lineage","asset":"article","sha256":"","status":"SOURCE_IDENTIFIED","provenance_note":""},
+        {"source_id":"Amarsi2021_Table2","source_type":"primary_published_table","citation":"Amarsi et al. 2021, A&A 656 A113","doi":"10.1051/0004-6361/202141384","role":"408 used molecular transitions","asset":str(MOLECULAR.relative_to(ROOT)),"sha256":sha256(MOLECULAR),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Amarsi2019_Table1","source_type":"primary_published_table","citation":"Amarsi, Nissen & Skuladottir 2019, A&A 630 A104","doi":"10.1051/0004-6361/201936179","role":"C I/O I atomic model-grid line parameters","asset":str(ATOMIC.relative_to(ROOT)),"sha256":sha256(ATOMIC),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Amarsi2020_N","source_type":"derived_grid","citation":"Amarsi et al. 2020, A&A 642 A62","doi":"10.1051/0004-6361/202038650","role":"N I model atom and departure grid","asset":"data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json","sha256":sha256(ROOT/'data/nlte_grids/amarsi_galah/N_amarsi2020_v3.prov.json'),"status":"ACQUIRED_PARTIAL_LINEAGE","provenance_note":""},
+        {"source_id":"Brooke2013_C2","source_type":"primary_published_table","citation":"Brooke et al. 2013, JQSRT 124, 11","doi":"10.1016/j.jqsrt.2013.02.025","role":"C2 wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/c2_brooke2013/BrookeEtAl-C2-2013-JQSRT.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2014_CN","source_type":"primary_published_table","citation":"Brooke et al. 2014, ApJS 210, 23","doi":"10.1088/0067-0049/210/2/23","role":"CN wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2015_NH","source_type":"primary_published_table","citation":"Brooke et al. 2015, J. Chem. Phys. 143, 026101","doi":"10.1063/1.4923422","role":"NH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/nh_brooke2015/BrookeEtAl-NH-2015-JCP.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Brooke2016_OH","source_type":"primary_published_table","citation":"Brooke et al. 2016, JQSRT 168, 142","doi":"10.1016/j.jqsrt.2015.07.021","role":"OH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Masseron2014_CH","source_type":"primary_published_table","citation":"Masseron et al. 2014, A&A 571 A47","doi":"10.1051/0004-6361/201423956","role":"CH wavelengths, energies, transition probabilities","asset":"data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/ch_masseron2014/table14.dat.gz'),"status":"ACQUIRED","provenance_note":""},
+        {"source_id":"Li2015_CO","citation":"Li et al. 2015, ApJS 216, 15","doi":"10.1088/0067-0049/216/1/15","source_type":"redistribution","role":"12C16O transition data, TWICE DERIVED: ExoMol redistribution of Li2015, then converted to Turbospectrum babsma format","asset":"data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat","sha256":sha256(TS/'CO/CO_IR_Li2015.dat'),"status":"ACQUIRED_AS_REDISTRIBUTION","provenance_note":"NOT a primary Li 2015 ApJS 216,15 table. The asset's own second line reads 'ExoMol Li2015'; MOLECULAR_MANIFEST records it as an RYA-236 conversion of the ExoMol Li2015 CO list to Turbospectrum babsma (species code 0608.012016) by a converter EXTERNAL to this repo, so the conversion cannot be re-run or verified here. No Li 2015 primary table has been acquired: data/reference/cno_molecular_primary/ has no CO directory. This is the sole source behind all 80 12C16O PHYSICAL_TUPLE_MATCH rows -- the intake's entire clean-match class (RYA-1142 A4, RYA-1180)."},
+        {"source_id":"BarklemCollet2016","citation":"Barklem & Collet 2016, A&A 588 A96","doi":"10.1051/0004-6361/201526961","source_type":"primary_published_table","role":"adopted molecular DISSOCIATION ENERGIES (table1.dat) -- partition functions and equilibrium constants NOT acquired","asset":"data/reference/cno_molecular_primary/constants_barklem2016/table1.dat","sha256":sha256(ROOT/'data/reference/cno_molecular_primary/constants_barklem2016/table1.dat'),"status":"ACQUIRED_PARTIAL","provenance_note":"The role previously read 'molecular partition functions and equilibrium constants' while the asset was table1.dat, which is the DISSOCIATION ENERGY table. Per the holding's own ReadMe: table1=dissociation energies (ON DISK), table6=partition functions (ABSENT), table7=equilibrium constants (ABSENT), table2/*=per-molecule constants (ABSENT; list.dat is only its filename index). See molecular_constants_ledger.csv for what is actually acquired (RYA-1142 A5, RYA-1180)."},
     ]
     write_csv(AUDIT / "source_bibliography.csv", sources, tuple(sources[0]))
 
+    # 🔴 RYA-1180 (RYA-1142 A5). This ledger used to emit six BYTE-IDENTICAL rows all
+    # claiming `PRIMARY_TABLES_ACQUIRED` with `partition_function_source = Barklem &
+    # Collet 2016` -- for tables that are NOT ON DISK. Per the holding's own ReadMe:
+    #   table1.dat  dissociation energies              ON DISK   (the only one)
+    #   table6.dat  partition functions for molecules  ABSENT
+    #   table7.dat  equilibrium constants              ABSENT
+    #   table2/*    per-molecule constants             ABSENT (list.dat is its index)
+    # So the ledger asserted acquisition of exactly what was missing and recorded none of
+    # what was present. It now carries the six ADOPTED De values PARSED FROM the acquired
+    # file -- never retyped, so the ledger cannot drift from its source (RYA-1101) -- with
+    # the table id, the row label and the file checksum, per molecule.
+    #
+    # ⚠️ THE ADOPTED COLUMN IS NOT THE FIRST ONE. table1.dat carries four De columns:
+    # HH (Huber & Herzberg 1979), Luo (2007), G2 theory, and `De` = "Dissociation energy
+    # adopted" at bytes 84-93. They disagree: NH is HH 3.470, Luo 3.470, G2 3.378, and
+    # ADOPTED 3.419 -- a value equal to none of its inputs. Read POSITIONALLY by the
+    # ReadMe's byte offsets, never by whitespace order (RYA-853's comparison-column defect).
     constants = []
+    de_table = ROOT / "data/reference/cno_molecular_primary/constants_barklem2016/table1.dat"
+    de_sha = sha256(de_table)
+    adopted = barklem_adopted_de(de_table)
     for molecule in ("C2", "CH", "CN", "NH", "OH", "CO"):
-        constants.append({"molecule":molecule,"partition_function_source":"Barklem & Collet 2016","dissociation_energy_source":"Barklem & Collet 2016 table1/list holdings","isotopic_assumption":"12C16O explicit for CO; other Table2 isotopologues implicit main species","verdict":"PRIMARY_TABLES_ACQUIRED"})
+        de, e_de = adopted[molecule]
+        constants.append({
+            "molecule": molecule,
+            "dissociation_energy_eV": de,
+            "dissociation_energy_unc_eV": e_de,
+            "dissociation_energy_source": "Barklem & Collet 2016, table1.dat col 'De' (bytes 84-93, 'Dissociation energy adopted')",
+            "de_source_asset": "data/reference/cno_molecular_primary/constants_barklem2016/table1.dat",
+            "de_source_sha256": de_sha,
+            "de_source_row_label": molecule,
+            "partition_function_source": "Barklem & Collet 2016 table6.dat",
+            "partition_function_status": "NOT_ACQUIRED",
+            "equilibrium_constant_status": "NOT_ACQUIRED (table7.dat)",
+            "per_molecule_constants_status": "NOT_ACQUIRED (table2/* absent; list.dat is only its filename index)",
+            "isotopic_assumption": "12C16O explicit for CO; other Table2 isotopologues implicit main species",
+            "verdict": "DISSOCIATION_ENERGY_ACQUIRED; PARTITION_FUNCTIONS_AND_EQUILIBRIUM_CONSTANTS_NOT_ACQUIRED",
+        })
     write_csv(AUDIT / "molecular_constants_ledger.csv", constants, tuple(constants[0]))
 
     conflict = [
