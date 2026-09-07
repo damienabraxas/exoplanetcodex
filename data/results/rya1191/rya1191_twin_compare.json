@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-1191 \u2014 twin test: telluric offset vs gf-limited width",
-  "generated_at": "2026-09-07T20:03:06Z",
+  "generated_at": "2026-09-07T20:30:18Z",
   "guard": "pipeline.fit_validity (|A - 7.46| <= 1.5 dex) applied to both pools BEFORE matching \u2014 Ryan 2026-09-07 20:01: guard first, then assess telluric, because a railed fit contaminates both the offset and the width",
   "gate": {
     "max_offset_dex": 0.03,
