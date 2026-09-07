@@ -265,7 +265,28 @@ def _feature_depth(waves: np.ndarray) -> np.ndarray:
     f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
                             d=("central_depth", "max")).reset_index(drop=True)
     fw, fd = f.w.values, f.d.values
-    return np.array([fd[int(np.argmin(np.abs(fw - w)))] for w in waves])
+    # 🔴 RYA-1191 — `argmin` HAS NO DISTANCE LIMIT, AND A LINE THE CATALOGUE DOES NOT
+    # CARRY INHERITS A STRANGER'S DEPTH. Fe I 8432.174 (Ruffoni 2014, LAB) has NO Fe row
+    # in linelist_solar at all; the nearest FEATURE is 8433.778, **1.604 A away**, and its
+    # depth 0.023 sailed the line through the <= 0.60 graded gate. The line is then fitted,
+    # is unmeasurably weak in the Sun, and returns A = 5.5-5.9 across three holdings.
+    #
+    # The limit is DERIVED, not chosen: `GROUP_A` (0.05 A) is the width inside which rows
+    # are treated as ONE feature, so a line further than twice that from every feature
+    # CENTRE is not part of any of them. Measured on the current pool it changes exactly
+    # one line of 450 — 8432.174 — and leaves the two next-furthest (0.079 and 0.060 A,
+    # both well inside a resolution element) untouched.
+    #
+    # ⚠️ NaN, not a default. "We do not know this line's depth" is a different statement
+    # from "its depth is zero" or "its depth is its neighbour's" (RYA-833), and the
+    # selectors below refuse a NaN rather than gating on it.
+    limit = 2.0 * GROUP_A
+    out = np.full(len(waves), np.nan)
+    for i, w in enumerate(waves):
+        j = int(np.argmin(np.abs(fw - w)))
+        if abs(fw[j] - w) <= limit:
+            out[i] = fd[j]
+    return out
 
 
 def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
@@ -353,6 +374,17 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
             f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    # ⚠️ A LINE WITH NO KNOWN DEPTH IS REPORTED, NOT SILENTLY DROPPED. Both `depth > gate`
+    # and `depth <= gate` are False for NaN, so an unknown-depth line would vanish from
+    # BOTH the graded and the deep-graded pool without a word — the RYA-833 shape.
+    _unknown = np.isnan(depth)
+    if _unknown.any():
+        print(f"  [graded] {int(_unknown.sum())} LAB-tier {species} line(s) have NO "
+              f"feature in linelist_solar within {2.0 * DEPTH_HI * 0 + 0.10:.2f} A and so "
+              f"no known depth — EXCLUDED from both pools, listed rather than dropped "
+              f"silently (RYA-1191):")
+        for _w in lab.wavelength_air_A.values.astype(float)[_unknown]:
+            print(f"      {_w:10.3f}  no Fe row in the stellar catalogue at this wavelength")
     sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
     print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
           f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")
