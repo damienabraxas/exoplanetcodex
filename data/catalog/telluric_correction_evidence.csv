@@ -3,10 +3,10 @@
 # data/results/rya1191/rya1191_telluric_residual.json. Do not hand-edit:
 # `--check` diffs this against a fresh derivation and CI fails on drift.
 holding_id,band_name,lo_A,hi_A,state,judged_by,statistic,value,reference_value,ticket,note
-"solar_kpno_molecfit_corrected","O2 gamma-band","6270.0","6300.0","partial","TEMPLATE (line positions)","residual_z","4.63","22.02","RYA-1191","solar_kpno_molecfit_corrected: residual at +4.6 sigma (uncorrected references reach +22.0) — PARTIAL correction"
-"solar_kpno_kurucz2005_corrected","O2 gamma-band","6270.0","6300.0","clean","TEMPLATE (line positions)","residual_z","-1.53","22.02","RYA-1191","clean: the uncorrected references light this band up and this holding does not follow them"
-"solar_harps_molecfit_corrected","O2 gamma-band","6270.0","6300.0","uncorrected","TEMPLATE (line positions)","residual_z","12.01","22.02","RYA-1191","solar_harps_molecfit_corrected: residual at +12.0 sigma (uncorrected references reach +22.0) — essentially UNCORRECTED"
-"solar_iag","O2 gamma-band","6270.0","6300.0","clean","TEMPLATE (line positions)","residual_z","-1.46","22.02","RYA-1191","clean: the uncorrected references light this band up and this holding does not follow them"
+"solar_kpno_molecfit_corrected","O2 gamma-band","6270.0","6300.0","undetermined","NO POWER","none","","","RYA-1191","no test had power in this band — NOT a clean verdict (RYA-833)"
+"solar_kpno_kurucz2005_corrected","O2 gamma-band","6270.0","6300.0","undetermined","NO POWER","none","","","RYA-1191","no test had power in this band — NOT a clean verdict (RYA-833)"
+"solar_harps_molecfit_corrected","O2 gamma-band","6270.0","6300.0","undetermined","NO POWER","none","","","RYA-1191","no test had power in this band — NOT a clean verdict (RYA-833)"
+"solar_iag","O2 gamma-band","6270.0","6300.0","undetermined","NO POWER","none","","","RYA-1191","no test had power in this band — NOT a clean verdict (RYA-833)"
 "solar_kpno_molecfit_corrected","O2 B-band","6867.0","6884.0","clean","DEPTH (template saturated)","depth_over_own_side_windows","0.56","3.91","RYA-1191","clean: the uncorrected references light this band up and this holding does not follow them"
 "solar_kpno_kurucz2005_corrected","O2 B-band","6867.0","6884.0","clean","DEPTH (template saturated)","depth_over_own_side_windows","0.37","3.91","RYA-1191","clean: the uncorrected references light this band up and this holding does not follow them"
 "solar_harps_molecfit_corrected","O2 B-band","6867.0","6884.0","clean","DEPTH (template saturated)","depth_over_own_side_windows","0.8","3.91","RYA-1191","clean: the uncorrected references light this band up and this holding does not follow them"
