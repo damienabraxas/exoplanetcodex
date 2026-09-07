@@ -40,6 +40,30 @@ correlates NEGATIVELY with it. `residual_r` is reported already flipped, so that
 POSITIVE number always means MORE RESIDUAL, and the raw references are printed beside
 every row as the positive control.
 
+🔴 THE SECOND NULL, AND LEG B SHIPPED WITHOUT IT. The displaced-template null below
+controls for REGISTRATION — whether a correlation survives when the template is slid off
+the lines. It does NOT control for the template carrying structure that is not telluric at
+all. Measured on windows with no telluric complex in them, the raw/corrected ratio of two
+SEPARATELY REDUCED IAG products is not flat:
+
+    5500-5600  clean   template min 0.985   frac<0.95 0.0000
+    6000-6100  clean   template min 0.946   frac<0.95 0.0007
+    6400-6500  clean   template min 0.476   frac<0.95 0.0566   <-- in a CLEAN window
+    6270-6300  O2 gamma             0.172             0.1313
+    6867-6884  O2 B                 0.005             0.7435
+    7160-7340  H2O                  0.005             0.5092
+
+⚠️ SO THE O2 GAMMA VERDICT WAS NOT SAFE AND IS WITHDRAWN. Its template depth is barely
+above the 6400-6500 CONTROL, and molecfit's own physical model of that band — fitted on
+HARPS's own night with real GDAS — puts the deepest O2 gamma pixel at **1.78% absorption**
+against this template's 82.76%, a factor of 47, with only r = +0.21 shared between them.
+The "+12.0 sigma, essentially uncorrected" reading was measuring HARPS against a
+Baker-vs-Reiners REDUCTION difference, not against telluric.
+
+The DEEP bands are unaffected: O2 B, H2O 7160-7340 and H2O 9280-9600 sit one to two orders
+above the control level, so the template there is dominated by the real correction. A band
+is now only judged if it clears the clean-window null, and o2gamma does not.
+
 TELLURIC OR BLEND — THE DISCRIMINATOR
 --------------------------------------
 A stellar blend missing from `linelist_solar.csv` is IN THE SUN: it appears in every
@@ -70,6 +94,15 @@ NULL_SHIFTS_KMS = tuple(v for v in range(-400, 401, 10) if abs(v) >= 120)
 NULL_Z = 3.0
 
 TEMPLATE = ("iag_fts_solar_atlas", "solar_iag_reiners2016", "solar_iag")
+
+#: Windows with NO registered telluric complex, used to measure how much structure the
+#: template carries that is not telluric. A band whose template is no deeper than these
+#: cannot be judged by it.
+TEMPLATE_CONTROL_WINDOWS = ((5500.0, 5600.0), (6000.0, 6100.0), (6400.0, 6500.0))
+#: A band's template must be this many times deeper than the worst clean window before the
+#: shape test is allowed to speak. 3x is deliberately loose: the deep bands clear it by
+#: 9-17x and o2gamma fails it, so nothing hinges on the exact value.
+TEMPLATE_OVER_CONTROL = 3.0
 
 HOLDINGS = [("kpno_solar_atlas", "solar_kpno", "UNCORRECTED REFERENCE"),
             ("iag_fts_solar_atlas", "solar_iag_reiners2016", "UNCORRECTED REFERENCE"),
@@ -108,6 +141,38 @@ def template(V, lo, hi):
     wc, fc = _prof(V, inst, corr_, lo - 2, hi + 2)
     tel = np.clip(np.interp(wc, wr, fr) / np.clip(fc, 1e-6, None), 0.0, 2.0)
     return wc, tel
+
+
+_ctrl_cache: dict = {}
+
+
+def _control_level(V) -> dict:
+    """How much structure the template carries where there is NO telluric.
+
+    🔴 THE NULL LEG B DID NOT HAVE. The displaced null asks whether a correlation survives
+    sliding the template off the lines; it cannot notice that the template itself is not
+    telluric. `solar_iag` and `solar_iag_reiners2016` are SEPARATELY REDUCED, so their
+    ratio carries reduction differences everywhere — up to 0.476 minimum transmission and
+    5.7% of pixels below 0.95 in the clean 6400-6500 A window. Any band whose template is
+    not clearly deeper than that is being judged against an artifact.
+    """
+    if "c" not in _ctrl_cache:
+        fracs, mins = [], []
+        for lo, hi in TEMPLATE_CONTROL_WINDOWS:
+            try:
+                _, tel = template(V, lo, hi)
+            except Exception:
+                continue
+            fracs.append(float(np.mean(tel < 0.95)))
+            mins.append(float(np.nanmin(tel)))
+        _ctrl_cache["c"] = {
+            "windows": [list(w) for w in TEMPLATE_CONTROL_WINDOWS],
+            "worst_frac": (max(fracs) if fracs else 0.0),
+            "worst_min": (min(mins) if mins else 1.0),
+            "note": ("the template is NOT flat where there is no telluric — this is the "
+                     "level a band must clear before its shape test means anything"),
+        }
+    return _ctrl_cache["c"]
 
 
 def measure(V, inst, hold, lo, hi, tw, tel):
@@ -154,9 +219,13 @@ def main(argv=None) -> int:
                           "why": f"the IAG pair does not reach this band: {str(e)[:70]}"})
             continue
         depth_frac = float(np.mean(tel < 0.95))
+        ctrl = _control_level(V)
+        row_ok_by_template = depth_frac >= TEMPLATE_OVER_CONTROL * ctrl["worst_frac"]
         row = {"band": str(name), "lo_A": lo, "hi_A": hi, "state": "MEASURED",
                "template_min": round(float(np.nanmin(tel)), 4),
                "template_frac_below_0.95": round(depth_frac, 4),
+               "template_frac_below_0.95_in_clean_controls": ctrl["worst_frac"],
+               "template_clears_the_clean_window_null": bool(row_ok_by_template),
                "catalogued_stellar_depth_per_A": round(float(
                    ls.loc[ls.wavelength_air_A.between(lo, hi), "central_depth"].sum()
                    / (hi - lo)), 3),
@@ -186,6 +255,7 @@ def main(argv=None) -> int:
             "caveat": ("⚠️ LINE POSITIONS ONLY. Airmass and PWV differ between nights, so "
                        "scoring is by shape correlation and never by depth."),
         },
+        "clean_window_null": _control_level(V),
         "null_estimator": (f"per band, r(0) against r(dv) for {len(NULL_SHIFTS_KMS)} "
                            f"shifts with |dv| >= 120 km/s; residual at z >= {NULL_Z}"),
         "sign_convention": ("residual_r is FLIPPED so that LARGER POSITIVE = MORE "
@@ -227,6 +297,19 @@ def _verdict(row) -> dict:
     up. Where they do not, the template has no lines here and the row says so rather than
     reporting every holding as clean.
     """
+    # 🔴 FIRST: is the TEMPLATE telluric here at all? A band whose template is no deeper
+    # than the clean-window controls is being judged against a reduction difference, and
+    # no amount of displaced-null significance rescues that (o2gamma: template 13.1% of
+    # pixels below 0.95 against a 5.7% CONTROL, while molecfit's physical model of the
+    # same band absorbs at most 1.78%).
+    if not row.get("template_clears_the_clean_window_null", True):
+        return {"verdict": (
+            f"NO TEMPLATE — this band's template is {row['template_frac_below_0.95']:.4f} "
+            f"of pixels below 0.95 against {row['template_frac_below_0.95_in_clean_controls']:.4f} "
+            f"in windows with NO telluric, so it is not clearly deeper than the "
+            f"reduction difference between the two IAG products. ⚠️ NOT a clean verdict: "
+            f"nothing here can be judged by shape (RYA-833)."),
+            "judged_by": None, "gaps": []}
     refs = [c for h, c in row["holdings"].items()
             if c.get("note") == "UNCORRECTED REFERENCE" and c["state"] == "MEASURED"]
     powered = [c for c in refs if c["residual_z"] >= 3 * NULL_Z]

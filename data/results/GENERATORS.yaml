@@ -34,6 +34,126 @@
 
 artifacts:
   # ── RYA-1191 — the telluric CLOSE for Fe: verified at every graded line ───────────
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --skip-engine-b
+    ticket: RYA-1191
+    note: >-
+      🔴 A SIBLING, NOT A REPLACEMENT, AND THAT IS THE FINDING. The Fe II VIS HARPS product
+      is committed under the stem `FeII_4200_6910_harps...`, but the CURRENT code emits
+      `4200_6908` — the arm intersection trims 2 A that the committed name does not carry.
+      So re-running it to drop Fe II 4303.170 produced this new artifact instead of
+      updating the shipped one, and the shipped ENGINE-A row still reads A = 7.617 / n = 3
+      WITH the CH artifact in it. (HARPS Fe I VIS is already committed at 4200_6908, so the
+      two ions disagree about the same instrument's span.) Kept so the measurement is not
+      lost: A = 7.533 / n = 2 (ENGINE-A) and 7.931 / n = 8 (1D-LTE) with 4303.170 removed.
+      The shipped product needs re-measuring under a stem its own generator reproduces.
   - artifact: rya1191/rya1191_validity_dropped_lines.csv
     generator: scripts/rya1191_validity_impact.py
     invocation: python3 scripts/rya1191_validity_impact.py --out-dir data/results/rya1191

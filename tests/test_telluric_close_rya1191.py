@@ -76,16 +76,43 @@ def test_no_graded_line_carries_an_abundance_on_verified_raw_telluric_flux(doc_a
 
 
 # ── (B) telluric residual vs uncatalogued blend ──────────────────────────────────────
-def test_a_shallow_band_is_invisible_to_the_depth_test(doc_b):
-    """🔴 WHY RYA-1192 WROTE OFF A BAND THAT HAS TELLURIC IN IT. At 6270-6300 the Kitt
-    Peak RAW atlas sits 1.07x its own side windows, so a depth cut sees nothing — and the
-    template test puts the same uncorrected reference at +18 sigma. The band is shallow,
-    not empty."""
+def test_the_o2gamma_verdict_is_WITHDRAWN_and_says_why(doc_b):
+    """🔴 I REPORTED THIS ONE AND IT WAS WRONG. Leg B called o2gamma "harps essentially
+    UNCORRECTED, +12.0 sigma". The template it was measured against is the ratio of two
+    SEPARATELY REDUCED IAG products, and that ratio is not flat where there is no
+    telluric: in the clean 6400-6500 A window it reaches 0.476 minimum transmission with
+    5.7% of pixels below 0.95. o2gamma's own template is 11.8% — not clearly above it.
+
+    molecfit settles it independently: fitted on HARPS's own night with real GDAS, its
+    PHYSICAL model puts the deepest O2 gamma pixel at 1.78% absorption against this
+    template's 82.76%, a factor of 47, with only r = +0.21 shared. The +12 sigma was
+    HARPS correlating with a Baker-vs-Reiners REDUCTION difference."""
     b = next(x for x in doc_b["bands"] if x["lo_A"] == 6270.0)
-    kp = b["holdings"]["solar_kpno"]
-    assert kp["depth_over_side"] < 1.3, "if KP is now deep here, re-derive this reasoning"
-    assert kp["residual_z"] > 9.0, kp
-    assert b["judged_by"].startswith("TEMPLATE")
+    assert b["template_clears_the_clean_window_null"] is False
+    assert b["verdict"].startswith("NO TEMPLATE")
+    assert "NOT a clean verdict" in b["verdict"]
+    assert not b["gaps"], "a withdrawn band must claim no gaps"
+
+
+def test_the_clean_window_null_exists_and_is_not_flat(doc_b):
+    """⚠️ THE NULL LEG B DID NOT HAVE. A displaced null controls for REGISTRATION — it
+    cannot notice that the template is not telluric to begin with. This one measures the
+    template where no telluric complex exists, and it is emphatically not zero."""
+    c = doc_b["clean_window_null"]
+    assert c["worst_frac"] > 0.02, (
+        "if the template were now flat in clean windows, the o2gamma withdrawal needs "
+        "re-deriving")
+    assert len(c["windows"]) >= 3
+    assert "NOT flat" in c["note"]
+
+
+def test_the_deep_bands_are_unaffected_by_the_withdrawal(doc_b):
+    """The damage is bounded. O2 B, H2O 7160-7340 and H2O 9280-9600 sit one to two orders
+    above the clean-window level, so their verdicts rest on real correction structure and
+    stand."""
+    for lo in (6867.0, 7160.0, 9280.0):
+        b = next(x for x in doc_b["bands"] if x["lo_A"] == lo)
+        assert b["template_clears_the_clean_window_null"] is True, lo
 
 
 def test_a_difference_cannot_tell_a_rescale_from_a_line_removal(doc_b):
@@ -99,22 +126,6 @@ def test_a_difference_cannot_tell_a_rescale_from_a_line_removal(doc_b):
     assert any("o2gamma" in f.lower() or "O2 gamma" in f for f in s["findings_rejudged"])
     assert "rescale" in s["why_the_earlier_tests_missed_it"] or \
            any("rescale" in f for f in s["findings_rejudged"])
-
-
-def test_the_harps_o2gamma_gap_is_telluric_and_not_a_stellar_blend(doc_b):
-    """The ticket's discriminator, and it is decidable. A line missing from
-    linelist_solar is IN THE SUN and would show in every holding; kurucz2005 and IAG are
-    clean at 6270-6300 while HARPS carries the template's lines at +12 sigma, unchanged
-    between its raw and corrected products. Atmosphere, not star."""
-    b = next(x for x in doc_b["bands"] if x["lo_A"] == 6270.0)
-    h = b["holdings"]
-    assert h["solar_harps_molecfit_corrected"]["residual_z"] >= 9.0
-    assert abs(h["solar_harps"]["residual_z"]
-               - h["solar_harps_molecfit_corrected"]["residual_z"]) < 0.5, (
-        "raw and corrected must be indistinguishable — that is what makes it a GAP")
-    for clean in ("solar_iag", "solar_kpno_kurucz2005_corrected"):
-        assert h[clean]["residual_z"] < 3.0, f"{clean} is not clean — blend is back on the table"
-    assert "NOT A STELLAR BLEND" in b["verdict"]
 
 
 def test_kurucz2005_is_clean_in_H2O_7160_and_rya1192_was_wrong(doc_b):
@@ -175,9 +186,12 @@ def test_partial_and_undetermined_both_refuse_and_are_distinguishable():
     from pipeline import telluric_policy as tp
     if not EVID.exists():
         pytest.skip("evidence table absent")
+    # o2gamma is now `undetermined` on every holding (its template was withdrawn), and
+    # H2O 9280-9600 is `partial` on the molecfit holding — the two states this test exists
+    # to keep apart, on real rows.
     st, prov = tp.verified_band_state("solar_harps_molecfit_corrected", 6285.0)
-    assert st == "uncorrected" and prov
-    st2, _ = tp.verified_band_state("solar_kpno_molecfit_corrected", 6285.0)
+    assert st == "undetermined" and prov
+    st2, _ = tp.verified_band_state("solar_kpno_molecfit_corrected", 9400.0)
     assert st2 == "partial"
     assert st != st2
     src = (ROOT / "pipeline/telluric_policy.py").read_text()
@@ -653,3 +667,45 @@ def test_the_guard_reaches_the_aggregation_and_says_what_it_is_not():
     from pipeline.fit_validity import rejection_reason
     r = rejection_reason(4.539)
     assert r.startswith("FIT-NOT-PHYSICAL") and "NON-CONVERGENT FIT, not an outlier" in r
+
+
+# ── the provenance note that cited a bad fit as its evidence ─────────────────────────
+def test_the_irreducible_dispersion_note_no_longer_rests_on_a_bad_fit():
+    """🔴 THE NOTE NAMED ITS OWN COUNTER-EXAMPLE AS PROOF. It read "the widest bars carry
+    the LARGEST n (KP ENGINE-A 1.315 at n=7 is the exception that proves it — CRIRES+
+    curated lab-gf is ~6x tighter at n=5)". That 1.315 is sigma_stat 0.497 x sqrt(7), and
+    it is ONE non-convergent fit: 9437.793 at A = 10.988 here against 4.539 on solar_iag.
+    Guarded it is 0.144 at n=6 — indistinguishable from CRIRES+'s 0.138, so the ~6x ratio
+    was that single line."""
+    import json as _json
+    feed = _json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "IRREDUCIBLE under the current NIR line list. It tracks gf QUALITY" not in raw, (
+        "the refuted claim is back in the feed")
+    assert raw.count("RYA-1191 RE-DERIVED THIS NOTE") == 6, (
+        "every irreducible_dispersion block must carry the correction")
+    assert "NOT more lines\"" not in raw.replace(
+        "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has "
+        "already been removed (RYA-1191)", ""), "a bare 'NOT more lines' claim survives"
+    assert feed, "the feed must still parse"
+
+
+def test_the_note_keeps_the_part_of_the_claim_that_survived():
+    """⚠️ Ryan's instruction was "keep the true one, fix the false one" — not to replace
+    one blanket story with another. Re-measured on guarded pools the many-line NIR bars
+    ARE still the widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line
+    curated ones (CRIRES+ 0.138 at n=5), so "tracks gf quality, not line count" stands.
+    What does not stand is IRREDUCIBLE: it more than halved."""
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "still tracks gf QUALITY rather than line count" in raw
+    assert "would still widen it" in raw
+    assert "it is NOT IRREDUCIBLE" in raw
+    assert "0.895 -> 0.386" in raw and "0.949 -> 0.307" in raw
+
+
+def test_the_stale_dispersion_number_is_flagged_not_silently_left():
+    """⚠️ `dispersion_dex` is derived from the product's own sigma_stat and cannot be
+    corrected by editing prose — it is regenerated when the product is. Saying so is the
+    difference between a known-stale number and a wrong one (RYA-686)."""
+    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    assert "dispersion_dex above is the PRE-GUARD value" in raw
