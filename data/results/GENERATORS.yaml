@@ -2828,6 +2828,26 @@ artifacts:
       cannot claim a grid the disk does not hold, and a grid on disk that nothing
       consumes renders as NEEDS_WIRING rather than as coverage.
 
+  # ── RYA-1204 ───────────────────────────────────────────────────────────────────────
+  - artifact: rya1204/rya1204_step0_fe1bf.png
+    status: COMMITTED
+    generator: scripts/diagnostics/rya1204/step0_final.py
+    invocation: python scripts/diagnostics/rya1204/step0_final.py
+    ticket: RYA-1204
+    sources:
+      - ispec/synthesizer/turbospectrum/DATA/jonabs_vac_v19.2.dat (component 17, FeI bf)
+      - https://norad.astronomy.osu.edu/fe1/fe1.px.txt (Bautista & Pradhan, Iron Project)
+      - https://norad.astronomy.osu.edu/fe1/fe1.px.gd.txt (ground-state control)
+    note: >-
+      RYA-1204 Step 0: the shipped Fe I bound-free table against the full resonance-
+      resolved Bautista/NORAD cross-section, LTE-weighted to jonabs's own convention
+      (sum_i g_i exp(-E_i/kT) sigma_i, WITHOUT the partition function - established by
+      measurement, since the ratio tracks U across the temperature grid). The 4-node
+      linear interpolation reproduces the band mean to 1.0006x, and what the code uses
+      is 1.44x the full-resolution band mean - i.e. already ABOVE Bautista, where Bell
+      2001 needed 2x more. The verdict is STOP: re-tabulating Fe I bf would move the
+      near-UV the wrong way. The NORAD inputs are fetched, not vendored.
+
   - artifact: rya935/live_tracker.html
     status: COMMITTED
     generator: scripts/rya935_live_status.py

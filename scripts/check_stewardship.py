@@ -1013,6 +1013,57 @@ _CONST_GF_DICTS = [
 ]
 
 
+# ── RYA-1204: the near-UV synthesis line list has a REGISTERED generator ─────────────
+# RYA-1202 flagged that `data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv` -- a
+# generated INPUT to every near-UV product -- had no entry in GENERATORS.yaml. It cannot
+# have one: that registry is scoped by its own gate to artifacts under `data/results/`
+# and `data/processed/`, with statuses COMMITTED / HAND_AUTHORED / UNREPRODUCIBLE, and
+# this file is none of those. Adding an entry made the RYA-686 gate fail on both counts.
+#
+# So the record belongs where the convention actually reaches `data/linelists/`: here,
+# beside RYA-360's molecular-list invariant. The file is deliberately untracked (12 MB,
+# regenerable), and what must not be missing is the RECORD OF WHAT BUILDS IT -- the
+# generator and its tracked inputs. That is what this checks, plus, when the built copy
+# is present, that it still matches the counts its own README documents; a stale or
+# truncated copy is otherwise indistinguishable from a good one.
+_NEARUV_LL_DIR = _REPO / 'data' / 'linelists' / 'ispec_nearuv_3000_3780'
+_NEARUV_GENERATOR = _REPO / 'pipeline' / 'nearuv_linelist.py'
+_NEARUV_DRIVER = _REPO / 'scripts' / 'rya759_nearuv_synth.py'
+_NEARUV_RAW = _REPO / 'data' / 'linelists' / 'vald_solar_nearuv_2000_3780_hfson_raw.txt'
+#: The build's own recorded output (README, 2026-08-10 on Sirius). A count that has moved
+#: means the inputs or the builder moved; either way the near-UV products were measured
+#: against a different list than the one on disk.
+_NEARUV_BASELINE = {'n_lines': 55798, 'lo_A': 3000.0, 'hi_A': 3780.0}
+
+
+def check_nearuv_linelist() -> list[Violation]:
+    v: list[Violation] = []
+    for path, what in ((_NEARUV_GENERATOR, 'generator'), (_NEARUV_DRIVER, 'build driver'),
+                       (_NEARUV_RAW, 'tracked VALD input')):
+        if not path.exists():
+            v.append(Violation(
+                invariant='nearuv_linelist_generator_registered', quantity='line list',
+                locus=str(path.relative_to(_REPO)), value='ABSENT', source='RYA-759/1204',
+                detail=(f"the near-UV synthesis line list's {what} is missing, so the "
+                        f"list cannot be rebuilt and nothing records what produced the "
+                        f"one the near-UV products were measured on")))
+    built = _NEARUV_LL_DIR / 'atomic_lines.tsv'
+    if built.exists():
+        # Cheap structural read; the builder itself re-reads through iSpec on every build.
+        n = sum(1 for _ in open(built, errors='replace')) - 1      # minus the header
+        if abs(n - _NEARUV_BASELINE['n_lines']) > 0:
+            v.append(Violation(
+                invariant='nearuv_linelist_matches_its_recorded_build', quantity='n_lines',
+                locus=str(built.relative_to(_REPO)),
+                value=f"{n} lines on disk vs {_NEARUV_BASELINE['n_lines']} recorded",
+                source='data/linelists/ispec_nearuv_3000_3780/README.md',
+                detail=('the built list no longer matches the count its README records, '
+                        'so it was produced by different inputs or a different builder '
+                        'than the near-UV products cite'),
+                ticket='RYA-1204'))
+    return v
+
+
 def check_constants_gf_duplicates() -> list[Violation]:
     """Fail if any registered constants dict hardcodes a physical-line log gf that
     diverges from (or is absent from) the single canonical gf source."""
@@ -1109,6 +1160,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_molecular_lists()
     violations += check_constants_gf_duplicates()
     violations += check_isotope_inflation()
+    violations += check_nearuv_linelist()
     return violations
 
 
