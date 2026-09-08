@@ -74,3 +74,33 @@ worst line), and line-to-line scatter drops. A window containing no molecular li
 
 `fe1.px.txt` / `fe1.px.gd.txt` are fetched from
 `https://norad.astronomy.osu.edu/fe1/` and are not vendored here.
+
+## Results — both levers measured alone, on the production route
+
+RYA-759 near-UV Fe I product, `--limit 40`, ATLAS9.Castelli against the Kitt Peak atlas.
+All three arms are the SAME 40 lines, so the comparison is paired.
+
+| arm | A(Fe I) | scatter | continuum-clean | shift |
+| --- | --- | --- | --- | --- |
+| baseline (production today) | 7.502 | 0.374 | 36 / 40 | — |
+| **Lever A** — Fe I bf re-tabulated from Bautista | 7.515 | 0.394 | 35 / 40 | **+0.013** |
+| **Lever B** — near-UV molecular opacity | **7.415** | 0.337 | **40 / 40** | **−0.087** |
+
+**Lever A does nothing detectable.** Paired: mean +0.076, SEM 0.095, **t = +0.80**, median
+−0.004, and it moves 23 of 40 lines down — a coin flip. It is not an adverse lever, it is
+an absent one, which is what Step 0 predicted from the cross-sections alone.
+
+**Lever B is real.** Paired: mean −0.156, SEM 0.036, **t = −4.30**, 31 of 40 lines move
+down and 6 are bit-identical (no molecular line in the window — the control).
+
+It also validates itself independently of the abundance:
+
+* all **4** windows flagged `[continuum off]` are repaired; **0** remain
+* median reduced chi2 **118 → 81**; the worst line 3175.310 goes **529 → 63**
+* line-to-line scatter **0.374 → 0.337**
+* mean |synth/obs − 1| **0.108 → 0.080**
+
+⚠️ **And it UNDER-corrects.** The signed continuum ratio is still above 1 on **24 of 40**
+windows after the fix (mean 1.067 → 1.023). The synthesis still sits above the observed
+pseudo-continuum, so opacity is still owed and −0.087 is a **lower bound**, not a
+calibration that was stopped when it reached a target.
