@@ -367,6 +367,22 @@ def main() -> int:
     ap.add_argument("--declare-gap", default=None, metavar="BAND:TIER",
                     help="record a cell that CANNOT exist, with --reason carrying the "
                          "measurement that establishes it. Needs --element.")
+    #: 🔴 RYA-1203 — ANNOTATION, THE MISSING THIRD VERB.
+    #: The store could publish a value and withdraw one, but not SAY SOMETHING ABOUT one
+    #: that stays live. RYA-1197 needs the 4 Frankenstein mean-3D rows held from the
+    #: headline while remaining in the feed as the NLTE differential, and RYA-1190 needs
+    #: the near-UV rows to carry their opacity-deficit caveat. Both are metadata about an
+    #: unchanged number. Without this verb the only routes were a hand-edit of the JSON
+    #: (the bypass RYA-1178 refused) or quarantine (which removes the row and says the
+    #: wrong thing). `--set` REFUSES the key fields and every measured quantity, so this
+    #: cannot become a side door for editing a value outside the publish path.
+    ap.add_argument("--annotate-where", default=None, metavar="FIELD=VALUE",
+                    help="annotate every CURRENT product whose FIELD equals VALUE. "
+                         "Pairs with one or more --set and a --reason.")
+    ap.add_argument("--set", dest="sets", action="append", default=None, metavar="KEY=VALUE",
+                    help="field to set on the matched rows (repeatable). Refused for the "
+                         "KEY_FIELDS and for any measured quantity -- annotation states "
+                         "something ABOUT a number, it never changes one.")
     ap.add_argument("--quarantine-older-than", default=None, metavar="ISO8601",
                     help="withdraw every CURRENT product whose ARTIFACT was produced "
                          "before this instant. Keyed on `provenance.artifact_mtime` -- "
@@ -390,6 +406,57 @@ def main() -> int:
         out = STORE / a.star / f"{a.element}.json"
         write_feed(out, doc)
         print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   GAP DECLARED {band}:{tier}")
+        return 0
+
+    if a.annotate_where:
+        # Annotation states something ABOUT a live number. Everything that IS the number,
+        # or that identifies which number it is, is off limits -- otherwise this verb
+        # quietly becomes a second publisher with no provenance and no supersede record.
+        PROTECTED = set(KEY_FIELDS) | {
+            "A", "n_lines", "n_excluded", "sigma_stat", "sigma_syst", "sigma_reported",
+            "sigma_syst_complete", "sigma_xi", "delta_xi_kms", "xi_value_kms",
+            "provenance", "wavelength_range_A", "star",
+        }
+        if not (a.reason and a.element and a.sets):
+            print("REFUSING: --annotate-where needs --element, --reason and at least one "
+                  "--set. An annotation with no stated reason is an unattributed edit.",
+                  file=sys.stderr)
+            return 9
+        pairs = []
+        for kv in a.sets:
+            k, _, v = kv.partition("=")
+            k = k.strip()
+            if not k or "=" not in kv:
+                print(f"REFUSING: --set {kv!r} is not KEY=VALUE.", file=sys.stderr)
+                return 9
+            if k in PROTECTED:
+                print(f"REFUSING: --set {k}= is a key or measured field. Annotation never "
+                      f"changes a value or the identity of one; publish it or quarantine "
+                      f"it (RYA-1203).", file=sys.stderr)
+                return 9
+            pairs.append((k, v))
+        field, _, value = a.annotate_where.partition("=")
+        doc = load(a.element, a.star)
+        hits = [r for r in doc["products"] if str(r.get(field)) == value]
+        if not hits:
+            print(f"no current product matches {field}={value}")
+            return 0
+        for row in hits:
+            for k, v in pairs:
+                row[k] = v
+            row["annotated_at"] = _now()
+            row["annotation_reason"] = a.reason
+        doc["version"] = bump(doc["version"]); doc["updated_at"] = _now()
+        out = STORE / a.star / f"{a.element}.json"
+        if a.dry_run:
+            print(f"[dry-run] would annotate {len(hits)} row(s) with "
+                  + ", ".join(f"{k}={v}" for k, v in pairs))
+            return 0
+        write_feed(out, doc)
+        print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   ANNOTATED {len(hits)} row(s)")
+        for r in hits:
+            print(f"    ~ {key_of(r)}")
+        print(f"    reason: {a.reason}")
         return 0
 
     if a.quarantine_where or a.quarantine_older_than:

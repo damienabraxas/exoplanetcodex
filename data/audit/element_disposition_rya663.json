@@ -2,21 +2,21 @@
   "artifact_age_evidence": [
     {
       "artifact": "data/audit/rya527_two_engine/solar_two_engine_records.json",
-      "artifact_commit": "ae518e8",
+      "artifact_commit": "ae518e81",
       "artifact_committed": "2026-07-27T00:50:37-06:00",
       "input": "data/audit/cno_synthesis/solar_phase_c_verdict.json",
-      "input_commit": "0d6166b",
+      "input_commit": "0d6166b6",
       "input_committed": "2026-08-15T23:33:05-06:00",
-      "note": "data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-15T23:33:05-06:00 (0d6166b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
+      "note": "data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-15T23:33:05-06:00 (0d6166b6), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e81) \u2014 the review artifact was produced against an earlier state of that input"
     },
     {
       "artifact": "data/audit/rya527_two_engine/solar_two_engine_records.json",
-      "artifact_commit": "ae518e8",
+      "artifact_commit": "ae518e81",
       "artifact_committed": "2026-07-27T00:50:37-06:00",
       "input": "data/reference/solar/solar_abundances_v5.csv",
-      "input_commit": "0d6166b",
+      "input_commit": "0d6166b6",
       "input_committed": "2026-08-15T23:33:05-06:00",
-      "note": "data/reference/solar/solar_abundances_v5.csv was committed 2026-08-15T23:33:05-06:00 (0d6166b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
+      "note": "data/reference/solar/solar_abundances_v5.csv was committed 2026-08-15T23:33:05-06:00 (0d6166b6), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e81) \u2014 the review artifact was produced against an earlier state of that input"
     }
   ],
   "artifact_age_stale": true,
@@ -710,22 +710,22 @@
   "gate3_provisional_signal": "artifact_age_stale",
   "inputs": [
     {
-      "commit": "0d6166b",
+      "commit": "0d6166b6",
       "committed": "2026-08-15T23:33:05-06:00",
       "path": "data/audit/cno_synthesis/solar_phase_c_verdict.json"
     },
     {
-      "commit": "ae518e8",
+      "commit": "ae518e81",
       "committed": "2026-07-27T00:50:37-06:00",
       "path": "data/audit/rya527_two_engine/solar_two_engine_records.json"
     },
     {
-      "commit": "583cb46",
+      "commit": "583cb466",
       "committed": "2026-06-28T22:43:33-06:00",
       "path": "data/reference/solar/solar_abundances_v1.csv"
     },
     {
-      "commit": "0d6166b",
+      "commit": "0d6166b6",
       "committed": "2026-08-15T23:33:05-06:00",
       "path": "data/reference/solar/solar_abundances_v5.csv"
     }

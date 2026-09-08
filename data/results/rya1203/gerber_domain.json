@@ -1,0 +1,31 @@
+{
+  "ticket": "RYA-1203",
+  "question": "Ryan, 2026-09-07: 'FIRST determine the Gerber NLTE grid's wavelength DOMAIN. If it covers a band, run synth-1D-LTE-gerber + ENGINE-B-NLTE on every holding there. If the grid is VIS-only (like Amarsi), record that as the documented reason -- do not force it.'",
+  "answer": "NOT VIS-only. Runnable on VIS and red-optical; refused on near-UV, NIR and H, and on Fe II everywhere.",
+  "how_it_was_measured": [
+    "The domain is NOT the atom file's lambda cut. atom.fe607a is cut at log gf > -5 and lambda < 20000 A, which would admit every band we hold below 2 um and is therefore the WRONG test -- it describes the deck, not whether a given line can take a departure.",
+    "What decides is whether the SYNTHESIS LINE LIST carries an NLTE label for the line. Turbospectrum's fallback is departure = 1 PER LINE, so partial coverage never raises: it DILUTES (RYA-1050). A band at half coverage emits a well-formed NLTE product carrying roughly half the effect, and nothing records it.",
+    "Measured with pipeline.gerber_nlte.pool_label_coverage over THE POOL THAT WOULD BE FITTED, not the window. RYA-1050's own example: Fe II 4200-6910 passes a WINDOW check on 854 labelled lines it never touches, then synthesises all eleven lines it does touch in LTE under an NLTE label."
+  ],
+  "measurement": {
+    "near-UV": {"band_A": [3000.0, 3780.0], "linelist": "ispec_nearuv_3000_3780", "Fe I": {"tier": "DEEPGRADED", "pool": 58, "labelled": 0}, "Fe II": {"tier": "DEEPGRADED", "pool": 12, "labelled": 0}, "verdict": "NO-LABELS - Gerber refused"},
+    "VIS": {"band_A": [3780.0, 6910.0], "linelist": "GESv6_atom_hfs_iso.420_920nm", "Fe I": {"tier": "GRADED", "pool": 67, "labelled": 67}, "Fe I deep": {"tier": "DEEPGRADED", "pool": 109, "labelled": 109}, "Fe II": {"tier": "DEEPGRADED", "pool": 9, "labelled": 0}, "verdict": "RUNNABLE for Fe I; Fe II LTE-leg only"},
+    "red-optical": {"band_A": [6910.0, 9199.0], "linelist": "GESv6_atom_hfs_iso.420_920nm", "Fe I": {"tier": "GRADED", "pool": 69, "labelled": 69}, "verdict": "RUNNABLE - this is the new one; the Gerber route was on no non-VIS holding before this ticket"},
+    "NIR": {"band_A": [9199.0, 13000.0], "linelist": "ispec_ir_9200_13000", "Fe I": {"tier": "GRADED", "pool": 28, "labelled": 0}, "verdict": "NO-LABELS - Gerber refused"},
+    "H": {"band_A": [15007.11, 17493.69], "linelist": "ispec_h_15007_17494", "Fe I": {"tier": "GRADED", "pool": 25, "labelled": 13}, "verdict": "PARTIAL 13/25 - REFUSED. This is the RYA-1050 dilution case exactly: it would emit a well-formed NLTE product carrying about half the effect, with nothing recording that it did."}
+  },
+  "fe_ii_nlte": "Structurally unavailable and re-confirmed at POOL level here: 0 of 9 VIS Fe II lines carry an NLTE label. Consistent with RYA-1055 (atom.fe607a's 12,635 bound-bound transitions are all Fe I->Fe I; its 58 Fe II levels are a reservoir). The Fe II Gerber LTE leg was run; ENGINE-B-NLTE is a documented N/A, not a phantom.",
+  "engine_a_domain": {
+    "finding": "MPIA (Bergemann per-line delta_nlte, the ENGINE-A source) serves Fe I through the J band and stops before H.",
+    "measured": "One line per request against https://nlte.mpia.de. SERVED at 3860.0, 4383.545, 5806.725, 6430.846, 7495.066, 8327.053, 8688.624, 9889.035, 10577.13, 11882.844, 12648.742. EMPTY at 15051.700 and 16040.657.",
+    "why_it_was_checked": "The CRIRES+ H run reported '20 of 20 lines unserved', and a DOWN SERVICE produces that same message. The service was live at the time: the VIS gate lines returned data in the same session. So the H gap is real, not an outage.",
+    "trap": "A MIXED BATCH RETURNS NOTHING. VIS lines alone are served; VIS + H together return an empty result div. build_nlte_grids_mpia.py batches 20 lines per request, so a single out-of-range line silently converts a partial gap into a total one for its whole batch. Not triggered here (all 20 H lines are out of range) but latent for any band straddling the edge."
+  },
+  "what_was_run": "Gerber LTE+NLTE pair on Fe I VIS (IAG, HARPS) and Fe I red-optical (IAG, kurucz2005, molecfit); Gerber LTE only on Fe II VIS (3 holdings). CRIRES+ H Fe I 1D-LTE. Nothing was forced where coverage was partial or absent.",
+  "nlte_differential_measured": {
+    "note": "ENGINE-B-NLTE minus its own synth-1D-LTE-gerber sibling -- the NLTE effect on ONE atmosphere (RYA-542), never against 1D-LTE, which would report the atmosphere shift as non-LTE physics.",
+    "Fe I VIS harps": 0.036, "Fe I VIS kurucz2005": 0.049, "Fe I VIS molecfit": 0.046, "Fe I VIS iag": 0.057,
+    "Fe I red-optical iag": 0.038, "Fe I red-optical kurucz2005": 0.044, "Fe I red-optical molecfit": 0.029,
+    "reading": "All seven positive, +0.029 to +0.057, median about +0.044. The three NEW red-optical cells agree with the four VIS cells, so the correction is stable across bands and holdings on matched pools."
+  }
+}

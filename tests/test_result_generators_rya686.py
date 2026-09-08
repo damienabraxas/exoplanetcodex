@@ -61,6 +61,14 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    # RYA-1203, added deliberately. The Gerber/ENGINE-A coverage determination behind
+    # every "documented reason" that ticket records: which bands the NLTE route can be
+    # run on, measured per POOL rather than per window (RYA-1050), and where MPIA's
+    # per-line service stops. Hand-authored because it assembles measurements from three
+    # separate probes and states what they mean; each source is named in its manifest
+    # entry and re-runnable. A "the grid does not cover this band" claim with no
+    # measurement attached is exactly what this manifest exists to prevent.
+    "rya1203/gerber_domain.json",
     "sr2_line_selection_rya430.json",
     "rya342_corrected_solar_fe.txt",
     # RYA-1169: human-readable withdrawal notice attached to the two frozen invalid

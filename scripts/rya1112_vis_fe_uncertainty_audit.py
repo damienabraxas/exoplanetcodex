@@ -302,8 +302,12 @@ def check(doc: dict) -> list[str]:
         bad.append("the RYA-1089 Fe I sigma_B_vmic is no longer 0.0699 — re-read the audit")
     if not doc["part_A_type_A"]["all_sigma_stat_are_standard_error"]:
         bad.append("a VIS Fe product's sigma_stat is no longer a standard error")
-    if doc["n_products"] != 50:
-        bad.append(f"the live VIS Fe product count moved to {doc['n_products']} (was 50)")
+    #: 50 -> 57 (RYA-1203): the Gerber route reached VIS holdings it had never run on
+    #: (IAG and HARPS Fe I gained synth-1D-LTE-gerber + ENGINE-B-NLTE) and Fe II VIS gained
+    #: its Gerber LTE leg on all three holdings. The pin is a TRIPWIRE for the pool
+    #: changing under the audit, so it moves with a stated cause rather than being widened.
+    if doc["n_products"] != 57:
+        bad.append(f"the live VIS Fe product count moved to {doc['n_products']} (was 57)")
     unnamed = [r for r in doc["products"] if r["over_dig_in"] and not r["rca_verdict"]]
     if unnamed:
         bad.append(f"{len(unnamed)} product(s) over {DIG_IN_DEX} dex with no RCA verdict")
