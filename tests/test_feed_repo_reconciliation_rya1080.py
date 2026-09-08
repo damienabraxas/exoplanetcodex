@@ -192,12 +192,21 @@ SANCTIONED = {
 DERIVED_FIELDS = {"display"}
 
 
+def _key(p: dict):
+    """The identity `_index` keys on, exposed so a CONTROL can pick a victim the baseline
+    actually contains. RYA-1203: two positive controls used `products[0]`, which stopped
+    being a baseline row the moment the feed grew, and they failed while the guards they
+    control were healthy."""
+    prov = {k: v for k, v in p["provenance"].items() if k not in _RECONCILE_KEYS}
+    return (p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
+            p["treatment"], prov.get("path"))
+
+
 def _index(doc: dict) -> dict:
     out = {}
     for p in doc["products"]:
         prov = {k: v for k, v in p["provenance"].items() if k not in _RECONCILE_KEYS}
-        key = (p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-               p["treatment"], prov.get("path"))
+        key = _key(p)
         out[key] = {**{k: v for k, v in p.items() if k != "provenance"}, "_prov": prov}
     return out
 
@@ -281,10 +290,14 @@ def test_control_the_rya908_sanction_scope_check_can_actually_fail():
     """The non-vacuity control for the test above: give it a fifth, unsanctioned move and
     it must object. Without this, a scope check that silently stopped looking would read
     exactly like a scope check that found nothing wrong."""
+    #: same trap as the control above: the victim must be a row the baseline HAS, or the
+    #: diff has nothing to compare and the control passes/fails for the wrong reason.
     live = json.loads(FEED.read_text())
+    base = _index(_baseline_doc())
     victim = next(p for p in live["products"]
-                  if not (p["element"] == "Fe" and p["ion"] == "II"
-                          and p["band"] == "near-UV"))
+                  if _key(p) in base
+                  and not (p["element"] == "Fe" and p["ion"] == "II"
+                           and p["band"] == "near-UV"))
     victim["sigma_syst"] = float(victim.get("sigma_syst") or 0.0) + 0.05
     before, after = _index(_baseline_doc()), _index(live)
     extra = [k for k, b in before.items()
@@ -304,8 +317,15 @@ def test_control_the_baseline_actually_differs_from_today():
 
 def test_control_an_edited_published_value_is_caught():
     """POSITIVE CONTROL. Move an abundance and the check must see it."""
+    #: 🔴 THE VICTIM MUST EXIST IN THE BASELINE. `products[0]` used to, and RYA-1203
+    #: added 14 products, so index 0 became a row the baseline has never seen -- there is
+    #: nothing to diff it against, no "A" edit is reported, and the control fails while
+    #: the guard it controls is perfectly healthy. A positive control that depends on
+    #: list ORDER stops controlling the moment the list grows.
     live = json.loads(FEED.read_text())
-    live["products"][0]["A"] = float(live["products"][0]["A"]) + 0.1
+    base = _index(_baseline_doc())
+    victim = next(p for p in live["products"] if _key(p) in base)
+    victim["A"] = float(victim["A"]) + 0.1
     edits = published_value_edits(_baseline_doc(), live)
     assert any(fk == "A" for (*_, fk) in edits), edits
 

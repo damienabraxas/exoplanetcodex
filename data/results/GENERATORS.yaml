@@ -4422,27 +4422,7 @@ artifacts:
       but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
       silent one.
 
-  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-25) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
   - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-25) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
-  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
     generator: scripts/derive_band_products.py
     ticket: RYA-1080
     note: >-
@@ -4662,26 +4642,6 @@ artifacts:
       but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
       silent one.
 
-  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-24) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
-  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-24) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
   - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_GRADED_products.csv
     generator: scripts/derive_band_products.py
     ticket: RYA-1080
@@ -4707,26 +4667,6 @@ artifacts:
     ticket: RYA-1080
     note: >-
       Produced on the Mac (2026-08-25) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
-  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-24) and published in Fe.json; committed
-      here so a data/results/band_products/ check and the feed cannot disagree. The
-      generator is on main, but the holding it reads is Mac-local, so this is committed
-      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
-      silent one.
-
-  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1080
-    note: >-
-      Produced on the Mac (2026-08-24) and published in Fe.json; committed
       here so a data/results/band_products/ check and the feed cannot disagree. The
       generator is on main, but the holding it reads is Mac-local, so this is committed
       but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
@@ -5091,22 +5031,6 @@ artifacts:
   # *_products.csv. Their sibling *_lines.csv were never committed, so the per-line
   # audit could not run on committed data — the same class RYA-1080 closed, one
   # level down. Checksums recorded in rya1081/rya1081_inputs.json.
-
-  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1081
-    note: >-
-      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
-      Committed but not regenerable on Sirius — the holding is Mac-local, a
-      recorded regenerability gap (RYA-1011).
-
-  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
-    generator: scripts/derive_band_products.py
-    ticket: RYA-1081
-    note: >-
-      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
-      Committed but not regenerable on Sirius — the holding is Mac-local, a
-      recorded regenerability gap (RYA-1011).
 
   - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv
     generator: scripts/derive_band_products.py
@@ -6323,3 +6247,1006 @@ artifacts:
       Inputs are Mac-local campaign runs (~/xi_campaign/out_ir, produced by
       run_ir.py) — a recorded regenerability gap (RYA-1011), not a silent one.
 
+
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --skip-engine-b
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --skip-engine-b
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --skip-engine-b
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --skip-engine-b
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-nlte
+    note: >-
+      RYA-1203 coverage completion. Produced on Sirius (venv_rya1103 -- venv_ci carries a
+      numpy that iSpec cannot build free-abundance structures under). Gerber legs were run
+      ONLY where the fitted pool was measured NLTE-labelled line by line (VIS 67/67,
+      red-optical 69/69), never where coverage was partial (H 13/25) or absent (NIR 0/28).
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+  - artifact: band_products/_superseded_rya1203_stem_drift/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1203
+    status: COMMITTED
+    note: >-
+      RETIRED STEM, kept not deleted (RYA-711: quarantined, never culled). No live product
+      is built from these bounds any more -- the generator writes HARPS VIS at 4200_6908
+      and IAG VIS at 5002_6910, while this copy sits at 4200_6910. Wavelength range is NOT
+      in the publish KEY, so leaving both on disk gives ONE product TWO artifacts, and
+      RYA-515 6 measured the cost: the stale copy still matched the stale published
+      number exactly, so nothing looked wrong.
+
+  - artifact: rya1203/gerber_domain.json
+    generator: null
+    ticket: RYA-1203
+    status: HAND_AUTHORED
+    sources:
+      - pipeline/gerber_nlte.py::pool_label_coverage
+      - scripts/derive_band_products.py::_cand_graded
+      - config/synth_bands.yaml
+      - data/linelists/ispec_h_15007_17494/atomic_lines.tsv
+      - data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+      - data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv
+      - https://nlte.mpia.de/gui-siuAC_secE.php
+      - data/results/band_products/*_ENGINE-B-NLTE_nlte_effect.json
+    note: >-
+      The coverage determination behind every "documented reason" in RYA-1203, written up
+      rather than computed by one script: the numbers come from
+      pipeline.gerber_nlte.pool_label_coverage run per band over the pool
+      scripts/derive_band_products.py::_cand_graded selects, plus a one-line-per-request
+      probe of https://nlte.mpia.de for the ENGINE-A edge. Both are reproducible from the
+      code named inside it. Recorded because "the grid does not cover this band" is a
+      claim that must carry its measurement, and because the MPIA batch behaviour it
+      documents (one out-of-range line empties the whole 20-line batch) is a live trap.
