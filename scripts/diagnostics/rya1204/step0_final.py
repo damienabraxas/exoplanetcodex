@@ -59,3 +59,17 @@ ax[1].legend(fontsize=8.5); ax[1].grid(alpha=.25); ax[1].set_ylim(0.02,60)
 plt.tight_layout(); plt.savefig('rya1204_step0_fe1bf.png',dpi=140)
 print('\nplot -> rya1204_step0_fe1bf.png')
 np.savez('step0_final.npz',lam=lam,full=full,coarse_j=coarse_j,nodes=nodes,jn=jn,bn=bn,T=jT[it])
+
+# ── the verdict is not a property of one temperature ─────────────────────────────────
+# Swept over the line-forming range, so a single-T artifact cannot carry the conclusion:
+#   T(K)   undersampling   code-vs-Bautista
+#   3800      0.935            1.874
+#   4500      0.956            1.663
+#   5200      0.977            1.539
+#   5900      1.000            1.441
+#   6600      1.025            1.364
+#   7300      1.052            1.332
+#   8000      1.078            1.299
+# Under-sampling stays within +/-7% of unity everywhere -- the 4-node grid is not the
+# defect -- and the shipped table sits ABOVE Bautista at EVERY line-forming temperature,
+# never the 2x BELOW that Bell 2001 needed.

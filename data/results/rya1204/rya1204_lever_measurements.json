@@ -1,0 +1,883 @@
+{
+  "ticket": "RYA-1204",
+  "note": "DIAGNOSTIC. Nothing calibrated to a target (RYA-161).",
+  "route": "RYA-759 near-UV Fe I synthesis product, --limit 40, ATLAS9.Castelli, Kitt Peak atlas",
+  "arms": {
+    "baseline_production_today": {
+      "n": 40,
+      "A": 7.502,
+      "scatter": 0.374,
+      "sem": 0.059,
+      "n_continuum_clean": 36,
+      "A_continuum_clean": 7.502
+    },
+    "leverA_fe1bf_retabulated_bautista": {
+      "n": 40,
+      "A": 7.515,
+      "scatter": 0.394,
+      "sem": 0.062,
+      "n_continuum_clean": 35,
+      "A_continuum_clean": 7.513
+    },
+    "leverB_molecular_opacity": {
+      "n": 40,
+      "A": 7.415,
+      "scatter": 0.337,
+      "sem": 0.053,
+      "n_continuum_clean": 40,
+      "A_continuum_clean": 7.415
+    }
+  },
+  "per_line": {
+    "baseline": [
+      {
+        "wave_A": 3000.468,
+        "A": 8.4,
+        "chi2r": 82.94,
+        "cont": 1.017,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3031.476,
+        "A": 7.458,
+        "chi2r": 77.69,
+        "cont": 0.842,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3087.431,
+        "A": 7.392,
+        "chi2r": 891.3,
+        "cont": 1.662,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3099.921,
+        "A": 8.269,
+        "chi2r": 127.68,
+        "cont": 1.117,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3110.108,
+        "A": 7.069,
+        "chi2r": 394.27,
+        "cont": 1.073,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3123.199,
+        "A": 7.022,
+        "chi2r": 999.51,
+        "cont": 1.325,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3162.329,
+        "A": 7.506,
+        "chi2r": 64.39,
+        "cont": 1.129,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3175.31,
+        "A": 8.049,
+        "chi2r": 528.62,
+        "cont": 1.507,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3225.606,
+        "A": 8.236,
+        "chi2r": 74.91,
+        "cont": 1.015,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3249.191,
+        "A": 8.047,
+        "chi2r": 126.3,
+        "cont": 1.038,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3253.942,
+        "A": 7.249,
+        "chi2r": 119.74,
+        "cont": 1.084,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3261.325,
+        "A": 7.51,
+        "chi2r": 62.29,
+        "cont": 1.077,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3292.033,
+        "A": 8.385,
+        "chi2r": 139.07,
+        "cont": 1.053,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3312.698,
+        "A": 8.163,
+        "chi2r": 258.99,
+        "cont": 0.994,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3334.218,
+        "A": 7.558,
+        "chi2r": 462.22,
+        "cont": 1.323,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3387.405,
+        "A": 7.724,
+        "chi2r": 78.44,
+        "cont": 1.032,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3393.588,
+        "A": 7.33,
+        "chi2r": 82.82,
+        "cont": 0.914,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3439.035,
+        "A": 7.537,
+        "chi2r": 51.81,
+        "cont": 0.993,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3457.086,
+        "A": 7.225,
+        "chi2r": 44.51,
+        "cont": 1.074,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3469.83,
+        "A": 7.417,
+        "chi2r": 77.66,
+        "cont": 1.039,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3476.344,
+        "A": 7.29,
+        "chi2r": 61.13,
+        "cont": 0.979,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3509.862,
+        "A": 6.726,
+        "chi2r": 79.58,
+        "cont": 0.912,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3559.503,
+        "A": 7.73,
+        "chi2r": 124.53,
+        "cont": 1.024,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3572.59,
+        "A": 7.199,
+        "chi2r": 80.1,
+        "cont": 0.996,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3576.758,
+        "A": 8.398,
+        "chi2r": 410.07,
+        "cont": 1.183,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3599.625,
+        "A": 7.596,
+        "chi2r": 523.5,
+        "cont": 1.207,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3617.318,
+        "A": 7.477,
+        "chi2r": 136.76,
+        "cont": 0.941,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3624.28,
+        "A": 7.401,
+        "chi2r": 133.7,
+        "cont": 1.031,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3632.555,
+        "A": 7.639,
+        "chi2r": 138.46,
+        "cont": 1.009,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3636.994,
+        "A": 7.247,
+        "chi2r": 103.95,
+        "cont": 0.947,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3643.715,
+        "A": 7.252,
+        "chi2r": 27.67,
+        "cont": 0.997,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3650.098,
+        "A": 7.048,
+        "chi2r": 307.51,
+        "cont": 0.85,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3656.21,
+        "A": 7.499,
+        "chi2r": 61.78,
+        "cont": 1.09,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3664.537,
+        "A": 7.667,
+        "chi2r": 281.64,
+        "cont": 1.234,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3680.784,
+        "A": 7.78,
+        "chi2r": 137.53,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3703.821,
+        "A": 7.386,
+        "chi2r": 42.39,
+        "cont": 0.844,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3731.373,
+        "A": 7.772,
+        "chi2r": 116.29,
+        "cont": 0.982,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3752.415,
+        "A": 7.973,
+        "chi2r": 136.62,
+        "cont": 1.131,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3756.937,
+        "A": 7.409,
+        "chi2r": 63.75,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3778.793,
+        "A": 7.09,
+        "chi2r": 83.12,
+        "cont": 1.006,
+        "continuum_off": false
+      }
+    ],
+    "leverA": [
+      {
+        "wave_A": 3000.468,
+        "A": 7.582,
+        "chi2r": 101.81,
+        "cont": 0.608,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3031.476,
+        "A": 7.422,
+        "chi2r": 78.38,
+        "cont": 0.851,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3087.431,
+        "A": 7.459,
+        "chi2r": 884.36,
+        "cont": 1.644,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3099.921,
+        "A": 8.421,
+        "chi2r": 115.57,
+        "cont": 1.078,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3110.108,
+        "A": 7.055,
+        "chi2r": 394.02,
+        "cont": 1.081,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3123.199,
+        "A": 7.02,
+        "chi2r": 998.49,
+        "cont": 1.322,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3162.329,
+        "A": 7.513,
+        "chi2r": 64.39,
+        "cont": 1.129,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3175.31,
+        "A": 8.18,
+        "chi2r": 502.67,
+        "cont": 1.421,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3225.606,
+        "A": 7.668,
+        "chi2r": 96.76,
+        "cont": 0.854,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3249.191,
+        "A": 8.164,
+        "chi2r": 114.6,
+        "cont": 0.974,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3253.942,
+        "A": 7.243,
+        "chi2r": 118.42,
+        "cont": 1.074,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3261.325,
+        "A": 7.519,
+        "chi2r": 59.52,
+        "cont": 1.067,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3292.033,
+        "A": 7.798,
+        "chi2r": 146.41,
+        "cont": 1.079,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3312.698,
+        "A": 8.1,
+        "chi2r": 274.95,
+        "cont": 0.873,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3334.218,
+        "A": 7.627,
+        "chi2r": 455.53,
+        "cont": 1.321,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3387.405,
+        "A": 7.659,
+        "chi2r": 84.37,
+        "cont": 1.034,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3393.588,
+        "A": 7.248,
+        "chi2r": 86.95,
+        "cont": 0.883,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3439.035,
+        "A": 7.518,
+        "chi2r": 53.45,
+        "cont": 0.993,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3457.086,
+        "A": 7.213,
+        "chi2r": 43.66,
+        "cont": 1.071,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3469.83,
+        "A": 7.41,
+        "chi2r": 76.69,
+        "cont": 1.034,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3476.344,
+        "A": 7.266,
+        "chi2r": 62.23,
+        "cont": 0.982,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3509.862,
+        "A": 6.697,
+        "chi2r": 80.24,
+        "cont": 0.911,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3559.503,
+        "A": 7.725,
+        "chi2r": 125.14,
+        "cont": 1.024,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3572.59,
+        "A": 7.204,
+        "chi2r": 80.1,
+        "cont": 0.996,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3576.758,
+        "A": 8.415,
+        "chi2r": 407.23,
+        "cont": 1.181,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3599.625,
+        "A": 7.613,
+        "chi2r": 523.63,
+        "cont": 1.207,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3617.318,
+        "A": 7.466,
+        "chi2r": 136.88,
+        "cont": 0.941,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3624.28,
+        "A": 7.395,
+        "chi2r": 132.98,
+        "cont": 1.029,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3632.555,
+        "A": 7.636,
+        "chi2r": 137.71,
+        "cont": 1.002,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3636.994,
+        "A": 7.245,
+        "chi2r": 104.08,
+        "cont": 0.945,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3643.715,
+        "A": 7.246,
+        "chi2r": 27.75,
+        "cont": 0.996,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3650.098,
+        "A": 7.049,
+        "chi2r": 307.66,
+        "cont": 0.849,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3656.21,
+        "A": 7.486,
+        "chi2r": 61.79,
+        "cont": 1.09,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3664.537,
+        "A": 9.107,
+        "chi2r": 250.27,
+        "cont": 1.047,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3680.784,
+        "A": 7.857,
+        "chi2r": 134.7,
+        "cont": 1.004,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3703.821,
+        "A": 7.396,
+        "chi2r": 42.26,
+        "cont": 0.846,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3731.373,
+        "A": 7.78,
+        "chi2r": 116.85,
+        "cont": 0.982,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3752.415,
+        "A": 7.951,
+        "chi2r": 138.47,
+        "cont": 1.134,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3756.937,
+        "A": 7.414,
+        "chi2r": 63.8,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3778.793,
+        "A": 10.388,
+        "chi2r": 85.25,
+        "cont": 0.892,
+        "continuum_off": false
+      }
+    ],
+    "leverB": [
+      {
+        "wave_A": 3000.468,
+        "A": 8.398,
+        "chi2r": 83.79,
+        "cont": 1.017,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3031.476,
+        "A": 7.435,
+        "chi2r": 76.6,
+        "cont": 0.865,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3087.431,
+        "A": 6.781,
+        "chi2r": 221.93,
+        "cont": 1.224,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3099.921,
+        "A": 7.55,
+        "chi2r": 53.34,
+        "cont": 0.872,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3110.108,
+        "A": 6.698,
+        "chi2r": 275.45,
+        "cont": 1.233,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3123.199,
+        "A": 6.985,
+        "chi2r": 637.67,
+        "cont": 1.065,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3162.329,
+        "A": 7.427,
+        "chi2r": 58.88,
+        "cont": 1.051,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3175.31,
+        "A": 7.602,
+        "chi2r": 62.92,
+        "cont": 1.086,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3225.606,
+        "A": 7.548,
+        "chi2r": 44.56,
+        "cont": 0.991,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3249.191,
+        "A": 7.812,
+        "chi2r": 111.6,
+        "cont": 1.065,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3253.942,
+        "A": 7.189,
+        "chi2r": 122.97,
+        "cont": 1.089,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3261.325,
+        "A": 7.379,
+        "chi2r": 45.15,
+        "cont": 1.005,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3292.033,
+        "A": 7.796,
+        "chi2r": 134.54,
+        "cont": 1.068,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3312.698,
+        "A": 8.226,
+        "chi2r": 268.35,
+        "cont": 0.984,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3334.218,
+        "A": 7.467,
+        "chi2r": 222.45,
+        "cont": 1.18,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3387.405,
+        "A": 7.308,
+        "chi2r": 57.64,
+        "cont": 0.95,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3393.588,
+        "A": 7.186,
+        "chi2r": 76.2,
+        "cont": 0.874,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3439.035,
+        "A": 7.485,
+        "chi2r": 51.73,
+        "cont": 0.947,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3457.086,
+        "A": 7.135,
+        "chi2r": 38.11,
+        "cont": 1.014,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3469.83,
+        "A": 7.421,
+        "chi2r": 75.89,
+        "cont": 1.039,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3476.344,
+        "A": 7.266,
+        "chi2r": 62.59,
+        "cont": 0.994,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3509.862,
+        "A": 6.726,
+        "chi2r": 79.58,
+        "cont": 0.912,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3559.503,
+        "A": 7.145,
+        "chi2r": 69.3,
+        "cont": 1.031,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3572.59,
+        "A": 7.144,
+        "chi2r": 59.23,
+        "cont": 0.933,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3576.758,
+        "A": 8.192,
+        "chi2r": 377.95,
+        "cont": 1.183,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3599.625,
+        "A": 7.588,
+        "chi2r": 522.19,
+        "cont": 1.207,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3617.318,
+        "A": 7.475,
+        "chi2r": 136.79,
+        "cont": 0.945,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3624.28,
+        "A": 7.402,
+        "chi2r": 133.12,
+        "cont": 1.031,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3632.555,
+        "A": 7.637,
+        "chi2r": 138.79,
+        "cont": 1.009,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3636.994,
+        "A": 7.163,
+        "chi2r": 76.67,
+        "cont": 0.916,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3643.715,
+        "A": 7.252,
+        "chi2r": 27.67,
+        "cont": 0.997,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3650.098,
+        "A": 7.037,
+        "chi2r": 308.01,
+        "cont": 0.851,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3656.21,
+        "A": 7.499,
+        "chi2r": 61.78,
+        "cont": 1.09,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3664.537,
+        "A": 7.129,
+        "chi2r": 175.47,
+        "cont": 1.231,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3680.784,
+        "A": 7.78,
+        "chi2r": 137.53,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3703.821,
+        "A": 7.386,
+        "chi2r": 42.39,
+        "cont": 0.844,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3731.373,
+        "A": 7.766,
+        "chi2r": 116.19,
+        "cont": 0.982,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3752.415,
+        "A": 7.965,
+        "chi2r": 136.62,
+        "cont": 1.131,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3756.937,
+        "A": 7.409,
+        "chi2r": 63.75,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3778.793,
+        "A": 7.086,
+        "chi2r": 82.25,
+        "cont": 1.004,
+        "continuum_off": false
+      }
+    ]
+  },
+  "shifts_dex": {
+    "leverA": 0.013,
+    "leverB": -0.087
+  }
+}
