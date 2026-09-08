@@ -104,3 +104,16 @@ It also validates itself independently of the abundance:
 windows after the fix (mean 1.067 → 1.023). The synthesis still sits above the observed
 pseudo-continuum, so opacity is still owed and −0.087 is a **lower bound**, not a
 calibration that was stopped when it reached a target.
+
+### Combined
+
+| arm | A(Fe I) | scatter | continuum-clean | shift | paired t |
+| --- | --- | --- | --- | --- | --- |
+| baseline | 7.502 | 0.374 | 36 / 40 | — | — |
+| Lever A alone | 7.515 | 0.394 | 35 / 40 | +0.013 | +0.80 |
+| Lever B alone | **7.415** | 0.337 | **40 / 40** | **−0.087** | **−4.30** |
+| A + B | **7.406** | 0.336 | 39 / 40 | −0.096 | −0.90 |
+
+**A + B minus B = −0.009.** Lever A adds essentially nothing on top of Lever B, which is
+what its own null result predicts. The two are not competing explanations of the deficit:
+one of them is the deficit and the other is not a lever at all.
