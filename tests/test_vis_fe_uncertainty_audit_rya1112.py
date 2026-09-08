@@ -33,8 +33,12 @@ def test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause(doc):
     #: (UNGRADED)` blanket from AGSS21's own mixed pool. They arrived with `rca_verdict`
     #: "OPEN — no named cause yet", which is exactly what the assertion below forbids; the
     #: cause is in their budget, so `rca()` now names it rather than the count being bumped.
+    #: RYA-1203 — 13 → 16. The three new Fe II VIS `synth-1D-LTE-gerber` legs are over the
+    #: dig-in line for the same reason their 1D-LTE siblings are: an 8-line saturated pool
+    #: (RYA-515 3c). They arrive with a named cause from their own budget, which is what
+    #: the assertion below requires; the count moves, the standard does not.
     over = [r for r in doc["products"] if r["over_dig_in"]]
-    assert len(over) == 13
+    assert len(over) == 16
     assert all(r["rca_verdict"] for r in over)
     # the skill demands a NAMED verdict, not the word "OPEN" with nothing behind it
     assert all(len(r["rca_note"]) > 60 for r in over)
