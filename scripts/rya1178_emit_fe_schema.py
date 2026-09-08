@@ -165,6 +165,15 @@ ATLAS = {
     "solar_crires_plus_y_wide_rya1054": (
         "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
         "corrected: cr2res + molecfit"),
+    #: RYA-1203 opened the H arm, and a holding that reaches the feed without an entry
+    #: here publishes `atlas: null` -- which the RYA-1178 schema guard catches, but only
+    #: after the fact. Both strings are copied from this holding's own row in
+    #: data/catalog/holdings_manifest_registry.csv, not composed here.
+    "solar_crires_plus_h_rya1094": (
+        "CRIRES+ Elgueta+2026 solar H arm, 15007.11-17493.69 A (RYA-1094)",
+        "corrected: cr2res + molecfit; inherits RYA-794's telluric verdict for the "
+        "Elgueta reduced spectra, re-verified per line in RYA-1191 (25/25 graded lines, "
+        "none a residual)"),
 }
 
 #: RYA-1178 B / RYA-1164: the IR bar is gf-limited, and that is an IRREDUCIBLE under the
@@ -174,13 +183,32 @@ ATLAS = {
 #: it is absent entirely on all six IR products. Verified before use: on the ten VIS Fe I
 #: products that carry both a per-line and a product layer, std/sqrt(n) reproduces the
 #: published `stat_dex` on 6 of 6 checked and the raw std does not.
+#: 🔴 RYA-1203: THIS CONSTANT WAS THE PRE-RYA-1191 TEXT AND RE-EMITTING RESURRECTED IT.
+#: RYA-1191 re-derived the note and corrected it IN THE FEED, but not here -- so the
+#: refuted claim survived in the code that writes the feed, and the first regeneration put
+#: it straight back on all six IR products. `tests/test_telluric_close_rya1191.py` caught
+#: it. Exactly the RYA-1084 shape: the artifact and the code that defines it drifted, and
+#: the stale side was the one that would win the next time anything ran. The corrected
+#: wording below is RYA-1191's own, carried verbatim from the feed it wrote.
 IR_DISPERSION_NOTE = (
-    "gf-limited dispersion, IRREDUCIBLE under the current NIR line list. It tracks gf "
-    "QUALITY, not line count: the widest bars carry the LARGEST n (KP ENGINE-A 1.315 at "
-    "n=7 is the exception that proves it — CRIRES+ curated lab-gf is ~6x tighter at n=5, "
-    "while IAG 0.794 at n=25 and KP 0.890 at n=26 are the widest with the most lines). "
-    "The reducible lever is LABORATORY gf, not more lines: adding VALD3-grade NIR lines "
-    "would widen this, not narrow it. Report-and-note per RYA-777."
+    "🔴 RYA-1191 RE-DERIVED THIS NOTE AND MOST OF IT WAS FALSE. It read 'gf-limited "
+    "dispersion, IRREDUCIBLE under the current NIR line list ... KP ENGINE-A 1.315 at n=7 "
+    "is the exception that proves it — CRIRES+ curated lab-gf is ~6x tighter at n=5'. That "
+    "1.315 is ONE NON-CONVERGENT FIT: line 9437.793 returned A = 10.988 on this holding "
+    "and 4.539 on solar_iag — same line, same gf, 6.4 dex apart, red_chi2 246 and 152, "
+    "with excluded_reason blank on both because constraint_gate asks only whether a fit "
+    "was CONSTRAINED and its frac_rise_weaker is NaN. Rejected by pipeline.fit_validity, "
+    "the dispersion is 0.144 at n=6 — not an exception, and INDISTINGUISHABLE from "
+    "CRIRES+'s 0.138. The ~6x ratio was that one line. ⚠️ NOTE ALSO that solar_iag NIR "
+    "ENGINE-A already read 0.177 here because its committed product had excluded the same "
+    "line; the 7x gap between the two holdings was an exclusion difference, not a telluric "
+    "one. WHAT SURVIVES, re-measured on guarded pools: the NIR many-line bars are still the "
+    "widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line curated ones "
+    "(CRIRES+ 0.138 at n=5, KP ENGINE-A 0.144 at n=6), so the dispersion still tracks gf "
+    "QUALITY rather than line count and adding VALD3-grade NIR lines would still widen it. "
+    "But it is NOT IRREDUCIBLE: it more than HALVED when non-convergent fits were removed "
+    "(KP 1D-LTE 0.895 -> 0.386, IAG 1D-LTE 0.949 -> 0.307). ⚠️ dispersion_dex above is the "
+    "PRE-GUARD value and is regenerated when the product is. Report-and-note per RYA-777."
 )
 
 
@@ -459,7 +487,12 @@ def ir_dispersion(prod: dict) -> dict | None:
                       "STANDARD ERROR of the mean — verified against the per-line layer "
                       "on the VIS products that carry both (std/sqrt(n) reproduces the "
                       "published stat_dex; the raw std does not)"),
-            "reducible_by": "laboratory gf for NIR Fe I — NOT more lines",
+            #: RYA-1203: the bare "NOT more lines" claim was corrected by RYA-1191 in the
+            #: FEED only, so re-emitting restored it here too. Carried verbatim from the
+            #: feed RYA-1191 wrote -- most of the dispersion was non-convergent fits, so
+            #: "irreducible except by gf" was overstating what the evidence supports.
+            "reducible_by": ("PARTLY laboratory gf for NIR Fe I; a LARGE PART was "
+                             "non-convergent fits and has already been removed (RYA-1191)"),
             "note": IR_DISPERSION_NOTE}
 
 
