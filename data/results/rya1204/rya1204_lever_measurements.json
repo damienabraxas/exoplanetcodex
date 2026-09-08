@@ -1,6 +1,7 @@
 {
   "ticket": "RYA-1204",
-  "note": "DIAGNOSTIC. Nothing calibrated to a target (RYA-161).",
+  "anchor_A_Fe": 7.466,
+  "note": "DIAGNOSTIC. Nothing calibrated to a target (RYA-161). Same 40 lines in every arm.",
   "route": "RYA-759 near-UV Fe I synthesis product, --limit 40, ATLAS9.Castelli, Kitt Peak atlas",
   "arms": {
     "baseline_production_today": {
@@ -8,28 +9,64 @@
       "A": 7.502,
       "scatter": 0.374,
       "sem": 0.059,
-      "n_continuum_clean": 36,
-      "A_continuum_clean": 7.502
+      "n_continuum_clean": 36
     },
     "leverA_fe1bf_retabulated_bautista": {
       "n": 40,
       "A": 7.515,
       "scatter": 0.394,
       "sem": 0.062,
-      "n_continuum_clean": 35,
-      "A_continuum_clean": 7.513
+      "n_continuum_clean": 35
     },
-    "leverB_molecular_opacity": {
+    "leverB_near_uv_molecular_opacity": {
       "n": 40,
       "A": 7.415,
       "scatter": 0.337,
       "sem": 0.053,
-      "n_continuum_clean": 40,
-      "A_continuum_clean": 7.415
+      "n_continuum_clean": 40
+    },
+    "leverA_plus_leverB": {
+      "n": 40,
+      "A": 7.406,
+      "scatter": 0.336,
+      "sem": 0.053,
+      "n_continuum_clean": 39
+    }
+  },
+  "paired": {
+    "leverA_fe1bf_retabulated_bautista": {
+      "n": 40,
+      "mean": 0.0757,
+      "sem": 0.0952,
+      "t": 0.8,
+      "median": -0.004,
+      "n_moved_down": 23,
+      "n_unchanged": 0,
+      "aggregate_shift": 0.013
+    },
+    "leverB_near_uv_molecular_opacity": {
+      "n": 40,
+      "mean": -0.1563,
+      "sem": 0.0363,
+      "t": -4.3,
+      "median": -0.0445,
+      "n_moved_down": 31,
+      "n_unchanged": 6,
+      "aggregate_shift": -0.087
+    },
+    "leverA_plus_leverB": {
+      "n": 40,
+      "mean": -0.0896,
+      "sem": 0.0993,
+      "t": -0.9,
+      "median": -0.06,
+      "n_moved_down": 32,
+      "n_unchanged": 0,
+      "aggregate_shift": -0.096
     }
   },
   "per_line": {
-    "baseline": [
+    "baseline_production_today": [
       {
         "wave_A": 3000.468,
         "A": 8.4,
@@ -311,7 +348,7 @@
         "continuum_off": false
       }
     ],
-    "leverA": [
+    "leverA_fe1bf_retabulated_bautista": [
       {
         "wave_A": 3000.468,
         "A": 7.582,
@@ -593,7 +630,7 @@
         "continuum_off": false
       }
     ],
-    "leverB": [
+    "leverB_near_uv_molecular_opacity": [
       {
         "wave_A": 3000.468,
         "A": 8.398,
@@ -874,10 +911,288 @@
         "cont": 1.004,
         "continuum_off": false
       }
+    ],
+    "leverA_plus_leverB": [
+      {
+        "wave_A": 3000.468,
+        "A": 7.55,
+        "chi2r": 105.92,
+        "cont": 0.621,
+        "continuum_off": true
+      },
+      {
+        "wave_A": 3031.476,
+        "A": 7.41,
+        "chi2r": 77.22,
+        "cont": 0.859,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3087.431,
+        "A": 6.789,
+        "chi2r": 220.93,
+        "cont": 1.223,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3099.921,
+        "A": 7.367,
+        "chi2r": 47.03,
+        "cont": 0.92,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3110.108,
+        "A": 6.706,
+        "chi2r": 275.38,
+        "cont": 1.227,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3123.199,
+        "A": 6.985,
+        "chi2r": 637.77,
+        "cont": 1.062,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3162.329,
+        "A": 7.43,
+        "chi2r": 58.87,
+        "cont": 1.05,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3175.31,
+        "A": 7.601,
+        "chi2r": 56.64,
+        "cont": 1.05,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3225.606,
+        "A": 7.49,
+        "chi2r": 44.91,
+        "cont": 0.977,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3249.191,
+        "A": 7.848,
+        "chi2r": 104.08,
+        "cont": 1.033,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3253.942,
+        "A": 7.176,
+        "chi2r": 122.28,
+        "cont": 1.08,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3261.325,
+        "A": 7.377,
+        "chi2r": 44.5,
+        "cont": 0.999,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3292.033,
+        "A": 7.688,
+        "chi2r": 138.54,
+        "cont": 1.057,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3312.698,
+        "A": 8.85,
+        "chi2r": 274.74,
+        "cont": 1.03,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3334.218,
+        "A": 7.547,
+        "chi2r": 217.11,
+        "cont": 1.179,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3387.405,
+        "A": 7.208,
+        "chi2r": 60.32,
+        "cont": 0.964,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3393.588,
+        "A": 7.136,
+        "chi2r": 79.21,
+        "cont": 0.855,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3439.035,
+        "A": 7.458,
+        "chi2r": 53.3,
+        "cont": 0.946,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3457.086,
+        "A": 7.136,
+        "chi2r": 37.6,
+        "cont": 1.006,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3469.83,
+        "A": 7.402,
+        "chi2r": 74.9,
+        "cont": 1.035,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3476.344,
+        "A": 7.259,
+        "chi2r": 63.65,
+        "cont": 0.992,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3509.862,
+        "A": 6.697,
+        "chi2r": 80.24,
+        "cont": 0.911,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3559.503,
+        "A": 7.146,
+        "chi2r": 69.22,
+        "cont": 1.029,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3572.59,
+        "A": 7.127,
+        "chi2r": 59.26,
+        "cont": 0.933,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3576.758,
+        "A": 8.207,
+        "chi2r": 376.2,
+        "cont": 1.185,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3599.625,
+        "A": 7.605,
+        "chi2r": 522.34,
+        "cont": 1.207,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3617.318,
+        "A": 7.472,
+        "chi2r": 136.9,
+        "cont": 0.941,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3624.28,
+        "A": 7.388,
+        "chi2r": 132.41,
+        "cont": 1.029,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3632.555,
+        "A": 7.629,
+        "chi2r": 137.9,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3636.994,
+        "A": 7.157,
+        "chi2r": 76.66,
+        "cont": 0.913,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3643.715,
+        "A": 7.246,
+        "chi2r": 27.75,
+        "cont": 0.996,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3650.098,
+        "A": 7.05,
+        "chi2r": 308.08,
+        "cont": 0.846,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3656.21,
+        "A": 7.486,
+        "chi2r": 61.79,
+        "cont": 1.09,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3664.537,
+        "A": 7.136,
+        "chi2r": 176.07,
+        "cont": 1.229,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3680.784,
+        "A": 7.857,
+        "chi2r": 134.71,
+        "cont": 1.004,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3703.821,
+        "A": 7.396,
+        "chi2r": 42.26,
+        "cont": 0.846,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3731.373,
+        "A": 7.776,
+        "chi2r": 116.71,
+        "cont": 0.981,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3752.415,
+        "A": 7.951,
+        "chi2r": 138.46,
+        "cont": 1.134,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3756.937,
+        "A": 7.414,
+        "chi2r": 63.8,
+        "cont": 1.007,
+        "continuum_off": false
+      },
+      {
+        "wave_A": 3778.793,
+        "A": 10.388,
+        "chi2r": 85.25,
+        "cont": 0.892,
+        "continuum_off": false
+      }
     ]
-  },
-  "shifts_dex": {
-    "leverA": 0.013,
-    "leverB": -0.087
   }
 }
