@@ -292,9 +292,22 @@ def test_the_two_routes_publish_DIFFERENT_statistics(doc):
 
 
 def test_raw_scatter_dispatches_on_the_route(doc):
-    """The conversion is route-dependent; assuming one basis is the bug this fixes."""
-    band = dict(_solid(doc), route="SYNTH", sigma_stat=0.02, n_lines=100)
-    ew3d = dict(_solid(doc), route="EW-3D", sigma_stat=0.20, n_lines=100)
+    """The conversion is route-dependent; assuming one basis is the bug this fixes.
+
+    🔴 THE TEMPLATE MUST NOT CARRY A `stat_basis`. `stat_basis_of` lets the RECORD'S own
+    field win and falls back to the route map only for records published before that field
+    existed -- which is the fallback THIS test exercises. `_solid` returns whichever
+    product comes first in the feed, and once RYA-1203 republished products that all carry
+    a real `stat_basis`, the inherited field silently answered for both cases and the
+    route override became inert: the EW-3D leg returned 2.0, the standard-error answer.
+    Dropping the field is what makes the route the thing under test again.
+    """
+    def _legacy(**kw):
+        p = {k: v for k, v in _solid(doc).items() if k != "stat_basis"}
+        p.update(kw)
+        return p
+    band = _legacy(route="SYNTH", sigma_stat=0.02, n_lines=100)
+    ew3d = _legacy(route="EW-3D", sigma_stat=0.20, n_lines=100)
     assert pe.raw_scatter(band) == pytest.approx(0.20)   # 0.02 * sqrt(100)
     assert pe.raw_scatter(ew3d) == pytest.approx(0.20)   # already the scatter
     # An unrecognised route ABSTAINS rather than being assumed into a basis (RYA-907).
