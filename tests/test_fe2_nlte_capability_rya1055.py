@@ -324,7 +324,12 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     assert r.returncode == 0, r.stdout + r.stderr
     a = json.loads(AUDIT.read_text())
     assert a["problems"] == []
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 10
+    #: 10 -> 13 (RYA-1203): the Fe II `synth-1D-LTE-gerber` leg now exists on all three
+    #: VIS holdings. Fe II NLTE is still structurally unavailable (0 of 9 VIS Fe II lines
+    #: carry an NLTE label, re-measured at pool level this ticket), so the LTE leg is the
+    #: only Gerber leg Fe II can have -- and the stamp count must follow the product count
+    #: or the guard stops covering the new rows.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 13
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     assert a["per_line_rows_on_an_nlte_scale"] == {"I": 159, "II": 0}
 
@@ -413,13 +418,22 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         s = d[d.in_aggregate == True]                                   # noqa: E712
         served[f.name] = (len(d), len(s),
                           sorted({round(float(x), 4) for x in s.nlte_delta_dex}))
+    #: STILL 5 (RYA-1203). The HARPS VIS Fe II ENGINE-A artifact moved to the stem its
+    #: generator writes (4200_6908) and the superseded 4200_6910 copy was retired to
+    #: _superseded_rya1203_stem_drift -- one replaced the other, so the count does not move:
+    #: 2 near-UV + 3 VIS (kurucz2005, molecfit, harps). The pools inside them DID change
+    #: (9 -> 8 lines, 3 -> 2 served) because Fe II 4303.170 is curated out.
     assert len(served) == 5, sorted(served)
     for name, (n, k, deltas) in served.items():
         assert deltas and all(-0.0021 <= x <= -0.0009 for x in deltas), (name, deltas)
         assert k < n, f"{name}: MPIA served every line — the n-drop confound is gone?"
-    # the VIS pools: 3 of 9 served, at -0.001/-0.002
-    vis = [v for k, v in served.items() if "_4200_6910_" in k]
-    assert len(vis) == 3 and all(v[0] == 9 and v[1] == 3 for v in vis), vis
+    # the VIS pools: 2 of 8 served, at -0.001/-0.002
+    #: 🔴 MATCH ON `_4200_69`, NOT `_4200_6910_`. RYA-1203 re-emitted the HARPS VIS pair at
+    #: 4200_6908 -- its generator's own bounds -- so a filter pinned to 6910 silently stops
+    #: seeing that holding and the assertion below would pass on a smaller set than it
+    #: claims to test. 9 -> 8 and 3 -> 2 because Fe II 4303.170 is curated out (RYA-1191).
+    vis = [v for k, v in served.items() if "_4200_69" in k]
+    assert len(vis) == 3 and all(v[0] == 8 and v[1] == 2 for v in vis), vis
     # the near-UV pools: 7 of 12 served, at -0.001 — RYA-1113's n=7-vs-12
     nuv = [v for k, v in served.items() if "_3000_3780_" in k]
     assert len(nuv) == 2 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
@@ -485,9 +499,19 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: report `none — LTE, no departure applied` like every other non-ENGINE-A leg. The
     #: <3D>-mean atmosphere is ion-agnostic; only the departures are ion-specific, and Fe II
     #: takes none.
-    assert len(per) == 16, len(per)
+    #: 16 -> 19: RYA-1203 added the Fe II `synth-1D-LTE-gerber` leg on all three VIS
+    #: holdings, and re-emitted the HARPS VIS pair at the stem its generator actually
+    #: writes (4200_6908, beside the shipped 4200_6910). Same reasoning as RYA-1135: these
+    #: are the artifacts this test exists to police, so they are swept in, and the per-row
+    #: assertions below hold on them -- all report `none — LTE, no departure applied`
+    #: with zero nonzero departures. Fe II NLTE remains structurally unavailable on the
+    #: Gerber deck (RYA-1055), measured again this ticket at the POOL level: 0 of 9 VIS
+    #: Fe II lines carry an NLTE label, so the LTE leg is the only Gerber leg Fe II can have.
+    assert len(per) == 19, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
+    assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (
+        "the RYA-1203 Fe II Gerber-LTE legs must be audited like every other Fe II product")
     for r in per:
         for s in r["nlte_source"]:
             assert "erber" not in s and "fe607a" not in s, (r["artifact"], s)
@@ -513,7 +537,12 @@ def test_the_two_disjoint_vis_fe_ii_pools_are_recorded_not_dropped():
     a = json.loads(AUDIT.read_text())["two_disjoint_vis_fe_ii_pools"]
     perline = a["Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)"]
     live = a["live band product FeII_4200_6910 kpno molecfit DEEPGRADED"]
-    assert len(perline) == 11 and len(live) == 9
+    #: live 9 -> 8 (RYA-1203): Fe II 4303.170 is curated OUT on its merits
+    #: (data/catalog/line_curation_exclusions.csv, ruled RYA-1191) -- a CH G-band blend the
+    #: VIS synthesis list cannot represent, recovering A = 10.0. The two pools stay
+    #: DISJOINT, which is what this test measures; only the live side got one line
+    #: smaller, and it did so for a stated reason rather than by drift.
+    assert len(perline) == 11 and len(live) == 8
     assert a["overlap"] == [], "the pools now overlap — re-read this finding"
     assert max(live) < min(perline), "the two windows no longer separate cleanly"
     assert "FOR RYA TO DISPOSITION" in a["note"]
