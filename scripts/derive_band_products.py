@@ -1472,8 +1472,74 @@ def synthesis_route(a, pol) -> None:
                          + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
             eb_prov += _cov_txt
             print(f"[Engine-B]{_cov_txt}")
+            # 🔴 AN NLTE PRODUCT CONTAINS ONLY GENUINELY-NLTE LINES — RYA-1206 (Ryan).
+            # Partial coverage is not a reason to refuse the engine; we publish n=5 and n=6
+            # products routinely. The trap is the OTHER thing: fitting all of them and
+            # letting the unlabelled ones fall back to departure = 1, so a 25-line product
+            # is half LTE under an NLTE label. So the unlabelled lines are DROPPED here and
+            # recorded, never silently mixed in — they are already carried by the 1D-LTE
+            # product on the same pool.
+            #
+            # The mask is per-LINE, not the coverage report's any-row-within-tolerance:
+            # `pool_label_coverage` credits Fe I 16179.583 with a neighbour's label 0.026 A
+            # away and 2.5 dex weaker, which is how 12 genuine lines read as 13.
+            _mask = _gn.pool_label_mask(
+                ctx["linelist"], int(ctx["atom_code"]),
+                cand["wave_A"].astype(float).values, ion=a.ion)
+            _unlabelled = {round(float(x), 4) for x in
+                           cand["wave_A"].astype(float).values[~_mask]}
+            if _unlabelled:
+                # 🔴 THEY CANNOT BE FITTED, ONLY RECORDED. Leaving them in the pool does not
+                # produce an LTE-valued NLTE row -- `_fit_synth_flux` calls
+                # `assert_linelist_supports_nlte` per WINDOW and raises GerberDeckError
+                # ("4 lines in 15078.3-15082.1 A but NONE carry NLTE level labels"), which
+                # is that guard working exactly as designed: an LTE spectrum under an NLTE
+                # label is worse than no product. So the pool is narrowed for the FIT and
+                # the excluded lines are re-attached below as rows with no abundance.
+                assert lines, "the 1D-LTE leg must be fitted before the pool is narrowed"
+                cand = cand[_mask].reset_index(drop=True)
+                _drop_txt = (f" {len(_unlabelled)} pooled line(s) carry NO NLTE label. They "
+                             f"are EXCLUDED FROM THE AGGREGATE and recorded per line — they "
+                             f"would run at departure = 1, i.e. LTE, and they are already "
+                             f"carried by the 1D-LTE product on this same pool: "
+                             + ", ".join(f"{x:.3f}" for x in sorted(_unlabelled)) + ".")
+                eb_prov += _drop_txt
+                print(f"[Engine-B]{_drop_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
         eb_lines = _fit_lines(eb_treatment, **_fit_kw)
+        # 🔴 RECORD THEM, DO NOT LEAVE A HOLE — RYA-1206. The unlabelled lines cannot be
+        # fitted (above), but dropping them silently would keep them out of the per-line
+        # artifact too, so the evidence could not show the line was considered and why it
+        # was refused -- the gap RYA-515 6 named for curated lines. They are re-attached
+        # here from their OWN 1D-LTE measurement, with `abundance=None`: there is no NLTE
+        # value for a line the deck cannot treat, and inventing one by copying the LTE
+        # number would be the mislabelling this whole exclusion exists to prevent. Mirrors
+        # ENGINE-A-NOT-SERVED, which has always kept its row and stated its reason.
+        if _unlabelled:
+            _by_w = {round(float(l.wavelength_air_A), 4): l for l in lines}
+            for _w in sorted(_unlabelled):
+                _src = _by_w.get(_w)
+                if _src is None:
+                    continue
+                _lm = LineMeasurement(
+                    element=_src.element, ion=_src.ion,
+                    wavelength_air_A=_src.wavelength_air_A,
+                    instrument=_src.instrument, ew_mA=_src.ew_mA,
+                    ew_method=_src.ew_method, treatment=eb_treatment, ep_eV=_src.ep_eV,
+                    nlte_delta_dex=None,
+                    nlte_source="none — no NLTE label in the synthesis list for this line",
+                    continuum_level=_src.continuum_level,
+                    continuum_method=_src.continuum_method,
+                    observed_depth=_src.observed_depth,
+                    red_chi2=_src.red_chi2, abundance=None)
+                _lm.in_aggregate = False
+                _lm.excluded_reason = (
+                    "NO-NLTE-LABEL: the synthesis list carries no NLTE level label for this "
+                    "line, so the deck cannot treat it — bsyn would set departure = 1 and "
+                    "the result would be LTE under an NLTE name. Excluded from the NLTE "
+                    "aggregate and carried by the 1D-LTE product on the same pool. Reduced "
+                    "coverage, not a failed fit (RYA-1206).")
+                eb_lines.append(_lm)
 
     # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
     # This route passed `gf_graded=False` to `build_budget` unconditionally, so the
