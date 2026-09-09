@@ -312,5 +312,30 @@
       "label_up": "none",
       "classification": "TRANSITION-ABSENT from atom.fe607a"
     }
-  ]
+  ],
+  "emitted_product": {
+    "treatment": "ENGINE-B-NLTE",
+    "band": "H",
+    "holding": "solar_crires_plus_h_rya1094",
+    "A": 7.549,
+    "stat_dex": 0.0702,
+    "syst_dex": 0.0653,
+    "n_lines": 9,
+    "n_excluded": 14,
+    "sibling_1D_LTE": {
+      "A": 7.552,
+      "n_lines": 20,
+      "n_excluded": 3
+    },
+    "how_25_becomes_9": [
+      "25 graded Ruffoni Fe I lines in 15007.11-17493.69 A",
+      "23 enter the candidate pool (theoretical-depth and 4 A min-separation filters)",
+      "11 of those 23 carry a genuine NLTE label; 12 do not and are excluded as NO-NLTE-LABEL",
+      "2 of the 11 fitted lines are excluded as SYNTHESIS: edge_pinned",
+      "9 in the aggregate; n_excluded = 14 = 12 unlabelled + 2 edge-pinned"
+    ],
+    "per_line_evidence": "all 23 rows are present in the _lines.csv. The 12 unlabelled ones carry abundance = null -- there is no NLTE value for a line the deck cannot treat, and copying the LTE number across would manufacture exactly the mislabelled value the exclusion exists to prevent.",
+    "they_cannot_be_fitted_only_recorded": "leaving them in the pool does not produce LTE-valued NLTE rows: _fit_synth_flux calls assert_linelist_supports_nlte per WINDOW and raises GerberDeckError ('4 lines in 15078.3-15082.1 A but NONE carry NLTE level labels'). That guard is correct; it is why the pool is narrowed for the FIT and the excluded lines are re-attached as rows afterwards.",
+    "nlte_effect": "NOT COMPUTABLE for this product. The -0.003 dex against the 1D-LTE sibling is atmosphere + departures COMBINED, not the NLTE effect, which requires the Gerber-LTE leg on the SAME atmosphere (RYA-542/1040). H has no synth-1D-LTE-gerber product, and RYA-1083 forbids differencing the two published values. Reported as unavailable rather than estimated."
+  }
 }
