@@ -502,6 +502,18 @@ def main() -> None:
                 print(f"  STEP FAILED: {type(e).__name__}: {e}")
                 results[name] = {"error": f"{type(e).__name__}: {e}"}
                 failed.append(name)
+                # 🔴 RYA-1204 — AND TELL THE TRACE, WHICH OTHERWISE REPORTS THE RUN GREEN.
+                # `end_trace()` fires from the `finally` below and prints RUN HEALTH from
+                # events the trace has SEEN. Catching the exception here and never
+                # recording it meant a step could die on `ModuleNotFoundError: No module
+                # named 'ispec'` -- producing no linelist at all -- while the run printed
+                # "RUN HEALTH [GREEN] errors 0" immediately underneath. A health line that
+                # is computed from a different set of facts than the exit code is worse
+                # than no health line: the exit code was right and nobody reads it once
+                # the banner says green.
+                from pipeline import intake_debug as _dbg
+                _dbg.trace_check(f"step:{name}", False,
+                                 detail=f"{type(e).__name__}: {e}")
     finally:
         if trace is not None:
             from pipeline import intake_debug
