@@ -306,6 +306,24 @@ artifacts:
       PER-LINE artifact, emitted and COMMITTED (`git add -f`; band_products/ is
       gitignored, which is why RYA-515 could only reach 30 of 70 products). REGENERATED on
       Sirius from this branch's code, not lifted from an older run. IAG NIR. ⚠️ It does NOT reproduce the committed product and the reason is the finding: the current code keeps 9437.793 at A = 4.539 (red_chi2 152), giving 7.581 / sigma 0.433 / n = 7 where the committed product is 7.599 / 0.072 / n = 6. The RYA-1191 fit-validity bound restores the committed value exactly.
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1203
+    note: >-
+      The BUDGET sidecar, committed by RYA-1203 because its ABSENCE blocked a legitimate re-ingest. `publish_product` refuses a GRADED tier without a budget corroborating gf rung 3, band_products/ is gitignored, and the only copies left on disk were PRE-RYA-1191 — they describe the 7.621/n=26 run, so pairing one with the post-guard 7.607/n=23 values would have been the RYA-1084 drift shape. Regenerated on Sirius alongside the products, which came back BYTE-IDENTICAL to the committed ones (sha256 3e79d4c11e04 / e664df0800c6), and force-added so the next re-ingest is not blocked the same way.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --skip-engine-b
+    ticket: RYA-1203
+    note: >-
+      The BUDGET sidecar, committed by RYA-1203 because its ABSENCE blocked a legitimate re-ingest. `publish_product` refuses a GRADED tier without a budget corroborating gf rung 3, band_products/ is gitignored, and the only copies left on disk were PRE-RYA-1191 — they describe the 7.621/n=26 run, so pairing one with the post-guard 7.607/n=23 values would have been the RYA-1084 drift shape. Regenerated on Sirius alongside the products, which came back BYTE-IDENTICAL to the committed ones (sha256 3e79d4c11e04 / e664df0800c6), and force-added so the next re-ingest is not blocked the same way.
+
   - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
     generator: scripts/derive_band_products.py
     invocation: >-
