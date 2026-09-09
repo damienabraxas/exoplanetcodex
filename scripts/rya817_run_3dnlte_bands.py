@@ -165,7 +165,16 @@ def _require_auditable_input_dir(d: Path) -> None:
     exactly what happened.
     """
     d = Path(d).resolve()
-    bad = [pref for pref in ("/tmp", "/private/tmp", "/var/folders")
+    # 🔴 `/private/var/folders` IS IN THIS LIST BECAUSE `resolve()` PUTS IT THERE.
+    # On macOS /var is a symlink to /private/var, so `Path("/var/folders/...").resolve()`
+    # returns `/private/var/folders/...` and a list carrying only "/var/folders" never
+    # matched -- the guard fell through to the existence check and refused the path for
+    # the WRONG REASON ("does not exist"), or accepted it outright had it existed. The
+    # list already anticipated exactly this for /tmp by carrying "/private/tmp"; the
+    # macOS per-user scratchpad is the same shape and was missed. Linux is unaffected,
+    # which is why only the Mac ever showed it.
+    bad = [pref for pref in ("/tmp", "/private/tmp",
+                             "/var/folders", "/private/var/folders")
            if str(d).startswith(pref)]
     if bad:
         raise SystemExit(
