@@ -278,12 +278,22 @@ def test_the_rya908_sanction_covers_exactly_what_it_says():
                 others[key + (fk,)] = (bv, a[fk])
 
     assert not others, f"a field outside the sanctions moved: {others}"
-    assert len(moved) == 4, f"expected exactly 4 sigma_syst moves, got {len(moved)}: {moved}"
-    for key, bv, av in moved:
-        assert (key[0], key[1], key[2]) == ("Fe", "II", "near-UV"), f"outside scope: {key}"
-        assert (bv, av) == (0.1095, 0.13), f"not the sanctioned floor: {key} {bv}->{av}"
-    assert len({k[5] for k, _, _ in moved}) == 2, "expected both treatments"
-    assert len({k[4] for k, _, _ in moved}) == 1, "expected a single tier (DEEPGRADED)"
+    #: 🔴 4 -> 0 (RYA-1207): THE SANCTIONED EDIT NO LONGER EXISTS, AND THAT IS THE POINT.
+    #: RYA-908 hand-set sigma_syst 0.1095 -> 0.130 on the four near-UV Fe II records, and
+    #: this test pinned the extent of that allowance. RYA-1207 re-derived all four through
+    #: `publish_product` when it re-measured the band with molecular opacity, so they now
+    #: carry the value their own budget computes -- which is 0.1095, the baseline. The feed
+    #: no longer contains the edit, so the sanction is INERT.
+    #:
+    #: It is left in `SANCTIONED` rather than deleted because removing it would silently
+    #: re-arm nothing: the allowance only ever matched this one edit, and if that edit ever
+    #: reappears it should be justified again rather than inherited. What this assertion
+    #: now guards is the STRONGER state -- that no near-UV Fe II sigma_syst is being
+    #: carried by an allowance at all.
+    assert len(moved) == 0, (
+        f"a sanctioned-shape sigma_syst edit is back in the feed: {moved}. RYA-1207 "
+        f"re-derived these four from their artifacts; a value that differs from the "
+        f"budget again is a new edit needing its own reason, not RYA-908's.")
 
 
 def test_control_the_rya908_sanction_scope_check_can_actually_fail():

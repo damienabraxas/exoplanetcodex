@@ -1,0 +1,95 @@
+{
+  "ticket": "RYA-1207",
+  "what_changed": "The near-UV synthesis now includes molecular opacity. Turbospectrum reads molecules from a SEPARATE list, so this is NOT a change to atomic_lines.tsv (still 55,798 atomic lines): pipeline.nearuv_linelist.write_molecular_bsyn() emits four .bsyn lists and config/synth_bands.yaml declares use_molecules for the near-UV band alone.",
+  "molecular_lists": {
+    "total_lines": 6223,
+    "per_species": {
+      "NH": 2271,
+      "OH": 2094,
+      "CN": 1205,
+      "CH": 653
+    },
+    "species_codes": {
+      "OH": "0108.000016",
+      "NH": "0107.000014",
+      "CN": "0607.012014",
+      "CH": "0106.000012"
+    },
+    "why_the_band_had_none": "all 99 molecular lists iSpec ships begin at 400 nm, so 3000-3780 A synthesised atoms-only. It also means these files cannot leak into another band: iSpec filters the glob on the nm range in the FILENAME."
+  },
+  "the_lever_measured_PAIRED": {
+    "method": "molecules OFF vs ON on THE SAME CODE and the same pool. Differencing against the published values instead would have measured the molecular lever PLUS every code change since the feed was written on Sept 3 -- which is about -0.035 dex of the total.",
+    "Fe_I_dex": {
+      "kurucz2005_1D-LTE": -0.047,
+      "kurucz2005_ENGINE-A": -0.047,
+      "molecfit_1D-LTE": -0.055,
+      "molecfit_ENGINE-A": -0.053
+    },
+    "Fe_II_dex": {
+      "kurucz2005_1D-LTE": -0.28,
+      "kurucz2005_ENGINE-A": -0.303,
+      "molecfit_1D-LTE": -0.276,
+      "molecfit_ENGINE-A": -0.332
+    },
+    "per_line_Fe_I_kurucz2005": {
+      "n_paired": 58,
+      "n_moved": 49,
+      "n_down": 34,
+      "n_up": 15,
+      "mean": -0.1156,
+      "median": -0.008,
+      "sem": 0.0385,
+      "paired_t": -3.0
+    },
+    "independent_validation": {
+      "chi2r_median_off": 81.8,
+      "chi2r_median_on": 67.4,
+      "bit_identical_windows": [
+        3225.787,
+        3506.58,
+        3509.725,
+        3721.272
+      ],
+      "note": "windows containing no molecular line are unchanged to the bit -- the control that shows the patch acts through its own lines and not as a global offset."
+    }
+  },
+  "vs_rya1204": {
+    "rya1204_reported": -0.087,
+    "rya1204_pool": "RYA-759 script's --limit 40 depth-ranked selection",
+    "production_pool": "derive_band_products DEEPGRADED, 58 lines",
+    "🔴 lines_in_common": 2,
+    "finding": "THE TWO POOLS ARE ALL BUT DISJOINT -- 2 lines of 40. RYA-1204's -0.087 was never a subset of this pool, so '40 vs 58' is not a subset/superset comparison and the shift was never directly transferable. The production lever is -0.050 (Fe I median), about half. Same sign, same independent validation, different pool."
+  },
+  "fe_II_is_6x_larger": "Fe II moves -0.28..-0.33 against Fe I's -0.05. RYA-1204 measured Fe I only, so this was never in view. The Fe II near-UV pool is 12 lines against Fe I's 58 and sits further blue, where the molecular forest is densest.",
+  "🔴 blocked": {
+    "what": "the 4 near-UV Fe I products could NOT be published",
+    "why": "publish_product refuses: tier=DEEPGRADED claims laboratory gf, but the budget's own verdict is gf rung 1 (UNGRADED) -- the pool is MIXED, 55 of 56 lines GF-LAB and one systematic:K07, and RYA-855 grades a pool only if every line in it is graded.",
+    "not_caused_by_this_ticket": "the molecules-OFF run on the same code gives the SAME verdict (54 of 55 GF-LAB, one K07). The refusal is a property of today's pool, not of the molecules.",
+    "consequence": "the 4 live Fe I near-UV DEEPGRADED products claim a laboratory pedigree today's pool does not support. That is a pre-existing labelling question this ticket surfaced, and it is Ryan's call -- forcing the tier would be exactly the attribution RYA-855 forbids.",
+    "measured_values_if_it_is_resolved": {
+      "kurucz2005_1D-LTE": 7.56,
+      "kurucz2005_ENGINE-A": 7.569,
+      "molecfit_1D-LTE": 7.505,
+      "molecfit_ENGINE-A": 7.514
+    }
+  },
+  "published": {
+    "Fe II kurucz2005 1D-LTE": [
+      7.957,
+      7.617
+    ],
+    "Fe II kurucz2005 ENGINE-A": [
+      7.975,
+      7.635
+    ],
+    "Fe II molecfit 1D-LTE": [
+      7.697,
+      7.402
+    ],
+    "Fe II molecfit ENGINE-A": [
+      7.738,
+      7.404
+    ]
+  },
+  "nothing_calibrated": "No opacity was scaled or fitted. The gf values are VALD's own and the isotopologue is the dominant one (Ryan-ratified, <=1.1% bound). The result was not compared to 7.466 at any point in deciding what to include (RYA-161)."
+}
