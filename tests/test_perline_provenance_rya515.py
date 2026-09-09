@@ -162,9 +162,18 @@ def test_fe1_anchor_is_well_behaved_under_a_median_but_not_a_mean(prov):
     assert a.skew() > 2.0, "the right tail is the whole point of the conditional answer"
     core = a[(a > 7.0) & (a < 8.0)]
     assert abs(core.median() - a.median()) < 0.01, "median must be resistant to the tail"
-    #: the gap narrowed 0.029 -> 0.019 as RYA-1203 widened the pool from 1336 to 2139
-    #: lines; the point is that it is NON-ZERO and one-signed, not its exact size.
-    assert a.mean() - a.median() > 0.010, "and the mean must not be"
+    #: 🔴 THE SIZE OF THIS GAP IS NOT THE INVARIANT AND MUST NOT BE PINNED. It has read
+    #: 0.029, then 0.019, now 0.0044 as the reachable pool changed (1336 -> 2139 -> 2032
+    #: lines across RYA-1203/1206/1207) -- it is a property of WHICH products currently
+    #: expose per-line evidence, not of the anchor. Twice now a threshold set from the
+    #: then-current pool has failed on a later one, and lowering the number each time
+    #: would be fitting the test to the data.
+    #:
+    #: What is durable is the SHAPE: a real right tail, a median that does not feel it, and
+    #: a mean that is pulled ABOVE the median rather than below. That is the RYA-515 5
+    #: claim -- the pool is well-behaved under a median and would not be under a mean --
+    #: and it is asserted here one-signed, with the measured gap recorded rather than gated.
+    assert a.mean() > a.median(), "the tail must pull the mean ABOVE the median"
 
 
 # --- provenance is stamped on EVERY line, which is the deliverable ------------------

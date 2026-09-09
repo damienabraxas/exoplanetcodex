@@ -163,7 +163,7 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
 def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
             load=None, *, nlte_deck=None, nlte_deck_key=None,
             atmosphere_layers_file=None, atmosphere=None,
-            use_molecules: bool = False) -> dict:
+            use_molecules=None) -> dict:
     """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
 
     🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
@@ -210,14 +210,16 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
     a_solar = float(ctx['solar_A'])
     # RYA-1044: only present when the caller supplied them, so an unset call reaches
     # `_fit_synth_flux` with exactly the arguments it reached before they existed.
+    # RYA-1207: `use_molecules` joins the SAME pass-through set, defaulting to None like
+    # the rest. RYA-1044's guard requires that and is right to: a default of False would
+    # still be inert today, but it would put the parameter in the call for every band and
+    # break the one rule that keeps this harness's published near-UV value from moving by
+    # way of an argument nobody passed. Molecular opacity is declared per BAND in
+    # config/synth_bands.yaml and forwarded here, never decided in this script.
     _extra = {k: v for k, v in (
         ("nlte_deck", nlte_deck), ("nlte_deck_key", nlte_deck_key),
-        ("atmosphere_layers_file", atmosphere_layers_file)) if v is not None}
-    # RYA-1207: molecular opacity is declared per BAND in config/synth_bands.yaml and
-    # forwarded here, never decided in this script. Absent unless True, so a band that
-    # does not declare it reaches `_fit_synth_flux` with the arguments it always did.
-    if use_molecules:
-        _extra["use_molecules"] = True
+        ("atmosphere_layers_file", atmosphere_layers_file),
+        ("use_molecules", use_molecules)) if v is not None}
     r = _fit_synth_flux(
         ow_A / 10.0, np.asarray(of, dtype=float),
         ctx['atmosphere'] if atmosphere is None else atmosphere,
