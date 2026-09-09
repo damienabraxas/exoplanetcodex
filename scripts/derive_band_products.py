@@ -1472,8 +1472,47 @@ def synthesis_route(a, pol) -> None:
                          + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
             eb_prov += _cov_txt
             print(f"[Engine-B]{_cov_txt}")
+            # 🔴 AN NLTE PRODUCT CONTAINS ONLY GENUINELY-NLTE LINES — RYA-1206 (Ryan).
+            # Partial coverage is not a reason to refuse the engine; we publish n=5 and n=6
+            # products routinely. The trap is the OTHER thing: fitting all of them and
+            # letting the unlabelled ones fall back to departure = 1, so a 25-line product
+            # is half LTE under an NLTE label. So the unlabelled lines are DROPPED here and
+            # recorded, never silently mixed in — they are already carried by the 1D-LTE
+            # product on the same pool.
+            #
+            # The mask is per-LINE, not the coverage report's any-row-within-tolerance:
+            # `pool_label_coverage` credits Fe I 16179.583 with a neighbour's label 0.026 A
+            # away and 2.5 dex weaker, which is how 12 genuine lines read as 13.
+            _mask = _gn.pool_label_mask(
+                ctx["linelist"], int(ctx["atom_code"]),
+                cand["wave_A"].astype(float).values, ion=a.ion)
+            _unlabelled = {round(float(x), 4) for x in
+                           cand["wave_A"].astype(float).values[~_mask]}
+            if _unlabelled:
+                _drop_txt = (f" {len(_unlabelled)} pooled line(s) carry NO NLTE label. They "
+                             f"are EXCLUDED FROM THE AGGREGATE and recorded per line — they "
+                             f"would run at departure = 1, i.e. LTE, and they are already "
+                             f"carried by the 1D-LTE product on this same pool: "
+                             + ", ".join(f"{x:.3f}" for x in sorted(_unlabelled)) + ".")
+                eb_prov += _drop_txt
+                print(f"[Engine-B]{_drop_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
         eb_lines = _fit_lines(eb_treatment, **_fit_kw)
+        # 🔴 MARK, DO NOT DROP — RYA-1206. An unlabelled line must leave a ROW, not a hole.
+        # Dropping it from `cand` keeps it out of the aggregate correctly but also out of
+        # the per-line artifact, so the evidence cannot show that the line was considered
+        # and why it was refused; RYA-515 6 named exactly that gap for curated lines. This
+        # mirrors ENGINE-A-NOT-SERVED, which has always kept its row and stated its reason.
+        if _unlabelled:
+            for _lm in eb_lines:
+                if round(float(_lm.wavelength_air_A), 4) in _unlabelled:
+                    _lm.in_aggregate = False
+                    _lm.excluded_reason = (
+                        "NO-NLTE-LABEL: no NLTE label in the synthesis list for this line, "
+                        "so bsyn applies departure = 1 and the fit is LTE under an NLTE "
+                        "name. Excluded from the NLTE aggregate; covered by the 1D-LTE "
+                        "product on the same pool. Reduced coverage, not a failed fit "
+                        "(RYA-1206).")
 
     # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
     # This route passed `gf_graded=False` to `build_budget` unconditionally, so the
