@@ -221,19 +221,46 @@ def test_ir_products_name_their_irreducible(feed):
         got[(p["holding"], p["treatment"])] = d["dispersion_dex"]
     assert got[("solar_crires_plus_y_wide_rya1054", "1D-LTE")] == pytest.approx(0.138, abs=1e-3)
     assert got[("solar_iag", "1D-LTE")] == pytest.approx(0.794, abs=1e-3)
-    assert got[("solar_kpno_molecfit_corrected", "1D-LTE")] == pytest.approx(0.890, abs=1e-3)
-    assert got[("solar_kpno_molecfit_corrected", "ENGINE-A")] == pytest.approx(1.315, abs=1e-3)
+    # 🔴 0.386 / 0.144, NOT 0.890 / 1.315. Those were the PRE-GUARD numbers, and the
+    # record's own note said so in as many words: "dispersion_dex above is the PRE-GUARD
+    # value and is regenerated when the product is." RYA-1203 regenerated it. The note
+    # also states the post-guard values this now reproduces exactly -- "the dispersion is
+    # 0.144 at n=6 ... INDISTINGUISHABLE from CRIRES+'s 0.138" and "KP 0.386 at n=23".
+    # The science was re-derived by RYA-1191; only these assertions lagged.
+    assert got[("solar_kpno_molecfit_corrected", "1D-LTE")] == pytest.approx(0.386, abs=1e-3)
+    assert got[("solar_kpno_molecfit_corrected", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
 
 
 def test_the_widest_ir_bars_carry_the_most_lines(feed):
-    """The RCA, asserted: the bar tracks gf quality, not small-n. If this ever inverts,
-    'more lines will not fix it' has stopped being true and the note must be re-derived."""
+    """The RCA, asserted: the bar tracks gf quality, not small-n.
+
+    🔴 THE `/5` WAS ONE NON-CONVERGENT FIT AND THE NOTE ALREADY SAID SO. This tripwire
+    fired exactly as designed when RYA-1203 re-ingested the guarded products, and the
+    re-derivation it demands had already been done -- by RYA-1191, in the record's own
+    note: "That 1.315 is ONE NON-CONVERGENT FIT ... Rejected by pipeline.fit_validity,
+    the dispersion is 0.144 at n=6 -- not an exception, and INDISTINGUISHABLE from
+    CRIRES+'s 0.138. The ~6x ratio was that one line."
+
+    So the magnitude is dropped and what the note says SURVIVES is asserted instead:
+    "the NIR many-line bars are still the widest (IAG 0.307 at n=22, KP 0.386 at n=23)
+    against the few-line curated ones (CRIRES+ 0.138 at n=5, KP ENGINE-A 0.144 at n=6),
+    so the dispersion still tracks gf QUALITY rather than line count". That is a
+    statement about ORDER, and pinning a ratio to it is what made this test assert a
+    single bad fit as physics.
+    """
     ir = {(p["holding"], p["treatment"]): p for p in feed["products"] if p["band"] == "NIR"}
     crires = ir[("solar_crires_plus_y_wide_rya1054", "1D-LTE")]
     kp = ir[("solar_kpno_molecfit_corrected", "1D-LTE")]
     assert crires["n_lines"] < kp["n_lines"]
     assert crires["irreducible_dispersion"]["dispersion_dex"] < \
-           kp["irreducible_dispersion"]["dispersion_dex"] / 5
+           kp["irreducible_dispersion"]["dispersion_dex"]
+    # And the claim that outlived the bad fit: the CURATED few-line pools sit together at
+    # the bottom, well below the many-line ones, which is what "tracks gf quality" means.
+    kp_a = ir[("solar_kpno_molecfit_corrected", "ENGINE-A")]
+    assert kp_a["irreducible_dispersion"]["dispersion_dex"] < \
+           kp["irreducible_dispersion"]["dispersion_dex"]
+    assert abs(kp_a["irreducible_dispersion"]["dispersion_dex"]
+               - crires["irreducible_dispersion"]["dispersion_dex"]) < 0.05
 
 
 def test_kp_nir_graded_tier_is_confirmed_against_its_pool(feed):
