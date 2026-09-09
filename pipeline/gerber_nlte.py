@@ -1195,6 +1195,50 @@ def pool_label_coverage(linelist, Z: int, waves_A, ion=None,
         return (0, 0)
 
 
+def pool_label_mask(linelist, Z: int, waves_A, ion=None,
+                    tol_A: float = 0.05) -> "np.ndarray":
+    """Per-line boolean: does THIS line carry an NLTE label? — the selection primitive.
+
+    🔴 WHY THIS IS NOT `pool_label_coverage`. That function asks "is there a labelled row
+    within tol_A of this wavelength", which is the right question for a COVERAGE REPORT and
+    the wrong one for choosing what goes into an NLTE aggregate. Measured on the CRIRES+ H
+    pool (RYA-1206): it returns 13 of 25, but one of those 13 is Fe I 16179.583, whose own
+    row is `nlte=F` — the label belongs to a DIFFERENT Fe I line 0.026 A away at
+    log gf -2.227 against the target's +0.261, 2.5 dex weaker and a different transition
+    entirely. Counting it credits the target with its blend neighbour's physics. The honest
+    count is 12.
+
+    So this takes the NEAREST row of the requested species and reads ITS label — a line is
+    labelled or it is not, and a neighbour cannot vouch for it (RYA-1037: a wavelength is
+    not a line key).
+
+    Returns a mask aligned with `waves_A`; a wavelength with no row at all is False.
+    """
+    out = np.zeros(len(np.asarray(waves_A, dtype=float)), dtype=bool)
+    try:
+        rows = _select_species_rows(linelist, Z, ion)
+        if not len(rows):
+            return out
+        names = rows.dtype.names or ()
+        w = (np.asarray(rows["wave_A"], dtype=float) if "wave_A" in names
+             else np.asarray(rows["wave_nm"], dtype=float) * 10.0)
+        flag = np.asarray([str(x).strip() for x in rows["nlte"]]) == "T"
+        lo = np.asarray([str(x).strip() for x in rows["nlte_label_low"]])
+        up = np.asarray([str(x).strip() for x in rows["nlte_label_up"]])
+        labelled = flag & ((lo != "none") | (up != "none"))
+        for i, x in enumerate(np.asarray(waves_A, dtype=float)):
+            d = np.abs(w - x)
+            j = int(np.argmin(d))
+            if d[j] <= tol_A:
+                out[i] = bool(labelled[j])
+        return out
+    except Exception:
+        # A selection primitive must not be the thing that breaks a run; an all-False mask
+        # is caught by the caller's "not one line is labelled" refusal rather than silently
+        # producing an LTE product under an NLTE name.
+        return out
+
+
 def assert_linelist_supports_nlte(linelist, Z: int, element: str,
                                   wave_lo_A: float | None = None,
                                   wave_hi_A: float | None = None,

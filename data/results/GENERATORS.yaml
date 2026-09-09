@@ -7294,3 +7294,73 @@ artifacts:
       code named inside it. Recorded because "the grid does not cover this band" is a
       claim that must carry its measurement, and because the MPIA batch behaviour it
       documents (one out-of-range line empties the whole 20-line batch) is a live trap.
+
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1206
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-nlte
+    note: >-
+      The CRIRES+ H arm's Gerber 1D-NLTE leg. Produced on Sirius (venv_rya1103). The
+      aggregate holds ONLY lines that genuinely carry a Gerber departure: 12 of the 23
+      pooled lines have no NLTE label and are recorded per line as NO-NLTE-LABEL with
+      `abundance` null, never mixed in. They cannot be fitted at all -- the per-window
+      `assert_linelist_supports_nlte` refuses an unlabelled window -- so the row states
+      that the line was considered and why the deck cannot treat it.
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1206
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-nlte
+    note: >-
+      The CRIRES+ H arm's Gerber 1D-NLTE leg. Produced on Sirius (venv_rya1103). The
+      aggregate holds ONLY lines that genuinely carry a Gerber departure: 12 of the 23
+      pooled lines have no NLTE label and are recorded per line as NO-NLTE-LABEL with
+      `abundance` null, never mixed in. They cannot be fitted at all -- the per-window
+      `assert_linelist_supports_nlte` refuses an unlabelled window -- so the row states
+      that the line was considered and why the deck cannot treat it.
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1206
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-nlte
+    note: >-
+      The CRIRES+ H arm's Gerber 1D-NLTE leg. Produced on Sirius (venv_rya1103). The
+      aggregate holds ONLY lines that genuinely carry a Gerber departure: 12 of the 23
+      pooled lines have no NLTE label and are recorded per line as NO-NLTE-LABEL with
+      `abundance` null, never mixed in. They cannot be fitted at all -- the per-window
+      `assert_linelist_supports_nlte` refuses an unlabelled window -- so the row states
+      that the line was considered and why the deck cannot treat it.
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1206
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-nlte
+    note: >-
+      The CRIRES+ H arm's Gerber 1D-NLTE leg. Produced on Sirius (venv_rya1103). The
+      aggregate holds ONLY lines that genuinely carry a Gerber departure: 12 of the 23
+      pooled lines have no NLTE label and are recorded per line as NO-NLTE-LABEL with
+      `abundance` null, never mixed in. They cannot be fitted at all -- the per-window
+      `assert_linelist_supports_nlte` refuses an unlabelled window -- so the row states
+      that the line was considered and why the deck cannot treat it.
+  - artifact: rya1206/h_nlte_coverage.json
+    generator: null
+    ticket: RYA-1206
+    status: HAND_AUTHORED
+    sources:
+      - pipeline/gerber_nlte.py::pool_label_mask
+      - scripts/derive_band_products.py::_cand_graded
+      - data/linelists/ispec_h_15007_17494/atomic_lines.tsv
+      - /mnt/codex-ext/codex-grids/nlte/gerber_ts/atom.fe607a
+      - data/results/band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    note: >-
+      Why the H arm's NLTE leg is 9 lines and not 25, classified per line against the
+      deck's own 12,635 transition records on (lambda AND log gf) -- lambda alone would
+      have claimed 8 of the unlabelled 13 are in the atom, every one a different
+      transition up to 3.7 dex off in log gf (RYA-1037). Hand-authored because it
+      assembles three separate probes and states what they mean; each source is named and
+      re-runnable.

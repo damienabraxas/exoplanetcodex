@@ -1,0 +1,341 @@
+{
+  "ticket": "RYA-1206",
+  "question": "Why do only some of the 25 graded Fe I lines in the CRIRES+ H band carry a Gerber NLTE departure, and is the shortfall a fixable labelling defect or a deck limit?",
+  "headline": {
+    "genuinely_NLTE_lines": 12,
+    "LTE_fallback_lines": 13,
+    "classification": "ALL 13 unlabelled lines are TRANSITION-ABSENT from atom.fe607a. Zero labelling defects. Zero level-absent.",
+    "fixable_by_code": false,
+    "fixable_by": "a larger model atom — the deck would have to carry these bound-bound transitions. Nothing in this repo can add them."
+  },
+  "correction_to_rya1203": {
+    "reported_then": "13 of 25 labelled",
+    "correct": "12 of 25",
+    "why": "pool_label_coverage credits a line with ANY labelled row within 0.05 A. Fe I 16179.583 (the graded Ruffoni line, log gf +0.261) is nlte=F with no labels; the label 0.026 A away belongs to a DIFFERENT Fe I line at log gf -2.227 — 2.5 dex weaker, a w5G4*-f5G4 transition against the target's own. Counting it credits the target with its blend neighbour's physics (RYA-1037: a wavelength is not a key).",
+    "consequence": "the honest genuinely-NLTE count is 12, so the emitted product is n=12, not n=13."
+  },
+  "method": {
+    "label_source": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv — the list the synthesis actually reads",
+    "atom": "/mnt/codex-ext/codex-grids/nlte/gerber_ts/atom.fe607a (607 levels, 12635 radiative transitions; header cut: log gf > -5, lambda < 20000 A)",
+    "matching": "against the atom's OWN transition records (`* i = N <lambda> log_gf = <g> <low> <up>`), on lambda AND log gf together. Lambda alone would have claimed 8 of the 13 unlabelled lines are in the atom; every one of those 8 is a different transition, up to 3.7 dex off in log gf."
+  },
+  "why_not_level_absent": {
+    "lower_levels": "present — 84 Fe I levels sit in the 6.25-6.50 eV bin the unlabelled lines' EPs fall in",
+    "upper_levels": "present — each unlabelled line needs an upper level near 7.03-7.09 eV and the atom has 5d5S 7.032, 6p5F* 7.082, 6s3F 7.089, matching to 0.004 eV",
+    "conclusion": "both levels exist for all 13; it is the TRANSITION between them that the deck does not carry."
+  },
+  "the_boundary": {
+    "shape": "EXCITATION, not wavelength",
+    "covered": {
+      "n": 12,
+      "multiplet": "e7D - n7D* throughout",
+      "EP_eV": [
+        5.3085,
+        5.426
+      ],
+      "lambda_A": [
+        15051.749,
+        16324.451
+      ]
+    },
+    "dropped": {
+      "n": 13,
+      "EP_eV": [
+        6.2416,
+        6.3515
+      ],
+      "lambda_A": [
+        15080.22,
+        17277.479
+      ]
+    },
+    "note": "the two sets INTERLEAVE in wavelength (15051 in, 15080 out, 15207 in, 15591 out...), which is what proves the limit is not a wavelength cut. The atom carries 765 transitions inside 15007-17494 A; the 12 graded lines it covers are the whole e7D-n7D* multiplet."
+  },
+  "cross_check_vs_engine_a_rya1165": {
+    "engine_a_H_coverage": "0 of 20 — MPIA grid edge between 12648.742 and 15051.700 A (measured RYA-1203)",
+    "raw_overlap": "13 of 13 Gerber-unlabelled lines are also ENGINE-A-unserved = 100%",
+    "verdict": "DEGENERATE, and reporting it as agreement would be wrong. ENGINE-A serves NOTHING in this band, so the unserved set is the whole band and every subset overlaps it 100%. An overlap with a universal set carries no information.",
+    "informative_comparison": {
+      "lines Gerber covers that ENGINE-A cannot": 12,
+      "lines ENGINE-A covers that Gerber cannot": 0
+    },
+    "answer": "NOT a shared physical limit and NOT one defect starving both. The two limits have DIFFERENT SHAPES: ENGINE-A's is a wavelength boundary that drops all 20 regardless of excitation; Gerber's is a transition-content boundary that selects by EP (5.31-5.43 in, 6.24-6.35 out) and interleaves in wavelength. In the H band the engines are COMPLEMENTARY, not co-limited — Gerber reaches 12 lines MPIA cannot touch at all."
+  },
+  "lines": [
+    {
+      "wave_A": 15051.749,
+      "EP_eV": 5.3516,
+      "loggf": 0.426,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D4",
+      "label_up": "n7D3*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15080.22,
+      "EP_eV": 6.264,
+      "loggf": -0.843,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 15207.526,
+      "EP_eV": 5.3852,
+      "loggf": 0.323,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D3",
+      "label_up": "n7D2*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15294.56,
+      "EP_eV": 5.3085,
+      "loggf": 0.719,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D5",
+      "label_up": "n7D5*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15335.383,
+      "EP_eV": 5.4099,
+      "loggf": 0.088,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D2",
+      "label_up": "n7D1*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15591.49,
+      "EP_eV": 6.2416,
+      "loggf": 0.874,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 15604.22,
+      "EP_eV": 6.2416,
+      "loggf": 0.538,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a (a lambda-only search would false-positive here)"
+    },
+    {
+      "wave_A": 15631.948,
+      "EP_eV": 5.3516,
+      "loggf": 0.12,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D4",
+      "label_up": "n7D4*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15648.51,
+      "EP_eV": 5.426,
+      "loggf": -0.599,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D1",
+      "label_up": "n7D1*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15682.016,
+      "EP_eV": 5.4099,
+      "loggf": -1.745,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D2",
+      "label_up": "n7D2*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15691.853,
+      "EP_eV": 6.2461,
+      "loggf": 0.649,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 15692.747,
+      "EP_eV": 5.3852,
+      "loggf": -0.378,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D3",
+      "label_up": "n7D3*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 15835.165,
+      "EP_eV": 6.3025,
+      "loggf": 0.74,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 16009.611,
+      "EP_eV": 5.426,
+      "loggf": -0.47,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D1",
+      "label_up": "n7D2*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 16153.247,
+      "EP_eV": 5.3516,
+      "loggf": -0.685,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D4",
+      "label_up": "n7D5*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 16165.029,
+      "EP_eV": 6.3192,
+      "loggf": 0.988,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 16179.583,
+      "EP_eV": 6.3192,
+      "loggf": 0.261,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a (a lambda-only search would false-positive here)"
+    },
+    {
+      "wave_A": 16198.503,
+      "EP_eV": 5.4099,
+      "loggf": -0.444,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D2",
+      "label_up": "n7D3*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 16324.451,
+      "EP_eV": 5.3852,
+      "loggf": -0.556,
+      "genuinely_NLTE": true,
+      "nlte_flag": "T",
+      "label_low": "e7D3",
+      "label_up": "n7D4*",
+      "classification": "GENUINELY-NLTE (transition in atom.fe607a)"
+    },
+    {
+      "wave_A": 16382.251,
+      "EP_eV": 6.28,
+      "loggf": 0.385,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 16396.306,
+      "EP_eV": 6.28,
+      "loggf": -0.53,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a (a lambda-only search would false-positive here)"
+    },
+    {
+      "wave_A": 16537.994,
+      "EP_eV": 6.2865,
+      "loggf": -0.867,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 16541.962,
+      "EP_eV": 6.336,
+      "loggf": 0.15,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    },
+    {
+      "wave_A": 16892.361,
+      "EP_eV": 6.3515,
+      "loggf": -2.136,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a (a lambda-only search would false-positive here)"
+    },
+    {
+      "wave_A": 17277.479,
+      "EP_eV": 6.3192,
+      "loggf": -0.519,
+      "genuinely_NLTE": false,
+      "nlte_flag": "F",
+      "label_low": "none",
+      "label_up": "none",
+      "classification": "TRANSITION-ABSENT from atom.fe607a"
+    }
+  ],
+  "emitted_product": {
+    "treatment": "ENGINE-B-NLTE",
+    "band": "H",
+    "holding": "solar_crires_plus_h_rya1094",
+    "A": 7.549,
+    "stat_dex": 0.0702,
+    "syst_dex": 0.0653,
+    "n_lines": 9,
+    "n_excluded": 14,
+    "sibling_1D_LTE": {
+      "A": 7.552,
+      "n_lines": 20,
+      "n_excluded": 3
+    },
+    "how_25_becomes_9": [
+      "25 graded Ruffoni Fe I lines in 15007.11-17493.69 A",
+      "23 enter the candidate pool (theoretical-depth and 4 A min-separation filters)",
+      "11 of those 23 carry a genuine NLTE label; 12 do not and are excluded as NO-NLTE-LABEL",
+      "2 of the 11 fitted lines are excluded as SYNTHESIS: edge_pinned",
+      "9 in the aggregate; n_excluded = 14 = 12 unlabelled + 2 edge-pinned"
+    ],
+    "per_line_evidence": "all 23 rows are present in the _lines.csv. The 12 unlabelled ones carry abundance = null -- there is no NLTE value for a line the deck cannot treat, and copying the LTE number across would manufacture exactly the mislabelled value the exclusion exists to prevent.",
+    "they_cannot_be_fitted_only_recorded": "leaving them in the pool does not produce LTE-valued NLTE rows: _fit_synth_flux calls assert_linelist_supports_nlte per WINDOW and raises GerberDeckError ('4 lines in 15078.3-15082.1 A but NONE carry NLTE level labels'). That guard is correct; it is why the pool is narrowed for the FIT and the excluded lines are re-attached as rows afterwards.",
+    "nlte_effect": "NOT COMPUTABLE for this product. The -0.003 dex against the 1D-LTE sibling is atmosphere + departures COMBINED, not the NLTE effect, which requires the Gerber-LTE leg on the SAME atmosphere (RYA-542/1040). H has no synth-1D-LTE-gerber product, and RYA-1083 forbids differencing the two published values. Reported as unavailable rather than estimated."
+  }
+}
