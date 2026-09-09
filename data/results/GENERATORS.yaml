@@ -2828,6 +2828,50 @@ artifacts:
       cannot claim a grid the disk does not hold, and a grid on disk that nothing
       consumes renders as NEEDS_WIRING rather than as coverage.
 
+  # ── RYA-1204 ───────────────────────────────────────────────────────────────────────
+  - artifact: rya1204/rya1204_step0_fe1bf.png
+    status: COMMITTED
+    generator: scripts/diagnostics/rya1204/step0_final.py
+    invocation: python scripts/diagnostics/rya1204/step0_final.py
+    ticket: RYA-1204
+    sources:
+      - ispec/synthesizer/turbospectrum/DATA/jonabs_vac_v19.2.dat (component 17, FeI bf)
+      - https://norad.astronomy.osu.edu/fe1/fe1.px.txt (Bautista & Pradhan, Iron Project)
+      - https://norad.astronomy.osu.edu/fe1/fe1.px.gd.txt (ground-state control)
+    note: >-
+      RYA-1204 Step 0: the shipped Fe I bound-free table against the full resonance-
+      resolved Bautista/NORAD cross-section, LTE-weighted to jonabs's own convention
+      (sum_i g_i exp(-E_i/kT) sigma_i, WITHOUT the partition function - established by
+      measurement, since the ratio tracks U across the temperature grid). The 4-node
+      linear interpolation reproduces the band mean to 1.0006x, and what the code uses
+      is 1.44x the full-resolution band mean - i.e. already ABOVE Bautista, where Bell
+      2001 needed 2x more. The verdict is STOP: re-tabulating Fe I bf would move the
+      near-UV the wrong way. The NORAD inputs are fetched, not vendored.
+
+  - artifact: rya1204/rya1204_lever_measurements.json
+    status: COMMITTED
+    generator: scripts/diagnostics/rya1204/leverA_product.py
+    invocation: >-
+      LIMIT=40 python scripts/diagnostics/rya1204/leverB_product.py (USE_MOL=0 then 1)
+      and LIMIT=40 python scripts/diagnostics/rya1204/leverA_product.py
+    ticket: RYA-1204
+    sources:
+      - scripts/rya759_nearuv_fe_product.py
+      - data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv
+      - data/linelists/vald_solar_nearuv_2000_3780_hfson_raw.txt (the 6,223 molecular rows)
+      - ispec/synthesizer/turbospectrum/DATA/jonabs_vac_v19.2.dat
+      - https://norad.astronomy.osu.edu/fe1/fe1.px.txt
+    note: >-
+      Both near-UV opacity levers measured ALONE on the production RYA-759 route, same 40
+      lines in every arm so the comparison is paired. Lever A (Fe I bf re-tabulated from
+      Bautista on a 20 A grid) shifts A(Fe I) by +0.013 dex and is NOT significant --
+      paired t=+0.80, median -0.004, 23 of 40 lines down. Lever B (the 6,223 excluded
+      near-UV molecular lines) shifts it -0.087 dex, paired t=-4.30, repairs all 4
+      continuum-off windows, and drops median reduced chi2 118->81. Six windows carrying
+      no molecular line are bit-identical, which controls the patch. DIAGNOSTIC: nothing
+      was calibrated to a target, and Lever B still UNDER-corrects (synth/obs above 1 on
+      24 of 40 windows after), so -0.087 is a lower bound.
+
   - artifact: rya935/live_tracker.html
     status: COMMITTED
     generator: scripts/rya935_live_status.py
