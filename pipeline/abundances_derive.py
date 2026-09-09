@@ -833,6 +833,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
                          vsini: float = 0.0,
                          nlte_departures=None,
                          atmosphere_layers_file: str | None = None,
+                         use_molecules: bool = False,
                          tmp_dir: str = '/tmp/ispec_codex_synth') -> np.ndarray:
     """
     Normalized Turbospectrum synthetic flux over `waveobs_nm` with ONLY the target
@@ -860,6 +861,17 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
     # this file's own docstring promises is character-for-character unchanged.
     _atm_file = ({} if atmosphere_layers_file is None
                  else {"atmosphere_layers_file": atmosphere_layers_file})
+    # 🔴 RYA-1207 — SPLATTED FROM AN EMPTY DICT FOR THE SAME REASON `_atm_file` IS. This
+    # is the ONE generator every band calls, and the docstring above promises the LTE call
+    # is character-for-character what RYA-770 stabilised at -0.026 dex. `use_molecules`
+    # defaults False, so when it is not asked for the call below is byte-identical and no
+    # published band can move. It is True only for the near-UV, where
+    # `config/synth_bands.yaml` declares it and RYA-1204 measured what it is worth.
+    #
+    # ⚠️ It is not free to turn on globally: iSpec globs `molecules/*.bsyn` and filters on
+    # the nm range in the FILENAME, so enabling it in another band would pull in whichever
+    # of the 99 shipped lists overlap there and move that band for an unmeasured reason.
+    _mol = {} if not use_molecules else {"use_molecules": True}
     # RYA-798. `nlte_departures` is the dict iSpec's Turbospectrum wrapper expects,
     # {element: (departures, tau, ndep, nk, Z, abundance, atom_path)}, built by
     # pipeline.gerber_nlte from the TS-native Gerber deck. It defaults to None and the
@@ -877,7 +889,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
             macroturbulence=macroturbulence, vsini=vsini, R=R,
             verbose=0, code='turbospectrum',
             nlte_departure_coefficients=nlte_departures,
-            tmp_dir=tmp_dir, **_atm_file,
+            tmp_dir=tmp_dir, **_atm_file, **_mol,
         )
     return ispec.generate_spectrum(
         waveobs_nm, atmosphere,
@@ -886,7 +898,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
         microturbulence_vel=vturb,
         macroturbulence=macroturbulence, vsini=vsini, R=R,
         verbose=0, code='turbospectrum',
-        tmp_dir=tmp_dir, **_atm_file,
+        tmp_dir=tmp_dir, **_atm_file, **_mol,
     )
 
 
@@ -1266,6 +1278,7 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     nlte_deck_key: str | None = None,
                     atmosphere_layers_file: str | None = None,
                     ion=None,
+                    use_molecules: bool = False,
                     tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
     """
     v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
@@ -1307,6 +1320,10 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     # `_synth_flux_at_abund` with exactly the arguments it reached before.
     if atmosphere_layers_file is not None:
         _kw["atmosphere_layers_file"] = atmosphere_layers_file
+    # RYA-1207, same discipline: absent unless asked for, so a band that does not declare
+    # molecular opacity reaches the generator with the arguments it always did.
+    if use_molecules:
+        _kw["use_molecules"] = True
 
     # 🔴 RYA-1040 — THE DECK IS NAMED BY THE CALLER, NOT INFERRED FROM THE ELEMENT.
     # Every `for_node` call below used `element`, which resolves to the 1D deck (`Fe`) and
