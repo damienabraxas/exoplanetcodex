@@ -7364,3 +7364,104 @@ artifacts:
       transition up to 3.7 dex off in log gf (RYA-1037). Hand-authored because it
       assembles three separate probes and states what they mean; each source is named and
       re-runnable.
+
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1207
+    status: COMMITTED
+    command: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780
+      --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis
+      --skip-engine-b
+    note: >-
+      Near-UV re-measured WITH molecular opacity (RYA-1207). Produced on Sirius
+      (venv_rya1103). Molecules reach this band only because config/synth_bands.yaml
+      declares `use_molecules` for it; the lists are written by
+      pipeline.nearuv_linelist.write_molecular_bsyn() into the engine's molecules dir and
+      iSpec selects them by the nm range in the filename.
+  - artifact: rya1207/nearuv_molecular_lever.json
+    generator: null
+    ticket: RYA-1207
+    status: HAND_AUTHORED
+    sources:
+      - pipeline/nearuv_linelist.py::write_molecular_bsyn
+      - config/synth_bands.yaml
+      - data/linelists/vald_solar_nearuv_2000_3780_hfson_raw.txt
+      - data/results/rya1204/rya1204_lever_measurements.json
+      - data/results/band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    note: >-
+      The PAIRED measurement of the molecular lever on the production pool -- molecules off
+      vs on, same code, same lines -- plus the control windows, the comparison against
+      RYA-1204's near-disjoint 40-line pool, and the record of the four Fe I products the
+      gf-rung guard refused. Hand-authored because it assembles two runs and a prior
+      ticket's artifact and states what they mean together.
