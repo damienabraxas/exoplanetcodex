@@ -61,6 +61,12 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    # RYA-1206, added deliberately. The per-line classification of the CRIRES+ H NLTE
+    # shortfall: which lines the Gerber deck can treat and why the rest cannot be, matched
+    # against the atom's own transition records. Hand-authored for the same reason as the
+    # RYA-1203 entry below -- it assembles measurements from separate probes and states
+    # what they mean; every source is named in its manifest entry and re-runnable.
+    "rya1206/h_nlte_coverage.json",
     # RYA-1203, added deliberately. The Gerber/ENGINE-A coverage determination behind
     # every "documented reason" that ticket records: which bands the NLTE route can be
     # run on, measured per POOL rather than per window (RYA-1050), and where MPIA's
