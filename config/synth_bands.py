@@ -50,6 +50,18 @@ class SynthBand:
     n_lines: int
     half_width_note: str
     build_hint: str
+    #: 🔴 MOLECULAR OPACITY IS A PROPERTY OF THE BAND — RYA-1207. Turbospectrum reads
+    #: molecules from a SEPARATE list (iSpec globs `molecules/*.bsyn` and filters it by the
+    #: `_<lo>-<hi>` nm in the filename), so this is not something the atomic linelist can
+    #: carry. It is off everywhere by default and TRUE only for the near-UV, because that
+    #: is the only band whose measured deficit is molecular: RYA-1204 measured the lever at
+    #: -0.087 dex (t = -4.30) and validated it independently of the abundance -- all four
+    #: continuum-broken windows repaired, chi2r 118 -> 81, and six windows containing no
+    #: molecular line came back BIT-IDENTICAL.
+    #:
+    #: Turning it on globally would move every published band for an unmeasured reason, so
+    #: it is per-band and declared here rather than decided in the route.
+    use_molecules: bool = False
 
     @property
     def linelist(self) -> Path:
@@ -95,7 +107,8 @@ def _load() -> tuple[dict[str, SynthBand], float]:
             min_sep_A=float(b["min_sep_A"]),
             n_lines=int(b["n_lines"]),
             half_width_note=str(b["half_width_note"]).strip(),
-            build_hint=str(b["build_hint"]).strip())
+            build_hint=str(b["build_hint"]).strip(),
+            use_molecules=bool(b.get("use_molecules", False)))
     return bands, k
 
 

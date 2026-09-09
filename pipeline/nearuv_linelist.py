@@ -381,6 +381,86 @@ def write(arr: np.ndarray, out_path) -> str:
     return str(out_path)
 
 
+#: 🔴 THE ISOTOPOLOGUE ASSIGNMENT — RYA-1207, ratified by Ryan; the reason the exclusion
+#: above finally lifts. Turbospectrum's molecular row needs a species code that names the
+#: ISOTOPOLOGUE, VALD's extract says only 'OH 1', and `to_ispec_array` refused to guess,
+#: correctly citing RYA-684. What makes the dominant-isotopologue assignment SAFE here,
+#: and different from the RYA-684 atomic double-count:
+#:
+#:   * the error is BOUNDED AND TINY -- 16O is 99.76% of solar O, 14N 99.64%, 12C 98.93%,
+#:     1H 99.99%. If VALD's gf is the all-isotopologue total, assigning it to the dominant
+#:     one over-counts that species by <=1.1%; if VALD's gf is already per-dominant, the
+#:     assignment is exact. Either way it is ~1% against a STATUS QUO OF 100%: the band
+#:     currently carries no molecular opacity at all.
+#:   * the isotopologue CANNOT MOVE A LINE. It sets the reduced mass, and these
+#:     wavelengths come from VALD, not from a computed term value. It enters only through
+#:     the abundance. RYA-684's damage was a gf applied twice; nothing here is applied twice.
+MOLECULAR_SPECIES_CODES = {
+    'OH': '0108.000016',   # 16O-1H
+    'NH': '0107.000014',   # 14N-1H
+    'CN': '0607.012014',   # 12C-14N
+    'CH': '0106.000012',   # 12C-1H
+}
+
+#: iSpec globs `molecules/*.bsyn` and filters on the `_<lo>-<hi>` in the filename, in
+#: NANOMETRES (`ispec/synth/turbospectrum.py`). A correctly-formatted file whose name
+#: lacks that pattern is silently ignored rather than refused, so the name is not
+#: cosmetic -- it is what makes the list reachable at all.
+def molecular_bsyn_filename(species: str, lo_A: float, hi_A: float) -> str:
+    return f"{species}_{int(lo_A // 10)}-{int(round(hi_A / 10))}.bsyn"
+
+
+def write_molecular_bsyn(records: list[dict], out_dir, *,
+                         lo_A: float = DEFAULT_LO_A, hi_A: float = DEFAULT_HI_A) -> dict:
+    """Write the CH/CN/NH/OH lines as Turbospectrum `.bsyn` molecular lists.
+
+    These do NOT go in the atomic list. Turbospectrum reads molecules from separate files
+    and iSpec reaches them only when `use_molecules=True`, so this is a second output of
+    the same parse, not a change to `atomic_lines.tsv` -- which is why the atomic list's
+    line count is unchanged by enabling molecules.
+
+    Returns a per-species report. Refuses to write an empty list: a molecular file with no
+    lines reads as "molecules were included" while contributing no opacity, which is worse
+    than the honest absence it replaces.
+    """
+    from pathlib import Path as _Path
+    out_dir = _Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    by_species: dict[str, list[dict]] = {}
+    for r in records:
+        sp = str(r['element']).strip()
+        if sp in MOLECULAR_SPECIES_CODES and lo_A <= float(r['wavelength']) <= hi_A:
+            by_species.setdefault(sp, []).append(r)
+    if not by_species:
+        raise NearUVLinelistError(
+            f"no CH/CN/NH/OH lines found in {lo_A:.0f}-{hi_A:.0f} A. The near-UV extract "
+            f"carries thousands; finding none means the parse changed shape, and writing "
+            f"nothing here would silently restore the atoms-only synthesis this replaces.")
+    report: dict = {'dir': str(out_dir), 'per_species': {}, 'n_lines': 0}
+    for sp, rows in sorted(by_species.items()):
+        rows.sort(key=lambda r: float(r['wavelength']))
+        fn = out_dir / molecular_bsyn_filename(sp, lo_A, hi_A)
+        with open(fn, 'w') as fh:
+            fh.write(f"'         {MOLECULAR_SPECIES_CODES[sp]}'    1   {len(rows)}\n")
+            fh.write(f"'VALD near-UV {sp} (RYA-1207); dominant isotopologue'\n")
+            for r in rows:
+                gu = 2.0 * float(r['j_up']) + 1.0 if r.get('j_up') is not None else 1.0
+                # fdamp 0.0 and gamma_rad 0.0 let Turbospectrum apply its OWN defaults --
+                # VALD writes 99.000 for "unknown", and passing that through would be a
+                # number pretending to be a measurement. Same choice the atomic builder
+                # makes for a missing gamma_rad.
+                fh.write(f"{float(r['wavelength']):12.3f} {float(r['e_low_eV']):9.5f} "
+                         f"{float(r['log_gf']):7.3f}    0.000 {gu:6.1f}  0.00E+00 "
+                         f"'X' 'X'   0.0    0.0\n")
+        report['per_species'][sp] = {
+            'n_lines': len(rows), 'file': fn.name,
+            'species_code': MOLECULAR_SPECIES_CODES[sp],
+            'lo_A': round(float(rows[0]['wavelength']), 3),
+            'hi_A': round(float(rows[-1]['wavelength']), 3)}
+        report['n_lines'] += len(rows)
+    return report
+
+
 def build(raw_path=DEFAULT_RAW, lo_A: float = DEFAULT_LO_A, hi_A: float = DEFAULT_HI_A,
           out_path=None, *, gf_sources_csv=None, chem_elements=None) -> tuple[str, dict]:
     """Parse → convert → write → verify. Returns (path, report)."""

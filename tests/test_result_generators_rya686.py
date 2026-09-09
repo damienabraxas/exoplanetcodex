@@ -61,6 +61,10 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    # RYA-1207, added deliberately. The paired measurement of the near-UV molecular lever:
+    # two runs differing only in `use_molecules`, their control windows, and the record of
+    # why four Fe I products could not be republished. Same reasoning as the entries below.
+    "rya1207/nearuv_molecular_lever.json",
     # RYA-1206, added deliberately. The per-line classification of the CRIRES+ H NLTE
     # shortfall: which lines the Gerber deck can treat and why the rest cannot be, matched
     # against the atom's own transition records. Hand-authored for the same reason as the

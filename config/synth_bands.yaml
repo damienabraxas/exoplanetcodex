@@ -52,6 +52,16 @@ bands:
     half_width_note: >-
       RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex). Anchor 3400 A.
     build_hint: build it with `pipeline.nearuv_linelist.build()`
+    # 🔴 RYA-1207 — the ONLY band with molecular opacity, and it is physics, not a knob.
+    # OH A-X, NH, CH and CN violet are real solar near-UV absorbers and this band carried
+    # NONE of them: the 99 molecular lists iSpec ships all start at 400 nm, so 300-378 nm
+    # synthesised atoms-only. RYA-1204 measured what that costs -- -0.087 dex, t = -4.30 --
+    # and validated it WITHOUT reference to the abundance: every continuum-broken window
+    # repaired, chi2r 118 -> 81, and six windows with no molecular line bit-identical.
+    # It still UNDER-corrects (synth/obs above 1 on 24 of 40 windows after), so this is a
+    # floor on the missing opacity, not a correction stopped at a target (RYA-161).
+    # The lists are written by pipeline.nearuv_linelist.write_molecular_bsyn().
+    use_molecules: true
 
   VIS:
     lo_A: 3780.0
