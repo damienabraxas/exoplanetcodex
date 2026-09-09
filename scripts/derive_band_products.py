@@ -1202,7 +1202,13 @@ def synthesis_route(a, pol) -> None:
         lines: list[LineMeasurement] = []
         for r in cand.itertuples():
             w = float(r.wave_A)
-            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw)
+            # RYA-1207: molecular opacity is a BAND property (config/synth_bands.yaml),
+            # so it applies to every treatment this route fits, not just one leg. Injected
+            # here rather than at each call site so a new treatment cannot silently be
+            # synthesised without the molecules its band declares. False everywhere but
+            # the near-UV, where `**fit_kw` is otherwise unchanged.
+            _mol_kw = {"use_molecules": True} if cfg.use_molecules else {}
+            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw, **_mol_kw)
             a_x = float(res.get("a_synth", float("nan")))
             lm = LineMeasurement(
                 element=a.element, ion=a.ion, wavelength_air_A=w,
