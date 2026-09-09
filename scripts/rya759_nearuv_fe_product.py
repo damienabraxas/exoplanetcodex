@@ -162,7 +162,8 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
 
 def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
             load=None, *, nlte_deck=None, nlte_deck_key=None,
-            atmosphere_layers_file=None, atmosphere=None) -> dict:
+            atmosphere_layers_file=None, atmosphere=None,
+            use_molecules: bool = False) -> dict:
     """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
 
     🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
@@ -212,6 +213,11 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
     _extra = {k: v for k, v in (
         ("nlte_deck", nlte_deck), ("nlte_deck_key", nlte_deck_key),
         ("atmosphere_layers_file", atmosphere_layers_file)) if v is not None}
+    # RYA-1207: molecular opacity is declared per BAND in config/synth_bands.yaml and
+    # forwarded here, never decided in this script. Absent unless True, so a band that
+    # does not declare it reaches `_fit_synth_flux` with the arguments it always did.
+    if use_molecules:
+        _extra["use_molecules"] = True
     r = _fit_synth_flux(
         ow_A / 10.0, np.asarray(of, dtype=float),
         ctx['atmosphere'] if atmosphere is None else atmosphere,
