@@ -329,7 +329,11 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: carry an NLTE label, re-measured at pool level this ticket), so the LTE leg is the
     #: only Gerber leg Fe II can have -- and the stamp count must follow the product count
     #: or the guard stops covering the new rows.
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 13
+    #: 13 -> 15 (RYA-1208): the Fe II `synth-1D-LTE-gerber` leg now also exists on both
+    #: near-UV KP holdings, completing the Gerber matrix. The stamp count must follow the
+    #: product count or the guard stops covering the new rows -- which is the whole point
+    #: of asserting the two are EQUAL rather than asserting a literal on each.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 15
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     assert a["per_line_rows_on_an_nlte_scale"] == {"I": 159, "II": 0}
 
@@ -507,7 +511,15 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: with zero nonzero departures. Fe II NLTE remains structurally unavailable on the
     #: Gerber deck (RYA-1055), measured again this ticket at the POOL level: 0 of 9 VIS
     #: Fe II lines carry an NLTE label, so the LTE leg is the only Gerber leg Fe II can have.
-    assert len(per) == 19, len(per)
+    #: 19 -> 21: RYA-1208 added the Fe II `synth-1D-LTE-gerber` leg on both near-UV KP
+    #: holdings, completing the Gerber matrix. Same reasoning as RYA-1135 and RYA-1203
+    #: above: these are exactly the artifacts this test exists to police, so they are
+    #: swept in rather than excluded, and the per-row assertions below hold on them --
+    #: both report `none — LTE, no departure applied` with zero nonzero departures. Fe II
+    #: NLTE stays structurally unavailable (RYA-1055), re-measured this ticket at the ATOM:
+    #: the deck carries no Fe II bound-bound transitions at all, so the LTE leg remains the
+    #: only Gerber leg Fe II can have in any band.
+    assert len(per) == 21, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (
