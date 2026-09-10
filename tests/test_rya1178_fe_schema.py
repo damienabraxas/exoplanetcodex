@@ -211,7 +211,13 @@ def test_the_schema_bump_is_additive_only(feed):
 def test_ir_products_name_their_irreducible(feed):
     """RYA-1178 B / RYA-1164 — a wide bar with a stated cause, not a silent one."""
     ir = [p for p in feed["products"] if p["band"] == "NIR"]
-    assert len(ir) == 6
+    # 🔴 10, NOT 6. RYA-1208 completed the Gerber matrix and added four NIR
+    # `synth-1D-LTE-gerber` cells (CRIRES+ y_wide, IAG, KP-molecfit, KP-kurucz2005 —
+    # the last of which had no NIR product of any kind before). The count is pinned
+    # rather than made open-ended so that a cell VANISHING still fails this test; the
+    # per-holding dispersions below are keyed by (holding, treatment) and are unchanged
+    # by the additions.
+    assert len(ir) == 10
     got = {}
     for p in ir:
         d = p["irreducible_dispersion"]
