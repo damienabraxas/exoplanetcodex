@@ -1,0 +1,72 @@
+{
+  "ticket": "RYA-1208",
+  "note": "Applicability evidence for the Gerber matrix. DIAGNOSTIC inputs to the run plan; no value here is an abundance and nothing is calibrated (RYA-161).",
+  "nlte_ion_capability": {
+    "Fe I": {
+      "available": true,
+      "limit": ""
+    },
+    "Fe II": {
+      "available": false,
+      "limit": "Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    }
+  },
+  "nlte_label_coverage_by_band": {
+    "near-UV": {
+      "linelist": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv",
+      "fe_lines": 5038,
+      "labelled": 0,
+      "verdict": "ENGINE-B-NLTE N/A \u2014 zero NLTE labels in the band"
+    },
+    "NIR": {
+      "linelist": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+      "fe_lines": 237,
+      "labelled": 0,
+      "verdict": "ENGINE-B-NLTE N/A \u2014 zero NLTE labels; confirms RYA-1203"
+    },
+    "H": {
+      "linelist": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv",
+      "fe_lines": 1935,
+      "labelled": 502,
+      "verdict": "ENGINE-B-NLTE AVAILABLE \u2014 already published by RYA-1206 (n=9)"
+    }
+  },
+  "band_overlap_measured": {
+    "harps_near_uv": {
+      "holding_span_A": [
+        3782.6,
+        6910.0
+      ],
+      "near_uv_product_window_A": [
+        3000.0,
+        3780.0
+      ],
+      "overlap_A": 0.0,
+      "verdict": "N/A by coverage \u2014 HARPS begins 2.6 A ABOVE the near-UV product window's red edge, so the overlap is empty. (19 Fe lines lie in 3782.6-3800 A, between the near-UV product window and VIS's 3800 A start \u2014 reachable by neither band as currently defined.)",
+      "harness_refusal": "harps/solar_harps_molecfit_corrected spans 3782.6-6910.0 A and the request is 3000.0-3780.0 A \u2014 they do not overlap by even one fittable window (half-width 0.40 A). This arm cannot serve this band at all (RYA-832).",
+      "probe": "ATTEMPTED on Sirius rather than inferred: derive_band_products.py --lo 3000 --hi 3780 --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte"
+    },
+    "kpno_kurucz2005_NIR": {
+      "holding_span_A": [
+        2990.0,
+        10010.0
+      ],
+      "band_policy_window_A": [
+        10000.0,
+        24000.0
+      ],
+      "NIR_PRODUCT_window_A": [
+        9199.0,
+        12976.0
+      ],
+      "overlap_with_product_window_A": [
+        9199.0,
+        10010.0
+      ],
+      "fe_lines_in_overlap": 92,
+      "verdict": "NOT N/A \u2014 RUNNABLE, and measured: synth-1D-LTE-gerber A=7.515 n=23.",
+      "correction": "\ud83d\udd34 I FIRST CALLED THIS N/A AND IT WAS MY ERROR. I tested the overlap against the band-POLICY window (10000-24000 A), which kurucz2005 meets by only 10 A containing zero Fe lines. Products do not use the policy edges: the NIR products run 9199-12976 A, and kurucz2005 overlaps THAT by 811 A carrying 92 Fe lines, 24 of them lab-tier. This is exactly RYA-1069's lesson \u2014 ask at the READER'S overlap, not at the band definition \u2014 which I quoted earlier in this same ticket and then did not apply. It surfaced only because the cell was ATTEMPTED rather than asserted N/A.",
+      "further": "This holding had NO product in NIR at all, so the run also produces the first 1D-LTE (7.520, n=23) and ENGINE-A (7.385, n=6) NIR cells for kurucz2005. Those two are outside the Gerber matrix this ticket asks for and are reported, not silently kept."
+    }
+  }
+}
