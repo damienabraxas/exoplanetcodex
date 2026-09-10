@@ -1,11 +1,11 @@
-Fe · near-UV · n=55
-  statistical  0.0625 dex   (averages down as 1/sqrt(N))
-    basis: measured — RMS of the random terms, 0.06247 dex at n_lines=55
-  systematic   0.1972 dex   (does NOT average down)
-    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+Fe · near-UV · n=54
+  statistical  0.0636 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.06359 dex at n_lines=54
+  systematic   0.1124 dex   (does NOT average down)
     0.1000  pseudo-continuum         [SYSTEMATIC] near-UV: the true continuum is never observed (median flux 0.283-0.805); the envelope stands in for it and the residual does not average down
-    0.0625  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0636  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0513  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 54 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound
     0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
     UNMEASURED  stellar parameters       [SYSTEMATIC] NOT MEASURED for this product: no perturb-and-re-derive has been run on this pool (RYA-282 §2). dA/dp is a property of the LINE SET (RYA-1093), so no element-level number may stand in for it.
-  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
-  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 54 of 55 Fe I lines are GF-LAB (primary laboratory gf); the rest are systematic:K07 x1. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
+  dominant: pseudo-continuum -- more lines will NOT help; fix the source
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 54 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0513 dex (1.25x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850)
