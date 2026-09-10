@@ -68,10 +68,10 @@ Fe,I,VIS,solar_kpno_molecfit_corrected,GRADED,SYNTH,ENGINE-B-NLTE,,7.497,67,True
 Fe,I,VIS,solar_kpno_molecfit_corrected,GRADED,SYNTH,synth-1D-LTE-gerber,,7.451,67,True,resolved,FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
 Fe,I,VIS,solar_kpno_molecfit_corrected,GRADED,SYNTH,synth-mean3D-LTE-gerber-stagger,,7.552,67,True,resolved,FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv
 Fe,I,VIS,solar_kpno_molecfit_corrected,GRADED,SYNTH,synth-mean3D-NLTE-gerber-stagger,,7.552,67,True,resolved,FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv
-Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.642,58,False,"n_lines MISMATCH: product says 58, artifact(s) have 56",
-Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.651,58,False,"n_lines MISMATCH: product says 58, artifact(s) have 56",
-Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.596,58,False,"n_lines MISMATCH: product says 58, artifact(s) have 55",
-Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.606,58,False,"n_lines MISMATCH: product says 58, artifact(s) have 55",
+Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.554,55,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+Fe,I,near-UV,solar_kpno_kurucz2005_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.562,55,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,1D-LTE,,7.508,54,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+Fe,I,near-UV,solar_kpno_molecfit_corrected,DEEPGRADED,SYNTH,ENGINE-A,,7.516,54,True,resolved,FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
 Fe,I,red-optical,solar_iag,GRADED,SYNTH,1D-LTE,,7.448,68,True,resolved,FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
 Fe,I,red-optical,solar_iag,GRADED,SYNTH,ENGINE-A,,7.46,35,True,resolved,FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
 Fe,I,red-optical,solar_iag,GRADED,SYNTH,ENGINE-B-NLTE,,7.491,68,True,resolved,FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
