@@ -84,7 +84,12 @@ def test_the_pool_lost_exactly_one_line(nearuv_fe1):
 
 def test_every_near_uv_product_states_what_it_now_contains(feed):
     n = [p for p in feed["products"] if p["band"] == "near-UV"]
-    assert len(n) == 8
+    # 🔴 10, NOT 8. RYA-1208 added the Fe II `synth-1D-LTE-gerber` leg on both near-UV KP
+    # holdings. They are Fe II, so the K07 drop this ticket is about does not touch them
+    # (K07 was an Fe I line) -- but they ARE near-UV products and the per-product
+    # assertions below apply to them like any other, which is why they are swept in
+    # rather than filtered out.
+    assert len(n) == 10
     for p in n:
         assert p.get("opacity_limit") == "MOLECULAR-OPACITY-INCLUDED"
         note = p.get("opacity_note", "")

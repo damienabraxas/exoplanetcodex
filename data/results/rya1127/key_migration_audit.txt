@@ -5,8 +5,8 @@ RYA-1127 — adding `line_set` to the product identity key: migration audit
   NEW key: element x ion x band x instrument x holding x tier x selector x route x treatment x line_set
 
   data/products/solar/Fe.json
-    records 143   old keys 114 -> new keys 114
-    line_set census: {'our-deep-graded': 47, 'our-graded': 83, 'asplund': 4, 'our-ungraded': 6, 'our-all': 3}
+    records 154   old keys 121 -> new keys 121
+    line_set census: {'our-deep-graded': 53, 'our-graded': 88, 'asplund': 4, 'our-ungraded': 6, 'our-all': 3}
     refinement invariant: new key == old key + '|' + line_set (so a MERGE is structurally impossible here, and is asserted rather than claimed)
     ✅ partition UNCHANGED — no product was re-identified
 

@@ -286,41 +286,5 @@
     "band": "VIS",
     "treatment": "ENGINE-A",
     "detail": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_GRADED_products.csv is committed but was produced on the Mac; its holding is not on the committed runner (RYA-1011)"
-  },
-  {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "near-UV",
-    "treatment": "1D-LTE",
-    "detail": "data/results/band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_products.csv: feed recorded 9f56182ba86e, committed file is 6ac807658b9a \u2014 not the file the feed measured"
-  },
-  {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "near-UV",
-    "treatment": "ENGINE-A",
-    "detail": "data/results/band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv: feed recorded d99eb72f63b5, committed file is e564a6fe8302 \u2014 not the file the feed measured"
-  },
-  {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "near-UV",
-    "treatment": "1D-LTE",
-    "detail": "data/results/band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv: feed recorded a2361a7e2332, committed file is 772462e93c1e \u2014 not the file the feed measured"
-  },
-  {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "near-UV",
-    "treatment": "ENGINE-A",
-    "detail": "data/results/band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv: feed recorded c3e9c36b6c28, committed file is 4e883c4789b4 \u2014 not the file the feed measured"
   }
 ]
