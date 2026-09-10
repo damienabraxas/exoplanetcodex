@@ -682,8 +682,21 @@ def test_the_irreducible_dispersion_note_no_longer_rests_on_a_bad_fit():
     raw = (ROOT / "data/products/solar/Fe.json").read_text()
     assert "IRREDUCIBLE under the current NIR line list. It tracks gf QUALITY" not in raw, (
         "the refuted claim is back in the feed")
-    assert raw.count("RYA-1191 RE-DERIVED THIS NOTE") == 6, (
-        "every irreducible_dispersion block must carry the correction")
+    # 🔴 COUNTED OVER THE LIVE PRODUCTS, NOT THE RAW FILE, AND NOW 10 NOT 6.
+    # RYA-1208 added four NIR `synth-1D-LTE-gerber` cells, each carrying an
+    # irreducible_dispersion block like every other NIR product. A raw string count also
+    # sweeps in the ARCHIVE, which grows whenever a product is superseded and has nothing
+    # to do with the claim under test. The claim is unchanged: EVERY LIVE block carries
+    # the correction, which `carrying == len(live)` is what actually asserts; the literal
+    # is pinned alongside so a block VANISHING still fails rather than passing on a
+    # shrunken set.
+    live = [p for p in feed["products"] if p.get("irreducible_dispersion")]
+    carrying = sum(1 for p in live
+                   if "RYA-1191 RE-DERIVED THIS NOTE"
+                   in str(p["irreducible_dispersion"].get("note", "")))
+    assert carrying == len(live) == 10, (
+        f"every LIVE irreducible_dispersion block must carry the correction "
+        f"({carrying} of {len(live)} do)")
     assert "NOT more lines\"" not in raw.replace(
         "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has "
         "already been removed (RYA-1191)", ""), "a bare 'NOT more lines' claim survives"
