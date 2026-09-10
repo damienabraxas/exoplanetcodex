@@ -61,6 +61,11 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    # RYA-1208, added deliberately. The completed Gerber matrix: every (holding x band x
+    # Gerber-treatment) cell as a published product or an N/A carrying the harness's OWN
+    # refusal. Prose over the two JSON artifacts beside it, every number reproducible
+    # from them - the same shape as the entries below.
+    "rya1208/RYA1208_MATRIX.md",
     # RYA-1207, added deliberately. The paired measurement of the near-UV molecular lever:
     # two runs differing only in `use_molecules`, their control windows, and the record of
     # why four Fe I products could not be republished. Same reasoning as the entries below.

@@ -1342,6 +1342,19 @@ def synthesis_route(a, pol) -> None:
         _mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
         _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
         _fit_kw: dict = {}
+        # 🔴 INITIALISED HERE BECAUSE IT IS READ ON EVERY DECK, NOT JUST THE NLTE ONES.
+        # RYA-1206 added the unlabelled-line re-attachment below and bound `_unlabelled`
+        # inside `if _nlte:`, but reads it at the bottom of this block, which every
+        # `--engine-b-deck` reaches. So every NON-NLTE Engine-B run died on
+        # `UnboundLocalError: cannot access local variable '_unlabelled'` -- including
+        # `ts-lte`, the DEFAULT and the production Engine B for all 27 species.
+        #
+        # It went unseen because the only runs since RYA-1206 merged either used an NLTE
+        # deck (which binds it) or passed `--skip-engine-b` (which skips this block
+        # entirely) -- RYA-1203's NIR re-derivation was the latter, which is why that
+        # ticket's re-run passed while the default route was broken underneath it.
+        # An empty set is the honest default: no deck-labelled lines were excluded.
+        _unlabelled: set[float] = set()
         if _mean3d:
             from pipeline import gerber_nlte as gnlte
             from pipeline import mean3d_atmosphere as m3d
