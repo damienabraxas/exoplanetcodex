@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-09-09T15:03:07Z",
+  "generated_at": "2026-09-10T04:58:22Z",
   "n_live_fe_ii_products": 13,
   "n_stamped": 13,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -613,9 +613,9 @@
       "scale": "1D-LTE",
       "A_FeII": 7.617,
       "n_FeII": 12,
-      "A_FeI": 7.642,
-      "n_FeI": 58,
-      "FeII_minus_FeI_dex": -0.025,
+      "A_FeI": 7.554,
+      "n_FeI": 55,
+      "FeII_minus_FeI_dex": 0.063,
       "sigma_reported_FeII": 0.122134,
       "within_reported_bar": true
     },
@@ -627,9 +627,9 @@
       "scale": "1D-NLTE",
       "A_FeII": 7.635,
       "n_FeII": 7,
-      "A_FeI": 7.651,
-      "n_FeI": 58,
-      "FeII_minus_FeI_dex": -0.016,
+      "A_FeI": 7.562,
+      "n_FeI": 55,
+      "FeII_minus_FeI_dex": 0.073,
       "sigma_reported_FeII": 0.13692,
       "within_reported_bar": true
     },
@@ -641,11 +641,11 @@
       "scale": "1D-LTE",
       "A_FeII": 7.402,
       "n_FeII": 12,
-      "A_FeI": 7.596,
-      "n_FeI": 58,
-      "FeII_minus_FeI_dex": -0.194,
+      "A_FeI": 7.508,
+      "n_FeI": 54,
+      "FeII_minus_FeI_dex": -0.106,
       "sigma_reported_FeII": 0.120513,
-      "within_reported_bar": false
+      "within_reported_bar": true
     },
     {
       "holding": "solar_kpno_molecfit_corrected",
@@ -655,14 +655,14 @@
       "scale": "1D-NLTE",
       "A_FeII": 7.404,
       "n_FeII": 7,
-      "A_FeI": 7.606,
-      "n_FeI": 58,
-      "FeII_minus_FeI_dex": -0.202,
+      "A_FeI": 7.516,
+      "n_FeI": 54,
+      "FeII_minus_FeI_dex": -0.112,
       "sigma_reported_FeII": 0.121397,
-      "within_reported_bar": false
+      "within_reported_bar": true
     }
   ],
-  "balance_note": "Fe II minus Fe I on the SAME band, instrument, holding, tier, selector, route and treatment \u2014 one scale by construction, so no correction is applied to either side and no value is re-derived (RYA-161). 7 of 10 matched pairs sit inside the Fe II reported bar; the VIS 1D-NLTE (Bergemann) pairs agree to -0.0230, -0.1070, -0.0980 dex. Closest pair: solar_kpno_kurucz2005_corrected near-UV ENGINE-A at -0.0160 dex (Fe II 7.635 n=7 vs Fe I 7.651 n=58). \u26a0\ufe0f The Fe II bars are wide \u2014 dominated by line-to-line scatter over n=3 \u2014 so 'consistent' here means the balance does not CONTRADICT the Fe I anchor, not that it constrains it.",
+  "balance_note": "Fe II minus Fe I on the SAME band, instrument, holding, tier, selector, route and treatment \u2014 one scale by construction, so no correction is applied to either side and no value is re-derived (RYA-161). 9 of 10 matched pairs sit inside the Fe II reported bar; the VIS 1D-NLTE (Bergemann) pairs agree to -0.0230, -0.1070, -0.0980 dex. Closest pair: solar_harps_molecfit_corrected VIS ENGINE-A at -0.0230 dex (Fe II 7.531 n=2 vs Fe I 7.554 n=105). \u26a0\ufe0f The Fe II bars are wide \u2014 dominated by line-to-line scatter over n=3 \u2014 so 'consistent' here means the balance does not CONTRADICT the Fe I anchor, not that it constrains it.",
   "anchor_caveat": "\u26a0\ufe0f DO NOT quote the Fe II VIS cells against the 7.466 anchor directly. That anchor is on the 3D-NLTE (gold v3, RYA-553) scale and these are 1D-NLTE products; comparing them mixes two scales, which is the RYA-669 ratchet the RYA-783 report warns about in as many words. The coincidence is inviting -- the kurucz2005 Fe II cell is 7.466 to three decimals, the anchor's own digits -- and a number that looks right on arrival is the one that never gets challenged. The defensible statement is the scale-matched balance above.",
   "problems": [],
   "verdict": "CLEAN \u2014 every live Fe II product carries the limit, none takes departures from the Gerber deck, and no Fe II per-line row is on an NLTE scale"
