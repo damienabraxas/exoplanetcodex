@@ -2872,6 +2872,247 @@ artifacts:
       was calibrated to a target, and Lever B still UNDER-corrects (synth/obs above 1 on
       24 of 40 windows after), so -0.087 is a lower bound.
 
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 15007.11 --hi 17493.69 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 11083 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 11083 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 11083 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9199 --hi 12976 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9801 --hi 10794 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9801 --hi 10794 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 9801 --hi 10794 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1208
+    note: >-
+      RYA-1208: the `synth-1D-LTE-gerber` leg for this cell -- Turbospectrum LTE on the Gerber deck's OWN atmosphere (MARCS.GES) with departures WITHHELD. It needs no NLTE labels, so it runs in every band the synthesis route reaches; it had simply never been run outside VIS and red-optical. Produced on Sirius (the Gerber deck is Sirius-only: pipeline.gerber_nlte reads /mnt/codex-ext/codex-grids/nlte/gerber_ts/ and raises GerberDeckError anywhere else). Nothing calibrated (RYA-161).
+
+  - artifact: rya1208/RYA1208_MATRIX.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1208
+    sources:
+      - data/results/rya1208/rya1208_applicability.json
+      - data/results/rya1208/rya1208_nlte_refusals.json
+      - data/products/solar/Fe.json
+      - data/audit/line_accounting/per_line.csv
+    note: >-
+      The completed Gerber matrix in prose: every (holding x band x Gerber-treatment) cell
+      as a published product or an N/A carrying the reason it cannot run. Every number in
+      it is reproducible from the sources above; the N/A reasons are the HARNESS's own
+      refusals, captured rather than paraphrased.
+
+  - artifact: rya1208/rya1208_applicability.json
+    status: COMMITTED
+    generator: scripts/diagnostics/rya1208/publish_gerber_cells.py
+    invocation: >-
+      python scripts/diagnostics/rya1208/publish_gerber_cells.py (the applicability block
+      is assembled from pipeline.gerber_nlte.nlte_ion_capability, the per-band NLTE label
+      counts and data/audit/line_accounting/per_line.csv)
+    ticket: RYA-1208
+    sources:
+      - pipeline/gerber_nlte.py
+      - data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv
+      - data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+      - data/linelists/ispec_h_15007_17494/atomic_lines.tsv
+      - data/audit/line_accounting/per_line.csv
+    note: >-
+      Which Gerber cells CAN run and why the rest cannot: NLTE label coverage per band
+      (near-UV 0/4364, NIR 0/235, H 502 labelled), the Fe II capability verdict, and the
+      band-overlap measurements. Carries the correction that KP-kurucz2005 NIR was first
+      called N/A against the band-POLICY window and is in fact runnable against the
+      PRODUCT window (RYA-1069's lesson, applied late).
+
+  - artifact: rya1208/rya1208_nlte_refusals.json
+    status: COMMITTED
+    generator: scripts/diagnostics/rya1208/publish_gerber_cells.py
+    invocation: >-
+      python - <<'PY' ... gerber_nlte.assert_linelist_supports_nlte(linelist, 26, 'Fe',
+      wave_lo_A=lo, wave_hi_A=hi, ion=ion) ... PY
+    ticket: RYA-1208
+    sources:
+      - pipeline/gerber_nlte.py
+      - data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv
+      - data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+    note: >-
+      The ENGINE-B-NLTE refusals in the harness's own words, captured by calling the guard
+      with the arguments derive_band_products passes it -- seconds, against the ~45 minutes
+      a full cell needs to reach the same guard.
+
   - artifact: rya935/live_tracker.html
     status: COMMITTED
     generator: scripts/rya935_live_status.py
