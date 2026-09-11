@@ -963,7 +963,8 @@ def main() -> None:
         # listing only what is finished would hide the work that remains.
         "elements": None,   # filled below, once the reference is read
         "elements_with_products": sorted({p["element"] + p["ion"] for p in products}),
-        "bands": ["near-UV", "VIS", "red-optical", "NIR"],
+        "bands": list(dict.fromkeys(["near-UV", "VIS", "red-optical", "NIR"]
+                                    + [p["band"] for p in products])),
         "instruments": (_inst := collect_instruments()),
         "products": products,
         "telluric": (_tel := collect_telluric(args.audit_root)),
@@ -980,11 +981,10 @@ def main() -> None:
         "graded_superseded": collect_graded(ROOT),
         "model_matrix": collect_model_matrix(),
         "reporting_contract": {
-            "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
-            "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
-            "headline_rule": "the ungraded value is NEVER the headline (RYA-851)",
-            "bars": "statistical SOLID, systematic WIREFRAME -- never summed; "
-                    "error_budget.py deliberately provides no combined()",
+            "primary": "Each feed product retains its own grade and engine identity",
+            "secondary": "Graded pools are gf-consistency checks, not a replacement Fe headline",
+            "headline_rule": "Fe retains the separately sourced reference anchor; do not average the matrix (RYA-851/1210)",
+            "bars": "Statistical SOLID, completed systematic WIREFRAME; sigma_reported is the feed's total including xi once",
         },
     }
     # 🔴 THE ROSTER STAYS KEYED BY SPECIES. The page joins products to the roster with

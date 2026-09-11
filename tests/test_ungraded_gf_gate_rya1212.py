@@ -26,13 +26,9 @@ import pytest
 from pipeline import error_budget as eb
 
 ROOT = Path(__file__).resolve().parents[1]
-#: A budget that still CHARGES the blanket. 🔴 NOT the rya1106 Reference pool any more —
-#: the threshold ruling moved it onto the per-line route, so using it here would have made
-#: this test pass by testing nothing. This one is a superseded near-UV artifact (n=57,
-#: replaced by RYA-1209's n=55) and is exactly the 56-of-57-GF-LAB case the gate is about.
-BLANKET_SRC = (ROOT / "data/results/band_products/"
-               "FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected"
-               "_SYNTH_DEEPGRADED_synth-1D-LTE-gerber")
+# Use the committed clean artifact as the CLI envelope. Refusal tests build their
+# own charged budget below: the former superseded near-UV input was never tracked
+# and therefore did not exist on a clean CI checkout.
 CLEAN_SRC = (ROOT / "data/results/band_products/"
              "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED")
 
@@ -74,7 +70,7 @@ def test_the_label_has_exactly_one_home():
 
 # ── the gate ──────────────────────────────────────────────────────────────────
 
-def _publish(tmp_path, src_dir, stem, tier, holding):
+def _publish(tmp_path, src_dir, stem, tier, holding, budget_override=None):
     d = tmp_path / "art"
     d.mkdir(exist_ok=True)
     products = next(p for p in Path(src_dir).parent.glob(Path(src_dir).name + "*")
@@ -82,7 +78,10 @@ def _publish(tmp_path, src_dir, stem, tier, holding):
         if stem is None else Path(str(src_dir) + "_products.csv")
     budget = Path(str(products)[: -len("_products.csv")] + "_budgets.txt")
     shutil.copy(products, d / "T_products.csv")
-    shutil.copy(budget, d / "T_budgets.txt")
+    if budget_override is None:
+        shutil.copy(budget, d / "T_budgets.txt")
+    else:
+        (d / "T_budgets.txt").write_text(budget_override)
     r = subprocess.run(
         [sys.executable, "scripts/publish_product.py", "--from", str(d / "T_products.csv"),
          "--holding", holding, "--tier", tier, "--dry-run"],
@@ -90,9 +89,18 @@ def _publish(tmp_path, src_dir, stem, tier, holding):
     return r
 
 
+def _publish_blanket(tmp_path):
+    # Exercise the real budget formatter and the real publisher. Only the pool
+    # explanation is fixture prose; no scientific result is published by dry-run.
+    budget = _budget().describe() + "\n  gf rung: MIXED POOL: regression fixture\n"
+    assert eb.carries_ungraded_gf(budget)
+    return _publish(tmp_path, CLEAN_SRC, "x", "ALL",
+                    "solar_kpno_molecfit_corrected", budget_override=budget)
+
+
 def test_publishing_a_blanket_product_is_refused(tmp_path):
     """End-to-end through the real entry point, not a restatement of the branch."""
-    r = _publish(tmp_path, BLANKET_SRC, "x", "ALL", "solar_kpno_kurucz2005_corrected")
+    r = _publish_blanket(tmp_path)
     assert r.returncode == 8, f"expected refusal, got {r.returncode}\n{r.stdout}{r.stderr}"
     assert "RYA-1212" in r.stderr and "not publishable" in r.stderr
 
@@ -101,7 +109,7 @@ def test_the_refusal_names_what_blocks_the_pool_and_how_to_resolve_it(tmp_path):
     """A refusal that does not say what to do is an outage. It must carry the decider's
     own verdict and the resolution paths — including drop/re-source, which is what the
     near-UV pool actually needed (one line of 57)."""
-    r = _publish(tmp_path, BLANKET_SRC, "x", "ALL", "solar_kpno_kurucz2005_corrected")
+    r = _publish_blanket(tmp_path)
     for expected in ("MIXED POOL", "cited lab", "NIST grade", "per-line", "drop/re-source"):
         assert expected in r.stderr, f"refusal does not mention {expected!r}"
 
