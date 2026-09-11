@@ -37,8 +37,13 @@ def test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause(doc):
     #: dig-in line for the same reason their 1D-LTE siblings are: an 8-line saturated pool
     #: (RYA-515 3c). They arrive with a named cause from their own budget, which is what
     #: the assertion below requires; the count moves, the standard does not.
+    #: RYA-1212 — 16 → 12, and the drop is the POINT rather than a regression. The four
+    #: RYA-1106 Asplund replications were over the line ONLY because of that 0.1700
+    #: blanket; Ryan's threshold ruling moved them onto RYA-968's per-line route and their
+    #: sigma_syst is now 0.0475 (sigma_reported 0.0491-0.0516), comfortably under 0.1. The
+    #: standard did not move — four products stopped failing it.
     over = [r for r in doc["products"] if r["over_dig_in"]]
-    assert len(over) == 16
+    assert len(over) == 12
     assert all(r["rca_verdict"] for r in over)
     # the skill demands a NAMED verdict, not the word "OPEN" with nothing behind it
     assert all(len(r["rca_note"]) > 60 for r in over)
