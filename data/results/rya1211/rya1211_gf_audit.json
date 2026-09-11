@@ -1,0 +1,78 @@
+{
+  "ticket": "RYA-1211",
+  "product": "Fe I VIS ENGINE-A-3DNLTE, selector ASPLUND_AGSS21, n=21 (all 4 holdings)",
+  "premise_tested": "'15 of 21 lines carry K07 (Kurucz semi-empirical) gf in our store'",
+  "premise_verdict": "REFUTED \u2014 not one of the 21 carries the K07 tag",
+  "why": "AGSS21 Table A.2 prints lambda to 1 dp in Angstroms (nanometres to 2 dp = 0.1 A resolution) while gf_grades.WAVE_TOL_A is 0.02 A. 15 lines sat 0.024-0.050 A from their own canonical_gf row \u2014 inside the printing's rounding bin, EP agreeing to better than 0.0005 eV \u2014 and missed the window. grade_line has no 'not found' verdict, so the miss fell through to the blanket Kurucz systematic and was LABELLED systematic:K07.",
+  "derived_tolerance_A": 0.050000001,
+  "derived_tolerance_basis": "half AGSS21 Table A.2's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so half-width 0.05 A (RYA-1109)",
+  "controls": {
+    "displaced_null_A": 0.35,
+    "null_ties_at_every_tolerance": [
+      0
+    ],
+    "ambiguous_matches_at_every_tolerance": [
+      0
+    ],
+    "plateau_canonical": 21,
+    "plateau_lab": 6,
+    "global_widening_refused_because": "a GLOBAL 0.02 -> 0.06 A takes the canonical Fe I table's self-ambiguous rows from 26 to 210, so a pool stated at full precision must keep 0.02; the tolerance is a property of the SOURCE and is handed down per set"
+  },
+  "grades_before": {
+    "GF-LAB": 3,
+    "GF-NIST": 2,
+    "systematic:K07": 15,
+    "systematic:K07/SCALE-MISMATCH": 1
+  },
+  "grades_after": {
+    "GF-LAB": 5,
+    "GF-NIST": 12,
+    "systematic:K07": 1,
+    "systematic:K07/SCALE-MISMATCH": 3
+  },
+  "n_upgraded": 14,
+  "lab_available_of_21": 6,
+  "cited_sigma_coverage_before": "5/21",
+  "cited_sigma_coverage_after": "17/21",
+  "rung_before": 1,
+  "rung_after": 1,
+  "sigma_syst_before": 0.17,
+  "sigma_syst_after": 0.17,
+  "sigma_syst_unchanged_because": "the MIXED-POOL rule binds either way: 5 of 21 lines are GF-LAB, and a pool is graded only if EVERY line is. 16 of the 21 have no primary-laboratory Fe I measurement in the repo AT ANY TOLERANCE \u2014 the lab census plateaus at 6/21 \u2014 so this is a real absence, not a lookup failure.",
+  "drops_below_0.10": false,
+  "hypothetical_cited_rms_dex": 0.0475,
+  "hypothetical_refused_because": "17/21 = 81% carry a citable per-line sigma, below gf_rung.CITED_COVERAGE_MIN = 90%. An RMS over part of a pool does not describe the pool. Reported as the size of the prize, NOT adopted.",
+  "agss21_gf_sources": {
+    "Den Hartog et al. 2014": "primary laboratory (FTS branching fractions x lifetimes)",
+    "Belmonte et al. 2017": "primary laboratory",
+    "Blackwell et al. 1995 (Oxford)": "primary laboratory",
+    "Holweger et al. 1991 (Hannover)": "primary laboratory",
+    "O'Brian et al. 1991 (Wisconsin)": "primary laboratory",
+    "Scott et al. 2015a": "line SELECTION carried over, gf from the groups above"
+  },
+  "agss21_per_line_source_available": false,
+  "discrepancies": [
+    {
+      "wavelength_air_A": 5784.7,
+      "our_reference": "PRIMARY LAB Ruffoni2014",
+      "our_loggf": -2.67,
+      "agss21_loggf": -2.532,
+      "delta_ours_minus_agss21": -0.1379999999999999
+    },
+    {
+      "wavelength_air_A": 5956.7,
+      "our_reference": "NIST ASD v5.11 grade A",
+      "our_loggf": -4.605,
+      "agss21_loggf": -4.552,
+      "delta_ours_minus_agss21": -0.053000000000000824
+    },
+    {
+      "wavelength_air_A": 6240.6,
+      "our_reference": "VALD3",
+      "our_loggf": -3.233,
+      "agss21_loggf": -3.287,
+      "delta_ours_minus_agss21": 0.053999999999999826
+    }
+  ],
+  "no_log_gf_changed": true
+}
