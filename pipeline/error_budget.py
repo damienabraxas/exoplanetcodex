@@ -463,15 +463,52 @@ def stellar_param_term(sigma_dex: float | None, *, source: str,
     return Term("stellar parameters", sigma_dex, False, source, applicable)
 
 
+#: The label `gf_term(graded=False)` writes, and the string the publication gate looks
+#: for — RYA-1212. ONE home: `scripts/publish_product.py` imports this rather than
+#: spelling the text again, because a gate keyed on a copy of a label stops gating the
+#: day the label is reworded (the RYA-845 shape).
+UNGRADED_GF_TERM_LABEL = "gf scale (UNGRADED)"
+
+
+class UngradedGfNotPublishable(RuntimeError):
+    """A product's systematic rests on the 0.17 blanket — RYA-1212.
+
+    🔴 "I DO NOT KNOW" IS NOT AN UNCERTAINTY, IT IS A GATE. `UNGRADED_GF_SYSTEMATIC_DEX`
+    is a placeholder for an unmeasured gf quality, and a placeholder that reaches the feed
+    reads as a measurement: 0.17 dex renders in the same column, on the same plot, beside
+    a cited-lab 0.041 that somebody actually measured. Ryan, 2026-09-10: "there is no
+    reason at all why a published product should ever have 0.17 stamped."
+
+    Raised by the PUBLISH path, never by `build()`. The budget must stay assemblable with
+    the placeholder in it or the defect becomes undiagnosable — RYA-1211 needed exactly
+    that budget to find that its `systematic:K07 x15` was a lookup miss, and this module's
+    own audit entry point prints these budgets for cells nobody intends to publish.
+    """
+
+
+def carries_ungraded_gf(budget_text: str) -> bool:
+    """Does this budget rest on the blanket? Read from the budget's OWN text.
+
+    The budget is the decider's output, so it is the evidence — not the `gf` column,
+    which names the LINELIST SOURCE and reads `kurucz` on rung-3 and rung-1 products
+    alike (the trap `publish_product`'s tier gate already documents).
+    """
+    return UNGRADED_GF_TERM_LABEL in (budget_text or "")
+
+
 def gf_term(*, graded: bool) -> Term:
     if graded:
         return Term("gf scale (NIST-graded)", GRADED_GF_SYSTEMATIC_DEX, False,
                     "NIST grade B = 10% on the transition probability = log10(1.10) dex; "
                     "a BOUND -- superseded by cited_gf_term where per-line sigmas exist")
-    return Term("gf scale (UNGRADED)", UNGRADED_GF_SYSTEMATIC_DEX, False,
+    # 🔴 A PLACEHOLDER, AND THE PUBLISH PATH REFUSES IT (RYA-1212). Still constructed, so
+    # a budget can be built and read for a pool that cannot yet be published.
+    return Term(UNGRADED_GF_TERM_LABEL, UNGRADED_GF_SYSTEMATIC_DEX, False,
                 "ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random "
                 "part shows up in the line-to-line scatter, this is the scale offset that "
-                "does not")
+                "does not. 🔴 NOT PUBLISHABLE (RYA-1212): this is a placeholder for an "
+                "unmeasured gf quality, not a measurement of one — resolve the pool via "
+                "cited lab sigmas, a NIST grade, or RYA-968's per-line empirical grading")
 
 
 def harness_term(measured_residual_dex: float, handler: str,
@@ -557,6 +594,8 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
           handler: str, harness_provenance: str = "",
           cited_gf_sigma_dex: float | None = None,
           cited_gf_source: str = "",
+          empirical_gf_sigma_dex: float | None = None,
+          empirical_gf_provenance: str = "",
           stellar_param_sigma_dex: float | None = None,
           stellar_param_source: str = "",
           stellar_param_applicable: bool = True) -> ErrorBudget:
@@ -566,10 +605,27 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
     REPLACES the generic graded bound when present (RYA-850). It is only meaningful for a
     graded pool -- an ungraded Kurucz line has no cited sigma to average -- so passing it
     with `gf_graded=False` is a caller error rather than a silent preference.
+
+    `empirical_gf_sigma_dex` is RYA-968's PER-LINE route, wired here by RYA-1212. It is
+    the branch a MIXED pool takes, and it is the reason the 0.17 blanket can become a
+    gate: `gf_graded` is a two-branch switch that cannot express "56 of 57 lines are
+    laboratory", so it returns the blanket on the strength of the one line that is not
+    (a real cell -- the near-UV DEEPGRADED pool -- and the reason RYA-855 moved 0 of 36
+    bars). Pass `gf_empirical.grade_pool(...).gf_sigma_dex`, the RMS of the per-line
+    sigma over the lines that actually contribute, and the graded lines keep the pedigree
+    they earned instead of surrendering it to their worst neighbour.
+
+    ⚠️ THE TWO gf ROUTES ARE EXCLUSIVE. Both describe the same term, so accepting both
+    would silently drop one; that is a caller error, not a preference to be resolved here.
     """
     pol = resolve(wavelength_A)
     b = ErrorBudget(element=element, band=pol.name, n_lines=n_lines)
     b.add(scatter_term(scatter_dex, n_lines))
+    if cited_gf_sigma_dex is not None and empirical_gf_sigma_dex is not None:
+        raise ValueError(
+            "cited_gf_sigma_dex and empirical_gf_sigma_dex both describe the gf term; "
+            "pass the one the pool actually earned (RYA-1212). A pool whose lines all "
+            "carry published laboratory sigmas is CITED; a mixed pool is EMPIRICAL.")
     if cited_gf_sigma_dex is not None:
         if not gf_graded:
             raise ValueError(
@@ -580,6 +636,17 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
                              "papers -- a budget term is never unsourced")
         b.add(cited_gf_term(cited_gf_sigma_dex, n_lines=n_lines,
                             source=cited_gf_source))
+    elif empirical_gf_sigma_dex is not None:
+        # RYA-968 via RYA-1212. Deliberately NOT gated on `gf_graded`: this route exists
+        # precisely for the pool that switch calls ungraded, and requiring the switch to
+        # be True first would put the blanket back in front of its own replacement.
+        if not empirical_gf_provenance:
+            raise ValueError(
+                "empirical_gf_sigma_dex requires empirical_gf_provenance saying how each "
+                "line's sigma was obtained (cited / self-reported / inferred / fallback) "
+                "-- never 'assumed' (RYA-968)")
+        b.add(empirical_gf_term(empirical_gf_sigma_dex, n_lines=n_lines,
+                                provenance=empirical_gf_provenance))
     else:
         b.add(gf_term(graded=gf_graded))
     b.add(harness_term(harness_residual_dex, handler, harness_provenance))
