@@ -119,8 +119,10 @@ def _no_sigma_rung(pool: pd.DataFrame) -> int:
     """
     real = gf_grades.grade_line
 
-    def blank(w, ep, gf, species=gf_grades.DEFAULT_SPECIES):
-        v = real(w, ep, gf)
+    # RYA-1211 added `wave_tol_A`; a stub that does not mirror the real signature stops
+    # standing in for it, so forward the argument rather than swallowing it.
+    def blank(w, ep, gf, species=gf_grades.DEFAULT_SPECIES, wave_tol_A=None):
+        v = real(w, ep, gf, species=species, wave_tol_A=wave_tol_A)
         return gf_grades.GradeVerdict(v.gf_grade, v.gf_grade_source, float("nan"),
                                       v.gf_reference_tag, v.gf_ref_loggf,
                                       v.gf_delta_dex, v.note)
