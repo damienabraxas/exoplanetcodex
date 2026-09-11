@@ -36,24 +36,6 @@
     "detail": "data/results/band_products/FeI_9199_11083_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv is committed but was produced on the Mac; its holding is not on the committed runner (RYA-1011)"
   },
   {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "NIR",
-    "treatment": "1D-LTE",
-    "detail": "data/results/band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv: feed recorded 869d5ac4cc44, committed file is 3e79d4c11e04 \u2014 not the file the feed measured"
-  },
-  {
-    "kind": "SHA_MISMATCH",
-    "feed": "Fe.json",
-    "element": "Fe",
-    "ion": "I",
-    "band": "NIR",
-    "treatment": "ENGINE-A",
-    "detail": "data/results/band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv: feed recorded 5108b29704e9, committed file is e664df0800c6 \u2014 not the file the feed measured"
-  },
-  {
     "kind": "REGENERABILITY_GAP",
     "feed": "Fe.json",
     "element": "Fe",
