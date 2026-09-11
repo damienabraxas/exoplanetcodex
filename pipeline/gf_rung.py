@@ -66,6 +66,7 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
+from pipeline import gf_empirical
 from pipeline import gf_grades
 from pipeline.error_budget import GRADED_GF_SYSTEMATIC_DEX
 
@@ -365,6 +366,66 @@ def decide(element: str, ion: str, lines: pd.DataFrame,
         f"({sig / GRADED_GF_SYSTEMATIC_DEX:.2f}x the generic bound "
         f"{GRADED_GF_SYSTEMATIC_DEX}) MEASURES the same quantity the bound only "
         f"estimates, so it supersedes it — larger or smaller (RYA-850)")
+
+
+def pool_cited_sigma_rms(element: str, ion: str, lines: pd.DataFrame,
+                         wave_tol_A: float | None = None) -> tuple[float | None, int, int]:
+    """RMS of the pool's OWN published per-line gf sigmas — RYA-1212.
+
+    Returns `(rms, n_cited, n_lines)`. `n_cited` counts the lines carrying a citable
+    per-line sigma, i.e. `GradeVerdict.has_cited_sigma`: a primary laboratory measurement
+    or a NIST accuracy class. RMS rather than median for the reason `cited_gf_term`
+    already gives -- these combine in quadrature and a median discards exactly the tail a
+    quadrature sum is sensitive to.
+
+    This is a MEASUREMENT of the lines that were measured. It says nothing about the ones
+    that were not, and a caller that uses it as their fallback is stating a PRIOR -- see
+    `empirical_gf_sigma`.
+    """
+    species = f"{element} {ion}"
+    sig = []
+    for r in lines.itertuples():
+        v = gf_grades.grade_line(float(r.wavelength_air_A), float(r.ep_eV),
+                                 float(r.log_gf), species=species, wave_tol_A=wave_tol_A)
+        if v.has_cited_sigma and np.isfinite(v.gf_sigma_dex):
+            sig.append(float(v.gf_sigma_dex))
+    if not sig:
+        return None, 0, int(len(lines))
+    return float(np.sqrt(np.mean(np.asarray(sig) ** 2))), len(sig), int(len(lines))
+
+
+def empirical_gf_sigma(element: str, ion: str, lines: pd.DataFrame, *,
+                       thresholds, wave_tol_A: float | None = None) -> tuple[float, str]:
+    """RYA-968's per-line gf sigma for a MIXED pool — the bridge RYA-1212 wires.
+
+    `gf_rung.decide` answers a CATEGORY question and collapses to rung 1 the moment one
+    line is ungraded. That rule is right for a pedigree claim and useless as an
+    uncertainty: it is why RYA-855 moved 0 of 36 bars. This asks the per-LINE question
+    instead -- each line's own sigma through `gf_empirical.resolve_sigma`'s evidence
+    ladder (cited -> self-reported -> inferred -> fallback) -- and returns their RMS plus
+    a provenance string naming how many lines came from each rung of that ladder.
+
+    ⚠️ THE PROVENANCE IS NOT DECORATION. `empirical_gf_term` refuses an unsourced sigma,
+    because "0.0475 dex" and "0.0475 dex, 4 of 21 of it assumed" are different claims and
+    only the second one is true. The count of `fallback` lines is the reader's handle on
+    how much of the bar is evidence and how much is prior.
+    """
+    from collections import Counter
+
+    species = f"{element} {ion}"
+    sigmas, sources = [], []
+    for r in lines.itertuples():
+        v = gf_grades.grade_line(float(r.wavelength_air_A), float(r.ep_eV),
+                                 float(r.log_gf), species=species, wave_tol_A=wave_tol_A)
+        cited = float(v.gf_sigma_dex) if (v.has_cited_sigma
+                                          and np.isfinite(v.gf_sigma_dex)) else None
+        s, src = gf_empirical.resolve_sigma(cited_sigma_dex=cited, th=thresholds)
+        sigmas.append(s)
+        sources.append(src.split(" (")[0])
+    rms = float(np.sqrt(np.mean(np.asarray(sigmas, float) ** 2)))
+    counts = Counter(sources)
+    prov = ", ".join(f"{k} x{v}" for k, v in sorted(counts.items()))
+    return rms, prov
 
 
 def for_lines(element: str, ion: str, measurements, *, linelist,

@@ -53,6 +53,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from pipeline import error_budget             # noqa: E402  RYA-1212
 from pipeline import product_eligibility as pe  # noqa: E402  RYA-1097
 from pipeline import treatment_axes            # noqa: E402  RYA-1100
 STORE = ROOT / "data" / "products"
@@ -560,13 +561,52 @@ def main() -> int:
         #: column -- that names the LINELIST SOURCE and reads 'kurucz' on rung-3 and
         #: rung-1 products alike, so keying on it refused a legitimately graded
         #: red-optical cell on my first attempt.
+        bud = Path(str(src)[:-len("_products.csv")] + "_budgets.txt")
+        if not bud.exists():
+            bud = Path(re.sub(r"_ENGINE-[A-Z-]+$", "", str(src)[:-len("_products.csv")])
+                       + "_budgets.txt")
+        budget_text = bud.read_text() if bud.exists() else ""
+
+        #: 🔴 THE 0.17 BLANKET IS A GATE, NOT A VALUE — RYA-1212.
+        #: `UNGRADED_GF_SYSTEMATIC_DEX` is a placeholder for a gf quality nobody measured.
+        #: Published, it stops reading as a placeholder: 0.17 dex renders in the same
+        #: column and on the same error-bar forest as a cited-lab 0.041 that somebody did
+        #: measure, and the reader cannot tell "wide" from "unknown". Ryan, 2026-09-10:
+        #: "there is no reason at all why a published product should ever have 0.17
+        #: stamped." So the branch that used to emit it refuses instead.
+        #:
+        #: ⚠️ THE POOL IS USUALLY ALMOST ENTIRELY GRADED. `gf_graded` is a two-branch
+        #: switch and cannot say "56 of 57 lines are laboratory", so it returns the
+        #: blanket on the strength of the one line that is not — which is why RYA-855
+        #: moved 0 of 36 bars. The resolution is therefore rarely "go and measure 57 gf":
+        #: it is to drop, re-source or per-line grade the handful that are unresolved.
+        #:
+        #: Read from the BUDGET for the reason the tier gate below gives — it is the
+        #: decider's own output — and the label comes from `error_budget`, not a copy of
+        #: its text, so rewording the term cannot silently retire this gate.
+        if budget_text and error_budget.carries_ungraded_gf(budget_text):
+            rung = re.search(r"gf rung: (.*)", budget_text)
+            print(f"REFUSING: {src.name}\n"
+                  f"    its budget rests on the {error_budget.UNGRADED_GF_TERM_LABEL!r} "
+                  f"placeholder ({error_budget.UNGRADED_GF_SYSTEMATIC_DEX} dex), which is "
+                  f"not a measured uncertainty and is not publishable (RYA-1212).\n"
+                  f"    the decider says: {rung.group(1).strip() if rung else '(no rung line)'}\n"
+                  f"    resolve the pool by ONE of:\n"
+                  f"      * cited lab      — every line carries a published per-line sigma "
+                  f"(error_budget.cited_gf_term)\n"
+                  f"      * NIST grade     — the pool grades to rung 2\n"
+                  f"      * per-line       — RYA-968 empirical grading, then pass "
+                  f"empirical_gf_sigma_dex to error_budget.build()\n"
+                  f"      * drop/re-source — remove or re-source the unresolved lines, as "
+                  f"RYA-1209 did for the near-UV pool (57 -> 55, and its bar left the "
+                  f"blanket)\n"
+                  f"    publishing a placeholder as a measurement is the one thing this "
+                  f"gate exists to stop; it has no override.", file=sys.stderr)
+            return 8
+
         if a.tier in ("GRADED", "DEEPGRADED"):
-            bud = Path(str(src)[:-len("_products.csv")] + "_budgets.txt")
-            if not bud.exists():
-                bud = Path(re.sub(r"_ENGINE-[A-Z-]+$", "", str(src)[:-len("_products.csv")])
-                           + "_budgets.txt")
-            m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", bud.read_text()) \
-                if bud.exists() else None
+            m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
+                if budget_text else None
             if m and int(m.group(1)) != 3:
                 print(f"REFUSING: {src.name}\n"
                       f"    tier={a.tier} claims laboratory gf, but the budget's own "
