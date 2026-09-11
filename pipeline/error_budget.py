@@ -102,6 +102,7 @@ def round_dex(x: float, places: int = DEX_PLACES) -> float:
 
 
 import math
+import re
 from dataclasses import dataclass, field
 
 from pipeline.band_policy import resolve
@@ -486,14 +487,29 @@ class UngradedGfNotPublishable(RuntimeError):
     """
 
 
+#: 🔴 A TERM LINE, NOT A MENTION. `describe()` writes each charged term as
+#: `<dex>  <label>  [SYSTEMATIC] ...`, and the `gf rung:` line underneath it names the
+#: rung's label IN PROSE -- `gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 5 of 21 ...`.
+#: A pool that took the per-line route is still rung 1 (rung is a PEDIGREE claim and 5 of
+#: 21 lines are laboratory), so its budget legitimately mentions the label while charging
+#: `gf scale (empirical, per-line)` instead. A substring match cannot tell the two apart
+#: and refused every empirically-priced product -- caught only because the first real
+#: republish through the gate came back refused with the blanket already gone.
+_UNGRADED_TERM_LINE = re.compile(
+    r"^\s*\d+\.\d+\s+" + re.escape(UNGRADED_GF_TERM_LABEL), re.MULTILINE)
+
+
 def carries_ungraded_gf(budget_text: str) -> bool:
-    """Does this budget rest on the blanket? Read from the budget's OWN text.
+    """Is the blanket a CHARGED TERM in this budget? Read from the budget's OWN text.
 
     The budget is the decider's output, so it is the evidence — not the `gf` column,
     which names the LINELIST SOURCE and reads `kurucz` on rung-3 and rung-1 products
     alike (the trap `publish_product`'s tier gate already documents).
+
+    ⚠️ Asks whether the term is CHARGED, not whether the label appears. See
+    `_UNGRADED_TERM_LINE`: the rung prose names the label on pools that do not carry it.
     """
-    return UNGRADED_GF_TERM_LABEL in (budget_text or "")
+    return bool(_UNGRADED_TERM_LINE.search(budget_text or ""))
 
 
 def gf_term(*, graded: bool) -> Term:
