@@ -225,19 +225,42 @@ def test_ir_products_name_their_irreducible(feed):
         got[(p["holding"], p["treatment"])] = d["dispersion_dex"]
     assert got[("solar_crires_plus_y_wide_rya1054", "1D-LTE")] == pytest.approx(0.138, abs=1e-3)
     assert got[("solar_iag", "1D-LTE")] == pytest.approx(0.794, abs=1e-3)
-    assert got[("solar_kpno_molecfit_corrected", "1D-LTE")] == pytest.approx(0.890, abs=1e-3)
-    assert got[("solar_kpno_molecfit_corrected", "ENGINE-A")] == pytest.approx(1.315, abs=1e-3)
+    # 🔴 0.386 / 0.144, NOT 0.890 / 1.315. RYA-1203 re-ingested the two KP NIR Fe I feed
+    # entries onto the GUARDED pool (1D-LTE n=26 -> 23, ENGINE-A n=7 -> 6). Those are not
+    # new numbers: RYA-1191's own note, carried in `irreducible_dispersion.note` on every
+    # NIR product, already re-measured them ("KP 1D-LTE 0.895 -> 0.386" and "the dispersion
+    # is 0.144 at n=6") and warned the stored value was "the PRE-GUARD value ... regenerated
+    # when the product is". The product has now been regenerated; the feed agrees with its
+    # own note. 1.315 was ONE non-convergent fit (9437.793, red_chi2 246).
+    assert got[("solar_kpno_molecfit_corrected", "1D-LTE")] == pytest.approx(0.386, abs=1e-3)
+    assert got[("solar_kpno_molecfit_corrected", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
 
 
 def test_the_widest_ir_bars_carry_the_most_lines(feed):
     """The RCA, asserted: the bar tracks gf quality, not small-n. If this ever inverts,
     'more lines will not fix it' has stopped being true and the note must be re-derived."""
     ir = {(p["holding"], p["treatment"]): p for p in feed["products"] if p["band"] == "NIR"}
-    crires = ir[("solar_crires_plus_y_wide_rya1054", "1D-LTE")]
-    kp = ir[("solar_kpno_molecfit_corrected", "1D-LTE")]
-    assert crires["n_lines"] < kp["n_lines"]
-    assert crires["irreducible_dispersion"]["dispersion_dex"] < \
-           kp["irreducible_dispersion"]["dispersion_dex"] / 5
+    disp = lambda k: ir[k]["irreducible_dispersion"]["dispersion_dex"]
+
+    # The few-line CURATED lab-gf cells against the many-line VALD3-grade ones. The claim is
+    # an ORDERING, not a magnitude: every curated bar sits below every many-line bar even
+    # though every curated bar carries fewer lines.
+    curated = [("solar_crires_plus_y_wide_rya1054", "1D-LTE"),
+               ("solar_kpno_molecfit_corrected", "ENGINE-A")]
+    many = [("solar_iag", "1D-LTE"),
+            ("solar_kpno_molecfit_corrected", "1D-LTE")]
+    for c in curated:
+        for m in many:
+            assert ir[c]["n_lines"] < ir[m]["n_lines"], f"{c} no longer the smaller pool vs {m}"
+            assert disp(c) < disp(m), f"{c} {disp(c)} no longer tighter than {m} {disp(m)}"
+
+    # 🔴 NOT `< kp/5`. That 5x was the pre-guard 0.890/1.315 pair, and RYA-1191's note names
+    # the cause: "The ~6x ratio was that one line" (9437.793, a non-convergent fit). On the
+    # guarded pool the separation is ~2.8x, and KP ENGINE-A's 0.144 is, in the note's words,
+    # "INDISTINGUISHABLE from CRIRES+'s 0.138". Pinning a magnitude here would re-assert the
+    # artifact the re-derivation removed; the ordering above is what survives it.
+    assert disp(("solar_kpno_molecfit_corrected", "ENGINE-A")) == pytest.approx(
+        disp(("solar_crires_plus_y_wide_rya1054", "1D-LTE")), abs=0.02)
 
 
 def test_kp_nir_graded_tier_is_confirmed_against_its_pool(feed):
