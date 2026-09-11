@@ -172,6 +172,40 @@ SETS: dict[str, ReferenceSet] = {
 }
 
 
+def grading_tol_A(name: str) -> float:
+    """The wavelength window to GRADE this set's lines on — RYA-1211.
+
+    `pipeline.gf_grades` joins a measured pool against the laboratory tables and
+    `canonical_gf` on wavelength + EP, and its own `WAVE_TOL_A` is 0.02 A. That is the
+    right window for a pool stated at the line list's own 4-decimal precision, and it is
+    the WRONG window for a reference set printed coarser — which is the trap this
+    module's docstring already names, applied to a join that never asked.
+
+    🔴 IT COST THE WHOLE AGSS21 REFERENCE POOL ITS PEDIGREE. AGSS21 prints lambda to
+    0.1 A, so 15 of the 21 Fe I lines in the Reference Grade product sat 0.024-0.050 A
+    from their own `canonical_gf` row -- inside the printing's rounding bin, EP agreeing
+    to better than 0.0005 eV -- and missed a 0.02 A window. `grade_line` has no "not
+    found" verdict: the miss fell through to the blanket Kurucz systematic, so the budget
+    reported `systematic:K07 x15` for lines carrying NIST-C+ and primary-laboratory
+    values, and the product's stated reason for its 0.17 dex bar named a source none of
+    those lines uses.
+
+    Returns the set's DERIVED `match_tol_A` plus `_CLOSED_EDGE_EPS_A` — the rounding
+    interval is closed at its edge, and AGSS21's 5247.0 A sits exactly on it (the GES
+    list holds 5247.05, 0.0500000000001819 away). Callers pass this DOWN; nobody widens
+    a window by writing a number.
+    """
+    return SETS[_require(name)].match_tol_A + _CLOSED_EDGE_EPS_A
+
+
+def _require(name: str) -> str:
+    if name not in SETS:
+        raise KeyError(f"no reference set {name!r}; registered: {sorted(SETS)}. A set "
+                       f"must declare its own DERIVED match tolerance — do not reuse "
+                       f"another set's.")
+    return name
+
+
 def sets_for_element(element: str) -> list[str]:
     """The registered reference sets for an element, by `line_set` name.
 

@@ -1,0 +1,11 @@
+{
+  "ticket": "RYA-1212",
+  "feed_version": "1.163",
+  "live_products_checked": 92,
+  "refused": 0,
+  "blanket_dex": 0.17,
+  "products": [],
+  "products_without_a_reachable_budget": 22,
+  "note_on_budget_artifacts": "20 of 92 committed *_budgets.txt still carry the blanket, but most are SUPERSEDED artifacts, not live products \u2014 e.g. the near-UV n=57 budget was replaced by RYA-1209's n=55/54 re-run, whose products publish 0.1122/0.1124. The gate fires on what is BEING published, so the live count is what matters.",
+  "no_value_changed": true
+}

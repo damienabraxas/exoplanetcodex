@@ -120,7 +120,9 @@ def network_term() -> Term:
 
 
 def budget_from_pool(pool: pd.DataFrame, *, element: str, ion: str, instrument: str,
-                     handler: str, scatter_dex: float):
+                     handler: str, scatter_dex: float, wave_tol_A: float | None = None,
+                     empirical_gf_sigma_dex: float | None = None,
+                     empirical_gf_provenance: str = ""):
     """The budget for an Amarsi pool held IN MEMORY. The one assembly, two callers.
 
     `scripts/rya817_run_3dnlte_bands.py` calls this while the run still has the pool, so
@@ -142,11 +144,19 @@ def budget_from_pool(pool: pd.DataFrame, *, element: str, ion: str, instrument: 
         "wave_A": pool.wavelength_air_A.to_numpy(float),
         "lower_state_eV": pool.elo_eV.to_numpy(float),
         "loggf": pool.loggf.to_numpy(float)})
-    rung = gf_rung.for_lines(element, ion, measurements, linelist=linelist)
+    rung = gf_rung.for_lines(element, ion, measurements, linelist=linelist,
+                             wave_tol_A=wave_tol_A)
     hres = harness_residual.for_handler(str(handler))
     lo, hi = float(pool.wavelength_air_A.min()), float(pool.wavelength_air_A.max())
+    # RYA-1212: the per-line route REPLACES the rung's gf kwarg rather than joining it.
+    # `rung.budget_kwargs()` carries `gf_graded=False` for any mixed pool, and passing
+    # both would hand `build` a category verdict and a measurement for the same term.
+    gf_kw = dict(rung.budget_kwargs())
+    if empirical_gf_sigma_dex is not None:
+        gf_kw["empirical_gf_sigma_dex"] = empirical_gf_sigma_dex
+        gf_kw["empirical_gf_provenance"] = empirical_gf_provenance
     b = build_budget(element, 0.5 * (lo + hi), n, scatter_dex=scatter_dex,
-                     **rung.budget_kwargs(), **hres.budget_kwargs())
+                     **gf_kw, **hres.budget_kwargs())
     b.add(axis_term(pool))
     b.add(network_term())
     return b, rung

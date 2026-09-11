@@ -80,6 +80,9 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline import amarsi3d                                     # noqa: E402
+from pipeline import reference_lineset                           # noqa: E402
+from pipeline import gf_empirical                                # noqa: E402
+from pipeline import gf_rung                                     # noqa: E402
 from pipeline.band_products import LineMeasurement, build_product, products_frame  # noqa: E402
 from config.constants import get_star_params                      # noqa: E402
 from config.synth_bands import SYNTH_BANDS                        # noqa: E402
@@ -367,9 +370,55 @@ def build(holding_key: str, per_line: pd.DataFrame, run: dict) -> tuple:
                            ew_mA=pool["ew_mA_agss21"],
                            rew=pool["rew_agss21"],
                            aberr_axis_line=np.nan)
+        # 🔴 AGSS21's OWN window, not gf_grades' 0.02 A default — RYA-1211. Table A.2
+        # prints lambda in nanometres to 2 dp (0.1 A), so a line sits up to 0.05 A from
+        # its own canonical_gf row by PRINTING ALONE. Graded at 0.02 A, 15 of these 21
+        # lines missed a row whose EP agrees to better than 0.0005 eV, and the miss has no
+        # verdict of its own: it fell through to the blanket Kurucz systematic, so this
+        # product's budget read `systematic:K07 x15` for lines that carry NIST-C+ and
+        # primary-laboratory values. DERIVED by the registry, never written here.
+        # ── RYA-1212: the per-line gf sigma, replacing the 0.17 blanket ──────────
+        # RYA-1211 measured this pool: 17 of 21 lines carry a citable per-line sigma
+        # (5 primary-laboratory + 12 NIST accuracy class) and 4 carry none. 81% is under
+        # `CITED_COVERAGE_MIN`'s 90%, so the CITED route is refused -- an RMS over part of
+        # a pool does not describe the pool -- and the pool takes RYA-968's PER-LINE route
+        # instead, where each line is priced on its own evidence.
+        #
+        # 🔴 THE FALLBACK FOR THE 4 UNCITED LINES IS A PRIOR, NOT A MEASUREMENT, AND RYAN
+        # RULED ON IT (2026-09-10, RYA-1212): they take the pool's OWN measured sigma --
+        # the RMS of the 17 lines that were actually measured, from the actual papers
+        # (Den Hartog, Belmonte, Ruffoni, NIST grades) -- rather than a Kurucz placeholder.
+        # DERIVED HERE from the pool, never written as a number, so it stays the pool's own
+        # measurement and cannot drift from it (RYA-968 §3.1: a borrowed constant is not a
+        # control). For this pool it evaluates to 0.0475 dex, the value in the ruling.
+        #
+        # ⚠️ IT IS A FIXED POINT, AND THAT IS THE COST OF THE CHOICE. Setting the fallback
+        # to the cited RMS makes the 21-line RMS come out at exactly the 17-line RMS: the
+        # 4 unmeasured lines widen the bar by nothing and are charged what a laboratory
+        # line is charged. The provenance string therefore CARRIES THE COUNT, so the bar
+        # is never read as 21 measured lines.
+        tol = reference_lineset.grading_tol_A("asplund")
+        _lines = pd.DataFrame({"wavelength_air_A": pool.wavelength_air_A.to_numpy(float),
+                               "ep_eV": pool.elo_eV.to_numpy(float),
+                               "log_gf": pool.loggf.to_numpy(float)})
+        _cited_rms, _n_cited, _n = gf_rung.pool_cited_sigma_rms("Fe", "I", _lines,
+                                                                wave_tol_A=tol)
+        if _cited_rms is None:
+            raise SystemExit("no line in this pool carries a citable per-line gf sigma, "
+                             "so the pool has no measurement to stand its fallback on "
+                             "(RYA-1212) -- refusing rather than inventing one")
+        _th = gf_empirical.Thresholds(fallback_sigma_dex=_cited_rms)
+        _emp, _prov = gf_rung.empirical_gf_sigma("Fe", "I", _lines, thresholds=_th,
+                                                 wave_tol_A=tol)
+        _prov = (f"{_prov} at the pool's own cited RMS {_cited_rms:.4f} dex over "
+                 f"{_n_cited} of {_n} lines (Ryan's threshold ruling, RYA-1212)")
+
         b, rung = budget_from_pool(pool, element="Fe", ion="I",
                                    instrument=run["instrument"], handler=HANDLER,
-                                   scatter_dex=float(product.sigma))
+                                   scatter_dex=float(product.sigma),
+                                   wave_tol_A=tol,
+                                   empirical_gf_sigma_dex=_emp,
+                                   empirical_gf_provenance=_prov)
         stat, syst = b.total()
         basis = b.stat_basis()
         # ⚠️ `publish_product` PARSES the `gf rung:` line out of the budget file, so it is
