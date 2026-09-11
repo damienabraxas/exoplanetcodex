@@ -197,6 +197,17 @@ def test_the_agss21_caller_derives_its_window_and_does_not_write_one():
         kw = {k.arg: k.value for k in c.keywords}
         assert "wave_tol_A" in kw, "the AGSS21 budget must state its own grading window"
         node = kw["wave_tol_A"]
+        # RYA-1212 hoisted the window into a local so the empirical-sigma call can share
+        # it, so follow one level of assignment. A NAME is only acceptable if the thing
+        # bound to it is itself the derived call — a literal bound to `tol` must still
+        # fail, which is the whole point of the check.
+        if isinstance(node, ast.Name):
+            bound = [t for st in ast.walk(tree) if isinstance(st, ast.Assign)
+                     for tgt in st.targets
+                     if isinstance(tgt, ast.Name) and tgt.id == node.id
+                     for t in [st.value]]
+            assert bound, f"wave_tol_A is {node.id!r} but nothing assigns it"
+            node = bound[-1]
         assert isinstance(node, ast.Call), \
             f"wave_tol_A must be DERIVED, not written: got {ast.dump(node)[:80]}"
         assert getattr(node.func, "attr", None) == "grading_tol_A", \
