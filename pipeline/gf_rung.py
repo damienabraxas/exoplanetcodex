@@ -287,12 +287,19 @@ def resolve_lines(element: str, ion: str, wavelengths, linelist,
     return pd.DataFrame(rows)
 
 
-def decide(element: str, ion: str, lines: pd.DataFrame) -> GfRung:
+def decide(element: str, ion: str, lines: pd.DataFrame,
+           wave_tol_A: float | None = None) -> GfRung:
     """The rung this pool is entitled to. `lines` needs wavelength_air_A / ep_eV / log_gf.
 
     Rows may carry `resolved=False` (see `resolve_lines`); those are counted as
     ungradeable and force rung 1, because a line whose gf we cannot state cannot be
     said to be graded.
+
+    `wave_tol_A` is handed straight to `gf_grades.grade_line` and defaults to that
+    module's 0.02 A — RYA-1211. A pool whose wavelengths are PRINTED coarser than the
+    tables it is graded against must pass its source's derived window
+    (`reference_lineset.grading_tol_A`), or its lines miss their own reference rows and
+    the pool is charged an ungraded systematic naming a source it does not use.
     """
     n = int(len(lines))
     species = f"{element} {ion}"
@@ -317,7 +324,8 @@ def decide(element: str, ion: str, lines: pd.DataFrame) -> GfRung:
             grades.append("UNRESOLVED")
             continue
         v = gf_grades.grade_line(float(r.wavelength_air_A), float(r.ep_eV),
-                                 float(r.log_gf), species=species)
+                                 float(r.log_gf), species=species,
+                                 wave_tol_A=wave_tol_A)
         grades.append(v.gf_grade)
         if v.is_graded:
             if np.isfinite(v.gf_sigma_dex):
@@ -359,7 +367,8 @@ def decide(element: str, ion: str, lines: pd.DataFrame) -> GfRung:
         f"estimates, so it supersedes it — larger or smaller (RYA-850)")
 
 
-def for_lines(element: str, ion: str, measurements, *, linelist) -> GfRung:
+def for_lines(element: str, ion: str, measurements, *, linelist,
+              wave_tol_A: float | None = None) -> GfRung:
     """The rung for a list of `LineMeasurement`, counting only the ones IN the aggregate.
 
     The membership rule is `build_product`'s own -- `in_aggregate` AND an abundance --
@@ -373,7 +382,7 @@ def for_lines(element: str, ion: str, measurements, *, linelist) -> GfRung:
     # None (the default) keeps the narrow wavelength-only rule for it.
     lines = resolve_lines(element, ion, [l.wavelength_air_A for l in used], linelist,
                           measured_ep_eV=[getattr(l, "ep_eV", None) for l in used])
-    return decide(element, ion, lines)
+    return decide(element, ion, lines, wave_tol_A=wave_tol_A)
 
 
 def for_product(product, *, linelist) -> GfRung:

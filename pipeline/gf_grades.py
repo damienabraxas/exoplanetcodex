@@ -314,8 +314,9 @@ def transition_matches(row, lower_level, upper_level) -> bool | None:
 
 
 def _nearest(df: pd.DataFrame, wave: float, ep: float,
-             wcol: str, ecol: str) -> pd.Series | None:
-    m = df[(np.abs(df[wcol] - wave) <= WAVE_TOL_A) & (np.abs(df[ecol] - ep) <= EP_TOL_EV)]
+             wcol: str, ecol: str, wave_tol_A: float | None = None) -> pd.Series | None:
+    tol = WAVE_TOL_A if wave_tol_A is None else float(wave_tol_A)
+    m = df[(np.abs(df[wcol] - wave) <= tol) & (np.abs(df[ecol] - ep) <= EP_TOL_EV)]
     if m.empty:
         return None
     # 🔴 RYA-1034: an AMBIGUOUS match is not a match. Returning the nearest silently
@@ -325,7 +326,7 @@ def _nearest(df: pd.DataFrame, wave: float, ep: float,
     # tie to be broken by rounding.
     if len(m) > 1:
         raise AmbiguousLineMatch(
-            f"{len(m)} candidates within {WAVE_TOL_A} A / {EP_TOL_EV} eV of "
+            f"{len(m)} candidates within {tol} A / {EP_TOL_EV} eV of "
             f"{wave:.4f} A, ep {ep:.4f} eV: "
             + ", ".join(f"{r[wcol]:.4f}" for _, r in m.iterrows())
             + ". Refusing to pick one by proximity (RYA-1034/161).")
@@ -333,15 +334,30 @@ def _nearest(df: pd.DataFrame, wave: float, ep: float,
 
 
 def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
-               species: str = DEFAULT_SPECIES) -> GradeVerdict:
+               species: str = DEFAULT_SPECIES,
+               wave_tol_A: float | None = None) -> GradeVerdict:
     """Grade one line of `species`, or bound it. Never returns a blank bar.
 
     `species` defaults to Fe I so every pre-RYA-1002 caller is unchanged.
+
+    `wave_tol_A` overrides `WAVE_TOL_A` for THIS call — RYA-1211. `None` keeps 0.02 A, so
+    every existing caller grades exactly as before; the generalisation is additive, never
+    a silent re-grade, which is the same rule RYA-1002 followed for `species`.
+
+    🔴 PASS IT WHENEVER THE POOL'S WAVELENGTHS ARE PRINTED COARSER THAN THE TABLES THEY
+    ARE GRADED AGAINST, and get it from `reference_lineset.grading_tol_A`, which derives
+    it from the source's own printed resolution. 0.02 A is right for a pool stated at the
+    line list's 4-decimal precision and 20x too tight for AGSS21's 0.1 A printing: 15 of
+    the 21 Reference Grade Fe I lines missed their own `canonical_gf` row by 0.024-0.050 A
+    with EP agreeing to 0.0005 eV, and a miss here has no verdict of its own — it falls
+    through to the blanket Kurucz systematic below, which then names a source those lines
+    do not use. Widening this is NOT free: at 0.06 A the canonical Fe I table's
+    self-ambiguous rows go 26 -> 210, so a pool measured at full precision must keep 0.02.
     """
     lab = _nearest(lab_lines(species), wavelength_air_A, ep_eV,
-                   "wavelength_air_A", "elo_eV")
+                   "wavelength_air_A", "elo_eV", wave_tol_A)
     cgf = _nearest(canonical_species(species), wavelength_air_A, ep_eV,
-                   "wavelength_air_A", "excitation_potential_eV")
+                   "wavelength_air_A", "excitation_potential_eV", wave_tol_A)
     tag = str(cgf["loggf_reference"]) if cgf is not None else ""
     ref_loggf = float(cgf["log_gf"]) if cgf is not None else np.nan
 
@@ -410,7 +426,8 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
 
 
 def grade_pool(pool: pd.DataFrame, *, wave_col: str = "wavelength_air_A",
-               ep_col: str = "ep_eV", loggf_col: str = "log_gf") -> pd.DataFrame:
+               ep_col: str = "ep_eV", loggf_col: str = "log_gf",
+               wave_tol_A: float | None = None) -> pd.DataFrame:
     """Attach gf_grade / gf_grade_source (+ evidence) to a measured pool.
 
     Row count in == row count out, asserted here rather than trusted: a merge that drops
@@ -423,7 +440,7 @@ def grade_pool(pool: pd.DataFrame, *, wave_col: str = "wavelength_air_A",
             "gf_reference_tag": [], "gf_ref_loggf": [], "gf_delta_dex": [], "gf_note": []}
     for r in pool.itertuples():
         v = grade_line(float(getattr(r, wave_col)), float(getattr(r, ep_col)),
-                       float(getattr(r, loggf_col)))
+                       float(getattr(r, loggf_col)), wave_tol_A=wave_tol_A)
         cols["gf_grade"].append(v.gf_grade)
         cols["gf_grade_source"].append(v.gf_grade_source)
         cols["gf_sigma_dex"].append(v.gf_sigma_dex)

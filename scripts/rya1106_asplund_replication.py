@@ -80,6 +80,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline import amarsi3d                                     # noqa: E402
+from pipeline import reference_lineset                           # noqa: E402
 from pipeline.band_products import LineMeasurement, build_product, products_frame  # noqa: E402
 from config.constants import get_star_params                      # noqa: E402
 from config.synth_bands import SYNTH_BANDS                        # noqa: E402
@@ -367,9 +368,17 @@ def build(holding_key: str, per_line: pd.DataFrame, run: dict) -> tuple:
                            ew_mA=pool["ew_mA_agss21"],
                            rew=pool["rew_agss21"],
                            aberr_axis_line=np.nan)
+        # 🔴 AGSS21's OWN window, not gf_grades' 0.02 A default — RYA-1211. Table A.2
+        # prints lambda in nanometres to 2 dp (0.1 A), so a line sits up to 0.05 A from
+        # its own canonical_gf row by PRINTING ALONE. Graded at 0.02 A, 15 of these 21
+        # lines missed a row whose EP agrees to better than 0.0005 eV, and the miss has no
+        # verdict of its own: it fell through to the blanket Kurucz systematic, so this
+        # product's budget read `systematic:K07 x15` for lines that carry NIST-C+ and
+        # primary-laboratory values. DERIVED by the registry, never written here.
         b, rung = budget_from_pool(pool, element="Fe", ion="I",
                                    instrument=run["instrument"], handler=HANDLER,
-                                   scatter_dex=float(product.sigma))
+                                   scatter_dex=float(product.sigma),
+                                   wave_tol_A=reference_lineset.grading_tol_A("asplund"))
         stat, syst = b.total()
         basis = b.stat_basis()
         # ⚠️ `publish_product` PARSES the `gf rung:` line out of the budget file, so it is
