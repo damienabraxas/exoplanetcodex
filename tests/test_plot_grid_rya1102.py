@@ -113,18 +113,44 @@ def test_the_grid_stores_a_KEY_not_a_COPY_of_the_product(grid):
 
 # ── the display rule ────────────────────────────────────────────────────────
 
-def test_GRADED_only_except_where_only_DEEPGRADED_exists(feed, grid):
+def test_GRADED_and_REFERENCE_only_except_where_only_DEEPGRADED_exists(feed, grid):
     """Ryan: DEEPGRADED is a secondary product documented in its own section, not
     showcased -- unless a band has nothing else, where "no graded product here" and "no
-    product at all" are different facts."""
+    product at all" are different facts.
+
+    ⚠️ RYA-1213 ADDS REFERENCE TO THE SHOWCASE. That is a deliberate widening of the
+    display rule, made by the ticket that defines the tier: Reference Grade must be drawn
+    in every band that has one. DEEPGRADED is untouched -- it is still secondary, and
+    still shows only where a band has nothing else, which is what the assertion below
+    keeps asserting.
+    """
     by_key = {pe.key_of(p): p for p in feed["products"]}
     for s in grid["sections"]:
         for c in s["cells"]:
             if not c["product_key"]:
                 continue
             p = by_key[c["product_key"]]
-            assert p["tier"] == "GRADED" or s["only_deepgraded"], (
+            assert p["tier"] in ("GRADED", "REFERENCE") or s["only_deepgraded"], (
                 f"{p['tier']} product rendered in a section that has GRADED products")
+
+
+def test_a_REFERENCE_product_never_shares_a_section_with_its_CODEX_sibling(feed, grid):
+    """🔴 THE COLLISION THE SECTION KEY EXISTS TO PREVENT, ASSERTED ON THE LIVE GRID.
+
+    Outside VIS a Reference product agrees with its Codex sibling on ion, instrument,
+    holding, band AND row name — in NIR and H it is literally the same lines — so a
+    section keyed without the pool would bucket both under one row and `_pick` would
+    drop whichever had fewer lines, with no trace. Two products, one drawn, same number,
+    one grade label.
+    """
+    by_key = {pe.key_of(p): p for p in feed["products"]}
+    for s in grid["sections"]:
+        pools = {by_key[c["product_key"]]["tier"]
+                 for c in s["cells"] if c["product_key"]}
+        assert len(pools) <= 1, (
+            f"section {s['ion']}/{s['instrument']}/{s['holding']}/{s['band']} draws "
+            f"products from more than one pool: {sorted(pools)}")
+        assert "line_set" in s, "a section must say which pool it drew"
 
 
 def test_the_near_UV_exception_actually_FIRES(grid):
