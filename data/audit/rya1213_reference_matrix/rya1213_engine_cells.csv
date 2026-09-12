@@ -90,7 +90,7 @@ VIS,Fe II,solar_harps_molecfit_corrected,harps,ENGINE-A-3DNLTE,9,N/A,the reactiv
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,1D-LTE,70,LIVE,
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,ENGINE-A,70,LIVE,
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,ENGINE-B,70,N/A,"`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- `treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), and `plot_grid._pick` refuses to let it win the 1D-LTE slot from the product it aliases. A Reference cell here would duplicate this run's own 1D-LTE product under a name that can never render. Not run."
-red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,ENGINE-B-NLTE,70,GAP,
+red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,ENGINE-B-NLTE,70,LIVE,
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,synth-1D-LTE-gerber,70,LIVE,
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,synth-mean3D-LTE-gerber-stagger,70,N/A,"the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
 red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,synth-mean3D-NLTE-gerber-stagger,70,N/A,"the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
@@ -98,7 +98,7 @@ red-optical,Fe I,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,ENGINE-A-3DNLT
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,1D-LTE,70,LIVE,
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,ENGINE-A,70,LIVE,
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,ENGINE-B,70,N/A,"`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- `treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), and `plot_grid._pick` refuses to let it win the 1D-LTE slot from the product it aliases. A Reference cell here would duplicate this run's own 1D-LTE product under a name that can never render. Not run."
-red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,ENGINE-B-NLTE,70,GAP,
+red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,ENGINE-B-NLTE,70,LIVE,
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,synth-1D-LTE-gerber,70,LIVE,
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,synth-mean3D-LTE-gerber-stagger,70,N/A,"the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
 red-optical,Fe I,solar_kpno_molecfit_corrected,kpno_solar_atlas,synth-mean3D-NLTE-gerber-stagger,70,N/A,"the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."

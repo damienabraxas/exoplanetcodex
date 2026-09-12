@@ -9891,3 +9891,113 @@ artifacts:
       applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
       ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
       Pool cell(s): ropt_kpmf_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_nlte_effect.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_nlte_effect.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_gnlte.
