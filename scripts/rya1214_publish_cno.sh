@@ -28,7 +28,7 @@ cd "$REPO"
 ORIGIN_DIR="$(ssh "$REMOTE" "cd ${REMOTE_REPO} && pwd")/data/results/band_products"
 
 published=0
-for csv in "$DEST"/{CI,NI,OI}_*_SYNTH_products.csv; do
+for csv in "$DEST"/{CI,NI,OI}_*_SYNTH*_products.csv; do
   [ -e "$csv" ] || continue
   stem="$(basename "$csv" _products.csv)"
   # holding is the stem segment after the instrument id, and it is NEVER inferred from
@@ -40,12 +40,21 @@ for csv in "$DEST"/{CI,NI,OI}_*_SYNTH_products.csv; do
     *_iag_fts_solar_atlas_*)     inst=iag_fts_solar_atlas ;;
     *) echo "SKIP $stem — unrecognised instrument segment"; continue ;;
   esac
-  holding="${stem#*_${inst}_}"; holding="${holding%_SYNTH}"
-  echo "== publishing $stem  (holding=$holding)"
+  holding="${stem#*_${inst}_}"; holding="${holding%%_SYNTH*}"
+  # The SELECTOR is part of the product KEY (RYA-984), and it is what distinguishes an
+  # AGSS21-named-set run from the depth-selected one on the same cell. Read back out of
+  # the stem the run wrote, never assumed.
+  sel=""; case "$stem" in *_SYNTH_*) sel="${stem#*_SYNTH_}";; esac
+  # ⚠️ NOT `--line-set asplund`. That name is REGISTERED for the AGSS21 *Fe* table
+  # (reference_lineset.SETS['asplund'], element="Fe"), so claiming it here would assert
+  # membership in a set this product was not measured on. The selector carries the fact
+  # instead; registering an `asplund-cno` set is a separate, stated decision.
+  echo "== publishing $stem  (holding=$holding${sel:+, selector=$sel})"
   python3 scripts/publish_product.py \
     --from "$csv" \
     --holding "$holding" \
     --tier ALL \
+    ${sel:+--selector "$sel"} \
     --route SYNTH \
     --host Sirius \
     --origin-path "$ORIGIN_DIR/$(basename "$csv")" \
