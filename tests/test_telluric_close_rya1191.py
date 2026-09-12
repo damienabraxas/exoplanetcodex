@@ -689,11 +689,21 @@ def test_the_irreducible_dispersion_note_no_longer_rests_on_a_bad_fit():
     # to do with the claim under test. `carrying == len(live)` is what actually asserts
     # "every live block carries the correction"; the literal is pinned alongside so a
     # block VANISHING still fails rather than passing on a shrunken set.
+    # 🔴 RYA-1213 — THE PIN MOVES TO THE DEPTH-SPLIT TIERS AND THE PROPERTY COVERS ALL.
+    # Reference Grade NIR products carry an `irreducible_dispersion` block like every
+    # other NIR product, so the literal would need re-pinning every time one lands —
+    # which turns a vanish-detector into a number that gets bumped without being read.
+    # `carrying == len(live)` is still asserted over EVERY live block, Reference
+    # included, so the correction cannot go missing from any of them; the literal now
+    # pins the ten Codex/Deep cells it was written about, so one of those vanishing
+    # still fails.
     live = [p for p in feed["products"] if p.get("irreducible_dispersion")]
     carrying = sum(1 for p in live
                    if "RYA-1191 RE-DERIVED THIS NOTE"
                    in str(p["irreducible_dispersion"].get("note", "")))
-    assert carrying == len(live) == 10, (
+    assert len([p for p in live if p.get("tier") != "REFERENCE"]) == 10, (
+        "one of the ten Codex/Deep NIR irreducible_dispersion blocks has vanished")
+    assert carrying == len(live), (
         f"every LIVE irreducible_dispersion block must carry the correction "
         f"({carrying} of {len(live)} do)")
     assert "NOT more lines\"" not in raw.replace(

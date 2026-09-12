@@ -1,0 +1,1251 @@
+{
+ "ticket": "RYA-1213",
+ "note": "The Reference Grade applicability matrix. DIAGNOSTIC \u2014 no abundance here, and nothing is calibrated (RYA-161).",
+ "definition": "Reference Grade = every canonical_gf row whose gf_tier contains LAB, for the species, inside the product's window, with the 0.6 feature-depth gate NOT applied. RYA-946 defines the tier by gf pedigree; depth is orthogonal to pedigree.",
+ "nearuv_codex_check": {
+  "Fe I": {
+   "lab_lines": 59,
+   "at_or_below_gate": 1,
+   "above_gate": 58,
+   "lines_A": [
+    3026.056
+   ],
+   "depths": [
+    0.033
+   ],
+   "verdict": "NO CODEX GRADE PRODUCT IS BUILDABLE \u2014 1 LAB-tier Fe I line(s) sit at or below the 0.6 depth gate, and `_cand_graded` refuses below 2: line-to-line scatter has n-1 degrees of freedom, so at n<2 the statistical term cannot be computed from the data at all and would be invented (RYA-1031). This is a POPULATION fact about the band, not a missing run \u2014 the near-UV lab pool is saturated almost to a line, which is why the band's live products are all Deep Grade."
+  },
+  "Fe II": {
+   "lab_lines": 12,
+   "at_or_below_gate": 0,
+   "above_gate": 12,
+   "lines_A": [],
+   "depths": [],
+   "verdict": "NO CODEX GRADE PRODUCT IS BUILDABLE \u2014 0 LAB-tier Fe II line(s) sit at or below the 0.6 depth gate, and `_cand_graded` refuses below 2: line-to-line scatter has n-1 degrees of freedom, so at n<2 the statistical term cannot be computed from the data at all and would be invented (RYA-1031). This is a POPULATION fact about the band, not a missing run \u2014 the near-UV lab pool is saturated almost to a line, which is why the band's live products are all Deep Grade."
+  }
+ },
+ "lab_line_reconciliation": {
+  "total_lab_fe_lines": 450,
+  "no_synthesis_list_3780_4200_A": {
+   "n": 68,
+   "by_species": {
+    "Fe I": 67,
+    "Fe II": 1
+   },
+   "reason": "no synthesis line list covers 3780-4200 A. The near-UV list (ispec_nearuv_3000_3780) stops at 3780 A and the VIS list (iSpec-vendored GES v6) starts at 4200 A. `derive_band_products` refuses a run it cannot cover rather than emit a product naming a range it was not synthesised over (RYA-911/913/967). This is a LINE LIST gap; it is not a Reference-tier gap and cannot be closed by running anything.",
+   "lines_A": [
+    3789.175,
+    3790.654,
+    3793.48,
+    3808.281,
+    3808.728,
+    3809.564,
+    3813.058,
+    3821.834,
+    3833.308,
+    3837.134,
+    3843.256,
+    3900.515,
+    3928.083,
+    3931.117,
+    3935.306,
+    3941.275,
+    3948.097,
+    3955.341,
+    3956.455,
+    3963.1,
+    3965.509,
+    3966.499,
+    3971.322,
+    3974.38,
+    3983.956,
+    3984.934,
+    3996.26,
+    3998.052,
+    4051.905,
+    4058.217,
+    4063.276,
+    4066.585,
+    4067.978,
+    4070.77,
+    4073.762,
+    4076.629,
+    4079.168,
+    4080.209,
+    4083.763,
+    4084.492,
+    4097.083,
+    4098.175,
+    4101.261,
+    4103.61,
+    4104.113,
+    4104.153,
+    4106.422,
+    4108.13,
+    4109.056,
+    4112.319,
+    4114.938,
+    4118.544,
+    4120.206,
+    4121.802,
+    4122.515,
+    4127.784,
+    4131.935,
+    4133.855,
+    4140.403,
+    4143.414,
+    4143.497,
+    4150.249,
+    4153.899,
+    4158.792,
+    4171.899,
+    4173.451,
+    4187.038,
+    4199.095
+   ]
+  },
+  "no_holding_reaches_12976_15007_A": {
+   "n": 2,
+   "reason": "between the NIR list's red edge (12976.14 A) and the CRIRES+ H arm holding's blue edge (15007.11 A). No solar holding we own covers this span, so these two Ruffoni-2013 lines are not measurable in any grade. The ticket counts them in its H-band total of 27; the H holding contains 25.",
+   "lines_A": [
+    14679.831,
+    14826.408
+   ],
+   "lab_source": [
+    "RU13"
+   ]
+  },
+  "distinct_lab_lines_inside_a_reference_window": 380,
+  "unreached_and_unexplained": {
+   "n": 0,
+   "lines_A": [],
+   "by_species": {}
+  }
+ },
+ "cells": [
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 59,
+   "would_be_codex": 1,
+   "would_be_deep": 58,
+   "below_depth_floor": 1,
+   "no_known_depth": 0,
+   "depth_max": 0.994,
+   "lab_sources": {
+    "DH14": 31,
+    "BEL17": 24,
+    "RU14": 4
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv: 5038 Fe lines, 0 labelled). Fe: 4364 lines in 3000.0-3780.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv"
+    }
+   }
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 59,
+   "would_be_codex": 1,
+   "would_be_deep": 58,
+   "below_depth_floor": 1,
+   "no_known_depth": 0,
+   "depth_max": 0.994,
+   "lab_sources": {
+    "DH14": 31,
+    "BEL17": 24,
+    "RU14": 4
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv: 5038 Fe lines, 0 labelled). Fe: 4364 lines in 3000.0-3780.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv"
+    }
+   }
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 12,
+   "would_be_codex": 0,
+   "would_be_deep": 12,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.992,
+   "lab_sources": {
+    "DH19": 12
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv"
+    }
+   }
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_A": [
+    3000.0,
+    3780.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 12,
+   "would_be_codex": 0,
+   "would_be_deep": 12,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.992,
+   "lab_sources": {
+    "DH19": 12
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv"
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 176,
+   "would_be_codex": 67,
+   "would_be_deep": 109,
+   "below_depth_floor": 3,
+   "no_known_depth": 0,
+   "depth_max": 0.918,
+   "lab_sources": {
+    "DH14": 80,
+    "RU14": 72,
+    "BEL17": 24
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 176,
+   "would_be_codex": 67,
+   "would_be_deep": 109,
+   "below_depth_floor": 3,
+   "no_known_depth": 0,
+   "depth_max": 0.918,
+   "lab_sources": {
+    "DH14": 80,
+    "RU14": 72,
+    "BEL17": 24
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_harps_molecfit_corrected",
+   "instrument": "harps",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "HOLDING \u2014 MEASURED, RYA-1208: HARPS begins 2.6 A above the near-UV product window's red edge and ends at the VIS red edge",
+   "reference_pool": 176,
+   "would_be_codex": 67,
+   "would_be_deep": 109,
+   "below_depth_floor": 3,
+   "no_known_depth": 0,
+   "depth_max": 0.918,
+   "lab_sources": {
+    "DH14": 80,
+    "RU14": 72,
+    "BEL17": 24
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "instrument": "iag_fts_solar_atlas",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "HOLDING \u2014 MEASURED from the live NIR products' own red edge (9199-11083 A); the IAG FTS atlas stops there and a 12976 A census would claim reach it does not have",
+   "reference_pool": 176,
+   "would_be_codex": 67,
+   "would_be_deep": 109,
+   "below_depth_floor": 3,
+   "no_known_depth": 0,
+   "depth_max": 0.918,
+   "lab_sources": {
+    "DH14": 80,
+    "RU14": 72,
+    "BEL17": 24
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 9,
+   "would_be_codex": 0,
+   "would_be_deep": 9,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.869,
+   "lab_sources": {
+    "DH19": 9
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the reactivated Amarsi network we hold is the Fe I MLP; no Fe II 3D-NLTE leg has been run in any grade (RYA-817/1106 scope)."
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 9,
+   "would_be_codex": 0,
+   "would_be_deep": 9,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.869,
+   "lab_sources": {
+    "DH19": 9
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the reactivated Amarsi network we hold is the Fe I MLP; no Fe II 3D-NLTE leg has been run in any grade (RYA-817/1106 scope)."
+    }
+   }
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_harps_molecfit_corrected",
+   "instrument": "harps",
+   "band_window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_A": [
+    4200.0,
+    6910.0
+   ],
+   "window_source": "HOLDING \u2014 MEASURED, RYA-1208: HARPS begins 2.6 A above the near-UV product window's red edge and ends at the VIS red edge",
+   "reference_pool": 9,
+   "would_be_codex": 0,
+   "would_be_deep": 9,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.869,
+   "lab_sources": {
+    "DH19": 9
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; the <3D>-LTE half is available but its NLTE partner is not, and RYA-1040 requires the two as a MANDATORY PAIR \u2014 an unpaired <3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the reactivated Amarsi network we hold is the Fe I MLP; no Fe II 3D-NLTE leg has been run in any grade (RYA-817/1106 scope)."
+    }
+   }
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 70,
+   "would_be_codex": 69,
+   "would_be_deep": 0,
+   "below_depth_floor": 3,
+   "no_known_depth": 1,
+   "depth_max": 0.583,
+   "lab_sources": {
+    "DH14": 35,
+    "RU14": 31,
+    "BEL17": 4
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (12 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 70,
+   "would_be_codex": 69,
+   "would_be_deep": 0,
+   "below_depth_floor": 3,
+   "no_known_depth": 1,
+   "depth_max": 0.583,
+   "lab_sources": {
+    "DH14": 35,
+    "RU14": 31,
+    "BEL17": 4
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (12 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "instrument": "iag_fts_solar_atlas",
+   "band_window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_A": [
+    6910.0,
+    9199.0
+   ],
+   "window_source": "HOLDING \u2014 MEASURED from the live NIR products' own red edge (9199-11083 A); the IAG FTS atlas stops there and a 12976 A census would claim reach it does not have",
+   "reference_pool": 70,
+   "would_be_codex": 69,
+   "would_be_deep": 0,
+   "below_depth_floor": 3,
+   "no_known_depth": 1,
+   "depth_max": 0.583,
+   "lab_sources": {
+    "DH14": 35,
+    "RU14": 31,
+    "BEL17": 4
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (12 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    9199.0,
+    12976.0
+   ],
+   "window_A": [
+    9199.0,
+    10000.0
+   ],
+   "window_source": "HOLDING \u2014 holdings_manifest_registry note: the Kurucz-2005 irradiance product is 300-1000 nm (RYA-1187)",
+   "reference_pool": 24,
+   "would_be_codex": 24,
+   "would_be_deep": 0,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.344,
+   "lab_sources": {
+    "DH14": 19,
+    "RU14": 5
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (1 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "band_window_A": [
+    9199.0,
+    12976.0
+   ],
+   "window_A": [
+    9199.0,
+    12976.0
+   ],
+   "window_source": "BAND \u2014 this holding declares no span of its own",
+   "reference_pool": 29,
+   "would_be_codex": 29,
+   "would_be_deep": 0,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.409,
+   "lab_sources": {
+    "DH14": 22,
+    "RU14": 7
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (1 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "instrument": "iag_fts_solar_atlas",
+   "band_window_A": [
+    9199.0,
+    12976.0
+   ],
+   "window_A": [
+    9199.0,
+    11083.0
+   ],
+   "window_source": "HOLDING \u2014 MEASURED from the live NIR products' own red edge (9199-11083 A); the IAG FTS atlas stops there and a 12976 A census would claim reach it does not have",
+   "reference_pool": 29,
+   "would_be_codex": 29,
+   "would_be_deep": 0,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.409,
+   "lab_sources": {
+    "DH14": 22,
+    "RU14": 7
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (1 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "instrument": "crires_plus",
+   "band_window_A": [
+    9199.0,
+    12976.0
+   ],
+   "window_A": [
+    9800.0,
+    10796.0
+   ],
+   "window_source": "HOLDING \u2014 the RYA-1054 wide Y window, as the holdings registry declares it",
+   "reference_pool": 5,
+   "would_be_codex": 5,
+   "would_be_deep": 0,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.409,
+   "lab_sources": {
+    "DH14": 4,
+    "RU14": 1
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "N/A",
+     "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv (1 line(s) out of domain in this band)"
+    }
+   }
+  },
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "instrument": "crires_plus",
+   "band_window_A": [
+    15007.0,
+    17494.0
+   ],
+   "window_A": [
+    15007.11,
+    17493.69
+   ],
+   "window_source": "HOLDING \u2014 the RYA-1094 H arm span, as the holdings registry declares it",
+   "reference_pool": 25,
+   "would_be_codex": 25,
+   "would_be_deep": 0,
+   "below_depth_floor": 0,
+   "no_known_depth": 0,
+   "depth_max": 0.508,
+   "lab_sources": {
+    "RU13": 25
+   },
+   "engines": {
+    "1D-LTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-A": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "ENGINE-B-NLTE": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-1D-LTE-gerber": {
+     "verdict": "GAP",
+     "reason": ""
+    },
+    "synth-mean3D-LTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "synth-mean3D-NLTE-gerber-stagger": {
+     "verdict": "N/A",
+     "reason": "the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band pair; no mean-3D product exists outside VIS in any grade, so a Reference cell here would be the first and is out of this ticket's scope (RYA-1040 owns the deck's reach)."
+    },
+    "ENGINE-A-3DNLTE": {
+     "verdict": "N/A",
+     "reason": "the Amarsi 2022 MLP is VIS-boxed: every non-VIS Fe I line fails `transition energy Eup-Elo outside training [1.8190, 2.5898] eV`, and dE IS the wavelength, so a redder line is below the box by construction. `amarsi3d.classify_line` refuses to extrapolate. MEASURED: rya1187_applicability_matrix/amarsi_domain_check.csv"
+    }
+   }
+  }
+ ]
+}
