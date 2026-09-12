@@ -312,7 +312,8 @@ def main() -> int:
                          "two different PRODUCTS, and a name containing 'corrected' is not "
                          "evidence that it is.")
     ap.add_argument("--tier",
-                    choices=["GRADED", "DEEPGRADED", "CONSISTENT", "UNGRADED", "ALL"],
+                    choices=["GRADED", "DEEPGRADED", "REFERENCE", "CONSISTENT",
+                             "UNGRADED", "ALL"],
                     help="the line-selection tier. Ryan's three sub-products are GRADED "
                          "(lab gf, at/below the depth gate), DEEPGRADED (lab gf, above "
                          "it) and CONSISTENT (no lab gf, admitted on behaviour). "
@@ -323,7 +324,13 @@ def main() -> int:
                          "of the 238 non-lab lines) would then have been double-counted "
                          "against it. UNGRADED means the COMPLEMENT of the lab set and "
                          "nothing else (RYA-946: graded and ungraded are separate "
-                         "products, never merged).")
+                         "products, never merged). "
+                         "🔴 RYA-1213 adds REFERENCE: the lab pool with the DEPTH GATE "
+                         "NOT APPLIED — GRADED and DEEPGRADED together, plus the lab "
+                         "lines whose feature depth is unknown and which both "
+                         "depth-split selectors drop. It is a claim about gf pedigree "
+                         "and nothing else, so it is held to the SAME rung-3 gate as the "
+                         "other two tiers that claim laboratory gf.")
     ap.add_argument("--route", default=None, help="PROFILEFIT | SYNTH | EW-3D")
     #: 🔴 RYA-1185 -- THE ONE WAY TO PUBLISH A REPLICATION PRODUCT, AND IT DID NOT EXIST.
     #: RYA-1111/1127 designate a replication as the documented exception that carries an
@@ -604,7 +611,12 @@ def main() -> int:
                   f"gate exists to stop; it has no override.", file=sys.stderr)
             return 8
 
-        if a.tier in ("GRADED", "DEEPGRADED"):
+        # RYA-1213 — REFERENCE belongs in this gate for the reason the gate exists: it
+        # is a tier whose NAME claims laboratory gf, and the stem is not evidence. A
+        # Reference pool is built to be pure LAB, so a rung below 3 here means lines in
+        # it did not RESOLVE to a lab scale, which is precisely what must block a
+        # publication rather than ride along under a grade name (RYA-1212).
+        if a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
             m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
                 if budget_text else None
             if m and int(m.group(1)) != 3:

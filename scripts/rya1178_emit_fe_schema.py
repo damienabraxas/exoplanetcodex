@@ -134,7 +134,17 @@ def xi_disposition(prod: dict) -> tuple[str, str] | None:
 #: in the identity key). No GBS product is live today, so this renames nothing published.
 #: ⚠️ docs/catalog/model_registry_notes.md:142 still records the OLD set as "going-forward";
 #: RYA-1185 Part B corrects it. Repo prose is not the authority here -- the ruling is.
+#: 🔴 RYA-1213 — `reference` JOINS THE TOP TIER, AND IT IS NOT THE SAME PRODUCT AS
+#: `asplund`. Two line sets now publish as "Reference Grade" and they answer different
+#: questions: `asplund` measures AGSS21's OWN 40-line table on AGSS21's gf (21 of them
+#: in the Amarsi MLP's domain) and exists to replicate a published number; `reference`
+#: measures every `gf_tier=LAB` row canonical_gf holds in the band, on OUR gf, with the
+#: depth gate not applied, and exists to state what the whole laboratory pool gives.
+#: `line_set` is in `product_eligibility.KEY_FIELDS`, so they are separate rows that can
+#: never overwrite each other, and `line_set_resolved` in the feed is what a reader keys
+#: on to tell them apart. `grade_variant` below says it in words as well.
 GRADE_FOR_LINE_SET = {
+    "reference": "Reference Grade",
     "asplund": "Reference Grade",
     "asplund-al": "Reference Grade",
     "gbs": "Reference Grade",
@@ -142,6 +152,25 @@ GRADE_FOR_LINE_SET = {
     "our-deep-graded": "Deep Grade",
     "our-ungraded": "Ungraded",
     "our-all": "Ungraded",
+}
+
+#: RYA-1213 §4 — what a "Reference Grade" row actually replicated, in one line a reader
+#: can put on a page. Keyed on `line_set` rather than on grade, because the grade is the
+#: thing that stopped being unambiguous.
+GRADE_VARIANT = {
+    "reference": ("full laboratory pool — every primary-lab gf line canonical_gf holds "
+                  "in this band, on OUR gf scale, with the depth gate not applied "
+                  "(RYA-1213)"),
+    "asplund": ("Asplund AGSS21 replication — AGSS21 Table A.2's own Fe line list, on "
+                "AGSS21's own gf, measured in our spectra (RYA-1109/1111)"),
+    "asplund-al": ("AGSS21-lineage Al replication — reconstructed from Nordlander & Lind "
+                   "2017 and Scott et al. 2015b, the primaries AGSS21 adopts (RYA-1173)"),
+    "gbs": ("Gaia FGK Benchmark Stars replication — Jofre et al. 2014 Tables 4/5, on "
+            "their gf, measured in our spectra (RYA-1110)"),
+    "our-graded": "laboratory gf, at or below the 0.60 feature-depth gate",
+    "our-deep-graded": "laboratory gf, above the 0.60 feature-depth gate",
+    "our-ungraded": "no laboratory gf",
+    "our-all": "the whole pool undivided, laboratory and non-laboratory together",
 }
 
 #: Human atlas name + telluric state per holding. EVERY string is transcribed from the
@@ -510,7 +539,7 @@ def tier_provenance(prod: dict) -> dict | None:
     a disagreement here is a prompt to check the vintage, not proof on its own.
     """
     win = prod.get("wavelength_range_A")
-    if not win or prod.get("tier") not in ("GRADED", "DEEPGRADED"):
+    if not win or prod.get("tier") not in ("GRADED", "DEEPGRADED", "REFERENCE"):
         return None
     try:
         from line_accounting_rya709 import DEPTH_HI
@@ -527,14 +556,23 @@ def tier_provenance(prod: dict) -> dict | None:
         return {"pool_reproduced": False,
                 "note": "no LAB-tier rows for this species/window in canonical_gf today"}
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
-    sel = lab[depth > DEPTH_HI] if prod["tier"] == "DEEPGRADED" else lab[depth <= DEPTH_HI]
+    # RYA-1213 — REFERENCE applies NO depth term, so reproducing it means not writing
+    # one. Using either half here would report a pool the product did not measure, and
+    # would then "confirm" the tier against the wrong line count.
+    if prod["tier"] == "REFERENCE":
+        sel = lab
+    elif prod["tier"] == "DEEPGRADED":
+        sel = lab[depth > DEPTH_HI]
+    else:
+        sel = lab[depth <= DEPTH_HI]
     refs = sel.loggf_reference.value_counts(dropna=False).to_dict()
     n_lab = int(sum(v for k, v in refs.items() if "PRIMARY LAB" in str(k)))
     return {
         "pool_reproduced": True,
         "n_lab_tier_in_window": int(len(lab)),
         "n_selected_by_depth_gate": int(len(sel)),
-        "depth_gate": DEPTH_HI,
+        "depth_gate": (None if prod["tier"] == "REFERENCE" else DEPTH_HI),
+        "depth_gate_applied": prod["tier"] != "REFERENCE",
         "gf_references": {str(k): int(v) for k, v in refs.items()},
         "n_primary_lab": n_lab,
         "fraction_primary_lab": round(n_lab / len(sel), 4) if len(sel) else None,
@@ -544,7 +582,11 @@ def tier_provenance(prod: dict) -> dict | None:
                          f"REVIEW — {len(sel) - n_lab} of {len(sel)} selected lines are "
                          f"not primary-laboratory"),
         "basis": ("reproduced from canonical_gf TODAY via the same rule as "
-                  "derive_band_products._cand_graded; see the vintage caveat"),
+                  + ("derive_band_products._cand_reference — every LAB-tier row in the "
+                     "window, depth gate NOT applied (RYA-1213)"
+                     if prod["tier"] == "REFERENCE" else
+                     "derive_band_products._cand_graded")
+                  + "; see the vintage caveat"),
     }
 
 
@@ -706,6 +748,13 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
         #: and `grade` -- a new, non-identity field -- carries it in human form for the rest.
         ls = line_set_for_product(p)
         p["grade"] = GRADE_FOR_LINE_SET[ls]
+        #: 🔴 RYA-1213 §4 — "LABEL THEM DISTINCTLY SO A READER KNOWS WHICH IS THE ASPLUND
+        #: REPLICATION AND WHICH IS THE FULL LAB POOL". `grade` alone no longer answers
+        #: that: two line sets now read "Reference Grade" and they are different claims.
+        #: This is the human half of the distinction; `line_set_resolved` is the
+        #: machine-readable half, and the identity key resolves the same axis
+        #: independently, so nothing here can drift into being the source of truth.
+        p["grade_variant"] = GRADE_VARIANT.get(ls)
         p["line_set_resolved"] = ls
         p["line_set_basis"] = (
             "DERIVED at read time from `tier` by pipeline.reference_lineset."
