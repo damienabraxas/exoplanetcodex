@@ -27,7 +27,11 @@ rsync -a --stats \
 cd "$REPO"
 ORIGIN_DIR="$(ssh "$REMOTE" "cd ${REMOTE_REPO} && pwd")/data/results/band_products"
 
-published=0
+# A REFUSAL IS AN OUTCOME, NOT A SCRIPT FAILURE. `publish_product` returns non-zero when
+# a product does not clear the RYA-1212 gate or the RYA-1092 eligibility gate, and under
+# `set -e` the first one aborted the loop -- so one unpublishable artifact hid every
+# artifact after it. Each is offered independently and the tally is printed at the end.
+published=0; refused=0; failed=()
 for csv in "$DEST"/{CI,NI,OI}_*_SYNTH*_products.csv; do
   [ -e "$csv" ] || continue
   stem="$(basename "$csv" _products.csv)"
@@ -50,15 +54,19 @@ for csv in "$DEST"/{CI,NI,OI}_*_SYNTH*_products.csv; do
   # membership in a set this product was not measured on. The selector carries the fact
   # instead; registering an `asplund-cno` set is a separate, stated decision.
   echo "== publishing $stem  (holding=$holding${sel:+, selector=$sel})"
-  python3 scripts/publish_product.py \
-    --from "$csv" \
-    --holding "$holding" \
-    --tier ALL \
-    ${sel:+--selector "$sel"} \
-    --route SYNTH \
-    --host Sirius \
-    --origin-path "$ORIGIN_DIR/$(basename "$csv")" \
-    "$@"
-  published=$((published + 1))
+  if python3 scripts/publish_product.py \
+      --from "$csv" \
+      --holding "$holding" \
+      --tier ALL \
+      ${sel:+--selector "$sel"} \
+      --route SYNTH \
+      --host Sirius \
+      --origin-path "$ORIGIN_DIR/$(basename "$csv")" \
+      "$@"; then
+    published=$((published + 1))
+  else
+    refused=$((refused + 1)); failed+=("$stem")
+  fi
 done
-echo "== $published product artifact(s) offered to the publisher =="
+echo "== published/accepted: $published   refused by a gate: $refused =="
+for f in ${failed+"${failed[@]}"}; do echo "   refused: $f"; done
