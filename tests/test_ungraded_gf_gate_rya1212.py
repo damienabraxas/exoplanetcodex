@@ -142,7 +142,13 @@ def test_the_empirical_route_is_not_gated_on_the_switch_it_replaces():
 
 
 def test_the_two_gf_routes_are_exclusive():
-    with pytest.raises(ValueError, match="both describe the gf term"):
+    """⚠️ RYA-1214 made it THREE routes (a NIST-class channel joined cited-lab and
+    empirical), so the message no longer says "both". Matched on the INVARIANT — that the
+    routes describe one term and only one may be passed — rather than on the sentence,
+    which is what a wording change may legitimately move (RYA-870: pin the invariant, not
+    the example). The exclusivity of all three pairs is asserted in
+    `test_nist_class_gf_rung_rya1214`."""
+    with pytest.raises(ValueError, match="describe the (same )?gf term"):
         _budget(gf_graded=True, cited_gf_sigma_dex=0.05, cited_gf_source="DenHartog2014",
                 empirical_gf_sigma_dex=0.05, empirical_gf_provenance="cited")
 
