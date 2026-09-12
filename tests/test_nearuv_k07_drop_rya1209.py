@@ -97,13 +97,30 @@ def test_EVERY_near_uv_fe_I_product_is_below_its_pre_molecular_value(nearuv_fe1_
     every pool measured in it, not only the four this ticket published. The Reference
     rows are a different pool and a different n; what they share with the Deep rows is
     the opacity, and that is what this asserts."""
+    #: ⚠️ ONLY THE TREATMENTS THAT HAVE A PRE-MOLECULAR VALUE, AND THE REST ARE REPORTED
+    #: RATHER THAN SKIPPED. RYA-1207 measured the atoms-only baseline for 1D-LTE and
+    #: ENGINE-A because those were the only near-UV Fe I legs that existed. RYA-1213's
+    #: Reference tier added the band's FIRST Gerber LTE leg, which by definition has no
+    #: pre-molecular value to be below — asserting one would be inventing a baseline. The
+    #: covered set is asserted non-empty so this cannot quietly degrade to testing
+    #: nothing.
     pre = {"solar_kpno_kurucz2005_corrected": {"1D-LTE": 7.642, "ENGINE-A": 7.651},
            "solar_kpno_molecfit_corrected": {"1D-LTE": 7.596, "ENGINE-A": 7.606}}
-    for p in nearuv_fe1_all:
+    checked = [p for p in nearuv_fe1_all if p["treatment"] in pre[p["holding"]]]
+    assert len(checked) >= 8, (
+        f"only {len(checked)} near-UV Fe I products have a pre-molecular baseline; the "
+        f"four DEEPGRADED and at least four REFERENCE legs must")
+    for p in checked:
         before = pre[p["holding"]][p["treatment"]]
         assert p["A"] < before - 0.05, (
             f"{p['holding']}/{p['treatment']} tier={p['tier']} is {p['A']}, not below "
             f"the pre-molecular {before} — molecular opacity did not reach this pool")
+    no_baseline = sorted({p["treatment"] for p in nearuv_fe1_all
+                          if p["treatment"] not in pre[p["holding"]]})
+    assert no_baseline == ["synth-1D-LTE-gerber"], (
+        f"a near-UV Fe I treatment with no atoms-only baseline appeared that RYA-1213 "
+        f"did not introduce: {no_baseline}. Either measure its baseline or say why it "
+        f"has none — do not let it pass unchecked by default.")
 
 
 def test_the_pool_lost_exactly_one_line(nearuv_fe1):
