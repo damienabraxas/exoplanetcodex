@@ -1,0 +1,35 @@
+{
+ "ticket": "RYA-1213",
+ "what": "two EXTERNAL controls on the Reference xi campaign \u2014 checks against numbers this ticket did not produce, rather than against itself.",
+ "why": "\ud83d\udd34 A GUARD WHOSE TWO SIDES CONVERGE IS NOT A GUARD (RYA-853). The control in xi_control.json proves the override BITES; it does not prove the derivative is RIGHT. These two compare it with derivatives measured by other tickets.",
+ "control_1_min_paired_refusal_reproduced": {
+  "cell": "NIR Fe I, solar_crires_plus_y_wide_rya1054, ENGINE-A",
+  "this_campaign": {
+   "dA_dxi": -0.1075,
+   "n_paired": 2,
+   "xi_state": "UNMEASURED"
+  },
+  "rya1163_on_the_same_physical_pool": {
+   "n_paired": 2,
+   "xi_state": "UNMEASURED"
+  },
+  "verdict": "AGREES. RYA-1163 declined this exact cell for pairing 2 lines against min_paired=3, and this campaign declines it for the same reason from the same floor. The floor was adopted verbatim, so this checks that the pairing count is computed the same way -- not that the threshold is."
+ },
+ "control_2_the_derivative_IS_pool_dependent": {
+  "cell": "VIS Fe II, solar_kpno_kurucz2005_corrected, 1D-LTE",
+  "why_comparable": "VIS Fe II holds NO lab line at or below the depth gate, so the Reference pool and the DEEPGRADED pool are the same SELECTION. RYA-1120 measured the Deep one.",
+  "rya1120_deepgraded": {
+   "dA_dxi": -0.23,
+   "n_paired": 9,
+   "sigma_xi": 0.066976
+  },
+  "this_campaign_reference": {
+   "dA_dxi": -0.295,
+   "n_paired": 8,
+   "sigma_xi": 0.0859
+  },
+  "the_pool_is_not_the_same_after_all": "n_paired 9 against 8, and the missing line is identified: RYA-1120 ran before RYA-1191 curated Fe II 4303.170 out of the pool. This campaign's leg holds 4233.162 / 4351.762 / 4385.377 / 4416.819 / 4508.280 / 4522.628 / 4549.466 / 4583.829 and NOT 4303.170 \u2014 verified in the leg's own per-line file, not inferred.",
+  "verdict": "\ud83d\udd34 THE MOST DIRECT EVIDENCE IN THIS TICKET THAT BORROWING WOULD HAVE BEEN WRONG. Same band, same holding, same treatment, same selection rule -- and ONE line leaving the pool moved the derivative 28%, from -0.230 to -0.295. Ryan's ruling is not a matter of principle only: it is measurable at one line. In VIS Fe I the Reference pool is 175 lines against Codex's 67 and Deep's 108, so inheriting a sibling derivative there would have been a far larger extrapolation than the one that already moves 28% here.",
+  "and_it_agrees_where_it_should": "sign, order of magnitude and the strong-line character all match: Fe II VIS is a saturated 8-line pool and carries the largest derivatives in the campaign so far (-0.28 to -0.30) against a 5-line weak NIR pool's -0.02 to -0.04. RYA-1093's 'xi-sensitivity is a STRONG-LINE phenomenon', reproduced across two bands."
+ }
+}
