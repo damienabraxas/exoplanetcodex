@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-11T05:30:36+00:00",
+  "generated": "2026-09-12T03:20:16+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -185,8 +185,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -217,6 +217,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -270,8 +271,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.046592,
@@ -302,6 +303,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -354,8 +356,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -390,6 +392,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -443,8 +446,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.066976,
@@ -475,6 +478,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -528,8 +532,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -560,6 +564,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -612,8 +617,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -648,6 +653,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -701,8 +707,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.075712,
@@ -733,6 +739,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -786,8 +793,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
@@ -818,6 +825,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -870,8 +878,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -906,6 +914,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -963,8 +972,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013832,
@@ -996,6 +1005,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1053,8 +1063,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -1086,6 +1096,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1138,8 +1149,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1174,6 +1185,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1231,8 +1243,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.017472,
@@ -1264,6 +1276,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1321,8 +1334,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -1354,6 +1367,7 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1406,8 +1420,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1442,6 +1456,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1495,8 +1510,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1518,6 +1533,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1571,8 +1587,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1594,6 +1610,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1647,8 +1664,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1674,6 +1691,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1726,8 +1744,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:37Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.005824,
@@ -1750,8 +1768,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 5,
-        "n_selected_by_depth_gate": 5,
+        "n_selected": 5,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 4,
           "PRIMARY LAB Ruffoni2014": 1
@@ -1771,6 +1790,7 @@
       },
       "xi_source": "data/results/rya1163/ir_xi_dadxi.json",
       "dA_dxi_dex_per_kms": -0.02,
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1794,7 +1814,7 @@
       "display_state": "CLEAN",
       "telluric_anomaly": null,
       "grade_family": "Codex Grade",
-      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 holding=solar_crires_plus_y_wide_rya1054"
+      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 holding=solar_crires_plus_y_wide_rya1054 \u00b7 tier=GRADED"
     },
     {
       "element": "Fe",
@@ -1823,8 +1843,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:38Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:36Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1847,8 +1867,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 5,
-        "n_selected_by_depth_gate": 5,
+        "n_selected": 5,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 4,
           "PRIMARY LAB Ruffoni2014": 1
@@ -1866,6 +1887,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1889,7 +1911,7 @@
       "display_state": "CLEAN",
       "telluric_anomaly": null,
       "grade_family": "Codex Grade",
-      "disambiguated": "Synth \u00b7 1D-NLTE \u00b7 Bergemann \u00b7 holding=solar_crires_plus_y_wide_rya1054"
+      "disambiguated": "Synth \u00b7 1D-NLTE \u00b7 Bergemann \u00b7 holding=solar_crires_plus_y_wide_rya1054 \u00b7 tier=GRADED"
     },
     {
       "element": "Fe",
@@ -1919,8 +1941,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:38Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:37Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -1943,8 +1965,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 5,
-        "n_selected_by_depth_gate": 5,
+        "n_selected": 5,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 4,
           "PRIMARY LAB Ruffoni2014": 1
@@ -1966,6 +1989,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -1989,7 +2013,300 @@
       "display_state": "CLEAN",
       "telluric_anomaly": null,
       "grade_family": "Codex Grade",
-      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 Gerber \u00b7 holding=solar_crires_plus_y_wide_rya1054"
+      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 Gerber \u00b7 holding=solar_crires_plus_y_wide_rya1054 \u00b7 tier=GRADED"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "tier": "REFERENCE",
+      "selector": "REFERENCE",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.546,
+      "sigma_stat": 0.0623,
+      "sigma_syst": 0.0615,
+      "n_lines": 5,
+      "n_excluded": 0,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "standard_error",
+      "route": "SYNTH",
+      "atlas": "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
+      "telluric_state": "corrected: cr2res + molecfit",
+      "grade": "Reference Grade",
+      "grade_variant": "full laboratory pool \u2014 every primary-lab gf line canonical_gf holds in this band, on OUR gf scale, with the depth gate not applied (RYA-1213)",
+      "line_set_resolved": "reference",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        9801.0,
+        10794.0
+      ],
+      "wavelength_range_basis": "artifact stem",
+      "generated_at": "2026-09-12T02:57:37Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": null,
+      "xi_state": "NOT_IN_CAMPAIGN",
+      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_syst_components": {
+        "published_syst": 0.0615,
+        "sigma_xi": null
+      },
+      "sigma_syst_complete": 0.0615,
+      "sigma_reported": 0.087542,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
+      "irreducible_dispersion": {
+        "dispersion_dex": 0.139,
+        "basis": "sigma_stat x sqrt(n_lines); valid because sigma_stat is the STANDARD ERROR of the mean \u2014 verified against the per-line layer on the VIS products that carry both (std/sqrt(n) reproduces the published stat_dex; the raw std does not)",
+        "reducible_by": "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has already been removed (RYA-1191)",
+        "note": "\ud83d\udd34 RYA-1191 RE-DERIVED THIS NOTE AND MOST OF IT WAS FALSE. It read 'gf-limited dispersion, IRREDUCIBLE under the current NIR line list ... KP ENGINE-A 1.315 at n=7 is the exception that proves it \u2014 CRIRES+ curated lab-gf is ~6x tighter at n=5'. That 1.315 is ONE NON-CONVERGENT FIT: line 9437.793 returned A = 10.988 on this holding and 4.539 on solar_iag \u2014 same line, same gf, 6.4 dex apart, red_chi2 246 and 152, with excluded_reason blank on both because constraint_gate asks only whether a fit was CONSTRAINED and its frac_rise_weaker is NaN. Rejected by pipeline.fit_validity, the dispersion is 0.144 at n=6 \u2014 not an exception, and INDISTINGUISHABLE from CRIRES+'s 0.138. The ~6x ratio was that one line. \u26a0\ufe0f NOTE ALSO that solar_iag NIR ENGINE-A already read 0.177 here because its committed product had excluded the same line; the 7x gap between the two holdings was an exclusion difference, not a telluric one. WHAT SURVIVES, re-measured on guarded pools: the NIR many-line bars are still the widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line curated ones (CRIRES+ 0.138 at n=5, KP ENGINE-A 0.144 at n=6), so the dispersion still tracks gf QUALITY rather than line count and adding VALD3-grade NIR lines would still widen it. But it is NOT IRREDUCIBLE: it more than HALVED when non-convergent fits were removed (KP 1D-LTE 0.895 -> 0.386, IAG 1D-LTE 0.949 -> 0.307). \u26a0\ufe0f dispersion_dex above is the PRE-GUARD value and is regenerated when the product is. Report-and-note per RYA-777."
+      },
+      "tier_provenance": {
+        "pool_reproduced": true,
+        "n_lab_tier_in_window": 5,
+        "n_selected": 5,
+        "depth_gate": null,
+        "depth_gate_applied": false,
+        "gf_references": {
+          "PRIMARY LAB DenHartog2014": 4,
+          "PRIMARY LAB Ruffoni2014": 1
+        },
+        "n_primary_lab": 5,
+        "fraction_primary_lab": 1.0,
+        "tier_verdict": "CONFIRMED \u2014 the selector admits only LAB-tier rows, and every selected line resolves to a primary-laboratory reference",
+        "basis": "reproduced from canonical_gf TODAY via the same rule as derive_band_products._cand_reference \u2014 every LAB-tier row in the window, depth gate NOT applied (RYA-1213); see the vintage caveat"
+      },
+      "science_provenance": {
+        "gf_source": null,
+        "gf_grade": "fallback",
+        "gf_citation": null,
+        "atlas_citation": "RYA-1054: the RYA-794 Y product conditioned over the arm's FULL measured extent, 9800-10796 A, from the SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME normaliser (scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796). Only the window differs, so it inherits RYA-794's telluric and rest-frame verdicts unchanged. WHY IT EXISTS: Elgueta's adopted 10280-10680 win",
+        "model_grid": "atlas9",
+        "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
+      },
+      "star": "solar",
+      "feed": "data/products/solar/Fe.json",
+      "pool": "products",
+      "holding_source": "feed record",
+      "identity": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|REFERENCE|REFERENCE|SYNTH|1D-LTE|reference",
+      "measured_at": "2026-09-12T02:56:49Z",
+      "ingested_at": "2026-09-12T02:57:05Z",
+      "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_products.csv",
+      "stat_basis_declared": "measured \u2014 RMS of the random terms, 0.06229 dex at n_lines=5",
+      "n_graded": 5,
+      "n_pool": 5,
+      "gf_rung": 3,
+      "budget_cell": "Fe \u00b7 NIR \u00b7 n=5",
+      "run_context": "band_products",
+      "ticket_dir": "band_products",
+      "committed": "2026-09-11",
+      "is_variant": false,
+      "enrichment": "from the committed artifact",
+      "telluric_basis": "corrected: cr2res + molecfit",
+      "telluric_epoch": null,
+      "display_state": "CLEAN",
+      "telluric_anomaly": null,
+      "grade_family": "Reference Grade",
+      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 tier=REFERENCE"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "tier": "REFERENCE",
+      "selector": "REFERENCE",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.486,
+      "sigma_stat": 0.0685,
+      "sigma_syst": 0.0615,
+      "n_lines": 2,
+      "n_excluded": 3,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "standard_error",
+      "route": "SYNTH",
+      "atlas": "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
+      "telluric_state": "corrected: cr2res + molecfit",
+      "grade": "Reference Grade",
+      "grade_variant": "full laboratory pool \u2014 every primary-lab gf line canonical_gf holds in this band, on OUR gf scale, with the depth gate not applied (RYA-1213)",
+      "line_set_resolved": "reference",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        9801.0,
+        10794.0
+      ],
+      "wavelength_range_basis": "artifact stem",
+      "generated_at": "2026-09-12T02:57:38Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": null,
+      "xi_state": "NOT_IN_CAMPAIGN",
+      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_syst_components": {
+        "published_syst": 0.0615,
+        "sigma_xi": null
+      },
+      "sigma_syst_complete": 0.0615,
+      "sigma_reported": 0.092057,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
+      "irreducible_dispersion": {
+        "dispersion_dex": 0.097,
+        "basis": "sigma_stat x sqrt(n_lines); valid because sigma_stat is the STANDARD ERROR of the mean \u2014 verified against the per-line layer on the VIS products that carry both (std/sqrt(n) reproduces the published stat_dex; the raw std does not)",
+        "reducible_by": "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has already been removed (RYA-1191)",
+        "note": "\ud83d\udd34 RYA-1191 RE-DERIVED THIS NOTE AND MOST OF IT WAS FALSE. It read 'gf-limited dispersion, IRREDUCIBLE under the current NIR line list ... KP ENGINE-A 1.315 at n=7 is the exception that proves it \u2014 CRIRES+ curated lab-gf is ~6x tighter at n=5'. That 1.315 is ONE NON-CONVERGENT FIT: line 9437.793 returned A = 10.988 on this holding and 4.539 on solar_iag \u2014 same line, same gf, 6.4 dex apart, red_chi2 246 and 152, with excluded_reason blank on both because constraint_gate asks only whether a fit was CONSTRAINED and its frac_rise_weaker is NaN. Rejected by pipeline.fit_validity, the dispersion is 0.144 at n=6 \u2014 not an exception, and INDISTINGUISHABLE from CRIRES+'s 0.138. The ~6x ratio was that one line. \u26a0\ufe0f NOTE ALSO that solar_iag NIR ENGINE-A already read 0.177 here because its committed product had excluded the same line; the 7x gap between the two holdings was an exclusion difference, not a telluric one. WHAT SURVIVES, re-measured on guarded pools: the NIR many-line bars are still the widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line curated ones (CRIRES+ 0.138 at n=5, KP ENGINE-A 0.144 at n=6), so the dispersion still tracks gf QUALITY rather than line count and adding VALD3-grade NIR lines would still widen it. But it is NOT IRREDUCIBLE: it more than HALVED when non-convergent fits were removed (KP 1D-LTE 0.895 -> 0.386, IAG 1D-LTE 0.949 -> 0.307). \u26a0\ufe0f dispersion_dex above is the PRE-GUARD value and is regenerated when the product is. Report-and-note per RYA-777."
+      },
+      "tier_provenance": {
+        "pool_reproduced": true,
+        "n_lab_tier_in_window": 5,
+        "n_selected": 5,
+        "depth_gate": null,
+        "depth_gate_applied": false,
+        "gf_references": {
+          "PRIMARY LAB DenHartog2014": 4,
+          "PRIMARY LAB Ruffoni2014": 1
+        },
+        "n_primary_lab": 5,
+        "fraction_primary_lab": 1.0,
+        "tier_verdict": "CONFIRMED \u2014 the selector admits only LAB-tier rows, and every selected line resolves to a primary-laboratory reference",
+        "basis": "reproduced from canonical_gf TODAY via the same rule as derive_band_products._cand_reference \u2014 every LAB-tier row in the window, depth gate NOT applied (RYA-1213); see the vintage caveat"
+      },
+      "science_provenance": {
+        "gf_source": null,
+        "gf_grade": "fallback",
+        "gf_citation": null,
+        "atlas_citation": "RYA-1054: the RYA-794 Y product conditioned over the arm's FULL measured extent, 9800-10796 A, from the SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME normaliser (scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796). Only the window differs, so it inherits RYA-794's telluric and rest-frame verdicts unchanged. WHY IT EXISTS: Elgueta's adopted 10280-10680 win",
+        "model_grid": "atlas9 / bergemann",
+        "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
+      },
+      "star": "solar",
+      "feed": "data/products/solar/Fe.json",
+      "pool": "products",
+      "holding_source": "feed record",
+      "identity": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|REFERENCE|REFERENCE|SYNTH|ENGINE-A|reference",
+      "measured_at": "2026-09-12T02:56:49Z",
+      "ingested_at": "2026-09-12T02:57:05Z",
+      "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_products.csv",
+      "stat_basis_declared": "measured \u2014 RMS of the random terms, 0.06850 dex at n_lines=2",
+      "n_graded": null,
+      "n_pool": null,
+      "gf_rung": null,
+      "run_context": "band_products",
+      "ticket_dir": "band_products",
+      "committed": "2026-09-11",
+      "is_variant": false,
+      "enrichment": "from the committed artifact",
+      "telluric_basis": "corrected: cr2res + molecfit",
+      "telluric_epoch": null,
+      "display_state": "CLEAN",
+      "telluric_anomaly": null,
+      "grade_family": "Reference Grade",
+      "disambiguated": "Synth \u00b7 1D-NLTE \u00b7 Bergemann \u00b7 tier=REFERENCE"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "NIR",
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "tier": "REFERENCE",
+      "selector": "REFERENCE",
+      "treatment": "synth-1D-LTE-gerber",
+      "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+      "A": 7.554,
+      "sigma_stat": 0.0618,
+      "sigma_syst": 0.0615,
+      "n_lines": 5,
+      "n_excluded": 0,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "standard_error",
+      "route": "SYNTH",
+      "atlas": "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
+      "telluric_state": "corrected: cr2res + molecfit",
+      "grade": "Reference Grade",
+      "grade_variant": "full laboratory pool \u2014 every primary-lab gf line canonical_gf holds in this band, on OUR gf scale, with the depth gate not applied (RYA-1213)",
+      "line_set_resolved": "reference",
+      "line_set_basis": "DERIVED at read time from `tier` by pipeline.reference_lineset.line_set_for_product -- not stored as an identity field (RYA-1127). Shown here for readability; the identity key resolves it independently.",
+      "wavelength_range_A": [
+        9801.0,
+        10794.0
+      ],
+      "wavelength_range_basis": "artifact stem",
+      "generated_at": "2026-09-12T02:57:38Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
+      "xi_value_kms": 1.0,
+      "delta_xi_kms": 0.2912,
+      "sigma_xi": null,
+      "xi_state": "NOT_IN_CAMPAIGN",
+      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_syst_components": {
+        "published_syst": 0.0615,
+        "sigma_xi": null
+      },
+      "sigma_syst_complete": 0.0615,
+      "sigma_reported": 0.087187,
+      "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
+      "irreducible_dispersion": {
+        "dispersion_dex": 0.138,
+        "basis": "sigma_stat x sqrt(n_lines); valid because sigma_stat is the STANDARD ERROR of the mean \u2014 verified against the per-line layer on the VIS products that carry both (std/sqrt(n) reproduces the published stat_dex; the raw std does not)",
+        "reducible_by": "PARTLY laboratory gf for NIR Fe I; a LARGE PART was non-convergent fits and has already been removed (RYA-1191)",
+        "note": "\ud83d\udd34 RYA-1191 RE-DERIVED THIS NOTE AND MOST OF IT WAS FALSE. It read 'gf-limited dispersion, IRREDUCIBLE under the current NIR line list ... KP ENGINE-A 1.315 at n=7 is the exception that proves it \u2014 CRIRES+ curated lab-gf is ~6x tighter at n=5'. That 1.315 is ONE NON-CONVERGENT FIT: line 9437.793 returned A = 10.988 on this holding and 4.539 on solar_iag \u2014 same line, same gf, 6.4 dex apart, red_chi2 246 and 152, with excluded_reason blank on both because constraint_gate asks only whether a fit was CONSTRAINED and its frac_rise_weaker is NaN. Rejected by pipeline.fit_validity, the dispersion is 0.144 at n=6 \u2014 not an exception, and INDISTINGUISHABLE from CRIRES+'s 0.138. The ~6x ratio was that one line. \u26a0\ufe0f NOTE ALSO that solar_iag NIR ENGINE-A already read 0.177 here because its committed product had excluded the same line; the 7x gap between the two holdings was an exclusion difference, not a telluric one. WHAT SURVIVES, re-measured on guarded pools: the NIR many-line bars are still the widest (IAG 0.307 at n=22, KP 0.386 at n=23) against the few-line curated ones (CRIRES+ 0.138 at n=5, KP ENGINE-A 0.144 at n=6), so the dispersion still tracks gf QUALITY rather than line count and adding VALD3-grade NIR lines would still widen it. But it is NOT IRREDUCIBLE: it more than HALVED when non-convergent fits were removed (KP 1D-LTE 0.895 -> 0.386, IAG 1D-LTE 0.949 -> 0.307). \u26a0\ufe0f dispersion_dex above is the PRE-GUARD value and is regenerated when the product is. Report-and-note per RYA-777."
+      },
+      "tier_provenance": {
+        "pool_reproduced": true,
+        "n_lab_tier_in_window": 5,
+        "n_selected": 5,
+        "depth_gate": null,
+        "depth_gate_applied": false,
+        "gf_references": {
+          "PRIMARY LAB DenHartog2014": 4,
+          "PRIMARY LAB Ruffoni2014": 1
+        },
+        "n_primary_lab": 5,
+        "fraction_primary_lab": 1.0,
+        "tier_verdict": "CONFIRMED \u2014 the selector admits only LAB-tier rows, and every selected line resolves to a primary-laboratory reference",
+        "basis": "reproduced from canonical_gf TODAY via the same rule as derive_band_products._cand_reference \u2014 every LAB-tier row in the window, depth gate NOT applied (RYA-1213); see the vintage caveat"
+      },
+      "science_provenance": {
+        "gf_source": null,
+        "gf_grade": "fallback",
+        "gf_citation": null,
+        "atlas_citation": "RYA-1054: the RYA-794 Y product conditioned over the arm's FULL measured extent, 9800-10796 A, from the SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME normaliser (scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796). Only the window differs, so it inherits RYA-794's telluric and rest-frame verdicts unchanged. WHY IT EXISTS: Elgueta's adopted 10280-10680 win",
+        "model_grid": "marcs-ges / gerber",
+        "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
+      },
+      "star": "solar",
+      "feed": "data/products/solar/Fe.json",
+      "pool": "products",
+      "holding_source": "feed record",
+      "identity": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|REFERENCE|REFERENCE|SYNTH|synth-1D-LTE-gerber|reference",
+      "measured_at": "2026-09-12T02:56:49Z",
+      "ingested_at": "2026-09-12T02:57:05Z",
+      "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv",
+      "stat_basis_declared": "measured \u2014 RMS of the random terms, 0.06182 dex at n_lines=5",
+      "n_graded": 5,
+      "n_pool": 5,
+      "gf_rung": 3,
+      "budget_cell": "Fe \u00b7 NIR \u00b7 n=5",
+      "run_context": "band_products",
+      "ticket_dir": "band_products",
+      "committed": "2026-09-11",
+      "is_variant": false,
+      "enrichment": "from the committed artifact",
+      "telluric_basis": "corrected: cr2res + molecfit",
+      "telluric_epoch": null,
+      "display_state": "CLEAN",
+      "telluric_anomaly": null,
+      "grade_family": "Reference Grade",
+      "disambiguated": "Synth \u00b7 1D-LTE \u00b7 Gerber \u00b7 tier=REFERENCE"
     },
     {
       "element": "Fe",
@@ -2018,8 +2335,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:38Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:38Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -2042,8 +2359,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2062,6 +2380,7 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "xi_source": "data/results/rya1163/ir_xi_dadxi.json",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2114,8 +2433,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:39Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:39Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -2138,8 +2457,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2158,6 +2478,7 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "xi_source": "data/results/rya1163/ir_xi_dadxi.json",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2211,8 +2532,8 @@
         11081.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:39Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:39Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2235,8 +2556,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2258,6 +2580,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2311,8 +2634,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:40Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:40Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2335,8 +2658,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 24,
-        "n_selected_by_depth_gate": 24,
+        "n_selected": 24,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 19,
           "PRIMARY LAB Ruffoni2014": 5
@@ -2358,6 +2682,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2411,8 +2736,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:40Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:40Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.015288,
@@ -2436,8 +2761,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2455,6 +2781,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2508,8 +2835,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:41Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013104,
@@ -2533,8 +2860,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2552,6 +2880,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2604,8 +2933,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:41Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -2628,8 +2957,9 @@
       "tier_provenance": {
         "pool_reproduced": true,
         "n_lab_tier_in_window": 29,
-        "n_selected_by_depth_gate": 29,
+        "n_selected": 29,
         "depth_gate": 0.6,
+        "depth_gate_applied": true,
         "gf_references": {
           "PRIMARY LAB DenHartog2014": 22,
           "PRIMARY LAB Ruffoni2014": 7
@@ -2651,6 +2981,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2705,8 +3036,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:41Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -2727,6 +3058,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2779,8 +3111,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:41Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -2802,6 +3134,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2854,8 +3187,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:41Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -2877,6 +3210,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -2929,8 +3263,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -2952,6 +3286,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3005,8 +3340,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -3028,6 +3363,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3080,8 +3416,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -3103,6 +3439,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3155,8 +3492,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -3178,6 +3515,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3230,8 +3568,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.00728,
@@ -3253,6 +3591,7 @@
         "model_grid": null,
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3306,8 +3645,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -3329,6 +3668,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3382,8 +3722,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-11T04:50:41Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -3404,6 +3744,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3457,8 +3798,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -3480,6 +3821,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3532,8 +3874,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3555,6 +3897,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3608,8 +3951,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3635,6 +3978,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3689,8 +4033,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -3711,6 +4055,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3763,8 +4108,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -3786,6 +4131,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3838,8 +4184,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05824,
@@ -3861,6 +4207,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3913,8 +4260,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -3936,6 +4283,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -3988,8 +4336,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -4011,6 +4359,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4064,8 +4413,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -4087,6 +4436,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4140,8 +4490,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -4162,6 +4512,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4215,8 +4566,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -4238,6 +4589,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4290,8 +4642,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -4313,6 +4665,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4366,8 +4719,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -4393,6 +4746,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4447,8 +4801,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -4469,6 +4823,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4521,8 +4876,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.073528,
@@ -4544,6 +4899,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4596,8 +4952,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0728,
@@ -4619,6 +4975,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4671,8 +5028,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -4694,6 +5051,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4746,8 +5104,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.038438,
@@ -4769,6 +5127,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4821,8 +5180,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -4844,6 +5203,7 @@
         "model_grid": null,
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4896,8 +5256,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -4919,6 +5279,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -4973,8 +5334,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -4995,6 +5356,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5047,8 +5409,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -5070,6 +5432,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5123,8 +5486,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -5146,6 +5509,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5199,8 +5563,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -5226,6 +5590,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5279,8 +5644,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -5307,6 +5672,7 @@
       "adoption_note": "RYA-1197 Part A: the Frankenstein mean-<3D> route is HELD FROM HEADLINE publication until the Bride validates it. It inflates A(Fe) by roughly +0.10 dex against the 1D siblings and exists on VIS/KP only, so it is not a comparable measurement of the same quantity. It stays in the feed deliberately: the LTE/NLTE mean-3D PAIR is the NLTE differential on ONE atmosphere (RYA-542), which is the diagnostic it is for. Not a headline value.",
       "annotated_at": "2026-09-08T18:52:37Z",
       "annotation_reason": "RYA-1203 item 2: apply the RYA-1197 Part A experimental flag",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5360,8 +5726,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -5388,6 +5754,7 @@
       "adoption_note": "RYA-1197 Part A: the Frankenstein mean-<3D> route is HELD FROM HEADLINE publication until the Bride validates it. It inflates A(Fe) by roughly +0.10 dex against the 1D siblings and exists on VIS/KP only, so it is not a comparable measurement of the same quantity. It stays in the feed deliberately: the LTE/NLTE mean-3D PAIR is the NLTE differential on ONE atmosphere (RYA-542), which is the diagnostic it is for. Not a headline value.",
       "annotated_at": "2026-09-08T18:52:38Z",
       "annotation_reason": "RYA-1203 item 2: apply the RYA-1197 Part A experimental flag",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5442,8 +5809,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5464,6 +5831,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5516,8 +5884,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -5539,6 +5907,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5591,8 +5960,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -5614,6 +5983,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5666,8 +6036,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -5689,6 +6059,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5741,8 +6112,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -5764,6 +6135,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5816,8 +6188,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -5839,6 +6211,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5893,8 +6266,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5915,6 +6288,7 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -5967,8 +6341,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.052416,
@@ -5990,6 +6364,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6042,8 +6417,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6065,6 +6440,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6118,8 +6494,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6145,6 +6521,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6198,8 +6575,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6226,6 +6603,7 @@
       "adoption_note": "RYA-1197 Part A: the Frankenstein mean-<3D> route is HELD FROM HEADLINE publication until the Bride validates it. It inflates A(Fe) by roughly +0.10 dex against the 1D siblings and exists on VIS/KP only, so it is not a comparable measurement of the same quantity. It stays in the feed deliberately: the LTE/NLTE mean-3D PAIR is the NLTE differential on ONE atmosphere (RYA-542), which is the diagnostic it is for. Not a headline value.",
       "annotated_at": "2026-09-08T18:52:37Z",
       "annotation_reason": "RYA-1203 item 2: apply the RYA-1197 Part A experimental flag",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6279,8 +6657,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6307,6 +6685,7 @@
       "adoption_note": "RYA-1197 Part A: the Frankenstein mean-<3D> route is HELD FROM HEADLINE publication until the Bride validates it. It inflates A(Fe) by roughly +0.10 dex against the 1D siblings and exists on VIS/KP only, so it is not a comparable measurement of the same quantity. It stays in the feed deliberately: the LTE/NLTE mean-3D PAIR is the NLTE differential on ONE atmosphere (RYA-542), which is the diagnostic it is for. Not a headline value.",
       "annotated_at": "2026-09-08T18:52:38Z",
       "annotation_reason": "RYA-1203 item 2: apply the RYA-1197 Part A experimental flag",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6361,8 +6740,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -6389,6 +6768,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T04:58:04Z",
       "annotation_reason": "RYA-1209 Step 4: the near-UV is no longer atoms-only and no longer carries a non-lab line; the note states what is included, what was removed, and what remains",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6442,8 +6822,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -6470,6 +6850,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T04:58:04Z",
       "annotation_reason": "RYA-1209 Step 4: the near-UV is no longer atoms-only and no longer carries a non-lab line; the note states what is included, what was removed, and what remains",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6523,8 +6904,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -6551,6 +6932,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T04:58:04Z",
       "annotation_reason": "RYA-1209 Step 4: the near-UV is no longer atoms-only and no longer carries a non-lab line; the note states what is included, what was removed, and what remains",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6604,8 +6986,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -6632,6 +7014,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T04:58:04Z",
       "annotation_reason": "RYA-1209 Step 4: the near-UV is no longer atoms-only and no longer carries a non-lab line; the note states what is included, what was removed, and what remains",
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6685,8 +7068,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -6709,6 +7092,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6762,8 +7146,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.049504,
@@ -6786,6 +7170,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6838,8 +7223,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6861,6 +7246,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6914,8 +7300,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6941,6 +7327,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -6994,8 +7381,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
@@ -7018,6 +7405,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7071,8 +7459,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -7095,6 +7483,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7147,8 +7536,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7170,6 +7559,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7223,8 +7613,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7250,6 +7640,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7303,8 +7694,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -7327,6 +7718,7 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7380,8 +7772,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -7404,6 +7796,7 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7456,8 +7849,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7479,6 +7872,7 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -7532,8 +7926,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-11T04:50:42Z",
-      "code_commit": "c9e47c527c797636c48a45ea8f89ce5eeb36f702",
+      "generated_at": "2026-09-12T02:57:42Z",
+      "code_commit": "97cde3287d32c42f78a04285b48ad4d31bd6a89c",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7559,6 +7953,7 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
       "star": "solar",
       "feed": "data/products/solar/Fe.json",
       "pool": "products",
@@ -8451,7 +8846,7 @@
     }
   ],
   "model_matrix": {
-    "generated": "2026-09-10",
+    "generated": "2026-09-11",
     "generator": "pipeline/model_availability_matrix.py (RYA-1015)",
     "snapshot": "data/audit/rya1015/sirius_scan_raw.txt",
     "sources": {
@@ -15098,12 +15493,12 @@
       "treatment",
       "line_set"
     ],
-    "n_live": 92,
-    "n_unique_identities": 92,
+    "n_live": 95,
+    "n_unique_identities": 95,
     "true_duplicates": {},
     "shared_display_labels": {
       "Synth \u00b7 1D-LTE": {
-        "n": 23,
+        "n": 24,
         "distinguished_by": [
           "holding",
           "band",
@@ -15195,6 +15590,18 @@
             "A": 7.551,
             "n_lines": 5,
             "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_products.csv"
+          },
+          {
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "instrument": "crires_plus",
+            "band": "NIR",
+            "tier": "REFERENCE",
+            "selector": "REFERENCE",
+            "route": "SYNTH",
+            "treatment": "1D-LTE",
+            "A": 7.546,
+            "n_lines": 5,
+            "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_products.csv"
           },
           {
             "holding": "solar_iag",
@@ -15391,7 +15798,7 @@
         ]
       },
       "Synth \u00b7 1D-NLTE \u00b7 Bergemann": {
-        "n": 22,
+        "n": 23,
         "distinguished_by": [
           "holding",
           "band",
@@ -15471,6 +15878,18 @@
             "A": 7.492,
             "n_lines": 2,
             "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_products.csv"
+          },
+          {
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "instrument": "crires_plus",
+            "band": "NIR",
+            "tier": "REFERENCE",
+            "selector": "REFERENCE",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A",
+            "A": 7.486,
+            "n_lines": 2,
+            "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_products.csv"
           },
           {
             "holding": "solar_iag",
@@ -15667,7 +16086,7 @@
         ]
       },
       "Synth \u00b7 1D-LTE \u00b7 Gerber": {
-        "n": 17,
+        "n": 18,
         "distinguished_by": [
           "holding",
           "band",
@@ -15759,6 +16178,18 @@
             "A": 7.553,
             "n_lines": 5,
             "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv"
+          },
+          {
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "instrument": "crires_plus",
+            "band": "NIR",
+            "tier": "REFERENCE",
+            "selector": "REFERENCE",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber",
+            "A": 7.554,
+            "n_lines": 5,
+            "source": "data/results/band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv"
           },
           {
             "holding": "solar_iag",
