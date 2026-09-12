@@ -63,6 +63,74 @@ def list_path(cfg) -> Path:
                 / "GESv6_atom_hfs_iso.420_920nm" / "atomic_lines.tsv")
 
 
+#: AGSS21 Table 3's MOLECULAR indicators and the band each one lives in, from
+#: `data/audit/rya1160_cno_nist_gf/agss21_table3_indicators.csv`. The counts are AGSS21's
+#: own; the band assignment is the physics (electronic vs ro-vibrational).
+MOLECULAR_INDICATORS = [
+    ("C", "C2 Swan", 39, "VIS", "electronic"),
+    ("C", "CH A-X (G band)", 7, "VIS", "electronic"),
+    ("C", "CH dnu=1", 51, "mid-IR", "ro-vibrational fundamental"),
+    ("C", "CO dnu=1", 28, "mid-IR", "ro-vibrational fundamental"),
+    ("C", "CO dnu=2", 52, "NIR/mid-IR", "first overtone"),
+    ("N", "NH dnu=0", 13, "mid-IR", "pure rotational"),
+    ("N", "NH dnu=1", 15, "mid-IR", "ro-vibrational fundamental"),
+    ("N", "CN 0-0", 59, "VIS", "electronic"),
+    ("N", "CN dnu>=1", 463, "VIS/red-optical", "electronic"),
+    ("O", "OH dnu=0", 84, "mid-IR", "pure rotational"),
+    ("O", "OH dnu=1", 50, "mid-IR", "ro-vibrational fundamental"),
+    ("O", "OH dnu=2", 15, "NIR/mid-IR", "first overtone"),
+]
+
+
+def molecular_readiness(ispec: str | None) -> dict:
+    """What the MOLECULAR campaign could run today — read from the vendored lists.
+
+    ⚠️ NOT from `pipeline/cno_synthesis.py`'s docstring, which states the spans in prose.
+    A docstring is a claim about the disk made at some past moment; RYA-1190 scoped a
+    fetch for data already held by reading a filename instead of a file.
+    """
+    if not ispec:
+        return {"error": "$ISPEC_DIR unset — molecular readiness not assessed"}
+    d = Path(ispec) / "input" / "linelists" / "turbospectrum" / "molecules"
+    if not d.exists():
+        return {"error": f"no molecular directory at {d}"}
+    spans: dict[str, list[tuple[int, int]]] = {}
+    for f in sorted(d.iterdir()):
+        stem = f.name
+        if stem.endswith(".bsyn") and "_" in stem:
+            sp, _, rng = stem[: -len(".bsyn")].rpartition("_")
+            try:
+                lo, hi = (int(x) for x in rng.split("-"))
+            except ValueError:
+                continue
+            spans.setdefault(sp, []).append((lo, hi))
+        elif stem.endswith(".dat"):
+            spans.setdefault(stem, []).append((0, 0))
+    out = {}
+    for sp, rs in spans.items():
+        rs = sorted(rs)
+        out[sp] = {"n_files": len(rs),
+                   "span_nm": [rs[0][0], rs[-1][1]] if rs[0] != (0, 0) else "non-.bsyn file"}
+    return {
+        "vendored_species": out,
+        "verdict_by_indicator": [
+            {"element": e, "indicator": i, "agss21_lines": n, "regime": r, "kind": k,
+             "runnable_today": (r in ("VIS", "red-optical", "VIS/red-optical")
+                                or i.startswith("CO ")),
+             "why": ("iSpec vendors this band 400-950 nm; the band's synth config needs "
+                     "use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+                     if r in ("VIS", "red-optical", "VIS/red-optical") else
+                     "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held — but "
+                     "the NIR band list holds no O I / N I and 34 C I lines, so the band "
+                     "has to be rebuilt first"
+                     if i.startswith("CO ") else
+                     "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT "
+                     "held (RYA-503). Absent, not merely unwired.")}
+            for e, i, n, r, k in MOLECULAR_INDICATORS
+        ],
+    }
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     cen = pd.read_csv(CENSUS)
@@ -124,6 +192,7 @@ def main() -> int:
         "bands": bands,
         "indicators_checked": int(len(ind)),
         "indicators_absent": int(len(absent)),
+        "molecular_readiness": molecular_readiness(os.environ.get("ISPEC_DIR")),
         "verdict": ("NO NEW LINE LIST IS NEEDED for the bands checked"
                     if len(absent) == 0 else
                     f"{len(absent)} indicator(s) absent from their band's list"),
@@ -145,6 +214,15 @@ def main() -> int:
             print(absent[["band", "element", "line_label",
                           "census_wavelength_A"]].to_string(index=False))
     print(f"\n  {doc['verdict']}")
+    mr = doc["molecular_readiness"]
+    if "error" not in mr:
+        ready = [v for v in mr["verdict_by_indicator"] if v["runnable_today"]]
+        print(f"\n=== molecular campaign readiness ({len(ready)}/"
+              f"{len(mr['verdict_by_indicator'])} AGSS21 indicators runnable) ===")
+        for v in mr["verdict_by_indicator"]:
+            mark = "OK  " if v["runnable_today"] else "NO  "
+            print(f"  {mark} {v['element']}  {v['indicator']:18s} {v['agss21_lines']:4d} "
+                  f"lines  {v['regime']:16s} {v['why'][:78]}")
     return 0
 
 
