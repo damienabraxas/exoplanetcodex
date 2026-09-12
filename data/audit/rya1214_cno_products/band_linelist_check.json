@@ -95,6 +95,10 @@
   "indicators_checked": 48,
   "indicators_absent": 10,
   "molecular_readiness": {
+    "trees_read": [
+      "(repo) data/linelists/molecular/turbospectrum",
+      "(iSpec install) $ISPEC_DIR/input/linelists/turbospectrum/molecules"
+    ],
     "vendored_species": {
       "12C12C": {
         "n_files": 11,
@@ -199,6 +203,46 @@
         ]
       }
     },
+    "rovibrational_lists": {
+      "12C-1H__MoLLIST_rovib.bsyn": {
+        "rows": 38263,
+        "span_A": [
+          2751.3,
+          99970.1
+        ],
+        "span_nm": [
+          275.0,
+          9997.0
+        ]
+      },
+      "14N-1H__kNigHt_rovib.bsyn": {
+        "rows": 52831,
+        "span_A": [
+          3446.8,
+          99988.1
+        ],
+        "span_nm": [
+          345.0,
+          9999.0
+        ]
+      },
+      "16O-1H__MYTHOS_rovib.bsyn": {
+        "rows": 72762,
+        "span_A": [
+          3133.3,
+          99939.2
+        ],
+        "span_nm": [
+          313.0,
+          9994.0
+        ]
+      }
+    },
+    "rovib_coverage": {
+      "CH": true,
+      "NH": true,
+      "OH": true
+    },
     "verdict_by_indicator": [
       {
         "element": "C",
@@ -206,8 +250,8 @@
         "agss21_lines": 39,
         "regime": "VIS",
         "kind": "electronic",
-        "runnable_today": true,
-        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
       },
       {
         "element": "C",
@@ -215,8 +259,8 @@
         "agss21_lines": 7,
         "regime": "VIS",
         "kind": "electronic",
-        "runnable_today": true,
-        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
       },
       {
         "element": "C",
@@ -224,8 +268,8 @@
         "agss21_lines": 51,
         "regime": "mid-IR",
         "kind": "ro-vibrational fundamental",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       },
       {
         "element": "C",
@@ -233,8 +277,8 @@
         "agss21_lines": 28,
         "regime": "mid-IR",
         "kind": "ro-vibrational fundamental",
-        "runnable_today": true,
-        "why": "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held \u2014 but the NIR band list holds no O I / N I and 34 C I lines, so the band has to be rebuilt first"
+        "list_held": true,
+        "why": "CO_IR_Li2015.dat (ExoMol Li 2015) is held. \u26a0\ufe0f The NIR band list carries 34 C I lines and no O I / N I, so that band needs rebuilding before a CO product can be run there."
       },
       {
         "element": "C",
@@ -242,8 +286,8 @@
         "agss21_lines": 52,
         "regime": "NIR/mid-IR",
         "kind": "first overtone",
-        "runnable_today": true,
-        "why": "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held \u2014 but the NIR band list holds no O I / N I and 34 C I lines, so the band has to be rebuilt first"
+        "list_held": true,
+        "why": "CO_IR_Li2015.dat (ExoMol Li 2015) is held. \u26a0\ufe0f The NIR band list carries 34 C I lines and no O I / N I, so that band needs rebuilding before a CO product can be run there."
       },
       {
         "element": "N",
@@ -251,8 +295,8 @@
         "agss21_lines": 13,
         "regime": "mid-IR",
         "kind": "pure rotational",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       },
       {
         "element": "N",
@@ -260,8 +304,8 @@
         "agss21_lines": 15,
         "regime": "mid-IR",
         "kind": "ro-vibrational fundamental",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       },
       {
         "element": "N",
@@ -269,8 +313,8 @@
         "agss21_lines": 59,
         "regime": "VIS",
         "kind": "electronic",
-        "runnable_today": true,
-        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
       },
       {
         "element": "N",
@@ -278,8 +322,8 @@
         "agss21_lines": 463,
         "regime": "VIS/red-optical",
         "kind": "electronic",
-        "runnable_today": true,
-        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
       },
       {
         "element": "O",
@@ -287,8 +331,8 @@
         "agss21_lines": 84,
         "regime": "mid-IR",
         "kind": "pure rotational",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       },
       {
         "element": "O",
@@ -296,8 +340,8 @@
         "agss21_lines": 50,
         "regime": "mid-IR",
         "kind": "ro-vibrational fundamental",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       },
       {
         "element": "O",
@@ -305,8 +349,8 @@
         "agss21_lines": 15,
         "regime": "NIR/mid-IR",
         "kind": "first overtone",
-        "runnable_today": false,
-        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
       }
     ]
   },
