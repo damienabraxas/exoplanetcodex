@@ -225,6 +225,15 @@ def engine_verdicts(band: str, ion: str, live: set, holding: str,
                       "RYA-1040 requires the two as a MANDATORY PAIR — an unpaired "
                       "<3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift "
                       "as non-LTE physics (RYA-542).")
+        elif eng == "ENGINE-A":
+            if band == "H":
+                na = ("the Bergemann MPIA grid does not reach the H arm. MEASURED by the "
+                      "Reference run itself, which queried it and reported '20 of 20 "
+                      "line(s) unserved' rather than emitting a product: the service "
+                      "returns Fe I through 12648.742 A and nothing from 15051.700 A. "
+                      "⚠️ 'N of N unserved' is ALSO what a DOWN service says, so this is "
+                      "recorded as a reach limit only because the same harness served "
+                      "the NIR cells in this ticket's own pool minutes earlier.")
         elif eng == "ENGINE-B":
             na = ("`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- "
                   "`treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), "

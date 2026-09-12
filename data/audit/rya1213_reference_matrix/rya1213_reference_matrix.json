@@ -268,11 +268,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -284,7 +284,7 @@
      "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -326,11 +326,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -342,7 +342,7 @@
      "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -624,11 +624,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -640,7 +640,7 @@
      "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -682,11 +682,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -698,7 +698,7 @@
      "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -740,11 +740,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -756,7 +756,7 @@
      "reason": "Fe II NLTE is unavailable on the Gerber deck \u2014 MEASURED, data/results/rya1055/atom_ion_reach.json: Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -1214,23 +1214,23 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
-     "reason": ""
+     "verdict": "N/A",
+     "reason": "the Bergemann MPIA grid does not reach the H arm. MEASURED by the Reference run itself, which queried it and reported '20 of 20 line(s) unserved' rather than emitting a product: the service returns Fe I through 12648.742 A and nothing from 15051.700 A. \u26a0\ufe0f 'N of N unserved' is ALSO what a DOWN service says, so this is recorded as a reach limit only because the same harness served the NIR cells in this ticket's own pool minutes earlier."
     },
     "ENGINE-B": {
      "verdict": "N/A",
      "reason": "`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- `treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), and `plot_grid._pick` refuses to let it win the 1D-LTE slot from the product it aliases. A Reference cell here would duplicate this run's own 1D-LTE product under a name that can never render. Not run."
     },
     "ENGINE-B-NLTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
