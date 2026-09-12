@@ -1,0 +1,20 @@
+{
+  "ticket": "RYA-1214",
+  "step": "2 \u2014 measurable CNO line inventory",
+  "canonical_cno_rows": 2821,
+  "canonical_cno_graded_rows": 842,
+  "molecular_crossmatch_rows": 408,
+  "census_rejoin": {
+    "tolerance_A": 0.1,
+    "tolerance_basis": "the census prints 0.01 nm = 0.1 A; the window IS the source's own quantisation (RYA-1109)",
+    "ep_tolerance_eV": 0.02,
+    "verdicts": {
+      "PRESENT": 37,
+      "ABSENT_FROM_CANONICAL_GF": 10,
+      "AMBIGUOUS_TIE_REPORTED_NOT_PICKED": 1
+    },
+    "census_ABSENT_rows_that_are_present": 11,
+    "genuinely_absent": 10
+  },
+  "solar_band_coverage_is_an_upper_bound": "instrument-catalogue span, not a per-holding file span; rya1187_applicability_matrix resolves the latter"
+}
