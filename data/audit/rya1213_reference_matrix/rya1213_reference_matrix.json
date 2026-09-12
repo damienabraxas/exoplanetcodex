@@ -526,12 +526,12 @@
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
-     "verdict": "GAP",
-     "reason": ""
+     "verdict": "UNDETERMINED_DECK_REACH",
+     "reason": "the <3D> STAGGERmean3D deck has no product on this holding in ANY grade -- it is live only on solar_kpno_kurucz2005_corrected and solar_kpno_molecfit_corrected, and only at Codex Grade. Whether it reaches this holding is RYA-1040's to declare; a Reference cell here would be the first mean-3D product on it. NOT asserted N/A (that would claim an unmeasured reach limit) and NOT counted a gap (Reference cannot owe what no grade has)."
     },
     "synth-mean3D-NLTE-gerber-stagger": {
-     "verdict": "GAP",
-     "reason": ""
+     "verdict": "UNDETERMINED_DECK_REACH",
+     "reason": "the <3D> STAGGERmean3D deck has no product on this holding in ANY grade -- it is live only on solar_kpno_kurucz2005_corrected and solar_kpno_molecfit_corrected, and only at Codex Grade. Whether it reaches this holding is RYA-1040's to declare; a Reference cell here would be the first mean-3D product on it. NOT asserted N/A (that would claim an unmeasured reach limit) and NOT counted a gap (Reference cannot owe what no grade has)."
     },
     "ENGINE-A-3DNLTE": {
      "verdict": "LIVE",
@@ -566,11 +566,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -582,19 +582,19 @@
      "reason": ""
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
-     "verdict": "GAP",
-     "reason": ""
+     "verdict": "UNDETERMINED_DECK_REACH",
+     "reason": "the <3D> STAGGERmean3D deck has no product on this holding in ANY grade -- it is live only on solar_kpno_kurucz2005_corrected and solar_kpno_molecfit_corrected, and only at Codex Grade. Whether it reaches this holding is RYA-1040's to declare; a Reference cell here would be the first mean-3D product on it. NOT asserted N/A (that would claim an unmeasured reach limit) and NOT counted a gap (Reference cannot owe what no grade has)."
     },
     "synth-mean3D-NLTE-gerber-stagger": {
-     "verdict": "GAP",
-     "reason": ""
+     "verdict": "UNDETERMINED_DECK_REACH",
+     "reason": "the <3D> STAGGERmean3D deck has no product on this holding in ANY grade -- it is live only on solar_kpno_kurucz2005_corrected and solar_kpno_molecfit_corrected, and only at Codex Grade. Whether it reaches this holding is RYA-1040's to declare; a Reference cell here would be the first mean-3D product on it. NOT asserted N/A (that would claim an unmeasured reach limit) and NOT counted a gap (Reference cannot owe what no grade has)."
     },
     "ENGINE-A-3DNLTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     }
    }

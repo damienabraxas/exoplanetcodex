@@ -233,11 +233,16 @@ def test_every_NA_cell_carries_a_reason(matrix):
     without saying why. This is the assertion that makes "every grade x band x engine
     cell either has a product or a documented N/A" checkable rather than a claim.
     """
+    #: RYA-1213 — UNDETERMINED_DECK_REACH is held to the same standard as N/A. It says
+    #: something WEAKER (nobody has measured whether this deck reaches this holding) and
+    #: is therefore even more obliged to say what it is based on; an unexplained
+    #: "undetermined" is just a gap with a softer name.
     for c in matrix["cells"]:
         for eng, e in c["engines"].items():
-            if e["verdict"] == "N/A":
+            if e["verdict"] in ("N/A", "UNDETERMINED_DECK_REACH"):
                 assert e["reason"].strip(), (
-                    f"{c['band']} {c['ion']} {c['holding']} {eng} is N/A with no reason")
+                    f"{c['band']} {c['ion']} {c['holding']} {eng} is "
+                    f"{e['verdict']} with no reason")
 
 
 def test_the_450_lab_lines_reconcile_with_nothing_unexplained(matrix):
@@ -277,7 +282,7 @@ def test_a_reference_cell_is_never_both_live_and_NA(matrix):
     nothing but this stops them contradicting each other."""
     for c in matrix["cells"]:
         for eng, e in c["engines"].items():
-            assert e["verdict"] in ("LIVE", "GAP", "N/A")
+            assert e["verdict"] in ("LIVE", "GAP", "N/A", "UNDETERMINED_DECK_REACH")
             if e["verdict"] == "N/A":
                 assert not e["reason"].startswith("LIVE")
 
