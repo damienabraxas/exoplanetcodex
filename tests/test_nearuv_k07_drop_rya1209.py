@@ -24,6 +24,23 @@ def feed():
 
 @pytest.fixture(scope="module")
 def nearuv_fe1(feed):
+    """The four DEEPGRADED near-UV Fe I products RYA-1209 unblocked.
+
+    🔴 SCOPED TO THE TIER, NOT WIDENED. RYA-1213 added Reference Grade rows in this band
+    and they are a DIFFERENT POOL: Reference applies no depth gate, so it also takes
+    3026.056 A -- the one lab line below the 0.05 depth floor -- which Deep excludes by
+    construction. Its n is 56, not 54/55, and asserting this ticket's pool size on it
+    would be asserting the wrong claim about the right band. The properties that ARE
+    about the band rather than the pool are asserted over every near-UV Fe I product; see
+    `nearuv_fe1_all`.
+    """
+    return [p for p in feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"
+            and p["tier"] == "DEEPGRADED"]
+
+
+@pytest.fixture
+def nearuv_fe1_all(feed):
+    """EVERY near-UV Fe I product, whatever its pool — for band-level claims."""
     return [p for p in feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"]
 
 
@@ -73,6 +90,20 @@ def test_all_four_fe_I_products_carry_post_molecular_values(nearuv_fe1):
         assert p["A"] < before - 0.05, (
             f"{p['holding']}/{p['treatment']} is {p['A']}, not below the pre-molecular "
             f"{before} — the molecular correction did not reach this product")
+
+
+def test_EVERY_near_uv_fe_I_product_is_below_its_pre_molecular_value(nearuv_fe1_all):
+    """RYA-1213 — the molecular correction is a property of the BAND, so it must reach
+    every pool measured in it, not only the four this ticket published. The Reference
+    rows are a different pool and a different n; what they share with the Deep rows is
+    the opacity, and that is what this asserts."""
+    pre = {"solar_kpno_kurucz2005_corrected": {"1D-LTE": 7.642, "ENGINE-A": 7.651},
+           "solar_kpno_molecfit_corrected": {"1D-LTE": 7.596, "ENGINE-A": 7.606}}
+    for p in nearuv_fe1_all:
+        before = pre[p["holding"]][p["treatment"]]
+        assert p["A"] < before - 0.05, (
+            f"{p['holding']}/{p['treatment']} tier={p['tier']} is {p['A']}, not below "
+            f"the pre-molecular {before} — molecular opacity did not reach this pool")
 
 
 def test_the_pool_lost_exactly_one_line(nearuv_fe1):

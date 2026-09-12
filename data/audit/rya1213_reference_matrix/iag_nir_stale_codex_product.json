@@ -31,5 +31,30 @@
  "scale": "each is 1.75-2.58 dex from solar, across a bound that spans a factor of ~1000 in abundance -- RYA-1191's own framing: 'a NON-CONVERGENT FIT, not an outlier'. 9437.793 is the very line RYA-1191 named as the bad fit behind the refuted 1.315 dex Kitt Peak dispersion; it is still in the aggregate here.",
  "effect_on_the_published_value": "SMALL on the median and LARGE on the dispersion. The published A moves 7.546 -> 7.554 (+0.008) because the product aggregates by median and four wild points scatter both ways; the line-to-line scatter the bar is built from does not survive them.",
  "why_it_was_missed": "RYA-1203 re-ingested the two STALE KP NIR Fe I entries onto the guarded pool (1D-LTE n=26 -> 23, ENGINE-A n=7 -> 6) and did not reach the IAG one. Two of three.",
- "status": "REPORTED, not silently corrected. RYA-1213 owns the Reference tier, not the Codex one, and its directive is findings -> EOS. A guarded GRADED re-run of this one cell is queued so the fix rests on a measurement rather than on this note; whether it is ingested is Ryan's call."
+ "status": "MEASURED, and the corrected artifact exists. Whether it replaces the live row is a value decision on a Codex product, which this ticket does not own -- flagged to Ryan in the EOS rather than settled here.",
+ "paired_re_run": {
+  "method": "the GRADED selector re-run on this commit, same holding, same window",
+  "result": {
+   "1D-LTE": {
+    "A": 7.554,
+    "n": 22
+   },
+   "ENGINE-A": {
+    "A": 7.599,
+    "n": 6
+   },
+   "synth-1D-LTE-gerber": {
+    "A": 7.549,
+    "n": 22
+   }
+  },
+  "live_feed_row": {
+   "1D-LTE": {
+    "A": 7.546,
+    "n": 25,
+    "artifact": "2026-08-25"
+   }
+  },
+  "verdict": "CONFIRMED. Today's code on the SAME selector drops the four non-convergent fits and returns 7.554 at n=22. The live row is a pre-guard artifact; nothing about the measurement is in dispute."
+ }
 }

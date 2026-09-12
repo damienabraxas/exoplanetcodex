@@ -150,11 +150,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -210,11 +210,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -800,11 +800,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -816,7 +816,7 @@
      "reason": ""
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -860,11 +860,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -876,7 +876,7 @@
      "reason": ""
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -920,11 +920,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -932,11 +932,11 @@
      "reason": "`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- `treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), and `plot_grid._pick` refuses to let it win the 1D-LTE slot from the product it aliases. A Reference cell here would duplicate this run's own 1D-LTE product under a name that can never render. Not run."
     },
     "ENGINE-B-NLTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
