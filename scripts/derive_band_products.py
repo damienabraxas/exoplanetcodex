@@ -226,14 +226,21 @@ _EW_MATCH_TOL_A = 0.005
 
 
 def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
-                     idx_sorted: np.ndarray) -> tuple[list, list]:
+                     idx_sorted: np.ndarray,
+                     tol_A: float | None = None) -> tuple[list, list]:
     """Wavelengths -> row indices in the synthesis list. Shared by every selector.
 
     Nearest-within-tolerance, never a rounded key (RYA-703/704). Factored out rather than
     copied into the second selector: RYA-701 measured that one Ba->Al copy produced 13
     defects, and a matcher that drifts between two selectors would silently change which
     lines a comparison is run on.
+
+    `tol_A` defaults to `_EW_MATCH_TOL_A`, which pairs two writers of the SAME list at
+    4-decimal precision. A caller matching a PUBLISHED set passes that set's own derived
+    window instead (RYA-1214) -- widening it here for everyone would loosen the EW
+    comparison the constant was measured for.
     """
+    tol = _EW_MATCH_TOL_A if tol_A is None else float(tol_A)
     keep, missing = [], []
     for w in want:
         j = int(np.searchsorted(w_sorted, w))
@@ -241,7 +248,7 @@ def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
         for k in (j - 1, j, j + 1):
             if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
                 best, bi = abs(w_sorted[k] - w), k
-        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+        if bi >= 0 and best <= tol:
             keep.append(idx_sorted[bi])
         else:
             missing.append((float(w), float(best)))
@@ -543,6 +550,37 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     if not ew_csv.exists():
         raise SystemExit(f"--{source_label}: no artifact at {ew_csv}")
     ew = pd.read_csv(ew_csv)
+    # 🔴 A NAMED SET DECLARES ITS OWN MATCH WINDOW, AND IT IS NOT 5 mA — RYA-1214/1211.
+    #
+    # `_EW_MATCH_TOL_A` is 0.005 A because it pairs two writers of the SAME list, both at
+    # 4-decimal precision. A PUBLISHED set is printed coarser, and the mismatch has
+    # already cost this repo a whole product's pedigree once: AGSS21 prints lambda in
+    # nanometres to 2 dp (= 0.1 A), so 15 of the 21 Reference Grade Fe I lines sat
+    # 0.024-0.050 A from their own canonical row and missed a 0.02 A window (RYA-1211).
+    # Here it would be worse than a mis-grade — the line would simply not be FOUND, and
+    # [C I] 8727.12 (list: 8727.139, 0.019 A away) would silently drop out of the very
+    # product it is the point of.
+    #
+    # So the window travels WITH THE SET, in a `match_tol_A` column the builder derives
+    # from the source's printed precision, and a set that does not declare one is refused
+    # rather than defaulted (RYA-869). Nobody widens a window by typing a number at a
+    # call site.
+    tol = _EW_MATCH_TOL_A
+    if "match_tol_A" in ew.columns:
+        vals = sorted(set(float(v) for v in ew.match_tol_A.dropna()))
+        if len(vals) != 1:
+            raise SystemExit(
+                f"--{source_label}: {ew_csv.name} declares {len(vals)} different "
+                f"match_tol_A values {vals}. A set has ONE window, derived from ONE "
+                f"printed precision.")
+        tol = vals[0]
+    elif source_label.startswith("lines-from-set"):
+        raise SystemExit(
+            f"--{source_label}: {ew_csv.name} carries no `match_tol_A` column. A named "
+            f"published set is printed coarser than the synthesis list, and matching it "
+            f"at the {_EW_MATCH_TOL_A} A default silently DROPS lines — [C I] 8727.12 "
+            f"sits 0.019 A from the list's 8727.139. Derive the window from the source's "
+            f"own printed resolution and write it into the set (RYA-1211/1109).")
     want = ew.wavelength_air_A.astype(float)
     want = want[(want >= lo_A) & (want <= hi_A)]
     if want.empty:
@@ -562,13 +600,13 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     idx_sorted = idx_all[order]
     w_sorted = w_A[idx_sorted]
 
-    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted)
+    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted, tol_A=tol)
     # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
     if missing:
         print(f"  [{source_label}] {len(missing)} of {len(want)} requested lines are NOT "
-              f"in the synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot "
+              f"in the synthesis list (>{tol} A from any row) — they cannot "
               f"be measured and are reported, not dropped quietly. First few: "
               f"{[f'{w:.3f}(+{d:.3f})' for w, d in missing[:4]]}")
     if not keep:
