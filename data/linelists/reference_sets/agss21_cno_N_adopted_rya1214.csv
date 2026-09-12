@@ -1,6 +1,6 @@
-element,species,line_label,wavelength_air_A,lower_EP_eV,published_loggf,source_band,use_status,reference_line_set
-N,N I,7442.29A,7442.29,10.3301,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom
-N,N I,8216.33A,8216.33,10.3359,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom
-N,N I,8629.23A,8629.23,10.69,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom
-N,N I,8683.40A,8683.4,10.3301,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom
-N,N I,10108.90A,10108.9,11.7529,,NIR,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom
+element,species,line_label,wavelength_air_A,lower_EP_eV,published_loggf,source_band,use_status,reference_line_set,match_tol_A,match_tol_basis
+N,N I,7442.29A,7442.29,10.3301,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom,0.05,"half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211)."
+N,N I,8216.33A,8216.33,10.3359,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom,0.05,"half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211)."
+N,N I,8629.23A,8629.23,10.69,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom,0.05,"half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211)."
+N,N I,8683.40A,8683.4,10.3301,,RED_OPTICAL,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom,0.05,"half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211)."
+N,N I,10108.90A,10108.9,11.7529,,NIR,AGSS21_ADOPTED_FIVE_LINE_SET,AmarsiEtAl2020_GALAH_NI_model_atom,0.05,"half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211)."

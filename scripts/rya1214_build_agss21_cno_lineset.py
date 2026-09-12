@@ -49,6 +49,23 @@ ADOPTED = "AGSS21_ADOPTED_FIVE_LINE_SET"
 #: final adopted-line use; kept, separated, never merged with the line above.
 GRID = "SOURCE_ANALYSIS_GRID_SET"
 
+#: 🔴 THE SET'S OWN MATCH WINDOW, DERIVED FROM THE SOURCE'S PRINTED PRECISION.
+#: AGSS21 prints lambda in NANOMETRES to 2 decimals = 0.1 A, so the rounding bin is
+#: +/-0.05 A. That is the same derivation `reference_lineset.SETS["asplund"]` records for
+#: the Fe set from the same paper (RYA-1109), applied to the same paper's CNO table.
+#:
+#: ⚠️ WRITTEN INTO THE FILE, not passed at a call site. `derive_band_products` matches a
+#: named set at THIS number and refuses a set that does not carry one: the 5 mA default
+#: pairs two writers of the same 4-decimal list, and against a 0.1 A printing it does not
+#: mis-grade a line, it DROPS it. [C I] 8727.12 sits 0.019 A from the synthesis list's
+#: 8727.139 — the single most important carbon indicator would have vanished from its own
+#: product without a word.
+MATCH_TOL_A = 0.05
+TOL_BASIS = ("half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp "
+             "= 0.1 A, so the rounding half-width is 0.05 A. Same derivation as "
+             "reference_lineset.SETS['asplund'] for the Fe table of the same paper "
+             "(RYA-1109/1211).")
+
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
@@ -63,9 +80,12 @@ def main() -> int:
             if s.empty:
                 continue
             out = OUT / f"agss21_cno_{el}_{tag}_rya1214.csv"
-            s[["element", "species", "line_label", "wavelength_air_A", "lower_EP_eV",
-               "published_loggf", "source_band", "use_status",
-               "reference_line_set"]].sort_values("wavelength_air_A").to_csv(out, index=False)
+            w = s[["element", "species", "line_label", "wavelength_air_A", "lower_EP_eV",
+                   "published_loggf", "source_band", "use_status",
+                   "reference_line_set"]].sort_values("wavelength_air_A").copy()
+            w["match_tol_A"] = MATCH_TOL_A
+            w["match_tol_basis"] = TOL_BASIS
+            w.to_csv(out, index=False)
             written.append({"element": el, "use_status": status, "n_lines": int(len(s)),
                             "file": str(out.relative_to(ROOT)),
                             "span_A": [float(s.wavelength_air_A.min()),
@@ -84,6 +104,8 @@ def main() -> int:
                                 "0.040) and ALL FIVE N I lines (max 0.040) — 12 of the 23 "
                                 "atomic indicators. The light elements' indicators are "
                                 "weak because they are unsaturated.",
+        "match_tol_A": MATCH_TOL_A,
+        "match_tol_basis": TOL_BASIS,
         "adopted_vs_grid": "kept in SEPARATE files. The census states that a row's "
                            "presence in the Amarsi-2019 analysis grid is NOT proof AGSS21 "
                            "adopted it; merging the two would publish a set the paper "
