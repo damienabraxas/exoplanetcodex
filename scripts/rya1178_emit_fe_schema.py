@@ -570,7 +570,11 @@ def tier_provenance(prod: dict) -> dict | None:
     return {
         "pool_reproduced": True,
         "n_lab_tier_in_window": int(len(lab)),
-        "n_selected_by_depth_gate": int(len(sel)),
+        # RYA-1213 — `n_selected` and not `n_selected_by_depth_gate`: on a REFERENCE
+        # product no depth gate ran, and a key whose NAME asserts one would state the
+        # wrong thing about the number beside it. Nothing outside this file read the old
+        # key, so it is renamed rather than kept for compatibility with no reader.
+        "n_selected": int(len(sel)),
         "depth_gate": (None if prod["tier"] == "REFERENCE" else DEPTH_HI),
         "depth_gate_applied": prod["tier"] != "REFERENCE",
         "gf_references": {str(k): int(v) for k, v in refs.items()},
