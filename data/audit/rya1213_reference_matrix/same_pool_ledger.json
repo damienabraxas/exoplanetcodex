@@ -11,6 +11,33 @@
   "2026-09-10"
  ],
  "reading": "a row with delta 0.000 AND the same n is the same-pool property holding exactly. A differing row is explained by the sibling's artifact DATE, not by the selector \u2014 which two paired controls measured directly at exactly zero.",
+ "reference_only_cells": [
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE"
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A"
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber"
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber"
+  }
+ ],
+ "reference_only_note": "cells where the ONLY product in any grade is a Reference one. These are new engine coverage rather than a re-measurement of an existing pool, and they are counted separately for that reason.",
  "rows": [
   {
    "band": "H",

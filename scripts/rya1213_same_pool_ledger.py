@@ -80,6 +80,16 @@ def build() -> dict:
 
     dates = sorted({r["sibling_artifact_date"] for r in rows if r["delta_dex"] != 0.0
                     or not r["same_n"]})
+
+    #: 🔴 WHICH REFERENCE CELLS ARE NEW COVERAGE, NOT A RELABEL. The honest summary of
+    #: this ticket needs both halves: most Reference products outside VIS re-measure a
+    #: pool some other grade already had, and a few reach an (band, ion, holding,
+    #: treatment) cell that had NO product in ANY grade. Those are new engine coverage and
+    #: must not be counted together with the relabels.
+    have = collections.defaultdict(set)
+    for p in feed["products"]:
+        have[(p["band"], p["ion"], p["holding"], p["treatment"])].add(p["tier"])
+    new_cells = sorted(k for k, t in have.items() if t == {"REFERENCE"})
     return {
         "ticket": "RYA-1213",
         "note": ("Reference against its depth-split sibling where the two pools are the "
@@ -92,6 +102,13 @@ def build() -> dict:
                     "holding exactly. A differing row is explained by the sibling's "
                     "artifact DATE, not by the selector — which two paired controls "
                     "measured directly at exactly zero."),
+        "reference_only_cells": [
+            {"band": b, "ion": f"Fe {i}", "holding": h, "treatment": t}
+            for (b, i, h, t) in new_cells],
+        "reference_only_note": ("cells where the ONLY product in any grade is a Reference "
+                                "one. These are new engine coverage rather than a "
+                                "re-measurement of an existing pool, and they are counted "
+                                "separately for that reason."),
         "rows": rows,
     }
 
@@ -110,6 +127,11 @@ def main() -> int:
         print(f"{r['band']:12s} {r['ion']:6s} {r['holding']:32s} {r['treatment']:20s} "
               f"{r['reference_A']:8.4f} {r['sibling_A']:8.4f} {r['delta_dex']:+8.4f}  "
               f"{r['reference_n']:>2d}/{r['sibling_n']:<2d} {r['sibling_artifact_date']}{flag}")
+    if doc["reference_only_cells"]:
+        print(f"\n  {len(doc['reference_only_cells'])} cell(s) where Reference is the ONLY "
+              f"product in any grade — new engine coverage:")
+        for c in doc["reference_only_cells"]:
+            print(f"    {c['band']:12s} {c['ion']:6s} {c['holding']:32s} {c['treatment']}")
     if doc["n_differing"]:
         print(f"\n  differing rows carry sibling artifacts dated: "
               f"{', '.join(doc['sibling_artifact_dates_of_the_differing_rows'])}")
