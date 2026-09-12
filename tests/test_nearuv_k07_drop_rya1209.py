@@ -89,7 +89,13 @@ def test_every_near_uv_product_states_what_it_now_contains(feed):
     # (K07 was an Fe I line) -- but they ARE near-UV products and the per-product
     # assertions below apply to them like any other, which is why they are swept in
     # rather than filtered out.
-    assert len(n) == 10
+    # 🔴 RYA-1213 — THE PIN MOVES TO THE DEPTH-SPLIT TIERS AND THE LOOP COVERS ALL.
+    # The REFERENCE tier adds six near-UV Fe II products, and they must carry the opacity
+    # metadata exactly like every other near-UV row -- which is what the loop below
+    # asserts, over all of them. Re-pinning the total each time a Reference cell lands
+    # would turn a vanish-detector into a number that gets bumped without being read, so
+    # the literal now pins the ten Codex/Deep rows it was written about.
+    assert len([q for q in n if q["tier"] != "REFERENCE"]) == 10
     for p in n:
         assert p.get("opacity_limit") == "MOLECULAR-OPACITY-INCLUDED"
         note = p.get("opacity_note", "")

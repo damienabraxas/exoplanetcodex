@@ -333,7 +333,13 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: near-UV KP holdings, completing the Gerber matrix. The stamp count must follow the
     #: product count or the guard stops covering the new rows -- which is why the two are
     #: asserted EQUAL rather than each pinned to a literal.
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 15
+    #: 15 -> 30 (RYA-1213): the REFERENCE tier doubles the Fe II product count -- three
+    #: treatments on each of two near-UV and three VIS holdings. Fe II NLTE is still
+    #: structurally unavailable on the Gerber deck (atom.fe607a carries ZERO Fe II
+    #: bound-bound transitions), so every one of the new rows must carry the limit too,
+    #: which is what the EQUALITY below is actually asserting; the literal only catches a
+    #: row VANISHING.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 30
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     assert a["per_line_rows_on_an_nlte_scale"] == {"I": 159, "II": 0}
 
@@ -427,7 +433,14 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     #: _superseded_rya1203_stem_drift -- one replaced the other, so the count does not move:
     #: 2 near-UV + 3 VIS (kurucz2005, molecfit, harps). The pools inside them DID change
     #: (9 -> 8 lines, 3 -> 2 served) because Fe II 4303.170 is curated out.
-    assert len(served) == 5, sorted(served)
+    #: 5 -> 10 (RYA-1213): the REFERENCE tier measures the same five Fe II cells again,
+    #: so each now has a Deep artifact and a Reference one. They are swept in for the same
+    #: reason as every widening above, and the per-row assertions below are what actually
+    #: matters -- each Reference artifact reproduces its Deep sibling's pool EXACTLY
+    #: (near-UV 12 lines / 7 served, VIS 8 / 2), which is the same-pool prediction:
+    #: neither band has a lab Fe II line on the shallow side of the depth gate, so the
+    #: Reference selector and the Deep selector return an identical set.
+    assert len(served) == 10, sorted(served)
     for name, (n, k, deltas) in served.items():
         assert deltas and all(-0.0021 <= x <= -0.0009 for x in deltas), (name, deltas)
         assert k < n, f"{name}: MPIA served every line — the n-drop confound is gone?"
@@ -437,10 +450,10 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     #: seeing that holding and the assertion below would pass on a smaller set than it
     #: claims to test. 9 -> 8 and 3 -> 2 because Fe II 4303.170 is curated out (RYA-1191).
     vis = [v for k, v in served.items() if "_4200_69" in k]
-    assert len(vis) == 3 and all(v[0] == 8 and v[1] == 2 for v in vis), vis
+    assert len(vis) == 6 and all(v[0] == 8 and v[1] == 2 for v in vis), vis
     # the near-UV pools: 7 of 12 served, at -0.001 — RYA-1113's n=7-vs-12
     nuv = [v for k, v in served.items() if "_3000_3780_" in k]
-    assert len(nuv) == 2 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
+    assert len(nuv) == 4 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
 
     # and the OTHER pool, so the two stay distinguishable
     import csv
@@ -517,7 +530,13 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: per-row assertions below hold on them: both report `none — LTE, no departure
     #: applied` with zero nonzero departures. Fe II NLTE stays structurally unavailable,
     #: re-measured this ticket at the ATOM (no Fe II bound-bound transitions at all).
-    assert len(per) == 21, len(per)
+    #: 21 -> 36 (RYA-1213): the REFERENCE tier adds a per-line artifact for every Fe II
+    #: cell it measures. Swept in for the same reason as every widening above -- these are
+    #: exactly the artifacts this test polices, and the per-row assertions below hold on
+    #: them unchanged: all report `none — LTE, no departure applied` with zero nonzero
+    #: departures, because the Fe II limit is a property of the ATOM and no pool can
+    #: change it.
+    assert len(per) == 36, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (

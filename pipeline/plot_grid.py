@@ -38,18 +38,28 @@ from pipeline import treatment_axes
 
 
 def _sections_with_only_deepgraded(products: list[dict]) -> set:
-    """Sections whose every product is DEEPGRADED, so the graded-only rule would empty them.
+    """Sections with NO Codex (GRADED) product, so the showcase rule would empty them.
 
     ⚠️ KEYED ON `section_of`, NOT ON THE DISPLAY SECTION, AND THE DIFFERENCE IS THE WHOLE
-    EXCEPTION. The question this answers is "does this band on this holding have anything
-    BUT a deep product" -- a question about the band. Asking it per line_set would make
-    every deep section trivially deep-only, and the near-UV exception would quietly become
-    a rule that showcases Deep Grade everywhere.
+    EXCEPTION. The question this answers is "does this band on this holding have a Codex
+    product" -- a question about the band. Asking it per line_set would make every deep
+    section trivially deep-only, and the near-UV exception would quietly become a rule
+    that showcases Deep Grade everywhere.
+
+    🔴 RYA-1213 — THE TEST WAS `== {"DEEPGRADED"}` AND A REFERENCE PRODUCT EVICTED THE
+    DEEP ONE. Publishing the near-UV Fe II Reference cells made that section's tier set
+    {DEEPGRADED, REFERENCE}, which is no longer exactly {DEEPGRADED}, so the exception
+    stopped firing and both Deep rows VANISHED from the plot -- a published product
+    removed from the site by the arrival of a different one, silently. The intent was
+    always "show Deep where there is no CODEX product", and a Reference product is not a
+    Codex product, so the condition is now the absence of GRADED. near-UV Fe I is
+    unaffected (still no GRADED, for the reason RYA-1213 Step 3 measured: the band has one
+    lab line at or below the depth gate and a one-line pool has no scatter).
     """
     tiers = collections.defaultdict(set)
     for p in products:
         tiers[section_of(p)].add(p.get("tier"))
-    return {k for k, v in tiers.items() if v == {"DEEPGRADED"}}
+    return {k for k, v in tiers.items() if "DEEPGRADED" in v and "GRADED" not in v}
 
 
 def section_of(p: dict) -> tuple:
@@ -124,7 +134,12 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
             # sections now differ only here, and an unlabelled pair would read as a
             # duplicate rather than as two grades of one cell.
             "line_set": key[4],
-            "only_deepgraded": key[:4] in only_deep,
+            # ⚠️ THE FLAG IS ABOUT THIS SECTION, NOT ABOUT THE BAND. The renderer prints
+            # "DEEPGRADED (no graded product in this band)" from it, and a Reference
+            # section in a band that happens to have no Codex product would otherwise
+            # wear that caption while drawing the lab pool. True only where this section
+            # IS the deep exception.
+            "only_deepgraded": key[:4] in only_deep and key[4] == "our-deep-graded",
             "cells": cells,
             # 🔴 REPORTED, NEVER DROPPED. A product whose display name is not on the axis
             # would otherwise disappear from the site with no trace. RYA-711's rule

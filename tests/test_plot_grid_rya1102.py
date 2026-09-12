@@ -158,7 +158,18 @@ def test_the_near_UV_exception_actually_FIRES(grid):
     rendering -- if this ever goes empty the exception has silently stopped applying."""
     nuv = [s for s in grid["sections"] if s["band"] == "near-UV"]
     assert nuv, "no near-UV section at all"
-    assert all(s["only_deepgraded"] for s in nuv)
+    # 🔴 RYA-1213 — THE EXCEPTION MUST STILL FIRE, AND ADDING A REFERENCE PRODUCT MUST
+    # NOT UN-FIRE IT. The rule was `every product in this section is DEEPGRADED`, so
+    # publishing the near-UV Fe II Reference cells made the tier set {DEEPGRADED,
+    # REFERENCE}, the exception stopped applying, and BOTH Deep rows vanished from the
+    # plot -- a published product removed from the site by the arrival of a different
+    # one. The condition is now the absence of a CODEX product, which is what the rule
+    # always meant. Asserted on the DEEP sections rather than on every near-UV section:
+    # a Reference section is not the deep exception and must not wear its caption.
+    deep = [s for s in nuv if s["line_set"] == "our-deep-graded"]
+    assert deep, "the near-UV deep sections have vanished — the exception stopped firing"
+    assert all(s["only_deepgraded"] for s in deep)
+    assert not any(s["only_deepgraded"] for s in nuv if s["line_set"] != "our-deep-graded")
     assert any(c["product_key"] for s in nuv for c in s["cells"])
 
 
