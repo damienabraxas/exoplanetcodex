@@ -1,0 +1,87 @@
+{
+ "ticket": "RYA-1213",
+ "question": "does a Reference Grade product differ from its Codex sibling where the two pools are THE SAME LINES? CRIRES+ Y NIR is the cleanest case: 5 LAB-tier Fe I lines, none above the 0.60 depth gate, so the Reference selector and the Codex selector return an identical set.",
+ "why_this_control_exists": "\ud83d\udd34 I COMPARED THE REFERENCE RUN AGAINST THE STORED CODEX VALUE FIRST AND IT LOOKED LIKE A DIFFERENCE: 1D-LTE 7.551 vs 7.546, ENGINE-A 7.492 vs 7.486. Both stored values were measured on 2026-08-26; the one stored value measured a day before the Reference run (synth-1D-LTE-gerber) agreed to 0.001. That pattern is the RYA-1204 trap -- a difference read against a stored number is part lever and part code drift -- so the GRADED cell was re-run on THIS commit, differing from the Reference run in the selector and nothing else.",
+ "method": "both legs on commit ba58da01, same holding, same window (9199-12976 A, clipped by the holding to 9801-10794), same engine-b deck. GRADED: --lines-tier graded. REFERENCE: --lines-tier reference.",
+ "paired_on_this_commit": {
+  "1D-LTE": {
+   "GRADED": {
+    "A": 7.546,
+    "n_lines": 5
+   },
+   "REFERENCE": {
+    "A": 7.546,
+    "n_lines": 5,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "delta_dex": 0.0
+  },
+  "ENGINE-A": {
+   "GRADED": {
+    "A": 7.486,
+    "n_lines": 2
+   },
+   "REFERENCE": {
+    "A": 7.486,
+    "n_lines": 2,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "delta_dex": 0.0
+  },
+  "synth-1D-LTE-gerber": {
+   "GRADED": {
+    "A": 7.554,
+    "n_lines": 5
+   },
+   "REFERENCE": {
+    "A": 7.554,
+    "n_lines": 5,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "delta_dex": 0.0
+  }
+ },
+ "against_the_stored_codex_value": {
+  "1D-LTE": {
+   "stored": {
+    "A": 7.551,
+    "n_lines": 5,
+    "artifact_mtime": "2026-08-26T17:05:43Z"
+   },
+   "reference": {
+    "A": 7.546,
+    "n_lines": 5,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "apparent_delta_dex": -0.005
+  },
+  "ENGINE-A": {
+   "stored": {
+    "A": 7.492,
+    "n_lines": 2,
+    "artifact_mtime": "2026-08-26T17:05:47Z"
+   },
+   "reference": {
+    "A": 7.486,
+    "n_lines": 2,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "apparent_delta_dex": -0.006
+  },
+  "synth-1D-LTE-gerber": {
+   "stored": {
+    "A": 7.553,
+    "n_lines": 5,
+    "artifact_mtime": "2026-09-10T22:09:24Z"
+   },
+   "reference": {
+    "A": 7.554,
+    "n_lines": 5,
+    "artifact_mtime": "2026-09-12T02:56:49Z"
+   },
+   "apparent_delta_dex": 0.001
+  }
+ },
+ "verdict": "ZERO on every treatment. Paired on one commit the Reference product reproduces the Codex product to every published digit, which is what an identical pool through identical code must give. The 0.005-0.006 dex that appeared against the stored values is CODE DRIFT between artifact vintages, not the selector, and it is a floor on how much of any Reference-vs-Codex comparison is drift when the Codex leg is read from the feed rather than re-run.",
+ "scope": "this is the NIR CRIRES+ cell. It generalises to the other bands where the lab pool does not straddle the depth gate (red-optical, H, and NIR on the other holdings), and NOT to VIS, where Reference is genuinely a third pool (176 lines against Codex's 67 and Deep's 109)."
+}
