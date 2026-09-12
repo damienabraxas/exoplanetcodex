@@ -1,0 +1,98 @@
+{
+  "ticket": "RYA-1214",
+  "step": "3 \u2014 band synthesis line lists vs the CNO indicators",
+  "match_tolerance_A": 0.1,
+  "match_tolerance_basis": "the census prints 0.01 nm = 0.1 A (RYA-1109)",
+  "bands": [
+    {
+      "band": "near-UV",
+      "linelist": "/home/damienabraxas/scratch/rya1214/data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv",
+      "exists": false,
+      "verdict": "LIST ABSENT \u2014 regenerate before running this band",
+      "build_hint": "build it with `pipeline.nearuv_linelist.build()`"
+    },
+    {
+      "band": "VIS",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 3780.0,
+      "hi_A": 6910.0,
+      "list_span_A": [
+        4200.02,
+        9199.99
+      ],
+      "total_lines_in_band": 88151,
+      "cno_lines_in_band": {
+        "C I": 768,
+        "C II": 305,
+        "N I": 97,
+        "N II": 159,
+        "O I": 117,
+        "O II": 93
+      },
+      "cno_total_in_band": 1539,
+      "use_molecules": false
+    },
+    {
+      "band": "red-optical",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 6910.0,
+      "hi_A": 9199.0,
+      "list_span_A": [
+        4200.02,
+        9199.99
+      ],
+      "total_lines_in_band": 53042,
+      "cno_lines_in_band": {
+        "C I": 284,
+        "C II": 232,
+        "N I": 68,
+        "N II": 65,
+        "O I": 46,
+        "O II": 101
+      },
+      "cno_total_in_band": 796,
+      "use_molecules": false
+    },
+    {
+      "band": "NIR",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 9199.0,
+      "hi_A": 13000.0,
+      "list_span_A": [
+        9203.15,
+        12976.14
+      ],
+      "total_lines_in_band": 757,
+      "cno_lines_in_band": {
+        "C I": 34
+      },
+      "cno_total_in_band": 34,
+      "use_molecules": false
+    },
+    {
+      "band": "H",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 15007.11,
+      "hi_A": 17493.69,
+      "list_span_A": [
+        15007.22,
+        17491.83
+      ],
+      "total_lines_in_band": 5244,
+      "cno_lines_in_band": {
+        "C I": 84,
+        "N I": 5,
+        "O I": 13
+      },
+      "cno_total_in_band": 102,
+      "use_molecules": false
+    }
+  ],
+  "indicators_checked": 48,
+  "indicators_absent": 10,
+  "verdict": "10 indicator(s) absent from their band's list"
+}
