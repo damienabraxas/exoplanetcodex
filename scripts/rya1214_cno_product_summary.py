@@ -37,7 +37,7 @@ def main() -> int:
     cen = cen[cen.element.isin(["C", "N", "O"])]
 
     rows = []
-    for prod in sorted(BP.glob("[CNO]I_*_SYNTH_products.csv")):
+    for prod in sorted(BP.glob("[CNO]I_*_SYNTH*_products.csv")):
         stem = prod.name[: -len("_products.csv")]
         p = pd.read_csv(prod)
         for _, r in p.iterrows():
@@ -73,7 +73,12 @@ def main() -> int:
             rows.append({
                 "element": r.element, "ion": r.ion, "band": r.band,
                 "instrument": r.instrument,
-                "holding": stem.split(f"_{r.instrument}_", 1)[-1].replace("_SYNTH", ""),
+                "holding": stem.split(f"_{r.instrument}_", 1)[-1].split("_SYNTH")[0],
+                # The SELECTOR is part of the product KEY (RYA-984): a named-set run and
+                # a depth-selected run on the same cell are two products, and reporting
+                # them in one column without it would read as a contradiction.
+                "selector": (stem.split("_SYNTH_", 1)[1] if "_SYNTH_" in stem
+                             else "depth-ranked (select_lines)"),
                 "treatment": r.treatment,
                 "A": r.A, "sigma_stat": r.stat_dex, "sigma_syst": r.syst_dex,
                 "n_lines": r.n_lines, "n_excluded": r.n_excluded,
@@ -85,7 +90,8 @@ def main() -> int:
                 "pool_wavelengths_A": "|".join(f"{w:.3f}" for w in used),
             })
 
-    d = pd.DataFrame(rows).sort_values(["element", "band", "holding", "treatment"])
+    d = pd.DataFrame(rows).sort_values(["element", "band", "selector", "holding",
+                                        "treatment"])
     d.to_csv(OUT / "cno_products_summary.csv", index=False)
 
     pd.set_option("display.width", 250)
@@ -93,7 +99,7 @@ def main() -> int:
     if d.empty:
         print("  no product artifact found in data/results/band_products/")
         return 0
-    print(d[["element", "ion", "band", "holding", "treatment", "A", "sigma_stat",
+    print(d[["element", "ion", "band", "holding", "selector", "treatment", "A", "sigma_stat",
              "sigma_syst", "n_lines", "n_excluded", "red_chi2_median", "red_chi2_max",
              "n_agss21_indicators_in_pool"]].to_string(index=False))
     print("\n  gf rung per product:")
