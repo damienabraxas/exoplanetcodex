@@ -10485,3 +10485,191 @@ artifacts:
       applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
       ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
       Pool cell(s): vis1_kpmf_g1d.
+  - artifact: rya1213/3dnlte_harps/rya817_3dnlte_budgets.txt
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_harps_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument harps --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_harps/rya817_3dnlte_per_line.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_harps_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument harps --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_harps/rya817_3dnlte_products.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_harps_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument harps --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kpmf/rya817_3dnlte_budgets.txt
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kpmf/rya817_3dnlte_per_line.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kpmf/rya817_3dnlte_products.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_molecfit_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kurucz2005/rya817_3dnlte_budgets.txt
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_kurucz2005_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kurucz2005/rya817_3dnlte_per_line.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_kurucz2005_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/3dnlte_kurucz2005/rya817_3dnlte_products.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_kpno_kurucz2005_corrected VIS REFERENCE 1D-LTE per-line file> --instrument kpno_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE (full laboratory) VIS
+      pool. A POST-PROCESS of the 1D-LTE per-line product, not a synthesis.
+      🔴 THE INPUT DIRECTORY MUST HOLD EXACTLY ONE 1D-LTE PER-LINE FILE.
+      `_resolve_src` REFUSES on ambiguity by design, and it is right to: several
+      pools exist per band and choosing silently is how a 3D correction lands on
+      a pool nobody selected. ⚠️ A glob plus `head -1` in my first staging script
+      picked the near-UV file for kurucz2005 and the red-optical one for iag, so
+      the VIS-boxed MLP was asked about three non-VIS pools. Nothing wrong was
+      published -- `classify_line` put 58/58 near-UV and 70/70 red-optical lines
+      OUT OF DOMAIN and the leg returned n=0, which is RYA-1187's measurement
+      reproduced at production scale -- but the window is now NAMED, not
+      discovered. Of 176 VIS lab lines, 101 are in the Amarsi training box and
+      75 are out.
+  - artifact: rya1213/reference_xi_dadxi.json
+    status: COMMITTED
+    generator: scripts/rya1213_xi_campaign.py
+    invocation: python3 scripts/rya1213_xi_campaign.py --runs ~/scratch/rya1213_xi
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- dA/dxi for every Reference Grade pool, on Ryan's 2026-09-12 ruling that
+      Reference gets the SAME uncertainty treatment as Codex and Deep, measured rather
+      than borrowed. The band-keyed schema `rya1178_emit_fe_schema.xi_band_index`
+      consumes, so it is wired into the feed by one path in XI_BAND_RUNS.
+      ⚠️ THE `--runs` DIRECTORY IS NOT IN THE REPO. It holds 62 per-leg run directories
+      (31 units x xi = 0.90/1.10) produced on Sirius by `rya1213_xi_launch.sh`; each
+      carries its own products, per-line files and `xi_run.json` stamp. The derivative
+      REFUSES to compute unless the two stamps prove the legs bracket the nominal, so the
+      pairing travels with the artifacts rather than with the caller's memory (RYA-1178 A).
+      Method is RYA-1120's throughout: central difference, per-line paired differential
+      via pipeline.paired_differential, sigma_xi = |dA/dxi| x delta_xi, min_paired = 3.
