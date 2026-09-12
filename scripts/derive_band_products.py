@@ -468,13 +468,28 @@ def _cand_reference(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.D
     prints that it did.
 
     ⚠️ IN FOUR OF THE FIVE BANDS THIS POOL IS NOT NEW LINES, IT IS A NEW CUT. Only VIS
-    has lab lines on both sides of the gate (66 shallow / 174 deep / 3 below the floor).
-    near-UV is 58 deep and 1 below-floor, so Reference there is the Deep pool plus one;
-    red-optical, NIR and H hold NO deep lab line at all, so Reference is the Codex pool
-    (plus the one no-depth red-optical line). A Reference product in those bands will
-    therefore report close to -- in NIR and H, exactly -- its Codex sibling's value. That
-    is what the definitions give and it is reported rather than dressed up: the grade
-    label is the new statement, not the number.
+    has lab lines on both sides of the gate (67 at or below / 109 above, over the
+    4200-6910 A product window). near-UV is 58 deep and 1 below-floor, so Reference there
+    is the Deep pool plus one; red-optical, NIR and H hold NO deep lab line at all, so
+    Reference is the Codex pool (plus the one no-depth red-optical line). A Reference
+    product in those bands therefore measures the SAME LINES as its Codex sibling, and
+    the grade label -- not the number -- is the new statement.
+
+    🔴 "THE SAME LINES" IS NOT "THE SAME NUMBER", AND I WROTE `EXACTLY` HERE BEFORE
+    MEASURING IT. On the CRIRES+ Y cell the two pools are identical -- the same five
+    wavelengths, all five in-aggregate -- and the values still differ:
+
+        1D-LTE               GRADED 7.5510   REFERENCE 7.5460   (artifacts 17 days apart)
+        ENGINE-A             GRADED 7.4920   REFERENCE 7.4860
+        synth-1D-LTE-gerber  GRADED 7.5530   REFERENCE 7.5540   (artifacts 1 day apart)
+
+    Per line the two agree to <= 0.007 dex and `red_chi2` moves with them, so this is the
+    FIT, not the selection. The pattern is the tell: the pair whose artifacts are a day
+    apart agrees to 0.001 and the pair 17 days apart differs by 0.005-0.006. That is CODE
+    DRIFT between artifact vintages, which is exactly the RYA-1204 trap -- a difference
+    read against a stored number is part lever and part drift. A Reference-vs-Codex
+    comparison is only meaningful PAIRED: both legs run on one commit, differing in the
+    selector and nothing else.
     """
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
