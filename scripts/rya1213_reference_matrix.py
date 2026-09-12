@@ -225,6 +225,12 @@ def engine_verdicts(band: str, ion: str, live: set, holding: str,
                       "RYA-1040 requires the two as a MANDATORY PAIR — an unpaired "
                       "<3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift "
                       "as non-LTE physics (RYA-542).")
+        elif eng == "ENGINE-B":
+            na = ("`ENGINE-B` is a RETIRED SPELLING of `1D-LTE`, not a second engine -- "
+                  "`treatment_axes.DEPRECATED_ALIASES` maps it to ('1D-LTE', 'synth'), "
+                  "and `plot_grid._pick` refuses to let it win the 1D-LTE slot from the "
+                  "product it aliases. A Reference cell here would duplicate this run's "
+                  "own 1D-LTE product under a name that can never render. Not run.")
         elif eng == "ENGINE-A-3DNLTE":
             if band != "VIS":
                 allout, n_out = _amarsi_out_of_domain(band)
