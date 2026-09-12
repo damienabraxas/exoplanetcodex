@@ -213,3 +213,70 @@ def test_a_reference_product_reproduces_its_pool_without_a_depth_gate(feed):
             f"{pe.key_of(p)} reproduced {tp['n_selected']} of "
             f"{tp['n_lab_tier_in_window']} LAB-tier rows in its own window. A Reference "
             f"pool is every one of them; a shortfall means a depth term ran")
+
+
+# ── the matrix: no silent empties ────────────────────────────────────────────
+MATRIX = ROOT / "data/audit/rya1213_reference_matrix/rya1213_reference_matrix.json"
+
+
+@pytest.fixture(scope="module")
+def matrix():
+    if not MATRIX.exists():
+        pytest.skip("RYA-1213 matrix not generated")
+    return json.loads(MATRIX.read_text())
+
+
+def test_every_NA_cell_carries_a_reason(matrix):
+    """Ryan's completeness principle: a SILENT empty is the defect.
+
+    A cell may be empty — most of them are, for good reasons — but it may not be empty
+    without saying why. This is the assertion that makes "every grade x band x engine
+    cell either has a product or a documented N/A" checkable rather than a claim.
+    """
+    for c in matrix["cells"]:
+        for eng, e in c["engines"].items():
+            if e["verdict"] == "N/A":
+                assert e["reason"].strip(), (
+                    f"{c['band']} {c['ion']} {c['holding']} {eng} is N/A with no reason")
+
+
+def test_the_450_lab_lines_reconcile_with_nothing_unexplained(matrix):
+    """🔴 THE ARITHMETIC THAT MAKES THE COVERAGE CLAIM FALSIFIABLE.
+
+    Every LAB-tier Fe line is inside a Reference window, or in one of the two populations
+    with a stated physical reason nothing can reach. A non-empty remainder means a lab
+    line exists that no cell covers and no reason explains — a GAP wearing an N/A's
+    clothes, which is precisely what this ticket exists to end.
+    """
+    rec = matrix["lab_line_reconciliation"]
+    assert rec["unreached_and_unexplained"]["n"] == 0, (
+        f"{rec['unreached_and_unexplained']['n']} lab line(s) are reached by no cell and "
+        f"explained by no reason: {rec['unreached_and_unexplained']['lines_A'][:10]}")
+    assert (rec["distinct_lab_lines_inside_a_reference_window"]
+            + rec["no_synthesis_list_3780_4200_A"]["n"]
+            + rec["no_holding_reaches_12976_15007_A"]["n"]
+            == rec["total_lab_fe_lines"])
+
+
+def test_the_nearuv_codex_verdict_is_a_population_fact_not_a_missing_run(matrix):
+    """RYA-1213 Step 3, pinned. If the near-UV lab pool ever gains a shallow line this
+    fails and the verdict must be re-derived — which is the point: the answer is a
+    property of the band's population, and a population can change."""
+    chk = matrix["nearuv_codex_check"]
+    assert chk["Fe I"]["at_or_below_gate"] == 1, (
+        "near-UV Fe I no longer has exactly one lab line at or below the depth gate; "
+        "the Step 3 verdict rests on that count and must be re-derived")
+    assert chk["Fe II"]["at_or_below_gate"] == 0
+    for ion in ("Fe I", "Fe II"):
+        assert chk[ion]["verdict"].startswith("NO CODEX GRADE PRODUCT IS BUILDABLE")
+
+
+def test_a_reference_cell_is_never_both_live_and_NA(matrix):
+    """A cell that holds a product cannot also be unreachable. The two verdicts come from
+    different sources — the feed for LIVE, the measured refusal artifacts for N/A — so
+    nothing but this stops them contradicting each other."""
+    for c in matrix["cells"]:
+        for eng, e in c["engines"].items():
+            assert e["verdict"] in ("LIVE", "GAP", "N/A")
+            if e["verdict"] == "N/A":
+                assert not e["reason"].startswith("LIVE")
