@@ -280,3 +280,79 @@ def test_a_reference_cell_is_never_both_live_and_NA(matrix):
             assert e["verdict"] in ("LIVE", "GAP", "N/A")
             if e["verdict"] == "N/A":
                 assert not e["reason"].startswith("LIVE")
+
+
+# ── the xi term (Ryan, 2026-09-12) ───────────────────────────────────────────
+XI_RUN = ROOT / "data/results/rya1213/reference_xi_dadxi.json"
+
+
+def test_the_incomplete_bar_caveat_is_cleared_when_the_term_is_measured(feed):
+    """🔴 A DERIVED FIELD MUST BE RE-DERIVED IN BOTH DIRECTIONS.
+
+    `rya1178_emit_fe_schema` mutates the feed in place and re-runs over rows it wrote
+    before. It set `sigma_reported_caveat` when the xi term was absent and never cleared
+    it, so the moment RYA-1213's campaign measured a derivative and four Reference
+    products went NOT_IN_CAMPAIGN -> MEASURED, they kept a field reading "INCOMPLETE ...
+    the bar is a LOWER BOUND" beside a bar that is now complete. The site PRINTS that
+    string, so a stale copy is a visible false statement about a published uncertainty.
+    """
+    for p in feed["products"]:
+        has = bool(p.get("sigma_reported_caveat"))
+        owed = p.get("xi_state") in ("UNMEASURED", "NOT_IN_CAMPAIGN")
+        assert has == owed, (
+            f"{pe.key_of(p)} has xi_state={p.get('xi_state')!r} and "
+            f"sigma_reported_caveat={'set' if has else 'absent'} — the caveat must track "
+            f"the state in both directions")
+
+
+def test_a_measured_xi_term_widens_the_bar_rather_than_narrowing_it(feed):
+    """Adding a term in quadrature cannot reduce a total. If a Reference bar ever came
+    out NARROWER once its xi term was measured, the term is being subtracted or the
+    baseline it is compared against is not the one it was built from."""
+    import math
+    for p in feed["products"]:
+        if p.get("tier") != "REFERENCE" or p.get("xi_state") != "MEASURED":
+            continue
+        sx, ss, st = p["sigma_xi"], p["sigma_syst"], p["sigma_stat"]
+        assert p["sigma_syst_complete"] >= ss - 1e-9, pe.key_of(p)
+        assert p["sigma_reported"] >= math.hypot(st, ss) - 1e-9, pe.key_of(p)
+        assert sx > 0, f"{pe.key_of(p)} is MEASURED with a zero xi term"
+
+
+def test_the_campaign_never_publishes_a_derivative_below_the_paired_floor():
+    """RYA-1163's floor, adopted verbatim: a pool pairing fewer than 3 lines carries its
+    float and publishes UNMEASURED. `xi_terms` reads the VERDICT, not the presence of a
+    number — so a pool below the floor must not reach a product as MEASURED."""
+    if not XI_RUN.exists():
+        pytest.skip("RYA-1213 xi campaign artifact not yet written")
+    doc = json.loads(XI_RUN.read_text())
+    assert doc["min_paired"] == 3
+    for pool in doc["pools"]:
+        if pool["n_paired"] < doc["min_paired"]:
+            assert pool["xi_state"] == "UNMEASURED", pool
+        assert pool["xi_pairing_verified"], (
+            f"{pool['pool']}/{pool['treatment']} computed a derivative whose two legs "
+            f"were not proven to bracket the nominal — worktree isolation is not a proof "
+            f"of pairing (RYA-1178 A)")
+
+
+def test_a_unit_missing_a_leg_is_never_half_differenced():
+    """RYA-1120 section 4: differencing one surviving leg is not a smaller measurement,
+    it is a different quantity."""
+    if not XI_RUN.exists():
+        pytest.skip("RYA-1213 xi campaign artifact not yet written")
+    doc = json.loads(XI_RUN.read_text())
+    for inc in doc["incomplete"]:
+        assert inc["verdict"].startswith("UNMEASURED"), inc
+    #: 🔴 KEYED ON THE DECK, BECAUSE WITHOUT IT THE ASSERTION CANNOT FAIL. A half pair on
+    #: deck g1d may legitimately coexist with a COMPLETE pair on deck gnl for the same
+    #: band, ion and holding, so a (band, ion, holding) key cannot tell a violation from
+    #: a normal in-flight state — and an assertion that cannot fail is not one (RYA-853).
+    #: `pool` is "{band}/{holding}/{deck}", which is the discriminating key.
+    pooled = {p["pool"] for p in doc["pools"]}
+    for inc in doc["incomplete"]:
+        if inc.get("legs_present") and len(inc["legs_present"]) < 2:
+            key = f"{inc['band']}/{inc['holding']}/{inc['deck']}"
+            assert key not in pooled, (
+                f"{key} is reported incomplete AND produced a derivative — one leg was "
+                f"differenced against something")

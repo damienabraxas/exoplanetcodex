@@ -63,6 +63,19 @@ XI_BAND_RUNS = (
     ROOT / "data/results/rya1168/nearuv_xi_dadxi.json",     # near-UV, RYA-1168
     ROOT / "data/results/rya1163/ir_xi_dadxi.json",         # NIR,     RYA-1163
     ROOT / "data/results/redopt_xi/redopt_xi_dadxi.json",   # red-optical
+    # 🔴 RYA-1213 — THE REFERENCE TIER'S OWN DERIVATIVES, ON RYAN'S 2026-09-12 RULING.
+    # The RYA-1120 campaign keys on tier, so every Reference product reached the feed
+    # with the xi term ABSENT from its bar rather than zero -- a 40% understatement on
+    # the flagship VIS Fe I pool. Ryan: "Reference Grade gets the SAME uncertainty
+    # treatment as Codex and Deep ... measured, not borrowed from a sibling tier."
+    #
+    # ⚠️ THE FILE GROWS AS THE CAMPAIGN LANDS, AND THAT IS SAFE BY CONSTRUCTION. A pool
+    # absent from this artifact simply is not in the band index, so `xi_terms` falls
+    # through and the product keeps NOT_IN_CAMPAIGN -- the honest state it already had.
+    # A pool present but below min_paired carries UNMEASURED, which `xi_terms` reads from
+    # the VERDICT rather than from the presence of a float. Neither case can quietly
+    # acquire a borrowed number.
+    ROOT / "data/results/rya1213/reference_xi_dadxi.json",  # Reference tier, RYA-1213
 )
 ASPLUND = ROOT / "data/results/rya1106/asplund_four_instrument_table.json"
 
@@ -795,6 +808,17 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
             p["sigma_reported_caveat"] = (
                 "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent "
                 "from this bar rather than zero. The bar is a LOWER BOUND.")
+        else:
+            #: 🔴 CLEARED, NOT LEFT BEHIND. This emitter MUTATES the feed in place and
+            #: re-runs over rows it wrote before, so a caveat set on an earlier pass
+            #: survives the condition that justified it. RYA-1213 hit it: the moment the
+            #: Reference tier's own dA/dxi landed and four products went
+            #: NOT_IN_CAMPAIGN -> MEASURED, they kept a field reading "INCOMPLETE ... the
+            #: bar is a LOWER BOUND" beside a bar that is now complete. The site PRINTS
+            #: this string, so a stale copy is a visible false statement about a
+            #: published uncertainty -- the RYA-1084 shape, where the stale side is the
+            #: one that wins. A derived field must be re-derived in BOTH directions.
+            p.pop("sigma_reported_caveat", None)
 
         #: 🔴 PART 0 — THE <3D> LTE/NLTE COLLISION IS A MEDIAN COINCIDENCE, NOT A BUG.
         #: The ticket suspected the RYA-1104 "<3D>-NLTE == LTE wiring" defect. It is not
