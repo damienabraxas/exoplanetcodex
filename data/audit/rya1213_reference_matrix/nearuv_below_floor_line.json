@@ -1,0 +1,21 @@
+{
+ "ticket": "RYA-1213",
+ "finding": "the near-UV Fe I Reference product contains ONE line that no other near-UV product contains: 3026.056 A, the band's single lab line BELOW the 0.05 feature-depth floor.",
+ "why_it_is_in": "'Reference is orthogonal to the depth grid' (RYA-1213 Step 1) means the selector asks the gf question and stops. This line meets the tier's definition outright -- PRIMARY LAB Belmonte2017, log gf -2.077, with a published per-line sigma of 0.100 dex -- so it is IN by pedigree. It is not admitted by an oversight and it is not removable without tuning.",
+ "why_no_other_product_has_it": {
+  "Deep Grade": "selects depth > 0.60 and this line's feature depth is 0.033, so it is out by construction.",
+  "Codex Grade": "selects depth <= 0.60, which WOULD take it -- but near-UV Codex is not buildable at all: it is the only line the Codex selector returns in this band, and `_cand_graded` refuses below 2 lines because a line-to-line scatter has n-1 degrees of freedom (RYA-1031, and RYA-1213 Step 3)."
+ },
+ "what_it_does_to_the_value": {
+  "A_fitted_for_this_line": 8.413,
+  "dex_above_solar": 0.95,
+  "reference_median_with_it": 7.56,
+  "reference_median_without_it": 7.554,
+  "shift_dex": 0.006,
+  "live_deep_product": 7.554,
+  "note": "the Reference median is +0.006 dex above its Deep sibling's, and that entire difference is this one line. The product aggregates by MEDIAN, so a single 0.95 dex outlier moves it by one rank position rather than by its own size."
+ },
+ "corroboration": "RYA-1027 measured this same line independently and committed it as EVIDENCE OF A GAP rather than as a measurement: 'A(Fe I) = 8.529, about 1.0 dex above solar, which is what an n=1 continuum-limited line produces ... deep inside the CONTINUUM_LIMITED blue-edge regime (RYA-451/460) where no true continuum exists in any window'. This run gets 8.413 on the same line -- the same regime, on a different pool and a later code vintage.",
+ "disposition": "LEFT IN AND REPORTED. Removing it would be dropping a line because it moves the number, which is exactly what RYA-161 forbids and what RYA-1209 was careful NOT to do -- that ticket removed 3721.272 because the line did not meet the tier's DEFINITION, and measured the effect afterwards. This line does meet the definition. The near-UV Reference value therefore carries one continuum-limited line, stated here so a reader comparing it with the Deep product knows what the 0.006 dex is.",
+ "unrelated_and_confirmed_clean": "Fe I 3721.272 -- RYA-1209's curated exclusion -- was CURATED OUT by the harness on this run as it should be, and the budget clears at gf rung 3 with all 56 lines GF-LAB. The curation registry reaches the Reference selector."
+}

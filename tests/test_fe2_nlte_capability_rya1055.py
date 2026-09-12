@@ -353,9 +353,22 @@ def test_the_balance_is_matched_on_the_full_identity_not_a_looser_key():
                   "treatment"):
         assert f'"{field}"' in src.split("KEY = (")[1].split(")")[0], field
     a = json.loads(AUDIT.read_text())
-    seen = [(b["holding"], b["band"], b["treatment"]) for b in
+    #: 🔴 RYA-1213 — THIS UNIQUENESS CHECK WAS UNDER-KEYED, AND ONLY ACCIDENTALLY PASSING.
+    #: It keyed on (holding, band, treatment) while the audit MATCHES on a seven-field
+    #: KEY that includes `tier`. That was unique only because one tier per cell had
+    #: products; the moment the Reference tier published alongside Deep in near-UV, four
+    #: cells legitimately produced two rows each — Fe II DEEPGRADED paired with Fe I
+    #: DEEPGRADED, Fe II REFERENCE paired with Fe I REFERENCE — and the check read that
+    #: as the ambiguity it exists to catch. A looser key than the matcher's cannot police
+    #: the matcher: it manufactures false alarms on correct pairings and would stay silent
+    #: on a real cross-tier match. Keyed on every identity field the row carries, and the
+    #: genuine ambiguity guard is the audit's own `problems` list, asserted clean above.
+    seen = [(b["holding"], b["band"], b["treatment"], b["tier"]) for b in
             a["ionisation_balance_scale_matched"]]
     assert len(seen) == len(set(seen)), "a cell matched more than one Fe I partner"
+    assert not [p for p in a["problems"] if "AMBIGUOUS" in str(p)], (
+        "the audit reported an ambiguous Fe I partner — a cross-tier or cross-selector "
+        "match, which is what the seven-field KEY exists to prevent")
 
 
 def test_the_audit_refuses_to_quote_the_balance_against_the_3d_anchor():

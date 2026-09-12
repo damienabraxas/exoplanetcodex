@@ -89,6 +89,15 @@ FROZEN_HAND_AUTHORED = {
     # RYA-1169: human-readable withdrawal notice attached to the two frozen invalid
     # outputs above. Its manifest sources point back to those exact audit artifacts.
     "rya1169/_quarantined_raw1984_iag_run/QUARANTINED.md",
+    # RYA-1213, added deliberately. Reading instructions for a directory that is
+    # deliberately NOT in the feed — the solar_iag NIR Fe I Codex cell re-measured on
+    # the guarded pool, because the live row predates RYA-1191's fit_validity guard and
+    # its aggregate carries four non-convergent fits. The twelve ARTIFACTS there all
+    # carry their generator and invocation; only this file cannot, because "why these
+    # numbers are held rather than published" is a decision, not a program's output.
+    # Inventing a generator for it would be the fabrication this manifest exists to
+    # prevent.
+    "rya1213_iag_nir_regraded/README.md",
     # RYA-939, added deliberately when the guard was extended to data/processed/.
     # Gaia-ESO Survey pre-stored solar EWs, transcribed under RYA-196. It has no
     # generator because no code in this repo produced the numbers -- inventing one

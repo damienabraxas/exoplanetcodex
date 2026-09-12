@@ -83,5 +83,30 @@
   }
  },
  "verdict": "ZERO on every treatment. Paired on one commit the Reference product reproduces the Codex product to every published digit, which is what an identical pool through identical code must give. The 0.005-0.006 dex that appeared against the stored values is CODE DRIFT between artifact vintages, not the selector, and it is a floor on how much of any Reference-vs-Codex comparison is drift when the Codex leg is read from the feed rather than re-run.",
- "scope": "this is the NIR CRIRES+ cell. It generalises to the other bands where the lab pool does not straddle the depth gate (red-optical, H, and NIR on the other holdings), and NOT to VIS, where Reference is genuinely a third pool (176 lines against Codex's 67 and Deep's 109)."
+ "scope": "measured on TWO NIR cells (CRIRES+ Y at n=5 and IAG at n=22). It generalises to the other bands where the lab pool does not straddle the depth gate (red-optical, H, and NIR on the other holdings), and NOT to VIS, where Reference is genuinely a third pool (176 lines against Codex's 67 and Deep's 109).",
+ "second_cell_solar_iag_NIR": {
+  "why": "the CRIRES+ Y cell is 5 lines. IAG NIR is 28 candidates / 22 in aggregate, and it is also the cell where the live Codex product turned out to be stale -- so one control answers both questions at once.",
+  "paired_on_this_commit": {
+   "1D-LTE": {
+    "GRADED": 7.554,
+    "REFERENCE": 7.554,
+    "n": 22,
+    "delta_dex": 0.0
+   },
+   "ENGINE-A": {
+    "GRADED": 7.599,
+    "REFERENCE": 7.599,
+    "n": 6,
+    "delta_dex": 0.0
+   },
+   "synth-1D-LTE-gerber": {
+    "GRADED": 7.549,
+    "REFERENCE": 7.549,
+    "n": 22,
+    "delta_dex": 0.0
+   }
+  },
+  "verdict": "ZERO again, on all three treatments and on a pool four times larger. The selector difference in a band with no deep lab line is not small -- it is absent.",
+  "and_it_dates_the_stale_product": "the live Codex 1D-LTE row reads 7.546 at n=25 from a 2026-08-25 artifact. The SAME selector on this commit gives 7.554 at n=22. The whole 0.008 dex and the whole 3-line difference are RYA-1191's fit_validity guard, which postdates that artifact -- not the tier, and not drift in any other sense."
+ }
 }
