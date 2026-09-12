@@ -979,11 +979,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -995,7 +995,7 @@
      "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -1038,11 +1038,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -1054,7 +1054,7 @@
      "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -1097,11 +1097,11 @@
    },
    "engines": {
     "1D-LTE": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-A": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "ENGINE-B": {
@@ -1113,7 +1113,7 @@
      "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_ir_9200_13000/atomic_lines.tsv: 237 Fe lines, 0 labelled). Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
