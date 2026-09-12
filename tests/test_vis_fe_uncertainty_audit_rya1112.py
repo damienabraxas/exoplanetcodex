@@ -237,13 +237,13 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     #: ENGINE-A-3DNLTE too), so full 3D covers eight VIS products, not four. The SPLIT RULE
     #: this test guards is unchanged and still asserted above: an explicit named set, never a
     #: substring, and every <3D> MEAN product still APPLIES.
-    #: RYA-1213 — 8 → 11. The Amarsi engine now also runs on the full laboratory
-    #: Reference pool (three VIS holdings), and those legs are full 3D like every other
+    #: RYA-1213 — 8 → 12. The Amarsi engine now also runs on the full laboratory
+    #: Reference pool (all four VIS holdings), and those legs are full 3D like every other
     #: ENGINE-A-3DNLTE product, so the exemption reaches them BY THE RULE rather than by
     #: anyone deciding it does. That is the property worth having: the tier is new and
     #: the rule needed no edit to cover it. The COUNT moves; the rule above does not.
     na = [r for r in doc["products"] if r["xi_applicability"].startswith("NOT APPLICABLE")]
-    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 11
+    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 12
     assert {r["treatment"] for r in na} == {"ENGINE-A-3DNLTE"}
     #: and the exemption is reached on EVERY pool the engine ran on, not just the old ones
     assert {r["tier"] for r in na} == {"GRADED", "ALL", "REFERENCE"}
