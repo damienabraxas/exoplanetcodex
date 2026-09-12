@@ -179,6 +179,63 @@ def split_nonphysical(n: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return n[ok].reset_index(drop=True), n[~ok].reset_index(drop=True)
 
 
+def collapse_coincident(n: pd.DataFrame) -> pd.DataFrame:
+    """Rows at ONE wavelength and ONE lower level are ONE feature. Sum them first.
+
+    🔴 THE BLIND SPOT THIS CLOSES SAT ON THE TWO FORBIDDEN OXYGEN LINES.
+
+    NIST prints several rows at the SAME wavelength for one feature -- the multipole
+    channels of a forbidden transition ([O I] 6300.304 carries an M1 row at log gf -9.776
+    and an E2 partner at -12.20, both class-coded T4539,T5081), and unresolved multiplet
+    components that share a printed wavelength exactly. Those are not separable by any
+    spectrograph, so a line list cannot hold "one of them": whatever VALD listed, the
+    feature's gf is the SUM.
+
+    The multiplicity rule counted them as separate candidates, so canonical rows with
+    `hfs_n_components = 1` came out MULTIPLICITY_MISMATCH and were refused. That is the
+    conservative answer and it was the wrong one here, because the count was never the
+    question -- and it hit [O I] 6300.304 and 6363.776, the two lines the campaign is
+    most about. 6363 agrees with the summed pull to 0.0007 dex and sat UNGRADED as a
+    result; 6300 disagrees by 0.057 dex and was invisible to the protected-row check.
+
+    ⚠️ NARROW ON PURPOSE — the key is the wavelength AS PRINTED, at 0.001 A. It does NOT
+    merge the O I 6158 group (NIST 6158.149 / 6158.172 / 6158.180, up to 31 mA apart),
+    which stays three candidates against a canonical row that holds ONE of them, and
+    stays correctly refused. Merging on a window instead of on equality would have
+    swallowed that case and written a blend's gf onto a component's row.
+
+    The summed grade is the worst among components carrying >= 1% of the total gf. Taking
+    the worst of ALL of them would let [O I] 6300's E2 channel -- 2.4 dex weaker, 0.4% of
+    the sum -- set the line's accuracy from a term that is not in it.
+    """
+    if n.empty:
+        return n
+    key = list(zip(n.wavelength_A.round(3), n.ei_eV.round(6)))
+    n = n.assign(_k=key)
+    out = []
+    for _, g in n.groupby("_k", sort=False):
+        if len(g) == 1:
+            out.append(g.iloc[0].to_dict())
+            continue
+        gf = 10.0 ** g.log_gf.to_numpy(float)
+        share = gf / gf.sum()
+        carry = g[share >= 0.01]
+        worst = max(carry.nist_grade, key=lambda x: NIST_ACC_PCT.get(x, 999))
+        r = g.iloc[int(np.argmax(gf))].to_dict()
+        r["log_gf"] = float(np.log10(gf.sum()))
+        r["nist_grade"] = worst
+        r["nist_acc_pct"] = NIST_ACC_PCT[worst]
+        r["ref_transition_probability"] = "|".join(
+            sorted({str(x) for x in g.ref_transition_probability}))
+        r["n_coincident_rows"] = int(len(g))
+        out.append(r)
+    d = pd.DataFrame(out).drop(columns=["_k"], errors="ignore")
+    if "n_coincident_rows" not in d:
+        d["n_coincident_rows"] = 1
+    d["n_coincident_rows"] = d.n_coincident_rows.fillna(1).astype(int)
+    return d.reset_index(drop=True)
+
+
 def match(canon_sp: pd.DataFrame, nist: pd.DataFrame) -> pd.DataFrame:
     """(wavelength, EP) match, admitted ONLY when the MULTIPLICITIES AGREE.
 
@@ -352,6 +409,8 @@ def main() -> int:
             continue
         nist_all = load_nist(sp)
         nist, bad = split_nonphysical(nist_all)
+        n_before = len(nist)
+        nist = collapse_coincident(nist)
         if len(bad):
             bad = bad.assign(species=sp)
             quarantined.append(bad)
@@ -386,7 +445,8 @@ def main() -> int:
             "canonical_rows": int(len(c)),
             "nist_graded_rows_in_pull": int(len(nist_all)),
             "nist_rows_nonphysical_quarantined": int(len(nist_all) - len(nist)),
-            "nist_rows_usable": int(len(nist)),
+            "nist_rows_usable": int(n_before),
+            "nist_features_after_collapse": int(len(nist)),
             "matched": n_hit,
             "adopt_single": int((m.verdict == "ADOPT").sum()),
             "adopt_summed_blend": int(m.verdict.str.startswith("ADOPT_SUM").sum()),
@@ -474,6 +534,7 @@ def main() -> int:
     print("=== RYA-1214 Step 1 — CNO gf adjudication ===")
     print(f"  match window: |dlambda| <= {WTOL_A} A AND |dEP| <= {EPTOL_EV} eV, UNIQUE")
     print(ps[["species", "canonical_rows", "nist_rows_usable",
+              "nist_features_after_collapse",
               "nist_rows_nonphysical_quarantined", "matched",
               "adopt_single", "adopt_summed_blend",
               "multiplicity_mismatch_refused", "protected_not_overwritten", "adopted",
