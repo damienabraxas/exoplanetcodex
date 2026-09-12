@@ -730,7 +730,12 @@ _WSTEP_NM = 0.0002          # fine synthesis grid (0.002 Angstrom)
 #: public surface unchanged for its existing callers while there is exactly one
 #: definition (RYA-845: declare it once).
 from pipeline.fit_constraint import (                              # noqa: E402
-    CURVATURE_PROBE_STEP_DEX, curvature_sigma)
+    CURVATURE_PROBE_STEP_DEX, measure_constraint)
+# RYA-1214 — the SAME decider the band-product route and the Engine-B handler call.
+# `STALE.md` names "RYA-847's synthesis constraint gate" as what retires this path's
+# sigma clip; importing it rather than re-implementing the check is what makes the three
+# routes unable to disagree (RYA-845/847).
+from pipeline.constraint_gate import verdict as constraint_verdict   # noqa: E402
 
 
 def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
@@ -788,36 +793,50 @@ def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
     dof = max(n_pix - 1, 1)
     chi2_min = chi2(a_best)
     red_chi2 = chi2_min / dof
-    edge = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
     # σ from the χ² curvature. The rationale lives in `curvature_sigma`'s docstring and
     # is deliberately NOT restated here: this value is the published σ_stat for N and O,
     # and a second copy of the reasoning beside the call is how a number drifts from its
     # own justification (RYA-845).
     #
-    # 🔴 THE np.clip BELOW IS LEFT IN PLACE ON PURPOSE, AND IT NOW BITES A PUBLISHED
-    # NUMBER. The clip is the third defect and it belongs to RYA-847, which needs its
-    # sweep's constraint metric to define "unconstrained"; fixing it here would back-fit
-    # that criterion from CNO.
+    # 🔴 RYA-1214 — THE np.clip IS GONE, AND ITS OWN STATED CONDITION IS WHAT RETIRES IT.
     #
-    # But the rescale makes the clip MORE binding, not less — σ grows by sqrt(red_chi2)
-    # — and MEASURED on the solar re-run, CN_red lands ON the clip. So solar N publishes
-    # sigma_stat = 1.000, a clipped sentinel wearing the shape of a measured 1 dex, in
-    # `solar_vis_cno_product.csv`. (An earlier draft of this comment predicted N would
-    # land at 0.554 and be safe. The run refuted it; the prediction was arithmetic on the
-    # OLD one-sided σ, and the two-sided probe finds the shallow side that the clamped
-    # probe never looked at.) Named in RYA-848's End-of-Session as a hand-off, not
-    # silently shipped.
+    # The clip read `np.clip(sigma_fit, 0.0, 1.0)` and was left in place deliberately,
+    # annotated "RYA-847 owns removing this" because that ticket "needs its sweep's
+    # constraint metric to define unconstrained; fixing it here would back-fit that
+    # criterion from CNO". RYA-847 HAS LANDED. Its sweep ran over 9 cells and 581
+    # synthesis lines, and its answer was that NO transferable threshold exists —
+    # `constraint_gate.SYNTH_CONSTRAINT` is None PERMANENTLY, not pending — with the
+    # NON-MINIMUM check standing as the one criterion that survived, because zero is the
+    # boundary between "chi2 rose away from the answer" and "it did not" and so cannot be
+    # tuned. So the thing the clip was waiting for is decided, and it is decided in a form
+    # that does not need the clip at all.
     #
-    # The same fix UNCLIPS CI_5380 (1.000 -> 0.057): its old one-sided probe was clamped
-    # and failed, and the lower side had real curvature all along.
-    sigma_fit = curvature_sigma(chi2, a_best=a_best, chi2_min=chi2_min,
-                                red_chi2=red_chi2, a_lo=a_lo, a_hi=a_hi, edge=edge)
-    if np.isfinite(sigma_fit):
-        sigma_fit = float(np.clip(sigma_fit, 0.0, 1.0))   # RYA-847 owns removing this
+    # WHAT THE CLIP WAS DOING, MEASURED: `solar_vis_cno_product.csv` publishes
+    # sigma_stat = 1.000 for nitrogen (CN_red) and sigma_fit = 1.000 for CI_5380 — a
+    # SENTINEL WEARING THE SHAPE OF A MEASURED 1 DEX. `data/audit/cno_synthesis/STALE.md`
+    # names exactly this as the last known defect in this path and names the constraint
+    # gate as what retires it. An unconstrained fit now says so through the gate instead
+    # of through a number that looks like an uncertainty.
+    #
+    # ⚠️ `measure_constraint` REPLACES the bare `curvature_sigma` call rather than being
+    # added beside it. Both compute σ from the same curvature, and calling each would
+    # make two σ for one fit — the RYA-845 shape. It also returns the frac_rise the gate
+    # needs, which the bare call never produced, which is why this path had no way to ask
+    # the question before.
+    m = measure_constraint(chi2, a_best=a_best, chi2_min=chi2_min, red_chi2=red_chi2,
+                           a_lo=a_lo, a_hi=a_hi)
+    cv = constraint_verdict(m)
+    edge = m.edge_distance_dex < 1e-2
+    status = 'edge_pinned' if edge else ('unconstrained' if not cv.ok else 'ok')
     return {'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
-            'sigma_fit': round(sigma_fit, 3), 'n_pix': n_pix,
-            'n_eval': int(n_eval[0]),
-            'status': 'edge_pinned' if edge else 'ok'}
+            'sigma_fit': (round(float(m.sigma_A), 3) if np.isfinite(m.sigma_A)
+                          else float('nan')),
+            'n_pix': n_pix, 'n_eval': int(n_eval[0]),
+            'status': status,
+            'frac_rise_weaker': float(m.frac_rise_weaker),
+            'edge_distance_dex': float(m.edge_distance_dex),
+            'constrained': bool(cv.ok),
+            'reason': '' if cv.ok else cv.reason}
 
 
 # ── Preflight assertions (no silent fallback) ─────────────────────────────────
@@ -996,11 +1015,22 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
             center = state[el]
             r = _fit(d, center)
             last[d.key] = r
-            if np.isfinite(r['A_X']):
+            # 🔴 RYA-1214 — A FIT THE GATE REJECTED MUST NOT PIN THE EQUILIBRIUM.
+            # `np.isfinite(A_X)` was the only test, and `minimize_scalar` returns a finite
+            # number for a flat objective just as readily as for a real minimum — which is
+            # what the retired sigma clip was papering over. In THIS loop the consequence
+            # compounds rather than staying local: `state[el]` is pinned into the next
+            # element's synthesis (CH -> CN|C -> [O I]|C), so an unconstrained carbon fit
+            # would set the molecular equilibrium that nitrogen and oxygen are then
+            # measured against. An undetermined abundance must not become a fixed input.
+            if np.isfinite(r['A_X']) and r.get('constrained', True):
                 deltas[el] = abs(r['A_X'] - state[el])
                 state[el] = r['A_X']     # pin for the next element (EOS coupling)
             else:
                 deltas[el] = np.nan
+                if np.isfinite(r['A_X']) and not r.get('constrained', True):
+                    result.flags.append(f'{el}_primary_unconstrained:{d.key}')
+                    print(f"    {d.key:10s} REFUSED as the {el} pin — {r['reason'][:88]}")
             print(f"    {d.key:10s} A({el})={r['A_X']}  χ²ᵣ={r['red_chi2']}  "
                   f"σfit={r['sigma_fit']}  [{r['status']}]  ({r['wall_s']}s)")
         result.iterations = it
@@ -1094,8 +1124,14 @@ def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes
     """
     budget = {}
     # Statistical
+    # 🔴 RYA-1214 — the carbon scatter is over the diagnostics that MEASURED something.
+    # This pooled every finite `A_X`, so an unconstrained band widened (or narrowed) the
+    # random term of the one element whose sigma_stat is a multi-diagnostic scatter rather
+    # than a curvature. The gate's verdict is the membership rule here as it is in the
+    # equilibrium loop.
     c_vals = [last[k]['A_X'] for k in ('CH_Gband', 'CI_5052', 'CI_5380', 'C2_Swan')
-              if k in last and np.isfinite(last[k]['A_X'])]
+              if k in last and np.isfinite(last[k]['A_X'])
+              and last[k].get('constrained', True)]
     stat = {}
     if len(c_vals) >= 2:
         stat['C'] = float(np.std(c_vals, ddof=1) / np.sqrt(len(c_vals)))
@@ -1139,10 +1175,37 @@ def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes
             sys_budget[el] = float(np.sqrt(np.sum(np.square(terms)))) if terms else 0.0
             print(f"    {el}: σ_sys={sys_budget[el]:.3f} dex ({len(terms)} terms)")
 
+    # 🔴 RYA-1214 — AN UNMEASURABLE sigma_stat IS NOT ZERO, AND THIS IS WHERE THE
+    # RETIRED CLIP'S SENTINEL WOULD HAVE COME BACK WEARING THE OPPOSITE SIGN.
+    #
+    # This read `s_a = stat[el] if np.isfinite(stat[el]) else 0.0`. With the
+    # `np.clip(..., 0.0, 1.0)` in place an unmeasurable curvature arrived here as 1.000
+    # and was reported as a 1 dex bar; with the clip removed it arrives as NaN and this
+    # line would have reported 0.000 — the TIGHTEST possible bar for the LEAST constrained
+    # possible fit, which is verbatim the defect `fit_constraint.ConstraintMetrics`
+    # documents ("the old code returned 0.000 for a railed fit ... and clipped a flat
+    # objective to a plausible-looking 1.000"). Removing the clip alone would have made
+    # this path strictly worse.
+    #
+    # So an unmeasured term stays UNMEASURED and says so, and sigma_tot is withheld rather
+    # than computed from a stand-in: a total that silently omits its statistical part is
+    # not a smaller uncertainty, it is a different quantity (RYA-907).
     for el in ('C', 'N', 'O'):
-        s_a = stat[el] if np.isfinite(stat[el]) else 0.0
         s_b = sys_budget[el]
+        if not np.isfinite(stat[el]):
+            budget[el] = {
+                'stat': None, 'sys': round(s_b, 3), 'tot': None,
+                'stat_state': 'UNMEASURED',
+                'stat_note': ('the chi2 curvature was not measurable for this element\'s '
+                              'primary band (railed fit, or an objective with no curvature '
+                              'to invert), so there is no statistical term to report and '
+                              'sigma_tot is withheld. NOT zero and NOT the 1.000 the '
+                              'retired np.clip used to emit (RYA-848/RYA-1214).'),
+            }
+            continue
+        s_a = float(stat[el])
         budget[el] = {'stat': round(s_a, 3), 'sys': round(s_b, 3),
+                      'stat_state': 'MEASURED',
                       'tot': round(float(np.sqrt(s_a ** 2 + s_b ** 2)), 3)}
     return budget
 
@@ -1157,9 +1220,13 @@ def _write_product(result: CNOResult, out_dir: Path) -> None:
             'element': el, 'A_X': result.abundances.get(el),
             'sigma_stat': unc.get('stat'), 'sigma_sys': unc.get('sys'),
             'sigma_tot': unc.get('tot'),
+            # RYA-1214: a blank sigma_stat must say WHY it is blank. "Not measured" and
+            # "not written out" look identical in a CSV otherwise (RYA-833).
+            'sigma_stat_state': unc.get('stat_state', ''),
         })
     rows.append({'element': 'C/O', 'A_X': result.abundances.get('C/O'),
-                 'sigma_stat': None, 'sigma_sys': None, 'sigma_tot': None})
+                 'sigma_stat': None, 'sigma_sys': None, 'sigma_tot': None,
+                 'sigma_stat_state': 'NOT_PROPAGATED'})
     prod = pd.DataFrame(rows)
     band = pd.DataFrame(result.per_band)
     base = out_dir / f'{result.star_id}_{result.region}_cno'
