@@ -17,7 +17,7 @@
     "excitation_potential_eV": 0.001,
     "basis": "read off the |d log gf| bimodality \u2014 flat at ~0.002 dex out to 0.1 A, median 1.05 dex beyond"
   },
-  "null_trials": 20,
+  "null_trials": 5,
   "per_species": [
     {
       "species": "C I",
@@ -37,13 +37,13 @@
       "protected_not_overwritten": 1,
       "adopted": 365,
       "match_rate": 0.2773,
-      "randomised_null_rate": 0.0002,
+      "randomised_null_rate": 0.0003,
       "grades": "{\"C\": 130, \"D\": 119, \"B\": 94, \"C+\": 11, \"E\": 5, \"D+\": 3, \"B+\": 3}",
       "sigma_median_dex": 0.0969,
       "n_sigma_wider_than_K07": 5,
-      "delta_nist_minus_store_median": -0.0002,
-      "delta_nist_minus_store_absmax": 0.8073,
-      "n_moved_gt_0p1_dex": 6
+      "delta_nist_minus_store_median": 0.0,
+      "delta_nist_minus_store_absmax": 0.0,
+      "n_moved_gt_0p1_dex": 0
     },
     {
       "species": "C II",
@@ -63,13 +63,13 @@
       "protected_not_overwritten": 0,
       "adopted": 60,
       "match_rate": 0.1571,
-      "randomised_null_rate": 0.0001,
+      "randomised_null_rate": 0.0,
       "grades": "{\"B\": 35, \"B+\": 11, \"C\": 9, \"C+\": 2, \"A\": 2, \"D+\": 1}",
       "sigma_median_dex": 0.0414,
       "n_sigma_wider_than_K07": 0,
-      "delta_nist_minus_store_median": -0.0006,
-      "delta_nist_minus_store_absmax": 0.5469,
-      "n_moved_gt_0p1_dex": 7
+      "delta_nist_minus_store_median": 0.0,
+      "delta_nist_minus_store_absmax": 0.0,
+      "n_moved_gt_0p1_dex": 0
     },
     {
       "species": "N I",
@@ -89,12 +89,12 @@
       "protected_not_overwritten": 0,
       "adopted": 175,
       "match_rate": 0.9831,
-      "randomised_null_rate": 0.0006,
+      "randomised_null_rate": 0.0022,
       "grades": "{\"C\": 73, \"D+\": 37, \"B\": 25, \"B+\": 22, \"C+\": 16, \"D\": 2}",
       "sigma_median_dex": 0.0969,
       "n_sigma_wider_than_K07": 0,
       "delta_nist_minus_store_median": -0.0,
-      "delta_nist_minus_store_absmax": 0.0055,
+      "delta_nist_minus_store_absmax": 0.0,
       "n_moved_gt_0p1_dex": 0
     },
     {
@@ -115,12 +115,12 @@
       "protected_not_overwritten": 0,
       "adopted": 112,
       "match_rate": 0.5091,
-      "randomised_null_rate": 0.0002,
+      "randomised_null_rate": 0.0,
       "grades": "{\"C+\": 37, \"B\": 27, \"D\": 21, \"A\": 11, \"C\": 10, \"B+\": 6}",
       "sigma_median_dex": 0.0719,
       "n_sigma_wider_than_K07": 0,
-      "delta_nist_minus_store_median": 0.0,
-      "delta_nist_minus_store_absmax": 0.002,
+      "delta_nist_minus_store_median": -0.0,
+      "delta_nist_minus_store_absmax": 0.0,
       "n_moved_gt_0p1_dex": 0
     },
     {
@@ -141,12 +141,12 @@
       "protected_not_overwritten": 3,
       "adopted": 82,
       "match_rate": 0.625,
-      "randomised_null_rate": 0.0004,
+      "randomised_null_rate": 0.0,
       "grades": "{\"C+\": 47, \"C\": 18, \"B\": 10, \"B+\": 7}",
       "sigma_median_dex": 0.0719,
       "n_sigma_wider_than_K07": 0,
-      "delta_nist_minus_store_median": 0.0002,
-      "delta_nist_minus_store_absmax": 0.0251,
+      "delta_nist_minus_store_median": -0.0,
+      "delta_nist_minus_store_absmax": 0.0,
       "n_moved_gt_0p1_dex": 0
     },
     {
@@ -167,12 +167,12 @@
       "protected_not_overwritten": 0,
       "adopted": 43,
       "match_rate": 0.2363,
-      "randomised_null_rate": 0.0005,
+      "randomised_null_rate": 0.0011,
       "grades": "{\"C\": 20, \"D\": 16, \"C+\": 3, \"E\": 2, \"B+\": 2}",
       "sigma_median_dex": 0.0969,
       "n_sigma_wider_than_K07": 2,
-      "delta_nist_minus_store_median": 0.0001,
-      "delta_nist_minus_store_absmax": 0.0021,
+      "delta_nist_minus_store_median": 0.0,
+      "delta_nist_minus_store_absmax": 0.0,
       "n_moved_gt_0p1_dex": 0
     }
   ],
@@ -187,5 +187,5 @@
   },
   "oi_777_decision": "OPEN. Tachiev and NIST differ systematically by -0.016 dex on the 777 triplet and -0.005 dex on 8446. AGSS21 names Tachiev for N i only and states no O i gf source. Both values are reported in oi_tachiev_vs_nist.csv; NIST is what the store already carried and this script does not change it. Ryan decides.",
   "n_i_caveat": "NIST's N I values ARE Tachiev (TP T7370). Adjudicating N I against this pull is one source seen twice, not independent confirmation.",
-  "canonical_gf_modified": true
+  "canonical_gf_modified": false
 }
