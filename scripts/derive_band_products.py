@@ -503,8 +503,32 @@ def _cand_consistent(linelist, *, lo_A: float, hi_A: float, species: str,
 
 
 def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
-                           species: str, tier: str) -> pd.DataFrame:
-    """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
+                           species: str, tier: str,
+                           source_label: str = "lines-from-ew") -> pd.DataFrame:
+    """The lines a NAMED ARTIFACT lists, as synthesis candidates — RYA-967 / RYA-1214.
+
+    🔴 RYA-1214 — THE SAME MACHINERY SERVES A SECOND, DIFFERENT PURPOSE, AND IT HAD TO.
+    Nothing in this function is about equivalent widths: it reads a `wavelength_air_A`
+    column and drives the fit over exactly those lines. What made it EW-specific was its
+    NAME and its selector tag, and that mattered because the production selector
+    (`select_lines`, theoretical central depth in [0.15, 0.90]) cannot reach the CNO
+    campaign at all. Measured on the GES v6 list:
+
+        O I  VIS          117 lines,  0 above the depth floor   (max 0.040 — [O I] 6300)
+        N I  VIS           97 lines,  0                          (max 0.000)
+        N I  red-optical   68 lines,  0                          (max 0.040)
+        C I  red-optical  284 lines,  7                          ([C I] 8727 is 0.030)
+
+    So BOTH of AGSS21's forbidden indicators and ALL FIVE of its N I lines sit below the
+    floor. That is not a defect in the floor — a line that shallow is not visibly above
+    the crowding and a depth-ranked selector is right to refuse it — it is a property of
+    the light elements: the indicators are weak BECAUSE they are unsaturated, which is
+    what makes them good abundance diagnostics. A strength-ranked rule selects against
+    exactly the lines the campaign exists to measure.
+
+    `source_label` exists so the printed lines and the selector tag say which artifact
+    drove the run. An AGSS21-set run tagged `_FROMEW` would claim an EW comparison it is
+    not, and the selector is part of the product KEY (RYA-984).
 
     🔴 WHY THIS EXISTS. `select_lines` returns the strongest N lines the synthesis list
     holds. Running that against RYA-959's EW pool would compare two different LINE SETS as
@@ -517,13 +541,13 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     had killed them?" cannot be answered from the survivors.
     """
     if not ew_csv.exists():
-        raise SystemExit(f"--lines-from-ew: no EW artifact at {ew_csv}")
+        raise SystemExit(f"--{source_label}: no artifact at {ew_csv}")
     ew = pd.read_csv(ew_csv)
     want = ew.wavelength_air_A.astype(float)
     want = want[(want >= lo_A) & (want <= hi_A)]
     if want.empty:
         raise SystemExit(
-            f"--lines-from-ew: {ew_csv.name} has no line in {lo_A}-{hi_A} A. Refusing to "
+            f"--{source_label}: {ew_csv.name} has no line in {lo_A}-{hi_A} A. Refusing to "
             f"synthesise a set selected from somewhere else.")
 
     names = linelist.dtype.names
@@ -543,12 +567,12 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
     if missing:
-        print(f"  [lines-from-ew] {len(missing)} of {len(want)} EW lines are NOT in the "
-              f"synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot be "
-              f"compared and are reported, not dropped quietly. First few: "
+        print(f"  [{source_label}] {len(missing)} of {len(want)} requested lines are NOT "
+              f"in the synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot "
+              f"be measured and are reported, not dropped quietly. First few: "
               f"{[f'{w:.3f}(+{d:.3f})' for w, d in missing[:4]]}")
     if not keep:
-        raise SystemExit("--lines-from-ew: no EW line matched the synthesis list")
+        raise SystemExit(f"--{source_label}: no requested line matched the synthesis list")
 
     keep = np.array(sorted(set(keep)))
     df = pd.DataFrame({
@@ -628,6 +652,11 @@ def _selector_tag(a) -> str:
     """
     if getattr(a, "lines_deep_graded", False):
         return "_DEEPGRADED"
+    # RYA-1214 — a NAMED published set is not an EW comparison, and the selector is part
+    # of the product KEY (RYA-984). Tagging an AGSS21-set run `_FROMEW` would assert a
+    # controlled method comparison that never happened.
+    if getattr(a, "lines_from_set", None):
+        return "_SET-" + str(a.lines_from_set).split("=", 1)[0].strip().upper()
     if getattr(a, "lines_from_ew", None):
         tier = getattr(a, "lines_tier", "all")
         return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
@@ -1098,6 +1127,13 @@ def synthesis_route(a, pol) -> None:
     if getattr(a, "lines_deep_graded", False):
         cand = _cand_deep_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
                                  species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_from_set", None):
+        _name, _, _csv = str(a.lines_from_set).partition("=")
+        cand = _cand_from_ew_artifact(ctx["linelist"], Path(_csv),
+                                      lo_A=a.lo, hi_A=a.hi,
+                                      species=species_token(a.element, a.ion),
+                                      tier=a.lines_tier,
+                                      source_label=f"lines-from-set:{_name}")
     elif getattr(a, "lines_from_ew", None):
         cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
                                       lo_A=a.lo, hi_A=a.hi,
@@ -2223,6 +2259,19 @@ def main() -> None:
                          "the synth leg picks its own (stronger) lines and any difference "
                          "in A(X) conflates method with selection — RYA-842, line "
                          "selection dominates.")
+    ap.add_argument("--lines-from-set", default=None, metavar="NAME=CSV",
+                    help="RYA-1214: drive the SYNTHESIS route over a NAMED PUBLISHED line "
+                         "set, listed in CSV by `wavelength_air_A`. Same machinery as "
+                         "--lines-from-ew and a DIFFERENT claim, so it carries its own "
+                         "selector tag `_SET-<NAME>` rather than `_FROMEW`. It exists "
+                         "because `select_lines` ranks by theoretical central depth and "
+                         "refuses anything below 0.15 -- which excludes BOTH of AGSS21's "
+                         "forbidden CNO indicators ([C I] 8727 at 0.030, [O I] 6300 at "
+                         "0.040) and ALL FIVE of its N I lines (max 0.040). The light "
+                         "elements' indicators are weak BECAUSE they are unsaturated, so "
+                         "a strength-ranked rule selects against the very lines the "
+                         "campaign is about. Publish the result with `publish_product "
+                         "--line-set <name>` (RYA-1127/1185).")
     ap.add_argument("--degrade-to-R", type=float, default=None, metavar="R",
                     help="RYA-995: convolve the OBSERVED spectrum down to this resolving "
                          "power before fitting, and fit at it. The controlled "
