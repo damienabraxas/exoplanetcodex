@@ -157,13 +157,6 @@ ENGINES = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "synth-1D-LTE-gerb
 #: artifacts at run time and only the KEYS live here.
 NLTE_LABEL_BANDS = {"near-UV": "near-UV", "NIR": "NIR", "H": "H"}
 
-#: The holdings the <3D> STAGGERmean3D deck has ever produced a product on, in any grade.
-#: 🔴 A ROSTER, NOT A READ OF THE FEED. RYA-1187's rule is that live products mark a cell
-#: LIVE and never decide whether it is APPLICABLE, so deriving this from `products[]`
-#: would let the matrix answer an applicability question with a coverage observation.
-#: Named here so the claim is auditable and so the day RYA-1040 extends the deck, this
-#: list is what has to change.
-MEAN3D_HOLDINGS = ("solar_kpno_kurucz2005_corrected", "solar_kpno_molecfit_corrected")
 
 
 def _canon() -> pd.DataFrame:
@@ -222,37 +215,13 @@ def engine_verdicts(band: str, ion: str, live: set, holding: str,
                       f"({labels[band]['linelist']}: {labels[band]['fe_lines']} Fe lines, "
                       f"{labels[band]['labelled']} labelled). {r}")
         elif eng in ("synth-mean3D-LTE-gerber-stagger", "synth-mean3D-NLTE-gerber-stagger"):
-            if band != "VIS":
-                na = ("the <3D> STAGGERmean3D deck and its atmosphere are a VIS-band "
-                      "pair; no mean-3D product exists outside VIS in any grade, so a "
-                      "Reference cell here would be the first and is out of this "
-                      "ticket's scope (RYA-1040 owns the deck's reach).")
-            elif ion == "I" and holding not in MEAN3D_HOLDINGS:
-                #: ⚠️ UNDETERMINED, NOT N/A, AND NOT A GAP THIS TICKET OWES. The <3D>
-                #: STAGGERmean3D deck has only ever run on the two Kitt Peak holdings, in
-                #: ONE grade (Codex). Whether it reaches harps or iag is RYA-1040's
-                #: question, not this ticket's, and a Reference cell there would be the
-                #: FIRST mean-3D product on that holding in any grade. Calling it N/A
-                #: would assert a reach limit nobody has measured; calling it a GAP would
-                #: claim Reference owes a product no grade has.
-                out[eng] = {"verdict": "UNDETERMINED_DECK_REACH",
-                            "reason": ("the <3D> STAGGERmean3D deck has no product on "
-                                       "this holding in ANY grade -- it is live only on "
-                                       "solar_kpno_kurucz2005_corrected and "
-                                       "solar_kpno_molecfit_corrected, and only at Codex "
-                                       "Grade. Whether it reaches this holding is "
-                                       "RYA-1040's to declare; a Reference cell here "
-                                       "would be the first mean-3D product on it. NOT "
-                                       "asserted N/A (that would claim an unmeasured "
-                                       "reach limit) and NOT counted a gap (Reference "
-                                       "cannot owe what no grade has).")}
-                continue
-            elif ion == "II":
-                na = ("mean-3D NLTE inherits the same Fe II deck limit as ENGINE-B-NLTE; "
-                      "the <3D>-LTE half is available but its NLTE partner is not, and "
-                      "RYA-1040 requires the two as a MANDATORY PAIR — an unpaired "
-                      "<3D>-LTE product would report the 1D->mean-3D ATMOSPHERE shift "
-                      "as non-LTE physics (RYA-542).")
+            # Ryan, 2026-09-12: applicable, just not being run now. The mean-3D legs wait
+            # on the Bride. Not N/A and not a gap — DEFERRED.
+            out[eng] = {"verdict": "DEFERRED",
+                        "reason": ("the Gerber mean-3D legs are applicable but are not "
+                                   "being run now; they wait on the Bride (Ryan, "
+                                   "2026-09-12).")}
+            continue
         elif eng == "ENGINE-A":
             if band == "H":
                 na = ("the Bergemann MPIA grid does not reach the H arm. MEASURED by the "
@@ -424,17 +393,14 @@ def main() -> int:
 
     print(f"\nRYA-1213 Reference Grade matrix  ({len(doc['cells'])} cells)\n")
     print(f"{'band':12s} {'ion':6s} {'holding':34s} {'REF':>4s} "
-          f"{'(codex':>7s}{'/deep':>6s}{'/nodepth)':>10s}  live/gap/na/undet")
+          f"{'(codex':>7s}{'/deep':>6s}{'/nodepth)':>10s}  live/gap/na/deferred")
     for r in doc["cells"]:
-        #: ⚠️ FOUR COLUMNS, NOT THREE. Folding UNDETERMINED_DECK_REACH into N/A would
-        #: report an unmeasured reach as a measured refusal — the distinction the verdict
-        #: exists to make.
         v = [e["verdict"] for e in r["engines"].values()]
         print(f"{r['band']:12s} {r['ion']:6s} {r['holding']:34s} "
               f"{r['reference_pool']:4d} {r['would_be_codex']:7d}{r['would_be_deep']:6d}"
               f"{r['no_known_depth']:10d}  "
               f"{v.count('LIVE')}/{v.count('GAP')}/{v.count('N/A')}/"
-              f"{v.count('UNDETERMINED_DECK_REACH')}")
+              f"{v.count('DEFERRED')}")
     print("\nnear-UV Codex Grade check (RYA-1213 Step 3):")
     for k, s in doc["nearuv_codex_check"].items():
         print(f"  {k}: {s['lab_lines']} lab lines, {s['at_or_below_gate']} at/below the "
