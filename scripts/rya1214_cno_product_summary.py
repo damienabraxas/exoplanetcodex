@@ -43,10 +43,22 @@ def main() -> int:
         for _, r in p.iterrows():
             lines_f = BP / f"{stem}_{r.treatment}_lines.csv"
             hit, used = [], []
+            rchi2_med = rchi2_max = None
             if lines_f.exists():
                 lf = pd.read_csv(lines_f)
                 inagg = lf[lf.in_aggregate.astype(str).str.lower() == "true"]
                 used = [round(float(w), 3) for w in inagg.wavelength_air_A]
+                # 🔴 CARRIED, NOT GATED ON. `constraint_gate` measured red_chi2's per-band
+                # cut spread at x489 and ratified SIGMA_CONSTRAINT=None PERMANENTLY: the
+                # distributions are continuous, so there is no separable population to
+                # threshold against, and a MODEL-INADEQUATE line is routed to
+                # problem_children.csv case by case under RYA-844 where a human names it.
+                # Auto-excluding here would be inventing the threshold that sweep refuted,
+                # and excluding on an undiagnosed cause is tuning. So it is REPORTED --
+                # which is how the molecfit-vs-Kurucz2005 gap below becomes visible.
+                if "red_chi2" in inagg and inagg.red_chi2.notna().any():
+                    rchi2_med = round(float(inagg.red_chi2.median()), 1)
+                    rchi2_max = round(float(inagg.red_chi2.max()), 1)
                 ce = cen[cen.element == r.element]
                 for _, c in ce.iterrows():
                     w = float(c.wavelength_air_A)
@@ -66,6 +78,7 @@ def main() -> int:
                 "A": r.A, "sigma_stat": r.stat_dex, "sigma_syst": r.syst_dex,
                 "n_lines": r.n_lines, "n_excluded": r.n_excluded,
                 "dominant_term": r.dominant,
+                "red_chi2_median": rchi2_med, "red_chi2_max": rchi2_max,
                 "gf_rung": rung,
                 "n_agss21_indicators_in_pool": len(set(hit)),
                 "agss21_indicators_in_pool": "|".join(sorted(set(hit))),
@@ -81,7 +94,7 @@ def main() -> int:
         print("  no product artifact found in data/results/band_products/")
         return 0
     print(d[["element", "ion", "band", "holding", "treatment", "A", "sigma_stat",
-             "sigma_syst", "n_lines", "n_excluded",
+             "sigma_syst", "n_lines", "n_excluded", "red_chi2_median", "red_chi2_max",
              "n_agss21_indicators_in_pool"]].to_string(index=False))
     print("\n  gf rung per product:")
     for _, r in d.iterrows():
