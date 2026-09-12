@@ -156,3 +156,49 @@ def test_fe_and_al_take_the_unchanged_path():
         assert r.nist_class is False, (
             f"{element} {ion} has a laboratory table; the RYA-1214 branch must be "
             f"unreachable for it")
+
+
+# ── the RYA-1191 validity bound, which was inert for everything but iron ─────
+def test_the_validity_bound_now_reaches_every_element_with_a_published_centre():
+    """RYA-1214. `fit_is_physical` returned True unconditionally for `element != "Fe"`,
+    so the guard that exists to keep a non-convergent fit out of an aggregate did nothing
+    for C, N, O or Al. C I 4890.653 fitted to A = 5.443 on solar_harps_molecfit_corrected
+    — 3.0 dex below solar carbon — and entered the VIS C I pool with a blank
+    excluded_reason."""
+    from pipeline.fit_validity import (SOLAR_A_FE, VALIDITY_HALF_WIDTH_DEX,
+                                       fit_is_physical, rejection_reason,
+                                       solar_reference)
+
+    # Fe is bit-identical: same constant, not routed through the table.
+    assert solar_reference("Fe") == SOLAR_A_FE
+    assert fit_is_physical(7.46) and fit_is_physical(7.0) and fit_is_physical(8.0)
+    assert not fit_is_physical(4.539) and not fit_is_physical(10.988)
+
+    # The case that motivated it.
+    assert not fit_is_physical(5.443, "C"), (
+        "A(C) = 5.443 is 3.0 dex below solar carbon — a factor of a thousand — and must "
+        "not enter an aggregate")
+    assert fit_is_physical(8.50, "C") and fit_is_physical(8.46, "C")
+    for el, a_ok, a_bad in (("N", 7.83, 5.0), ("O", 8.69, 4.5), ("Al", 6.43, 9.5)):
+        assert fit_is_physical(a_ok, el), f"{el}: solar must be inside the bound"
+        assert not fit_is_physical(a_bad, el), f"{el}: {a_bad} must be outside it"
+
+    # An element with no published centre keeps the ORIGINAL refusal rather than
+    # inventing one (RYA-833: "we hold no reference" is not "any value is fine", but
+    # guessing a centre is worse than declining to filter).
+    assert solar_reference("Zz") is None
+    assert fit_is_physical(5.443, "Zz") is True
+
+    # The reason names the centre it measured against — never a borrowed one.
+    r = rejection_reason(5.443, "C")
+    assert "A(C)" in r and "8.46" in r and str(VALIDITY_HALF_WIDTH_DEX) in r
+    assert "7.46" not in r, "a carbon rejection must not quote the iron reference"
+
+
+def test_absence_and_nan_are_still_not_rejections():
+    """A missing abundance is a different problem (RYA-833) and must not be recoded as a
+    non-physical fit by the generalisation."""
+    from pipeline.fit_validity import fit_is_physical
+    for el in ("Fe", "C", "N", "O"):
+        assert fit_is_physical(None, el)
+        assert fit_is_physical(float("nan"), el)

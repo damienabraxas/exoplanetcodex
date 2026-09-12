@@ -55,6 +55,38 @@ from __future__ import annotations
 #: with the data it is filtering can be dragged by the very fits it exists to reject.
 SOLAR_A_FE = 7.46
 
+
+def solar_reference(element: str) -> float | None:
+    """The published solar A(X) this bound centres on, per element — RYA-1214.
+
+    🔴 THE GUARD WAS INERT FOR EVERY ELEMENT BUT IRON, AND A CNO POOL PAID FOR IT.
+    `fit_is_physical` returned True unconditionally for `element != "Fe"` — a deliberate
+    refusal to guess a reference it did not have. It has one: `SOLAR_ASPLUND2021` is the
+    same fixed published table `SOLAR_A_FE = 7.46` is taken from, for 28 elements. So the
+    refusal was protecting against a lookup that already existed.
+
+    What it cost: C I 4890.653 fitted to **A = 5.443** on solar_harps_molecfit_corrected —
+    3.0 dex below solar carbon, a factor of a thousand — and entered the VIS C I aggregate
+    with a blank `excluded_reason`. The two Kitt Peak holdings excluded the same line as
+    `edge_pinned`, so the pool that kept it is the one where no other gate fired either.
+    Identical in shape to the A(Fe) = 4.53 that motivated RYA-1191, one element over.
+
+    ⚠️ THE HALF-WIDTH IS NOT RE-DERIVED AND DOES NOT NEED TO BE. RYA-1191's justification
+    for +/-1.5 dex is a statement about NON-CONVERGENT FITS, not about iron: it is a factor
+    of ~1000 either way against a line-to-line scatter of ~0.2 dex, so it cannot shape a
+    result. That argument transfers unchanged; the element-specific part is the CENTRE,
+    and the centre comes from a published table rather than from the band's own median for
+    exactly the reason the Fe constant does.
+
+    Returns None for an element the table does not carry — which keeps the original
+    refusal for that case instead of inventing a centre.
+    """
+    if str(element).strip() == "Fe":
+        return SOLAR_A_FE          # unchanged, and not routed through the table
+    from config.constants import SOLAR_ASPLUND2021
+    v = SOLAR_ASPLUND2021.get(str(element).strip())
+    return float(v) if v is not None else None
+
 #: Half-width, dex. A factor of ~1000 in abundance either way.
 VALIDITY_HALF_WIDTH_DEX = 1.5
 
@@ -69,15 +101,20 @@ def fit_is_physical(abundance: float | None, element: str = "Fe") -> bool:
         return True
     if a != a:                            # NaN
         return True
-    if element != "Fe":
-        return True                       # the reference below is Fe's; refuse to guess
-    return abs(a - SOLAR_A_FE) <= VALIDITY_HALF_WIDTH_DEX
+    ref = solar_reference(element)
+    if ref is None:
+        return True                       # no published centre for it; refuse to guess
+    return abs(a - ref) <= VALIDITY_HALF_WIDTH_DEX
 
 
 def rejection_reason(abundance: float, element: str = "Fe") -> str:
     """The `excluded_reason` for a rejected fit, saying what it is and what it is not."""
+    ref = solar_reference(element)
+    if ref is None:                       # unreachable from fit_is_physical; explicit anyway
+        raise ValueError(f"no published solar reference for {element!r}; a rejection "
+                         f"reason must name the centre it measured against")
     return (f"FIT-NOT-PHYSICAL: A({element}) = {float(abundance):.3f} is "
-            f"{abs(float(abundance) - SOLAR_A_FE):.2f} dex from solar "
-            f"{SOLAR_A_FE}, outside the +/-{VALIDITY_HALF_WIDTH_DEX} dex validity bound. "
+            f"{abs(float(abundance) - ref):.2f} dex from solar "
+            f"{ref}, outside the +/-{VALIDITY_HALF_WIDTH_DEX} dex validity bound. "
             f"This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of "
             f"~1000 in abundance and cannot shape a result (RYA-1191).")
