@@ -34,14 +34,13 @@ different name:
 So in NIR and H the Reference product measures the SAME LINES as its Codex sibling, and
 the new statement is the GRADE rather than the number.
 
-🔴 IT DOES NOT REPRODUCE THE SAME NUMBER, AND THE REASON IS VINTAGE, NOT PHYSICS. On the
-CRIRES+ Y cell the two pools are identical -- five wavelengths, all five in-aggregate --
-and A differs by 0.005 (1D-LTE), 0.006 (ENGINE-A) and 0.001 (gerber 1D-LTE). The last of
-those is the pair whose artifacts are ONE day apart; the other two are 17 days apart. Per
-line the two agree to <= 0.007 dex with red_chi2 moving alongside, so it is the fit and
-not the selection. Comparing a Reference product against a STORED Codex value therefore
-measures code drift as well as the selector (RYA-1204); a real comparison runs both legs
-on one commit. `_ctl_nir_graded` in this ticket is that paired control.
+🔴 AND IT REPRODUCES THE SAME NUMBER ONLY WHEN THE COMPARISON IS PAIRED. Against the
+STORED Codex values the CRIRES+ Y Reference product looked different -- 7.546 vs 7.551
+(1D-LTE), 7.486 vs 7.492 (ENGINE-A) -- on pools that are five identical wavelengths. The
+GRADED leg re-run on the same commit gives 7.546 and 7.486: the selector difference is
+ZERO and all of the apparent difference was CODE DRIFT between a 2026-08-26 artifact and
+today (RYA-1204). Reading a Reference product against a stored Codex value measures drift
+as well as the selector. Measured: nir_paired_selector_control.json.
 
 ⚠️ TWO POPULATIONS OF LAB LINES ARE UNREACHABLE AND NEITHER IS A MISSING RUN.
   * 68 lab lines (67 Fe I, 1 Fe II) sit in 3780-4200 A, between the near-UV list's red

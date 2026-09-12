@@ -483,13 +483,16 @@ def _cand_reference(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.D
         ENGINE-A             GRADED 7.4920   REFERENCE 7.4860
         synth-1D-LTE-gerber  GRADED 7.5530   REFERENCE 7.5540   (artifacts 1 day apart)
 
-    Per line the two agree to <= 0.007 dex and `red_chi2` moves with them, so this is the
-    FIT, not the selection. The pattern is the tell: the pair whose artifacts are a day
-    apart agrees to 0.001 and the pair 17 days apart differs by 0.005-0.006. That is CODE
-    DRIFT between artifact vintages, which is exactly the RYA-1204 trap -- a difference
-    read against a stored number is part lever and part drift. A Reference-vs-Codex
-    comparison is only meaningful PAIRED: both legs run on one commit, differing in the
-    selector and nothing else.
+    Run PAIRED -- the GRADED leg re-measured on the same commit as the Reference leg,
+    differing in the selector and nothing else -- the difference is ZERO on all three
+    treatments, to every published digit. So the numbers above are CODE DRIFT between
+    artifact vintages and none of it is the selector: the RYA-1204 trap exactly, where a
+    difference read against a stored value is part lever and part drift. Measured:
+    data/audit/rya1213_reference_matrix/nir_paired_selector_control.json.
+
+    ⚠️ That control holds where the lab pool does NOT straddle the depth gate. In VIS it
+    does (67 at or below, 109 above), so there Reference is genuinely a third pool and a
+    difference from either sibling is expected.
     """
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
