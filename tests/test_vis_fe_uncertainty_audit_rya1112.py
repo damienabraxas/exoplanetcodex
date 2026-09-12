@@ -42,9 +42,17 @@ def test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause(doc):
     #: blanket; Ryan's threshold ruling moved them onto RYA-968's per-line route and their
     #: sigma_syst is now 0.0475 (sigma_reported 0.0491-0.0516), comfortably under 0.1. The
     #: standard did not move — four products stopped failing it.
+    #: RYA-1213 — SPLIT BY TIER, for the reason the audit's own tripwire is split: the
+    #: Reference tier lands in batches, and a literal that gets bumped every time it fires
+    #: stops being read. All nine new VIS Reference products ARE over the line, and each
+    #: arrives with a named cause inherited from the same physics as its Deep sibling --
+    #: RYA-1081's arm-correlated Fe II offset on the 1D-LTE and Gerber legs, small-N on
+    #: ENGINE-A (n=2). The standard below is what matters and applies to every one of them.
     over = [r for r in doc["products"] if r["over_dig_in"]]
-    assert len(over) == 12
+    assert len([r for r in over if r.get("tier") != "REFERENCE"]) == 12
+    assert len([r for r in over if r.get("tier") == "REFERENCE"]) == 9
     assert all(r["rca_verdict"] for r in over)
+    assert not any(str(r["rca_verdict"]).startswith("OPEN — no named cause") for r in over)
     # the skill demands a NAMED verdict, not the word "OPEN" with nothing behind it
     assert all(len(r["rca_note"]) > 60 for r in over)
 
