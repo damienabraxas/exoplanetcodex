@@ -9068,3 +9068,826 @@ artifacts:
       applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
       ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
       Pool cell(s): nir_kpmf_g1d.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the solar_iag NIR Fe I Codex cell RE-MEASURED on the guarded
+      pool. HELD, NOT PUBLISHED: the live feed row (A=7.546, n=25, artifact
+      2026-08-25) predates RYA-1191's fit_validity guard and its aggregate
+      carries four non-convergent fits (9350.415, 9410.159, 9437.793,
+      9454.194 -- 1.75 to 2.75 dex from solar). This run gives 7.554 at n=22.
+      It doubles as the paired selector control: identical to the RYA-1213
+      Reference product on all three treatments, so the selector contributes
+      ZERO and the whole difference is the guard. Replacing a published Codex
+      value is Ryan's call; see the directory README.
+  - artifact: rya1213_iag_nir_regraded/README.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1213
+    sources:
+      - scripts/derive_band_products.py
+      - data/results/rya1213_iag_nir_regraded/FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+      - data/audit/rya1213_reference_matrix/iag_nir_stale_codex_product.json
+    note: >-
+      Reading instructions for a directory that is deliberately NOT in the feed, which is
+      the one thing a reader needs told. These artifacts re-measure the solar_iag NIR Fe I
+      Codex cell on the guarded pool: the live row (A=7.546, n=25, artifact 2026-08-25)
+      predates RYA-1191's fit_validity guard and its aggregate carries four non-convergent
+      fits. Held rather than published because replacing a published Codex value is Ryan's
+      call, and committed rather than left on Sirius because a result that outlives its
+      artifact is the RYA-1034 failure exactly. The README carries the one-command ingest.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_kur, nuv1_kur_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --skip-engine-b
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nuv1_mf, nuv1_mf_g1d.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_nlte_effect.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-nlte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d, ropt_iag_gnlte.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d.
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_iag_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d, ropt_kur_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kur_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d, ropt_kpmf_gnlte.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d.
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): ropt_kpmf_g1d.
