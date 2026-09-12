@@ -440,6 +440,36 @@ def main() -> int:
         })
     pd.DataFrame(rows).to_csv(OUT / "oi_tachiev_vs_nist.csv", index=False)
 
+    # ------------------------------- what the PROTECTED rows look like against this pull
+    #
+    # 🔴 A PROTECTED ROW IS NOT A VERIFIED ROW. `PROTECTED_STATUS` stops this script
+    # overwriting a decision somebody already took; it says nothing about whether the
+    # current NIST ASD still agrees with it. Writing them out is how the one that does
+    # NOT agree becomes visible instead of being protected into silence.
+    #
+    # It is [O I] 6300.304 — the single most important oxygen indicator in the programme.
+    # The store carries -9.717 at grade **A**, cited "NIST ASD v5.11 grade A (Storey &
+    # Zeippen 2000)" and adjudicated under RYA-367. This pull's NIST ASD rows for that
+    # line are the M1 transition at -9.776 grade **B+** and an E2 partner at -12.20,
+    # 2.4 dex weaker and negligible in the sum. So the value differs by 0.059 dex AND the
+    # grade is one class better than the source now publishes. The sibling [O I] 6363.776
+    # reproduces NIST exactly (-10.2580 vs -10.2581), which makes this line-specific
+    # rather than a scale offset and rules out the easy explanation.
+    #
+    # Same shape as RYA-1171 (the 777 triplet carried A+ where ASD publishes A), one line
+    # over, and nobody re-checked 6300 because RYA-1160's control had five rows. REPORTED,
+    # NOT CHANGED: which source AGSS21 used for [O i] is the same open question as the
+    # 777 triplet's, and resolving the dominant oxygen indicator's scale as a side effect
+    # of a bulk ingest is exactly what this ticket's firewall forbids.
+    prot = md[md.matched & md.adjudication_status_before.isin(PROTECTED_STATUS)].copy()
+    if len(prot):
+        prot["agrees_within_0p02_dex"] = prot.delta_nist_minus_store.abs() <= 0.02
+        prot["action"] = "NOT OVERWRITTEN — prior adjudication stands; reported for Ryan"
+        prot[["line_id", "species", "wavelength_air_A", "adjudication_status_before",
+              "loggf_reference_before", "log_gf_before", "nist_log_gf", "nist_grade",
+              "nist_tp_code", "delta_nist_minus_store", "agrees_within_0p02_dex",
+              "action"]].to_csv(OUT / "protected_rows_vs_this_pull.csv", index=False)
+
     # ------------------------------------------------------------------------- report
     print("=== RYA-1214 Step 1 — CNO gf adjudication ===")
     print(f"  match window: |dlambda| <= {WTOL_A} A AND |dEP| <= {EPTOL_EV} eV, UNIQUE")
@@ -456,6 +486,14 @@ def main() -> int:
               f"(grades {sorted(set(q.nist_grade))}, TP codes "
               f"{sorted(set(q.ref_transition_probability.astype(str)))}) — "
               f"implied gk {q.gk_implied.min():.3g}-{q.gk_implied.max():.3g}")
+    if len(prot):
+        dis = prot[~prot.agrees_within_0p02_dex]
+        print(f"\n  PROTECTED rows checked against this pull: {len(prot)}, "
+              f"disagreeing: {len(dis)}")
+        if len(dis):
+            print(dis[["line_id", "species", "wavelength_air_A",
+                       "adjudication_status_before", "log_gf_before", "nist_log_gf",
+                       "nist_grade", "delta_nist_minus_store"]].to_string(index=False))
     print("\n  O I 777 / 8446 — Tachiev vs NIST, STATED not resolved:")
     print(pd.DataFrame(rows)[["wavelength_A", "nist_log_gf", "tachiev_log_gf",
                               "tachiev_minus_nist_dex", "nist_grade"]].to_string(index=False))

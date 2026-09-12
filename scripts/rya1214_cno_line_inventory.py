@@ -137,6 +137,101 @@ def rejoin_census(canon: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+#: Per-species NIST pull files, for the indicator cross-check below.
+_PULLS = ROOT / "data" / "linelists" / "primary_gf"
+_PULL_TAG = {"C I": "CI", "C II": "CII", "N I": "NI", "N II": "NII",
+             "O I": "OI", "O II": "OII"}
+
+
+def indicator_gf_check(ind: pd.DataFrame, canon: pd.DataFrame) -> pd.DataFrame:
+    """Every AGSS21 atomic indicator, store value vs the NIST ASD pull, LINE BY LINE.
+
+    🔴 THIS EXISTS BECAUSE THE BULK RULE BURIED THE MOST IMPORTANT LINE IN THE CAMPAIGN.
+
+    `rya1214_adjudicate_cno_gf` admits a NIST row only when the multiplicities agree,
+    which is right in bulk and wrong for [O I] 6300.304. NIST serves that wavelength
+    TWICE — the M1 transition (log gf -9.776, class B+) and an E2 partner (-12.20, class
+    C+) — and those are two MULTIPOLE CHANNELS of one level pair, not two fine-structure
+    components. VALD lists the M1 alone, so `hfs_n_components` is 1, the rule sees 2
+    candidates against 1, and refuses. The line then falls out of every downstream
+    comparison, including the one that checks protected rows against the pull.
+
+    What it hides is a real disagreement on the dominant forbidden oxygen indicator:
+
+        store   -9.717   class A    "NIST ASD v5.11 grade A (Storey & Zeippen 2000)",
+                                    adjudicated RYA-367
+        pull    -9.776   class B+   TP T4539,T5081  (the E2 partner adds 10^-12.2,
+                                    i.e. nothing, so the sum is the M1 to 4 decimals)
+
+    0.059 dex apart, and the store claims one accuracy class BETTER than the source it
+    cites now publishes. That is RYA-1171's finding (the 777 triplet carried A+ where ASD
+    publishes A) recurring one line over. The sibling [O I] 6363.776 reproduces the pull
+    EXACTLY (-10.2580 vs -10.2581), which makes this line-specific rather than a scale
+    offset and removes the comfortable explanation.
+
+    Reported, not resolved — same referral as the 777 Tachiev offset.
+    """
+    rows = []
+    for _, r in ind[ind.verdict == "PRESENT"].iterrows():
+        sp = str(r.species)
+        tag = _PULL_TAG.get(sp)
+        if tag is None:
+            continue
+        n = pd.concat([pd.read_csv(_PULLS / f"nist_asd_{tag}_{b}.tsv", sep="\t")
+                       for b in ("900_3000", "3000_25000")], ignore_index=True)
+        n = n[n.log_gf.notna() & n.ei_eV.notna()]
+        # Ladenburg gate, as in the adjudicator -- a non-physical row must not enter a
+        # comparison either.
+        gk = n.gi * n.fik / (1.4992e-16 * n.wavelength_A ** 2 * n["aki_s-1"])
+        n = n[gk.between(0.5, 50.0)]
+        store_w = float(r.store_wavelength_A)
+        c = n[(n.wavelength_A - store_w).abs() <= 0.05]
+        if pd.notna(r.lower_EP_eV):
+            c = c[(c.ei_eV - float(r.lower_EP_eV)).abs() <= 0.02]
+        if c.empty:
+            rows.append({"element": r.element, "species": sp, "line_label": r.line_label,
+                         "store_line_id": r.store_line_id, "store_wavelength_A": store_w,
+                         "store_log_gf": r.store_log_gf, "store_gf_tier": r.store_gf_tier,
+                         "store_nist_grade": r.store_nist_grade,
+                         "n_pull_rows": 0, "verdict": "NO NIST ROW IN PULL"})
+            continue
+        gf = 10.0 ** c.log_gf
+        summed = float(np.log10(gf.sum()))
+        # ⚠️ THE WORST GRADE AMONG THE COMPONENTS THAT ACTUALLY CARRY THE LINE.
+        # Worst-of-all is the safe rule for a fine-structure blend, where the components
+        # are comparable. It is the WRONG rule here: [O I] 6300's E2 channel is 2.4 dex
+        # weaker than its M1 partner and contributes 0.4% of the summed gf, so letting
+        # its C+ set the grade would describe the line by a term that is not in it. The
+        # 1% floor is two orders of magnitude below "comparable" and its effect is
+        # stated, not assumed -- it changes exactly one line in this set.
+        share = gf / gf.sum()
+        carry = c[share >= 0.01]
+        worst = max(carry.nist_grade, key=lambda g: {"AAA": .3, "AA": 1, "A+": 2, "A": 3,
+                                                     "B+": 7, "B": 10, "C+": 18, "C": 25,
+                                                     "D+": 40, "D": 50, "E": 100}.get(g, 999))
+        dropped = sorted(set(c.nist_grade) - set(carry.nist_grade))
+        d = summed - float(r.store_log_gf)
+        rows.append({
+            "element": r.element, "species": sp, "line_label": r.line_label,
+            "store_line_id": r.store_line_id, "store_wavelength_A": store_w,
+            "store_log_gf": r.store_log_gf, "store_gf_tier": r.store_gf_tier,
+            "store_nist_grade": r.store_nist_grade,
+            "n_pull_rows": int(len(c)),
+            "n_pull_rows_carrying_1pct": int(len(carry)),
+            "pull_log_gf_summed": round(summed, 4),
+            "pull_grade_worst": worst,
+            "pull_grades_below_1pct_ignored": "|".join(dropped),
+            "pull_tp_codes": "|".join(sorted(set(c.ref_transition_probability.astype(str)))),
+            "delta_pull_minus_store": round(d, 4),
+            "verdict": ("AGREES" if abs(d) <= 0.02 else
+                        "🔴 DISAGREES — reported to Ryan, not resolved"),
+            "grade_verdict": ("" if str(r.store_nist_grade) in ("", "nan") or
+                              str(r.store_nist_grade) == worst
+                              else f"🔴 store claims {r.store_nist_grade}, pull publishes {worst}"),
+        })
+    return pd.DataFrame(rows)
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     canon = pd.read_csv(CANON, low_memory=False)
@@ -192,6 +287,8 @@ def main() -> int:
     # ---------------------------------------------------------- AGSS21 indicator re-join
     ind = rejoin_census(canon)
     ind.to_csv(OUT / "agss21_indicator_join.csv", index=False)
+    chk = indicator_gf_check(ind, canon)
+    chk.to_csv(OUT / "agss21_indicator_gf_check.csv", index=False)
 
     # ------------------------------------------------------------------------- report
     print("=== RYA-1214 Step 2 — measurable CNO line inventory ===\n")
@@ -220,8 +317,32 @@ def main() -> int:
         print(still[["element", "species", "line_label", "wavelength_air_A",
                      "band"]].to_string(index=False))
 
+    bad = chk[chk.verdict.str.startswith("🔴")] if len(chk) else chk
+    gbad = chk[chk.grade_verdict.astype(str).str.startswith("🔴")] if len(chk) else chk
+    print(f"\n=== AGSS21 indicator gf: store vs the NIST ASD pull, line by line "
+          f"({len(chk)} lines) ===")
+    print(f"  value disagreements (> 0.02 dex): {len(bad)}")
+    if len(bad):
+        print(bad[["element", "line_label", "store_line_id", "store_log_gf",
+                   "pull_log_gf_summed", "delta_pull_minus_store", "store_nist_grade",
+                   "pull_grade_worst"]].to_string(index=False))
+    print(f"  grade over-claims               : {len(gbad)}")
+    if len(gbad):
+        print(gbad[["element", "line_label", "store_line_id",
+                    "grade_verdict"]].to_string(index=False))
+
     prov = {
         "ticket": "RYA-1214", "step": "2 — measurable CNO line inventory",
+        "agss21_indicator_gf_check": {
+            "n_lines": int(len(chk)),
+            "value_disagreements_gt_0p02_dex": int(len(bad)),
+            "grade_over_claims": int(len(gbad)),
+            "why_separate_from_the_bulk_adjudication":
+                "the multiplicity rule refuses [O I] 6300.304 — NIST serves it twice as "
+                "the M1 and E2 MULTIPOLE channels of one level pair, not as two "
+                "fine-structure components — so the line falls out of every bulk "
+                "comparison. This check is per-line and unconditional.",
+        },
         "canonical_cno_rows": int(len(cno)),
         "canonical_cno_graded_rows": int(cno.graded.sum()),
         "molecular_crossmatch_rows": int(len(pd.read_csv(MOLEC))),
