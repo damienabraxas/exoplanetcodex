@@ -1265,7 +1265,26 @@ def synthesis_route(a, pol) -> None:
             print(f"      {w:10.3f}  {why[:110]}")
         cand = cand[~cand.wave_A.astype(float).isin({w for w, _ in _cur})
                     ].reset_index(drop=True)
-    print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
+    # 🔴 NAME THE RULE THAT ACTUALLY SELECTED, not the default one. This said "by
+    # theoretical depth" unconditionally, so a run driven by `--lines-from-set` printed
+    # that its 6 O I lines were the strongest in the band -- when the depth floor
+    # excludes every O I line in VIS and all five N I lines, which is the entire reason
+    # the flag exists. A log line that misdescribes the selection is the RYA-904 shape
+    # (prose asserting something the run did not do), and selection is the dominant
+    # lever on the answer (RYA-842).
+    if getattr(a, "lines_from_set", None):
+        _how = (f"from the NAMED SET "
+                f"{str(a.lines_from_set).split('=', 1)[0].strip()} (depth floor NOT "
+                f"applied -- that is what the set is for)")
+    elif getattr(a, "lines_from_ew", None):
+        _how = "from the EW artifact's attempted lines (RYA-967)"
+    elif getattr(a, "lines_deep_graded", False):
+        _how = "laboratory-graded, ABOVE the EW depth gate (RYA-984)"
+    elif getattr(a, "lines_tier", "all") != "all":
+        _how = f"tier={a.lines_tier} (RYA-946)"
+    else:
+        _how = "by theoretical depth"
+    print(f"  {len(cand)} {a.element} {a.ion} candidates {_how} "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
 
