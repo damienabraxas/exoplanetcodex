@@ -297,7 +297,7 @@ def audit() -> dict:
 #: three treatments, plus Fe I as its 176-line pool finishes synthesising, one holding at
 #: a time. Re-pinned as each lands; the Codex/Deep half of the tripwire is the one that
 #: must not move.
-REFERENCE_VIS_PRODUCTS = 21
+REFERENCE_VIS_PRODUCTS = 25
 
 
 def check(doc: dict) -> list[str]:

@@ -10673,3 +10673,177 @@ artifacts:
       pairing travels with the artifacts rather than with the caller's memory (RYA-1178 A).
       Method is RYA-1120's throughout: central difference, per-line paired differential
       via pipeline.paired_differential, sigma_xi = |dA/dxi| x delta_xi, min_paired = 3.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d, vis1_iag_gnlte.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d.
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): vis1_iag_g1d.
+  - artifact: rya1213/3dnlte_iag/rya817_3dnlte_budgets.txt
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_iag VIS REFERENCE 1D-LTE per-line file> --instrument iag_fts_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE VIS pool for solar_iag.
+      ⚠️ THE WINDOW IS 5002-6910 A, NOT 4200-6910. The IAG holding's own blue edge
+      is 5002 A, so the Reference run was clipped there -- which is why a staging
+      glob naming the blue edge as 42xx reported 'no per-line file yet' for a file
+      that existed. The selector now matches the RED edge, which is 6908-6910 for
+      every VIS product whatever its blue edge. A(Fe I; 3D-NLTE) = 7.516 on n=78,
+      fewer than the other holdings' 100-101 because the narrower window holds
+      fewer lines, not because more fell out of the Amarsi domain.
+  - artifact: rya1213/3dnlte_iag/rya817_3dnlte_per_line.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_iag VIS REFERENCE 1D-LTE per-line file> --instrument iag_fts_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE VIS pool for solar_iag.
+      ⚠️ THE WINDOW IS 5002-6910 A, NOT 4200-6910. The IAG holding's own blue edge
+      is 5002 A, so the Reference run was clipped there -- which is why a staging
+      glob naming the blue edge as 42xx reported 'no per-line file yet' for a file
+      that existed. The selector now matches the RED edge, which is 6908-6910 for
+      every VIS product whatever its blue edge. A(Fe I; 3D-NLTE) = 7.516 on n=78,
+      fewer than the other holdings' 100-101 because the narrower window holds
+      fewer lines, not because more fell out of the Amarsi domain.
+  - artifact: rya1213/3dnlte_iag/rya817_3dnlte_products.csv
+    status: COMMITTED
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir holding ONLY the solar_iag VIS REFERENCE 1D-LTE per-line file> --instrument iag_fts_solar_atlas --out <outdir>
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the Amarsi 3D-NLTE leg on the REFERENCE VIS pool for solar_iag.
+      ⚠️ THE WINDOW IS 5002-6910 A, NOT 4200-6910. The IAG holding's own blue edge
+      is 5002 A, so the Reference run was clipped there -- which is why a staging
+      glob naming the blue edge as 42xx reported 'no per-line file yet' for a file
+      that existed. The selector now matches the RED edge, which is 6908-6910 for
+      every VIS product whatever its blue edge. A(Fe I; 3D-NLTE) = 7.516 on n=78,
+      fewer than the other holdings' 100-101 because the narrower window holds
+      fewer lines, not because more fell out of the Amarsi domain.

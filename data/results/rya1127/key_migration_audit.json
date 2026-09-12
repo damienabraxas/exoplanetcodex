@@ -25,12 +25,12 @@
   "feeds": [
     {
       "feed": "data/products/solar/Fe.json",
-      "n_records": 220,
-      "n_old_keys": 181,
-      "n_new_keys": 181,
+      "n_records": 224,
+      "n_old_keys": 185,
+      "n_new_keys": 185,
       "line_set_census": {
         "our-deep-graded": 53,
-        "reference": 60,
+        "reference": 64,
         "our-graded": 90,
         "asplund": 8,
         "our-ungraded": 6,
@@ -44,7 +44,7 @@
     }
   ],
   "rya1106_case": {
-    "n": 7,
+    "n": 8,
     "rows": [
       {
         "holding": "solar_harps_molecfit_corrected",
@@ -71,6 +71,15 @@
         "distinct": true,
         "old_key_our_graded": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
         "old_key_asplund": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "collided_before": true
+      },
+      {
+        "holding": "solar_iag",
+        "our_graded_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-A-3DNLTE|reference",
+        "asplund_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-A-3DNLTE|asplund",
+        "distinct": true,
+        "old_key_our_graded": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-A-3DNLTE",
+        "old_key_asplund": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-A-3DNLTE",
         "collided_before": true
       },
       {
