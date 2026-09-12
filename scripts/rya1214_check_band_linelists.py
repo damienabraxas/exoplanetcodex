@@ -82,21 +82,75 @@ MOLECULAR_INDICATORS = [
 ]
 
 
-def molecular_readiness(ispec: str | None) -> dict:
-    """What the MOLECULAR campaign could run today — read from the vendored lists.
+#: 🔴 CORRECTED (RYA-1214, Ryan's comment 2026-09-12). MY FIRST PASS READ ONE DIRECTORY
+#: AND GOT THE ANSWER WRONG IN THE MOST CONSEQUENTIAL DIRECTION.
+#:
+#: It scanned ONLY `$ISPEC_DIR/input/linelists/turbospectrum/molecules`, whose `.bsyn`
+#: files are the 400-950 nm ELECTRONIC bands plus RYA-1207's 300-378 nm near-UV set, and
+#: concluded that "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held
+#: (RYA-503) — ABSENT, not merely unwired." That is FALSE. The repo's own git-tracked
+#: vendored mirror at `data/linelists/molecular/turbospectrum/` carries three ExoMol
+#: ro-vibrational lists the iSpec install tree does not:
+#:
+#:     CH/12C-1H__MoLLIST_rovib.bsyn   38,263 rows    2751 - 99970 A
+#:     NH/14N-1H__kNigHt_rovib.bsyn    52,831 rows    3447 - 99988 A
+#:     OH/16O-1H__MYTHOS_rovib.bsyn    72,762 rows    3133 - 99939 A
+#:
+#: Those span the near-UV A-X bands AND the mid-IR Dnu = 0/1/2 fundamentals, i.e. exactly
+#: the AGSS21 indicators I called blocked. The counts Ryan quotes (C2 25 files, CH 23,
+#: CN 33, NH 9, OH 12, CO 1) are this directory's, and they reproduce exactly.
+#:
+#: ⚠️ THE IRONY IS THE LESSON. This module's own docstring says "read the files, not the
+#: filenames (RYA-1190)", and the mistake was reading ONE directory's filenames and
+#: inferring the other's absence. `data/linelists/molecular/turbospectrum/README.md`
+#: documents this precise failure once already: RYA-237 "reported 'no CH/CN Turbospectrum
+#: lists' — it looked in the raw-download dir ... They were present and verified all
+#: along; the recon looked in the wrong place." Same directory confusion, opposite
+#: direction, eight months later.
+MOLECULAR_DIRS = ("(repo) data/linelists/molecular/turbospectrum",
+                  "(iSpec install) $ISPEC_DIR/input/linelists/turbospectrum/molecules")
 
-    ⚠️ NOT from `pipeline/cno_synthesis.py`'s docstring, which states the spans in prose.
-    A docstring is a claim about the disk made at some past moment; RYA-1190 scoped a
-    fetch for data already held by reading a filename instead of a file.
+
+def molecular_readiness(ispec: str | None) -> dict:
+    """What the MOLECULAR campaign could run today — read from BOTH vendored trees.
+
+    See MOLECULAR_DIRS: reading only the iSpec install tree reported the ro-vibrational
+    fundamentals absent when the repo's own mirror holds them.
     """
-    if not ispec:
-        return {"error": "$ISPEC_DIR unset — molecular readiness not assessed"}
-    d = Path(ispec) / "input" / "linelists" / "turbospectrum" / "molecules"
-    if not d.exists():
-        return {"error": f"no molecular directory at {d}"}
+    repo_dir = ROOT / "data" / "linelists" / "molecular" / "turbospectrum"
+    d = Path(ispec) / "input" / "linelists" / "turbospectrum" / "molecules" if ispec else None
+    if (d is None or not d.exists()) and not repo_dir.exists():
+        return {"error": "neither molecular tree is readable"}
     spans: dict[str, list[tuple[int, int]]] = {}
-    for f in sorted(d.iterdir()):
+    rovib: dict[str, dict] = {}
+    files = []
+    if d is not None and d.exists():
+        files += [(f, "ispec") for f in sorted(d.iterdir())]
+    if repo_dir.exists():
+        files += [(f, "repo") for f in sorted(repo_dir.rglob("*")) if f.is_file()]
+    for f, _tree in files:
         stem = f.name
+        if "_rovib" in stem:
+            # Span read from the FILE, because the name encodes no range at all — which is
+            # precisely why a filename scan missed these.
+            lo = hi = None
+            n = 0
+            with f.open() as fh:
+                for ln in fh:
+                    parts = ln.split()
+                    if not parts:
+                        continue
+                    try:
+                        w = float(parts[0])
+                    except ValueError:
+                        continue
+                    lo = w if lo is None else min(lo, w)
+                    hi = w if hi is None else max(hi, w)
+                    n += 1
+            if n:
+                rovib[stem] = {"rows": n, "span_A": [round(lo, 1), round(hi, 1)],
+                               "span_nm": [round(lo / 10, 0), round(hi / 10, 0)]}
+            continue
         if stem.endswith(".bsyn") and "_" in stem:
             sp, _, rng = stem[: -len(".bsyn")].rpartition("_")
             try:
@@ -108,24 +162,46 @@ def molecular_readiness(ispec: str | None) -> dict:
             spans.setdefault(stem, []).append((0, 0))
     out = {}
     for sp, rs in spans.items():
-        rs = sorted(rs)
+        rs = sorted(set(rs))
         out[sp] = {"n_files": len(rs),
                    "span_nm": [rs[0][0], rs[-1][1]] if rs[0] != (0, 0) else "non-.bsyn file"}
+    # A ro-vibrational list covering the window is what makes the Dnu indicators
+    # runnable, so the verdict below is keyed on THESE, not on the electronic .bsyn spans.
+    #
+    # ⚠️ MATCHED BY THE ExoMol ISOTOPOLOGUE SPELLING, NOT BY THE MOLECULE NAME. The files
+    # are `12C-1H__MoLLIST`, `14N-1H__kNigHt`, `16O-1H__MYTHOS` — "CH" is not a substring
+    # of any of them, and a `m in filename` test reported all three ABSENT while the
+    # parser above had just read 163,856 rows out of them. The second filename-shaped
+    # mistake in this same function; the spelling is now declared rather than assumed.
+    _ROVIB_TOKEN = {"CH": "12C-1H", "NH": "14N-1H", "OH": "16O-1H"}
+    rovib_cover = {m: any(tok in k for k in rovib)
+                   for m, tok in _ROVIB_TOKEN.items()}
     return {
+        "trees_read": MOLECULAR_DIRS,
         "vendored_species": out,
+        "rovibrational_lists": rovib,
+        "rovib_coverage": rovib_cover,
         "verdict_by_indicator": [
             {"element": e, "indicator": i, "agss21_lines": n, "regime": r, "kind": k,
-             "runnable_today": (r in ("VIS", "red-optical", "VIS/red-optical")
-                                or i.startswith("CO ")),
-             "why": ("iSpec vendors this band 400-950 nm; the band's synth config needs "
-                     "use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+             "list_held": (True if r in ("VIS", "red-optical", "VIS/red-optical")
+                           else True if i.startswith("CO ")
+                           else rovib_cover.get(i.split()[0], False)),
+             "why": ("electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / "
+                     "14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's "
+                     "synth config needs use_molecules: true."
                      if r in ("VIS", "red-optical", "VIS/red-optical") else
-                     "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held — but "
-                     "the NIR band list holds no O I / N I and 34 C I lines, so the band "
-                     "has to be rebuilt first"
+                     "CO_IR_Li2015.dat (ExoMol Li 2015) is held. ⚠️ The NIR band list "
+                     "carries 34 C I lines and no O I / N I, so that band needs "
+                     "rebuilding before a CO product can be run there."
                      if i.startswith("CO ") else
-                     "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT "
-                     "held (RYA-503). Absent, not merely unwired.")}
+                     "ro-vibrational list HELD in the repo's vendored tree "
+                     "(MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) — ⚠️ CORRECTED: "
+                     "an earlier pass read only the iSpec install tree and reported these "
+                     "ABSENT. The blocker is not the line list; it is that no synthesis "
+                     "REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is "
+                     "{'vis'}) and the NIR/H band lists carry no O I or N I."
+                     if rovib_cover.get(i.split()[0], False) else
+                     "no ro-vibrational list found for this molecule in either tree.")}
             for e, i, n, r, k in MOLECULAR_INDICATORS
         ],
     }
@@ -216,11 +292,12 @@ def main() -> int:
     print(f"\n  {doc['verdict']}")
     mr = doc["molecular_readiness"]
     if "error" not in mr:
-        ready = [v for v in mr["verdict_by_indicator"] if v["runnable_today"]]
-        print(f"\n=== molecular campaign readiness ({len(ready)}/"
-              f"{len(mr['verdict_by_indicator'])} AGSS21 indicators runnable) ===")
+        ready = [v for v in mr["verdict_by_indicator"] if v["list_held"]]
+        print(f"\n=== molecular line lists held ({len(ready)}/"
+              f"{len(mr['verdict_by_indicator'])} AGSS21 indicators) ===")
+        print(f"  ro-vibrational lists: {mr['rovibrational_lists']}")
         for v in mr["verdict_by_indicator"]:
-            mark = "OK  " if v["runnable_today"] else "NO  "
+            mark = "HELD" if v["list_held"] else "NO  "
             print(f"  {mark} {v['element']}  {v['indicator']:18s} {v['agss21_lines']:4d} "
                   f"lines  {v['regime']:16s} {v['why'][:78]}")
     return 0
