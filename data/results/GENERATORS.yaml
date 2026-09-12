@@ -7748,3 +7748,135 @@ artifacts:
       RYA-1204's near-disjoint 40-line pool, and the record of the four Fe I products the
       gf-rung guard refused. Hand-authored because it assembles two runs and a prior
       ticket's artifact and states what they mean together.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 9199 --hi 12976 --instrument crires_plus --holding solar_crires_plus_y_wide_rya1054 --lines-tier reference --force-synthesis --engine-b-deck gerber-1d-lte
+    ticket: RYA-1213
+    note: >-
+      RYA-1213 -- the REFERENCE tier: every canonical_gf row whose gf_tier is
+      LAB, in this band and window, with the 0.60 feature-depth gate NOT
+      applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
+      ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
+      Pool cell(s): nir_crires_g1d.
