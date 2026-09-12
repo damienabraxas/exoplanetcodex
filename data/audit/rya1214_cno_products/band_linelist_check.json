@@ -94,5 +94,221 @@
   ],
   "indicators_checked": 48,
   "indicators_absent": 10,
+  "molecular_readiness": {
+    "vendored_species": {
+      "12C12C": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12C13C": {
+        "n_files": 5,
+        "span_nm": [
+          400,
+          650
+        ]
+      },
+      "12C14N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12C15N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12CH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "13C13C": {
+        "n_files": 9,
+        "span_nm": [
+          400,
+          850
+        ]
+      },
+      "13C14N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "13CH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "14NH": {
+        "n_files": 8,
+        "span_nm": [
+          400,
+          800
+        ]
+      },
+      "16OH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "CH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "CN": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "CO_IR_Li2015.dat": {
+        "n_files": 1,
+        "span_nm": "non-.bsyn file"
+      },
+      "NH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "OH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      }
+    },
+    "verdict_by_indicator": [
+      {
+        "element": "C",
+        "indicator": "C2 Swan",
+        "agss21_lines": 39,
+        "regime": "VIS",
+        "kind": "electronic",
+        "runnable_today": true,
+        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+      },
+      {
+        "element": "C",
+        "indicator": "CH A-X (G band)",
+        "agss21_lines": 7,
+        "regime": "VIS",
+        "kind": "electronic",
+        "runnable_today": true,
+        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+      },
+      {
+        "element": "C",
+        "indicator": "CH dnu=1",
+        "agss21_lines": 51,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      },
+      {
+        "element": "C",
+        "indicator": "CO dnu=1",
+        "agss21_lines": 28,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "runnable_today": true,
+        "why": "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held \u2014 but the NIR band list holds no O I / N I and 34 C I lines, so the band has to be rebuilt first"
+      },
+      {
+        "element": "C",
+        "indicator": "CO dnu=2",
+        "agss21_lines": 52,
+        "regime": "NIR/mid-IR",
+        "kind": "first overtone",
+        "runnable_today": true,
+        "why": "CO_IR_Li2015.dat (ExoMol) is the mid-IR exception and IS held \u2014 but the NIR band list holds no O I / N I and 34 C I lines, so the band has to be rebuilt first"
+      },
+      {
+        "element": "N",
+        "indicator": "NH dnu=0",
+        "agss21_lines": 13,
+        "regime": "mid-IR",
+        "kind": "pure rotational",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      },
+      {
+        "element": "N",
+        "indicator": "NH dnu=1",
+        "agss21_lines": 15,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      },
+      {
+        "element": "N",
+        "indicator": "CN 0-0",
+        "agss21_lines": 59,
+        "regime": "VIS",
+        "kind": "electronic",
+        "runnable_today": true,
+        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+      },
+      {
+        "element": "N",
+        "indicator": "CN dnu>=1",
+        "agss21_lines": 463,
+        "regime": "VIS/red-optical",
+        "kind": "electronic",
+        "runnable_today": true,
+        "why": "iSpec vendors this band 400-950 nm; the band's synth config needs use_molecules: true (the RYA-1207 pattern, already done for near-UV)"
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=0",
+        "agss21_lines": 84,
+        "regime": "mid-IR",
+        "kind": "pure rotational",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=1",
+        "agss21_lines": 50,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=2",
+        "agss21_lines": 15,
+        "regime": "NIR/mid-IR",
+        "kind": "first overtone",
+        "runnable_today": false,
+        "why": "the mid-IR ro-vibrational fundamentals of OH / NH / CH are NOT held (RYA-503). Absent, not merely unwired."
+      }
+    ]
+  },
   "verdict": "10 indicator(s) absent from their band's list"
 }
