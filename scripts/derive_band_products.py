@@ -694,7 +694,12 @@ def _selector_tag(a) -> str:
     # of the product KEY (RYA-984). Tagging an AGSS21-set run `_FROMEW` would assert a
     # controlled method comparison that never happened.
     if getattr(a, "lines_from_set", None):
-        return "_SET-" + str(a.lines_from_set).split("=", 1)[0].strip().upper()
+        # The tier rides along for the same reason it does on the EW branch: a tier
+        # filter is applied inside the candidate builder, so leaving it out of the stem
+        # would give two different pools one identity (RYA-984).
+        tier = getattr(a, "lines_tier", "all")
+        return ("_SET-" + str(a.lines_from_set).split("=", 1)[0].strip().upper()
+                + ("" if tier == "all" else f"-{tier.upper()}"))
     if getattr(a, "lines_from_ew", None):
         tier = getattr(a, "lines_tier", "all")
         return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
