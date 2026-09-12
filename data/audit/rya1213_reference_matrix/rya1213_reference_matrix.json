@@ -166,7 +166,7 @@
      "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv: 5038 Fe lines, 0 labelled). Fe: 4364 lines in 3000.0-3780.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
@@ -226,7 +226,7 @@
      "reason": "zero NLTE level labels for Fe in this band's synthesis list (data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv: 5038 Fe lines, 0 labelled). Fe: 4364 lines in 3000.0-3780.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
     },
     "synth-1D-LTE-gerber": {
-     "verdict": "GAP",
+     "verdict": "LIVE",
      "reason": ""
     },
     "synth-mean3D-LTE-gerber-stagger": {
