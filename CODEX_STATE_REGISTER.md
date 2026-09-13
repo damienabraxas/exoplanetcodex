@@ -304,6 +304,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 - **v141** (2026-09-13) — **RYA-1217 evaluated-tier reconciliation.** Al manifest rows now declare the underlying theoretical lineage of the NIST-evaluated tier, and summed features carry their worst component grade/sigma. Fresh QA has `D4`, `D4-grades`, and `D4-lineage` PASS; 24 findings remain and Gate 0 is still CLOSED.
 
+- **v142** (2026-09-13) — **RYA-1217 identity/line-set reconciliation.** The Al promotion path now uses the shared matcher and refuses ambiguous physical identities; the manifest carries explicit line-set membership. Fresh QA has `A2`, `A2-null`, and `D3` PASS; 22 findings remain and Gate 0 is still CLOSED.
+
 - **v134** (2026-09-13) — **RYA-1134 Träbert access decision.** Träbert 1999 is unavailable for direct review; Johnson 1986 remains the retained Al II measurement with an explicit limitation, and regenerated `verified_v2` no longer blocks its atomic handoff. Exact-holding, bibliography, product-identity and RYA-1176 gates remain open; no abundance was run or adopted.
 
 - **v133** (2026-09-13) — **RYA-1134 provisional Al adjudication checkpoint.** All 505 dispositions and four pool axes are machine-readable; 18 laboratory claims become 15 laboratory and 3 mixed lifetime claims. Recovered raw component term/J identities and source upper-energy checks; added bibliography reconciliation. The register corrects stale claims that no near-UV policy exists or that provisional runs are unauthorized. Scientific freeze remains HOLD on source-hierarchy, exact-holding and RYA-1176 gates; no abundance was run or adopted.

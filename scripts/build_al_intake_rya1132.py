@@ -109,6 +109,13 @@ def nearest(frame: pd.DataFrame, w: float, ep: float, wcol: str, epcol: str | No
     return c.iloc[0]
 
 
+def _vuj_promotable(src: pd.Series, matched: bool) -> bool:
+    return bool(matched and src.species == "Al I"
+                and any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A)
+                and np.isfinite(src.derived_loggf)
+                and np.isfinite(src.derived_sigma_dex))
+
+
 def _number(raw: str) -> float:
     return np.nan if not raw.strip() else float(raw.strip())
 
@@ -199,13 +206,13 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
     cross_rows = []
     for _, src in vuj.iterrows():
         candidates = m[m.species.eq(src.species)].copy()
-        candidates["delta_A"] = (candidates.wavelength_air - src.wavelength_A).abs()
-        near = candidates[candidates.delta_A <= .08].sort_values("delta_A")
-        matched = len(near) == 1
-        target = near.iloc[0] if matched else None
-        promotable = (matched and src.species == "Al I" and
-                      any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A) and
-                      np.isfinite(src.derived_loggf) and np.isfinite(src.derived_sigma_dex))
+        target = nearest(candidates, src.wavelength_A, np.nan, "wavelength_air", None,
+                         wtol=.08, eptol=.02)
+        matched = target is not None
+        if matched:
+            target = target.copy()
+            target["delta_A"] = abs(float(target.wavelength_air) - float(src.wavelength_A))
+        promotable = _vuj_promotable(src, matched)
         disposition = "GF_LAB_PROMOTED" if promotable else (
             "MATCHED_NOT_PROMOTED" if matched else "NO_UNIQUE_MANIFEST_MATCH")
         cross_rows.append({**src.to_dict(), "canonical_line_id":
@@ -232,12 +239,11 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
             "derived reproducibly from wavelength, upper J, and Aki. No abundance adoption.")
 
     # Johnson et al. 1986: direct one-channel Al II 2669.157 measurement.
-    q = m[m.species.eq("Al II")].copy()
-    q["delta_A"] = (q.wavelength_air - 2669.157).abs()
-    q = q[q.delta_A <= .08]
-    if len(q) != 1:
+    q = nearest(m[m.species.eq("Al II")], 2669.157, np.nan, "wavelength_air", None,
+                wtol=.08, eptol=.02)
+    if q is None:
         raise AssertionError("Al II 2669.157 must have one physical manifest match")
-    idx = q.index[0]
+    idx = q.name
     johnson_loggf = math.log10(1.49919e-16 * 3 * 2669.157**2 * 3.33e3)
     johnson_sigma = math.log10(1 + .23/3.33)  # published 90%-confidence bound, conservative
     m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
@@ -250,8 +256,16 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
         "stored conservatively as the published 90%-confidence logarithmic bound. "
         "Träbert 1999/NIST remains the higher-precision comparison.")
 
+    # Refuse a wavelength collision when distinct source level identities converge on
+    # one manifest feature; a shared wavelength alone is not a physical match.
+    cross = pd.DataFrame(cross_rows)
+    for cid, g in cross[cross.canonical_line_id.astype(str).ne("")].groupby("canonical_line_id"):
+        ids = {(str(r.upper_level), str(r.lower_level)) for _, r in g.iterrows()}
+        if len(ids) > 1:
+            cross.loc[cross.canonical_line_id.eq(cid), ["canonical_line_id", "wavelength_delta_A"]] = ["", np.nan]
+            cross.loc[cross.source_row_id.isin(g.source_row_id), "disposition"] = "NO_UNIQUE_MANIFEST_MATCH"
     _stable(vuj).to_csv(out / "vujnovic2002_normalized.csv", index=False)
-    _stable(pd.DataFrame(cross_rows)).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
+    _stable(cross).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
     return m
 
 
@@ -467,6 +481,10 @@ def build(out: Path = OUT) -> dict:
     m = ingest_new_lab_sources(m, out)
     m["underlying_source_type"] = np.where(
         m.gf_source_type.eq("CRITICALLY_EVALUATED"), "THEORETICAL", "")
+    m["line_set"] = "our-all"
+    m.loc[m.canonical_line_id.isin({"alphys_I_6696.0150_0352", "alphys_I_6698.6730_0355",
+                                    "alphys_I_11253.1890_0406", "alphys_I_13123.4160_0423",
+                                    "alphys_I_13150.7530_0425"}), "line_set"] = "our-graded"
     # The source overlays above can add/replace sigma values; finish the provenance
     # axis after those writes so every finite uncertainty has a declared basis.
     fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
