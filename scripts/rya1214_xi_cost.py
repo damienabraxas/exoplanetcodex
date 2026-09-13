@@ -41,6 +41,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 OUT = ROOT / "data" / "audit" / "rya1214_cno_products"
 
 #: RYA-1120's own perturbation, reused so the CNO derivative is on the SAME scale as the
@@ -55,10 +57,23 @@ DELTA_XI_KMS = 0.2912
 MIN_PAIRED = 3
 
 
+#: Where this ticket's own pool logs were copied to. ⚠️ NOT `Path.home()/scratch` — the
+#: pools ran on SIRIUS and `Path.home()` resolves on whichever box runs this script, so the
+#: first version found no logs and reported "NO TIMED CELLS" while the timings existed. A
+#: cost estimate that silently has no basis is worse than one that refuses.
+TIMING_DIRS = (Path("/tmp/rya1214_timing"),
+               Path.home() / "scratch" / "rya1214_logs",
+               Path.home() / "scratch" / "rya1214_set_logs")
+
+
 def measured_run_times(log_dir: Path) -> dict[str, float]:
-    """Wall-clock seconds per cell, from the driver log's own START/OK lines."""
-    drv = log_dir / "_driver.log"
-    if not drv.exists():
+    """Wall-clock seconds per cell, from the driver logs' own START/OK lines."""
+    drv = None
+    for cand in (log_dir / "_driver.log", log_dir):
+        if cand.is_file():
+            drv = cand
+            break
+    if drv is None:
         return {}
     starts, times = {}, {}
     for line in drv.read_text().splitlines():
@@ -86,21 +101,58 @@ def main() -> int:
         feed = ROOT / "data" / "products" / "solar" / f"{el}.json"
         if not feed.exists():
             continue
-        for p in json.loads(feed.read_text())["products"]:
-            cells.append({"element": p["element"], "ion": p["ion"], "band": p["band"],
-                          "holding": p["holding"], "treatment": p["treatment"]})
+        doc = json.loads(feed.read_text())
+        # 🔴 QUARANTINED PRODUCTS COUNT. Every CNO product is in `quarantine[]` and not
+        # `products[]`, on ONE code — NOT_YET_DEFENSIBLE, Ryan's REAL_SPECIES ruling that
+        # everything outside {Fe I, Fe II, Al} is a pilot. Reading `products[]` alone would
+        # size the campaign at ZERO run units and report "nothing to perturb", which is
+        # the answer for a feed with no CNO in it, not for this one. The xi term is owed on
+        # a product whichever list it sits in — and it is one of the things standing
+        # between these and the live set.
+        for sec in ("products", "quarantine"):
+            for p in doc.get(sec, []):
+                cells.append({"element": p["element"], "ion": p["ion"], "band": p["band"],
+                              "holding": p["holding"], "treatment": p["treatment"],
+                              "selector": p.get("selector") or "", "feed_section": sec})
     if not cells:
         print("no published C/N/O product — run and publish the pool before sizing its "
               "xi campaign; there is nothing to perturb.", file=sys.stderr)
 
-    units = sorted({(c["element"], c["ion"], c["band"], c["holding"]) for c in cells})
+    # The RUN UNIT includes the SELECTOR: a named-set run and a depth-ranked run on one
+    # cell are two pools measured on different lines, and dA/dxi is a property of the LINE
+    # SET (RYA-1093). Collapsing them would perturb one and serve the derivative to both.
+    #
+    # ⚠️ THE SELECTOR IS NORMALISED FIRST, because three historical records carry a
+    # mis-parsed one. `derive_band_products` names its artifacts
+    # <...>_SYNTH_<SELECTOR>_<TREATMENT>, and an earlier publish of the N ENGINE-A products
+    # split that on `_SYNTH_` and kept the whole tail — so they went out with selector
+    # `SET-AGSS21_ENGINE-A` while `treatment` already said ENGINE-A. Those are NOT separate
+    # pools: an ENGINE-A product comes from the SAME invocation as its 1D-LTE sibling, so
+    # counting them separately would size the campaign for three runs nobody needs to make.
+    # Normalised with `band_products.TREATMENTS`, the same registry the publisher now uses.
+    from pipeline.band_products import TREATMENTS
+    def _norm(sel: str) -> str:
+        for t in TREATMENTS:
+            if sel.endswith("_" + t):
+                return sel[: -(len(t) + 1)]
+        return sel
+    units = sorted({(c["element"], c["ion"], c["band"], c["holding"],
+                     _norm(c["selector"])) for c in cells})
     treatments = sorted({c["treatment"] for c in cells})
     # A product whose treatment resolves the velocity field itself has no xi term to
     # measure -- full 3D is the case (RYA-1185), and there is no 3D CNO product here, so
     # the applicable set is every unit. Stated rather than assumed.
     n_units = len(units)
 
-    times = measured_run_times(Path.home() / "scratch" / "rya1214_logs")
+    times = {}
+    for d in TIMING_DIRS:
+        if d.is_dir():
+            for f in sorted(d.glob("*driver*.log")):
+                times.update(measured_run_times(f))
+        times.update(measured_run_times(d))
+    # A cell that FAILED tells us nothing about the cost of a successful perturbed run —
+    # the 11 depth-gate refusals took ~60 s each because they never reached a synthesis.
+    times = {k: v for k, v in times.items() if v > 120}
     vals = sorted(times.values())
     median_s = vals[len(vals) // 2] if vals else None
 
@@ -116,8 +168,8 @@ def main() -> int:
         "perturbation": {"xi_lo_kms": XI_LO, "xi_hi_kms": XI_HI,
                          "span_kms": XI_SPAN_KMS, "delta_xi_kms": DELTA_XI_KMS,
                          "min_paired_lines": MIN_PAIRED},
-        "run_units": [{"element": e, "ion": i, "band": b, "holding": h}
-                      for e, i, b, h in units],
+        "run_units": [{"element": e, "ion": i, "band": b, "holding": h, "selector": s}
+                      for e, i, b, h, s in units],
         "n_run_units": n_units,
         "treatments_covered_per_unit": treatments,
         "runs_required": 2 * n_units,
@@ -171,7 +223,7 @@ def main() -> int:
         print("  measured wall clock  : NO TIMED CELLS — run the pool first; this script "
               "refuses to quote an Fe timing for a CNO band")
     for u in units:
-        print(f"    {u[0]} {u[1]:3s}  {u[2]:12s} {u[3]}")
+        print(f"    {u[0]} {u[1]:3s}  {u[2]:12s} {u[3]:32s} {u[4]}")
     print(f"\n  wrote {(OUT / 'xi_cost_estimate.json').relative_to(ROOT)}")
     return 0
 
