@@ -153,24 +153,32 @@ def load_vujnovic() -> pd.DataFrame:
                 continue
             if table == 2:
                 upper, lower, wave = line[0:20].strip(), line[21:36].strip(), _number(line[37:46])
+                lambda_flag = ""
+                intensity_limit = line[47:48].strip()
                 intensity, intensity_unc = _number(line[48:52]), _number(line[53:55])
                 branching, branching_unc = _number(line[61:66]), _number(line[66:68])
                 aki_limit, aki, aki_unc = line[69:70].strip(), _number(line[70:75]), _number(line[77:79])
+                aki_unc_limit, aki_note = line[76:77].strip(), line[75:76].strip()
             elif table in (3, 4):
                 upper, lower, wave = line[0:19].strip(), line[20:35].strip(), _number(line[36:44])
+                lambda_flag = intensity_limit = aki_limit = aki_unc_limit = aki_note = ""
                 intensity, intensity_unc = _number(line[45:49]), _number(line[50:52])
                 branching = branching_unc = aki = aki_unc = np.nan
-                aki_limit = ""
             else:
                 upper, lower, wave = line[0:13].strip(), line[14:27].strip(), _number(line[28:36])
+                lambda_flag, intensity_limit = line[36:37].strip(), line[37:38].strip()
                 intensity = intensity_unc = np.nan
                 branching, branching_unc = _number(line[38:42]), _number(line[43:46])
                 aki_limit, aki, aki_unc = line[47:48].strip(), _number(line[48:55]), _number(line[58:60])
+                aki_unc_limit, aki_note = line[57:58].strip(), ""
             j_upper = _upper_j(upper)
             finite_aki = np.isfinite(aki) and not aki_limit
             loggf = (math.log10(1.49919e-16 * (2*j_upper + 1) * wave**2 * aki * 1e8)
                      if finite_aki and np.isfinite(j_upper) else np.nan)
-            sigma = math.log10(1 + aki_unc/100) if finite_aki and np.isfinite(aki_unc) else np.nan
+            sigma = (math.log10(1 + aki_unc/100)
+                     if finite_aki and np.isfinite(aki_unc) and not aki_unc_limit else np.nan)
+            sigma_basis = ("Vujnovic_Aki_percent_log_upper_bound"
+                           if np.isfinite(sigma) else ("LOWER_LIMIT_NO_SIGMA" if aki_unc_limit else ""))
             rows.append({"source_row_id":f"vuj2002_t{table}_{source_row:03d}", "table":table,
                 "species":species, "upper_level":upper, "lower_level":lower,
                 "wavelength_A":wave, "intensity_ratio":intensity,
@@ -178,6 +186,9 @@ def load_vujnovic() -> pd.DataFrame:
                 "branching_unc_pct":branching_unc, "aki_limit":aki_limit,
                 "aki_1e8_s-1":aki, "aki_unc_pct":aki_unc, "upper_J":j_upper,
                 "derived_loggf":loggf, "derived_sigma_dex":sigma,
+                "lambda_flag":lambda_flag, "intensity_limit_flag":intensity_limit,
+                "aki_limit_flag":aki_limit, "aki_unc_limit_flag":aki_unc_limit,
+                "aki_note_flag":aki_note, "sigma_basis":sigma_basis,
                 "doi":"10.1051/0004-6361:20020560"})
     return pd.DataFrame(rows)
 
@@ -204,10 +215,10 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
             continue
         idx = target.name
         m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
-                    "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                    "gf_sigma_dex","sigma_basis","gf_source_doi","upper_lower_level_identity",
                     "intake_status","source_ticket"]] = [
             src.derived_loggf, "EXP-VUJNOVIC2002", "PRIMARY_LABORATORY", "GF-LAB",
-            src.derived_sigma_dex, src.doi,
+            src.derived_sigma_dex, "Vujnovic_Aki_percent_log_upper_bound", src.doi,
             f"{src.lower_level} - {src.upper_level}", "FROZEN",
             "RYA-1132;RYA-1001;Vujnovic2002"]
         m.loc[idx, "notes"] = ("Vujnovic 2002 finite laboratory Aki ingested; loggf "
@@ -223,10 +234,10 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
     johnson_loggf = math.log10(1.49919e-16 * 3 * 2669.157**2 * 3.33e3)
     johnson_sigma = math.log10(1 + .23/3.33)  # published 90%-confidence bound, conservative
     m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
-                "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                "gf_sigma_dex","sigma_basis","gf_source_doi","upper_lower_level_identity",
                 "intake_status","source_ticket"]] = [
         johnson_loggf, "EXP-JOHNSON1986", "PRIMARY_LABORATORY", "GF-LAB",
-        johnson_sigma, "10.1086/164569", "3s2 1S0 - 3s3p 3P1o", "FROZEN",
+        johnson_sigma, "Johnson_published_90pct_log_bound", "10.1086/164569", "3s2 1S0 - 3s3p 3P1o", "FROZEN",
         "RYA-1132;RYA-1001;Johnson1986"]
     m.loc[idx, "notes"] = ("Johnson 1986 direct ion-storage Aki ingested; uncertainty "
         "stored conservatively as the published 90%-confidence logarithmic bound. "
@@ -364,7 +375,12 @@ def build(out: Path = OUT) -> dict:
             "transition_source": "RYA-1001 physical-feature census",
             "loggf_adopted": adopted, "gf_source": source,
             "gf_source_type": source_type(tier, source), "gf_grade": tier,
-            "gf_sigma_dex": sigma, "gf_source_doi": doi,
+            "gf_sigma_dex": sigma, "sigma_basis": (
+                "Burheim_published_dex_1sigma" if "BURHEIM" in source.upper() else
+                "NIST_grade_accuracy" if "NIST" in source.upper() else
+                "Vujnovic_Aki_percent_log_upper_bound" if "VUJNOVIC" in source.upper() else
+                "Johnson_published_90pct_log_bound" if "JOHNSON" in source.upper() else ""),
+            "gf_source_doi": doi,
             "current_canonical_loggf": (cm.log_gf if cm is not None else np.nan),
             "current_canonical_source": (text(cm.loggf_reference) if cm is not None else ""),
             "competing_gf_summary": (f"Burheim={r.burheim_log_gf}; canonical={r.canonical_log_gf}; "
@@ -409,7 +425,7 @@ def build(out: Path = OUT) -> dict:
             "upper_lower_level_identity":f"{r.lower_level} - {r.upper_level}","band":band(w),
             "instrument_reach":"OUTSIDE_CURRENT_REACH","transition_source":"Burheim2023 Table 3",
             "loggf_adopted":r.loggf,"gf_source":"EXP-BURHEIM23","gf_source_type":"PRIMARY_LABORATORY",
-            "gf_grade":"GF-LAB","gf_sigma_dex":r.e_loggf_dex,"gf_source_doi":"10.1051/0004-6361/202245394",
+            "gf_grade":"GF-LAB","gf_sigma_dex":r.e_loggf_dex,"sigma_basis":"Burheim_published_dex_1sigma","gf_source_doi":"10.1051/0004-6361/202245394",
             "current_canonical_loggf":np.nan,"current_canonical_source":"","competing_gf_summary":f"P19={r.loggf_papoulia19}; K95={r.loggf_kurucz95}; TOPbase={r.loggf_topbase00}",
             "HFS_status":"SOURCE_TOTAL_TRANSITION","component_or_total":"TOTAL_TRANSITION_GF",
             "literature_line_set_membership":"BURHEIM2023_TABLE3_COMPLETE_CONTROL","telluric_risk":"OUTSIDE_REACH",
@@ -418,9 +434,30 @@ def build(out: Path = OUT) -> dict:
             "source_ticket":"RYA-1132;RYA-1002","notes":"Full-table completeness control; not a measurement candidate."})
 
     m = pd.DataFrame(rows).sort_values(["wavelength_air", "species"]).reset_index(drop=True)
+    fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                       & (m.gf_source_type.astype(str).str.strip() == "FALLBACK")]
+    theory = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                     & (m.gf_source_type.astype(str).str.strip() == "THEORETICAL")]
+    m.loc[fallback, "sigma_basis"] = "census_fallback_bound_0.2_dex"
+    m.loc[theory, "sigma_basis"] = "theory_source_reported"
     if m.canonical_line_id.duplicated().any():
         raise AssertionError("manifest IDs must be unique")
     m = ingest_new_lab_sources(m, out)
+    # The source overlays above can add/replace sigma values; finish the provenance
+    # axis after those writes so every finite uncertainty has a declared basis.
+    fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                       & (m.gf_source_type.astype(str).str.strip() == "FALLBACK")]
+    theory = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                     & (m.gf_source_type.astype(str).str.strip() == "THEORETICAL")]
+    m.loc[fallback, "sigma_basis"] = "census_fallback_bound_0.2_dex"
+    m.loc[theory, "sigma_basis"] = "theory_source_reported"
+    basis_defaults = {"FALLBACK": "census_fallback_bound_0.2_dex",
+                      "THEORETICAL": "theory_source_reported"}
+    missing_basis = (m["sigma_basis"].isna()
+                     | m["sigma_basis"].astype(str).str.strip().eq("")) & m["gf_sigma_dex"].notna()
+    m.loc[missing_basis, "sigma_basis"] = (
+        m.loc[missing_basis, "gf_source_type"].astype(str).str.strip().map(basis_defaults)
+    )
     _stable(m).to_csv(out / "al_line_manifest.csv", index=False)
 
     grade = m.groupby(["band","gf_source_type"]).size().unstack(fill_value=0).reset_index()

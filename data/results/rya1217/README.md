@@ -43,6 +43,14 @@ through to `OUTSIDE_CURRENT_INSTRUMENT_REACH`. Fresh RYA-1141 QA now reports `C-
 and `C-bands` PASS, while the overall measurement gate remains CLOSED on the other
 scientific findings.
 
+## RYA-1156 source-flag reconciliation (2026-09-13)
+
+The Vujnovic CDS parser now preserves the documented limit and note flags (`l_e_Aki`,
+`n_Aki`, `n_Lambda`, and related fields). Lower-limit uncertainties remain without a
+determinate sigma, and the Al manifest carries an explicit `sigma_basis` for every
+finite uncertainty. Fresh QA now reports `A1-flags` and `A5-sigma` PASS; the overall
+measurement gate remains CLOSED.
+
 ## Established blockers
 
 - The preserved RYA-1132 source manifest remains the audit baseline; its corrected
@@ -52,7 +60,7 @@ scientific findings.
 - RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
   matrix. It supplies atomic dispositions; it does not clear holding or product
   conditioning gates.
-- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: the coverage subchecks `C-lines` and `C-bands` now PASS; 69 findings remain (18 CRITICAL, 34 HIGH, 18 MEDIUM). Identity matching, HFS/component evidence, source flags, DOI provenance, evaluated-source semantics, raw holding policy, and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
+- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, and `A5-sigma` now PASS; 62 findings remain (18 CRITICAL, 32 HIGH, 12 MEDIUM). Identity matching, HFS/component evidence, competing-source provenance, DOI provenance, evaluated-source semantics, raw holding policy, and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
 ## Evidence and validation
@@ -64,7 +72,7 @@ python scripts/qa_al_intake_rya1141.py --check --out /tmp/rya1217-gate0-qa
 python -m pytest tests/test_qa_al_intake_rya1141.py tests/test_al_intake_rya1132.py -q
 ```
 
-The QA command exits zero despite its scientific FAIL verdict; inspect the JSON. The focused coverage/intake tests pass: **34 passed**. They validate the audit/intake software, not scientific measurement readiness.
+The QA command exits zero despite its scientific FAIL verdict; inspect the JSON. The focused coverage/intake tests pass: **35 passed**. They validate the audit/intake software, not scientific measurement readiness.
 
 The initial `gate0_qa/` run wrote into a new untracked repository directory, which the audit's whole-tree mutation check flagged. The control rerun wrote outside the repository and reports `artifacts_mutated: []`, with the same 85 scientific findings. Both runs are retained. The current executable battery has 53 checks; the historical ticket's 59-check total is not presented as a fresh result.
 

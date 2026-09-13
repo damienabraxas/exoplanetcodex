@@ -84,6 +84,17 @@ def test_source_transcription_is_refereed_by_the_cds_readme_and_branching_closur
     assert (f[f.flag_column.eq("n_Lambda")].flag == "*").all()
 
 
+def test_cds_flags_and_sigma_basis_survive_into_the_normalized_artifacts():
+    src = pd.read_csv(Path(__file__).resolve().parents[1] / "data/audit/rya1132_al_intake/vujnovic2002_normalized.csv")
+    assert {"lambda_flag", "aki_unc_limit_flag", "aki_note_flag", "sigma_basis"} <= set(src.columns)
+    row = src[src.source_row_id.eq("vuj2002_t5_001")].iloc[0]
+    assert row.lambda_flag == "*"
+    promoted = src[src.source_row_id.eq("vuj2002_t2_001")].iloc[0]
+    assert promoted.sigma_basis == "Vujnovic_Aki_percent_log_upper_bound"
+    limited = src[src.aki_unc_limit_flag.eq(">")]
+    assert len(limited) >= 4 and limited.derived_sigma_dex.isna().all()
+
+
 def test_fine_structure_identity_is_the_air_vacuum_referee(qa):
     verdict, out = qa
     assert verdict["checks"]["A4"] == "PASS"

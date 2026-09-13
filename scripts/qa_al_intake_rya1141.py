@@ -498,7 +498,7 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
             f"with the source's 2-3 printed figures. The builder never compares these two "
             f"columns, so this is an identity it cannot have been tuned to.")
 
-    # Flag columns the parser never reads.
+    # Flag columns from the CDS ReadMe, cross-checked against the normalized ledger.
     dropped = []
     for fn, cols in [("table2.dat", {"l_IntR": 47, "n_Aki": 75, "l_e_Aki": 76}),
                      ("table5.dat", {"n_Lambda": 36, "l_BranR": 37, "l_e_Aki": 57})]:
@@ -509,18 +509,25 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
                     dropped.append({"file": fn, "source_row": i, "flag_column": name,
                                     "flag": ch, "record": line[:46].strip()})
     ddf = pd.DataFrame(dropped)
-    rep.add("A1-flags", "CDS limit / note flag columns preserved", "FAIL",
-            f"{len(ddf)} flag bytes across 5 documented CDS columns are never read by the "
-            f"parser, so the reference README's claim that 'source limits remain limits' "
-            f"is false for two of them. `l_e_Aki` ('>') turns a LOWER LIMIT on the "
-            f"uncertainty into a determinate sigma, and `n_Lambda` ('*') - which the CDS "
-            f"ReadMe documents as 'the value ... was taken over from Tayal & Hibbert "
-            f"(1984)' - is the only thing distinguishing a theoretical Aki from a Vujnovic "
-            f"measurement, and it is dropped.")
-    for _, r in ddf[ddf.flag_column.isin({"l_e_Aki", "n_Lambda", "n_Aki"})].iterrows():
+    field_for = {"l_IntR": "intensity_limit_flag", "n_Aki": "aki_note_flag",
+                 "l_e_Aki": "aki_unc_limit_flag", "n_Lambda": "lambda_flag",
+                 "l_BranR": "intensity_limit_flag"}
+    missing = []
+    for _, r in ddf.iterrows():
+        tab = int(re.search(r"table(\d)", r.file).group(1))
+        sid = f"vuj2002_t{tab}_{int(r.source_row):03d}"
+        got = norm.loc[norm.source_row_id.eq(sid), field_for[r.flag_column]]
+        if len(got) != 1 or str(got.iloc[0]) != r.flag:
+            missing.append(r)
+    rep.add("A1-flags", "CDS limit / note flag columns preserved",
+            "PASS" if not missing else "FAIL",
+            f"{len(ddf) - len(missing)} of {len(ddf)} flagged CDS bytes are preserved in "
+            "the normalized ledger with their field-specific semantics. Lower-limit flags "
+            "remain non-determinate and n_Lambda is retained as the Tayal & Hibbert note.")
+    for _, r in pd.DataFrame(missing).iterrows():
         rep.row("A1", "HIGH" if r.flag_column == "n_Lambda" else "MEDIUM",
                 f"{r.file} row {r.source_row}",
-                f"CDS flag column `{r.flag_column}` = '{r.flag}' is dropped by the parser",
+                f"CDS flag column `{r.flag_column}` = '{r.flag}' is not preserved",
                 r.record)
     return ddf
 
@@ -870,18 +877,18 @@ def check_a5(rep: Report, man: pd.DataFrame, cen: pd.DataFrame,
             "the inverse of the radiative lifetime'. The intake's g_upper = 3 (3s3p ^3^P^o^_1_) "
             f"and its log gf = {expect:.6f} reproduce exactly.")
 
-    # Uncertainty conversions: justified, but with no provenance recorded in the artifact.
-    rep.add("A5-sigma", "sigma(log gf) conversions justified with recorded provenance", "FLAG",
-            "Three different conventions share one `gf_sigma_dex` column with nothing "
-            "recording which: Burheim's published per-line dex uncertainty; Vujnovic's "
-            "log10(1 + u) - the ASYMMETRIC upper bound, ~6% below the linear-propagation "
-            "1-sigma 0.434*u; and Johnson's 90%-CONFIDENCE bound stored as if it were "
-            "1-sigma (conservative by ~1.645x, and deliberately so, but only a code comment "
-            "says so). The artifact needs a `sigma_basis` column, the lesson RYA-1084 and "
-            "the sigma_stat/stat_basis finding already paid for.")
-    rep.row("A5", "MEDIUM", "al_line_manifest.csv:gf_sigma_dex",
-            "One column carries three different uncertainty conventions, unlabelled",
-            "Burheim dex 1-sigma; Vujnovic log10(1+u); Johnson 90% confidence bound.")
+    # Uncertainty conversions must carry their convention beside the value.
+    finite = man[man.gf_sigma_dex.notna()]
+    missing_basis = finite[finite.sigma_basis.astype(str).str.strip().isin(("", "nan"))]
+    rep.add("A5-sigma", "sigma(log gf) conversions justified with recorded provenance",
+            "PASS" if missing_basis.empty else "FAIL",
+            f"{len(finite) - len(missing_basis)} of {len(finite)} finite sigma values carry "
+            "a sigma_basis: Burheim published dex, Vujnovic logarithmic Aki bound, "
+            "Johnson published 90%-confidence bound, NIST grade accuracy, or the explicit "
+            "census fallback bound.")
+    for _, r in missing_basis.iterrows():
+        rep.row("A5", "MEDIUM", f"{r.canonical_line_id}:gf_sigma_dex",
+                "finite sigma has no declared basis", str(r.gf_sigma_dex))
     return ddf
 
 
