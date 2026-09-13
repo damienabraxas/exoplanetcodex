@@ -1319,9 +1319,10 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             f"vocabulary {LINE_SETS}. RYA-1127 made `line_set` part of the PRODUCT "
             f"IDENTITY KEY, so a measurement taken from this frozen pool cannot form a "
             f"valid key. `gf_grade` mixes three vocabularies and none of them is this one.")
-    rep.row("D3", "CRITICAL", "al_line_manifest.csv",
-            "No `line_set` column — products measured from this pool cannot key (RYA-1127)",
-            f"canonical vocabulary: {LINE_SETS}")
+    if not has_axis:
+        rep.row("D3", "CRITICAL", "al_line_manifest.csv",
+                "No `line_set` column — products measured from this pool cannot key (RYA-1127)",
+                f"canonical vocabulary: {LINE_SETS}")
 
     #: The RYA-946 census gate, quoted: "No element is FROZEN_READY_FOR_MEASUREMENT until
     #: this cross-reference is complete or a documented, approved source-publication
