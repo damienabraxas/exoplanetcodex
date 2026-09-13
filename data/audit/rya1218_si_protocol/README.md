@@ -63,6 +63,14 @@ coverage ledger reports Si I Engine A served in VIS and reachable-but-not-extrac
 in red-optical; Si I Engine B served in VIS/red-optical; Si II Engine B
 uncovered in VIS but served in red-optical; and no Si II Engine A route.
 Unsupported engine cells remain HOLD.
+
+While J/K correction is deferred to its own ticket, the existing corrected CRIRES
+products were measured diagnostically with the full canonical Si census. The
+Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
+canonical rows (the remaining windows fall in chip gaps or lack complete windows).
+These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
+are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
+for laboratory identity/gf adjudication and are not promoted into a grade pool.
 `model_inventory_cells.csv` enumerates the nine roster models against both
 ions, holdings, and configured synthesis bands. Every cell is currently HOLD,
 not executed. It is an applicability work queue, not a completed engine audit;
