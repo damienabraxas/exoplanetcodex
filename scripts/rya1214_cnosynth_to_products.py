@@ -55,21 +55,27 @@ DIAG = {
     "OI_6300":  ("FORB", "VIS", None),
     "NH_AX":    ("MOL", "near-UV", "NH"),
     "OH_AX":    ("MOL", "near-UV", "OH"),
+    "CN_AX_IR": ("MOL", "NIR", "12C14N"),
 }
 #: Which holding each region's spectrum came from. Read from the region, never guessed:
 #: two holdings of one instrument are two different PRODUCTS (RYA-1026).
-REGION_HOLDING = {
-    "vis": ("harps", "solar_harps_molecfit_corrected"),
-    "nearuv": ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-}
-
-
-def _windows_for(key: str) -> tuple:
+#: 🔴 RESOLVED THROUGH `cno_synthesis.holding_for_region`, the call the LOADER makes. This was
+#: a hand-typed copy covering vis/nearuv only, and two copies of that choice is how a
+#: product names a spectrum it was not measured on (RYA-845).
+def _region_holding(region: str) -> tuple[str, str]:
     from pipeline import cno_synthesis as cs
-    for tup in (cs.VIS_DIAGNOSTICS, cs.NEARUV_DIAGNOSTICS):
-        for d in tup:
-            if d.key == key:
-                return d.windows_A
+    r = cs.REGIONS[region]
+    # The region spells HARPS for display; the product/feed key is the lower-case id
+    # (`harps`, `kpno_solar_atlas`, `iag_fts_solar_atlas`) every band product is filed under.
+    return r.instrument.lower(), cs.holding_for_region(r)
+
+
+def _windows_for(region: str, key: str) -> tuple:
+    """The REGION's windows: one diagnostic key (CN_AX_IR) has different windows per holding."""
+    from pipeline import cno_synthesis as cs
+    for d in cs.REGION_DIAGNOSTICS[region]:
+        if d.key == key:
+            return d.windows_A
     return ()
 
 
@@ -118,7 +124,7 @@ def main() -> int:
             continue
         bands = pd.read_csv(pb)
         elem_unc = pd.read_csv(prod).set_index("element")
-        inst, holding = REGION_HOLDING[region]
+        inst, holding = _region_holding(region)
         for _, r in bands.iterrows():
             key = str(r.key)
             if key not in DIAG:
@@ -133,7 +139,7 @@ def main() -> int:
             s_stat = float(r.sigma_fit) if pd.notna(r.sigma_fit) else float("nan")
             s_syst = (float(unc["sigma_sys"]) if unc is not None
                       and pd.notna(unc["sigma_sys"]) else float("nan"))
-            windows = _windows_for(key)
+            windows = _windows_for(region, key)
             n_mol = _count_molecular_lines(molecule, windows) if molecule else None
             row = {
                 "element": el, "ion": "I", "band": band, "instrument": inst,
