@@ -51,6 +51,13 @@ Inspected local PDFs in `Documents/Exoplanet Codex/Reference documents`:
   Si I and Si II and the Silicon Abundances of Several Very Metal-poor Stars*,
   DOI [10.3847/1538-4365/acb642](https://doi.org/10.3847/1538-4365/acb642),
   `2301.11391v1.pdf`, section 3.2 and Tables 4–5.
+- Kelleher & Podobedova 2008, *Atomic Transition Probabilities of Silicon*,
+  DOI [10.1063/1.2734566](https://doi.org/10.1063/1.2734566),
+  `jpcrd3720081501p.pdf`, Table 8 and the Si II wavelength/energy tables.
+- Pehlivan Rhodin et al. 2024, A&A 682, A184, `aa45686-22.pdf`, modern
+  experimentally validated Si I/Si II transition data.
+- Bergemann et al. 2013, ApJ 764, 115, `1212.2649v1.pdf`, NLTE Si J-band
+  application and atom-model context.
 
 The Si II 6371.370 A source is Scott's mean of Schulz-Gulde (1969), Blanco et al.
 (1995), and Matheron et al. (2001), with a reported 0.02 dex uncertainty on that
@@ -59,39 +66,38 @@ The generator and generated reference table are corrected; log gf stays -0.044.
 That reported uncertainty is not a complete product uncertainty and is not
 silently assigned to the Si I rows.
 
-**DH23 source inconsistency requires adjudication:** Table 4 identifies the
-2334.407 A lower state as Si II ground-term J=1/2, while Table 5 gives the same
-0.036 eV excitation to both doublet members. The previous intake used 0.03634
-for both. Resolve against evaluated level energies and the published source
-before promoting either identity. The stored intake is retained as evidence,
-not silently corrected from inference.
+**DH23 lower-level identity is now resolved:** Table 4 identifies 2334.407 A
+as the Si II ground-term J=1/2 transition and 2350.172 A as the J=3/2
+transition. NIST gives the corresponding lower energies as 0 and 287.24 cm-1;
+the intake now records 0.0000 and 0.0356 eV. Table 5 rounds both values to
+0.036 eV, so the rounded table value is not used for physical matching.
 
 ## Exact source requests / stopped evidence branches
 
 Correction after a file-signature/content scan: Garz is held as the extensionless
 `1973A&A....26..471G` (seven scanned pages; title page visually verified).
 It is no longer a download request. See `reference_folder_review.md` and the
-93-file PDF inventory for the broader applicable holdings.
+96-file PDF inventory for the broader applicable holdings.
 
 The following other primary papers were not located in the checked library;
 their references are verified in Scott's bibliography or the project bibliography.
 Supply the papers and their transition/lifetime tables for a primary-source audit:
 
 - O'Brian & Lawler 1991a, Physics Letters A **152**, 407,
-  [DOI 10.1016/0375-9601(91)90990-E](https://doi.org/10.1016/0375-9601(91)90990-E).
+  [DOI 10.1016/0375-9601(91)90834-U](https://doi.org/10.1016/0375-9601(91)90834-U).
 - O'Brian & Lawler 1991b, Physical Review A **44**, 7134,
   [DOI 10.1103/PhysRevA.44.7134](https://doi.org/10.1103/PhysRevA.44.7134).
 - Schulz-Gulde 1969, JQSRT **9**, 13; Si I/Si II oscillator strengths.
 - Blanco et al. 1995, Physica Scripta **52**, 628; Si II experimental data.
 - Matheron et al. 2001, JQSRT **69**, 535; Si II experimental data.
 
-These are specific primary-lineage requests, not a claim that the entire
-literature search is complete. AGSS21, Elgueta, later theoretical Si work,
-historical Si NLTE papers, NIST ASD row queries, and VALD physical level
-crossmatches still require a complete dossier. An accessible evaluated source
-is Kelleher & Podobedova 2008, DOI 10.1063/1.2734566
-([NIST PDF](https://srd.nist.gov/jpcrdreprint/1.2734566.pdf)); it has not been
-transcribed or substituted for primary evidence here.
+These are the remaining specific primary-lineage gaps; they do not block
+use of the now-held NIST compilation, Pehlivan Rhodin 2024 data, or Bergemann
+2013 model context. AGSS21, Elgueta, later theoretical Si work, historical Si
+NLTE papers, NIST ASD row queries, and VALD physical level crossmatches still
+require a complete dossier. The NIST compilation is held locally as an
+evaluated cross-check and has not been substituted for experimental primary
+evidence.
 
 The standing bibliography audit fails on pre-existing unindexed documents,
 including duplicate-named copies of the Si papers. No library files were deleted
@@ -102,7 +108,7 @@ or renamed. Global bibliography cleanup is not claimed complete.
 | Class | Finding | Disposition |
 |---|---|---|
 | PIPELINE DEFECT | Si II inherited Si I gf source in RYA-1169 builder | Fixed with source-based regression test |
-| ELEMENT-SPECIFIC | DH23 Si II lower-level energy conflict between Tables 4 and 5 | HOLD pending evaluated physical identity |
+| ELEMENT-SPECIFIC | DH23 Table 5 rounds the two Si II lower energies to the same 0.036 eV | Resolved using Table 4 identities and NIST energies; intake now stores 0.0000/0.0356 eV |
 | PIPELINE DEFECT | Canonical schema has no lower/upper level or J fields | Preserve candidate matches; full physical identity remains HOLD |
 | DOCUMENTATION GAP | Hardened phases in RYA-1218 are absent from current ELEMENT_PROTOCOL | Ticket governs this campaign; protocol synchronization remains owed |
 | DOCUMENTATION GAP | RYA-725 cites the Amarsi Si paper as A&A and contains approximate historical identities | Use verified source tables and DOI above |
