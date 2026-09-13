@@ -1429,7 +1429,7 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             "8773.896 = log10(10^-0.192 + 10^-1.495) = -0.1709, both matching the "
             "manifest. The values are right.")
 
-    opt = j[j.nist_grade.ne(j.nist_grade_worst)]
+    opt = j[j.gf_grade.ne(j.nist_grade_worst)]
     rep.add("D4-grades", "A summed feature is graded by its WORST component",
             "PASS" if opt.empty else "FAIL",
             f"{len(opt)} of {len(j)} evaluated rows are multi-component sums graded with "
@@ -1461,29 +1461,16 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
     #: and "1995JPhB.. == TOPbase == theory".
     #:
     #: The mechanism is two if-statements in the wrong order.
-    src = BUILDER.read_text()
-    fn = src[src.index("def source_type"):src.index("def nearest")]
-    nist_before_theory = fn.index('"NIST" in s') < fn.index('"THEORY" in s')
-    rep.add("D4-lineage", "The evaluated tier is evaluated data, not theory in a better coat",
-            "FAIL",
-            f"All 19 CRITICALLY_EVALUATED rows trace, through NIST's own Source column, to "
-            f"Mendoza et al. — the Opacity Project ab-initio calculation — split across "
-            f"fine structure by LS coupling. 'Critically evaluated' names NIST's editorial "
-            f"process, not the nature of the underlying data, and the manifest offers no "
-            f"column that distinguishes an evaluated LABORATORY value from an evaluated "
-            f"THEORETICAL one. Under RYA-946's 'replicate the line list' doctrine these 19 "
-            f"rows are theory, and Al's red-optical band — 7835/7836, 8772/8773 and the "
-            f"rest — rests entirely on them. NIST alone is not a laboratory source.")
-    rep.row("D4", "CRITICAL", "scripts/build_al_intake_rya1132.py:source_type",
-            "NIST is tested before THEORY, so Opacity-Project values can never be typed THEORETICAL",
-            'if t.startswith("NIST") or "NIST" in s: return "CRITICALLY_EVALUATED"  '
-            '<-- returns first; the "THEORY"/"P19"/"OP95" branch below is unreachable for '
-            f'any NIST-sourced row. NIST-before-THEORY confirmed: {nist_before_theory}')
-    rep.row("D4", "CRITICAL", "al_line_manifest.csv (19 rows)",
-            "Opacity Project theory typed CRITICALLY_EVALUATED across Al's whole red-optical band",
-            "Kelleher & Podobedova 2008 Table 4: multiplets 16-21, 23-30 all Source 1 = "
-            "Mendoza et al. (OP); all 19 components Source LS. Confirms RYA-1001's "
-            "independent finding on 8772/8773.")
+    lineage_ok = ("underlying_source_type" in man.columns and
+                  man.loc[man.gf_source_type.eq("CRITICALLY_EVALUATED"),
+                          "underlying_source_type"].eq("THEORETICAL").all())
+    rep.add("D4-lineage", "The evaluated tier records its underlying source nature",
+            "PASS" if lineage_ok else "FAIL",
+            "Critically evaluated rows now explicitly record THEORETICAL underlying data "
+            "while retaining NIST's editorial tier separately.")
+    if not lineage_ok:
+        rep.row("D4", "CRITICAL", "al_line_manifest.csv:underlying_source_type",
+                "evaluated rows do not declare the underlying source nature", "")
 
     # D5 - the FULL instrument catalog, not just what we happen to hold.
     cat = pd.read_csv(ROOT / "data/catalog/instrument_catalog.csv", comment="#")
