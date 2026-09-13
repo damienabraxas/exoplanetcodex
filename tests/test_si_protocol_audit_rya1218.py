@@ -26,3 +26,13 @@ def test_nir_pool_is_published_and_crires_measurement_stays_held():
     assert set(coverage.status) == {"HOLD"}
     raw = coverage[coverage.holding == "solar_vesta_crires_plus_idp"]
     assert all("TelluricNotCorrected" in x for x in raw.reason)
+
+
+def test_corrected_crires_diagnostic_covers_y_and_h_without_abundance_feed():
+    import json
+    p = ROOT / "data/results/rya1218/si_crires_corrected_diagnostic/si_corrected_crires_summary.json"
+    d = json.loads(p.read_text())
+    assert d["abundance_or_grade_pool"] is False
+    assert [(x["band"], x["n_canonical_lines"], x["n_served"]) for x in d["holdings"]] == [
+        ("Y", 26, 26), ("H", 236, 129)
+    ]
