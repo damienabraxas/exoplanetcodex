@@ -160,7 +160,19 @@ _RECONCILE_KEYS = {"copied_to", "sha256", "reingested_by", "reingest_reason"}
 
 #: RYA-1084 re-ingested ten products after clearing their writer, and exactly ONE published
 #: field legitimately moved with them. Named, not tolerated as a class.
-SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
+SANCTIONED = {
+    ("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218),
+    #: 🔴 RYA-908 — the near-UV Fe II systematic floor, raised 0.1095 -> 0.130 dex.
+    #: This is a BAR being made honest, not a value being reconciled: A(Fe) does not move
+    #: on any of the four records, and the guard is right to have stopped it. RYA-1133
+    #: measured the two Kitt Peak holdings disagreeing by 0.260 dex on the SAME 12 lines,
+    #: so the half-spread 0.130 EXCEEDS the 0.10 band-flat pseudo-continuum term the run
+    #: charged -- the published budget was smaller than a disagreement already on the
+    #: table. Sanctioned by Ryan on RYA-908 ("Bar -> honest 0.130 floor, not the false
+    #: 0.1095"), and scoped by `test_the_rya908_sanction_covers_exactly_what_it_says`
+    #: below, because this dict's key drops instrument and treatment.
+    ("Fe", "II", "near-UV", "sigma_syst"): (0.1095, 0.13),
+}
 
 #: 🔴 RYA-1100 — `display` IS NOT A PUBLISHED VALUE, AND THIS GUARD NO LONGER PINS IT.
 #: This check's own docstring scopes it to "was a published NUMBER edited?" -- reconcile
@@ -180,12 +192,21 @@ SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
 DERIVED_FIELDS = {"display"}
 
 
+def _key(p: dict):
+    """The identity `_index` keys on, exposed so a CONTROL can pick a victim the baseline
+    actually contains. RYA-1203: two positive controls used `products[0]`, which stopped
+    being a baseline row the moment the feed grew, and they failed while the guards they
+    control were healthy."""
+    prov = {k: v for k, v in p["provenance"].items() if k not in _RECONCILE_KEYS}
+    return (p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
+            p["treatment"], prov.get("path"))
+
+
 def _index(doc: dict) -> dict:
     out = {}
     for p in doc["products"]:
         prov = {k: v for k, v in p["provenance"].items() if k not in _RECONCILE_KEYS}
-        key = (p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-               p["treatment"], prov.get("path"))
+        key = _key(p)
         out[key] = {**{k: v for k, v in p.items() if k != "provenance"}, "_prov": prov}
     return out
 
@@ -229,6 +250,73 @@ def test_no_published_value_was_edited_to_reconcile():
         f"a published value changed outside RYA-1084's re-ingest: {unexpected}")
 
 
+def test_the_rya908_sanction_covers_exactly_what_it_says():
+    """⚠️ A SANCTION IS AS WIDE AS ITS KEY, AND THIS DICT'S KEY IS LOSSY.
+
+    `published_value_edits` reports on (element, ion, band, field) but INDEXES on a key
+    that also carries instrument, tier, treatment and path. So one entry above silently
+    forgives every near-UV Fe II `sigma_syst` edit, not the four RYA-908 actually made,
+    and a later unrelated edit to a fifth record would land underneath it unreported.
+
+    This pins the sanction to its real extent, from the feed rather than from the lossy
+    report: exactly four records moved, all of them Fe II near-UV, all 0.1095 -> 0.130,
+    and no OTHER field moved anywhere in the feed. Break any of those and this fails even
+    though the sanctioned entry still matches.
+    """
+    before, after = _index(_baseline_doc()), _index(json.loads(FEED.read_text()))
+    moved, others = [], {}
+    for key, b in before.items():
+        a = after.get(key)
+        if a is None:
+            continue
+        for fk, bv in b.items():
+            if fk == "_prov" or fk in DERIVED_FIELDS or fk not in a or a[fk] == bv:
+                continue
+            if fk == "sigma_syst":
+                moved.append((key, bv, a[fk]))
+            elif SANCTIONED.get((key[0], key[1], key[2], fk)) != (bv, a[fk]):
+                others[key + (fk,)] = (bv, a[fk])
+
+    assert not others, f"a field outside the sanctions moved: {others}"
+    #: 🔴 4 -> 0 (RYA-1207): THE SANCTIONED EDIT NO LONGER EXISTS, AND THAT IS THE POINT.
+    #: RYA-908 hand-set sigma_syst 0.1095 -> 0.130 on the four near-UV Fe II records, and
+    #: this test pinned the extent of that allowance. RYA-1207 re-derived all four through
+    #: `publish_product` when it re-measured the band with molecular opacity, so they now
+    #: carry the value their own budget computes -- which is 0.1095, the baseline. The feed
+    #: no longer contains the edit, so the sanction is INERT.
+    #:
+    #: It is left in `SANCTIONED` rather than deleted because removing it would silently
+    #: re-arm nothing: the allowance only ever matched this one edit, and if that edit ever
+    #: reappears it should be justified again rather than inherited. What this assertion
+    #: now guards is the STRONGER state -- that no near-UV Fe II sigma_syst is being
+    #: carried by an allowance at all.
+    assert len(moved) == 0, (
+        f"a sanctioned-shape sigma_syst edit is back in the feed: {moved}. RYA-1207 "
+        f"re-derived these four from their artifacts; a value that differs from the "
+        f"budget again is a new edit needing its own reason, not RYA-908's.")
+
+
+def test_control_the_rya908_sanction_scope_check_can_actually_fail():
+    """The non-vacuity control for the test above: give it a fifth, unsanctioned move and
+    it must object. Without this, a scope check that silently stopped looking would read
+    exactly like a scope check that found nothing wrong."""
+    #: same trap as the control above: the victim must be a row the baseline HAS, or the
+    #: diff has nothing to compare and the control passes/fails for the wrong reason.
+    live = json.loads(FEED.read_text())
+    base = _index(_baseline_doc())
+    victim = next(p for p in live["products"]
+                  if _key(p) in base
+                  and not (p["element"] == "Fe" and p["ion"] == "II"
+                           and p["band"] == "near-UV"))
+    victim["sigma_syst"] = float(victim.get("sigma_syst") or 0.0) + 0.05
+    before, after = _index(_baseline_doc()), _index(live)
+    extra = [k for k, b in before.items()
+             if after.get(k) is not None
+             and b.get("sigma_syst") != after[k].get("sigma_syst")
+             and (k[0], k[1], k[2]) != ("Fe", "II", "near-UV")]
+    assert extra, "the scope check cannot see an out-of-scope sigma_syst edit at all"
+
+
 def test_control_the_baseline_actually_differs_from_today():
     """The control that stops this going vacuous again. If the pinned baseline and the
     live feed were identical the comparison would pass by construction and prove nothing —
@@ -239,8 +327,15 @@ def test_control_the_baseline_actually_differs_from_today():
 
 def test_control_an_edited_published_value_is_caught():
     """POSITIVE CONTROL. Move an abundance and the check must see it."""
+    #: 🔴 THE VICTIM MUST EXIST IN THE BASELINE. `products[0]` used to, and RYA-1203
+    #: added 14 products, so index 0 became a row the baseline has never seen -- there is
+    #: nothing to diff it against, no "A" edit is reported, and the control fails while
+    #: the guard it controls is perfectly healthy. A positive control that depends on
+    #: list ORDER stops controlling the moment the list grows.
     live = json.loads(FEED.read_text())
-    live["products"][0]["A"] = float(live["products"][0]["A"]) + 0.1
+    base = _index(_baseline_doc())
+    victim = next(p for p in live["products"] if _key(p) in base)
+    victim["A"] = float(victim["A"]) + 0.1
     edits = published_value_edits(_baseline_doc(), live)
     assert any(fk == "A" for (*_, fk) in edits), edits
 

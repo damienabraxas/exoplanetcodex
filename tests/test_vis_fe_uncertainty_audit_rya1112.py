@@ -28,8 +28,22 @@ def doc():
 
 def test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause(doc):
     assert A.check(doc) == []
+    #: RYA-1185 — 9 → 13. Publishing the four RYA-1106 Asplund replications put four more
+    #: VIS products over the 0.1 dex dig-in line, each carrying a 0.1700 `gf scale
+    #: (UNGRADED)` blanket from AGSS21's own mixed pool. They arrived with `rca_verdict`
+    #: "OPEN — no named cause yet", which is exactly what the assertion below forbids; the
+    #: cause is in their budget, so `rca()` now names it rather than the count being bumped.
+    #: RYA-1203 — 13 → 16. The three new Fe II VIS `synth-1D-LTE-gerber` legs are over the
+    #: dig-in line for the same reason their 1D-LTE siblings are: an 8-line saturated pool
+    #: (RYA-515 3c). They arrive with a named cause from their own budget, which is what
+    #: the assertion below requires; the count moves, the standard does not.
+    #: RYA-1212 — 16 → 12, and the drop is the POINT rather than a regression. The four
+    #: RYA-1106 Asplund replications were over the line ONLY because of that 0.1700
+    #: blanket; Ryan's threshold ruling moved them onto RYA-968's per-line route and their
+    #: sigma_syst is now 0.0475 (sigma_reported 0.0491-0.0516), comfortably under 0.1. The
+    #: standard did not move — four products stopped failing it.
     over = [r for r in doc["products"] if r["over_dig_in"]]
-    assert len(over) == 9
+    assert len(over) == 12
     assert all(r["rca_verdict"] for r in over)
     # the skill demands a NAMED verdict, not the word "OPEN" with nothing behind it
     assert all(len(r["rca_note"]) > 60 for r in over)
@@ -211,8 +225,12 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     assert not A.is_full_3d("synth-mean3D-LTE-gerber-stagger")
     assert A.is_full_3d("ENGINE-A-3DNLTE")
 
+    #: RYA-1185 — 4 → 8. The four RYA-1106 Asplund replications are now published (they are
+    #: ENGINE-A-3DNLTE too), so full 3D covers eight VIS products, not four. The SPLIT RULE
+    #: this test guards is unchanged and still asserted above: an explicit named set, never a
+    #: substring, and every <3D> MEAN product still APPLIES.
     na = [r for r in doc["products"] if r["xi_applicability"].startswith("NOT APPLICABLE")]
-    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 4
+    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 8
     assert {r["treatment"] for r in na} == {"ENGINE-A-3DNLTE"}
 
     # every <3D> MEAN product APPLIES -- the refuted exemption must not come back

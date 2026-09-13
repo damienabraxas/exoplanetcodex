@@ -341,9 +341,9 @@ def labpool():
 
 
 def test_the_fe1_lab_pool_is_materially_clean(labpool):
-    """THE RESULT THAT CLEARS RYA-850's POOL. 207 of 217 refereed lines reproduce their
-    source paper's log gf — the opposite of the NIST extracts' 70% failure. If this rate
-    ever drops, 850's graded bars are back in question."""
+    """THE RESULT THAT CLEARS RYA-850's POOL. Every refereed line reproduces its source
+    paper's log gf — the opposite of the NIST extracts' 70% failure. If this rate ever
+    drops, 850's graded bars are back in question."""
     assert labpool["coverage_frac"] > 0.95, (
         "coverage collapsed — the CDS machine-readable tables may have stopped parsing")
     clean = labpool["n_refereed"] - labpool["n_loggf_mismatch"]
@@ -353,12 +353,84 @@ def test_the_fe1_lab_pool_is_materially_clean(labpool):
         f"RYA-850 promotes is no longer clean")
 
 
-def test_the_one_real_outlier_is_named(labpool):
-    """Belmonte 3935.307: ours -2.199 vs the paper's -1.820, and its sigma is wrong too
-    (0.070 vs 0.180). Both axes disagree on one line — a bad row, not rounding."""
-    big = [m for m in labpool["loggf_mismatches"] if abs(m["delta"]) > 0.15]
-    assert len(big) == 1
-    assert abs(big[0]["wavelength_air_A"] - 3935.307) < 0.01
+def test_the_pool_is_clean_on_BOTH_axes_with_no_outlier_left(labpool):
+    """🔴 RETRACTION, PINNED. RYA-853 reported Belmonte Fe I 3935.3064 as a GENUINE BAD
+    ROW — *"ours -2.199 vs the paper's -1.820, and its sigma is wrong too (0.070 vs
+    0.180). Both axes on the same line."* It stood for two weeks and this test asserted it.
+
+    It was never a bad row. Belmonte Table 4 carries TWO log gf columns and the parser
+    read the wrong one — see `test_the_two_column_trap_is_guarded_positionally`. Ours
+    reproduces Belmonte's own measurement exactly, and so do the other ten "mismatches",
+    all of which were the same artifact.
+
+    The assertion is now the opposite one, and it is stronger: ZERO mismatches on value
+    AND on cited sigma. A single reappearing mismatch is then a real finding, not noise
+    to be triaged."""
+    assert labpool["n_loggf_mismatch"] == 0, (
+        f"{labpool['n_loggf_mismatch']} log gf mismatches: "
+        f"{labpool['loggf_mismatches']}")
+    assert labpool["n_sigma_mismatch"] == 0, "a cited sigma stopped reproducing"
+    assert labpool["loggf_mismatches"] == []
+
+
+def test_the_two_column_trap_is_guarded_positionally(labpool):
+    r"""🔴 THE BUG THAT MANUFACTURED THE OUTLIER, AND WHY THE FIX IS NOT A WIDER REGEX.
+
+    Belmonte Table 4 (footnotes d and e, quoted in the paper):
+        d — "The log(gf) values measured in this work"          <- ours
+        e — "Values of log(gf)s from other authors used for
+             comparison"  tagged MA74 / OB91 / BL79 / BL82 / BA94
+
+    The old pattern captured EXACTLY two decimals behind a non-greedy scan. Belmonte
+    prints most of its own values to 2 dp and some to 3, and on a 3 dp row the two-decimal
+    capture cannot be followed by `±`, so the scan slid past it onto the Published pair:
+
+        393.5307 ... 0.91 (17)  -2.199±0.07   -1.82±0.18  MA74
+                                 ^ ours        ^ May et al. 1974, read as "the paper"
+
+    Widening to `\d{2,3}` would fix these eleven rows and leave the next typesetting
+    choice free to break it again. The pair is taken POSITIONALLY instead — the first
+    `value ± unc` in the row — because "This Experiment" always precedes "Published" and
+    no earlier column uses `±` (A_ul prints its uncertainty in parentheses).
+    """
+    src = (ROOT / "scripts" / "rya853_fe1_labpool_referee.py").read_text()
+    assert "TWO** log gf COLUMNS" in src or "TWO log gf COLUMNS" in src, (
+        "the two-column warning is gone from the parser")
+    assert "This Experiment" in src and "Published" in src
+    traps = " ".join(labpool["traps"])
+    assert "TWO log gf COLUMNS" in traps, "the trap is no longer recorded in the artifact"
+    assert "3935.3064" in traps and "May et al. 1974" in traps
+
+    # 🔴 AND THE PATTERN ITSELF. The first version of this assertion sliced the source on
+    # the next ")" after `re.compile(`, which lands inside the WAVELENGTH group and never
+    # reaches the log gf one -- it passed with the bug deliberately restored. Mutation-
+    # tested now: assert on the exact buggy construct instead of on a slice.
+    PM = "\u00b1"
+    exact_two = r"\d\.\d{{2}})\s*" + PM
+    two_or_three = r"\d\.\d{{2,3}})\s*" + PM
+    assert exact_two not in src, (
+        "a log gf group captures EXACTLY two decimals before the +- -- that is the "
+        "column-selection bug that read May et al. 1974 as Belmonte")
+    assert two_or_three in src, "the widened log gf capture is gone"
+
+
+def test_the_retracted_outlier_row_reproduces_its_paper_exactly(labpool):
+    """The canary, by wavelength. Fe I 3935.3064 must referee at delta 0.000 on both axes
+    against Belmonte's own column. If it ever reads -1.82/0.18 again, the parser is back
+    on May et al. 1974."""
+    import csv as _csv
+    rows = list(_csv.DictReader(
+        open(ROOT / "data/results/rya853/rya853_fe1_labpool_referee.csv")))
+    hit = [r for r in rows if r["source"] == "Belmonte2017"
+           and abs(float(r["wavelength_air_A"]) - 3935.3064) < 0.01]
+    assert len(hit) == 1, "the canary line left the pool"
+    r = hit[0]
+    assert abs(float(r["our_loggf"]) - (-2.199)) < 5e-4
+    assert abs(float(r["paper_loggf"]) - (-2.199)) < 5e-4, (
+        f"refereed against {r['paper_loggf']} — that is the Published (MA74) column, "
+        f"not Belmonte's own")
+    assert abs(float(r["paper_unc_dex"]) - 0.07) < 5e-4
+    assert abs(float(r["d_loggf"])) < 5e-4 and abs(float(r["d_unc"])) < 5e-4
 
 
 def test_the_unrefereed_remainder_is_not_called_clean(labpool):
@@ -385,15 +457,76 @@ def test_the_encoding_traps_are_recorded(labpool):
 
 def test_ruffoni_and_denhartog_are_perfect(labpool):
     """345 lines across the two Wisconsin sources, refereed against their CDS machine-
-    readable tables, with ZERO defects on value or cited sigma. Every surviving mismatch
-    is Belmonte, which is the one source refereed from a typeset PDF."""
+    readable tables, with ZERO defects on value or cited sigma.
+
+    ⚠️ This used to allow Belmonte to carry mismatches on the grounds that it is the one
+    source refereed from a typeset PDF. That indulgence is what let a parser bug live as
+    a "data finding" for two weeks — the eleven Belmonte deltas were never Belmonte's.
+    The allowance is withdrawn: no source may carry a mismatch."""
     bad_sources = {m["source"] for m in labpool["loggf_mismatches"]}
-    assert bad_sources <= {"Belmonte2017"}, (
-        f"a Wisconsin source now has mismatches ({bad_sources}) — that would be a real "
-        f"defect in the pool RYA-850 promotes, not a PDF-extraction artifact")
+    assert bad_sources == set(), (
+        f"mismatches reappeared in {bad_sources} — before calling it a data defect, check "
+        f"the parser against the paper's own column headings and footnotes; that is what "
+        f"the last four 'findings' here turned out to be")
 
 
 def test_belmonte_coverage_did_not_silently_collapse(labpool):
     """Belmonte covers 98.3% of its own pool lines. A drop to zero means the PUA/± parse
     broke again, not that the paper stopped covering them."""
     assert labpool["papers"]["Belmonte2017"]["rows_parsed"] > 100
+
+
+# ── scope 1 coverage: what the sweep actually reached ────────────────────────────────
+
+COVERAGE = ROOT / "data/results/rya853/rya853_graded_pool_coverage.json"
+
+
+@pytest.fixture(scope="module")
+def coverage():
+    if not COVERAGE.exists():
+        pytest.skip("graded-pool coverage artifact absent")
+    return json.loads(COVERAGE.read_text())
+
+
+def test_the_sweep_does_not_claim_more_of_the_pool_than_it_refereed(coverage):
+    """🔴 The ticket says "sweep the whole pool". The pass refereed the 60 rows of the two
+    HAND-MAINTAINED extracts. Saying "the graded pool was audited" would be false, and the
+    artifact has to say so in its own verdict rather than leaving a reader to infer it."""
+    hand = coverage["by_provenance_class"]["hand_maintained_extracts"]
+    mach = coverage["by_provenance_class"]["machine_pull_from_asd"]
+    assert hand["refereed_by_rya853"] is True
+    assert mach["refereed_by_rya853"] is False
+    assert mach["rows"] > 10 * hand["rows_in_the_two_extract_files"], (
+        "the un-refereed remainder is no longer the dominant part of the pool — re-read "
+        "this finding rather than carrying it")
+    assert "FALSE as stated" in coverage["verdict"]
+
+
+def test_the_stale_843_is_not_carried_as_the_pool_size(coverage):
+    """The ticket was written against 843 graded lines and the pool has since grown. A
+    coverage fraction quoted from ticket text is stale by construction."""
+    assert coverage["ticket_text_said"] == 843
+    assert coverage["n_rows_with_a_stored_grade"] > 843
+    assert "re-measure" in coverage["pool_grew_note"]
+
+
+def test_the_two_provenance_classes_are_not_reported_as_each_other(coverage):
+    """⚠️ THE DISTINCTION THAT MATTERS, IN BOTH DIRECTIONS. The 70% failure was hand
+    transcription — a grade typed wrong. The bulk rows carry the grade the ASD query
+    itself returned, so that mode cannot occur there; generalising 70% onto them would
+    manufacture a crisis. Equally, a machine pull is NOT thereby clean: its failure mode
+    is matching the wrong line, which the EP guard caught live. Both must be stated."""
+    mach = coverage["by_provenance_class"]["machine_pull_from_asd"]
+    assert "Acc." in mach["grade_origin"] and "rya822_pull_nist_nearuv" in mach["grade_origin"]
+    assert "WRONG LINE" in mach["risk"]
+    assert "6065.490" in mach["risk"], "the live counter-example is no longer cited"
+    assert "not claimed clean" in mach["risk"].lower()
+
+
+def test_the_lab_pool_counts_are_not_presented_as_a_fraction_of_each_other(coverage):
+    """`rows_at_gf_tier_LAB` (canonical_gf, all species) and `refereed_against_source_
+    papers` (the curated Fe I list) are DIFFERENT SETS. 464 of 453 would read as a bug or
+    as over-coverage; the artifact must say they are not a ratio."""
+    lt = coverage["lab_tier_pool"]
+    assert "DIFFERENT SETS" in lt["note"]
+    assert lt["loggf_mismatches"] == 0 and lt["sigma_mismatches"] == 0

@@ -225,11 +225,80 @@ def test_every_line_resolves_to_vis_through_band_policy(lineset):
     assert set(lineset.band) == {B.BAND}
 
 
-def test_no_line_is_telluric_excluded_and_the_reason_is_checkable(lineset):
-    from pipeline.telluric_policy import TELLURIC_BANDS
-    assert lineset.telluric_exclusion.isna().all()
-    bluest = min(lo for lo, _hi, _n in TELLURIC_BANDS)
-    assert float(lineset.wavelength_air_A.max()) < bluest
+#: ✅ RYA-1193 / RYAN'S RULING — THE REFERENCE SET IS INSTRUMENT-AGNOSTIC.
+#:
+#: RYA-1193 added the O2 gamma-band 6270-6300 A (RYA-940 fitted seven bands; the policy
+#: listed six). Three of the 142 sit inside it: 6270.22, 6271.28, 6297.79. The set used to
+#: carry a per-line `telluric_exclusion` column computed with NO instrument, so it would
+#: have stamped all three and the usable set would have gone 142 -> 139.
+#:
+#: RYAN'S RULING: "the reference set will not be tuned because of one instrument. It must
+#: remain agnostic." The GBS set is a property of the PUBLISHED RECORD; whether a given
+#: telescope can see through the sky at 6271 A is a property of the OBSERVATION. So the
+#: per-line column is gone and the exclusion is evaluated PER HOLDING in the coverage
+#: report, where it was already being computed correctly.
+#:
+#: These three tests pin the ruling from both sides: the set must not shrink, AND the
+#: exclusion must not have been merely deleted -- it must still be visible, and still be
+#: instrument-DEPENDENT, one file over.
+_RULED_LINES_A = (6270.22, 6271.28, 6297.79)
+
+
+def test_the_set_is_instrument_agnostic_and_carries_no_telluric_verdict(lineset):
+    """Ryan's RYA-1193 ruling, as a schema assertion: no per-line telluric column."""
+    assert "telluric_exclusion" not in lineset.columns, (
+        "the agnostic reference set must not carry an instrument-dependent verdict — "
+        "ask gbs_solar_fe_coverage_rya1110.csv, which evaluates it per holding")
+    from pipeline.telluric_policy import in_telluric_band
+    ruled = lineset[lineset.wavelength_air_A.astype(float).round(2).isin(_RULED_LINES_A)]
+    assert len(ruled) == len(_RULED_LINES_A), "the three ruled lines must still be present"
+    # The premise of the ruling: these DO sit inside an enumerated band. If a future edit
+    # moved the band off them this test would silently stop testing anything.
+    assert all(in_telluric_band(float(w)) for w in ruled.wavelength_air_A), (
+        "premise gone: the ruled lines are no longer inside any telluric band")
+    assert (ruled.rew_class == "pass").all(), "a telluric band shrank the published set"
+    assert int((lineset.rew_class == "pass").sum()) == 142, (
+        "the GBS replication set must stay at 142 — it is not tuned per instrument")
+
+
+def test_the_builder_never_asks_the_telluric_policy_without_an_instrument():
+    """The column cannot creep back: an exclusion call with no instrument is agnostic in
+    the wrong direction — it makes every band fire unconditionally."""
+    import ast
+    src = Path(B.__file__).read_text()
+    bad = [n.lineno for n in ast.walk(ast.parse(src))
+           if isinstance(n, ast.Call)
+           and getattr(n.func, "id", None) == "telluric_exclusion"
+           and len(n.args) < 2 and not n.keywords]
+    assert not bad, (
+        f"telluric_exclusion() called without an instrument at line(s) {bad} — that is "
+        "telluric_basis=unspecified, which fires every band on a set that is agnostic "
+        "by ruling (RYA-1193)")
+
+
+def test_the_exclusion_survived_the_ruling_and_is_instrument_dependent(cov):
+    """The other half: the ruling moved the exclusion, it did not delete it. A coverage
+    report that excludes nothing anywhere would pass the test above and be wrong.
+
+    Asserted at BOTH levels deliberately. `cov` reads the committed artifact, so on its
+    own this test is only sensitive to the file; the policy half below fires even when the
+    artifact is stale, and the policy half is what the ruling actually rests on.
+    """
+    from pipeline.telluric_policy import exclusion
+    for w in _RULED_LINES_A:
+        assert exclusion(w, "kpno_solar_atlas"), f"{w} must be excluded for KP"
+        assert not exclusion(w, "iag_fts_solar_atlas"), f"{w} must be reachable for IAG"
+        assert exclusion(w), f"{w} must be excluded when the basis is unspecified"
+
+    ex = cov.set_index("holding_id").n_telluric_excluded.astype(int)
+    assert ex["solar_kpno"] == len(_RULED_LINES_A), (
+        "Kitt Peak is telluric_basis=line_selection and its flux is driven to zero in the "
+        "O2 bands — those three lines are genuinely unreachable there")
+    assert ex["solar_iag"] == 0, (
+        "IAG is telluric_basis=corrected, so the same three lines ARE reachable — this "
+        "inequality IS the instrument-dependence the ruling relies on")
+    assert set(cov.n_lines_selected.astype(int)) == {142}, (
+        "n_lines_selected is the SET and must be identical for every holding")
 
 
 def test_the_coverage_report_names_every_holding_and_adds_up(cov, holdings, lineset):

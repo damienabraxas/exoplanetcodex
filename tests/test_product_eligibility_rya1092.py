@@ -185,6 +185,10 @@ def test_SUPERSEDED_comes_from_the_record(doc):
 
 
 def test_the_Amarsi_products_were_COMPLETED_not_written_off(doc):
+  # RYA-1185: "ours" = the four that DERIVE the axis. The four RYA-1106 Asplund
+  # replications are live as of RYA-1185 and are ENGINE-A-3DNLTE too; a select on
+  # treatment alone now sweeps in a different population (21 Asplund lines on
+  # Asplund gf, vs our 50), which is why the scatter-ratio assertion below moved.
     """🔴 THE WHOLE POINT OF HOLDING THEM OUT, AND IT HAS NOW HAPPENED.
 
     RYA-1092 quarantined the four EW·3D-NLTE·Amarsi products as INCOMPLETE -- never as
@@ -197,7 +201,7 @@ def test_the_Amarsi_products_were_COMPLETED_not_written_off(doc):
     This test asserts the resolution rather than the old state. Deleting it would erase the
     requirement; leaving it asserting `quarantine` would assert that the fix did not happen.
     """
-    live = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    live = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     assert len(live) == 4, f"expected the 4 Amarsi products live, found {len(live)}"
     for p in live:
         assert p.get("sigma_syst") is not None, f"{pe.key_of(p)} still has no systematic"
@@ -208,7 +212,7 @@ def test_the_ARCHIVED_Amarsi_records_still_say_why_they_were_held_out(doc):
     """The evidence for the withdrawal survives the fix. A completed product must not
     erase the record of what was wrong with its predecessor (RYA-711)."""
     old = [p for p in (doc.get("archive") or []) + (doc.get("quarantine") or [])
-           if p.get("treatment") == "ENGINE-A-3DNLTE"
+           if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")
            and "RYA-1092" in str(p.get("quarantine_reason", ""))]
     assert len(old) == 4, f"the 4 withdrawn Amarsi records are gone, found {len(old)}"
     for p in old:
@@ -288,9 +292,22 @@ def test_the_two_routes_publish_DIFFERENT_statistics(doc):
 
 
 def test_raw_scatter_dispatches_on_the_route(doc):
-    """The conversion is route-dependent; assuming one basis is the bug this fixes."""
-    band = dict(_solid(doc), route="SYNTH", sigma_stat=0.02, n_lines=100)
-    ew3d = dict(_solid(doc), route="EW-3D", sigma_stat=0.20, n_lines=100)
+    """The conversion is route-dependent; assuming one basis is the bug this fixes.
+
+    🔴 THE TEMPLATE MUST NOT CARRY A `stat_basis`. `stat_basis_of` lets the RECORD'S own
+    field win and falls back to the route map only for records published before that field
+    existed -- which is the fallback THIS test exercises. `_solid` returns whichever
+    product comes first in the feed, and once RYA-1203 republished products that all carry
+    a real `stat_basis`, the inherited field silently answered for both cases and the
+    route override became inert: the EW-3D leg returned 2.0, the standard-error answer.
+    Dropping the field is what makes the route the thing under test again.
+    """
+    def _legacy(**kw):
+        p = {k: v for k, v in _solid(doc).items() if k != "stat_basis"}
+        p.update(kw)
+        return p
+    band = _legacy(route="SYNTH", sigma_stat=0.02, n_lines=100)
+    ew3d = _legacy(route="EW-3D", sigma_stat=0.20, n_lines=100)
     assert pe.raw_scatter(band) == pytest.approx(0.20)   # 0.02 * sqrt(100)
     assert pe.raw_scatter(ew3d) == pytest.approx(0.20)   # already the scatter
     # An unrecognised route ABSTAINS rather than being assumed into a basis (RYA-907).
@@ -310,7 +327,7 @@ def test_the_amarsi_pools_are_NOT_anomalous_once_the_basis_is_right(doc):
     # SYNTH. Keying a test on the mislabel means the test passes only while the bug
     # survives, and goes silent -- `assert amarsi` on an empty list -- the moment it is
     # fixed. The treatment is the stable identity (RYA-874: never rewritten).
-    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
     assert amarsi, "the Amarsi products should be live"
     peers_1d = [p for p in doc["products"]
                 if p["band"] == "VIS" and p["ion"] == "I" and p["route"] == "SYNTH"]

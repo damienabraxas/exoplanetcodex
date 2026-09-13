@@ -40,6 +40,12 @@ ROOT = repo_root()
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {
     "solar_ba_synthesis_rya559.json",
+    # RYA-1169: these are deliberately retained audit artifacts from the withdrawn
+    # run against the forbidden, uncorrected 1984 Kitt Peak holding.  The corrected
+    # runner cannot reproduce them by design; giving them its generator would falsely
+    # make invalid science look current.
+    "rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_per_line.csv",
+    "rya1169/_quarantined_raw1984_iag_run/si_asplund_ew_summary.json",
     # RYA-1080, added deliberately. The four RYA-817 3D-NLTE outputs the Fe.json feed
     # published with a `copied_to` pointing into /private/tmp/g3d/ -- outside the repo,
     # untracked, gone at the next reboot -- so a non-null field READ as reconciled while
@@ -55,8 +61,34 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    # RYA-1208, added deliberately. The completed Gerber matrix: every (holding x band x
+    # Gerber-treatment) cell as a published product or an N/A carrying the harness's OWN
+    # refusal. Prose over the two JSON artifacts beside it, every number reproducible
+    # from them - the same shape as the entries below.
+    "rya1208/RYA1208_MATRIX.md",
+    # RYA-1207, added deliberately. The paired measurement of the near-UV molecular lever:
+    # two runs differing only in `use_molecules`, their control windows, and the record of
+    # why four Fe I products could not be republished. Same reasoning as the entries below.
+    "rya1207/nearuv_molecular_lever.json",
+    # RYA-1206, added deliberately. The per-line classification of the CRIRES+ H NLTE
+    # shortfall: which lines the Gerber deck can treat and why the rest cannot be, matched
+    # against the atom's own transition records. Hand-authored for the same reason as the
+    # RYA-1203 entry below -- it assembles measurements from separate probes and states
+    # what they mean; every source is named in its manifest entry and re-runnable.
+    "rya1206/h_nlte_coverage.json",
+    # RYA-1203, added deliberately. The Gerber/ENGINE-A coverage determination behind
+    # every "documented reason" that ticket records: which bands the NLTE route can be
+    # run on, measured per POOL rather than per window (RYA-1050), and where MPIA's
+    # per-line service stops. Hand-authored because it assembles measurements from three
+    # separate probes and states what they mean; each source is named in its manifest
+    # entry and re-runnable. A "the grid does not cover this band" claim with no
+    # measurement attached is exactly what this manifest exists to prevent.
+    "rya1203/gerber_domain.json",
     "sr2_line_selection_rya430.json",
     "rya342_corrected_solar_fe.txt",
+    # RYA-1169: human-readable withdrawal notice attached to the two frozen invalid
+    # outputs above. Its manifest sources point back to those exact audit artifacts.
+    "rya1169/_quarantined_raw1984_iag_run/QUARANTINED.md",
     # RYA-939, added deliberately when the guard was extended to data/processed/.
     # Gaia-ESO Survey pre-stored solar EWs, transcribed under RYA-196. It has no
     # generator because no code in this repo produced the numbers -- inventing one
@@ -76,6 +108,18 @@ FROZEN_HAND_AUTHORED = {
     #                      a control row finds no product.
     "rya847/README.md",
     "rya847/rya847_pregate_control.csv",
+    # RYA-1055, added deliberately. The stated capability limit on two PUBLISHED cells of
+    # the rya783 matrix (Fe II VIS ENGINE-B-NLTE 7.470, Fe II red-optical 7.461): they
+    # cannot be regenerated as NLTE by any route we hold, because atom.fe607a declares
+    # 12,635 bound-bound transitions and not one is Fe II. It is HAND_AUTHORED for the
+    # same reason rya847/README.md is -- prose ABOUT an artifact, and the artifact it
+    # annotates is NOT regenerable from this checkout (its inputs are the rya845 run under
+    # /mnt/codex-data) and must not be hand-edited, the disposition RYA-869 already took
+    # for the four cells still carrying its pre-fix bar. The MEASUREMENT it rests on is
+    # registered COMMITTED beside it (rya1055/atom_ion_reach.json), and the matrix
+    # generator now emits the annotation natively, so this file is a record and not a
+    # substitute for either.
+    "rya783/CAPABILITY_ANNOTATIONS.md",
     # RYA-925: narrative/reporting surfaces, not machine-generated measurements.
     # Their machine sources remain registered separately in GENERATORS.yaml.
     "rya925/REPORT.md",

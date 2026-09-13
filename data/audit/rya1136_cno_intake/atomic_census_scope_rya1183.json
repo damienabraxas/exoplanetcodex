@@ -1,0 +1,26 @@
+{
+  "ticket": "RYA-1183",
+  "scope": "NEUTRALS ONLY",
+  "species_codes_present_in_source": {
+    "CI": 17,
+    "FeII": 142,
+    "OI": 26
+  },
+  "source_file": "data/nlte_grids/amarsi2019_cno/table1.dat",
+  "ionised_cno": {
+    "present_in_census": 0,
+    "cause": "ABSENT_FROM_SOURCE",
+    "statement": "Amarsi 2019 Table 1 contains no C II / N II / O II \u2014 its only species codes are CI, OI and FeII. The empty ionised-CNO bins are the source's shape, NOT a filter we applied, and no ionised row is fabricated to fill them."
+  },
+  "fe_ii": {
+    "present_in_source": 142,
+    "present_in_census": 0,
+    "cause": "EXCLUDED_BY_THIS_BUILDER",
+    "statement": "Fe II IS in the source and is deliberately dropped by atomic_census() because this is a CNO intake. Recorded so an absence-by-filter is never read as an absence-by-source."
+  },
+  "n_i": {
+    "present_in_census": 5,
+    "cause": "DIFFERENT_SOURCE",
+    "statement": "table1.dat has no nitrogen at all. The five N I rows come from Amarsi et al. 2020 Table 1, the AGSS21-adopted N I set."
+  }
+}

@@ -559,8 +559,15 @@ def _litscan_best_lines(path: Path) -> list[float]:
 def _graded_lines(element: str, ion: str) -> list[float]:
     if not CANONICAL_GF_CSV.exists():
         return []
+    # RYA-1182: dtypes DECLARED, not inferred. `species` and `nist_grade` are text, and
+    # both are immediately `.astype(str)`-ed below -- but left to inference pandas types
+    # them per CHUNK, so whether a column comes back mixed depends on the ROW COUNT. Under
+    # `usecols` that path then indexes the 3-name list with the column's index in the FULL
+    # 26-column file and raises IndexError. Removing 8,977 molecular rows was enough to
+    # trigger it; any future append to canonical_gf would have been too.
     df = pd.read_csv(CANONICAL_GF_CSV,
-                     usecols=["species", "wavelength_air_A", "nist_grade"])
+                     usecols=["species", "wavelength_air_A", "nist_grade"],
+                     dtype={"species": str, "nist_grade": str})
     sel = df[(df.species.astype(str) == f"{element} {ion}")
              & (df.nist_grade.astype(str).str.strip().isin(GRADED_NIST))]
     return sorted(round(float(w), 4) for w in sel.wavelength_air_A)

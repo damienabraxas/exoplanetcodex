@@ -1,0 +1,78 @@
+# Nordlander & Lind 2017, A&A 607, A75 -- Table A.1 "Line data for spectral lines used in the abundance analyses"
+# DOI 10.1051/0004-6361/201730427
+# Transcribed VERBATIM from the PUBLISHED A&A full-text table
+#   https://www.aanda.org/articles/aa/full_html/2017/11/aa30427-17/T2.html   (retrieved 2026-09-03)
+# Cross-checked row-for-row against the arXiv copy arXiv:1708.01949v2 (PDF text layer): IDENTICAL on
+# every column of all 55 rows. Two copies of one paper are NOT interchangeable in general (RYA-1110),
+# so both were read; here they agree.
+# Notes (verbatim): "Only lines used in the spectrum analyses are listed."
+#   (a) Uncertainties (90%) to the transition probabilities are taken from Kelleher & Podobedova (2008),
+#       when available.
+#   (b) Multiplet components with identical wavelength have been merged. We adopt the wavelength measured
+#       from the solar spectrum by Brault & Noyes (1983), and the oscillator strength has been adjusted
+#       accordingly.
+# gf references (verbatim): (1) Wiese et al. (1969); (2) TOPbase: Mendoza et al. (1995) and C. Mendoza,
+#   W. Eissner, M. Le Dourneuf, & C. J. Zeippen (unpublished); (3) Davidson et al. (1990);
+#   (4) Vujnovic et al. (2002); (5) Tachiev & Froese Fischer (2002); (6) Kurucz (2012, online data;
+#   http://kurucz.harvard.edu/atoms/1300/).
+# Wavelengths are AIR -- INCLUDING the 2103-2660 A ultraviolet rows. The paper never states its
+# medium, so this is MEASURED, not assumed from convention: the Ritz identity E_up = E_low + hc/lambda
+# is single-valued per upper level to 0.00037 eV when the column is read as air and only 0.00167 eV
+# when read as vacuum (control C4 in scripts/rya1173_build_asplund_al_lineset.py). 123349.6 A carries
+# footnote b.
+wavelength_A	lower_level	upper_level	j_lower	j_upper	elo_eV	loggf	loggf_sigma_dex	gf_ref	gamma6_sigma_au	gamma6_alpha
+2103.017	3p 2Po	14d 2D	3/2	5/2	0.014	-1.619		1		
+2103.024	3p 2Po	14d 2D	3/2	3/2	0.014	-2.566		1		
+2118.312	3p 2Po	11d 2D	1/2	3/2	0.000	-1.557	0.10	2		
+2134.732	3p 2Po	10d 2D	3/2	5/2	0.014	-1.129	0.10	2		
+2134.760	3p 2Po	10d 2D	3/2	3/2	0.014	-2.090	0.18	2		
+2145.555	3p 2Po	9d 2D	1/2	3/2	0.000	-1.244	0.10	2		
+2174.027	3p 2Po	8d 2D	3/2	5/2	0.014	-0.824	0.10	2		
+2174.113	3p 2Po	8d 2D	3/2	3/2	0.014	-1.778	0.30	2		
+2204.590	3p 2Po	8s 2S	3/2	1/2	0.014	-2.293	0.10	2		
+2204.660	3p 2Po	7d 2D	1/2	3/2	0.000	-0.895	0.06	2	2340	1.07
+2210.046	3p 2Po	7d 2D	3/2	5/2	0.014	-0.641	0.06	2	2340	1.07
+2210.130	3p 2Po	7d 2D	3/2	3/2	0.014	-1.595	0.06	2	2340	1.07
+2269.096	3p 2Po	6d 2D	3/2	5/2	0.014	-0.454	0.04	2,3	2084	0.960
+2269.220	3p 2Po	6d 2D	3/2	3/2	0.014	-1.409	0.06	3	2084	0.960
+2367.052	3p 2Po	5d 2D	1/2	3/2	0.000	-0.592	0.06	2		
+2372.070	3p 2Po	6s 2S	1/2	1/2	0.000	-2.012	0.10	2		
+2373.124	3p 2Po	5d 2D	3/2	5/2	0.014	-0.337	0.04	2		
+2373.349	3p 2Po	5d 2D	3/2	3/2	0.014	-1.291	0.06	2		
+2567.984	3p 2Po	4d 2D	1/2	3/2	0.000	-1.119	0.04	3	1385	0.249
+2575.094	3p 2Po	4d 2D	3/2	5/2	0.014	-0.668	0.06	2,3	1387	0.249
+2575.393	3p 2Po	4d 2D	3/2	3/2	0.014	-1.623	0.06	3	1385	0.249
+2652.484	3p 2Po	5s 2S	1/2	1/2	0.000	-1.523	0.04	4	2150	0.307
+2660.392	3p 2Po	5s 2S	3/2	1/2	0.014	-1.219	0.04	4	2150	0.307
+3082.153	3p 2Po	3d 2D	1/2	3/2	0.000	-0.476	0.025	2,3	576	0.292
+3092.710	3p 2Po	3d 2D	3/2	5/2	0.014	-0.202	0.025	2,5	576	0.292
+3092.839	3p 2Po	3d 2D	3/2	3/2	0.014	-1.175	0.04	2	576	0.292
+3944.006	3p 2Po	4s 2S	1/2	1/2	0.000	-0.635	0.025	2,5	655	0.243
+3961.520	3p 2Po	4s 2S	3/2	1/2	0.014	-0.333	0.025	2	655	0.243
+6696.015	4s 2S	5p 2Po	1/2	3/2	3.143	-1.569	0.06	2	1860	0.226
+6698.672	4s 2S	5p 2Po	1/2	1/2	3.143	-1.870	0.06	2	1860	0.226
+7835.309	3d 2D	6f 2Fo	3/2	5/2	4.022	-0.689	0.04	2	3850	1.60
+7836.134	3d 2D	6f 2Fo	5/2	5/2	4.022	-1.834	0.06	2	3850	1.60
+7836.134	3d 2D	6f 2Fo	5/2	7/2	4.022	-0.534	0.025	2	3850	1.60
+8772.866	3d 2D	5f 2Fo	3/2	5/2	4.022	-0.349	0.025	2	2983	0.344
+8773.895	3d 2D	5f 2Fo	5/2	5/2	4.022	-1.495	0.06	2	2983	0.344
+8773.895	3d 2D	5f 2Fo	5/2	7/2	4.022	-0.192	0.025	2	2983	0.344
+8912.900	4p 2Po	6d 2D	1/2	3/2	4.085	-1.963	0.06	2		
+8923.555	4p 2Po	6d 2D	3/2	5/2	4.087	-1.709	0.06	2		
+8925.503	4p 2Po	6d 2D	3/2	3/2	4.087	-2.663		2		
+10768.363	4p 2Po	5d 2D	1/2	3/2	4.085	-2.020	0.06	2		
+10782.046	4p 2Po	5d 2D	3/2	5/2	4.087	-1.764	0.06	2		
+10786.770	4p 2Po	5d 2D	3/2	3/2	4.087	-2.719	0.10	2		
+10872.975	4p 2Po	6s 2S	1/2	1/2	4.085	-1.326	0.06	2		
+10891.732	4p 2Po	6s 2S	3/2	1/2	4.087	-1.027	0.04	2		
+13123.416	4s 2S	4p 2Po	1/2	3/2	3.143	0.219	0.013	2	815	0.223
+13150.753	4s 2S	4p 2Po	1/2	1/2	3.143	-0.083	0.013	2	815	0.223
+16718.974	4p 2Po	4d 2D	1/2	3/2	4.085	0.220	0.013	2	1147	0.311
+16750.519	4p 2Po	4d 2D	3/2	5/2	4.087	0.474	0.013	2	1147	0.311
+16763.369	4p 2Po	4d 2D	3/2	3/2	4.087	-0.480	0.025	2	1147	0.311
+21093.082	4p 2Po	5s 2S	1/2	1/2	4.085	-0.398	0.025	4	1838	0.279
+21163.803	4p 2Po	5s 2S	3/2	1/2	4.087	-0.093	0.025	4	1838	0.279
+21208.171	4f 2Fo	7g 2G	7/2	9/2	5.123	-0.307		2	3260	1.68
+21208.171	4f 2Fo	7g 2G	5/2	7/2	5.123	-0.461		2	3260	1.68
+21208.191	4f 2Fo	7g 2G	7/2	7/2	5.123	-1.608		2	3260	1.68
+123349.6	6h 2Ho	7i 2I			5.614	1.647		6	4830	1.84
