@@ -28,7 +28,9 @@ def matrices(ledger: pd.DataFrame, root: Path, *, holding_specs=None):
     holdings = holdings[holdings.system_id.eq("solar")]
     instruments = pd.read_csv(root / "data/catalog/instrument_catalog.csv").fillna("").set_index("instrument_id")
     specs = holding_specs
-    manifest_columns = pd.read_csv(root / "data/audit/rya1132_al_intake/al_line_manifest.csv", nrows=0).columns
+    # RYA-1176's regenerated manifest is the downstream schema authority; the
+    # frozen RYA-1132 source remains preserved for audit comparison.
+    manifest_columns = pd.read_csv(root / "data/audit/rya1176_al_manifest/al_line_manifest_v2.csv", nrows=0).columns
     missing_axes = [axis for axis in ("line_set", "telluric_applied", "normalization_state", "observed_conditioning")
                     if axis not in manifest_columns]
     schema_reason = "RYA1176_MISSING:" + ",".join(missing_axes) if missing_axes else ""
@@ -67,7 +69,8 @@ def matrices(ledger: pd.DataFrame, root: Path, *, holding_specs=None):
             if (policy and policy.telluric_required) or susceptible:
                 if state != "clean":
                     risks.append("EXACT_WINDOW_TELLURIC_VERIFICATION_REQUIRED")
-            # RYA-1176 remains unmerged: unknown must not become native-as-delivered.
+            # RYA-1176 propagates the schema; observed conditioning is still product-
+            # and holding-specific, so unknown must not become native-as-delivered.
             risks.append("OBSERVED_CONDITIONING_UNESTABLISHED")
             if schema_reason:
                 risks.append(schema_reason)

@@ -21,10 +21,25 @@ Checked 2026-09-13 against fetched main `c64eccfe3f6a41462131ac0e66eb61c9323d8c1
 
 No measurement was launched and no authoritative abundance was generated. The ticket explicitly requires the campaign to stay gated when prerequisite defects cannot be resolved by a tightly scoped run fix.
 
+## Post-merge refresh (2026-09-13)
+
+RYA-1176 is now merged in `main` and RYA-1134's verified pool is available there.
+The refreshed eligibility matrix consumes the corrected manifest: zero engine or
+holding cells carry `RYA1176_MISSING`. Gate 0 remains **CLOSED** because the
+independent RYA-1141 scientific findings, exact holding/pixel validation, observed
+conditioning records, and model/atom applicability are still unresolved. No
+abundance run was authorized. The machine-readable checkpoint is
+`gate0_post1176/status.json` with engine reason counts beside it.
+
 ## Established blockers
 
-- The current 505-row `data/audit/rya1132_al_intake/al_line_manifest.csv` has no `line_set`, `telluric_applied`, `normalization_state`, or `observed_conditioning` columns (RYA-1176). A risk label cannot establish conditioning state.
-- RYA-1134 remains In Progress. Its branch contains `1e4dd8db` (reference-lineage setup), which is not an ancestor of main. Main contains no RYA-1134 grade-verification artifacts. Its comments explicitly leave the full 505-row adjudication unfinished. There is no final verified pool to consume.
+- The preserved RYA-1132 source manifest remains the audit baseline; its corrected
+  RYA-1176 successor is now consumed by the downstream eligibility matrix. A risk
+  label still cannot establish conditioning state, so product-time conditioning
+  remains a hard gate.
+- RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
+  matrix. It supplies atomic dispositions; it does not clear holding or product
+  conditioning gates.
 - The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: 25 PASS, 16 FAIL, 12 FLAG; 85 findings (20 CRITICAL, 47 HIGH, 18 MEDIUM). Identity matching, HFS/component evidence, source flags, DOI provenance, evaluated-source semantics, and holding coverage remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
