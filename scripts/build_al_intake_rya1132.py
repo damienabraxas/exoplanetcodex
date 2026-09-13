@@ -211,6 +211,13 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
         cross_rows.append({**src.to_dict(), "canonical_line_id":
             (target.canonical_line_id if matched else ""), "wavelength_delta_A":
             (target.delta_A if matched else np.nan), "disposition":disposition})
+        if matched and np.isfinite(src.derived_loggf):
+            # Preserve every finite competing published value, including rows that are
+            # not promoted because the source carries a note/theory or limit flag.
+            current = text(m.loc[target.name, "competing_gf_summary"])
+            entry = f"Vujnovic2002={src.derived_loggf:.10f}"
+            if "VUJNOVIC2002=" not in current.upper():
+                m.loc[target.name, "competing_gf_summary"] = (current + "; " + entry).strip("; ")
         if not promotable:
             continue
         idx = target.name
@@ -466,6 +473,9 @@ def build(out: Path = OUT) -> dict:
     cov.to_csv(out / "coverage_matrix.csv", index=False)
 
     conflicts = m[m.rejection_problem_code.str.contains("SCALE_MISMATCH|MISSING_PHYSICAL_IDENTITY", na=False)].copy()
+    conflicts = pd.concat([conflicts,
+                           m[m.competing_gf_summary.astype(str).str.contains("VUJNOVIC2002=", case=False,
+                                                                                na=False)]])
     special = m[np.isclose(m.wavelength_air, 11254.925, atol=.08)].copy()
     special["rejection_problem_code"] = "BURHEIM_STRONG_COMPONENT_VS_CANONICAL_BLEND_TOTAL"
     special["notes"] = "Burheim +0.327 is the strong component; observed feature total is +0.354. Never substitute one for the other."

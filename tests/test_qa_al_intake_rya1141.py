@@ -155,12 +155,13 @@ def test_a_damaged_crossref_byte_does_not_read_as_a_wrong_author():
 
 def test_dropped_competing_lab_gf_is_quantified_not_just_named(qa):
     verdict, out = qa
-    assert verdict["checks"]["A6"] == "FAIL"
+    assert verdict["checks"]["A6"] == "PASS"
     a = pd.read_csv(out / "a6_dropped_competing_gf.csv")
-    # Six lines, none of them reachable from either place a reader would look.
+    # Six matched lines remain quantified, and each is now retained in the manifest
+    # summary and conflict ledger.
     assert len(a) == 6
-    assert not a.in_conflict_ledger.any()
-    assert not a.named_in_competing_gf_summary.any()
+    assert a.in_conflict_ledger.all()
+    assert a.named_in_competing_gf_summary.all()
     # The one that matters: two PRIMARY-LAB sources in tension on a GF-LAB line.
     lab = a[a.adopted_source.eq("EXP-BURHEIM23")]
     worst = lab.loc[lab.n_sigma_on_adopted.idxmax()]
