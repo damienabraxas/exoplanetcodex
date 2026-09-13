@@ -1,9 +1,9 @@
 {
   "abundances": {
-    "C": 8.491,
-    "N": 7.558,
-    "O": 8.8,
-    "C/O": 0.491
+    "C": 8.488,
+    "N": 7.384,
+    "O": 8.81,
+    "C/O": 0.476
   },
   "iterations": 5,
   "converged": false,
@@ -12,19 +12,22 @@
   ],
   "uncertainty": {
     "C": {
-      "stat": 0.012,
+      "stat": 0.017,
       "sys": 0.03,
-      "tot": 0.033
+      "stat_state": "MEASURED",
+      "tot": 0.034
     },
     "N": {
-      "stat": 0.096,
-      "sys": 1.042,
-      "tot": 1.046
+      "stat": 0.835,
+      "sys": 0.768,
+      "stat_state": "MEASURED",
+      "tot": 1.135
     },
     "O": {
-      "stat": 0.049,
-      "sys": 0.017,
-      "tot": 0.052
+      "stat": 0.421,
+      "sys": 0.006,
+      "stat_state": "MEASURED",
+      "tot": 0.421
     }
   },
   "provenance": {
@@ -51,9 +54,9 @@
         "key": "CH_Gband",
         "element": "C",
         "role": "primary",
-        "a_lte": 8.491,
+        "a_lte": 8.488,
         "kind": "3d_offset_owed",
-        "a_corr": 8.491,
+        "a_corr": 8.488,
         "delta": 0.0,
         "flag": "lte_molecular_band_3d_offset_owed",
         "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
@@ -62,9 +65,9 @@
         "key": "CI_5052",
         "element": "C",
         "role": "cross_check",
-        "a_lte": 8.48,
+        "a_lte": 8.476,
         "kind": "amarsi2019_grid",
-        "a_corr": 8.462,
+        "a_corr": 8.458,
         "delta": -0.018,
         "flag": "3d_nlte_amarsi2019",
         "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (3D)"
@@ -73,9 +76,9 @@
         "key": "CI_5380",
         "element": "C",
         "role": "cross_check",
-        "a_lte": 8.486,
+        "a_lte": 8.53,
         "kind": "amarsi2019_grid",
-        "a_corr": 8.467,
+        "a_corr": 8.511,
         "delta": -0.019,
         "flag": "3d_nlte_amarsi2019",
         "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (3D)"
@@ -84,9 +87,9 @@
         "key": "C2_Swan",
         "element": "C",
         "role": "cross_check",
-        "a_lte": 8.437,
+        "a_lte": 8.449,
         "kind": "3d_offset_owed",
-        "a_corr": 8.437,
+        "a_corr": 8.449,
         "delta": 0.0,
         "flag": "lte_molecular_band_3d_offset_owed",
         "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
@@ -95,9 +98,9 @@
         "key": "CN_red",
         "element": "N",
         "role": "primary",
-        "a_lte": 7.558,
+        "a_lte": 7.384,
         "kind": "3d_offset_owed",
-        "a_corr": 7.558,
+        "a_corr": 7.384,
         "delta": 0.0,
         "flag": "lte_molecular_band_3d_offset_owed",
         "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
@@ -106,10 +109,10 @@
         "key": "OI_6300",
         "element": "O",
         "role": "primary",
-        "a_lte": 8.8,
+        "a_lte": 8.81,
         "kind": "cited_3d_anchor",
         "a_corr": 8.73,
-        "delta": -0.07,
+        "delta": -0.08,
         "flag": "3d_lte_caffau2015",
         "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
         "unc": 0.05
