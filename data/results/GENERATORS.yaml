@@ -33,6 +33,16 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  - artifact: rya1218/si_j_grade_adjudication.csv
+    generator: hand_adjudication_from_literature
+    invocation: Bergemann2013 Table 1 crosswalk plus current grade-policy review
+    ticket: RYA-1218
+    note: External Reference Grade passes; Codex/Deep remain explicit policy holds.
+  - artifact: rya1218/si_engine_execution_matrix.csv
+    generator: scripts/derive_band_products.py
+    invocation: Sirius venv312 J-band CRIRES run; see command column
+    ticket: RYA-1218
+    note: Explicit engine statuses; no failed run is promoted to a product.
   - artifact: rya1218/si_k_canonical_pixel_validation.csv
     generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
     invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
