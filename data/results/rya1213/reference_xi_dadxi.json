@@ -8,23 +8,12 @@
  "xi_span_kms": 0.2,
  "delta_xi_kms": 0.2912,
  "min_paired": 3,
- "n_pools": 45,
- "n_measured": 41,
+ "n_pools": 48,
+ "n_measured": 44,
  "n_sign_disagreements": 2,
- "incomplete": [
-  {
-   "band": "red-optical",
-   "ion": "Fe I",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "deck": "gnl",
-   "legs_present": [
-    "minus"
-   ],
-   "verdict": "UNMEASURED \u2014 a pair is missing a leg"
-  }
- ],
+ "incomplete": [],
  "deduplication": "one derivative per (ion, holding, tier, treatment, band): base treatments (1D-LTE, ENGINE-A) from the g1d deck, each other deck keeping only its own engine. `second_deck_check` on a row carries what a second deck measured for the same treatment \u2014 run-to-run reproducibility on the same pool, not a value used.",
- "n_dropped_as_duplicate": 1,
+ "n_dropped_as_duplicate": 7,
  "pools": [
   {
    "pool": "H/solar_crires_plus_h_rya1094/g1d",
@@ -845,7 +834,14 @@
    "n_hi": 70,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.1475,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_iag/g1d",
@@ -867,7 +863,14 @@
    "n_hi": 68,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.165,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_iag/g1d",
@@ -884,6 +887,28 @@
    "xi_state": "MEASURED",
    "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912 on 68 paired lines",
    "difference_of_aggregates": -0.19,
+   "pool_moved": false,
+   "n_lo": 70,
+   "n_hi": 70,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false
+  },
+  {
+   "pool": "red-optical/solar_iag/gnl",
+   "instrument": "iag_fts_solar_atlas",
+   "holding": "solar_iag",
+   "band": "red-optical",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "ENGINE-B-NLTE",
+   "n_paired": 68,
+   "median_delta_dex": -0.03,
+   "dA_dxi": -0.15,
+   "sigma_xi": 0.04368,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912 on 68 paired lines",
+   "difference_of_aggregates": -0.1675,
    "pool_moved": false,
    "n_lo": 70,
    "n_hi": 70,
@@ -911,7 +936,14 @@
    "n_hi": 70,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.14,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_kpno_kurucz2005_corrected/g1d",
@@ -933,7 +965,14 @@
    "n_hi": 69,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.16,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_kpno_kurucz2005_corrected/g1d",
@@ -950,6 +989,28 @@
    "xi_state": "MEASURED",
    "xi_note": "|dA/dxi|=0.1650 x delta_xi=0.2912 on 69 paired lines",
    "difference_of_aggregates": -0.125,
+   "pool_moved": false,
+   "n_lo": 70,
+   "n_hi": 70,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false
+  },
+  {
+   "pool": "red-optical/solar_kpno_kurucz2005_corrected/gnl",
+   "instrument": "kpno_solar_atlas",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "red-optical",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "ENGINE-B-NLTE",
+   "n_paired": 69,
+   "median_delta_dex": -0.029,
+   "dA_dxi": -0.145,
+   "sigma_xi": 0.042224,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1450 x delta_xi=0.2912 on 69 paired lines",
+   "difference_of_aggregates": -0.13,
    "pool_moved": false,
    "n_lo": 70,
    "n_hi": 70,
@@ -977,7 +1038,14 @@
    "n_hi": 57,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.15,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_kpno_molecfit_corrected/g1d",
@@ -999,7 +1067,14 @@
    "n_hi": 53,
    "span_kms": 0.20000000000000007,
    "xi_pairing_verified": true,
-   "sign_disagreement_with_aggregates": false
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.15,
+     "delta_from_kept": 0.0
+    }
+   ]
   },
   {
    "pool": "red-optical/solar_kpno_molecfit_corrected/g1d",
@@ -1016,6 +1091,28 @@
    "xi_state": "MEASURED",
    "xi_note": "|dA/dxi|=0.1650 x delta_xi=0.2912 on 53 paired lines",
    "difference_of_aggregates": -0.23,
+   "pool_moved": false,
+   "n_lo": 57,
+   "n_hi": 57,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false
+  },
+  {
+   "pool": "red-optical/solar_kpno_molecfit_corrected/gnl",
+   "instrument": "kpno_solar_atlas",
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "red-optical",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "ENGINE-B-NLTE",
+   "n_paired": 53,
+   "median_delta_dex": -0.028,
+   "dA_dxi": -0.14,
+   "sigma_xi": 0.040768,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1400 x delta_xi=0.2912 on 53 paired lines",
+   "difference_of_aggregates": -0.185,
    "pool_moved": false,
    "n_lo": 57,
    "n_hi": 57,
