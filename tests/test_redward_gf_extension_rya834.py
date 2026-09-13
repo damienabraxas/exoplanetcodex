@@ -94,10 +94,32 @@ def test_the_resolver_now_serves_every_line_in_the_band():
 
 
 # ── judgement 1: NIST is recorded, never adopted ─────────────────────────────
+#: 🔴 RYA-1214 — THE NIST JUDGEMENT IS AN IRON JUDGEMENT. It was measured on Fe I, where
+#: primary-lab gf exists and NIST is a compilation echo of the same number, so adopting it
+#: would pose as a referee. C/N/O have NO laboratory gf at all; their authority IS the
+#: critically-evaluated calculation NIST distributes (MCHF / Opacity Project), and RYA-1214
+#: adopts it for its GRADE, not as an independent check — which is why those rows carry
+#: their own status. Scoped by the CNO status rather than by exempting species, so any
+#: other species adopting NIST in this band still fails.
+CNO_NIST_STATUS = "nist_rya1214"
+CNO_SPECIES = {"C I", "C II", "N I", "N II", "O I", "O II"}
+
+
+def test_the_only_nist_adoptions_in_the_band_are_the_cno_ones():
+    band = [r for r in _canon()
+            if r.get("wavelength_air_A")
+            and BAND_LO_A < float(r["wavelength_air_A"]) <= BAND_HI_A
+            and r.get("adjudication_status") == CNO_NIST_STATUS]
+    assert band, "no CNO NIST rows in the band — the scoping below is exempting nothing"
+    assert {r["species"] for r in band} <= CNO_SPECIES
+
+
 def test_no_band_row_adopts_nist_as_its_gf():
     band = [r for r in _canon()
             if r.get("wavelength_air_A")
-            and BAND_LO_A < float(r["wavelength_air_A"]) <= BAND_HI_A]
+            and BAND_LO_A < float(r["wavelength_air_A"]) <= BAND_HI_A
+            and not (r.get("adjudication_status") == CNO_NIST_STATUS
+                     and r.get("species") in CNO_SPECIES)]
     assert band
     for r in band:
         assert "NIST" not in (r.get("loggf_reference") or ""), (
@@ -160,7 +182,9 @@ def test_every_line_above_the_last_lab_measurement_stays_single_source():
     band = [r for r in _canon()
             if r.get("wavelength_air_A")
             and float(r["wavelength_air_A"]) > LAST_LAB_A
-            and float(r["wavelength_air_A"]) <= BAND_HI_A]
+            and float(r["wavelength_air_A"]) <= BAND_HI_A
+            and not (r.get("adjudication_status") == CNO_NIST_STATUS
+                     and r.get("species") in CNO_SPECIES)]
     assert band
     assert all(r["adjudication_status"] == "single_source" for r in band)
 
