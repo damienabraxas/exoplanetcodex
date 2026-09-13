@@ -296,6 +296,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 - **v137** (2026-09-13) — **RYA-1217 / RYA-1156 source-flag reconciliation.** The Vujnovic CDS parser preserves limit and note flags, refuses a determinate sigma for lower-limit uncertainties, and emits `sigma_basis` for every finite Al uncertainty. Fresh QA has `A1-flags` and `A5-sigma` PASS; 62 findings remain and no abundance run is authorized.
 
+- **v138** (2026-09-13) — **RYA-1217 / RYA-1154 competing-gf reconciliation.** All six finite matched Vujnovic values are retained in `competing_gf_summary` and `conflict_ledger.csv` without promotion. Fresh QA has `A6` PASS; 56 findings remain and Gate 0 is still CLOSED.
+
 - **v134** (2026-09-13) — **RYA-1134 Träbert access decision.** Träbert 1999 is unavailable for direct review; Johnson 1986 remains the retained Al II measurement with an explicit limitation, and regenerated `verified_v2` no longer blocks its atomic handoff. Exact-holding, bibliography, product-identity and RYA-1176 gates remain open; no abundance was run or adopted.
 
 - **v133** (2026-09-13) — **RYA-1134 provisional Al adjudication checkpoint.** All 505 dispositions and four pool axes are machine-readable; 18 laboratory claims become 15 laboratory and 3 mixed lifetime claims. Recovered raw component term/J identities and source upper-energy checks; added bibliography reconciliation. The register corrects stale claims that no near-UV policy exists or that provisional runs are unauthorized. Scientific freeze remains HOLD on source-hierarchy, exact-holding and RYA-1176 gates; no abundance was run or adopted.
