@@ -196,7 +196,39 @@ def load_registry(star: str | None = None) -> list[Instrument]:
         rows = pd.read_csv(man, comment="#", sep="\t" if man.suffix.lower() == ".tsv"
                            else ",")
         if "loader" not in rows.columns:
-            continue                      # not a spectrum-location manifest
+            # A registered derived spectrum may itself be the manifest path (the
+            # normalized CRIRES+ Y/H products are the concrete example).  These files
+            # are already in the canonical CSV reader format; treating them as a
+            # location manifest used to drop them silently because they had no
+            # ``loader`` column.  Raw archive inventories still fail closed here: they
+            # do not have both a wavelength and flux column and therefore remain
+            # explicitly unaddressable until a loader manifest is registered.
+            wave_col = next((c for c in rows.columns
+                             if "wave" in str(c).lower()), None)
+            flux_col = next((c for c in rows.columns
+                             if any(k in str(c).lower() for k in ("flux", "intensity"))), None)
+            if wave_col is None or flux_col is None:
+                continue                      # not a spectrum-location manifest
+            iid = str(h["instrument_id"]).strip()
+            c = cat.get(iid)
+            if c is None:
+                raise CoverageError(
+                    f"holdings names instrument_id {iid!r} which is not in the catalog. "
+                    "Register it there first — the catalog is the source for what an "
+                    "instrument IS.")
+            wave = pd.to_numeric(rows[wave_col], errors="coerce").dropna()
+            if wave.empty:
+                raise CoverageError(f"spectrum manifest {man} has no numeric wavelengths")
+            out.append(Instrument(
+                star=str(h["system_id"]).strip(), instrument=str(c["instrument_name"]).strip(),
+                instrument_id=iid, host="mac", path=str(man), loader="csv_normalized",
+                wave_min_A=float(wave.min()), wave_max_A=float(wave.max()),
+                span_status="VERIFIED", catalog_min_A=float(c["wavelength_min_nm"]) * 10.0,
+                catalog_max_A=float(c["wavelength_max_nm"]) * 10.0,
+                resolving_power=float(c["resolving_power_max"]),
+                provenance_ticket=str(h["source_issue_ids"]).strip(),
+                notes="direct registered normalized spectrum"))
+            continue
         iid = str(h["instrument_id"]).strip()
         for _, r in rows[rows.instrument_id == iid].iterrows():
             c = cat.get(iid)

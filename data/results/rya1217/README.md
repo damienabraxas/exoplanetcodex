@@ -31,6 +31,18 @@ conditioning records, and model/atom applicability are still unresolved. No
 abundance run was authorized. The machine-readable checkpoint is
 `gate0_post1176/status.json` with engine reason counts beside it.
 
+## RYA-1155 coverage reconciliation (2026-09-13)
+
+The next Gate 0 blocker is partially discharged. `pipeline.coverage` now recognizes
+registered normalized spectra whose CSV is itself the manifest path, so the three
+reachable CRIRES+ solar products resolve with explicit `csv_normalized` spans. Raw
+archive inventories and the upstream VizieR delivery still remain intentionally
+unaddressable. The Al intake builder fills legacy blank reach only from this registry;
+the two census NIR intervals (13000–13195.23 A and 17493.69–19510.4 A) no longer fall
+through to `OUTSIDE_CURRENT_INSTRUMENT_REACH`. Fresh RYA-1141 QA now reports `C-lines`
+and `C-bands` PASS, while the overall measurement gate remains CLOSED on the other
+scientific findings.
+
 ## Established blockers
 
 - The preserved RYA-1132 source manifest remains the audit baseline; its corrected
@@ -40,7 +52,7 @@ abundance run was authorized. The machine-readable checkpoint is
 - RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
   matrix. It supplies atomic dispositions; it does not clear holding or product
   conditioning gates.
-- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: 25 PASS, 16 FAIL, 12 FLAG; 85 findings (20 CRITICAL, 47 HIGH, 18 MEDIUM). Identity matching, HFS/component evidence, source flags, DOI provenance, evaluated-source semantics, and holding coverage remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
+- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: the coverage subchecks `C-lines` and `C-bands` now PASS; 69 findings remain (18 CRITICAL, 34 HIGH, 18 MEDIUM). Identity matching, HFS/component evidence, source flags, DOI provenance, evaluated-source semantics, raw holding policy, and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
 ## Evidence and validation
@@ -52,7 +64,7 @@ python scripts/qa_al_intake_rya1141.py --check --out /tmp/rya1217-gate0-qa
 python -m pytest tests/test_qa_al_intake_rya1141.py tests/test_al_intake_rya1132.py -q
 ```
 
-The QA command exits zero despite its scientific FAIL verdict; inspect the JSON. The focused tests pass: **35 passed**. They validate the audit/intake software, not scientific measurement readiness.
+The QA command exits zero despite its scientific FAIL verdict; inspect the JSON. The focused coverage/intake tests pass: **34 passed**. They validate the audit/intake software, not scientific measurement readiness.
 
 The initial `gate0_qa/` run wrote into a new untracked repository directory, which the audit's whole-tree mutation check flagged. The control rerun wrote outside the repository and reports `artifacts_mutated: []`, with the same 85 scientific findings. Both runs are retained. The current executable battery has 53 checks; the historical ticket's 59-check total is not presented as a fresh result.
 
@@ -65,5 +77,5 @@ The initial `gate0_qa/` run wrote into a new untracked repository directory, whi
 - Legacy products superseded: none operationally; all remain historical/non-authoritative for this restart until reproduced. No old values were copied or feed entries changed.
 - Literature comparison: not performed; there is no newly frozen measurement to validate.
 - Appendix recommendation: no new Al headline or forest product from this campaign yet.
-- Next prerequisite: finish RYA-1134's verified-grade dispositions and resolve the applicable RYA-1141 child defects, including RYA-1176, before rerunning Gate 0.
+- Next prerequisite: resolve the remaining applicable RYA-1141 child defects (identity, HFS, source provenance, and conditioning) before rerunning Gate 0.
 - No source spectra, atomic data, feed, or current-state ledgers changed. Existing closed-gate state is confirmed, not newly signed off. No commit, PR, or merge was made.

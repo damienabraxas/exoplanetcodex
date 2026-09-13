@@ -163,14 +163,9 @@ def test_dropped_competing_lab_gf_is_quantified_not_just_named(qa):
 
 def test_the_band_gap_swallows_the_two_best_graded_lines(qa):
     verdict, out = qa
-    assert verdict["checks"]["C-bands"] == "FAIL"
+    assert verdict["checks"]["C-bands"] == "PASS"
     r = pd.read_csv(out / "c_band_gap_relabelled_lines.csv")
-    lab = r[r.gf_grade.eq("GF-LAB")]
-    assert set(lab.wavelength_air.round(3)) == {13123.416, 13150.753}
-    # Twelve of the thirteen are lines the census placed squarely in NIR.
-    assert (r.band_census == "NIR").sum() == 12
-    assert (r[r.band_census.eq("NIR")].instruments_coverage_blind_spot
-            == "crires_plus").all()
+    assert r.empty
 
 
 def test_every_crires_holding_is_dropped_by_the_coverage_module(qa):
@@ -179,7 +174,10 @@ def test_every_crires_holding_is_dropped_by_the_coverage_module(qa):
     h = pd.read_csv(out / "c_solar_holdings_resolution.csv")
     crires = h[h.instrument_id.eq("crires_plus")]
     assert len(crires) == 5
-    assert not crires.reaches_coverage_module.any()
+    assert crires.reaches_coverage_module.sum() == 3
+    assert set(crires.loc[crires.reaches_coverage_module, "holding_id"]) == {
+        "solar_crires_plus_y_rya794", "solar_crires_plus_y_wide_rya1054",
+        "solar_crires_plus_h_rya1094"}
     # and something DOES resolve, so the reader is not simply broken
     assert h.reaches_coverage_module.any()
 
@@ -379,6 +377,12 @@ def test_outside_current_reach_is_contradicted_by_the_instrument_catalog(qa):
     assert (s.n_catalog_instruments > 0).all(), "no Al line is beyond every instrument"
     wrong = s[s.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")]
     assert len(wrong) == 4 and (wrong.n_catalog_instruments >= 4).all()
+
+
+def test_band_gap_relabel_is_discharged_after_rya1155(qa):
+    verdict, out = qa
+    assert verdict["checks"]["C-bands"] == "PASS"
+    assert pd.read_csv(out / "c_band_gap_relabelled_lines.csv").empty
 
 
 def test_a_summed_feature_is_not_graded_better_than_its_worst_component(qa):
