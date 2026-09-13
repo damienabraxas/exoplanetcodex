@@ -3,7 +3,7 @@
 This is a reviewable checkpoint, **not a scientifically frozen measurement pool**.
 No abundance was measured, adopted, or published. RYA-1134 remains open.
 
-`verified_v1/line_dispositions.csv` gives every frozen candidate a source disposition.
+`verified_v2/line_dispositions.csv` gives every frozen candidate a source disposition.
 `pool_memberships.csv` preserves all 505 rows for each of Reference (`reference`),
 Codex (`our-graded`), Deep (`our-deep-graded`), and external replication (`asplund-al`).
 Consumers can call `pipeline.al_grade_verification.load_pool_dispositions(line_set)`;
@@ -19,10 +19,11 @@ The replication set continues to use its own published gf via `reference_lineset
 | Theory (1) | 0 | 0 | 0 | 1 |
 | Fallback (467) | 0 | 0 | 24 | 443 |
 
-Reference has 53 provisional members; Codex 4; Deep 7; external replication 6
-plus its explicitly excluded seventh line. These axes overlap. Of 54 source-qualified
-rows, 49 pass the atomic handoff checks; four are source-only mid-IR controls without
-raw holding components, and Johnson Al II awaits the later Träbert primary review.
+Reference has 54 provisional members; Codex 4; Deep 7; external replication 6
+plus its explicitly excluded seventh line. These axes overlap. Of 55 source-qualified
+rows, 50 pass the atomic handoff checks; four are source-only mid-IR controls without
+raw holding components. Johnson Al II is retained from the accessible Johnson
+measurement, with the unavailable Träbert successor recorded as a limitation.
 451 rows lack a qualified, finite-uncertainty source match in the inspected assets.
 This is a bounded source verdict, not proof that no stronger evidence exists anywhere.
 
@@ -67,7 +68,8 @@ are excluded. It does not claim full-text review of every contextual paper.
 Five canonical records were added, four updated, 11 alternate source copies
 reconciled, and 37 citation keys checked. Nine cited sources lack a Reference
 Documents copy. Träbert et al. 1999, J. Phys. B 32, 537–552,
-DOI `10.1088/0953-4075/32/2/031`, remains requested for primary uncertainty review.
+DOI `10.1088/0953-4075/32/2/031`, remains unavailable for primary uncertainty
+review; Johnson 1986 is retained with that limitation.
 The two Buurman papers have verified ADS identities; their DOIs remain unestablished.
 Exact counts and evidence are in `bibliography_summary.json` and
 `bibliography_reconciliation.csv` under the source-review directory.
@@ -79,13 +81,13 @@ atlas path (`CODEX_KP_ATLAS`): importing the existing holding-reader registry
 requires that staging, although this generator does not measure spectra.
 
 ```sh
-python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2 --check
 ```
 
 To generate again, use a **new** output directory without `--check`; existing
 outputs are never overwritten. `input_hashes.json` pins code, catalogs and source
 assets. The original 505-row manifest and canonical gf remain unchanged.
 
-Remaining closeout work is explicit: primary successor review; independent
+Remaining closeout work is explicit: independent
 pixel/context audit of the holdings; validated correction/model applicability;
 RYA-1176 propagation; and execution/comparison of any subsequently eligible cells.

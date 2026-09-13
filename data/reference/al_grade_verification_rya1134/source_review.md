@@ -80,9 +80,11 @@ Vujnović's CDS ReadMe Table 1 cites the later Träbert et al. 1999 lifetime of
 302(2) microseconds. Table 6 cites both Träbert and Johnson for its rounded
 3.3e3 s-1 value. These are a shared source chain, not three independent
 measurements to average. The later lifetime is a stronger comparison, but the
-frozen assets do not provide its primary uncertainty/confidence analysis; it is
-not silently substituted for Johnson. This remains a source-hierarchy HOLD for
-a final best-available Al II Reference adoption.
+article is unavailable for direct review and its primary uncertainty/confidence
+analysis is therefore not independently adjudicated. It is not silently
+substituted for Johnson. Per the RYA-1134 execution decision, Johnson's measured
+value is retained with an explicit `JOHNSON1986_RETAINED_TRABERT1999_UNAVAILABLE`
+limitation rather than blocking the atomic handoff.
 
 ## Evaluated and theoretical sources
 
