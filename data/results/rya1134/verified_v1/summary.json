@@ -1,0 +1,53 @@
+{
+  "abundance_runs": 0,
+  "atomic_handoff": {
+    "HOLD": 456,
+    "READY": 49
+  },
+  "candidate_scope": "frozen source assets and RYA1173 lineage; absence is bounded to inspected assets",
+  "denominator": 505,
+  "engine_dispositions": {
+    "HOLD": 676,
+    "N/A": 4940
+  },
+  "historical_source_classes": {
+    "CRITICALLY_EVALUATED": 19,
+    "FALLBACK": 467,
+    "PRIMARY_LABORATORY": 18,
+    "THEORETICAL": 1
+  },
+  "measurement_gate": "HOLD_RYA1176_AND_EXACT_HOLDING_INTAKE",
+  "memberships": {
+    "asplund-al": {
+      "EXCLUDED_BY_SOURCE": 1,
+      "MEMBER": 6,
+      "NONMEMBER": 498
+    },
+    "our-deep-graded": {
+      "HOLD": 2,
+      "MEMBER": 7,
+      "NONMEMBER": 496
+    },
+    "our-graded": {
+      "HOLD": 2,
+      "MEMBER": 4,
+      "NONMEMBER": 499
+    },
+    "reference": {
+      "HOLD": 452,
+      "MEMBER": 53
+    }
+  },
+  "n_engine_cells": 5616,
+  "n_line_holding_cells": 6565,
+  "n_solar_holdings": 13,
+  "scientific_freeze_status": "HOLD_SOURCE_HIERARCHY_BIBLIOGRAPHY_AND_HOLDING_GATES",
+  "ticket": "RYA-1134",
+  "uncertainty_contract": "source bounds retain their confidence semantics; no blanket/sentinel sigma",
+  "verified_source_classes": {
+    "EVALUATED_THEORY": 36,
+    "MIXED_LAB_THEORY": 3,
+    "PRIMARY_LABORATORY": 15,
+    "UNRESOLVED": 451
+  }
+}
