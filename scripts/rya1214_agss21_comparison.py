@@ -43,7 +43,20 @@ BP = ROOT / "data" / "results" / "band_products"
 MAP = {
     "CH_Gband":  ("C", "CH (A-X)",   "lte_3D", "1D vs 3D atmosphere; molecular band, no NLTE grid either side"),
     "C2_Swan":   ("C", "C2 Swan",    "lte_3D", "1D vs 3D atmosphere; molecular band, no NLTE grid either side"),
-    "CN_red":    ("N", "CN (dnu>=1)", "lte_3D", "1D vs 3D atmosphere; molecular band, no NLTE grid either side"),
+    # 🔴 NOT COMPARABLE TO ANY AGSS21 CN ROW, AND THAT IS THE FINDING — RYA-1214.
+    #
+    # `CN_red` fits 6125-6130 and 6195-6200 A: the CN A-X RED system in the optical. AGSS21's
+    # nitrogen rests on CN at 10872-13204 A (Amarsi 2021 Table 2, all 59 lines band "(0-0)",
+    # dnu=0) and on NH at 2.9-15 um. ZERO of those 59 lines fall in our two windows —
+    # measured, not assumed. So our optical CN band and AGSS21's CN band share a molecule
+    # and nothing else, and differencing them was comparing two different diagnostics.
+    #
+    # My first pass mapped this to "CN (dnu>=1)" and reported -0.515 dex as a disagreement
+    # with AGSS21. It is not one. `band_mismatch` carries the reason so the row still
+    # appears — the value is real and worth having — without a residual that means nothing.
+    "CN_red":    ("N", None, None, "OUR BAND IS NOT AGSS21's: CN A-X red system 6125/6195 A "
+                                   "against AGSS21's CN A-X (0-0) at 10872-13204 A. 0 of "
+                                   "their 59 CN lines are in our windows."),
     "OI_6300":   ("O", "[O i]",      "nlte_3D", "FORBIDDEN and LTE-insensitive — AGSS21's two columns are identical, so this isolates the atmosphere"),
     "CI_5052":   ("C", "C i",        "lte_3D", "permitted atomic; AGSS21's 3D-NLTE column differs by physics we did not apply"),
     "CI_5380":   ("C", "C i",        "lte_3D", "permitted atomic; AGSS21's 3D-NLTE column differs by physics we did not apply"),
@@ -104,6 +117,18 @@ def main() -> int:
         if spec is None:
             continue
         el, ind, col, basis = spec
+        if ind is None:
+            # A diagnostic with no comparable AGSS21 row. Reported WITHOUT a residual
+            # rather than dropped: the measurement stands, the comparison does not.
+            rows.append({"our_key": r.key, "region": r.region, "element": el,
+                         "role": r.role, "agss21_indicator": "(none comparable)",
+                         "agss21_column": None, "agss21_A": None,
+                         "our_A": round(float(r.A_X), 3), "our_sigma_fit": r.sigma_fit,
+                         "our_red_chi2": round(float(r.red_chi2), 1),
+                         "delta_ours_minus_agss21": None,
+                         "comparison_basis": basis, "band_mismatch": True,
+                         "upper_bound_only": bool(r.region == "nearuv")})
+            continue
         k = f"{el}|{ind}"
         if k not in ref.index:
             rows.append({"our_key": r.key, "region": r.region, "element": el,
@@ -123,7 +148,7 @@ def main() -> int:
             "our_sigma_fit": r.sigma_fit,
             "our_red_chi2": round(float(r.red_chi2), 1),
             "delta_ours_minus_agss21": (round(ours - pub, 3) if pub is not None else None),
-            "comparison_basis": basis,
+            "comparison_basis": basis, "band_mismatch": False,
             "upper_bound_only": bool(r.region == "nearuv"),
         })
     d = pd.DataFrame(rows)
@@ -146,7 +171,14 @@ def main() -> int:
     if len(d):
         print(d[["region", "our_key", "element", "role", "agss21_indicator",
                  "agss21_column", "agss21_A", "our_A", "delta_ours_minus_agss21",
-                 "our_sigma_fit", "our_red_chi2", "upper_bound_only"]].to_string(index=False))
+                 "our_sigma_fit", "our_red_chi2", "band_mismatch",
+                 "upper_bound_only"]].to_string(index=False))
+        bm = d[d.band_mismatch.fillna(False)]
+        if len(bm):
+            print(f"\n🔴 {len(bm)} diagnostic(s) have NO comparable AGSS21 row — the value "
+                  f"stands, the residual would not:")
+            for _, r in bm.iterrows():
+                print(f"   {r.our_key}: {r.comparison_basis}")
     print("\n=== the two FORBIDDEN indicators, per line, from the band-product route ===")
     if len(fb):
         print(fb[["indicator_line", "holding", "A_X", "agss21_A", "delta",
