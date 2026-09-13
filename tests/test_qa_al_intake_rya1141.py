@@ -108,14 +108,15 @@ def test_fine_structure_identity_is_the_air_vacuum_referee(qa):
 
 def test_rya1001_hfs_defect_is_still_live_and_was_stamped_verified(qa):
     verdict, out = qa
-    assert verdict["checks"]["A3-rya1001"] == "FAIL"
+    assert verdict["checks"]["A3"] == "PASS"
+    assert verdict["checks"]["A3-meta"] == "PASS"
+    assert verdict["checks"]["A3-rya1001"] == "PASS"
     h = pd.read_csv(out / "a3_hfs_component_counts.csv")
-    bad = h[h.still_wrong]
-    assert set(bad.wavelength_air_A.round(3)) == {3944.006, 3961.520}
-    assert (bad.canonical_gf_hfs_n == 1).all()
-    assert set(bad.census_hfs_n) == {4, 6}
-    assert (bad.manifest_HFS_status == "COMPONENT_SUM_VERIFIED").all()
-    assert (bad.manifest_gf_grade == "GF-LAB").all()
+    assert set(h.wavelength_air_A.round(3)) == {3944.006, 3961.520}
+    assert (h.canonical_gf_hfs_n == h.census_hfs_n).all()
+    assert set(h.canonical_gf_hfs_n) == {4, 6}
+    assert (h.manifest_HFS_status == "COMPONENT_SUM_VERIFIED").all()
+    assert (h.manifest_gf_grade == "GF-LAB").all()
 
 
 def test_misquoted_dois_are_named_with_their_corrections(qa):

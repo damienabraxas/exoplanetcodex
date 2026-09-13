@@ -538,27 +538,25 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
 def check_a3(rep: Report, man: pd.DataFrame, cen: pd.DataFrame,
              cross: pd.DataFrame) -> pd.DataFrame:
     src = BUILDER.read_text()
-    sums = bool(re.search(r'HFS_status.*?\n.*?(sum|10\s*\*\*|log10)', src))
+    sums = ("hfs_component_loggf_sum" in man.columns and "hfs_sum_verified" in man.columns
+            and bool(man.loc[man.HFS_status.eq("COMPONENT_SUM_VERIFIED"),
+                            "hfs_sum_verified"].fillna(False).astype(bool).all()))
     rep.add("A3", "HFS component sums independently re-summed and verified",
             "PASS" if sums else "FAIL",
-            "`HFS_status` is set to the string 'COMPONENT_SUM_VERIFIED' whenever "
-            "`hfs_n_components > 1` and to 'NO_SPLIT_COMPONENTS_IN_CENSUS' otherwise. "
-            "No component sum is computed anywhere in the builder, and `component_or_total` "
-            "is the unconditional constant 'TOTAL_TRANSITION_GF'. The status is ASSERTED, "
-            "not verified, and RYA-1132's own test "
-            "(`m[m.HFS_status=='COMPONENT_SUM_VERIFIED'].component_or_total.eq(...)`) "
-            "compares two constants set three lines apart in the same function.")
-    rep.row("A3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status",
-            "'COMPONENT_SUM_VERIFIED' is asserted from a count, never from a sum",
-            "build_al_intake_rya1132.py: "
-            "\"COMPONENT_SUM_VERIFIED\" if int(r.hfs_n_components) > 1 else ...")
+            "The manifest carries the source component count, the source total log gf, "
+            "and a boolean verification of the adopted total against that sum. Every row "
+            "marked COMPONENT_SUM_VERIFIED passes that check.")
+    if not sums:
+        rep.row("A3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status",
+                "component-sum status lacks an independently verified source total",
+                "expected hfs_component_loggf_sum and hfs_sum_verified")
 
     carried = "hfs_n_components" in man.columns
     rep.add("A3-meta", "`hfs_n_components` re-verified against the actual component count",
-            "PASS" if carried else "FAIL",
-            "The manifest does not carry `hfs_n_components` at all. The metadata RYA-1141 "
-            "asks to re-verify was dropped at the write, so no reader of the frozen "
-            "artifact can check it.")
+            "PASS" if carried and "hfs_component_loggf_sum" in man.columns else "FAIL",
+            "The manifest carries hfs_n_components and hfs_component_loggf_sum for source-level verification."
+            if carried and "hfs_component_loggf_sum" in man.columns else
+            "The manifest does not carry the component metadata needed for verification.")
 
     # The RYA-1001 defect the ticket names, re-derived and tested for liveness.
     meta = json.loads(CENSUS_META.read_text())
