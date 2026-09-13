@@ -1,4 +1,5 @@
 from pipeline.si_protocol_audit import ROOT, holding_specs, physical_matches
+import pandas as pd
 
 
 def test_identity_join_rejects_wavelength_coincidence():
@@ -14,3 +15,14 @@ def test_inventory_preserves_corrected_and_raw_holdings_without_loading_flux():
     assert specs["solar_kpno_molecfit_corrected"]["span"] is None
     assert specs["solar_kpno"]["reader"] != specs["solar_kpno_molecfit_corrected"]["reader"]
     assert specs["solar_iag_reiners2016"]["span"][1] == specs["solar_iag"]["span"][0]
+
+
+def test_nir_pool_is_published_and_crires_measurement_stays_held():
+    pool = pd.read_csv(ROOT / "data/audit/rya1218_si_protocol/si_nir_line_pool.csv")
+    assert list(pool.wavelength_air_A) == [11991.57, 11984.20, 12103.54, 12031.50]
+    result = ROOT / "data/results/rya1218/si_crires_nir/si_j_band_crires_coverage.csv"
+    coverage = pd.read_csv(result)
+    assert len(coverage) == 16
+    assert set(coverage.status) == {"HOLD"}
+    raw = coverage[coverage.holding == "solar_vesta_crires_plus_idp"]
+    assert all("TelluricNotCorrected" in x for x in raw.reason)
