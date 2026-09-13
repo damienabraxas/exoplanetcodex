@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v134** · _Last updated: 2026-09-13 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v135** · _Last updated: 2026-09-13 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._ 
 
 
 ---
@@ -285,10 +285,12 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 |---|---|---|---|---|---|
 | Al UV intake | atomic adjudication recorded; measurement held | Six Vujnovic Al I laboratory claims reproduced; Johnson Al II retained at its stated 90% confidence because Träbert 1999 is unavailable for direct review. Near-UV synthesis policy exists; it does not cover every FUV/UV wavelength. | RYA-1134; `data/results/rya1134/verified_v2/line_dispositions.csv`; `pipeline/band_policy.py`; RYA-1133 | PENDING | exact-holding eligibility pass |
 | Al VIS intake | provisional current-grade memberships | All 505 frozen candidates have explicit dispositions; source classes 15 laboratory / 3 mixed laboratory-theory / 36 evaluated-theory / 451 unresolved. Reference, Codex, Deep and replication are separate overlapping axes. | RYA-1134; `data/results/rya1134/verified_v2/summary.json` | PENDING | independent review, bibliography and product-identity gates pass |
-| Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. | RYA-1134; `data/results/rya1134/verified_v1/line_holding_matrix.csv`; RYA-1176 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
+| Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. RYA-1176 schema is merged; 708 cells still lack observed-conditioning evidence. | RYA-1134; `data/results/rya1134/verified_v2/line_holding_matrix.csv`; RYA-1176; RYA-1217 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
 | Al measurement gate | closed pending validated handoff | Provisional engine validation is authorized by the expanded RYA-1134 scope, but zero runs are currently eligible: 5616 engine/route cells have explicit HOLD or N/A. This checkpoint is not a scientifically frozen pool and does not unblock RYA-1217 Gate 0. | RYA-1134; RYA-1176; `data/results/rya1134/verified_v1/engine_matrix.csv` | OPEN | RYA-1134 review and RYA-1176 propagation land; exact-holding gates pass |
 
 ## Changelog
+
+- **v135** (2026-09-13) — **RYA-1217 post-RYA-1176 Gate 0 refresh.** RYA-1176 is merged and the corrected manifest schema is consumed by the Al eligibility matrix; zero cells carry `RYA1176_MISSING`. Gate 0 remains CLOSED on exact holding/pixel validation, observed conditioning, model applicability, and unresolved RYA-1141 scientific findings; no abundance run was authorized.
 
 - **v134** (2026-09-13) — **RYA-1134 Träbert access decision.** Träbert 1999 is unavailable for direct review; Johnson 1986 remains the retained Al II measurement with an explicit limitation, and regenerated `verified_v2` no longer blocks its atomic handoff. Exact-holding, bibliography, product-identity and RYA-1176 gates remain open; no abundance was run or adopted.
 
