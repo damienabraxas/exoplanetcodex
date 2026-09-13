@@ -36,11 +36,16 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from pipeline.wavelength_util import vac_to_air  # noqa: E402  RYA-501 single source
 OUT = ROOT / "data" / "audit" / "rya1214_cno_products"
 SRC = (ROOT / "data" / "reference" / "amarsi2021_cno" / "derived"
        / "amarsi2021_cno_molecular_lines.csv")
@@ -70,10 +75,7 @@ def _constants() -> tuple[float, int, float, float]:
 def _lines() -> pd.DataFrame:
     d = pd.read_csv(SRC)
     c = d[(d.element_parameter == "logepsN") & (d.species == "CN")].copy()
-    lv = c.wavelength_vac_nm * 10.0
-    s2 = (1e4 / lv) ** 2
-    c["air_A"] = lv / (1 + 0.0000834254 + 0.02406147 / (130 - s2)
-                       + 0.00015998 / (38.9 - s2))
+    c["air_A"] = vac_to_air(c.wavelength_vac_nm.to_numpy(float) * 10.0)
     c["ew_A"] = c.equivalent_width_pm * 10.0
     return c.sort_values("air_A").reset_index(drop=True)
 

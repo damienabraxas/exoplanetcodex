@@ -29,6 +29,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from pipeline.wavelength_util import vac_to_air  # noqa: E402  RYA-501 single source
+
 
 @pytest.fixture(scope="module")
 def cs():
@@ -186,10 +188,7 @@ def test_the_ir_windows_are_agss21_own_line_positions(cs):
            / "amarsi2021_cno_molecular_lines.csv")
     a = pd.read_csv(src)
     cn = a[(a.element_parameter == "logepsN") & (a.species == "CN")]
-    lam = cn.wavelength_vac_nm * 10.0
-    s2 = (1e4 / lam) ** 2
-    air = lam / (1 + 0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
-    air = sorted(float(x) for x in air)
+    air = sorted(float(x) for x in vac_to_air(cn.wavelength_vac_nm.to_numpy(float) * 10.0))
     for name in ("nir_cn_kp", "nir_cn_iag"):
         d = cs.REGION_DIAGNOSTICS[name][0]
         for lo, hi in d.windows_A:
@@ -240,6 +239,10 @@ def test_the_ir_cn_line_list_exists_and_covers_the_band():
     d = ROOT / "data/linelists/molecular/turbospectrum/CN"
     ir = sorted(d.glob("12C14N_1087-*.bsyn"))
     assert ir, "the IR CN list is missing — AGSS21's CN band has no line list without it"
+    # ONE file: a stale partial build (12C14N_1087-1108) once sat beside the full list, and a
+    # glob-sorted [0] read it. Staged into iSpec's molecules/ dir, two overlapping CN lists
+    # would double the opacity wherever they overlap.
+    assert len(ir) == 1, f"expected exactly one IR CN list, found {[p.name for p in ir]}"
     head = ir[0].read_text().splitlines()[:2]
     assert "0607.012014" in head[0], f"wrong species code: {head[0]}"
     assert "Brooke" in head[1], f"source line does not name Brooke: {head[1]}"
