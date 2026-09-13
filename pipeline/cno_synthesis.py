@@ -70,6 +70,7 @@ from pathlib import Path
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline.wavelength_util import vac_to_air   # RYA-501: the one vac<->air formula
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pandas as pd
 from scipy.optimize import minimize_scalar
@@ -311,9 +312,7 @@ def _cn_ir_windows():
         for r in _csv.DictReader(fh):
             if r['element_parameter'] != 'logepsN' or r['species'] != 'CN':
                 continue
-            lv = float(r['wavelength_vac_nm']) * 10.0
-            s2 = (1e4 / lv) ** 2
-            air = lv / (1 + 0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
+            air = float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0))
             rows.append((air, float(r['equivalent_width_pm']) * 10.0))
     if not rows:
         raise RuntimeError(
@@ -1280,8 +1279,11 @@ def preflight(region: RegionConfig, star_id: str, diagnostics) -> dict:
                 f"{_hold!r} is display_state={_state!r}. Refusing to fit CNO over a "
                 f"spectrum that is not a corrected science basis (RYA-1026). This is the "
                 f"holding's VERIFIED state, not a flag the caller passed.")
+        # OVERLAP, not the midpoint: a window straddling a band edge has its centre outside
+        # the band and telluric pixels inside it. Deliberately no holding: this asks the
+        # enumeration, whatever the holding's correction state (see above).
         _inside = [(lo, hi, d.key) for d in diagnostics for (lo, hi) in d.windows_A
-                   if _tp.in_telluric_band(0.5 * (lo + hi))]
+                   if any(hi > b_lo and lo < b_hi for b_lo, b_hi, _ in _tp.TELLURIC_BANDS)]
         if _inside:
             raise RuntimeError(
                 f"Region {region.name}: {len(_inside)} fit window(s) fall inside an "

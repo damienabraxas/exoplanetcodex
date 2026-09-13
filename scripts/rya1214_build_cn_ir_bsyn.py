@@ -79,6 +79,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from pipeline.wavelength_util import vac_to_air  # noqa: E402  RYA-501 single source
+
 SRC = ROOT / "data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz"
 AMARSI = ROOT / "data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv"
 OUT_DIR = ROOT / "data/linelists/molecular/turbospectrum/CN"
@@ -132,9 +134,7 @@ def parse_brooke() -> pd.DataFrame:
     d = pd.DataFrame(rows, columns=["eu", "el", "vu", "vl", "Ju", "Jl", "wn",
                                     "Ecm", "A", "f"])
     d["lam_vac"] = 1e8 / d.wn
-    s2 = (1e4 / d.lam_vac) ** 2
-    d["lam_air"] = d.lam_vac / (1 + 0.0000834254 + 0.02406147 / (130 - s2)
-                                + 0.00015998 / (38.9 - s2))
+    d["lam_air"] = vac_to_air(d.lam_vac.to_numpy(float))
     d["gu"] = 2.0 * d.Ju + 1.0
     d["loggf"] = np.log10(d.gu * d.f)
     d["Elow_eV"] = d.Ecm / 8065.54429

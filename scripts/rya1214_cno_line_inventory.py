@@ -49,6 +49,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from pipeline.band_policy import POLICIES  # noqa: E402
+from pipeline.wavelength_util import vac_to_air  # noqa: E402  RYA-501 single source
 
 CANON = ROOT / "data" / "linelists" / "canonical_gf.csv"
 CENSUS = ROOT / "data" / "audit" / "rya1136_cno_intake" / "atomic_source_census.csv"
@@ -257,9 +258,7 @@ def main() -> int:
     # frames differ by ~2.7 A -- small against a band edge, but converted rather than
     # assumed equal, because "nm vs A" is exactly how RYA-1190 read the wrong file.
     lam_vac_A = mol.wavelength_vac_nm.to_numpy(float) * 10.0
-    s2 = (1e4 / lam_vac_A) ** 2                     # Ciddor/IAU air-vacuum, as in iSpec
-    nref = 1.0 + 0.0000834254 + 0.02406147 / (130.0 - s2) + 0.00015998 / (38.9 - s2)
-    mol["wavelength_air_A"] = lam_vac_A / nref
+    mol["wavelength_air_A"] = vac_to_air(lam_vac_A)   # Birch & Downs 1994, the shared util
     mol["band"] = mol.wavelength_air_A.map(band_of)
     mol["element"] = mol.species.map(lambda s: "C" if s in ("C2", "CH", "12C16O", "CN")
                                      else ("N" if s in ("NH",) else "O"))
