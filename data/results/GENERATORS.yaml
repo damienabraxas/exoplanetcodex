@@ -8374,3 +8374,20 @@ artifacts:
       Converts data/audit/cno_synthesis/solar_nir_cn_kp_cno_*, itself from
       `python -m pipeline.cno_synthesis --star solar --region nir_cn_kp --pin C=8.488`.
       CN A-X on the Kitt Peak 1984 composite, molecfit-corrected; 12 strength-ranked windows.
+  # ── RYA-1214 — CRIRES+ J/K rest-frame conditioning of the RYA-1219 corrected products ──
+  - artifact: rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: >-
+      python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1219_crires_products --arm J
+    ticket: RYA-1214
+    note: >-
+      Inputs are RYA-1219's molecfit-corrected FITS (gitignored; SHA-256 checked against
+      data/audit/rya1219_crires_jk/corrected_products_manifest.csv before use).
+  - artifact: rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: >-
+      python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1219_crires_products --arm K
+    ticket: RYA-1214
+    note: >-
+      Inputs are RYA-1219's molecfit-corrected FITS (gitignored; SHA-256 checked against
+      data/audit/rya1219_crires_jk/corrected_products_manifest.csv before use).
