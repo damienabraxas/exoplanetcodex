@@ -103,14 +103,65 @@ _APPLIED_VALUES = ("applied", "not-applied", "unknown")
 # unlisted band is measured as if it were clean, which is the silent version of this bug.
 #
 # Ranges are air wavelengths in Angstrom, inclusive.
+# 🔴 THE RED CEILING IS THE SCIENCE WINDOW, NOT THE INSTRUMENT'S REACH (RYA-1094).
+# CRIRES+ is registered 9500-53000 A, and BOTH Ryan and Mr. Code re-derived that 53000
+# in RYA-1192 as though it were the span to audit. It is not. RYA-1094 settled the window:
+# the LAB-GRADED Fe pool ends at 17277.5 A (H band), K-band and up hold no lab gf at all
+# (none published above 21386 A), and `canonical_gf` is ingested to ~24985 A. So graded IR
+# Fe science ends at the H band and the effective ceiling is ~25000 A; beyond that is
+# unreachable-until-a-lab-source-exists, not owed work. DO NOT ADD BANDS ABOVE ~25000 A --
+# enumerating a region we will never measure invites the next audit to wander out there
+# again.
+IR_SCIENCE_CEILING_A = 25000.0
+
 TELLURIC_BANDS: tuple[tuple[float, float, str], ...] = (
+    # RYA-1193 / RYA-1192 item 2: molecfit FITTED this band (RYA-940 shipped SEVEN
+    # fit manifests) and the policy listed only six, so `in_telluric_band()` answered
+    # False for a region the atlas had actually been corrected in. Edges are
+    # `band_A` from data/audit/rya940_kp1984_telluric/o2gamma/fit_manifest.json.
+    (6270.0, 6300.0, "O2 gamma-band"),
     (6867.0, 6884.0, "O2 B-band"),
     (7160.0, 7340.0, "H2O"),
     (7594.0, 7685.0, "O2 A-band"),
     (8100.0, 8400.0, "H2O"),
     (9280.0, 9600.0, "H2O"),
     (11120.0, 11560.0, "H2O"),
+    # ── H band (RYA-1193, from RYA-1192's measurement) ────────────────────────────
+    # 🔴 WHY THESE EXIST. The graded Fe pool runs to 17277.5 A, and the policy used to
+    # stop at 11560 -- so `in_telluric_band()` returned False for ALL 29 graded Fe lines
+    # past 1 micron, and False READS AS CLEAN rather than as "no band declared here".
+    #
+    # ⚠️ THE EDGES ARE OUR OWN MEASUREMENT, NOT AN ATMOSPHERIC MODEL, AND THAT MATTERS
+    # FOR HOW FAR THEY MAY BE TRUSTED. RYA-1192 scanned the CRIRES+ H arm in 100 A
+    # windows and found observed deep-absorption EXCEEDING what the stellar line list
+    # predicts in exactly three of twenty-three: 15700-15800 (+0.036), 16000-16100
+    # (+0.044) and 17300-17400 (+0.031) -- the CO2 and 1.9 um H2O-wing positions. These
+    # entries span those windows at that 100 A resolution. They are a FLOOR on the
+    # contaminated region, not a complete enumeration of H-band telluric, which is why
+    # `ENUMERATION_COMPLETE_TO_A` below does NOT move with them.
+    (15700.0, 16100.0, "CO2"),
+    (17300.0, 17500.0, "H2O 1.9um wing"),
 )
+
+#: 🔴 THE RED END OF WHERE THE ENUMERATION IS *COMPLETE* -- WHICH IS NOT `max(hi)`.
+#:
+#: `preflight_readiness.TELLURIC_DOMAIN_MAX_A` used to derive from `max(hi for ...
+#: TELLURIC_BANDS)`, on the reasoning that past the reddest listed band there is nothing
+#: to select against, so "no band here" is an absence of LOOKING and must refuse. That
+#: derivation was correct while every entry came from a systematic enumeration.
+#:
+#: It stops being correct the moment SPOT FLAGS are added. The two H-band entries above
+#: are three measured windows, not a survey of 11560-17500 A, so letting the ceiling
+#: follow them would assert we had looked across six thousand Angstrom on the strength of
+#: three hundred. MEASURED consequence, which is why this constant exists rather than a
+#: comment: raising the derived max from 11560 to 17500 flips an UNCORRECTED KP/IAG band
+#: at 9199-12976 A from `ir-band-uncorrected` (refused) to **satisfied**. Adding telluric
+#: knowledge would have RELAXED the telluric gate.
+#:
+#: So the ceiling is pinned to the last systematically enumerated complex and moves only
+#: when the enumeration itself is extended. Still single-sourced here (RYA-1069's rule is
+#: that preflight must not re-type it, and it does not) -- only the derivation changed.
+ENUMERATION_COMPLETE_TO_A = 11560.0
 
 QUARANTINE_TAG = "QUARANTINED-TELLURIC"
 
@@ -249,20 +300,47 @@ def requires_correction_from_value(value) -> bool:
     return correction_requirement_from_value(value) == REQUIRED
 
 
+def _is_registered_holding(name: str) -> bool:
+    """Is this a holding id? Used only to make a wrong-axis call say so (RYA-1194)."""
+    try:
+        if "holdings" not in _catalog_cache:
+            _catalog_cache["holdings"] = pd.read_csv(HOLDINGS)
+        return bool((_catalog_cache["holdings"].holding_id.astype(str) == str(name)).any())
+    except Exception:
+        return False
+
+
 def basis(instrument: str) -> str:
-    """`telluric_basis` for this instrument, from the catalog. Loud on unknown."""
+    """`telluric_basis` for this INSTRUMENT, from the catalog. Loud on unknown.
+
+    ⚠️ THIS IS DELIBERATELY PER-INSTRUMENT AND MUST STAY THAT WAY (RYA-1194). It answers
+    "does this band NEED correction?", which is a property of the site and the bandpass.
+    "Have the tellurics been REMOVED from this file?" is the orthogonal second axis and is
+    answered by `holding_basis(holding_id)` / `applied_state(holding_id)`. Re-keying this
+    one on holding would collapse the two axes that this module's header forbids
+    collapsing, and would break `gate_holding` and `telluric.routing`, which consume the
+    instrument answer on purpose.
+    """
     if "df" not in _catalog_cache:
         _catalog_cache["df"] = pd.read_csv(CATALOG)
     df = _catalog_cache["df"]
     hit = df[df.instrument_id.astype(str) == str(instrument)]
     if not len(hit):
+        # A holding id here is the RYA-1194 mix-up, and a bare "not in the catalog" sends
+        # the reader looking for a missing row instead of at the wrong axis.
+        hint = ""
+        if _is_registered_holding(instrument):
+            hint = (f" {instrument!r} is a HOLDING, not an instrument: ask "
+                    f"holding_basis({instrument!r}) for whether ITS tellurics were "
+                    f"removed, or basis() with the instrument that serves it.")
         raise KeyError(
             f"instrument {instrument!r} is not in {CATALOG.name}; its telluric basis is "
-            f"unknown and must not be assumed (RYA-786).")
+            f"unknown and must not be assumed (RYA-786).{hint}")
     return str(hit.iloc[0].get("telluric_basis", "unspecified")).strip().lower()
 
 
-def exclusion(wave_A: float, instrument: str | None = None) -> str:
+def exclusion(wave_A: float, instrument: str | None = None,
+              holding_id: str | None = None) -> str:
     """Reason string if this line must be excluded for tellurics, else ''.
 
     ⚠️ SUPERSEDED AS A DECISION INPUT (RYA-1079), and kept as the enumeration it always
@@ -304,21 +382,41 @@ def exclusion(wave_A: float, instrument: str | None = None) -> str:
 
     An instrument whose basis we do not positively know is treated as `line_selection`:
     excluding a good line costs coverage, measuring a telluric one costs the number.
+
+    🔴 PASS `holding_id` WHENEVER YOU HAVE ONE (RYA-1194). "Have the tellurics been taken
+    out of this file" is a per-HOLDING fact and the instrument cannot answer it: HARPS
+    serves `solar_harps` (raw) and `solar_harps_molecfit_corrected` (measured corrected)
+    from one instrument row, and keying on the instrument gives both the same answer. With
+    no holding this falls back to the instrument-level read, which is the OLD behaviour and
+    is the conservative direction -- it can only over-exclude.
     """
     for lo, hi, name in TELLURIC_BANDS:
         if lo <= float(wave_A) <= hi:
-            b = basis(instrument) if instrument else "unspecified"
+            if holding_id:
+                b = holding_basis(holding_id, instrument)
+                who = f"{holding_id} ({instrument or 'instrument unstated'})"
+                axis = "telluric state"
+            else:
+                b = basis(instrument) if instrument else "unspecified"
+                who = instrument or "this instrument"
+                axis = "telluric_basis"
             if b in ("corrected", "not_applicable"):
                 return ""
+            extra = ""
+            if b == APPLIED_UNVERIFIED:
+                extra = (" It is REGISTERED as telluric-corrected, but no measurement has "
+                         "confirmed that and RYA-1192 found one such registration false, "
+                         "so it is not believed here. Verify the product to unlock it.")
             return (f"{QUARANTINE_TAG}: inside the {name} ({lo:.0f}-{hi:.0f} A) and "
-                    f"{instrument or 'this instrument'} is telluric_basis={b}, so the "
+                    f"{who} is {axis}={b}, so the "
                     f"observed flux there is not stellar. Excluded by per-line selection "
-                    f"(RYA-460/786), not corrected.")
+                    f"(RYA-460/786), not corrected.{extra}")
     return ""
 
 
-def in_telluric_band(wave_A: float, instrument: str | None = None) -> bool:
-    return bool(exclusion(wave_A, instrument))
+def in_telluric_band(wave_A: float, instrument: str | None = None,
+                     holding_id: str | None = None) -> bool:
+    return bool(exclusion(wave_A, instrument, holding_id))
 
 
 _catalog_cache: dict = {}
@@ -468,6 +566,137 @@ def applied_state(holding_id: str) -> str:
             f"unknown and must not be assumed. Register it at intake first (RYA-806).")
     v = str(hit.iloc[0].get("telluric_applied", "")).strip().lower()
     return v if v in _APPLIED_VALUES else "unknown"
+
+
+#: 🔴 MEASURED per-holding telluric state (RYA-1192). A REGISTRY LABEL IS NOT EVIDENCE.
+#:
+#: `holdings_manifest_registry.csv` records `telluric_applied` as declared AT INTAKE from
+#: the product's headers. RYA-1192 byte-compared the products against their raw siblings
+#: and found one of those declarations FALSE: `solar_kpno_molecfit_corrected` is
+#: registered `applied` and is RAW on **146 of 146** measured Fe lines, `max|corrected -
+#: raw|` exactly 0. Its name and its registry row both say corrected; the data says raw.
+#:
+#: So this map is the third input, and it OUTRANKS both the name and the registry --
+#: measurement beats label, which is RYA-1192's whole finding. Only a POSITIVE
+#: verification grants a product corrected treatment here; a holding registered `applied`
+#: that nobody has verified is treated as uncorrected, on the module's standing rule that
+#: excluding a good line costs coverage while measuring a telluric one costs the number.
+#:
+#: ⚠️ RYA-1191 WILL FLIP THE KP ENTRY. When it extends molecfit over the red-optical
+#: windows and re-verifies, this entry becomes "corrected" (or is deleted, and the
+#: registry's `applied` is then believed) and the pipeline recognises the fix by itself --
+#: which is what this ticket exists to make possible. Re-run RYA-1192's verification and
+#: edit this map from its output; do NOT edit it from the holding's name.
+VERIFIED_HOLDING_STATE: dict[str, str] = {
+    # holding                          state        evidence
+    "solar_harps_molecfit_corrected": "corrected",  # RYA-1192: O2 B-band mean|diff| 0.264
+    "solar_kpno_molecfit_corrected":  "raw",        # RYA-1192: RAW on 146/146, max|diff| 0
+}
+
+#: 🔴 MEASURED per-holding PER-BAND telluric state (RYA-1191). The map above cannot hold
+#: this answer, and its own docstring asked for something it turned out not to be:
+#:
+#: RYA-1191 measured every registered telluric band against a telluric TEMPLATE -- the
+#: ratio of the uncorrected Reiners+2016 IAG atlas to the corrected Baker+2020 one, i.e.
+#: the transmission a real correction removed -- and against each band's own depth where
+#: saturation kills the template test. No holding came back with ONE state:
+#:
+#:     solar_kpno_kurucz2005_corrected  CLEAN in H2O 7160-7340 and in the O2 A-band
+#:     solar_kpno_molecfit_corrected    PARTIAL residual in O2 gamma AND H2O 9280-9600
+#:     solar_harps_molecfit_corrected   essentially UNCORRECTED in O2 gamma 6270-6300
+#:
+#: A holding is corrected in some bands and not in others, so "corrected"/"raw" per
+#: holding loses exactly the distinction a line-selection quarantine needs. The table is
+#: GENERATED from the measurement (scripts/rya1191_build_telluric_evidence.py) and CI
+#: diffs it, because a hand-kept copy of a measurement drifts and the stale side passes.
+EVIDENCE = ROOT / "data" / "catalog" / "telluric_correction_evidence.csv"
+
+
+def verified_band_state(holding_id: str, wave_A: float) -> tuple[str, str]:
+    """(state, provenance) for this holding at this wavelength, from MEASUREMENT.
+
+    `state` is one of `clean`, `partial`, `uncorrected`, `undetermined`, or `''` when no
+    band covers the wavelength or nothing has been measured there.
+
+    ⚠️ `partial` AND `undetermined` ARE BOTH REFUSALS, AND THEY ARE NOT THE SAME REFUSAL.
+    A partial correction leaves a measured residual; an undetermined band is one no test
+    had power in. Only the first is a statement about the flux (RYA-833). Neither grants
+    corrected treatment, and the caller can tell them apart because the reason is returned
+    with the state.
+    """
+    if not holding_id:
+        return "", ""
+    if "evidence" not in _catalog_cache:
+        _catalog_cache["evidence"] = (
+            pd.read_csv(EVIDENCE, comment="#") if EVIDENCE.exists()
+            else pd.DataFrame(columns=["holding_id", "band_name", "lo_A", "hi_A",
+                                       "state", "statistic", "value", "reference_value"]))
+    df = _catalog_cache["evidence"]
+    if not len(df):
+        return "", ""
+    hit = df[(df.holding_id.astype(str) == str(holding_id))
+             & (df.lo_A.astype(float) <= float(wave_A))
+             & (float(wave_A) <= df.hi_A.astype(float))]
+    if not len(hit):
+        return "", ""
+    r = hit.iloc[0]
+    return str(r.state), (
+        f"RYA-1191 measured {r.state} in {r.band_name} {r.lo_A:.0f}-{r.hi_A:.0f} A "
+        f"({r.statistic}={r.value} against uncorrected references {r.reference_value})")
+
+
+#: Returned where a holding is registered `applied` but no measurement has confirmed it.
+#: It is NOT a synonym for `line_selection` even though it excludes like one: the caller
+#: can tell "we measured this and it carries tellurics" from "nobody has checked", and
+#: only the second is a coverage question somebody can close.
+APPLIED_UNVERIFIED = "applied_unverified"
+
+
+def holding_basis(holding_id: str, instrument: str | None = None) -> str:
+    """Is the telluric signal REMOVED from *this product*? The per-HOLDING answer.
+
+    🔴 THIS IS THE QUESTION `exclusion()` WAS ASKING OF THE WRONG AXIS (RYA-1194).
+
+    `basis(instrument)` answers "does this BAND need correction?" -- a property of the
+    site and the bandpass, and correct as a per-instrument fact. Whether the tellurics
+    have actually been TAKEN OUT of a given file is the second axis, `telluric_applied`,
+    and this module's own header says the two are orthogonal and must never be collapsed.
+    `exclusion()` collapsed them anyway: it read `telluric_basis == "corrected"` as "the
+    tellurics are removed in the data product", which is the applied question asked of the
+    basis column. The consequence is the one RYA-1194 was filed for -- `solar_kpno` and
+    `solar_kpno_molecfit_corrected` share an instrument, so they got the same answer, and
+    once RYA-1191 corrects the second the pipeline would not have noticed its own fix.
+
+    Resolution order, most authoritative first:
+
+      1. VERIFIED_HOLDING_STATE  -- a MEASUREMENT of this product. Outranks everything,
+                                    including a registry row that contradicts it.
+      2. instrument not_applicable -- above the atmosphere (STIS/COS). Genuinely a
+                                    per-instrument fact: no holding of it has tellurics.
+      3. instrument corrected     -- the instrument's OWN product level is corrected and
+                                    that was measured (RYA-1079's IAG transmission table).
+      4. registry `applied`       -- claimed but unverified -> APPLIED_UNVERIFIED.
+      5. anything else            -- line_selection.
+
+    Raises KeyError on an unregistered holding, exactly as `applied_state` does: a holding
+    whose state is unknown must not be assumed (RYA-806).
+    """
+    v = VERIFIED_HOLDING_STATE.get(holding_id)
+    if v == "corrected":
+        return "corrected"
+    if v == "raw":
+        return "line_selection"
+
+    b = basis(instrument) if instrument else "unspecified"
+    if b in ("not_applicable", "corrected"):
+        return b
+
+    # Raises on an unregistered holding -- deliberately, and only after the verified map
+    # and the instrument-level facts have had their say, so a holding we have MEASURED is
+    # answerable even if its registry row were missing.
+    if applied_state(holding_id) == "applied":
+        return APPLIED_UNVERIFIED
+    return "line_selection"
 
 
 def gate_holding(holding_id: str, instrument: str | None = None) -> tuple[bool, str]:

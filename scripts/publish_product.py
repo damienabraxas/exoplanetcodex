@@ -53,6 +53,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from pipeline import error_budget             # noqa: E402  RYA-1212
 from pipeline import product_eligibility as pe  # noqa: E402  RYA-1097
 from pipeline import treatment_axes            # noqa: E402  RYA-1100
 STORE = ROOT / "data" / "products"
@@ -324,6 +325,21 @@ def main() -> int:
                          "nothing else (RYA-946: graded and ungraded are separate "
                          "products, never merged).")
     ap.add_argument("--route", default=None, help="PROFILEFIT | SYNTH | EW-3D")
+    #: 🔴 RYA-1185 -- THE ONE WAY TO PUBLISH A REPLICATION PRODUCT, AND IT DID NOT EXIST.
+    #: RYA-1111/1127 designate a replication as the documented exception that carries an
+    #: EXPLICIT `line_set`: our own rows derive theirs from `tier`, but a product measured
+    #: on someone else's list has nothing in the record that implies which list. `line_set`
+    #: is in KEY_FIELDS, so without this flag the four RYA-1106 Asplund products could only
+    #: be published onto the `our-*` axis their tier derives -- colliding with the working
+    #: product on the same cell, which is the exact collision RYA-1127 put line_set in the
+    #: key to end. RYA-1178 hit this wall and deferred Part 3 rather than hand-append rows
+    #: that bypass this publisher; this is the route it named.
+    ap.add_argument("--line-set", dest="line_set", default=None,
+                    help="explicit `line_set` for a REPLICATION product measured on an "
+                         "external line list (e.g. asplund, asplund-al, gbs). Must be in "
+                         "model_registry.LINE_SETS. Leave unset for our own products: "
+                         "their tier derives it, and storing it twice creates a second "
+                         "source of truth free to disagree (RYA-1111).")
     ap.add_argument("--selector", default=None,
                     help="the line-selection variant as the stem records it (GRADED, "
                          "DEEPGRADED, FROMEW, ...). Part of the KEY: RYA-984 makes two "
@@ -352,6 +368,22 @@ def main() -> int:
     ap.add_argument("--declare-gap", default=None, metavar="BAND:TIER",
                     help="record a cell that CANNOT exist, with --reason carrying the "
                          "measurement that establishes it. Needs --element.")
+    #: 🔴 RYA-1203 — ANNOTATION, THE MISSING THIRD VERB.
+    #: The store could publish a value and withdraw one, but not SAY SOMETHING ABOUT one
+    #: that stays live. RYA-1197 needs the 4 Frankenstein mean-3D rows held from the
+    #: headline while remaining in the feed as the NLTE differential, and RYA-1190 needs
+    #: the near-UV rows to carry their opacity-deficit caveat. Both are metadata about an
+    #: unchanged number. Without this verb the only routes were a hand-edit of the JSON
+    #: (the bypass RYA-1178 refused) or quarantine (which removes the row and says the
+    #: wrong thing). `--set` REFUSES the key fields and every measured quantity, so this
+    #: cannot become a side door for editing a value outside the publish path.
+    ap.add_argument("--annotate-where", default=None, metavar="FIELD=VALUE",
+                    help="annotate every CURRENT product whose FIELD equals VALUE. "
+                         "Pairs with one or more --set and a --reason.")
+    ap.add_argument("--set", dest="sets", action="append", default=None, metavar="KEY=VALUE",
+                    help="field to set on the matched rows (repeatable). Refused for the "
+                         "KEY_FIELDS and for any measured quantity -- annotation states "
+                         "something ABOUT a number, it never changes one.")
     ap.add_argument("--quarantine-older-than", default=None, metavar="ISO8601",
                     help="withdraw every CURRENT product whose ARTIFACT was produced "
                          "before this instant. Keyed on `provenance.artifact_mtime` -- "
@@ -375,6 +407,57 @@ def main() -> int:
         out = STORE / a.star / f"{a.element}.json"
         write_feed(out, doc)
         print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   GAP DECLARED {band}:{tier}")
+        return 0
+
+    if a.annotate_where:
+        # Annotation states something ABOUT a live number. Everything that IS the number,
+        # or that identifies which number it is, is off limits -- otherwise this verb
+        # quietly becomes a second publisher with no provenance and no supersede record.
+        PROTECTED = set(KEY_FIELDS) | {
+            "A", "n_lines", "n_excluded", "sigma_stat", "sigma_syst", "sigma_reported",
+            "sigma_syst_complete", "sigma_xi", "delta_xi_kms", "xi_value_kms",
+            "provenance", "wavelength_range_A", "star",
+        }
+        if not (a.reason and a.element and a.sets):
+            print("REFUSING: --annotate-where needs --element, --reason and at least one "
+                  "--set. An annotation with no stated reason is an unattributed edit.",
+                  file=sys.stderr)
+            return 9
+        pairs = []
+        for kv in a.sets:
+            k, _, v = kv.partition("=")
+            k = k.strip()
+            if not k or "=" not in kv:
+                print(f"REFUSING: --set {kv!r} is not KEY=VALUE.", file=sys.stderr)
+                return 9
+            if k in PROTECTED:
+                print(f"REFUSING: --set {k}= is a key or measured field. Annotation never "
+                      f"changes a value or the identity of one; publish it or quarantine "
+                      f"it (RYA-1203).", file=sys.stderr)
+                return 9
+            pairs.append((k, v))
+        field, _, value = a.annotate_where.partition("=")
+        doc = load(a.element, a.star)
+        hits = [r for r in doc["products"] if str(r.get(field)) == value]
+        if not hits:
+            print(f"no current product matches {field}={value}")
+            return 0
+        for row in hits:
+            for k, v in pairs:
+                row[k] = v
+            row["annotated_at"] = _now()
+            row["annotation_reason"] = a.reason
+        doc["version"] = bump(doc["version"]); doc["updated_at"] = _now()
+        out = STORE / a.star / f"{a.element}.json"
+        if a.dry_run:
+            print(f"[dry-run] would annotate {len(hits)} row(s) with "
+                  + ", ".join(f"{k}={v}" for k, v in pairs))
+            return 0
+        write_feed(out, doc)
+        print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   ANNOTATED {len(hits)} row(s)")
+        for r in hits:
+            print(f"    ~ {key_of(r)}")
+        print(f"    reason: {a.reason}")
         return 0
 
     if a.quarantine_where or a.quarantine_older_than:
@@ -435,6 +518,23 @@ def main() -> int:
         df = pd.read_csv(src)
         rows = normalise(df, holding=a.holding, tier=a.tier, route=a.route,
                          selector=a.selector)
+        if a.line_set:
+            # Validated against the ONE vocabulary, and refused rather than defaulted --
+            # an unknown value here would sail into the identity key.
+            from pipeline.model_registry import LINE_SETS
+            if a.line_set not in LINE_SETS:
+                print(f"REFUSING: --line-set {a.line_set!r} is not in the vocabulary "
+                      f"{LINE_SETS}. Add it to model_registry.LINE_SETS deliberately "
+                      f"(RYA-1111), do not widen the writer.", file=sys.stderr)
+                return 2
+            if a.line_set.startswith("our-"):
+                print(f"REFUSING: --line-set {a.line_set!r} is one of OUR pools, which a "
+                      f"product states through `tier` and must never store twice "
+                      f"(RYA-1111). This flag is for replication products only.",
+                      file=sys.stderr)
+                return 2
+            for r in rows:
+                r["line_set"] = a.line_set
         if not rows:
             print(f"REFUSING: {src.name} carries no row with a value. An empty publish "
                   f"would read as a measurement of nothing (RYA-833) — if the cell is a "
@@ -461,13 +561,52 @@ def main() -> int:
         #: column -- that names the LINELIST SOURCE and reads 'kurucz' on rung-3 and
         #: rung-1 products alike, so keying on it refused a legitimately graded
         #: red-optical cell on my first attempt.
+        bud = Path(str(src)[:-len("_products.csv")] + "_budgets.txt")
+        if not bud.exists():
+            bud = Path(re.sub(r"_ENGINE-[A-Z-]+$", "", str(src)[:-len("_products.csv")])
+                       + "_budgets.txt")
+        budget_text = bud.read_text() if bud.exists() else ""
+
+        #: 🔴 THE 0.17 BLANKET IS A GATE, NOT A VALUE — RYA-1212.
+        #: `UNGRADED_GF_SYSTEMATIC_DEX` is a placeholder for a gf quality nobody measured.
+        #: Published, it stops reading as a placeholder: 0.17 dex renders in the same
+        #: column and on the same error-bar forest as a cited-lab 0.041 that somebody did
+        #: measure, and the reader cannot tell "wide" from "unknown". Ryan, 2026-09-10:
+        #: "there is no reason at all why a published product should ever have 0.17
+        #: stamped." So the branch that used to emit it refuses instead.
+        #:
+        #: ⚠️ THE POOL IS USUALLY ALMOST ENTIRELY GRADED. `gf_graded` is a two-branch
+        #: switch and cannot say "56 of 57 lines are laboratory", so it returns the
+        #: blanket on the strength of the one line that is not — which is why RYA-855
+        #: moved 0 of 36 bars. The resolution is therefore rarely "go and measure 57 gf":
+        #: it is to drop, re-source or per-line grade the handful that are unresolved.
+        #:
+        #: Read from the BUDGET for the reason the tier gate below gives — it is the
+        #: decider's own output — and the label comes from `error_budget`, not a copy of
+        #: its text, so rewording the term cannot silently retire this gate.
+        if budget_text and error_budget.carries_ungraded_gf(budget_text):
+            rung = re.search(r"gf rung: (.*)", budget_text)
+            print(f"REFUSING: {src.name}\n"
+                  f"    its budget rests on the {error_budget.UNGRADED_GF_TERM_LABEL!r} "
+                  f"placeholder ({error_budget.UNGRADED_GF_SYSTEMATIC_DEX} dex), which is "
+                  f"not a measured uncertainty and is not publishable (RYA-1212).\n"
+                  f"    the decider says: {rung.group(1).strip() if rung else '(no rung line)'}\n"
+                  f"    resolve the pool by ONE of:\n"
+                  f"      * cited lab      — every line carries a published per-line sigma "
+                  f"(error_budget.cited_gf_term)\n"
+                  f"      * NIST grade     — the pool grades to rung 2\n"
+                  f"      * per-line       — RYA-968 empirical grading, then pass "
+                  f"empirical_gf_sigma_dex to error_budget.build()\n"
+                  f"      * drop/re-source — remove or re-source the unresolved lines, as "
+                  f"RYA-1209 did for the near-UV pool (57 -> 55, and its bar left the "
+                  f"blanket)\n"
+                  f"    publishing a placeholder as a measurement is the one thing this "
+                  f"gate exists to stop; it has no override.", file=sys.stderr)
+            return 8
+
         if a.tier in ("GRADED", "DEEPGRADED"):
-            bud = Path(str(src)[:-len("_products.csv")] + "_budgets.txt")
-            if not bud.exists():
-                bud = Path(re.sub(r"_ENGINE-[A-Z-]+$", "", str(src)[:-len("_products.csv")])
-                           + "_budgets.txt")
-            m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", bud.read_text()) \
-                if bud.exists() else None
+            m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
+                if budget_text else None
             if m and int(m.group(1)) != 3:
                 print(f"REFUSING: {src.name}\n"
                       f"    tier={a.tier} claims laboratory gf, but the budget's own "

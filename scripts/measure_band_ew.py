@@ -99,10 +99,21 @@ from pipeline.telluric_policy import (TELLURIC_BANDS as TELLURIC,  # noqa: E402
                                       exclusion as _telluric_exclusion)
 
 
-def telluric_reason(wave: float, instrument: str | None = None) -> str:
+def telluric_reason(wave: float, instrument: str | None = None,
+                    holding_id: str | None = None) -> str:
     """RYA-786: the INSTRUMENT decides, not just the wavelength — a telluric-corrected
-    atlas (IAG) keeps lines that an uncorrected one (KPNO) must drop."""
-    return _telluric_exclusion(wave, instrument)
+    atlas (IAG) keeps lines that an uncorrected one (KPNO) must drop.
+
+    RYA-1194 adds the third argument, and it is the authoritative one where a caller has
+    it: whether the tellurics were actually taken OUT of a product is a per-HOLDING fact,
+    and one instrument can serve a raw atlas and a corrected sibling.
+
+    🔴 NEVER CALL THIS WITH NO INSTRUMENT (RYA-1196). It is not the neutral setting — with
+    nothing to resolve, the policy's basis is `unspecified` and EVERY band fires
+    unconditionally, which in a measurement path silently over-excludes real lines.
+    `tests/test_telluric_consumer_instrument_rya1196.py` enforces this.
+    """
+    return _telluric_exclusion(wave, instrument, holding_id)
 
 
 # ── the IAG arm (RYA-783) ────────────────────────────────────────────────────
@@ -1186,14 +1197,39 @@ def serves_corrected_flux(holding: str | None, wave_A: float) -> str:
     Reiners file, so it excludes nothing in O2/H2O. Lifting a telluric quarantine on that
     label would admit genuinely contaminated lines on the arm we trust most.
 
-    So the question asked here is narrower and answerable from disk: is there a corrected
-    PRODUCT covering this wavelength? Only the RYA-940 Kitt Peak readers can answer yes,
-    and only inside a window RYA-940 actually fitted. H2O 7160-7340 is registered and got
-    NO admissible fit, so it has no file, so the quarantine correctly stands there -- the
-    real gap stays a real gap with no special-casing.
+    ⚠️ THE EXAMPLE ABOVE IS OUT OF DATE AND THE RULE IT ILLUSTRATES IS NOT. RYA-1192
+    verified `solar_iag` against its own raw sibling: it routes to Baker+2020, which IS
+    telluric-corrected (O2 A-band 2.1% of pixels below 0.8 against the raw Reiners
+    atlas's 66.8%), so it is no longer the counter-example. The rule stands on its own
+    merits -- five holdings declare `applied` and the declaration is what RYA-1192 found
+    false for `solar_kpno_molecfit_corrected`, RAW on 146 of 146 measured lines.
+
+    Two kinds of evidence answer, and both are answerable from disk. Is there a RYA-940
+    corrected PRODUCT covering this wavelength -- which only the Kitt Peak readers can
+    answer yes to, and only inside a window RYA-940 actually fitted. Or has this holding
+    been MEASURED clean in the telluric band this wavelength falls in (RYA-1191). H2O
+    7160-7340 got no admissible RYA-940 fit, so the molecfit holding has no file there and
+    its quarantine correctly stands -- the real gap stays a real gap with no special-casing.
     """
     if not holding:
         return ""
+    # ── evidence source 2: a MEASURED clean verdict for this holding in this band ──
+    # 🔴 RYA-1191 — THE FIRST SOURCE ONLY EVER SPOKE FOR ONE READER, AND IT COST 25 LINES.
+    # The check below answers "is there a RYA-940 corrected FILE here", which is a fact
+    # about Kitt Peak's own molecfit run and says nothing about a holding corrected by its
+    # PROVIDER. `solar_kpno_kurucz2005_corrected` is measured clean in H2O 7160-7340 (+1.0
+    # sigma against uncorrected references at +28 and +32) and in the O2 A-band, and all
+    # 25 of its graded red-optical lines inside those bands were quarantined anyway --
+    # thrown away for nothing, because the lift had no way to hear a measurement.
+    #
+    # This keeps RYA-1024's rule exactly as written: THE EVIDENCE DECIDES, NOT THE LABEL.
+    # It adds a second kind of evidence, not a second kind of trust. `partial`,
+    # `uncorrected` and `undetermined` all still refuse, and the quarantine in H2O
+    # 7160-7340 on the molecfit holding -- which RYA-940 could not fit -- is untouched.
+    from pipeline import telluric_policy as _tp
+    state, prov = _tp.verified_band_state(holding, wave_A)
+    if state == "clean":
+        return prov
     for specs in _INSTRUMENT_HOLDINGS.values():
         for spec in specs:
             if spec.holding_id != holding:
@@ -1587,7 +1623,15 @@ def main() -> None:
 
     rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
-        why = telluric_reason(r.wave_air_A)
+        # RYA-1196: pass the instrument. Omitting it is the MOST aggressive setting, not
+        # the neutral one -- every band fires regardless of what the data actually is.
+        # This driver pins `a.instrument` to kpno_solar_atlas above and has no --holding,
+        # so the instrument-level read is all it can honestly supply; that is the
+        # conservative direction and, KP being telluric_basis=line_selection, it is the
+        # same answer the bare call happened to give. The defect was the reasoning, not
+        # the number -- point this driver at a corrected holding and the bare call would
+        # have thrown its lines away.
+        why = telluric_reason(r.wave_air_A, a.instrument)
         if why:
             skipped.append(dict(wave=r.wave_air_A, reason=why)); continue
         hw = window_half_width(allw, float(r.wave_air_A))

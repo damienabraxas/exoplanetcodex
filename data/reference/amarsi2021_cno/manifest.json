@@ -1,0 +1,35 @@
+{
+  "schema": "codex.reference_holding/1",
+  "ticket": "RYA-1136",
+  "reference": "AmarsiEtAl2021_AA656_A113_Table2",
+  "citation": "Amarsi, Grevesse, Asplund & Collet 2021, A&A, 656, A113",
+  "doi": "10.1051/0004-6361/202141384",
+  "ads_bibcode": "2021A&A...656A.113A",
+  "catalog_id": "J/A+A/656/A113",
+  "article_url": "https://doi.org/10.1051/0004-6361/202141384",
+  "catalog_url": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/656/A113",
+  "retrieved_at": "2026-08-30",
+  "row_count": 408,
+  "species_counts": {
+    "C2": 39,
+    "CH": 54,
+    "12C16O": 80,
+    "NH": 31,
+    "CN": 59,
+    "OH": 145
+  },
+  "band_counts": {
+    "VIS": 45,
+    "IR": 241,
+    "NIR": 122
+  },
+  "source_files": {
+    "raw/ReadMe": "76de4993d0d2fc3ae6e01a6dc1de8b5aee8ca86d4ff974a0970caefaa2755e23",
+    "raw/table2.dat": "67cccf7698a5ca8723d4712bce6a7ac5754b720e629f04bdaadb5f1924d2a14c"
+  },
+  "limitations": [
+    "Table 2 identifies system and vibrational band but omits rotational quantum labels.",
+    "A physical-identity join to primary molecular releases remains CROSSMATCH_REVIEW.",
+    "The table contains used lines only; rejected synthesis features require upstream-source review."
+  ]
+}

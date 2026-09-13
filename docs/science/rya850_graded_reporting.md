@@ -2,12 +2,14 @@
 
 **Status:** wiring + reporting. No new measurement. **Not merged — Ryan reviews.**
 
-> **Updated after RYA-853 (`eb02eb4`).** The graded pool this ticket promotes is now
-> **refereed against the source papers and CLEAR** — Ruffoni 142/142 and Den Hartog 203/203
-> perfect, 455 of 463 lines (98.3%) exact. The one genuine bad row RYA-853 found
-> (Belmonte 3935.307) is **not in any cell here** — it is absent from RYA-824's pool and
-> lies outside RYA-836's 3000–3780 Å band. The 70%-wrong NIST extracts are a *different*
-> pool and do not touch these cells.
+> **Updated after RYA-853 (`eb02eb4`), corrected on re-referee.** The graded pool this
+> ticket promotes is **refereed against the source papers and CLEAR** — Ruffoni 142/142,
+> Den Hartog 203/203 and Belmonte 119/120, **464 of 465 exact on value and on cited σ, zero
+> mismatches**. ⚠️ The "one genuine bad row" this note used to cite (Belmonte 3935.307) is
+> **WITHDRAWN**: it was the referee reading Belmonte's *Published* (May et al. 1974)
+> comparison column instead of its *This Experiment* column. There is no bad row, so the
+> question of whether it reaches a cell here is moot. The 70%-wrong NIST extracts are a
+> *different* pool and do not touch these cells.
 
 ```
 python3 scripts/rya850_graded_products.py

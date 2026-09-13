@@ -1,0 +1,72 @@
+J/A+A/656/A113          The solar CNO abundances                 (Amarsi+, 2021)
+================================================================================
+The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of
+molecular lines.
+    Amarsi A.M., Grevesse N., Asplund M., Collet R.
+    <Astron. Astrophys. 656, A113 (2021)>
+    =2021A&A...656A.113A        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Sun ; Spectroscopy ; Abundances
+Keywords: radiative transfer - line: formation - Sun: abundances -
+          Sun: photosphere - Sun: atmosphere
+
+Abstract:
+    Carbon, nitrogen, and oxygen are the fourth, sixth, and third most
+    abundant elements in the Sun. Their abundances remain hotly debated
+    due to the so-called solar modelling problem that has persisted for
+    almost 20 years. We revisit this issue by presenting a homogeneous
+    analysis of 408 molecular lines across 12 diagnostic groups, observed
+    in the solar intensity spectrum. Using a realistic 3D
+    radiative-hydrodynamic model solar photosphere and local thermodynamic
+    equilibrium (LTE) line formation, we find log{epsilon}C=8.47+/-0.02,
+    log{epsilon}N=7.89+/-0.04, and log{epsilon}O=8.70+/-0.04. The
+    stipulated uncertainties mainly reflect the sensitivity of the results
+    to the model atmosphere; this sensitivity is correlated between the
+    different diagnostic groups, which all agree with the mean result to
+    within 0.03dex. For carbon and oxygen, the molecular results are in
+    excellent agreement with our 3D non-LTE analyses of atomic lines. For
+    nitrogen, however, the molecular indicators give a 0.12dex larger
+    abundance than the atomic indicators, and our best estimate of the
+    solar nitrogen abundance is given by the mean: 7.83dex. The solar
+    oxygen abundance advocated here is close to our earlier determination
+    of 8.69dex, and so the present results do not significantly
+    alleviate the solar modelling problem.
+
+Description:
+    Table 2 contains the parameters, measured equivalent widths, and
+    abundances inferred from the different models, for the 408 lines used
+    in the present analysis.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table2.dat        87      408   Line information and abundances
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label        Explanations
+--------------------------------------------------------------------------------
+   1-  6  A6    ---     Species      Species (12C16O, C2, CH, CN, NH or OH)
+   8- 11  A4    ---     System       System (Swan, A-X or X-X)
+      13  I1    ---     |dnu|        [0/2] Energy level separation
+  15- 19  A5    ---     Band         Band
+  21- 29  F9.3  nm      lambdavac    Wavelength in vacuum
+  31- 35  F5.3  eV      Elow         Excitation energy of the lower level
+  37- 42  F6.3  ---     loggf        Oscillator strength
+  44- 49  F6.3  pm      W            Equivalent width measured at disc-centre
+  51- 57  A7    ---     Param        Parameter (logepsC, logepsN or logepsO)
+  59- 63  F5.3  ---     Abund3D      3D abundance for Parameter
+  65- 69  F5.3  ---     Abund<3D>    <3D> abundance for Parameter
+  71- 75  F5.3  ---     AbundATMO    ATMO abundance for Parameter
+  77- 81  F5.3  ---     AbundMARCS   MARCS abundance for Parameter
+  83- 87  F5.3  ---     AbundHM74    HM74 abundance for Parameter
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+    Anish Amarsi, anish.amarsi(at)physics.uu.se
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  10-Sep-2021
