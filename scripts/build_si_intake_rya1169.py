@@ -95,7 +95,15 @@ def main() -> None:
             "adopted_solar_value_lineage": "AGSS21 7.51 -> Amarsi2017 7.51 -> Scott2015 lines",
             "source_paper_table": "Amarsi2017 Table 1" if species == "Si I" else "Scott2015 Table 2",
             "species": species, "wavelength_air_A": f"{wave:.3f}", "ep_eV": f"{ep:.4f}",
-            "published_loggf": f"{loggf:.3f}", "published_gf_source": "Garz1973+0.097dex (O'Brian&Lawler lifetimes)",
+            "published_loggf": f"{loggf:.3f}",
+            # RYA-1218: Scott 2015 section 5.4 / Table 2 note 8 assigns
+            # the Si II line its own experimental mean, not the Si I scale.
+            "published_gf_source": ("Garz1973+0.097dex (O'Brian&Lawler lifetimes)"
+                                    if species == "Si I" else
+                                    "mean of Schulz-Gulde1969; Blanco1995; Matheron2001 (Scott2015 section 5.4; Table 2 note 8)"),
+            "published_gf_sigma_dex": "0.02" if species == "Si II" else "",
+            "gf_uncertainty_status": ("source_reported_mean_uncertainty" if species == "Si II"
+                                      else "HOLD_row_level_uncertainty_not_transcribed"),
             "reference_status": status, "band": band(wave), "canonical_line_id": c["line_id"] if c else "",
             "canonical_loggf": c["log_gf"] if c else "", "canonical_gf_tier": c["gf_tier"] if c else "",
             "delta_reference_vs_codex": f"{loggf-float(c['log_gf']):.3f}" if c else "",
