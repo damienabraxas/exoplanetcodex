@@ -20,6 +20,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-09-13
 
 - **RYA-1218** — Si preflight and source correction; exposes identity/grade holds before abundance work.
+- **RYA-1134** — Provisional 505-row Al adjudication and holding/engine dispositions; RYA-1217 handoff remains held.
 
 ## 2026-09-03
 
