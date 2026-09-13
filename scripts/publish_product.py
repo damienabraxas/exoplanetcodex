@@ -342,8 +342,11 @@ def main() -> int:
                          "source of truth free to disagree (RYA-1111).")
     ap.add_argument("--selector", default=None,
                     help="the line-selection variant as the stem records it (GRADED, "
-                         "DEEPGRADED, FROMEW, ...). Part of the KEY: RYA-984 makes two "
-                         "runs differing only in selector two different products.")
+                    "DEEPGRADED, FROMEW, ...). Part of the KEY: RYA-984 makes two "
+                    "runs differing only in selector two different products.")
+    ap.add_argument("--observed-conditioning", dest="observed_conditioning", default=None,
+                    help="required for Al publishing: the measured observed-conditioning "
+                         "identity from the product artifact (RYA-1176/1006)")
     ap.add_argument("--star", default="solar")
     ap.add_argument("--host", default=None, help="where the artifact was PRODUCED "
                                                  "(default: this machine's hostname)")
@@ -514,10 +517,33 @@ def main() -> int:
             print(f"no such product file: {src}", file=sys.stderr)
             return 2
     pending = []
+    al_conditioning = None
     for src in srcs:
         df = pd.read_csv(src)
+        if "element" in df.columns and str(df["element"].dropna().iloc[0]) == "Al":
+            from pipeline.al_manifest import load_manifest, require_product_manifest
+            if not a.observed_conditioning:
+                print("REFUSING: Al product requires --observed-conditioning resolved from "
+                      "the observed artifact (RYA-1176).", file=sys.stderr)
+                return 10
+            try:
+                manifest = load_manifest()
+                registry = pd.read_csv(ROOT / "data/catalog/holdings_manifest_registry.csv").fillna("")
+                hit = registry[registry.holding_id.eq(a.holding)]
+                if len(hit) != 1:
+                    raise ValueError(f"holding {a.holding!r} is not uniquely registered")
+                h = hit.iloc[0].to_dict()
+                h["observed_conditioning"] = a.observed_conditioning
+                require_product_manifest(manifest, holding=h)
+                al_conditioning = a.observed_conditioning
+            except ValueError as exc:
+                print(f"REFUSING: {exc}", file=sys.stderr)
+                return 10
         rows = normalise(df, holding=a.holding, tier=a.tier, route=a.route,
                          selector=a.selector)
+        if al_conditioning:
+            for row in rows:
+                row["observed_conditioning"] = al_conditioning
         if a.line_set:
             # Validated against the ONE vocabulary, and refused rather than defaulted --
             # an unknown value here would sail into the identity key.

@@ -49,7 +49,10 @@ DH23_SI1 = [
     (2970.353, 0.78085, -3.531, 11), (2987.643, 0.78085, -2.035, 8),
     (3905.523, 1.9087, -1.077, 10), (4102.936, 1.9087, -3.026, 18),
 ]
-DH23_SI2 = [(2334.407, 0.03634, -5.088, 16), (2350.172, 0.03634, -5.116, 16)]
+# Den Hartog Table 4 identifies the lower levels separately: 2334.407 Å
+# terminates on Si II 2Po_1/2 (ground level), while 2350.172 Å terminates on
+# 2Po_3/2 (287.24 cm-1 = 0.0356 eV). Table 5 rounds both values to 0.036 eV.
+DH23_SI2 = [(2334.407, 0.0, -5.088, 16), (2350.172, 0.0356, -5.116, 16)]
 
 REF_DOI = "10.1093/mnras/stw2445"
 SCOTT_DOI = "10.1051/0004-6361/201424109"
@@ -95,7 +98,15 @@ def main() -> None:
             "adopted_solar_value_lineage": "AGSS21 7.51 -> Amarsi2017 7.51 -> Scott2015 lines",
             "source_paper_table": "Amarsi2017 Table 1" if species == "Si I" else "Scott2015 Table 2",
             "species": species, "wavelength_air_A": f"{wave:.3f}", "ep_eV": f"{ep:.4f}",
-            "published_loggf": f"{loggf:.3f}", "published_gf_source": "Garz1973+0.097dex (O'Brian&Lawler lifetimes)",
+            "published_loggf": f"{loggf:.3f}",
+            # RYA-1218: Scott 2015 section 5.4 / Table 2 note 8 assigns
+            # the Si II line its own experimental mean, not the Si I scale.
+            "published_gf_source": ("Garz1973+0.097dex (O'Brian&Lawler lifetimes)"
+                                    if species == "Si I" else
+                                    "mean of Schulz-Gulde1969; Blanco1995; Matheron2001 (Scott2015 section 5.4; Table 2 note 8)"),
+            "published_gf_sigma_dex": "0.02" if species == "Si II" else "",
+            "gf_uncertainty_status": ("source_reported_mean_uncertainty" if species == "Si II"
+                                      else "HOLD_row_level_uncertainty_not_transcribed"),
             "reference_status": status, "band": band(wave), "canonical_line_id": c["line_id"] if c else "",
             "canonical_loggf": c["log_gf"] if c else "", "canonical_gf_tier": c["gf_tier"] if c else "",
             "delta_reference_vs_codex": f"{loggf-float(c['log_gf']):.3f}" if c else "",
