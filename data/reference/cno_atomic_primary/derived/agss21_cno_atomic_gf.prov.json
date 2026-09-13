@@ -1,0 +1,81 @@
+{
+  "ticket": "RYA-1160",
+  "why": "These are the gf sources AGSS21 itself names for CNO, not a generic NIST pull. RYA-946 precedence is lab > NIST-C+ > Kurucz > VALD.",
+  "sources": [
+    {
+      "id": "Li2021",
+      "citation": "Li, Amarsi, Papoulia, Ekman & Jonsson 2021, MNRAS 502, 3780",
+      "doi": "10.1093/mnras/stab214",
+      "agss21_role": "C i gf -- AGSS21: 'new g f-values from large-scale atomic structure calculations by Li et al. (2021)'",
+      "method": "MCDHF/RCI -- THEORY, not laboratory. Never tier LAB.",
+      "per_line_uncertainty": "dT, the length-velocity gauge difference",
+      "asset": "data/reference/cno_atomic_primary/c_li2021/stab214_supplemental_tables.zip",
+      "sha256": "e9674704aa9bfd2be1252130688685676f9dbaf95617c2f70eade39bc9317043",
+      "coverage": "C I, C II, C III, C IV (tables A2-A5)"
+    },
+    {
+      "id": "TachievFroeseFischer2002",
+      "citation": "Tachiev & Froese Fischer 2002, A&A 385, 716",
+      "doi": "10.1051/0004-6361:20011816",
+      "cds": "J/A+A/385/716",
+      "agss21_role": "N i gf -- AGSS21: 'taken from Tachiev & Froese Fischer (2002) and are expected to be reliable at the 0.03 dex level based on rankings from NIST'",
+      "method": "Breit-Pauli MCHF -- THEORY, not laboratory. Never tier LAB.",
+      "per_line_uncertainty": "explicit uncertainty column, per ion",
+      "assets": {
+        "table4.dat.gz": "09d5cdeded43a40579d03ac320014775e267abadfe3403e2e37c3795ba76eebe",
+        "table5.dat.gz": "55b87bf15fb87f344845ebcb4d3492c5102929e4a10dc9976865776e40083ede",
+        "ReadMe": "d8298b30b4a77b393ce4b51cc82c5dde55b308c14982a5f9f81e282576fb109a",
+        "TachievFroeseFischer-2002-AA385-716.pdf": "5606fc6138cd731fd2c9b61c83aa124ccb7a8791f23a86b2a20e616a00934a25"
+      },
+      "coverage": "table4 = N I, O II; table5 = O I, F II",
+      "BLOCKER": "Aki + uncertainty + level identity only. The CDS holding ships NO level energies, so no wavelength and no gf. A->gf requires a level join. These rows are NOT gf and must not be graded yet."
+    }
+  ],
+  "li2021_by_species": {
+    "C I": {
+      "rows": 1512,
+      "usable_wavelength": 1483,
+      "with_gf": 1512
+    },
+    "C II": {
+      "rows": 806,
+      "usable_wavelength": 803,
+      "with_gf": 806
+    },
+    "C III": {
+      "rows": 1617,
+      "usable_wavelength": 1611,
+      "with_gf": 1617
+    },
+    "C IV": {
+      "rows": 386,
+      "usable_wavelength": 356,
+      "with_gf": 386
+    }
+  },
+  "tachiev_by_species": {
+    "N I": {
+      "rows": 423,
+      "usable_wavelength": 0,
+      "with_gf": 0
+    },
+    "O II": {
+      "rows": 693,
+      "usable_wavelength": 0,
+      "with_gf": 0
+    },
+    "F II": {
+      "rows": 1012,
+      "usable_wavelength": 0,
+      "with_gf": 0
+    },
+    "O I": {
+      "rows": 84,
+      "usable_wavelength": 0,
+      "with_gf": 0
+    }
+  },
+  "total_rows": 6533,
+  "canonical_gf_modified": false,
+  "adjudicated": false
+}

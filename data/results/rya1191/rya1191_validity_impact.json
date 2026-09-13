@@ -1,0 +1,484 @@
+{
+  "ticket": "RYA-1191 \u2014 impact of the fit-validity bound",
+  "generated_at": "2026-09-07T19:56:54Z",
+  "bound": {
+    "centre_A": 7.46,
+    "half_width_dex": 1.5,
+    "admits": [
+      5.96,
+      8.96
+    ],
+    "note": "a factor of ~1000 in iron against a line-to-line scatter of ~0.2 dex \u2014 it can only catch non-convergence"
+  },
+  "n_in_aggregate_lines_checked": 1833,
+  "n_dropped": 33,
+  "fraction_dropped": 0.018,
+  "max_abs_delta_A": 0.14,
+  "products_affected": [
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.966,
+      "A_after": 7.931,
+      "delta_A": -0.035,
+      "sigma_stat_before": 0.2759,
+      "sigma_stat_after": 0.163,
+      "sigma_ratio": 0.591
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_before": 3,
+      "n_after": 2,
+      "A_before": 7.617,
+      "A_after": 7.533,
+      "delta_A": -0.084,
+      "sigma_stat_before": 0.8271,
+      "sigma_stat_after": 0.084,
+      "sigma_ratio": 0.102
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.966,
+      "A_after": 7.931,
+      "delta_A": -0.035,
+      "sigma_stat_before": 0.2759,
+      "sigma_stat_after": 0.163,
+      "sigma_ratio": 0.591
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.592,
+      "A_after": 7.57,
+      "delta_A": -0.022,
+      "sigma_stat_before": 0.3012,
+      "sigma_stat_after": 0.1469,
+      "sigma_ratio": 0.488
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_before": 3,
+      "n_after": 2,
+      "A_before": 7.466,
+      "A_after": 7.326,
+      "delta_A": -0.14,
+      "sigma_stat_before": 0.9146,
+      "sigma_stat_after": 0.14,
+      "sigma_ratio": 0.153
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.592,
+      "A_after": 7.57,
+      "delta_A": -0.022,
+      "sigma_stat_before": 0.3012,
+      "sigma_stat_after": 0.1469,
+      "sigma_ratio": 0.488
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.569,
+      "A_after": 7.5585,
+      "delta_A": -0.0105,
+      "sigma_stat_before": 0.3019,
+      "sigma_stat_after": 0.1412,
+      "sigma_ratio": 0.468
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_before": 3,
+      "n_after": 2,
+      "A_before": 7.46,
+      "A_after": 7.33,
+      "delta_A": -0.13,
+      "sigma_stat_before": 0.9177,
+      "sigma_stat_after": 0.13,
+      "sigma_ratio": 0.142
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.569,
+      "A_after": 7.5585,
+      "delta_A": -0.0105,
+      "sigma_stat_before": 0.3019,
+      "sigma_stat_after": 0.1412,
+      "sigma_ratio": 0.468
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_before": 9,
+      "n_after": 8,
+      "A_before": 7.64,
+      "A_after": 7.633,
+      "delta_A": -0.007,
+      "sigma_stat_before": 0.2946,
+      "sigma_stat_after": 0.1483,
+      "sigma_ratio": 0.503
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_before": 58,
+      "n_after": 55,
+      "A_before": 7.5965,
+      "A_after": 7.566,
+      "delta_A": -0.0305,
+      "sigma_stat_before": 0.0898,
+      "sigma_stat_after": 0.0657,
+      "sigma_ratio": 0.732
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_before": 58,
+      "n_after": 55,
+      "A_before": 7.606,
+      "A_after": 7.573,
+      "delta_A": -0.033,
+      "sigma_stat_before": 0.0898,
+      "sigma_stat_after": 0.0657,
+      "sigma_ratio": 0.732
+    },
+    {
+      "artifact": "FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_before": 109,
+      "n_after": 107,
+      "A_before": 7.535,
+      "A_after": 7.533,
+      "delta_A": -0.002,
+      "sigma_stat_before": 0.0463,
+      "sigma_stat_after": 0.0296,
+      "sigma_ratio": 0.639
+    },
+    {
+      "artifact": "FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_before": 69,
+      "n_after": 68,
+      "A_before": 7.448,
+      "A_after": 7.448,
+      "delta_A": 0.0,
+      "sigma_stat_before": 0.0353,
+      "sigma_stat_after": 0.0243,
+      "sigma_ratio": 0.688
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_before": 70,
+      "n_after": 69,
+      "A_before": 7.4535,
+      "A_after": 7.46,
+      "delta_A": 0.0065,
+      "sigma_stat_before": 0.0278,
+      "sigma_stat_after": 0.0164,
+      "sigma_ratio": 0.59
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_before": 56,
+      "n_after": 53,
+      "A_before": 7.4805,
+      "A_after": 7.48,
+      "delta_A": -0.0005,
+      "sigma_stat_before": 0.0783,
+      "sigma_stat_after": 0.0286,
+      "sigma_ratio": 0.365
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "n_before": 28,
+      "n_after": 27,
+      "A_before": 7.4915,
+      "A_after": 7.489,
+      "delta_A": -0.0025,
+      "sigma_stat_before": 0.0988,
+      "sigma_stat_after": 0.0256,
+      "sigma_ratio": 0.259
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_before": 26,
+      "n_after": 22,
+      "A_before": 7.5335,
+      "A_after": 7.554,
+      "delta_A": 0.0205,
+      "sigma_stat_before": 0.1861,
+      "sigma_stat_after": 0.0654,
+      "sigma_ratio": 0.351
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "n_before": 7,
+      "n_after": 6,
+      "A_before": 7.581,
+      "A_after": 7.5995,
+      "delta_A": 0.0185,
+      "sigma_stat_before": 0.4326,
+      "sigma_stat_after": 0.0721,
+      "sigma_ratio": 0.167
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_before": 26,
+      "n_after": 23,
+      "A_before": 7.6215,
+      "A_after": 7.607,
+      "delta_A": -0.0145,
+      "sigma_stat_before": 0.1756,
+      "sigma_stat_after": 0.0804,
+      "sigma_ratio": 0.458
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "n_before": 7,
+      "n_after": 6,
+      "A_before": 7.503,
+      "A_after": 7.4875,
+      "delta_A": -0.0155,
+      "sigma_stat_before": 0.5024,
+      "sigma_stat_after": 0.0588,
+      "sigma_ratio": 0.117
+    }
+  ],
+  "dropped_lines": [
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.011,
+      "red_chi2": 1212.3,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.011 is 2.55 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.01,
+      "red_chi2": 1212.3,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.010 is 2.55 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.011,
+      "red_chi2": 1212.3,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.011 is 2.55 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.06,
+      "red_chi2": 1108.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.060 is 2.60 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.059,
+      "red_chi2": 1108.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.059 is 2.60 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.06,
+      "red_chi2": 1108.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.060 is 2.60 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.075,
+      "red_chi2": 1132.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.075 is 2.61 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.074,
+      "red_chi2": 1132.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.074 is 2.61 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.075,
+      "red_chi2": 1132.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.075 is 2.61 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "wavelength_air_A": 4303.17,
+      "abundance": 10.076,
+      "red_chi2": 1208.3,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.076 is 2.62 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 3540.121,
+      "abundance": 9.538,
+      "red_chi2": 101.5,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.538 is 2.08 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 3618.299,
+      "abundance": 10.596,
+      "red_chi2": 47.7,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.596 is 3.14 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 3735.324,
+      "abundance": 9.408,
+      "red_chi2": 56.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.408 is 1.95 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 3540.121,
+      "abundance": 9.546,
+      "red_chi2": 101.5,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.546 is 2.09 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 3618.299,
+      "abundance": 10.604,
+      "red_chi2": 47.7,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.604 is 3.14 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 3735.324,
+      "abundance": 9.416,
+      "red_chi2": 56.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.416 is 1.96 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 4286.863,
+      "abundance": 10.888,
+      "red_chi2": 439.8,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.888 is 3.43 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 5324.179,
+      "abundance": 9.719,
+      "red_chi2": 3403.8,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.719 is 2.26 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 8432.174,
+      "abundance": 5.615,
+      "red_chi2": 48.8,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 5.615 is 1.84 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 8432.174,
+      "abundance": 5.859,
+      "red_chi2": 46.1,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 5.859 is 1.60 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 8432.174,
+      "abundance": 5.508,
+      "red_chi2": 24.1,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 5.508 is 1.95 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9012.075,
+      "abundance": 10.166,
+      "red_chi2": 530.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.166 is 2.71 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9119.97,
+      "abundance": 9.886,
+      "red_chi2": 288.5,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.886 is 2.43 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 9012.075,
+      "abundance": 10.18,
+      "red_chi2": 530.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.180 is 2.72 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9350.415,
+      "abundance": 5.707,
+      "red_chi2": 49.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 5.707 is 1.75 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9410.159,
+      "abundance": 5.52,
+      "red_chi2": 48.4,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 5.520 is 1.94 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9437.793,
+      "abundance": 4.528,
+      "red_chi2": 151.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 4.528 is 2.93 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9454.194,
+      "abundance": 4.855,
+      "red_chi2": 19.0,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 4.855 is 2.60 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 9437.793,
+      "abundance": 4.539,
+      "red_chi2": 151.6,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 4.539 is 2.92 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9214.499,
+      "abundance": 9.782,
+      "red_chi2": 156.8,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.782 is 2.32 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9437.793,
+      "abundance": 10.977,
+      "red_chi2": 246.4,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.977 is 3.52 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "wavelength_air_A": 9454.194,
+      "abundance": 9.398,
+      "red_chi2": 50.7,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 9.398 is 1.94 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    },
+    {
+      "artifact": "FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "wavelength_air_A": 9437.793,
+      "abundance": 10.988,
+      "red_chi2": 246.4,
+      "reason": "FIT-NOT-PHYSICAL: A(Fe) = 10.988 is 3.53 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+    }
+  ],
+  "reproduces_a_shipped_number": "solar_iag NIR ENGINE-A returns to A = 7.599 / sigma_stat 0.072 / n = 6 \u2014 exactly the committed product, which the current code does NOT reproduce (it keeps 9437.793 at A = 4.539 and reports 7.581 / 0.433 / n = 7)."
+}

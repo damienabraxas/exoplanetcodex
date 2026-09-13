@@ -265,7 +265,28 @@ def _feature_depth(waves: np.ndarray) -> np.ndarray:
     f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
                             d=("central_depth", "max")).reset_index(drop=True)
     fw, fd = f.w.values, f.d.values
-    return np.array([fd[int(np.argmin(np.abs(fw - w)))] for w in waves])
+    # 🔴 RYA-1191 — `argmin` HAS NO DISTANCE LIMIT, AND A LINE THE CATALOGUE DOES NOT
+    # CARRY INHERITS A STRANGER'S DEPTH. Fe I 8432.174 (Ruffoni 2014, LAB) has NO Fe row
+    # in linelist_solar at all; the nearest FEATURE is 8433.778, **1.604 A away**, and its
+    # depth 0.023 sailed the line through the <= 0.60 graded gate. The line is then fitted,
+    # is unmeasurably weak in the Sun, and returns A = 5.5-5.9 across three holdings.
+    #
+    # The limit is DERIVED, not chosen: `GROUP_A` (0.05 A) is the width inside which rows
+    # are treated as ONE feature, so a line further than twice that from every feature
+    # CENTRE is not part of any of them. Measured on the current pool it changes exactly
+    # one line of 450 — 8432.174 — and leaves the two next-furthest (0.079 and 0.060 A,
+    # both well inside a resolution element) untouched.
+    #
+    # ⚠️ NaN, not a default. "We do not know this line's depth" is a different statement
+    # from "its depth is zero" or "its depth is its neighbour's" (RYA-833), and the
+    # selectors below refuse a NaN rather than gating on it.
+    limit = 2.0 * GROUP_A
+    out = np.full(len(waves), np.nan)
+    for i, w in enumerate(waves):
+        j = int(np.argmin(np.abs(fw - w)))
+        if abs(fw[j] - w) <= limit:
+            out[i] = fd[j]
+    return out
 
 
 def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
@@ -353,6 +374,17 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
             f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    # ⚠️ A LINE WITH NO KNOWN DEPTH IS REPORTED, NOT SILENTLY DROPPED. Both `depth > gate`
+    # and `depth <= gate` are False for NaN, so an unknown-depth line would vanish from
+    # BOTH the graded and the deep-graded pool without a word — the RYA-833 shape.
+    _unknown = np.isnan(depth)
+    if _unknown.any():
+        print(f"  [graded] {int(_unknown.sum())} LAB-tier {species} line(s) have NO "
+              f"feature in linelist_solar within {2.0 * DEPTH_HI * 0 + 0.10:.2f} A and so "
+              f"no known depth — EXCLUDED from both pools, listed rather than dropped "
+              f"silently (RYA-1191):")
+        for _w in lab.wavelength_air_A.values.astype(float)[_unknown]:
+            print(f"      {_w:10.3f}  no Fe row in the stellar catalogue at this wavelength")
     sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
     print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
           f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")
@@ -1111,6 +1143,8 @@ def synthesis_route(a, pol) -> None:
     # is there a RYA-940 corrected PRODUCT covering this wavelength? H2O 7160-7340 got no
     # admissible fit, so it has no file, so the quarantine still stands there.
     from measure_band_ew import telluric_reason, serves_corrected_flux
+    from pipeline.fit_validity import (fit_is_physical,
+                                       rejection_reason as fit_rejection_reason)
     _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
              for r in cand.itertuples()]
     _lifted = [(w, serves_corrected_flux(a.holding, w)) for w, why in _tell if why]
@@ -1130,6 +1164,28 @@ def synthesis_route(a, pol) -> None:
     if _bad:
         _drop = {w for w, _ in _bad}
         cand = cand[~cand.wave_A.astype(float).isin(_drop)].reset_index(drop=True)
+    # ── curated exclusions: genuine blends/artifacts, dropped on the science ──────
+    # 🔴 RYA-1191 — SEPARATE FROM THE TELLURIC QUARANTINE ABOVE, AND DELIBERATELY SO. That
+    # one asks whether the FLUX is usable; this asks whether the LINE is. Fe II 4303.170
+    # returns A = 10.0 (+2.5 dex) on flux that is perfectly clean — its window is 43.8%
+    # CH by catalogued depth against Fe II's 11.1%, and the VIS synthesis list carries no
+    # molecular species at all, so the fit had nowhere to put the G band except Fe. No
+    # telluric test would ever have caught it, and no fit-quality cut did.
+    #
+    # Each exclusion is an individual, evidenced call in data/catalog/, never a threshold:
+    # the blend audit finds 164 of 353 graded lines where the target is not the dominant
+    # absorber, and auto-dropping on that would delete a third of the pool on a number
+    # nobody ratified (RYA-161).
+    from pipeline.line_curation import excluded as _curated
+    _cur = [(float(r.wave_A), _curated(f"{a.element} {a.ion}", float(r.wave_A)))
+            for r in cand.itertuples()]
+    _cur = [(w, why) for w, why in _cur if why]
+    if _cur:
+        print(f"  {len(_cur)} candidate(s) CURATED OUT (blend/artifact, not telluric):")
+        for w, why in _cur:
+            print(f"      {w:10.3f}  {why[:110]}")
+        cand = cand[~cand.wave_A.astype(float).isin({w for w, _ in _cur})
+                    ].reset_index(drop=True)
     print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
@@ -1146,7 +1202,13 @@ def synthesis_route(a, pol) -> None:
         lines: list[LineMeasurement] = []
         for r in cand.itertuples():
             w = float(r.wave_A)
-            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw)
+            # RYA-1207: molecular opacity is a BAND property (config/synth_bands.yaml),
+            # so it applies to every treatment this route fits, not just one leg. Injected
+            # here rather than at each call site so a new treatment cannot silently be
+            # synthesised without the molecules its band declares. False everywhere but
+            # the near-UV, where `**fit_kw` is otherwise unchanged.
+            _mol_kw = {"use_molecules": True} if cfg.use_molecules else {}
+            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw, **_mol_kw)
             a_x = float(res.get("a_synth", float("nan")))
             lm = LineMeasurement(
                 element=a.element, ion=a.ion, wavelength_air_A=w,
@@ -1237,6 +1299,22 @@ def synthesis_route(a, pol) -> None:
                 if not _cv.ok:
                     lm.in_aggregate = False
                     lm.excluded_reason = _cv.reason
+            # 🔴 RYA-1191 — AND A FIT THAT RETURNED AN IMPOSSIBLE ABUNDANCE IS NOT ONE
+            # EITHER. The two guards above ask whether the OPTIMISER reported success and
+            # whether the window CONSTRAINED the abundance. Neither asks whether the answer
+            # is physically possible, and 9437.793 walked through both: status 'ok',
+            # constraint verdict ok, and A = 4.539 on solar_iag against 10.988 on
+            # solar_kpno_molecfit_corrected — the same line, the same gf, 6.4 dex apart,
+            # both with `excluded_reason` blank and both in the published aggregate.
+            #
+            # ⚠️ NOT AN OUTLIER CUT (RYA-981/RYA-515): the bound spans a FACTOR OF ~1000 in
+            # iron against a line-to-line scatter of ~0.2 dex, so it can only catch
+            # non-convergence. It removes 15 of 1366 graded lines and moves the product
+            # medians by at most 0.021 dex, while restoring solar_iag NIR ENGINE-A to the
+            # shipped A = 7.599 / sigma 0.072 / n=6 that the current code does not reproduce.
+            if lm.in_aggregate and not fit_is_physical(lm.abundance, a.element):
+                lm.in_aggregate = False
+                lm.excluded_reason = fit_rejection_reason(lm.abundance, a.element)
             lines.append(lm)
         lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
         return lines
@@ -1264,6 +1342,19 @@ def synthesis_route(a, pol) -> None:
         _mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
         _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
         _fit_kw: dict = {}
+        # 🔴 INITIALISED HERE BECAUSE IT IS READ ON EVERY DECK, NOT JUST THE NLTE ONES.
+        # RYA-1206 added the unlabelled-line re-attachment below and bound `_unlabelled`
+        # inside `if _nlte:`, but reads it at the bottom of this block, which every
+        # `--engine-b-deck` reaches. So every NON-NLTE Engine-B run died on
+        # `UnboundLocalError: cannot access local variable '_unlabelled'` -- including
+        # `ts-lte`, the DEFAULT and the production Engine B for all 27 species.
+        #
+        # It went unseen because the only runs since RYA-1206 merged either used an NLTE
+        # deck (which binds it) or passed `--skip-engine-b` (which skips this block
+        # entirely) -- RYA-1203's NIR re-derivation was the latter, which is why that
+        # ticket's re-run passed while the default route was broken underneath it.
+        # An empty set is the honest default: no deck-labelled lines were excluded.
+        _unlabelled: set[float] = set()
         if _mean3d:
             from pipeline import gerber_nlte as gnlte
             from pipeline import mean3d_atmosphere as m3d
@@ -1400,8 +1491,74 @@ def synthesis_route(a, pol) -> None:
                          + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
             eb_prov += _cov_txt
             print(f"[Engine-B]{_cov_txt}")
+            # 🔴 AN NLTE PRODUCT CONTAINS ONLY GENUINELY-NLTE LINES — RYA-1206 (Ryan).
+            # Partial coverage is not a reason to refuse the engine; we publish n=5 and n=6
+            # products routinely. The trap is the OTHER thing: fitting all of them and
+            # letting the unlabelled ones fall back to departure = 1, so a 25-line product
+            # is half LTE under an NLTE label. So the unlabelled lines are DROPPED here and
+            # recorded, never silently mixed in — they are already carried by the 1D-LTE
+            # product on the same pool.
+            #
+            # The mask is per-LINE, not the coverage report's any-row-within-tolerance:
+            # `pool_label_coverage` credits Fe I 16179.583 with a neighbour's label 0.026 A
+            # away and 2.5 dex weaker, which is how 12 genuine lines read as 13.
+            _mask = _gn.pool_label_mask(
+                ctx["linelist"], int(ctx["atom_code"]),
+                cand["wave_A"].astype(float).values, ion=a.ion)
+            _unlabelled = {round(float(x), 4) for x in
+                           cand["wave_A"].astype(float).values[~_mask]}
+            if _unlabelled:
+                # 🔴 THEY CANNOT BE FITTED, ONLY RECORDED. Leaving them in the pool does not
+                # produce an LTE-valued NLTE row -- `_fit_synth_flux` calls
+                # `assert_linelist_supports_nlte` per WINDOW and raises GerberDeckError
+                # ("4 lines in 15078.3-15082.1 A but NONE carry NLTE level labels"), which
+                # is that guard working exactly as designed: an LTE spectrum under an NLTE
+                # label is worse than no product. So the pool is narrowed for the FIT and
+                # the excluded lines are re-attached below as rows with no abundance.
+                assert lines, "the 1D-LTE leg must be fitted before the pool is narrowed"
+                cand = cand[_mask].reset_index(drop=True)
+                _drop_txt = (f" {len(_unlabelled)} pooled line(s) carry NO NLTE label. They "
+                             f"are EXCLUDED FROM THE AGGREGATE and recorded per line — they "
+                             f"would run at departure = 1, i.e. LTE, and they are already "
+                             f"carried by the 1D-LTE product on this same pool: "
+                             + ", ".join(f"{x:.3f}" for x in sorted(_unlabelled)) + ".")
+                eb_prov += _drop_txt
+                print(f"[Engine-B]{_drop_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
         eb_lines = _fit_lines(eb_treatment, **_fit_kw)
+        # 🔴 RECORD THEM, DO NOT LEAVE A HOLE — RYA-1206. The unlabelled lines cannot be
+        # fitted (above), but dropping them silently would keep them out of the per-line
+        # artifact too, so the evidence could not show the line was considered and why it
+        # was refused -- the gap RYA-515 6 named for curated lines. They are re-attached
+        # here from their OWN 1D-LTE measurement, with `abundance=None`: there is no NLTE
+        # value for a line the deck cannot treat, and inventing one by copying the LTE
+        # number would be the mislabelling this whole exclusion exists to prevent. Mirrors
+        # ENGINE-A-NOT-SERVED, which has always kept its row and stated its reason.
+        if _unlabelled:
+            _by_w = {round(float(l.wavelength_air_A), 4): l for l in lines}
+            for _w in sorted(_unlabelled):
+                _src = _by_w.get(_w)
+                if _src is None:
+                    continue
+                _lm = LineMeasurement(
+                    element=_src.element, ion=_src.ion,
+                    wavelength_air_A=_src.wavelength_air_A,
+                    instrument=_src.instrument, ew_mA=_src.ew_mA,
+                    ew_method=_src.ew_method, treatment=eb_treatment, ep_eV=_src.ep_eV,
+                    nlte_delta_dex=None,
+                    nlte_source="none — no NLTE label in the synthesis list for this line",
+                    continuum_level=_src.continuum_level,
+                    continuum_method=_src.continuum_method,
+                    observed_depth=_src.observed_depth,
+                    red_chi2=_src.red_chi2, abundance=None)
+                _lm.in_aggregate = False
+                _lm.excluded_reason = (
+                    "NO-NLTE-LABEL: the synthesis list carries no NLTE level label for this "
+                    "line, so the deck cannot treat it — bsyn would set departure = 1 and "
+                    "the result would be LTE under an NLTE name. Excluded from the NLTE "
+                    "aggregate and carried by the 1D-LTE product on the same pool. Reduced "
+                    "coverage, not a failed fit (RYA-1206).")
+                eb_lines.append(_lm)
 
     # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
     # This route passed `gf_graded=False` to `build_budget` unconditionally, so the

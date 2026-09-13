@@ -176,7 +176,15 @@ def test_the_row_population_and_keys_are_untouched(canon):
     #           silently UN-GRADES a laboratory line.
     #   178680  RYA-1053 rebuilt on the wavelength+EP tolerance the matcher uses
     #           everywhere (RYA-1054). 8280 -> 8141 physical lines, ZERO true duplicates.
-    assert len(canon) == 178680, (
+    #   169703  RYA-1182 — THE FIRST ENTRY THAT REMOVES. 8,977 MOLECULAR rows (CN 2766,
+    #           C2 2654, CH 2265, MgH 594, SiH 583, NH 114, OH 1), every one seeded
+    #           linelist(VALD3), moved OUT of the atomic store to
+    #           data/linelists/molecular/quarantine/ (RYA-1130's separation, RYA-1142
+    #           check B2). Kept, not deleted. NO atomic row was touched: the diff is
+    #           `0 8977` — zero insertions — and
+    #           tests/test_canonical_gf_molecular_separation_rya1182.py recombines the
+    #           two files and requires the pre-relocation store back, line for line.
+    assert len(canon) == 169703, (
         f"{len(canon)} rows — RYA-945 rewrites rows in place and must not change the "
         f"population; RYA-834, RYA-1047 and RYA-1053 are the tickets that append")
     keys = {(r["species"], r["wavelength_air_A"], r["excitation_potential_eV"])

@@ -1,0 +1,17 @@
+{
+  "near-UV": {
+    "refused": true,
+    "error": "GerberDeckError",
+    "reason": "Fe: 4364 lines in 3000.0-3780.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+  },
+  "NIR": {
+    "refused": true,
+    "error": "GerberDeckError",
+    "reason": "Fe: 235 lines in 9199.0-12976.0 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification."
+  },
+  "near-UV Fe II": {
+    "refused": true,
+    "error": "GerberDeckError",
+    "reason": "Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055."
+  }
+}

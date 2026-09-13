@@ -1,0 +1,5 @@
+species_system,asset,read_by_intake,transitions_held,UV_held_FUV+NUV,wavelength_span_A,band_breakdown,carries_rotational_identity
+NH A-X,data/reference/cno_molecular_primary/nh_brooke2014/NH-A-X-linelist.csv,NO,12150,6653,2764.1-5597.4,NUV 6653; VIS 5497,"YES -- J', J"", Sym, Branch, v', v"", N', N"", Eupper, Elower, f-value, A"
+OH A-X,data/reference/cno_molecular_primary/oh_brooke2016/OH-A-X-linelist-final.csv,NO,3656,586,2500.3-11988.5,NUV 586; VIS 968; RED_OPTICAL 1147; NIR 955,YES
+CN B-X,data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,PARSED THEN DISCARDED -- no Amarsi target carries this system key,45786,22954,1910.3-77029.9,FUV 455; NUV 22499; VIS 15056; RED_OPTICAL 3774; NIR 3039; IR 963,"YES -- branch label and J"""
+CN A-X,data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz,YES (red only),120332,23038,2352.4-5364519.1,NUV 23038; VIS 36390; RED_OPTICAL 20929; NIR 26717; IR 13258,"YES -- branch label and J"""

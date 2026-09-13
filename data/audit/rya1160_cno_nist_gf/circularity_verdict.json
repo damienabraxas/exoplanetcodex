@@ -1,0 +1,14 @@
+{
+  "ticket": "RYA-1160",
+  "cno_atomic_rows": 2606,
+  "already_nist_derived": 798,
+  "already_nist_derived_pct": 30.6,
+  "self_match_warning": "798 of 2606 CNO atomic rows (30.6%) already carry a NIST-derived loggf_reference (NIST10, plus 5 NIST ASD grade rows). Adjudicating this pull against them is NIST-vs-NIST: it measures version drift between NIST10 and current ASD, not independent agreement. Agreement there proves 'no transcription error since NIST10'; DISAGREEMENT is the informative outcome (RYA-853).",
+  "rya946_precedence": "RYA-946 sets lab > NIST-C+ > Kurucz > VALD. This pull is NIST-C+ rung, a FALLBACK, not the lab-gf sweep RYA-946 asks for. Its C/N/O source map nominates high-excitation atomic + molecular studies, not NIST.",
+  "graded_rows_in_pull": 5119,
+  "distinct_tp_codes": 55,
+  "rows_without_tp_code": 0,
+  "tp_next_step": "Every graded row carries a TP code and there are 55 distinct ones. Decoding them against NIST's reference list is what partitions the pull into experimental vs theoretical, which is the only way to know which rows could ever reach the lab rung. Currently ALL are class=UNDECODED.",
+  "blocked": "RYA-946 requires every source verified against ADS/VizieR per child. ADS needs an API token this session does not have, so no post-2007 experimental CNO gf search has been run. That gap is open.",
+  "canonical_gf_modified": false
+}
