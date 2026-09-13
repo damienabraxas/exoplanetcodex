@@ -1,0 +1,7 @@
+our_key,region,element,role,agss21_indicator,agss21_column,agss21_A,agss21_error_dex,agss21_line_count,our_A,our_sigma_fit,our_red_chi2,delta_ours_minus_agss21,comparison_basis,band_mismatch,upper_bound_only
+CH_Gband,vis,C,primary,CH (A-X),lte_3D,8.459,0.048,7.0,8.488,0.005,17.2,0.029,"1D vs 3D atmosphere; molecular band, no NLTE grid either side",False,False
+CI_5052,vis,C,cross_check,C i,lte_3D,8.48,0.038,14.0,8.476,0.091,58.3,-0.004,permitted atomic; AGSS21's 3D-NLTE column differs by physics we did not apply,False,False
+CI_5380,vis,C,cross_check,C i,lte_3D,8.48,0.038,14.0,8.53,0.098,57.0,0.05,permitted atomic; AGSS21's 3D-NLTE column differs by physics we did not apply,False,False
+C2_Swan,vis,C,cross_check,C2 Swan,lte_3D,8.455,0.029,39.0,8.449,0.007,18.3,-0.006,"1D vs 3D atmosphere; molecular band, no NLTE grid either side",False,False
+CN_red,vis,N,primary,(none comparable),,,,,7.384,0.835,33.5,,OUR BAND IS NOT AGSS21's: CN A-X red system 6125/6195 A against AGSS21's CN A-X (0-0) at 10872-13204 A. 0 of their 59 CN lines are in our windows.,True,False
+OI_6300,vis,O,primary,[O i],nlte_3D,8.703,0.051,1.0,8.81,0.421,67.0,0.107,"FORBIDDEN and LTE-insensitive — AGSS21's two columns are identical, so this isolates the atmosphere",False,False

@@ -212,6 +212,34 @@ class GradeVerdict:
 _cache: dict = {}
 
 
+def has_lab_table(species: str = DEFAULT_SPECIES) -> bool:
+    """Is a PRIMARY LABORATORY gf table registered for this species? — RYA-1214.
+
+    This is the question `lab_lines` raises on, asked without raising, and it exists
+    because those are two different facts and only one of them is fatal:
+
+      * "no laboratory table is registered"  — structural. `GF-LAB` is unreachable for
+        this species, whatever its lines are. True of every C/N/O species and it will
+        stay true: the light-element standard is critically-evaluated THEORY (Opacity
+        Project, MCHF — RYA-1172), so there is no table to register.
+      * "this line has no laboratory measurement" — a fact about the line, inside a
+        species that has a table.
+
+    `grade_line` used to be unable to distinguish them, because its first act was to read
+    `lab_lines(species)` and that raises `KeyError` for an unregistered species. So a C I
+    line could not be graded AT ALL — not even to `GF-NIST`, which needs no lab table and
+    which 842 CNO lines now carry after RYA-1214's adjudication. The NIST accuracy class
+    was in `canonical_gf` and structurally invisible to every error budget: the first C I
+    red-optical product came out charging the 0.17 blanket, marked NOT PUBLISHABLE, over
+    six lines every one of which is NIST-graded.
+
+    Same shape as RYA-953 (the Fe II laboratory table on disk with no registry entry) and
+    RYA-1002 (Al), one rung down: the DATA was there and the gate in front of it was
+    asking the wrong question.
+    """
+    return str(species) in LAB_TABLES
+
+
 def lab_lines(species: str = DEFAULT_SPECIES) -> pd.DataFrame:
     """The primary-laboratory gf table for `species`.
 
@@ -354,8 +382,18 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
     do not use. Widening this is NOT free: at 0.06 A the canonical Fe I table's
     self-ambiguous rows go 26 -> 210, so a pool measured at full precision must keep 0.02.
     """
-    lab = _nearest(lab_lines(species), wavelength_air_A, ep_eV,
-                   "wavelength_air_A", "elo_eV", wave_tol_A)
+    # 🔴 RYA-1214 — A SPECIES WITH NO LABORATORY TABLE IS STILL GRADEABLE AGAINST NIST.
+    # `lab_lines` raises for an unregistered species, deliberately, so that "we hold no
+    # table" never looks like "no measurement exists" (RYA-833). But that raise was the
+    # FIRST statement in this function, so it also made the NIST branch below
+    # unreachable for C/N/O — species that will never have a lab table, because the
+    # light-element standard is critically-evaluated theory (RYA-1172), and that now
+    # carry 842 NIST accuracy classes. The distinction is preserved by SAYING which case
+    # this is in the verdict, not by refusing to answer. See `has_lab_table`.
+    _no_lab_table = not has_lab_table(species)
+    lab = None if _no_lab_table else _nearest(
+        lab_lines(species), wavelength_air_A, ep_eV,
+        "wavelength_air_A", "elo_eV", wave_tol_A)
     cgf = _nearest(canonical_species(species), wavelength_air_A, ep_eV,
                    "wavelength_air_A", "excitation_potential_eV", wave_tol_A)
     tag = str(cgf["loggf_reference"]) if cgf is not None else ""
@@ -392,9 +430,15 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
                     GRADE_NIST, f"NIST ASD accuracy class {ngrade} "
                                 f"(<={NIST_ACC_PCT[ngrade]:.1f}% on A_ki)",
                     nsig, tag, ref_loggf, d_nist,
-                    "graded against NIST ASD, which for Fe I in this regime is largely a "
-                    "COMPILATION — agreement proves no transcription error, not "
-                    "independence (RYA-760: FMW *is* NIST and VALD copies it)")
+                    ("graded against NIST ASD. There is NO primary-laboratory gf table "
+                     "for this species and there will not be: the accepted standard for "
+                     "the light elements is critically-evaluated THEORY (Opacity Project "
+                     "for O, MCHF for C/N — RYA-1172), so this is the best rung the "
+                     "species can reach and GF-LAB is structurally unreachable, not "
+                     "merely unmet" if _no_lab_table else
+                     "graded against NIST ASD, which for Fe I in this regime is largely a "
+                     "COMPILATION — agreement proves no transcription error, not "
+                     "independence (RYA-760: FMW *is* NIST and VALD copies it)"))
             return GradeVerdict(
                 GRADE_MISMATCH, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag, ref_loggf,
                 d_nist,

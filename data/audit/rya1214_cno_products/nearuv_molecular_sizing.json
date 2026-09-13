@@ -1,0 +1,297 @@
+{
+  "ticket": "RYA-1214",
+  "what": "sizing the near-UV CNO molecular region (Ryan's priority comment)",
+  "status": "SIZED, NOT RUN \u2014 and the reason is measured, not a preference",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "ryan_named_bands": [
+    {
+      "band": "OH A-X",
+      "lo_A": 3060,
+      "hi_A": 3300,
+      "element": "O",
+      "in_near_uv": true,
+      "why": "in band"
+    },
+    {
+      "band": "NH A-X",
+      "lo_A": 3350,
+      "hi_A": 3450,
+      "element": "N",
+      "in_near_uv": true,
+      "why": "in band"
+    },
+    {
+      "band": "CN violet",
+      "lo_A": 3860,
+      "hi_A": 3900,
+      "element": "N",
+      "in_near_uv": false,
+      "why": "redward of the 3780 A band edge"
+    },
+    {
+      "band": "CH A-X",
+      "lo_A": 3870,
+      "hi_A": 4320,
+      "element": "C",
+      "in_near_uv": false,
+      "why": "redward of the 3780 A band edge"
+    }
+  ],
+  "near_uv_is_an_O_and_N_opportunity": "OH A-X and NH A-X are in band; CN violet (~3883 A) and CH A-X (3870-4320 A) are redward of the 3780 A edge \u2014 CH A-X IS the VIS G-band this ticket ran.",
+  "lists_present": {
+    "OH": {
+      "lines": 2094,
+      "span_A": [
+        3000.2,
+        3681.8
+      ]
+    },
+    "NH": {
+      "lines": 2271,
+      "span_A": [
+        3022.1,
+        3779.7
+      ]
+    },
+    "CH": {
+      "lines": 653,
+      "span_A": [
+        3005.9,
+        3773.0
+      ]
+    },
+    "CN": {
+      "lines": 1205,
+      "span_A": [
+        3143.7,
+        3638.0
+      ]
+    }
+  },
+  "candidate_windows": [
+    {
+      "target": "OH",
+      "lo_A": 3063,
+      "hi_A": 3066.0,
+      "counts": {
+        "OH": 30,
+        "NH": 10,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 3.0,
+      "usable": true
+    },
+    {
+      "target": "OH",
+      "lo_A": 3078,
+      "hi_A": 3081.0,
+      "counts": {
+        "OH": 13,
+        "NH": 11,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 1.18,
+      "usable": false
+    },
+    {
+      "target": "OH",
+      "lo_A": 3090,
+      "hi_A": 3093.0,
+      "counts": {
+        "OH": 19,
+        "NH": 9,
+        "CH": 2,
+        "CN": 0
+      },
+      "dominance": 1.73,
+      "usable": false
+    },
+    {
+      "target": "OH",
+      "lo_A": 3122,
+      "hi_A": 3125.0,
+      "counts": {
+        "OH": 26,
+        "NH": 7,
+        "CH": 6,
+        "CN": 0
+      },
+      "dominance": 2.0,
+      "usable": true
+    },
+    {
+      "target": "OH",
+      "lo_A": 3144,
+      "hi_A": 3147.0,
+      "counts": {
+        "OH": 19,
+        "NH": 3,
+        "CH": 48,
+        "CN": 14
+      },
+      "dominance": 0.29,
+      "usable": false
+    },
+    {
+      "target": "OH",
+      "lo_A": 3167,
+      "hi_A": 3170.0,
+      "counts": {
+        "OH": 13,
+        "NH": 0,
+        "CH": 11,
+        "CN": 0
+      },
+      "dominance": 1.18,
+      "usable": false
+    },
+    {
+      "target": "OH",
+      "lo_A": 3180,
+      "hi_A": 3183.0,
+      "counts": {
+        "OH": 10,
+        "NH": 2,
+        "CH": 26,
+        "CN": 0
+      },
+      "dominance": 0.36,
+      "usable": false
+    },
+    {
+      "target": "NH",
+      "lo_A": 3358,
+      "hi_A": 3361.0,
+      "counts": {
+        "OH": 11,
+        "NH": 109,
+        "CH": 0,
+        "CN": 6
+      },
+      "dominance": 6.41,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3370,
+      "hi_A": 3373.0,
+      "counts": {
+        "OH": 8,
+        "NH": 75,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 9.38,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3380,
+      "hi_A": 3383.0,
+      "counts": {
+        "OH": 4,
+        "NH": 25,
+        "CH": 0,
+        "CN": 2
+      },
+      "dominance": 4.17,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3400,
+      "hi_A": 3403.0,
+      "counts": {
+        "OH": 3,
+        "NH": 22,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 7.33,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3430,
+      "hi_A": 3433.0,
+      "counts": {
+        "OH": 11,
+        "NH": 13,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 1.18,
+      "usable": false
+    }
+  ],
+  "recommended": [
+    {
+      "target": "OH",
+      "lo_A": 3063,
+      "hi_A": 3066.0,
+      "counts": {
+        "OH": 30,
+        "NH": 10,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 3.0,
+      "usable": true
+    },
+    {
+      "target": "OH",
+      "lo_A": 3122,
+      "hi_A": 3125.0,
+      "counts": {
+        "OH": 26,
+        "NH": 7,
+        "CH": 6,
+        "CN": 0
+      },
+      "dominance": 2.0,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3358,
+      "hi_A": 3361.0,
+      "counts": {
+        "OH": 11,
+        "NH": 109,
+        "CH": 0,
+        "CN": 6
+      },
+      "dominance": 6.41,
+      "usable": true
+    },
+    {
+      "target": "NH",
+      "lo_A": 3370,
+      "hi_A": 3373.0,
+      "counts": {
+        "OH": 8,
+        "NH": 75,
+        "CH": 0,
+        "CN": 0
+      },
+      "dominance": 9.38,
+      "usable": true
+    }
+  ],
+  "blocker": {
+    "kind": "MEASURED ONE-SIDED BIAS, not a missing input",
+    "detail": "the near-UV synthesis carries LESS opacity than the observation. RYA-1204/1207 measured the molecular lever at -0.050 dex (paired) on iron and concluded it STILL under-corrects after: 'synth/obs above 1 on 24 of 40 windows', 'a floor on the missing opacity, not a correction stopped at a target'. RYA-1189 measured the band as blend-dominated at 59 lines/A with 0 of 10 clean side-bands.",
+    "consequence": "a fit compensates missing opacity by RAISING the abundance, so a near-UV OH or NH band fit returns an UPPER BOUND on A(O) / A(N), not a measurement. The bias direction is known in advance, which is exactly why the number must not be emitted as an abundance without that label."
+  },
+  "to_build": [
+    "RegionConfig for 3000-3780 A on kpno_solar_atlas / solar_kpno_kurucz2005_corrected",
+    "NEARUV_DIAGNOSTICS: OH A-X and NH A-X at the windows above",
+    "a loader dispatch for the Kitt Peak atlas (measure_band_ew.load_window_ex already reads this holding; cno_synthesis has no dispatch for it)",
+    "an acceptance gate shaped like SOLAR_VIS_GATES, plus the opacity-deficit label"
+  ]
+}

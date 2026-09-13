@@ -1,0 +1,8 @@
+{
+  "ticket": "RYA-1214",
+  "what": "per-INDICATOR comparison against AGSS21 Table 3",
+  "rule": "every row names WHICH AGSS21 column it is against and what the residual measures. A forbidden line is LTE-insensitive (AGSS21's two columns are identical) so 1D-LTE vs 3D isolates the atmosphere; a molecular band has no NLTE grid either side; a permitted atomic line is compared to the 3D-LTE column because the 3D-NLTE column differs by physics we did not apply. Differencing against whichever column is closer would manufacture agreement (RYA-161).",
+  "n_rows": 6,
+  "n_forbidden_line_rows": 6,
+  "upper_bound_rows": 0
+}

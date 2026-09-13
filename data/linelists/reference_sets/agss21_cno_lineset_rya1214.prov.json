@@ -1,0 +1,42 @@
+{
+  "ticket": "RYA-1214",
+  "what": "AGSS21 Table 3 ATOMIC indicator line sets, per element, for `derive_band_products --lines-from-set`",
+  "source": "data/audit/rya1136_cno_intake/atomic_source_census.csv",
+  "source_ticket": "RYA-1136 / RYA-1183 (atomic_source_census.csv)",
+  "why_not_select_lines": "select_lines ranks by theoretical central depth and refuses below 0.15. That excludes BOTH forbidden indicators ([C I] 8727 depth 0.030, [O I] 6300 depth 0.040) and ALL FIVE N I lines (max 0.040) \u2014 12 of the 23 atomic indicators. The light elements' indicators are weak because they are unsaturated.",
+  "match_tol_A": 0.05,
+  "match_tol_basis": "half AGSS21's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so the rounding half-width is 0.05 A. Same derivation as reference_lineset.SETS['asplund'] for the Fe table of the same paper (RYA-1109/1211).",
+  "adopted_vs_grid": "kept in SEPARATE files. The census states that a row's presence in the Amarsi-2019 analysis grid is NOT proof AGSS21 adopted it; merging the two would publish a set the paper does not claim.",
+  "files": [
+    {
+      "element": "C",
+      "use_status": "SOURCE_ANALYSIS_GRID_SET",
+      "n_lines": 17,
+      "file": "data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv",
+      "span_A": [
+        5052.16,
+        9658.42
+      ]
+    },
+    {
+      "element": "N",
+      "use_status": "AGSS21_ADOPTED_FIVE_LINE_SET",
+      "n_lines": 5,
+      "file": "data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv",
+      "span_A": [
+        7442.29,
+        10108.9
+      ]
+    },
+    {
+      "element": "O",
+      "use_status": "SOURCE_ANALYSIS_GRID_SET",
+      "n_lines": 26,
+      "file": "data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv",
+      "span_A": [
+        6155.96,
+        9266.0
+      ]
+    }
+  ]
+}

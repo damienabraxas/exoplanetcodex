@@ -1,0 +1,358 @@
+{
+  "ticket": "RYA-1214",
+  "step": "3 \u2014 band synthesis line lists vs the CNO indicators",
+  "match_tolerance_A": 0.1,
+  "match_tolerance_basis": "the census prints 0.01 nm = 0.1 A (RYA-1109)",
+  "bands": [
+    {
+      "band": "near-UV",
+      "linelist": "/home/damienabraxas/scratch/rya1214/data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv",
+      "exists": false,
+      "verdict": "LIST ABSENT \u2014 regenerate before running this band",
+      "build_hint": "build it with `pipeline.nearuv_linelist.build()`"
+    },
+    {
+      "band": "VIS",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 3780.0,
+      "hi_A": 6910.0,
+      "list_span_A": [
+        4200.02,
+        9199.99
+      ],
+      "total_lines_in_band": 88151,
+      "cno_lines_in_band": {
+        "C I": 768,
+        "C II": 305,
+        "N I": 97,
+        "N II": 159,
+        "O I": 117,
+        "O II": 93
+      },
+      "cno_total_in_band": 1539,
+      "use_molecules": false
+    },
+    {
+      "band": "red-optical",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 6910.0,
+      "hi_A": 9199.0,
+      "list_span_A": [
+        4200.02,
+        9199.99
+      ],
+      "total_lines_in_band": 53042,
+      "cno_lines_in_band": {
+        "C I": 284,
+        "C II": 232,
+        "N I": 68,
+        "N II": 65,
+        "O I": 46,
+        "O II": 101
+      },
+      "cno_total_in_band": 796,
+      "use_molecules": false
+    },
+    {
+      "band": "NIR",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 9199.0,
+      "hi_A": 13000.0,
+      "list_span_A": [
+        9203.15,
+        12976.14
+      ],
+      "total_lines_in_band": 757,
+      "cno_lines_in_band": {
+        "C I": 34
+      },
+      "cno_total_in_band": 34,
+      "use_molecules": false
+    },
+    {
+      "band": "H",
+      "linelist": "atomic_lines.tsv",
+      "exists": true,
+      "lo_A": 15007.11,
+      "hi_A": 17493.69,
+      "list_span_A": [
+        15007.22,
+        17491.83
+      ],
+      "total_lines_in_band": 5244,
+      "cno_lines_in_band": {
+        "C I": 84,
+        "N I": 5,
+        "O I": 13
+      },
+      "cno_total_in_band": 102,
+      "use_molecules": false
+    }
+  ],
+  "indicators_checked": 48,
+  "indicators_absent": 10,
+  "molecular_readiness": {
+    "trees_read": [
+      "(repo) data/linelists/molecular/turbospectrum",
+      "(iSpec install) $ISPEC_DIR/input/linelists/turbospectrum/molecules"
+    ],
+    "vendored_species": {
+      "12C12C": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12C13C": {
+        "n_files": 5,
+        "span_nm": [
+          400,
+          650
+        ]
+      },
+      "12C14N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12C15N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "12CH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "13C13C": {
+        "n_files": 9,
+        "span_nm": [
+          400,
+          850
+        ]
+      },
+      "13C14N": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "13CH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "14NH": {
+        "n_files": 8,
+        "span_nm": [
+          400,
+          800
+        ]
+      },
+      "16OH": {
+        "n_files": 11,
+        "span_nm": [
+          400,
+          950
+        ]
+      },
+      "CH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "CN": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "CO_IR_Li2015.dat": {
+        "n_files": 1,
+        "span_nm": "non-.bsyn file"
+      },
+      "NH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      },
+      "OH": {
+        "n_files": 1,
+        "span_nm": [
+          300,
+          378
+        ]
+      }
+    },
+    "rovibrational_lists": {
+      "12C-1H__MoLLIST_rovib.bsyn": {
+        "rows": 38263,
+        "span_A": [
+          2751.3,
+          99970.1
+        ],
+        "span_nm": [
+          275.0,
+          9997.0
+        ]
+      },
+      "14N-1H__kNigHt_rovib.bsyn": {
+        "rows": 52831,
+        "span_A": [
+          3446.8,
+          99988.1
+        ],
+        "span_nm": [
+          345.0,
+          9999.0
+        ]
+      },
+      "16O-1H__MYTHOS_rovib.bsyn": {
+        "rows": 72762,
+        "span_A": [
+          3133.3,
+          99939.2
+        ],
+        "span_nm": [
+          313.0,
+          9994.0
+        ]
+      }
+    },
+    "rovib_coverage": {
+      "CH": true,
+      "NH": true,
+      "OH": true
+    },
+    "verdict_by_indicator": [
+      {
+        "element": "C",
+        "indicator": "C2 Swan",
+        "agss21_lines": 39,
+        "regime": "VIS",
+        "kind": "electronic",
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
+      },
+      {
+        "element": "C",
+        "indicator": "CH A-X (G band)",
+        "agss21_lines": 7,
+        "regime": "VIS",
+        "kind": "electronic",
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
+      },
+      {
+        "element": "C",
+        "indicator": "CH dnu=1",
+        "agss21_lines": 51,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      },
+      {
+        "element": "C",
+        "indicator": "CO dnu=1",
+        "agss21_lines": 28,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "list_held": true,
+        "why": "CO_IR_Li2015.dat (ExoMol Li 2015) is held. \u26a0\ufe0f The NIR band list carries 34 C I lines and no O I / N I, so that band needs rebuilding before a CO product can be run there."
+      },
+      {
+        "element": "C",
+        "indicator": "CO dnu=2",
+        "agss21_lines": 52,
+        "regime": "NIR/mid-IR",
+        "kind": "first overtone",
+        "list_held": true,
+        "why": "CO_IR_Li2015.dat (ExoMol Li 2015) is held. \u26a0\ufe0f The NIR band list carries 34 C I lines and no O I / N I, so that band needs rebuilding before a CO product can be run there."
+      },
+      {
+        "element": "N",
+        "indicator": "NH dnu=0",
+        "agss21_lines": 13,
+        "regime": "mid-IR",
+        "kind": "pure rotational",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      },
+      {
+        "element": "N",
+        "indicator": "NH dnu=1",
+        "agss21_lines": 15,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      },
+      {
+        "element": "N",
+        "indicator": "CN 0-0",
+        "agss21_lines": 59,
+        "regime": "VIS",
+        "kind": "electronic",
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
+      },
+      {
+        "element": "N",
+        "indicator": "CN dnu>=1",
+        "agss21_lines": 463,
+        "regime": "VIS/red-optical",
+        "kind": "electronic",
+        "list_held": true,
+        "why": "electronic band; vendored 400-950 nm (12C12C / 12C14N / 12CH / 14NH / 16OH) plus RYA-1207's 300-378 nm near-UV set. The band's synth config needs use_molecules: true."
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=0",
+        "agss21_lines": 84,
+        "regime": "mid-IR",
+        "kind": "pure rotational",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=1",
+        "agss21_lines": 50,
+        "regime": "mid-IR",
+        "kind": "ro-vibrational fundamental",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      },
+      {
+        "element": "O",
+        "indicator": "OH dnu=2",
+        "agss21_lines": 15,
+        "regime": "NIR/mid-IR",
+        "kind": "first overtone",
+        "list_held": true,
+        "why": "ro-vibrational list HELD in the repo's vendored tree (MoLLIST CH / kNigHt NH / MYTHOS OH, 2751-99988 A) \u2014 \u26a0\ufe0f CORRECTED: an earlier pass read only the iSpec install tree and reported these ABSENT. The blocker is not the line list; it is that no synthesis REGION is wired above 1 um for CNO (cno_synthesis.REGIONS is {'vis'}) and the NIR/H band lists carry no O I or N I."
+      }
+    ]
+  },
+  "verdict": "10 indicator(s) absent from their band's list"
+}
