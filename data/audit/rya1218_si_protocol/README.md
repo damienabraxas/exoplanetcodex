@@ -31,6 +31,28 @@ construction is explicit. `historical_grade_delta.csv` preserves external
 membership without promoting it to Reference Grade.
 
 `historical_engine_reach.csv` retains the existing Si-specific reach evidence.
+
+The expanded holding run is recorded under
+`data/results/rya1218/si_multiholding_ew/`. It measures the ten RYA-1169 source
+lines on every registered solar holding: corrected Kitt Peak **9/10** (the
+7226.2079 A H2O window is still refused), Kurucz 2005 residual **10/10**,
+HARPS raw and Molecfit siblings **8/10 each** (both stop at 6910 A), and IAG
+Baker **10/10**. The IAG Reiners blue sibling has no source lines in its
+4047--5001 A span. CRIRES+ Y/H holdings have no RYA-1169 source lines because
+the source set is optical; their NIR Si line pool must be constructed
+separately before a CRIRES abundance route is valid.
+
+The Kitt Peak result is intentionally split: the Molecfit sibling uses the
+RYA-940 product, and its 7160--7340 A H2O band has **no admissible correction**
+(the Fe work did not produce a valid corrected H2O product there). Therefore
+7226.2079 A remains refused on that holding. The Kurucz residual holding is
+telluric-corrected at source and serves that line.
+
+Engine applicability remains separate from observed EW reach. The current
+coverage ledger reports Si I Engine A served in VIS and reachable-but-not-extracted
+in red-optical; Si I Engine B served in VIS/red-optical; Si II Engine B
+uncovered in VIS but served in red-optical; and no Si II Engine A route.
+Unsupported engine cells remain HOLD.
 `model_inventory_cells.csv` enumerates the nine roster models against both
 ions, holdings, and configured synthesis bands. Every cell is currently HOLD,
 not executed. It is an applicability work queue, not a completed engine audit;
