@@ -2653,10 +2653,14 @@ def main() -> None:
     # ── ENGINE-A ──────────────────────────────────────────────────────────────
     print("\n[2] ENGINE-A — registered per-line departure corrections...")
     used = [l for l in rows if l.in_aggregate and l.abundance is not None]
-    deltas = engine_a_delta(a.element, a.ion,
-                            np.array([l.wavelength_air_A for l in used]),
-                            cache=a.mpia_cache,
-                            star=a.star)
+    # RYA-1214: C I / O I take Amarsi 2019's 1D leg, the same source the synthesis route's
+    # ENGINE-A uses for them, so the two routes' ENGINE-A differ only in the inversion.
+    deltas = (cno_departure_deltas(a.element, a.ion, used, ctx, "1D")
+              if nlte_cno_species(a.element, a.ion) else
+              engine_a_delta(a.element, a.ion,
+                             np.array([l.wavelength_air_A for l in used]),
+                             cache=a.mpia_cache,
+                             star=a.star))
     rows_a: list[LineMeasurement] = []
     for l in used:
         # Tolerance match -- the cache keys are rounded, and two catalogues quoting the
