@@ -78,6 +78,7 @@ STATUSES = ("live", "in-dev", "not-emitted")
 #: to the canonical name -- never silently rewritten in the file.
 LINE_SETS = (
     "-",                 # not model-scoped; the value every roster row carries today
+    "reference",         # RYA-946/1213/1134: best available per-line gf; not an external replication set
     "asplund",           # the imported AGSS21 reference set -- Fe, AGSS21's OWN table (RYA-1109)
     # 🔴 RYA-1173 -- A SEPARATE VALUE, NOT A WIDENING OF `asplund`, BECAUSE THE PROVENANCE CHAIN
     # IS DIFFERENT. `asplund` is AGSS21 Table A.2, transcribed from AGSS21 itself. AGSS21 publishes
