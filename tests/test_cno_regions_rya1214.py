@@ -160,3 +160,88 @@ def test_an_unwired_region_instrument_fails_loud(cs):
 def test_the_kitt_peak_loader_is_solar_only(cs):
     with pytest.raises(cs.ArmNotWired, match="SOLAR flux atlas"):
         cs._load_kpno_atlas_arm("procyon", cs.REGIONS["nearuv"])
+
+
+# ── the IR CN regions: where AGSS21's nitrogen actually is ────────────────────
+def test_the_ir_cn_regions_exist_and_cover_the_agss21_band(cs):
+    """AGSS21's CN indicator is the A-X band at 10872-13204 A. The optical `CN_red`
+    diagnostic fits 6125/6195 A and ZERO of their 59 lines fall in it — same molecule,
+    different band. These two regions are the band they actually used."""
+    for name, lo, hi in (("nir_cn_kp", 10872.0, 13205.0),
+                         ("nir_cn_iag", 10872.0, 11083.0)):
+        r = cs.REGIONS[name]
+        assert (r.wave_min_A, r.wave_max_A) == (lo, hi), name
+        assert r.telluric_correction_required is True, (
+            f"{name}: H2O 11120-11560 sits inside this band; the gate must be armed")
+    # IAG stops at ITS OWN red edge, not a round number.
+    assert cs.REGIONS["nir_cn_iag"].wave_max_A <= 11083.46
+
+
+def test_the_ir_windows_are_agss21_own_line_positions(cs):
+    """Not positions chosen by us. Clustering AGSS21's published CN wavelengths is what
+    makes this a replication rather than a new selection (the `--lines-from-set` principle
+    applied to a band)."""
+    import pandas as pd
+    src = (ROOT / "data/reference/amarsi2021_cno/derived"
+           / "amarsi2021_cno_molecular_lines.csv")
+    a = pd.read_csv(src)
+    cn = a[(a.element_parameter == "logepsN") & (a.species == "CN")]
+    lam = cn.wavelength_vac_nm * 10.0
+    s2 = (1e4 / lam) ** 2
+    air = lam / (1 + 0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
+    air = sorted(float(x) for x in air)
+    for name in ("nir_cn_kp", "nir_cn_iag"):
+        d = cs.REGION_DIAGNOSTICS[name][0]
+        for lo, hi in d.windows_A:
+            assert any(lo <= w <= hi for w in air), (
+                f"{name} window {lo}-{hi} A contains no AGSS21 CN line — the windows must "
+                f"be their line positions, not ours")
+
+
+def test_no_ir_fit_window_sits_inside_the_h2o_band(cs):
+    """H2O 11120-11560 A swallows 5 of the 59 lines. EXCLUDED, not corrected: it is 440 A
+    of the band's 2333 and the rest is enumerated-clean, so there is nothing to gain by
+    leaning on a correction there (RYA-1193: reachability is per-observation)."""
+    from pipeline.telluric_policy import TELLURIC_BANDS
+    h2o = [(lo, hi) for lo, hi, n in TELLURIC_BANDS if lo == 11120.0]
+    assert h2o, "the H2O 11120-11560 band is gone from TELLURIC_BANDS — re-derive this test"
+    lo_h, hi_h = h2o[0]
+    for name in ("nir_cn_kp", "nir_cn_iag"):
+        for lo, hi in cs.REGION_DIAGNOSTICS[name][0].windows_A:
+            assert not (hi > lo_h and lo < hi_h), f"{name} window {lo}-{hi} overlaps H2O"
+
+
+def test_the_holding_resolver_is_one_decision_for_loader_and_gate(cs):
+    """Two copies of this choice is how a gate clears one spectrum while the fit measures
+    another (RYA-845). And the two Kitt Peak holdings are NOT interchangeable: the residual
+    atlas stops at 10010 A, which is blueward of every AGSS21 CN line."""
+    assert cs.holding_for_region(cs.REGIONS["nearuv"]) == "solar_kpno_kurucz2005_corrected"
+    assert cs.holding_for_region(cs.REGIONS["nir_cn_kp"]) == "solar_kpno_molecfit_corrected"
+    assert cs.holding_for_region(cs.REGIONS["nir_cn_iag"]) == "solar_iag"
+    with pytest.raises(cs.ArmNotWired, match="no holding declared"):
+        cs.holding_for_region(cs.RegionConfig(
+            name="x", instrument="nonesuch", R=1e5, wave_min_A=1.0, wave_max_A=2.0,
+            telluric_correction_required=False, nlte_backend="lte_by_design"))
+
+
+def test_every_ir_holding_is_a_corrected_science_basis(cs):
+    """The gate reads the holding's VERIFIED state, never a caller's flag (RYA-1026)."""
+    from pipeline import telluric_display_policy as tdp
+    for name in ("nir_cn_kp", "nir_cn_iag"):
+        h = cs.holding_for_region(cs.REGIONS[name])
+        assert tdp.display_state(h) in ("CLEAN", "CLEAN_WITH_ANOMALY"), (
+            f"{name} -> {h} is not a corrected science basis")
+    # solar_kpno reaches the same band and must NOT be the one chosen: CONTROL_ONLY.
+    assert tdp.display_state("solar_kpno") == "CONTROL_ONLY"
+
+
+def test_the_ir_cn_line_list_exists_and_covers_the_band():
+    """Built from Brooke+2014; every 12C14N list we held stops at 9200 A."""
+    d = ROOT / "data/linelists/molecular/turbospectrum/CN"
+    ir = sorted(d.glob("12C14N_1087-*.bsyn"))
+    assert ir, "the IR CN list is missing — AGSS21's CN band has no line list without it"
+    head = ir[0].read_text().splitlines()[:2]
+    assert "0607.012014" in head[0], f"wrong species code: {head[0]}"
+    assert "Brooke" in head[1], f"source line does not name Brooke: {head[1]}"
+    n = int(head[0].split()[-1])
+    assert n > 5000, f"only {n} lines — too few to cover 10872-13205 A"
