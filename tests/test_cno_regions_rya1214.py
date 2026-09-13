@@ -248,3 +248,30 @@ def test_the_ir_cn_line_list_exists_and_covers_the_band():
     assert "Brooke" in head[1], f"source line does not name Brooke: {head[1]}"
     n = int(head[0].split()[-1])
     assert n > 5000, f"only {n} lines — too few to cover 10872-13205 A"
+
+
+# ── RYA-1214: CRIRES+ J (CN) and K (CO) regions on the conditioned RYA-1219 products ──
+def test_the_crires_jk_regions_read_their_conditioned_holdings(cs):
+    assert cs.holding_for_region(cs.REGIONS["j_cn_crires"]) == "solar_crires_plus_j_rya1219"
+    assert cs.holding_for_region(cs.REGIONS["k_co_crires"]) == "solar_crires_plus_k_rya1219"
+    assert cs.REGION_DIAGNOSTICS["j_cn_crires"][0].element == "N"
+    assert cs.REGION_DIAGNOSTICS["k_co_crires"][0].element == "C"
+
+
+def test_k_windows_are_judged_on_the_observation_not_only_the_enumeration(cs):
+    """TELLURIC_BANDS stops at 17500 A, so the enumerated check drops nothing in K; the
+    per-observation molecfit transmission filter is what removes the CH4-contaminated CO
+    clusters. If this ever reads 0 the filter has stopped doing the work."""
+    assert cs._CO_K_REPORT["telluric_band"] == 0
+    assert cs._CO_K_REPORT["mtrans"] > 0
+    import pandas as pd
+    prod = pd.read_csv(ROOT / "data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv")
+    for lo, hi in cs.REGION_DIAGNOSTICS["k_co_crires"][0].windows_A:
+        m = prod[(prod.wavelength_air_A >= lo) & (prod.wavelength_air_A <= hi)]
+        assert len(m) and m.min_mtrans.min() >= cs._PRODUCT_MIN_MTRANS
+
+
+def test_j_windows_avoid_the_enumerated_h2o_band(cs):
+    from pipeline.telluric_policy import TELLURIC_BANDS
+    for lo, hi in cs.REGION_DIAGNOSTICS["j_cn_crires"][0].windows_A:
+        assert not any(hi > b_lo and lo < b_hi for b_lo, b_hi, _ in TELLURIC_BANDS)
