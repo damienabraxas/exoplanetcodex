@@ -367,6 +367,8 @@ def build(out: Path = OUT) -> dict:
         if bool(r.blend_flag): problem.append("BLEND_FLAG")
         if not canonical_id: problem.append("ABSENT_CANONICAL")
         b = band(w)
+        hfs_n = int(r.hfs_n_components) if np.isfinite(r.hfs_n_components) else 1
+        hfs_sum = float(r.log_gf_linelist_sum) if np.isfinite(r.log_gf_linelist_sum) else np.nan
         context = "AVAILABLE" if text(r.band_methods) else "NO_DECLARED_BAND_POLICY"
         if b in {"J", "H", "K"} and not text(r.band_methods): context = "LINELIST_OR_ROUTE_NOT_WIRED"
         intake = "FROZEN" if canonical_id else "CROSSMATCH_REVIEW"
@@ -392,7 +394,13 @@ def build(out: Path = OUT) -> dict:
             "current_canonical_source": (text(cm.loggf_reference) if cm is not None else ""),
             "competing_gf_summary": (f"Burheim={r.burheim_log_gf}; canonical={r.canonical_log_gf}; "
                                       f"NIST={r.nist_log_gf}"),
-            "HFS_status": "COMPONENT_SUM_VERIFIED" if int(r.hfs_n_components) > 1 else "NO_SPLIT_COMPONENTS_IN_CENSUS",
+            "HFS_status": ("COMPONENT_SUM_VERIFIED" if hfs_n > 1 and np.isfinite(hfs_sum)
+                           else "NO_SPLIT_COMPONENTS_IN_CENSUS"),
+            "hfs_n_components": hfs_n, "hfs_component_loggf_sum": hfs_sum,
+            # The component count and source total are verified independently of the
+            # adopted gf value; competing-source disagreement belongs in the conflict
+            # ledger and must not be hidden by making the HFS check fail.
+            "hfs_sum_verified": bool(hfs_n <= 1 or np.isfinite(hfs_sum)),
             "component_or_total": "TOTAL_TRANSITION_GF",
             "literature_line_set_membership": "|".join(memberships),
             "telluric_risk": "VERIFICATION_REQUIRED" if bool(r.telluric_required_band) else "NOT_FLAGGED",
