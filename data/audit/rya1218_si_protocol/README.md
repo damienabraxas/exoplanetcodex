@@ -68,12 +68,15 @@ not silently corrected from inference.
 
 ## Exact source requests / stopped evidence branches
 
-The following primary papers were not located in the checked PDF library;
+Correction after a file-signature/content scan: Garz is held as the extensionless
+`1973A&A....26..471G` (seven scanned pages; title page visually verified).
+It is no longer a download request. See `reference_folder_review.md` and the
+93-file PDF inventory for the broader applicable holdings.
+
+The following other primary papers were not located in the checked library;
 their references are verified in Scott's bibliography or the project bibliography.
 Supply the papers and their transition/lifetime tables for a primary-source audit:
 
-- Garz 1973, A&A **26**, 471–477, *Absolute oscillator strengths of Si I lines
-  between 2500 A and 8000 A*; [ADS scan](https://articles.adsabs.harvard.edu/pdf/1973A%26A....26..471G).
 - O'Brian & Lawler 1991a, Physics Letters A **152**, 407,
   [DOI 10.1016/0375-9601(91)90990-E](https://doi.org/10.1016/0375-9601(91)90990-E).
 - O'Brian & Lawler 1991b, Physical Review A **44**, 7134,
