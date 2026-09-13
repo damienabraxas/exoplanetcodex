@@ -51,6 +51,10 @@ MATCH_TOL_A = 0.05          # the reference sets' own tolerance (half AGSS21's p
 #: 0.015 A leaves margin for the set's 0.01 A printing (set 9262.66 vs VALD 9262.670 sits
 #: exactly on 0.010, so a 0.01 A bound failed on float rounding). Uniqueness still required.
 COMPONENT_TOL_A = 0.015
+#: Lower-level energy agreement for the same transition: the set prints E_low to 4-6 dp and
+#: VALD to 4 dp, so 0.01 eV is rounding, while O I 926 components differ in J, not E_low —
+#: which is why wavelength still separates them and EP confirms the level.
+EP_TOL_EV = 0.01
 
 
 def _half_width() -> float:
@@ -73,7 +77,8 @@ def main() -> int:
             sp = f"{r.element} 1"
             if not ((have.element == sp) & ((have.wave_A - r.wavelength_air_A).abs()
                                              <= MATCH_TOL_A)).any():
-                want.append((r.element, float(r.wavelength_air_A), r.line_label))
+                want.append((r.element, float(r.wavelength_air_A), r.line_label,
+                             float(r.lower_EP_eV)))
     if not want:
         print("every AGSS21 set line in the NIR band is already in the list — nothing to do")
         return 0
@@ -82,11 +87,13 @@ def main() -> int:
     for el in sorted({w[0] for w in want}):
         band, rep = nl.read_band(VALD[el], LO_A, HI_A)
         reports[el] = {k: rep[k] for k in ("n_parsed", "n_in_band", "source") if k in rep}
-        for e, w, lab in [x for x in want if x[0] == el]:
+        for e, w, lab, ep in [x for x in want if x[0] == el]:
             # parse_vald_long splits the species: element 'N', ion 'I' ('species' is 'N 1').
+            # The line KEY is wavelength AND lower-level energy (RYA-1037), never lambda alone.
             hit = [r for r in band if str(r["element"]).strip() == e
                    and str(r["ion"]).strip() == "I"
-                   and abs(float(r["wavelength"]) - w) <= COMPONENT_TOL_A]
+                   and abs(float(r["wavelength"]) - w) <= COMPONENT_TOL_A
+                   and abs(float(r["e_low_eV"]) - ep) <= EP_TOL_EV]
             if len(hit) != 1:
                 raise SystemExit(f"{e} {lab} {w}: {len(hit)} VALD rows within {COMPONENT_TOL_A} "
                                  f"A in {VALD[el].name} — refusing to pick one")
