@@ -272,7 +272,120 @@ NEARUV_KP = RegionConfig(
           'bands. RYA-1214. Products are UPPER BOUNDS — see the opacity-deficit note.',
 )
 
-REGIONS = {'vis': HARPS_VIS, 'nearuv': NEARUV_KP}
+#: Half-width of an IR CN fit window, in Angstrom. Wider than the near-UV's 1.5 because the
+#: regime is 300x less crowded (0.2 atomic lines/A against 59) and narrower than the
+#: red-optical's 1.1 because these lines are 1-20 mA and a wide window buys blend, not signal.
+_CN_IR_PAD_A = 1.5
+#: Compute cap on how many windows one diagnostic fits. `_fit_element` synthesises EVERY
+#: window on EVERY chi2 evaluation, so cost is linear in total window width: the near-UV's
+#: 2x3 A diagnostic took ~120 s, so 48x3 A would be ~48 min per fit and ~4 h over 5
+#: equilibrium iterations. Capped, and the cap is REPORTED with the count it dropped —
+#: a silently truncated line set is a different measurement (RYA-842).
+_CN_IR_MAX_WINDOWS = 12
+
+
+def _cn_ir_windows():
+    """AGSS21's OWN CN lines, clustered into fit windows. Returns (kp_windows, iag_windows).
+
+    🔴 THE WINDOWS ARE AGSS21's LINE POSITIONS, NOT POSITIONS I CHOSE. Clustering their 59
+    published CN wavelengths and padding by `_CN_IR_PAD_A` guarantees the fit measures the
+    features they measured — the same principle as `--lines-from-set` for atomic lines, and
+    the reason this is a replication rather than a new selection. `linelist_solar` has no rows
+    at 1.1-1.3 um to dominance-test against, so the source's own selection IS the rule here.
+
+    ⚠️ THE H2O BAND IS EXCLUDED, NOT CORRECTED. `telluric_policy.TELLURIC_BANDS` puts H2O at
+    11120-11560 A, which swallows 5 of the 59 lines. Both holdings are telluric-corrected and
+    could be argued into fitting there; 440 A of the band's 2333 is not worth leaning on a
+    correction for when 1893 A is enumerated-clean.
+
+    Selection among what is left is by AGSS21's OWN PUBLISHED EQUIVALENT WIDTH, descending —
+    a source-published strength ranking, not a quantity of ours. Capped at
+    `_CN_IR_MAX_WINDOWS`.
+    """
+    import csv as _csv
+    from pathlib import Path as _P
+    src = (_P(__file__).resolve().parents[1] / 'data' / 'reference' / 'amarsi2021_cno'
+           / 'derived' / 'amarsi2021_cno_molecular_lines.csv')
+    rows = []
+    with src.open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if r['element_parameter'] != 'logepsN' or r['species'] != 'CN':
+                continue
+            lv = float(r['wavelength_vac_nm']) * 10.0
+            s2 = (1e4 / lv) ** 2
+            air = lv / (1 + 0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
+            rows.append((air, float(r['equivalent_width_pm']) * 10.0))
+    if not rows:
+        raise RuntimeError(
+            "no CN rows in the Amarsi 2021 holding — the IR CN windows ARE its line "
+            "positions, so an empty read must not silently become an empty region.")
+    rows.sort()
+    H2O_LO, H2O_HI = 11120.0, 11560.0
+    clusters, cur = [], [rows[0]]
+    for w, ew in rows[1:]:
+        if w - cur[-1][0] <= 2 * _CN_IR_PAD_A:
+            cur.append((w, ew))
+        else:
+            clusters.append(cur); cur = [(w, ew)]
+    clusters.append(cur)
+    cand = []
+    for c in clusters:
+        lo = min(x[0] for x in c) - _CN_IR_PAD_A
+        hi = max(x[0] for x in c) + _CN_IR_PAD_A
+        if hi > H2O_LO and lo < H2O_HI:
+            continue                               # inside H2O — excluded, not corrected
+        cand.append((round(lo, 2), round(hi, 2), max(x[1] for x in c)))
+    kp = sorted(sorted(cand, key=lambda t: -t[2])[:_CN_IR_MAX_WINDOWS])
+    iag_all = [c for c in cand if c[1] <= 11083.0]
+    iag = sorted(sorted(iag_all, key=lambda t: -t[2])[:_CN_IR_MAX_WINDOWS])
+    return (tuple((a, b) for a, b, _ in kp), tuple((a, b) for a, b, _ in iag))
+
+
+#: 🔴 RYA-1214 — THE INFRARED CN REGIONS. Ryan: *"visible N is going to be hard, hence the
+#: IR."* This is where AGSS21's nitrogen actually lives.
+#:
+#: AGSS21's CN indicator is the A-X band at 10872-13204 A (Amarsi et al. 2021 Table 2, all 59
+#: CN lines in band "(0-0)"). The optical `CN_red` diagnostic above fits 6125/6195 A — the CN
+#: A-X RED system — and ZERO of AGSS21's 59 lines fall in it. Same molecule, different band.
+#:
+#: Two regions because two holdings reach different amounts of it, MEASURED by probing each
+#: holding rather than reading declared spans (three of them declare none):
+#:
+#:   NIR_CN_KP    solar_kpno_molecfit_corrected   CLEAN   the WHOLE band   54 clean lines
+#:   NIR_CN_IAG   solar_iag                       CLEAN   to 11083 A       16 clean lines
+#:
+#: ⚠️ CRIRES+ CANNOT SERVE THIS BAND AT ALL, and that is a measurement. Its Y arm ends at
+#: 10796 A — 76 A blueward of AGSS21's first CN line — and its H arm starts at 15007 A, 1803 A
+#: redward of the last. The raw Vesta IDPs reach further but are BLOCKED
+#: (RestFrameNotConditioned), not merely uncorrected. The instrument catalogue says CRIRES+
+#: spans 9500-53000 A, which is exactly why this was probed per HOLDING.
+#:
+#: WHY THE IR IS THE RIGHT PLACE, in one number: the NIR atomic list carries 757 lines over
+#: 3800 A (0.2 lines/A) against the near-UV's 59 lines/A. The blend contamination that makes
+#: the optical N I lines unmeasurable — N I carrying 0.9-5.9% of its own fit window — is a
+#: property of a crowded band, and this band is not crowded.
+_CN_IR_WINDOWS_KP, _CN_IR_WINDOWS_IAG = _cn_ir_windows()
+
+NIR_CN_KP = RegionConfig(
+    name='nir_cn_kp', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=10872.0, wave_max_A=13205.0,
+    telluric_correction_required=True,    # H2O 11120-11560 sits inside the band; the fit
+                                          # windows AVOID it rather than lean on a correction
+    nlte_backend='lte_by_design',         # molecular band: no molecular NLTE grid exists
+    notes='Kitt Peak 1984 composite, molecfit-corrected. AGSS21 CN A-X 10872-13204 A. '
+          'Fit windows are clustered around AGSS21 OWN 59 CN lines, H2O 11120-11560 excluded.',
+)
+NIR_CN_IAG = RegionConfig(
+    name='nir_cn_iag', instrument='iag_fts_solar_atlas', R=700000.0,
+    wave_min_A=10872.0, wave_max_A=11083.0,
+    telluric_correction_required=True,
+    nlte_backend='lte_by_design',
+    notes='IAG FTS to its own red edge 11083.46 A. 16 of AGSS21 59 CN lines, all telluric-'
+          'clean (nearest band H2O starts at 11120 A, 37 A redward of the edge).',
+)
+
+REGIONS = {'vis': HARPS_VIS, 'nearuv': NEARUV_KP,
+           'nir_cn_kp': NIR_CN_KP, 'nir_cn_iag': NIR_CN_IAG}
 
 
 # ── Diagnostic registry (HARPS-VIS, wavelength-correct) ───────────────────────
@@ -494,7 +607,33 @@ CRIRES_IR = RegionConfig(
 # (ESPRESSO red-optical C/O set + the UVES N set), no new line data (RYA-464 reuse rule).
 #: Region -> its own diagnostic set. `run_cno` reads THIS rather than VIS_DIAGNOSTICS,
 #: which is what makes a second region expressible at all (RYA-1214).
-REGION_DIAGNOSTICS = {'vis': VIS_DIAGNOSTICS, 'nearuv': NEARUV_DIAGNOSTICS}
+NIR_CN_KP_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_IR', element='N', kind='molecular_band',
+        windows_A=_CN_IR_WINDOWS_KP,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X 10872-13204 A (Brooke+2014 gf, validated against Amarsi 2021 '
+                  'Table 2 to a median 0.0064 dex). THE band AGSS21 nitrogen rests on; '
+                  'windows are AGSS21 own line positions, H2O 11120-11560 excluded.',
+    ),
+)
+NIR_CN_IAG_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_IR', element='N', kind='molecular_band',
+        windows_A=_CN_IR_WINDOWS_IAG,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X 10872-11083 A on the IAG FTS, to its own red edge. 16 of AGSS21 '
+                  '59 CN lines, all telluric-clean.',
+    ),
+)
+
+REGION_DIAGNOSTICS = {'vis': VIS_DIAGNOSTICS, 'nearuv': NEARUV_DIAGNOSTICS,
+                      'nir_cn_kp': NIR_CN_KP_DIAGNOSTICS,
+                      'nir_cn_iag': NIR_CN_IAG_DIAGNOSTICS}
 
 
 def primary_by_element(diagnostics) -> dict:
@@ -519,6 +658,33 @@ def primary_by_element(diagnostics) -> dict:
     return out
 
 
+def holding_for_region(region: RegionConfig) -> str:
+    """Which HOLDING serves this region — ONE decision, read by the loader AND the gate.
+
+    🔴 WHICH KITT PEAK HOLDING, DECIDED BY WHAT THE BAND NEEDS, AND THEY ARE NOT
+    INTERCHANGEABLE. `solar_kpno_kurucz2005_corrected` is the residual atlas and stops at
+    10010 A; the AGSS21 CN band starts at 10872. The 1984 composite
+    (`solar_kpno_molecfit_corrected`) reaches 13204 and is the only CLEAN Kitt Peak holding
+    that does — `solar_kpno` reaches it too but is CONTROL_ONLY, not a science basis
+    (RYA-1026). Decided on the band's own edges, never defaulted: serving the near-UV from
+    the composite, or the IR from the residual atlas, would each be a product naming a
+    spectrum it was not measured on (RYA-904).
+
+    Factored out because the telluric gate has to ask about the SAME holding the loader will
+    read. Two copies of this choice is how a gate clears one spectrum and a fit measures
+    another (RYA-845).
+    """
+    if region.instrument == 'kpno_solar_atlas':
+        return ('solar_kpno_kurucz2005_corrected' if region.wave_max_A <= 10010.0
+                else 'solar_kpno_molecfit_corrected')
+    if region.instrument == 'iag_fts_solar_atlas':
+        return 'solar_iag'
+    if region.instrument.lower().startswith('harps'):
+        return 'solar_harps_molecfit_corrected'
+    raise ArmNotWired(
+        f"no holding declared for region {region.name!r} on {region.instrument!r}")
+
+
 def _load_region_spectrum(star_id: str, region: RegionConfig):
     """The observed spectrum for (star, region) -> (wave_nm, flux).
 
@@ -533,10 +699,51 @@ def _load_region_spectrum(star_id: str, region: RegionConfig):
         return _load_observed_spectrum(star_id)
     if region.instrument == 'kpno_solar_atlas':
         return _load_kpno_atlas_arm(star_id, region)
+    if region.instrument == 'iag_fts_solar_atlas':
+        return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
     raise ArmNotWired(
         f"no spectrum loader for region {region.name!r} on instrument "
         f"{region.instrument!r}. Wire one in `_load_region_spectrum` rather than letting "
         f"it fall through to the HARPS loader (RYA-1214).")
+
+
+def _load_generic_atlas_arm(star_id: str, region: RegionConfig, holding: str):
+    """A named SOLAR atlas holding over a region's band -> (wave_nm, flux) — RYA-1214.
+
+    One reader for every atlas region, so the near-UV OH/NH run, the IR CN runs and the
+    atomic band-product route all see byte-identical flux from a given holding. A second
+    reader for one holding is how two products of one spectrum drift apart (RYA-845).
+
+    ⚠️ `load_window_ex(instrument, CENTRE, PAD)` takes a centre and a HALF-WIDTH, not
+    (lo, hi). Passing the band edges asks for `10872 +/- 13205 A` and the coverage check
+    refuses it — loudly, which is the only reason a units slip in an argument pair was a
+    two-minute fix rather than a wrong spectrum.
+
+    ⚠️ NO CONTINUUM IS FITTED. These holdings ship their own, and `prenormalised_guard`
+    refuses a second one: placing one on Kitt Peak tilted a band 4% blue-to-red and cost
+    0.0218 dex (RYA-933/1026).
+    """
+    if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+        raise ArmNotWired(
+            f"{star_id}: {holding} is a SOLAR atlas. Refusing to synthesize {star_id} "
+            f"against it (RYA-464's no-silent-substitution rule).")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    from measure_band_ew import load_window_ex                      # noqa: E402
+    centre = 0.5 * (region.wave_min_A + region.wave_max_A)
+    pad = 0.5 * (region.wave_max_A - region.wave_min_A)
+    win = load_window_ex(region.instrument, centre, pad, holding=holding)
+    w_A = np.asarray(win.wave, float)
+    flux = np.asarray(win.flux, float)
+    m = np.isfinite(w_A) & np.isfinite(flux) & (flux > 0)
+    if int(m.sum()) < 1000:
+        raise ArmNotWired(
+            f"{holding} returned only {int(m.sum())} usable px over "
+            f"{region.wave_min_A}-{region.wave_max_A} A — refusing to fit a band on a "
+            f"spectrum that is mostly absent.")
+    print(f"  [arm-load] {region.instrument} / {win.holding.holding_id}: "
+          f"{int(m.sum())} px over {w_A[m].min():.1f}-{w_A[m].max():.1f} A "
+          f"(pre-normalised at source — no continuum fitted, RYA-1026)")
+    return w_A[m] / 10.0, flux[m]
 
 
 def _load_kpno_atlas_arm(star_id: str, region: RegionConfig):
@@ -557,29 +764,7 @@ def _load_kpno_atlas_arm(star_id: str, region: RegionConfig):
         raise ArmNotWired(
             f"{star_id}: the Kitt Peak atlas is the SOLAR flux atlas. Refusing to "
             f"synthesize {star_id} against it (RYA-464's no-silent-substitution rule).")
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-    from measure_band_ew import load_window_ex                      # noqa: E402
-    # ⚠️ `load_window_ex(instrument, CENTRE, PAD)` — a centre and a half-width, NOT
-    # (lo, hi). Passing the band edges made it ask for 3000 +/- 3780 A and the coverage
-    # check refused: "no kpno_solar_atlas holding covers 3000.000 +/- 3780.000 A". It
-    # failed LOUDLY on a window nothing could serve, which is the only reason a units
-    # slip in an argument pair was a two-minute fix rather than a wrong spectrum.
-    centre = 0.5 * (region.wave_min_A + region.wave_max_A)
-    pad = 0.5 * (region.wave_max_A - region.wave_min_A)
-    win = load_window_ex('kpno_solar_atlas', centre, pad,
-                         holding='solar_kpno_kurucz2005_corrected')
-    w_A = np.asarray(win.wave, float)
-    flux = np.asarray(win.flux, float)
-    m = np.isfinite(w_A) & np.isfinite(flux) & (flux > 0)
-    if int(m.sum()) < 1000:
-        raise ArmNotWired(
-            f"kpno_solar_atlas returned only {int(m.sum())} usable px over "
-            f"{region.wave_min_A}-{region.wave_max_A} A — refusing to fit a band on a "
-            f"spectrum that is mostly absent.")
-    print(f"  [arm-load] kpno_solar_atlas / {win.holding.holding_id}: "
-          f"{int(m.sum())} px over {w_A[m].min():.1f}-{w_A[m].max():.1f} A "
-          f"(pre-normalised at source — no continuum fitted, RYA-1026)")
-    return w_A[m] / 10.0, flux[m]
+    return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
 
 
 PROCYON_UVES_DIAGNOSTICS = ESPRESSO_DIAGNOSTICS + UVES_DIAGNOSTICS
@@ -1064,13 +1249,45 @@ def preflight(region: RegionConfig, star_id: str, diagnostics) -> dict:
     print(f"  [preflight] molecular lists cover all molecular bands "
           f"({_MOLECULES_DIR.name}/*.bsyn)")
 
-    # telluric clearance gate (real per-arm hook; VIS not required)
+    # ── telluric clearance gate ───────────────────────────────────────────────
+    # 🔴 RYA-1214 — IT ASKS THE HOLDING NOW. This was an UNCONDITIONAL raise: any region
+    # with `telluric_correction_required=True` could not run, whatever spectrum it was
+    # pointed at, because when it was written no such region existed and the flag meant
+    # "not wired". A "clearance flag" is also the wrong mechanism — a flag is an assertion
+    # by the caller, and RYA-1026 is explicit that this fact is read "through
+    # telluric_policy.applied_state, never inferred" and that VERIFIED state outranks a
+    # declaration (RYA-1194/1196).
+    #
+    # So the gate resolves the holding the loader will actually read and asks TWO questions:
+    # is that holding a corrected science basis, and do any FIT WINDOWS sit inside an
+    # enumerated telluric band. The second matters even on a corrected holding, because
+    # telluric reachability is a per-OBSERVATION property and a correction is not a
+    # guarantee (RYA-1193).
     if region.telluric_correction_required:
-        raise RuntimeError(
-            f"Region {region.name} requires telluric-corrected input (IR arm: "
-            f"cr2res+molecfit / APERO+Wapiti, RYA-351). No clearance flag supplied — "
-            f"refusing to fit CNO over uncorrected telluric bands.")
-    print(f"  [preflight] telluric gate: not required for {region.name} (optical)")
+        from pipeline import telluric_display_policy as _tdp
+        from pipeline import telluric_policy as _tp
+        _hold = holding_for_region(region)
+        _state = _tdp.display_state(_hold)
+        if _state not in ('CLEAN', 'CLEAN_WITH_ANOMALY'):
+            raise RuntimeError(
+                f"Region {region.name} requires telluric-corrected input and its holding "
+                f"{_hold!r} is display_state={_state!r}. Refusing to fit CNO over a "
+                f"spectrum that is not a corrected science basis (RYA-1026). This is the "
+                f"holding's VERIFIED state, not a flag the caller passed.")
+        _inside = [(lo, hi, d.key) for d in diagnostics for (lo, hi) in d.windows_A
+                   if _tp.in_telluric_band(0.5 * (lo + hi))]
+        if _inside:
+            raise RuntimeError(
+                f"Region {region.name}: {len(_inside)} fit window(s) fall inside an "
+                f"enumerated telluric band — {_inside[:4]}. The holding is corrected, but "
+                f"telluric reachability is per-OBSERVATION and a correction is not a "
+                f"guarantee (RYA-1193). Move the window or state the exception; refusing "
+                f"to fit there by default.")
+        print(f"  [preflight] telluric gate: {_hold} is {_state}, and 0 of "
+              f"{sum(len(d.windows_A) for d in diagnostics)} fit window(s) fall inside an "
+              f"enumerated telluric band (telluric_policy.TELLURIC_BANDS)")
+    else:
+        print(f"  [preflight] telluric gate: not required for {region.name} (optical)")
 
     # NLTE backend resolves
     if region.nlte_backend not in NLTE_BACKENDS:
