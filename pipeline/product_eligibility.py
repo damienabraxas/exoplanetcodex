@@ -249,6 +249,22 @@ STAT_BASIS_BY_ROUTE: dict[str, str] = {
     "EW-3D":      "line_scatter",     # band_products.py:506, np.std(vals, ddof=1)
 }
 
+#: 🔴 A THIRD STATISTIC, AND NAMING IT IS THE POINT — RYA-1214.
+#:
+#: `pipeline.cno_synthesis` publishes a CURVATURE 1-sigma: the width of the chi2 minimum in
+#: A(X), probed on both sides and rescaled to red_chi2 == 1
+#: (`fit_constraint.curvature_sigma`). That is neither of the two above. It is not
+#: scatter/sqrt(n) — there is no pool of lines to average, a molecular band is ONE fit over
+#: hundreds of blended lines — and it is not a line scatter either.
+#:
+#: It is registered here so the classifier RECOGNISES it instead of returning None and
+#: reporting "route is not in STAT_BASIS_BY_ROUTE", which was inaccurate: the route is in
+#: the map, the DECLARED basis was simply unrecognised. Recognising it does NOT make it
+#: comparable — `evaluate` still flags it against a feed whose majority is
+#: `standard_error`, which is correct, because a curvature 1-sigma rendered beside a
+#: standard error on one error-bar forest reads as the same quantity and is not.
+CURVATURE_BASIS = "curvature_sigma"
+
 
 def stat_basis_of(product: dict) -> str | None:
     """`standard_error` / `line_scatter` / None if it cannot be established.
@@ -272,6 +288,11 @@ def stat_basis_of(product: dict) -> str | None:
         # divided by sqrt(n) (`error_budget.py:609`).
         if "RMS of the random terms" in declared or "quantiser-floor" in declared:
             return "standard_error"
+        # RYA-1214 — the CNO-synthesis curvature sigma, recognised by its own declaration.
+        # Matched on the mechanism it names ("chi2 curvature"), not on a route token, for
+        # the same reason the docstring above gives: the basis is a property of the RECORD.
+        if "chi2 curvature" in declared or "curvature_sigma" in declared:
+            return CURVATURE_BASIS
         return None            # an unrecognised declaration is not silently classified
     return STAT_BASIS_BY_ROUTE.get(str(product.get("route") or ""))
 
