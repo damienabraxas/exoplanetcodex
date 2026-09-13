@@ -33,6 +33,16 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  - artifact: rya1218/si_jk_exact_pixel_validation.csv
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Exact +/-1 A pixel-window coverage audit on corrected J products; no EW or abundance.
+  - artifact: rya1218/si_jk_exact_pixel_validation.json
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Summary of reached and held J-band Si line windows.
   # RYA-1134 provisional source adjudication; no measurement authorization.
   - artifact: rya1134/verified_v1/band_grade_eligibility.csv
     generator: pipeline/al_grade_verification.py
