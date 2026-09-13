@@ -181,3 +181,8 @@ is signed off. The next executable work is source/identity adjudication and
 exact-holding pixel/conditioning checks, followed by independently constructed
 grade pools and validated per-ion model routes. Missing primary sources stop
 their evidence branches, not unrelated inventory work.
+
+
+## Fe grading recipe applied to Si J
+
+The Si J rows follow the Fe RYA-799/824/850 recipe: resolve the gf actually used, verify the physical transition, assign `systematic:K07` when no primary-laboratory tie exists, and keep the line in the ungraded diagnostic pool. Solar feature depth remains an independent route axis. The four Bergemann J lines have VALD3 canonical gf and measured Solar central depths 0.456–0.545, placing them in the Codex depth window (0.05–0.60) but outside Codex/Deep **graded** products until a primary-lab Si gf source is joined. They are not left as an indeterminate HOLD.
