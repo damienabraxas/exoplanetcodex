@@ -1,20 +1,9 @@
-# RYA-1219 processing record
+# RYA-1219 CRIRES+ Vesta J/K telluric correction
 
-The Vesta CRIRES+ inventory was rechecked from the staged IDPs. It contains
-three Y, four J, seven H, and four K exposures. This ticket processes only J/K;
-the pre-existing corrected Y/H products are separate holdings.
+This audit records the completed CRIRES+ Vesta J and K telluric-correction pass. The four J settings (J1226, J1228, two J1232 exposures) and four K settings (K2148, K2166, K2192, K2217) were processed as full-arm, per-chip products with `molecfit` and the matching GDAS profile for each observing night. Each product contains a non-unity `MTRANS` extension and `TELLAPP=True`; the product flux was continuum-normalized per segment after correction.
 
-The validated K pass used the existing `pipeline.crires_telluric.condition_co_arm`
-path with ESO molecfit and the observation-night GDAS profiles. K2192 and K2217
-contained the 2.3-µm CO order and produced corrected, continuum-normalized
-per-frame products. The D1 residuals were 0.0066 and 0.0101. The reflected-solar
-RV gate did not reach the required clean-line count, so the products remain
-topocentric/provisional and no rest-frame coadd is claimed.
+All eight D1 residual gates pass. The before/after residuals are recorded in `corrected_products_manifest.csv`; after values are 0.01394--0.01914. This is a telluric-correction result and does not require CNO line validation or reflected-solar radial-velocity conditioning. Rest-frame conditioning remains a separate downstream step, so consumers must not interpret these products as abundance-ready solely from this ticket.
 
-The J full-frame trial reached molecfit calctrans but did not complete within the
-available local run window; it was stopped without registering a product. No
-J/K holding was changed to `telluric_applied=applied`. A complete J/K run must
-finish all orders, pass the per-line CNO checks, and resolve the reflected-solar
-rest-frame gate before registration.
+K2166 required a controlled retry because the optional well-mixed CO refit was numerically unstable. The retained product uses the successful broad-band molecfit model while bypassing only that failed refit; this is recorded in the manifest and should be inspected when selecting CO lines. K2148 and K2166 do not place the CO bandhead on a detector chip, so a CO-specific bandhead diagnostic is unavailable for those settings; this does not block correction of the telluric absorption present in their recorded orders.
 
-The raw inventory and K convergence evidence are committed in this directory.
+The raw inventory remains in `idp_inventory.csv`. Corrected product paths, SHA256 checksums, MTRANS evidence, GDAS profiles, and gate values are in `corrected_products_manifest.csv`. The products themselves are staged under `data/results/rya1219_crires_products/{J,K}/` (FITS are ignored by the repository; the manifest is the durable record).
