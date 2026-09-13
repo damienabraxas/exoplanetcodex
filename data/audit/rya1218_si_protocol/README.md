@@ -45,12 +45,11 @@ separately before a CRIRES abundance route is valid.
 For the NIR request, `si_nir_line_pool.csv` records the four published Si I
 J-band lines from Bergemann et al. (2013, ApJ 764, 115, Table 1): 11984.20,
 11991.57, 12031.50, and 12103.54 A. The CRIRES audit is in
-`data/results/rya1218/si_crires_nir/`. None of the corrected solar holdings
-reaches J: the available corrected products are Y (9800--10796 A) and H
-(15007--17494 A). The raw Vesta IDP does reach these wavelengths, but the
-registry correctly refuses it because telluric correction and rest-frame
-conditioning are absent. Thus all four CRIRES J lines remain HOLD_MEASUREMENT;
-no EW or abundance is reported from that raw holding.
+`data/results/rya1218/si_crires_nir/`. RYA-1219 now supplies corrected J products
+for all four J settings, alongside the existing corrected Y/H products. The
+raw IDP remains unmeasurable, while the corrected products are eligible for
+exact-pixel and line-identity checks; reflected-solar rest-frame conditioning
+remains a separate downstream gate. No EW or abundance is reported yet.
 
 The Kitt Peak result is intentionally split: the Molecfit sibling uses the
 RYA-940 product, and its 7160--7340 A H2O band has **no admissible correction**
@@ -67,7 +66,7 @@ Unsupported engine cells remain HOLD.
 Following RYA-1219, corrected CRIRES+ J/K holdings are now registered alongside the existing Y/H products. The existing corrected
 products were measured diagnostically with the full canonical Si census. The
 Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
-canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows).
+canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The exact +/-1 A audit is in `si_jk_exact_pixel_validation.csv/json`: 13 of 16 J product-line windows are reached on one detector with finite corrected flux and non-unity MTRANS; 11984.20 A in J1228 is truncated at the detector edge, and 12103.54 A is absent from both J1232 settings.
 These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
 are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
 for laboratory identity/gf adjudication and are not promoted into a grade pool.
