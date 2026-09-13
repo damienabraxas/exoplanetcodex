@@ -21,6 +21,7 @@ import pandas as pd
 # as well as through pytest's rootdir. The tests import it as a module, where sys.path is already
 # right; a direct run is not, and the failure is a bare ModuleNotFoundError at the census gate.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from pipeline.coverage import CoverageError, coverage_at
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data/audit/rya1132_al_intake"
@@ -65,8 +66,14 @@ def band(w: float) -> str:
     if w < 6910: return "VIS"
     if w < 9199: return "red-optical"
     if w < 13000: return "NIR"
+    # The census calls the CRIRES+ J-gap and H-gap lines NIR.  Keep the explicit
+    # J/H/K arm labels where a declared arm exists, but never turn an uncovered
+    # interval into OUTSIDE_CURRENT_INSTRUMENT_REACH: that value is a reach verdict,
+    # not a band name (RYA-1155).
+    if 13000 <= w < 13195.23: return "NIR"
     if 13195.23 <= w < 15007.11: return "J"
     if 15007.11 <= w < 17493.69: return "H"
+    if 17493.69 <= w < 19510.4: return "NIR"
     if 19510.4 <= w < 24857.7: return "K"
     return "OUTSIDE_CURRENT_INSTRUMENT_REACH"
 
@@ -77,6 +84,18 @@ def source_type(tier: str, source: str) -> str:
     if t.startswith("NIST") or "NIST" in s: return "CRITICALLY_EVALUATED"
     if "THEORY" in s or "P19" in s or "OP95" in s: return "THEORETICAL"
     return "FALLBACK"
+
+
+def instrument_reach(census_value: object, wavelength_A: float) -> str:
+    """Fill a legacy blank reach from the canonical coverage registry."""
+    existing = text(census_value)
+    if existing:
+        return existing
+    try:
+        answer = coverage_at(wavelength_A, "solar")
+    except CoverageError:
+        return ""
+    return "|".join(sorted({i.instrument_id for i in answer.covering}))
 
 
 def nearest(frame: pd.DataFrame, w: float, ep: float, wcol: str, epcol: str | None,
@@ -341,7 +360,7 @@ def build(out: Path = OUT) -> dict:
             "canonical_source_line_id": canonical_id,
             "species": species, "wavelength_air": w, "wavelength_vac": r.wave_vac_A,
             "lower_EP": ep, "upper_lower_level_identity": text(r.burheim_transition),
-            "band": b, "instrument_reach": text(r.instruments_coverage_module),
+            "band": b, "instrument_reach": instrument_reach(r.instruments_coverage_module, w),
             "transition_source": "RYA-1001 physical-feature census",
             "loggf_adopted": adopted, "gf_source": source,
             "gf_source_type": source_type(tier, source), "gf_grade": tier,

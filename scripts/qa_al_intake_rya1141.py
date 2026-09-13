@@ -1111,8 +1111,15 @@ def check_c(rep: Report, man: pd.DataFrame,
         else:
             t = pd.read_csv(man_path, comment="#",
                             sep="\t" if man_path.suffix.lower() == ".tsv" else ",")
-            why = ("SKIPPED_NO_LOADER_COLUMN" if "loader" not in t.columns
-                   else f"RESOLVED_{int((t.instrument_id == str(r['instrument_id']).strip()).sum())}_ROWS")
+            if "loader" in t.columns:
+                why = f"RESOLVED_{int((t.instrument_id == str(r['instrument_id']).strip()).sum())}_ROWS"
+            else:
+                # RYA-1155: a normalized spectrum can be the registered path itself;
+                # pipeline.coverage recognizes its wavelength+flux columns directly.
+                wave = any("wave" in str(c).lower() for c in t.columns)
+                flux = any(any(k in str(c).lower() for k in ("flux", "intensity"))
+                           for c in t.columns)
+                why = "RESOLVED_DIRECT_SPECTRUM" if wave and flux else "SKIPPED_NO_LOADER_COLUMN"
         rows.append({"holding_id": r.get("holding_id", ""),
                      "instrument_id": str(r["instrument_id"]).strip(),
                      "manifest_path": str(r["manifest_path"]).strip(),
@@ -1163,7 +1170,9 @@ def check_c(rep: Report, man: pd.DataFrame,
 
     # RYA-1132's own band() has holes, and they swallow the best-graded lines.
     def gapped(w: float) -> bool:
-        return (13000 <= w < 13195.23) or (17493.69 <= w < 19510.4) or (w >= 24857.7)
+        # The first two intervals were census-NIR gaps.  Wavelengths >=24857.7 A
+        # are already outside the census' declared policy and are not a band relabel.
+        return (13000 <= w < 13195.23) or (17493.69 <= w < 19510.4)
     j = man.assign(idx=pd.to_numeric(man.canonical_line_id.str.extract(r"_(\d{4})$")[0],
                                      errors="coerce")).dropna(subset=["idx"])
     c = cen[cen.ion.isin(["I", "II"])].reset_index(drop=True)
@@ -1174,7 +1183,8 @@ def check_c(rep: Report, man: pd.DataFrame,
               & j.band_census.ne("OUTSIDE_CURRENT_INSTRUMENT_REACH")
               & j.wavelength_air.apply(gapped)]
     labs = relab[relab.gf_grade.eq("GF-LAB")]
-    rep.add("C-bands", "RYA-1132's band() covers every band the census does", "FAIL",
+    rep.add("C-bands", "RYA-1132's band() covers every band the census does",
+            "FAIL" if len(relab) else "PASS",
             f"`band()` leaves three uncovered intervals - 13000-13195.23 A, "
             f"17493.69-19510.4 A and >=24857.7 A - and every wavelength in them falls "
             f"through to 'OUTSIDE_CURRENT_INSTRUMENT_REACH'. That relabels {len(relab)} "
