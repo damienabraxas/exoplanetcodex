@@ -8,14 +8,14 @@
  "xi_span_kms": 0.2,
  "delta_xi_kms": 0.2912,
  "min_paired": 3,
- "n_pools": 27,
- "n_measured": 23,
+ "n_pools": 30,
+ "n_measured": 26,
  "n_sign_disagreements": 2,
  "incomplete": [
   {
-   "band": "H",
+   "band": "red-optical",
    "ion": "Fe I",
-   "holding": "solar_crires_plus_h_rya1094",
+   "holding": "solar_kpno_kurucz2005_corrected",
    "deck": "g1d",
    "legs_present": [
     "minus"
@@ -23,7 +23,82 @@
    "verdict": "UNMEASURED \u2014 a pair is missing a leg"
   }
  ],
+ "deduplication": "one derivative per (ion, holding, tier, treatment, band): base treatments (1D-LTE, ENGINE-A) from the g1d deck, each other deck keeping only its own engine. `second_deck_check` on a row carries what a second deck measured for the same treatment \u2014 run-to-run reproducibility on the same pool, not a value used.",
+ "n_dropped_as_duplicate": 1,
  "pools": [
+  {
+   "pool": "H/solar_crires_plus_h_rya1094/g1d",
+   "instrument": "crires_plus",
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "1D-LTE",
+   "n_paired": 20,
+   "median_delta_dex": -0.0225,
+   "dA_dxi": -0.1125,
+   "sigma_xi": 0.03276,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1125 x delta_xi=0.2912 on 20 paired lines",
+   "difference_of_aggregates": -0.1475,
+   "pool_moved": false,
+   "n_lo": 23,
+   "n_hi": 23,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false,
+   "second_deck_check": [
+    {
+     "deck": "gnl",
+     "dA_dxi": -0.1125,
+     "delta_from_kept": 0.0
+    }
+   ]
+  },
+  {
+   "pool": "H/solar_crires_plus_h_rya1094/g1d",
+   "instrument": "crires_plus",
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_paired": 19,
+   "median_delta_dex": -0.025,
+   "dA_dxi": -0.125,
+   "sigma_xi": 0.0364,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1250 x delta_xi=0.2912 on 19 paired lines",
+   "difference_of_aggregates": -0.09,
+   "pool_moved": false,
+   "n_lo": 23,
+   "n_hi": 23,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false
+  },
+  {
+   "pool": "H/solar_crires_plus_h_rya1094/gnl",
+   "instrument": "crires_plus",
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "ion": "I",
+   "tier": "REFERENCE",
+   "treatment": "ENGINE-B-NLTE",
+   "n_paired": 9,
+   "median_delta_dex": -0.023,
+   "dA_dxi": -0.115,
+   "sigma_xi": 0.033488,
+   "xi_state": "MEASURED",
+   "xi_note": "|dA/dxi|=0.1150 x delta_xi=0.2912 on 9 paired lines",
+   "difference_of_aggregates": -0.08,
+   "pool_moved": false,
+   "n_lo": 23,
+   "n_hi": 23,
+   "span_kms": 0.20000000000000007,
+   "xi_pairing_verified": true,
+   "sign_disagreement_with_aggregates": false
+  },
   {
    "pool": "NIR/solar_crires_plus_y_wide_rya1054/g1d",
    "instrument": "crires_plus",

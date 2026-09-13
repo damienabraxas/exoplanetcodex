@@ -177,6 +177,43 @@ def build(runs: Path) -> dict:
                 "sign_disagreement_with_aggregates": bool(
                     slope * float(d["dA_dxi_from_aggregates"]) < 0),
             })
+    # 🔴 ONE DERIVATIVE PER (ion, holding, tier, treatment, band), OR THE FEED REFUSES —
+    # AND IT IS RIGHT TO. `xi_band_index` keys without the DECK, but every deck run emits
+    # 1D-LTE and ENGINE-A alongside its own engine, so the H band's two decks (g1d and
+    # gerber-nlte) each produced a 1D-LTE derivative and the emitter stopped with "two
+    # band-keyed xi entries ... the band key must be unique or a product would silently
+    # take one".
+    #
+    # The base treatments are taken from the `g1d` deck, which every unit runs, and each
+    # deck keeps only its OWN engine. Deterministic, and it never averages two
+    # measurements into a third number nobody made. Where a second deck also measured a
+    # base treatment, the disagreement is CARRIED rather than discarded: it is a free
+    # measure of run-to-run reproducibility on the same pool.
+    BASE = ("1D-LTE", "ENGINE-A")
+    OWN = {"gnl": "ENGINE-B-NLTE", "g1d": "synth-1D-LTE-gerber"}
+    kept, dropped = [], []
+    seen: dict = {}
+    for pl in pools:
+        deck = pl["pool"].rsplit("/", 1)[1]
+        if pl["treatment"] in BASE:
+            take = deck == "g1d"
+        else:
+            take = OWN.get(deck) == pl["treatment"]
+        k = (pl["ion"], pl["holding"], pl["tier"], pl["treatment"], pl["band"])
+        if take and k not in seen:
+            seen[k] = pl
+            kept.append(pl)
+        else:
+            dropped.append(pl)
+    # every dropped row that duplicates a kept one contributes its disagreement
+    for pl in dropped:
+        k = (pl["ion"], pl["holding"], pl["tier"], pl["treatment"], pl["band"])
+        if k in seen:
+            seen[k].setdefault("second_deck_check", []).append(
+                {"deck": pl["pool"].rsplit("/", 1)[1], "dA_dxi": pl["dA_dxi"],
+                 "delta_from_kept": round(pl["dA_dxi"] - seen[k]["dA_dxi"], 4)})
+    pools = kept
+
     return {
         "ticket": "RYA-1213",
         "read_only": True,
@@ -196,6 +233,12 @@ def build(runs: Path) -> dict:
         "n_sign_disagreements": sum(1 for p in pools
                                     if p["sign_disagreement_with_aggregates"]),
         "incomplete": incomplete,
+        "deduplication": ("one derivative per (ion, holding, tier, treatment, band): base "
+                          "treatments (1D-LTE, ENGINE-A) from the g1d deck, each other "
+                          "deck keeping only its own engine. `second_deck_check` on a row "
+                          "carries what a second deck measured for the same treatment — "
+                          "run-to-run reproducibility on the same pool, not a value used."),
+        "n_dropped_as_duplicate": len(dropped),
         "pools": pools,
     }
 
