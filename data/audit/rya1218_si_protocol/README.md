@@ -64,10 +64,10 @@ in red-optical; Si I Engine B served in VIS/red-optical; Si II Engine B
 uncovered in VIS but served in red-optical; and no Si II Engine A route.
 Unsupported engine cells remain HOLD.
 
-While J/K correction is deferred to its own ticket, the existing corrected CRIRES
+Following RYA-1219, corrected CRIRES+ J/K holdings are now registered alongside the existing Y/H products. The existing corrected
 products were measured diagnostically with the full canonical Si census. The
 Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
-canonical rows (the remaining windows fall in chip gaps or lack complete windows).
+canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows).
 These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
 are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
 for laboratory identity/gf adjudication and are not promoted into a grade pool.
@@ -166,7 +166,7 @@ Kurucz 2005. The 7226.2079 A corrected-1984 window again raises a missing
 correction error; no raw fallback occurs. Si II is served on both holdings.
 The output's `ticket: RYA-1169` identifies the reused runner, not this campaign;
 the generator registration records the RYA-1218 invocation and output location.
-The 13-holding matrix is not an assertion that every holding is science-ready.
+The 15-holding matrix is not an assertion that every holding is science-ready.
 
 No current Si I/Si II balance, gf zero-point cap, LTE→NLTE/3D shift, product
 uncertainty, abundance feed, appendix, or PDF was produced. No measurement gate
