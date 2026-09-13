@@ -1076,7 +1076,13 @@ _WSTEP_NM = 0.0002          # fine synthesis grid (0.002 Angstrom)
 #: public surface unchanged for its existing callers while there is exactly one
 #: definition (RYA-845: declare it once).
 from pipeline.fit_constraint import (                              # noqa: E402
-    CURVATURE_PROBE_STEP_DEX, measure_constraint)
+    CURVATURE_PROBE_STEP_DEX, measure_constraint,
+    # RYA-1214 — RE-EXPORTED, NOT CALLED HERE. `_fit_element` calls `measure_constraint`,
+    # which computes this internally; importing it too would NOT create a second sigma.
+    # It stays because `tests/test_curvature_sigma_rya848.py` imports it from THIS module
+    # (it was a re-export before the call moved), and dropping it broke CI on a test about
+    # a function whose behaviour never changed. A removed re-export is an API change.
+    curvature_sigma)  # noqa: F401
 # RYA-1214 — the SAME decider the band-product route and the Engine-B handler call.
 # `STALE.md` names "RYA-847's synthesis constraint gate" as what retires this path's
 # sigma clip; importing it rather than re-implementing the check is what makes the three

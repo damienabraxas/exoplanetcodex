@@ -150,16 +150,36 @@ def test_no_measurable_curvature_is_nan_not_a_number():
 # ── the published quantity ────────────────────────────────────────────────────
 
 def test_the_consumer_reads_this_value_so_it_cannot_be_silently_renamed():
-    """`_uncertainty_budget` publishes `sigma_fit` verbatim as stat['N'] and stat['O'].
+    """`_uncertainty_budget` publishes `sigma_fit` as the statistical term.
 
     Pinned because the blast radius is the point: if the key stops being read, or the
     budget stops sourcing σ_stat from the fit, this test should be revisited
     deliberately rather than the coupling being rediscovered later.
+
+    ⚠️ REVISITED DELIBERATELY — RYA-1214, which is what the paragraph above asks for. This
+    used to assert the literal strings `stat['N']` and `stat['O']` in the source. Those two
+    element names were HARDCODED because `_uncertainty_budget` read three hardcoded VIS
+    diagnostic keys; RYA-1214 made it region-aware, so the same coupling is now written as
+    a loop over the region's own elements (`stat[el]`) and the literals are gone.
+
+    THE COUPLING IS UNCHANGED and is what is pinned here instead: `sigma_fit` is still the
+    source of the statistical term, and it is still reached for nitrogen and oxygen. Pinning
+    the spelling rather than the invariant is what made a behaviour-preserving refactor look
+    like a regression (RYA-870: pin the invariant, not the example).
     """
     import inspect
 
     from pipeline import cno_synthesis
     src = inspect.getsource(cno_synthesis._uncertainty_budget)
-    assert "sigma_fit" in src
-    for el in ("'N'", "'O'"):
-        assert f"stat[{el}]" in src
+    # the published quantity, by name
+    assert "sigma_fit" in src, "the budget no longer sources sigma_stat from the fit"
+    # and it is assigned per element rather than to two named ones
+    assert "stat[el]" in src and "for el in ('C', 'N', 'O')" in src, (
+        "the per-element derivation of stat is gone; if sigma_stat is now sourced some "
+        "other way this test must be revisited deliberately")
+    # N and O must still HAVE a primary whose sigma_fit can feed it, in the region this
+    # test is about — asserted against the registry, not against the source text.
+    prim = cno_synthesis.primary_by_element(cno_synthesis.VIS_DIAGNOSTICS)
+    assert "N" in prim and "O" in prim, (
+        f"VIS has no primary for N and/or O, so sigma_fit cannot reach their stat term: "
+        f"{sorted(prim)}")
