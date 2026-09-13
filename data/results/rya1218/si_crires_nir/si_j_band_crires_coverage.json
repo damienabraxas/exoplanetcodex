@@ -1,0 +1,59 @@
+{
+  "ticket": "RYA-1218",
+  "line_pool": "Bergemann et al. 2013 Table 1 J-band Si I lines",
+  "measurement_policy": "No EW or abundance is reported from raw/topocentric IDPs or without a corrected J holding.",
+  "holdings": [
+    {
+      "holding": "solar_crires_plus_y_rya794",
+      "n_lines": 4,
+      "n_reachable": 0,
+      "n_hold": 4,
+      "disposition": "HOLD_MEASUREMENT",
+      "reasons": [
+        "LookupError: no crires_plus holding covers 11984.200 +/- 1.000 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 11991.570 +/- 1.000 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12031.500 +/- 1.000 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12103.540 +/- 1.000 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+      ]
+    },
+    {
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "n_lines": 4,
+      "n_reachable": 0,
+      "n_hold": 4,
+      "disposition": "HOLD_MEASUREMENT",
+      "reasons": [
+        "LookupError: no crires_plus holding covers 11984.200 +/- 1.000 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 11991.570 +/- 1.000 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12031.500 +/- 1.000 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12103.540 +/- 1.000 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+      ]
+    },
+    {
+      "holding": "solar_crires_plus_h_rya1094",
+      "n_lines": 4,
+      "n_reachable": 0,
+      "n_hold": 4,
+      "disposition": "HOLD_MEASUREMENT",
+      "reasons": [
+        "LookupError: no crires_plus holding covers 11984.200 +/- 1.000 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 11991.570 +/- 1.000 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12031.500 +/- 1.000 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement.",
+        "LookupError: no crires_plus holding covers 12103.540 +/- 1.000 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+      ]
+    },
+    {
+      "holding": "solar_vesta_crires_plus_idp",
+      "n_lines": 4,
+      "n_reachable": 0,
+      "n_hold": 4,
+      "disposition": "HOLD_MEASUREMENT",
+      "reasons": [
+        "TelluricNotCorrected: crires_plus covers 11984.200 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True.",
+        "TelluricNotCorrected: crires_plus covers 11991.570 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True.",
+        "TelluricNotCorrected: crires_plus covers 12031.500 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True.",
+        "TelluricNotCorrected: crires_plus covers 12103.540 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+      ]
+    }
+  ]
+}

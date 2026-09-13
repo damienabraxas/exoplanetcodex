@@ -42,6 +42,16 @@ Baker **10/10**. The IAG Reiners blue sibling has no source lines in its
 the source set is optical; their NIR Si line pool must be constructed
 separately before a CRIRES abundance route is valid.
 
+For the NIR request, `si_nir_line_pool.csv` records the four published Si I
+J-band lines from Bergemann et al. (2013, ApJ 764, 115, Table 1): 11984.20,
+11991.57, 12031.50, and 12103.54 A. The CRIRES audit is in
+`data/results/rya1218/si_crires_nir/`. None of the corrected solar holdings
+reaches J: the available corrected products are Y (9800--10796 A) and H
+(15007--17494 A). The raw Vesta IDP does reach these wavelengths, but the
+registry correctly refuses it because telluric correction and rest-frame
+conditioning are absent. Thus all four CRIRES J lines remain HOLD_MEASUREMENT;
+no EW or abundance is reported from that raw holding.
+
 The Kitt Peak result is intentionally split: the Molecfit sibling uses the
 RYA-940 product, and its 7160--7340 A H2O band has **no admissible correction**
 (the Fe work did not produce a valid corrected H2O product there). Therefore
