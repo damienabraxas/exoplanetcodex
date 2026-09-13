@@ -33,16 +33,59 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
-  - artifact: rya1218/source_set_ew_diagnostic/si_asplund_ew_per_line.csv
-    generator: scripts/run_si_asplund_ew_rya1169.py
-    ticket: RYA-1218
-    command: python3 scripts/run_si_asplund_ew_rya1169.py --out data/results/rya1218/source_set_ew_diagnostic
-    note: Existing corrected-holding runner; diagnostic EWs only, no abundance or grade promotion.
-  - artifact: rya1218/source_set_ew_diagnostic/si_asplund_ew_summary.json
-    generator: scripts/run_si_asplund_ew_rya1169.py
-    ticket: RYA-1218
-    command: python3 scripts/run_si_asplund_ew_rya1169.py --out data/results/rya1218/source_set_ew_diagnostic
-    note: Runner retains its historical RYA-1169 ticket label; this invocation belongs to RYA-1218.
+  # RYA-1134 provisional source adjudication; no measurement authorization.
+  - artifact: rya1134/verified_v1/band_grade_eligibility.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/component_proof.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/engine_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/grade_delta.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/input_hashes.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/line_dispositions.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/line_holding_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/pool_memberships.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/source_candidates.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/source_quantities.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/summary.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/README.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1134
+    note: Provisional adjudication report; source and holding gates remain open.
+    sources:
+      - data/results/rya1134/verified_v1/summary.json
+      - data/reference/al_grade_verification_rya1134/bibliography_summary.json
   # ── RYA-1191 — the telluric CLOSE for Fe: verified at every graded line ───────────
   - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
     generator: scripts/derive_band_products.py
