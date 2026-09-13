@@ -57,6 +57,8 @@ DIAG = {
     "OH_AX":    ("MOL", "near-UV", "OH"),
     "CN_AX_IR": ("MOL", "NIR", "12C14N"),
     "OH_H":     ("MOL", "H", "16OH"),
+    "CN_AX_J":  ("MOL", "NIR", "12C14N"),
+    "CO_K":     ("MOL", "K", "16O12C"),
 }
 #: Which holding each region's spectrum came from. Read from the region, never guessed:
 #: two holdings of one instrument are two different PRODUCTS (RYA-1026).

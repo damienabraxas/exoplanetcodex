@@ -370,6 +370,95 @@ def _cn_ir_windows():
 #: property of a crowded band, and this band is not crowded.
 _CN_IR_WINDOWS_KP, _CN_IR_WINDOWS_IAG = _cn_ir_windows()
 
+
+#: 🔴 RYA-1214 — WINDOWS ON A CONDITIONED CRIRES+ PRODUCT: telluric reach is judged on THE
+#: OBSERVATION, not only on the enumeration. `TELLURIC_BANDS` stops at 17500 A, so in K the
+#: "0 windows inside an enumerated band" gate is VACUOUS — CO2 near 2.0 um and CH4 across
+#: 2.2-2.4 um are simply not listed. The RYA-1219 products carry molecfit's own transmission
+#: per pixel (the co-add writes `min_mtrans`), so a window is kept only if the product samples
+#: >= 80% of it AND its minimum transmission is >= 0.8, on top of avoiding the enumerated
+#: bands (RYA-1193: reachability is per-observation).
+_PRODUCT_MIN_COVERAGE = 0.80
+_PRODUCT_MIN_MTRANS = 0.80
+
+
+def _windows_on_product(rows, pad, product_rel, max_windows):
+    """rows: [(air_A, strength)] -> ((lo, hi), ...), strength-ranked, capped, time-sorted.
+
+    Returns (windows, report) so the region can state how many clusters each filter dropped.
+    """
+    from pathlib import Path as _P
+    import pandas as _pd
+    from pipeline.telluric_policy import TELLURIC_BANDS as _TB
+    prod = _pd.read_csv(_P(__file__).resolve().parents[1] / product_rel,
+                        usecols=['wavelength_air_A', 'min_mtrans'])
+    X = prod.wavelength_air_A.to_numpy(float)
+    M = prod.min_mtrans.to_numpy(float)
+    step = float(np.median(np.diff(X)))
+    rows = sorted(rows)
+    clusters, cur = [], [rows[0]]
+    for w, st in rows[1:]:
+        if w - cur[-1][0] <= 2 * pad:
+            cur.append((w, st))
+        else:
+            clusters.append(cur); cur = [(w, st)]
+    clusters.append(cur)
+    rep = {'clusters': len(clusters), 'telluric_band': 0, 'coverage': 0, 'mtrans': 0}
+    cand = []
+    for c in clusters:
+        lo = min(x[0] for x in c) - pad
+        hi = max(x[0] for x in c) + pad
+        if any(hi > b_lo and lo < b_hi for b_lo, b_hi, _ in _TB):
+            rep['telluric_band'] += 1; continue
+        m = (X >= lo) & (X <= hi)
+        if m.sum() < _PRODUCT_MIN_COVERAGE * (hi - lo) / step:
+            rep['coverage'] += 1; continue
+        if float(M[m].min()) < _PRODUCT_MIN_MTRANS:
+            rep['mtrans'] += 1; continue
+        cand.append((round(lo, 2), round(hi, 2), max(x[1] for x in c)))
+    rep['kept_before_cap'] = len(cand)
+    chosen = sorted(sorted(cand, key=lambda t: -t[2])[:max_windows])
+    rep['windows'] = len(chosen)
+    return tuple((a, b) for a, b, _ in chosen), rep
+
+
+def _crires_jk_windows():
+    """AGSS21's CN lines on the J product and CO lines on the K product."""
+    import csv as _csv
+    from pathlib import Path as _P
+    root = _P(__file__).resolve().parents[1]
+    cn = []
+    with (root / 'data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv'
+          ).open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if r['element_parameter'] == 'logepsN' and r['species'] == 'CN':
+                cn.append((float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0)),
+                           float(r['equivalent_width_pm']) * 10.0))
+    j_prod = 'data/results/rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv'
+    k_prod = 'data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv'
+    jx = __import__('pandas').read_csv(root / j_prod, usecols=['wavelength_air_A'])
+    jlo, jhi = float(jx.wavelength_air_A.min()), float(jx.wavelength_air_A.max())
+    cn = [x for x in cn if jlo + _CN_IR_PAD_A <= x[0] <= jhi - _CN_IR_PAD_A]
+    j_win, j_rep = _windows_on_product(cn, _CN_IR_PAD_A, j_prod, _CN_IR_MAX_WINDOWS)
+    # CO strength: AGSS21 publishes no CO equivalent width, so the ranking is the standard
+    # excitation-weighted strength log gf - theta * E_low, theta = 5040 / 5772 K — the
+    # line's relative absorption at the solar Teff, from AGSS21's OWN gf and E_low.
+    co = []
+    with (root / 'data/audit/rya1136_cno_intake/molecular_physical_crossmatch.csv'
+          ).open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if '12C16O' not in r['species']:
+                continue
+            air = float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0))
+            if 19452.42 + 1.5 <= air <= 24845.62 - 1.5:
+                co.append((air, float(r['published_loggf'])
+                           - 5040.0 / 5772.0 * float(r['lower_energy_eV'])))
+    k_win, k_rep = _windows_on_product(co, 1.5, k_prod, _CN_IR_MAX_WINDOWS)
+    return j_win, j_rep, k_win, k_rep
+
+
+_CN_J_WINDOWS, _CN_J_REPORT, _CO_K_WINDOWS, _CO_K_REPORT = _crires_jk_windows()
+
 NIR_CN_KP = RegionConfig(
     name='nir_cn_kp', instrument='kpno_solar_atlas', R=500000.0,
     wave_min_A=10872.0, wave_max_A=13205.0,
@@ -428,7 +517,24 @@ H_OH_CRIRES = RegionConfig(
     notes='CRIRES+ H, molecfit-corrected (RYA-1191). AGSS21 OH (2-0)/(3-1)/(4-2); '
           '16052.77 A dropped (CO2 15700-16100).')
 
+#: 🔴 RYA-1214 — CRIRES+ J and K, from the RYA-1219 corrected IDPs conditioned here. J carries
+#: AGSS21's CN A-X band (the only CRIRES+ arm that reaches it: Y ends 76 A short, H starts
+#: 1803 A past); K carries AGSS21's CO first overtone. R from instrument_catalog.
+J_CN_CRIRES = RegionConfig(
+    name='j_cn_crires', instrument='crires_plus', R=100000.0,
+    wave_min_A=11159.9, wave_max_A=13489.5, telluric_correction_required=True,
+    nlte_backend='lte_by_design', holding='solar_crires_plus_j_rya1219',
+    notes='CRIRES+ J (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CN A-X windows kept '
+          'only where the product samples >=80% and molecfit transmission >=0.8.')
+K_CO_CRIRES = RegionConfig(
+    name='k_co_crires', instrument='crires_plus', R=100000.0,
+    wave_min_A=19452.42, wave_max_A=24845.62, telluric_correction_required=True,
+    nlte_backend='lte_by_design', holding='solar_crires_plus_k_rya1219',
+    notes='CRIRES+ K (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CO (2-0)/(3-1); '
+          'TELLURIC_BANDS does not reach K, so windows are judged on molecfit MTRANS.')
+
 REGIONS = {'vis': HARPS_VIS, 'nearuv': NEARUV_KP,
+           'j_cn_crires': J_CN_CRIRES, 'k_co_crires': K_CO_CRIRES,
            'vis_kp_k05': VIS_KP_K05, 'vis_kp_mf': VIS_KP_MF, 'vis_iag': VIS_IAG,
            'h_oh_crires': H_OH_CRIRES,
            'nir_cn_kp': NIR_CN_KP, 'nir_cn_iag': NIR_CN_IAG}
@@ -705,7 +811,27 @@ VIS_IAG_DIAGNOSTICS = tuple(d for d in VIS_DIAGNOSTICS
                             if all(lo >= VIS_IAG.wave_min_A and hi <= VIS_IAG.wave_max_A
                                    for lo, hi in d.windows_A))
 
+J_CN_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_J', element='N', kind='molecular_band', windows_A=_CN_J_WINDOWS,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X on CRIRES+ J, Brooke+2014 gf (12C14N_1087-1320.bsyn); AGSS21 own '
+                  'line positions, EW-ranked, per-observation telluric filter.'),
+)
+K_CO_DIAGNOSTICS = (
+    Diagnostic(
+        key='CO_K', element='C', kind='molecular_band', windows_A=_CO_K_WINDOWS,
+        use_molecules=True, role='primary', depends_on=('O',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='12C16O first overtone (2-0)/(3-1) on CRIRES+ K, Li2015 gf converted to AIR '
+                  '(16O12C_1945-2485.bsyn, 45/45 AGSS21 validated); AGSS21 own positions.'),
+)
+
 REGION_DIAGNOSTICS = {'vis': VIS_DIAGNOSTICS, 'nearuv': NEARUV_DIAGNOSTICS,
+                      'j_cn_crires': J_CN_DIAGNOSTICS, 'k_co_crires': K_CO_DIAGNOSTICS,
                       'vis_kp_k05': VIS_DIAGNOSTICS, 'vis_kp_mf': VIS_DIAGNOSTICS,
                       'vis_iag': VIS_IAG_DIAGNOSTICS, 'h_oh_crires': H_OH_DIAGNOSTICS,
                       'nir_cn_kp': NIR_CN_KP_DIAGNOSTICS,
