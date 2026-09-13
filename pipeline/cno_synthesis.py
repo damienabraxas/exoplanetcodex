@@ -558,14 +558,25 @@ def _load_kpno_atlas_arm(star_id: str, region: RegionConfig):
             f"{star_id}: the Kitt Peak atlas is the SOLAR flux atlas. Refusing to "
             f"synthesize {star_id} against it (RYA-464's no-silent-substitution rule).")
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-    from measure_band_ew import load_window_ex, select_holding      # noqa: E402
-    hold = select_holding('kpno_solar_atlas', region.wave_min_A, region.wave_max_A,
-                          holding='solar_kpno_kurucz2005_corrected')
-    w_A, flux = load_window_ex(hold, region.wave_min_A, region.wave_max_A)[:2]
-    w_A = np.asarray(w_A, float)
-    flux = np.asarray(flux, float)
+    from measure_band_ew import load_window_ex                      # noqa: E402
+    # ⚠️ `load_window_ex(instrument, CENTRE, PAD)` — a centre and a half-width, NOT
+    # (lo, hi). Passing the band edges made it ask for 3000 +/- 3780 A and the coverage
+    # check refused: "no kpno_solar_atlas holding covers 3000.000 +/- 3780.000 A". It
+    # failed LOUDLY on a window nothing could serve, which is the only reason a units
+    # slip in an argument pair was a two-minute fix rather than a wrong spectrum.
+    centre = 0.5 * (region.wave_min_A + region.wave_max_A)
+    pad = 0.5 * (region.wave_max_A - region.wave_min_A)
+    win = load_window_ex('kpno_solar_atlas', centre, pad,
+                         holding='solar_kpno_kurucz2005_corrected')
+    w_A = np.asarray(win.wave, float)
+    flux = np.asarray(win.flux, float)
     m = np.isfinite(w_A) & np.isfinite(flux) & (flux > 0)
-    print(f"  [arm-load] kpno_solar_atlas / {getattr(hold, 'name', hold)}: "
+    if int(m.sum()) < 1000:
+        raise ArmNotWired(
+            f"kpno_solar_atlas returned only {int(m.sum())} usable px over "
+            f"{region.wave_min_A}-{region.wave_max_A} A — refusing to fit a band on a "
+            f"spectrum that is mostly absent.")
+    print(f"  [arm-load] kpno_solar_atlas / {win.holding.holding_id}: "
           f"{int(m.sum())} px over {w_A[m].min():.1f}-{w_A[m].max():.1f} A "
           f"(pre-normalised at source — no continuum fitted, RYA-1026)")
     return w_A[m] / 10.0, flux[m]
