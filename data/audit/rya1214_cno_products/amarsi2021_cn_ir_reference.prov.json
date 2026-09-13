@@ -1,0 +1,45 @@
+{
+  "ticket": "RYA-1214",
+  "source": "Amarsi et al. 2021, A&A 656, A113, Table 2 (the CN A-X (0-0) rows), via data/reference/amarsi2021_cno/derived/",
+  "why_1D_to_1D": "our fit is 1D-LTE and AGSS21's adopted 7.83 is 3D. Amarsi publishes `abundance_marcs` \u2014 the same lines through a 1D model \u2014 so the comparison can be like-for-like. Differencing against 7.83 would charge us for a 3D correction we did not apply.",
+  "cap_finding": "`_CN_IR_MAX_WINDOWS = 12` BINDS on Kitt Peak (48 candidates, 36 dropped) and does NOT bind on IAG (12 candidates below its 11083 A edge). So IAG is the COMPLETE replication of what it reaches and KP is a strength-ranked SUBSET \u2014 the opposite of what 'KP reaches the whole band' implies about sampling.",
+  "n_published_lines": 59,
+  "n_clusters": 53,
+  "pad_A": 1.5,
+  "window_cap": 12,
+  "h2o_excluded": {
+    "band_A": [
+      11120.0,
+      11560.0
+    ],
+    "windows": 5,
+    "lines": 5,
+    "note": "excluded, not corrected \u2014 both holdings are telluric-corrected and could be argued into fitting there; 440 A of 2333 is not worth leaning on it"
+  },
+  "regions": {
+    "nir_cn_kp": {
+      "candidate_windows_reachable": 48,
+      "windows_kept": 12,
+      "windows_dropped_by_cap": 36,
+      "lines_in_windows": 15,
+      "lines_left_outside_the_cap": 39,
+      "span_A": 38.6,
+      "cap_is_binding": true,
+      "replication_status": "SUBSET selected by AGSS21's own published equivalent width \u2014 not the band",
+      "their_1D_to_3D_shift_dex": -0.081,
+      "comparison_basis_A_N": 7.94
+    },
+    "nir_cn_iag": {
+      "candidate_windows_reachable": 12,
+      "windows_kept": 12,
+      "windows_dropped_by_cap": 0,
+      "lines_in_windows": 16,
+      "lines_left_outside_the_cap": 0,
+      "span_A": 41.5,
+      "cap_is_binding": false,
+      "replication_status": "COMPLETE for the part of the band this holding reaches",
+      "their_1D_to_3D_shift_dex": -0.082,
+      "comparison_basis_A_N": 7.941
+    }
+  }
+}
