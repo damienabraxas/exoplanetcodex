@@ -1,0 +1,30 @@
+{
+  "ticket": "RYA-1218",
+  "purpose": "corrected-spectrum Si diagnostic",
+  "abundance_or_grade_pool": false,
+  "holdings": [
+    {
+      "band": "Y",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "n_canonical_lines": 26,
+      "n_served": 26,
+      "n_unserved": 0,
+      "species": [
+        "Si I"
+      ],
+      "abundance_status": "HOLD"
+    },
+    {
+      "band": "H",
+      "holding": "solar_crires_plus_h_rya1094",
+      "n_canonical_lines": 236,
+      "n_served": 129,
+      "n_unserved": 107,
+      "species": [
+        "Si I",
+        "Si II"
+      ],
+      "abundance_status": "HOLD"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v134** · _Last updated: 2026-09-13 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v136** · _Last updated: 2026-09-13 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -289,6 +289,10 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Al measurement gate | closed pending validated handoff | Provisional engine validation is authorized by the expanded RYA-1134 scope, but zero runs are currently eligible: 5616 engine/route cells have explicit HOLD or N/A. This checkpoint is not a scientifically frozen pool and does not unblock RYA-1217 Gate 0. | RYA-1134; RYA-1176; `data/results/rya1134/verified_v1/engine_matrix.csv` | OPEN | RYA-1134 review and RYA-1176 propagation land; exact-holding gates pass |
 
 ## Changelog
+
+- **v136** (2026-09-13) — **RYA-1219** completed telluric correction for all available CRIRES+ Vesta J and K exposures; eight full-arm products carry non-unity MTRANS, pass D1 residual gates, and are registered as applied/normalised.
+
+- **v135** (2026-09-13) — **RYA-1218** Si preflight checkpoint: corrected Si II source attribution, recorded persistent canonical gaps and unresolved gates; corrected-atlas EW diagnostic reproduced. No abundance promoted; campaign OPEN.
 
 - **v134** (2026-09-13) — **RYA-1134 Träbert access decision.** Träbert 1999 is unavailable for direct review; Johnson 1986 remains the retained Al II measurement with an explicit limitation, and regenerated `verified_v2` no longer blocks its atomic handoff. Exact-holding, bibliography, product-identity and RYA-1176 gates remain open; no abundance was run or adopted.
 
