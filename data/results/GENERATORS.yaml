@@ -8303,3 +8303,21 @@ artifacts:
       Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
       itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
       band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis --region nir_cn_kp --region nir_cn_iag
+    ticket: RYA-1214
+    note: >-
+      Converts data/audit/cno_synthesis/solar_nir_cn_iag_cno_*, itself from
+      `python -m pipeline.cno_synthesis --star solar --region nir_cn_iag --pin C=8.488`
+      (A(C) pinned to the VIS CH G-band product). CN A-X 10872-11083 A on the IAG FTS.
+  - artifact: band_products/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis --region nir_cn_kp --region nir_cn_iag
+    ticket: RYA-1214
+    note: >-
+      Converts data/audit/cno_synthesis/solar_nir_cn_kp_cno_*, itself from
+      `python -m pipeline.cno_synthesis --star solar --region nir_cn_kp --pin C=8.488`.
+      CN A-X on the Kitt Peak 1984 composite, molecfit-corrected; 12 strength-ranked windows.

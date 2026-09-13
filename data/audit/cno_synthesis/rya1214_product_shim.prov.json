@@ -57,6 +57,24 @@
       "selector": "FORB-OI_6300",
       "n_lines": 1,
       "molecule": null
+    },
+    {
+      "region": "nir_cn_kp",
+      "key": "CN_AX_IR",
+      "file": "NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv",
+      "A": 8.233,
+      "selector": "MOL-CN_AX_IR",
+      "n_lines": 215,
+      "molecule": "12C14N"
+    },
+    {
+      "region": "nir_cn_iag",
+      "key": "CN_AX_IR",
+      "file": "NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv",
+      "A": 7.999,
+      "selector": "MOL-CN_AX_IR",
+      "n_lines": 244,
+      "molecule": "12C14N"
     }
   ]
 }
