@@ -66,7 +66,11 @@ Unsupported engine cells remain HOLD.
 Following RYA-1219, corrected CRIRES+ J/K holdings are now registered alongside the existing Y/H products. The existing corrected
 products were measured diagnostically with the full canonical Si census. The
 Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
-canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The external-to-canonical physical identity crosswalk is in `si_j_line_identity.csv`: all four lines match canonical rows within 6 mA and 0.001 dex, but the canonical schema lacks level/J fields and all four remain HOLD for grade because the canonical source is VALD-only.
+canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The grade adjudication is in `si_j_grade_adjudication.csv`: all four Bergemann lines pass the external **Reference Grade** test; Codex Grade is explicitly held because its policy requires primary-laboratory gf provenance, and Deep Grade is held pending the declared depth/gf route. This does not prevent an ungraded-systematic diagnostic engine run.
+
+The first engine execution matrix is in `si_engine_execution_matrix.csv`. The corrected J holding was reached and all four lines were attempted. Engine-A is explicit N/A because no validated Solar Si 1D-NLTE grid is registered; 1D-LTE and Engine-B are explicit FAILED because the only available Turbospectrum binary is macOS arm64 on Sirius Linux.
+
+The external-to-canonical physical identity crosswalk is in `si_j_line_identity.csv`: all four lines match canonical rows within 6 mA and 0.001 dex, but the canonical schema lacks level/J fields and all four remain HOLD for grade because the canonical source is VALD-only.
 
 A parallel K-band audit over 343 canonical Si I/Si II lines and four corrected K products is in `si_k_canonical_pixel_validation.csv/json`: 586/1372 line/product cells reach a complete single-detector window, 718 have no pixels, 18 are truncated, and 50 contain non-finite flux. These are coverage dispositions only; the canonical K pool remains grade/identity HOLD.
 
