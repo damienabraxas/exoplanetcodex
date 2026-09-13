@@ -329,6 +329,13 @@ def build(out: Path = OUT) -> dict:
         sigma = r.best_sigma_dex
         doi = ("10.1051/0004-6361/202245394" if "BURHEIM" in source.upper()
                else (text(cm.gf_source_doi) if cm is not None else ""))
+        # A summed evaluated feature cannot claim the best component's accuracy.
+        # Keep the NIST value unchanged, but carry the worst component grade and its
+        # published sigma in the intake metadata.
+        if source.upper().startswith("NIST") and text(r.nist_grade_worst):
+            tier = text(r.nist_grade_worst)
+            sigma = r.nist_sigma_dex
+            doi = "NIST_ASD"
         if abs(w - 11254.924) <= .08 and int(r.hfs_n_components) > 1:
             # Burheim measured the strong component, while this census row is the
             # unresolved feature total.  It is evidence, not an adoptable total gf.
@@ -458,6 +465,8 @@ def build(out: Path = OUT) -> dict:
     if m.canonical_line_id.duplicated().any():
         raise AssertionError("manifest IDs must be unique")
     m = ingest_new_lab_sources(m, out)
+    m["underlying_source_type"] = np.where(
+        m.gf_source_type.eq("CRITICALLY_EVALUATED"), "THEORETICAL", "")
     # The source overlays above can add/replace sigma values; finish the provenance
     # axis after those writes so every finite uncertainty has a declared basis.
     fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()

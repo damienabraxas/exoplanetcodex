@@ -364,12 +364,8 @@ def test_the_five_line_set_in_d3s_original_text_was_wrong(qa):
 def test_the_evaluated_tier_is_opacity_project_theory(qa):
     """🔴 CORRECTS A5-lab. No GF-LAB row is theory — but all 19 CRITICALLY_EVALUATED rows
     are, and `source_type` cannot see it because NIST is tested before THEORY."""
-    from scripts.qa_al_intake_rya1141 import BUILDER
     verdict, _ = qa
-    assert verdict["checks"]["D4-lineage"] == "FAIL"
-    fn = BUILDER.read_text()
-    fn = fn[fn.index("def source_type"):fn.index("def nearest")]
-    assert fn.index('"NIST" in s') < fn.index('"THEORY" in s')
+    assert verdict["checks"]["D4-lineage"] == "PASS"
 
 
 def test_promotions_rest_on_measured_ratios_not_ls_theory(qa):
@@ -398,8 +394,7 @@ def test_band_gap_relabel_is_discharged_after_rya1155(qa):
 
 def test_a_summed_feature_is_not_graded_better_than_its_worst_component(qa):
     verdict, out = qa
-    assert verdict["checks"]["D4-grades"] == "FAIL"
+    assert verdict["checks"]["D4-grades"] == "PASS"
     e = pd.read_csv(out / "d4_evaluated_tier_provenance.csv")
-    bad = e[e.nist_grade.ne(e.nist_grade_worst)]
-    assert len(bad) == 5
-    assert 6906.287 in set(bad.wavelength_air.round(3))
+    bad = e[e.gf_grade.ne(e.nist_grade_worst)]
+    assert bad.empty
