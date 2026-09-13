@@ -79,7 +79,7 @@ and `D3` PASS.
 - RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
   matrix. It supplies atomic dispositions; it does not clear holding or product
   conditioning gates.
-- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, the HFS checks, `A5-doi`, the D4 evaluated-tier checks, `A2`, and `D3` now PASS; 22 findings remain (1 CRITICAL, 9 HIGH, 12 MEDIUM). Raw holding policy and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
+- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, the HFS checks, `A5-doi`, the D4 evaluated-tier checks, `A2`, and `D3` now PASS; 21 findings remain (9 HIGH, 12 MEDIUM). Raw holding policy and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
 ## Evidence and validation
