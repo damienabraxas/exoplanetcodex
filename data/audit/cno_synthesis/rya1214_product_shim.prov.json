@@ -1,0 +1,62 @@
+{
+  "ticket": "RYA-1214",
+  "what": "cno_synthesis per-band output mapped onto the band-product schema so publish_product.py can write it into data/products/solar/<El>.json",
+  "keying": "the DIAGNOSTIC travels in `selector` (MOL-/ATOM-/FORB- prefix), which is a full identity field (RYA-984). `ion='I'` is a schema convention, not a claim: a molecular band measures an ELEMENTAL abundance and has no ionisation stage.",
+  "n_lines": "counted from the vendored .bsyn lists inside the fit windows. NOT n_pix \u2014 calling a 600-pixel window a 600-line pool would put a fictitious pool size in a column every other product fills with a line count, and a sigma/sqrt(n) downstream would divide by it.",
+  "rows": [
+    {
+      "region": "vis",
+      "key": "CH_Gband",
+      "file": "CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+      "A": 8.488,
+      "selector": "MOL-CH_Gband",
+      "n_lines": 184,
+      "molecule": "12CH"
+    },
+    {
+      "region": "vis",
+      "key": "CI_5052",
+      "file": "CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
+      "A": 8.476,
+      "selector": "ATOM-CI_5052",
+      "n_lines": 1,
+      "molecule": null
+    },
+    {
+      "region": "vis",
+      "key": "CI_5380",
+      "file": "CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
+      "A": 8.53,
+      "selector": "ATOM-CI_5380",
+      "n_lines": 1,
+      "molecule": null
+    },
+    {
+      "region": "vis",
+      "key": "C2_Swan",
+      "file": "CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
+      "A": 8.449,
+      "selector": "MOL-C2_Swan",
+      "n_lines": 167,
+      "molecule": "12C12C"
+    },
+    {
+      "region": "vis",
+      "key": "CN_red",
+      "file": "NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv",
+      "A": 7.384,
+      "selector": "MOL-CN_red",
+      "n_lines": 194,
+      "molecule": "12C14N"
+    },
+    {
+      "region": "vis",
+      "key": "OI_6300",
+      "file": "OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv",
+      "A": 8.81,
+      "selector": "FORB-OI_6300",
+      "n_lines": 1,
+      "molecule": null
+    }
+  ]
+}
