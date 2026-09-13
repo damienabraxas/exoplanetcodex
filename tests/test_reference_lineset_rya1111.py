@@ -165,11 +165,19 @@ def test_the_axis_is_derived_for_our_own_products_over_the_whole_live_feed():
     from `tier`) and REPLICATION products (four RYA-1106 Asplund rows, which store it by
     design). Both halves are asserted, so this still fails if one of ours starts storing
     the axis -- the defect the test exists to catch -- rather than being relaxed to admit
-    the new rows."""
+    the new rows.
+
+    ⚠️ RYA-1213 ADDS `reference` TO THE LEFT-HAND SET, AND THE ADDITION IS THE POINT, NOT
+    A RELAXATION. The Reference tier is OURS: it measures every LAB-tier row canonical_gf
+    holds in the band, on our gf, so it derives its axis from `tier` exactly like the
+    other two and must NOT store one. That is what the first assertion below now says.
+    The property the test guards is unchanged -- ours derive, replications store -- and
+    both halves still fail if either side starts doing the other's job."""
     feed = json.loads(FEED.read_text())
     ours = [p for p in feed["products"] if not p.get("line_set")]
     repl = [p for p in feed["products"] if p.get("line_set")]
-    assert {rls.line_set_for_product(p) for p in ours} == {"our-graded", "our-deep-graded"}
+    assert {rls.line_set_for_product(p) for p in ours} == {
+        "our-graded", "our-deep-graded", "reference"}
     assert {rls.line_set_for_product(p) for p in repl} == {"asplund"}
     assert len(ours) + len(repl) == len(feed["products"])
     assert len(repl) == 4, "the four RYA-1106 Asplund replications (RYA-1185)"

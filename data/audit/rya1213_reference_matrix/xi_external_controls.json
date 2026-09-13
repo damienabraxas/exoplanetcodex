@@ -1,0 +1,69 @@
+{
+ "ticket": "RYA-1213",
+ "what": "two EXTERNAL controls on the Reference xi campaign \u2014 checks against numbers this ticket did not produce, rather than against itself.",
+ "why": "\ud83d\udd34 A GUARD WHOSE TWO SIDES CONVERGE IS NOT A GUARD (RYA-853). The control in xi_control.json proves the override BITES; it does not prove the derivative is RIGHT. These two compare it with derivatives measured by other tickets.",
+ "control_1_min_paired_refusal_reproduced": {
+  "cell": "NIR Fe I, solar_crires_plus_y_wide_rya1054, ENGINE-A",
+  "this_campaign": {
+   "dA_dxi": -0.1075,
+   "n_paired": 2,
+   "xi_state": "UNMEASURED"
+  },
+  "rya1163_on_the_same_physical_pool": {
+   "n_paired": 2,
+   "xi_state": "UNMEASURED"
+  },
+  "verdict": "AGREES. RYA-1163 declined this exact cell for pairing 2 lines against min_paired=3, and this campaign declines it for the same reason from the same floor. The floor was adopted verbatim, so this checks that the pairing count is computed the same way -- not that the threshold is."
+ },
+ "control_2_the_derivative_IS_pool_dependent": {
+  "cell": "VIS Fe II, solar_kpno_kurucz2005_corrected, 1D-LTE",
+  "why_comparable": "VIS Fe II holds NO lab line at or below the depth gate, so the Reference pool and the DEEPGRADED pool are the same SELECTION. RYA-1120 measured the Deep one.",
+  "rya1120_deepgraded": {
+   "dA_dxi": -0.23,
+   "n_paired": 9,
+   "sigma_xi": 0.066976
+  },
+  "this_campaign_reference": {
+   "dA_dxi": -0.295,
+   "n_paired": 8,
+   "sigma_xi": 0.0859
+  },
+  "the_pool_is_not_the_same_after_all": "n_paired 9 against 8, and the missing line is identified: RYA-1120 ran before RYA-1191 curated Fe II 4303.170 out of the pool. This campaign's leg holds 4233.162 / 4351.762 / 4385.377 / 4416.819 / 4508.280 / 4522.628 / 4549.466 / 4583.829 and NOT 4303.170 \u2014 verified in the leg's own per-line file, not inferred.",
+  "verdict": "\ud83d\udd34 THE MOST DIRECT EVIDENCE IN THIS TICKET THAT BORROWING WOULD HAVE BEEN WRONG. Same band, same holding, same treatment, same selection rule -- and ONE line leaving the pool moved the derivative 28%, from -0.230 to -0.295. Ryan's ruling is not a matter of principle only: it is measurable at one line. In VIS Fe I the Reference pool is 175 lines against Codex's 67 and Deep's 108, so inheriting a sibling derivative there would have been a far larger extrapolation than the one that already moves 28% here.",
+  "and_it_agrees_where_it_should": "sign, order of magnitude and the strong-line character all match: Fe II VIS is a saturated 8-line pool and carries the largest derivatives in the campaign so far (-0.28 to -0.30) against a 5-line weak NIR pool's -0.02 to -0.04. RYA-1093's 'xi-sensitivity is a STRONG-LINE phenomenon', reproduced across two bands."
+ },
+ "control_3_the_campaign_reproduces_a_PUBLISHED_derivative": {
+  "why_this_is_the_strongest_check": "controls 1 and 2 test the campaign against ITS OWN pools. This one runs a DIFFERENT ticket's unit through THIS ticket's harness and compares with the number that ticket published \u2014 a check on the whole chain (runner, xi override, leg stamping, per-line pairing, derivative, sigma_xi) against something RYA-1213 did not produce. Cost 1.4 core-hours.",
+  "unit": "NIR Fe I, solar_iag, tier GRADED (not Reference), deck gerber-1d-lte",
+  "comparison": {
+   "1D-LTE": {
+    "rya1163_published": {
+     "dA_dxi": -0.05,
+     "n_paired": 25,
+     "sigma_xi": 0.0146
+    },
+    "this_harness": {
+     "dA_dxi": -0.0525,
+     "n_paired": 22,
+     "sigma_xi": 0.0153
+    },
+    "agreement_dex": 0.0025
+   },
+   "ENGINE-A": {
+    "rya1163_published": {
+     "dA_dxi": -0.04,
+     "n_paired": 6,
+     "sigma_xi": 0.0116
+    },
+    "this_harness": {
+     "dA_dxi": -0.0375,
+     "n_paired": 6,
+     "sigma_xi": 0.0109
+    },
+    "agreement_dex": 0.0025
+   }
+  },
+  "verdict": "REPRODUCED. Both treatments agree to 0.0025 dex \u2014 one quantiser step at the precision these are reported to \u2014 and sigma_xi to 0.0007. ENGINE-A pairs the SAME 6 lines. The whole chain is validated against a number from another ticket and another harness.",
+  "and_the_n_difference_is_already_explained": "1D-LTE pairs 22 here against RYA-1163's 25, and it is the SAME three-to-four lines as the stale-product finding: RYA-1163 ran before RYA-1191's fit_validity guard removed the four non-convergent fits from this cell (9350.415, 9410.159, 9437.793, 9454.194). So the two agree to 0.0025 dex ACROSS a pool difference \u2014 which also says the derivative is robust to those four lines even though the ABUNDANCE is not, because a median moves by rank and a paired differential does not."
+ }
+}

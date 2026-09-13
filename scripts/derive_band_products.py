@@ -446,6 +446,114 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
     }).sort_values("wave_A").reset_index(drop=True)
 
 
+def _cand_reference(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
+    """EVERY LAB-tier line in the band, with the depth gate NOT applied — RYA-1213.
+
+    🔴 REFERENCE IS ORTHOGONAL TO THE DEPTH GRID, AND THAT IS THE WHOLE SELECTOR. Codex
+    Grade is the lab pool AT OR BELOW the 0.60 feature-depth gate and Deep Grade is the
+    lab pool ABOVE it; both ask the same gf question and then split on a quantity that
+    has nothing to do with gf. RYA-946 defines the Reference tier by PEDIGREE alone --
+    "the amalgamation of best available gf per line from every source, lab where it
+    exists" -- so this selector asks the gf question and stops. `sel = lab`, with no
+    depth term anywhere in it.
+
+    🔴 IT IS NOT A UNION OF THE OTHER TWO SELECTORS, AND THE DIFFERENCE IS REAL LINES.
+    `_cand_graded` keeps `depth <= DEPTH_HI` and `_cand_deep_graded` keeps
+    `depth > DEPTH_HI`. Both comparisons are False for NaN, so a lab line whose feature
+    `linelist_solar` does not carry -- depth genuinely UNKNOWN, not zero (RYA-833) --
+    falls out of BOTH pools. Measured on this checkout: red-optical Fe I holds one such
+    line, so Codex+Deep there is 69 lines and the lab pool is 70. Under a
+    pedigree-only definition that line is IN, because nothing about its depth was ever
+    part of the question. `_cand_graded` prints those lines; this one keeps them and
+    prints that it did.
+
+    ⚠️ IN FOUR OF THE FIVE BANDS THIS POOL IS NOT NEW LINES, IT IS A NEW CUT. Only VIS
+    has lab lines on both sides of the gate (67 at or below / 109 above, over the
+    4200-6910 A product window). near-UV is 58 deep and 1 below-floor, so Reference there
+    is the Deep pool plus one; red-optical, NIR and H hold NO deep lab line at all, so
+    Reference is the Codex pool (plus the one no-depth red-optical line). A Reference
+    product in those bands therefore measures the SAME LINES as its Codex sibling, and
+    the grade label -- not the number -- is the new statement.
+
+    🔴 "THE SAME LINES" IS NOT "THE SAME NUMBER", AND I WROTE `EXACTLY` HERE BEFORE
+    MEASURING IT. On the CRIRES+ Y cell the two pools are identical -- the same five
+    wavelengths, all five in-aggregate -- and the values still differ:
+
+        1D-LTE               GRADED 7.5510   REFERENCE 7.5460   (artifacts 17 days apart)
+        ENGINE-A             GRADED 7.4920   REFERENCE 7.4860
+        synth-1D-LTE-gerber  GRADED 7.5530   REFERENCE 7.5540   (artifacts 1 day apart)
+
+    Run PAIRED -- the GRADED leg re-measured on the same commit as the Reference leg,
+    differing in the selector and nothing else -- the difference is ZERO on all three
+    treatments, to every published digit. So the numbers above are CODE DRIFT between
+    artifact vintages and none of it is the selector: the RYA-1204 trap exactly, where a
+    difference read against a stored value is part lever and part drift. Measured:
+    data/audit/rya1213_reference_matrix/nir_paired_selector_control.json.
+
+    ⚠️ That control holds where the lab pool does NOT straddle the depth gate. In VIS it
+    does (67 at or below, 109 above), so there Reference is genuinely a third pool and a
+    difference from either sibling is expected.
+    """
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'reference' product on a pool that is not graded.")
+    # Depth is REPORTED, never applied. Computing it costs nothing and it is the one
+    # number a reader will want when this pool is compared against its Codex/Deep
+    # siblings — how the same lines would have split had the gate been asked.
+    from line_accounting_rya709 import DEPTH_HI
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    _unknown = int(np.isnan(depth).sum())
+    print(f"  [reference] {len(lab)} LAB-tier {species} lines in {lo_A:.0f}-{hi_A:.0f} A; "
+          f"ALL selected — the {DEPTH_HI} depth gate is NOT applied (RYA-1213). For "
+          f"comparison only, that pool would split "
+          f"{int((depth <= DEPTH_HI).sum())} at/below the gate / "
+          f"{int((depth > DEPTH_HI).sum())} above it, with {_unknown} of unknown depth "
+          f"that BOTH depth-split selectors silently drop and this one keeps.")
+    if len(lab) < 2:
+        # The RYA-1031 floor, for the same reason and stated the same way: line-to-line
+        # scatter has n-1 degrees of freedom, so at n=1 the statistical term cannot be
+        # computed from the data at all.
+        raise SystemExit(
+            f"--lines-tier reference selected {len(lab)} {species} line(s) in "
+            f"{lo_A:.0f}-{hi_A:.0f} A -- refusing: a pool of fewer than 2 lines cannot "
+            f"carry a line-to-line scatter, so its statistical term would be invented "
+            f"rather than measured.")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+    keep, missing = _match_into_list(
+        np.sort(lab.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        # LOUD (RYA-711/833/977): a lab line the synthesis list does not carry was never
+        # a candidate, which is a different statement from "measured and rejected".
+        print(f"  [reference] {len(missing)} of {len(lab)} are NOT in the synthesis list "
+              f"(>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported rather "
+              f"than counted as failures (RYA-977 territory)")
+        for _w, _d in missing[:20]:
+            print(f"      {_w:10.3f}  nearest synthesis row is {_d:.3f} A away")
+    if not keep:
+        raise SystemExit("no reference line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
 def _cand_consistent(linelist, *, lo_A: float, hi_A: float, species: str,
                      ew_artifact=None) -> pd.DataFrame:
     """The CONSISTENT tier — RYA-1048. WIRED, AND DELIBERATELY CLOSED.
@@ -559,6 +667,19 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     }).sort_values("wave_A").reset_index(drop=True)
 
     if tier != "all":
+        # 🔴 RYA-1213 — SAME TWO-BRANCH TRAP AS THE EW ROUTE, SAME REFUSAL. `graded` ->
+        # the lab mask, anything else -> its COMPLEMENT, so `reference` here would have
+        # selected the non-laboratory lines. And the pool is wrong even before the mask:
+        # this selector's whole purpose is to run the synthesis over the lines an EW
+        # artifact ATTEMPTED, which is the depth-triaged shallow population -- the deep
+        # lab lines Reference is defined to include were never in the file.
+        if tier == "reference":
+            raise SystemExit(
+                "--lines-tier reference cannot be driven from an EW artifact "
+                "(--lines-from-ew): that artifact holds only the depth-triaged shallow "
+                "pool, so the deep lab lines Reference includes are absent by "
+                "construction. Drop --lines-from-ew; `_cand_reference` reads "
+                "canonical_gf directly (RYA-1213).")
         graded = _graded_mask(df.wave_A.values, df.ep_eV.values)
         df = df[graded if tier == "graded" else ~graded].reset_index(drop=True)
         print(f"  [tier] {tier}: {len(df)} lines (RYA-946 — graded and ungraded are "
@@ -633,6 +754,12 @@ def _selector_tag(a) -> str:
         return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
     if getattr(a, "lines_tier", "all") == "graded":
         return "_GRADED"
+    # RYA-1213. The stem is what `publish_product --selector` and the tracker's stem
+    # parser read, so a Reference run MUST NOT share a name with its Codex sibling: in
+    # NIR and H the two measure the same lines and would otherwise write the same file,
+    # the second silently overwriting the first (the RYA-1006 collision).
+    if getattr(a, "lines_tier", "all") == "reference":
+        return "_REFERENCE"
     if getattr(a, "lines_tier", "all") == "consistent":
         return "_CONSISTENT"
     return ""
@@ -1106,6 +1233,9 @@ def synthesis_route(a, pol) -> None:
     elif getattr(a, "lines_tier", "all") == "graded":
         cand = _cand_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
                             species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_tier", "all") == "reference":
+        cand = _cand_reference(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                               species=species_token(a.element, a.ion))
     elif getattr(a, "lines_tier", "all") == "consistent":
         cand = _cand_consistent(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
                                 species=species_token(a.element, a.ion),
@@ -2256,13 +2386,18 @@ def main() -> None:
                          "of growth is flat there. Synthesis inverts no EW, so the "
                          "saturation ceiling does not apply to them.")
     ap.add_argument("--lines-tier",
-                    choices=["all", "graded", "ungraded", "consistent"], default="all",
+                    choices=["all", "graded", "reference", "ungraded", "consistent"],
+                    default="all",
                     help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
                          "as their own product, never merged with the ungraded ones. "
                          "RYA-1048: 'consistent' is the third sub-product — lines with NO "
                          "laboratory gf that BEHAVE like the lab-anchored distribution. It "
                          "is WIRED BUT CLOSED: the saturation gate it needs is undeclared, "
-                         "so it raises rather than running. See _cand_consistent.")
+                         "so it raises rather than running. See _cand_consistent. "
+                         "RYA-1213: 'reference' is the LAB pool with the depth gate NOT "
+                         "applied -- graded and deep-graded together, plus the lines "
+                         "whose depth is unknown and which both depth-split selectors "
+                         "drop. It publishes as Reference Grade. See _cand_reference.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
@@ -2371,6 +2506,26 @@ def main() -> None:
                 f"--lines-tier {_tier}: {src.name} carries no usable ep_eV. The graded "
                 f"mask needs lambda AND EP (RYA-1036); re-measure so the artifact carries "
                 f"it rather than falling back to a wavelength-only key.")
+        # 🔴 RYA-1213 — `reference` HAS NO HONEST MEANING ON THIS ROUTE, AND THE
+        # TWO-BRANCH `_keep` BELOW WOULD HAVE GIVEN IT THE WORST ONE. That expression is
+        # `graded -> the lab mask, ANYTHING ELSE -> its complement`, so a `--lines-tier
+        # reference` EW run would have selected the lines with NO laboratory gf and
+        # published them as Reference Grade -- the exact inversion of what the tier
+        # means. Refused rather than mapped, because the pool cannot be built here even
+        # in principle: this route reads an EW artifact, and that artifact is written
+        # AFTER `line_accounting_rya709`'s [0.05, 0.60] depth triage, so the deep
+        # population Reference must include is invisible to it BY CONSTRUCTION (measured
+        # in RYA-967: the pool it returns tops out at depth 0.595). A Reference product
+        # therefore takes the SYNTHESIS route -- `--lines-tier reference
+        # --force-synthesis` -- where `_cand_reference` reads canonical_gf directly.
+        if _tier == "reference":
+            raise SystemExit(
+                "--lines-tier reference is a SYNTHESIS-route selector and this "
+                "invocation takes the EW/profile-fit route. The EW artifact is written "
+                "after the [0.05, 0.60] depth triage, so the deep lab lines Reference is "
+                "defined to include are not in it -- the pool would silently be the "
+                "shallow half wearing the Reference name. Add --force-synthesis "
+                "(RYA-1213).")
         _g = _graded_mask(ok.wavelength_air_A.astype(float).values,
                           ok.ep_eV.astype(float).values)
         _keep = _g if _tier == "graded" else ~_g

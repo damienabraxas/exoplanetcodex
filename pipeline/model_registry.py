@@ -101,6 +101,24 @@ LINE_SETS = (
     # alternative was to let `key_of` default, which is the RYA-869 class exactly.
     "our-ungraded",      # our lines BELOW the gf-grade bar (`--lines-tier ungraded`)
     "our-all",           # our whole pool, graded and ungraded together (`--lines-tier all`)
+    # 🔴 RYA-1213 — THE LAB POOL UNDIVIDED, AND IT IS NOT A SPELLING OF `our-all`.
+    # `our-all` is the whole pool with NO gf filter: the harps EW pool is 247 lines of
+    # which 9 are lab-graded. `reference` is the exact opposite selection -- EVERY
+    # `gf_tier=LAB` row and nothing else, with the DEPTH gate not applied. It is the
+    # union of `our-graded` and `our-deep-graded` plus the lines the depth split drops on
+    # the floor, which is RYA-946's Reference definition ("best available gf per line,
+    # lab where it exists") read as a pool rather than as a paper.
+    #
+    # ⚠️ IT IS DELIBERATELY NOT `our-reference`, AND THE INCONSISTENCY IS THE TICKET'S
+    # CALL, NOT A SLIP. Every other pool of ours is prefixed `our-` precisely to separate
+    # it from an external set (`asplund`, `gbs`), and by that convention this value reads
+    # like a third external list. RYA-1213 names it `reference` in as many words, and the
+    # grade it maps to is "Reference Grade", so the ticket's spelling wins over the
+    # convention. The distinction a reader needs -- our lab pool vs AGSS21's published
+    # table -- is carried by the VALUE (`reference` vs `asplund`), which is in the
+    # identity key; see `GRADE_FOR_LINE_SET`, where both map to "Reference Grade" and the
+    # line_set is the only thing that tells them apart.
+    "reference",         # every LAB-tier line in the band, depth-gate NOT applied (RYA-1213)
     # ⚠️ `consistent` REMAINS ABSENT, deliberately -- RYA-1105 retires that tier, and a
     # product carrying it must still fail loudly rather than acquire a name here.
 )

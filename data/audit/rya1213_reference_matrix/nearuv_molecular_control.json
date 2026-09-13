@@ -1,0 +1,24 @@
+{
+ "ticket": "RYA-1213",
+ "question": "did the near-UV Reference runs carry MOLECULAR OPACITY? The band's atomic_lines.tsv is deliberately not committed and had to be rebuilt on Sirius for this ticket, and `use_molecules` reaches Turbospectrum through four `.bsyn` files in the iSpec tree that nothing in this repo writes at run time. Nothing in the run log says either way.",
+ "why_it_matters": "iSpec filters molecular lists by the nm range in the FILENAME and silently finds none when they are absent, so a near-UV run with the files missing would synthesise atoms-only under a band config that declares molecules -- a real value, quietly measuring a different physics. RYA-1207 measured the lever at -0.28 to -0.30 dex on Fe II, so the two cases are far apart and easy to tell.",
+ "control": "the near-UV Fe II Reference pool is the Deep pool exactly -- 12 LAB-tier lines, none at or below the depth gate -- so a Reference run must reproduce the live RYA-1207/1209 Deep values, which were measured WITH molecules.",
+ "kurucz2005": {
+  "1D-LTE": {
+   "REFERENCE": 7.617,
+   "live_DEEPGRADED": 7.617,
+   "delta": 0.0
+  },
+  "ENGINE-A": {
+   "REFERENCE": 7.635,
+   "live_DEEPGRADED": 7.635,
+   "delta": 0.0
+  },
+  "synth-1D-LTE-gerber": {
+   "REFERENCE": 7.621,
+   "live_DEEPGRADED": 7.622,
+   "delta": -0.001
+  }
+ },
+ "verdict": "MOLECULES ON. The three treatments agree to 0.000, 0.000 and 0.001 dex on identical 12- and 7-line pools. Atoms-only would have sat ~0.28 dex higher (RYA-1207's measured Fe II lever), which is 280x the largest disagreement seen. It also re-confirms that the rebuilt atomic_lines.tsv is the list the published near-UV values were measured on -- independently established by md5: the rebuild is byte-identical to the copy RYA-1203/1207/1209 ran."
+}
