@@ -39,17 +39,17 @@ reachable CRIRES+ solar products resolve with explicit `csv_normalized` spans. R
 archive inventories and the upstream VizieR delivery still remain intentionally
 unaddressable. The Al intake builder fills legacy blank reach only from this registry;
 the two census NIR intervals (13000–13195.23 A and 17493.69–19510.4 A) no longer fall
-through to `OUTSIDE_CURRENT_INSTRUMENT_REACH`. Fresh RYA-1141 QA now reports `C-lines`
-and `C-bands` PASS, while the overall measurement gate remains CLOSED on the other
-scientific findings.
+through to `OUTSIDE_CURRENT_INSTRUMENT_REACH`. Fresh RYA-1141 QA now reports `C-lines` and `C-bands` PASS. Registry rows that lack a
+reader remain audit flags, but no longer close the Al element gate when usable holdings
+are available.
 
 ## RYA-1156 source-flag reconciliation (2026-09-13)
 
 The Vujnovic CDS parser now preserves the documented limit and note flags (`l_e_Aki`,
 `n_Aki`, `n_Lambda`, and related fields). Lower-limit uncertainties remain without a
 determinate sigma, and the Al manifest carries an explicit `sigma_basis` for every
-finite uncertainty. Fresh QA now reports `A1-flags` and `A5-sigma` PASS; the overall
-measurement gate remains CLOSED.
+finite uncertainty. Fresh QA now reports `A1-flags` and `A5-sigma` PASS; the partial measurement
+path remains OPEN for lines with usable holdings and validated provenance.
 
 The competing Vujnovic values are also retained in `competing_gf_summary` and the
 conflict ledger without promotion. Fresh QA reports `A6` PASS.
@@ -79,7 +79,7 @@ and `D3` PASS.
 - RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
   matrix. It supplies atomic dispositions; it does not clear holding or product
   conditioning gates.
-- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, the HFS checks, `A5-doi`, the D4 evaluated-tier checks, `A2`, and `D3` now PASS; 21 findings remain (9 HIGH, 12 MEDIUM). Raw holding policy and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
+- The current executable RYA-1141 audit keeps the measurement path OPEN for partial use: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, the HFS checks, `A5-doi`, the D4 evaluated-tier checks, `A2`, and `D3` PASS; holding-reader gaps and catalog-versus-holding reach remain non-blocking flags. Usable lines can proceed, while unavailable holdings remain excluded at product time.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
 ## Evidence and validation

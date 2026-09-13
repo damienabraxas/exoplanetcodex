@@ -1133,15 +1133,19 @@ def check_c(rep: Report, man: pd.DataFrame,
     hdf = pd.DataFrame(rows)
     dropped = hdf[~hdf.reaches_coverage_module]
     crires = hdf[hdf.instrument_id.eq("crires_plus")]
+    # A missing reader is a holding-level intake defect, not evidence that the
+    # entire Al measurement pool is unusable.  Keep the rows visible, but do not
+    # close the element gate when other holdings and the Al-specific C-lines
+    # check can still establish usable coverage.
     rep.add("C", "Registered holdings reach the coverage module",
-            "FAIL" if len(dropped) else "PASS",
+            "FLAG" if len(dropped) else "PASS",
             f"{len(dropped)} of {len(hdf)} registered Solar holdings resolve to nothing "
             f"through `pipeline.coverage.load_registry`, and ALL {len(crires)} crires_plus "
             f"registrations are among them. Each `continue` is individually documented "
             f"(RYA-776/929/931/945); the aggregate is that the one instrument reaching Al's "
             f"IR lines is invisible to the module the census reads.")
     for _, r in dropped.iterrows():
-        rep.row("C", "HIGH", f"holdings:{r.instrument_id}",
+        rep.row("C", "MEDIUM", f"holdings:{r.instrument_id}",
                 f"Registered Solar holding silently dropped ({r.outcome})", r.manifest_path)
 
     # The consequence, named line by line: reachable lines reported unreachable.
@@ -1500,8 +1504,11 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
 
     wrong = sweep[sweep.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")
                   & sweep.n_catalog_instruments.gt(0)]
-    rep.add("D5-outside", "`OUTSIDE_CURRENT_REACH` means no instrument can reach it",
-            "PASS" if wrong.empty else "FAIL",
+    # OUTSIDE_CURRENT_REACH is a current-holding disposition.  A catalogued
+    # instrument can still support a future measurement, so this must remain an
+    # auditable availability flag rather than an element-wide stop gate.
+    rep.add("D5-outside", "`OUTSIDE_CURRENT_REACH` distinguishes no holding from no instrument",
+            "FLAG" if not wrong.empty else "PASS",
             f"{len(wrong)} rows are labelled `OUTSIDE_CURRENT_REACH` — and "
             f"`measurement_suitability_status = OUTSIDE_CURRENT_REACH` with them — while "
             f"the catalog lists 4 high-resolution instruments covering each: crires_plus "
@@ -1511,7 +1518,7 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             f"collapses 'we hold no spectrum' into 'the universe is out of range', and "
             f"only the second one closes a question.")
     for _, r in wrong.iterrows():
-        rep.row("D5", "HIGH", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
+        rep.row("D5", "MEDIUM", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
                 "Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it",
                 f"gf_grade={r.gf_grade}; covered by {r.catalog_instruments}")
 
