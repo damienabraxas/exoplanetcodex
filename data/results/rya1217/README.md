@@ -58,6 +58,10 @@ The HFS/component reconciliation now carries source component counts and total l
 values in the manifest, and the canonical 3944.006/3961.520 rows carry counts 4 and 6.
 Fresh QA reports `A3`, `A3-meta`, and `A3-rya1001` PASS.
 
+The three misquoted DOI entries are corrected in the bibliography and follow-up ledger:
+Griesmann & Kling (`10.1086/312741`), Nandakumar et al. (`10.3847/1538-4357/ad22dc`),
+and Murphy & Berengut (`10.1093/mnras/stt2204`). Fresh QA reports `A5-doi` PASS.
+
 ## Established blockers
 
 - The preserved RYA-1132 source manifest remains the audit baseline; its corrected
@@ -67,7 +71,7 @@ Fresh QA reports `A3`, `A3-meta`, and `A3-rya1001` PASS.
 - RYA-1134 is merged and its `verified_v2` pool is consumed by the refreshed
   matrix. It supplies atomic dispositions; it does not clear holding or product
   conditioning gates.
-- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, and the HFS checks now PASS; 53 findings remain (13 CRITICAL, 28 HIGH, 12 MEDIUM). Identity matching, DOI provenance, evaluated-source semantics, raw holding policy, and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
+- The current executable RYA-1141 audit returns FAIL / measurement gate CLOSED: `C-lines`, `C-bands`, `A1-flags`, `A5-sigma`, `A6`, the HFS checks, and `A5-doi` now PASS; 50 findings remain (10 CRITICAL, 28 HIGH, 12 MEDIUM). Identity matching, evaluated-source semantics, raw holding policy, and model applicability remain unresolved. These require upstream scientific adjudication, not merely adding schema columns.
 - RYA-1173 is merged and its AGSS21 census gate passes. The old claim that the Al reference census is entirely absent is superseded. This does not supply the missing RYA-1134 verified grades.
 
 ## Evidence and validation
