@@ -2033,93 +2033,116 @@ def synthesis_route(a, pol) -> None:
     # (`SynthesisHandler`) and NOT the EW route's ProfileFitHandler — ENGINE-A rides
     # whatever measured the line, and charging the profile fitter's residual to a flux
     # fit would attribute someone else's systematic to it (RYA-869).
-    used_a = [l for l in lines if l.in_aggregate and l.abundance is not None]
-    deltas = engine_a_delta(a.element, a.ion,
-                            np.array([l.wavelength_air_A for l in used_a]),
-                            cache=a.mpia_cache, star=a.star)
-    rows_a: list[LineMeasurement] = []
-    for l in used_a:
-        # Tolerance match — two catalogues quoting one transition differ by up to
-        # ~0.03 A (RYA-704), and the grid keys are rounded.
-        d = None
-        if deltas:
-            k = min(deltas, key=lambda x: abs(x - l.wavelength_air_A))
-            if abs(k - l.wavelength_air_A) < 0.06:
-                d = deltas[k]
-        la = LineMeasurement(
-            element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
-            instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
-            treatment="ENGINE-A", ep_eV=l.ep_eV,
-            nlte_delta_dex=(float(d) if d is not None else None),
-            nlte_source=(engine_a_source(a.element) if d is not None
-                         else "registered per-line delta_nlte (NOT SERVED)"),
-            continuum_level=l.continuum_level, continuum_method=l.continuum_method,
-            continuum_ref=l.continuum_ref,
-            observed_depth=l.observed_depth, implied_width_A=l.implied_width_A,
-            red_chi2=l.red_chi2,
-            abundance=(l.abundance + d) if d is not None else None)
-        if d is None:
-            la.in_aggregate = False
-            la.excluded_reason = (
-                "ENGINE-A-NOT-SERVED: the registered source returns no usable "
-                "delta_nlte for this line (absent, nan, or a placeholder zero). "
-                "Reduced coverage, not a failed correction.")
-        # `_stamp` is a closure over the EW route's `main()` locals and is not reachable
-        # here. Both invariants it enforces are still honoured, explicitly:
-        #   RYA-880 — every row must STATE what departure was applied, because a blank
-        #             cannot be told apart from an unrecorded correction (RYA-833).
-        #             Satisfied by construction above, and asserted rather than assumed.
-        #   RYA-711 — the problem-children registry disposition is carried, not dropped.
-        #             ENGINE-A is the SAME transition as its parent line (RYA-871), so it
-        #             inherits that line's verdict; re-deriving it would be a second
-        #             source for one fact.
-        if not la.nlte_source:
-            raise SystemExit(
-                f"RYA-880: {la.element} {la.ion} {la.wavelength_air_A} (ENGINE-A) has no "
-                f"`nlte_source`. Every row must state what departure was applied.")
-        la.problem_class = l.problem_class
-        la.problem_status = l.problem_status
-        la.problem_tickets = l.problem_tickets
-        la.problem_action = l.problem_action
-        if not l.in_aggregate:
-            la.in_aggregate = False
-            la.excluded_reason = (l.excluded_reason if not la.excluded_reason
-                                  else f"{l.excluded_reason} | {la.excluded_reason}")
-        rows_a.append(la)
-    p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
-                        handler="SynthesisHandler",
-                        provenance=engine_a_source(a.element))
-    if p_a.value is not None:
-        pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
-            out / f"{stem}_ENGINE-A_lines.csv", index=False)
-        b_a = build_budget(a.element, 0.5 * (a.lo + a.hi), p_a.n_lines,
-                           scatter_dex=p_a.sigma, **rung.budget_kwargs(),
-                           **harness_residual.for_product(p_a).budget_kwargs())
-        stat_a, syst_a = b_a.total()
-        pd.DataFrame([dict(
-            element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
-            treatment="ENGINE-A", handler=p_a.handler,
-            A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
-            stat_dex=round_dex(stat_a), syst_dex=round_dex(syst_a),
-            stat_basis=b_a.stat_basis(),
-            dominant=(b_a.dominant().name if b_a.dominant() else ""),
-            **axes_for("ENGINE-A", handler=p_a.handler or None).as_columns(),
-        )]).to_csv(out / f"{stem}_ENGINE-A_products.csv", index=False)
-        (out / f"{stem}_ENGINE-A_budgets.txt").write_text(
-            b_a.describe() + f"\n  gf rung: {rung.describe()}\n")
-        (out / f"{stem}_ENGINE-A_provenance.txt").write_text(p_a.provenance + "\n")
-        _d = [float(r.nlte_delta_dex) for r in rows_a
-              if r.nlte_delta_dex is not None]
-        print(f"\n  A({a.element} {a.ion}; {pol.name}, ENGINE-A) = {p_a.value:.3f}  "
-              f"(n={p_a.n_lines}, not-served {p_a.n_excluded})")
-        print(f"    delta_nlte applied: mean {np.mean(_d):+.4f} dex over "
-              f"{len(_d)} line(s) — {engine_a_source(a.element)}")
+    # 🔴 RYA-1214 — ONE EMITTER FOR EVERY PER-LINE DEPARTURE PRODUCT. This block was
+    # written for ENGINE-A alone; C and O need a 1D-NLTE AND a 3D-NLTE product from the
+    # SAME inversion (Amarsi 2019's two legs), and a second hand-copied block is the
+    # RYA-701 shape. `model` and `gf` are passed, not read off the label: the label's
+    # legacy axes said `bergemann` for every synthesis-route ENGINE-A — including N, whose
+    # correction is Amarsi 2020 — because this block never passed `engine_a_model` the way
+    # the EW route does.
+    def _emit_departure(treatment, deltas, source, model, gf=None):
+        used_a = [l for l in lines if l.in_aggregate and l.abundance is not None]
+        rows_a: list[LineMeasurement] = []
+        for l in used_a:
+            # Tolerance match — two catalogues quoting one transition differ by up to
+            # ~0.03 A (RYA-704), and the grid keys are rounded.
+            d = None
+            if deltas:
+                k = min(deltas, key=lambda x: abs(x - l.wavelength_air_A))
+                if abs(k - l.wavelength_air_A) < 0.06:
+                    d = deltas[k]
+            la = LineMeasurement(
+                element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
+                instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
+                treatment=treatment, ep_eV=l.ep_eV,
+                nlte_delta_dex=(float(d) if d is not None else None),
+                nlte_source=(source if d is not None
+                             else "registered per-line delta_nlte (NOT SERVED)"),
+                continuum_level=l.continuum_level, continuum_method=l.continuum_method,
+                continuum_ref=l.continuum_ref,
+                observed_depth=l.observed_depth, implied_width_A=l.implied_width_A,
+                red_chi2=l.red_chi2,
+                abundance=(l.abundance + d) if d is not None else None)
+            if d is None:
+                la.in_aggregate = False
+                la.excluded_reason = (
+                    f"{treatment}-NOT-SERVED: the registered source returns no usable "
+                    "delta_nlte for this line (absent, nan, or a placeholder zero). "
+                    "Reduced coverage, not a failed correction.")
+            # `_stamp` is a closure over the EW route's `main()` locals and is not reachable
+            # here. Both invariants it enforces are still honoured, explicitly:
+            #   RYA-880 — every row must STATE what departure was applied, because a blank
+            #             cannot be told apart from an unrecorded correction (RYA-833).
+            #             Satisfied by construction above, and asserted rather than assumed.
+            #   RYA-711 — the problem-children registry disposition is carried, not dropped.
+            #             ENGINE-A is the SAME transition as its parent line (RYA-871), so it
+            #             inherits that line's verdict; re-deriving it would be a second
+            #             source for one fact.
+            if not la.nlte_source:
+                raise SystemExit(
+                    f"RYA-880: {la.element} {la.ion} {la.wavelength_air_A} ({treatment}) has no "
+                    f"`nlte_source`. Every row must state what departure was applied.")
+            la.problem_class = l.problem_class
+            la.problem_status = l.problem_status
+            la.problem_tickets = l.problem_tickets
+            la.problem_action = l.problem_action
+            if not l.in_aggregate:
+                la.in_aggregate = False
+                la.excluded_reason = (l.excluded_reason if not la.excluded_reason
+                                      else f"{l.excluded_reason} | {la.excluded_reason}")
+            rows_a.append(la)
+        p_a = build_product(a.element, a.ion, a.instrument, pol.name, treatment, rows_a,
+                            handler="SynthesisHandler",
+                            provenance=source)
+        if p_a.value is not None:
+            pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
+                out / f"{stem}_{treatment}_lines.csv", index=False)
+            b_a = build_budget(a.element, 0.5 * (a.lo + a.hi), p_a.n_lines,
+                               scatter_dex=p_a.sigma, **rung.budget_kwargs(),
+                               **harness_residual.for_product(p_a).budget_kwargs())
+            stat_a, syst_a = b_a.total()
+            pd.DataFrame([dict(
+                element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+                treatment=treatment, handler=p_a.handler,
+                A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
+                stat_dex=round_dex(stat_a), syst_dex=round_dex(syst_a),
+                stat_basis=b_a.stat_basis(),
+                dominant=(b_a.dominant().name if b_a.dominant() else ""),
+                **axes_for(treatment, handler=p_a.handler or None,
+                             model=model, gf=gf).as_columns(),
+            )]).to_csv(out / f"{stem}_{treatment}_products.csv", index=False)
+            (out / f"{stem}_{treatment}_budgets.txt").write_text(
+                b_a.describe() + f"\n  gf rung: {rung.describe()}\n")
+            (out / f"{stem}_{treatment}_provenance.txt").write_text(p_a.provenance + "\n")
+            _d = [float(r.nlte_delta_dex) for r in rows_a
+                  if r.nlte_delta_dex is not None]
+            print(f"\n  A({a.element} {a.ion}; {pol.name}, {treatment}) = {p_a.value:.3f}  "
+                  f"(n={p_a.n_lines}, not-served {p_a.n_excluded})")
+            print(f"    delta_nlte applied: mean {np.mean(_d):+.4f} dex over "
+                  f"{len(_d)} line(s) — {source}")
+        else:
+            # An UNSERVED element is a stated disposition, not a missing row. The old
+            # behaviour — printing nothing — is what made this gap invisible.
+            print(f"\n  {treatment}: NOT PRODUCED — {source}; "
+                  f"{p_a.n_excluded} of {len(rows_a)} line(s) unserved. The 1D-LTE product "
+                  f"above stands alone and is NOT an NLTE value.")
+
+    _used = [l for l in lines if l.in_aggregate and l.abundance is not None]
+    if nlte_cno_species(a.element, a.ion):
+        _emit_departure("ENGINE-A", cno_departure_deltas(a.element, a.ion, _used, ctx, "1D"),
+                        engine_a_source(a.element), engine_a_model(a.element))
+        # gf passed explicitly: the ENGINE-A-3DNLTE label's legacy axis is `lab` (RYA-1106,
+        # measured on Fe). C/O have NO laboratory gf, and the axis has no value for an
+        # evaluated compilation, so the non-lab value is the one that is not false.
+        _emit_departure("ENGINE-A-3DNLTE",
+                        cno_departure_deltas(a.element, a.ion, _used, ctx, "3D"),
+                        cno_departure_source("3D"), "amarsi", gf="kurucz")
     else:
-        # An UNSERVED element is a stated disposition, not a missing row. The old
-        # behaviour — printing nothing — is what made this gap invisible.
-        print(f"\n  ENGINE-A: NOT PRODUCED — {engine_a_source(a.element)}; "
-              f"{p_a.n_excluded} of {len(rows_a)} line(s) unserved. The 1D-LTE product "
-              f"above stands alone and is NOT an NLTE value.")
+        _emit_departure("ENGINE-A",
+                        engine_a_delta(a.element, a.ion,
+                                       np.array([l.wavelength_air_A for l in _used]),
+                                       cache=a.mpia_cache, star=a.star),
+                        engine_a_source(a.element), engine_a_model(a.element))
 
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
@@ -2219,10 +2242,22 @@ GERBER_NLTE_SOURCE_FMT = ("gerber:{atom} (TS-native departure deck, RYA-798); de
                           "exists, this is a separate product, not a corrected LTE value")
 
 
+from pipeline.nlte_cno import (  # noqa: E402  RYA-1214: C I / O I departure legs
+    departure_deltas as cno_departure_deltas, departure_source as cno_departure_source,
+    species_of as _cno_species_of)
+
+
+def nlte_cno_species(element: str, ion) -> str | None:
+    """'CI' / 'OI' when Amarsi 2019 (pipeline.nlte_cno) tabulates this species, else None."""
+    return _cno_species_of(element, ion)
+
+
 def engine_a_source(element: str) -> str:
     """Name the registered source actually consulted for an Engine-A product."""
     if element == "Fe":
         return MPIA_NLTE_SOURCE
+    if nlte_cno_species(element, "I"):
+        return cno_departure_source("1D")
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element)
     if spec is None:
@@ -2234,6 +2269,8 @@ def engine_a_model(element: str) -> str:
     """Physics-model axis for the registered Engine-A source."""
     if element == "Fe":
         return "bergemann"
+    if nlte_cno_species(element, "I"):
+        return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()

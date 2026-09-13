@@ -234,6 +234,11 @@ class RegionConfig:
     telluric_correction_required: bool
     nlte_backend: str               # 'lte_by_design' (VIS) | 'amarsi_grid' | 'in_synthesis'
     notes: str = ''
+    #: RYA-1214 — the holding, when the band alone cannot decide it. Kitt Peak serves VIS
+    #: from TWO holdings (Kurucz 2005 residual and the molecfit-corrected 1984 composite),
+    #: and `holding_for_region` chose between them on band edges only, so a VIS region could
+    #: never be measured on the molecfit one. None keeps the band-edge rule.
+    holding: str | None = None
 
 
 HARPS_VIS = RegionConfig(
@@ -383,7 +388,49 @@ NIR_CN_IAG = RegionConfig(
           'clean (nearest band H2O starts at 11120 A, 37 A redward of the edge).',
 )
 
+#: 🔴 RYA-1214 — THE VIS MOLECULAR/ATOMIC DIAGNOSTICS ON EVERY VIS HOLDING, NOT JUST HARPS.
+#: Ryan: all bands, all instruments, all engines. Fe VIS is measured on four holdings; CNO
+#: VIS ran on HARPS alone because `vis` was the only VIS region. Same diagnostics, same
+#: windows — the holding is the only thing that differs, which is what makes the four
+#: comparable. R is `instrument_catalog.resolving_power_max`, the value derive_band_products
+#: uses for the same instrument.
+VIS_KP_K05 = RegionConfig(
+    name='vis_kp_k05', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=3780.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_kpno_kurucz2005_corrected',
+    notes='Kurucz 2005 residual atlas, VIS. Same diagnostics and windows as HARPS vis.')
+VIS_KP_MF = RegionConfig(
+    name='vis_kp_mf', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=3780.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_kpno_molecfit_corrected',
+    notes='Kitt Peak 1984 composite, molecfit-corrected, VIS.')
+#: IAG's reach starts at 5002 A (its own VIS product stems: CI_5002_6910_iag...), so the
+#: CH G-band (4303-4313 A) is OUTSIDE it and C has no molecular primary there — C2 Swan and
+#: the C I lines are measured as cross-checks and A(C) is PINNED for the coupled bands.
+VIS_IAG = RegionConfig(
+    name='vis_iag', instrument='iag_fts_solar_atlas', R=700000.0,
+    wave_min_A=5002.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_iag',
+    notes='IAG FTS VIS from its own blue reach 5002 A; CH G-band out of reach.')
+
+#: 🔴 RYA-1214 — OH IN THE CRIRES+ H BAND. 14 of AGSS21's OH vibration-rotation indicators
+#: ((2-0), (3-1), (4-2)) fall inside the H holding. Line list: Brooke 2016, built and
+#: validated by scripts/rya1214_build_oh_h_bsyn.py (14/14 AGSS21 gf, median 0.0004 dex) —
+#: NOT the vendored MYTHOS file, which is vacuum and +0.30 dex strong.
+#: ⚠️ 16052.77 A sits in the enumerated CO2 band 15700-16100 A: its window is DROPPED, so
+#: 13 lines are fitted. Windows are +/-1.0 A around each AGSS21 air position.
+_OH_H_AIR_A = (15278.53, 15409.18, 15568.80, 16192.15, 16368.15, 16456.05, 16534.59,
+               16605.47, 16656.00, 16872.29, 16886.30, 16904.29, 16909.30)
+H_OH_CRIRES = RegionConfig(
+    name='h_oh_crires', instrument='crires_plus', R=100000.0,
+    wave_min_A=15007.11, wave_max_A=17493.69, telluric_correction_required=True,
+    nlte_backend='lte_by_design', holding='solar_crires_plus_h_rya1094',
+    notes='CRIRES+ H, molecfit-corrected (RYA-1191). AGSS21 OH (2-0)/(3-1)/(4-2); '
+          '16052.77 A dropped (CO2 15700-16100).')
+
 REGIONS = {'vis': HARPS_VIS, 'nearuv': NEARUV_KP,
+           'vis_kp_k05': VIS_KP_K05, 'vis_kp_mf': VIS_KP_MF, 'vis_iag': VIS_IAG,
+           'h_oh_crires': H_OH_CRIRES,
            'nir_cn_kp': NIR_CN_KP, 'nir_cn_iag': NIR_CN_IAG}
 
 
@@ -630,7 +677,37 @@ NIR_CN_IAG_DIAGNOSTICS = (
     ),
 )
 
+def _merge_windows(centres, half):
+    out = []
+    for c in sorted(centres):
+        lo, hi = c - half, c + half
+        if out and lo <= out[-1][1]:
+            out[-1] = (out[-1][0], hi)
+        else:
+            out.append((lo, hi))
+    return tuple(out)
+
+
+H_OH_DIAGNOSTICS = (
+    Diagnostic(
+        key='OH_H', element='O', kind='molecular_band',
+        windows_A=_merge_windows(_OH_H_AIR_A, 1.0),
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='OH X-X vibration-rotation (2-0)/(3-1)/(4-2), Brooke+2016 gf; AGSS21 own '
+                  'line positions; 16052.77 A dropped (CO2 band).',
+    ),
+)
+#: IAG VIS: every VIS diagnostic whose windows lie inside the holding's reach, with the
+#: roles unchanged — a cross-check does not become a primary because the primary is absent.
+VIS_IAG_DIAGNOSTICS = tuple(d for d in VIS_DIAGNOSTICS
+                            if all(lo >= VIS_IAG.wave_min_A and hi <= VIS_IAG.wave_max_A
+                                   for lo, hi in d.windows_A))
+
 REGION_DIAGNOSTICS = {'vis': VIS_DIAGNOSTICS, 'nearuv': NEARUV_DIAGNOSTICS,
+                      'vis_kp_k05': VIS_DIAGNOSTICS, 'vis_kp_mf': VIS_DIAGNOSTICS,
+                      'vis_iag': VIS_IAG_DIAGNOSTICS, 'h_oh_crires': H_OH_DIAGNOSTICS,
                       'nir_cn_kp': NIR_CN_KP_DIAGNOSTICS,
                       'nir_cn_iag': NIR_CN_IAG_DIAGNOSTICS}
 
@@ -673,6 +750,8 @@ def holding_for_region(region: RegionConfig) -> str:
     read. Two copies of this choice is how a gate clears one spectrum and a fit measures
     another (RYA-845).
     """
+    if region.holding:
+        return region.holding
     if region.instrument == 'kpno_solar_atlas':
         return ('solar_kpno_kurucz2005_corrected' if region.wave_max_A <= 10010.0
                 else 'solar_kpno_molecfit_corrected')
@@ -696,6 +775,9 @@ def _load_region_spectrum(star_id: str, region: RegionConfig):
     """
     if region.instrument.lower().startswith('harps'):
         return _load_observed_spectrum(star_id)
+    if region.holding and region.instrument in ('kpno_solar_atlas', 'crires_plus'):
+        # An explicitly-held region reads through the ONE generic reader, by holding.
+        return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
     if region.instrument == 'kpno_solar_atlas':
         return _load_kpno_atlas_arm(star_id, region)
     if region.instrument == 'iag_fts_solar_atlas':
