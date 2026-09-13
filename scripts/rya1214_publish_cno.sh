@@ -48,7 +48,20 @@ for csv in "$DEST"/{CI,NI,OI}_*_SYNTH*_products.csv; do
   # The SELECTOR is part of the product KEY (RYA-984), and it is what distinguishes an
   # AGSS21-named-set run from the depth-selected one on the same cell. Read back out of
   # the stem the run wrote, never assumed.
-  sel=""; case "$stem" in *_SYNTH_*) sel="${stem#*_SYNTH_}";; esac
+  # 🔴 THE STEM IS <...>_SYNTH_<SELECTOR>[_<TREATMENT>], SO A NAIVE `${stem#*_SYNTH_}`
+  # FOLDS THE TREATMENT INTO THE SELECTOR. It did: the N ENGINE-A products went out with
+  # selector `SET-AGSS21_ENGINE-A` while `treatment` already said ENGINE-A — the same fact
+  # in two key fields, which misstates the selection and inflates any per-pool count keyed
+  # on it (it double-counted the xi campaign's run units). The treatment tokens are read
+  # from `band_products.TREATMENTS` rather than matched by pattern, so this cannot drift
+  # from the vocabulary that produced the filename.
+  sel=""
+  case "$stem" in *_SYNTH_*) sel="${stem#*_SYNTH_}";; esac
+  if [ -n "$sel" ]; then
+    for t in $(python3 -c "import sys;sys.path.insert(0,'.');from pipeline.band_products import TREATMENTS;print(' '.join(TREATMENTS))"); do
+      case "$sel" in *"_$t") sel="${sel%_$t}";; esac
+    done
+  fi
   # ⚠️ NOT `--line-set asplund`. That name is REGISTERED for the AGSS21 *Fe* table
   # (reference_lineset.SETS['asplund'], element="Fe"), so claiming it here would assert
   # membership in a set this product was not measured on. The selector carries the fact

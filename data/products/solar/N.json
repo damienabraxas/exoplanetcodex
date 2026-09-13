@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "N",
   "star": "solar",
-  "version": "1.7",
-  "updated_at": "2026-09-13T04:21:45Z",
+  "version": "1.10",
+  "updated_at": "2026-09-13T04:26:40Z",
   "products": [],
   "archive": [],
   "gaps": [],
@@ -232,6 +232,102 @@
         "NOT_YET_DEFENSIBLE"
       ],
       "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [STAT_BASIS_MISMATCH] sigma_stat here is a 'curvature_sigma' (SYNTH route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. [NOT_YET_DEFENSIBLE] N I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 8.091,
+      "sigma_stat": 0.107,
+      "sigma_syst": 0.042,
+      "n_lines": 2,
+      "n_excluded": 2,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.10705 dex at n_lines=2",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "copied_to": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "sha256": "aa82ee1637013b3b34a69f55c16d2af69180a9539b67406a972ddda1d9cda621",
+        "artifact_mtime": "2026-09-12T21:16:43Z",
+        "ingested_at": "2026-09-13T04:26:39Z"
+      },
+      "quarantined_at": "2026-09-13T04:26:39Z",
+      "quarantine_codes": [
+        "NOT_YET_DEFENSIBLE"
+      ],
+      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] N I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 8.189,
+      "sigma_stat": 0.0266,
+      "sigma_syst": 0.042,
+      "n_lines": 2,
+      "n_excluded": 2,
+      "dominant_term": "telluric residual",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02655 dex at n_lines=2",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "copied_to": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "sha256": "ae17208b1ffcd06e5eaf9c8971adc16630c14485955e6cbdaaac4719a92a34ce",
+        "artifact_mtime": "2026-09-12T20:55:38Z",
+        "ingested_at": "2026-09-13T04:26:40Z"
+      },
+      "quarantined_at": "2026-09-13T04:26:40Z",
+      "quarantine_codes": [
+        "NOT_YET_DEFENSIBLE"
+      ],
+      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] N I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 8.016,
+      "sigma_stat": 0.1551,
+      "sigma_syst": 0.042,
+      "n_lines": 2,
+      "n_excluded": 2,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.15505 dex at n_lines=2",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "copied_to": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "sha256": "a88325dceb9770b20cbbecff32bc8b8e4776116a1214f414906da4b367fa6e61",
+        "artifact_mtime": "2026-09-12T21:06:20Z",
+        "ingested_at": "2026-09-13T04:26:40Z"
+      },
+      "quarantined_at": "2026-09-13T04:26:40Z",
+      "quarantine_codes": [
+        "NOT_YET_DEFENSIBLE"
+      ],
+      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] N I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
     }
   ],
   "plot_grid": {
