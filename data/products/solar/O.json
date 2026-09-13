@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "O",
   "star": "solar",
-  "version": "1.6",
-  "updated_at": "2026-09-12T23:16:52Z",
+  "version": "1.7",
+  "updated_at": "2026-09-13T04:21:45Z",
   "products": [],
   "archive": [],
   "gaps": [],
@@ -199,6 +199,39 @@
         "NOT_YET_DEFENSIBLE"
       ],
       "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+    },
+    {
+      "element": "O",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FORB-OI_6300",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 8.81,
+      "sigma_stat": 0.421,
+      "sigma_syst": 0.006,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv",
+        "copied_to": "data/results/band_products/OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv",
+        "sha256": "8f3b5cce06db71745af92f108693faeb0999190b208abfb2b886444cf290ea45",
+        "artifact_mtime": "2026-09-13T04:18:40Z",
+        "ingested_at": "2026-09-13T04:21:45Z"
+      },
+      "quarantined_at": "2026-09-13T04:21:45Z",
+      "quarantine_codes": [
+        "STAT_BASIS_MISMATCH",
+        "NOT_YET_DEFENSIBLE"
+      ],
+      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [STAT_BASIS_MISMATCH] sigma_stat here is a 'curvature_sigma' (SYNTH route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
     }
   ],
   "plot_grid": {
