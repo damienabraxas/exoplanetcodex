@@ -66,7 +66,9 @@ Unsupported engine cells remain HOLD.
 Following RYA-1219, corrected CRIRES+ J/K holdings are now registered alongside the existing Y/H products. The existing corrected
 products were measured diagnostically with the full canonical Si census. The
 Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
-canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The exact +/-1 A audit is in `si_jk_exact_pixel_validation.csv/json`: 13 of 16 J product-line windows are reached on one detector with finite corrected flux and non-unity MTRANS; 11984.20 A in J1228 is truncated at the detector edge, and 12103.54 A is absent from both J1232 settings.
+canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The external-to-canonical physical identity crosswalk is in `si_j_line_identity.csv`: all four lines match canonical rows within 6 mA and 0.001 dex, but the canonical schema lacks level/J fields and all four remain HOLD for grade because the canonical source is VALD-only.
+
+The exact +/-1 A audit is in `si_jk_exact_pixel_validation.csv/json`: 13 of 16 J product-line windows are reached on one detector with finite corrected flux and non-unity MTRANS; 11984.20 A in J1228 is truncated at the detector edge, and 12103.54 A is absent from both J1232 settings.
 These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
 are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
 for laboratory identity/gf adjudication and are not promoted into a grade pool.
