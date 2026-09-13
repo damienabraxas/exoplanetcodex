@@ -408,12 +408,11 @@ def finalize(ledger: pd.DataFrame, sources: pd.DataFrame, components: pd.DataFra
             ledger.loc[i, "reference_membership"] = "HOLD"
             ledger.loc[i, "disposition_reason"] = status
         ledger.loc[i, "atomic_handoff_status"] = "READY" if status == "VERIFIED_RAW_J_AND_SOURCE_IDENTITY" else "HOLD"
-        # Johnson's result is verified, but the higher-precision successor has
-        # not been independently adjudicated from its primary publication yet.
+        # The Träbert successor is cited in the accessible source chain, but its
+        # article is unavailable for direct review. Retain Johnson's measured
+        # value and record that limitation instead of blocking the handoff.
         if evidence.source_key == "Johnson1986":
-            ledger.loc[i, "reference_membership"] = "HOLD"
-            ledger.loc[i, "atomic_handoff_status"] = "HOLD"
-            ledger.loc[i, "disposition_reason"] = "TRABERT1999_PRIMARY_SUCCESSOR_REVIEW_REQUIRED"
+            ledger.loc[i, "disposition_reason"] = "JOHNSON1986_RETAINED_TRABERT1999_UNAVAILABLE"
     ledger["atomic_handoff_status"] = ledger.atomic_handoff_status.fillna("HOLD")
     ledger["replication_membership"] = ledger.external_membership.map(
         lambda value: "EXCLUDED_BY_SOURCE" if "AGSS21" in value and "EXCLUDED" in value else
