@@ -114,3 +114,11 @@ carries that per level so a global PASS is not read as uniform coverage.
 That directory is AGSS21's **own** published table. This one is a reconstruction from AGSS21's cited
 primaries. Their `line_set` axis values are `asplund` and `asplund-al` and must never be merged: they
 are different provenance chains, and RYA-1127 put `line_set` in the product identity key.
+
+## Earlier RYA-1134 lineage work
+
+The `provenance_rya1134.json`, local-document inventory, and
+`data/linelists/reference_sets/agss21_solar_al_rya1134.csv` preserve the earlier
+lineage investigation. RYA-1173 supplies the current registered reference set
+and primary-source extraction controls described above. Reference membership
+does not establish an atomic gf grade.

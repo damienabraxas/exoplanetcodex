@@ -17,6 +17,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-09-13
+
+- **RYA-1134** — Provisional 505-row Al adjudication and holding/engine dispositions; RYA-1217 handoff remains held.
+
 ## 2026-09-03
 
 - **RYA-1185** — reconciled register/SEQUENCE/LEDGERS to merged reality (stamped `main f3688d5`) and consolidated `Fe.json` v1.87 → v1.92
