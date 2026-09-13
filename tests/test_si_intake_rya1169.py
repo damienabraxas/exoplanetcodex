@@ -35,3 +35,15 @@ def test_freeze_gate_is_honest():
     summary = json.loads((OUT / "summary.json").read_text())
     assert summary["freeze_status"] == "BLOCKED"
     assert summary["active_graded_rows"] == 0
+
+
+def test_si2_keeps_its_own_experimental_provenance():
+    """Scott 2015 section 5.4 and Table 2 note 8, distinct from note 7."""
+    row = next(r for r in rows("si_agss21_reference_lines.csv") if r["species"] == "Si II")
+    assert float(row["published_loggf"]) == -0.044
+    assert "Garz" not in row["published_gf_source"]
+    for source in ("Schulz-Gulde1969", "Blanco1995", "Matheron2001"):
+        assert source in row["published_gf_source"]
+    assert float(row["published_gf_sigma_dex"]) == 0.02
+    assert all(not r["published_gf_sigma_dex"] for r in rows("si_agss21_reference_lines.csv")
+               if r["species"] == "Si I")
