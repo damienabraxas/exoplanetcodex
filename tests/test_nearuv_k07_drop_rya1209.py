@@ -24,6 +24,23 @@ def feed():
 
 @pytest.fixture(scope="module")
 def nearuv_fe1(feed):
+    """The four DEEPGRADED near-UV Fe I products RYA-1209 unblocked.
+
+    🔴 SCOPED TO THE TIER, NOT WIDENED. RYA-1213 added Reference Grade rows in this band
+    and they are a DIFFERENT POOL: Reference applies no depth gate, so it also takes
+    3026.056 A -- the one lab line below the 0.05 depth floor -- which Deep excludes by
+    construction. Its n is 56, not 54/55, and asserting this ticket's pool size on it
+    would be asserting the wrong claim about the right band. The properties that ARE
+    about the band rather than the pool are asserted over every near-UV Fe I product; see
+    `nearuv_fe1_all`.
+    """
+    return [p for p in feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"
+            and p["tier"] == "DEEPGRADED"]
+
+
+@pytest.fixture
+def nearuv_fe1_all(feed):
+    """EVERY near-UV Fe I product, whatever its pool — for band-level claims."""
     return [p for p in feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"]
 
 
@@ -75,6 +92,37 @@ def test_all_four_fe_I_products_carry_post_molecular_values(nearuv_fe1):
             f"{before} — the molecular correction did not reach this product")
 
 
+def test_EVERY_near_uv_fe_I_product_is_below_its_pre_molecular_value(nearuv_fe1_all):
+    """RYA-1213 — the molecular correction is a property of the BAND, so it must reach
+    every pool measured in it, not only the four this ticket published. The Reference
+    rows are a different pool and a different n; what they share with the Deep rows is
+    the opacity, and that is what this asserts."""
+    #: ⚠️ ONLY THE TREATMENTS THAT HAVE A PRE-MOLECULAR VALUE, AND THE REST ARE REPORTED
+    #: RATHER THAN SKIPPED. RYA-1207 measured the atoms-only baseline for 1D-LTE and
+    #: ENGINE-A because those were the only near-UV Fe I legs that existed. RYA-1213's
+    #: Reference tier added the band's FIRST Gerber LTE leg, which by definition has no
+    #: pre-molecular value to be below — asserting one would be inventing a baseline. The
+    #: covered set is asserted non-empty so this cannot quietly degrade to testing
+    #: nothing.
+    pre = {"solar_kpno_kurucz2005_corrected": {"1D-LTE": 7.642, "ENGINE-A": 7.651},
+           "solar_kpno_molecfit_corrected": {"1D-LTE": 7.596, "ENGINE-A": 7.606}}
+    checked = [p for p in nearuv_fe1_all if p["treatment"] in pre[p["holding"]]]
+    assert len(checked) >= 8, (
+        f"only {len(checked)} near-UV Fe I products have a pre-molecular baseline; the "
+        f"four DEEPGRADED and at least four REFERENCE legs must")
+    for p in checked:
+        before = pre[p["holding"]][p["treatment"]]
+        assert p["A"] < before - 0.05, (
+            f"{p['holding']}/{p['treatment']} tier={p['tier']} is {p['A']}, not below "
+            f"the pre-molecular {before} — molecular opacity did not reach this pool")
+    no_baseline = sorted({p["treatment"] for p in nearuv_fe1_all
+                          if p["treatment"] not in pre[p["holding"]]})
+    assert no_baseline == ["synth-1D-LTE-gerber"], (
+        f"a near-UV Fe I treatment with no atoms-only baseline appeared that RYA-1213 "
+        f"did not introduce: {no_baseline}. Either measure its baseline or say why it "
+        f"has none — do not let it pass unchecked by default.")
+
+
 def test_the_pool_lost_exactly_one_line(nearuv_fe1):
     """58 -> 57 candidates. The fitted n is lower again because the RYA-1191 validity bound
     drops non-convergent fits, which is a different mechanism and must not be conflated."""
@@ -89,7 +137,13 @@ def test_every_near_uv_product_states_what_it_now_contains(feed):
     # (K07 was an Fe I line) -- but they ARE near-UV products and the per-product
     # assertions below apply to them like any other, which is why they are swept in
     # rather than filtered out.
-    assert len(n) == 10
+    # 🔴 RYA-1213 — THE PIN MOVES TO THE DEPTH-SPLIT TIERS AND THE LOOP COVERS ALL.
+    # The REFERENCE tier adds six near-UV Fe II products, and they must carry the opacity
+    # metadata exactly like every other near-UV row -- which is what the loop below
+    # asserts, over all of them. Re-pinning the total each time a Reference cell lands
+    # would turn a vanish-detector into a number that gets bumped without being read, so
+    # the literal now pins the ten Codex/Deep rows it was written about.
+    assert len([q for q in n if q["tier"] != "REFERENCE"]) == 10
     for p in n:
         assert p.get("opacity_limit") == "MOLECULAR-OPACITY-INCLUDED"
         note = p.get("opacity_note", "")

@@ -1,0 +1,633 @@
+{
+ "ticket": "RYA-1213",
+ "finding": "all 51 of the 51 Reference Grade products carry xi_state NOT_IN_CAMPAIGN: the RYA-1120 perturb-and-re-derive campaign's run unit is (ion x holding x tier x treatment x route) and REFERENCE is a new tier, so no dA/dxi exists for any of these pools.",
+ "why_it_matters": "sigma_reported omits the xi term rather than carrying a zero, so every Reference bar is a LOWER BOUND -- which the feed states on each row in `sigma_reported_caveat`. The consequence is that a Reference product can look like the most precise measurement of its cell while being the least completely budgeted. The sharpest case is the flagship: VIS Fe I kurucz2005 1D-LTE reports 0.0524 on 175 lines against its Deep sibling's 0.0862 and Codex sibling's 0.0836 -- and its own sigma_syst (0.0504) is LARGER than Deep's (0.0402), so the gf half of the budget is honest and the whole difference is the absent xi term.",
+ "what_was_done_about_it": "NOTHING TO THE VALUES. The website's 'best-constrained' pick now ranks budget COMPLETENESS before width, so an incomplete bar cannot win a headline -- which it had already been doing on the red-optical Fe I page before this ticket. The term itself is an OWED MEASUREMENT: closing it means running RYA-1120's campaign on the REFERENCE tier, which is a separate piece of work.",
+ "the_bracket_is_ILLUSTRATIVE_and_NOT_ADOPTED": "\ud83d\udd34 THE SIBLING DERIVATIVE IS NOT THIS POOL'S. `line_set_for_product`'s own rule is that a campaign key is never inherited from a twin, and RYA-1114 F2 measured why: one dA/dxi served to products measured on DIFFERENT line pools is how a wrong number gets published as if it were measured. VIS is the worst case for inheritance -- Reference there is 175 lines against Codex's 67 and Deep's 108, a genuinely different population. The column below shows what the bar WOULD read if a sibling's derivative were adopted, purely so the size of the gap is visible. It is not a proposed value.",
+ "rows": [
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "treatment": "1D-LTE",
+   "n_lines": 20,
+   "sigma_reported_published": 0.112984,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "treatment": "ENGINE-B-NLTE",
+   "n_lines": 9,
+   "sigma_reported_published": 0.095876,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 19,
+   "sigma_reported_published": 0.08476,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "treatment": "1D-LTE",
+   "n_lines": 5,
+   "sigma_reported_published": 0.087542,
+   "sibling_sigma_xi": {
+    "GRADED": 0.005824
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0877
+   ]
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "treatment": "ENGINE-A",
+   "n_lines": 2,
+   "sigma_reported_published": 0.092057,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 5,
+   "sigma_reported_published": 0.087187,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "1D-LTE",
+   "n_lines": 22,
+   "sigma_reported_published": 0.091226,
+   "sibling_sigma_xi": {
+    "GRADED": 0.01456
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0924
+   ]
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "ENGINE-A",
+   "n_lines": 6,
+   "sigma_reported_published": 0.096368,
+   "sibling_sigma_xi": {
+    "GRADED": 0.011648
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0971
+   ]
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 22,
+   "sigma_reported_published": 0.093693,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 23,
+   "sigma_reported_published": 0.105043,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 6,
+   "sigma_reported_published": 0.187087,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 23,
+   "sigma_reported_published": 0.10488,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 23,
+   "sigma_reported_published": 0.10239,
+   "sibling_sigma_xi": {
+    "GRADED": 0.015288
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1035
+   ]
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 6,
+   "sigma_reported_published": 0.08647,
+   "sibling_sigma_xi": {
+    "GRADED": 0.013104
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0875
+   ]
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 23,
+   "sigma_reported_published": 0.101685,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 175,
+   "sigma_reported_published": 0.052444,
+   "sibling_sigma_xi": {
+    "GRADED": 0.05096,
+    "DEEPGRADED": 0.073528
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0615,
+    0.0731,
+    0.0903
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 165,
+   "sigma_reported_published": 0.052556,
+   "sibling_sigma_xi": {
+    "GRADED": 0.05096,
+    "DEEPGRADED": 0.0728
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0651,
+    0.0732,
+    0.0898
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 176,
+   "sigma_reported_published": 0.053016,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_harps_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 8,
+   "sigma_reported_published": 0.176282,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.071344
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1902
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_harps_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 2,
+   "sigma_reported_published": 0.10774,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.046592
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1174
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_harps_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 8,
+   "sigma_reported_published": 0.179354,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 8,
+   "sigma_reported_published": 0.161147,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.066976
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1745
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 2,
+   "sigma_reported_published": 0.153405,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.061152
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1651
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 8,
+   "sigma_reported_published": 0.164173,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 8,
+   "sigma_reported_published": 0.154584,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.075712
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1721
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 2,
+   "sigma_reported_published": 0.145747,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.039312
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.151
+   ]
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 8,
+   "sigma_reported_published": 0.158314,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 56,
+   "sigma_reported_published": 0.128285,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.030576
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1319
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 56,
+   "sigma_reported_published": 0.128285,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.030576
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1319
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 56,
+   "sigma_reported_published": 0.124883,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 55,
+   "sigma_reported_published": 0.130162,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.03276
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1342
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 55,
+   "sigma_reported_published": 0.130162,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.03276
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1342
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 57,
+   "sigma_reported_published": 0.124238,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 12,
+   "sigma_reported_published": 0.121349,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.013832
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1221
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 7,
+   "sigma_reported_published": 0.136144,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.01456
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1369
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 12,
+   "sigma_reported_published": 0.121435,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 12,
+   "sigma_reported_published": 0.11924,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.017472
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1205
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 7,
+   "sigma_reported_published": 0.120837,
+   "sibling_sigma_xi": {
+    "DEEPGRADED": 0.011648
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.1214
+   ]
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 12,
+   "sigma_reported_published": 0.118424,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "1D-LTE",
+   "n_lines": 68,
+   "sigma_reported_published": 0.060129,
+   "sibling_sigma_xi": {
+    "GRADED": 0.04368
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0743
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "ENGINE-A",
+   "n_lines": 35,
+   "sigma_reported_published": 0.068362,
+   "sibling_sigma_xi": {
+    "GRADED": 0.049504
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0844
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "ENGINE-B-NLTE",
+   "n_lines": 68,
+   "sigma_reported_published": 0.060089,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 68,
+   "sigma_reported_published": 0.060169,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 69,
+   "sigma_reported_published": 0.058956,
+   "sibling_sigma_xi": {
+    "GRADED": 0.039312
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0709
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 35,
+   "sigma_reported_published": 0.059012,
+   "sibling_sigma_xi": {
+    "GRADED": 0.042952
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.073
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "ENGINE-B-NLTE",
+   "n_lines": 69,
+   "sigma_reported_published": 0.058873,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 69,
+   "sigma_reported_published": 0.0589,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "1D-LTE",
+   "n_lines": 53,
+   "sigma_reported_published": 0.062038,
+   "sibling_sigma_xi": {
+    "GRADED": 0.042952
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0755
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-A",
+   "n_lines": 27,
+   "sigma_reported_published": 0.060624,
+   "sibling_sigma_xi": {
+    "GRADED": 0.04368
+   },
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": [
+    0.0747
+   ]
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "ENGINE-B-NLTE",
+   "n_lines": 53,
+   "sigma_reported_published": 0.061946,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "treatment": "synth-1D-LTE-gerber",
+   "n_lines": 53,
+   "sigma_reported_published": 0.0619,
+   "sibling_sigma_xi": null,
+   "sigma_reported_IF_a_sibling_derivative_were_adopted": null
+  }
+ ]
+}

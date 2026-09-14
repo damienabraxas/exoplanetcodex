@@ -1,0 +1,56 @@
+{
+ "ticket": "RYA-1213",
+ "what": "RYA-1120's control, re-run on a REFERENCE pool before trusting a single derivative from the new tier.",
+ "why": "\ud83d\udd34 AN INERT OVERRIDE IS THE FAILURE THAT LOOKS LIKE A RESULT. xi reaches a run through `get_star_params` and the ATMOSPHERE is loaded with it, so an override applied after the context is built changes nothing: every difference comes out 0.000 and the campaign reports 'xi does not matter' with total confidence. `_cand_reference` is new code, so the fact that the hook bites on the Codex and Deep selectors is not evidence that it bites here.",
+ "unit": "NIR Fe I, solar_crires_plus_y_wide_rya1054, --lines-tier reference, --engine-b-deck gerber-1d-lte. Chosen because it is the cheapest Reference pool in the ticket (5 lines), so the control costs minutes, not hours.",
+ "legs": {
+  "minus": {
+   "xi_kms": 0.9
+  },
+  "plus": {
+   "xi_kms": 1.1
+  },
+  "step_kms": 0.1
+ },
+ "measured": {
+  "1D-LTE": {
+   "A_at_0.90": 7.552,
+   "A_at_1.10": 7.554,
+   "n": 5
+  },
+  "ENGINE-A": {
+   "A_at_0.90": 7.503,
+   "A_at_1.10": 7.482,
+   "n": 2
+  },
+  "synth-1D-LTE-gerber": {
+   "A_at_0.90": 7.558,
+   "A_at_1.10": 7.552,
+   "n": 5
+  }
+ },
+ "verdict": "CONTROL PASSED \u2014 3 of 3 products moved with xi. The override reaches the Reference selector's synthesis path.",
+ "derivatives_end_to_end": {
+  "1D-LTE": {
+   "dA_dxi_paired": -0.02,
+   "dA_dxi_from_aggregates": 0.01,
+   "n_paired": 5,
+   "sigma_xi": 0.00582
+  },
+  "ENGINE-A": {
+   "dA_dxi_paired": -0.1075,
+   "dA_dxi_from_aggregates": -0.1075,
+   "n_paired": 2,
+   "sigma_xi": 0.0313
+  },
+  "synth-1D-LTE-gerber": {
+   "dA_dxi_paired": -0.035,
+   "dA_dxi_from_aggregates": -0.03,
+   "n_paired": 5,
+   "sigma_xi": 0.01019
+  },
+  "pairing_verified_from_the_stamps": true
+ },
+ "and_the_paired_method_earns_itself_on_the_first_cell": "\ud83d\udd34 ON 1D-LTE THE TWO ROUTES DISAGREE IN SIGN: the per-line paired median gives dA/dxi = -0.0200 and differencing the two AGGREGATES gives +0.0100. A difference-of-aggregates derivative would have charged this product a xi term of the wrong sign on the very first Reference cell measured. That is RYA-1083's lesson, reproduced here rather than inherited: `pipeline.paired_differential` is the implementation, not a second copy of it.",
+ "physics_check": "the derivatives are SMALL here and that is expected, not suspicious. RYA-1093 measured xi-sensitivity as a STRONG-LINE phenomenon, and this is a 5-line NIR pool of weak lines. The VIS Fe I pool -- 176 lines including 109 above the depth gate, saturated by construction -- is where the term should be largest, and it is the one whose published bar currently understates by 40%."
+}

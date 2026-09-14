@@ -139,7 +139,38 @@ HOLDING_SPAN_A = {
 #: have (its floor is 280.3 A above that band's red edge — RYA-1052, Ryan 2026-08-26).
 MEASURED_REACH_A = {"crires_plus": (9479.3, 24855.0)}
 
+#: 🔴 RYA-1213 RE-DEFINED THE TOP GRADE, AND THIS COLUMN IS THE OLD QUESTION. Every
+#: "Reference Grade" verdict below is about the `asplund` LINE SET -- AGSS21 Table A.2's
+#: own Fe lines, measured through the Amarsi 3D-NLTE MLP, which is the only Reference
+#: product that existed when this matrix was written. RYA-1213 defines Reference Grade by
+#: gf PEDIGREE instead (every gf_tier=LAB row in the band, depth gate not applied), and
+#: under THAT definition the red-optical and NIR cells this matrix calls
+#: ABSENT_ENGINE_DOMAIN are perfectly buildable: the Amarsi domain bound is a property of
+#: one ENGINE, and the lab pool runs on 1D-LTE, ENGINE-A and the Gerber decks. The column
+#: is renamed rather than silently re-scoped, so a reader cannot take an
+#: `asplund`-and-Amarsi verdict for a statement about the lab pool.
+#: `scripts/rya1213_reference_matrix.py` owns the pedigree question.
+#:
+#: 🔴 THE VALUE STAYS "Reference Grade" AND THE SCOPE RIDES BESIDE IT. I first renamed the
+#: tuple entry to carry the scope in the string, and it turned four LIVE cells into
+#: `owed_products`: `live_cell` joins on the feed's own `grade` field, which says
+#: "Reference Grade", so a decorated name matched nothing and the matrix reported the
+#: Amarsi replication products as missing. A label is not an identity. `GRADE_SCOPE`
+#: below is the decoration, emitted as its own column.
 GRADES = ("Codex Grade", "Deep Grade", "Reference Grade")
+
+#: What each grade column is ASKING, where the name alone no longer says it.
+GRADE_SCOPE = {
+    "Reference Grade": (
+        "the `asplund` LINE SET on the Amarsi 3D-NLTE engine — AGSS21 Table A.2's own Fe "
+        "lines. ⚠️ NOT RYA-1213's pedigree definition (every gf_tier=LAB row in the band, "
+        "depth gate not applied), under which the ABSENT_ENGINE_DOMAIN cells below ARE "
+        "buildable: the Amarsi training box binds one ENGINE, and the lab pool also runs "
+        "on 1D-LTE, ENGINE-A and the Gerber decks. See "
+        "data/audit/rya1213_reference_matrix/."),
+    "Codex Grade": "our lab-gf pool at or below the 0.60 feature-depth gate",
+    "Deep Grade": "our lab-gf pool above the 0.60 feature-depth gate",
+}
 
 
 def coverage_span_A(inst: pd.DataFrame, holding: str,
@@ -167,14 +198,28 @@ def depth_census(species: str, lo: float, hi: float) -> dict:
     n = len(inband)
     if not n:
         return {"lab_lines": 0, "shallow": 0, "deep": 0, "below_floor": 0,
-                "depth_max": None, "depth_median": None}
+                "no_known_depth": 0, "depth_max": None, "depth_median": None}
     d = _feature_depth(inband.wavelength_air_A.values.astype(float))
-    return {"lab_lines": n,
-            "shallow": int(((d >= DEPTH_LO) & (d <= DEPTH_HI)).sum()),
-            "deep": int((d > DEPTH_HI).sum()),
-            "below_floor": int((d < DEPTH_LO).sum()),
-            "depth_max": round(float(d.max()), 3),
-            "depth_median": round(float(np.median(d)), 3)}
+    # 🔴 NaN-SAFE, AND THE UNKNOWN-DEPTH LINES ARE COUNTED RATHER THAN ABSORBED (RYA-1213).
+    # `_feature_depth` returns NaN for a lab line the stellar catalogue carries no feature
+    # for -- "we do not know this line's depth", which is not zero and not its neighbour's.
+    # `d.max()` and `np.median(d)` propagate that NaN into the artifact: regenerating this
+    # matrix today wrote `depth_max: NaN` for red-optical, where exactly one such line now
+    # exists. A NaN in a committed diagnostic reads as a broken measurement rather than as
+    # the honest "unknown" it stands for. The three depth buckets below are all False for
+    # NaN, so those lines also silently vanished from `shallow + deep + below_floor`; they
+    # are now reported as their own count and the buckets are asserted to add up.
+    n_unknown = int(np.isnan(d).sum())
+    buckets = {"shallow": int(((d >= DEPTH_LO) & (d <= DEPTH_HI)).sum()),
+               "deep": int((d > DEPTH_HI).sum()),
+               "below_floor": int((d < DEPTH_LO).sum())}
+    assert sum(buckets.values()) + n_unknown == n, (
+        f"depth census lost {n - sum(buckets.values()) - n_unknown} of {n} lines")
+    return {"lab_lines": n, **buckets,
+            "no_known_depth": n_unknown,
+            "depth_max": (None if n_unknown == n else round(float(np.nanmax(d)), 3)),
+            "depth_median": (None if n_unknown == n
+                             else round(float(np.nanmedian(d)), 3))}
 
 
 def asplund_in(lo: float, hi: float) -> int:
@@ -286,7 +331,8 @@ def build() -> dict:
                             "fe1_depth_max": cen.get("Fe I", {}).get("depth_max"),
                             "fe2_lab": cen.get("Fe II", {}).get("lab_lines", 0),
                             "fe2_deep": cen.get("Fe II", {}).get("deep", 0),
-                            "verdict": verdict, "reason": why})
+                            "verdict": verdict, "reason": why,
+                     "grade_scope": GRADE_SCOPE.get(grade, "")})
                         continue
                     verdict, why = (("LIVE" if (holding, band, grade) in live_cell else "GAP"),
                                     f"{n} AGSS21 Table A.2 line(s) in {band} within this "
@@ -452,11 +498,15 @@ def main() -> int:
                     "exist (RYA-1034); rows written without a run would be laundering."),
             "runs_on": "Sirius",
             "what_each_needs": (
-                "Reference Grade red-optical/NIR: measure the AGSS21 line set on that "
-                "holding via `scripts/measure_reference_lineset.py --line-set asplund`, "
-                "then publish with `--line-set asplund`. NIR Codex on "
-                "solar_kpno_kurucz2005_corrected: a derive_band_products run over "
-                "9199-10000 A on the GRADED selector."),
+                "Reference Grade (asplund set) red-optical/NIR: measure the AGSS21 line "
+                "set on that holding via `scripts/measure_reference_lineset.py "
+                "--line-set asplund`, then publish with `--line-set asplund`. ⚠️ RYA-1213 "
+                "SUPERSEDES THIS AS THE ROUTE TO A RED-OPTICAL OR NIR REFERENCE PRODUCT: "
+                "under the pedigree definition the pool is our LAB lines, not AGSS21's, "
+                "and the run is `derive_band_products --lines-tier reference`, which does "
+                "not touch the Amarsi MLP and so is not bound by its training box. NIR "
+                "Codex on solar_kpno_kurucz2005_corrected: a derive_band_products run "
+                "over 9199-10000 A on the GRADED selector."),
         },
         "headline": {
             "question": "is there a Deep Grade gap in red-optical / NIR?",

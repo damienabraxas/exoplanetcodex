@@ -213,18 +213,29 @@ def test_ir_products_name_their_irreducible(feed):
     ir = [p for p in feed["products"] if p["band"] == "NIR"]
     # 🔴 10, NOT 6. RYA-1208 added four NIR `synth-1D-LTE-gerber` cells (CRIRES+ y_wide,
     # IAG, KP-molecfit and KP-kurucz2005 — the last of which had no NIR product of any
-    # kind before). Pinned rather than opened so a cell VANISHING still fails; the
-    # per-holding dispersions below are keyed by (holding, treatment) and are unchanged.
-    assert len(ir) == 10
+    # kind before). Pinned rather than opened so a cell VANISHING still fails.
+    #
+    # 🔴 RYA-1213 — THE PIN IS NOW ON THE DEPTH-SPLIT TIERS, AND THE KEY GAINED `tier`,
+    # BECAUSE THE OLD KEY SILENTLY COLLIDED. Reference Grade NIR products measure the
+    # SAME holdings and the SAME treatments as their Codex siblings, so
+    # `got[(holding, treatment)]` had two writers per cell and whichever the feed listed
+    # last won — the four pinned dispersions below would then have been asserted against
+    # an arbitrary one of the two products. Keying on tier as well makes each assertion
+    # name the product it was written about. The four literals are RYA-1203's guarded
+    # GRADED values and are unchanged.
+    codex_deep = [p for p in ir if p["tier"] != "REFERENCE"]
+    assert len(codex_deep) == 10
     got = {}
     for p in ir:
         d = p["irreducible_dispersion"]
         assert "laboratory gf" in d["reducible_by"]
         assert d["dispersion_dex"] == pytest.approx(
             p["sigma_stat"] * math.sqrt(p["n_lines"]), abs=5e-4)
-        got[(p["holding"], p["treatment"])] = d["dispersion_dex"]
-    assert got[("solar_crires_plus_y_wide_rya1054", "1D-LTE")] == pytest.approx(0.138, abs=1e-3)
-    assert got[("solar_iag", "1D-LTE")] == pytest.approx(0.794, abs=1e-3)
+        key = (p["holding"], p["tier"], p["treatment"])
+        assert key not in got, f"two NIR products share the identity {key}"
+        got[key] = d["dispersion_dex"]
+    assert got[("solar_crires_plus_y_wide_rya1054", "GRADED", "1D-LTE")] == pytest.approx(0.138, abs=1e-3)
+    assert got[("solar_iag", "GRADED", "1D-LTE")] == pytest.approx(0.794, abs=1e-3)
     # 🔴 0.386 / 0.144, NOT 0.890 / 1.315. RYA-1203 re-ingested the two KP NIR Fe I feed
     # entries onto the GUARDED pool (1D-LTE n=26 -> 23, ENGINE-A n=7 -> 6). Those are not
     # new numbers: RYA-1191's own note, carried in `irreducible_dispersion.note` on every
@@ -232,8 +243,8 @@ def test_ir_products_name_their_irreducible(feed):
     # is 0.144 at n=6") and warned the stored value was "the PRE-GUARD value ... regenerated
     # when the product is". The product has now been regenerated; the feed agrees with its
     # own note. 1.315 was ONE non-convergent fit (9437.793, red_chi2 246).
-    assert got[("solar_kpno_molecfit_corrected", "1D-LTE")] == pytest.approx(0.386, abs=1e-3)
-    assert got[("solar_kpno_molecfit_corrected", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
+    assert got[("solar_kpno_molecfit_corrected", "GRADED", "1D-LTE")] == pytest.approx(0.386, abs=1e-3)
+    assert got[("solar_kpno_molecfit_corrected", "GRADED", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
 
 
 def test_the_widest_ir_bars_carry_the_most_lines(feed):

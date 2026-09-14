@@ -201,10 +201,33 @@ def test_the_Amarsi_products_were_COMPLETED_not_written_off(doc):
     This test asserts the resolution rather than the old state. Deleting it would erase the
     requirement; leaving it asserting `quarantine` would assert that the fix did not happen.
     """
-    live = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
+    #: ⚠️ RYA-1213 — SCOPED TO THE CODEX POOL, which is the population RYA-1092
+    #: quarantined and RYA-1095 completed. The Amarsi engine now also runs on the full
+    #: laboratory Reference pool (three holdings, 101 in-domain lines of 176), and those
+    #: products have no RYA-1092 history to assert a resolution for. Selecting on
+    #: treatment-and-not-replication swept them in and the count read 7. The Reference
+    #: legs are checked by the same eligibility standard below, just not by this
+    #: ticket's count.
+    live = [p for p in doc["products"]
+            if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")
+            and p.get("tier") == "GRADED"]
     assert len(live) == 4, f"expected the 4 Amarsi products live, found {len(live)}"
     for p in live:
         assert p.get("sigma_syst") is not None, f"{pe.key_of(p)} still has no systematic"
+        assert pe.evaluate(p, peers=[]) == (), pe.evaluate(p, peers=[])
+
+
+def test_every_amarsi_leg_meets_the_eligibility_standard_whatever_its_pool(doc):
+    """RYA-1213 — the standard is the product's, not the ticket's. Whichever pool the
+    Amarsi engine ran on, the leg must carry a systematic and pass the gate; otherwise a
+    new pool could arrive holding neither and no test would ask."""
+    legs = [p for p in doc["products"]
+            if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
+    assert {p["tier"] for p in legs} == {"GRADED", "REFERENCE"}, (
+        "the Amarsi engine runs on the Codex and Reference pools; if that set changes, "
+        "say which pool appeared")
+    for p in legs:
+        assert p.get("sigma_syst") is not None, f"{pe.key_of(p)} has no systematic"
         assert pe.evaluate(p, peers=[]) == (), pe.evaluate(p, peers=[])
 
 

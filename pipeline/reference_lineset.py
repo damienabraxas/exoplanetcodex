@@ -566,8 +566,21 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet, *,
 #: because nothing yet asked this function about them. Putting `line_set` in the identity
 #: key does ask, of every product in every pool, so they are named rather than defaulted.
 #: `CONSISTENT` is still absent and still raises (RYA-1105 retires that tier).
+#: 🔴 RYA-1213 ADDS `REFERENCE`, AND IT IS OUR POOL, SO IT DERIVES LIKE THE REST. A
+#: Reference-tier product is measured on OUR lines (every canonical_gf row whose gf_tier
+#: is LAB, in this band, depth gate not applied) -- it is not a replication of anyone's
+#: published table, so nothing about it wants a STORED `line_set`. The asymmetry this
+#: function documents holds exactly: `asplund` is stored because the record implies
+#: nothing about whose list it is; `reference` is derived because `tier` already says.
+#:
+#: ⚠️ TWO DIFFERENT POOLS NOW CARRY THE SAME GRADE, AND THAT IS THE POINT OF THE AXIS.
+#: `asplund` (AGSS21's 21 in-domain Fe I lines on AGSS21's own gf) and `reference` (our
+#: 243 VIS lab lines on canonical_gf) both publish as "Reference Grade". They are not the
+#: same measurement and must never be read as one; `line_set` is the field that separates
+#: them, and it is in `product_eligibility.KEY_FIELDS`, so they cannot collide.
 _TIER_TO_LINE_SET = {"GRADED": "our-graded", "DEEPGRADED": "our-deep-graded",
-                     "UNGRADED": "our-ungraded", "ALL": "our-all"}
+                     "UNGRADED": "our-ungraded", "ALL": "our-all",
+                     "REFERENCE": "reference"}
 
 
 def line_set_for_product(product: dict) -> str:

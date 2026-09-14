@@ -293,6 +293,13 @@ def audit() -> dict:
     }
 
 
+#: RYA-1213 — the VIS Reference Grade product count, pinned. Fe II on three holdings x
+#: three treatments, plus Fe I as its 176-line pool finishes synthesising, one holding at
+#: a time. Re-pinned as each lands; the Codex/Deep half of the tripwire is the one that
+#: must not move.
+REFERENCE_VIS_PRODUCTS = 28
+
+
 def check(doc: dict) -> list[str]:
     """Pin what this audit measured, so a regression is visible rather than silent."""
     bad = []
@@ -306,8 +313,22 @@ def check(doc: dict) -> list[str]:
     #: (IAG and HARPS Fe I gained synth-1D-LTE-gerber + ENGINE-B-NLTE) and Fe II VIS gained
     #: its Gerber LTE leg on all three holdings. The pin is a TRIPWIRE for the pool
     #: changing under the audit, so it moves with a stated cause rather than being widened.
-    if doc["n_products"] != 57:
-        bad.append(f"the live VIS Fe product count moved to {doc['n_products']} (was 57)")
+    #: 🔴 RYA-1213 SPLITS THE TRIPWIRE, RATHER THAN BUMPING ONE NUMBER TOWARDS A MOVING
+    #: TARGET. The REFERENCE tier adds VIS products in batches as the Sirius pool lands,
+    #: so a single total would be re-pinned repeatedly -- and a literal that gets bumped
+    #: every time it fires stops being read, which is how a tripwire becomes decoration.
+    #: The Codex/Deep/replication half is the stable pool this audit was written about and
+    #: keeps its 57; the Reference half is pinned separately and moves only with this
+    #: ticket. Both are literals: deriving either from the feed would make the guard
+    #: compare the feed against itself (RYA-853/1080).
+    n_ref = sum(1 for r in doc["products"] if r.get("tier") == "REFERENCE")
+    n_rest = doc["n_products"] - n_ref
+    if n_rest != 57:
+        bad.append(f"the live non-Reference VIS Fe product count moved to {n_rest} "
+                   f"(was 57)")
+    if n_ref != REFERENCE_VIS_PRODUCTS:
+        bad.append(f"the live Reference VIS Fe product count moved to {n_ref} "
+                   f"(was {REFERENCE_VIS_PRODUCTS})")
     unnamed = [r for r in doc["products"] if r["over_dig_in"] and not r["rca_verdict"]]
     if unnamed:
         bad.append(f"{len(unnamed)} product(s) over {DIG_IN_DEX} dex with no RCA verdict")

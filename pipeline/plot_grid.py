@@ -11,9 +11,19 @@ Ryan's rule, implemented here rather than in JS so the site cannot drift from th
   * GRADED only. DEEPGRADED is a secondary product -- documented in its own section, not
     showcased. EXCEPTION: a band where ONLY DEEPGRADED exists (near-UV) shows it, because
     "no graded product in this band" and "no product at all" are different facts.
+  * 🔴 RYA-1213 ADDS REFERENCE TO THE SHOWCASE, AND GIVES IT ITS OWN SECTION. Reference
+    Grade is the laboratory pool with the depth gate not applied; RYA-1213 requires the
+    forest to draw it in every band that has one. It CANNOT share a section with the
+    Codex product, because outside VIS the two measure the same holding, the same band
+    and the same treatment -- the axis row name (`display`) is identical -- so one
+    bucket would hold both and `_pick` would silently drop the one with fewer lines.
+    In NIR and H the two pools are the SAME LINES, so the dropped row and the kept row
+    would carry the same number under one grade label: a reader would see one product
+    where there are two, and no trace of which. The section key therefore carries the
+    resolved `line_set`.
   * EW and synthesis are SEPARATE PRODUCTS, both graded. A profile fit and a flux fit
     measure different line pools; they are two rows, never one row to collapse.
-  * Section = ion x instrument x holding x band. The two telluric holdings stay apart:
+  * Section = ion x instrument x holding x band x line_set. The two telluric holdings stay apart:
     KPNO's kurucz2005 and molecfit differ by up to 0.26 dex, so collapsing them would
     silently choose a correction on the reader's behalf.
 
@@ -28,20 +38,50 @@ from pipeline import treatment_axes
 
 
 def _sections_with_only_deepgraded(products: list[dict]) -> set:
-    """Sections whose every product is DEEPGRADED, so the graded-only rule would empty them."""
+    """Sections with NO Codex (GRADED) product, so the showcase rule would empty them.
+
+    ⚠️ KEYED ON `section_of`, NOT ON THE DISPLAY SECTION, AND THE DIFFERENCE IS THE WHOLE
+    EXCEPTION. The question this answers is "does this band on this holding have a Codex
+    product" -- a question about the band. Asking it per line_set would make every deep
+    section trivially deep-only, and the near-UV exception would quietly become a rule
+    that showcases Deep Grade everywhere.
+
+    🔴 RYA-1213 — THE TEST WAS `== {"DEEPGRADED"}` AND A REFERENCE PRODUCT EVICTED THE
+    DEEP ONE. Publishing the near-UV Fe II Reference cells made that section's tier set
+    {DEEPGRADED, REFERENCE}, which is no longer exactly {DEEPGRADED}, so the exception
+    stopped firing and both Deep rows VANISHED from the plot -- a published product
+    removed from the site by the arrival of a different one, silently. The intent was
+    always "show Deep where there is no CODEX product", and a Reference product is not a
+    Codex product, so the condition is now the absence of GRADED. near-UV Fe I is
+    unaffected (still no GRADED, for the reason RYA-1213 Step 3 measured: the band has one
+    lab line at or below the depth gate and a one-line pool has no scatter).
+    """
     tiers = collections.defaultdict(set)
     for p in products:
         tiers[section_of(p)].add(p.get("tier"))
-    return {k for k, v in tiers.items() if v == {"DEEPGRADED"}}
+    return {k for k, v in tiers.items() if "DEEPGRADED" in v and "GRADED" not in v}
 
 
 def section_of(p: dict) -> tuple:
     return (p.get("ion"), p.get("instrument"), p.get("holding"), p.get("band"))
 
 
+def display_section_of(p: dict) -> tuple:
+    """The section a product is DRAWN in — `section_of` plus the pool it measured.
+
+    RYA-1213: a Reference and a Codex product can agree on every other axis, including
+    the row name, so the pool has to be part of what separates two sections or one of
+    them is dropped without a word. Resolved through `reference_lineset`, never stored
+    twice, so this cannot drift from the identity key the renderer joins on.
+    """
+    from pipeline.reference_lineset import line_set_for_product
+    return section_of(p) + (line_set_for_product(p),)
+
+
 def is_displayable(p: dict, only_deep: set) -> bool:
-    """GRADED, or DEEPGRADED in a section that has nothing else."""
-    return p.get("tier") == "GRADED" or section_of(p) in only_deep
+    """GRADED or REFERENCE, or DEEPGRADED in a section that has nothing else."""
+    return (p.get("tier") in ("GRADED", "REFERENCE")
+            or section_of(p) in only_deep)
 
 
 def _pick(candidates: list[dict]) -> dict:
@@ -74,7 +114,7 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
     buckets: dict = collections.defaultdict(lambda: collections.defaultdict(list))
     for p in products:
         if is_displayable(p, only_deep):
-            buckets[section_of(p)][p.get("display")].append(p)
+            buckets[display_section_of(p)][p.get("display")].append(p)
 
     sections = []
     for key in sorted(buckets, key=lambda k: tuple(str(x) for x in k)):
@@ -90,7 +130,16 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
                           "alternates": len(cands) - 1 if cands else 0})
         sections.append({
             "ion": key[0], "instrument": key[1], "holding": key[2], "band": key[3],
-            "only_deepgraded": key in only_deep,
+            # RYA-1213 — the pool this section drew, so the renderer can LABEL it. Two
+            # sections now differ only here, and an unlabelled pair would read as a
+            # duplicate rather than as two grades of one cell.
+            "line_set": key[4],
+            # ⚠️ THE FLAG IS ABOUT THIS SECTION, NOT ABOUT THE BAND. The renderer prints
+            # "DEEPGRADED (no graded product in this band)" from it, and a Reference
+            # section in a band that happens to have no Codex product would otherwise
+            # wear that caption while drawing the lab pool. True only where this section
+            # IS the deep exception.
+            "only_deepgraded": key[:4] in only_deep and key[4] == "our-deep-graded",
             "cells": cells,
             # 🔴 REPORTED, NEVER DROPPED. A product whose display name is not on the axis
             # would otherwise disappear from the site with no trace. RYA-711's rule

@@ -1,6 +1,6 @@
 # RYA-1187 — (holding x band x engine x grade) applicability matrix
 
-Built from LINE-LEVEL data against `Fe.json` v1.94. Every cell is a live product or a stated reason; a silent empty is the defect this exists to remove.
+Built from LINE-LEVEL data against `Fe.json` v1.166. Every cell is a live product or a stated reason; a silent empty is the defect this exists to remove.
 
 ## The headline question: Deep Grade in red-optical and NIR
 
@@ -93,7 +93,7 @@ Red-optical misses the 0.60 gate by **0.017** (deepest lab feature 0.583) and NI
 | near-UV | ENGINE-A-3DNLTE | **ABSENT_ENGINE_BOXED** | the Amarsi MLP is the 3D-NLTE route and every product it has ever emitted is VIS; RYA-1106 ran it on AGSS21's optical set. Whether its grid reaches this band is NOT decidable from this checkout — the network's own domain check is on STELLAR parameters, not wavelength (pipeline/amarsi3d.py). Reported as owed-verification, not as reach. |
 | near-UV | ENGINE-B | **GAP** | near-UV has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
 | near-UV | ENGINE-B-NLTE | **UNDETERMINED_IN_CHECKOUT** | ispec_nearuv_3000_3780/atomic_lines.tsv is deliberately not committed (regenerable on Sirius, 12 MB). NLTE labelling cannot be read here. |
-| near-UV | synth-1D-LTE-gerber | **GAP** | near-UV has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
+| near-UV | synth-1D-LTE-gerber | **LIVE** | product exists in the feed |
 | near-UV | synth-mean3D-LTE-gerber-stagger | **GAP** | near-UV has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
 | near-UV | synth-mean3D-NLTE-gerber-stagger | **UNDETERMINED_IN_CHECKOUT** | ispec_nearuv_3000_3780/atomic_lines.tsv is deliberately not committed (regenerable on Sirius, 12 MB). NLTE labelling cannot be read here. |
 | VIS | 1D-LTE | **LIVE** | product exists in the feed |
@@ -108,8 +108,8 @@ Red-optical misses the 0.60 gate by **0.017** (deepest lab feature 0.583) and NI
 | red-optical | ENGINE-A | **LIVE** | product exists in the feed |
 | red-optical | ENGINE-A-3DNLTE | **ABSENT_ENGINE_BOXED** | the Amarsi MLP is the 3D-NLTE route and every product it has ever emitted is VIS; RYA-1106 ran it on AGSS21's optical set. Whether its grid reaches this band is NOT decidable from this checkout — the network's own domain check is on STELLAR parameters, not wavelength (pipeline/amarsi3d.py). Reported as owed-verification, not as reach. |
 | red-optical | ENGINE-B | **GAP** | red-optical has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
-| red-optical | ENGINE-B-NLTE | **UNDETERMINED_IN_CHECKOUT** | binds `ispec_ges_v6`, an iSpec-bundled list resolved at runtime and not present in the repo. Same list as VIS, where labels ARE present, but the red-optical SLICE cannot be confirmed from this checkout. |
-| red-optical | synth-1D-LTE-gerber | **GAP** | red-optical has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
+| red-optical | ENGINE-B-NLTE | **LIVE** | product exists in the feed |
+| red-optical | synth-1D-LTE-gerber | **LIVE** | product exists in the feed |
 | red-optical | synth-mean3D-LTE-gerber-stagger | **GAP** | red-optical has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
 | red-optical | synth-mean3D-NLTE-gerber-stagger | **UNDETERMINED_IN_CHECKOUT** | binds `ispec_ges_v6`, an iSpec-bundled list resolved at runtime and not present in the repo. Same list as VIS, where labels ARE present, but the red-optical SLICE cannot be confirmed from this checkout. |
 | NIR | 1D-LTE | **LIVE** | product exists in the feed |
@@ -117,6 +117,6 @@ Red-optical misses the 0.60 gate by **0.017** (deepest lab feature 0.583) and NI
 | NIR | ENGINE-A-3DNLTE | **ABSENT_ENGINE_BOXED** | the Amarsi MLP is the 3D-NLTE route and every product it has ever emitted is VIS; RYA-1106 ran it on AGSS21's optical set. Whether its grid reaches this band is NOT decidable from this checkout — the network's own domain check is on STELLAR parameters, not wavelength (pipeline/amarsi3d.py). Reported as owed-verification, not as reach. |
 | NIR | ENGINE-B | **GAP** | NIR has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
 | NIR | ENGINE-B-NLTE | **ABSENT_NO_NLTE_LABELS_IN_BAND_LINELIST** | data/linelists/ispec_ir_9200_13000/atomic_lines.tsv carries 237 Fe I rows and `nlte` reads 'F' on every one. An NLTE engine here would be silently synthesised in LTE (RYA-764), so the NLTE treatments are NOT applicable. |
-| NIR | synth-1D-LTE-gerber | **GAP** | NIR has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
+| NIR | synth-1D-LTE-gerber | **LIVE** | product exists in the feed |
 | NIR | synth-mean3D-LTE-gerber-stagger | **GAP** | NIR has gradeable Fe lines and this treatment is not NLTE-gated here, so a product is applicable and missing |
 | NIR | synth-mean3D-NLTE-gerber-stagger | **ABSENT_NO_NLTE_LABELS_IN_BAND_LINELIST** | data/linelists/ispec_ir_9200_13000/atomic_lines.tsv carries 237 Fe I rows and `nlte` reads 'F' on every one. An NLTE engine here would be silently synthesised in LTE (RYA-764), so the NLTE treatments are NOT applicable. |
