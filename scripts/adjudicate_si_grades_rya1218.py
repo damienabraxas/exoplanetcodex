@@ -45,6 +45,11 @@ for _, r in c.iterrows():
                     'blend_flag': bool(best.blend_flag.fillna(False).any())})
 j=c.reset_index(drop=True).copy()
 j=pd.concat([j, pd.DataFrame(matched)], axis=1)
+# DH23 Table 3 supplies upper/lower energies and J for the two matched
+# transitions.  The canonical census predates those columns, so its inherited
+# HOLD marker must not veto a source-level identity that is now resolved.
+dh23 = j.DH23_matches.astype(str).str.strip().isin(['1']) & j.wavelength_air_A.round(3).isin([3905.523, 4102.936])
+j.loc[dh23, 'physical_identity_status'] = 'RESOLVED_DH23_TABLE3_levels_and_J'
 def depth_route(d):
  if isinstance(d, tuple): return 'DEPTH_UNMEASURED'
  if pd.isna(d): return 'DEPTH_UNMEASURED'
