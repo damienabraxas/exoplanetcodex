@@ -10,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 CAN=ROOT/'data/audit/rya1218_si_protocol/canonical_si_census.csv'
 AG=ROOT/'data/reference/si_agss21/si_agss21_lines.csv'
 BJ=ROOT/'data/reference/si_bergemann2013/si_bergemann2013_j_lines.csv'
+LAB=ROOT/'data/audit/rya1169_si_intake/si_primary_lab_gf_census.csv'
 OUT=ROOT/'data/audit/rya1218_si_protocol/si_reference_grade_ledger.csv'
 
 def rows(p):
@@ -46,6 +47,23 @@ for c in can:
     if not c.get('reference_grade') or c['reference_grade'].strip() in {'','HOLD_best_available_per_line_adjudication'}:
         c['reference_grade']='Reference Pending'
         c['reference_grade_basis']='No registered external reference membership yet'
+# Literature readiness and measurement status are separate from reference membership.
+for name in ('primary_lab_status','primary_lab_source','primary_lab_loggf','primary_lab_sigma_dex',
+             'measurement_status','measurement_reason'):
+    for c in can: c.setdefault(name,'')
+for r in rows(LAB):
+    cid=(r.get('canonical_line_id') or '').strip()
+    if not cid or cid not in by_id: continue
+    c=by_id[cid]
+    c['primary_lab_status']='MATCHED_PRIMARY_LAB' if r.get('join_status')=='matched' else 'LITERATURE_ONLY'
+    c['primary_lab_source']=r.get('primary_lab_source','')
+    c['primary_lab_loggf']=r.get('experimental_loggf','')
+    c['primary_lab_sigma_dex']=r.get('lab_sigma_dex','')
+    c['measurement_status']=r.get('measurement_status','NOT_MEASURED')
+    c['measurement_reason']=r.get('measurement_reason','')
+for c in can:
+    if not c['measurement_status']: c['measurement_status']='NOT_MEASURED'
+    if not c['measurement_reason']: c['measurement_reason']='No valid completed measurement linked yet'
 # write ledger in canonical order with explicit axis names
 fields=list(can[0])
 with OUT.open('w',newline='') as f:
