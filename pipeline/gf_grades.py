@@ -91,6 +91,10 @@ LAB_TABLES: dict[str, Path] = {
     # red-optical), which is rung 2, not rung 3. A "Fe II VIS graded" product is a BLUE
     # subset wearing a band name, and must say so.
     "Fe II": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe2_lab_loggf_dh19.csv",
+    # RYA-1218: Den Hartog et al. 2023 Table 3, the two Si I transitions that
+    # physically join the current canonical holdings. The remaining published
+    # DH23 rows are retained in the Si intake census as real canonical gaps.
+    "Si I": _REPO_ROOT / "data" / "reference" / "si_gf_lab" / "si1_lab_loggf_dh23.csv",
 }
 #: How to rebuild each, quoted in the not-found error so the message is actionable.
 LAB_REGEN = {
@@ -170,6 +174,8 @@ CITATIONS = {
     # line instead of quietly grading it uncited.
     "DenHartog2019": ("Den Hartog et al. 2019, ApJS 243, 33",
                       "10.3847/1538-4365/ab322e"),
+    "DenHartog2023": ("Den Hartog et al. 2023, ApJS 265, 42",
+                      "10.3847/1538-4365/acb642"),
     # RYA-1046. H-band Fe I -- the ONLY laboratory Fe I gf we hold above 11316.1 A, and
     # so the only thing that can put a CRIRES+ J/H line on rung 3.
     # 🔴 LADENBURG COLUMN ONLY. Table 6 offers three log gf columns; the "BF & Effective
