@@ -1,0 +1,5 @@
+band,instrument,holding,line_count,route,status,detail
+VIS,harps,solar_harps_molecfit_corrected,1,ENGINE-B+1D-LTE,COMPLETED,n=1 accepted; A(Si I)=7.925; Engine-A unavailable for Solar Si
+VIS,harps,solar_harps_molecfit_corrected,1,profilefit-EW,BLOCKED_LINE_NOT_IN_ACCOUNTING,3853.664 A absent from the accounting table; synthesis linelist starts at 4200 A
+red-optical,harps,solar_harps_molecfit_corrected,3,profilefit-EW,NO_ACCEPTED_LINES,3 requested and found but all skipped by the profilefit route; no abundance emitted
+J,crires_plus,solar_crires_plus_j_rya1219,4,ENGINE-B+1D-LTE,COMPLETED_NO_ACCEPTED_LINES,all four synthesized; three edge-pinned and one non-minimum; n=0
