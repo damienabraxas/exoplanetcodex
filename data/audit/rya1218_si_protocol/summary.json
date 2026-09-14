@@ -25,5 +25,20 @@
     "data/audit/rya1169_si_intake/si_agss21_reference_lines.csv": "44d283a57dd64e1db94205a20fa3e07729b20fae7e48185a33a4c664d813d8aa",
     "data/audit/rya1169_si_intake/si_primary_lab_gf_census.csv": "350010228dd3dff443a2020ca34ad647fb2a782103825a7f224793700d5dfb7f",
     "data/results/rya1218/source_set_ew_diagnostic/si_asplund_ew_per_line.csv": "4a02005a88a9413acb1156fad192eeae609c6098ac4fc60486a5733b1318a52c"
-  }
+  },
+  "registered_reference_sets": {
+    "si-agss21": {
+      "source_rows": 12,
+      "reference_grade_rows": 10,
+      "source_excluded_rows": 2
+    },
+    "si-bergemann-j": {
+      "source_rows": 4,
+      "reference_grade_rows": 4,
+      "source_excluded_rows": 0
+    }
+  },
+  "reference_grade_definition": "external published line-set membership; independent of gf quality and Codex/Deep measurement tiers",
+  "reference_grade_rows": 14,
+  "codex_deep_status": "measurement/literature adjudication remains open; no Codex or Deep product is asserted by this preflight"
 }
