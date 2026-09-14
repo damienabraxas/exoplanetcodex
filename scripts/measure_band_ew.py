@@ -973,13 +973,13 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
         # frame convention measured to agree with them within ~0.2 km/s.
         HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_y",
                     pre_normalised=True, path_key="repo.crires_plus_solar_j_rya1219",
-                    span_A=(11159.9, 13489.5), caveat=GDSAT_CAVEAT,
+                    span_A=(11159.94, 13489.51), caveat=GDSAT_CAVEAT,
                     note="RYA-1219 corrected + RYA-1214 rest-frame conditioned J arm, four "
                          "settings co-added; pixels with molecfit transmission < 0.5 not "
                          "written, so saturated telluric cores are gaps, not data."),
         HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_y",
                     pre_normalised=True, path_key="repo.crires_plus_solar_k_rya1219",
-                    span_A=(19452.4, 24845.6), caveat=GDSAT_CAVEAT,
+                    span_A=(19452.41, 24845.62), caveat=GDSAT_CAVEAT,
                     note="RYA-1219 corrected + RYA-1214 rest-frame conditioned K arm, four "
                          "settings co-added. K2166 kept RYA-1219's controlled CO-refit retry "
                          "and K2148/K2166 place no CO bandhead on a chip (RYA-1219 README)."),

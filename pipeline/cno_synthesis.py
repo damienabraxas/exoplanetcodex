@@ -522,13 +522,16 @@ H_OH_CRIRES = RegionConfig(
 #: 1803 A past); K carries AGSS21's CO first overtone. R from instrument_catalog.
 J_CN_CRIRES = RegionConfig(
     name='j_cn_crires', instrument='crires_plus', R=100000.0,
-    wave_min_A=11159.9, wave_max_A=13489.5, telluric_correction_required=True,
+    wave_min_A=11159.95, wave_max_A=13489.50, telluric_correction_required=True,   # inside 11159.9497-13489.5055
     nlte_backend='lte_by_design', holding='solar_crires_plus_j_rya1219',
     notes='CRIRES+ J (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CN A-X windows kept '
           'only where the product samples >=80% and molecfit transmission >=0.8.')
 K_CO_CRIRES = RegionConfig(
     name='k_co_crires', instrument='crires_plus', R=100000.0,
-    wave_min_A=19452.42, wave_max_A=24845.62, telluric_correction_required=True,
+    # The product's measured extent is 19452.4182-24845.6159 A; the region sits INSIDE it and
+    # the HoldingSpec span (19452.41-24845.62) contains it. 24845.62 here asked the loader for
+    # 0.004 A the product does not have, and `select_holding` correctly refused.
+    wave_min_A=19452.42, wave_max_A=24845.61, telluric_correction_required=True,
     nlte_backend='lte_by_design', holding='solar_crires_plus_k_rya1219',
     notes='CRIRES+ K (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CO (2-0)/(3-1); '
           'TELLURIC_BANDS does not reach K, so windows are judged on molecfit MTRANS.')
@@ -858,6 +861,47 @@ def primary_by_element(diagnostics) -> dict:
                 f"measurement IS the product; refusing to pick by order.")
         out[d.element] = d
     return out
+
+
+def region_atomic_linelist(region: RegionConfig, diagnostics) -> tuple:
+    """(path or None for GES, label, gf provenance) — the ATOMIC list this region synthesises with.
+
+    🔴 RYA-1214 — EVERY REGION USED GES v6, WHICH SPANS 4200-9200 A. `run_cno` called
+    `_load_synth_resources()` with no argument for every region, so the near-UV (3000-3780 A),
+    the IR CN regions (10872-13205 A), OH on CRIRES+ H and CO on K were synthesised with NO
+    ATOMIC LINES AT ALL — only the molecular list. `_load_synth_resources`'s own docstring says
+    the near-UV needs a different list; the band-product route has always chosen one per band
+    from `config/synth_bands.yaml`. This makes the same choice, through the same two calls
+    (`band_policy.resolve` -> `SYNTH_BANDS[band].linelist`; `nearuv_synth.gf_provenance`),
+    rather than a second copy of the decision.
+
+    Coverage is tested on the FIT WINDOWS (what is synthesised), and refused if any window
+    falls outside the list — a window synthesised beyond the list's edge carries no atomic
+    opacity there and would fit anyway (RYA-911/913).
+    """
+    from pipeline.band_policy import resolve as _resolve_band
+    from config.synth_bands import SYNTH_BANDS, ISPEC_GES_V6
+    band = _resolve_band(0.5 * (region.wave_min_A + region.wave_max_A)).name
+    cfg = SYNTH_BANDS.get(band)
+    if cfg is None or cfg.linelist_spec == ISPEC_GES_V6:
+        return None, ('GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353) — '
+                      f'band {band}'), None
+    path = cfg.linelist
+    if not path.exists():
+        raise FileNotFoundError(f"{band} atomic list missing at {path}. {cfg.build_hint}")
+    import pandas as _pd
+    w = _pd.read_csv(path, sep='\t', usecols=['wave_A']).wave_A
+    lo, hi = float(w.min()), float(w.max())
+    wins = [x for d in diagnostics for x in d.windows_A]
+    out = [(a, b) for a, b in wins if a < lo or b > hi]
+    if out:
+        raise RuntimeError(
+            f"region {region.name}: {len(out)} fit window(s) {out[:3]} lie outside the {band} "
+            f"atomic list {path.name} ({lo:.1f}-{hi:.1f} A). They would synthesise with no "
+            f"atomic opacity. Trim the windows or extend the list; refusing.")
+    from pipeline.nearuv_synth import gf_provenance
+    gf = gf_provenance(min(a for a, _ in wins), max(b for _, b in wins))
+    return path, f"{path.parent.name} ({band} band list, {len(w)} lines)", gf
 
 
 def holding_for_region(region: RegionConfig) -> str:
@@ -1581,7 +1625,12 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     nlte_backend = NLTE_BACKENDS[region.nlte_backend]
 
     atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
-    ll, iso, chem = _load_synth_resources()
+    ll_path, ll_label, gf_prov = region_atomic_linelist(region, diagnostics)
+    ll, iso, chem = (_load_synth_resources() if ll_path is None else
+                     _load_synth_resources(str(ll_path),
+                                           apply_canonical_gf=gf_prov['apply_canonical_gf']))
+    print(f"  [synth] atomic list for {region.name}: {ll_label}"
+          + (f"; gf: {gf_prov['detail']}" if gf_prov else ""))
     sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     # Same reason as the diagnostics above: `_load_observed_spectrum` is the HARPS loader,
     # so a near-UV region would have been fitted against an optical spectrum that does not
@@ -1725,7 +1774,7 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         'engine': 'pipeline.cno_synthesis (RYA-237)',
         'rt_code': 'turbospectrum',
         'region': region.name, 'instrument': region.instrument, 'R_LSF': region.R,
-        'atomic_linelist': 'GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353)',
+        'atomic_linelist': ll_label,
         'molecular_lists': f'{_MOLECULES_DIR.name}/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)',
         'broadening': {'R': broadening[0], 'vmac': broadening[1], 'vsini': broadening[2],
                        'source': rec.get('source', ''), 'rule': 'per-star RYA-288'},
