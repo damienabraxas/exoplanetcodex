@@ -89,6 +89,10 @@ LINE_SETS = (
     # load-bearing. The gf differ in kind too: `asplund`'s are laboratory (Den Hartog, Belmonte),
     # `asplund-al`'s are Opacity Project theory throughout.
     "asplund-al",        # the RECONSTRUCTED AGSS21-lineage Al reference set (RYA-1173)
+    # Si external reference sets.  These are separate provenance axes: the AGSS21/Amarsi/
+    # Scott optical set is not the same source as the Bergemann J-band analysis set.
+    "si-agss21",
+    "si-bergemann-j",
     "gbs",               # the Gaia FGK Benchmark Stars reference set (RYA-1110)
     "our-graded",        # our lab-gf graded pool, at or below the depth gate
     "our-deep-graded",   # the saturated population above the gate (RYA-984/954)
