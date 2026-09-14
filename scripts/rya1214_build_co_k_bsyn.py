@@ -37,12 +37,30 @@ from pipeline.wavelength_util import air_to_vac, vac_to_air  # noqa: E402
 SRC = ROOT / "data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat"
 AGSS21 = ROOT / "data/audit/rya1136_cno_intake/molecular_physical_crossmatch.csv"
 OUT_DIR = ROOT / "data/linelists/molecular/turbospectrum/CO"
-AUDIT = ROOT / "data/audit/rya1214_crires_jk/co_k_bsyn_build.json"
-LO_AIR, HI_AIR = 19452.42, 24845.62          # config/synth_bands.yaml K
 MATCH_TOL_A, GF_TOL = 0.05, 0.02
+#: RYA-1214 — the H band too. OH on CRIRES+ H came back model-inadequate (A(O) 9.50,
+#: red_chi2 131) and the H synthesis carried NO CO, while CO second-overtone (dv=3) lines sit
+#: in 12 of its 13 fit windows. The paired test is the OH region re-run with this list staged,
+#: nothing else changed. AGSS21 publishes no CO dv=3 lines, so for H the validation gate is
+#: the K-band one (the same file, the same conversion) and is recorded as such.
+BANDS = {"K": (19452.42, 24845.62), "H": (15007.11, 17493.69)}   # config/synth_bands.yaml
+
+
+def _isfloat(x: str) -> bool:
+    try:
+        float(x)
+        return True
+    except ValueError:
+        return False
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--band", choices=sorted(BANDS), default="K")
+    band = ap.parse_args().band
+    LO_AIR, HI_AIR = BANDS[band]
+    AUDIT = ROOT / f"data/audit/rya1214_crires_jk/co_{band.lower()}_bsyn_build.json"
     lines = SRC.read_text().splitlines()
     header, body = lines[:2], lines[2:]
     lo_vac, hi_vac = float(air_to_vac(LO_AIR)), float(air_to_vac(HI_AIR))
@@ -57,7 +75,7 @@ def main() -> int:
             keep.append(ln)
             w_vac.append(w)
     if not keep:
-        raise SystemExit("no CO line in the K band — refusing to write an empty list")
+        raise SystemExit(f"no CO line in the {band} band — refusing to write an empty list")
     w_air = vac_to_air(np.asarray(w_vac, float))
     out_rows = [f"{wa:10.3f}{ln[len(ln.split()[0]) + (len(ln) - len(ln.lstrip())):]}"
                 for wa, ln in zip(w_air, keep)]
@@ -65,10 +83,17 @@ def main() -> int:
                         "ep": [float(l.split()[1]) for l in keep],
                         "loggf": [float(l.split()[2]) for l in keep]})
 
+    # The gate validates the K subset of the SAME file with the SAME conversion, whichever band
+    # is being written: AGSS21's CO lines are all in K.
+    k_lo, k_hi = (float(air_to_vac(x)) for x in BANDS["K"])
+    kv = [(float(l.split()[0]), float(l.split()[2])) for l in body
+          if l.split() and _isfloat(l.split()[0]) and k_lo <= float(l.split()[0]) <= k_hi]
+    tab = pd.DataFrame({"w_air": vac_to_air(np.array([x[0] for x in kv])),
+                        "loggf": [x[1] for x in kv]})
     m = pd.read_csv(AGSS21)
     a = m[m.species.astype(str).str.contains("12C16O")].copy()
     a["air"] = vac_to_air(a.wavelength_vac_nm.to_numpy(float) * 10.0)
-    a = a[a.air.between(LO_AIR, HI_AIR)]
+    a = a[a.air.between(*BANDS["K"])]          # AGSS21's CO lines are all in K
     miss, bad = [], []
     for _, r in a.iterrows():
         c = tab[(tab.w_air - r.air).abs() <= MATCH_TOL_A]
@@ -85,7 +110,7 @@ def main() -> int:
     fn = OUT_DIR / f"16O12C_{int(LO_AIR // 10)}-{int(HI_AIR // 10) + 1}.bsyn"
     with fn.open("w") as fh:
         fh.write(f"{n0}   {len(out_rows)}\n")
-        fh.write("'ExoMol Li2015 12C16O, vacuum->air (RYA-1214 K band)'\n")
+        fh.write(f"'ExoMol Li2015 12C16O, vacuum->air (RYA-1214 {band} band)'\n")
         fh.write("\n".join(out_rows) + "\n")
     AUDIT.parent.mkdir(parents=True, exist_ok=True)
     AUDIT.write_text(json.dumps({
@@ -96,7 +121,7 @@ def main() -> int:
         "agss21_validation": {"lines_in_band": int(len(a)), "unmatched": 0, "gf_off": 0,
                               "match_tol_A_air": MATCH_TOL_A, "gf_tol_dex": GF_TOL},
     }, indent=2) + "\n")
-    print(f"wrote {fn.relative_to(ROOT)}: {len(out_rows)} lines, "
+    print(f"[{band}] wrote {fn.relative_to(ROOT)}: {len(out_rows)} lines, "
           f"{w_air.min():.2f}-{w_air.max():.2f} A air; AGSS21 {len(a)}/{len(a)} validated")
     return 0
 
