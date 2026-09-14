@@ -1,0 +1,9 @@
+reference_set,band,instrument,holding,engine,requested,found,measured,accepted,quarantined,held,status,reason
+si-agss21,VIS,kpno_solar_atlas,solar_kpno_molecfit_corrected,engineA_1dnlte,4,4,1,1,0,3,COMPLETED_PARTIAL,Engine-A correction grid served 1 of 4 matched VIS lines; 3 line corrections unavailable.
+si-agss21,VIS,kpno_solar_atlas,solar_kpno_molecfit_corrected,engineB_synth,4,4,4,4,0,0,COMPLETED,TS-LTE synthesis completed on the four accounting-served reference lines.
+si-agss21,VIS,kpno_solar_atlas,solar_kpno_molecfit_corrected,profilefit_EW,10,4,4,2,2,6,COMPLETED_PARTIAL,Four lines were in accounting; two passed aggregate gates and two were quarantined. Six reference lines are missing from accounting.
+si-agss21,VIS,harps,solar_harps_molecfit_corrected,profilefit_EW,10,4,4,2,2,6,COMPLETED_PARTIAL,Four lines were in accounting; two passed aggregate gates and two were quarantined. Six reference lines are missing from accounting.
+si-agss21,VIS,iag_fts_solar_atlas,solar_iag,profilefit_EW,10,4,4,2,2,6,COMPLETED_PARTIAL,Four lines were in accounting; two passed aggregate gates and two were quarantined. Six reference lines are missing from accounting.
+si-agss21,red-optical,kpno_solar_atlas,solar_kpno_solar_molecfit_corrected,profilefit_EW,10,2,1,1,0,9,COMPLETED_PARTIAL,7034.901 measured; 7226.208 skipped by telluric correction refusal; eight other reference lines are outside the accounting pool.
+si-agss21,red-optical,iag_fts_solar_atlas,solar_iag,profilefit_EW,10,2,2,2,0,8,COMPLETED_PARTIAL,Two red-optical reference lines measured and accepted; eight are outside the accounting pool.
+si-bergemann-j,J,crires_plus,solar_crires_plus_j_rya1219,engineB_synth,4,4,4,0,4,0,COMPLETED_NO_ACCEPTED_LINES,All four J lines synthesized; three edge-pinned and one failed the non-minimum gate.
