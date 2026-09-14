@@ -17,7 +17,34 @@ def collapse(g):
  return pd.Series({'central_depth': (vals[0] if len(vals)==1 else float('nan')), 'depth_ambiguous': len(vals)>1, 'blend_flag': bool(g.blend_flag.fillna(False).any())})
 ll=ll.groupby(keys,as_index=False).apply(collapse,include_groups=False).reset_index()
 ll=ll[keys+['central_depth','depth_ambiguous','blend_flag']]
-j=c.merge(ll,left_on=['element','ion_stage','wavelength_air_A','excitation_potential_eV'],right_on=keys,how='left',suffixes=('','_linelist'))
+ll=ll[ll.element.eq('Si')].copy()
+
+# Canonical wavelengths are rounded differently from the synthesis linelist
+# (typically by 1e-5--4e-4 A).  An exact four-column join silently converted
+# most known `in_linelist` rows into DEPTH_UNMEASURED.  Match the physical
+# transition with explicit tolerances, then preserve ambiguity when more than
+# one candidate survives.  This is the same validate-don't-tune principle as
+# the Fe recipe; the tolerances only absorb printed precision.
+matched=[]
+for _, r in c.iterrows():
+    q=ll[(ll.element==r.element)&(ll.ion==r.ion_stage)]
+    q=q[(q.wavelength_air_A-r.wavelength_air_A).abs()<=0.005]
+    q=q[(q.excitation_potential_eV-r.excitation_potential_eV).abs()<=0.01]
+    if q.empty:
+        matched.append({'central_depth':float('nan'),'depth_ambiguous':False,
+                        'blend_flag':False})
+        continue
+    # Select the nearest physical key; retain a depth ambiguity if equivalent
+    # candidates carry different depths.
+    q=q.assign(_distance=(q.wavelength_air_A-r.wavelength_air_A).abs() +
+               0.1*(q.excitation_potential_eV-r.excitation_potential_eV).abs())
+    best=q[q._distance <= q._distance.min()+1e-9]
+    depths=sorted(set(float(x) for x in best.central_depth.dropna()))
+    matched.append({'central_depth': depths[0] if len(depths)==1 else float('nan'),
+                    'depth_ambiguous': len(depths)>1,
+                    'blend_flag': bool(best.blend_flag.fillna(False).any())})
+j=c.reset_index(drop=True).copy()
+j=pd.concat([j, pd.DataFrame(matched)], axis=1)
 def depth_route(d):
  if isinstance(d, tuple): return 'DEPTH_UNMEASURED'
  if pd.isna(d): return 'DEPTH_UNMEASURED'
