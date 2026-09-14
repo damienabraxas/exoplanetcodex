@@ -3,3 +3,5 @@ VIS,harps,solar_harps_molecfit_corrected,1,ENGINE-B+1D-LTE,COMPLETED,n=1 accepte
 VIS,harps,solar_harps_molecfit_corrected,1,profilefit-EW,BLOCKED_LINE_NOT_IN_ACCOUNTING,3853.664 A absent from the accounting table; synthesis linelist starts at 4200 A
 red-optical,harps,solar_harps_molecfit_corrected,3,profilefit-EW,NO_ACCEPTED_LINES,3 requested and found but all skipped by the profilefit route; no abundance emitted
 J,crires_plus,solar_crires_plus_j_rya1219,4,ENGINE-B+1D-LTE,COMPLETED_NO_ACCEPTED_LINES,all four synthesized; three edge-pinned and one non-minimum; n=0
+red-optical,kpno_solar_atlas,solar_kpno_molecfit_corrected,3,profilefit-EW,MEASURED_WITH_GATES,"3 measured; 7005.880 excluded aggregate by REW saturation ceiling (synthesis route); 7688.396 excluded aggregate as blend-dominated; 7760.628 accepted"
+red-optical,iag_fts_solar_atlas,solar_iag,3,profilefit-EW,MEASURED_WITH_GATES,"3 measured; 7005.880 excluded aggregate by REW saturation ceiling (synthesis route); 7688.396 excluded aggregate as blend-dominated; 7760.628 accepted"
