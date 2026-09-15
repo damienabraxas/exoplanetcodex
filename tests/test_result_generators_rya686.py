@@ -66,6 +66,7 @@ FROZEN_UNREPRODUCIBLE = {
 FROZEN_HAND_AUTHORED = {
     "rya587/fe_integration_status.json",  # reviewed integration checkpoint
     "rya587/next_element_inputs.json",  # evidence inventory and priority decision
+    "rya1134/README.md",  # inherited source-adjudication decision narrative
 
     "rya1217/README.md",  # campaign decision narrative, not a measurement
 
