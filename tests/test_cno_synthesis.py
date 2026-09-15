@@ -135,13 +135,34 @@ class TestRegion:
 # ── Preflight no-silent-fallback guards ───────────────────────────────────────
 
 class TestPreflight:
-    def test_telluric_required_region_loud_fails(self):
+    # RYA-1214: the gate used to raise unconditionally on telluric_correction_required. It
+    # now asks the holding the loader will read, so the refusals are tested one by one.
+    _IR_KP = cno.RegionConfig(name='ir', instrument='kpno_solar_atlas', R=100000,
+                              wave_min_A=10872, wave_max_A=13205,
+                              telluric_correction_required=True,
+                              nlte_backend='lte_by_design')
+
+    def test_telluric_required_region_with_no_holding_loud_fails(self):
         ir = cno.RegionConfig(name='ir', instrument='CRIRES+', R=100000,
                               wave_min_A=9600, wave_max_A=23000,
                               telluric_correction_required=True,
                               nlte_backend='amarsi_grid')
-        with pytest.raises(RuntimeError, match='telluric'):
-            cno.preflight(ir, 'solar', ())     # empty diagnostics → reach telluric gate
+        with pytest.raises(cno.ArmNotWired, match='no holding declared'):
+            cno.preflight(ir, 'solar', ())
+
+    def test_telluric_required_region_on_uncorrected_holding_loud_fails(self, monkeypatch):
+        from pipeline import telluric_display_policy as tdp
+        monkeypatch.setattr(tdp, 'display_state', lambda h: 'CONTROL_ONLY')
+        with pytest.raises(RuntimeError, match='not a corrected science basis'):
+            cno.preflight(self._IR_KP, 'solar', ())
+
+    @pytest.mark.parametrize('window', [(11200.0, 11210.0),     # wholly inside H2O
+                                        (11110.0, 11124.0)])    # straddles its blue edge
+    def test_window_overlapping_a_telluric_band_loud_fails(self, window):
+        d = cno.Diagnostic(key='x', element='N', kind='atomic', windows_A=(window,),
+                           use_molecules=False, role='primary', nlte_flag='', nlte_ref='')
+        with pytest.raises(RuntimeError, match='enumerated telluric band'):
+            cno.preflight(self._IR_KP, 'solar', (d,))
 
     def test_unknown_star_broadening_loud_fails(self):
         with pytest.raises((KeyError, Exception)):

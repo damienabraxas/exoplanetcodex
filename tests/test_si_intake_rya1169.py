@@ -35,3 +35,24 @@ def test_freeze_gate_is_honest():
     summary = json.loads((OUT / "summary.json").read_text())
     assert summary["freeze_status"] == "BLOCKED"
     assert summary["active_graded_rows"] == 0
+
+
+def test_si2_keeps_its_own_experimental_provenance():
+    """Scott 2015 section 5.4 and Table 2 note 8, distinct from note 7."""
+    row = next(r for r in rows("si_agss21_reference_lines.csv") if r["species"] == "Si II")
+    assert float(row["published_loggf"]) == -0.044
+    assert "Garz" not in row["published_gf_source"]
+    for source in ("Schulz-Gulde1969", "Blanco1995", "Matheron2001"):
+        assert source in row["published_gf_source"]
+    assert float(row["published_gf_sigma_dex"]) == 0.02
+    assert all(not r["published_gf_sigma_dex"] for r in rows("si_agss21_reference_lines.csv")
+               if r["species"] == "Si I")
+
+
+def test_dh23_si2_uses_evaluated_lower_level_energies():
+    """Table 4 identities plus NIST energies override Table 5 rounding."""
+    data = rows("si_primary_lab_gf_census.csv")
+    by_wave = {float(r["wavelength_air_A"]): r for r in data
+               if r["species"] == "Si II"}
+    assert float(by_wave[2334.407]["ep_eV"]) == 0.0
+    assert abs(float(by_wave[2350.172]["ep_eV"]) - 0.0356) < 1e-6
