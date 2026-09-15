@@ -1,0 +1,68 @@
+{
+  "ticket": "RYA-1214",
+  "list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+  "why": "RYA-762's depth-cut VALD extract left the NIR list with 0 N I / 0 O I; the AGSS21 set runs refused for lack of synthesis rows",
+  "added": [
+    {
+      "species": "N 1",
+      "wavelength_air_A": 10108.892
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9260.806
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9260.848
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9260.936
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9262.582
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9262.67
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9262.776
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9265.826
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9265.932
+    },
+    {
+      "species": "O 1",
+      "wavelength_air_A": 9266.006
+    }
+  ],
+  "n_before": 757,
+  "n_after": 767,
+  "source_extracts": {
+    "N": {
+      "n_parsed": 16793,
+      "n_in_band": 7049,
+      "source": "/home/damienabraxas/rya1214_wire/data/linelists/vald_solar_ir_9500_17000_hfson_raw.txt"
+    },
+    "O": {
+      "n_parsed": 14352,
+      "n_in_band": 1353,
+      "source": "/home/damienabraxas/rya1214_wire/data/linelists/vald_solar_redopt_6910_9500_hfson_raw.txt"
+    }
+  },
+  "row_converter": "pipeline.nearuv_linelist.to_ispec_array + write (iSpec writer, round-trip checked)",
+  "gf": "canonical gf applied by the synthesis route at load (NIST-adjudicated)",
+  "fe_guard": {
+    "half_width_A": 1.4,
+    "fe_nir_pool_lines_checked": 199,
+    "within_half_width": 0
+  }
+}

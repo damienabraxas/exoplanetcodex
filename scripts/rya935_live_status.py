@@ -79,10 +79,45 @@ def _source_path(path: Path) -> str:
         return str(path)
 
 
+#: 🔴 RYA-1214 — A DIAGNOSTIC-KEYED STEM. `cno_synthesis` products measure one named
+#: diagnostic (a molecular band, a single atomic or forbidden line) rather than a line pool
+#: over a wavelength span, so `rya1214_cnosynth_to_products` writes
+#: `CI_MOL_CH_Gband_<inst>_<holding>_SYNTH_MOL-CH_Gband_products.csv`. STEM needs `_lo_hi_`
+#: and returned None, so six committed products never reached the page. The diagnostic in
+#: the name must equal the selector, or the name is refused rather than half-read.
+DIAG_STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<kind>MOL|ATOM|FORB)_"
+                       r"(?P<rest>.+?)_SYNTH_(?P<selector>(?P=kind)-[A-Za-z0-9_]+)"
+                       r"_products\.csv$")
+
+
+def _parse_diag_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
+    m = DIAG_STEM.match(name)
+    if not m:
+        return None
+    key = m.group("selector")[len(m.group("kind")) + 1:]
+    if not m.group("rest").startswith(key + "_"):
+        return None
+    rest = m.group("rest")[len(key) + 1:]
+    instrument = next((i for i in sorted(instruments, key=len, reverse=True)
+                       if rest == i or rest.startswith(i + "_")), None)
+    if instrument is None:
+        return None
+    tail = rest[len(instrument):].lstrip("_")
+    if not tail:
+        return None
+    return {"element": m.group("el"), "ion": m.group("ion"),
+            # No span: the product is ONE diagnostic, not a pool over [lo, hi].
+            "lo_A": None, "hi_A": None,
+            "instrument": instrument, "holding": tail,
+            "holding_source": ("filename" if tail in holdings
+                               else "filename (unregistered holding)"),
+            "handler": "SYNTH", "selector": m.group("selector")}
+
+
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
     m = STEM.match(name)
     if not m:
-        return None
+        return _parse_diag_stem(name, instruments, holdings)
     rest = m.group("rest")
     instrument = next((i for i in sorted(instruments, key=len, reverse=True)
                        if rest == i or rest.startswith(i + "_")), None)

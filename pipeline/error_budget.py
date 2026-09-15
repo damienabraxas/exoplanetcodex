@@ -370,6 +370,40 @@ def cited_gf_term(sigma_dex: float, *, n_lines: int, source: str) -> Term:
                 f"({source}); measured, so it supersedes the generic graded bound")
 
 
+def nist_class_gf_term(sigma_dex: float, *, n_lines: int, source: str) -> Term:
+    """The gf term from the pool's own NIST ACCURACY CLASSES — RYA-1214.
+
+    🔴 A SEPARATE TERM FROM `cited_gf_term`, AND THE SEPARATION IS THE POINT. That one is
+    labelled `gf scale (cited lab)` and its text says "published per-line LABORATORY
+    sigma". A NIST accuracy class is not that: it prices a CRITICALLY-EVALUATED
+    COMPILATION whose underlying values, for C/N/O, are calculations — the Opacity
+    Project for oxygen and MCHF for carbon and nitrogen (RYA-1172). Routing them through
+    the laboratory term would describe a computed gf as a measured one, which is exactly
+    the over-claim RYA-1005 and RYA-1172 exist to prevent.
+
+    It is nevertheless a MEASUREMENT of the gf uncertainty and not a bound, so it
+    supersedes `gf_term(graded=True)`'s generic 0.041 the same way `cited_gf_term` does —
+    and in both directions. The CNO pools show why the bound alone would not do: their
+    classes run A (0.013 dex) to E (0.301), so a blanket 0.041 would understate a
+    grade-D pool by a factor of four while overstating a grade-A one.
+
+    RMS, not median, for the reason `cited_gf_term` already gives: these enter in
+    quadrature and the median discards the tail a quadrature sum is sensitive to.
+    """
+    if not math.isfinite(sigma_dex) or sigma_dex <= 0:
+        raise ValueError(f"NIST-class gf sigma must be finite and positive, got {sigma_dex!r}")
+    if n_lines < 1:
+        raise ValueError(f"NIST-class gf sigma needs at least one line, got n_lines={n_lines}")
+    if not source:
+        raise ValueError("nist_class_gf_term requires a source naming the compilation — "
+                         "a budget term is never unsourced")
+    return Term("gf scale (cited NIST class)", sigma_dex, False,
+                f"RMS of the per-line NIST ASD accuracy class over {n_lines} lines "
+                f"({source}). CRITICALLY-EVALUATED COMPILATION, not a laboratory "
+                f"measurement; measured per line, so it supersedes the generic graded "
+                f"bound in either direction")
+
+
 def empirical_gf_term(sigma_dex: float, *, n_lines: int, provenance: str) -> Term:
     """The gf term from RYA-968's PER-LINE empirical sigmas.
 
@@ -610,6 +644,8 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
           handler: str, harness_provenance: str = "",
           cited_gf_sigma_dex: float | None = None,
           cited_gf_source: str = "",
+          nist_class_gf_sigma_dex: float | None = None,
+          nist_class_gf_source: str = "",
           empirical_gf_sigma_dex: float | None = None,
           empirical_gf_provenance: str = "",
           stellar_param_sigma_dex: float | None = None,
@@ -637,12 +673,31 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
     pol = resolve(wavelength_A)
     b = ErrorBudget(element=element, band=pol.name, n_lines=n_lines)
     b.add(scatter_term(scatter_dex, n_lines))
-    if cited_gf_sigma_dex is not None and empirical_gf_sigma_dex is not None:
+    # ⚠️ THE gf ROUTES ARE MUTUALLY EXCLUSIVE — all three of them. They describe ONE
+    # term, so accepting two would silently drop one. Counted rather than compared
+    # pairwise: RYA-1214 added a third and a pairwise check would have admitted
+    # (cited, NIST) without anyone noticing.
+    _gf_routes = [n for n in (cited_gf_sigma_dex, nist_class_gf_sigma_dex,
+                              empirical_gf_sigma_dex) if n is not None]
+    if len(_gf_routes) > 1:
         raise ValueError(
-            "cited_gf_sigma_dex and empirical_gf_sigma_dex both describe the gf term; "
-            "pass the one the pool actually earned (RYA-1212). A pool whose lines all "
-            "carry published laboratory sigmas is CITED; a mixed pool is EMPIRICAL.")
-    if cited_gf_sigma_dex is not None:
+            "cited_gf_sigma_dex, nist_class_gf_sigma_dex and empirical_gf_sigma_dex all "
+            "describe the same gf term; pass the one the pool actually earned. A pool "
+            "whose lines all carry published LABORATORY sigmas is CITED (RYA-850); one "
+            "whose lines all carry a NIST accuracy class and whose species has no "
+            "laboratory table is NIST-CLASS (RYA-1214); a mixed pool is EMPIRICAL "
+            "(RYA-1212).")
+    if nist_class_gf_sigma_dex is not None:
+        # Deliberately NOT gated on `gf_graded` being about laboratory pedigree: this is
+        # the rung a species with no lab table can actually reach, and requiring the
+        # laboratory switch first would put the blanket back in front of its replacement
+        # for exactly the pools that need it (the RYA-1212 reasoning, one rung down).
+        if not nist_class_gf_source:
+            raise ValueError("nist_class_gf_sigma_dex requires nist_class_gf_source "
+                             "naming the compilation -- a budget term is never unsourced")
+        b.add(nist_class_gf_term(nist_class_gf_sigma_dex, n_lines=n_lines,
+                                 source=nist_class_gf_source))
+    elif cited_gf_sigma_dex is not None:
         if not gf_graded:
             raise ValueError(
                 "cited_gf_sigma_dex is only defined for a graded pool; an ungraded "

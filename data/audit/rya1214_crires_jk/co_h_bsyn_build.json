@@ -1,0 +1,18 @@
+{
+  "ticket": "RYA-1214",
+  "source": "data/linelists/molecular/turbospectrum/CO/CO_IR_Li2015.dat",
+  "written": "data/linelists/molecular/turbospectrum/CO/16O12C_1500-1750.bsyn",
+  "n_lines": 7433,
+  "air_span_A": [
+    15007.301,
+    17493.61
+  ],
+  "conversion": "vacuum -> air, pipeline.wavelength_util.vac_to_air; gf unchanged",
+  "agss21_validation": {
+    "lines_in_band": 45,
+    "unmatched": 0,
+    "gf_off": 0,
+    "match_tol_A_air": 0.05,
+    "gf_tol_dex": 0.02
+  }
+}
