@@ -197,3 +197,17 @@ def test_existing_contract_claim_is_revalidated():
     p["sigma_reported"] += 0.1
     with pytest.raises(uc.UncertaintyError):
         uc.assert_publication_feed({"products": [p]}, previous={"products": [p]})
+
+
+def test_transition_evidence_cannot_forge_a_pool_digest():
+    p = complete_product()
+    p["uncertainty"]["components"][1]["evidence"]["indicator_ids"] = ["foreign:1", "foreign:2"]
+    assert uc.publication_problems(p)
+
+
+def test_scatter_count_cannot_exceed_its_physical_pool():
+    p = complete_product()
+    ev = p["uncertainty"]["components"][0]["evidence"]
+    ev["n_lines"] *= 4
+    ev["raw_sigma"] *= 2  # same SE, dishonest N
+    assert uc.publication_problems(p)
