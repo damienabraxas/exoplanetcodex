@@ -64,6 +64,8 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    "rya1134/README.md",  # inherited source-adjudication decision narrative
+
     "rya1217/README.md",  # campaign decision narrative, not a measurement
 
     # RYA-1208, added deliberately. The completed Gerber matrix: every (holding x band x
