@@ -33,42 +33,6 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
-  - artifact: rya1218/si_j_grade_adjudication.csv
-    generator: hand_adjudication_from_literature
-    invocation: Bergemann2013 Table 1 crosswalk plus current grade-policy review
-    ticket: RYA-1218
-    note: External Reference Grade passes; Codex/Deep remain explicit policy holds.
-  - artifact: rya1218/si_engine_execution_matrix.csv
-    generator: scripts/derive_band_products.py
-    invocation: Sirius venv312 J-band CRIRES run; see command column
-    ticket: RYA-1218
-    note: Explicit engine statuses; no failed run is promoted to a product.
-  - artifact: rya1218/si_k_canonical_pixel_validation.csv
-    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
-    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
-    ticket: RYA-1218
-    note: Exact +/-1 A pixel coverage for canonical Si I/Si II K-band rows; no EW or abundance.
-  - artifact: rya1218/si_k_canonical_pixel_validation.json
-    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
-    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
-    ticket: RYA-1218
-    note: Summary of K-band line/product coverage dispositions.
-  - artifact: rya1218/si_j_line_identity.csv
-    generator: scripts/audit_si_j_identity_rya1218.py
-    invocation: python3 scripts/audit_si_j_identity_rya1218.py
-    ticket: RYA-1218
-    note: Bergemann J-band Si I external-level crosswalk to canonical rows; no grade promotion.
-  - artifact: rya1218/si_jk_exact_pixel_validation.csv
-    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
-    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
-    ticket: RYA-1218
-    note: Exact +/-1 A pixel-window coverage audit on corrected J products; no EW or abundance.
-  - artifact: rya1218/si_jk_exact_pixel_validation.json
-    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
-    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
-    ticket: RYA-1218
-    note: Summary of reached and held J-band Si line windows.
-  # RYA-1134 provisional source adjudication; no measurement authorization.
   - artifact: rya1134/verified_v1/band_grade_eligibility.csv
     generator: pipeline/al_grade_verification.py
     invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
@@ -11915,3 +11879,221 @@ artifacts:
     note: >-
       Inputs are RYA-1219's molecfit-corrected FITS (gitignored; SHA-256 checked against
       data/audit/rya1219_crires_jk/corrected_products_manifest.csv before use).
+
+  # RYA-1213 merge reconciliation: existing main-branch results.
+  - artifact: rya1134/verified_v2/summary.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/pool_memberships.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/engine_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/line_holding_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/band_grade_eligibility.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/line_dispositions.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/source_quantities.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/component_proof.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/grade_delta.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/input_hashes.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v2/source_candidates.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v2
+      --check
+    ticket: RYA-1134
+  - artifact: rya1217/README.md
+    generator: null
+    status: HAND_AUTHORED
+    ticket: RYA-1217
+    note: Campaign decision and intake audit narrative.
+    sources:
+    - data/results/rya1217/gate0_post1176/status.json
+  - artifact: rya1217/gate0_post1176/engine_reason_counts.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1217
+    note: Historical intake-summary aggregation; no generating harness or invocation
+      was committed. Inputs are verified_v2 matrices; this is not an abundance measurement.
+      Preserve checkpoint without pretending a new script produced it.
+  - artifact: rya1217/gate0_post1176/status.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1217
+    note: Historical intake-summary aggregation; no generating harness or invocation
+      was committed. Inputs are verified_v2 matrices; this is not an abundance measurement.
+      Preserve checkpoint without pretending a new script produced it.
+  - artifact: rya1218/si_crires_corrected_diagnostic/si_corrected_crires_summary.json
+    generator: scripts/run_si_corrected_crires_diagnostic_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/si_crires_corrected_diagnostic/si_corrected_crires_per_line.csv
+    generator: scripts/run_si_corrected_crires_diagnostic_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/si_crires_nir/si_j_band_crires_coverage.csv
+    generator: scripts/audit_si_nir_crires_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/si_crires_nir/si_j_band_crires_coverage.json
+    generator: scripts/audit_si_nir_crires_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/si_multiholding_ew/si_multiholding_ew_summary.json
+    generator: scripts/run_si_multiholding_ew_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/si_multiholding_ew/si_multiholding_ew_per_line.csv
+    generator: scripts/run_si_multiholding_ew_rya1218.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/source_set_ew_diagnostic/si_asplund_ew_summary.json
+    generator: scripts/run_si_asplund_ew_rya1169.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/source_set_ew_diagnostic/si_asplund_ew_per_line.csv
+    generator: scripts/run_si_asplund_ew_rya1169.py
+    ticket: RYA-1218
+    note: Existing diagnostic output; generator identified by its output writer. No
+      measurement rerun during registry repair.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_root_causes.csv
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_skipped.json
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_skipped.json
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_root_causes.csv
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv
+    generator: scripts/measure_band_profilefit.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/si_synthesis/SiI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
+  - artifact: rya1218/si_synthesis/SiI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1218
+    note: Existing profile-fit or synthesis output; original result and source lineage
+      retained. Exact historical command is not recorded in this manifest.
