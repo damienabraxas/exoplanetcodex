@@ -765,6 +765,26 @@ def load_crires_y_window(centre: float, pad: float,
     return w, f, path.name
 
 
+def load_crires_corrected_window(centre: float, pad: float, arm: str):
+    """Read RYA-1219 full-arm molecfit products for a corrected J/K window."""
+    from astropy.io import fits
+    base = ROOT / "data" / "results" / "rya1219_crires_products" / arm
+    lo, hi = centre - pad, centre + pad
+    W, F, used = [], [], []
+    for path in sorted(base.glob("*.fits")):
+        with fits.open(path, memmap=False) as hdul:
+            d = hdul["SPECTRUM"].data
+            w = np.asarray(d["WAVE"], dtype=float)
+            f = np.asarray(d["FLUX"], dtype=float)
+            m = np.isfinite(w) & np.isfinite(f) & (w >= lo) & (w <= hi)
+            if m.any():
+                W.append(w[m]); F.append(f[m]); used.append(path.name)
+    if not W:
+        raise LookupError(f"no corrected CRIRES+ {arm} product covers {centre:.3f} A")
+    w = np.concatenate(W); f = np.concatenate(F); o = np.argsort(w)
+    return w[o], f[o], f"RYA-1219 molecfit corrected {arm}: {','.join(used)} [TOPOCENTRIC; RV conditioning deferred]"
+
+
 # ── HOLDINGS, not instruments — RYA-904 ──────────────────────────────────────
 #
 # 🔴 THE DEFECT THIS REPLACES. Two dicts were keyed by INSTRUMENT: `_LOADER_HOLDING`
@@ -940,6 +960,12 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "sampling than Baker (4.06M vs 728K points)."),
     ),
     "crires_plus": (
+        HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_corrected_j",
+                    pre_normalised=True, span_A=(11164.0, 13495.0),
+                    note="RYA-1219 full-arm J molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
+        HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_corrected_k",
+                    pre_normalised=True, span_A=(19459.0, 24855.0),
+                    note="RYA-1219 full-arm K molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
         HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
                     span_A=(10280.0, 10680.0), caveat=GDSAT_CAVEAT,
                     note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
@@ -1117,6 +1143,10 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
     if spec.reader == "crires_y":
         _csv = Path(str(codex_path(spec.path_key))) if spec.path_key else None
         return load_crires_y_window(centre, pad, _csv)
+    if spec.reader == "crires_corrected_j":
+        return load_crires_corrected_window(centre, pad, "J")
+    if spec.reader == "crires_corrected_k":
+        return load_crires_corrected_window(centre, pad, "K")
     if spec.reader == "crires_idp":
         return load_crires_window(centre, pad)
     raise LookupError(f"holding {spec.holding_id} names reader {spec.reader!r}, which "

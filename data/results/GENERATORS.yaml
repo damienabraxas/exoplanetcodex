@@ -33,6 +33,41 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  - artifact: rya1218/si_j_grade_adjudication.csv
+    generator: hand_adjudication_from_literature
+    invocation: Bergemann2013 Table 1 crosswalk plus current grade-policy review
+    ticket: RYA-1218
+    note: External Reference Grade passes; Codex/Deep remain explicit policy holds.
+  - artifact: rya1218/si_engine_execution_matrix.csv
+    generator: scripts/derive_band_products.py
+    invocation: Sirius venv312 J-band CRIRES run; see command column
+    ticket: RYA-1218
+    note: Explicit engine statuses; no failed run is promoted to a product.
+  - artifact: rya1218/si_k_canonical_pixel_validation.csv
+    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Exact +/-1 A pixel coverage for canonical Si I/Si II K-band rows; no EW or abundance.
+  - artifact: rya1218/si_k_canonical_pixel_validation.json
+    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Summary of K-band line/product coverage dispositions.
+  - artifact: rya1218/si_j_line_identity.csv
+    generator: scripts/audit_si_j_identity_rya1218.py
+    invocation: python3 scripts/audit_si_j_identity_rya1218.py
+    ticket: RYA-1218
+    note: Bergemann J-band Si I external-level crosswalk to canonical rows; no grade promotion.
+  - artifact: rya1218/si_jk_exact_pixel_validation.csv
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Exact +/-1 A pixel-window coverage audit on corrected J products; no EW or abundance.
+  - artifact: rya1218/si_jk_exact_pixel_validation.json
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Summary of reached and held J-band Si line windows.
   # RYA-1134 provisional source adjudication; no measurement authorization.
   - artifact: rya1134/verified_v1/band_grade_eligibility.csv
     generator: pipeline/al_grade_verification.py

@@ -1,0 +1,26 @@
+{
+  "ticket": "RYA-1218",
+  "reference_sets": {
+    "si-agss21": {
+      "used": 10,
+      "excluded": 2
+    },
+    "si-bergemann-j": {
+      "used": 4
+    }
+  },
+  "reference_grade_counts": {
+    "Reference Excluded": 2,
+    "Reference Pending": 2457,
+    "Reference Grade": 14
+  },
+  "definition": "Reference Grade is external published line-set membership; Codex/Deep remain independent measurement/gf axes.",
+  "primary_lab_census": {
+    "literature_rows": 22,
+    "matched_canonical_rows": 2,
+    "literature_only_rows": 20,
+    "valid_measurements": 0,
+    "quarantined_measurements": 2
+  },
+  "measurement_definition": "A line is not Codex/Deep graded from preflight depth alone; the measurement must be linked to the instrument/engine product and pass its route gates."
+}
