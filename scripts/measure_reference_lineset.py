@@ -195,7 +195,14 @@ def main() -> int:
     out = a.out or (OUT_DIR / f"{a.line_set}_ingest_coverage.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(doc, indent=2) + "\n")
-    print(f"\nwrote {out.relative_to(ROOT)}")
+    # Callers often use a temporary output path for an intake audit.  Keep the
+    # report location useful without crashing after the coverage work has
+    # completed merely because that path is outside the repository.
+    try:
+        shown_out = out.relative_to(ROOT)
+    except ValueError:
+        shown_out = out
+    print(f"\nwrote {shown_out}")
     return 0
 
 

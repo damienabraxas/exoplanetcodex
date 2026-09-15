@@ -21,6 +21,7 @@ import pandas as pd
 # as well as through pytest's rootdir. The tests import it as a module, where sys.path is already
 # right; a direct run is not, and the failure is a bare ModuleNotFoundError at the census gate.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from pipeline.coverage import CoverageError, coverage_at
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data/audit/rya1132_al_intake"
@@ -47,7 +48,7 @@ WEB_FOLLOWUP = [
     ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "INGESTED_GF_LAB", "Level-resolved separately from 3092.839."),
     ("Al I", 3092.839, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki not independently stated", "PHYSICAL_CROSSMATCH_REQUIRED", "Intensity-ratio component; do not inherit the 3092.710 uncertainty."),
     ("Al II", 2669.157, "Johnson, Smith & Parkinson 1986", "10.1086/164569", "PRIMARY_LAB", "Aki=(3.33+/-0.23)e3 s-1 at 90% confidence", "INGESTED_GF_LAB", "Direct time-resolved ion-storage lifetime measurement; one decay channel."),
-    ("Al II", 1670.78861, "Murphy & Berengut 2014 / Griesmann & Kling 2000", "10.1093/mnras/stt2120", "MIXED", "wavelength 20 m/s; f=theory", "WAVELENGTH_ONLY_NOT_GF_LAB", "Excellent laboratory wavelength, but quoted oscillator strength is theoretical."),
+    ("Al II", 1670.78861, "Murphy & Berengut 2014 / Griesmann & Kling 2000", "10.1093/mnras/stt2204", "MIXED", "wavelength 20 m/s; f=theory", "WAVELENGTH_ONLY_NOT_GF_LAB", "Excellent laboratory wavelength, but quoted oscillator strength is theoretical."),
     ("Al I;Al II", np.nan, "Kelleher & Podobedova 2008 NIST critical compilation", "10.1063/1.2734564", "CRITICALLY_EVALUATED", "per-line accuracy grade", "INGEST_EVALUATED_TIER_SEPARATELY", "Reference values only; evaluated is not Codex/Deep primary-lab grade under RYA-946."),
     ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020560", "SOURCE_TABLE", "106 rows across tables 2-5", "ACQUIRED_AND_NORMALIZED", "Raw fixed-width tables preserved; limits and lifetime provenance retained."),
     ("Al I", np.nan, "IR literature follow-up", "", "NEGATIVE_RESULT", "", "NO_NEW_GRADING_SOURCE", "Buurman 1986, Davidson 1990, and Buurman & Donszelmann 1990 are already represented through Burheim/NIST; no new source found for held 11254.9, 7835/7836, 8772/8773, or 21208 A."),
@@ -65,8 +66,14 @@ def band(w: float) -> str:
     if w < 6910: return "VIS"
     if w < 9199: return "red-optical"
     if w < 13000: return "NIR"
+    # The census calls the CRIRES+ J-gap and H-gap lines NIR.  Keep the explicit
+    # J/H/K arm labels where a declared arm exists, but never turn an uncovered
+    # interval into OUTSIDE_CURRENT_INSTRUMENT_REACH: that value is a reach verdict,
+    # not a band name (RYA-1155).
+    if 13000 <= w < 13195.23: return "NIR"
     if 13195.23 <= w < 15007.11: return "J"
     if 15007.11 <= w < 17493.69: return "H"
+    if 17493.69 <= w < 19510.4: return "NIR"
     if 19510.4 <= w < 24857.7: return "K"
     return "OUTSIDE_CURRENT_INSTRUMENT_REACH"
 
@@ -79,6 +86,18 @@ def source_type(tier: str, source: str) -> str:
     return "FALLBACK"
 
 
+def instrument_reach(census_value: object, wavelength_A: float) -> str:
+    """Fill a legacy blank reach from the canonical coverage registry."""
+    existing = text(census_value)
+    if existing:
+        return existing
+    try:
+        answer = coverage_at(wavelength_A, "solar")
+    except CoverageError:
+        return ""
+    return "|".join(sorted({i.instrument_id for i in answer.covering}))
+
+
 def nearest(frame: pd.DataFrame, w: float, ep: float, wcol: str, epcol: str | None,
             wtol: float = .06, eptol: float = .02) -> pd.Series | None:
     if frame.empty: return None
@@ -88,6 +107,13 @@ def nearest(frame: pd.DataFrame, w: float, ep: float, wcol: str, epcol: str | No
     c = frame[ok]
     if len(c) != 1: return None
     return c.iloc[0]
+
+
+def _vuj_promotable(src: pd.Series, matched: bool) -> bool:
+    return bool(matched and src.species == "Al I"
+                and any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A)
+                and np.isfinite(src.derived_loggf)
+                and np.isfinite(src.derived_sigma_dex))
 
 
 def _number(raw: str) -> float:
@@ -134,24 +160,32 @@ def load_vujnovic() -> pd.DataFrame:
                 continue
             if table == 2:
                 upper, lower, wave = line[0:20].strip(), line[21:36].strip(), _number(line[37:46])
+                lambda_flag = ""
+                intensity_limit = line[47:48].strip()
                 intensity, intensity_unc = _number(line[48:52]), _number(line[53:55])
                 branching, branching_unc = _number(line[61:66]), _number(line[66:68])
                 aki_limit, aki, aki_unc = line[69:70].strip(), _number(line[70:75]), _number(line[77:79])
+                aki_unc_limit, aki_note = line[76:77].strip(), line[75:76].strip()
             elif table in (3, 4):
                 upper, lower, wave = line[0:19].strip(), line[20:35].strip(), _number(line[36:44])
+                lambda_flag = intensity_limit = aki_limit = aki_unc_limit = aki_note = ""
                 intensity, intensity_unc = _number(line[45:49]), _number(line[50:52])
                 branching = branching_unc = aki = aki_unc = np.nan
-                aki_limit = ""
             else:
                 upper, lower, wave = line[0:13].strip(), line[14:27].strip(), _number(line[28:36])
+                lambda_flag, intensity_limit = line[36:37].strip(), line[37:38].strip()
                 intensity = intensity_unc = np.nan
                 branching, branching_unc = _number(line[38:42]), _number(line[43:46])
                 aki_limit, aki, aki_unc = line[47:48].strip(), _number(line[48:55]), _number(line[58:60])
+                aki_unc_limit, aki_note = line[57:58].strip(), ""
             j_upper = _upper_j(upper)
             finite_aki = np.isfinite(aki) and not aki_limit
             loggf = (math.log10(1.49919e-16 * (2*j_upper + 1) * wave**2 * aki * 1e8)
                      if finite_aki and np.isfinite(j_upper) else np.nan)
-            sigma = math.log10(1 + aki_unc/100) if finite_aki and np.isfinite(aki_unc) else np.nan
+            sigma = (math.log10(1 + aki_unc/100)
+                     if finite_aki and np.isfinite(aki_unc) and not aki_unc_limit else np.nan)
+            sigma_basis = ("Vujnovic_Aki_percent_log_upper_bound"
+                           if np.isfinite(sigma) else ("LOWER_LIMIT_NO_SIGMA" if aki_unc_limit else ""))
             rows.append({"source_row_id":f"vuj2002_t{table}_{source_row:03d}", "table":table,
                 "species":species, "upper_level":upper, "lower_level":lower,
                 "wavelength_A":wave, "intensity_ratio":intensity,
@@ -159,6 +193,9 @@ def load_vujnovic() -> pd.DataFrame:
                 "branching_unc_pct":branching_unc, "aki_limit":aki_limit,
                 "aki_1e8_s-1":aki, "aki_unc_pct":aki_unc, "upper_J":j_upper,
                 "derived_loggf":loggf, "derived_sigma_dex":sigma,
+                "lambda_flag":lambda_flag, "intensity_limit_flag":intensity_limit,
+                "aki_limit_flag":aki_limit, "aki_unc_limit_flag":aki_unc_limit,
+                "aki_note_flag":aki_note, "sigma_basis":sigma_basis,
                 "doi":"10.1051/0004-6361:20020560"})
     return pd.DataFrame(rows)
 
@@ -169,52 +206,66 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
     cross_rows = []
     for _, src in vuj.iterrows():
         candidates = m[m.species.eq(src.species)].copy()
-        candidates["delta_A"] = (candidates.wavelength_air - src.wavelength_A).abs()
-        near = candidates[candidates.delta_A <= .08].sort_values("delta_A")
-        matched = len(near) == 1
-        target = near.iloc[0] if matched else None
-        promotable = (matched and src.species == "Al I" and
-                      any(abs(src.wavelength_A-w) < .0005 for w in VUJ_PROMOTE_A) and
-                      np.isfinite(src.derived_loggf) and np.isfinite(src.derived_sigma_dex))
+        target = nearest(candidates, src.wavelength_A, np.nan, "wavelength_air", None,
+                         wtol=.08, eptol=.02)
+        matched = target is not None
+        if matched:
+            target = target.copy()
+            target["delta_A"] = abs(float(target.wavelength_air) - float(src.wavelength_A))
+        promotable = _vuj_promotable(src, matched)
         disposition = "GF_LAB_PROMOTED" if promotable else (
             "MATCHED_NOT_PROMOTED" if matched else "NO_UNIQUE_MANIFEST_MATCH")
         cross_rows.append({**src.to_dict(), "canonical_line_id":
             (target.canonical_line_id if matched else ""), "wavelength_delta_A":
             (target.delta_A if matched else np.nan), "disposition":disposition})
+        if matched and np.isfinite(src.derived_loggf):
+            # Preserve every finite competing published value, including rows that are
+            # not promoted because the source carries a note/theory or limit flag.
+            current = text(m.loc[target.name, "competing_gf_summary"])
+            entry = f"Vujnovic2002={src.derived_loggf:.10f}"
+            if "VUJNOVIC2002=" not in current.upper():
+                m.loc[target.name, "competing_gf_summary"] = (current + "; " + entry).strip("; ")
         if not promotable:
             continue
         idx = target.name
         m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
-                    "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                    "gf_sigma_dex","sigma_basis","gf_source_doi","upper_lower_level_identity",
                     "intake_status","source_ticket"]] = [
             src.derived_loggf, "EXP-VUJNOVIC2002", "PRIMARY_LABORATORY", "GF-LAB",
-            src.derived_sigma_dex, src.doi,
+            src.derived_sigma_dex, "Vujnovic_Aki_percent_log_upper_bound", src.doi,
             f"{src.lower_level} - {src.upper_level}", "FROZEN",
             "RYA-1132;RYA-1001;Vujnovic2002"]
         m.loc[idx, "notes"] = ("Vujnovic 2002 finite laboratory Aki ingested; loggf "
             "derived reproducibly from wavelength, upper J, and Aki. No abundance adoption.")
 
     # Johnson et al. 1986: direct one-channel Al II 2669.157 measurement.
-    q = m[m.species.eq("Al II")].copy()
-    q["delta_A"] = (q.wavelength_air - 2669.157).abs()
-    q = q[q.delta_A <= .08]
-    if len(q) != 1:
+    q = nearest(m[m.species.eq("Al II")], 2669.157, np.nan, "wavelength_air", None,
+                wtol=.08, eptol=.02)
+    if q is None:
         raise AssertionError("Al II 2669.157 must have one physical manifest match")
-    idx = q.index[0]
+    idx = q.name
     johnson_loggf = math.log10(1.49919e-16 * 3 * 2669.157**2 * 3.33e3)
     johnson_sigma = math.log10(1 + .23/3.33)  # published 90%-confidence bound, conservative
     m.loc[idx, ["loggf_adopted","gf_source","gf_source_type","gf_grade",
-                "gf_sigma_dex","gf_source_doi","upper_lower_level_identity",
+                "gf_sigma_dex","sigma_basis","gf_source_doi","upper_lower_level_identity",
                 "intake_status","source_ticket"]] = [
         johnson_loggf, "EXP-JOHNSON1986", "PRIMARY_LABORATORY", "GF-LAB",
-        johnson_sigma, "10.1086/164569", "3s2 1S0 - 3s3p 3P1o", "FROZEN",
+        johnson_sigma, "Johnson_published_90pct_log_bound", "10.1086/164569", "3s2 1S0 - 3s3p 3P1o", "FROZEN",
         "RYA-1132;RYA-1001;Johnson1986"]
     m.loc[idx, "notes"] = ("Johnson 1986 direct ion-storage Aki ingested; uncertainty "
         "stored conservatively as the published 90%-confidence logarithmic bound. "
         "Träbert 1999/NIST remains the higher-precision comparison.")
 
+    # Refuse a wavelength collision when distinct source level identities converge on
+    # one manifest feature; a shared wavelength alone is not a physical match.
+    cross = pd.DataFrame(cross_rows)
+    for cid, g in cross[cross.canonical_line_id.astype(str).ne("")].groupby("canonical_line_id"):
+        ids = {(str(r.upper_level), str(r.lower_level)) for _, r in g.iterrows()}
+        if len(ids) > 1:
+            cross.loc[cross.canonical_line_id.eq(cid), ["canonical_line_id", "wavelength_delta_A"]] = ["", np.nan]
+            cross.loc[cross.source_row_id.isin(g.source_row_id), "disposition"] = "NO_UNIQUE_MANIFEST_MATCH"
     _stable(vuj).to_csv(out / "vujnovic2002_normalized.csv", index=False)
-    _stable(pd.DataFrame(cross_rows)).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
+    _stable(cross).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
     return m
 
 
@@ -292,6 +343,13 @@ def build(out: Path = OUT) -> dict:
         sigma = r.best_sigma_dex
         doi = ("10.1051/0004-6361/202245394" if "BURHEIM" in source.upper()
                else (text(cm.gf_source_doi) if cm is not None else ""))
+        # A summed evaluated feature cannot claim the best component's accuracy.
+        # Keep the NIST value unchanged, but carry the worst component grade and its
+        # published sigma in the intake metadata.
+        if source.upper().startswith("NIST") and text(r.nist_grade_worst):
+            tier = text(r.nist_grade_worst)
+            sigma = r.nist_sigma_dex
+            doi = "NIST_ASD"
         if abs(w - 11254.924) <= .08 and int(r.hfs_n_components) > 1:
             # Burheim measured the strong component, while this census row is the
             # unresolved feature total.  It is evidence, not an adoptable total gf.
@@ -330,6 +388,8 @@ def build(out: Path = OUT) -> dict:
         if bool(r.blend_flag): problem.append("BLEND_FLAG")
         if not canonical_id: problem.append("ABSENT_CANONICAL")
         b = band(w)
+        hfs_n = int(r.hfs_n_components) if np.isfinite(r.hfs_n_components) else 1
+        hfs_sum = float(r.log_gf_linelist_sum) if np.isfinite(r.log_gf_linelist_sum) else np.nan
         context = "AVAILABLE" if text(r.band_methods) else "NO_DECLARED_BAND_POLICY"
         if b in {"J", "H", "K"} and not text(r.band_methods): context = "LINELIST_OR_ROUTE_NOT_WIRED"
         intake = "FROZEN" if canonical_id else "CROSSMATCH_REVIEW"
@@ -341,16 +401,27 @@ def build(out: Path = OUT) -> dict:
             "canonical_source_line_id": canonical_id,
             "species": species, "wavelength_air": w, "wavelength_vac": r.wave_vac_A,
             "lower_EP": ep, "upper_lower_level_identity": text(r.burheim_transition),
-            "band": b, "instrument_reach": text(r.instruments_coverage_module),
+            "band": b, "instrument_reach": instrument_reach(r.instruments_coverage_module, w),
             "transition_source": "RYA-1001 physical-feature census",
             "loggf_adopted": adopted, "gf_source": source,
             "gf_source_type": source_type(tier, source), "gf_grade": tier,
-            "gf_sigma_dex": sigma, "gf_source_doi": doi,
+            "gf_sigma_dex": sigma, "sigma_basis": (
+                "Burheim_published_dex_1sigma" if "BURHEIM" in source.upper() else
+                "NIST_grade_accuracy" if "NIST" in source.upper() else
+                "Vujnovic_Aki_percent_log_upper_bound" if "VUJNOVIC" in source.upper() else
+                "Johnson_published_90pct_log_bound" if "JOHNSON" in source.upper() else ""),
+            "gf_source_doi": doi,
             "current_canonical_loggf": (cm.log_gf if cm is not None else np.nan),
             "current_canonical_source": (text(cm.loggf_reference) if cm is not None else ""),
             "competing_gf_summary": (f"Burheim={r.burheim_log_gf}; canonical={r.canonical_log_gf}; "
                                       f"NIST={r.nist_log_gf}"),
-            "HFS_status": "COMPONENT_SUM_VERIFIED" if int(r.hfs_n_components) > 1 else "NO_SPLIT_COMPONENTS_IN_CENSUS",
+            "HFS_status": ("COMPONENT_SUM_VERIFIED" if hfs_n > 1 and np.isfinite(hfs_sum)
+                           else "NO_SPLIT_COMPONENTS_IN_CENSUS"),
+            "hfs_n_components": hfs_n, "hfs_component_loggf_sum": hfs_sum,
+            # The component count and source total are verified independently of the
+            # adopted gf value; competing-source disagreement belongs in the conflict
+            # ledger and must not be hidden by making the HFS check fail.
+            "hfs_sum_verified": bool(hfs_n <= 1 or np.isfinite(hfs_sum)),
             "component_or_total": "TOTAL_TRANSITION_GF",
             "literature_line_set_membership": "|".join(memberships),
             "telluric_risk": "VERIFICATION_REQUIRED" if bool(r.telluric_required_band) else "NOT_FLAGGED",
@@ -390,7 +461,7 @@ def build(out: Path = OUT) -> dict:
             "upper_lower_level_identity":f"{r.lower_level} - {r.upper_level}","band":band(w),
             "instrument_reach":"OUTSIDE_CURRENT_REACH","transition_source":"Burheim2023 Table 3",
             "loggf_adopted":r.loggf,"gf_source":"EXP-BURHEIM23","gf_source_type":"PRIMARY_LABORATORY",
-            "gf_grade":"GF-LAB","gf_sigma_dex":r.e_loggf_dex,"gf_source_doi":"10.1051/0004-6361/202245394",
+            "gf_grade":"GF-LAB","gf_sigma_dex":r.e_loggf_dex,"sigma_basis":"Burheim_published_dex_1sigma","gf_source_doi":"10.1051/0004-6361/202245394",
             "current_canonical_loggf":np.nan,"current_canonical_source":"","competing_gf_summary":f"P19={r.loggf_papoulia19}; K95={r.loggf_kurucz95}; TOPbase={r.loggf_topbase00}",
             "HFS_status":"SOURCE_TOTAL_TRANSITION","component_or_total":"TOTAL_TRANSITION_GF",
             "literature_line_set_membership":"BURHEIM2023_TABLE3_COMPLETE_CONTROL","telluric_risk":"OUTSIDE_REACH",
@@ -399,9 +470,36 @@ def build(out: Path = OUT) -> dict:
             "source_ticket":"RYA-1132;RYA-1002","notes":"Full-table completeness control; not a measurement candidate."})
 
     m = pd.DataFrame(rows).sort_values(["wavelength_air", "species"]).reset_index(drop=True)
+    fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                       & (m.gf_source_type.astype(str).str.strip() == "FALLBACK")]
+    theory = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                     & (m.gf_source_type.astype(str).str.strip() == "THEORETICAL")]
+    m.loc[fallback, "sigma_basis"] = "census_fallback_bound_0.2_dex"
+    m.loc[theory, "sigma_basis"] = "theory_source_reported"
     if m.canonical_line_id.duplicated().any():
         raise AssertionError("manifest IDs must be unique")
     m = ingest_new_lab_sources(m, out)
+    m["underlying_source_type"] = np.where(
+        m.gf_source_type.eq("CRITICALLY_EVALUATED"), "THEORETICAL", "")
+    m["line_set"] = "our-all"
+    m.loc[m.canonical_line_id.isin({"alphys_I_6696.0150_0352", "alphys_I_6698.6730_0355",
+                                    "alphys_I_11253.1890_0406", "alphys_I_13123.4160_0423",
+                                    "alphys_I_13150.7530_0425"}), "line_set"] = "our-graded"
+    # The source overlays above can add/replace sigma values; finish the provenance
+    # axis after those writes so every finite uncertainty has a declared basis.
+    fallback = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                       & (m.gf_source_type.astype(str).str.strip() == "FALLBACK")]
+    theory = m.index[m.sigma_basis.isna() & m.gf_sigma_dex.notna()
+                     & (m.gf_source_type.astype(str).str.strip() == "THEORETICAL")]
+    m.loc[fallback, "sigma_basis"] = "census_fallback_bound_0.2_dex"
+    m.loc[theory, "sigma_basis"] = "theory_source_reported"
+    basis_defaults = {"FALLBACK": "census_fallback_bound_0.2_dex",
+                      "THEORETICAL": "theory_source_reported"}
+    missing_basis = (m["sigma_basis"].isna()
+                     | m["sigma_basis"].astype(str).str.strip().eq("")) & m["gf_sigma_dex"].notna()
+    m.loc[missing_basis, "sigma_basis"] = (
+        m.loc[missing_basis, "gf_source_type"].astype(str).str.strip().map(basis_defaults)
+    )
     _stable(m).to_csv(out / "al_line_manifest.csv", index=False)
 
     grade = m.groupby(["band","gf_source_type"]).size().unstack(fill_value=0).reset_index()
@@ -410,6 +508,9 @@ def build(out: Path = OUT) -> dict:
     cov.to_csv(out / "coverage_matrix.csv", index=False)
 
     conflicts = m[m.rejection_problem_code.str.contains("SCALE_MISMATCH|MISSING_PHYSICAL_IDENTITY", na=False)].copy()
+    conflicts = pd.concat([conflicts,
+                           m[m.competing_gf_summary.astype(str).str.contains("VUJNOVIC2002=", case=False,
+                                                                                na=False)]])
     special = m[np.isclose(m.wavelength_air, 11254.925, atol=.08)].copy()
     special["rejection_problem_code"] = "BURHEIM_STRONG_COMPONENT_VS_CANONICAL_BLEND_TOTAL"
     special["notes"] = "Burheim +0.327 is the strong component; observed feature total is +0.354. Never substitute one for the other."
@@ -424,13 +525,13 @@ def build(out: Path = OUT) -> dict:
         ["Johnson1986","Johnson, Smith & Parkinson 1986, ApJ 308, 1013","10.1086/164569","1986ApJ...308.1013J","Al II 2669 direct measurement","PRIMARY_LAB_GF","https://ntrs.nasa.gov/citations/19870032227","https://adsabs.harvard.edu/pdf/1986ApJ...308.1013J"],
         ["KelleherPodobedova2008","Kelleher & Podobedova 2008, J. Phys. Chem. Ref. Data 37, 709","10.1063/1.2734564","2008JPCRD..37..709K","Al I-Al XII compilation","CRITICALLY_EVALUATED","https://www.nist.gov/publications/atomic-transition-probabilities-aluminuma-critical-compilation","https://www.nist.gov/system/files/documents/srd/jpcrd372008911p.pdf"],
         ["Papoulia2019","Papoulia, Ekman & Jonsson 2019, A&A 621, A16","10.1051/0004-6361/201833764","2019A&A...621A..16P","CDS calculated transition tables","THEORETICAL_COMPARATOR","https://www.aanda.org/articles/aa/full_html/2019/01/aa33764-18/aa33764-18.html","https://arxiv.org/pdf/1808.09478"],
-        ["GriesmannKling2000","Griesmann & Kling 2000, ApJ 536, L113-L115","10.1086/312738","2000ApJ...536L.113G","Al II 1670 laboratory wavelength","WAVELENGTH_ONLY_NOT_GF_LAB","https://www.nist.gov/publications/interferometric-measurement-resonance-transition-wavelengths-civ-siiv-aliii-al-ii-and","https://arxiv.org/pdf/astro-ph/0004190"],
+        ["GriesmannKling2000","Griesmann & Kling 2000, ApJ 536, L113-L115","10.1086/312741","2000ApJ...536L.113G","Al II 1670 laboratory wavelength","WAVELENGTH_ONLY_NOT_GF_LAB","https://www.nist.gov/publications/interferometric-measurement-resonance-transition-wavelengths-civ-siiv-aliii-al-ii-and","https://arxiv.org/pdf/astro-ph/0004190"],
         ["RoedererLawler2021","Roederer & Lawler 2021, ApJ 912, 119","10.3847/1538-4357/abf142","2021ApJ...912..119R","Al II 2669 stellar use and source chain","EMPIRICAL_AND_PROVENANCE_GUIDE","https://iopscience.iop.org/article/10.3847/1538-4357/abf142","https://arxiv.org/pdf/2103.12764"],
         ["Lind2022","Lind et al. 2022, A&A 665, A33","10.1051/0004-6361/202142195","2022A&A...665A..33L","Al line list and non-LTE context","MODELING_CONTEXT","https://www.aanda.org/articles/aa/full_html/2022/09/aa42195-21/aa42195-21.html","https://openresearch-repository.anu.edu.au/bitstreams/f1d056b4-19fb-466d-9ae7-b800f7b408fd/download"],
         ["JonssonLundberg1983","Jonsson & Lundberg 1983, Z. Phys. A 313, 151-154","10.1007/BF01417221","","Al I 2S and 2D lifetime sequences","PRIMARY_LAB_LIFETIME_PROVENANCE","https://portal.research.lu.se/en/publications/natural-radiative-lifetimes-in-the-2s12-and-2d5232-sequences-of-a/",""],
         ["Davidson1990","Davidson, Volten & Donszelmann 1990, A&A 238, 452-454","","1990A&A...238..452D","Al I nd 2D lifetimes and oscillator strengths","PRIMARY_LAB_PROVENANCE_ALREADY_PROPAGATED","https://www.researchgate.net/publication/234442756_Lifetimes_and_oscillator_strengths_of_the_3s2nd_2D_series_in_neutral_aluminum",""],
         ["NIST_ASD","Kramida et al., NIST Atomic Spectra Database","","NIST_ASD","Al transition export","CRITICALLY_EVALUATED","https://physics.nist.gov/asd",""],
-        ["Nandakumar2024","Nandakumar et al. 2024 IGRINS abundance lines","10.3847/1538-4357/ad4451","2024ApJ...964...96N","CDS A15","EMPIRICAL_MEMBERSHIP_ONLY","https://doi.org/10.3847/1538-4357/ad4451",""],
+        ["Nandakumar2024","Nandakumar et al. 2024 IGRINS abundance lines","10.3847/1538-4357/ad22dc","2024ApJ...964...96N","CDS A15","EMPIRICAL_MEMBERSHIP_ONLY","https://doi.org/10.3847/1538-4357/ad22dc",""],
         ["Chiappino2026","Chiappino et al. 2026 CRIRES+ J/H/K line set","10.3847/1538-4357/ae7de8","2026ApJ...","publisher tables","EMPIRICAL_MEMBERSHIP_ONLY","https://doi.org/10.3847/1538-4357/ae7de8",""],
         ["RYA1001","Codex Al Phase-0 VALD/manual physical-feature census","","","rya1001_al_line_census.csv","CANDIDATE_DENOMINATOR","",""] ,
     ], columns=["source_id","citation","doi","ads_bibcode","table_catalog","role","article_url","download_url"])
