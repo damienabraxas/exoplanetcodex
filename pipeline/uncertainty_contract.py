@@ -379,10 +379,17 @@ def publication_problems(product):
     return []
 
 
-def assert_publication_feed(document):
-    """Final write-boundary guard, including metadata updates and schema restamps."""
+def assert_publication_feed(document, *, previous=None):
+    """Require evidence for additions/changes; preserve exact existing legacy rows.
+
+    ``previous`` is the destination read before writing, never a candidate-provided
+    exemption. Retention does not certify legacy uncertainty completeness.
+    """
+    legacy = (previous or {}).get("products", [])
     failures = []
     for product in document.get("products", []):
+        if "uncertainty" not in product and product in legacy:
+            continue
         problems = publication_problems(product)
         if problems:
             from pipeline.product_eligibility import key_of

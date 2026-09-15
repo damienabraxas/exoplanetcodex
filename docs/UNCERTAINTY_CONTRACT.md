@@ -60,18 +60,24 @@ publication of [X/Fe]/C/O remains held pending that package.
 
 ## Wiring and migration
 
-`product_eligibility.evaluate` invokes the same contract for every element, adding
-`UNCERTAINTY_INCOMPLETE` alongside existing scientific holds. The common publisher
-preserves JSON budgets, physical IDs and differential fields, stamps the star and
-checks candidates. The final feed-write boundary and Fe schema stamper also enforce
-the contract, including metadata-only updates. Budget-only changes count as updates. Al, Si, atomic C/N/O,
-molecular N and future RYA-709/946 children inherit this gate automatically.
-A validated profile-likelihood budget need not impersonate scatter SE.
+`product_eligibility.evaluate(..., require_uncertainty=True)` checks new
+publication candidates. Records carrying `uncertainty` are always validated,
+including during legacy eligibility audits. A legacy eligibility pass alone is
+not certification under this contract. The publisher preserves JSON budgets,
+physical IDs and differential fields and stamps the star. Budget-only changes
+count as updates. A validated profile likelihood need not impersonate scatter SE.
 
-Existing live feeds are not migrated or deployed here. Their old values and Fe
-diagnostic row remain byte-identical. The standing live-feed eligibility test
-exposes migration debt; it must not be waived or grandfather legacy records.
-This branch is not merge-ready while that test is red.
+At the write boundary, additions and changed live records require this contract.
+An exact existing legacy record may be retained when the destination is rewritten
+(e.g. quarantining a failed candidate); this does not certify its full budget.
+The previous document is read from the destination, not supplied by a candidate.
+Even unchanged records claiming the new contract are revalidated. Fe restamps
+use the same boundary. No missing term is populated with an inferred zero.
+
+This landing delivers the shared framework and evidence audit. Per-product
+migration remains open under RYA-587, starting with CNO and RYA-1220 nitrogen,
+then Al and Si. Existing Fe measurements are inputs to that migration; absence
+of a new-schema record is not evidence that another synthesis run is needed.
 
 ## Reproduce
 
