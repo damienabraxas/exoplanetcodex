@@ -63,6 +63,19 @@ XI_BAND_RUNS = (
     ROOT / "data/results/rya1168/nearuv_xi_dadxi.json",     # near-UV, RYA-1168
     ROOT / "data/results/rya1163/ir_xi_dadxi.json",         # NIR,     RYA-1163
     ROOT / "data/results/redopt_xi/redopt_xi_dadxi.json",   # red-optical
+    # 🔴 RYA-1213 — THE REFERENCE TIER'S OWN DERIVATIVES, ON RYAN'S 2026-09-12 RULING.
+    # The RYA-1120 campaign keys on tier, so every Reference product reached the feed
+    # with the xi term ABSENT from its bar rather than zero -- a 40% understatement on
+    # the flagship VIS Fe I pool. Ryan: "Reference Grade gets the SAME uncertainty
+    # treatment as Codex and Deep ... measured, not borrowed from a sibling tier."
+    #
+    # ⚠️ THE FILE GROWS AS THE CAMPAIGN LANDS, AND THAT IS SAFE BY CONSTRUCTION. A pool
+    # absent from this artifact simply is not in the band index, so `xi_terms` falls
+    # through and the product keeps NOT_IN_CAMPAIGN -- the honest state it already had.
+    # A pool present but below min_paired carries UNMEASURED, which `xi_terms` reads from
+    # the VERDICT rather than from the presence of a float. Neither case can quietly
+    # acquire a borrowed number.
+    ROOT / "data/results/rya1213/reference_xi_dadxi.json",  # Reference tier, RYA-1213
 )
 ASPLUND = ROOT / "data/results/rya1106/asplund_four_instrument_table.json"
 
@@ -134,7 +147,17 @@ def xi_disposition(prod: dict) -> tuple[str, str] | None:
 #: in the identity key). No GBS product is live today, so this renames nothing published.
 #: ⚠️ docs/catalog/model_registry_notes.md:142 still records the OLD set as "going-forward";
 #: RYA-1185 Part B corrects it. Repo prose is not the authority here -- the ruling is.
+#: 🔴 RYA-1213 — `reference` JOINS THE TOP TIER, AND IT IS NOT THE SAME PRODUCT AS
+#: `asplund`. Two line sets now publish as "Reference Grade" and they answer different
+#: questions: `asplund` measures AGSS21's OWN 40-line table on AGSS21's gf (21 of them
+#: in the Amarsi MLP's domain) and exists to replicate a published number; `reference`
+#: measures every `gf_tier=LAB` row canonical_gf holds in the band, on OUR gf, with the
+#: depth gate not applied, and exists to state what the whole laboratory pool gives.
+#: `line_set` is in `product_eligibility.KEY_FIELDS`, so they are separate rows that can
+#: never overwrite each other, and `line_set_resolved` in the feed is what a reader keys
+#: on to tell them apart. `grade_variant` below says it in words as well.
 GRADE_FOR_LINE_SET = {
+    "reference": "Reference Grade",
     "asplund": "Reference Grade",
     "asplund-al": "Reference Grade",
     "gbs": "Reference Grade",
@@ -142,6 +165,25 @@ GRADE_FOR_LINE_SET = {
     "our-deep-graded": "Deep Grade",
     "our-ungraded": "Ungraded",
     "our-all": "Ungraded",
+}
+
+#: RYA-1213 §4 — what a "Reference Grade" row actually replicated, in one line a reader
+#: can put on a page. Keyed on `line_set` rather than on grade, because the grade is the
+#: thing that stopped being unambiguous.
+GRADE_VARIANT = {
+    "reference": ("full laboratory pool — every primary-lab gf line canonical_gf holds "
+                  "in this band, on OUR gf scale, with the depth gate not applied "
+                  "(RYA-1213)"),
+    "asplund": ("Asplund AGSS21 replication — AGSS21 Table A.2's own Fe line list, on "
+                "AGSS21's own gf, measured in our spectra (RYA-1109/1111)"),
+    "asplund-al": ("AGSS21-lineage Al replication — reconstructed from Nordlander & Lind "
+                   "2017 and Scott et al. 2015b, the primaries AGSS21 adopts (RYA-1173)"),
+    "gbs": ("Gaia FGK Benchmark Stars replication — Jofre et al. 2014 Tables 4/5, on "
+            "their gf, measured in our spectra (RYA-1110)"),
+    "our-graded": "laboratory gf, at or below the 0.60 feature-depth gate",
+    "our-deep-graded": "laboratory gf, above the 0.60 feature-depth gate",
+    "our-ungraded": "no laboratory gf",
+    "our-all": "the whole pool undivided, laboratory and non-laboratory together",
 }
 
 #: Human atlas name + telluric state per holding. EVERY string is transcribed from the
@@ -510,7 +552,7 @@ def tier_provenance(prod: dict) -> dict | None:
     a disagreement here is a prompt to check the vintage, not proof on its own.
     """
     win = prod.get("wavelength_range_A")
-    if not win or prod.get("tier") not in ("GRADED", "DEEPGRADED"):
+    if not win or prod.get("tier") not in ("GRADED", "DEEPGRADED", "REFERENCE"):
         return None
     try:
         from line_accounting_rya709 import DEPTH_HI
@@ -527,14 +569,27 @@ def tier_provenance(prod: dict) -> dict | None:
         return {"pool_reproduced": False,
                 "note": "no LAB-tier rows for this species/window in canonical_gf today"}
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
-    sel = lab[depth > DEPTH_HI] if prod["tier"] == "DEEPGRADED" else lab[depth <= DEPTH_HI]
+    # RYA-1213 — REFERENCE applies NO depth term, so reproducing it means not writing
+    # one. Using either half here would report a pool the product did not measure, and
+    # would then "confirm" the tier against the wrong line count.
+    if prod["tier"] == "REFERENCE":
+        sel = lab
+    elif prod["tier"] == "DEEPGRADED":
+        sel = lab[depth > DEPTH_HI]
+    else:
+        sel = lab[depth <= DEPTH_HI]
     refs = sel.loggf_reference.value_counts(dropna=False).to_dict()
     n_lab = int(sum(v for k, v in refs.items() if "PRIMARY LAB" in str(k)))
     return {
         "pool_reproduced": True,
         "n_lab_tier_in_window": int(len(lab)),
-        "n_selected_by_depth_gate": int(len(sel)),
-        "depth_gate": DEPTH_HI,
+        # RYA-1213 — `n_selected` and not `n_selected_by_depth_gate`: on a REFERENCE
+        # product no depth gate ran, and a key whose NAME asserts one would state the
+        # wrong thing about the number beside it. Nothing outside this file read the old
+        # key, so it is renamed rather than kept for compatibility with no reader.
+        "n_selected": int(len(sel)),
+        "depth_gate": (None if prod["tier"] == "REFERENCE" else DEPTH_HI),
+        "depth_gate_applied": prod["tier"] != "REFERENCE",
         "gf_references": {str(k): int(v) for k, v in refs.items()},
         "n_primary_lab": n_lab,
         "fraction_primary_lab": round(n_lab / len(sel), 4) if len(sel) else None,
@@ -544,7 +599,11 @@ def tier_provenance(prod: dict) -> dict | None:
                          f"REVIEW — {len(sel) - n_lab} of {len(sel)} selected lines are "
                          f"not primary-laboratory"),
         "basis": ("reproduced from canonical_gf TODAY via the same rule as "
-                  "derive_band_products._cand_graded; see the vintage caveat"),
+                  + ("derive_band_products._cand_reference — every LAB-tier row in the "
+                     "window, depth gate NOT applied (RYA-1213)"
+                     if prod["tier"] == "REFERENCE" else
+                     "derive_band_products._cand_graded")
+                  + "; see the vintage caveat"),
     }
 
 
@@ -674,6 +733,47 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     }
 
 
+def update_xi_budget(p: dict, idx: dict) -> None:
+    """Refresh only the existing xi component and its derived totals in place."""
+    xt = xi_terms(p, idx)
+    p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
+    if "dA_dxi" in xt:
+        p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
+
+    # Part 2 — sigma_syst must be a real total of its NAMED components, and
+    # sigma_reported must include it. The campaign's own sigma_reported did NOT:
+    # on all 32 entries carrying one it equals quadrature(SE, sigma_xi) with
+    # sigma_syst omitted entirely.
+    comps = {"published_syst": p.get("sigma_syst"), "sigma_xi": xt.get("sigma_xi")}
+    named = [v for v in comps.values() if v]
+    p["sigma_syst_components"] = comps
+    p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
+    terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
+    got = [t for t in terms if t]
+    p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    p["sigma_reported_basis"] = (
+        "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
+        "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
+        "sigma_syst_complete — the RYA-1120 artifact's own sigma_reported omitted "
+        "sigma_syst altogether.")
+    if p.get("xi_state") in ("UNMEASURED", "NOT_IN_CAMPAIGN"):
+        p["sigma_reported_caveat"] = (
+            "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent "
+            "from this bar rather than zero. The bar is a LOWER BOUND.")
+    else:
+        #: 🔴 CLEARED, NOT LEFT BEHIND. This emitter MUTATES the feed in place and
+        #: re-runs over rows it wrote before, so a caveat set on an earlier pass
+        #: survives the condition that justified it. RYA-1213 hit it: the moment the
+        #: Reference tier's own dA/dxi landed and four products went
+        #: NOT_IN_CAMPAIGN -> MEASURED, they kept a field reading "INCOMPLETE ... the
+        #: bar is a LOWER BOUND" beside a bar that is now complete. The site PRINTS
+        #: this string, so a stale copy is a visible false statement about a
+        #: published uncertainty -- the RYA-1084 shape, where the stale side is the
+        #: one that wins. A derived field must be re-derived in BOTH directions.
+        p.pop("sigma_reported_caveat", None)
+
+
+
 def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
     from pipeline.reference_lineset import line_set_for_product
     idx = xi_index(xi_doc, feed)
@@ -706,6 +806,13 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
         #: and `grade` -- a new, non-identity field -- carries it in human form for the rest.
         ls = line_set_for_product(p)
         p["grade"] = GRADE_FOR_LINE_SET[ls]
+        #: 🔴 RYA-1213 §4 — "LABEL THEM DISTINCTLY SO A READER KNOWS WHICH IS THE ASPLUND
+        #: REPLICATION AND WHICH IS THE FULL LAB POOL". `grade` alone no longer answers
+        #: that: two line sets now read "Reference Grade" and they are different claims.
+        #: This is the human half of the distinction; `line_set_resolved` is the
+        #: machine-readable half, and the identity key resolves the same axis
+        #: independently, so nothing here can drift into being the source of truth.
+        p["grade_variant"] = GRADE_VARIANT.get(ls)
         p["line_set_resolved"] = ls
         p["line_set_basis"] = (
             "DERIVED at read time from `tier` by pipeline.reference_lineset."
@@ -717,31 +824,7 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
         p["generated_at"] = _now()
         p["code_commit"] = _commit()
 
-        xt = xi_terms(p, idx)
-        p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
-        if "dA_dxi" in xt:
-            p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
-
-        # Part 2 — sigma_syst must be a real total of its NAMED components, and
-        # sigma_reported must include it. The campaign's own sigma_reported did NOT:
-        # on all 32 entries carrying one it equals quadrature(SE, sigma_xi) with
-        # sigma_syst omitted entirely.
-        comps = {"published_syst": p.get("sigma_syst"), "sigma_xi": xt.get("sigma_xi")}
-        named = [v for v in comps.values() if v]
-        p["sigma_syst_components"] = comps
-        p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
-        terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
-        got = [t for t in terms if t]
-        p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
-        p["sigma_reported_basis"] = (
-            "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
-            "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
-            "sigma_syst_complete — the RYA-1120 artifact's own sigma_reported omitted "
-            "sigma_syst altogether.")
-        if p.get("xi_state") in ("UNMEASURED", "NOT_IN_CAMPAIGN"):
-            p["sigma_reported_caveat"] = (
-                "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent "
-                "from this bar rather than zero. The bar is a LOWER BOUND.")
+        update_xi_budget(p, idx)
 
         #: 🔴 PART 0 — THE <3D> LTE/NLTE COLLISION IS A MEDIAN COINCIDENCE, NOT A BUG.
         #: The ticket suspected the RYA-1104 "<3D>-NLTE == LTE wiring" defect. It is not
@@ -907,6 +990,8 @@ def verify(feed: dict) -> list:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="audit only; write nothing")
+    ap.add_argument("--xi-only", action="store_true",
+                    help="refresh Reference xi stamps and totals from existing campaign artifacts only")
     a = ap.parse_args()
 
     feed = json.loads(FEED.read_text())
@@ -925,7 +1010,13 @@ def main() -> int:
     n_before = len(feed["products"])
     hold, inst, models, xi_doc = load_sources()
 
-    feed, _ = enrich(feed, hold, inst, models, xi_doc)
+    if a.xi_only:
+        idx = xi_index(xi_doc, feed)
+        for p in feed["products"]:
+            if p.get("tier") == "REFERENCE":
+                update_xi_budget(p, idx)
+    else:
+        feed, _ = enrich(feed, hold, inst, models, xi_doc)
     #: 🔴 PART 3 IS DEFERRED, AND HAND-WRITING IT HERE IS THE REASON IT MUST BE.
     #: The four RYA-1106 Asplund products are real and their numbers are in
     #: `data/results/rya1106/asplund_four_instrument_table.json`. But a product does not
@@ -991,6 +1082,8 @@ def main() -> int:
     feed["schema"] = "codex.element_product/2"
     from pipeline.uncertainty_contract import assert_publication_feed
     assert_publication_feed(feed, previous=json.loads(FEED.read_text()))
+    from pipeline import plot_grid
+    feed["plot_grid"] = plot_grid.build(feed["products"])
     FEED.write_text(json.dumps(feed, indent=2) + "\n")
     print(f"\nwrote {FEED.relative_to(ROOT)} at v{feed['version']} (schema {feed['schema']})")
     return 0

@@ -42,9 +42,17 @@ def test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause(doc):
     #: blanket; Ryan's threshold ruling moved them onto RYA-968's per-line route and their
     #: sigma_syst is now 0.0475 (sigma_reported 0.0491-0.0516), comfortably under 0.1. The
     #: standard did not move — four products stopped failing it.
+    #: RYA-1213 — SPLIT BY TIER, for the reason the audit's own tripwire is split: the
+    #: Reference tier lands in batches, and a literal that gets bumped every time it fires
+    #: stops being read. All nine new VIS Reference products ARE over the line, and each
+    #: arrives with a named cause inherited from the same physics as its Deep sibling --
+    #: RYA-1081's arm-correlated Fe II offset on the 1D-LTE and Gerber legs, small-N on
+    #: ENGINE-A (n=2). The standard below is what matters and applies to every one of them.
     over = [r for r in doc["products"] if r["over_dig_in"]]
-    assert len(over) == 12
+    assert len([r for r in over if r.get("tier") != "REFERENCE"]) == 12
+    assert len([r for r in over if r.get("tier") == "REFERENCE"]) == 9
     assert all(r["rca_verdict"] for r in over)
+    assert not any(str(r["rca_verdict"]).startswith("OPEN — no named cause") for r in over)
     # the skill demands a NAMED verdict, not the word "OPEN" with nothing behind it
     assert all(len(r["rca_note"]) > 60 for r in over)
 
@@ -229,9 +237,16 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     #: ENGINE-A-3DNLTE too), so full 3D covers eight VIS products, not four. The SPLIT RULE
     #: this test guards is unchanged and still asserted above: an explicit named set, never a
     #: substring, and every <3D> MEAN product still APPLIES.
+    #: RYA-1213 — 8 → 12. The Amarsi engine now also runs on the full laboratory
+    #: Reference pool (all four VIS holdings), and those legs are full 3D like every other
+    #: ENGINE-A-3DNLTE product, so the exemption reaches them BY THE RULE rather than by
+    #: anyone deciding it does. That is the property worth having: the tier is new and
+    #: the rule needed no edit to cover it. The COUNT moves; the rule above does not.
     na = [r for r in doc["products"] if r["xi_applicability"].startswith("NOT APPLICABLE")]
-    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 8
+    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 12
     assert {r["treatment"] for r in na} == {"ENGINE-A-3DNLTE"}
+    #: and the exemption is reached on EVERY pool the engine ran on, not just the old ones
+    assert {r["tier"] for r in na} == {"GRADED", "ALL", "REFERENCE"}
 
     # every <3D> MEAN product APPLIES -- the refuted exemption must not come back
     mean3d = [r for r in doc["products"] if "mean3D" in r["treatment"]]

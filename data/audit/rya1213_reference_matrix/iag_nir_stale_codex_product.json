@@ -1,0 +1,60 @@
+{
+ "ticket": "RYA-1213",
+ "finding": "the LIVE solar_iag NIR Fe I 1D-LTE Codex product predates RYA-1191's `pipeline.fit_validity` guard and its aggregate contains FOUR non-convergent fits.",
+ "how_it_surfaced": "NIR holds no lab Fe line above the depth gate, so the Reference pool and the Codex pool are the SAME LINES. The Reference run therefore re-measured this cell on today's code, and the two products disagree on n: 28 rows with 26 in-aggregate in the committed Codex per-line file against 22 in the guarded run. That is a POOL difference, not drift, and it was visible only because the two pools are provably identical.",
+ "the_four_lines": [
+  {
+   "wavelength_air_A": 9350.415,
+   "A_fitted": 5.708,
+   "dex_from_solar": 1.75,
+   "guard": "FIT-NOT-PHYSICAL"
+  },
+  {
+   "wavelength_air_A": 9410.159,
+   "A_fitted": 5.53,
+   "dex_from_solar": 1.93,
+   "guard": "FIT-NOT-PHYSICAL"
+  },
+  {
+   "wavelength_air_A": 9437.793,
+   "A_fitted": 4.713,
+   "dex_from_solar": 2.75,
+   "guard": "NON-MINIMUM"
+  },
+  {
+   "wavelength_air_A": 9454.194,
+   "A_fitted": 4.876,
+   "dex_from_solar": 2.58,
+   "guard": "FIT-NOT-PHYSICAL"
+  }
+ ],
+ "scale": "each is 1.75-2.58 dex from solar, across a bound that spans a factor of ~1000 in abundance -- RYA-1191's own framing: 'a NON-CONVERGENT FIT, not an outlier'. 9437.793 is the very line RYA-1191 named as the bad fit behind the refuted 1.315 dex Kitt Peak dispersion; it is still in the aggregate here.",
+ "effect_on_the_published_value": "SMALL on the median and LARGE on the dispersion. The published A moves 7.546 -> 7.554 (+0.008) because the product aggregates by median and four wild points scatter both ways; the line-to-line scatter the bar is built from does not survive them.",
+ "why_it_was_missed": "RYA-1203 re-ingested the two STALE KP NIR Fe I entries onto the guarded pool (1D-LTE n=26 -> 23, ENGINE-A n=7 -> 6) and did not reach the IAG one. Two of three.",
+ "status": "MEASURED, and the corrected artifact exists. Whether it replaces the live row is a value decision on a Codex product, which this ticket does not own -- flagged to Ryan in the EOS rather than settled here.",
+ "paired_re_run": {
+  "method": "the GRADED selector re-run on this commit, same holding, same window",
+  "result": {
+   "1D-LTE": {
+    "A": 7.554,
+    "n": 22
+   },
+   "ENGINE-A": {
+    "A": 7.599,
+    "n": 6
+   },
+   "synth-1D-LTE-gerber": {
+    "A": 7.549,
+    "n": 22
+   }
+  },
+  "live_feed_row": {
+   "1D-LTE": {
+    "A": 7.546,
+    "n": 25,
+    "artifact": "2026-08-25"
+   }
+  },
+  "verdict": "CONFIRMED. Today's code on the SAME selector drops the four non-convergent fits and returns 7.554 at n=22. The live row is a pre-guard artifact; nothing about the measurement is in dispute."
+ }
+}
