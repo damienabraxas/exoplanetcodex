@@ -45,12 +45,11 @@ separately before a CRIRES abundance route is valid.
 For the NIR request, `si_nir_line_pool.csv` records the four published Si I
 J-band lines from Bergemann et al. (2013, ApJ 764, 115, Table 1): 11984.20,
 11991.57, 12031.50, and 12103.54 A. The CRIRES audit is in
-`data/results/rya1218/si_crires_nir/`. None of the corrected solar holdings
-reaches J: the available corrected products are Y (9800--10796 A) and H
-(15007--17494 A). The raw Vesta IDP does reach these wavelengths, but the
-registry correctly refuses it because telluric correction and rest-frame
-conditioning are absent. Thus all four CRIRES J lines remain HOLD_MEASUREMENT;
-no EW or abundance is reported from that raw holding.
+`data/results/rya1218/si_crires_nir/`. RYA-1219 now supplies corrected J products
+for all four J settings, alongside the existing corrected Y/H products. The
+raw IDP remains unmeasurable, while the corrected products are eligible for
+exact-pixel and line-identity checks; reflected-solar rest-frame conditioning
+remains a separate downstream gate. No EW or abundance is reported yet.
 
 The Kitt Peak result is intentionally split: the Molecfit sibling uses the
 RYA-940 product, and its 7160--7340 A H2O band has **no admissible correction**
@@ -64,10 +63,18 @@ in red-optical; Si I Engine B served in VIS/red-optical; Si II Engine B
 uncovered in VIS but served in red-optical; and no Si II Engine A route.
 Unsupported engine cells remain HOLD.
 
-While J/K correction is deferred to its own ticket, the existing corrected CRIRES
+Following RYA-1219, corrected CRIRES+ J/K holdings are now registered alongside the existing Y/H products. The existing corrected
 products were measured diagnostically with the full canonical Si census. The
 Y-wide holding serves 26 Si I rows; the corrected H holding serves 129 of 236
-canonical rows (the remaining windows fall in chip gaps or lack complete windows).
+canonical rows; the new J/K products require exact-pixel and line-identity checks before Si lines are promoted (the remaining windows may fall in chip gaps or lack complete windows). The grade adjudication is in `si_j_grade_adjudication.csv`: all four Bergemann lines pass the external **Reference Grade** test; Codex Grade is explicitly held because its policy requires primary-laboratory gf provenance, and Deep Grade is held pending the declared depth/gf route. This does not prevent an ungraded-systematic diagnostic engine run.
+
+The first engine execution matrix is in `si_engine_execution_matrix.csv`. The corrected J holding was reached and all four lines were attempted. Engine-A is explicit N/A because no validated Solar Si 1D-NLTE grid is registered; 1D-LTE and Engine-B are explicit FAILED because the only available Turbospectrum binary is macOS arm64 on Sirius Linux.
+
+The external-to-canonical physical identity crosswalk is in `si_j_line_identity.csv`: all four lines match canonical rows within 6 mA and 0.001 dex, but the canonical schema lacks level/J fields and all four remain HOLD for grade because the canonical source is VALD-only.
+
+A parallel K-band audit over 343 canonical Si I/Si II lines and four corrected K products is in `si_k_canonical_pixel_validation.csv/json`: 586/1372 line/product cells reach a complete single-detector window, 718 have no pixels, 18 are truncated, and 50 contain non-finite flux. These are coverage dispositions only; the canonical K pool remains grade/identity HOLD.
+
+The exact +/-1 A audit is in `si_jk_exact_pixel_validation.csv/json`: 13 of 16 J product-line windows are reached on one detector with finite corrected flux and non-unity MTRANS; 11984.20 A in J1228 is truncated at the detector edge, and 12103.54 A is absent from both J1232 settings.
 These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
 are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
 for laboratory identity/gf adjudication and are not promoted into a grade pool.
@@ -166,7 +173,7 @@ Kurucz 2005. The 7226.2079 A corrected-1984 window again raises a missing
 correction error; no raw fallback occurs. Si II is served on both holdings.
 The output's `ticket: RYA-1169` identifies the reused runner, not this campaign;
 the generator registration records the RYA-1218 invocation and output location.
-The 13-holding matrix is not an assertion that every holding is science-ready.
+The 15-holding matrix is not an assertion that every holding is science-ready.
 
 No current Si I/Si II balance, gf zero-point cap, LTE→NLTE/3D shift, product
 uncertainty, abundance feed, appendix, or PDF was produced. No measurement gate
@@ -174,3 +181,8 @@ is signed off. The next executable work is source/identity adjudication and
 exact-holding pixel/conditioning checks, followed by independently constructed
 grade pools and validated per-ion model routes. Missing primary sources stop
 their evidence branches, not unrelated inventory work.
+
+
+## Fe grading recipe applied to Si J
+
+The Si J rows follow the Fe RYA-799/824/850 recipe: resolve the gf actually used, verify the physical transition, assign `systematic:K07` when no primary-laboratory tie exists, and keep the line in the ungraded diagnostic pool. Solar feature depth remains an independent route axis. The four Bergemann J lines have VALD3 canonical gf and measured Solar central depths 0.456–0.545, placing them in the Codex depth window (0.05–0.60) but outside Codex/Deep **graded** products until a primary-lab Si gf source is joined. They are not left as an indeterminate HOLD.
