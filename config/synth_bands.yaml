@@ -173,3 +173,25 @@ bands:
       76/104, V I 25/547, Mn I 19/214, Co I 2/734, and Fe I 2/1523 ~ 0 as I=0 requires.
       🔴 Do NOT substitute Elgueta's atomich.dat: it is hfs-OFF (Co I 0/17, K I 0/2,
       Na I 0/4) and is a line-SELECTION table, not a blend inventory over 2500 A.
+  K:
+    lo_A: 19452.42
+    hi_A: 24845.62
+    anchor_A: 22149.0
+    linelist: data/linelists/ispec_k_19452_24846/atomic_lines.tsv
+    half_width_A: 2.58
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      DERIVED, not carried: 20.51 Doppler sigma at the band midpoint 22149.0 A.
+      sigma_D = 22149.0 * 1.7 km/s / c = 0.125598 A; 20.51 * 0.125598 = 2.5760 -> 2.58.
+      Midpoint anchor for the same reason as H: no prior published anchor to carry.
+    bounds_note: >-
+      Bounds are the RYA-1214 rest-frame-conditioned CRIRES+ K product's own measured
+      extent (RYA-1219 corrected Vesta IDPs, four settings co-added), NOT a lab pool's.
+      No AGSS21 C/N/O atomic reference line falls in it; the K CNO indicator is CO dv=2.
+    build_hint: >-
+      RYA-1214. Linelist built by pipeline.nearuv_linelist.build() from the hfs-ON SOLAR
+      VALD extract vald_solar_ir_17000_25000_hfson_raw.txt, cut to this extent
+      (scripts/rya1214_build_k_band.py). 3,958 lines; C I 43, O I 3, N I 0. The builder
+      excludes 1,586 molecular VALD rows (CO 787, CN 750, OH 49) by design — molecules
+      enter as .bsyn lists (RYA-1207).

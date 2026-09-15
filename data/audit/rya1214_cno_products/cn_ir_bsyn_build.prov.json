@@ -1,0 +1,47 @@
+{
+  "ticket": "RYA-1214",
+  "why": "AGSS21's nitrogen rests on CN at 10872-13204 A; every CN list we held runs 4200-9200 A and stops. The optical CN_red band we fitted shares a molecule with AGSS21's and nothing else \u2014 0 of their 59 lines are in our windows.",
+  "source": "Brooke, Ram, Western, Li, Schwenke & Bernath 2014, ApJS 210, 23 (CDS J/ApJS/210/23) Table 4 \u2014 195,120 CN lines, A-X / B-X / X-X",
+  "source_file": "data/reference/cno_molecular_primary/cn_brooke2014/table4.dat.gz",
+  "parse": "BYTE POSITION from the ReadMe's byte-by-byte block. `Obs` (39-49) is nullable, so whitespace splitting shifts every later column on those rows \u2014 a first pass did that and read the O-C residual as a wavenumber.",
+  "e_low_check": {
+    "min_Ecm_by_vlow": {
+      "0": 0.0,
+      "1": 2042.42,
+      "2": 4058.55,
+      "3": 6048.34,
+      "4": 8011.77,
+      "5": 9948.78,
+      "6": 11859.33,
+      "7": 13743.38,
+      "8": 15600.87,
+      "9": 17431.76,
+      "10": 19235.96,
+      "11": 21013.29
+    },
+    "median_step_cm1": 1910.5,
+    "verdict": "E'' INCLUDES the vibrational term; Elow_eV = E''/8065.54 is the total lower-state energy"
+  },
+  "gf_validation": {
+    "amarsi_cn_lines": 59,
+    "uniquely_matched": 30,
+    "ambiguous_refused": 28,
+    "unmatched": 1,
+    "median_abs_dloggf": 0.0064,
+    "max_abs_dloggf": 0.0797,
+    "within_0p02_dex": 26,
+    "match_tol_A": 0.05
+  },
+  "window_A": [
+    10872.0,
+    13205.0
+  ],
+  "window_basis": "AGSS21's CN band end to end. MEASURED coverage per holding, by probing each one rather than reading declared spans: solar_kpno_molecfit_corrected (CLEAN) reaches the WHOLE band; solar_iag (CLEAN) reaches 10872-11083 only; solar_kpno is CONTROL_ONLY; CRIRES+ Y ends at 10796 A (76 A short) and H starts at 15007 A (1803 A past), so CRIRES+ CANNOT serve this band; the raw Vesta IDPs are BLOCKED (RestFrameNotConditioned).",
+  "telluric": "one band overlaps \u2014 H2O 11120-11560 A (telluric_policy.TELLURIC_BANDS). Fit windows AVOID it rather than relying on a correction: it is 440 A of the band's 2333, and the remaining 1893 A is enumerated-clean.",
+  "h2o_band_A": [
+    11120.0,
+    11560.0
+  ],
+  "n_lines_written": 11290,
+  "bsyn_convention": "pipeline.nearuv_linelist.write_molecular_bsyn (RYA-1207): gu = 2J+1, fdamp and gamma_rad 0.0 for Turbospectrum defaults. NOT copied from the vendored files, which disagree with each other about whether column 5 is J or 2J+1."
+}

@@ -101,6 +101,9 @@ DECKS = ("none", "stagger", "codex")
 ROUTE_BY_HANDLER = {
     "ProfileFitHandler": "ew",
     "SynthesisHandler": "synth",
+    # RYA-1214: `pipeline.cno_synthesis` is a Turbospectrum spectrum-synthesis fit of a
+    # named band or line; its products carry this handler (rya1214_cnosynth_to_products).
+    "CNOSynthesis(RYA-237)": "synth",
 }
 
 #: 🔴 RYA-1100 — THE ROUTE TOKEN A PUBLISHED PRODUCT RECORD CARRIES.

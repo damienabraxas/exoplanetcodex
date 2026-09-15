@@ -323,6 +323,20 @@ entries:
     rel: spectra/vesta/CRIRESPlus
     kind: dir
     desc: Vesta CRIRES+ reflected-solar frames (Sirius-side).
+  repo.crires_plus_solar_j_rya1219:
+    root: repo
+    rel: data/results/rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv
+    kind: file
+    desc: >-
+      CRIRES+ Vesta J arm, RYA-1219 molecfit-corrected, rest-frame conditioned by RYA-1214
+      (scripts/rya1214_condition_crires_jk.py), air, 11159.9-13489.5 A.
+  repo.crires_plus_solar_k_rya1219:
+    root: repo
+    rel: data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv
+    kind: file
+    desc: >-
+      CRIRES+ Vesta K arm, RYA-1219 molecfit-corrected, rest-frame conditioned by RYA-1214
+      (scripts/rya1214_condition_crires_jk.py), air, 19452.4-24845.6 A.
   repo.crires_plus_solar_h_rya1094:
     root: repo
     rel: data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv
