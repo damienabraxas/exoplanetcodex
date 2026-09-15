@@ -91,3 +91,18 @@ stellar join, sourced xi and differential modules. Existing eligibility/store ru
 proof. These failures expose migration debt and are not suppressed.
 
 The baseline eligibility/store run passes all 40 tests, confirming the four failures are the stricter contract's migration debt. The register structure check independently fails on duplicate historical v135/v136 entries on both baseline and branch. No legacy Fe numerical artifact changed.
+
+
+## Merge scope and next stage — 2026-09-15
+
+This landing supplies the canonical API, covariance validation, strict admission
+of new/changed products, and the existing-result inventory. Exact existing legacy
+records can be retained during feed maintenance without a completeness claim.
+The four draft migration failures are resolved by separating legacy eligibility
+from new publication admission; tests still enforce both boundaries.
+
+RYA-587 remains open for actual component-evidence migration. Next: CNO, with
+RYA-1220 nitrogen first, then Al and Si. The nitrogen working branch already
+contains primary-source review, four-line profile diagnostics, a fifth-line
+absence, and parameter probes. Reuse that evidence; its numerical steps are not
+adopted parameter uncertainties and cannot become reported errors automatically.

@@ -340,7 +340,7 @@ def _artifact_mtime(product: dict) -> str | None:
     return (product.get("provenance") or {}).get("artifact_mtime")
 
 
-def evaluate(product: dict, *, peers: list | None = None) -> tuple:
+def evaluate(product: dict, *, peers: list | None = None, require_uncertainty: bool = False) -> tuple:
     """Every reason this product may not be live. Empty tuple == eligible.
 
     `peers` are the other products in its peer group (excluding itself); pass them to
@@ -350,12 +350,13 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
 
     out: list = []
 
-    # RYA-587 is element/product agnostic: a numeric sigma_syst cannot establish
-    # completeness. Keep every legacy reason alongside this missing-evidence gate.
+    # Legacy eligibility audits retain their original meaning. Admission requires
+    # the new contract; a record claiming that contract is always checked.
     from pipeline.uncertainty_contract import publication_problems
     uncertainty_problems = publication_problems(product)
-    out.extend(Ineligible("UNCERTAINTY_INCOMPLETE", detail)
-               for detail in uncertainty_problems)
+    if require_uncertainty or "uncertainty" in product:
+        out.extend(Ineligible("UNCERTAINTY_INCOMPLETE", detail)
+                   for detail in uncertainty_problems)
 
     holding = str(product.get("holding") or "")
     if not holding:
