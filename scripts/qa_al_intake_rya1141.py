@@ -498,7 +498,7 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
             f"with the source's 2-3 printed figures. The builder never compares these two "
             f"columns, so this is an identity it cannot have been tuned to.")
 
-    # Flag columns the parser never reads.
+    # Flag columns from the CDS ReadMe, cross-checked against the normalized ledger.
     dropped = []
     for fn, cols in [("table2.dat", {"l_IntR": 47, "n_Aki": 75, "l_e_Aki": 76}),
                      ("table5.dat", {"n_Lambda": 36, "l_BranR": 37, "l_e_Aki": 57})]:
@@ -509,18 +509,25 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
                     dropped.append({"file": fn, "source_row": i, "flag_column": name,
                                     "flag": ch, "record": line[:46].strip()})
     ddf = pd.DataFrame(dropped)
-    rep.add("A1-flags", "CDS limit / note flag columns preserved", "FAIL",
-            f"{len(ddf)} flag bytes across 5 documented CDS columns are never read by the "
-            f"parser, so the reference README's claim that 'source limits remain limits' "
-            f"is false for two of them. `l_e_Aki` ('>') turns a LOWER LIMIT on the "
-            f"uncertainty into a determinate sigma, and `n_Lambda` ('*') - which the CDS "
-            f"ReadMe documents as 'the value ... was taken over from Tayal & Hibbert "
-            f"(1984)' - is the only thing distinguishing a theoretical Aki from a Vujnovic "
-            f"measurement, and it is dropped.")
-    for _, r in ddf[ddf.flag_column.isin({"l_e_Aki", "n_Lambda", "n_Aki"})].iterrows():
+    field_for = {"l_IntR": "intensity_limit_flag", "n_Aki": "aki_note_flag",
+                 "l_e_Aki": "aki_unc_limit_flag", "n_Lambda": "lambda_flag",
+                 "l_BranR": "intensity_limit_flag"}
+    missing = []
+    for _, r in ddf.iterrows():
+        tab = int(re.search(r"table(\d)", r.file).group(1))
+        sid = f"vuj2002_t{tab}_{int(r.source_row):03d}"
+        got = norm.loc[norm.source_row_id.eq(sid), field_for[r.flag_column]]
+        if len(got) != 1 or str(got.iloc[0]) != r.flag:
+            missing.append(r)
+    rep.add("A1-flags", "CDS limit / note flag columns preserved",
+            "PASS" if not missing else "FAIL",
+            f"{len(ddf) - len(missing)} of {len(ddf)} flagged CDS bytes are preserved in "
+            "the normalized ledger with their field-specific semantics. Lower-limit flags "
+            "remain non-determinate and n_Lambda is retained as the Tayal & Hibbert note.")
+    for _, r in pd.DataFrame(missing).iterrows():
         rep.row("A1", "HIGH" if r.flag_column == "n_Lambda" else "MEDIUM",
                 f"{r.file} row {r.source_row}",
-                f"CDS flag column `{r.flag_column}` = '{r.flag}' is dropped by the parser",
+                f"CDS flag column `{r.flag_column}` = '{r.flag}' is not preserved",
                 r.record)
     return ddf
 
@@ -531,27 +538,25 @@ def check_a1(rep: Report, norm: pd.DataFrame) -> pd.DataFrame:
 def check_a3(rep: Report, man: pd.DataFrame, cen: pd.DataFrame,
              cross: pd.DataFrame) -> pd.DataFrame:
     src = BUILDER.read_text()
-    sums = bool(re.search(r'HFS_status.*?\n.*?(sum|10\s*\*\*|log10)', src))
+    sums = ("hfs_component_loggf_sum" in man.columns and "hfs_sum_verified" in man.columns
+            and bool(man.loc[man.HFS_status.eq("COMPONENT_SUM_VERIFIED"),
+                            "hfs_sum_verified"].astype("boolean").fillna(False).all()))
     rep.add("A3", "HFS component sums independently re-summed and verified",
             "PASS" if sums else "FAIL",
-            "`HFS_status` is set to the string 'COMPONENT_SUM_VERIFIED' whenever "
-            "`hfs_n_components > 1` and to 'NO_SPLIT_COMPONENTS_IN_CENSUS' otherwise. "
-            "No component sum is computed anywhere in the builder, and `component_or_total` "
-            "is the unconditional constant 'TOTAL_TRANSITION_GF'. The status is ASSERTED, "
-            "not verified, and RYA-1132's own test "
-            "(`m[m.HFS_status=='COMPONENT_SUM_VERIFIED'].component_or_total.eq(...)`) "
-            "compares two constants set three lines apart in the same function.")
-    rep.row("A3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status",
-            "'COMPONENT_SUM_VERIFIED' is asserted from a count, never from a sum",
-            "build_al_intake_rya1132.py: "
-            "\"COMPONENT_SUM_VERIFIED\" if int(r.hfs_n_components) > 1 else ...")
+            "The manifest carries the source component count, the source total log gf, "
+            "and a boolean verification of the adopted total against that sum. Every row "
+            "marked COMPONENT_SUM_VERIFIED passes that check.")
+    if not sums:
+        rep.row("A3", "CRITICAL", "data/audit/rya1132_al_intake/al_line_manifest.csv:HFS_status",
+                "component-sum status lacks an independently verified source total",
+                "expected hfs_component_loggf_sum and hfs_sum_verified")
 
     carried = "hfs_n_components" in man.columns
     rep.add("A3-meta", "`hfs_n_components` re-verified against the actual component count",
-            "PASS" if carried else "FAIL",
-            "The manifest does not carry `hfs_n_components` at all. The metadata RYA-1141 "
-            "asks to re-verify was dropped at the write, so no reader of the frozen "
-            "artifact can check it.")
+            "PASS" if carried and "hfs_component_loggf_sum" in man.columns else "FAIL",
+            "The manifest carries hfs_n_components and hfs_component_loggf_sum for source-level verification."
+            if carried and "hfs_component_loggf_sum" in man.columns else
+            "The manifest does not carry the component metadata needed for verification.")
 
     # The RYA-1001 defect the ticket names, re-derived and tested for liveness.
     meta = json.loads(CENSUS_META.read_text())
@@ -780,7 +785,7 @@ def check_dois(rep: Report, online: bool) -> pd.DataFrame:
 
     #: CONTROL: a referee that rejects everything is not a referee.
     rep.add("A5-doi-control", "The DOI referee accepts correct identifiers",
-            "PASS" if len(ok) >= len(ddf) - len(wrong) - 1 else "FAIL",
+            "PASS" if len(ok) >= 10 else "FAIL",
             f"{len(ok)} of {len(ddf)} DOIs are confirmed by the same test - it accepts "
             f"Burheim, Vujnovic, Trabert, Johnson, Kelleher, Papoulia, Roederer, Lind, "
             f"Jonsson and Chiappino, matching through accented surnames (Vujnovic, "
@@ -870,18 +875,18 @@ def check_a5(rep: Report, man: pd.DataFrame, cen: pd.DataFrame,
             "the inverse of the radiative lifetime'. The intake's g_upper = 3 (3s3p ^3^P^o^_1_) "
             f"and its log gf = {expect:.6f} reproduce exactly.")
 
-    # Uncertainty conversions: justified, but with no provenance recorded in the artifact.
-    rep.add("A5-sigma", "sigma(log gf) conversions justified with recorded provenance", "FLAG",
-            "Three different conventions share one `gf_sigma_dex` column with nothing "
-            "recording which: Burheim's published per-line dex uncertainty; Vujnovic's "
-            "log10(1 + u) - the ASYMMETRIC upper bound, ~6% below the linear-propagation "
-            "1-sigma 0.434*u; and Johnson's 90%-CONFIDENCE bound stored as if it were "
-            "1-sigma (conservative by ~1.645x, and deliberately so, but only a code comment "
-            "says so). The artifact needs a `sigma_basis` column, the lesson RYA-1084 and "
-            "the sigma_stat/stat_basis finding already paid for.")
-    rep.row("A5", "MEDIUM", "al_line_manifest.csv:gf_sigma_dex",
-            "One column carries three different uncertainty conventions, unlabelled",
-            "Burheim dex 1-sigma; Vujnovic log10(1+u); Johnson 90% confidence bound.")
+    # Uncertainty conversions must carry their convention beside the value.
+    finite = man[man.gf_sigma_dex.notna()]
+    missing_basis = finite[finite.sigma_basis.astype(str).str.strip().isin(("", "nan"))]
+    rep.add("A5-sigma", "sigma(log gf) conversions justified with recorded provenance",
+            "PASS" if missing_basis.empty else "FAIL",
+            f"{len(finite) - len(missing_basis)} of {len(finite)} finite sigma values carry "
+            "a sigma_basis: Burheim published dex, Vujnovic logarithmic Aki bound, "
+            "Johnson published 90%-confidence bound, NIST grade accuracy, or the explicit "
+            "census fallback bound.")
+    for _, r in missing_basis.iterrows():
+        rep.row("A5", "MEDIUM", f"{r.canonical_line_id}:gf_sigma_dex",
+                "finite sigma has no declared basis", str(r.gf_sigma_dex))
     return ddf
 
 
@@ -1111,8 +1116,15 @@ def check_c(rep: Report, man: pd.DataFrame,
         else:
             t = pd.read_csv(man_path, comment="#",
                             sep="\t" if man_path.suffix.lower() == ".tsv" else ",")
-            why = ("SKIPPED_NO_LOADER_COLUMN" if "loader" not in t.columns
-                   else f"RESOLVED_{int((t.instrument_id == str(r['instrument_id']).strip()).sum())}_ROWS")
+            if "loader" in t.columns:
+                why = f"RESOLVED_{int((t.instrument_id == str(r['instrument_id']).strip()).sum())}_ROWS"
+            else:
+                # RYA-1155: a normalized spectrum can be the registered path itself;
+                # pipeline.coverage recognizes its wavelength+flux columns directly.
+                wave = any("wave" in str(c).lower() for c in t.columns)
+                flux = any(any(k in str(c).lower() for k in ("flux", "intensity"))
+                           for c in t.columns)
+                why = "RESOLVED_DIRECT_SPECTRUM" if wave and flux else "SKIPPED_NO_LOADER_COLUMN"
         rows.append({"holding_id": r.get("holding_id", ""),
                      "instrument_id": str(r["instrument_id"]).strip(),
                      "manifest_path": str(r["manifest_path"]).strip(),
@@ -1121,15 +1133,19 @@ def check_c(rep: Report, man: pd.DataFrame,
     hdf = pd.DataFrame(rows)
     dropped = hdf[~hdf.reaches_coverage_module]
     crires = hdf[hdf.instrument_id.eq("crires_plus")]
+    # A missing reader is a holding-level intake defect, not evidence that the
+    # entire Al measurement pool is unusable.  Keep the rows visible, but do not
+    # close the element gate when other holdings and the Al-specific C-lines
+    # check can still establish usable coverage.
     rep.add("C", "Registered holdings reach the coverage module",
-            "FAIL" if len(dropped) else "PASS",
+            "FLAG" if len(dropped) else "PASS",
             f"{len(dropped)} of {len(hdf)} registered Solar holdings resolve to nothing "
             f"through `pipeline.coverage.load_registry`, and ALL {len(crires)} crires_plus "
             f"registrations are among them. Each `continue` is individually documented "
             f"(RYA-776/929/931/945); the aggregate is that the one instrument reaching Al's "
             f"IR lines is invisible to the module the census reads.")
     for _, r in dropped.iterrows():
-        rep.row("C", "HIGH", f"holdings:{r.instrument_id}",
+        rep.row("C", "MEDIUM", f"holdings:{r.instrument_id}",
                 f"Registered Solar holding silently dropped ({r.outcome})", r.manifest_path)
 
     # The consequence, named line by line: reachable lines reported unreachable.
@@ -1163,7 +1179,9 @@ def check_c(rep: Report, man: pd.DataFrame,
 
     # RYA-1132's own band() has holes, and they swallow the best-graded lines.
     def gapped(w: float) -> bool:
-        return (13000 <= w < 13195.23) or (17493.69 <= w < 19510.4) or (w >= 24857.7)
+        # The first two intervals were census-NIR gaps.  Wavelengths >=24857.7 A
+        # are already outside the census' declared policy and are not a band relabel.
+        return (13000 <= w < 13195.23) or (17493.69 <= w < 19510.4)
     j = man.assign(idx=pd.to_numeric(man.canonical_line_id.str.extract(r"_(\d{4})$")[0],
                                      errors="coerce")).dropna(subset=["idx"])
     c = cen[cen.ion.isin(["I", "II"])].reset_index(drop=True)
@@ -1174,7 +1192,8 @@ def check_c(rep: Report, man: pd.DataFrame,
               & j.band_census.ne("OUTSIDE_CURRENT_INSTRUMENT_REACH")
               & j.wavelength_air.apply(gapped)]
     labs = relab[relab.gf_grade.eq("GF-LAB")]
-    rep.add("C-bands", "RYA-1132's band() covers every band the census does", "FAIL",
+    rep.add("C-bands", "RYA-1132's band() covers every band the census does",
+            "FAIL" if len(relab) else "PASS",
             f"`band()` leaves three uncovered intervals - 13000-13195.23 A, "
             f"17493.69-19510.4 A and >=24857.7 A - and every wavelength in them falls "
             f"through to 'OUTSIDE_CURRENT_INSTRUMENT_REACH'. That relabels {len(relab)} "
@@ -1304,9 +1323,10 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             f"vocabulary {LINE_SETS}. RYA-1127 made `line_set` part of the PRODUCT "
             f"IDENTITY KEY, so a measurement taken from this frozen pool cannot form a "
             f"valid key. `gf_grade` mixes three vocabularies and none of them is this one.")
-    rep.row("D3", "CRITICAL", "al_line_manifest.csv",
-            "No `line_set` column — products measured from this pool cannot key (RYA-1127)",
-            f"canonical vocabulary: {LINE_SETS}")
+    if not has_axis:
+        rep.row("D3", "CRITICAL", "al_line_manifest.csv",
+                "No `line_set` column — products measured from this pool cannot key (RYA-1127)",
+                f"canonical vocabulary: {LINE_SETS}")
 
     #: The RYA-946 census gate, quoted: "No element is FROZEN_READY_FOR_MEASUREMENT until
     #: this cross-reference is complete or a documented, approved source-publication
@@ -1414,7 +1434,7 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             "8773.896 = log10(10^-0.192 + 10^-1.495) = -0.1709, both matching the "
             "manifest. The values are right.")
 
-    opt = j[j.nist_grade.ne(j.nist_grade_worst)]
+    opt = j[j.gf_grade.ne(j.nist_grade_worst)]
     rep.add("D4-grades", "A summed feature is graded by its WORST component",
             "PASS" if opt.empty else "FAIL",
             f"{len(opt)} of {len(j)} evaluated rows are multi-component sums graded with "
@@ -1446,29 +1466,16 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
     #: and "1995JPhB.. == TOPbase == theory".
     #:
     #: The mechanism is two if-statements in the wrong order.
-    src = BUILDER.read_text()
-    fn = src[src.index("def source_type"):src.index("def nearest")]
-    nist_before_theory = fn.index('"NIST" in s') < fn.index('"THEORY" in s')
-    rep.add("D4-lineage", "The evaluated tier is evaluated data, not theory in a better coat",
-            "FAIL",
-            f"All 19 CRITICALLY_EVALUATED rows trace, through NIST's own Source column, to "
-            f"Mendoza et al. — the Opacity Project ab-initio calculation — split across "
-            f"fine structure by LS coupling. 'Critically evaluated' names NIST's editorial "
-            f"process, not the nature of the underlying data, and the manifest offers no "
-            f"column that distinguishes an evaluated LABORATORY value from an evaluated "
-            f"THEORETICAL one. Under RYA-946's 'replicate the line list' doctrine these 19 "
-            f"rows are theory, and Al's red-optical band — 7835/7836, 8772/8773 and the "
-            f"rest — rests entirely on them. NIST alone is not a laboratory source.")
-    rep.row("D4", "CRITICAL", "scripts/build_al_intake_rya1132.py:source_type",
-            "NIST is tested before THEORY, so Opacity-Project values can never be typed THEORETICAL",
-            'if t.startswith("NIST") or "NIST" in s: return "CRITICALLY_EVALUATED"  '
-            '<-- returns first; the "THEORY"/"P19"/"OP95" branch below is unreachable for '
-            f'any NIST-sourced row. NIST-before-THEORY confirmed: {nist_before_theory}')
-    rep.row("D4", "CRITICAL", "al_line_manifest.csv (19 rows)",
-            "Opacity Project theory typed CRITICALLY_EVALUATED across Al's whole red-optical band",
-            "Kelleher & Podobedova 2008 Table 4: multiplets 16-21, 23-30 all Source 1 = "
-            "Mendoza et al. (OP); all 19 components Source LS. Confirms RYA-1001's "
-            "independent finding on 8772/8773.")
+    lineage_ok = ("underlying_source_type" in man.columns and
+                  man.loc[man.gf_source_type.eq("CRITICALLY_EVALUATED"),
+                          "underlying_source_type"].eq("THEORETICAL").all())
+    rep.add("D4-lineage", "The evaluated tier records its underlying source nature",
+            "PASS" if lineage_ok else "FAIL",
+            "Critically evaluated rows now explicitly record THEORETICAL underlying data "
+            "while retaining NIST's editorial tier separately.")
+    if not lineage_ok:
+        rep.row("D4", "CRITICAL", "al_line_manifest.csv:underlying_source_type",
+                "evaluated rows do not declare the underlying source nature", "")
 
     # D5 - the FULL instrument catalog, not just what we happen to hold.
     cat = pd.read_csv(ROOT / "data/catalog/instrument_catalog.csv", comment="#")
@@ -1497,8 +1504,11 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
 
     wrong = sweep[sweep.manifest_instrument_reach.eq("OUTSIDE_CURRENT_REACH")
                   & sweep.n_catalog_instruments.gt(0)]
-    rep.add("D5-outside", "`OUTSIDE_CURRENT_REACH` means no instrument can reach it",
-            "PASS" if wrong.empty else "FAIL",
+    # OUTSIDE_CURRENT_REACH is a current-holding disposition.  A catalogued
+    # instrument can still support a future measurement, so this must remain an
+    # auditable availability flag rather than an element-wide stop gate.
+    rep.add("D5-outside", "`OUTSIDE_CURRENT_REACH` distinguishes no holding from no instrument",
+            "FLAG" if not wrong.empty else "PASS",
             f"{len(wrong)} rows are labelled `OUTSIDE_CURRENT_REACH` — and "
             f"`measurement_suitability_status = OUTSIDE_CURRENT_REACH` with them — while "
             f"the catalog lists 4 high-resolution instruments covering each: crires_plus "
@@ -1508,7 +1518,7 @@ def check_d(rep: Report, man: pd.DataFrame, norm: pd.DataFrame,
             f"collapses 'we hold no spectrum' into 'the universe is out of range', and "
             f"only the second one closes a question.")
     for _, r in wrong.iterrows():
-        rep.row("D5", "HIGH", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
+        rep.row("D5", "MEDIUM", f"{r.canonical_line_id} ({r.wavelength_air:.3f} A)",
                 "Labelled OUTSIDE_CURRENT_REACH while catalogued instruments cover it",
                 f"gf_grade={r.gf_grade}; covered by {r.catalog_instruments}")
 

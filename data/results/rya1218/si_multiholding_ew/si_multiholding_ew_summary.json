@@ -1,0 +1,375 @@
+{
+  "ticket": "RYA-1218",
+  "line_set": "RYA-1169 Asplund source lines",
+  "run_type": "observed EW/depth; no abundance or engine selection",
+  "holdings": [
+    {
+      "instrument": "harps",
+      "holding": "solar_harps",
+      "n_source_lines": 10,
+      "n_served": 8,
+      "n_unserved": 2,
+      "served_wavelengths": [
+        5645.6128,
+        5684.484,
+        5690.425,
+        5701.104,
+        5772.146,
+        5793.0727,
+        6741.628,
+        6371.3714
+      ],
+      "unserved": [
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no harps holding covers 7034.901 +/- 0.360 A (solar_harps 3782.6-6910.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no harps holding covers 7226.208 +/- 0.360 A (solar_harps 3782.6-6910.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "n_source_lines": 10,
+      "n_served": 8,
+      "n_unserved": 2,
+      "served_wavelengths": [
+        5645.6128,
+        5684.484,
+        5690.425,
+        5701.104,
+        5772.146,
+        5793.0727,
+        6741.628,
+        6371.3714
+      ],
+      "unserved": [
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no harps holding covers 7034.901 +/- 0.360 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no harps holding covers 7226.208 +/- 0.360 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "n_source_lines": 10,
+      "n_served": 10,
+      "n_unserved": 0,
+      "served_wavelengths": [
+        5645.6128,
+        5684.484,
+        5690.425,
+        5701.104,
+        5772.146,
+        5793.0727,
+        6741.628,
+        7034.9006,
+        7226.2079,
+        6371.3714
+      ],
+      "unserved": []
+    },
+    {
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag_reiners2016",
+      "n_source_lines": 10,
+      "n_served": 0,
+      "n_unserved": 10,
+      "served_wavelengths": [],
+      "unserved": [
+        {
+          "wavelength_air_A": 5645.6128,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5645.613 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5684.484,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5684.484 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5690.425,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5690.425 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5701.104,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5701.104 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5772.146,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5772.146 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5793.0727,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 5793.073 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6741.628,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 6741.628 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 7034.901 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 7226.208 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6371.3714,
+          "reason_or_concern": "LookupError: no iag_fts_solar_atlas holding covers 6371.371 +/- 0.360 A (solar_iag_reiners2016 4047.5-5001.1 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "n_source_lines": 10,
+      "n_served": 9,
+      "n_unserved": 1,
+      "served_wavelengths": [
+        5645.6128,
+        5684.484,
+        5690.425,
+        5701.104,
+        5772.146,
+        5793.0727,
+        6741.628,
+        7034.9006,
+        6371.3714
+      ],
+      "unserved": [
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: window 7225.85-7226.57 A overlaps REGISTERED telluric band 7160-7340 A (H2O), and RYA-940 produced no admissible correction for it. Refusing to serve uncorrected flux under a corrected holding -- measure it on solar_kpno and label it uncorrected."
+        }
+      ]
+    },
+    {
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "n_source_lines": 10,
+      "n_served": 10,
+      "n_unserved": 0,
+      "served_wavelengths": [
+        5645.6128,
+        5684.484,
+        5690.425,
+        5701.104,
+        5772.146,
+        5793.0727,
+        6741.628,
+        7034.9006,
+        7226.2079,
+        6371.3714
+      ],
+      "unserved": []
+    },
+    {
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_rya794",
+      "n_source_lines": 10,
+      "n_served": 0,
+      "n_unserved": 10,
+      "served_wavelengths": [],
+      "unserved": [
+        {
+          "wavelength_air_A": 5645.6128,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5645.613 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5684.484,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5684.484 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5690.425,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5690.425 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5701.104,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5701.104 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5772.146,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5772.146 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5793.0727,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5793.073 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6741.628,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6741.628 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7034.901 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7226.208 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6371.3714,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6371.371 +/- 0.360 A (solar_crires_plus_y_rya794 10280.0-10680.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_y_wide_rya1054",
+      "n_source_lines": 10,
+      "n_served": 0,
+      "n_unserved": 10,
+      "served_wavelengths": [],
+      "unserved": [
+        {
+          "wavelength_air_A": 5645.6128,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5645.613 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5684.484,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5684.484 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5690.425,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5690.425 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5701.104,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5701.104 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5772.146,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5772.146 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5793.0727,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5793.073 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6741.628,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6741.628 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7034.901 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7226.208 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6371.3714,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6371.371 +/- 0.360 A (solar_crires_plus_y_wide_rya1054 9800.0-10796.0 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_h_rya1094",
+      "n_source_lines": 10,
+      "n_served": 0,
+      "n_unserved": 10,
+      "served_wavelengths": [],
+      "unserved": [
+        {
+          "wavelength_air_A": 5645.6128,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5645.613 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5684.484,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5684.484 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5690.425,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5690.425 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5701.104,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5701.104 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5772.146,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5772.146 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 5793.0727,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 5793.073 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6741.628,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6741.628 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7034.901 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 7226.208 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        },
+        {
+          "wavelength_air_A": 6371.3714,
+          "reason_or_concern": "LookupError: no crires_plus holding covers 6371.371 +/- 0.360 A (solar_crires_plus_h_rya1094 15007.1-17493.7 A). Coverage must be TOTAL -- a window half inside a fixed product is a truncated window, not a measurement."
+        }
+      ]
+    },
+    {
+      "instrument": "crires_plus",
+      "holding": "solar_vesta_crires_plus_idp",
+      "n_source_lines": 10,
+      "n_served": 0,
+      "n_unserved": 10,
+      "served_wavelengths": [],
+      "unserved": [
+        {
+          "wavelength_air_A": 5645.6128,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5645.613 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 5684.484,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5684.484 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 5690.425,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5690.425 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 5701.104,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5701.104 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 5772.146,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5772.146 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 5793.0727,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 5793.073 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 6741.628,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 6741.628 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 7034.9006,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 7034.901 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 7226.2079,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 7226.208 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        },
+        {
+          "wavelength_air_A": 6371.3714,
+          "reason_or_concern": "TelluricNotCorrected: crires_plus covers 6371.371 A but no holding may be measured there. solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2res / APERO+Wapiti) BEFORE any IR abundance; before correction the observed flux is not stellar. If you ARE the telluric correction leg and need the uncorrected flux in order to correct it, pass allow_uncorrected=True."
+        }
+      ]
+    }
+  ]
+}

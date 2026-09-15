@@ -60,6 +60,10 @@ PRE_NORMALISED_HOLDINGS: frozenset[str] = frozenset({
     # the RYA-904 collapse. Continuum after the residual-slope helper: median 0.996,
     # p95 1.013.
     "solar_crires_plus_h_rya1094",
+    # RYA-1214: J and K, conditioned from RYA-1219's corrected IDPs; FLUX normalised per
+    # segment by RYA-1219 and co-added on that scale. Listed per PRODUCT, as above.
+    "solar_crires_plus_j_rya1219",
+    "solar_crires_plus_k_rya1219",
     "solar_delbouille_liege",            # RYA-944 disk-centre intensity, LOCAL normalisation
 })
 

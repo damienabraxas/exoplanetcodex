@@ -125,6 +125,21 @@ def test_every_committed_band_product_is_visible_to_the_tracker():
         f"page: {unseen}")
 
 
+def test_a_diagnostic_keyed_stem_parses_and_a_mismatched_one_is_refused():
+    """RYA-1214: cno_synthesis products name ONE diagnostic, not a span."""
+    tracker = _tracker()
+    ok = tracker.parse_stem(
+        "CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+        INSTRUMENTS, HOLDINGS)
+    assert ok["element"] == "C" and ok["instrument"] == "harps"
+    assert ok["holding"] == "solar_harps_molecfit_corrected"
+    assert ok["selector"] == "MOL-CH_Gband" and ok["lo_A"] is None
+    # the diagnostic in the name disagrees with the selector: refused, never half-read
+    assert tracker.parse_stem(
+        "CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+        INSTRUMENTS, HOLDINGS) is None
+
+
 def test_two_selectors_on_one_holding_stay_two_products():
     """RYA-946 firewall: differing line sets must not collapse into one cell."""
     tracker = _tracker()

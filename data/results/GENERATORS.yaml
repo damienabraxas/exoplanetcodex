@@ -33,6 +33,94 @@
 # retroactively become the provenance of the old one.
 
 artifacts:
+  - artifact: rya1218/si_j_grade_adjudication.csv
+    generator: hand_adjudication_from_literature
+    invocation: Bergemann2013 Table 1 crosswalk plus current grade-policy review
+    ticket: RYA-1218
+    note: External Reference Grade passes; Codex/Deep remain explicit policy holds.
+  - artifact: rya1218/si_engine_execution_matrix.csv
+    generator: scripts/derive_band_products.py
+    invocation: Sirius venv312 J-band CRIRES run; see command column
+    ticket: RYA-1218
+    note: Explicit engine statuses; no failed run is promoted to a product.
+  - artifact: rya1218/si_k_canonical_pixel_validation.csv
+    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Exact +/-1 A pixel coverage for canonical Si I/Si II K-band rows; no EW or abundance.
+  - artifact: rya1218/si_k_canonical_pixel_validation.json
+    generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Summary of K-band line/product coverage dispositions.
+  - artifact: rya1218/si_j_line_identity.csv
+    generator: scripts/audit_si_j_identity_rya1218.py
+    invocation: python3 scripts/audit_si_j_identity_rya1218.py
+    ticket: RYA-1218
+    note: Bergemann J-band Si I external-level crosswalk to canonical rows; no grade promotion.
+  - artifact: rya1218/si_jk_exact_pixel_validation.csv
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Exact +/-1 A pixel-window coverage audit on corrected J products; no EW or abundance.
+  - artifact: rya1218/si_jk_exact_pixel_validation.json
+    generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+    invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+    ticket: RYA-1218
+    note: Summary of reached and held J-band Si line windows.
+  # RYA-1134 provisional source adjudication; no measurement authorization.
+  - artifact: rya1134/verified_v1/band_grade_eligibility.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/component_proof.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/engine_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/grade_delta.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/input_hashes.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/line_dispositions.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/line_holding_matrix.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/pool_memberships.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/source_candidates.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/source_quantities.csv
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/verified_v1/summary.json
+    generator: pipeline/al_grade_verification.py
+    invocation: python -m pipeline.al_grade_verification --out data/results/rya1134/verified_v1 --check
+    ticket: RYA-1134
+  - artifact: rya1134/README.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1134
+    note: Provisional adjudication report; source and holding gates remain open.
+    sources:
+      - data/results/rya1134/verified_v1/summary.json
+      - data/reference/al_grade_verification_rya1134/bibliography_summary.json
   # ── RYA-1191 — the telluric CLOSE for Fe: verified at every graded line ───────────
   - artifact: band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
     generator: scripts/derive_band_products.py
@@ -11067,3 +11155,763 @@ artifacts:
       applied (RYA-946 defines the tier by gf pedigree). Run on Sirius with
       ~/venv_rya1103/bin/python and ISPEC_DIR=/mnt/codex-data/engines/ispec_src.
       Pool cell(s): vis1_iag_gnlte.
+
+  # ── RYA-1217 Al VIS Codex Grade products ───────────────────────────────────────────
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+# ── RYA-1214 — Solar C/N/O band products (quarantined; C I/N I/O I outside the ratified set) ──
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+    ticket: RYA-1214
+  - artifact: band_products/OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis
+    ticket: RYA-1214
+    note: >-
+      Converts `pipeline.cno_synthesis` VIS output (data/audit/cno_synthesis/solar_vis_cno_*,
+      itself from `python -m pipeline.cno_synthesis --star solar --region vis`) onto the
+      band-product schema; the diagnostic is the selector (MOL-/ATOM-/FORB-).
+  - artifact: band_products/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis --region nir_cn_kp --region nir_cn_iag
+    ticket: RYA-1214
+    note: >-
+      Converts data/audit/cno_synthesis/solar_nir_cn_iag_cno_*, itself from
+      `python -m pipeline.cno_synthesis --star solar --region nir_cn_iag --pin C=8.488`
+      (A(C) pinned to the VIS CH G-band product). CN A-X 10872-11083 A on the IAG FTS.
+  - artifact: band_products/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv
+    generator: scripts/rya1214_cnosynth_to_products.py
+    invocation: >-
+      python3 scripts/rya1214_cnosynth_to_products.py --region vis --region nir_cn_kp --region nir_cn_iag
+    ticket: RYA-1214
+    note: >-
+      Converts data/audit/cno_synthesis/solar_nir_cn_kp_cno_*, itself from
+      `python -m pipeline.cno_synthesis --star solar --region nir_cn_kp --pin C=8.488`.
+      CN A-X on the Kitt Peak 1984 composite, molecfit-corrected; 12 strength-ranked windows.
+  # ── RYA-1214 — CRIRES+ J/K rest-frame conditioning of the RYA-1219 corrected products ──
+  - artifact: rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: >-
+      python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1219_crires_products --arm J
+    ticket: RYA-1214
+    note: >-
+      Inputs are RYA-1219's molecfit-corrected FITS (gitignored; SHA-256 checked against
+      data/audit/rya1219_crires_jk/corrected_products_manifest.csv before use).
+  - artifact: rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: >-
+      python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1219_crires_products --arm K
+    ticket: RYA-1214
+    note: >-
+      Inputs are RYA-1219's molecfit-corrected FITS (gitignored; SHA-256 checked against
+      data/audit/rya1219_crires_jk/corrected_products_manifest.csv before use).

@@ -1,0 +1,54 @@
+{
+  "ticket": "RYA-1218",
+  "total_lines": 2473,
+  "grade_counts": {
+    "DEPTH_UNMEASURED": 1173,
+    "BELOW_OBSERVABILITY_FLOOR": 711,
+    "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 587,
+    "DEEP_GRADED_CANDIDATE": 2
+  },
+  "bands": {
+    "H": 236,
+    "NIR": 100,
+    "VIS": 834,
+    "near-UV": 24,
+    "outside_configured_synthesis_bands": 696,
+    "red-optical": 583
+  },
+  "grade_by_band": {
+    "H": {
+      "DEPTH_UNMEASURED": 100,
+      "BELOW_OBSERVABILITY_FLOOR": 69,
+      "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 67
+    },
+    "NIR": {
+      "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 81,
+      "BELOW_OBSERVABILITY_FLOOR": 16,
+      "DEPTH_UNMEASURED": 3
+    },
+    "VIS": {
+      "DEPTH_UNMEASURED": 337,
+      "BELOW_OBSERVABILITY_FLOOR": 335,
+      "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 160,
+      "DEEP_GRADED_CANDIDATE": 2
+    },
+    "near-UV": {
+      "DEPTH_UNMEASURED": 24
+    },
+    "outside_configured_synthesis_bands": {
+      "DEPTH_UNMEASURED": 330,
+      "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 185,
+      "BELOW_OBSERVABILITY_FLOOR": 181
+    },
+    "red-optical": {
+      "DEPTH_UNMEASURED": 379,
+      "BELOW_OBSERVABILITY_FLOOR": 110,
+      "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 94
+    }
+  },
+  "engine_policy": {
+    "engineA_1dnlte": "apply only where extracted Si_Amarsi2020_PySME line correction exists; explicit N/A otherwise",
+    "engineB_synth": "run TS LTE and applicable TS-native NLTE decks; Deep-grade lines require synthesis",
+    "reference": "AGSS21 membership is separate from Codex/Deep grade"
+  }
+}

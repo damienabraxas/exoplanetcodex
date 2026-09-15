@@ -1,0 +1,10 @@
+window,centre_A,half_width_A,min_kpmf,min_k05,min_iag,median_abs_kpmf_minus_k05,median_abs_kpmf_minus_iag,median_abs_k05_minus_iag,unavailable
+SUSPECT O I 926.1,9260.87,1.0,0.234,0.9336,0.9222,0.073,0.0731,0.0018,
+SUSPECT O I 926.3,9262.68,1.0,0.5242,0.8996,0.9204,0.0389,0.0403,0.0036,
+SUSPECT O I 926.6,9265.92,1.0,0.6616,0.921,0.923,0.0079,0.0067,0.0018,
+SUSPECT C I 9603,9603.03,1.4,0.4532,0.7882,0.7443,0.0545,0.0393,0.0069,
+SUSPECT C I 9658,9658.44,1.4,0.1498,0.6134,0.6064,0.0451,0.0383,0.0071,
+CONTROL C I 8335,8335.15,1.1,0.6847,0.6833,0.6885,0.0084,0.0039,0.01,
+CONTROL C I 10683,10683.08,1.4,0.5429,,0.5078,,0.0601,,k05: LookupError: no kpno_solar_atlas holding covers 10683.080 +/- 1.400 A (solar_kpno_k
+CONTROL C I 10691,10691.25,1.4,0.4892,,0.4663,,0.0461,,k05: LookupError: no kpno_solar_atlas holding covers 10691.250 +/- 1.400 A (solar_kpno_k
+CONTROL C I 11330,11330.28,1.4,0.7289,,,,,,k05: LookupError: no kpno_solar_atlas holding covers 11330.280 +/- 1.400 A (solar_kpno_k; iag: LookupError: no iag_fts_solar_atlas holding covers 11330.280 +/- 1.400 A (solar_iag

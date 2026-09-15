@@ -1,0 +1,37 @@
+{
+  "ticket": "RYA-1214",
+  "source": "Brooke, Bernath, Western et al. 2016, JQSRT 168, 142 \u2014 OH X-X line list",
+  "source_file": "data/reference/cno_molecular_primary/oh_brooke2016/OH-Supplementary.zip::OH-Supplementary/OH-XX-Line_list.txt",
+  "why_not_mythos": "vendored 16O-1H__MYTHOS_rovib.bsyn is in VACUUM and its gu includes nuclear-spin degeneracy: +0.30..+0.36 dex vs AGSS21 on all 14 H-band lines",
+  "position": "observed wavenumber where available, else PGOPHER calculated; vacuum -> air via pipeline.wavelength_util",
+  "loggf": "log10((2J''+1) f) \u2014 validated; the upper-state g is refused (0.041 dex)",
+  "e_low_check": {
+    "min_Ecm_by_vlow": {
+      "0": 0.0,
+      "1": 3568.5,
+      "2": 6971.3,
+      "3": 10210.5,
+      "4": 13287.2,
+      "5": 16201.3
+    },
+    "median_step_cm1": 3239.2
+  },
+  "gf_validation": {
+    "agss21_oh_lines_in_band": 14,
+    "matched_by_label_and_wavelength": 14,
+    "ambiguous_refused": 0,
+    "unmatched": 0,
+    "median_abs_dloggf": 0.0004,
+    "max_abs_dloggf": 0.0141,
+    "median_abs_dEP_eV": 0.0002,
+    "within_tol": 14,
+    "gf_tol_dex": 0.02,
+    "match_tol_A": 0.05
+  },
+  "window_A": [
+    15007.11,
+    17493.69
+  ],
+  "n_lines_written": 2533,
+  "n_at_observed_positions": 335
+}
