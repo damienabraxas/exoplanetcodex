@@ -79,7 +79,7 @@ Before RYA-587 can be Done:
    into the schema; assess any genuine gap only after reconciling the existing runs.
 3. Supply line-specific transition covariance and observation/model evidence;
    resolve material missing terms or retain explicit HOLD.
-4. Populate Al/Si/CNO/N budgets after their independent scientific gates permit it.
+4. Populate CNO/N budgets first (RYA-1220), then Al and Si, after their scientific gates permit it.
 5. Supply joint evidence for target multi-element ratios. Covariance arithmetic is
    tested; no target ratio is publication-ready.
 6. Migrate live products through the strict gate and restore eligibility tests
@@ -87,10 +87,10 @@ Before RYA-587 can be Done:
 
 Final targeted tests: **86 passed** for new contract and legacy Fe uncertainty,
 stellar join, sourced xi and differential modules. Existing eligibility/store run:
-**36 passed, four failed** because historical records lack the newly required
-proof. These failures expose migration debt and are not suppressed.
+**Historical draft: 36 passed, four failed** because historical records lack the newly required
+proof. These exposed the conflation of legacy eligibility with new admission; the merge-scope section below records the resolution.
 
-The baseline eligibility/store run passes all 40 tests, confirming the four failures are the stricter contract's migration debt. The register structure check independently fails on duplicate historical v135/v136 entries on both baseline and branch. No legacy Fe numerical artifact changed.
+The baseline eligibility/store run passes all 40 tests, confirming the four failures are the stricter contract's migration debt. At that checkpoint, the register structure check independently failed on duplicate historical v135/v136 entries on both baseline and branch. No legacy Fe numerical artifact changed.
 
 
 ## Merge scope and next stage — 2026-09-15

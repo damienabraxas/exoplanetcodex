@@ -246,6 +246,9 @@ def validate(document, *, scope):
     elif method == "profile_likelihood":
         _source(measurement.get("correlation_treatment"), "pixel correlation treatment")
         _source(measurement.get("likelihood"), "profile likelihood")
+        n_pixels = measurement.get("n_pixels")
+        if not isinstance(n_pixels, int) or isinstance(n_pixels, bool) or n_pixels < 1:
+            raise UncertaintyError("positive pixel count required")
     else:
         raise UncertaintyError("measurement method is not declared")
     data = terms["transition_data"]["evidence"]
@@ -253,10 +256,13 @@ def validate(document, *, scope):
                                 data.get("weights", []), covariance=data.get("covariance", []),
                                 sources=data.get("line_sources", []),
                                 covariance_source=terms["transition_data"]["source"])
-    if data.get("pool_sha256") != scope["pool_sha256"]:
+    if (data.get("pool_sha256") != scope["pool_sha256"]
+            or recomputed["evidence"]["pool_sha256"] != scope["pool_sha256"]):
         raise UncertaintyError("transition-data uncertainty uses a different indicator pool")
     if not math.isclose(recomputed["sigma_dex"], terms["transition_data"]["sigma_dex"], rel_tol=1e-10):
         raise UncertaintyError("transition-data sigma is inconsistent with its line evidence")
+    if method == "line_scatter" and measurement["n_lines"] != len(data["indicator_ids"]):
+        raise UncertaintyError("scatter line count disagrees with the physical pool")
     for name in ("stellar.teff", "stellar.logg", "stellar.xi", "stellar.metallicity"):
         c = terms[name]
         if c["state"] == "MEASURED":
@@ -266,8 +272,10 @@ def validate(document, *, scope):
             _source(ev.get("parameter_source"), f"{name}: parameter source")
             _source(ev.get("response_assessment"), f"{name}: asymmetric response assessment")
             response = _finite(ev.get("signed_response_dex"), f"{name}: response")
-            _finite(ev.get("delta_minus_dex"), f"{name}: minus response")
-            _finite(ev.get("delta_plus_dex"), f"{name}: plus response")
+            minus = _finite(ev.get("delta_minus_dex"), f"{name}: minus response")
+            plus = _finite(ev.get("delta_plus_dex"), f"{name}: plus response")
+            if not math.isclose(response, (plus - minus) / 2, rel_tol=1e-10, abs_tol=1e-14):
+                raise UncertaintyError(f"{name}: signed response disagrees with perturbations")
             if not math.isclose(abs(response), c["sigma_dex"], rel_tol=1e-10):
                 raise UncertaintyError(f"{name}: sigma disagrees with its signed response")
             if _finite(ev.get("delta_parameter"), f"{name}: adopted sigma") <= 0:
