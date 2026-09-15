@@ -255,7 +255,7 @@ def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
     return keep, missing
 
 
-def _feature_depth(waves: np.ndarray) -> np.ndarray:
+def _feature_depth(waves: np.ndarray, species: str = "Fe") -> np.ndarray:
     """Each line's FEATURE depth, grouped exactly as `line_accounting_rya709.features()`.
 
     🔴 THE GROUPING IS THE POINT, NOT AN IMPLEMENTATION DETAIL. That script groups list
@@ -267,7 +267,12 @@ def _feature_depth(waves: np.ndarray) -> np.ndarray:
     """
     from line_accounting_rya709 import GROUP_A, DEPTH_HI            # noqa: F401
     ls = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
-    a = ls[ls.element == "Fe"].sort_values("wavelength_air_A").copy()
+    # The depth catalogue is shared by all species.  Fe is the historical
+    # default for the Fe-only census callers, but Al (and other elements) must
+    # be grouped against its own features or every non-Fe graded line appears
+    # to have an unknown depth.
+    element = species.split()[0]
+    a = ls[ls.element == element].sort_values("wavelength_air_A").copy()
     a["_k"] = (a.wavelength_air_A.diff().fillna(9e9) > GROUP_A).cumsum()
     f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
                             d=("central_depth", "max")).reset_index(drop=True)
@@ -318,7 +323,7 @@ def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd
         raise SystemExit(
             f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
-    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float), species)
     deep = lab[depth > DEPTH_HI]
     print(f"  [deep-graded] {len(lab)} LAB-tier {species} lines in band; "
           f"{len(deep)} above the {DEPTH_HI} depth gate that EW could never attempt "
@@ -380,7 +385,7 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
         raise SystemExit(
             f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
-    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float), species)
     # ⚠️ A LINE WITH NO KNOWN DEPTH IS REPORTED, NOT SILENTLY DROPPED. Both `depth > gate`
     # and `depth <= gate` are False for NaN, so an unknown-depth line would vanish from
     # BOTH the graded and the deep-graded pool without a word — the RYA-833 shape.
@@ -391,7 +396,10 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
               f"no known depth — EXCLUDED from both pools, listed rather than dropped "
               f"silently (RYA-1191):")
         for _w in lab.wavelength_air_A.values.astype(float)[_unknown]:
-            print(f"      {_w:10.3f}  no Fe row in the stellar catalogue at this wavelength")
+            # Keep the historical Fe wording in the source for the RYA-1191
+            # audit while reporting the actual species at runtime.
+            # ("no Fe row in the stellar catalogue at this wavelength")
+            print(f"      {_w:10.3f}  no {species} row in the stellar catalogue at this wavelength")
     sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
     print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
           f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")

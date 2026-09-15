@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v136** · _Last updated: 2026-09-13 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v144** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._ 
 
 
 ---
@@ -285,14 +285,33 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 |---|---|---|---|---|---|
 | Al UV intake | atomic adjudication recorded; measurement held | Six Vujnovic Al I laboratory claims reproduced; Johnson Al II retained at its stated 90% confidence because Träbert 1999 is unavailable for direct review. Near-UV synthesis policy exists; it does not cover every FUV/UV wavelength. | RYA-1134; `data/results/rya1134/verified_v2/line_dispositions.csv`; `pipeline/band_policy.py`; RYA-1133 | PENDING | exact-holding eligibility pass |
 | Al VIS intake | provisional current-grade memberships | All 505 frozen candidates have explicit dispositions; source classes 15 laboratory / 3 mixed laboratory-theory / 36 evaluated-theory / 451 unresolved. Reference, Codex, Deep and replication are separate overlapping axes. | RYA-1134; `data/results/rya1134/verified_v2/summary.json` | PENDING | independent review, bibliography and product-identity gates pass |
-| Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. | RYA-1134; `data/results/rya1134/verified_v1/line_holding_matrix.csv`; RYA-1176 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
+| Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. RYA-1176 schema is merged; 708 cells still lack observed-conditioning evidence. RYA-1155 coverage plumbing now resolves the three reachable normalized CRIRES+ products and the two census NIR gap intervals. | RYA-1134; `data/results/rya1134/verified_v2/line_holding_matrix.csv`; RYA-1155; RYA-1176; RYA-1217 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
 | Al measurement gate | closed pending validated handoff | Provisional engine validation is authorized by the expanded RYA-1134 scope, but zero runs are currently eligible: 5616 engine/route cells have explicit HOLD or N/A. This checkpoint is not a scientifically frozen pool and does not unblock RYA-1217 Gate 0. | RYA-1134; RYA-1176; `data/results/rya1134/verified_v1/engine_matrix.csv` | OPEN | RYA-1134 review and RYA-1176 propagation land; exact-holding gates pass |
 
 ## Changelog
 
+- **v135** (2026-09-13) — **RYA-1217 post-RYA-1176 Gate 0 refresh.** RYA-1176 is merged and the corrected manifest schema is consumed by the Al eligibility matrix; zero cells carry `RYA1176_MISSING`. Gate 0 remains CLOSED on exact holding/pixel validation, observed conditioning, model applicability, and unresolved RYA-1141 scientific findings; no abundance run was authorized.
+
+- **v136** (2026-09-13) — **RYA-1217 / RYA-1155 coverage reconciliation.** `pipeline.coverage` now reads registered normalized spectrum CSVs directly, the Al builder fills legacy blank reach from that registry, and the census NIR intervals no longer fall through to an outside-reach label. Fresh RYA-1141 QA has `C-lines` and `C-bands` PASS; the overall Gate 0 and measurement gate remain CLOSED on the remaining scientific findings and 708 unestablished conditioning cells.
+
+- **v137** (2026-09-13) — **RYA-1217 / RYA-1156 source-flag reconciliation.** The Vujnovic CDS parser preserves limit and note flags, refuses a determinate sigma for lower-limit uncertainties, and emits `sigma_basis` for every finite Al uncertainty. Fresh QA has `A1-flags` and `A5-sigma` PASS; 62 findings remain and no abundance run is authorized.
+
+- **v138** (2026-09-13) — **RYA-1217 / RYA-1154 competing-gf reconciliation.** All six finite matched Vujnovic values are retained in `competing_gf_summary` and `conflict_ledger.csv` without promotion. Fresh QA has `A6` PASS; 56 findings remain and Gate 0 is still CLOSED.
+
+- **v139** (2026-09-13) — **RYA-1217 / RYA-1152 HFS reconciliation.** The Al manifest now carries source HFS component counts, total log-gf values, and verification flags; canonical Al I rows at 3944.006/3961.520 carry 4/6 components. Fresh QA has the HFS checks PASS; 53 findings remain and Gate 0 is still CLOSED.
+
+- **v140** (2026-09-13) — **RYA-1217 / RYA-1153 DOI reconciliation.** Corrected the three misquoted DOI entries in the Al bibliography and follow-up ledger. Fresh QA has `A5-doi` and its control PASS; 50 findings remain and Gate 0 is still CLOSED.
+
+- **v141** (2026-09-13) — **RYA-1217 evaluated-tier reconciliation.** Al manifest rows now declare the underlying theoretical lineage of the NIST-evaluated tier, and summed features carry their worst component grade/sigma. Fresh QA has `D4`, `D4-grades`, and `D4-lineage` PASS; 24 findings remain and Gate 0 is still CLOSED.
+
+- **v142** (2026-09-13) — **RYA-1217 identity/line-set reconciliation.** The Al promotion path now uses the shared matcher and refuses ambiguous physical identities; the manifest carries explicit line-set membership. Fresh QA has `A2`, `A2-null`, and `D3` PASS; 22 findings remain and Gate 0 is still CLOSED.
+
 - **v136** (2026-09-13) — **RYA-1219** completed telluric correction for all available CRIRES+ Vesta J and K exposures; eight full-arm products carry non-unity MTRANS, pass D1 residual gates, and are registered as applied/normalised.
 
 - **v135** (2026-09-13) — **RYA-1218** Si preflight checkpoint: corrected Si II source attribution, recorded persistent canonical gaps and unresolved gates; corrected-atlas EW diagnostic reproduced. No abundance promoted; campaign OPEN.
+
+- **v144** (2026-09-15) — **RYA-1217 merge reconciliation.** Preserved the Al Gate 0 refresh, species-specific VIS graded products, and the current main-branch C/N/O and Si register updates in one conflict-free ledger.
+
 
 - **v134** (2026-09-13) — **RYA-1134 Träbert access decision.** Träbert 1999 is unavailable for direct review; Johnson 1986 remains the retained Al II measurement with an explicit limitation, and regenerated `verified_v2` no longer blocks its atomic handoff. Exact-holding, bibliography, product-identity and RYA-1176 gates remain open; no abundance was run or adopted.
 
