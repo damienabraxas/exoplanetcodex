@@ -1,0 +1,40 @@
+artifacts:
+- artifact: data/audit/rya1218_si_protocol/si_j_grade_adjudication.csv
+  generator: null
+  invocation: Bergemann2013 Table 1 crosswalk plus current grade-policy review
+  ticket: RYA-1218
+  note: External Reference Grade passes; Codex/Deep remain explicit policy holds.
+  status: HAND_AUTHORED
+- artifact: data/audit/rya1218_si_protocol/si_engine_execution_matrix.csv
+  generator: scripts/derive_band_products.py
+  invocation: Sirius venv312 J-band CRIRES run; see command column
+  ticket: RYA-1218
+  note: Explicit engine statuses; no failed run is promoted to a product.
+- artifact: data/audit/rya1218_si_protocol/si_k_canonical_pixel_validation.csv
+  generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+  invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+  ticket: RYA-1218
+  note: Exact +/-1 A pixel coverage for canonical Si I/Si II K-band rows; no EW or
+    abundance.
+- artifact: data/audit/rya1218_si_protocol/si_k_canonical_pixel_validation.json
+  generator: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+  invocation: python3 scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+  ticket: RYA-1218
+  note: Summary of K-band line/product coverage dispositions.
+- artifact: data/audit/rya1218_si_protocol/si_j_line_identity.csv
+  generator: scripts/audit_si_j_identity_rya1218.py
+  invocation: python3 scripts/audit_si_j_identity_rya1218.py
+  ticket: RYA-1218
+  note: Bergemann J-band Si I external-level crosswalk to canonical rows; no grade
+    promotion.
+- artifact: data/audit/rya1218_si_protocol/si_jk_exact_pixel_validation.csv
+  generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+  invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+  ticket: RYA-1218
+  note: Exact +/-1 A pixel-window coverage audit on corrected J products; no EW or
+    abundance.
+- artifact: data/audit/rya1218_si_protocol/si_jk_exact_pixel_validation.json
+  generator: scripts/audit_si_crires_jk_pixels_rya1218.py
+  invocation: python3 scripts/audit_si_crires_jk_pixels_rya1218.py
+  ticket: RYA-1218
+  note: Summary of reached and held J-band Si line windows.
