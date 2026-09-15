@@ -1,0 +1,26 @@
+{
+  "ticket": "RYA-1214",
+  "step": "2 \u2014 measurable CNO line inventory",
+  "agss21_indicator_gf_check": {
+    "n_lines": 37,
+    "value_disagreements_gt_0p02_dex": 4,
+    "grade_over_claims": 1,
+    "why_separate_from_the_bulk_adjudication": "the multiplicity rule refuses [O I] 6300.304 \u2014 NIST serves it twice as the M1 and E2 MULTIPOLE channels of one level pair, not as two fine-structure components \u2014 so the line falls out of every bulk comparison. This check is per-line and unconditional."
+  },
+  "canonical_cno_rows": 2821,
+  "canonical_cno_graded_rows": 833,
+  "molecular_crossmatch_rows": 408,
+  "census_rejoin": {
+    "tolerance_A": 0.1,
+    "tolerance_basis": "the census prints 0.01 nm = 0.1 A; the window IS the source's own quantisation (RYA-1109)",
+    "ep_tolerance_eV": 0.02,
+    "verdicts": {
+      "PRESENT": 37,
+      "ABSENT_FROM_CANONICAL_GF": 10,
+      "AMBIGUOUS_TIE_REPORTED_NOT_PICKED": 1
+    },
+    "census_ABSENT_rows_that_are_present": 11,
+    "genuinely_absent": 10
+  },
+  "solar_band_coverage_is_an_upper_bound": "instrument-catalogue span, not a per-holding file span; rya1187_applicability_matrix resolves the latter"
+}

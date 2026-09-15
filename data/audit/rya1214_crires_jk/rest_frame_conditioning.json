@@ -1,0 +1,153 @@
+{
+  "ticket": "RYA-1214",
+  "manifest": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv",
+  "rest_frame_note": "rest frame = mean photospheric Fe I core (NOT laboratory rest): carries the solar convective blueshift (~-0.3..-0.4 km/s, depth-dependent) + gravitational redshift (+0.633 km/s). Shift-invariant for EW/synthesis; cancels in differential abundances.",
+  "arms": {
+    "J": {
+      "holding": "solar_crires_plus_j_rya1219",
+      "frames": [
+        {
+          "setting": "J1226",
+          "product": "vesta_crires_J1226_2022-11-24_ADP.2025-06-06T16:11:03.997_telluric.fits",
+          "mjd": 59907.00625535,
+          "horizons_v_total": 25.378,
+          "anchors_available": 35,
+          "v": 26.1069,
+          "v_std": 0.3069,
+          "n_train": 15,
+          "n_test": 14,
+          "test_residual": -0.2216,
+          "n_anchor_lines_measured": 32,
+          "telluric_closure_kms": -0.009,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "J1228",
+          "product": "vesta_crires_J1228_2022-11-24_ADP.2025-06-06T16:11:04.000_telluric.fits",
+          "mjd": 59907.01243618,
+          "horizons_v_total": 25.392,
+          "anchors_available": 36,
+          "v": 25.9204,
+          "v_std": 0.3076,
+          "n_train": 13,
+          "n_test": 11,
+          "test_residual": -0.1021,
+          "n_anchor_lines_measured": 29,
+          "telluric_closure_kms": -0.055,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "J1232",
+          "product": "vesta_crires_J1232_2022-11-22_ADP.2025-06-06T16:08:50.324_telluric.fits",
+          "mjd": 59905.00217336,
+          "horizons_v_total": 25.342,
+          "anchors_available": 31,
+          "v": 25.7877,
+          "v_std": 0.3174,
+          "n_train": 12,
+          "n_test": 12,
+          "test_residual": 0.2105,
+          "n_anchor_lines_measured": 25,
+          "telluric_closure_kms": -0.028,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "J1232",
+          "product": "vesta_crires_J1232_2022-11-22_ADP.2025-06-06T16:08:50.336_telluric.fits",
+          "mjd": 59905.02454137,
+          "horizons_v_total": 25.395,
+          "anchors_available": 31,
+          "v": 26.0517,
+          "v_std": 0.2581,
+          "n_train": 12,
+          "n_test": 12,
+          "test_residual": 0.0552,
+          "n_anchor_lines_measured": 25,
+          "telluric_closure_kms": -0.011,
+          "verdict": "PASS"
+        }
+      ],
+      "written": "data/results/rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv",
+      "n_pixels": 57166,
+      "span_air_A": [
+        11159.9497,
+        13489.5055
+      ],
+      "grid_step_A": 0.03796,
+      "frames_used": 4
+    },
+    "K": {
+      "holding": "solar_crires_plus_k_rya1219",
+      "frames": [
+        {
+          "setting": "K2148",
+          "product": "vesta_crires_K2148_2022-11-23_ADP.2025-06-06T16:29:59.741_telluric.fits",
+          "mjd": 59906.01819735,
+          "horizons_v_total": 25.395,
+          "anchors_available": 51,
+          "v": 25.4671,
+          "v_std": 0.7323,
+          "n_train": 10,
+          "n_test": 10,
+          "test_residual": 0.0546,
+          "n_anchor_lines_measured": 21,
+          "telluric_closure_kms": -0.155,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "K2166",
+          "product": "vesta_crires_K2166_2022-11-25_ADP.2025-06-06T16:14:11.203_telluric.fits",
+          "mjd": 59908.00650986,
+          "horizons_v_total": 25.385,
+          "anchors_available": 47,
+          "v": 25.5212,
+          "v_std": 0.4878,
+          "n_train": 10,
+          "n_test": 10,
+          "test_residual": 0.267,
+          "n_anchor_lines_measured": 21,
+          "telluric_closure_kms": -0.046,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "K2192",
+          "product": "vesta_crires_K2192_2022-11-23_ADP.2025-06-06T16:29:59.738_telluric.fits",
+          "mjd": 59906.01093518,
+          "horizons_v_total": 25.378,
+          "anchors_available": 69,
+          "v": 25.6081,
+          "v_std": 0.6654,
+          "n_train": 12,
+          "n_test": 11,
+          "test_residual": 0.4679,
+          "n_anchor_lines_measured": 24,
+          "telluric_closure_kms": -0.053,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "K2217",
+          "product": "vesta_crires_K2217_2022-11-25_ADP.2025-06-06T16:14:11.206_telluric.fits",
+          "mjd": 59908.01372708,
+          "horizons_v_total": 25.402,
+          "anchors_available": 47,
+          "v": 25.2887,
+          "v_std": 0.4875,
+          "n_train": 7,
+          "n_test": 6,
+          "test_residual": -0.2354,
+          "n_anchor_lines_measured": 13,
+          "telluric_closure_kms": -0.059,
+          "verdict": "PASS"
+        }
+      ],
+      "written": "data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv",
+      "n_pixels": 72646,
+      "span_air_A": [
+        19452.4182,
+        24845.6159
+      ],
+      "grid_step_A": 0.06758,
+      "frames_used": 4
+    }
+  }
+}

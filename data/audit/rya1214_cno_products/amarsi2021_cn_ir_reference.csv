@@ -1,0 +1,9 @@
+region,n_windows,n_lines,amarsi_column,column_label,is_comparison_basis,median,sd,min,max,what_it_is
+nir_cn_kp,12,15,abundance_marcs,1D MARCS,True,7.94,0.021,7.895,7.962,the same lines through a 1D model — OUR comparison basis
+nir_cn_kp,12,15,abundance_hm74,1D HM74,False,8.033,0.021,7.987,8.055,"a different 1D atmosphere, carried for scale"
+nir_cn_kp,12,15,abundance_3d,3D,False,7.859,0.024,7.816,7.903,their adopted value's frame; not ours
+nir_cn_kp,12,15,abundance_mean_3d,<3D>,False,7.977,0.021,7.931,8.0,mean-stratified 3D; not ours
+nir_cn_iag,12,16,abundance_marcs,1D MARCS,True,7.941,0.026,7.895,8.001,the same lines through a 1D model — OUR comparison basis
+nir_cn_iag,12,16,abundance_hm74,1D HM74,False,8.034,0.027,7.987,8.095,"a different 1D atmosphere, carried for scale"
+nir_cn_iag,12,16,abundance_3d,3D,False,7.859,0.024,7.816,7.917,their adopted value's frame; not ours
+nir_cn_iag,12,16,abundance_mean_3d,<3D>,False,7.979,0.027,7.931,8.038,mean-stratified 3D; not ours
