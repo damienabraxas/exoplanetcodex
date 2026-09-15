@@ -598,3 +598,48 @@ def apply_cno_nlte_corrections(abundances_df, stellar_params: dict,
         result.at[idx, 'nlte_flag']       = f'NLTE_Amarsi2019_{leg}'
         result.at[idx, 'nlte_ref']        = CITATION
     return result
+
+
+# ── Per-line departure legs for the band-product route (RYA-1214) ──────────────
+
+#: 🔴 RYA-1214 — how far a line may sit from an Amarsi 2019 grid line and still take its
+#: correction. MEASURED on our own linelist: every C I / O I singlet grid line has its
+#: linelist partner within 0.020 A, and the next line of the species is >= 1.04 A away
+#: (C I 906.1/906.2). 0.05 A is half AGSS21's printed precision and sits inside that gap.
+#: `resolve_line` defaults to 1.5 A, which would hand a NEIGHBOUR's correction to
+#: any line within 1.5 A (RYA-1195). The O I 777/844/926 multiplets route by the
+#: resolver's own span table and are unaffected.
+CNO_GRID_MATCH_TOL_A = 0.05
+
+
+def departure_source(leg: str) -> str:
+    what = {"1D": "1D non-LTE - 1D LTE (table5 C I / table6 O I)",
+            "3D": "3D non-LTE - 1D LTE on STAGGER (table2 C I / table3 O I)"}[leg]
+    return (f"Amarsi, Nissen & Skuladottir 2019, A&A 630, A104 — {what}; "
+            f"PER-LINE additive correction, grid lines only (match <= "
+            f"{CNO_GRID_MATCH_TOL_A} A)")
+
+
+def departure_deltas(element: str, ion, used, ctx, leg: str) -> dict[float, float]:
+    """Per-line Amarsi 2019 corrections for C I / O I, keyed by the line's own wavelength.
+
+    `logeps` is THIS line's 1D-LTE abundance: the grid tabulates the correction on a
+    per-node abundance ladder, so the abundance being corrected is the right axis value.
+    A line with no grid partner, or a star outside the grid hull, is simply absent —
+    the emitter records it NOT-SERVED.
+    """
+    sp = species_of(element, ion)
+    if sp is None:
+        return {}
+    out: dict[float, float] = {}
+    for l in used:
+        lab = resolve_line(sp, float(l.wavelength_air_A), tol_A=CNO_GRID_MATCH_TOL_A)
+        if lab is None:
+            continue
+        d = cno_nlte_delta(sp, lab, float(ctx["teff"]), float(ctx["logg"]),
+                              float(ctx["feh"]), float(ctx["vturb"]),
+                              float(l.abundance), leg=leg)
+        if np.isfinite(d):
+            assert_cno_sign(sp, lab, d)
+            out[float(l.wavelength_air_A)] = float(d)
+    return out

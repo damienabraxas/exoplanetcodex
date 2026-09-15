@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-1134",
+  "purpose": "Solar Al grade-verification reference lineage; not a new abundance measurement",
+  "agss21_abundance": {
+    "A_Al": 6.43,
+    "sigma_dex": 0.03,
+    "scale": "3D-NLTE"
+  },
+  "counts": {
+    "scott2015_retained": 7,
+    "nordlander2017_after_telluric_exclusion": 6
+  },
+  "published_count_discrepancy": {
+    "status": "OPEN_DOCUMENTED_SOURCE_INCONSISTENCY",
+    "agss21_prose_count": 5,
+    "traceable_selection_count": 6,
+    "explanation": "AGSS21 says Nordlander used Scott's lines except 1089.1 nm and then calls the result five lines. Scott Table 1 contains seven, so the stated rule leaves six. No unreported second exclusion was found."
+  },
+  "sources": [
+    {
+      "id": "Scott2015",
+      "doi": "10.1051/0004-6361/201424109",
+      "arxiv": "1405.0279",
+      "role": "seven lines, weights, EW, line data and 3D+NLTE results"
+    },
+    {
+      "id": "NordlanderLind2017",
+      "doi": "10.1051/0004-6361/201730427",
+      "arxiv": "1708.01949",
+      "role": "3D-NLTE analysis; Scott selection/weights excluding 10891 A"
+    },
+    {
+      "id": "AGSS21",
+      "doi": "10.1051/0004-6361/202140445",
+      "arxiv": "2105.01661",
+      "role": "adopts Nordlander & Lind solar abundance"
+    }
+  ],
+  "input_manifest": "data/audit/rya1132_al_intake/al_line_manifest.csv",
+  "output_lineset": "data/linelists/reference_sets/agss21_solar_al_rya1134.csv"
+}

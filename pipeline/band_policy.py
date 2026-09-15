@@ -189,6 +189,30 @@ POLICIES: tuple[BandPolicy, ...] = (
             "Telluric residuals are epoch- and airmass-dependent, so this systematic varies "
             "between observations of the SAME star and cannot be calibrated once."),
     ),
+    # RYA-1214 — K, placed BEFORE NIR for the same reason H is: resolve() is first-match
+    # and NIR spans 10000-24000 A, so without this a K run drew NIR's 9203-12976 A list.
+    BandPolicy(
+        name="K", lo_A=19452.42, hi_A=24845.62,
+        # MEASURED 2026-09-13 on this band's own material (scripts/rya1214_build_k_band.py):
+        # the hfs-ON VALD list (3,958 lines / 5393.2 A) and the RYA-1214 conditioned CRIRES+
+        # K product (72,646 px). ⚠️ The product is RYA-1219's per-segment normalisation after
+        # molecfit with MTRANS < 0.5 pixels not written, so these continuum figures describe
+        # that product, not the sky — the same caveat H carries.
+        lines_per_A=0.734, median_gap_A=0.447,
+        continuum_p95=1.018, continuum_median=0.998,
+        permitted_methods=("synthesis",),
+        forbidden_methods=("interval-integration", "profile-fit"),
+        continuum_treatment="telluric-corrected; continuum only meaningful after correction",
+        telluric_required=True,
+        justification=(
+            "Same route as H and NIR: telluric. K is CO2 and H2O dominated, RYA-1219's "
+            "K2166 needed a controlled CO-refit retry, and K2148/K2166 place no CO bandhead "
+            "on a chip; per-region judgement belongs downstream and telluric_required stays "
+            "True."),
+        systematic_floor_note=(
+            "Telluric residuals are epoch- and airmass-dependent, so this systematic varies "
+            "between observations of the SAME star and cannot be calibrated once."),
+    ),
     BandPolicy(
         name="NIR", lo_A=10000.0, hi_A=24000.0,
         lines_per_A=0.14, median_gap_A=3.989,

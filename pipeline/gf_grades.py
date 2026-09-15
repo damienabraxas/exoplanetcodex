@@ -91,6 +91,10 @@ LAB_TABLES: dict[str, Path] = {
     # red-optical), which is rung 2, not rung 3. A "Fe II VIS graded" product is a BLUE
     # subset wearing a band name, and must say so.
     "Fe II": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe2_lab_loggf_dh19.csv",
+    # RYA-1218: Den Hartog et al. 2023 Table 3, the two Si I transitions that
+    # physically join the current canonical holdings. The remaining published
+    # DH23 rows are retained in the Si intake census as real canonical gaps.
+    "Si I": _REPO_ROOT / "data" / "reference" / "si_gf_lab" / "si1_lab_loggf_dh23.csv",
 }
 #: How to rebuild each, quoted in the not-found error so the message is actionable.
 LAB_REGEN = {
@@ -170,6 +174,8 @@ CITATIONS = {
     # line instead of quietly grading it uncited.
     "DenHartog2019": ("Den Hartog et al. 2019, ApJS 243, 33",
                       "10.3847/1538-4365/ab322e"),
+    "DenHartog2023": ("Den Hartog et al. 2023, ApJS 265, 42",
+                      "10.3847/1538-4365/acb642"),
     # RYA-1046. H-band Fe I -- the ONLY laboratory Fe I gf we hold above 11316.1 A, and
     # so the only thing that can put a CRIRES+ J/H line on rung 3.
     # 🔴 LADENBURG COLUMN ONLY. Table 6 offers three log gf columns; the "BF & Effective
@@ -210,6 +216,34 @@ class GradeVerdict:
 
 
 _cache: dict = {}
+
+
+def has_lab_table(species: str = DEFAULT_SPECIES) -> bool:
+    """Is a PRIMARY LABORATORY gf table registered for this species? — RYA-1214.
+
+    This is the question `lab_lines` raises on, asked without raising, and it exists
+    because those are two different facts and only one of them is fatal:
+
+      * "no laboratory table is registered"  — structural. `GF-LAB` is unreachable for
+        this species, whatever its lines are. True of every C/N/O species and it will
+        stay true: the light-element standard is critically-evaluated THEORY (Opacity
+        Project, MCHF — RYA-1172), so there is no table to register.
+      * "this line has no laboratory measurement" — a fact about the line, inside a
+        species that has a table.
+
+    `grade_line` used to be unable to distinguish them, because its first act was to read
+    `lab_lines(species)` and that raises `KeyError` for an unregistered species. So a C I
+    line could not be graded AT ALL — not even to `GF-NIST`, which needs no lab table and
+    which 842 CNO lines now carry after RYA-1214's adjudication. The NIST accuracy class
+    was in `canonical_gf` and structurally invisible to every error budget: the first C I
+    red-optical product came out charging the 0.17 blanket, marked NOT PUBLISHABLE, over
+    six lines every one of which is NIST-graded.
+
+    Same shape as RYA-953 (the Fe II laboratory table on disk with no registry entry) and
+    RYA-1002 (Al), one rung down: the DATA was there and the gate in front of it was
+    asking the wrong question.
+    """
+    return str(species) in LAB_TABLES
 
 
 def lab_lines(species: str = DEFAULT_SPECIES) -> pd.DataFrame:
@@ -354,8 +388,18 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
     do not use. Widening this is NOT free: at 0.06 A the canonical Fe I table's
     self-ambiguous rows go 26 -> 210, so a pool measured at full precision must keep 0.02.
     """
-    lab = _nearest(lab_lines(species), wavelength_air_A, ep_eV,
-                   "wavelength_air_A", "elo_eV", wave_tol_A)
+    # 🔴 RYA-1214 — A SPECIES WITH NO LABORATORY TABLE IS STILL GRADEABLE AGAINST NIST.
+    # `lab_lines` raises for an unregistered species, deliberately, so that "we hold no
+    # table" never looks like "no measurement exists" (RYA-833). But that raise was the
+    # FIRST statement in this function, so it also made the NIST branch below
+    # unreachable for C/N/O — species that will never have a lab table, because the
+    # light-element standard is critically-evaluated theory (RYA-1172), and that now
+    # carry 842 NIST accuracy classes. The distinction is preserved by SAYING which case
+    # this is in the verdict, not by refusing to answer. See `has_lab_table`.
+    _no_lab_table = not has_lab_table(species)
+    lab = None if _no_lab_table else _nearest(
+        lab_lines(species), wavelength_air_A, ep_eV,
+        "wavelength_air_A", "elo_eV", wave_tol_A)
     cgf = _nearest(canonical_species(species), wavelength_air_A, ep_eV,
                    "wavelength_air_A", "excitation_potential_eV", wave_tol_A)
     tag = str(cgf["loggf_reference"]) if cgf is not None else ""
@@ -392,9 +436,15 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
                     GRADE_NIST, f"NIST ASD accuracy class {ngrade} "
                                 f"(<={NIST_ACC_PCT[ngrade]:.1f}% on A_ki)",
                     nsig, tag, ref_loggf, d_nist,
-                    "graded against NIST ASD, which for Fe I in this regime is largely a "
-                    "COMPILATION — agreement proves no transcription error, not "
-                    "independence (RYA-760: FMW *is* NIST and VALD copies it)")
+                    ("graded against NIST ASD. There is NO primary-laboratory gf table "
+                     "for this species and there will not be: the accepted standard for "
+                     "the light elements is critically-evaluated THEORY (Opacity Project "
+                     "for O, MCHF for C/N — RYA-1172), so this is the best rung the "
+                     "species can reach and GF-LAB is structurally unreachable, not "
+                     "merely unmet" if _no_lab_table else
+                     "graded against NIST ASD, which for Fe I in this regime is largely a "
+                     "COMPILATION — agreement proves no transcription error, not "
+                     "independence (RYA-760: FMW *is* NIST and VALD copies it)"))
             return GradeVerdict(
                 GRADE_MISMATCH, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag, ref_loggf,
                 d_nist,

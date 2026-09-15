@@ -70,6 +70,7 @@ from pathlib import Path
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline.wavelength_util import vac_to_air   # RYA-501: the one vac<->air formula
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pandas as pd
 from scipy.optimize import minimize_scalar
@@ -233,6 +234,11 @@ class RegionConfig:
     telluric_correction_required: bool
     nlte_backend: str               # 'lte_by_design' (VIS) | 'amarsi_grid' | 'in_synthesis'
     notes: str = ''
+    #: RYA-1214 — the holding, when the band alone cannot decide it. Kitt Peak serves VIS
+    #: from TWO holdings (Kurucz 2005 residual and the molecfit-corrected 1984 composite),
+    #: and `holding_for_region` chose between them on band edges only, so a VIS region could
+    #: never be measured on the molecfit one. None keeps the band-edge rule.
+    holding: str | None = None
 
 
 HARPS_VIS = RegionConfig(
@@ -244,7 +250,297 @@ HARPS_VIS = RegionConfig(
     notes='HARPS 3780-6910 Angstrom; solar Dumusque + Procyon. RYA-237 deliverable.',
 )
 
-REGIONS = {'vis': HARPS_VIS}
+#: 🔴 RYA-1214 — THE NEAR-UV MOLECULAR REGION. Ryan, 2026-09-12: *"PRIORITY for CNO
+#: molecular: near-UV and VIS are where the molecular bands are strongest ... OH A-X
+#: 306-330 nm."*
+#:
+#: Of the four bands that comment names, TWO are inside 3000-3780 A: OH A-X (3060-3300)
+#: and NH A-X (~3360). CN violet (~3883) and CH A-X (3870-4320) are redward of the edge —
+#: and CH A-X IS the VIS G-band. So this region is specifically an OXYGEN and NITROGEN
+#: opportunity, and the only route to a molecular A(O) or A(N) that needs no region above
+#: 1 um.
+#:
+#: ⚠️ THE PRODUCTS OF THIS REGION ARE UPPER BOUNDS, NOT ABUNDANCES, AND THE REASON IS
+#: MEASURED. The near-UV synthesis carries LESS opacity than the observation: RYA-1204/1207
+#: measured the molecular lever at -0.050 dex (paired) on iron and concluded it STILL
+#: under-corrects afterwards ("synth/obs above 1 on 24 of 40 windows"; "a floor on the
+#: missing opacity, not a correction stopped at a target"), and RYA-1189 measured the band
+#: blend-dominated at 59 lines/A with 0 of 10 clean side-bands. A fit compensates missing
+#: opacity by RAISING the abundance, so the bias direction is known IN ADVANCE. Carried as
+#: `opacity_deficit_upper_bound` on every result this region emits.
+NEARUV_KP = RegionConfig(
+    name='nearuv', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=3000.0, wave_max_A=3780.0,
+    telluric_correction_required=False,   # Kurucz 2005 is telluric-corrected at source
+                                          # (RYA-933); nothing terrestrial reaches 3000-3780
+    nlte_backend='lte_by_design',         # molecular bands: no molecular NLTE grid exists
+    notes='Kitt Peak / Kurucz 2005 residual atlas 3000-3780 A. OH A-X + NH A-X molecular '
+          'bands. RYA-1214. Products are UPPER BOUNDS — see the opacity-deficit note.',
+)
+
+#: Half-width of an IR CN fit window, in Angstrom. Wider than the near-UV's 1.5 because the
+#: regime is 300x less crowded (0.2 atomic lines/A against 59) and narrower than the
+#: red-optical's 1.1 because these lines are 1-20 mA and a wide window buys blend, not signal.
+_CN_IR_PAD_A = 1.5
+#: Compute cap on how many windows one diagnostic fits. `_fit_element` synthesises EVERY
+#: window on EVERY chi2 evaluation, so cost is linear in total window width: the near-UV's
+#: 2x3 A diagnostic took ~120 s, so 48x3 A would be ~48 min per fit and ~4 h over 5
+#: equilibrium iterations. Capped, and the cap is REPORTED with the count it dropped —
+#: a silently truncated line set is a different measurement (RYA-842).
+_CN_IR_MAX_WINDOWS = 12
+
+
+def _cn_ir_windows():
+    """AGSS21's OWN CN lines, clustered into fit windows. Returns (kp_windows, iag_windows).
+
+    🔴 THE WINDOWS ARE AGSS21's LINE POSITIONS, NOT POSITIONS I CHOSE. Clustering their 59
+    published CN wavelengths and padding by `_CN_IR_PAD_A` guarantees the fit measures the
+    features they measured — the same principle as `--lines-from-set` for atomic lines, and
+    the reason this is a replication rather than a new selection. `linelist_solar` has no rows
+    at 1.1-1.3 um to dominance-test against, so the source's own selection IS the rule here.
+
+    ⚠️ THE H2O BAND IS EXCLUDED, NOT CORRECTED. `telluric_policy.TELLURIC_BANDS` puts H2O at
+    11120-11560 A, which swallows 5 of the 59 lines. Both holdings are telluric-corrected and
+    could be argued into fitting there; 440 A of the band's 2333 is not worth leaning on a
+    correction for when 1893 A is enumerated-clean.
+
+    Selection among what is left is by AGSS21's OWN PUBLISHED EQUIVALENT WIDTH, descending —
+    a source-published strength ranking, not a quantity of ours. Capped at
+    `_CN_IR_MAX_WINDOWS`.
+    """
+    import csv as _csv
+    from pathlib import Path as _P
+    src = (_P(__file__).resolve().parents[1] / 'data' / 'reference' / 'amarsi2021_cno'
+           / 'derived' / 'amarsi2021_cno_molecular_lines.csv')
+    rows = []
+    with src.open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if r['element_parameter'] != 'logepsN' or r['species'] != 'CN':
+                continue
+            air = float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0))
+            rows.append((air, float(r['equivalent_width_pm']) * 10.0))
+    if not rows:
+        raise RuntimeError(
+            "no CN rows in the Amarsi 2021 holding — the IR CN windows ARE its line "
+            "positions, so an empty read must not silently become an empty region.")
+    rows.sort()
+    H2O_LO, H2O_HI = 11120.0, 11560.0
+    clusters, cur = [], [rows[0]]
+    for w, ew in rows[1:]:
+        if w - cur[-1][0] <= 2 * _CN_IR_PAD_A:
+            cur.append((w, ew))
+        else:
+            clusters.append(cur); cur = [(w, ew)]
+    clusters.append(cur)
+    cand = []
+    for c in clusters:
+        lo = min(x[0] for x in c) - _CN_IR_PAD_A
+        hi = max(x[0] for x in c) + _CN_IR_PAD_A
+        if hi > H2O_LO and lo < H2O_HI:
+            continue                               # inside H2O — excluded, not corrected
+        cand.append((round(lo, 2), round(hi, 2), max(x[1] for x in c)))
+    kp = sorted(sorted(cand, key=lambda t: -t[2])[:_CN_IR_MAX_WINDOWS])
+    iag_all = [c for c in cand if c[1] <= 11083.0]
+    iag = sorted(sorted(iag_all, key=lambda t: -t[2])[:_CN_IR_MAX_WINDOWS])
+    return (tuple((a, b) for a, b, _ in kp), tuple((a, b) for a, b, _ in iag))
+
+
+#: 🔴 RYA-1214 — THE INFRARED CN REGIONS. Ryan: *"visible N is going to be hard, hence the
+#: IR."* This is where AGSS21's nitrogen actually lives.
+#:
+#: AGSS21's CN indicator is the A-X band at 10872-13204 A (Amarsi et al. 2021 Table 2, all 59
+#: CN lines in band "(0-0)"). The optical `CN_red` diagnostic above fits 6125/6195 A — the CN
+#: A-X RED system — and ZERO of AGSS21's 59 lines fall in it. Same molecule, different band.
+#:
+#: Two regions because two holdings reach different amounts of it, MEASURED by probing each
+#: holding rather than reading declared spans (three of them declare none):
+#:
+#:   NIR_CN_KP    solar_kpno_molecfit_corrected   CLEAN   the WHOLE band   54 clean lines
+#:   NIR_CN_IAG   solar_iag                       CLEAN   to 11083 A       16 clean lines
+#:
+#: ⚠️ CRIRES+ CANNOT SERVE THIS BAND AT ALL, and that is a measurement. Its Y arm ends at
+#: 10796 A — 76 A blueward of AGSS21's first CN line — and its H arm starts at 15007 A, 1803 A
+#: redward of the last. The raw Vesta IDPs reach further but are BLOCKED
+#: (RestFrameNotConditioned), not merely uncorrected. The instrument catalogue says CRIRES+
+#: spans 9500-53000 A, which is exactly why this was probed per HOLDING.
+#:
+#: WHY THE IR IS THE RIGHT PLACE, in one number: the NIR atomic list carries 757 lines over
+#: 3800 A (0.2 lines/A) against the near-UV's 59 lines/A. The blend contamination that makes
+#: the optical N I lines unmeasurable — N I carrying 0.9-5.9% of its own fit window — is a
+#: property of a crowded band, and this band is not crowded.
+_CN_IR_WINDOWS_KP, _CN_IR_WINDOWS_IAG = _cn_ir_windows()
+
+
+#: 🔴 RYA-1214 — WINDOWS ON A CONDITIONED CRIRES+ PRODUCT: telluric reach is judged on THE
+#: OBSERVATION, not only on the enumeration. `TELLURIC_BANDS` stops at 17500 A, so in K the
+#: "0 windows inside an enumerated band" gate is VACUOUS — CO2 near 2.0 um and CH4 across
+#: 2.2-2.4 um are simply not listed. The RYA-1219 products carry molecfit's own transmission
+#: per pixel (the co-add writes `min_mtrans`), so a window is kept only if the product samples
+#: >= 80% of it AND its minimum transmission is >= 0.8, on top of avoiding the enumerated
+#: bands (RYA-1193: reachability is per-observation).
+_PRODUCT_MIN_COVERAGE = 0.80
+_PRODUCT_MIN_MTRANS = 0.80
+
+
+def _windows_on_product(rows, pad, product_rel, max_windows):
+    """rows: [(air_A, strength)] -> ((lo, hi), ...), strength-ranked, capped, time-sorted.
+
+    Returns (windows, report) so the region can state how many clusters each filter dropped.
+    """
+    from pathlib import Path as _P
+    import pandas as _pd
+    from pipeline.telluric_policy import TELLURIC_BANDS as _TB
+    prod = _pd.read_csv(_P(__file__).resolve().parents[1] / product_rel,
+                        usecols=['wavelength_air_A', 'min_mtrans'])
+    X = prod.wavelength_air_A.to_numpy(float)
+    M = prod.min_mtrans.to_numpy(float)
+    step = float(np.median(np.diff(X)))
+    rows = sorted(rows)
+    clusters, cur = [], [rows[0]]
+    for w, st in rows[1:]:
+        if w - cur[-1][0] <= 2 * pad:
+            cur.append((w, st))
+        else:
+            clusters.append(cur); cur = [(w, st)]
+    clusters.append(cur)
+    rep = {'clusters': len(clusters), 'telluric_band': 0, 'coverage': 0, 'mtrans': 0}
+    cand = []
+    for c in clusters:
+        lo = min(x[0] for x in c) - pad
+        hi = max(x[0] for x in c) + pad
+        if any(hi > b_lo and lo < b_hi for b_lo, b_hi, _ in _TB):
+            rep['telluric_band'] += 1; continue
+        m = (X >= lo) & (X <= hi)
+        if m.sum() < _PRODUCT_MIN_COVERAGE * (hi - lo) / step:
+            rep['coverage'] += 1; continue
+        if float(M[m].min()) < _PRODUCT_MIN_MTRANS:
+            rep['mtrans'] += 1; continue
+        cand.append((round(lo, 2), round(hi, 2), max(x[1] for x in c)))
+    rep['kept_before_cap'] = len(cand)
+    chosen = sorted(sorted(cand, key=lambda t: -t[2])[:max_windows])
+    rep['windows'] = len(chosen)
+    return tuple((a, b) for a, b, _ in chosen), rep
+
+
+def _crires_jk_windows():
+    """AGSS21's CN lines on the J product and CO lines on the K product."""
+    import csv as _csv
+    from pathlib import Path as _P
+    root = _P(__file__).resolve().parents[1]
+    cn = []
+    with (root / 'data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv'
+          ).open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if r['element_parameter'] == 'logepsN' and r['species'] == 'CN':
+                cn.append((float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0)),
+                           float(r['equivalent_width_pm']) * 10.0))
+    j_prod = 'data/results/rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv'
+    k_prod = 'data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv'
+    jx = __import__('pandas').read_csv(root / j_prod, usecols=['wavelength_air_A'])
+    jlo, jhi = float(jx.wavelength_air_A.min()), float(jx.wavelength_air_A.max())
+    cn = [x for x in cn if jlo + _CN_IR_PAD_A <= x[0] <= jhi - _CN_IR_PAD_A]
+    j_win, j_rep = _windows_on_product(cn, _CN_IR_PAD_A, j_prod, _CN_IR_MAX_WINDOWS)
+    # CO strength: AGSS21 publishes no CO equivalent width, so the ranking is the standard
+    # excitation-weighted strength log gf - theta * E_low, theta = 5040 / 5772 K — the
+    # line's relative absorption at the solar Teff, from AGSS21's OWN gf and E_low.
+    co = []
+    with (root / 'data/audit/rya1136_cno_intake/molecular_physical_crossmatch.csv'
+          ).open(newline='') as fh:
+        for r in _csv.DictReader(fh):
+            if '12C16O' not in r['species']:
+                continue
+            air = float(vac_to_air(float(r['wavelength_vac_nm']) * 10.0))
+            if 19452.42 + 1.5 <= air <= 24845.62 - 1.5:
+                co.append((air, float(r['published_loggf'])
+                           - 5040.0 / 5772.0 * float(r['lower_energy_eV'])))
+    k_win, k_rep = _windows_on_product(co, 1.5, k_prod, _CN_IR_MAX_WINDOWS)
+    return j_win, j_rep, k_win, k_rep
+
+
+_CN_J_WINDOWS, _CN_J_REPORT, _CO_K_WINDOWS, _CO_K_REPORT = _crires_jk_windows()
+
+NIR_CN_KP = RegionConfig(
+    name='nir_cn_kp', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=10872.0, wave_max_A=13205.0,
+    telluric_correction_required=True,    # H2O 11120-11560 sits inside the band; the fit
+                                          # windows AVOID it rather than lean on a correction
+    nlte_backend='lte_by_design',         # molecular band: no molecular NLTE grid exists
+    notes='Kitt Peak 1984 composite, molecfit-corrected. AGSS21 CN A-X 10872-13204 A. '
+          'Fit windows are clustered around AGSS21 OWN 59 CN lines, H2O 11120-11560 excluded.',
+)
+NIR_CN_IAG = RegionConfig(
+    name='nir_cn_iag', instrument='iag_fts_solar_atlas', R=700000.0,
+    wave_min_A=10872.0, wave_max_A=11083.0,
+    telluric_correction_required=True,
+    nlte_backend='lte_by_design',
+    notes='IAG FTS to its own red edge 11083.46 A. 16 of AGSS21 59 CN lines, all telluric-'
+          'clean (nearest band H2O starts at 11120 A, 37 A redward of the edge).',
+)
+
+#: 🔴 RYA-1214 — THE VIS MOLECULAR/ATOMIC DIAGNOSTICS ON EVERY VIS HOLDING, NOT JUST HARPS.
+#: Ryan: all bands, all instruments, all engines. Fe VIS is measured on four holdings; CNO
+#: VIS ran on HARPS alone because `vis` was the only VIS region. Same diagnostics, same
+#: windows — the holding is the only thing that differs, which is what makes the four
+#: comparable. R is `instrument_catalog.resolving_power_max`, the value derive_band_products
+#: uses for the same instrument.
+VIS_KP_K05 = RegionConfig(
+    name='vis_kp_k05', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=3780.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_kpno_kurucz2005_corrected',
+    notes='Kurucz 2005 residual atlas, VIS. Same diagnostics and windows as HARPS vis.')
+VIS_KP_MF = RegionConfig(
+    name='vis_kp_mf', instrument='kpno_solar_atlas', R=500000.0,
+    wave_min_A=3780.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_kpno_molecfit_corrected',
+    notes='Kitt Peak 1984 composite, molecfit-corrected, VIS.')
+#: IAG's reach starts at 5002 A (its own VIS product stems: CI_5002_6910_iag...), so the
+#: CH G-band (4303-4313 A) is OUTSIDE it and C has no molecular primary there — C2 Swan and
+#: the C I lines are measured as cross-checks and A(C) is PINNED for the coupled bands.
+VIS_IAG = RegionConfig(
+    name='vis_iag', instrument='iag_fts_solar_atlas', R=700000.0,
+    wave_min_A=5002.0, wave_max_A=6910.0, telluric_correction_required=False,
+    nlte_backend='lte_by_design', holding='solar_iag',
+    notes='IAG FTS VIS from its own blue reach 5002 A; CH G-band out of reach.')
+
+#: 🔴 RYA-1214 — OH IN THE CRIRES+ H BAND. 14 of AGSS21's OH vibration-rotation indicators
+#: ((2-0), (3-1), (4-2)) fall inside the H holding. Line list: Brooke 2016, built and
+#: validated by scripts/rya1214_build_oh_h_bsyn.py (14/14 AGSS21 gf, median 0.0004 dex) —
+#: NOT the vendored MYTHOS file, which is vacuum and +0.30 dex strong.
+#: ⚠️ 16052.77 A sits in the enumerated CO2 band 15700-16100 A: its window is DROPPED, so
+#: 13 lines are fitted. Windows are +/-1.0 A around each AGSS21 air position.
+_OH_H_AIR_A = (15278.53, 15409.18, 15568.80, 16192.15, 16368.15, 16456.05, 16534.59,
+               16605.47, 16656.00, 16872.29, 16886.30, 16904.29, 16909.30)
+H_OH_CRIRES = RegionConfig(
+    name='h_oh_crires', instrument='crires_plus', R=100000.0,
+    wave_min_A=15007.11, wave_max_A=17493.69, telluric_correction_required=True,
+    nlte_backend='lte_by_design', holding='solar_crires_plus_h_rya1094',
+    notes='CRIRES+ H, molecfit-corrected (RYA-1191). AGSS21 OH (2-0)/(3-1)/(4-2); '
+          '16052.77 A dropped (CO2 15700-16100).')
+
+#: 🔴 RYA-1214 — CRIRES+ J and K, from the RYA-1219 corrected IDPs conditioned here. J carries
+#: AGSS21's CN A-X band (the only CRIRES+ arm that reaches it: Y ends 76 A short, H starts
+#: 1803 A past); K carries AGSS21's CO first overtone. R from instrument_catalog.
+J_CN_CRIRES = RegionConfig(
+    name='j_cn_crires', instrument='crires_plus', R=100000.0,
+    wave_min_A=11159.95, wave_max_A=13489.50, telluric_correction_required=True,   # inside 11159.9497-13489.5055
+    nlte_backend='lte_by_design', holding='solar_crires_plus_j_rya1219',
+    notes='CRIRES+ J (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CN A-X windows kept '
+          'only where the product samples >=80% and molecfit transmission >=0.8.')
+K_CO_CRIRES = RegionConfig(
+    name='k_co_crires', instrument='crires_plus', R=100000.0,
+    # The product's measured extent is 19452.4182-24845.6159 A; the region sits INSIDE it and
+    # the HoldingSpec span (19452.41-24845.62) contains it. 24845.62 here asked the loader for
+    # 0.004 A the product does not have, and `select_holding` correctly refused.
+    wave_min_A=19452.42, wave_max_A=24845.61, telluric_correction_required=True,
+    nlte_backend='lte_by_design', holding='solar_crires_plus_k_rya1219',
+    notes='CRIRES+ K (RYA-1219 corrected, RYA-1214 rest-frame). AGSS21 CO (2-0)/(3-1); '
+          'TELLURIC_BANDS does not reach K, so windows are judged on molecfit MTRANS.')
+
+REGIONS = {'vis': HARPS_VIS, 'nearuv': NEARUV_KP,
+           'j_cn_crires': J_CN_CRIRES, 'k_co_crires': K_CO_CRIRES,
+           'vis_kp_k05': VIS_KP_K05, 'vis_kp_mf': VIS_KP_MF, 'vis_iag': VIS_IAG,
+           'h_oh_crires': H_OH_CRIRES,
+           'nir_cn_kp': NIR_CN_KP, 'nir_cn_iag': NIR_CN_IAG}
 
 
 # ── Diagnostic registry (HARPS-VIS, wavelength-correct) ───────────────────────
@@ -322,6 +618,49 @@ VIS_DIAGNOSTICS = (
         reference='[O I] 6300.30 + Ni I 6300.34 joint synthesis (A(Ni) pinned). '
                   'Ni I 6300.34 gf resolves via gf_resolver = Johansson+2003 '
                   'log gf -2.11 (RYA-365 adjudication; the [O I]-blend lab authority).',
+    ),
+)
+
+
+# ── Near-UV molecular diagnostics (Kitt Peak 3000-3780 A) — RYA-1214 ──────────
+#
+# 🔴 THE WINDOWS ARE CHOSEN BY THE TARGET MOLECULE'S DOMINANCE, MEASURED, NOT BY EYE.
+# A band fit is a measurement of X only if X's lines carry the window. Counted on RYA-1207's
+# own near-UV .bsyn lists, per 3 A window (the width VIS_DIAGNOSTICS uses), with every
+# candidate scored whether it won or lost -- `scripts/rya1214_nearuv_molecular_sizing.py`:
+#
+#     ADOPTED  OH 3063-3066   OH  30  NH 10  CH  0  CN  0   dominance 3.0
+#     ADOPTED  OH 3122-3125   OH  26  NH  7  CH  6  CN  0   dominance 2.0
+#     rejected OH 3144-3147   OH  19  NH  3  CH 48  CN 14   dominance 0.29  CH-dominated
+#     rejected OH 3180-3183   OH  10  NH  2  CH 26  CN  0   dominance 0.36  CH-dominated
+#     ADOPTED  NH 3358-3361   NH 109  OH 11  CH  0  CN  6   dominance 6.41
+#     ADOPTED  NH 3370-3373   NH  75  OH  8  CH  0  CN  0   dominance 9.38
+#
+# Two OH candidates were REFUSED on that measurement, and they are the two a wider-is-better
+# instinct would have taken: 3144 and 3180 hold more total molecular lines than either
+# adopted OH window and are dominated by CH, so a fit there would move A(O) to fit carbon.
+#
+# ⚠️ OH's dominance (2-3x) is far weaker than NH's (6-9x). The near-UV OH A-X region is
+# genuinely contaminated by NH and CH, and A(C)/A(N) are pinned before O is fit for exactly
+# that reason -- but it is the reason the OH bound is the looser of the two.
+NEARUV_DIAGNOSTICS = (
+    Diagnostic(
+        key='NH_AX', element='N', kind='molecular_band',
+        windows_A=((3358.0, 3361.0), (3370.0, 3373.0)),
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='NH A-X (0,0) band head 3360 A; near-UV molecular N. UPPER BOUND — the '
+                  'near-UV synthesis under-corrects opacity (RYA-1204/1207/1189).',
+    ),
+    Diagnostic(
+        key='OH_AX', element='O', kind='molecular_band',
+        windows_A=((3063.0, 3066.0), (3122.0, 3125.0)),
+        use_molecules=True, role='primary', depends_on=('C', 'N'),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='OH A-X (0,0) 3064 A + (1,1) 3123 A; near-UV molecular O. UPPER BOUND, '
+                  'and the looser of the two: OH dominance here is 2-3x against NH 6-9x.',
     ),
 )
 
@@ -421,6 +760,264 @@ CRIRES_IR = RegionConfig(
 # Procyon UVES red optical diagnostic set: O I 777 (PRIMARY O) + [O I] 6300 cross-check +
 # C I 5052/5380 + N I 8216 + CN red — composed by REUSING the existing Diagnostic objects
 # (ESPRESSO red-optical C/O set + the UVES N set), no new line data (RYA-464 reuse rule).
+#: Region -> its own diagnostic set. `run_cno` reads THIS rather than VIS_DIAGNOSTICS,
+#: which is what makes a second region expressible at all (RYA-1214).
+NIR_CN_KP_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_IR', element='N', kind='molecular_band',
+        windows_A=_CN_IR_WINDOWS_KP,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X 10872-13204 A (Brooke+2014 gf, validated against Amarsi 2021 '
+                  'Table 2 to a median 0.0064 dex). THE band AGSS21 nitrogen rests on; '
+                  'windows are AGSS21 own line positions, H2O 11120-11560 excluded.',
+    ),
+)
+NIR_CN_IAG_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_IR', element='N', kind='molecular_band',
+        windows_A=_CN_IR_WINDOWS_IAG,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X 10872-11083 A on the IAG FTS, to its own red edge. 16 of AGSS21 '
+                  '59 CN lines, all telluric-clean.',
+    ),
+)
+
+def _merge_windows(centres, half):
+    out = []
+    for c in sorted(centres):
+        lo, hi = c - half, c + half
+        if out and lo <= out[-1][1]:
+            out[-1] = (out[-1][0], hi)
+        else:
+            out.append((lo, hi))
+    return tuple(out)
+
+
+H_OH_DIAGNOSTICS = (
+    Diagnostic(
+        key='OH_H', element='O', kind='molecular_band',
+        windows_A=_merge_windows(_OH_H_AIR_A, 1.0),
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='OH X-X vibration-rotation (2-0)/(3-1)/(4-2), Brooke+2016 gf; AGSS21 own '
+                  'line positions; 16052.77 A dropped (CO2 band).',
+    ),
+)
+#: IAG VIS: every VIS diagnostic whose windows lie inside the holding's reach, with the
+#: roles unchanged — a cross-check does not become a primary because the primary is absent.
+VIS_IAG_DIAGNOSTICS = tuple(d for d in VIS_DIAGNOSTICS
+                            if all(lo >= VIS_IAG.wave_min_A and hi <= VIS_IAG.wave_max_A
+                                   for lo, hi in d.windows_A))
+
+J_CN_DIAGNOSTICS = (
+    Diagnostic(
+        key='CN_AX_J', element='N', kind='molecular_band', windows_A=_CN_J_WINDOWS,
+        use_molecules=True, role='primary', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='CN A-X on CRIRES+ J, Brooke+2014 gf (12C14N_1087-1320.bsyn); AGSS21 own '
+                  'line positions, EW-ranked, per-observation telluric filter.'),
+)
+K_CO_DIAGNOSTICS = (
+    Diagnostic(
+        key='CO_K', element='C', kind='molecular_band', windows_A=_CO_K_WINDOWS,
+        use_molecules=True, role='primary', depends_on=('O',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE-by-design)',
+        reference='12C16O first overtone (2-0)/(3-1) on CRIRES+ K, Li2015 gf converted to AIR '
+                  '(16O12C_1945-2485.bsyn, 45/45 AGSS21 validated); AGSS21 own positions.'),
+)
+
+REGION_DIAGNOSTICS = {'vis': VIS_DIAGNOSTICS, 'nearuv': NEARUV_DIAGNOSTICS,
+                      'j_cn_crires': J_CN_DIAGNOSTICS, 'k_co_crires': K_CO_DIAGNOSTICS,
+                      'vis_kp_k05': VIS_DIAGNOSTICS, 'vis_kp_mf': VIS_DIAGNOSTICS,
+                      'vis_iag': VIS_IAG_DIAGNOSTICS, 'h_oh_crires': H_OH_DIAGNOSTICS,
+                      'nir_cn_kp': NIR_CN_KP_DIAGNOSTICS,
+                      'nir_cn_iag': NIR_CN_IAG_DIAGNOSTICS}
+
+
+def primary_by_element(diagnostics) -> dict:
+    """{element: the one Diagnostic whose role is 'primary'} — RYA-1214.
+
+    REFUSES an ambiguous set rather than picking. Two primaries for one element in one
+    region means the region does not state which measurement IS the product, and taking
+    the first would make that choice silently — the RYA-780 rule applied to diagnostics
+    instead of to lines. An element with NO primary is simply absent from the mapping;
+    the caller pins it and records that it did.
+    """
+    out: dict = {}
+    for d in diagnostics:
+        if d.role != 'primary':
+            continue
+        if d.element in out:
+            raise ValueError(
+                f"two primary diagnostics for {d.element} in one region "
+                f"({out[d.element].key!r} and {d.key!r}). A region must state which "
+                f"measurement IS the product; refusing to pick by order.")
+        out[d.element] = d
+    return out
+
+
+def region_atomic_linelist(region: RegionConfig, diagnostics) -> tuple:
+    """(path or None for GES, label, gf provenance) — the ATOMIC list this region synthesises with.
+
+    🔴 RYA-1214 — EVERY REGION USED GES v6, WHICH SPANS 4200-9200 A. `run_cno` called
+    `_load_synth_resources()` with no argument for every region, so the near-UV (3000-3780 A),
+    the IR CN regions (10872-13205 A), OH on CRIRES+ H and CO on K were synthesised with NO
+    ATOMIC LINES AT ALL — only the molecular list. `_load_synth_resources`'s own docstring says
+    the near-UV needs a different list; the band-product route has always chosen one per band
+    from `config/synth_bands.yaml`. This makes the same choice, through the same two calls
+    (`band_policy.resolve` -> `SYNTH_BANDS[band].linelist`; `nearuv_synth.gf_provenance`),
+    rather than a second copy of the decision.
+
+    Coverage is tested on the FIT WINDOWS (what is synthesised), and refused if any window
+    falls outside the list — a window synthesised beyond the list's edge carries no atomic
+    opacity there and would fit anyway (RYA-911/913).
+    """
+    from pipeline.band_policy import resolve as _resolve_band
+    from config.synth_bands import SYNTH_BANDS, ISPEC_GES_V6
+    band = _resolve_band(0.5 * (region.wave_min_A + region.wave_max_A)).name
+    cfg = SYNTH_BANDS.get(band)
+    if cfg is None or cfg.linelist_spec == ISPEC_GES_V6:
+        return None, ('GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353) — '
+                      f'band {band}'), None
+    path = cfg.linelist
+    if not path.exists():
+        raise FileNotFoundError(f"{band} atomic list missing at {path}. {cfg.build_hint}")
+    import pandas as _pd
+    w = _pd.read_csv(path, sep='\t', usecols=['wave_A']).wave_A
+    lo, hi = float(w.min()), float(w.max())
+    wins = [x for d in diagnostics for x in d.windows_A]
+    out = [(a, b) for a, b in wins if a < lo or b > hi]
+    if out:
+        raise RuntimeError(
+            f"region {region.name}: {len(out)} fit window(s) {out[:3]} lie outside the {band} "
+            f"atomic list {path.name} ({lo:.1f}-{hi:.1f} A). They would synthesise with no "
+            f"atomic opacity. Trim the windows or extend the list; refusing.")
+    from pipeline.nearuv_synth import gf_provenance
+    gf = gf_provenance(min(a for a, _ in wins), max(b for _, b in wins))
+    return path, f"{path.parent.name} ({band} band list, {len(w)} lines)", gf
+
+
+def holding_for_region(region: RegionConfig) -> str:
+    """Which HOLDING serves this region — ONE decision, read by the loader AND the gate.
+
+    🔴 WHICH KITT PEAK HOLDING, DECIDED BY WHAT THE BAND NEEDS, AND THEY ARE NOT
+    INTERCHANGEABLE. `solar_kpno_kurucz2005_corrected` is the residual atlas and stops at
+    10010 A; the AGSS21 CN band starts at 10872. The 1984 composite
+    (`solar_kpno_molecfit_corrected`) reaches 13204 and is the only CLEAN Kitt Peak holding
+    that does — `solar_kpno` reaches it too but is CONTROL_ONLY, not a science basis
+    (RYA-1026). Decided on the band's own edges, never defaulted: serving the near-UV from
+    the composite, or the IR from the residual atlas, would each be a product naming a
+    spectrum it was not measured on (RYA-904).
+
+    Factored out because the telluric gate has to ask about the SAME holding the loader will
+    read. Two copies of this choice is how a gate clears one spectrum and a fit measures
+    another (RYA-845).
+    """
+    if region.holding:
+        return region.holding
+    if region.instrument == 'kpno_solar_atlas':
+        return ('solar_kpno_kurucz2005_corrected' if region.wave_max_A <= 10010.0
+                else 'solar_kpno_molecfit_corrected')
+    if region.instrument == 'iag_fts_solar_atlas':
+        return 'solar_iag'
+    if region.instrument.lower().startswith('harps'):
+        return 'solar_harps_molecfit_corrected'
+    raise ArmNotWired(
+        f"no holding declared for region {region.name!r} on {region.instrument!r}")
+
+
+def _load_region_spectrum(star_id: str, region: RegionConfig):
+    """The observed spectrum for (star, region) -> (wave_nm, flux).
+
+    🔴 RYA-1214 — `run_cno` called `_load_observed_spectrum(star_id)`, the HARPS loader,
+    for every region. So `--region nearuv` would have fitted 3000-3780 A windows against a
+    3780-6910 A spectrum: `_fit_element` slices per window, finds fewer than 5 pixels in
+    each, and returns status='failed' with 'no observed pixels in windows'. Loud, but for
+    the wrong reason — it would have read as "the near-UV has no data" when the near-UV
+    atlas is right there.
+    """
+    if region.instrument.lower().startswith('harps'):
+        return _load_observed_spectrum(star_id)
+    if region.holding and region.instrument in ('kpno_solar_atlas', 'crires_plus'):
+        # An explicitly-held region reads through the ONE generic reader, by holding.
+        return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
+    if region.instrument == 'kpno_solar_atlas':
+        return _load_kpno_atlas_arm(star_id, region)
+    if region.instrument == 'iag_fts_solar_atlas':
+        return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
+    raise ArmNotWired(
+        f"no spectrum loader for region {region.name!r} on instrument "
+        f"{region.instrument!r}. Wire one in `_load_region_spectrum` rather than letting "
+        f"it fall through to the HARPS loader (RYA-1214).")
+
+
+def _load_generic_atlas_arm(star_id: str, region: RegionConfig, holding: str):
+    """A named SOLAR atlas holding over a region's band -> (wave_nm, flux) — RYA-1214.
+
+    One reader for every atlas region, so the near-UV OH/NH run, the IR CN runs and the
+    atomic band-product route all see byte-identical flux from a given holding. A second
+    reader for one holding is how two products of one spectrum drift apart (RYA-845).
+
+    ⚠️ `load_window_ex(instrument, CENTRE, PAD)` takes a centre and a HALF-WIDTH, not
+    (lo, hi). Passing the band edges asks for `10872 +/- 13205 A` and the coverage check
+    refuses it — loudly, which is the only reason a units slip in an argument pair was a
+    two-minute fix rather than a wrong spectrum.
+
+    ⚠️ NO CONTINUUM IS FITTED. These holdings ship their own, and `prenormalised_guard`
+    refuses a second one: placing one on Kitt Peak tilted a band 4% blue-to-red and cost
+    0.0218 dex (RYA-933/1026).
+    """
+    if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+        raise ArmNotWired(
+            f"{star_id}: {holding} is a SOLAR atlas. Refusing to synthesize {star_id} "
+            f"against it (RYA-464's no-silent-substitution rule).")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    from measure_band_ew import load_window_ex                      # noqa: E402
+    centre = 0.5 * (region.wave_min_A + region.wave_max_A)
+    pad = 0.5 * (region.wave_max_A - region.wave_min_A)
+    win = load_window_ex(region.instrument, centre, pad, holding=holding)
+    w_A = np.asarray(win.wave, float)
+    flux = np.asarray(win.flux, float)
+    m = np.isfinite(w_A) & np.isfinite(flux) & (flux > 0)
+    if int(m.sum()) < 1000:
+        raise ArmNotWired(
+            f"{holding} returned only {int(m.sum())} usable px over "
+            f"{region.wave_min_A}-{region.wave_max_A} A — refusing to fit a band on a "
+            f"spectrum that is mostly absent.")
+    print(f"  [arm-load] {region.instrument} / {win.holding.holding_id}: "
+          f"{int(m.sum())} px over {w_A[m].min():.1f}-{w_A[m].max():.1f} A "
+          f"(pre-normalised at source — no continuum fitted, RYA-1026)")
+    return w_A[m] / 10.0, flux[m]
+
+
+def _load_kpno_atlas_arm(star_id: str, region: RegionConfig):
+    """The Kitt Peak / Kurucz-2005 residual atlas over a region's band -> (wave_nm, flux).
+
+    Reads through `measure_band_ew.load_window_ex`, the SAME loader the band-product route
+    uses, so the near-UV molecular run and the near-UV atomic products see byte-identical
+    flux. A second reader for one holding is how two products of one spectrum drift
+    (RYA-845), and this holding in particular has a history: it was served from the wrong
+    file for months because `0irrad.readme` does not list the residual atlas (RYA-933).
+
+    ⚠️ NO CONTINUUM IS FITTED HERE. `solar_kpno_kurucz2005_corrected` ships its own
+    (`irradrelwl.dat` is the residual atlas), and `pipeline.prenormalised_guard` REFUSES a
+    second continuum on this class — placing one tilted the band 4% blue-to-red and cost
+    0.0218 dex (RYA-933/1026).
+    """
+    if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+        raise ArmNotWired(
+            f"{star_id}: the Kitt Peak atlas is the SOLAR flux atlas. Refusing to "
+            f"synthesize {star_id} against it (RYA-464's no-silent-substitution rule).")
+    return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
+
+
 PROCYON_UVES_DIAGNOSTICS = ESPRESSO_DIAGNOSTICS + UVES_DIAGNOSTICS
 
 
@@ -730,7 +1327,18 @@ _WSTEP_NM = 0.0002          # fine synthesis grid (0.002 Angstrom)
 #: public surface unchanged for its existing callers while there is exactly one
 #: definition (RYA-845: declare it once).
 from pipeline.fit_constraint import (                              # noqa: E402
-    CURVATURE_PROBE_STEP_DEX, curvature_sigma)
+    CURVATURE_PROBE_STEP_DEX, measure_constraint,
+    # RYA-1214 — RE-EXPORTED, NOT CALLED HERE. `_fit_element` calls `measure_constraint`,
+    # which computes this internally; importing it too would NOT create a second sigma.
+    # It stays because `tests/test_curvature_sigma_rya848.py` imports it from THIS module
+    # (it was a re-export before the call moved), and dropping it broke CI on a test about
+    # a function whose behaviour never changed. A removed re-export is an API change.
+    curvature_sigma)  # noqa: F401
+# RYA-1214 — the SAME decider the band-product route and the Engine-B handler call.
+# `STALE.md` names "RYA-847's synthesis constraint gate" as what retires this path's
+# sigma clip; importing it rather than re-implementing the check is what makes the three
+# routes unable to disagree (RYA-845/847).
+from pipeline.constraint_gate import verdict as constraint_verdict   # noqa: E402
 
 
 def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
@@ -788,36 +1396,50 @@ def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
     dof = max(n_pix - 1, 1)
     chi2_min = chi2(a_best)
     red_chi2 = chi2_min / dof
-    edge = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
     # σ from the χ² curvature. The rationale lives in `curvature_sigma`'s docstring and
     # is deliberately NOT restated here: this value is the published σ_stat for N and O,
     # and a second copy of the reasoning beside the call is how a number drifts from its
     # own justification (RYA-845).
     #
-    # 🔴 THE np.clip BELOW IS LEFT IN PLACE ON PURPOSE, AND IT NOW BITES A PUBLISHED
-    # NUMBER. The clip is the third defect and it belongs to RYA-847, which needs its
-    # sweep's constraint metric to define "unconstrained"; fixing it here would back-fit
-    # that criterion from CNO.
+    # 🔴 RYA-1214 — THE np.clip IS GONE, AND ITS OWN STATED CONDITION IS WHAT RETIRES IT.
     #
-    # But the rescale makes the clip MORE binding, not less — σ grows by sqrt(red_chi2)
-    # — and MEASURED on the solar re-run, CN_red lands ON the clip. So solar N publishes
-    # sigma_stat = 1.000, a clipped sentinel wearing the shape of a measured 1 dex, in
-    # `solar_vis_cno_product.csv`. (An earlier draft of this comment predicted N would
-    # land at 0.554 and be safe. The run refuted it; the prediction was arithmetic on the
-    # OLD one-sided σ, and the two-sided probe finds the shallow side that the clamped
-    # probe never looked at.) Named in RYA-848's End-of-Session as a hand-off, not
-    # silently shipped.
+    # The clip read `np.clip(sigma_fit, 0.0, 1.0)` and was left in place deliberately,
+    # annotated "RYA-847 owns removing this" because that ticket "needs its sweep's
+    # constraint metric to define unconstrained; fixing it here would back-fit that
+    # criterion from CNO". RYA-847 HAS LANDED. Its sweep ran over 9 cells and 581
+    # synthesis lines, and its answer was that NO transferable threshold exists —
+    # `constraint_gate.SYNTH_CONSTRAINT` is None PERMANENTLY, not pending — with the
+    # NON-MINIMUM check standing as the one criterion that survived, because zero is the
+    # boundary between "chi2 rose away from the answer" and "it did not" and so cannot be
+    # tuned. So the thing the clip was waiting for is decided, and it is decided in a form
+    # that does not need the clip at all.
     #
-    # The same fix UNCLIPS CI_5380 (1.000 -> 0.057): its old one-sided probe was clamped
-    # and failed, and the lower side had real curvature all along.
-    sigma_fit = curvature_sigma(chi2, a_best=a_best, chi2_min=chi2_min,
-                                red_chi2=red_chi2, a_lo=a_lo, a_hi=a_hi, edge=edge)
-    if np.isfinite(sigma_fit):
-        sigma_fit = float(np.clip(sigma_fit, 0.0, 1.0))   # RYA-847 owns removing this
+    # WHAT THE CLIP WAS DOING, MEASURED: `solar_vis_cno_product.csv` publishes
+    # sigma_stat = 1.000 for nitrogen (CN_red) and sigma_fit = 1.000 for CI_5380 — a
+    # SENTINEL WEARING THE SHAPE OF A MEASURED 1 DEX. `data/audit/cno_synthesis/STALE.md`
+    # names exactly this as the last known defect in this path and names the constraint
+    # gate as what retires it. An unconstrained fit now says so through the gate instead
+    # of through a number that looks like an uncertainty.
+    #
+    # ⚠️ `measure_constraint` REPLACES the bare `curvature_sigma` call rather than being
+    # added beside it. Both compute σ from the same curvature, and calling each would
+    # make two σ for one fit — the RYA-845 shape. It also returns the frac_rise the gate
+    # needs, which the bare call never produced, which is why this path had no way to ask
+    # the question before.
+    m = measure_constraint(chi2, a_best=a_best, chi2_min=chi2_min, red_chi2=red_chi2,
+                           a_lo=a_lo, a_hi=a_hi)
+    cv = constraint_verdict(m)
+    edge = m.edge_distance_dex < 1e-2
+    status = 'edge_pinned' if edge else ('unconstrained' if not cv.ok else 'ok')
     return {'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
-            'sigma_fit': round(sigma_fit, 3), 'n_pix': n_pix,
-            'n_eval': int(n_eval[0]),
-            'status': 'edge_pinned' if edge else 'ok'}
+            'sigma_fit': (round(float(m.sigma_A), 3) if np.isfinite(m.sigma_A)
+                          else float('nan')),
+            'n_pix': n_pix, 'n_eval': int(n_eval[0]),
+            'status': status,
+            'frac_rise_weaker': float(m.frac_rise_weaker),
+            'edge_distance_dex': float(m.edge_distance_dex),
+            'constrained': bool(cv.ok),
+            'reason': '' if cv.ok else cv.reason}
 
 
 # ── Preflight assertions (no silent fallback) ─────────────────────────────────
@@ -884,13 +1506,48 @@ def preflight(region: RegionConfig, star_id: str, diagnostics) -> dict:
     print(f"  [preflight] molecular lists cover all molecular bands "
           f"({_MOLECULES_DIR.name}/*.bsyn)")
 
-    # telluric clearance gate (real per-arm hook; VIS not required)
+    # ── telluric clearance gate ───────────────────────────────────────────────
+    # 🔴 RYA-1214 — IT ASKS THE HOLDING NOW. This was an UNCONDITIONAL raise: any region
+    # with `telluric_correction_required=True` could not run, whatever spectrum it was
+    # pointed at, because when it was written no such region existed and the flag meant
+    # "not wired". A "clearance flag" is also the wrong mechanism — a flag is an assertion
+    # by the caller, and RYA-1026 is explicit that this fact is read "through
+    # telluric_policy.applied_state, never inferred" and that VERIFIED state outranks a
+    # declaration (RYA-1194/1196).
+    #
+    # So the gate resolves the holding the loader will actually read and asks TWO questions:
+    # is that holding a corrected science basis, and do any FIT WINDOWS sit inside an
+    # enumerated telluric band. The second matters even on a corrected holding, because
+    # telluric reachability is a per-OBSERVATION property and a correction is not a
+    # guarantee (RYA-1193).
     if region.telluric_correction_required:
-        raise RuntimeError(
-            f"Region {region.name} requires telluric-corrected input (IR arm: "
-            f"cr2res+molecfit / APERO+Wapiti, RYA-351). No clearance flag supplied — "
-            f"refusing to fit CNO over uncorrected telluric bands.")
-    print(f"  [preflight] telluric gate: not required for {region.name} (optical)")
+        from pipeline import telluric_display_policy as _tdp
+        from pipeline import telluric_policy as _tp
+        _hold = holding_for_region(region)
+        _state = _tdp.display_state(_hold)
+        if _state not in ('CLEAN', 'CLEAN_WITH_ANOMALY'):
+            raise RuntimeError(
+                f"Region {region.name} requires telluric-corrected input and its holding "
+                f"{_hold!r} is display_state={_state!r}. Refusing to fit CNO over a "
+                f"spectrum that is not a corrected science basis (RYA-1026). This is the "
+                f"holding's VERIFIED state, not a flag the caller passed.")
+        # OVERLAP, not the midpoint: a window straddling a band edge has its centre outside
+        # the band and telluric pixels inside it. Deliberately no holding: this asks the
+        # enumeration, whatever the holding's correction state (see above).
+        _inside = [(lo, hi, d.key) for d in diagnostics for (lo, hi) in d.windows_A
+                   if any(hi > b_lo and lo < b_hi for b_lo, b_hi, _ in _tp.TELLURIC_BANDS)]
+        if _inside:
+            raise RuntimeError(
+                f"Region {region.name}: {len(_inside)} fit window(s) fall inside an "
+                f"enumerated telluric band — {_inside[:4]}. The holding is corrected, but "
+                f"telluric reachability is per-OBSERVATION and a correction is not a "
+                f"guarantee (RYA-1193). Move the window or state the exception; refusing "
+                f"to fit there by default.")
+        print(f"  [preflight] telluric gate: {_hold} is {_state}, and 0 of "
+              f"{sum(len(d.windows_A) for d in diagnostics)} fit window(s) fall inside an "
+              f"enumerated telluric band (telluric_policy.TELLURIC_BANDS)")
+    else:
+        print(f"  [preflight] telluric gate: not required for {region.name} (optical)")
 
     # NLTE backend resolves
     if region.nlte_backend not in NLTE_BACKENDS:
@@ -913,6 +1570,12 @@ class CNOResult:
     provenance: dict = field(default_factory=dict)
     uncertainty: dict = field(default_factory=dict)      # element -> {stat, sys, tot}
     phase_a_corrections: list = field(default_factory=list)  # RYA-371 cited 3D/NLTE per diagnostic
+    #: RYA-1214 — which elements this REGION actually measured, and which it only pinned.
+    #: A region need not carry a primary for all three (the near-UV has none for carbon),
+    #: and `abundances` holds a number either way — so without these two a pinned seed
+    #: reads exactly like a measurement (RYA-833).
+    measured_elements: tuple = ()
+    pinned_elements: tuple = ()
 
 
 def _seed_abundances(star_id, params, codes, solar_A_ispec, feh) -> dict:
@@ -927,7 +1590,7 @@ def _seed_abundances(star_id, params, codes, solar_A_ispec, feh) -> dict:
 def run_cno(star_id: str, region_name: str = 'vis', *,
             params_override: dict = None, max_iter: int = 5,
             with_systematics: bool = True, out_dir: Path = None,
-            tmp_dir: str = '/tmp/ispec_cno') -> CNOResult:
+            tmp_dir: str = '/tmp/ispec_cno', pins: dict = None) -> CNOResult:
     """Region-aware C/N/O synthesis for `star_id` over `region_name`.
 
     Flow: seed → fit CH (A(C)) → fit CN given A(C) → fit [O I]+Ni given A(C) →
@@ -936,7 +1599,12 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     otherwise. C I 5052/5380 (LTE) and C2 Swan are fit once as cross-checks.
     """
     region = REGIONS[region_name]
-    diagnostics = VIS_DIAGNOSTICS
+    # 🔴 RYA-1214 — DERIVED FROM THE REGION, NOT PINNED TO VIS. This read
+    # `diagnostics = VIS_DIAGNOSTICS` unconditionally, so `--region` chose the RegionConfig
+    # (instrument, R, band edges, NLTE backend) while the DIAGNOSTICS stayed HARPS-optical.
+    # A second region was therefore not merely unwired: adding one would have fitted VIS
+    # windows against a near-UV spectrum and reported it under the new region's name.
+    diagnostics = REGION_DIAGNOSTICS[region_name]
     Path(tmp_dir).mkdir(parents=True, exist_ok=True)     # RYA-344: TS tmp_dir must exist
     out_dir = Path(out_dir) if out_dir else (Path(PATHS['solar_ew']).parent.parent /
                                              'audit' / 'cno_synthesis')
@@ -957,14 +1625,31 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     nlte_backend = NLTE_BACKENDS[region.nlte_backend]
 
     atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
-    ll, iso, chem = _load_synth_resources()
+    ll_path, ll_label, gf_prov = region_atomic_linelist(region, diagnostics)
+    ll, iso, chem = (_load_synth_resources() if ll_path is None else
+                     _load_synth_resources(str(ll_path),
+                                           apply_canonical_gf=gf_prov['apply_canonical_gf']))
+    print(f"  [synth] atomic list for {region.name}: {ll_label}"
+          + (f"; gf: {gf_prov['detail']}" if gf_prov else ""))
     sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
-    obs_w, obs_f = _load_observed_spectrum(star_id)
+    # Same reason as the diagnostics above: `_load_observed_spectrum` is the HARPS loader,
+    # so a near-UV region would have been fitted against an optical spectrum that does not
+    # even cover its windows. Dispatched on the region's own instrument.
+    obs_w, obs_f = _load_region_spectrum(star_id, region)
 
     codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
     solar_A_ispec = _solar_A(('C', 'N', 'O', 'Ni'), chem, sab)
     state = _seed_abundances(star_id, params, codes, solar_A_ispec, feh)
+    # RYA-1214 — a pin REPLACES the solar seed for an element this region does not measure.
+    # Applied before the first synthesis, because the seed is what feeds babsma's molecular
+    # equilibrium: an override applied after the atmosphere is built changes nothing, which
+    # is the inert-override failure `rya1120_xi_campaign` documents for xi.
+    for _el, _v in (pins or {}).items():
+        state[_el] = float(_v)
     print(f"  seed A: " + "  ".join(f"{e}={state[e]:.2f}" for e in ('C', 'N', 'O', 'Ni')))
+    if pins:
+        print(f"  PINNED (input, not measured): "
+              + "  ".join(f"A({e})={v:.3f}" for e, v in sorted(pins.items())))
 
     result = CNOResult(star_id=star_id, region=region.name)
     by_key = {d.key: d for d in diagnostics}
@@ -984,23 +1669,52 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
                   'nlte_flag': flag, 'nlte_ref': ref})
         return r
 
-    # ── CNO equilibrium iteration: CH → CN(|C) → [O I](|C) ────────────────────
-    primary = {'C': by_key['CH_Gband'], 'N': by_key['CN_red'], 'O': by_key['OI_6300']}
+    # ── CNO equilibrium iteration, in the region's own dependency order ───────
+    # 🔴 DERIVED FROM `role`, NOT NAMED. This was
+    #     primary = {'C': by_key['CH_Gband'], 'N': by_key['CN_red'], 'O': by_key['OI_6300']}
+    # which is three VIS keys, so any other region raised KeyError before it could run —
+    # and a region that happened to reuse a key would have silently borrowed VIS's
+    # diagnostic. `primary_by_element` reads the declared roles and refuses an ambiguous
+    # or absent one rather than picking.
+    primary = primary_by_element(diagnostics)
+    # An element with no primary IN THIS REGION is not measured here. Its seed value is
+    # still needed (it is an input to the molecular equilibrium of the ones that ARE
+    # measured), so it is PINNED and recorded as pinned — never reported as a measurement.
+    measured_elements = tuple(e for e in ('C', 'N', 'O') if e in primary)
+    pinned_elements = tuple(e for e in ('C', 'N', 'O') if e not in primary)
+    if pinned_elements:
+        result.flags.append(
+            'pinned_not_measured:' + ','.join(f'{e}={state[e]:.3f}' for e in pinned_elements))
+        print(f"  region {region.name!r} has no primary for "
+              f"{', '.join(pinned_elements)} — PINNED at "
+              + ", ".join(f"A({e})={state[e]:.3f}" for e in pinned_elements)
+              + " and NOT reported as measured")
     converged = False
     last = {}
     for it in range(1, max_iter + 1):
         print(f"\n  ── iteration {it} ──")
         deltas = {}
-        for el in ('C', 'N', 'O'):
+        for el in measured_elements:
             d = primary[el]
             center = state[el]
             r = _fit(d, center)
             last[d.key] = r
-            if np.isfinite(r['A_X']):
+            # 🔴 RYA-1214 — A FIT THE GATE REJECTED MUST NOT PIN THE EQUILIBRIUM.
+            # `np.isfinite(A_X)` was the only test, and `minimize_scalar` returns a finite
+            # number for a flat objective just as readily as for a real minimum — which is
+            # what the retired sigma clip was papering over. In THIS loop the consequence
+            # compounds rather than staying local: `state[el]` is pinned into the next
+            # element's synthesis (CH -> CN|C -> [O I]|C), so an unconstrained carbon fit
+            # would set the molecular equilibrium that nitrogen and oxygen are then
+            # measured against. An undetermined abundance must not become a fixed input.
+            if np.isfinite(r['A_X']) and r.get('constrained', True):
                 deltas[el] = abs(r['A_X'] - state[el])
                 state[el] = r['A_X']     # pin for the next element (EOS coupling)
             else:
                 deltas[el] = np.nan
+                if np.isfinite(r['A_X']) and not r.get('constrained', True):
+                    result.flags.append(f'{el}_primary_unconstrained:{d.key}')
+                    print(f"    {d.key:10s} REFUSED as the {el} pin — {r['reason'][:88]}")
             print(f"    {d.key:10s} A({el})={r['A_X']}  χ²ᵣ={r['red_chi2']}  "
                   f"σfit={r['sigma_fit']}  [{r['status']}]  ({r['wall_s']}s)")
         result.iterations = it
@@ -1014,9 +1728,11 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     if not converged:
         result.flags.append('co_equilibrium_not_converged')
 
-    # ── Carbon cross-checks (LTE): C I 5052/5380 atomic + C2 Swan ─────────────
-    print(f"\n  ── carbon cross-checks (LTE) ──")
-    for key in ('CI_5052', 'CI_5380', 'C2_Swan'):
+    # ── Cross-checks (LTE), derived from `role` rather than named ─────────────
+    _cross = tuple(d.key for d in diagnostics if d.role == 'cross_check')
+    if _cross:
+        print(f"\n  ── cross-checks (LTE): {', '.join(_cross)} ──")
+    for key in _cross:
         d = by_key[key]
         r = _fit(d, state['C'])
         last[d.key] = r
@@ -1025,6 +1741,8 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
 
     result.per_band = [last[d.key] for d in diagnostics if d.key in last]
     result.abundances = {'C': state['C'], 'N': state['N'], 'O': state['O']}
+    result.measured_elements = measured_elements
+    result.pinned_elements = pinned_elements
 
     # ── Phase-A cited correction layer (RYA-371): 1D-LTE → cited 3D/NLTE ───────
     corrections = apply_cited_corrections(result.per_band, params, region)
@@ -1043,7 +1761,8 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     # ── Uncertainty budget (Type A statistical + Type B systematic) ───────────
     result.uncertainty = _uncertainty_budget(
         result, last, by_key, star_id, params, rec, state, codes, obs_w, obs_f,
-        atm, broadening, ll, iso, sab, tmp_dir, with_systematics)
+        atm, broadening, ll, iso, sab, tmp_dir, with_systematics,
+        diagnostics=diagnostics)
 
     # ── C/O ratio ─────────────────────────────────────────────────────────────
     aC, aO = state['C'], state['O']
@@ -1055,7 +1774,7 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         'engine': 'pipeline.cno_synthesis (RYA-237)',
         'rt_code': 'turbospectrum',
         'region': region.name, 'instrument': region.instrument, 'R_LSF': region.R,
-        'atomic_linelist': 'GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353)',
+        'atomic_linelist': ll_label,
         'molecular_lists': f'{_MOLECULES_DIR.name}/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)',
         'broadening': {'R': broadening[0], 'vmac': broadening[1], 'vsini': broadening[2],
                        'source': rec.get('source', ''), 'rule': 'per-star RYA-288'},
@@ -1080,7 +1799,7 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
 
 def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes,
                         obs_w, obs_f, atm, broadening, ll, iso, sab, tmp_dir,
-                        with_systematics) -> dict:
+                        with_systematics, diagnostics=VIS_DIAGNOSTICS) -> dict:
     """Type A (statistical) + Type B (systematic stellar-param sensitivity).
 
     Statistical:
@@ -1094,20 +1813,35 @@ def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes
     """
     budget = {}
     # Statistical
-    c_vals = [last[k]['A_X'] for k in ('CH_Gband', 'CI_5052', 'CI_5380', 'C2_Swan')
-              if k in last and np.isfinite(last[k]['A_X'])]
+    # 🔴 RYA-1214 — DERIVED PER ELEMENT, NOT THREE HARDCODED VIS KEYS. This read
+    # `('CH_Gband','CI_5052','CI_5380','C2_Swan')` for carbon and `last['CN_red']` /
+    # `last['OI_6300']` for N and O, so in any other region every sigma_stat would have
+    # come back NaN from a `.get` that could never hit — an UNMEASURED bar on a band that
+    # measured perfectly well. The rule itself is unchanged and stated once: where an
+    # element has TWO OR MORE diagnostics that measured something, its random term is
+    # their scatter / sqrt(N); where it has one, it is that fit's own curvature.
+    #
+    # And the membership rule is the gate's verdict, in both branches: this pooled every
+    # finite `A_X`, so an unconstrained band widened (or narrowed) the scatter of the one
+    # element whose sigma_stat is a scatter rather than a curvature.
+    prim = primary_by_element(diagnostics)
     stat = {}
-    if len(c_vals) >= 2:
-        stat['C'] = float(np.std(c_vals, ddof=1) / np.sqrt(len(c_vals)))
-    else:
-        stat['C'] = float(last.get('CH_Gband', {}).get('sigma_fit', np.nan))
-    stat['N'] = float(last.get('CN_red', {}).get('sigma_fit', np.nan))
-    stat['O'] = float(last.get('OI_6300', {}).get('sigma_fit', np.nan))
+    for el in ('C', 'N', 'O'):
+        vals = [last[d.key]['A_X'] for d in diagnostics
+                if d.element == el and d.key in last
+                and np.isfinite(last[d.key]['A_X'])
+                and last[d.key].get('constrained', True)]
+        if len(vals) >= 2:
+            stat[el] = float(np.std(vals, ddof=1) / np.sqrt(len(vals)))
+        elif el in prim and prim[el].key in last:
+            stat[el] = float(last[prim[el].key].get('sigma_fit', np.nan))
+        else:
+            stat[el] = float('nan')
 
     # Systematic
     sys_budget = {e: 0.0 for e in ('C', 'N', 'O')}
     if with_systematics:
-        primary = {'C': by_key['CH_Gband'], 'N': by_key['CN_red'], 'O': by_key['OI_6300']}
+        primary = prim                      # RYA-1214: the region's own, same derivation
         e_teff = float(rec.get('e_teff', 0.0))
         e_logg = float(rec.get('e_logg', 0.0))
         e_feh = float(rec.get('e_feh', 0.0))
@@ -1119,8 +1853,9 @@ def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes
         if e_feh >= 0.02:
             perturbs.append(('feh', e_feh))
         perturbs.append(('vturb_kms', 0.1))   # always include a ξ sensitivity term
-        print(f"\n  ── systematics: {len(perturbs)} perturbation(s) × 3 primary bands ──")
-        for el in ('C', 'N', 'O'):
+        print(f"\n  ── systematics: {len(perturbs)} perturbation(s) × "
+              f"{len(primary)} primary band(s) ──")
+        for el in sorted(primary):
             d = primary[el]
             base = state[el]
             terms = []
@@ -1139,10 +1874,37 @@ def _uncertainty_budget(result, last, by_key, star_id, params, rec, state, codes
             sys_budget[el] = float(np.sqrt(np.sum(np.square(terms)))) if terms else 0.0
             print(f"    {el}: σ_sys={sys_budget[el]:.3f} dex ({len(terms)} terms)")
 
+    # 🔴 RYA-1214 — AN UNMEASURABLE sigma_stat IS NOT ZERO, AND THIS IS WHERE THE
+    # RETIRED CLIP'S SENTINEL WOULD HAVE COME BACK WEARING THE OPPOSITE SIGN.
+    #
+    # This read `s_a = stat[el] if np.isfinite(stat[el]) else 0.0`. With the
+    # `np.clip(..., 0.0, 1.0)` in place an unmeasurable curvature arrived here as 1.000
+    # and was reported as a 1 dex bar; with the clip removed it arrives as NaN and this
+    # line would have reported 0.000 — the TIGHTEST possible bar for the LEAST constrained
+    # possible fit, which is verbatim the defect `fit_constraint.ConstraintMetrics`
+    # documents ("the old code returned 0.000 for a railed fit ... and clipped a flat
+    # objective to a plausible-looking 1.000"). Removing the clip alone would have made
+    # this path strictly worse.
+    #
+    # So an unmeasured term stays UNMEASURED and says so, and sigma_tot is withheld rather
+    # than computed from a stand-in: a total that silently omits its statistical part is
+    # not a smaller uncertainty, it is a different quantity (RYA-907).
     for el in ('C', 'N', 'O'):
-        s_a = stat[el] if np.isfinite(stat[el]) else 0.0
         s_b = sys_budget[el]
+        if not np.isfinite(stat[el]):
+            budget[el] = {
+                'stat': None, 'sys': round(s_b, 3), 'tot': None,
+                'stat_state': 'UNMEASURED',
+                'stat_note': ('the chi2 curvature was not measurable for this element\'s '
+                              'primary band (railed fit, or an objective with no curvature '
+                              'to invert), so there is no statistical term to report and '
+                              'sigma_tot is withheld. NOT zero and NOT the 1.000 the '
+                              'retired np.clip used to emit (RYA-848/RYA-1214).'),
+            }
+            continue
+        s_a = float(stat[el])
         budget[el] = {'stat': round(s_a, 3), 'sys': round(s_b, 3),
+                      'stat_state': 'MEASURED',
                       'tot': round(float(np.sqrt(s_a ** 2 + s_b ** 2)), 3)}
     return budget
 
@@ -1153,13 +1915,24 @@ def _write_product(result: CNOResult, out_dir: Path) -> None:
     rows = []
     for el in ('C', 'N', 'O'):
         unc = result.uncertainty.get(el, {})
+        # 🔴 RYA-1214 — A PINNED SEED IS NOT A MEASUREMENT, AND `abundances` CANNOT TELL
+        # THEM APART. The near-UV region has no carbon primary, so A(C) in that run is
+        # whatever was pinned into the molecular equilibrium — a real and necessary INPUT,
+        # and a number this CSV would otherwise publish in the same column as the two
+        # abundances the region actually fitted (RYA-833).
+        measured = (el in (result.measured_elements or ('C', 'N', 'O')))
         rows.append({
             'element': el, 'A_X': result.abundances.get(el),
+            'value_state': 'MEASURED' if measured else 'PINNED_INPUT_NOT_MEASURED',
             'sigma_stat': unc.get('stat'), 'sigma_sys': unc.get('sys'),
             'sigma_tot': unc.get('tot'),
+            # RYA-1214: a blank sigma_stat must say WHY it is blank. "Not measured" and
+            # "not written out" look identical in a CSV otherwise (RYA-833).
+            'sigma_stat_state': unc.get('stat_state', ''),
         })
     rows.append({'element': 'C/O', 'A_X': result.abundances.get('C/O'),
-                 'sigma_stat': None, 'sigma_sys': None, 'sigma_tot': None})
+                 'sigma_stat': None, 'sigma_sys': None, 'sigma_tot': None,
+                 'sigma_stat_state': 'NOT_PROPAGATED'})
     prod = pd.DataFrame(rows)
     band = pd.DataFrame(result.per_band)
     base = out_dir / f'{result.star_id}_{result.region}_cno'
@@ -1503,6 +2276,14 @@ def main(argv=None):
                     help='print the solar-VIS acceptance gate table')
     ap.add_argument('--no-systematics', action='store_true',
                     help='skip the Type-B stellar-parameter sensitivity refits')
+    ap.add_argument('--pin', action='append', default=None, metavar='EL=VALUE',
+                    help="RYA-1214: pin an element's abundance as an INPUT instead of "
+                         "seeding it from the solar table. A region without a primary for "
+                         "that element does not measure it, and its value still enters the "
+                         "molecular equilibrium of the ones that ARE measured — so the "
+                         "near-UV OH/NH run wants A(C) from the VIS CH G-band rather than "
+                         "from a solar default. Recorded as PINNED_INPUT_NOT_MEASURED in "
+                         "the product, never as an abundance.")
     ap.add_argument('--max-iter', type=int, default=5)
     ap.add_argument('--out', default=None)
     ap.add_argument('--arms', default=None,
@@ -1550,9 +2331,17 @@ def main(argv=None):
             print_oi_partition(part)
         return part
 
+    pins = {}
+    for kv in (args.pin or ()):
+        el, _, val = str(kv).partition('=')
+        el = el.strip()
+        if el not in ('C', 'N', 'O', 'Ni') or not val:
+            raise SystemExit(f"--pin {kv!r} is not EL=VALUE for one of C / N / O / Ni")
+        pins[el] = float(val)
     result = run_cno(args.star, args.region, max_iter=args.max_iter,
                      with_systematics=not args.no_systematics,
-                     out_dir=Path(args.out) if args.out else None)
+                     out_dir=Path(args.out) if args.out else None,
+                     pins=pins or None)
     if args.validate and args.star == 'solar':
         validate_solar(result)
     elif args.validate:

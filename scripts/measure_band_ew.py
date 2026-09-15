@@ -661,6 +661,20 @@ _CRIRES_Y_FRAME_CONTROL = (10535.709, 10577.139, 10611.686, 10616.721, 10674.070
 _CRIRES_H_FRAME_CONTROL = (15051.749, 15207.526, 15294.560,
                            15591.490, 15631.947, 16165.029)
 _CRIRES_Y_FRAME_TOL_A = 0.10        # RYA-794 measured max |offset| 0.039 A
+#: RYA-1214 — J and K, conditioned here from the RYA-1219 corrected IDPs. Chosen by RULE, not
+#: by agreement: the six deepest isolated neutral lines (catalogued depth 0.3-0.9, nothing
+#: deeper than 0.05 within 0.35 A) the product samples. Picking the ones that happened to
+#: sit closest would tune the guard to pass.
+_CRIRES_J_FRAME_CONTROL = (11607.572, 11828.171, 11882.844, 11884.083, 11973.046, 12031.504)
+_CRIRES_K_FRAME_CONTROL = (19508.152, 19722.508, 19776.771, 19815.017, 20917.151, 21354.198)
+#: Per-arm tolerance at CONSTANT VELOCITY. 0.10 A was set at ~10500 A, i.e. 2.86 km/s. The
+#: check is the deepest PIXEL, so at K (grid step ~0.074 A) a fixed 0.10 A is 1.4 px and a
+#: correct product fails on sampling (19722.508 measures +0.1001). Scaled to 2.86 km/s it
+#: still rejects what the guard exists for — air/vacuum is ~6 A at 2.2 um and an unremoved
+#: 25 km/s reflected RV ~1.8 A. Y and H keep exactly 0.10 A: nothing already shipped moves.
+_CRIRES_FRAME_TOL_A = {"Y": _CRIRES_Y_FRAME_TOL_A, "H": _CRIRES_Y_FRAME_TOL_A,
+                       "J": round(0.10 * 12000.0 / 10500.0, 3),
+                       "K": round(0.10 * 21000.0 / 10500.0, 3)}
 
 
 def crires_y_spectrum(csv: Path | None = None) -> tuple[np.ndarray, np.ndarray]:
@@ -711,13 +725,15 @@ def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray, name: str | None = None
     # rather than by holding id keeps the guard working for any future arm, and a product
     # matching NO set is refused below rather than passing unchecked.
     _name = name or CRIRES_Y_CSV.name
-    _sets = {"Y": _CRIRES_Y_FRAME_CONTROL, "H": _CRIRES_H_FRAME_CONTROL}
-    _ctl = next((v for v in _sets.values()
-                 if float(w.min()) <= min(v) and max(v) <= float(w.max())), None)
+    _sets = {"Y": _CRIRES_Y_FRAME_CONTROL, "H": _CRIRES_H_FRAME_CONTROL,
+             "J": _CRIRES_J_FRAME_CONTROL, "K": _CRIRES_K_FRAME_CONTROL}
+    _arm, _ctl = next(((k, v) for k, v in _sets.items()
+                       if float(w.min()) <= min(v) and max(v) <= float(w.max())),
+                      (None, None))
     if _ctl is None:
         raise LookupError(
             f"{_name}: spans {w.min():.1f}-{w.max():.1f} A, which contains no declared "
-            f"CRIRES frame-control set (Y or H). A product whose wavelength solution "
+            f"CRIRES frame-control set (Y, H, J or K). A product whose wavelength solution "
             f"cannot be CHECKED must not be measured — declare a control set for this "
             f"arm first (RYA-1094).")
     off = []
@@ -730,11 +746,12 @@ def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray, name: str | None = None
                 f"span ({w.min():.1f}-{w.max():.1f} A) -- refusing to measure.")
         off.append(float(w[m][int(np.argmin(f[m]))] - c))
     worst = max(abs(o) for o in off)
-    if worst > _CRIRES_Y_FRAME_TOL_A:
+    _tol = _CRIRES_FRAME_TOL_A[_arm]
+    if worst > _tol:
         raise LookupError(
             f"{_name}: the frame-control features sit {worst:.3f} A from their "
             f"AIR wavelengths (offsets {['%+.3f' % o for o in off]}), against a "
-            f"{_CRIRES_Y_FRAME_TOL_A:.2f} A tolerance. RYA-794 measured at most 0.039 A. "
+            f"{_tol:.3f} A tolerance ({_arm} arm). RYA-794 measured at most 0.039 A. "
             f"CRIRES+ delivers VACUUM/TOPOCENT natively, so this is what a product that "
             f"lost its air conversion or its RV correction looks like -- and it would "
             f"still fit lines, at the wrong abundance. Refusing.")
@@ -746,6 +763,26 @@ def load_crires_y_window(centre: float, pad: float,
     w, f = crires_y_spectrum(path)
     w, f = _slice_window(w, f, centre, pad, "CRIRES+ Y (telluric-corrected)")
     return w, f, path.name
+
+
+def load_crires_corrected_window(centre: float, pad: float, arm: str):
+    """Read RYA-1219 full-arm molecfit products for a corrected J/K window."""
+    from astropy.io import fits
+    base = ROOT / "data" / "results" / "rya1219_crires_products" / arm
+    lo, hi = centre - pad, centre + pad
+    W, F, used = [], [], []
+    for path in sorted(base.glob("*.fits")):
+        with fits.open(path, memmap=False) as hdul:
+            d = hdul["SPECTRUM"].data
+            w = np.asarray(d["WAVE"], dtype=float)
+            f = np.asarray(d["FLUX"], dtype=float)
+            m = np.isfinite(w) & np.isfinite(f) & (w >= lo) & (w <= hi)
+            if m.any():
+                W.append(w[m]); F.append(f[m]); used.append(path.name)
+    if not W:
+        raise LookupError(f"no corrected CRIRES+ {arm} product covers {centre:.3f} A")
+    w = np.concatenate(W); f = np.concatenate(F); o = np.argsort(w)
+    return w[o], f[o], f"RYA-1219 molecfit corrected {arm}: {','.join(used)} [TOPOCENTRIC; RV conditioning deferred]"
 
 
 # ── HOLDINGS, not instruments — RYA-904 ──────────────────────────────────────
@@ -923,6 +960,12 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "sampling than Baker (4.06M vs 728K points)."),
     ),
     "crires_plus": (
+        HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_corrected_j",
+                    pre_normalised=True, span_A=(11164.0, 13495.0),
+                    note="RYA-1219 full-arm J molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
+        HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_corrected_k",
+                    pre_normalised=True, span_A=(19459.0, 24855.0),
+                    note="RYA-1219 full-arm K molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
         HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
                     span_A=(10280.0, 10680.0), caveat=GDSAT_CAVEAT,
                     note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
@@ -950,6 +993,22 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "Elgueta's most contaminated arm and they SKIP regions inside "
                          "it, so per-region judgement belongs downstream, not in this "
                          "span (RYA-787)."),
+        # RYA-1214: the RYA-1219 molecfit-corrected Vesta IDPs, rest-frame conditioned by
+        # scripts/rya1214_condition_crires_jk.py (all 8 frames PASS held-out <= 0.5 km/s,
+        # Horizons, telluric closure). Same reader and contract as the Elgueta Y/H products;
+        # frame convention measured to agree with them within ~0.2 km/s.
+        HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_y",
+                    pre_normalised=True, path_key="repo.crires_plus_solar_j_rya1219",
+                    span_A=(11159.94, 13489.51), caveat=GDSAT_CAVEAT,
+                    note="RYA-1219 corrected + RYA-1214 rest-frame conditioned J arm, four "
+                         "settings co-added; pixels with molecfit transmission < 0.5 not "
+                         "written, so saturated telluric cores are gaps, not data."),
+        HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_y",
+                    pre_normalised=True, path_key="repo.crires_plus_solar_k_rya1219",
+                    span_A=(19452.41, 24845.62), caveat=GDSAT_CAVEAT,
+                    note="RYA-1219 corrected + RYA-1214 rest-frame conditioned K arm, four "
+                         "settings co-added. K2166 kept RYA-1219's controlled CO-refit retry "
+                         "and K2148/K2166 place no CO bandhead on a chip (RYA-1219 README)."),
         HoldingSpec("solar_vesta_crires_plus_idp", reader="crires_idp",
                     pre_normalised=False,
                     note="Raw Vesta IDPs: adu, un-normalised, TOPOCENT, telluric "
@@ -1084,6 +1143,10 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
     if spec.reader == "crires_y":
         _csv = Path(str(codex_path(spec.path_key))) if spec.path_key else None
         return load_crires_y_window(centre, pad, _csv)
+    if spec.reader == "crires_corrected_j":
+        return load_crires_corrected_window(centre, pad, "J")
+    if spec.reader == "crires_corrected_k":
+        return load_crires_corrected_window(centre, pad, "K")
     if spec.reader == "crires_idp":
         return load_crires_window(centre, pad)
     raise LookupError(f"holding {spec.holding_id} names reader {spec.reader!r}, which "
