@@ -397,3 +397,13 @@ waivers:
       module constant naming ONE known Al I line. Exactly the "names one known line for a
       self-check" class the audit already excludes -- missed only because the exclusion
       tests for an ast.Constant and this is a Name bound to one.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya1214_augment_nir_linelist_cno.py
+    count: 1
+    ticket: RYA-1214
+    reason: >-
+      [NON-JOIN] the Fe-safety gate: "is any committed Fe I NIR pool line within the NIR
+      fit half-width (1.40 A) of a line being ADDED to the synthesis list". That is a
+      blend-PROXIMITY question about whether new opacity lands inside an Fe fit window, so
+      wavelength distance is the quantity asked; it identifies no line. The script's
+      identity match (set row -> VALD row) is keyed on wavelength AND E_low.
