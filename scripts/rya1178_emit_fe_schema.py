@@ -733,6 +733,47 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     }
 
 
+def update_xi_budget(p: dict, idx: dict) -> None:
+    """Refresh only the existing xi component and its derived totals in place."""
+    xt = xi_terms(p, idx)
+    p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
+    if "dA_dxi" in xt:
+        p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
+
+    # Part 2 — sigma_syst must be a real total of its NAMED components, and
+    # sigma_reported must include it. The campaign's own sigma_reported did NOT:
+    # on all 32 entries carrying one it equals quadrature(SE, sigma_xi) with
+    # sigma_syst omitted entirely.
+    comps = {"published_syst": p.get("sigma_syst"), "sigma_xi": xt.get("sigma_xi")}
+    named = [v for v in comps.values() if v]
+    p["sigma_syst_components"] = comps
+    p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
+    terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
+    got = [t for t in terms if t]
+    p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    p["sigma_reported_basis"] = (
+        "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
+        "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
+        "sigma_syst_complete — the RYA-1120 artifact's own sigma_reported omitted "
+        "sigma_syst altogether.")
+    if p.get("xi_state") in ("UNMEASURED", "NOT_IN_CAMPAIGN"):
+        p["sigma_reported_caveat"] = (
+            "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent "
+            "from this bar rather than zero. The bar is a LOWER BOUND.")
+    else:
+        #: 🔴 CLEARED, NOT LEFT BEHIND. This emitter MUTATES the feed in place and
+        #: re-runs over rows it wrote before, so a caveat set on an earlier pass
+        #: survives the condition that justified it. RYA-1213 hit it: the moment the
+        #: Reference tier's own dA/dxi landed and four products went
+        #: NOT_IN_CAMPAIGN -> MEASURED, they kept a field reading "INCOMPLETE ... the
+        #: bar is a LOWER BOUND" beside a bar that is now complete. The site PRINTS
+        #: this string, so a stale copy is a visible false statement about a
+        #: published uncertainty -- the RYA-1084 shape, where the stale side is the
+        #: one that wins. A derived field must be re-derived in BOTH directions.
+        p.pop("sigma_reported_caveat", None)
+
+
+
 def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
     from pipeline.reference_lineset import line_set_for_product
     idx = xi_index(xi_doc, feed)
@@ -783,42 +824,7 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
         p["generated_at"] = _now()
         p["code_commit"] = _commit()
 
-        xt = xi_terms(p, idx)
-        p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
-        if "dA_dxi" in xt:
-            p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
-
-        # Part 2 — sigma_syst must be a real total of its NAMED components, and
-        # sigma_reported must include it. The campaign's own sigma_reported did NOT:
-        # on all 32 entries carrying one it equals quadrature(SE, sigma_xi) with
-        # sigma_syst omitted entirely.
-        comps = {"published_syst": p.get("sigma_syst"), "sigma_xi": xt.get("sigma_xi")}
-        named = [v for v in comps.values() if v]
-        p["sigma_syst_components"] = comps
-        p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
-        terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
-        got = [t for t in terms if t]
-        p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
-        p["sigma_reported_basis"] = (
-            "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
-            "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
-            "sigma_syst_complete — the RYA-1120 artifact's own sigma_reported omitted "
-            "sigma_syst altogether.")
-        if p.get("xi_state") in ("UNMEASURED", "NOT_IN_CAMPAIGN"):
-            p["sigma_reported_caveat"] = (
-                "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent "
-                "from this bar rather than zero. The bar is a LOWER BOUND.")
-        else:
-            #: 🔴 CLEARED, NOT LEFT BEHIND. This emitter MUTATES the feed in place and
-            #: re-runs over rows it wrote before, so a caveat set on an earlier pass
-            #: survives the condition that justified it. RYA-1213 hit it: the moment the
-            #: Reference tier's own dA/dxi landed and four products went
-            #: NOT_IN_CAMPAIGN -> MEASURED, they kept a field reading "INCOMPLETE ... the
-            #: bar is a LOWER BOUND" beside a bar that is now complete. The site PRINTS
-            #: this string, so a stale copy is a visible false statement about a
-            #: published uncertainty -- the RYA-1084 shape, where the stale side is the
-            #: one that wins. A derived field must be re-derived in BOTH directions.
-            p.pop("sigma_reported_caveat", None)
+        update_xi_budget(p, idx)
 
         #: 🔴 PART 0 — THE <3D> LTE/NLTE COLLISION IS A MEDIAN COINCIDENCE, NOT A BUG.
         #: The ticket suspected the RYA-1104 "<3D>-NLTE == LTE wiring" defect. It is not
@@ -984,6 +990,8 @@ def verify(feed: dict) -> list:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="audit only; write nothing")
+    ap.add_argument("--xi-only", action="store_true",
+                    help="refresh Reference xi stamps and totals from existing campaign artifacts only")
     a = ap.parse_args()
 
     feed = json.loads(FEED.read_text())
@@ -1002,7 +1010,13 @@ def main() -> int:
     n_before = len(feed["products"])
     hold, inst, models, xi_doc = load_sources()
 
-    feed, _ = enrich(feed, hold, inst, models, xi_doc)
+    if a.xi_only:
+        idx = xi_index(xi_doc, feed)
+        for p in feed["products"]:
+            if p.get("tier") == "REFERENCE":
+                update_xi_budget(p, idx)
+    else:
+        feed, _ = enrich(feed, hold, inst, models, xi_doc)
     #: 🔴 PART 3 IS DEFERRED, AND HAND-WRITING IT HERE IS THE REASON IT MUST BE.
     #: The four RYA-1106 Asplund products are real and their numbers are in
     #: `data/results/rya1106/asplund_four_instrument_table.json`. But a product does not
@@ -1066,6 +1080,8 @@ def main() -> int:
     feed["version"] = _bump(feed["version"])
     feed["updated_at"] = _now()
     feed["schema"] = "codex.element_product/2"
+    from pipeline import plot_grid
+    feed["plot_grid"] = plot_grid.build(feed["products"])
     FEED.write_text(json.dumps(feed, indent=2) + "\n")
     print(f"\nwrote {FEED.relative_to(ROOT)} at v{feed['version']} (schema {feed['schema']})")
     return 0

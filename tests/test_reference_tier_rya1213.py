@@ -289,6 +289,47 @@ def test_a_reference_cell_is_never_both_live_and_NA(matrix):
 XI_RUN = ROOT / "data/results/rya1213/reference_xi_dadxi.json"
 
 
+def test_every_completed_reference_xi_pool_reaches_its_product(feed):
+    """A finished campaign row cannot remain NOT_IN_CAMPAIGN in the feed."""
+    import math
+    keys = ("ion", "holding", "tier", "treatment", "band")
+    measured = {tuple(p[k] for k in keys): p for p in json.loads(XI_RUN.read_text())["pools"]
+                if p["xi_state"] == "MEASURED"}
+    seen = set()
+    for product in feed["products"]:
+        key = tuple(product[k] for k in keys)
+        if key not in measured:
+            continue
+        pool = measured[key]
+        seen.add(key)
+        assert product["xi_state"] == "MEASURED", pe.key_of(product)
+        assert product["sigma_xi"] == pytest.approx(pool["sigma_xi"], abs=1e-9)
+        assert product["dA_dxi_dex_per_kms"] == pool["dA_dxi"]
+        assert not product.get("sigma_reported_caveat"), pe.key_of(product)
+        expected = math.sqrt(product["sigma_stat"]**2 + product["sigma_syst"]**2 + pool["sigma_xi"]**2)
+        assert product["sigma_reported"] == pytest.approx(expected, abs=1e-6)
+    assert seen == set(measured), "a measured Reference pool has no corresponding product"
+
+
+def test_xi_only_refresh_is_idempotent_and_preserves_measurement(feed):
+    import copy
+    from rya1178_emit_fe_schema import update_xi_budget, xi_band_index
+    product = copy.deepcopy(next(p for p in feed["products"]
+                                 if p.get("tier") == "REFERENCE" and p.get("xi_state") == "MEASURED"))
+    original = copy.deepcopy(product)
+    product["xi_state"] = "NOT_IN_CAMPAIGN"
+    product["sigma_xi"] = None
+    product["sigma_reported_caveat"] = "old missing measurement"
+    idx = {"band": xi_band_index()}
+    update_xi_budget(product, idx)
+    assert product["xi_state"] == "MEASURED"
+    for field in ("A", "n_lines", "sigma_stat", "sigma_syst", "provenance", "code_commit", "generated_at"):
+        assert product[field] == original[field]
+    once = copy.deepcopy(product)
+    update_xi_budget(product, idx)
+    assert product == once
+
+
 def test_the_incomplete_bar_caveat_is_cleared_when_the_term_is_measured(feed):
     """🔴 A DERIVED FIELD MUST BE RE-DERIVED IN BOTH DIRECTIONS.
 
