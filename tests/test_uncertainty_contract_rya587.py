@@ -46,7 +46,7 @@ def test_one_contract_for_current_and_future_elements(element):
     assert uc.publication_problems(p) == []
     assert p["sigma_reported"] == pytest.approx(math.hypot(0.1, 0.05))
     p.pop("uncertainty")
-    assert "UNCERTAINTY_INCOMPLETE" in {r.code for r in pe.evaluate(p)}
+    assert "UNCERTAINTY_INCOMPLETE" in {r.code for r in pe.evaluate(p, require_uncertainty=True)}
 
 
 def test_common_gf_scale_does_not_average_down():
@@ -173,3 +173,27 @@ def test_write_boundary_cannot_republish_incomplete_legacy_record(tmp_path):
     with pytest.raises(uc.UncertaintyError):
         write_feed(path, {"products": [p]})
     assert path.read_text() == "original"
+
+
+def test_existing_legacy_retention_is_not_new_admission(tmp_path):
+    from scripts.publish_product import write_feed
+    p = complete_product()
+    p.pop("uncertainty")
+    path = tmp_path / "feed.json"
+    path.write_text(json.dumps({"products": [p]}))
+    write_feed(path, {"products": [p], "version": "metadata refresh"})
+    retained = path.read_text()
+    assert uc.publication_problems(p)  # retention never certifies completeness
+    changed = dict(p, A=p["A"] + 0.01)
+    with pytest.raises(uc.UncertaintyError):
+        write_feed(path, {"products": [changed]})
+    assert path.read_text() == retained
+    with pytest.raises(uc.UncertaintyError):
+        write_feed(tmp_path / "new.json", {"products": [p]})
+
+
+def test_existing_contract_claim_is_revalidated():
+    p = complete_product()
+    p["sigma_reported"] += 0.1
+    with pytest.raises(uc.UncertaintyError):
+        uc.assert_publication_feed({"products": [p]}, previous={"products": [p]})

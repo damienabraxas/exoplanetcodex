@@ -77,7 +77,11 @@ def write_feed(out: Path, doc: dict) -> None:
     """
     from pipeline import plot_grid
     from pipeline.uncertainty_contract import assert_publication_feed
-    assert_publication_feed(doc)
+    try:
+        previous = json.loads(out.read_text()) if out.exists() else None
+    except (ValueError, OSError):
+        previous = None
+    assert_publication_feed(doc, previous=previous)
     doc["plot_grid"] = plot_grid.build(doc.get("products") or [])
     out.write_text(json.dumps(doc, indent=2) + '\n')
 
@@ -714,7 +718,7 @@ def main() -> int:
     # what makes it look authoritative.
     added, updated, unchanged, refused = [], [], [], []
     for row in list(pending):
-        reasons = pe.evaluate(row)
+        reasons = pe.evaluate(row, require_uncertainty=True)
         if not reasons:
             continue
         k = key_of(row)
