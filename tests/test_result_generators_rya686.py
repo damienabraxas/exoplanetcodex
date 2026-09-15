@@ -39,6 +39,9 @@ ROOT = repo_root()
 # RYA-686. Every entry is a defect or a deliberate hand-authored record, never a
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {
+    # RYA-1213 merge audit: historical aggregation harness was not committed.
+    "rya1217/gate0_post1176/status.json",
+    "rya1217/gate0_post1176/engine_reason_counts.csv",
     "solar_ba_synthesis_rya559.json",
     # RYA-1169: these are deliberately retained audit artifacts from the withdrawn
     # run against the forbidden, uncorrected 1984 Kitt Peak holding.  The corrected
@@ -61,6 +64,11 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    "rya587/fe_integration_status.json",  # reviewed integration checkpoint
+    "rya587/next_element_inputs.json",  # evidence inventory and priority decision
+
+    "rya1217/README.md",  # campaign decision narrative, not a measurement
+
     # RYA-1208, added deliberately. The completed Gerber matrix: every (holding x band x
     # Gerber-treatment) cell as a published product or an N/A carrying the harness's OWN
     # refusal. Prose over the two JSON artifacts beside it, every number reproducible
