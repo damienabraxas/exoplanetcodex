@@ -275,3 +275,5 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-09-15
 
 - **RYA-587** — Review checkpoint: shared uncertainty gate and 13 recovered Reference xi stamps; full budget migration remains open.
+
+- **RYA-587** — Reference xi integration complete in RYA-1213 0835200f; reuse existing Fe evidence and advance to other elements.

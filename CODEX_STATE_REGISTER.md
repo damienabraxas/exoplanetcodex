@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v145** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v147** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -293,9 +293,11 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | component | verdict | value | established by | status | reopen-only-if |
 |---|---|---|---|---|---|
 | Universal publication uncertainty | implementation staged; migration incomplete | Canonical component/covariance gate; 92 legacy live Fe records lack evidence; live feeds unchanged | RYA-587; docs/UNCERTAINTY_CONTRACT.md; data/results/rya587/audit_v1/element_inventory.json | PENDING | Complete product evidence and restore live eligibility before merge |
-| Reference xi ingestion | 13 completed VIS results not yet stamped in Reference branch | Shell recomputation: 64 pools / 60 measured; committed Reference artifact: 51 / 47; old 47 stamps reproduce | RYA-587; data/results/rya587/audit_v1/reference_xi_audit.json; RYA-1213 dbe88e26 | OPEN | Integrate recovered component stamps; full uncertainty still requires remaining evidence |
+| Reference xi ingestion | 13 recovered results integrated on RYA-1213 review branch | 60 measured; four completed two-line pools held; four full-3D N/A; all 160 abundances unchanged; no new synthesis | RYA-587; data/results/rya587/fe_integration_status.json; RYA-1213 0835200f | PENDING | Review PR #543; migrate existing evidence into the universal schema without assuming reruns |
 
 ## Changelog
+
+- **v147** (2026-09-15) — **RYA-587:** recovered Reference xi results integrated in RYA-1213 0835200f; no new Fe runs. Existing Al/Si/CNO inputs indexed for the next stage.
 
 - **v145** (2026-09-15) — **RYA-587 review checkpoint:** shared uncertainty validator staged; recovered 13 completed Reference VIS xi results. Full budget population and live-feed migration remain OPEN; no science sign-off.
 
