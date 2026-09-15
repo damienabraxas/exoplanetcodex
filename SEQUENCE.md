@@ -277,3 +277,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-587** — Review checkpoint: shared uncertainty gate and 13 recovered Reference xi stamps; full budget migration remains open.
 
 - **RYA-587** — Reference xi integration complete in RYA-1213 0835200f; reuse existing Fe evidence and advance to other elements.
+- **RYA-587 / RYA-1213** — Integrated 13 completed VIS xi results; zero Reference NOT_IN_CAMPAIGN entries, no new synthesis.
+
+### 2026-09-15 — RYA-587 merge scope and CNO priority
+
+Canonical covariance API and new/changed-product admission checks land together. Existing legacy products may be retained exactly without certifying completeness; no Fe synthesis was repeated. Per-product migration remains open: CNO with RYA-1220 nitrogen first, followed by Al and Si.
