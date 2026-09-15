@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v150** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v152** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -295,6 +295,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v152** (2026-09-15) — **RYA-1213 integration checks:** repaired inherited result-generator registry drift for Al/Si outputs. Audit declarations moved beside their actual audit paths; historical Al checkpoint aggregation remains explicitly unreproducible because its harness was not committed. No measurement changed or rerun.
 
 - **v150** (2026-09-15) — **RYA-1213 merge reconciliation.** Preserved Al, Si and CNO changes from main; disambiguated duplicate historical v135/v136 entries as v148/v149 with original labels recorded. Recovered Fe outputs remain unchanged.
 
