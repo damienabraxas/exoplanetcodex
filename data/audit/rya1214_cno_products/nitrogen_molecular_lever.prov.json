@@ -1,0 +1,76 @@
+{
+  "ticket": "RYA-1214",
+  "what": "the molecular-opacity lever on the AGSS21 atomic N I set, measured PAIRED",
+  "design": "same 4 lines, same code, same holding, same fitter. ONE variable: `use_molecules` on the red-optical band. Run from a SEPARATE checkout whose only diff from production is that flag, so the lever is the molecules and not code drift \u2014 measuring against the already-published atoms-only number would have measured both (the lesson of 'measure a lever paired, not against the feed').",
+  "result": "-0.174 to -0.228 dex, and the four-line scatter collapses from 0.138-0.244 to 0.030-0.158. Adding real opacity made the lines AGREE, which is the signature of opacity that was genuinely missing rather than a fudge that happened to move the mean.",
+  "interpretation": "~40% of the +0.5 dex offset against AGSS21 is missing CN opacity. The remainder is atomic blend contamination: N I carries 0.9-5.9% of its own fit window against Fe 87%, Si 69%, Ti 88%. Molecules only partly fix a line that is a minority absorber in its own window.",
+  "consequence": "the red-optical band's production config still declares use_molecules: false. Flipping it is a config change with a measured lever behind it, and it would move every red-optical CNO product \u2014 so it is REPORTED here and not done inside this ticket (RYA-832: a published number does not move without a stated cause).",
+  "rows": [
+    {
+      "holding": "solar_iag",
+      "A_atoms_only": 8.351,
+      "A_with_molecules": 8.14,
+      "lever_dex": -0.211,
+      "scatter_with_molecules": NaN,
+      "n_lines": 2,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.36
+    },
+    {
+      "holding": "solar_iag",
+      "A_atoms_only": 8.351,
+      "A_with_molecules": 8.127,
+      "lever_dex": -0.224,
+      "scatter_with_molecules": 0.03,
+      "n_lines": 4,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.347
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "A_atoms_only": 8.287,
+      "A_with_molecules": 8.09,
+      "lever_dex": -0.197,
+      "scatter_with_molecules": NaN,
+      "n_lines": 2,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.31
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "A_atoms_only": 8.287,
+      "A_with_molecules": 8.059,
+      "lever_dex": -0.228,
+      "scatter_with_molecules": 0.069,
+      "n_lines": 4,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.279
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "A_atoms_only": 8.293,
+      "A_with_molecules": 8.213,
+      "lever_dex": -0.08,
+      "scatter_with_molecules": NaN,
+      "n_lines": 2,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.433
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "A_atoms_only": 8.293,
+      "A_with_molecules": 8.119,
+      "lever_dex": -0.174,
+      "scatter_with_molecules": 0.158,
+      "n_lines": 4,
+      "red_chi2_note": "see per-line",
+      "agss21": 7.78,
+      "remaining_offset": 0.339
+    }
+  ]
+}
