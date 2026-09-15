@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v147** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v151** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -292,15 +292,27 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 | component | verdict | value | established by | status | reopen-only-if |
 |---|---|---|---|---|---|
-| Universal publication uncertainty | implementation staged; migration incomplete | Canonical component/covariance gate; 92 legacy live Fe records lack evidence; live feeds unchanged | RYA-587; docs/UNCERTAINTY_CONTRACT.md; data/results/rya587/audit_v1/element_inventory.json | PENDING | Complete product evidence and restore live eligibility before merge |
+| Universal publication uncertainty | framework ready; component migration open | Canonical covariance API; strict new/changed-product admission; legacy retention does not certify completeness | RYA-587; docs/UNCERTAINTY_CONTRACT.md; data/results/rya587/audit_v1/element_inventory.json | PENDING | Map existing component evidence, CNO/N first, then Al/Si; require complete budgets for admission |
 | Reference xi ingestion | 13 recovered results integrated on RYA-1213 review branch | 60 measured; four completed two-line pools held; four full-3D N/A; all 160 abundances unchanged; no new synthesis | RYA-587; data/results/rya587/fe_integration_status.json; RYA-1213 0835200f | PENDING | Review PR #543; migrate existing evidence into the universal schema without assuming reruns |
 
+## RYA-587 / RYA-1213 completed xi integration
+
+| component | verdict | value | established by | status | reopen-only-if |
+|---|---|---|---|---|---|
+| Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
+
 ## Changelog
+
+- **v151** (2026-09-15) — **RYA-587 merge scope:** shared uncertainty API and new/changed-product admission checks ready; exact legacy retention is not contract certification. Fe recovered outputs integrated; component migration remains OPEN. CNO / RYA-1220 nitrogen precedes Al and Si.
 
 - **v147** (2026-09-15) — **RYA-587:** recovered Reference xi results integrated in RYA-1213 0835200f; no new Fe runs. Existing Al/Si/CNO inputs indexed for the next stage.
 
 - **v145** (2026-09-15) — **RYA-587 review checkpoint:** shared uncertainty validator staged; recovered 13 completed Reference VIS xi results. Full budget population and live-feed migration remain OPEN; no science sign-off.
 
+
+- **v150** (2026-09-15) — **RYA-1213 merge reconciliation.** Preserved Al, Si and CNO changes from main; disambiguated duplicate historical v135/v136 entries as v148/v149 with original labels recorded. Recovered Fe outputs remain unchanged.
+
+- **v146** (2026-09-15) — **RYA-587 / RYA-1213:** integrated 13 completed VIS xi results; Reference campaign now 60 measured + four small-N + four full-3D N/A. No new synthesis or abundance changes. Review branch only.
 - **v135** (2026-09-13) — **RYA-1217 post-RYA-1176 Gate 0 refresh.** RYA-1176 is merged and the corrected manifest schema is consumed by the Al eligibility matrix; zero cells carry `RYA1176_MISSING`. Gate 0 remains CLOSED on exact holding/pixel validation, observed conditioning, model applicability, and unresolved RYA-1141 scientific findings; no abundance run was authorized.
 
 - **v136** (2026-09-13) — **RYA-1217 / RYA-1155 coverage reconciliation.** `pipeline.coverage` now reads registered normalized spectrum CSVs directly, the Al builder fills legacy blank reach from that registry, and the census NIR intervals no longer fall through to an outside-reach label. Fresh RYA-1141 QA has `C-lines` and `C-bands` PASS; the overall Gate 0 and measurement gate remain CLOSED on the remaining scientific findings and 708 unestablished conditioning cells.
@@ -317,9 +329,9 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 - **v142** (2026-09-13) — **RYA-1217 identity/line-set reconciliation.** The Al promotion path now uses the shared matcher and refuses ambiguous physical identities; the manifest carries explicit line-set membership. Fresh QA has `A2`, `A2-null`, and `D3` PASS; 22 findings remain and Gate 0 is still CLOSED.
 
-- **v136** (2026-09-13) — **RYA-1219** completed telluric correction for all available CRIRES+ Vesta J and K exposures; eight full-arm products carry non-unity MTRANS, pass D1 residual gates, and are registered as applied/normalised.
+- **v149** (2026-09-13) — **Merge reconciliation: originally duplicated v136; preserved as v149.** **RYA-1219** completed telluric correction for all available CRIRES+ Vesta J and K exposures; eight full-arm products carry non-unity MTRANS, pass D1 residual gates, and are registered as applied/normalised.
 
-- **v135** (2026-09-13) — **RYA-1218** Si preflight checkpoint: corrected Si II source attribution, recorded persistent canonical gaps and unresolved gates; corrected-atlas EW diagnostic reproduced. No abundance promoted; campaign OPEN.
+- **v148** (2026-09-13) — **Merge reconciliation: originally duplicated v135; preserved as v148.** **RYA-1218** Si preflight checkpoint: corrected Si II source attribution, recorded persistent canonical gaps and unresolved gates; corrected-atlas EW diagnostic reproduced. No abundance promoted; campaign OPEN.
 
 - **v144** (2026-09-15) — **RYA-1217 merge reconciliation.** Preserved the Al Gate 0 refresh, species-specific VIS graded products, and the current main-branch C/N/O and Si register updates in one conflict-free ledger.
 

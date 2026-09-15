@@ -1,0 +1,274 @@
+{
+ "ticket": "RYA-1213",
+ "requirement": "Ryan, 2026-09-12: run the same paired xi-perturbation campaign on every Reference Grade pool, same method as RYA-1120. Every Reference product must carry a MEASURED sigma_xi before it is published.",
+ "method_inherited_verbatim_from_RYA_1120": {
+  "perturbation": "CENTRAL difference at xi = 0.90 and 1.10 km/s, XI_STEP_KMS = 0.10",
+  "span_kms": 0.2,
+  "delta_xi_kms": 0.2912,
+  "sigma_xi": "|dA/dxi| * delta_xi \u2014 the slope times the STAR'S UNCERTAINTY, not the step",
+  "derivative": "a PER-LINE PAIRED DIFFERENTIAL through pipeline.paired_differential, NOT a difference of two aggregates. RYA-1120's control measured why: line acceptance itself depends on xi, so the two sides of a pair do not necessarily hold the same lines.",
+  "override": "CODEX_XI_OVERRIDE, the env hook nearuv_synth._xi_override reads",
+  "isolation": "every job writes to its OWN output directory. xi is not in the artifact stem, so two perturbed runs collide and the second wins \u2014 RYA-1099 lost a product exactly that way.",
+  "partial_pairs": "a unit missing either side is UNMEASURED, never half-differenced"
+ },
+ "cost": {
+  "run_units": 31,
+  "jobs": 62,
+  "why_2_per_unit": "a central difference brackets the nominal, so the production run at xi = 1.0 is NOT one of the two sides and cannot be reused",
+  "why_units_not_products": "one derive_band_products invocation emits every treatment for its deck at once, so 51 products collapse to 31 run units",
+  "estimated_core_hours": 141.8,
+  "estimated_wall_hours_at_3_parallel": 47.3,
+  "basis": "per-run wall times MEASURED from this ticket's own production pool on Sirius, per pool size \u2014 not estimated from line count alone",
+  "dominated_by": "VIS Fe I: 12 of 31 units and 105.6 of 141.8 core-hours, because its pool is 176 lines"
+ },
+ "units": [
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 59,
+   "hours_per_run": 1.6
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 59,
+   "hours_per_run": 1.6
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 12,
+   "hours_per_run": 0.6
+  },
+  {
+   "band": "near-UV",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 12,
+   "hours_per_run": 0.6
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 9,
+   "hours_per_run": 0.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 9,
+   "hours_per_run": 0.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe II",
+   "holding": "solar_harps_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 9,
+   "hours_per_run": 0.2
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 70,
+   "hours_per_run": 1.5
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 70,
+   "hours_per_run": 1.5
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "deck": "gerber-1d-lte",
+   "n_pool": 70,
+   "hours_per_run": 1.5
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-nlte",
+   "n_pool": 70,
+   "hours_per_run": 1.7
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-nlte",
+   "n_pool": 70,
+   "hours_per_run": 1.7
+  },
+  {
+   "band": "red-optical",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "deck": "gerber-nlte",
+   "n_pool": 70,
+   "hours_per_run": 1.7
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 24,
+   "hours_per_run": 0.6
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 29,
+   "hours_per_run": 0.7
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "deck": "gerber-1d-lte",
+   "n_pool": 29,
+   "hours_per_run": 0.7
+  },
+  {
+   "band": "NIR",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "deck": "gerber-1d-lte",
+   "n_pool": 5,
+   "hours_per_run": 0.1
+  },
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "deck": "gerber-1d-lte",
+   "n_pool": 25,
+   "hours_per_run": 0.7
+  },
+  {
+   "band": "H",
+   "ion": "Fe I",
+   "holding": "solar_crires_plus_h_rya1094",
+   "deck": "gerber-nlte",
+   "n_pool": 25,
+   "hours_per_run": 0.7
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_harps_molecfit_corrected",
+   "deck": "gerber-1d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "deck": "gerber-1d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.2
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-nlte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-nlte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_harps_molecfit_corrected",
+   "deck": "gerber-nlte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_iag",
+   "deck": "gerber-nlte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-mean3d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "deck": "gerber-mean3d",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-mean3d-lte",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  },
+  {
+   "band": "VIS",
+   "ion": "Fe I",
+   "holding": "solar_kpno_molecfit_corrected",
+   "deck": "gerber-mean3d",
+   "n_pool": 176,
+   "hours_per_run": 4.5
+  }
+ ]
+}
