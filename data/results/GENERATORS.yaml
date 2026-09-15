@@ -7801,3 +7801,173 @@ artifacts:
       RYA-1204's near-disjoint 40-line pool, and the record of the four Fe I products the
       gf-rung guard refused. Hand-authored because it assembles two runs and a prior
       ticket's artifact and states what they mean together.
+
+  # ── RYA-1217 Al VIS Codex Grade products ───────────────────────────────────────────
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
+  - artifact: band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --skip-engine-b
+    ticket: RYA-1217
+    note: >-
+      Sirius synthesis artifact for the two-line Al I Codex Grade VIS pool (6696.023 and
+      6698.673), with species-specific feature-depth grouping and explicit holding provenance.
