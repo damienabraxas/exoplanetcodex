@@ -1,0 +1,37 @@
+{
+  "ticket": "RYA-1214",
+  "what": "the near-UV CNO molecular region: BUILT, RUN, and the result is a negative one",
+  "status": "RUN \u2014 and it must not be published as an abundance",
+  "prediction_made_in_advance": "The region was declared with `UPPER BOUND` on itself and on every diagnostic, because the near-UV synthesis is known to carry LESS opacity than the observation (RYA-1204/1207 measured the molecular lever and concluded it STILL under-corrects; RYA-1189 measured 59 lines/A and 0 of 10 clean side-bands) and a fit compensates missing opacity by RAISING the abundance. The bias DIRECTION was stated before the run.",
+  "result": "Confirmed, and larger than useful. NH A-X gives A(N) = 8.512 (+0.68 vs AGSS21) and OH A-X gives A(O) = 9.745 (+1.06). A bound 1 dex above the reference bounds nothing.",
+  "why_it_is_not_a_measurement": "red_chi2 is 557 (NH) and 1035 (OH) against 17-67 across every VIS diagnostic \u2014 a factor of 15-60. The model does not reproduce the near-UV spectrum, so the location of its chi2 minimum is not an abundance. \u26a0\ufe0f AND THE FIT IS TIGHT AND CONFIDENT: sigma_fit is 0.053 and 0.079, among the SMALLEST in the campaign. Precision without accuracy \u2014 a sharp minimum of an inadequate model (`converged is not correct`).",
+  "the_gate_passed_them_and_that_is_correct": "constraint_gate returned ok/constrained=True for both, because it asks whether the fit was CONSTRAINED, not whether the model was ADEQUATE. Its own docstring names this exact case: 'A fit can find a genuine, sharp minimum of a model that cannot reproduce the data - Fe I 11593.588 sits at A = 10.559 with red_chi2 = 1226 and a real minimum, so the sign test passes it. Those are MODEL-INADEQUATE, equally non-measurements' - and it routes them to problem_children.csv case by case under RYA-844, a human naming each. These two are that case, in the near-UV, and they are named here.",
+  "disposition": "NOT converted into products. A product is a claim, and the claim these would make is false. Recorded as a measured negative result instead, which is what RYA-844 asks for: excluded from the reported pool, documented with its physical cause and its evidence.",
+  "what_would_make_the_near_UV_usable": "closing the opacity deficit, not re-fitting. RYA-1204/1207 is the open thread: molecules were wired into the near-UV and it still under-corrects on 24 of 40 windows.",
+  "carbon_pinned_not_measured": "A(C) = 8.488 entered as a PINNED INPUT from the VIS CH G-band, labelled PINNED_INPUT_NOT_MEASURED. The near-UV has no carbon primary: CH A-X (3870-4320 A) is redward of the 3780 A edge and IS the VIS G-band.",
+  "converged": false,
+  "rows": [
+    {
+      "diagnostic": "NH_AX",
+      "element": "N",
+      "A_X": 8.512,
+      "sigma_fit": 0.053,
+      "red_chi2": 557.1,
+      "agss21": 7.83,
+      "delta": 0.682,
+      "constrained": true,
+      "status": "ok"
+    },
+    {
+      "diagnostic": "OH_AX",
+      "element": "O",
+      "A_X": 9.745,
+      "sigma_fit": 0.079,
+      "red_chi2": 1034.6,
+      "agss21": 8.69,
+      "delta": 1.055,
+      "constrained": true,
+      "status": "ok"
+    }
+  ]
+}

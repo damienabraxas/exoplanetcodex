@@ -1,0 +1,89 @@
+{
+  "abundances": {
+    "C": 8.488,
+    "N": 8.512,
+    "O": 9.745,
+    "C/O": 0.055
+  },
+  "iterations": 5,
+  "converged": false,
+  "flags": [
+    "pinned_not_measured:C=8.488",
+    "co_equilibrium_not_converged"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": null,
+      "sys": 0.0,
+      "tot": null,
+      "stat_state": "UNMEASURED",
+      "stat_note": "the chi2 curvature was not measurable for this element's primary band (railed fit, or an objective with no curvature to invert), so there is no statistical term to report and sigma_tot is withheld. NOT zero and NOT the 1.000 the retired np.clip used to emit (RYA-848/RYA-1214)."
+    },
+    "N": {
+      "stat": 0.053,
+      "sys": 0.041,
+      "stat_state": "MEASURED",
+      "tot": 0.067
+    },
+    "O": {
+      "stat": 0.079,
+      "sys": 0.042,
+      "stat_state": "MEASURED",
+      "tot": 0.09
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "nearuv",
+    "instrument": "kpno_solar_atlas",
+    "R_LSF": 500000.0,
+    "atomic_linelist": "GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353)",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 500000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "NH_AX",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 8.512,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.512,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "OH_AX",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 9.745,
+        "kind": "3d_offset_owed",
+        "a_corr": 9.745,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}
