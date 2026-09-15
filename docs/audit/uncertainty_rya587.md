@@ -1,5 +1,22 @@
 # RYA-587 audit — 2026-09-15
 
+## Current integration status
+
+The 13 recovered VIS results are now integrated on RYA-1213 commit `0835200f`,
+[PR #543](https://github.com/damienabraxas/exoplanetcodex/pull/543). Canonical results
+and the Fe feed both carry 60 measured Reference xi pools; four completed two-line
+pools retain the existing small-N classification and four full-3D products are N/A.
+Zero Reference products remain NOT_IN_CAMPAIGN. All 160 abundances and line counts
+are unchanged; no synthesis was rerun. 123 integration/regression tests pass.
+
+All 160 Fe products have their original source artifacts. Absence of the new
+schema is not absence of a measurement and does not establish a need for reruns.
+The earlier audit below is a historical snapshot, superseded for xi ingestion by
+`data/results/rya587/fe_integration_status.json`. The next stage consumes existing
+Al/Si/CNO outputs, indexed in `data/results/rya587/next_element_inputs.json`.
+
+## Historical pre-integration audit
+
 Baseline main: `40f0e12f`. Reference branch: `dbe88e26`.
 Machine evidence: `data/results/rya587/audit_v1/`.
 
@@ -57,9 +74,9 @@ historical diagnostic row remain unchanged.
 
 Before RYA-587 can be Done:
 
-1. Integrate recovered Reference xi evidence with the unmerged RYA-1213 work.
-2. Establish physical indicator IDs and product-specific ±1σ responses for every
-   required parameter, including nonlinear-response assessment.
+1. **Completed:** integrate recovered Reference xi evidence on RYA-1213 (`0835200f`).
+2. Map physical indicator IDs and existing product-specific perturbation evidence
+   into the schema; assess any genuine gap only after reconciling the existing runs.
 3. Supply line-specific transition covariance and observation/model evidence;
    resolve material missing terms or retain explicit HOLD.
 4. Populate Al/Si/CNO/N budgets after their independent scientific gates permit it.
