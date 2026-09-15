@@ -989,6 +989,8 @@ def main() -> int:
     feed["version"] = _bump(feed["version"])
     feed["updated_at"] = _now()
     feed["schema"] = "codex.element_product/2"
+    from pipeline.uncertainty_contract import assert_publication_feed
+    assert_publication_feed(feed)
     FEED.write_text(json.dumps(feed, indent=2) + "\n")
     print(f"\nwrote {FEED.relative_to(ROOT)} at v{feed['version']} (schema {feed['schema']})")
     return 0

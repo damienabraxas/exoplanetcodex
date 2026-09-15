@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v144** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._ 
+**Version: v145** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -288,7 +288,16 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. RYA-1176 schema is merged; 708 cells still lack observed-conditioning evidence. RYA-1155 coverage plumbing now resolves the three reachable normalized CRIRES+ products and the two census NIR gap intervals. | RYA-1134; `data/results/rya1134/verified_v2/line_holding_matrix.csv`; RYA-1155; RYA-1176; RYA-1217 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
 | Al measurement gate | closed pending validated handoff | Provisional engine validation is authorized by the expanded RYA-1134 scope, but zero runs are currently eligible: 5616 engine/route cells have explicit HOLD or N/A. This checkpoint is not a scientifically frozen pool and does not unblock RYA-1217 Gate 0. | RYA-1134; RYA-1176; `data/results/rya1134/verified_v1/engine_matrix.csv` | OPEN | RYA-1134 review and RYA-1176 propagation land; exact-holding gates pass |
 
+## RYA-587 uncertainty review checkpoint
+
+| component | verdict | value | established by | status | reopen-only-if |
+|---|---|---|---|---|---|
+| Universal publication uncertainty | implementation staged; migration incomplete | Canonical component/covariance gate; 92 legacy live Fe records lack evidence; live feeds unchanged | RYA-587; docs/UNCERTAINTY_CONTRACT.md; data/results/rya587/audit_v1/element_inventory.json | PENDING | Complete product evidence and restore live eligibility before merge |
+| Reference xi ingestion | 13 completed VIS results not yet stamped in Reference branch | Shell recomputation: 64 pools / 60 measured; committed Reference artifact: 51 / 47; old 47 stamps reproduce | RYA-587; data/results/rya587/audit_v1/reference_xi_audit.json; RYA-1213 dbe88e26 | OPEN | Integrate recovered component stamps; full uncertainty still requires remaining evidence |
+
 ## Changelog
+
+- **v145** (2026-09-15) — **RYA-587 review checkpoint:** shared uncertainty validator staged; recovered 13 completed Reference VIS xi results. Full budget population and live-feed migration remain OPEN; no science sign-off.
 
 - **v135** (2026-09-13) — **RYA-1217 post-RYA-1176 Gate 0 refresh.** RYA-1176 is merged and the corrected manifest schema is consumed by the Al eligibility matrix; zero cells carry `RYA1176_MISSING`. Gate 0 remains CLOSED on exact holding/pixel validation, observed conditioning, model applicability, and unresolved RYA-1141 scientific findings; no abundance run was authorized.
 
