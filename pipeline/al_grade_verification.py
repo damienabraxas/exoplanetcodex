@@ -482,7 +482,7 @@ def main():
         n_unique_lines=("canonical_line_id", "nunique")).reset_index()
     files = {name + ".csv": frame.round(10).to_csv(index=False) for name, frame in frames.items()}
     files["summary.json"] = json.dumps(summary, indent=2, sort_keys=True) + "\n"
-    inputs = {str(INTAKE / "al_line_manifest.csv"), str(SOURCE / "burheim_table1_quantities.csv"),
+    inputs = {str(INTAKE / "al_line_manifest.csv"), "data/audit/rya1176_al_manifest/al_line_manifest_v2.csv", str(SOURCE / "burheim_table1_quantities.csv"),
               "data/linelists/linelist_solar.csv", "pipeline/al_grade_verification.py", "pipeline/al_eligibility.py",
               "data/catalog/holdings_manifest_registry.csv", "data/catalog/instrument_catalog.csv",
               "data/catalog/model_registry.csv", "scripts/measure_band_ew.py", "pipeline/gerber_nlte.py",
