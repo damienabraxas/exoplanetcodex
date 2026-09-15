@@ -1,5 +1,11 @@
 # The Element Protocol — what "we have done this element" means
 
+**Universal uncertainty gate (RYA-587):** Every element/indicator/holding/model
+product follows [the canonical uncertainty contract](UNCERTAINTY_CONTRACT.md).
+Missing required component evidence is HOLD, never zero. Element-specific physics
+adds to this contract; it cannot replace it. This also applies to future RYA-709/946
+children and Al, Si, atomic CNO and molecular N campaigns.
+
 **RYA-711.** Ryan, 2026-08-09: *"we create 27 tickets, for each element, and we go through
 each one, and verify, rerun, give it the Al treatment. If it fails, why, and document."*
 

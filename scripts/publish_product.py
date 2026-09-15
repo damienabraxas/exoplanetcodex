@@ -76,6 +76,8 @@ def write_feed(out: Path, doc: dict) -> None:
     real change and that the next publish immediately reverts.
     """
     from pipeline import plot_grid
+    from pipeline.uncertainty_contract import assert_publication_feed
+    assert_publication_feed(doc)
     doc["plot_grid"] = plot_grid.build(doc.get("products") or [])
     out.write_text(json.dumps(doc, indent=2) + '\n')
 
@@ -215,6 +217,21 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
             # next to a genuinely different measurement and read as its duplicate.
             "route": (row_route or route),
         })
+        # JSON columns preserve the canonical budget and the physical pool identity
+        # across every element route, including CNO profile-likelihood products.
+        for field in ("uncertainty", "uncertainty_indicator_ids", "differential_uncertainty"):
+            value = r.get(field)
+            if isinstance(value, str) and value.strip():
+                out[-1][field] = json.loads(value)
+            elif isinstance(value, (dict, list)):
+                out[-1][field] = value
+        reported = r.get("sigma_reported")
+        if reported is not None and not pd.isna(reported):
+            out[-1]["sigma_reported"] = float(reported)
+        for field in ("X_H", "X_Fe", "C_O", "sigma_differential"):
+            value = r.get(field)
+            if value is not None and not pd.isna(value):
+                out[-1][field] = float(value)
     return out
 
 
@@ -649,6 +666,7 @@ def main() -> int:
                 return 7
         for r in rows:
             r["provenance"] = prov
+            r["star"] = a.star
         pending.extend(rows)
 
     element = pending[0]["element"]
@@ -718,7 +736,10 @@ def main() -> int:
             doc["products"].append(row); added.append(k); continue
         cur = doc["products"][by_key[k]]
         same = all(cur.get(f) == row.get(f) for f in ("A", "sigma_stat", "sigma_syst",
-                                                      "n_lines", "n_excluded"))
+                                                      "n_lines", "n_excluded",
+                                                      "uncertainty", "sigma_reported",
+                                                      "uncertainty_indicator_ids", "differential_uncertainty",
+                                                      "X_H", "X_Fe", "C_O", "sigma_differential"))
         if same:
             unchanged.append(k); continue
         if not a.reason:

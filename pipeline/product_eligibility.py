@@ -350,6 +350,13 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
 
     out: list = []
 
+    # RYA-587 is element/product agnostic: a numeric sigma_syst cannot establish
+    # completeness. Keep every legacy reason alongside this missing-evidence gate.
+    from pipeline.uncertainty_contract import publication_problems
+    uncertainty_problems = publication_problems(product)
+    out.extend(Ineligible("UNCERTAINTY_INCOMPLETE", detail)
+               for detail in uncertainty_problems)
+
     holding = str(product.get("holding") or "")
     if not holding:
         raise EligibilityError(
@@ -394,7 +401,7 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
             f"route {product.get('route')!r} is not in STAT_BASIS_BY_ROUTE, so what its "
             f"sigma_stat MEANS is unrecorded. An uncertainty whose definition is unknown "
             f"must not render beside ones whose is."))
-    elif basis != _MAJORITY_STAT_BASIS:
+    elif basis != _MAJORITY_STAT_BASIS and uncertainty_problems:
         out.append(Ineligible(
             "STAT_BASIS_MISMATCH",
             f"sigma_stat here is a {basis!r} ({product.get('route')} route, "

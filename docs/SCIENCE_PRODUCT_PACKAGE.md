@@ -151,3 +151,7 @@ The SPP is the star-specific narrative and data. Everything general lives in the
 ## Change control for this framework doc
 
 This document itself is subject to normal RYA-179-style discipline. Changes to the framework require a ticket, a PR, and a register bump. When the framework evolves, existing released SPPs are NOT retrofitted — they released under the framework in effect at their release date. A new SPP framework version applies only to SPPs released after it. This preserves the peer-review record.
+
+## Publication uncertainty evidence — RYA-587
+
+Every abundance product must satisfy the [canonical uncertainty contract](UNCERTAINTY_CONTRACT.md), including component provenance/applicability and covariance. Target differentials retain both absolute and matched-reference budgets. Missing material terms keep the product HOLD.
