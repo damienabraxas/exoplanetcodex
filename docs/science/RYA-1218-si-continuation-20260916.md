@@ -67,6 +67,14 @@ matched-pool comparisons. The recovery manifest records source checkout and
 artifact hashes. `scripts/audit_si_evidence_rya1218.py --out <new-dir>` refuses
 existing output directories.
 
+The follow-up uncertainty audit is in
+`data/results/rya1218/uncertainty_audit_20260916_v2/`. It covers 31 product rows
+and 157 accepted line measurements. Diagnostic scatter/SE values are available,
+but all 16 RYA-587 components remain HOLD: the same physical line pool is not
+yet certified independent, transition-data covariance is absent, and no exact
+pool stellar-parameter, continuum, telluric, blend, or model response has been
+validated. Therefore the audit admits zero products and reports no total sigma.
+
 ## Next work
 
 1. Finish the CRIRES Y/H/J/K uncertainty admission and attach the all-band run hashes.

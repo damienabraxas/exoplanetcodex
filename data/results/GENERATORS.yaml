@@ -12358,6 +12358,26 @@ artifacts:
     status: UNREPRODUCIBLE
     ticket: RYA-1218
     note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/uncertainty_audit_20260916/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916
+    ticket: RYA-1218
+    note: Read-only RYA-587 component audit over Si products; no total uncertainty or product admission.
+  - artifact: rya1218/uncertainty_audit_20260916/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916
+    ticket: RYA-1218
+    note: Per-product scatter and SE diagnostics; estimator and independence remain HOLD.
+  - artifact: rya1218/uncertainty_audit_20260916_v2/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916_v2
+    ticket: RYA-1218
+    note: Corrected read-only RYA-587 component audit with treatment-specific line pairing; no total uncertainty or product admission.
+  - artifact: rya1218/uncertainty_audit_20260916_v2/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916_v2
+    ticket: RYA-1218
+    note: Corrected per-product scatter and SE diagnostics; estimator and independence remain HOLD.
   - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_budgets.txt
     generator: null
     status: UNREPRODUCIBLE

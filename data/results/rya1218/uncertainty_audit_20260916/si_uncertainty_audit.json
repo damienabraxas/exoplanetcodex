@@ -1,0 +1,510 @@
+{
+  "ticket": "RYA-1218",
+  "uncertainty_contract": "RYA-587",
+  "scope": "Si I production VIS and CRIRES+ synthesis products",
+  "products": [
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.613,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0673,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.09524149800670932,
+      "scatter_sem_dex": 0.0673459090909092,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.586,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0526,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.13927721585795297,
+      "scatter_sem_dex": 0.052641839493943576,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.586,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0526,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.658,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0458,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.0648359064156883,
+      "scatter_sem_dex": 0.045845909090909576,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.625,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0281,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07422424196472537,
+      "scatter_sem_dex": 0.02805412649870679,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.625,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0281,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.663,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0503,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07119986744636683,
+      "scatter_sem_dex": 0.050345909090909295,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.657,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0284,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07515286009828497,
+      "scatter_sem_dex": 0.028405111162184457,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.657,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0284,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.192,
+      "n_lines": 12,
+      "n_excluded": 4,
+      "reported_stat_dex": 0.1838,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": 0.6365374849111165,
+      "scatter_sem_dex": 0.18375254413136025,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 12
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.192,
+      "n_lines": 12,
+      "n_excluded": 4,
+      "reported_stat_dex": 0.1838,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": null,
+      "n_lines": 0,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.01,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_products.csv",
+      "treatment": "1D-LTE",
+      "A": null,
+      "n_lines": 0,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.01,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.462,
+      "n_lines": 6,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.1104,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": 0.2705310826257615,
+      "scatter_sem_dex": 0.1104438519993052,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 6
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.462,
+      "n_lines": 6,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.1104,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.484,
+      "n_lines": 11,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0625,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": 0.20733503848075985,
+      "scatter_sem_dex": 0.06251386623041626,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 11
+    },
+    {
+      "artifact": "data/results/rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.484,
+      "n_lines": 11,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0625,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.613,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0673,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.09524149800670932,
+      "scatter_sem_dex": 0.0673459090909092,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.586,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0526,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.13927721585795297,
+      "scatter_sem_dex": 0.052641839493943576,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.586,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0526,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.658,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0458,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.0648359064156883,
+      "scatter_sem_dex": 0.045845909090909576,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.625,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0281,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07422424196472537,
+      "scatter_sem_dex": 0.02805412649870679,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.625,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0281,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.562,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.01,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.618,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.01,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.578,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.01,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "treatment": "ENGINE-A",
+      "A": 7.663,
+      "n_lines": 2,
+      "n_excluded": 5,
+      "reported_stat_dex": 0.0503,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07119986744636683,
+      "scatter_sem_dex": 0.050345909090909295,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 2
+    },
+    {
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "treatment": "ENGINE-B",
+      "A": 7.657,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0284,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": 0.07515286009828497,
+      "scatter_sem_dex": 0.028405111162184457,
+      "measurement_state": "HOLD_estimator_or_independence",
+      "accepted_line_count": 7
+    },
+    {
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.657,
+      "n_lines": 7,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.0284,
+      "reported_syst_dex": 0.17,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/si_synthesis/SiI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.471,
+      "n_lines": 3,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.1279,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    },
+    {
+      "artifact": "data/results/rya1218/si_synthesis/SiI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "treatment": "1D-LTE",
+      "A": 7.593,
+      "n_lines": 3,
+      "n_excluded": 0,
+      "reported_stat_dex": 0.098,
+      "reported_syst_dex": 0.1726,
+      "line_scatter_dex": null,
+      "scatter_sem_dex": null,
+      "measurement_state": "HOLD_single_or_empty_pool",
+      "accepted_line_count": 0
+    }
+  ],
+  "components": [
+    {
+      "name": "measurement",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "transition_data",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "stellar.teff",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "stellar.logg",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "stellar.xi",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "stellar.metallicity",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "continuum",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "profile_ew",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "pseudo_continuum",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "telluric",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "holding_instrument",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "nlte",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "model_atmosphere",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "hfs_isotopes",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "blends",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    },
+    {
+      "name": "molecular_coupling",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Exact-pool evidence or covariance not supplied."
+    }
+  ],
+  "admitted_products": 0,
+  "disposition": "No total uncertainty is reported; numeric scatter/SE fields are diagnostics only."
+}
