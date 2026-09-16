@@ -62,15 +62,26 @@ def test_two_products_differing_ONLY_in_line_set_get_distinct_keys(doc):
     #: the test reported a collision that does not exist (the live feed has 70 products
     #: and 70 distinct keys). A replication is identified by STORING `line_set`; our own
     #: products derive it from `tier` and never store it (RYA-1111).
+    #: ⚠️ RYA-1213 — A THIRD LINE SET NOW SHARES THESE CELLS, so the axis value is
+    #: DERIVED from each product's own tier rather than asserted to be `our-graded`.
+    #: The Amarsi leg now runs on the full laboratory pool too (tier REFERENCE ->
+    #: `reference`, 101 in-domain lines of 176), and hard-coding the expected suffix
+    #: would have made this test assert that the only non-replication Amarsi pool is the
+    #: Codex one — which stopped being true the moment a third pool was measured on the
+    #: same engine. The PROPERTY is unchanged: a replication and one of ours on the same
+    #: cell must not collide.
     amarsi = [p for p in doc["products"]
               if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")]
-    assert amarsi, "the our-graded Amarsi products should be live"
+    assert amarsi, "the non-replication Amarsi products should be live"
+    assert {rls.line_set_for_product(p) for p in amarsi} == {"our-graded", "reference"}, (
+        "the Amarsi engine now runs on two pools of ours — Codex and the full "
+        "laboratory Reference pool; if that set changes, say which pool appeared")
     for ours in amarsi:
         replication = dict(ours, line_set="asplund")
         assert pe.key_of(ours) != pe.key_of(replication), (
             f"{ours['holding']}: the Asplund replication still collides with the "
-            f"our-graded leg")
-        assert pe.key_of(ours).endswith("|our-graded")
+            f"{rls.line_set_for_product(ours)} leg")
+        assert pe.key_of(ours).endswith("|" + rls.line_set_for_product(ours))
         assert pe.key_of(replication).endswith("|asplund")
 
 
@@ -244,9 +255,20 @@ def test_the_audits_split_detection_is_NOT_vacuous():
     (d / "Fe.json").write_text(_json.dumps(staged, indent=2))
 
     r = aud.audit_feed(d / "Fe.json")
-    assert len(r["splits"]) == len(amarsi) == 4, r["splits"]
+    #: ⚠️ RYA-1213 — `len(amarsi)` IS THE PIN, AND THE LITERAL 4 WAS NOT. The stage
+    #: clones every non-replication Amarsi product, so the number of splits it creates IS
+    #: the number of such products. That was 4 while the Codex pool was the only one of
+    #: ours on this engine; the Reference pool makes it 7. Pinning both against each other
+    #: keeps the detector honest — it must find one split per staged clone and no more —
+    #: without asserting a count that moves whenever a new pool is measured. `>= 4` floors
+    #: it so the stage cannot quietly shrink to nothing.
+    assert len(r["splits"]) == len(amarsi) >= 4, r["splits"]
     for s in r["splits"]:
-        assert s["line_sets"] == ["asplund", "our-graded"]
+        #: the clone always stores `asplund`; the live row derives ITS OWN axis, which is
+        #: `our-graded` for the Codex pool and `reference` for the full laboratory one.
+        assert s["line_sets"][0] == "asplund"
+        assert s["line_sets"][1] in ("our-graded", "reference"), s["line_sets"]
+        assert s["explained_by_line_set"] is True
     assert r["merges"] == []
     assert r["unresolved"] == []
 
