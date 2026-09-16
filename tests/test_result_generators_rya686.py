@@ -39,6 +39,9 @@ ROOT = repo_root()
 # RYA-686. Every entry is a defect or a deliberate hand-authored record, never a
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {
+    # RYA-1213 merge audit: historical aggregation harness was not committed.
+    "rya1217/gate0_post1176/status.json",
+    "rya1217/gate0_post1176/engine_reason_counts.csv",
     "solar_ba_synthesis_rya559.json",
     # RYA-1169: these are deliberately retained audit artifacts from the withdrawn
     # run against the forbidden, uncorrected 1984 Kitt Peak holding.  The corrected
@@ -61,6 +64,10 @@ FROZEN_UNREPRODUCIBLE = {
     "band_products/rya817.csv",
 }
 FROZEN_HAND_AUTHORED = {
+    "rya1134/README.md",  # inherited source-adjudication decision narrative
+
+    "rya1217/README.md",  # campaign decision narrative, not a measurement
+
     # RYA-1208, added deliberately. The completed Gerber matrix: every (holding x band x
     # Gerber-treatment) cell as a published product or an N/A carrying the harness's OWN
     # refusal. Prose over the two JSON artifacts beside it, every number reproducible
@@ -89,6 +96,15 @@ FROZEN_HAND_AUTHORED = {
     # RYA-1169: human-readable withdrawal notice attached to the two frozen invalid
     # outputs above. Its manifest sources point back to those exact audit artifacts.
     "rya1169/_quarantined_raw1984_iag_run/QUARANTINED.md",
+    # RYA-1213, added deliberately. Reading instructions for a directory that is
+    # deliberately NOT in the feed — the solar_iag NIR Fe I Codex cell re-measured on
+    # the guarded pool, because the live row predates RYA-1191's fit_validity guard and
+    # its aggregate carries four non-convergent fits. The twelve ARTIFACTS there all
+    # carry their generator and invocation; only this file cannot, because "why these
+    # numbers are held rather than published" is a decision, not a program's output.
+    # Inventing a generator for it would be the fabrication this manifest exists to
+    # prevent.
+    "rya1213_iag_nir_regraded/README.md",
     # RYA-939, added deliberately when the guard was extended to data/processed/.
     # Gaia-ESO Survey pre-stored solar EWs, transcribed under RYA-196. It has no
     # generator because no code in this repo produced the numbers -- inventing one
