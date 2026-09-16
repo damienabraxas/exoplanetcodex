@@ -35,6 +35,23 @@ products, so they are not independent engine corroboration. The two-line
 Engine-A subset differs from 1D-LTE by −0.0158 dex on the matched lines, but its
 pool is incomplete and cannot establish a full route correction.
 
+## Production Si I abundance synthesis
+
+The follow-up native-Linux production run used the same eight-line EW attempt ledger
+per corrected holding and the controlled synthesis route. Si II 6371.371 A is reported
+as NOT-IN-SYNTH-LINELIST in this Si I route, as expected. Seven Si I lines were
+accepted in each holding:
+
+| Holding | A(Si I), 1D-LTE | line scatter | Engine-A |
+|---|---:|---:|---:|
+| HARPS corrected | 7.586 | 0.0526 dex | 7.613 (n=2) |
+| IAG | 7.625 | 0.0281 dex | 7.658 (n=2) |
+| Kitt Peak corrected | 7.657 | 0.0284 dex | 7.663 (n=2) |
+
+These are production synthesis measurements, but they remain diagnostic under
+RYA-587: the source gf ladder is still ungraded for Si I, Engine-A serves only two
+lines, and the complete covariance/uncertainty budget has not been admitted.
+
 ## Uncertainty disposition
 
 `pipeline/si_evidence.py` maps each recovered product into the canonical RYA-587
@@ -52,7 +69,7 @@ existing output directories.
 
 ## Next work
 
-1. Finish the Si II controlled synthesis outputs and attach their hashes.
+1. Finish the Si II uncertainty admission and attach the production Si I run hashes.
 2. Build exact-pool profile-likelihood or independent-line uncertainty evidence,
    including Teff/logg/ξ/metallicity responses and covariance.
 3. Reconcile the 0.100-dex Si I source-scale offset against the primary lab and

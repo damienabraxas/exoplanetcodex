@@ -1,0 +1,17 @@
+{
+  "ticket": "RYA-1218",
+  "run_type": "production Si I abundance synthesis",
+  "source": "data/results/rya1218/si_multiholding_ew/si_multiholding_ew_per_line.csv filtered to corrected holdings",
+  "engine": "native Sirius venv312 + Turbospectrum",
+  "commands": {
+    "harps": "derive_band_products.py --element Si --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew harps_ew.csv --force-synthesis",
+    "iag": "derive_band_products.py --element Si --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --lines-from-ew iag_ew.csv --force-synthesis",
+    "kpno": "derive_band_products.py --element Si --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-from-ew kpno_ew.csv --force-synthesis"
+  },
+  "results": {
+    "harps": {"A_1d_lte": 7.586, "n_lines": 7, "stat_dex": 0.0526, "engine_a": 7.613},
+    "iag": {"A_1d_lte": 7.625, "n_lines": 7, "stat_dex": 0.0281, "engine_a": 7.658},
+    "kpno": {"A_1d_lte": 7.657, "n_lines": 7, "stat_dex": 0.0284, "engine_a": 7.663}
+  },
+  "disposition": "Diagnostic production outputs; RYA-587 uncertainty admission remains HOLD pending covariance and complete model/source adjudication."
+}
