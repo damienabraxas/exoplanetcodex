@@ -1080,6 +1080,8 @@ def main() -> int:
     feed["version"] = _bump(feed["version"])
     feed["updated_at"] = _now()
     feed["schema"] = "codex.element_product/2"
+    from pipeline.uncertainty_contract import assert_publication_feed
+    assert_publication_feed(feed, previous=json.loads(FEED.read_text()))
     from pipeline import plot_grid
     feed["plot_grid"] = plot_grid.build(feed["products"])
     FEED.write_text(json.dumps(feed, indent=2) + "\n")

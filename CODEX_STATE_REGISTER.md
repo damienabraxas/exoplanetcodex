@@ -288,6 +288,13 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Al IR intake | exact-holding validation held | All 13 registered Solar holdings represented; catalog range is distinguished from unverified pixel coverage, telluric application from exact-window verification, and normalization from observed conditioning. RYA-1176 schema is merged; 708 cells still lack observed-conditioning evidence. RYA-1155 coverage plumbing now resolves the three reachable normalized CRIRES+ products and the two census NIR gap intervals. | RYA-1134; `data/results/rya1134/verified_v2/line_holding_matrix.csv`; RYA-1155; RYA-1176; RYA-1217 | OPEN | exact-holding intake and applicable telluric/conditioning gates pass |
 | Al measurement gate | closed pending validated handoff | Provisional engine validation is authorized by the expanded RYA-1134 scope, but zero runs are currently eligible: 5616 engine/route cells have explicit HOLD or N/A. This checkpoint is not a scientifically frozen pool and does not unblock RYA-1217 Gate 0. | RYA-1134; RYA-1176; `data/results/rya1134/verified_v1/engine_matrix.csv` | OPEN | RYA-1134 review and RYA-1176 propagation land; exact-holding gates pass |
 
+## RYA-587 uncertainty review checkpoint
+
+| component | verdict | value | established by | status | reopen-only-if |
+|---|---|---|---|---|---|
+| Universal publication uncertainty | framework ready; component migration open | Canonical covariance API; strict new/changed-product admission; legacy retention does not certify completeness | RYA-587; docs/UNCERTAINTY_CONTRACT.md; data/results/rya587/audit_v1/element_inventory.json | PENDING | Map existing component evidence, CNO/N first, then Al/Si; require complete budgets for admission |
+| Reference xi ingestion | 13 recovered results integrated on RYA-1213 review branch | 60 measured; four completed two-line pools held; four full-3D N/A; all 160 abundances unchanged; no new synthesis | RYA-587; data/results/rya587/fe_integration_status.json; RYA-1213 0835200f | PENDING | Review PR #543; migrate existing evidence into the universal schema without assuming reruns |
+
 ## RYA-587 / RYA-1213 completed xi integration
 
 | component | verdict | value | established by | status | reopen-only-if |
@@ -297,6 +304,13 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 ## Changelog
 
 - **v152** (2026-09-15) — **RYA-1213 integration checks:** repaired inherited result-generator registry drift for Al/Si outputs. Audit declarations moved beside their actual audit paths; historical Al checkpoint aggregation remains explicitly unreproducible because its harness was not committed. No measurement changed or rerun.
+
+- **v151** (2026-09-15) — **RYA-587 merge scope:** shared uncertainty API and new/changed-product admission checks ready; exact legacy retention is not contract certification. Fe recovered outputs integrated; component migration remains OPEN. CNO / RYA-1220 nitrogen precedes Al and Si.
+
+- **v147** (2026-09-15) — **RYA-587:** recovered Reference xi results integrated in RYA-1213 0835200f; no new Fe runs. Existing Al/Si/CNO inputs indexed for the next stage.
+
+- **v145** (2026-09-15) — **RYA-587 review checkpoint:** shared uncertainty validator staged; recovered 13 completed Reference VIS xi results. Full budget population and live-feed migration remain OPEN; no science sign-off.
+
 
 - **v150** (2026-09-15) — **RYA-1213 merge reconciliation.** Preserved Al, Si and CNO changes from main; disambiguated duplicate historical v135/v136 entries as v148/v149 with original labels recorded. Recovered Fe outputs remain unchanged.
 

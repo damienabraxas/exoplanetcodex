@@ -1,0 +1,2110 @@
+{
+  "ticket": "RYA-587",
+  "base_sha": "40f0e12f045fa9d2e023c71865239c3bc7dda973",
+  "legacy_artifact_sha256": "b18e4a941efb3f1b7e9b46e2dfbd81e358f6606367693674fbf1a33a65d78944",
+  "legacy_fe_rows": [
+    {
+      "element": "Fe",
+      "ion": "I",
+      "n_lines": 62,
+      "A_X_mean": 7.466,
+      "raw_sigma": 0.1398,
+      "sigma_SE": 0.0178,
+      "sigma_B_Teff": 0.0007,
+      "sigma_B_logg": 0.0,
+      "sigma_B_vmic": 0.0699,
+      "sigma_B_FeH": 0.0,
+      "dA_dTeff_per100K": 0.0665,
+      "dA_dvmic_per_kms": -0.24,
+      "sigma_solar": 0.0721,
+      "sigma_reported": 0.0721,
+      "flags": ""
+    }
+  ],
+  "per_element": [
+    {
+      "element": "Al",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Ba",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "Ba",
+          "ion": "I",
+          "n_lines": 1,
+          "A_X_mean": 2.237,
+          "raw_sigma": 0.016,
+          "sigma_SE": 0.016,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.016,
+          "sigma_reported": 0.016,
+          "flags": "n_lines_low"
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "C",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "C",
+          "ion": "I",
+          "n_lines": 5,
+          "A_X_mean": 8.491,
+          "raw_sigma": 0.054,
+          "sigma_SE": 0.0241,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0241,
+          "sigma_reported": 0.0241,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Ca",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Co",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "Co",
+          "ion": "I",
+          "n_lines": 5,
+          "A_X_mean": 4.96,
+          "raw_sigma": 0.063,
+          "sigma_SE": 0.0282,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0282,
+          "sigma_reported": 0.0282,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Cr",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Cu",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "Cu",
+          "ion": "I",
+          "n_lines": 5,
+          "A_X_mean": 4.345,
+          "raw_sigma": 0.139,
+          "sigma_SE": 0.0622,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0622,
+          "sigma_reported": 0.0622,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Eu",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Fe",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "Fe",
+          "ion": "I",
+          "n_lines": 62,
+          "A_X_mean": 7.466,
+          "raw_sigma": 0.1398,
+          "sigma_SE": 0.0178,
+          "sigma_B_Teff": 0.0007,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0699,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": 0.0665,
+          "dA_dvmic_per_kms": -0.24,
+          "sigma_solar": 0.0721,
+          "sigma_reported": 0.0721,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 92,
+      "product_audit": [
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "II",
+            "band": "near-UV",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "H",
+            "holding": "solar_crires_plus_h_rya1094",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "H",
+            "holding": "solar_crires_plus_h_rya1094",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "H",
+            "holding": "solar_crires_plus_h_rya1094",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_crires_plus_y_wide_rya1054",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "NIR",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "ALL",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-B"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_harps_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "ALL",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "ALL",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-B"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-mean3D-LTE-gerber-stagger"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-mean3D-NLTE-gerber-stagger"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "ALL",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "PROFILEFIT",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A-3DNLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-mean3D-LTE-gerber-stagger"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "VIS",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-mean3D-NLTE-gerber-stagger"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "near-UV",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "near-UV",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "near-UV",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "near-UV",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "DEEPGRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_iag",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_kurucz2005_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "1D-LTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-A"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "ENGINE-B-NLTE"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        },
+        {
+          "product": {
+            "ion": "I",
+            "band": "red-optical",
+            "holding": "solar_kpno_molecfit_corrected",
+            "tier": "GRADED",
+            "route": "SYNTH",
+            "treatment": "synth-1D-LTE-gerber"
+          },
+          "problems": [
+            "star: provenance is required"
+          ]
+        }
+      ],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "K",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Li",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Mg",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Mn",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "Mn",
+          "ion": "I",
+          "n_lines": 3,
+          "A_X_mean": 5.466,
+          "raw_sigma": 0.154,
+          "sigma_SE": 0.0889,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0889,
+          "sigma_reported": 0.0889,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "N",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "N",
+          "ion": "I",
+          "n_lines": 3,
+          "A_X_mean": 8.188,
+          "raw_sigma": 0.033,
+          "sigma_SE": 0.0191,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0191,
+          "sigma_reported": 0.0191,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Na",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Ni",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "O",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "O",
+          "ion": "I",
+          "n_lines": 3,
+          "A_X_mean": 8.735,
+          "raw_sigma": 0.01,
+          "sigma_SE": 0.0058,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0058,
+          "sigma_reported": 0.0058,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "P",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "S",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "S",
+          "ion": "I",
+          "n_lines": 2,
+          "A_X_mean": 7.486,
+          "raw_sigma": 0.045,
+          "sigma_SE": 0.0318,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": 0.0,
+          "dA_dvmic_per_kms": 0.0,
+          "sigma_solar": 0.0318,
+          "sigma_reported": 0.0318,
+          "flags": "n_lines_low"
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Sc",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Si",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Sr",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Ti",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "V",
+      "legacy_diagnostic_rows": [
+        {
+          "element": "V",
+          "ion": "I",
+          "n_lines": 6,
+          "A_X_mean": 3.917,
+          "raw_sigma": 0.029,
+          "sigma_SE": 0.0118,
+          "sigma_B_Teff": 0.0,
+          "sigma_B_logg": 0.0,
+          "sigma_B_vmic": 0.0,
+          "sigma_B_FeH": 0.0,
+          "dA_dTeff_per100K": null,
+          "dA_dvmic_per_kms": null,
+          "sigma_solar": 0.0118,
+          "sigma_reported": 0.0118,
+          "flags": ""
+        }
+      ],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Y",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    },
+    {
+      "element": "Zr",
+      "legacy_diagnostic_rows": [],
+      "live_product_count": 0,
+      "product_audit": [],
+      "canonical_complete_products": 0,
+      "state": "HOLD",
+      "reason": "No complete canonical component evidence supplied",
+      "required_components": [
+        "measurement",
+        "transition_data",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ]
+    }
+  ],
+  "complete_budget_before": [],
+  "complete_budget_after": [],
+  "complete_budget_basis": "New full RYA-587 publication contract; historical Fe-only recipe is narrower",
+  "reconciliation_module_exists": false,
+  "legacy_warning": "Zero Type-B entries with absent derivatives are not proof of measured zero; preserved as historical diagnostics only"
+}

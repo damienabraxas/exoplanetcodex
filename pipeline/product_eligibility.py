@@ -340,7 +340,7 @@ def _artifact_mtime(product: dict) -> str | None:
     return (product.get("provenance") or {}).get("artifact_mtime")
 
 
-def evaluate(product: dict, *, peers: list | None = None) -> tuple:
+def evaluate(product: dict, *, peers: list | None = None, require_uncertainty: bool = False) -> tuple:
     """Every reason this product may not be live. Empty tuple == eligible.
 
     `peers` are the other products in its peer group (excluding itself); pass them to
@@ -349,6 +349,14 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
     from pipeline import telluric_display_policy as tdp
 
     out: list = []
+
+    # Legacy eligibility audits retain their original meaning. Admission requires
+    # the new contract; a record claiming that contract is always checked.
+    from pipeline.uncertainty_contract import publication_problems
+    uncertainty_problems = publication_problems(product)
+    if require_uncertainty or "uncertainty" in product:
+        out.extend(Ineligible("UNCERTAINTY_INCOMPLETE", detail)
+                   for detail in uncertainty_problems)
 
     holding = str(product.get("holding") or "")
     if not holding:
@@ -394,7 +402,7 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
             f"route {product.get('route')!r} is not in STAT_BASIS_BY_ROUTE, so what its "
             f"sigma_stat MEANS is unrecorded. An uncertainty whose definition is unknown "
             f"must not render beside ones whose is."))
-    elif basis != _MAJORITY_STAT_BASIS:
+    elif basis != _MAJORITY_STAT_BASIS and uncertainty_problems:
         out.append(Ineligible(
             "STAT_BASIS_MISMATCH",
             f"sigma_stat here is a {basis!r} ({product.get('route')} route, "
