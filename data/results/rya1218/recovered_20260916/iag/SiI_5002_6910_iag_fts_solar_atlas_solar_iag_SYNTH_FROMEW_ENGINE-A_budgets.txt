@@ -1,0 +1,10 @@
+Si · VIS · n=2
+  statistical  0.0458 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.04585 dex at n_lines=2
+  systematic   0.1700 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not. 🔴 NOT PUBLISHABLE (RYA-1212): this is a placeholder for an unmeasured gf quality, not a measurement of one — resolve the pool via cited lab sigmas, a NIST grade, or RYA-968's per-line empirical grading
+    0.0458  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  stellar parameters       [SYSTEMATIC] NOT MEASURED for this product: no perturb-and-re-derive has been run on this pool (RYA-282 §2). dA/dp is a property of the LINE SET (RYA-1093), so no element-level number may stand in for it.
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): no primary-laboratory gf table exists for Si I — the graded ladder covers ['Al I', 'Fe I', 'Fe II'], and grading Si I through it would referee it against another species' lab rows on wavelength and EP alone

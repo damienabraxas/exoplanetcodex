@@ -1,0 +1,236 @@
+{
+  "ticket": "RYA-1218",
+  "retrieved_date": "2026-09-16",
+  "source_checkout": "2aed5ba3b89ad21f00c517a0539deaec6f88118c",
+  "source_generator_sha256": "2a4c9b939329bb7943b3083b27589d2960739782b170b39388f77dd6fd16953a",
+  "source_canonical_sha256": "7dfb4fc15caec73d7b76d2709be1936ac4790964e6cc73007549adbafd08cb46",
+  "source_snapshot": "original_si_atomic_snapshot.csv",
+  "provenance_limit": "Checkout and generator/canonical hashes verified on retrieval. No sealed run-time input manifest exists; original checkout has unrelated dirty files. Do not claim reconstructed metadata was recorded at execution.",
+  "artifacts": [
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "sha256": "8a3c94d57bafeeb5378821523b5316345ae949ba62cc88a1dfced4a26706c2bd"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt",
+      "sha256": "19ef9c32c38e1daee7e10cc0c8892883f52cd8dbc04454b413185aeabe31743c"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "sha256": "1238831767b6a8a5d1caca203822ac0f90f060287cfb6dd68ffdc4555e38abfa"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "sha256": "86b6440ed29612de30e3e64c9f01b0d2a395a4f00c58104b2160fffeace9f37c"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt",
+      "sha256": "8b383f6397fbfae8b4703c62f1335c19aa670101e1afeae14c0b772d5b1c56cb"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt",
+      "sha256": "51bca3d3d685b02860603be40a994727c185b48e680a74a12bb5dcab02c7bc19"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "sha256": "ee9aa6fe50a21425c15794936c6afa6b9e6f329cbefbea7b961f65fe4d531d43"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "sha256": "d86f4a7a8618f3b1e5dde5f5ae43349edcb32450c08abd77886ee2b4ee1c1548"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt",
+      "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "sha256": "51bca3d3d685b02860603be40a994727c185b48e680a74a12bb5dcab02c7bc19"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "sha256": "f04ae431adbd21ab3e308ee15b0dc0e8468bea8661b4adaf524adf8f548c7e5a"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_harps_vis_synth/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "sha256": "7d92821781d55dfecb10879a2d6674cb5af7a17c48ffa354eb97ea093e3b9c0e"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "sha256": "462409d68bf6a95ac7c93d0e32c9c5730c173b32ace4ce8222423ac49d727d59"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt",
+      "sha256": "7f28d320319578ed65edb221ce0bb6d3919e0bba2a6d2c644a27fd136c054049"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "sha256": "32f0809cbefed9dd8f4c12c96431cf578d693c28cdef2eadaa0a8b51c929e058"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "sha256": "a6a7f212d1287101e2bf8c92e6ba87328ef585b54f6479b1aca50513d880b6e5"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt",
+      "sha256": "8b383f6397fbfae8b4703c62f1335c19aa670101e1afeae14c0b772d5b1c56cb"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt",
+      "sha256": "842c4ca7c33859751ec457fe0f817bae4f23ad4a46584058e0c8f06dda2f9a56"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "sha256": "a148e23fab9f0f59b4232981e052a87742e37b52fc39d1ce7137808782fcf729"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "sha256": "4ed8c332272f543e35bb3c3697916b8a48fb2e2b0c4201a1ac34708a6deed8ce"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt",
+      "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt",
+      "sha256": "842c4ca7c33859751ec457fe0f817bae4f23ad4a46584058e0c8f06dda2f9a56"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "sha256": "5a768a0da11f2d7404bd7a5ea59ceb1fddd83325af085aa5a44dab1c058622c9"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/results/rya1218_si_reference_iag_vis_synth/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt",
+      "sha256": "a3ad6e66885da452844d619d65adb93ce6ff6da8d4350fe4169c100f56bac5a1"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv",
+      "sha256": "87ccfc46f6f455a76e4bb3b3c70904c87453665f2fdc0449f41ec8d06867b5b9"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_root_causes.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_root_causes.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_skipped.json",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_skipped.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv",
+      "sha256": "d9f6590faaa3040453014718cf970dfeed88ac08db869ae60c7f58354b940c2c"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_root_causes.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_root_causes.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_skipped.json",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_skipped.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv",
+      "sha256": "f8c36dd767b21d2af7b074617cbcc63ffb3a4852bb73d6148be61f88e357e4d8"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_root_causes.csv",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_root_causes.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_skipped.json",
+      "source": "sirius:/mnt/codex-data/rya1218_run/data/measured/band_ew/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_skipped.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_kpno_reference_env/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "sha256": "b4e513fc7b12fdcbf261858b064cda89c70f1941dedcf7781c696227cfbbe45f"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_kpno_reference_env/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "sha256": "6d3d854be44294dee904a245cab6dbff6524d3839193dc24a03c25bad0f5a9c9"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_kpno_reference_env/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "sha256": "fd818390dd37ba1c4fa72e72736ed2ace7c0682fd2201240ef4e6ae69309af94"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_kpno_reference_env/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "sha256": "2282dbde6a412e3455c45a1193381492d9738bbc26f01cc42dc83fdaea8457cc"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_iag_reference_env/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt",
+      "sha256": "007cfbbda6ea0fbaaf95ec2b3485e95b6b7cf5eddfe905ca9ec423cd36e22463"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_iag_reference_env/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "sha256": "6af177b24f14ac7c9ed0b142254e50216ac186b6735dcc4cdccf3c47815f5d90"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_iag_reference_env/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "sha256": "447cb72585c10e5cba6a62a59fd9113f4eed5b8e46049af3a4f7b11b623bc48a"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_iag_reference_env/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt",
+      "sha256": "fd818390dd37ba1c4fa72e72736ed2ace7c0682fd2201240ef4e6ae69309af94"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_harps_reference_env/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt",
+      "sha256": "fd818390dd37ba1c4fa72e72736ed2ace7c0682fd2201240ef4e6ae69309af94"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_harps_reference_env/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt",
+      "sha256": "6e33525305decd33422a923d9326beba4635309f3f4221532da2ec6c377e4b5f"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_harps_reference_env/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "sha256": "d2ff69916a0d771de3e22933cdd75cb865d3ce3bcaaaa02e5cc80115a796957f"
+    },
+    {
+      "path": "data/results/rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "source": "sirius:/mnt/codex-data/outputs/rya1218_20260916_siii_harps_reference_env/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "sha256": "e9c4ae26df9f1d3962dcd3c79624bedf2c227da3d8f916bf0203d700b3dea2fe"
+    }
+  ]
+}

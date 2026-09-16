@@ -285,3 +285,9 @@ Canonical covariance API and new/changed-product admission checks land together.
 ### 2026-09-15 — RYA-1213 provenance-registry integration repair
 
 Reconciled inherited Al/Si result registrations and moved seven audit-only source declarations beside their actual files. Existing generator checks cover all 1185 tracked artifacts; no measurement rerun or value change. Two historical Al checkpoint aggregations explicitly lack a committed harness.
+### 2026-09-16 — RYA-1218 Si evidence continuation
+
+Recovered the completed HARPS/IAG/Kitt Peak seven-line Si I synthesis products and
+audited their physical line IDs, source-scale offsets, estimator choice, and holding
+agreement. Added controlled Si II 6371.371 Å synthesis results for HARPS, IAG, and Kitt Peak. All remain
+diagnostic: no Si product has a complete RYA-587 uncertainty budget or enters a feed.
