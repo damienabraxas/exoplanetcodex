@@ -1,0 +1,599 @@
+{
+  "ticket": "RYA-587",
+  "basis": "Existing committed outputs on main 40f0e12f; historical artifacts, not counts of publication-ready products",
+  "order": [
+    "CNO/N",
+    "Al",
+    "Si"
+  ],
+  "elements": [
+    {
+      "element": "Al",
+      "band_product_artifacts": [
+        {
+          "path": "data/results/band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_ENGINE-A_products.csv",
+          "sha256": "9c48443a4c53bdea1ac6d25921cad0fcf8b7454ea5151a8c34dd0e9cd4cb3d17",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 measured random RMS 0.00920 dex sits below one 0.01 dex synthesis tread, so the engine cannot resolve it"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6908_harps_solar_harps_SYNTH_GRADED_products.csv",
+          "sha256": "61f286edac3078a71fbb6c88420c4d2ada20c22cf5ad2252965d84cf4ae23496",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 measured random RMS 0.00400 dex sits below one 0.01 dex synthesis tread, so the engine cannot resolve it"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_harps_solar_harps_SYNTH_ENGINE-A_products.csv",
+          "sha256": "afdce8bfdadc9fa7ff9d259592630e6d3a21f47fd2ca2e49efa2210be4621b17",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_harps_solar_harps_SYNTH_products.csv",
+          "sha256": "c8c896ded156f80a8d10e16792c001a7a80ba67d3d421b699ceccc9a82069baf",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv",
+          "sha256": "bb039b537ffec7c7364ff8678e84529bd650f037ea4c9bcab07894f54206d9d5",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv",
+          "sha256": "145b446a60d0e477141f363b8e7f8ec59643c5bb38e1034b5099a9933a7a1118",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv",
+          "sha256": "a7a478723e06143e4597820c8850e15e6ba3496ff208c4debb613d2af96db51e",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_ENGINE-A_products.csv",
+          "sha256": "61e3823002598690f060a5239dddd6859f18a9320996e3a8dfe6562845d00ec4",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 measured random RMS 0.00070 dex sits below one 0.01 dex synthesis tread, so the engine cannot resolve it"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_GRADED_products.csv",
+          "sha256": "4dd76e2407cdb904d2384e175dd2b57dbc1396c4c2fb1c424b612522da780e22",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 measured random RMS 0.00450 dex sits below one 0.01 dex synthesis tread, so the engine cannot resolve it"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_products.csv",
+          "sha256": "32e04efc90213895fdeff5c6d2c1ae031002c0104882710e745835e8e90d76bc",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+          "sha256": "ae3e74fb7574c5f7cb016dea52b3dafee861f9399d0f8e59c990f6eff904b198",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.01020 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+          "sha256": "c70abd993a16d8ebcdf3d51f1e5236a337194653bc57194f896bf821450fc024",
+          "rows": 1,
+          "stat_basis": [
+            "quantiser-floor 0.01 dex (RYA-771) \u2014 measured random RMS 0.00500 dex sits below one 0.01 dex synthesis tread, so the engine cannot resolve it"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv",
+          "sha256": "7669bca103093c1e8360ff17496125e9d55c04cff443b496c7d918612c6acd61",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.05353 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv",
+          "sha256": "5fad78fbb2e5e77f40c2552de9385b7276a4124364c16e5c7ab2a4e8bf70767b",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.03318 dex at n_lines=4"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv",
+          "sha256": "a3e8fa8c85d5547fcecb03e30bfb495cd56a9fbf720ea5c9c74048c3b74a9a97",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.03453 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_products.csv",
+          "sha256": "93064ed2bc824bb5742e344d4085de422336ba889c2eb031deb76192d9e04a16",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.01535 dex at n_lines=4"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        }
+      ],
+      "live_feed_products": 0,
+      "quarantined_feed_products": 0,
+      "additional_evidence": "data/results/rya1134/verified_v1/",
+      "action": "Read existing measurement/budget evidence and populate canonical schema before proposing any new measurement."
+    },
+    {
+      "element": "Si",
+      "band_product_artifacts": [],
+      "live_feed_products": 0,
+      "quarantined_feed_products": 0,
+      "additional_evidence": "data/audit/rya1218_si_protocol/",
+      "action": "Read existing measurement/budget evidence and populate canonical schema before proposing any new measurement."
+    },
+    {
+      "element": "C",
+      "band_product_artifacts": [
+        {
+          "path": "data/results/band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "406b879c6c68a967a5e80597ed91ff6cd41c7cf14b692a2dac009a3502908119",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.01284 dex at n_lines=3"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_products.csv",
+          "sha256": "75fb417ba45f05e445002f8585d9892099d789814b2f0a8a13ce44013a6c4e39",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.12498 dex at n_lines=5"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "4ec999d0b163fb5b1f0e5f89f64551c7d72ba612b475f53a6186dd111f1d476f",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.03418 dex at n_lines=3"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv",
+          "sha256": "bb6f5f428dcde1d0ecdd937d3a244662bd90850be89d81d5e67ff44db3b9951b",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.07340 dex at n_lines=5"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "316afdb734e8eba00cfc0d868d1f0a7c589fa1b6bce6ceccf266d48efda354af",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.03676 dex at n_lines=3"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv",
+          "sha256": "794443758ee802655d4c0e39771e3f18bf16ecf141e34c57e814383673bd4a62",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.07707 dex at n_lines=5"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv",
+          "sha256": "278fdf8c8cadef61d76845ace7277bb3f8ef072110945a9f0eb38212d70c3660",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.04350 dex at n_lines=2"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "1f998d9176ed417b574963610e744cf71d37b8202925925dc7c46385b92cfa3b",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.02355 dex at n_lines=10"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv",
+          "sha256": "351556c428ab9458bbe5ca076921f601dbe8f1d58d63468ab9f47704e1da27ee",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.02406 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "a06c4b48f5c2e02d963f23067c8ec6d4e96f93a7a9965eeaffcbb9d026044d6c",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.02879 dex at n_lines=10"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv",
+          "sha256": "b1306dd10f9e5d02d62693073dd1905f1238bb1c95b8a0e214a408ebdf7033bb",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.01645 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "44902d5c6f72ebc94ff719729b24f7d2dc942cfadf04104a962c001f5a20585f",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.17843 dex at n_lines=10"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv",
+          "sha256": "6fef78a4b4be1a60cca81c0ed3aa3ed47ebdff4b19f354c8080851002c100da7",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.20086 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
+          "sha256": "054e5b65b4dd1e76e2b76dbd0000c36ce0afb0949cb0bc407906acb3b2cd5fe6",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
+          "sha256": "a8246d3119d7a18e417c0d6939e27be45b86cb3952b3f6136c60046023b34c2c",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
+          "sha256": "1d8e679c1fa71316ef24f80cf3e14e632e98cdf20f92ab40c80cbbb9c57cb33f",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+          "sha256": "3cb103caf07cc8ec6509d19061ecd8105bc7e19dcbb78c2aa50b4b0a927193ed",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        }
+      ],
+      "live_feed_products": 0,
+      "quarantined_feed_products": 17,
+      "additional_evidence": "data/audit/rya1214_cno_products/",
+      "action": "Read existing measurement/budget evidence and populate canonical schema before proposing any new measurement."
+    },
+    {
+      "element": "N",
+      "band_product_artifacts": [
+        {
+          "path": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+          "sha256": "aa82ee1637013b3b34a69f55c16d2af69180a9539b67406a972ddda1d9cda621",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.10705 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "d1fbf12d550732231df32e167ae4832ec0e079c4004546f93caff0540e3784c7",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.11895 dex at n_lines=4"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+          "sha256": "ae17208b1ffcd06e5eaf9c8971adc16630c14485955e6cbdaaac4719a92a34ce",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.02655 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "90dc80dc68d666cc92ea246e61454004a696e5eab8235921d1b5a70f686e5276",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.06913 dex at n_lines=4"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+          "sha256": "a88325dceb9770b20cbbecff32bc8b8e4776116a1214f414906da4b367fa6e61",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.15505 dex at n_lines=2"
+          ],
+          "treatments": [
+            "ENGINE-A"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "87578160b01fd18df722a22b88eec9019d3efc3fc1ef684ed766b46b1bb77af6",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.12203 dex at n_lines=4"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv",
+          "sha256": "f327365aff670ef76700c3ef2a90093d73776bccad26166eb8ade6309a676dc6",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv",
+          "sha256": "523ad48ba86edc1f03e8e1d23045bffa5844b14b2e48a9391781e46f393a7bf6",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv",
+          "sha256": "3693da7ea8f6695a379152368be123200b8d9183b9f88cf8b364384348cdcbe5",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        }
+      ],
+      "live_feed_products": 0,
+      "quarantined_feed_products": 12,
+      "additional_evidence": "data/audit/rya1214_cno_products/",
+      "action": "Read existing measurement/budget evidence and populate canonical schema before proposing any new measurement."
+    },
+    {
+      "element": "O",
+      "band_product_artifacts": [
+        {
+          "path": "data/results/band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "215a07c0904c1913044f2082d9f5611a968e85e7a733ee5c4d53b9aa80344316",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.04403 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv",
+          "sha256": "d7166bab3667b9190b50f4eda630872e3e2f5fa08c8f97dc089b598a3de6bc96",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.10450 dex at n_lines=2"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "0828f61bb3525c885c7d4048e07912bb25d96636d951f24a7c3cd423b434827e",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.02492 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv",
+          "sha256": "3e4322b9b64b0443c44ddd2d7db503580450697616a2b3cb340e848aeedf857b",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.07000 dex at n_lines=2"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+          "sha256": "2a4cc12be7fffb00e00b53423adfc15fe7d8b9e47c89fec753290602fa637e95",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.03325 dex at n_lines=6"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv",
+          "sha256": "bf1081efe806cb25c8c11e2bd87d6d1e84539b7b99634f61e64182df7d229737",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 RMS of the random terms, 0.08450 dex at n_lines=2"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        },
+        {
+          "path": "data/results/band_products/OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv",
+          "sha256": "8f3b5cce06db71745af92f108693faeb0999190b208abfb2b886444cf290ea45",
+          "rows": 1,
+          "stat_basis": [
+            "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip"
+          ],
+          "treatments": [
+            "1D-LTE"
+          ]
+        }
+      ],
+      "live_feed_products": 0,
+      "quarantined_feed_products": 7,
+      "additional_evidence": "data/audit/rya1214_cno_products/",
+      "action": "Read existing measurement/budget evidence and populate canonical schema before proposing any new measurement."
+    }
+  ],
+  "next_priority": [
+    "CNO: nitrogen RYA-1220 first, then C/O joint uncertainty",
+    "Al",
+    "Si"
+  ]
+}

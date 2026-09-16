@@ -12097,3 +12097,61 @@ artifacts:
     ticket: RYA-1218
     note: Existing profile-fit or synthesis output; original result and source lineage
       retained. Exact historical command is not recorded in this manifest.
+
+  # RYA-587 uncertainty audit and integration decisions.
+  - artifact: rya587/audit_v1/element_inventory.json
+    generator: scripts/audit_uncertainty_rya587.py
+    invocation: python3 scripts/audit_uncertainty_rya587.py --output data/results/rya587/new-audit
+      --reference-repo /path/to/rya1213 --xi-runs /path/to/rya1213_xi
+    ticket: RYA-587
+    note: Historical pre-integration inventory; snapshot includes source checkout and
+      raw-output hashes. Reproduction uses archived input revision; refuses to overwrite
+      original.
+  - artifact: rya587/audit_v1/legacy_budget_table.csv
+    generator: scripts/audit_uncertainty_rya587.py
+    invocation: python3 scripts/audit_uncertainty_rya587.py --output data/results/rya587/new-audit
+      --reference-repo /path/to/rya1213 --xi-runs /path/to/rya1213_xi
+    ticket: RYA-587
+    note: Historical pre-integration inventory; snapshot includes source checkout and
+      raw-output hashes. Reproduction uses archived input revision; refuses to overwrite
+      original.
+  - artifact: rya587/audit_v1/reference_products_review.json
+    generator: scripts/audit_uncertainty_rya587.py
+    invocation: python3 scripts/audit_uncertainty_rya587.py --output data/results/rya587/new-audit
+      --reference-repo /path/to/rya1213 --xi-runs /path/to/rya1213_xi
+    ticket: RYA-587
+    note: Historical pre-integration inventory; snapshot includes source checkout and
+      raw-output hashes. Reproduction uses archived input revision; refuses to overwrite
+      original.
+  - artifact: rya587/audit_v1/reference_xi_audit.json
+    generator: scripts/audit_uncertainty_rya587.py
+    invocation: python3 scripts/audit_uncertainty_rya587.py --output data/results/rya587/new-audit
+      --reference-repo /path/to/rya1213 --xi-runs /path/to/rya1213_xi
+    ticket: RYA-587
+    note: Historical pre-integration inventory; snapshot includes source checkout and
+      raw-output hashes. Reproduction uses archived input revision; refuses to overwrite
+      original.
+  - artifact: rya587/audit_v1/reference_xi_recomputed.json
+    generator: scripts/audit_uncertainty_rya587.py
+    invocation: python3 scripts/audit_uncertainty_rya587.py --output data/results/rya587/new-audit
+      --reference-repo /path/to/rya1213 --xi-runs /path/to/rya1213_xi
+    ticket: RYA-587
+    note: Historical pre-integration inventory; snapshot includes source checkout and
+      raw-output hashes. Reproduction uses archived input revision; refuses to overwrite
+      original.
+  - artifact: rya587/fe_integration_status.json
+    generator: null
+    status: HAND_AUTHORED
+    ticket: RYA-587
+    sources:
+    - data/audit/rya1213_reference_matrix/xi_integration_rya587.json
+    note: Reviewed integration checkpoint, sourced from committed machine report.
+  - artifact: rya587/next_element_inputs.json
+    generator: null
+    status: HAND_AUTHORED
+    ticket: RYA-587
+    sources:
+    - data/results/band_products
+    - data/audit/rya1218_si_protocol
+    note: Reviewed next-stage input inventory and user-directed priority; file hashes
+      identify existing measurements, not publication completeness.

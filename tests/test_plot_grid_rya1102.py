@@ -269,6 +269,8 @@ def test_write_feed_REBUILDS_the_grid_rather_than_carrying_it_forward(tmp_path):
     before = sum(1 for s in doc["plot_grid"]["sections"] for c in s["cells"] if c["product_key"])
     doc["products"] = [p for p in doc["products"] if p["band"] != "NIR"]
     out = tmp_path / "Fe.json"
+    # This exercises removal from an existing feed, not admission of legacy rows.
+    out.write_text(FEED.read_text())
     write_feed(out, doc)
     after = _json.loads(out.read_text())["plot_grid"]
     filled = sum(1 for s in after["sections"] for c in s["cells"] if c["product_key"])
