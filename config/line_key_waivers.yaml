@@ -407,3 +407,21 @@ waivers:
       blend-PROXIMITY question about whether new opacity lands inside an Fe fit window, so
       wavelength distance is the quantity asked; it identifies no line. The script's
       identity match (set row -> VALD row) is keyed on wavelength AND E_low.
+
+  # RYA-1213 integration audit: these comparisons do not select transition keys.
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/al_grade_verification.py
+    count: 1
+    ticket: RYA-1134
+    reason: >-
+      Burheim transcription/order assertion on already paired source rows. The
+      comparison raises on disagreement; it never searches for a transition or
+      chooses a nearest match. Physical candidates use line_match with EP.
+  - kind: WAVE_ONLY_TOL
+    file: scripts/audit_si_crires_k_canonical_pixels_rya1218.py
+    count: 1
+    ticket: RYA-1218
+    reason: >-
+      Selects observed spectrum pixels within one Angstrom of an already identified
+      canonical line. Pixels have no excitation potential and this is not a line
+      catalog join; output retains canonical_line_id, species and EP.

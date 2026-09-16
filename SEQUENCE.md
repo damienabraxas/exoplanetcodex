@@ -271,3 +271,11 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-711** — the ELEMENT PROTOCOL lands (authored, never merged; RYA-709 cited a file that did not exist). **+Step 3a: an element's curation travels with the element, not the route** — Fe II uncurated 7.656 vs curated 7.466
 - **RYA-906** — physics-axis naming: store `route/scale/model/atmos/gf`, derive the display name, keep `treatment` as a permanent dual label. **Route from the HANDLER, never the label** — `1D-LTE` is used by both routes
 - **RYA-905** — solar_harps `telluric_applied` measured from flux: **not-applied**. 🔴 kpno_solar_atlas scores WORSE (51.3 vs 22.06) on the same metric — the atlases are not uniformly corrected; per-line clean-line selection is the method, not correction
+
+## 2026-09-15
+
+- **RYA-587 / RYA-1213** — Integrated 13 completed VIS xi results; zero Reference NOT_IN_CAMPAIGN entries, no new synthesis.
+
+### 2026-09-15 — RYA-1213 provenance-registry integration repair
+
+Reconciled inherited Al/Si result registrations and moved seven audit-only source declarations beside their actual files. Existing generator checks cover all 1185 tracked artifacts; no measurement rerun or value change. Two historical Al checkpoint aggregations explicitly lack a committed harness.
