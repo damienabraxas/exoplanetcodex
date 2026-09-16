@@ -333,6 +333,14 @@ class ErrorBudget:
                             else "more lines will NOT help; fix the source"))
         return "\n".join(lines)
 
+    def component_records(self) -> list[dict]:
+        """Lossless machine view of the existing terms; no inference of completeness."""
+        return [dict(name=t.name, sigma_dex=(t.contribution(self.n_lines)
+                    if t.measured else None), source=t.source,
+                     state=("N/A" if not t.applicable else
+                            "MEASURED" if t.measured else "HOLD"),
+                     averages_down=t.averages_down) for t in self.terms]
+
 
 # ── standard terms, each sourced ─────────────────────────────────────────────
 

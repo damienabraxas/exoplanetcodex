@@ -1,0 +1,20 @@
+{
+  "ticket": "RYA-587",
+  "reference_pr": "https://github.com/damienabraxas/exoplanetcodex/pull/543",
+  "reference_commit": "0835200f",
+  "status": "13 recovered results integrated into canonical RYA-1213 artifact and Fe feed",
+  "source_report": "data/audit/rya1213_reference_matrix/xi_integration_rya587.json",
+  "source_report_sha256": "91fb19402e997007cfb3771fd4c44eef50789bd7bbcff8f44c312b276043253e",
+  "reference_xi_states": {
+    "MEASURED": 60,
+    "UNMEASURED": 4,
+    "NOT_APPLICABLE": 4
+  },
+  "changed_products": 13,
+  "unchanged_products": 147,
+  "all_abundances_and_line_counts_unchanged": true,
+  "new_synthesis_runs": 0,
+  "validation": "123 tests passed on RYA-1213; register structure and freshness pass",
+  "existing_evidence": "All 160 Fe measurement artifacts exist. New-schema omissions are not evidence that a measurement needs repeating. Four small-N Reference rows have completed runs and are held by the existing min_paired rule, not missing jobs.",
+  "remaining_scope": "Reuse existing product/budget and exact-pool evidence for schema integration; reconcile older Codex/Deep labels separately. No blanket Fe rerun."
+}
