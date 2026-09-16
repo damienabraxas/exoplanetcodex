@@ -1,0 +1,8 @@
+{
+  "ticket": "RYA-1218",
+  "run_type": "all reachable CRIRES+ Si I bands and engines",
+  "engine": "native Sirius venv312 + Turbospectrum",
+  "bands": ["Y-narrow", "Y-wide", "H", "J", "K"],
+  "disposition": "Y/H/J production diagnostics retained; K explicitly refused for absent Si linelist coverage; Engine-A explicitly NOT_PRODUCED where no validated Solar Si NLTE grid exists.",
+  "matrix": "data/audit/rya1218_si_protocol/si_all_band_execution_matrix_20260916.csv"
+}

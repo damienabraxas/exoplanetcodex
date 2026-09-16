@@ -69,7 +69,7 @@ existing output directories.
 
 ## Next work
 
-1. Finish the Si II uncertainty admission and attach the production Si I run hashes.
+1. Finish the CRIRES Y/H/J/K uncertainty admission and attach the all-band run hashes.
 2. Build exact-pool profile-likelihood or independent-line uncertainty evidence,
    including Teff/logg/ξ/metallicity responses and covariance.
 3. Reconcile the 0.100-dex Si I source-scale offset against the primary lab and

@@ -1,0 +1,16 @@
+band,instrument,holding,species,engine,status,A,n_lines,n_excluded,stat_dex,syst_dex,reason
+Y-narrow,crires_plus,solar_crires_plus_y_rya794,Si I,1D-LTE,COMPLETED_DIAGNOSTIC,7.462,6,0,0.1104,0.1726,source gf ungraded and covariance HOLD
+Y-narrow,crires_plus,solar_crires_plus_y_rya794,Si I,ENGINE-B,COMPLETED_DIAGNOSTIC,7.462,6,0,0.1104,0.1726,Engine-B and 1D-LTE agree; covariance HOLD
+Y-narrow,crires_plus,solar_crires_plus_y_rya794,Si I,ENGINE-A,NOT_PRODUCED,,,,,,no validated Solar Si NLTE grid serves these lines
+Y-wide,crires_plus,solar_crires_plus_y_wide_rya1054,Si I,1D-LTE,COMPLETED_DIAGNOSTIC,7.484,11,0,0.0625,0.1726,source gf ungraded and covariance HOLD
+Y-wide,crires_plus,solar_crires_plus_y_wide_rya1054,Si I,ENGINE-B,COMPLETED_DIAGNOSTIC,7.484,11,0,0.0625,0.1726,Engine-B and 1D-LTE agree; covariance HOLD
+Y-wide,crires_plus,solar_crires_plus_y_wide_rya1054,Si I,ENGINE-A,NOT_PRODUCED,,,,,,no validated Solar Si NLTE grid serves these lines
+H,crires_plus,solar_crires_plus_h_rya1094,Si I,1D-LTE,COMPLETED_DIAGNOSTIC,7.192,12,4,0.1838,0.1726,source gf ungraded and four lines excluded by fit gates
+H,crires_plus,solar_crires_plus_h_rya1094,Si I,ENGINE-B,COMPLETED_DIAGNOSTIC,7.192,12,4,0.1838,0.1726,Engine-B and 1D-LTE agree; covariance HOLD
+H,crires_plus,solar_crires_plus_h_rya1094,Si I,ENGINE-A,NOT_PRODUCED,,,,,,no validated Solar Si NLTE grid serves these lines
+J,crires_plus,solar_crires_plus_j_rya1219,Si I,1D-LTE,COMPLETED_NO_ACCEPTED_LINES,,0,5,0.01,0.1726,all five candidates excluded by fit gates
+J,crires_plus,solar_crires_plus_j_rya1219,Si I,ENGINE-B,COMPLETED_NO_ACCEPTED_LINES,,0,5,0.01,0.1726,all five candidates excluded by fit gates
+J,crires_plus,solar_crires_plus_j_rya1219,Si I,ENGINE-A,NOT_PRODUCED,,,,,,no validated Solar Si NLTE grid serves these lines
+K,crires_plus,solar_crires_plus_k_rya1219,Si I,1D-LTE,NOT_REACHABLE,,,,,,atomic linelist has no Si rows in 19400-22000 A
+K,crires_plus,solar_crires_plus_k_rya1219,Si I,ENGINE-B,NOT_REACHABLE,,,,,,atomic linelist has no Si rows in 19400-22000 A
+K,crires_plus,solar_crires_plus_k_rya1219,Si I,ENGINE-A,NOT_PRODUCED,,,,,,atomic linelist has no Si rows in 19400-22000 A and no validated Solar Si NLTE grid

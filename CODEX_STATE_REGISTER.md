@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v153** · _Last updated: 2026-09-16 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v154** · _Last updated: 2026-09-16 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -302,6 +302,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v154** (2026-09-16) — **RYA-1218 CRIRES all-band synthesis audit.** Completed reachable CRIRES+ Y narrow (A=7.462, n=6), Y-wide (A=7.484, n=11), H (A=7.192, n=12), and J (n=0) attempts through 1D-LTE and Engine-B; Engine-A is explicitly NOT_PRODUCED without a validated Solar Si NLTE grid. K is explicitly NOT_REACHABLE because the atomic linelist has no Si rows in 19400–22000 Å. All remain diagnostic and outside the live feed.
 
 - **v153** (2026-09-16) — **RYA-1218 Si continuation.** Recovered existing seven-line VIS synthesis outputs and completed a fresh native-Linux production Si I abundance synthesis (HARPS A=7.586, IAG 7.625, corrected Kitt Peak 7.657; n=7 each), measured holding agreement and the five-line 0.100-dex source-scale offset, and retained controlled Si II 6371.371 Å diagnostics (HARPS A=7.562, IAG A=7.618, Kitt Peak A=7.578; n=1 each). All remain diagnostic; RYA-587 uncertainty components are HOLD and no Si product is admitted.
 

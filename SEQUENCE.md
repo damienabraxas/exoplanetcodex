@@ -299,3 +299,12 @@ IAG, and Kitt Peak holdings using the controlled EW line ledger. Seven lines wer
 accepted per holding (A=7.586, 7.625, and 7.657 respectively); Engine-A served two
 lines per holding. The outputs remain diagnostic pending source-gf grading and the
 complete covariance budget.
+
+### 2026-09-16 — RYA-1218 CRIRES all-band synthesis audit
+
+Ran the reachable CRIRES+ Y narrow, Y-wide, H, and J bands through 1D-LTE and
+Engine-B, with Engine-A explicitly recorded as NOT_PRODUCED where no validated
+Solar Si NLTE grid exists. Y narrow returned A=7.462 (n=6), Y-wide A=7.484
+(n=11), H A=7.192 (n=12), and J n=0. K was explicitly refused because the
+atomic linelist has no Si rows in its wavelength range. None is admitted to the
+live abundance feed.
