@@ -12155,3 +12155,240 @@ artifacts:
     - data/audit/rya1218_si_protocol
     note: Reviewed next-stage input inventory and user-directed priority; file hashes
       identify existing measurements, not publication completeness.
+  # RYA-1218 continuation: recovered diagnostics and a read-only uncertainty audit.
+  - artifact: rya1218/evidence_20260916/product_evidence.json
+    generator: scripts/audit_si_evidence_rya1218.py
+    invocation: python3 scripts/audit_si_evidence_rya1218.py --out data/results/rya1218/evidence_20260916
+    ticket: RYA-1218
+    note: Existing Si products reconciled to physical line IDs and canonical RYA-587 HOLD components; no product admitted.
+  - artifact: rya1218/evidence_20260916/line_grade_abundance.csv
+    generator: scripts/audit_si_evidence_rya1218.py
+    invocation: python3 scripts/audit_si_evidence_rya1218.py --out data/results/rya1218/evidence_20260916
+    ticket: RYA-1218
+    note: Per-line grading, abundance and estimator audit; no values tuned.
+  # Recovered Si run artifacts: source checkout retained, exact historical invocation unavailable.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
