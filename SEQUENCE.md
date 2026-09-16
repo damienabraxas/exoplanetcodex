@@ -291,3 +291,11 @@ Recovered the completed HARPS/IAG/Kitt Peak seven-line Si I synthesis products a
 audited their physical line IDs, source-scale offsets, estimator choice, and holding
 agreement. Added controlled Si II 6371.371 Å synthesis results for HARPS, IAG, and Kitt Peak. All remain
 diagnostic: no Si product has a complete RYA-587 uncertainty budget or enters a feed.
+
+### 2026-09-16 — RYA-1218 Si abundance synthesis
+
+Completed a fresh native-Linux production Si I synthesis on the corrected HARPS,
+IAG, and Kitt Peak holdings using the controlled EW line ledger. Seven lines were
+accepted per holding (A=7.586, 7.625, and 7.657 respectively); Engine-A served two
+lines per holding. The outputs remain diagnostic pending source-gf grading and the
+complete covariance budget.

@@ -12166,6 +12166,187 @@ artifacts:
     invocation: python3 scripts/audit_si_evidence_rya1218.py --out data/results/rya1218/evidence_20260916
     ticket: RYA-1218
     note: Per-line grading, abundance and estimator audit; no values tuned.
+  # Production Si abundance synthesis artifacts; exact remote spectrum environment is not portable.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
   # Recovered Si run artifacts: source checkout retained, exact historical invocation unavailable.
   - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
     generator: null

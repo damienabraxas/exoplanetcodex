@@ -303,7 +303,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
-- **v153** (2026-09-16) — **RYA-1218 Si continuation.** Recovered existing seven-line VIS synthesis outputs (HARPS A=7.586, IAG 7.625, corrected Kitt Peak 7.657), measured holding agreement and the five-line 0.100-dex source-scale offset, and added controlled Si II 6371.371 Å synthesis results (HARPS A=7.562, IAG A=7.618, Kitt Peak A=7.578; n=1 each). All remain diagnostic; RYA-587 uncertainty components are HOLD and no Si product is admitted.
+- **v153** (2026-09-16) — **RYA-1218 Si continuation.** Recovered existing seven-line VIS synthesis outputs and completed a fresh native-Linux production Si I abundance synthesis (HARPS A=7.586, IAG 7.625, corrected Kitt Peak 7.657; n=7 each), measured holding agreement and the five-line 0.100-dex source-scale offset, and retained controlled Si II 6371.371 Å diagnostics (HARPS A=7.562, IAG A=7.618, Kitt Peak A=7.578; n=1 each). All remain diagnostic; RYA-587 uncertainty components are HOLD and no Si product is admitted.
 
 - **v152** (2026-09-15) — **RYA-1213 integration checks:** repaired inherited result-generator registry drift for Al/Si outputs. Audit declarations moved beside their actual audit paths; historical Al checkpoint aggregation remains explicitly unreproducible because its harness was not committed. No measurement changed or rerun.
 
