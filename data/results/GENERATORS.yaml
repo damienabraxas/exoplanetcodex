@@ -1,3 +1,8 @@
+  - artifact: rya1218/uncertainty_runs_20260916/stellar_responses.json
+    generator: scripts/run_si_uncertainty_responses_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius-hosted Teff and microturbulence response campaign; aggregate values are quantization-limited and remain HOLD under RYA-587 pending exact per-line responses.
 # Result-artifact generator manifest (RYA-686).
 #
 # THE RULE: a result artifact must not land in data/results/ without the committed
