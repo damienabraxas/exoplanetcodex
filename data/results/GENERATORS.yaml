@@ -12753,3 +12753,13 @@ artifacts:
     status: UNREPRODUCIBLE
     ticket: RYA-1218
     note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/uncertainty_budget_20260916/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: GENERATED
+    ticket: RYA-1218
+    note: Read-only RYA-587 Si uncertainty budget audit over the committed VIS and CRIRES+ products; all components remain HOLD until exact-pool evidence and covariance are supplied.
+  - artifact: rya1218/uncertainty_budget_20260916/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: GENERATED
+    ticket: RYA-1218
+    note: Per-product diagnostic line scatter and candidate SE table emitted by the RYA-587 Si uncertainty audit; values are not publication uncertainties.
