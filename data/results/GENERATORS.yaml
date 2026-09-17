@@ -12768,3 +12768,24 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Sirius-hosted Teff and microturbulence response campaign; aggregate values are quantization-limited and remain HOLD under RYA-587 pending exact per-line responses.
+  - artifact: rya1218/uncertainty_runs_20260916/solar_per_line_teff_K_minus.csv
+    generator: scripts/run_si_uncertainty_responses_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius Si per-line export at Teff minus perturbation; quantization-limited response diagnostic.
+  - artifact: rya1218/uncertainty_runs_20260916/solar_per_line_teff_K_plus.csv
+    generator: scripts/run_si_uncertainty_responses_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius Si per-line export at Teff plus perturbation; quantization-limited response diagnostic.
+  - artifact: rya1218/uncertainty_runs_20260916/solar_per_line_vturb_kms_minus.csv
+    generator: scripts/run_si_uncertainty_responses_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius Si per-line export at microturbulence minus perturbation; quantization-limited response diagnostic.
+  - artifact: rya1218/uncertainty_runs_20260916/solar_per_line_vturb_kms_plus.csv
+    generator: scripts/run_si_uncertainty_responses_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius Si per-line export at microturbulence plus perturbation; quantization-limited response diagnostic.
+
