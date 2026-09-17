@@ -1,6 +1,6 @@
 # Codex Ticket Sequence — chronological landing log
 
-> **Current as of `main` f3688d5** (2026-09-03, RYA-1185) — the landings below were rebuilt from `git log --merges --first-parent origin/main`, not from the previous text of this file. The 2026-08-31 and 2026-09-03 blocks were missing entirely: this log had stopped at 2026-08-30 while sixteen PRs merged.
+> **Current as of `main` 36d5c3d5** (2026-09-17, RYA-1184) — the landings below were rebuilt from `git log --merges --first-parent origin/main`, not from the previous text of this file. The 2026-08-31 and 2026-09-03 blocks were missing entirely: this log had stopped at 2026-08-30 while sixteen PRs merged.
 
 **Read this second, after `LEDGERS.md`, for a quick "what happened recently" catch-up.**
 
@@ -16,6 +16,78 @@ superseded, add a new line noting the correction, don't edit the original).
 under ~140 chars per line. If you need more, it belongs in the register, not here.
 
 ---
+
+## 2026-09-17
+
+- **RYA-1222** — orchestrator MVP: `run_pipeline.py --star X --element Y` drives the band×instrument×engine matrix idempotently, one run-report, loud-fail-continue; never writes the science feed
+- **RYA-1184** — SEQUENCE-vs-git reconciler + register Version-pointer guard + BLOCKING pre-push hook; re-arms the RYA-659 check while CI is off (RYA-954)
+
+## 2026-09-15
+
+- **RYA-1218** — Si preflight checkpoint (campaign still In Progress); fixed a source-provenance defect where Si II 6371.370 A carried the Si I Garz scale from the RYA-1169 generator
+- **RYA-1217** — Al restart Gate 0 CLOSED on main c64eccfe: the campaign cannot start from the required verified pool
+
+## 2026-09-11
+
+- **RYA-1212** — publish gate refuses the 0.17 UNGRADED_GF blanket (no override) and wires RYA-968 per-line gf sigma; 0 of 92 live products carry 0.17 and the 4 Reference bars drop 0.171 → ~0.049–0.052, A and n_lines unchanged
+- **RYA-1211** — premise refuted: the 15 "K07" Reference lines were never Kurucz-sourced; the gf join missed because AGSS21 prints nm to 2 dp (0.1 Å) against a 0.02 Å tolerance. 14 of 21 upgraded, citable-σ coverage 5/21 → 17/21, no log gf changed
+- **RYA-1210** — published the Fe I / Fe II appendix pages, tracker refresh and social forest from the live feed (v1.158 → v1.163, no abundance, membership or line-count change); the four Asplund-reference systematic terms moved 0.17 → 0.0475 dex
+- **RYA-1208** — Gerber matrix v2, rebuilt on current main because merging the stale branch would have reverted RYA-1209's near-UV values; 17 of 19 cells published, and it carries the RYA-1206 `_unlabelled` UnboundLocalError fix main still lacked
+- **RYA-1203** — post-RYA-1191 NIR re-ingest rebuilt on current main; clears exactly the two SHA_MISMATCH rows from the RYA-1080 guard and makes all three KP-molecfit NIR Fe I legs agree on one guarded pool (n=23/6/23)
+
+## 2026-09-10
+
+- **RYA-1209** — dropped the K07 line from the near-UV pool so the budget clears at gf rung 3; all four Fe I near-UV products carry post-molecular values below the 7.596/7.642 they replaced, no value calibrated
+
+## 2026-09-09
+
+- **RYA-1207** — near-UV molecular opacity into production through a SEPARATE `.bsyn` list plus a per-band `use_molecules` (the atomic list is unchanged); paired lever −0.050 dex on Fe I, −0.29 on Fe II; 4 Fe II published, 4 Fe I refused on a mixed-gf pool
+- **RYA-1206** — CRIRES+ H-arm ENGINE-B-NLTE product emitted (A=7.549, n=9, n_excluded=14); the 12 unlabelled lines are TRANSITION-ABSENT from the Gerber deck, so the boundary is excitation not wavelength and Gerber/ENGINE-A are complementary in H
+- **RYA-1204** — near-UV opacity physical fix: two housekeeping fixes plus diagnostics; both levers were measured through monkeypatched runs and never installed, so nothing published moves
+
+## 2026-09-08
+
+- **RYA-1183** — CNO closure test fix (test-only, `tests/test_cno_closure_rya1136.py`). ⚠️ *Sourced from the merged diff alone — this ticket carries NO end-of-session comment; see the RYA-1184 adjudication block.*
+
+## 2026-09-07
+
+- **RYA-1196** — telluric consumer wired to pass its instrument; latent-defect close (the EW route is dead — 0 of 70 live products use it) plus an AST guard over five production paths so a resolver call carrying only a wavelength fails the suite
+- **RYA-1195** — retired the CNO manifest's `date.today()` for a static date anchored to the vendoring commit; the stamp was false, not merely non-deterministic, and one unrelated merged commit had already overwritten it *and* reverted RYA-1150's reconciliation
+- **RYA-1194** — re-keyed the telluric consumer axis per holding via a new `holding_basis()` rather than re-keying `basis()`; verified measurement outranks the registry label, and exactly ONE decision of 26 holdings moves
+- **RYA-1193** — pinned the IR telluric window policy: `ENUMERATION_COMPLETE_TO_A` ratified as a standing concept, so adding spot-flagged bands is a FLOOR and can never relax the readiness gate into looking like a completed survey
+- **RYA-1192** — CRIRES+ compared against RAW for the first time (Elgueta's spectra and our Vesta IDPs are the same night, reduced twice): Y verified-corrected, H corrected in 15 of 18 windows; "12 lines in inter-order gaps" was a `len>=20` threshold artifact and the arm serves 25 of 29
+- **RYA-1191** — telluric close-out, with its own O₂-γ finding WITHDRAWN: the difference template was mostly a reduction difference. A displaced null proves registration; only a clean-window null proves the template. The deep-band verdicts survive
+- **RYA-1182** — separated 8,977 molecular rows out of `canonical_gf.csv` by line surgery (`git diff --numstat` exactly `0 8977`), atomic store intact; the strongest verification self-skips once committed, so the standing guards are the invariant check and the RYA-945 tripwire
+- **RYA-1181** — carried the CNO identity fields the ingest already parsed and discarded (J″ survived only inside gf, unreadable; 405 of 408 rows now carry one) and staged 105,858 held UV transitions nothing had counted
+- **RYA-1180** — typed all 11 CNO sources and re-graded Li2015_CO as a REDISTRIBUTION (twice derived) carrying the intake's entire 80-row match class; replaced six byte-identical constants rows with dissociation energies parsed positionally from table1.dat's FOURTH (adopted) column
+- **RYA-1179** — made the line-key join guard scope-aware: the EP test was FUNCTION-scoped, so one `ep` laundered every wavelength-only comparison below it. Repo scan 0 → 19 findings across 15 files, 11 genuine joins including the live feed writer
+- **RYA-1172** — typed the CNO atomic gf pedigree from the compilers' own words: C/N are a 2006 MCHF partial update, O rests on the 1996 Monograph 7 OPACITY Project — one "NIST grade" label spanning ten years and two methods; 403 higher-stage rows read NOT_ESTABLISHED
+- **RYA-1171** — corrected the O I 777 triplet's NIST grade A+ → A (σ 0.0086 → 0.0128, 1.49×) with `log_gf` byte-identical on all 169,703 rows; the over-claim had three copies, and the sweep found 2 suspected others (Li I 6707 ×2)
+- **RYA-1170** — made the intake DOI resolve from `bibliography.csv` at build time instead of being copied, so divergence is impossible rather than detectable; the copied DOI had drifted onto a DIFFERENT PAPER, and the SSOT holds 2 of the 11 sources this intake cites
+- **RYA-935** — live status/tracker refresh (`live_status.json`, `live_tracker.html`, model-availability findings). ⚠️ *Sourced from the merged diff alone — this ticket carries NO end-of-session comment; see the RYA-1184 adjudication block.*
+- **RYA-515** — Fe per-line provenance: 12 live products contradict their own committed evidence after RYA-1191's re-run, and the HARPS pair is the dangerous shape — the re-measurement went to a different wavelength stem, so stale evidence still vouches for the stale product; resolution re-keyed on `selector`, not `tier`
+
+## 2026-09-04
+
+- **RYA-1135** — first Fe II ⟨3D⟩-LTE product (A=7.640, n=9; +0.071 over its 1D-LTE sibling is an atmosphere shift, not NLTE physics), and `nlte_ion_capability` became a GATE inside `assert_linelist_supports_nlte` — 854 labelled Fe II lines in-window meant one such line would have emitted LTE under an NLTE label
+- **RYA-853** — Fe I lab-gf integrity close-out: the "genuine bad row" WITHDRAWN (a parser had read Belmonte's comparison column), leaving 464 refereed rows at 0 log gf and 0 σ mismatches without a byte of `canonical_gf` changing; 37 corrections remain Ryan's call
+- **RYA-715** — regenerated the Fe II dossier from the artifacts and measured its open decision MOOT as posed: one of the two gates is retired, all six contested lines are shallow and non-lab-gf, and no live Fe II product uses the EW route the cull governs
+
+## 2026-09-03
+
+- **RYA-1214** — first Solar CNO products: the merged diff creates `data/products/solar/{C,N,O}.json`. ⚠️ *Sourced from the merged diff alone — this ticket carries NO end-of-session comment; see the RYA-1184 adjudication block.*
+- **RYA-1213** — Reference Grade across all five bands on the lab pool with no depth gate. ⚠️ *Sourced from the merged diff and the RYA-1221 post-merge audit — this ticket carries NO end-of-session comment; see the RYA-1184 adjudication block.*
+- **RYA-1187** — built the (holding × band × engine) applicability matrix, 60 holding-cells + 32 engine-cells with 0 silent empties; "zero Deep Grade in red-optical/NIR" is NOT a gap, and "Reference appears only in VIS" is FALSE — 17 AGSS21 lines fall outside VIS
+- **RYA-1190** — frontier near-UV opacity (diagnostic): Part A refuted as posed — our near-UV list already IS the VALD extract, 0 lines to add, payoff of a deeper re-extraction ≤0.028 dex; red-optical is uncorrected telluric, NIR-H undetermined
+- **RYA-1189** — continuum root-cause analysis (diagnostic): the near-UV +27.9% shift is BLEND-DRIVEN, not a continuum error (59 lines/Å, 0 of 10 clean side-bands, no isolated Fe I line exists there); red-optical and NIR-H are the real candidates
+- **RYA-1055** — Fe II NLTE capability limit established as a DECK limit: `atom.fe607a` carries 12,635 bound-bound transitions and not one involves an Fe II level; all 10 live Fe II products carry the stamp and the two ENGINE-B-NLTE cells are annotated, not deleted
+
+### Corrections (RYA-1184, 2026-09-17) — append-only, prior lines left intact
+
+- **Ordering defect:** a `## 2026-09-15` section sits at the END of this file (below `## 2026-07-05`), where the RYA-587 landings were appended to a newest-first log. Those lines are correct and are NOT moved (append-only); this note records that they are at the bottom, not the top.
+- **Measured drift (git, not memory):** at `origin/main` 36d5c3d5 the reconciler reported **35 tickets across 42 merges** landed since the `f3688d5` stamp and unrecorded, spanning 2026-09-03 → 2026-09-17. All 35 are now recorded; each line above is sourced from that ticket's own end-of-session comment plus its merged diff.
+- **Four landings carry NO end-of-session comment** — RYA-1213, RYA-1214, RYA-1183 and RYA-935. Their lines are marked and sourced from the merged diff alone, and they are listed in the RYA-1184 adjudication block for Ryan's confirmation rather than treated as settled.
+- **RYA-850** (merged 2026-08-17, 953b98d0, PR #288) is recorded nowhere in this file or the register, and it promoted the graded lab-gf pool to the PRIMARY reported value. The register rows are now annotated; this landing predates the `f3688d5` stamp, so the reconciler does not surface it.
 
 ## 2026-09-13
 
