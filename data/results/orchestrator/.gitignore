@@ -1,0 +1,11 @@
+# RYA-1222. One run writes TWO reports: a timestamped one and a `_latest` copy.
+#
+# The timestamped copies are per-run scratch and accumulate without bound, so they
+# are ignored. `_latest.json` and `inputs_hashes.json` are NOT: the ledger is the
+# idempotency state -- a fresh checkout without it re-runs the whole matrix, which
+# is the loop this ticket exists to close -- and `_latest.json` is what an operator,
+# CI, or a local model reads instead of re-deriving the state by hand.
+#
+# Tracked, not ignored, for the RYA-1034 reason: a gitignored results directory is
+# how a real four-arm result ended up living in a Linear ticket and nowhere durable.
+*_2???????T??????Z.json
