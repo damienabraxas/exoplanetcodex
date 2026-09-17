@@ -85,3 +85,18 @@ validated. Therefore the audit admits zero products and reports no total sigma.
 4. Revisit 3905/4102 through the Deep synthesis path and preserve physical-width
    refusals where they remain.
 5. Only then decide whether any Si I/Si II product can enter the live feed.
+
+## Si uncertainty budget execution (2026-09-16)
+
+The RYA-587 budget was rebuilt from the current VIS and CRIRES+ holdings in
+`data/results/rya1218/uncertainty_budget_20260916/`. It inventories 31 stored product
+rows and 157 accepted line measurements. The line-scatter/√N values are retained as
+measurement diagnostics only: the production estimator is a median and independence,
+fit likelihood, and covariance have not been demonstrated. Consequently all 16 RYA-587
+components remain `HOLD`, `admitted_products=0`, and no `sigma_reported` is emitted.
+
+A direct exact-pool Teff response attempt was also made through the canonical abundance
+engine. It could not run on this checkout because the bundled MOOG executable is not
+runnable on this host (`Exec format error`). No parameter response is fabricated from
+that failure; the stellar response terms remain `HOLD` until the same pool is rerun on
+the compatible synthesis host.
