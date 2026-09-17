@@ -100,3 +100,8 @@ engine. It could not run on this checkout because the bundled MOOG executable is
 runnable on this host (`Exec format error`). No parameter response is fabricated from
 that failure; the stellar response terms remain `HOLD` until the same pool is rerun on
 the compatible synthesis host.
+
+The initial generic EW per-line response export was withdrawn after identity review: its
+8-line curated EW pool did not match the seven instrument-specific Si I synthesis lines
+in the production products. It must not enter the uncertainty budget. The next run is an
+instrument-level synthesis perturbation on those exact seven IDs on Sirius.
