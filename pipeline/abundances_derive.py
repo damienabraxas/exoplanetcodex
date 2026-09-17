@@ -2803,7 +2803,8 @@ def run(star_id: str = 'solar',
         xi_override: float = None,
         engine: str = 'spectrum',
         skip_convergence: bool = False,
-        ew_verify: bool = False) -> tuple:
+        ew_verify: bool = False,
+        uncertainty_per_line_out: str | None = None) -> tuple:
     """
     Derive abundances for a star and save results.
 
@@ -3101,6 +3102,15 @@ def run(star_id: str = 'solar',
     _curated_pool = None
     if 'solar' in star_id.lower():
         results, _curated_nonfe, _curated_pool = _wire_curated_nonfe_results(results, ew_df)
+
+    # RYA-1218/587: optional export for exact-pool perturbation campaigns.  The normal
+    # production output intentionally remains unchanged; callers doing uncertainty
+    # responses request the curated physical line pool explicitly and receive the
+    # per-line A_lte values used to form the aggregate Si result.
+    if uncertainty_per_line_out and _curated_pool is not None:
+        _u = _curated_pool[_curated_pool['element'].astype(str).eq('Si')].copy()
+        Path(uncertainty_per_line_out).parent.mkdir(parents=True, exist_ok=True)
+        _u.to_csv(uncertainty_per_line_out, index=False)
 
     # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
     # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
