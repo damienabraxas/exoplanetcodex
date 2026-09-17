@@ -296,5 +296,31 @@
         }
       ]
     }
-  ]
+  ],
+  "execution_host": "sirius",
+  "per_line_pool": {
+    "species": "Si I",
+    "n_lines": 8,
+    "identity_column": "wavelength_air_A",
+    "value_column": "A_lte",
+    "pool_note": "Curated pool exported after identical blind cull on every perturbation."
+  },
+  "responses": {
+    "teff_K": {
+      "dA_dparameter_mean": 0.0,
+      "dA_dparameter_std": 0.0,
+      "adopted_delta": 1.0,
+      "sigma_dex": 0.0,
+      "state": "HOLD_QUANTISATION_LIMIT",
+      "source": "solar_per_line_teff_K_minus.csv / solar_per_line_teff_K_plus.csv"
+    },
+    "vturb_kms": {
+      "dA_dparameter_mean": 0.0,
+      "dA_dparameter_std": 0.0,
+      "adopted_delta": 0.2912,
+      "sigma_dex": 0.0,
+      "state": "HOLD_QUANTISATION_LIMIT",
+      "source": "solar_per_line_vturb_kms_minus.csv / solar_per_line_vturb_kms_plus.csv"
+    }
+  }
 }
