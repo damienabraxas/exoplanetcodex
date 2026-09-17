@@ -30,7 +30,8 @@ def run(output: Path) -> None:
             started = time.time()
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 _, frame = ad.run(star_id="solar", engine="spectrum", skip_convergence=True,
-                                  stellar_params_override=params)
+                                  stellar_params_override=params,
+                                  uncertainty_per_line_out=str(output.parent / f"solar_per_line_{parameter}_{side}.csv"))
             si = frame[frame.element.astype(str).str.lower().eq("si")]
             runs.append({"parameter": parameter, "side": side, "step": step,
                          "params": params, "elapsed_s": time.time() - started,
