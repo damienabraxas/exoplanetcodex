@@ -349,10 +349,7 @@ def test_one_failing_cell_does_not_stop_the_matrix(rm, monkeypatch, tmp_path):
     which is the same silent gap as a dropped cell wearing a crash."""
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (False, "boom"))
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index",
-                        lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
     doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -370,9 +367,7 @@ def test_a_successful_run_that_published_nothing_is_not_DONE(rm, monkeypatch, tm
     monkeypatch.setattr(rm, "record_inputs_hash",
                         lambda *a, **k: pytest.fail("recorded a hash for an unpublished cell"))
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
     doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -399,9 +394,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
                   "n_lines": 12, "tier": "GRADED"}]
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": published})
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
 
     calls = []
     monkeypatch.setattr(rm, "_run_step",
@@ -434,9 +427,7 @@ def test_a_deck_independent_step_is_built_once_per_run(rm, monkeypatch, tmp_path
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
     ran = []
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (True, "ok"))[1])
@@ -460,9 +451,7 @@ def test_a_reused_step_is_only_reused_after_it_SUCCEEDED(rm, monkeypatch, tmp_pa
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
     ran = []
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (False, "boom"))[1])
@@ -481,9 +470,7 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
          "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.51,
          "n_lines": 12, "tier": "GRADED"}]})
 
-    class _Row:
-        measurement_ready, blocking_gate = "GO", ""
-    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
     kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps"],
@@ -511,6 +498,32 @@ class _AllGo(dict):
 
     def get(self, _key, _default=None):
         return self._row
+
+
+def reaches_the_executor(rm, monkeypatch):
+    """Clear the two gates that stand between a cell and dispatch, for tests about
+    what happens AFTER dispatch.
+
+    🔴 BOTH stubs are load-bearing, and the second one was learned the hard way.
+
+    `_readiness_index` is stubbed because RYA-1069's verdict is its own module's
+    business and these tests are about the orchestrator's bookkeeping.
+
+    `verify_numpy_ceiling` is stubbed because it asks the RUNNING INTERPRETER for
+    its numpy version, and that made these tests depend on the machine. On this Mac
+    numpy is 1.26.4 and they passed; on Sirius CI the interpreter carries numpy
+    above the RYA-682 2.3 ceiling, so `run()` correctly BLOCKED every cell and six
+    tests failed for a reason that has nothing to do with what they assert. The
+    guard was right and the tests were wrong. The ceiling has its own tests
+    (`test_the_numpy_ceiling_is_verified_on_the_pinned_interpreter` and
+    `test_an_interpreter_that_cannot_run_is_a_refusal_not_a_crash`), which is where
+    that behaviour belongs -- not as an invisible precondition of every other test.
+    """
+    class _Row:
+        measurement_ready, blocking_gate = "GO", ""
+    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    monkeypatch.setattr(rm, "verify_numpy_ceiling",
+                        lambda interpreter: (True, f"stubbed for {interpreter}"))
 
 
 # ── the RYA-682 ceiling is CHECKED, not asserted ─────────────────────────────
