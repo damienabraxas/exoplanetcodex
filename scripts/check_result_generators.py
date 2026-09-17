@@ -90,6 +90,19 @@ MANIFEST = f"{RESULTS_DIR}/GENERATORS.yaml"
 #: Files under data/results/ that are not result artifacts and need no generator.
 NON_ARTIFACTS = frozenset({MANIFEST, "data/processed/.gitkeep"})
 
+#: Structural git files, which are not results and have no generator.
+#:
+#: RYA-1222: `data/results/orchestrator/.gitignore` exists so the per-run timestamped
+#: reports stay untracked while the ledger and `_latest.json` stay tracked. It holds
+#: no measurement, so neither COMMITTED (there is no harness) nor HAND_AUTHORED (there
+#: are no `sources:` because there are no numbers) describes it -- and registering it
+#: as HAND_AUTHORED would dilute a set that exists to track hand-entered VALUES.
+#: `data/processed/.gitkeep` is already carved out by name above for the same reason;
+#: this generalises that carve-out to the file NAMES rather than adding one-offs, so
+#: the next directory that needs one does not have to touch this file.
+#: It matches on basename only -- an artifact is never called `.gitignore`.
+STRUCTURAL_BASENAMES = frozenset({".gitignore", ".gitkeep", ".gitattributes"})
+
 #: Allowed values of an entry's `status`. Three, because the RYA-686 audit found three
 #: genuinely different things sitting in data/results/ and collapsing them would lie:
 #:
@@ -130,7 +143,9 @@ def tracked_artifacts(root: Path) -> list[str]:
         ["git", "-C", str(root), "ls-files", "--", *SCANNED_DIRS],
         capture_output=True, text=True, check=True,
     ).stdout
-    return sorted(p for p in out.splitlines() if p and p not in NON_ARTIFACTS)
+    return sorted(p for p in out.splitlines()
+                  if p and p not in NON_ARTIFACTS
+                  and p.rsplit("/", 1)[-1] not in STRUCTURAL_BASENAMES)
 
 
 def load_manifest(root: Path) -> list[dict]:
