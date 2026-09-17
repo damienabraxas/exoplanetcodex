@@ -12764,3 +12764,9 @@ artifacts:
     ticket: RYA-1218
     note: Per-product diagnostic line scatter and candidate SE table emitted by the RYA-587 Si uncertainty audit; values are not publication uncertainties.
 
+
+  - artifact: rya1218/si_response_exact/si_exact_pool_response_summary.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Summary of Sirius exact seven-line Si synthesis responses and matched per-line derivatives.
