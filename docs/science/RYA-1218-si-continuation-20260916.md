@@ -105,3 +105,14 @@ The initial generic EW per-line response export was withdrawn after identity rev
 8-line curated EW pool did not match the seven instrument-specific Si I synthesis lines
 in the production products. It must not enter the uncertainty budget. The next run is an
 instrument-level synthesis perturbation on those exact seven IDs on Sirius.
+
+## Exact production-pool stellar responses (Sirius)
+
+The instrument synthesis harness was rerun on Sirius for the exact seven-line HARPS
+production pool. Teff perturbations (5672/5872 K) give a mean response of
+`+1.2429e-4 dex/K`, contributing `0.00012 dex` at the adopted 1 K solar uncertainty.
+Microturbulence perturbations (0.9/1.1 km/s) give `-0.05714 dex per km/s`, contributing
+`0.01664 dex` at the adopted 0.2912 km/s allowance. Per-line derivatives and pool IDs are
+in `data/results/rya1218/si_response_exact/si_exact_pool_response_summary.json`.
+These two terms are now measured diagnostics; the product budget remains HOLD until
+transition covariance and the remaining RYA-587 components are evidenced.
