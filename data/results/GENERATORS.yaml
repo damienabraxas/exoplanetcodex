@@ -12794,3 +12794,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Current RYA-587 Si budget with exact seven-line pool; Teff and xi measured, all remaining required components explicit HOLD.
+
+  - artifact: rya1218/si_blend_coupling_audit.json
+    generator: scripts/audit_si_profile_continuum_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Exact seven-line Si blend-neighborhood audit; nearby Fe transitions are retained and the blend term remains HOLD pending matched perturbations.

@@ -1,0 +1,68 @@
+{
+  "ticket": "RYA-1218",
+  "component": "blends",
+  "pool_n": 7,
+  "lines": [
+    {
+      "wavelength_air_A": 5645.613,
+      "blend_flag": false,
+      "central_depth": 0.236,
+      "nearby_transitions": []
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "blend_flag": false,
+      "central_depth": 0.388,
+      "nearby_transitions": [
+        {
+          "element": "Fe",
+          "ion": "I",
+          "wavelength_air_A": 5684.48433,
+          "central_depth": 0.042,
+          "blend_flag": false
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "blend_flag": false,
+      "central_depth": 0.325,
+      "nearby_transitions": [
+        {
+          "element": "Fe",
+          "ion": "I",
+          "wavelength_air_A": 5690.4295,
+          "central_depth": 0.036,
+          "blend_flag": false
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "blend_flag": false,
+      "central_depth": 0.264,
+      "nearby_transitions": []
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "blend_flag": false,
+      "central_depth": 0.309,
+      "nearby_transitions": []
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "blend_flag": false,
+      "central_depth": 0.257,
+      "nearby_transitions": []
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "blend_flag": false,
+      "central_depth": 0.066,
+      "nearby_transitions": []
+    }
+  ],
+  "state": "HOLD",
+  "reason": "Two production windows contain nearby Fe transitions within 0.005 A; blend flags alone do not quantify residual abundance covariance.",
+  "next_action": "Run matched blend-on/off synthesis perturbations on Sirius for the exact seven windows."
+}
