@@ -12,7 +12,8 @@
       "loggf_reference": "GARZ|BL",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 5684.484,
@@ -21,7 +22,8 @@
       "loggf_reference": "VALD3",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 5690.425,
@@ -30,7 +32,8 @@
       "loggf_reference": "VALD3",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 5701.104,
@@ -39,7 +42,8 @@
       "loggf_reference": "VALD3",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 5772.146,
@@ -48,7 +52,8 @@
       "loggf_reference": "VALD3",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 5793.073,
@@ -57,7 +62,8 @@
       "loggf_reference": "NIST ASD v5.11 grade B",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     },
     {
       "wavelength_air_A": 6741.628,
@@ -66,10 +72,19 @@
       "loggf_reference": "VALD3",
       "gf_sigma_dex": null,
       "state": "HOLD",
-      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition.",
+      "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     }
   ],
   "state": "HOLD",
   "sigma_dex": null,
-  "next_action": "Obtain cited laboratory gf uncertainties and covariance grouping for all seven transitions."
+  "next_action": "Attach primary Garz/O'Brian-Lawler citation and exact transition-level uncertainty table; then validate the fully correlated covariance against the median estimator.",
+  "candidate_evidence": {
+    "common_source_sigma_dex": 0.097,
+    "covariance_model": "fully correlated common-source term across all seven lines",
+    "candidate_sigma_pool_dex": 0.097,
+    "source_basis": "canonical_si_census.reference_gf_source",
+    "state": "HOLD_SOURCE_CITATION",
+    "reason": "The repository records the 0.097-dex common-source allowance, but does not provide a primary DOI or line-level laboratory uncertainty table for these exact transitions; candidate is not admitted."
+  }
 }
