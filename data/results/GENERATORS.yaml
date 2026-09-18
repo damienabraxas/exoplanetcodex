@@ -12788,3 +12788,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Matched HARPS/IAG/Kitt Peak seven-line holding differences; diagnostic only until an adopted holding covariance model is supplied.
+
+  - artifact: rya1218/si_uncertainty_budget_current.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Current RYA-587 Si budget with exact seven-line pool; Teff and xi measured, all remaining required components explicit HOLD.

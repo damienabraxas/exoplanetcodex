@@ -1,0 +1,136 @@
+{
+  "schema": "rya587.uncertainty.v1",
+  "ticket": "RYA-1218",
+  "scope": {
+    "star": "solar",
+    "pool_species": "Si I",
+    "pool_n": 7,
+    "pool_ids": [
+      5645.613,
+      5684.484,
+      5690.425,
+      5701.104,
+      5772.146,
+      5793.073,
+      6741.628
+    ]
+  },
+  "components": [
+    {
+      "name": "measurement",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "transition_data",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Primary bibliography recorded; exact line-level gf uncertainty table/covariance not supplied."
+    },
+    {
+      "name": "stellar.teff",
+      "state": "MEASURED",
+      "sigma_dex": 0.0001243,
+      "reason": "Sirius exact seven-line paired synthesis response, adopted solar Teff uncertainty 1 K."
+    },
+    {
+      "name": "stellar.logg",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "stellar.xi",
+      "state": "MEASURED",
+      "sigma_dex": 0.01664,
+      "reason": "Sirius exact seven-line paired synthesis response, adopted xi allowance 0.2912 km/s."
+    },
+    {
+      "name": "stellar.metallicity",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "continuum",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "profile_ew",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "pseudo_continuum",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "telluric",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "holding_instrument",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "nlte",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "model_atmosphere",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "hfs_isotopes",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "blends",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    },
+    {
+      "name": "molecular_coupling",
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Required RYA-587 evidence not supplied."
+    }
+  ],
+  "sigma_reported": null,
+  "state": "HOLD",
+  "holds": [
+    "measurement",
+    "transition_data",
+    "stellar.logg",
+    "stellar.metallicity",
+    "continuum",
+    "profile_ew",
+    "pseudo_continuum",
+    "telluric",
+    "holding_instrument",
+    "nlte",
+    "model_atmosphere",
+    "hfs_isotopes",
+    "blends",
+    "molecular_coupling"
+  ],
+  "partial_measured_quadrature_dex": 0.016640464251035783,
+  "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
+}

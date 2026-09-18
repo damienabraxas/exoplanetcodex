@@ -84,7 +84,19 @@
     "covariance_model": "fully correlated common-source term across all seven lines",
     "candidate_sigma_pool_dex": 0.097,
     "source_basis": "canonical_si_census.reference_gf_source",
-    "state": "HOLD_SOURCE_CITATION",
-    "reason": "The repository records the 0.097-dex common-source allowance, but does not provide a primary DOI or line-level laboratory uncertainty table for these exact transitions; candidate is not admitted."
-  }
+    "state": "HOLD_LINE_TABLE",
+    "reason": "Primary bibliography is now recorded, but the exact seven-line laboratory uncertainty table and transition-to-source mapping are still absent."
+  },
+  "source_bibliography": [
+    {
+      "citation": "Garz, T. 1973, Relative oscillator strengths for Si I, Astronomy & Astrophysics 26, 471-477",
+      "role": "relative gf scale",
+      "primary_doi": null
+    },
+    {
+      "citation": "O\u2019Brian, T. R. & Lawler, J. E. 1991, Phys. Rev. A 44, 7134-7143",
+      "doi": "10.1103/PhysRevA.44.7134",
+      "role": "Si I radiative lifetimes used to place the relative scale"
+    }
+  ]
 }
