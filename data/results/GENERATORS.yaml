@@ -12782,3 +12782,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Exact seven-line Si profile and continuum evidence audit; diagnostics retained, both components remain HOLD pending matched perturbations.
+
+  - artifact: rya1218/si_holding_covariance_audit.json
+    generator: scripts/audit_si_profile_continuum_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Matched HARPS/IAG/Kitt Peak seven-line holding differences; diagnostic only until an adopted holding covariance model is supplied.
