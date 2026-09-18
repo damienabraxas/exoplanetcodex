@@ -369,6 +369,131 @@ def xi_band_index() -> dict:
     return idx
 
 
+def xi_min_paired() -> int:
+    """The paired-line floor, READ FROM THE RUNS rather than restated here (RYA-1224).
+
+    🔴 RYA-1224 -- THE FLOOR WAS ENFORCED BY THE ARTIFACT, NOT BY THE RULE, SO ONE ROUTE
+    HAD IT AND THE OTHER DID NOT. Every band-keyed run declares `min_paired` and applies it
+    to its own pools, which is why `xi_terms` could read those verdicts and be right. The
+    RYA-1120 campaign declares NO floor and the campaign branch never checked one, so the
+    same physical pool came out UNMEASURED when a band run answered for it and ALIASED when
+    the campaign did -- one pool, two honesty standards (the RYA-1221 audit's finding [M]).
+    Hoisting the floor here makes it a property of the RULE, so it binds both routes and
+    every tier.
+
+    ⚠️ IT IS DERIVED, NOT COPIED. A literal 3 here would be a fourth place the number
+    lives and a fourth place it can drift from the runs that actually measured against it
+    (RYA-1170's lesson). The runs are the SSOT; disagreement is refused rather than
+    reconciled, because a floor that differs per run is not a floor.
+    """
+    def _rel(path):
+        #: ⚠️ A run outside ROOT is what a monkeypatched test run looks like, and
+        #: `relative_to` RAISES on it -- so the refusal path would die with a pathlib
+        #: ValueError instead of the message it exists to print (RYA-1224).
+        try:
+            return str(path.relative_to(ROOT))
+        except ValueError:
+            return str(path)
+
+    floors = {}
+    for path in XI_BAND_RUNS:
+        doc = json.loads(path.read_text())
+        mp = doc.get("min_paired")
+        if mp is None:
+            raise SystemExit(f"{_rel(path)} declares no `min_paired` -- the floor cannot "
+                             f"be derived, and this module refuses to invent one "
+                             f"(RYA-1224)")
+        floors[_rel(path)] = int(mp)
+    if len(set(floors.values())) != 1:
+        raise SystemExit(f"the band-keyed runs disagree on `min_paired`: {floors} -- a "
+                         f"per-run floor is not a floor (RYA-1224)")
+    return next(iter(floors.values()))
+
+
+def xi_min_paired_hold(prod: dict, min_paired: int, band_entry: dict = None) -> dict | None:
+    """The UNMEASURED hold when this product's OWN pool cannot clear the floor.
+
+    🔴 RYA-1224 -- THE TEST IS ON THE PRODUCT'S POOL, NOT ON THE POOL THAT WAS MEASURED.
+    `n_paired <= n_lines` always: a paired differential can only pair lines the product
+    actually has. So `n_lines < min_paired` proves the product's own pool is below the
+    floor WITHOUT needing a run on it -- which is the whole point, because these are
+    exactly the pools no run answered for. Where a run DID answer, its own verdict is
+    read downstream and says the same thing.
+
+    ⚠️ THIS SITS AFTER `xi_disposition` AND THAT ORDER IS THE PHYSICS. A term that does
+    not apply cannot be "unmeasured": a 2-line full-3D product is NOT_APPLICABLE, not a
+    hold. Reversing the two would relabel an exemption as an owed measurement.
+    """
+    n = prod.get("n_lines")
+    if n is None or int(n) >= min_paired:
+        return None
+    note = (f"only {int(n)} line(s) in this product's own pool, below "
+            f"min_paired={min_paired} -- a derivative measured on fewer than "
+            f"{min_paired} paired lines exists as a float and is not a "
+            f"measurement (RYA-1163's floor, RYA-1031's reason). No derivative "
+            f"is published for it and none is borrowed from a pool that does "
+            f"clear the floor: the hold is the same at EVERY tier (RYA-1224).")
+    #: 🔴 RYA-1224 -- WHERE A RUN ALSO DECLINED THIS POOL, ITS NOTE IS THE BETTER EVIDENCE
+    #: AND THE FLOOR MUST NOT SWALLOW IT. Binding the floor above the band read initially
+    #: replaced five already-held notes with this generic one, and they were strictly
+    #: richer: they named the run and the artifact, and RYA-1163's carried its own
+    #: reasoning ("two points define a slope exactly and carry no dispersion; the value
+    #: would be an artifact of which lines survived"). Dropping that is a provenance
+    #: regression -- the verdict was never in question on those five, only who said it.
+    #: The hold still binds; only the attribution is restored.
+    if band_entry is not None and band_entry.get("xi_state") != "MEASURED":
+        note += (f" The band-keyed run agrees and declined this pool in its own words: "
+                 f"\"{band_entry.get('xi_note') or 'not measured'}\" "
+                 f"[{band_entry.get('_ticket')}, {band_entry.get('_source')}].")
+    return {"sigma_xi": None, "xi_state": "UNMEASURED", "xi_note": note}
+
+
+def xi_same_artifact_entry(prod: dict, idx: dict, feed: dict) -> dict | None:
+    """A band-keyed run on the BYTE-IDENTICAL artifact, reached across the tier key.
+
+    🔴 RYA-1224 -- 18 ARTIFACTS ARE PUBLISHED AT TWO TIERS, AND THE BAND KEY CARRIES TIER,
+    SO A DERIVATIVE MEASURED ON ONE OF THEM IS INVISIBLE TO THE OTHER. The Fe II VIS cells
+    are the clearest case: `provenance.sha256` is EQUAL across the DEEPGRADED and REFERENCE
+    rows -- one CSV, one measurement, two tier labels (`line_set_resolved` is derived from
+    `tier` at read time, RYA-1127, so it differs without anything physical differing). The
+    RYA-1213 run measured the derivative on that very file; the Deep row could not see it
+    and fell through to the campaign, which had measured a DIFFERENT pool -- published
+    ALIASED.
+
+    ⚠️ THIS IS THE OPPOSITE OF BORROWING, AND ONLY BECAUSE THE GATE IS IDENTITY. Matching
+    counts is what the ALIASED test already does and it is a proxy; matching `A` is a proxy
+    too, and RYA-1112 has a Fe II cell carrying the Fe I anchor's own digits on a different
+    scale. The gate here is the artifact HASH, plus the full physical key, plus `A`,
+    `n_lines` and `n_excluded` -- and, stricter than the same-tier path, the run must have
+    paired this product's pool ENTIRELY (`n_paired == n_lines`). A route that crosses a key
+    has to prove it is the same pool, not resemble one.
+    """
+    sha = (prod.get("provenance") or {}).get("sha256")
+    if not sha:
+        return None
+    key = (prod.get("ion"), prod.get("holding"), prod.get("band"),
+           prod.get("treatment"), prod.get("route"))
+    for q in feed["products"]:
+        if q is prod or q.get("tier") == prod.get("tier"):
+            continue
+        if (q.get("provenance") or {}).get("sha256") != sha:
+            continue
+        if (q.get("ion"), q.get("holding"), q.get("band"),
+                q.get("treatment"), q.get("route")) != key:
+            continue
+        if (q.get("A"), q.get("n_lines"), q.get("n_excluded")) != \
+                (prod.get("A"), prod.get("n_lines"), prod.get("n_excluded")):
+            continue
+        e = idx["band"].get((q.get("ion"), q.get("holding"), q.get("tier"),
+                             q.get("treatment"), q.get("band")))
+        if e is None or e.get("xi_state") != "MEASURED" or e.get("dA_dxi") is None:
+            continue
+        if e.get("n_paired") != prod.get("n_lines"):
+            continue
+        return {**e, "_sibling_tier": q.get("tier"), "_sibling_sha": sha}
+    return None
+
+
 def model_grid(models: pd.DataFrame, treatment: str) -> str | None:
     """`model_family` x `atmosphere` x `deck` for the treatment token, from the registry."""
     r = models[models.stored_token.astype(str) == str(treatment)]
@@ -412,16 +537,58 @@ def xi_index(xi_doc: dict, feed: dict) -> dict:
             continue
         k = (p["ion"], p["holding"], p["tier"], p["treatment"], p["route"])
         serves.setdefault(k, set()).add(p["band"])
-    return {"by_key": by_key, "serves": serves, "band": band}
+    #: `min_paired` and `feed` ride the index because RYA-1224's floor and its
+    #: same-artifact route are properties of the RULE, not of one call site -- every caller
+    #: of `xi_terms` gets them without having to remember to pass them.
+    return {"by_key": by_key, "serves": serves, "band": band,
+            "min_paired": xi_min_paired(), "feed": feed}
 
 
 def xi_terms(prod: dict, idx: dict) -> dict:
-    """The xi layer for one product, honest about which pool the derivative came from."""
+    """The xi layer for one product, honest about which pool the derivative came from.
+
+    🔴 RYA-1224 -- THE ORDER IS THE RULE, AND IT IS THE SAME ORDER AT EVERY TIER:
+      1. does xi apply at all       -- NOT_APPLICABLE, a term that does not exist
+      2. can this pool clear the floor -- UNMEASURED hold, uniform across both routes
+      3. a run on this product's own (band, tier)
+      4. a run on the BYTE-IDENTICAL artifact published at another tier
+      5. the RYA-1120 campaign, which carries no band
+    Steps 1 and 2 used to sit BELOW the band read, and step 2 did not exist on the campaign
+    branch at all -- which is how the same physical pool came out UNMEASURED at Reference
+    and ALIASED at Deep.
+    """
     base = {"xi_value_kms": XI_VALUE_KMS, "delta_xi_kms": DELTA_XI_KMS}
 
-    #: A band-keyed run answers for this product's OWN band, so it wins outright.
+    #: 🔴 RYA-1224 -- A HAND-ROLLED INDEX MUST NOT SILENTLY LOSE THE FLOOR. Callers used to
+    #: build `{"band": xi_band_index()}` when they only wanted the band path; with the floor
+    #: and the same-artifact route living on the index, a partial dict would skip both and
+    #: publish exactly the borrowed derivative this ticket removed. Refuse it by NAME
+    #: instead of defaulting, because a default here is the vacuous-guard failure mode.
+    missing = [k for k in ("band", "by_key", "serves", "min_paired", "feed") if k not in idx]
+    if missing:
+        raise KeyError(f"xi_terms needs a full index from xi_index(); missing {missing}. "
+                       f"Build it with xi_index(xi_doc, feed), never by hand (RYA-1224).")
+
+    #: 🔴 RYA-1185 -- FULL 3D IS NOT_APPLICABLE BY WHAT IT IS. Hoisted above the band read
+    #: by RYA-1224 so the floor below it cannot relabel an exemption as an owed
+    #: measurement; no band-keyed run covers a NOT_APPLICABLE treatment, so the move
+    #: changes no live verdict (asserted in `test_rya1224_xi_floor_is_tier_uniform`).
+    na = xi_disposition(prod)
+    if na is not None:
+        return {**base, "sigma_xi": 0.0, "xi_state": na[0], "xi_note": na[1]}
+
+    #: 🔴 RYA-1224 -- THE FLOOR BINDS BEFORE ANY DERIVATIVE IS READ, so a sub-threshold
+    #: pool cannot acquire one from either route. This is the rule Reference was already
+    #: applying via its run's verdict, now stated once and applied to all 160 products.
+    #: The band-keyed entry is looked up BEFORE the floor so the hold can cite it, but it
+    #: is not READ for a derivative until after -- the floor still binds first (RYA-1224).
     b = idx["band"].get((prod["ion"], prod["holding"], prod["tier"], prod["treatment"],
                          prod["band"]))
+
+    hold = xi_min_paired_hold(prod, idx["min_paired"], b)
+    if hold is not None:
+        return {**base, **hold}
+
     if b is not None:
         #: ⚠️ THE RUN'S OWN `xi_state` DECIDES, NOT THE PRESENCE OF A NUMBER. The CRIRES+
         #: ENGINE-A NIR pool carries dA_dxi = -0.1225 AND xi_state = UNMEASURED, because it
@@ -441,6 +608,26 @@ def xi_terms(prod: dict, idx: dict) -> dict:
                             f"whose run unit carries no band (RYA-1114 F2)."),
                 "xi_source": b["_source"]}
 
+    #: 🔴 RYA-1224 -- BEFORE THE BAND-LESS CAMPAIGN, ASK WHETHER A BAND-KEYED RUN ALREADY
+    #: MEASURED THIS EXACT FILE at another tier. Where it did, the campaign's band-less
+    #: value is strictly worse evidence about this product than a run on its own bytes, and
+    #: preferring the campaign is what produced the ALIASED labels.
+    s = xi_same_artifact_entry(prod, idx, idx["feed"])
+    if s is not None:
+        return {**base, "sigma_xi": round(abs(s["dA_dxi"]) * DELTA_XI_KMS, 6),
+                "dA_dxi": s["dA_dxi"], "xi_state": "MEASURED",
+                "xi_note": (f"|dA/dxi|={abs(s['dA_dxi']):.4f} x delta_xi={DELTA_XI_KMS}, "
+                            f"measured on THIS PRODUCT'S OWN POOL -- all "
+                            f"{s.get('n_paired')} of its {prod.get('n_lines')} lines "
+                            f"paired -- by {s['_ticket']} ({s['_source']}). That run is "
+                            f"filed under tier {s['_sibling_tier']}, but the tier label is "
+                            f"the only thing that differs: `provenance.sha256` is EQUAL "
+                            f"({str(s['_sibling_sha'])[:12]}), so this is one artifact "
+                            f"published at two tiers, not a sibling's number. Not the "
+                            f"RYA-1120 campaign value, whose run unit carries no band and "
+                            f"which measured a different pool (RYA-1224)."),
+                "xi_source": s["_source"]}
+
     k = (prod["ion"], prod["holding"], prod["tier"], prod["treatment"], prod["route"])
     entries = idx["by_key"].get(k, [])
     bands = idx["serves"].get(k, set())
@@ -453,9 +640,10 @@ def xi_terms(prod: dict, idx: dict) -> dict:
     #: made the four newly published RYA-1106 Asplund products (also ENGINE-A-3DNLTE) fall
     #: through to NOT_IN_CAMPAIGN -- "we never ran it", which is the wrong reason and reads
     #: as an owed measurement rather than a term that does not exist.
-    na = xi_disposition(prod)
-    if na is not None:
-        return {**base, "sigma_xi": 0.0, "xi_state": na[0], "xi_note": na[1]}
+    #:
+    #: ⚠️ RYA-1224 HOISTED THIS TEST TO THE TOP OF THE FUNCTION and it is no longer
+    #: repeated here: the disposition does not depend on which route answers, and leaving a
+    #: second copy on one branch is how the two routes drifted apart in the first place.
 
     if not entries:
         return {**base, "sigma_xi": None, "xi_state": "NOT_IN_CAMPAIGN",
@@ -739,6 +927,17 @@ def update_xi_budget(p: dict, idx: dict) -> None:
     p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
     if "dA_dxi" in xt:
         p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
+    else:
+        #: 🔴 RYA-1224 -- CLEARED, NOT LEFT BEHIND. This emitter MUTATES the feed in place
+        #: and re-runs over rows it wrote before, so a field written under a previous
+        #: verdict SURVIVES the verdict that justified it. RYA-1213 hit exactly this with
+        #: `sigma_reported_caveat`; the derivative is the same shape of bug and worse,
+        #: because the ticket's requirement is that a held pool's derivative be NOT
+        #: READABLE FROM THE PRODUCT. Reclassifying ALIASED -> UNMEASURED without this
+        #: line left the borrowed float sitting in `dA_dxi_dex_per_kms` beside a state
+        #: saying no derivative exists -- the honest label with the dishonest number still
+        #: attached. Caught by `test_no_sub_floor_pool_carries_a_derivative_at_any_tier`.
+        p.pop("dA_dxi_dex_per_kms", None)
 
     # Part 2 — sigma_syst must be a real total of its NAMED components, and
     # sigma_reported must include it. The campaign's own sigma_reported did NOT:
