@@ -12770,3 +12770,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Summary of Sirius exact seven-line Si synthesis responses and matched per-line derivatives.
+
+  - artifact: rya1218/si_transition_covariance_audit.json
+    generator: scripts/adjudicate_si_grades_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Exact seven-line Si transition-data covariance audit; all lines remain HOLD because line-specific gf sigma and shared-source covariance are undeclared.

@@ -1,0 +1,75 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "component": "transition_data",
+  "pool_species": "Si I",
+  "pool_n": 7,
+  "lines": [
+    {
+      "wavelength_air_A": 5645.613,
+      "line_id": "gf_117415",
+      "gf_tier": "OTHER",
+      "loggf_reference": "GARZ|BL",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "line_id": "gf_117437",
+      "gf_tier": "VALD3",
+      "loggf_reference": "VALD3",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "line_id": "gf_117438",
+      "gf_tier": "VALD3",
+      "loggf_reference": "VALD3",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "line_id": "gf_117440",
+      "gf_tier": "VALD3",
+      "loggf_reference": "VALD3",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "line_id": "gf_117470",
+      "gf_tier": "VALD3",
+      "loggf_reference": "VALD3",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "line_id": "gf_117477",
+      "gf_tier": "NIST-C+",
+      "loggf_reference": "NIST ASD v5.11 grade B",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "line_id": "gf_117856",
+      "gf_tier": "VALD3",
+      "loggf_reference": "VALD3",
+      "gf_sigma_dex": null,
+      "state": "HOLD",
+      "reason": "No line-specific laboratory sigma or shared-source covariance is declared for this production transition."
+    }
+  ],
+  "state": "HOLD",
+  "sigma_dex": null,
+  "next_action": "Obtain cited laboratory gf uncertainties and covariance grouping for all seven transitions."
+}
