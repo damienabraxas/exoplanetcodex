@@ -1,0 +1,2411 @@
+{
+  "ticket": "RYA-1218",
+  "related": [
+    "RYA-725",
+    "RYA-754",
+    "RYA-587"
+  ],
+  "products": [
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.613,
+      "n_lines": 2,
+      "uncertainty_indicator_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|harps|solar_harps_molecfit_corrected|ALL|FROMEW|SYNTH|ENGINE-A|si-agss21",
+          "pool_sha256": "b96124af362824e2f1fb2d6b8a8155c897d2faeaf637a2db9687cafb7028955b"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 2,
+                "median": 7.613221363636363,
+                "mean": 7.613221363636363,
+                "scatter": 0.09524149800670932,
+                "sem_mean": 0.0673459090909092,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0673,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "statistics": {
+        "n": 2,
+        "median": 7.613221363636363,
+        "mean": 7.613221363636363,
+        "scatter": 0.09524149800670932,
+        "sem_mean": 0.0673459090909092,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0673,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0673,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-B",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.586,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|harps|solar_harps_molecfit_corrected|ALL|FROMEW|SYNTH|ENGINE-B|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.586,
+                "mean": 7.638142857142857,
+                "scatter": 0.13927721585795297,
+                "sem_mean": 0.052641839493943576,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0526,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.586,
+        "mean": 7.638142857142857,
+        "scatter": 0.13927721585795297,
+        "sem_mean": 0.052641839493943576,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0526,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0526,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.586,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|harps|solar_harps_molecfit_corrected|ALL|FROMEW|SYNTH|1D-LTE|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.586,
+                "mean": 7.638142857142857,
+                "scatter": 0.13927721585795297,
+                "sem_mean": 0.052641839493943576,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0526,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.586,
+        "mean": 7.638142857142857,
+        "scatter": 0.13927721585795297,
+        "sem_mean": 0.052641839493943576,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0526,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0526,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.658,
+      "n_lines": 2,
+      "uncertainty_indicator_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|FROMEW|SYNTH|ENGINE-A|si-agss21",
+          "pool_sha256": "b96124af362824e2f1fb2d6b8a8155c897d2faeaf637a2db9687cafb7028955b"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 2,
+                "median": 7.657721363636364,
+                "mean": 7.657721363636364,
+                "scatter": 0.0648359064156883,
+                "sem_mean": 0.045845909090909576,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0458,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "statistics": {
+        "n": 2,
+        "median": 7.657721363636364,
+        "mean": 7.657721363636364,
+        "scatter": 0.0648359064156883,
+        "sem_mean": 0.045845909090909576,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0458,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0458,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-B",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.625,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|FROMEW|SYNTH|ENGINE-B|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.625,
+                "mean": 7.638714285714285,
+                "scatter": 0.07422424196472537,
+                "sem_mean": 0.02805412649870679,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0281,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.625,
+        "mean": 7.638714285714285,
+        "scatter": 0.07422424196472537,
+        "sem_mean": 0.02805412649870679,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0281,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0281,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.625,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|FROMEW|SYNTH|1D-LTE|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.625,
+                "mean": 7.638714285714285,
+                "scatter": 0.07422424196472537,
+                "sem_mean": 0.02805412649870679,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0281,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv",
+      "line_artifact": "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.625,
+        "mean": 7.638714285714285,
+        "scatter": 0.07422424196472537,
+        "sem_mean": 0.02805412649870679,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0281,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0281,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.663,
+      "n_lines": 2,
+      "uncertainty_indicator_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|FROMEW|SYNTH|ENGINE-A|si-agss21",
+          "pool_sha256": "b96124af362824e2f1fb2d6b8a8155c897d2faeaf637a2db9687cafb7028955b"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 2,
+                "median": 7.663221363636364,
+                "mean": 7.663221363636364,
+                "scatter": 0.07119986744636683,
+                "sem_mean": 0.050345909090909295,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0503,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv",
+      "line_artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv",
+      "statistics": {
+        "n": 2,
+        "median": 7.663221363636364,
+        "mean": 7.663221363636364,
+        "scatter": 0.07119986744636683,
+        "sem_mean": 0.050345909090909295,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0503,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0503,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "ENGINE-B",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.657,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|FROMEW|SYNTH|ENGINE-B|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.657,
+                "mean": 7.642571428571429,
+                "scatter": 0.07515286009828497,
+                "sem_mean": 0.028405111162184457,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0284,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv",
+      "line_artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.657,
+        "mean": 7.642571428571429,
+        "scatter": 0.07515286009828497,
+        "sem_mean": 0.028405111162184457,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0284,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0284,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "FROMEW",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "line_set": "si-agss21",
+      "star": "solar",
+      "A": 7.657,
+      "n_lines": 7,
+      "uncertainty_indicator_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "sigma_reported": null,
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|FROMEW|SYNTH|1D-LTE|si-agss21",
+          "pool_sha256": "cf1fd1f1743c7e13754f7542c2fe7ebafa0fb7f5118349f0ef548d517e3ec9c1"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived aggregate is a median; its scatter/sqrt(N) is an SE of the mean. Independence and estimator-specific uncertainty are not established.",
+              "archived_statistics": {
+                "n": 7,
+                "median": 7.657,
+                "mean": 7.642571428571429,
+                "scatter": 0.07515286009828497,
+                "sem_mean": 0.028405111162184457,
+                "reported_estimator": "median",
+                "reported_stat_dex": 0.0284,
+                "statistical_admission": "HOLD_estimator_and_independence_assessment"
+              }
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Archived 0.17 dex is an explicitly unmeasured gf placeholder. Need the used transition scale, per-line evidence and shared-source covariance."
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "1D synthesis has xi; no matched-pool response supplied."
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "No matched-pool adopted-uncertainty response supplied."
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "A shipped continuum is not a measurement of its uncertainty."
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Fit curvature and fit-quality diagnostics are not a validated noise/correlation likelihood."
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Requires assessed applicability and overlap with continuum/profile terms."
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Correction state alone does not quantify residual uncertainty or establish N/A at each line."
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Matched holding differences available diagnostically; no adopted covariance model."
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Partial line corrections do not establish model uncertainty on the entire pool."
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Labeled engine comparisons are not automatically independent atmosphere realizations."
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Applicability must be supported for the physical Si transitions."
+            }
+          },
+          {
+            "name": "blends",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Accepted minima do not establish absence or uncertainty of blends."
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "HOLD",
+            "sigma_dex": null,
+            "source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+            "evidence": {
+              "reason": "Atomic Si still requires assessment of molecular background/blend coupling."
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [],
+        "covariance_order": [],
+        "covariance_source": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+        "assumptions": "No missing covariance or component is inferred as zero.",
+        "state": "HOLD",
+        "holds": [
+          "measurement",
+          "transition_data",
+          "stellar.teff",
+          "stellar.logg",
+          "stellar.xi",
+          "stellar.metallicity",
+          "continuum",
+          "profile_ew",
+          "pseudo_continuum",
+          "telluric",
+          "holding_instrument",
+          "nlte",
+          "model_atmosphere",
+          "hfs_isotopes",
+          "blends",
+          "molecular_coupling"
+        ],
+        "sigma_reported": null,
+        "sigma_measured_partial": null
+      },
+      "artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv",
+      "line_artifact": "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv",
+      "statistics": {
+        "n": 7,
+        "median": 7.657,
+        "mean": 7.642571428571429,
+        "scatter": 0.07515286009828497,
+        "sem_mean": 0.028405111162184457,
+        "reported_estimator": "median",
+        "reported_stat_dex": 0.0284,
+        "statistical_admission": "HOLD_estimator_and_independence_assessment"
+      },
+      "legacy_stat_dex": 0.0284,
+      "legacy_syst_dex": 0.17,
+      "disposition": "DIAGNOSTIC_HOLD",
+      "line_set_meaning": "External-list membership on canonical gf, not source-scale replication"
+    }
+  ],
+  "comparisons": [
+    {
+      "kind": "holding",
+      "left": "solar_harps_molecfit_corrected",
+      "right": "solar_iag",
+      "treatment": "1D-LTE",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": -0.0005714285714287623,
+      "median_delta": -0.023000000000000576,
+      "per_line_delta": {
+        "gf_117415": -0.036000000000000476,
+        "gf_117437": -0.04300000000000015,
+        "gf_117438": -0.01100000000000012,
+        "gf_117440": -0.06599999999999984,
+        "gf_117470": -0.023000000000000576,
+        "gf_117477": -0.0019999999999997797,
+        "gf_117856": 0.1769999999999996
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "holding",
+      "left": "solar_harps_molecfit_corrected",
+      "right": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": -0.004428571428571385,
+      "median_delta": -0.03300000000000036,
+      "per_line_delta": {
+        "gf_117415": -0.027000000000000135,
+        "gf_117437": -0.04999999999999982,
+        "gf_117438": -0.08999999999999986,
+        "gf_117440": -0.06700000000000017,
+        "gf_117470": -0.03300000000000036,
+        "gf_117477": 0.02600000000000069,
+        "gf_117856": 0.20999999999999996
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "holding",
+      "left": "solar_iag",
+      "right": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": -0.0038571428571426225,
+      "median_delta": -0.001000000000000334,
+      "per_line_delta": {
+        "gf_117415": 0.009000000000000341,
+        "gf_117437": -0.006999999999999673,
+        "gf_117438": -0.07899999999999974,
+        "gf_117440": -0.001000000000000334,
+        "gf_117470": -0.009999999999999787,
+        "gf_117477": 0.02800000000000047,
+        "gf_117856": 0.03300000000000036
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "NLTE_on_matched_lines",
+      "left": "ENGINE-A",
+      "right": "1D-LTE",
+      "holding": "solar_harps_molecfit_corrected",
+      "matched_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "n": 2,
+      "left_only": [],
+      "right_only": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "mean_delta": -0.015778636363636522,
+      "median_delta": -0.015778636363636522,
+      "per_line_delta": {
+        "gf_117440": -0.013124545454545888,
+        "gf_117470": -0.018432727272727156
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "engine_label_check",
+      "left": "ENGINE-B",
+      "right": "1D-LTE",
+      "holding": "solar_harps_molecfit_corrected",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "per_line_delta": {
+        "gf_117415": 0.0,
+        "gf_117437": 0.0,
+        "gf_117438": 0.0,
+        "gf_117440": 0.0,
+        "gf_117470": 0.0,
+        "gf_117477": 0.0,
+        "gf_117856": 0.0
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "NLTE_on_matched_lines",
+      "left": "ENGINE-A",
+      "right": "1D-LTE",
+      "holding": "solar_iag",
+      "matched_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "n": 2,
+      "left_only": [],
+      "right_only": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "mean_delta": -0.015778636363636522,
+      "median_delta": -0.015778636363636522,
+      "per_line_delta": {
+        "gf_117440": -0.013124545454545888,
+        "gf_117470": -0.018432727272727156
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "engine_label_check",
+      "left": "ENGINE-B",
+      "right": "1D-LTE",
+      "holding": "solar_iag",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "per_line_delta": {
+        "gf_117415": 0.0,
+        "gf_117437": 0.0,
+        "gf_117438": 0.0,
+        "gf_117440": 0.0,
+        "gf_117470": 0.0,
+        "gf_117477": 0.0,
+        "gf_117856": 0.0
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "NLTE_on_matched_lines",
+      "left": "ENGINE-A",
+      "right": "1D-LTE",
+      "holding": "solar_kpno_molecfit_corrected",
+      "matched_ids": [
+        "gf_117440",
+        "gf_117470"
+      ],
+      "n": 2,
+      "left_only": [],
+      "right_only": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "mean_delta": -0.015778636363636522,
+      "median_delta": -0.015778636363636522,
+      "per_line_delta": {
+        "gf_117440": -0.013124545454545888,
+        "gf_117470": -0.018432727272727156
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    },
+    {
+      "kind": "engine_label_check",
+      "left": "ENGINE-B",
+      "right": "1D-LTE",
+      "holding": "solar_kpno_molecfit_corrected",
+      "matched_ids": [
+        "gf_117415",
+        "gf_117437",
+        "gf_117438",
+        "gf_117440",
+        "gf_117470",
+        "gf_117477",
+        "gf_117856"
+      ],
+      "n": 7,
+      "left_only": [],
+      "right_only": [],
+      "mean_delta": 0.0,
+      "median_delta": 0.0,
+      "per_line_delta": {
+        "gf_117415": 0.0,
+        "gf_117437": 0.0,
+        "gf_117438": 0.0,
+        "gf_117440": 0.0,
+        "gf_117470": 0.0,
+        "gf_117477": 0.0,
+        "gf_117856": 0.0
+      },
+      "sigma_differential": null,
+      "status": "DIAGNOSTIC_joint_covariance_not_supplied"
+    }
+  ],
+  "si_ii_profiles": [
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv",
+      "line_id": "gf_118528",
+      "instrument": "harps",
+      "ew_mA": 37.39756665352564,
+      "in_aggregate": true,
+      "A": null,
+      "status": "PROFILE_MEASURED_ABUNDANCE_NOT_INVERTED",
+      "snapshot_loggf": -0.04,
+      "reference_loggf": -0.044
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv",
+      "line_id": "gf_118528",
+      "instrument": "iag_fts_solar_atlas",
+      "ew_mA": 42.73086034760783,
+      "in_aggregate": true,
+      "A": null,
+      "status": "PROFILE_MEASURED_ABUNDANCE_NOT_INVERTED",
+      "snapshot_loggf": -0.04,
+      "reference_loggf": -0.044
+    },
+    {
+      "artifact": "data/results/rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv",
+      "line_id": "gf_118528",
+      "instrument": "kpno_solar_atlas",
+      "ew_mA": 39.498495028374464,
+      "in_aggregate": true,
+      "A": null,
+      "status": "PROFILE_MEASURED_ABUNDANCE_NOT_INVERTED",
+      "snapshot_loggf": -0.04,
+      "reference_loggf": -0.044
+    }
+  ],
+  "grade_counts": {
+    "DEPTH_UNMEASURED": 1173,
+    "BELOW_OBSERVABILITY_FLOOR": 711,
+    "UNGRADED_CODEX_DEPTH_DIAGNOSTIC": 587,
+    "DEEP_GRADED_CANDIDATE": 2
+  },
+  "input_sha256": {
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv": "86b6440ed29612de30e3e64c9f01b0d2a395a4f00c58104b2160fffeace9f37c",
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv": "1238831767b6a8a5d1caca203822ac0f90f060287cfb6dd68ffdc4555e38abfa",
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv": "d86f4a7a8618f3b1e5dde5f5ae43349edcb32450c08abd77886ee2b4ee1c1548",
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv": "ee9aa6fe50a21425c15794936c6afa6b9e6f329cbefbea7b961f65fe4d531d43",
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv": "f04ae431adbd21ab3e308ee15b0dc0e8468bea8661b4adaf524adf8f548c7e5a",
+    "data/results/rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv": "8a3c94d57bafeeb5378821523b5316345ae949ba62cc88a1dfced4a26706c2bd",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv": "a6a7f212d1287101e2bf8c92e6ba87328ef585b54f6479b1aca50513d880b6e5",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv": "32f0809cbefed9dd8f4c12c96431cf578d693c28cdef2eadaa0a8b51c929e058",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv": "4ed8c332272f543e35bb3c3697916b8a48fb2e2b0c4201a1ac34708a6deed8ce",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv": "a148e23fab9f0f59b4232981e052a87742e37b52fc39d1ce7137808782fcf729",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv": "5a768a0da11f2d7404bd7a5ea59ceb1fddd83325af085aa5a44dab1c058622c9",
+    "data/results/rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv": "462409d68bf6a95ac7c93d0e32c9c5730c173b32ace4ce8222423ac49d727d59",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv": "014d5c609df72c0f5267b23f5c9e9f7e90759710322a1244577e319afaab0520",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv": "ea3bbf108cedeaadc73fb3fc446f33f277de7194c8d002fa316d7d9bf17a7bc1",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv": "5c4e8281f1f2b443288e3e67095891848fc38d914ac9d5714a3e50ae4b8c374a",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv": "647c77092d1eabbf29773832becae4e94144a1ca0bd9df580030fd9921a02efe",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv": "f45b79594b298ecf4b75c163d513e27aecd1d1b54603e31d6ef844f4e23e5609",
+    "data/results/rya1218/reference_synthesis/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv": "9b557cbfdcd79bb491f533fb9b637a0ef52af6f9d719c608a59969d3aab6b9d8"
+  },
+  "publication_admitted": 0,
+  "limits": [
+    "No full uncertainty supplied by recovered artifacts.",
+    "Median products do not acquire SE(mean) as their validated uncertainty.",
+    "No gf values adjusted; source-scale offsets are diagnostic evidence only.",
+    "ENGINE-B LTE rows duplicate the 1D-LTE solution; not an independent engine validation."
+  ]
+}

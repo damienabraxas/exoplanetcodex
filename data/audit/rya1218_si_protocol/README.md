@@ -78,6 +78,12 @@ The exact +/-1 A audit is in `si_jk_exact_pixel_validation.csv/json`: 13 of 16 J
 These results are in `data/results/rya1218/si_crires_corrected_diagnostic/` and
 are explicitly `abundance_status: HOLD`: the canonical NIR rows remain on hold
 for laboratory identity/gf adjudication and are not promoted into a grade pool.
+The 2026-09-16 all-band synthesis attempt is recorded in
+`si_all_band_execution_matrix_20260916.csv`: Y narrow A=7.462 (n=6), Y-wide
+A=7.484 (n=11), H A=7.192 (n=12), J n=0, and K is NOT_REACHABLE because the
+atomic linelist has no Si rows in the K range. Engine-A is explicitly
+NOT_PRODUCED for these NIR cells because no validated Solar Si NLTE grid serves
+them; Engine-B and 1D-LTE were attempted wherever the linelist was reachable.
 `model_inventory_cells.csv` enumerates the nine roster models against both
 ions, holdings, and configured synthesis bands. Every cell is currently HOLD,
 not executed. It is an applicability work queue, not a completed engine audit;

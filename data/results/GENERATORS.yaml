@@ -12155,3 +12155,624 @@ artifacts:
     - data/audit/rya1218_si_protocol
     note: Reviewed next-stage input inventory and user-directed priority; file hashes
       identify existing measurements, not publication completeness.
+  # RYA-1218 continuation: recovered diagnostics and a read-only uncertainty audit.
+  - artifact: rya1218/evidence_20260916/product_evidence.json
+    generator: scripts/audit_si_evidence_rya1218.py
+    invocation: python3 scripts/audit_si_evidence_rya1218.py --out data/results/rya1218/evidence_20260916
+    ticket: RYA-1218
+    note: Existing Si products reconciled to physical line IDs and canonical RYA-587 HOLD components; no product admitted.
+  - artifact: rya1218/evidence_20260916/line_grade_abundance.csv
+    generator: scripts/audit_si_evidence_rya1218.py
+    invocation: python3 scripts/audit_si_evidence_rya1218.py --out data/results/rya1218/evidence_20260916
+    ticket: RYA-1218
+    note: Per-line grading, abundance and estimator audit; no values tuned.
+  # Production Si abundance synthesis artifacts; exact remote spectrum environment is not portable.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  - artifact: rya1218/abundance_run_20260916/kpno/SiI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Production synthesis completed on Sirius native Linux with the corrected holding and controlled EW line set; source spectra and exact remote environment are external, so this artifact is retained without claiming local reproducibility.
+  # Recovered Si run artifacts: source checkout retained, exact historical invocation unavailable.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/uncertainty_audit_20260916/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916
+    ticket: RYA-1218
+    note: Read-only RYA-587 component audit over Si products; no total uncertainty or product admission.
+  - artifact: rya1218/uncertainty_audit_20260916/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916
+    ticket: RYA-1218
+    note: Per-product scatter and SE diagnostics; estimator and independence remain HOLD.
+  - artifact: rya1218/uncertainty_audit_20260916_v2/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916_v2
+    ticket: RYA-1218
+    note: Corrected read-only RYA-587 component audit with treatment-specific line pairing; no total uncertainty or product admission.
+  - artifact: rya1218/uncertainty_audit_20260916_v2/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    invocation: python3 scripts/audit_si_uncertainty_rya1218.py --out data/results/rya1218/uncertainty_audit_20260916_v2
+    ticket: RYA-1218
+    note: Corrected per-product scatter and SE diagnostics; estimator and independence remain HOLD.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/h/SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/j/SiI_11980_12110_crires_plus_solar_crires_plus_j_rya1219_SYNTH_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_narrow/SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/crires_abundance_run_20260916/y_wide/SiI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: CRIRES+ production diagnostic completed on Sirius; external detector products and remote environment are not locally reproducible, so this artifact is retained without claiming portability.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/harps/SiI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-A_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_ENGINE-B_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/iag/SiI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_harps_solar_harps_molecfit_corrected_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_root_causes.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_profile/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_skipped.json
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/harps/SiII_6200_6500_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/iag/SiII_6200_6500_iag_fts_solar_atlas_solar_iag_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_1D-LTE_lines.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_products.csv
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/recovered_20260916/si_ii_synth/kpno/SiII_6200_6500_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    generator: null
+    status: UNREPRODUCIBLE
+    ticket: RYA-1218
+    note: Recovered from the preserved RYA-1218 source checkout; exact historical invocation is not recorded, so this diagnostic is retained without claiming reproducibility.
+  - artifact: rya1218/uncertainty_budget_20260916/si_uncertainty_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Read-only RYA-587 Si uncertainty budget audit over the committed VIS and CRIRES+ products; all components remain HOLD until exact-pool evidence and covariance are supplied.
+  - artifact: rya1218/uncertainty_budget_20260916/si_uncertainty_products.csv
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Per-product diagnostic line scatter and candidate SE table emitted by the RYA-587 Si uncertainty audit; values are not publication uncertainties.
+
+
+  - artifact: rya1218/si_response_exact/si_exact_pool_response_summary.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Summary of Sirius exact seven-line Si synthesis responses and matched per-line derivatives.
+
+  - artifact: rya1218/si_transition_covariance_audit.json
+    generator: scripts/adjudicate_si_grades_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Exact seven-line Si transition-data covariance audit; all lines remain HOLD because line-specific gf sigma and shared-source covariance are undeclared.

@@ -285,3 +285,26 @@ Canonical covariance API and new/changed-product admission checks land together.
 ### 2026-09-15 — RYA-1213 provenance-registry integration repair
 
 Reconciled inherited Al/Si result registrations and moved seven audit-only source declarations beside their actual files. Existing generator checks cover all 1185 tracked artifacts; no measurement rerun or value change. Two historical Al checkpoint aggregations explicitly lack a committed harness.
+### 2026-09-16 — RYA-1218 Si evidence continuation
+
+Recovered the completed HARPS/IAG/Kitt Peak seven-line Si I synthesis products and
+audited their physical line IDs, source-scale offsets, estimator choice, and holding
+agreement. Added controlled Si II 6371.371 Å synthesis results for HARPS, IAG, and Kitt Peak. All remain
+diagnostic: no Si product has a complete RYA-587 uncertainty budget or enters a feed.
+
+### 2026-09-16 — RYA-1218 Si abundance synthesis
+
+Completed a fresh native-Linux production Si I synthesis on the corrected HARPS,
+IAG, and Kitt Peak holdings using the controlled EW line ledger. Seven lines were
+accepted per holding (A=7.586, 7.625, and 7.657 respectively); Engine-A served two
+lines per holding. The outputs remain diagnostic pending source-gf grading and the
+complete covariance budget.
+
+### 2026-09-16 — RYA-1218 CRIRES all-band synthesis audit
+
+Ran the reachable CRIRES+ Y narrow, Y-wide, H, and J bands through 1D-LTE and
+Engine-B, with Engine-A explicitly recorded as NOT_PRODUCED where no validated
+Solar Si NLTE grid exists. Y narrow returned A=7.462 (n=6), Y-wide A=7.484
+(n=11), H A=7.192 (n=12), and J n=0. K was explicitly refused because the
+atomic linelist has no Si rows in its wavelength range. None is admitted to the
+live abundance feed.
