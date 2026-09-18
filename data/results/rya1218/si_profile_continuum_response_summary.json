@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "pool_species": "Si I",
+  "pool_n": 7,
+  "baseline": {
+    "A": 7.586,
+    "stat_dex": 0.0526
+  },
+  "perturbations": [
+    {
+      "perturbation": "local_renorm",
+      "A": 7.588,
+      "delta_A": 0.002,
+      "stat_dex": 0.0284,
+      "n_lines": 7,
+      "execution_host": "sirius"
+    },
+    {
+      "perturbation": "halfwidth_040",
+      "A": 7.591,
+      "delta_A": 0.005,
+      "stat_dex": 0.0481,
+      "n_lines": 7,
+      "execution_host": "sirius"
+    }
+  ],
+  "candidate_components": {
+    "continuum": {
+      "candidate_sigma_dex": 0.002,
+      "state": "MEASURED_DIAGNOSTIC",
+      "source": "Sirius exact-pool local-renorm rerun"
+    },
+    "profile_ew": {
+      "candidate_sigma_dex": 0.005,
+      "state": "MEASURED_DIAGNOSTIC",
+      "source": "Sirius exact-pool half-width 0.40 A rerun"
+    }
+  },
+  "note": "Sensitivity diagnostics; adoption requires a ratified perturbation-to-uncertainty rule and covariance with measurement."
+}

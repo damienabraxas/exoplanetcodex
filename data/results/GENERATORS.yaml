@@ -12800,3 +12800,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Exact seven-line Si blend-neighborhood audit; nearby Fe transitions are retained and the blend term remains HOLD pending matched perturbations.
+
+  - artifact: rya1218/si_profile_continuum_response_summary.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius exact-pool continuum and fit-window sensitivity responses; diagnostics are retained pending adoption rule and covariance.
