@@ -1,0 +1,556 @@
+{
+  "ticket": "RYA-1225",
+  "read_only": true,
+  "star": "solar",
+  "band": "near-UV",
+  "ion": "Fe II",
+  "xi_span_kms": 0.2,
+  "case": "c",
+  "case_label": "GENUINE -- same lines, same step, same reduction; the divergence is physical in the near-UV synthesis",
+  "physical_cause": "RYA-1207 (merged 2026-09-09, ace03e1a) turned molecular opacity on for the near-UV band. config/synth_bands.yaml sets use_molecules: true on near-UV ALONE, so only this band's synthesis moved. RYA-1168's artifact predates it (2026-09-03, 9989ec3c) and RYA-1213's postdates it (2026-09-12, 1f4ab8e8).",
+  "why_red_optical_agrees": "use_molecules is per-band and false everywhere except near-UV, so the red-optical synthesis did not change between the two runs and its Fe II pairs agree to 1.03-1.08x. Near-UV is the lone anomaly for that reason.",
+  "refuted_hypothesis_band_confound": "The campaign key carries no band (RYA-1114 F2), so a cross-band mix-up was the obvious candidate. Measured from ~/xi_campaign/out, the VIS-window Fe II pools give -0.2300 / -0.2100 / -0.2600 / -0.1350 -- none is RYA-1213's -0.1100. REFUTED, recorded so it is not re-run.",
+  "resolution": "RYA-1213's slope wins on METHOD CORRECTNESS, not on proximity to anything: it is the measurement taken on the synthesis the live products actually use. RYA-1168's is superseded by vintage -- its own records carry the pre-molecular abundances. NO re-measure is required despite this being case (c), because the post-change measurement already exists; a third run would reproduce RYA-1213.",
+  "rows": [
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "1D-LTE",
+      "rya1168": {
+        "dA_dxi": -0.0475,
+        "median_delta_dex": -0.0095,
+        "n_paired": 12,
+        "A_it_ran_against": 7.957
+      },
+      "rya1213": {
+        "dA_dxi": -0.11,
+        "median_delta_dex": -0.022,
+        "n_paired": 12
+      },
+      "ratio_1213_over_1168": 2.316,
+      "live_product_A": 7.617,
+      "rya1168_measured_against_a_superseded_A": true,
+      "reproduced_from_rya1168_own_legs": {
+        "n_lo": 12,
+        "n_hi": 12,
+        "n_merged_on_lambda_ep": 12,
+        "n_paired": 12,
+        "median_delta_dex": -0.0095,
+        "dA_dxi": -0.0475,
+        "per_line": [
+          {
+            "wavelength_air_A": 3002.644,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.477,
+            "A_xi1.10": 7.466,
+            "delta_dex": -0.011,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3170.337,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.157,
+            "A_xi1.10": 8.147,
+            "delta_dex": -0.01,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3183.114,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.925,
+            "A_xi1.10": 7.547,
+            "delta_dex": -0.378,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3186.737,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.061,
+            "A_xi1.10": 8.066,
+            "delta_dex": 0.005,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3192.909,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 8.088,
+            "A_xi1.10": 8.1,
+            "delta_dex": 0.012,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3193.799,
+            "ep_eV": 1.724,
+            "A_xi0.90": 7.881,
+            "A_xi1.10": 7.858,
+            "delta_dex": -0.023,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3196.07,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.946,
+            "A_xi1.10": 7.939,
+            "delta_dex": -0.007,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3210.444,
+            "ep_eV": 1.724,
+            "A_xi0.90": 8.291,
+            "A_xi1.10": 8.321,
+            "delta_dex": 0.03,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3213.309,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.955,
+            "A_xi1.10": 7.936,
+            "delta_dex": -0.019,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3227.742,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.406,
+            "A_xi1.10": 7.398,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3255.887,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.588,
+            "A_xi1.10": 7.579,
+            "delta_dex": -0.009,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3277.348,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.257,
+            "A_xi1.10": 7.235,
+            "delta_dex": -0.022,
+            "paired": true
+          }
+        ]
+      },
+      "pool_identity_deepgraded_vs_reference": {
+        "comparable": true,
+        "n_deepgraded": 12,
+        "n_reference": 12,
+        "n_shared_lambda_ep": 12,
+        "deepgraded_only": [],
+        "reference_only": [],
+        "max_abs_nominal_abundance_delta": 0.0,
+        "identical": true
+      },
+      "vis_window_control_dA_dxi": null
+    },
+    {
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "ENGINE-A",
+      "rya1168": {
+        "dA_dxi": -0.05,
+        "median_delta_dex": -0.01,
+        "n_paired": 7,
+        "A_it_ran_against": 7.975
+      },
+      "rya1213": {
+        "dA_dxi": -0.105,
+        "median_delta_dex": -0.021,
+        "n_paired": 7
+      },
+      "ratio_1213_over_1168": 2.1,
+      "live_product_A": 7.635,
+      "rya1168_measured_against_a_superseded_A": true,
+      "reproduced_from_rya1168_own_legs": {
+        "n_lo": 12,
+        "n_hi": 12,
+        "n_merged_on_lambda_ep": 12,
+        "n_paired": 7,
+        "median_delta_dex": -0.01,
+        "dA_dxi": -0.05,
+        "per_line": [
+          {
+            "wavelength_air_A": 3002.644,
+            "ep_eV": 1.6953,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3170.337,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.156,
+            "A_xi1.10": 8.146,
+            "delta_dex": -0.01,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3183.114,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.924,
+            "A_xi1.10": 7.546,
+            "delta_dex": -0.378,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3186.737,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.06,
+            "A_xi1.10": 8.065,
+            "delta_dex": 0.005,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3192.909,
+            "ep_eV": 1.6706,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3193.799,
+            "ep_eV": 1.724,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3196.07,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.945,
+            "A_xi1.10": 7.938,
+            "delta_dex": -0.007,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3210.444,
+            "ep_eV": 1.724,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3213.309,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.954,
+            "A_xi1.10": 7.935,
+            "delta_dex": -0.019,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3227.742,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.405,
+            "A_xi1.10": 7.397,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3255.887,
+            "ep_eV": 0.9863,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3277.348,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.256,
+            "A_xi1.10": 7.234,
+            "delta_dex": -0.022,
+            "paired": true
+          }
+        ]
+      },
+      "pool_identity_deepgraded_vs_reference": {
+        "comparable": true,
+        "n_deepgraded": 12,
+        "n_reference": 12,
+        "n_shared_lambda_ep": 12,
+        "deepgraded_only": [],
+        "reference_only": [],
+        "max_abs_nominal_abundance_delta": 0.0,
+        "identical": true
+      },
+      "vis_window_control_dA_dxi": -0.21
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "rya1168": {
+        "dA_dxi": -0.06,
+        "median_delta_dex": -0.012,
+        "n_paired": 12,
+        "A_it_ran_against": 7.697
+      },
+      "rya1213": {
+        "dA_dxi": -0.1225,
+        "median_delta_dex": -0.0245,
+        "n_paired": 12
+      },
+      "ratio_1213_over_1168": 2.042,
+      "live_product_A": 7.402,
+      "rya1168_measured_against_a_superseded_A": true,
+      "reproduced_from_rya1168_own_legs": {
+        "n_lo": 12,
+        "n_hi": 12,
+        "n_merged_on_lambda_ep": 12,
+        "n_paired": 12,
+        "median_delta_dex": -0.012,
+        "dA_dxi": -0.06,
+        "per_line": [
+          {
+            "wavelength_air_A": 3002.644,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.067,
+            "A_xi1.10": 7.05,
+            "delta_dex": -0.017,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3170.337,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.115,
+            "A_xi1.10": 8.099,
+            "delta_dex": -0.016,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3183.114,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.996,
+            "A_xi1.10": 8.07,
+            "delta_dex": 0.074,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3186.737,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.847,
+            "A_xi1.10": 7.839,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3192.909,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 8.156,
+            "A_xi1.10": 8.176,
+            "delta_dex": 0.02,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3193.799,
+            "ep_eV": 1.724,
+            "A_xi0.90": 7.668,
+            "A_xi1.10": 7.663,
+            "delta_dex": -0.005,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3196.07,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.752,
+            "A_xi1.10": 7.726,
+            "delta_dex": -0.026,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3210.444,
+            "ep_eV": 1.724,
+            "A_xi0.90": 7.627,
+            "A_xi1.10": 7.585,
+            "delta_dex": -0.042,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3213.309,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.708,
+            "A_xi1.10": 7.717,
+            "delta_dex": 0.009,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3227.742,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.427,
+            "A_xi1.10": 7.419,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3255.887,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.589,
+            "A_xi1.10": 7.55,
+            "delta_dex": -0.039,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3277.348,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.211,
+            "A_xi1.10": 7.186,
+            "delta_dex": -0.025,
+            "paired": true
+          }
+        ]
+      },
+      "pool_identity_deepgraded_vs_reference": {
+        "comparable": true,
+        "n_deepgraded": 12,
+        "n_reference": 12,
+        "n_shared_lambda_ep": 12,
+        "deepgraded_only": [],
+        "reference_only": [],
+        "max_abs_nominal_abundance_delta": 0.0,
+        "identical": true
+      },
+      "vis_window_control_dA_dxi": -0.26
+    },
+    {
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "ENGINE-A",
+      "rya1168": {
+        "dA_dxi": -0.04,
+        "median_delta_dex": -0.008,
+        "n_paired": 7,
+        "A_it_ran_against": 7.738
+      },
+      "rya1213": {
+        "dA_dxi": -0.11,
+        "median_delta_dex": -0.022,
+        "n_paired": 7
+      },
+      "ratio_1213_over_1168": 2.75,
+      "live_product_A": 7.404,
+      "rya1168_measured_against_a_superseded_A": true,
+      "reproduced_from_rya1168_own_legs": {
+        "n_lo": 12,
+        "n_hi": 12,
+        "n_merged_on_lambda_ep": 12,
+        "n_paired": 7,
+        "median_delta_dex": -0.008,
+        "dA_dxi": -0.04,
+        "per_line": [
+          {
+            "wavelength_air_A": 3002.644,
+            "ep_eV": 1.6953,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3170.337,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 8.114,
+            "A_xi1.10": 8.098,
+            "delta_dex": -0.016,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3183.114,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.995,
+            "A_xi1.10": 8.069,
+            "delta_dex": 0.074,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3186.737,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.846,
+            "A_xi1.10": 7.838,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3192.909,
+            "ep_eV": 1.6706,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3193.799,
+            "ep_eV": 1.724,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3196.07,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.751,
+            "A_xi1.10": 7.725,
+            "delta_dex": -0.026,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3210.444,
+            "ep_eV": 1.724,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3213.309,
+            "ep_eV": 1.6953,
+            "A_xi0.90": 7.707,
+            "A_xi1.10": 7.716,
+            "delta_dex": 0.009,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3227.742,
+            "ep_eV": 1.6706,
+            "A_xi0.90": 7.426,
+            "A_xi1.10": 7.418,
+            "delta_dex": -0.008,
+            "paired": true
+          },
+          {
+            "wavelength_air_A": 3255.887,
+            "ep_eV": 0.9863,
+            "A_xi0.90": null,
+            "A_xi1.10": null,
+            "delta_dex": null,
+            "paired": false
+          },
+          {
+            "wavelength_air_A": 3277.348,
+            "ep_eV": 0.9863,
+            "A_xi0.90": 7.21,
+            "A_xi1.10": 7.185,
+            "delta_dex": -0.025,
+            "paired": true
+          }
+        ]
+      },
+      "pool_identity_deepgraded_vs_reference": {
+        "comparable": true,
+        "n_deepgraded": 12,
+        "n_reference": 12,
+        "n_shared_lambda_ep": 12,
+        "deepgraded_only": [],
+        "reference_only": [],
+        "max_abs_nominal_abundance_delta": 0.0,
+        "identical": true
+      },
+      "vis_window_control_dA_dxi": -0.135
+    }
+  ]
+}

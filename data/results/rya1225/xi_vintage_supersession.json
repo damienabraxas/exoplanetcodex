@@ -1,0 +1,302 @@
+{
+  "ticket": "RYA-1225",
+  "note": "band-keyed dA/dxi entries measured against an abundance the product no longer carries. SUPERSEDED rows were replaced by the same-pool measurement taken after the synthesis change; FLAGGED rows are owed and were left untouched.",
+  "n_superseded": 4,
+  "n_flagged": 11,
+  "rows": [
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "1D-LTE",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.105,
+        "A_it_ran_against": 7.642,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.554,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "ENGINE-A",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.105,
+        "A_it_ran_against": 7.651,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.562,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "1D-LTE",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.1125,
+        "A_it_ran_against": 7.596,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.508,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "ENGINE-A",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.1125,
+        "A_it_ran_against": 7.606,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.516,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "II",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "1D-LTE",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.0475,
+        "A_it_ran_against": 7.957,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.617,
+      "action": "SUPERSEDED",
+      "donor": {
+        "tier": "REFERENCE",
+        "dA_dxi": -0.11,
+        "ticket": "RYA-1213",
+        "source": "data/results/rya1213/reference_xi_dadxi.json"
+      },
+      "ratio_new_over_old": 2.316
+    },
+    {
+      "key": {
+        "ion": "II",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "ENGINE-A",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.05,
+        "A_it_ran_against": 7.975,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.635,
+      "action": "SUPERSEDED",
+      "donor": {
+        "tier": "REFERENCE",
+        "dA_dxi": -0.105,
+        "ticket": "RYA-1213",
+        "source": "data/results/rya1213/reference_xi_dadxi.json"
+      },
+      "ratio_new_over_old": 2.1
+    },
+    {
+      "key": {
+        "ion": "II",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "1D-LTE",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.06,
+        "A_it_ran_against": 7.697,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.402,
+      "action": "SUPERSEDED",
+      "donor": {
+        "tier": "REFERENCE",
+        "dA_dxi": -0.1225,
+        "ticket": "RYA-1213",
+        "source": "data/results/rya1213/reference_xi_dadxi.json"
+      },
+      "ratio_new_over_old": 2.042
+    },
+    {
+      "key": {
+        "ion": "II",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "DEEPGRADED",
+        "treatment": "ENGINE-A",
+        "band": "near-UV"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.04,
+        "A_it_ran_against": 7.738,
+        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.404,
+      "action": "SUPERSEDED",
+      "donor": {
+        "tier": "REFERENCE",
+        "dA_dxi": -0.11,
+        "ticket": "RYA-1213",
+        "source": "data/results/rya1213/reference_xi_dadxi.json"
+      },
+      "ratio_new_over_old": 2.75
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "GRADED",
+        "treatment": "1D-LTE",
+        "band": "NIR"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.0525,
+        "A_it_ran_against": 7.621,
+        "source": "data/results/rya1163/ir_xi_dadxi.json",
+        "ticket": "RYA-1163"
+      },
+      "live_product_A": 7.607,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "NIR"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.045,
+        "A_it_ran_against": 7.503,
+        "source": "data/results/rya1163/ir_xi_dadxi.json",
+        "ticket": "RYA-1163"
+      },
+      "live_product_A": 7.488,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_iag",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.17,
+        "A_it_ran_against": 7.461,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.46,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "GRADED",
+        "treatment": "1D-LTE",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.135,
+        "A_it_ran_against": 7.462,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.458,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.1475,
+        "A_it_ran_against": 7.456,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.451,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "GRADED",
+        "treatment": "1D-LTE",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.1475,
+        "A_it_ran_against": 7.481,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.484,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_kpno_molecfit_corrected",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.15,
+        "A_it_ran_against": 7.492,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.493,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    }
+  ]
+}
