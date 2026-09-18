@@ -410,7 +410,7 @@ def xi_min_paired() -> int:
     return next(iter(floors.values()))
 
 
-def xi_min_paired_hold(prod: dict, min_paired: int) -> dict | None:
+def xi_min_paired_hold(prod: dict, min_paired: int, band_entry: dict = None) -> dict | None:
     """The UNMEASURED hold when this product's OWN pool cannot clear the floor.
 
     🔴 RYA-1224 -- THE TEST IS ON THE PRODUCT'S POOL, NOT ON THE POOL THAT WAS MEASURED.
@@ -427,13 +427,25 @@ def xi_min_paired_hold(prod: dict, min_paired: int) -> dict | None:
     n = prod.get("n_lines")
     if n is None or int(n) >= min_paired:
         return None
-    return {"sigma_xi": None, "xi_state": "UNMEASURED",
-            "xi_note": (f"only {int(n)} line(s) in this product's own pool, below "
-                        f"min_paired={min_paired} -- a derivative measured on fewer than "
-                        f"{min_paired} paired lines exists as a float and is not a "
-                        f"measurement (RYA-1163's floor, RYA-1031's reason). No derivative "
-                        f"is published for it and none is borrowed from a pool that does "
-                        f"clear the floor: the hold is the same at EVERY tier (RYA-1224).")}
+    note = (f"only {int(n)} line(s) in this product's own pool, below "
+            f"min_paired={min_paired} -- a derivative measured on fewer than "
+            f"{min_paired} paired lines exists as a float and is not a "
+            f"measurement (RYA-1163's floor, RYA-1031's reason). No derivative "
+            f"is published for it and none is borrowed from a pool that does "
+            f"clear the floor: the hold is the same at EVERY tier (RYA-1224).")
+    #: 🔴 RYA-1224 -- WHERE A RUN ALSO DECLINED THIS POOL, ITS NOTE IS THE BETTER EVIDENCE
+    #: AND THE FLOOR MUST NOT SWALLOW IT. Binding the floor above the band read initially
+    #: replaced five already-held notes with this generic one, and they were strictly
+    #: richer: they named the run and the artifact, and RYA-1163's carried its own
+    #: reasoning ("two points define a slope exactly and carry no dispersion; the value
+    #: would be an artifact of which lines survived"). Dropping that is a provenance
+    #: regression -- the verdict was never in question on those five, only who said it.
+    #: The hold still binds; only the attribution is restored.
+    if band_entry is not None and band_entry.get("xi_state") != "MEASURED":
+        note += (f" The band-keyed run agrees and declined this pool in its own words: "
+                 f"\"{band_entry.get('xi_note') or 'not measured'}\" "
+                 f"[{band_entry.get('_ticket')}, {band_entry.get('_source')}].")
+    return {"sigma_xi": None, "xi_state": "UNMEASURED", "xi_note": note}
 
 
 def xi_same_artifact_entry(prod: dict, idx: dict, feed: dict) -> dict | None:
@@ -568,13 +580,15 @@ def xi_terms(prod: dict, idx: dict) -> dict:
     #: 🔴 RYA-1224 -- THE FLOOR BINDS BEFORE ANY DERIVATIVE IS READ, so a sub-threshold
     #: pool cannot acquire one from either route. This is the rule Reference was already
     #: applying via its run's verdict, now stated once and applied to all 160 products.
-    hold = xi_min_paired_hold(prod, idx["min_paired"])
+    #: The band-keyed entry is looked up BEFORE the floor so the hold can cite it, but it
+    #: is not READ for a derivative until after -- the floor still binds first (RYA-1224).
+    b = idx["band"].get((prod["ion"], prod["holding"], prod["tier"], prod["treatment"],
+                         prod["band"]))
+
+    hold = xi_min_paired_hold(prod, idx["min_paired"], b)
     if hold is not None:
         return {**base, **hold}
 
-    #: A band-keyed run answers for this product's OWN band, so it wins outright.
-    b = idx["band"].get((prod["ion"], prod["holding"], prod["tier"], prod["treatment"],
-                         prod["band"]))
     if b is not None:
         #: ⚠️ THE RUN'S OWN `xi_state` DECIDES, NOT THE PRESENCE OF A NUMBER. The CRIRES+
         #: ENGINE-A NIR pool carries dA_dxi = -0.1225 AND xi_state = UNMEASURED, because it
