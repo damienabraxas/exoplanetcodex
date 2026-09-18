@@ -1,0 +1,119 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "pool_species": "Si I",
+  "pool_n": 7,
+  "component_states": {
+    "continuum": {
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "No continuum level/sideband perturbation or correlated continuum covariance is recorded on the production lines."
+    },
+    "profile_ew": {
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "Recorded sigma_A and red_chi2 are fit diagnostics, not a calibrated profile likelihood; profile_sigma_A is absent."
+    }
+  },
+  "diagnostics": [
+    {
+      "wavelength_air_A": 5645.613,
+      "abundance": 7.505,
+      "sigma_A": 0.1072255081544244,
+      "frac_rise_weaker": 0.3640323060398591,
+      "edge_distance_dex": 2.998803565848444,
+      "red_chi2": 133.498,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "abundance": 7.607,
+      "sigma_A": 0.0883070640496078,
+      "frac_rise_weaker": 1.522487680072531,
+      "edge_distance_dex": 3.101080801537976,
+      "red_chi2": 86.28,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "abundance": 7.586,
+      "sigma_A": 0.0840659465287532,
+      "frac_rise_weaker": 0.9917641608136264,
+      "edge_distance_dex": 3.079893102336576,
+      "red_chi2": 83.929,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "abundance": 7.559,
+      "sigma_A": 0.0916219075596697,
+      "frac_rise_weaker": 0.5878146772809433,
+      "edge_distance_dex": 3.0534956274675222,
+      "red_chi2": 94.195,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "abundance": 7.699,
+      "sigma_A": 0.0851495402574058,
+      "frac_rise_weaker": 1.3015718769023354,
+      "edge_distance_dex": 3.193243162082892,
+      "red_chi2": 84.779,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "abundance": 7.586,
+      "sigma_A": 0.088191980447391,
+      "frac_rise_weaker": 0.8016798289641688,
+      "edge_distance_dex": 3.0799100109137827,
+      "red_chi2": 81.038,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "abundance": 7.925,
+      "sigma_A": 0.0734376087867007,
+      "frac_rise_weaker": 0.1931430731105405,
+      "edge_distance_dex": 3.4187474076124005,
+      "red_chi2": 83.567,
+      "continuum_level": NaN,
+      "continuum_method": NaN,
+      "profile_sigma_A": NaN,
+      "profile_sigma_floor_A": NaN,
+      "profile_gamma_A": NaN
+    }
+  ],
+  "summary": {
+    "median_sigma_A": 0.088191980447391,
+    "median_red_chi2": 84.779,
+    "max_red_chi2": 133.498,
+    "n_with_profile_sigma": 0,
+    "n_with_continuum_metadata": 0
+  },
+  "next_action": "Run matched continuum and profile-likelihood perturbations on Sirius for these seven line windows."
+}
