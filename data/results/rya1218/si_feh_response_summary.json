@@ -1,0 +1,8 @@
+{
+  "ticket":"RYA-1218","contract":"RYA-587","component":"stellar.metallicity","pool_species":"Si I","pool_n":7,
+  "pool_ids":[5645.613,5684.484,5690.425,5701.104,5772.146,5793.073,6741.628],
+  "execution_host":"sirius","step":0.20,"adopted_delta":0.05,
+  "per_line_dA_dfeh":{"5645.613":0.0,"5684.484":0.045,"5690.425":-0.270,"5701.104":0.065,"5772.146":0.040,"5793.073":0.005,"6741.628":0.205},
+  "mean_dA_dfeh":0.0128571,"sigma_dex":0.0006429,"state":"MEASURED_DIAGNOSTIC","admission":"HOLD",
+  "reason":"Sirius exact seven-line paired synthesis response at [Fe/H] -0.10 and +0.10; adoption remains pending sourced stellar metallicity uncertainty and covariance rule."
+}
