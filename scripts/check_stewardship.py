@@ -53,6 +53,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -1147,6 +1148,70 @@ INVARIANTS: list[Callable[..., list[Violation]]] = [
 # ══════════════════════════════════════════════════════════════════════════════
 # Runner
 # ══════════════════════════════════════════════════════════════════════════════
+#: 🔴 ONE DEFINITION, TWO CONSUMERS. The patterns and the ceiling live in
+#: pipeline.data_stewardship_policy, which is deliberately dependency-free so the
+#: pre-commit hook can import it on any interpreter. This module cannot serve that role:
+#: it imports pipeline.abundances_derive, whose PEP 604 annotations fail to import on
+#: Python 3.9 -- the interpreter this machine actually has.
+from pipeline.data_stewardship_policy import (  # noqa: E402
+    RAW_DATA_PATTERNS as _RAW_DATA_PATTERNS,
+    SIZE_CEILING_BYTES as _SIZE_CEILING_BYTES,
+    matched_pattern as _matched_pattern,
+    over_ceiling as _over_ceiling,
+)
+
+
+def check_no_raw_external_data() -> list[Violation]:
+    """🔴 RYA-1228 -- GitHub carries the Codex's MEASUREMENTS, never its raw inputs.
+
+    The LFS quota was consumed entirely by `data/linelists/vald_*_raw.txt`: 53 objects,
+    853.9 MiB, of which 30 existed only in history. VALD3 has no API, so every one was a
+    manual extraction that had to be preserved before it could be purged.
+
+    ⚠️ IT WAS NEVER A .gitignore FAILURE. Spectra and model grids were already ignored;
+    VALD slipped in through `.gitattributes` LFS tracking, which .gitignore does not see.
+    So this checks the COMMITTED TREE, which is the only place both routes converge.
+
+    Two independent tests, because either alone has a known blind spot:
+      * PATTERN  -- catches the file types we know about, and misses the next one.
+      * CEILING  -- catches the next one by size, and would misfire on a built line list,
+                    so CSV and text/code suffixes are exempt (linelist_solar.csv is 25 MB
+                    and legitimate).
+    """
+    out: list[Violation] = []
+    listing = subprocess.run(['git', '-C', str(_REPO), 'ls-files', '-s'],
+                             capture_output=True, text=True)
+    if listing.returncode != 0:
+        return out
+    for line in listing.stdout.splitlines():
+        meta, _, path = line.partition('\t')
+        if not path:
+            continue
+        pat = _matched_pattern(path)
+        if pat:
+            out.append(Violation(
+                    invariant='no raw external data in git (RYA-1228)',
+                    quantity='raw input file', locus=path, value=pat,
+                    source='committed tree',
+                    detail=("raw external data is not a Codex measurement: keep it under "
+                            "~/Documents/Exoplanet Codex (RYA-461) and/or Zenodo "
+                            "(RYA-1124) and reference it from a provenance manifest"),
+            ))
+            continue
+        f = _REPO / path
+        if f.is_file() and _over_ceiling(path, f.stat().st_size):
+            out.append(Violation(
+                    invariant='no raw external data in git (RYA-1228)',
+                    quantity='oversized non-product file', locus=path,
+                    value=f"{f.stat().st_size / 1048576:.1f} MiB",
+                    source='committed tree',
+                    detail=(f"exceeds the {_SIZE_CEILING_BYTES // 1048576} MiB ceiling for "
+                            f"a non-CSV, non-code file. If it is a Codex product, give it a "
+                            f"tabular suffix; if it is raw input, it does not belong in git"),
+                ))
+    return out
+
+
 def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     """Run every invariant. Parse errors propagate (loud, never skipped)."""
     violations: list[Violation] = []
@@ -1161,6 +1226,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_constants_gf_duplicates()
     violations += check_isotope_inflation()
     violations += check_nearuv_linelist()
+    violations += check_no_raw_external_data()
     return violations
 
 

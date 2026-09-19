@@ -58,9 +58,28 @@ def test_no_lfs_pointer_was_modified():
     assert touched == [], f"Phase 1 must not modify a raw delivery: {touched}"
 
 
-def test_gitattributes_still_tracks_vald_raw_because_phase_2_owns_that_change():
-    """Phase 1 changes no policy. If this ever fails, Phase 2 has run."""
-    assert "vald_*_raw.txt filter=lfs" in (ROOT / ".gitattributes").read_text()
+def test_phase_2_policy_has_landed_and_no_lfs_pattern_remains():
+    """⚠️ THIS TEST INVERTED, AND THAT IS THE TRIPWIRE WORKING.
+
+    In Phase 1 it asserted the LFS filter was still present, with the note "if this ever
+    fails, Phase 2 has run". Phase 2's policy half has now landed, so it asserts the other
+    side: there must be NO LFS-tracked pattern at all. The history purge itself is a
+    separate step and is NOT what this checks -- see the raw-file test below.
+    """
+    assert "filter=lfs" not in (ROOT / ".gitattributes").read_text()
+
+
+def test_the_raw_files_are_still_in_the_tree_because_the_purge_has_not_run():
+    """Honest state: the policy is in place, the history rewrite is not.
+
+    Until the purge runs, the working tree still tracks the raw deliveries and the
+    stewardship invariant legitimately reports them. Flipping this test is how you will
+    know the purge landed.
+    """
+    tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files",
+                              "data/linelists/vald_*_raw.txt"],
+                             capture_output=True, text=True).stdout.split()
+    assert len(tracked) == 23, f"expected the 23 HEAD raw files, saw {len(tracked)}"
 
 
 @pytest.mark.skipif(not ARCHIVE.exists(), reason="preservation archive not on this machine")
