@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+#
+# RYA-1228 data-stewardship gate. Raw external data must not enter git.
+#
+# 🔴 WHY A COMMIT-TIME GATE AND NOT JUST .gitignore: VALD entered the repository through
+# .gitattributes LFS tracking, which .gitignore never sees, and consumed the entire LFS
+# quota (53 objects, 853.9 MiB) before anyone noticed. A single ignore rule closes one
+# route. This checks the COMMITTED TREE, where every route converges.
+#
+# Install:  git config core.hooksPath hooks
+# Bypass:   git commit --no-verify   (deliberate, visible, and your name is on it)
+set -uo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT" || exit 1
+
+PY="${CODEX_PY:-}"
+if [ -z "$PY" ]; then
+  for c in "$HOME/venv_ci/bin/python" python3 python; do
+    if [ -x "$c" ] || command -v "$c" >/dev/null 2>&1; then PY="$c"; break; fi
+  done
+fi
+
+out="$("$PY" - <<'PYEOF'
+import subprocess, sys
+from pathlib import Path
+sys.path.insert(0, '.')
+from pipeline.data_stewardship_policy import matched_pattern, over_ceiling
+staged = subprocess.run(['git','diff','--cached','--name-only','--diff-filter=ACMR'],
+                        capture_output=True, text=True).stdout.split()
+bad = []
+for p in staged:
+    hit = matched_pattern(p)
+    if hit:
+        bad.append(f"  {p}\n      matches the raw-data pattern {hit!r}")
+        continue
+    f = Path(p)
+    if f.is_file() and over_ceiling(p, f.stat().st_size):
+        bad.append(f"  {p}\n      {f.stat().st_size/1048576:.1f} MiB exceeds the "
+                   f"5 MiB non-product ceiling")
+print("\n".join(bad))
+PYEOF
+)"
+
+if [ -n "$out" ]; then
+  cat <<MSG
+
+COMMIT REFUSED -- raw external data does not belong in git (RYA-1228).
+
+$out
+
+GitHub carries the Codex's own measurements, code, config and provenance manifests.
+Raw archive-sourced input lives under ~/Documents/Exoplanet Codex (RYA-461) and/or
+Zenodo (RYA-1124), referenced from a manifest. See SCIENCE_STANDARDS.md.
+
+If this file IS a Codex product, give it a tabular suffix (.csv) so the ceiling
+exempts it. If you are deliberately overriding, use --no-verify.
+MSG
+  exit 1
+fi
+exit 0
