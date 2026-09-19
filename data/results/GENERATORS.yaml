@@ -10725,6 +10725,37 @@ artifacts:
       pairing travels with the artifacts rather than with the caller's memory (RYA-1178 A).
       Method is RYA-1120's throughout: central difference, per-line paired differential
       via pipeline.paired_differential, sigma_xi = |dA/dxi| x delta_xi, min_paired = 3.
+  - artifact: rya1227/codex_deep_xi_dadxi.json
+    status: COMMITTED
+    generator: scripts/rya1227_xi_campaign.py
+    invocation: python3 scripts/rya1227_xi_campaign.py --runs ~/scratch/rya1227_xi
+    ticket: RYA-1227
+    note: >-
+      RYA-1227 -- dA/dxi for the 11 Codex/Deep 1D-engine pools the band-keyed campaigns
+      never reached. Root cause, measured from the artifacts rather than assumed: every
+      affected product artifact is stamped 2026-09-08 or 2026-09-10 and every band xi run
+      predates it (NIR/H 2026-08-30 RYA-1163, near-UV and red-optical 2026-09-03, VIS
+      older still), so RYA-1208's Gerber fan-out landed AFTER the campaigns and the cells
+      it created never had a xi leg. Wired into the feed by one path in XI_BAND_RUNS.
+      ⚠️ THE `--runs` DIRECTORY IS NOT IN THE REPO. It holds 22 per-leg run directories
+      (11 units x xi = 0.90/1.10) produced on Sirius by `rya1227_xi_launch.sh` from a
+      clone at this branch, each carrying its own products, per-line files and
+      `xi_run.json` stamp. Method is RYA-1120's throughout, reused through RYA-1213 by
+      IMPORT rather than copy: central difference, per-line paired differential via
+      pipeline.paired_differential, sigma_xi = |dA/dxi| x delta_xi, min_paired read from
+      the runs (RYA-1224's floor).
+      ⚠️ EACH POOL IS THE PRODUCT'S OWN (`--lines-tier graded` / `--lines-deep-graded`),
+      never `reference`. `~/scratch/rya1213_xi` holds 58 leg directories whose names
+      differ from these only in a tier segment and which all ran the REFERENCE pool --
+      a different line selection, and not reusable here.
+      ⚠️ EMITS ONLY EACH DECK'S OWN TREATMENT. The same legs also measured 1D-LTE and
+      ENGINE-A on these pools, band-keyed, but those cells are already MEASURED and a
+      second derivative would move a published sigma out of scope; they are recorded in
+      the artifact under `base_treatments_measured_but_not_emitted`.
+      ⚠️ A FRESH CLONE CANNOT RUN THE NEAR-UV LEGS until
+      `pipeline.nearuv_linelist.build()` writes
+      data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv -- a 12 MB generated artifact
+      that is not tracked. The first pass of those four legs failed on exactly that.
   - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv
     status: COMMITTED
     generator: scripts/derive_band_products.py
