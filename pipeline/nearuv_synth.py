@@ -333,10 +333,13 @@ def build_solar_context(element: str, resolving_power: float, *,
             f"no microturbulence ('xi') in STAR_PARAMS for {star!r}. Refusing to default "
             "it — xi sets the saturation regime and biases the fitted abundance.")
     teff, logg = float(p['teff']), float(p['logg'])
+    feh = float(p.get('feh', p.get('feh_ref', 0.0)))
     # RYA-1218/587: Sirius-only stellar response campaign.  Overrides are
     # environment-scoped so ordinary production calls remain byte-identical.
     import os
-    for _key, _name in (("CODEX_TEFF_OVERRIDE", "teff"), ("CODEX_LOGG_OVERRIDE", "logg")):
+    for _key, _name in (("CODEX_TEFF_OVERRIDE", "teff"),
+                         ("CODEX_LOGG_OVERRIDE", "logg"),
+                         ("CODEX_FEH_OVERRIDE", "feh")):
         _raw = os.environ.get(_key)
         if _raw not in (None, ""):
             try:
@@ -346,9 +349,10 @@ def build_solar_context(element: str, resolving_power: float, *,
             print(f"  ⚠️  {_name} OVERRIDE (RYA-1218 campaign): {_val}")
             if _name == "teff":
                 teff = _val
-            else:
+            elif _name == "logg":
                 logg = _val
-    feh = float(p.get('feh', p.get('feh_ref', 0.0)))
+            else:
+                feh = _val
     vturb = float(p['xi'])
     _xi = _xi_override()
     if _xi is not None:
