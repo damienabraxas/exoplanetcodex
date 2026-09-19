@@ -996,7 +996,13 @@ def update_xi_budget(p: dict, idx: dict) -> None:
     p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
     terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
     got = [t for t in terms if t]
-    p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    #: 🔴 RYA-1226 -- THE CONTRACT OWNS THE TOTAL ONCE A ROW IS MIGRATED. A row carrying an
+    #: RYA-587 `uncertainty` block has a canonical sigma_reported over all sixteen
+    #: components; recomputing the legacy two-term quadrature over it would silently
+    #: discard fourteen of them and restore the understated bar the migration exists to
+    #: replace. The xi component itself is still refreshed above -- only the TOTAL defers.
+    if "uncertainty" not in p:
+        p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
     p["sigma_reported_basis"] = (
         "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
         "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
@@ -1222,7 +1228,10 @@ def verify(feed: dict) -> list:
             errs.append(f"grade/line_set disagree: {p['holding']}/{p['treatment']}")
         # sigma_reported must be the quadrature it claims to be
         st, sy, rep = p.get("sigma_stat"), p.get("sigma_syst_complete"), p.get("sigma_reported")
-        if rep is not None:
+        #: RYA-1226: a migrated row's total is the RYA-587 canonical one over all sixteen
+        #: components, which is NOT the legacy two-term quadrature and must not be asserted
+        #: to be. Its own contract validation is the check that applies there.
+        if rep is not None and "uncertainty" not in p:
             want_rep = math.sqrt(sum(t * t for t in (st, sy) if t))
             if abs(rep - want_rep) > 1e-6:
                 errs.append(f"sigma_reported not the stated quadrature: "

@@ -12,15 +12,10 @@
       "n_lines": 12,
       "sigma_stat_reproduced": 0.052296,
       "sigma_stat_published": 0.0523,
-      "components_supplied": 12,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "profile_ew"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, profile_ew",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.32147112726559773
     },
     {
       "ion": "II",
@@ -30,16 +25,10 @@
       "n_lines": 7,
       "sigma_stat_reproduced": 0.080855,
       "sigma_stat_published": 0.0809,
-      "components_supplied": 11,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "nlte",
-        "profile_ew"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, nlte, profile_ew",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.3331733448694283
     },
     {
       "ion": "II",
@@ -49,15 +38,10 @@
       "n_lines": 12,
       "sigma_stat_reproduced": 0.047169,
       "sigma_stat_published": 0.0472,
-      "components_supplied": 12,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "profile_ew"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, profile_ew",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.3206769700571123
     },
     {
       "ion": "II",
@@ -67,16 +51,10 @@
       "n_lines": 7,
       "sigma_stat_reproduced": 0.051068,
       "sigma_stat_published": 0.0511,
-      "components_supplied": 11,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "nlte",
-        "profile_ew"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, nlte, profile_ew",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.3272229079281883
     },
     {
       "ion": "I",
@@ -86,16 +64,10 @@
       "n_lines": 55,
       "sigma_stat_reproduced": 0.060821,
       "sigma_stat_published": 0.0608,
-      "components_supplied": 11,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "profile_ew",
-        "stellar.xi"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, profile_ew, stellar.xi",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.3080930227372956
     },
     {
       "ion": "I",
@@ -105,17 +77,10 @@
       "n_lines": 55,
       "sigma_stat_reproduced": 0.060811,
       "sigma_stat_published": 0.0608,
-      "components_supplied": 10,
-      "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "nlte",
-        "profile_ew",
-        "stellar.xi"
-      ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, nlte, profile_ew, stellar.xi",
-      "sigma_reported_if_complete": null
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.311077170845244
     },
     {
       "ion": "I",
@@ -125,15 +90,11 @@
       "n_lines": 54,
       "sigma_stat_reproduced": 0.063592,
       "sigma_stat_published": 0.0636,
-      "components_supplied": 11,
+      "components_supplied": 15,
       "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "profile_ew",
         "stellar.xi"
       ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, profile_ew, stellar.xi",
+      "validator": "unresolved components: stellar.xi",
       "sigma_reported_if_complete": null
     },
     {
@@ -144,16 +105,11 @@
       "n_lines": 54,
       "sigma_stat_reproduced": 0.063589,
       "sigma_stat_published": 0.0636,
-      "components_supplied": 10,
+      "components_supplied": 15,
       "HOLDS": [
-        "blends",
-        "continuum",
-        "model_atmosphere",
-        "nlte",
-        "profile_ew",
         "stellar.xi"
       ],
-      "validator": "unresolved components: blends, continuum, model_atmosphere, nlte, profile_ew, stellar.xi",
+      "validator": "unresolved components: stellar.xi",
       "sigma_reported_if_complete": null
     }
   ]

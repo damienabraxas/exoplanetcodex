@@ -84,48 +84,125 @@ def test_hfs_is_N_A_on_evidence_not_on_convenience():
 
 
 @pytest.mark.parametrize("holding", [KUR, MOL])
-def test_the_contract_refuses_the_fe2_rows_and_names_the_same_four_components(migration, holding):
-    """🔴 THE REFUSAL IS THE RESULT. Twelve of sixteen components are real; four are not,
-    and the product must stay unpublishable until they are measured."""
+def test_the_fe2_rows_now_carry_a_COMPLETE_validated_budget(migration, holding):
+    """Ryan's REDIRECT: three of the four I held were already measured. They are wired.
+
+    16 of 16 components, no HOLDs, and validate() returns clean -- which is what makes the
+    row publishable at all.
+    """
     row = next(r for r in migration["rows"]
                if r["ion"] == "II" and r["holding"] == holding and r["treatment"] == "1D-LTE")
-    assert row["components_supplied"] == 12
-    assert set(row["HOLDS"]) == {"blends", "continuum", "model_atmosphere", "profile_ew"}
-    assert row["validator"], "validate() must refuse a document carrying HOLDs"
-    assert row["sigma_reported_if_complete"] is None
+    assert row["components_supplied"] == 16
+    assert row["HOLDS"] == []
+    assert row["validator"] is None, row["validator"]
+    assert row["sigma_reported_if_complete"] > 0
 
 
-def test_a_hold_is_the_contracts_verdict_not_a_hardcoded_list():
-    """Control: supply one of the held components and the contract drops it from HOLDS.
+def test_the_three_wired_terms_each_cite_a_real_prior_measurement():
+    """🔴 'Unpriceable' with no cited reason re-buries measured work. Each must name its own."""
+    import rya1226_migrate_nearuv_budget as M
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
+             and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
+             and x["holding"] == KUR)
+    terms = {c["name"]: c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]}
 
-    Without this, the four names above could be a constant someone typed.
+    cont = terms["continuum"]
+    assert cont["state"] == "DEFINED" and cont["evidence"]["bound"] is True
+    assert "RYA-1133" in cont["source"]
+    #: the floor is the CURRENT post-opacity spread, not RYA-1133's pre-opacity 0.13
+    assert cont["sigma_dex"] == pytest.approx(0.1075, abs=5e-5)
+    assert cont["evidence"]["rya1133_pre_opacity_half_spread"]["FeII_1D-LTE"] == 0.13
+    assert cont["evidence"]["rya846_candidates_dex"]["lever"] == 2.54
+
+    atm = terms["model_atmosphere"]
+    assert atm["sigma_dex"] == 0.004 and "RYA-1032" in atm["source"]
+    assert atm["evidence"]["same_pool"] is True
+
+    pew = terms["profile_ew"]
+    assert pew["sigma_dex"] == 0.2160 and "RYA-1220" in pew["source"]
+    assert pew["evidence"]["cross_element"] is True
+
+
+def test_every_bound_is_flagged_as_a_bound_and_not_as_a_measurement():
+    """A ceiling that reads like a measurement is the defect this ticket is about."""
+    import rya1226_migrate_nearuv_budget as M
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
+             and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
+             and x["holding"] == KUR)
+    terms = {c["name"]: c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]}
+    for name in ("continuum", "model_atmosphere", "profile_ew", "blends"):
+        assert terms[name]["evidence"].get("bound") is True, name
+    for name in ("measurement", "transition_data", "stellar.xi"):
+        assert terms[name]["state"] == "MEASURED"
+        assert not terms[name]["evidence"].get("bound")
+
+
+def test_the_bar_is_dominated_by_bounds_and_that_is_stated_not_hidden():
+    """🔴 85% of the variance is bounds, 45% is profile_ew alone. If that ever stops being
+    true the reporting must change with it, so it is pinned rather than narrated once."""
+    import rya1226_migrate_nearuv_budget as M
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
+             and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
+             and x["holding"] == KUR)
+    b = M.build(p, xi_slope=-0.1100)["budget"]
+    total = b["sigma_reported"] ** 2
+    bound = sum(c["sigma_dex"] ** 2 for c in b["components"]
+                if c["sigma_dex"] and c["evidence"].get("bound"))
+    assert bound / total > 0.80
+    pew = next(c for c in b["components"] if c["name"] == "profile_ew")
+    assert pew["sigma_dex"] ** 2 / total > 0.40
+
+
+def test_stellar_xi_carries_real_perturbation_evidence_and_a_measured_asymmetry():
+    """A derived response is not a perturbation -- the contract says so and it is right."""
+    import rya1226_migrate_nearuv_budget as M
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "I"
+             and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
+             and x["holding"] == KUR)
+    xi = next(c for c in M.build(p, xi_slope=-0.17)["budget"]["components"]
+              if c["name"] == "stellar.xi")
+    ev = xi["evidence"]
+    assert xi["state"] == "MEASURED"
+    assert ev["signed_response_dex"] == pytest.approx((ev["delta_plus_dex"] - ev["delta_minus_dex"]) / 2)
+    assert abs(ev["signed_response_dex"]) == pytest.approx(xi["sigma_dex"])
+    assert ev["delta_parameter"] == 0.2912
+    assert "ASYMMETRIC" in ev["response_assessment"], "the measured asymmetry must be recorded"
+
+
+def test_stellar_teff_is_a_sourced_zero_with_its_omission_sized():
+    """Declaring it zero is only honest if the size of the omission is on the record."""
+    import rya1226_migrate_nearuv_budget as M
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
+             and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
+             and x["holding"] == KUR)
+    t = next(c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]
+             if c["name"] == "stellar.teff")
+    assert t["state"] == "DEFINED" and t["sigma_dex"] == 0.0
+    assert t["evidence"]["derived_but_not_perturbed_dex"] == 0.000665
+
+
+def test_blends_is_BOUNDED_by_the_deficit_not_by_the_payoff_figure():
+    """🔴 The ceiling is RYA-1190's measured DEFICIT, not its payoff.
+
+    The payoff (~0.028) is how much a completeness build would CLOSE -- a different
+    quantity from how wrong the number may be, and 6x smaller. A ceiling must bound the
+    error, so the deficit is the conservative choice.
     """
     import rya1226_migrate_nearuv_budget as M
     feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
     p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
              and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
              and x["holding"] == KUR)
-    base = M.build(p, xi_slope=-0.1100)
-    assert "continuum" in base["budget"]["holds"]
-
-    ev = M.evidence_for(p, xi_slope=-0.1100, delta_xi=0.2912)
-    ev["components"].append(dict(name="continuum", sigma_dex=0.01, state="DEFINED",
-                                 source="TEST ONLY -- not a measurement", evidence={}))
-    import numpy as np
-    numeric = [c for c in ev["components"] if c["state"] in {"MEASURED", "DEFINED"}]
-    doc = M.assemble(base["scope"], ev["components"],
-                     covariance=np.diag([c["sigma_dex"] ** 2 for c in numeric]).tolist(),
-                     covariance_source="test", assumptions="test")
-    assert "continuum" not in doc["holds"]
-    assert set(doc["holds"]) == {"blends", "model_atmosphere", "profile_ew"}
-
-
-def test_blends_cannot_be_priced_because_RYA1190_refused_to_price_it():
-    """The near-UV deficit is measured, real, and explicitly NOT catalogueable.
-
-    Its ~0.028 'payoff' is offered as an ORDER, not a number to plan on -- so using it as
-    the blends term would be inventing exactly what that ticket declined to supply.
-    """
+    bl = next(c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]
+              if c["name"] == "blends")
+    assert bl["sigma_dex"] == 0.1721, "the deficit, not the 0.028 payoff"
+    assert bl["evidence"]["bound"] is True
+    assert "under development" in bl["evidence"]["status"]
     d = json.loads(RYA1190.read_text())
     verdict = d["verdict_per_band"]["near-UV"]
     assert "OPACITY-DOMINATED" in verdict
@@ -142,3 +219,49 @@ def test_published_A_is_untouched_by_the_migration_survey():
         if "error" in r:
             continue
         assert live[(r["ion"], r["holding"], r["treatment"])] == r["A"]
+
+
+def test_the_feed_actually_carries_the_migrated_budgets():
+    """Part D: the rows publish. This is the smoke test the ticket asked for."""
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    with_block = [p for p in feed["products"] if "uncertainty" in p]
+    assert len(with_block) == 6, "six near-UV rows migrated; the rest stay legacy"
+    for p in with_block:
+        assert p["band"] == "near-UV" and p["tier"] == "DEEPGRADED"
+        assert p["star"] == "solar"
+        assert p["sigma_reported"] == p["uncertainty"]["sigma_reported"]
+
+
+def test_the_two_incomplete_rows_did_NOT_publish_a_budget():
+    """The migration's whole point: an incomplete budget stays unpublishable."""
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    held = [p for p in feed["products"]
+            if p.get("band") == "near-UV" and p.get("ion") == "I"
+            and p.get("tier") == "DEEPGRADED" and p["holding"] == MOL
+            and p["treatment"] in ("1D-LTE", "ENGINE-A")]
+    assert len(held) == 2
+    for p in held:
+        assert "uncertainty" not in p, "molecfit Fe I still owes a xi measurement"
+
+
+def test_the_contract_accepts_the_migrated_feed():
+    """RYA-587 is ASKED, not bypassed -- that acceptance is the result."""
+    from pipeline.uncertainty_contract import assert_publication_feed
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    assert_publication_feed(feed, previous=feed)
+
+
+def test_a_migrated_rows_total_is_the_contracts_not_the_legacy_quadrature():
+    """🔴 Regression: update_xi_budget silently recomputed the two-term legacy quadrature
+    over the contract total, discarding fourteen components and restoring the understated
+    bar. It must defer once a row carries an uncertainty block."""
+    import math, importlib, sys as _s
+    _s.path.insert(0, str(ROOT / "scripts"))
+    emit = importlib.import_module("rya1178_emit_fe_schema")
+    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    p = next(x for x in feed["products"] if "uncertainty" in x)
+    before = p["sigma_reported"]
+    legacy = math.sqrt(sum(t * t for t in (p.get("sigma_stat"), p.get("sigma_syst_complete")) if t))
+    assert abs(before - legacy) > 0.05, "the two totals must actually differ for this to bite"
+    emit.update_xi_budget(p, {"band": emit.xi_band_index(feed["products"])})
+    assert p["sigma_reported"] == before, "the contract total was clobbered"

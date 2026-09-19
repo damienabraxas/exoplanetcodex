@@ -39,21 +39,52 @@ WHAT THE EVIDENCE SUPPORTS, and where it comes from:
   nlte              N/A for the 1D-LTE leg on its own per-line record
                     (nlte_delta_dex = 0, "none -- LTE, no departure applied").
 
-🔴 AND WHAT NO ARTIFACT PRICES -- the reason this is expected to refuse:
+🔴 THE FOUR THAT WERE WRONGLY CALLED UNPRICEABLE (Ryan's REDIRECT, 2026-09-18).
+My first pass held all four and justified only one. Three of them HAVE measured work:
 
-  blends            RYA-1190 measured the near-UV as OPACITY-DOMINATED, -0.1721 dex
-                    excess over its control, "robust across the sigma sweep, in a band
-                    whose catalogued opacity is already complete to the VALD threshold.
-                    The deficit is real and is NOT catalogueable from what we hold."
-                    Its ~0.028 payoff figure is explicitly "an ORDER, not a number to
-                    plan on", so using it here would be inventing exactly what RYA-1190
-                    refused to supply.
-  continuum         continuum_method, continuum_ref and continuum_level are ALL EMPTY on
-                    every one of the 12 per-line rows.
-  profile_ew        the route is a synthesis flux-fit at a FIXED +/-0.4 A half-width
-                    (RYA-759). RYA-1220 measured that class of sensitivity at +0.216 dex
-                    on one line at 8216 A; it has never been measured for this band.
-  model_atmosphere  the product's model_grid is null.
+  continuum         RYA-1133 audited THESE products and ruled "(b) a distinct term is owed,
+                    with a (c) floor". Its (c) floor is the OBSERVED holding spread, and
+                    that is what is wired here -- recomputed on the CURRENT post-RYA-1207
+                    values, because RYA-1133 ran pre-opacity: Fe II half-spread 0.13 ->
+                    0.1075 (1D-LTE) and 0.1185 -> 0.1155 (ENGINE-A); Fe I is unchanged at
+                    0.0230.
+                    ⚠️ NOT RYA-846's number, and that is RYA-1133's own finding, not mine:
+                    846 measured 1984KP-vs-Wallace, `kurucz2005_in_846s_comparison` is
+                    False, and "every RYA-846 candidate term is below the observed
+                    half-spread". Wiring 846 here would charge a smaller term measured on a
+                    different pair. Its candidates are carried in the evidence so the
+                    comparison stays visible: offset 0.0582, MAD 0.0526, std 0.1192,
+                    at-product-lines raw 0.1254 / net 0.0710, lever 2.54 (not 2.42).
+                    🔴 AND RYA-1133's STATED BLOCKER IS STALE. It says the owed measurement
+                    cannot be done because "Fe II near-UV ships no *_lines.csv"; RYA-908
+                    emitted exactly those files on the SAME DAY, and 14 of them are in the
+                    tree. The owed measurement -- sigma_delta between Kurucz 2005 and the
+                    1984 KP atlas at the product lines, per ion -- is RUNNABLE NOW.
+  model_atmosphere  RYA-1032's `atmosphere_nuisance`: atlas9 -> marcs-ges, LTE, no NLTE
+                    physics, SAME POOL (n=67 both), one axis varied -> 0.004 dex. Measured
+                    on the VIS Fe I pool, so it is carried as a cross-band bound, flagged.
+  profile_ew        RYA-1220 measured a fit half-width excursion of +0.2160 dex (7.9562 at
+                    +/-0.25 A against 8.1722 at +/-1.1 A). ⚠️ It is N I, at 8216 A, on
+                    solar_iag -- a different element, band and holding -- and its own
+                    artifact declares `steps_are_adopted_uncertainties: false` and
+                    `status: diagnostic_only`. It is carried FLAGGED, and it is NOT
+                    demonstrably conservative: the near-UV is more heavily blended than
+                    8216 A, so the true term there could be larger, not smaller. The real
+                    fix is a half-width sweep on the near-UV Fe pool itself.
+  blends            BOUNDED per the directive rather than held. ⚠️ The ceiling used is
+                    RYA-1190's measured DEFICIT (0.1721 dex excess over its control), not
+                    its ~0.028 "payoff" figure: the payoff is how much a completeness build
+                    would CLOSE, which is a different quantity from how wrong the number
+                    might be, and it is 6x smaller. A ceiling must bound the error, so the
+                    deficit is the conservative choice. Marked "systematic under
+                    development".
+
+🔴 THE CONTRACT GAP THIS EXPOSES, which is the real fix (RYA-587). STATES is
+{MEASURED, DEFINED, N/A, HOLD}. There is NO state that distinguishes a measured value from
+a CONSERVATIVE CEILING carried pending measurement -- both read DEFINED. Three of the four
+terms above are ceilings, and nothing in the schema says so except prose inside `evidence`,
+which no consumer keys on. A reader of the published budget cannot tell 0.1721 "measured"
+from 0.1721 "bounded, under development". That gap is reported, not worked around.
 """
 
 from __future__ import annotations
@@ -75,12 +106,32 @@ from pipeline.uncertainty_contract import (  # noqa: E402
     publication_problems, transition_data, validate)
 
 FEED = ROOT / "data/products/solar/Fe.json"
+FEED_PRODUCTS = json.loads(FEED.read_text())["products"]
 BANDP = ROOT / "data/results/band_products"
 GF = ROOT / "data/linelists/canonical_gf.csv"
 OUT = ROOT / "data/results/rya1226/nearuv_budget_migration.json"
 
 DH19 = "Den Hartog et al. 2019, ApJS 243, 33 (DOI 10.3847/1538-4365/ab322e)"
 PSEUDO_CONTINUUM_DEX = 0.10
+
+#: Measured per-side xi responses, from the part C legs against the committed xi=1.0
+#: product. Recorded because "symmetric" is an assumption until somebody measures it --
+#: and on kurucz2005 it is FALSE: the upward side responds 64% harder.
+XI_ASSESSMENT = {
+    ("I", "solar_kpno_kurucz2005_corrected"): (
+        "MEASURED and ASYMMETRIC: A(1.1)-A(1.0) = -0.0180 against A(1.0)-A(0.9) = -0.0110 "
+        "per 0.1 km/s (n=55 both), i.e. the upward side responds 64% harder. The published "
+        "sigma uses the central response per the campaign convention; the asymmetry is "
+        "recorded here rather than averaged away."),
+    ("I", "solar_kpno_molecfit_corrected"): (
+        "MEASURED and SYMMETRIC: A(1.1)-A(1.0) = A(1.0)-A(0.9) = -0.0170 per 0.1 km/s."),
+    ("II", "solar_kpno_kurucz2005_corrected"): (
+        "NOT ASSESSED: RYA-1213's published artifact retains only the central median for "
+        "this pool and its legs are not in the committed tree, so per-side asymmetry cannot "
+        "be measured here. Owed."),
+    ("II", "solar_kpno_molecfit_corrected"): (
+        "NOT ASSESSED: as for kurucz2005 -- RYA-1213 publishes only the central median."),
+}
 
 
 def per_line(product) -> pd.DataFrame:
@@ -127,9 +178,23 @@ def evidence_for(product, *, xi_slope: float | None, delta_xi: float) -> dict:
         dict(name="stellar.metallicity", sigma_dex=0.0, state="DEFINED",
              source="solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
              evidence={"delta": 0.0, "parameter_exists": True}),
-        dict(name="stellar.teff", sigma_dex=0.000665, state="DEFINED",
-             source="pipeline.uncertainty_stack solar delta_Teff = 1 K x 0.0665 dex/100 K",
-             evidence={"delta_K": 1.0, "parameter_exists": True}),
+        #: 🔴 A DERIVED RESPONSE IS NOT A PERTURBATION, and the contract is right to say so:
+        #: "nonzero parameter terms need perturbation evidence". The 0.000665 dex figure is
+        #: uncertainty_stack's response (0.0665 dex/100 K) times the solar allowance (1 K),
+        #: NOT a Teff perturbation run on this pool -- and dA/dp is a property of the LINE
+        #: SET (RYA-1093), so an element-level response may not stand in for one. It is
+        #: therefore carried as the SOURCED DEFINED ZERO the contract sanctions, with the
+        #: derived value kept in evidence so the omission is visible and sized: 0.000665^2
+        #: is 0.0004% of this budget's variance, four orders below the leading term and
+        #: below the 6-dp publication precision.
+        dict(name="stellar.teff", sigma_dex=0.0, state="DEFINED",
+             source=("sourced DEFINED zero: no Teff perturbation has been run on this pool, "
+                     "and the derived response is immaterial at this budget's precision"),
+             evidence={"parameter_exists": True, "delta_K": 1.0,
+                       "derived_but_not_perturbed_dex": 0.000665,
+                       "derived_from": "uncertainty_stack 0.0665 dex/100 K x 1 K",
+                       "share_of_variance": "0.0004%",
+                       "owed_measurement": "a Teff perturbation on this pool"}),
         dict(name="pseudo_continuum", sigma_dex=PSEUDO_CONTINUUM_DEX, state="DEFINED",
              source="RYA-1113/RYA-841 near-UV band-flat: the true continuum is never observed",
              evidence={"band": "near-UV", "basis": "band-flat declared allowance"}),
@@ -148,7 +213,80 @@ def evidence_for(product, *, xi_slope: float | None, delta_xi: float) -> dict:
              evidence={"harness_residual_dex": 0.0}),
     ]
 
+    #: --- the four Ryan's REDIRECT sent back, wired rather than re-held ---
+    holdings = {q["holding"]: q["A"] for q in FEED_PRODUCTS
+                if q["band"] == "near-UV" and q["ion"] == product["ion"]
+                and q["tier"] == "DEEPGRADED" and q["treatment"] == product["treatment"]}
+    half_spread = abs(holdings["solar_kpno_kurucz2005_corrected"]
+                      - holdings["solar_kpno_molecfit_corrected"]) / 2.0
+    comps += [
+        dict(name="continuum", sigma_dex=round(half_spread, 6), state="DEFINED",
+             source=("RYA-1133 verdict (b)+(c): a distinct Kurucz2005-vs-1984KP term is "
+                     "owed; until it exists the honest floor is the OBSERVED holding "
+                     "spread. Recomputed on the current post-RYA-1207 values."),
+             evidence={"bound": True, "status": "floor pending the owed measurement",
+                       "holding_values": holdings, "half_spread_dex": half_spread,
+                       "rya1133_pre_opacity_half_spread": {"FeII_1D-LTE": 0.13,
+                                                           "FeII_ENGINE-A": 0.1185,
+                                                           "FeI": 0.023},
+                       "rya846_candidates_dex": {"offset": 0.0582, "MAD": 0.0526,
+                                                 "std": 0.1192,
+                                                 "at_product_lines_raw": 0.1254,
+                                                 "at_product_lines_net": 0.0710,
+                                                 "lever": 2.54},
+                       "why_not_rya846": ("846 measured 1984KP-vs-Wallace; "
+                                          "kurucz2005_in_846s_comparison is False and every "
+                                          "846 candidate is below the observed half-spread"),
+                       "owed_measurement": ("sigma_delta Kurucz2005 vs 1984 KP at the "
+                                            "product lines, per ion"),
+                       "rya1133_blocker_is_stale": ("RYA-1133 recorded this as blocked on "
+                                                    "Fe II near-UV having no *_lines.csv; "
+                                                    "RYA-908 emitted them the same day and "
+                                                    "14 are in the tree")}),
+        dict(name="model_atmosphere", sigma_dex=0.004, state="DEFINED",
+             source="RYA-1032 atmosphere_nuisance: atlas9 -> marcs-ges, LTE, same pool",
+             evidence={"bound": True, "status": "measured on the VIS Fe I pool, carried "
+                                                "cross-band",
+                       "delta_dex": 0.004, "n_hi": 67, "n_lo": 67, "same_pool": True,
+                       "varied": "atmosphere", "measured_band": "VIS"}),
+        dict(name="profile_ew", sigma_dex=0.2160, state="DEFINED",
+             source="RYA-1220 fit half-width excursion, +/-0.25 A vs +/-1.1 A",
+             evidence={"bound": True,
+                       "status": "systematic under development -- NOT demonstrably conservative",
+                       "delta_dex": 0.2160, "measured_on": "N I 8216.336 A, solar_iag",
+                       "cross_element": True, "cross_band": True, "cross_holding": True,
+                       "source_artifact_says": ("steps_are_adopted_uncertainties: false; "
+                                                "status: diagnostic_only"),
+                       "owed_measurement": ("half-width sweep on the near-UV Fe pool at its "
+                                            "own fixed +/-0.4 A")}),
+        dict(name="blends", sigma_dex=0.1721, state="DEFINED",
+             source="RYA-1190 measured near-UV opacity deficit, excess over control",
+             evidence={"bound": True, "status": "systematic under development",
+                       "deficit_dex": 0.1721,
+                       "why_not_the_payoff_figure": ("RYA-1190's ~0.028 is how much a "
+                                                     "completeness build would CLOSE, not "
+                                                     "how wrong the number may be -- a "
+                                                     "ceiling must bound the error"),
+                       "rya1190_verdict": ("OPACITY-DOMINATED; the deficit is real and is "
+                                           "NOT catalogueable from what we hold")}),
+    ]
+
     nlte_delta = set(lines["nlte_delta_dex"].dropna().unique())
+    if nlte_delta != {0.0}:
+        #: An NLTE leg owes the uncertainty ON its departure correction. RYA-1032 measured
+        #: the model-family spread on a fixed 1D-NLTE axis -- Gerber minus Bergemann,
+        #: 0.043 dex raw and 0.039 deconfounded from the atmosphere nuisance. ENGINE-A IS
+        #: the Bergemann member, so that spread is the disagreement between the two live
+        #: treatments of the same physics. Measured on the VIS Fe I pool: a flagged
+        #: cross-band bound, not a near-UV measurement.
+        comps.append(dict(name="nlte", sigma_dex=0.043, state="DEFINED",
+                          source="RYA-1032 model_family_spread (Gerber - Bergemann, 1D-NLTE)",
+                          evidence={"bound": True,
+                                    "status": "measured on the VIS Fe I pool, carried cross-band",
+                                    "delta_dex": 0.043, "deconfounded_dex": 0.039,
+                                    "varied": "family", "measured_band": "VIS",
+                                    "owed_measurement": ("the Gerber/Bergemann disagreement "
+                                                         "on the near-UV pool itself")}))
     if nlte_delta == {0.0}:
         comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
                           source="this leg applies no departures: nlte_delta_dex is 0 on "
@@ -156,12 +294,32 @@ def evidence_for(product, *, xi_slope: float | None, delta_xi: float) -> dict:
                           evidence={"nlte_delta_dex": 0.0}))
 
     if xi_slope is not None:
-        comps.append(dict(name="stellar.xi", sigma_dex=abs(xi_slope) * delta_xi,
-                          state="MEASURED",
+        #: 🔴 THE CONVENTION IS NOT RE-DERIVED HERE. sigma_xi = |dA/dxi| x delta_xi is what
+        #: RYA-1168, RYA-1213 and RYA-1226 part C all publish, so the signed response is the
+        #: CENTRAL one scaled to the adopted allowance and delta_plus/minus are its
+        #: symmetric halves. Deriving sigma from the one-sided pair instead would change
+        #: the number on every xi product in the campaign, silently, from inside a near-UV
+        #: migration -- which is not this ticket's call to make.
+        #:
+        #: The measured per-side responses go in `response_assessment`, which is the field
+        #: the contract provides for exactly that. They are NOT symmetric on kurucz2005.
+        signed = xi_slope * delta_xi
+        comps.append(dict(name="stellar.xi", sigma_dex=abs(signed), state="MEASURED",
                           source=("per-line paired differential at xi 0.90/1.10 on this "
-                                  "product's OWN pool, measured on the current molecular "
-                                  "synthesis"),
-                          evidence={"dA_dxi": xi_slope, "delta_xi_kms": delta_xi,
+                                  "product's OWN pool, on the current molecular synthesis"),
+                          evidence={"pool_sha256": digest,
+                                    "parameter_source": ("RYA-1089 sourced solar delta_xi = "
+                                                         "0.2912 km/s, the honest method+"
+                                                         "selection spread |0.709 - 1.0|"),
+                                    "response_assessment": XI_ASSESSMENT.get(
+                                        (product["ion"], product["holding"]),
+                                        "per-side responses not assessable from the "
+                                        "committed tree"),
+                                    "signed_response_dex": signed,
+                                    "delta_plus_dex": signed,
+                                    "delta_minus_dex": -signed,
+                                    "delta_parameter": delta_xi,
+                                    "dA_dxi": xi_slope, "delta_xi_kms": delta_xi,
                                     "parameter_exists": True}))
 
     comps.append(transition_data(ids, sigmas, weights, covariance=cov,
@@ -186,7 +344,12 @@ def build(product, *, xi_slope, delta_xi=0.2912) -> dict:
 
 def main() -> int:
     feed = json.loads(FEED.read_text())
-    slope = {"II": -0.1100}          # RYA-1225, adjudicated; Fe I is part C
+    #: RYA-1225 adjudicated Fe II; RYA-1226 part C MEASURED Fe I on its own pool.
+    #: molecfit Fe I is absent on purpose -- its pool moved under perturbation (Fe I
+    #: 3427.119 A rails at xi=1.10), and a moved pool is HOLD, not a slope on survivors.
+    part_c = json.loads((ROOT / "data/results/rya1226/nearuv_fe1_xi_dadxi.json").read_text())
+    fe1 = {(r["holding"], r["treatment"]): r["dA_dxi"] for r in part_c["pools"]
+           if r["xi_state"] == "MEASURED"}
     rows = []
     for p in feed["products"]:
         if p.get("band") != "near-UV" or p.get("tier") != "DEEPGRADED":
@@ -194,7 +357,9 @@ def main() -> int:
         if p.get("treatment") not in ("1D-LTE", "ENGINE-A"):
             continue
         try:
-            built = build(p, xi_slope=slope.get(p["ion"]))
+            xi = (-0.1100 if p["ion"] == "II"
+                  else fe1.get((p["holding"], p["treatment"])))
+            built = build(p, xi_slope=xi)
             holds = built["budget"]["holds"]
             problems = None
             try:
