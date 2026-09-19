@@ -1,0 +1,8 @@
+{
+  "ticket":"RYA-1218","contract":"RYA-587","component":"stellar.logg","pool_species":"Si I","pool_n":7,
+  "pool_ids":[5645.613,5684.484,5690.425,5701.104,5772.146,5793.073,6741.628],
+  "execution_host":"sirius","step":0.20,"adopted_delta":0.10,
+  "per_line_dA_dlogg":{"5645.613":0.15,"5684.484":0.105,"5690.425":0.115,"5701.104":0.16,"5772.146":0.085,"5793.073":0.125,"6741.628":0.105},
+  "mean_dA_dlogg":0.1207143,"sigma_dex":0.0120714,"state":"MEASURED_DIAGNOSTIC","admission":"HOLD",
+  "reason":"Sirius exact seven-line paired synthesis response at logg 4.34 and 4.54; adoption remains pending sourced stellar logg uncertainty and covariance rule."
+}
