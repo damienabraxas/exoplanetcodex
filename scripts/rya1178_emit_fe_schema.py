@@ -76,6 +76,22 @@ XI_BAND_RUNS = (
     # the VERDICT rather than from the presence of a float. Neither case can quietly
     # acquire a borrowed number.
     ROOT / "data/results/rya1213/reference_xi_dadxi.json",  # Reference tier, RYA-1213
+    # 🔴 RYA-1227 — THE CODEX/DEEP 1D-ENGINE POOLS THE CAMPAIGNS NEVER REACHED.
+    # RYA-1208's Gerber fan-out landed AFTER the band-keyed xi runs: every product
+    # artifact in this artifact is stamped 2026-09-08 or 2026-09-10, and every band run
+    # predates it (NIR/H 2026-08-30, near-UV and red-optical 2026-09-03, VIS older). The
+    # cells did not exist when the campaigns fanned out, so they reached the feed with
+    # `NOT_IN_CAMPAIGN` -- "we never ran it" -- on 1D engines where microturbulence
+    # plainly applies and the SAME engines are MEASURED in other bands.
+    #
+    # ⚠️ IT CARRIES ONLY EACH DECK'S OWN TREATMENT, AND THE OMISSION IS THE POINT. Those
+    # same legs also measured 1D-LTE and ENGINE-A on the same pools, band-keyed -- but
+    # those cells are already MEASURED here, and a second derivative would move a
+    # published sigma on products RYA-1227 was not asked to touch. They are recorded in
+    # the artifact under `base_treatments_measured_but_not_emitted`, so the narrowing is
+    # auditable. The band key is unique across all five files or `xi_band_index` refuses
+    # the lot, which is the guard that makes this composition safe.
+    ROOT / "data/results/rya1227/codex_deep_xi_dadxi.json",  # Codex/Deep 1D, RYA-1227
 )
 ASPLUND = ROOT / "data/results/rya1106/asplund_four_instrument_table.json"
 
