@@ -371,6 +371,20 @@ def build_solar_context(element: str, resolving_power: float, *,
 
     linelist, isotopes, chem = _load_synth_resources(
         linelist_file=linelist_file, apply_canonical_gf=apply_canonical_gf)
+    # RYA-1218 blend response diagnostic.  Keep the production line list
+    # untouched unless explicitly requested for the Sirius perturbation run.
+    # Removing only nearby Fe transitions lets us measure the blend contribution
+    # around the two affected Si I lines without changing the Si target lines.
+    if os.environ.get("CODEX_SI_BLEND_OFF") == "1":
+        names = linelist.dtype.names or ()
+        wave = np.asarray(linelist["wave_A"], dtype=float)
+        elem = np.asarray([str(x).strip() for x in linelist["element"]])
+        remove = np.zeros(len(linelist), dtype=bool)
+        for center in (5684.484, 5690.425):
+            remove |= (elem == "Fe") & (np.abs(wave - center) <= 0.05)
+        if np.any(remove):
+            print(f"  ⚠️  BLEND-OFF (RYA-1218 diagnostic): removing {int(np.sum(remove))} nearby Fe transitions")
+            linelist = linelist[~remove]
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_ATLAS9)
     codes = _atom_codes([element], chem, solar_abund)
