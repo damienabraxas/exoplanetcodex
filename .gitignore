@@ -95,3 +95,20 @@ data/linelists/ispec_nearuv_*/atomic_lines.tsv
 # three atomic line lists and the paper tables ARE committed (~1.6 MB) — they are the
 # reference RYA-787 maps Fe lines from, and data/reference/ is a committed surface.
 data/reference/elgueta2026_vizier/sp/
+
+# RYA-1228 — raw external data never enters git (standing policy, Ryan 2026-09-18).
+#
+# GitHub carries the Codex's own measurements and derived products, code, config and
+# small provenance manifests. Raw archive-sourced input lives under
+# ~/Documents/Exoplanet Codex (RYA-461) and/or Zenodo (RYA-1124), named by a manifest.
+#
+# VALD raw deliveries — the gap that consumed the entire LFS quota. Note this covers the
+# .vald deliveries too (vald_procyon_raw/), which were never LFS-tracked and so cost no
+# quota, but are the same class of file and would have been the next one in.
+data/linelists/vald_*_raw.txt
+data/linelists/vald_*.vald
+data/linelists/vald_procyon_raw/
+
+# The BUILT line lists are Codex products and are NOT ignored — linelist_*.csv and
+# canonical_gf.csv stay committed. Only the raw inputs leave.
+
