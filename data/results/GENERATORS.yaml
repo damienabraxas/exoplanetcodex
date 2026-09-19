@@ -12155,3 +12155,240 @@ artifacts:
     - data/audit/rya1218_si_protocol
     note: Reviewed next-stage input inventory and user-directed priority; file hashes
       identify existing measurements, not publication completeness.
+  - artifact: rya1225/nearuv_fe2_xi_rca.json
+    status: COMMITTED
+    generator: scripts/rya1225_nearuv_fe2_xi_rca.py
+    invocation: python3 scripts/rya1225_nearuv_fe2_xi_rca.py
+    ticket: RYA-1225
+    note: >-
+      The RCA behind the 2.0-2.8x near-UV Fe II dA/dxi split. Case (c): RYA-1207's
+      near-UV molecular opacity merged BETWEEN the two runs (2026-09-09), and
+      use_molecules is true on near-UV alone -- which is why red-optical from the
+      same two runs agrees to 1.03-1.08x. Reads the two published artifacts, the
+      committed nominal per-line files and RYA-1168's staged legs under
+      ~/xi_campaign/out_uv; the VIS-window control reads ~/xi_campaign/out. Those
+      campaign directories are NOT in the repo, so the per-line reproduction and the
+      refuted band-confound control require them present.
+  - artifact: rya1225/xi_vintage_supersession.json
+    status: COMMITTED
+    generator: scripts/rya1178_emit_fe_schema.py
+    invocation: python3 scripts/rya1178_emit_fe_schema.py --xi-only
+    ticket: RYA-1225
+    note: >-
+      Written by xi_band_index() via pipeline.xi_vintage: band-keyed dA/dxi entries
+      measured against an abundance the product no longer carries. SUPERSEDED rows
+      were replaced by the same-pool measurement taken after the synthesis change;
+      FLAGGED rows are owed and untouched. Detect broadly, act narrowly -- the action
+      is gated on an adjudicated set so stale red-optical and NIR entries are
+      reported rather than silently re-priced.
+  - artifact: rya1226/nearuv_fe1_xi_dadxi.json
+    status: COMMITTED
+    generator: scripts/rya1226_nearuv_fe1_xi.py
+    invocation: python3 scripts/rya1226_nearuv_fe1_xi.py
+    ticket: RYA-1226
+    note: >-
+      near-UV Fe I dA/dxi measured on the products' OWN DEEPGRADED pool on the
+      current molecular synthesis -- no same-pool adoption, because RYA-1209's line
+      drop leaves DEEPGRADED at 55/54 against REFERENCE's 56/55. kurucz2005 pairs
+      55/55 and is MEASURED at -0.1700; molecfit pairs 53/54 and is HELD, because
+      Fe I 3427.119 A is dropped by the xi=1.10 leg (NON-MINIMUM: chi2 at a bracket
+      end) and a moved pool is HOLD, not a slope on the survivors. Reads the legs
+      committed under rya1226/legs/.
+  - artifact: rya1226/nearuv_budget_migration.json
+    status: COMMITTED
+    generator: scripts/rya1226_migrate_nearuv_budget.py
+    invocation: python3 scripts/rya1226_migrate_nearuv_budget.py
+    ticket: RYA-1226
+    note: >-
+      Assembles every RYA-587 component the artifacts actually support for the
+      legacy near-UV Fe rows and lets pipeline.uncertainty_contract issue the
+      verdict -- anything not supplied becomes HOLD automatically. Six of eight rows
+      reach 16/16 and validate; the two molecfit Fe I rows stay HELD on stellar.xi.
+      Four terms are BOUNDS rather than measurements (continuum, model_atmosphere,
+      profile_ew, blends) and each is flagged evidence.bound = true.
+  - artifact: rya1226/nearuv_budget_applied.json
+    status: COMMITTED
+    generator: scripts/rya1226_apply_nearuv_budget.py
+    invocation: python3 scripts/rya1226_apply_nearuv_budget.py
+    ticket: RYA-1226
+    note: >-
+      Attaches the validated budgets to the feed THROUGH assert_publication_feed,
+      never around it, and records the before/after bar per row. Six rows applied
+      (sigma_reported 2.35x-2.70x, published A unchanged on all 160), two skipped
+      because their budget still holds a component.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi0.9000/xi_run.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kur_dg_xi1.1000/xi_run.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi0.9000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi0.9000/xi_run.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=0.9 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi1.1000/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
+  - artifact: rya1226/legs/nuvI_kpmf_dg_xi1.1000/xi_run.json
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded --force-synthesis --engine-b-deck gerber-1d-lte --out OUTDIR
+    ticket: RYA-1226
+    note: >-
+      RYA-1226 part C leg, xi=1.1 (CODEX_XI_OVERRIDE), run on Sirius at
+      ~/scratch/rya1213 @ 97cde328 -- verified post-RYA-1207, i.e. the current
+      molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
+      the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
+      the two legs form a nominal -/+ pair.
