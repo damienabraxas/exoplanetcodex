@@ -12,6 +12,13 @@ would leave 413.7 MiB -- including every tau Boo extraction -- unprotected.
 
 The LFS oid IS the sha256 of the content, so `archive file hash == oid` is an identity
 check rather than a re-derivation. VALD3 has no API: none of these is re-fetchable.
+
+🔴 IT ALSO SCANS PLAIN GIT BLOBS, NOT JUST LFS OBJECTS. Some raw extractions were
+committed directly into git before the repository adopted LFS. Those objects are on the
+same path and are destroyed by the same rewrite, but `git lfs ls-files --all` never
+enumerates them -- they are not LFS objects. The Phase 1 inventory was LFS-only and
+therefore missed one: vald_55cnc_raw.txt @ a7d016acd5 (7,634,177 bytes), which would have
+been purged with no preserved copy. Enumerate by PATH, then classify by storage.
 """
 
 from __future__ import annotations
@@ -37,19 +44,63 @@ def sha256(path: pathlib.Path, chunk: int = 1 << 20) -> str:
     return h.hexdigest()
 
 
+RAW_GLOB = "data/linelists/vald_*_raw.txt"
+
+
+def _git(repo: pathlib.Path, *args: str) -> str:
+    out = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+    if out.returncode != 0:
+        raise SystemExit(f"git {' '.join(args)} failed: {out.stderr.strip()}")
+    return out.stdout
+
+
 def lfs_objects(repo: pathlib.Path) -> list[dict]:
     """Every LFS object across ALL refs, with its oid and path."""
-    out = subprocess.run(["git", "-C", str(repo), "lfs", "ls-files", "--all", "--long"],
-                         capture_output=True, text=True)
-    if out.returncode != 0:
-        raise SystemExit(f"git lfs ls-files failed: {out.stderr.strip()}")
     seen, rows = set(), []
-    for line in out.stdout.splitlines():
+    for line in _git(repo, "lfs", "ls-files", "--all", "--long").splitlines():
         oid, _mark, path = line.split(None, 2)
         if oid in seen:
             continue
         seen.add(oid)
-        rows.append({"oid": oid, "path": path})
+        rows.append({"oid": oid, "path": path, "storage": "lfs"})
+    return rows
+
+
+def plain_blobs(repo: pathlib.Path) -> list[dict]:
+    """Raw extractions committed as ORDINARY git blobs, before LFS was adopted.
+
+    These sit on the same path and die in the same rewrite, but they are invisible to
+    `git lfs ls-files`. Enumerating by path is what makes the census complete.
+    """
+    rows, seen = [], set()
+    listing = _git(repo, "rev-list", "--all", "--objects", "--", RAW_GLOB).splitlines()
+    for line in listing:
+        parts = line.split(None, 1)
+        if len(parts) != 2 or not parts[1].endswith("_raw.txt"):
+            continue
+        obj, path = parts
+        if obj in seen:
+            continue
+        seen.add(obj)
+        if _git(repo, "cat-file", "-t", obj).strip() != "blob":
+            continue
+        raw = subprocess.run(["git", "-C", str(repo), "cat-file", "-p", obj],
+                             capture_output=True).stdout
+        if raw.startswith(b"version https://git-lfs"):
+            continue  # a pointer; the LFS pass owns it
+        rows.append({"oid": hashlib.sha256(raw).hexdigest(), "path": path,
+                     "storage": "plain-git-blob"})
+    return rows
+
+
+def raw_objects(repo: pathlib.Path) -> list[dict]:
+    """Every raw-extraction object a history rewrite would destroy, by storage kind."""
+    rows, seen = [], set()
+    for row in lfs_objects(repo) + plain_blobs(repo):
+        if row["oid"] in seen:
+            continue
+        seen.add(row["oid"])
+        rows.append(row)
     return rows
 
 
@@ -66,7 +117,7 @@ def main() -> int:
 
     manifest = json.loads((arch / "MANIFEST.json").read_text())
     by_oid = {m["sha256"]: m for m in manifest["objects"]}
-    objects = lfs_objects(pathlib.Path(args.repo).resolve())
+    objects = raw_objects(pathlib.Path(args.repo).resolve())
 
     missing, mismatched, ok = [], [], 0
     for obj in objects:
@@ -86,7 +137,11 @@ def main() -> int:
 
     print("RYA-1228 archive verification")
     print(f"  archive         : {arch}")
-    print(f"  LFS objects     : {len(objects)} (all refs)")
+    n_lfs = sum(1 for o in objects if o["storage"] == "lfs")
+    n_plain = len(objects) - n_lfs
+    print(f"  raw objects     : {len(objects)} (all refs)")
+    print(f"    LFS objects   : {n_lfs}")
+    print(f"    plain blobs   : {n_plain}  [pre-LFS; invisible to `git lfs ls-files`]")
     print(f"  hash-verified   : {ok}")
     print(f"  missing         : {len(missing)}")
     print(f"  hash MISMATCH   : {len(mismatched)}")
@@ -95,7 +150,7 @@ def main() -> int:
     if missing or mismatched:
         print("\nREFUSE: Phase 2 must not proceed. Every object needs a hash-verified copy.")
         return 1
-    print("\nOK: every LFS object across all refs has a hash-verified preserved copy.")
+    print("\nOK: every raw object across all refs -- LFS and plain blob alike --\n    has a hash-verified preserved copy.")
     return 0
 
 

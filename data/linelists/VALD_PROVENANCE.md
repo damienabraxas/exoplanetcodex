@@ -1,8 +1,19 @@
 # VALD raw-extraction provenance (RYA-1228)
 
 **Why this file exists.** `data/linelists/vald_*_raw.txt` are the only LFS-tracked data in
-this repository, and they are the entire GitHub LFS footprint: **53 objects, 853.9 MiB**
-across all refs. They are raw VALD3 *Extract Stellar* deliveries, not Codex measurements.
+this repository: **53 LFS objects, 853.9 MiB** across all refs. One further raw extraction
+(**`vald_55cnc_raw.txt` @ `a7d016acd5…`, 7.28 MiB**) was committed as an ORDINARY git blob
+before this repository adopted LFS, bringing the census to **54 objects, 861.2 MiB**.
+
+🔴 **A plain blob is invisible to `git lfs ls-files --all`.** The Phase 1 inventory was
+built from that command and therefore missed it — it would have been purged with no
+preserved copy, the one outcome this ticket calls CRITICAL. The census is now taken by
+PATH (`git rev-list --all --objects -- data/linelists/vald_*_raw.txt`) and each object is
+then classified by storage, which is the only enumeration that cannot miss this class.
+
+⚠️ **The GitHub LFS quota is 43 objects / 692.7 MiB, not 53 / 853.9 MiB.** Ten objects
+(161.2 MiB, including all five tau Boo extractions) exist only on local branches that were
+never pushed, so they never consumed quota. The plain blob is ordinary pack, not quota. They are raw VALD3 *Extract Stellar* deliveries, not Codex measurements.
 
 🔴 **NONE OF THESE IS RE-FETCHABLE.** VALD3 is a manual web extraction with no API. Losing
 one means a manual re-extraction per the `codex-vald-extraction` skill, against a service
@@ -26,7 +37,8 @@ The built lists are plain committed files and are NOT affected by this ticket.
 
 ⚠️ **The LFS oid IS the sha256 of the file content** — verified directly on two objects
 including a 51 MiB one — so `archive filename hash == oid` is an exact identity check, not
-a re-derivation. All 53 copies were verified this way: **53/53 pass, 0 failures**.
+a re-derivation. The plain blob is hashed from its git content directly. All copies were
+verified this way: **54/54 pass, 0 failures** (53 LFS + 1 plain blob).
 
 ## CURRENT — the version a build resolves today (23 objects, 440.2 MiB)
 
@@ -116,3 +128,16 @@ referenced by nothing. Reference *counts* alone would wrongly credit it.
 Phase 1 (this file): inventory + preservation only. **Nothing has been removed from history.**
 Phase 2 — the history rewrite, the `.gitattributes`/`.gitignore` changes and the pre-commit
 guard — awaits Ryan's approval of the Phase 1 report, and Ryan performs the force-push.
+
+## PRE-LFS — committed as an ordinary git blob (1 object, 7.3 MiB)
+
+Not an LFS object, so absent from every `git lfs ls-files` listing; destroyed by the same
+history rewrite all the same. Preserved at `superseded/vald_55cnc_raw.a7d016acd5.txt`.
+
+| file | MiB | storage | sha256 (of content) |
+|---|---:|---|---|
+| `vald_55cnc_raw.txt` | 7.28 | plain git blob (pre-LFS) | `a7d016acd567dbca…` |
+
+Two further plain blobs exist on these paths (`vald_55cnc_raw.txt` @ `3db26f88ea3a…` and
+`vald_solar_raw.txt` @ `5cba963c5cc8…`); both are byte-identical to an LFS object already
+listed above, so they are covered by an existing preserved copy and are not re-listed.
