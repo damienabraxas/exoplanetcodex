@@ -30,10 +30,13 @@ def _lfs(*args):
     return out.stdout.splitlines() if out.returncode == 0 else []
 
 
-def test_the_manifest_is_committed_and_names_both_categories():
+def test_the_manifest_is_committed_and_names_all_three_categories():
     text = MANIFEST.read_text()
     assert "## CURRENT" in text and "## SUPERSEDED" in text
-    assert "53 objects, 853.9 MiB" in text
+    # PRE-LFS is the third: same path, same rewrite, invisible to `git lfs ls-files`.
+    assert "## PRE-LFS" in text
+    assert "53 LFS objects, 853.9 MiB" in text
+    assert "54 objects, 861.2 MiB" in text
     assert "NONE OF THESE IS RE-FETCHABLE" in text
 
 
@@ -123,6 +126,65 @@ def test_every_manifest_row_carries_a_sha256_prefix():
     """A provenance row without a hash documents nothing checkable."""
     rows = [l for l in MANIFEST.read_text().splitlines()
             if l.startswith("| `vald_") and "…`" in l]
-    assert len(rows) == 53, f"expected 53 data rows, found {len(rows)}"
+    assert len(rows) == 54, f"expected 54 data rows, found {len(rows)}"
     for r in rows:
         assert re.search(r"`[0-9a-f]{16}…`", r), r
+
+
+# --- RYA-1228: the pre-LFS plain-blob class -----------------------------------------
+#
+# The Phase 1 inventory enumerated with `git lfs ls-files --all` and missed a raw
+# extraction that predates LFS adoption. It is on the same path and dies in the same
+# rewrite, but it is not an LFS object, so that command cannot see it. These tests pin
+# the class, not just the instance.
+
+import importlib.util
+import pathlib as _pathlib
+
+_VERIFIER = _pathlib.Path(__file__).resolve().parents[1] / "scripts" / "rya1228_verify_vald_archive.py"
+
+
+def _load_verifier():
+    spec = importlib.util.spec_from_file_location("rya1228_verify", _VERIFIER)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_census_is_taken_by_path_not_by_lfs():
+    """raw_objects() must union both storage kinds, or the class reopens."""
+    mod = _load_verifier()
+    src = _VERIFIER.read_text()
+    assert "def plain_blobs(" in src, "plain-blob enumeration was removed"
+    assert "lfs_objects(repo) + plain_blobs(repo)" in src, (
+        "raw_objects() no longer unions both storage kinds -- an LFS-only census "
+        "misses every pre-LFS blob"
+    )
+    assert mod.RAW_GLOB == "data/linelists/vald_*_raw.txt"
+
+
+def test_manifest_covers_the_pre_lfs_blob():
+    """The specific object the LFS-only inventory missed."""
+    import json
+    manifest = json.loads((ARCHIVE / "MANIFEST.json").read_text())
+    by_sha = {o["sha256"]: o for o in manifest["objects"]}
+    sha = "a7d016acd567dbca8959989e4275b2cc8108b9b12749201b9cacb9aca2cbf728"
+    assert sha in by_sha, "the pre-LFS plain blob is not in the archive manifest"
+    entry = by_sha[sha]
+    assert entry["storage"] == "plain-git-blob"
+    assert entry["size_bytes"] == 7634177
+    copy = ARCHIVE / entry["archive"]
+    assert copy.exists(), f"{entry['archive']}: manifest entry has no file"
+    import hashlib
+    h = hashlib.sha256()
+    with open(copy, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    assert h.hexdigest() == sha, "preserved copy does not hash to the recorded sha256"
+
+
+def test_provenance_records_the_plain_blob_and_the_corrected_quota():
+    text = MANIFEST.read_text()
+    assert "a7d016acd5" in text, "the pre-LFS blob is not recorded in the provenance file"
+    assert "54 objects" in text, "census count not corrected to 54"
+    assert "43 objects / 692.7 MiB" in text, "GitHub quota figure not corrected"
