@@ -12824,3 +12824,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Sirius exact seven-line metallicity response; diagnostic retained pending sourced stellar uncertainty and covariance adoption.
+
+  - artifact: rya1218/si_telluric_pseudocontinuum_audit.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Exact seven-line native versus telluric-corrected EW audit and pseudo-continuum flag; both remain HOLD pending abundance-space perturbations.

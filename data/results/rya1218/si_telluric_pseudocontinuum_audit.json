@@ -1,0 +1,78 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "pool_n": 7,
+  "component_states": {
+    "telluric": {
+      "state": "HOLD",
+      "reason": "Telluric-corrected versus native HARPS EW deltas are measured, but no abundance re-fit maps them to dex."
+    },
+    "pseudo_continuum": {
+      "state": "HOLD",
+      "reason": "6741.628 A is explicitly flagged as locally absorbed; no matched continuum perturbation covariance is adopted."
+    }
+  },
+  "rows": [
+    {
+      "wavelength_air_A": 5645.613,
+      "harps_ew_mA": 35.6212,
+      "harps_tellcorr_ew_mA": 35.6231,
+      "tellcorr_minus_native_ew_mA": 0.0018999999999991246,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "harps_ew_mA": 57.6258,
+      "harps_tellcorr_ew_mA": 57.6269,
+      "tellcorr_minus_native_ew_mA": 0.001100000000000989,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "harps_ew_mA": 48.8427,
+      "harps_tellcorr_ew_mA": 48.8439,
+      "tellcorr_minus_native_ew_mA": 0.0011999999999972033,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "harps_ew_mA": 36.2366,
+      "harps_tellcorr_ew_mA": 36.2375,
+      "tellcorr_minus_native_ew_mA": 0.0008999999999943498,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "harps_ew_mA": 51.5284,
+      "harps_tellcorr_ew_mA": 51.5281,
+      "tellcorr_minus_native_ew_mA": -0.0002999999999957481,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "harps_ew_mA": 44.0281,
+      "harps_tellcorr_ew_mA": 44.0278,
+      "tellcorr_minus_native_ew_mA": -0.00030000000000285354,
+      "pseudo_continuum_flag": false,
+      "native_concern": null
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "harps_ew_mA": 20.3091,
+      "harps_tellcorr_ew_mA": 20.2747,
+      "tellcorr_minus_native_ew_mA": -0.03440000000000154,
+      "pseudo_continuum_flag": true,
+      "native_concern": "side-band 95th pct is 0.9670, below 0.97 \u2014 the local pseudo-continuum is itself absorbed. The atlas continuum is used, but this window sits in crowded spectrum and the EW may include unresolved neighbours."
+    }
+  ],
+  "summary": {
+    "max_abs_tellcorr_minus_native_ew_mA": 0.03440000000000154,
+    "n_pseudo_continuum_flagged": 1
+  },
+  "next_action": "Run matched native/telluric-corrected abundance fits and a pseudo-continuum perturbation for 6741.628 A; retain HOLD until dex responses and covariance are recorded."
+}
