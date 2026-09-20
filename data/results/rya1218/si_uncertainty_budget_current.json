@@ -36,9 +36,9 @@
     },
     {
       "name": "stellar.logg",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.0120714,
+      "reason": "Sirius exact seven-line paired synthesis response at logg 4.34/4.54; adopted 0.10 dex solar logg allowance."
     },
     {
       "name": "stellar.xi",
@@ -48,9 +48,9 @@
     },
     {
       "name": "stellar.metallicity",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.0006429,
+      "reason": "Sirius exact seven-line paired synthesis response at [Fe/H] -0.10/+0.10; adopted 0.05 dex solar metallicity allowance."
     },
     {
       "name": "continuum",
@@ -118,8 +118,6 @@
   "holds": [
     "measurement",
     "transition_data",
-    "stellar.logg",
-    "stellar.metallicity",
     "continuum",
     "profile_ew",
     "pseudo_continuum",
@@ -131,6 +129,6 @@
     "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.016640464251035783,
+  "partial_measured_quadrature_dex": 0.020567864956285566,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }
