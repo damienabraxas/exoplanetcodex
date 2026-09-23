@@ -54,15 +54,15 @@
     },
     {
       "name": "continuum",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.002,
+      "reason": "Sirius exact seven-line local-renorm perturbation; candidate response 0.002 dex."
     },
     {
       "name": "profile_ew",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.005,
+      "reason": "Sirius exact seven-line half-width 0.40 A perturbation; candidate response 0.005 dex."
     },
     {
       "name": "pseudo_continuum",
@@ -118,8 +118,6 @@
   "holds": [
     "measurement",
     "transition_data",
-    "continuum",
-    "profile_ew",
     "pseudo_continuum",
     "holding_instrument",
     "nlte",
@@ -128,6 +126,6 @@
     "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.020592160373792738,
+  "partial_measured_quadrature_dex": 0.021284667459464803,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }
