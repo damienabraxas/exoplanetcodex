@@ -12830,3 +12830,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Exact seven-line native versus telluric-corrected EW audit and pseudo-continuum flag; both remain HOLD pending abundance-space perturbations.
+
+  - artifact: rya1218/si_telluric_response_summary.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Sirius exact seven-line native versus telluric-corrected HARPS response; diagnostic retained pending covariance/adoption rule.

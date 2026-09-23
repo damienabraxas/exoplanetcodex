@@ -1,0 +1,17 @@
+{
+  "ticket":"RYA-1218","contract":"RYA-587","component":"telluric","pool_species":"Si I","pool_n":7,
+  "pool_ids":[5645.613,5684.484,5690.425,5701.104,5772.146,5793.073,6741.628],
+  "execution_host":"sirius","perturbation":"native HARPS versus molecfit-corrected HARPS holding",
+  "per_line":[
+    {"wavelength_air_A":5645.613,"A_native":7.492,"A_corrected":7.486,"delta_corrected_minus_native":-0.006},
+    {"wavelength_air_A":5684.484,"A_native":7.605,"A_corrected":7.606,"delta_corrected_minus_native":0.001},
+    {"wavelength_air_A":5690.425,"A_native":7.586,"A_corrected":7.586,"delta_corrected_minus_native":0.0},
+    {"wavelength_air_A":5701.104,"A_native":7.556,"A_corrected":7.556,"delta_corrected_minus_native":0.0},
+    {"wavelength_air_A":5772.146,"A_native":7.699,"A_corrected":7.699,"delta_corrected_minus_native":0.0},
+    {"wavelength_air_A":5793.073,"A_native":7.584,"A_corrected":7.584,"delta_corrected_minus_native":0.0},
+    {"wavelength_air_A":6741.628,"A_native":7.888,"A_corrected":7.886,"delta_corrected_minus_native":-0.002}
+  ],
+  "mean_delta_dex":-0.001,"rms_line_delta_dex":0.0023805,"candidate_sigma_dex":0.001,
+  "state":"MEASURED_DIAGNOSTIC","admission":"HOLD",
+  "reason":"Matched abundance fits show a small telluric-conditioning response; covariance/adoption rule remains required before budget admission."
+}
