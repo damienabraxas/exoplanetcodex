@@ -1,0 +1,116 @@
+{
+  "ticket": "RYA-1226",
+  "read_only": true,
+  "question": "can the legacy near-UV Fe rows carry a complete RYA-587 budget?",
+  "answer": "NO -- not from the evidence that exists today. The HOLD list below is the contract's verdict, not an opinion: every component for which an artifact holds real evidence was supplied.",
+  "rows": [
+    {
+      "ion": "II",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.617,
+      "n_lines": 12,
+      "sigma_stat_reproduced": 0.052296,
+      "sigma_stat_published": 0.0523,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.2391787538440949
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.635,
+      "n_lines": 7,
+      "sigma_stat_reproduced": 0.080855,
+      "sigma_stat_published": 0.0809,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.2511638277230282
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.402,
+      "n_lines": 12,
+      "sigma_stat_reproduced": 0.047169,
+      "sigma_stat_published": 0.0472,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.23811028904692483
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.404,
+      "n_lines": 7,
+      "sigma_stat_reproduced": 0.051068,
+      "sigma_stat_published": 0.0511,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.24321517653711408
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.554,
+      "n_lines": 55,
+      "sigma_stat_reproduced": 0.060821,
+      "sigma_stat_published": 0.0608,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.24456359353837548
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.562,
+      "n_lines": 55,
+      "sigma_stat_reproduced": 0.060811,
+      "sigma_stat_published": 0.0608,
+      "components_supplied": 16,
+      "HOLDS": [],
+      "validator": null,
+      "sigma_reported_if_complete": 0.2483123976890423
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.508,
+      "n_lines": 54,
+      "sigma_stat_reproduced": 0.063592,
+      "sigma_stat_published": 0.0636,
+      "components_supplied": 15,
+      "HOLDS": [
+        "stellar.xi"
+      ],
+      "validator": "unresolved components: stellar.xi",
+      "sigma_reported_if_complete": null
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.516,
+      "n_lines": 54,
+      "sigma_stat_reproduced": 0.063589,
+      "sigma_stat_published": 0.0636,
+      "components_supplied": 15,
+      "HOLDS": [
+        "stellar.xi"
+      ],
+      "validator": "unresolved components: stellar.xi",
+      "sigma_reported_if_complete": null
+    }
+  ]
+}

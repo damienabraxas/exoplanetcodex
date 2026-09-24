@@ -1,0 +1,78 @@
+{
+  "ticket": "RYA-1226",
+  "part": "D",
+  "n_applied": 6,
+  "n_skipped": 2,
+  "applied": [
+    {
+      "ion": "II",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.617,
+      "sigma_reported_before": 0.122134,
+      "sigma_reported_after": 0.2391787538440949,
+      "ratio": 1.958
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.635,
+      "sigma_reported_before": 0.13692,
+      "sigma_reported_after": 0.2511638277230282,
+      "ratio": 1.834
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.402,
+      "sigma_reported_before": 0.120513,
+      "sigma_reported_after": 0.23811028904692483,
+      "ratio": 1.976
+    },
+    {
+      "ion": "II",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.404,
+      "sigma_reported_before": 0.121397,
+      "sigma_reported_after": 0.24321517653711408,
+      "ratio": 2.003
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "1D-LTE",
+      "A": 7.554,
+      "sigma_reported_before": 0.131227,
+      "sigma_reported_after": 0.24456359353837548,
+      "ratio": 1.864
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "treatment": "ENGINE-A",
+      "A": 7.562,
+      "sigma_reported_before": 0.131227,
+      "sigma_reported_after": 0.2483123976890423,
+      "ratio": 1.892
+    }
+  ],
+  "skipped": [
+    {
+      "ion": "I",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "1D-LTE",
+      "reason": "unresolved components: stellar.xi",
+      "sigma_reported_kept": 0.133237
+    },
+    {
+      "ion": "I",
+      "holding": "solar_kpno_molecfit_corrected",
+      "treatment": "ENGINE-A",
+      "reason": "unresolved components: stellar.xi",
+      "sigma_reported_kept": 0.133237
+    }
+  ]
+}

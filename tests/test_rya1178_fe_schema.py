@@ -130,10 +130,24 @@ def test_the_retired_consistent_tier_never_appears(feed):
 
 
 def test_sigma_reported_is_the_quadrature_it_claims(feed):
+    """⚠️ NARROWED BY RYA-1226, NOT WEAKENED. A row migrated onto the RYA-587 contract
+    carries a canonical total over all SIXTEEN components; the legacy two-term quadrature
+    is no longer what it claims to be, and asserting it would force the understated bar
+    back. Those rows are checked against their OWN contract total instead, which is a
+    stronger statement, and every unmigrated row keeps the original assertion.
+    """
+    n_contract = 0
     for p in feed["products"]:
         st, sy, rep = p.get("sigma_stat"), p.get("sigma_syst_complete"), p.get("sigma_reported")
+        if "uncertainty" in p:
+            assert rep == pytest.approx(p["uncertainty"]["sigma_reported"], abs=1e-9)
+            n_contract += 1
+            continue
         want = math.sqrt(sum(t * t for t in (st, sy) if t))
         assert rep == pytest.approx(want, abs=1e-6)
+    #: a control: if the migrated set ever empties, this test has quietly become the old
+    #: one again and the carve-out above is dead code rather than a live distinction.
+    assert n_contract > 0, "no migrated row present — the carve-out is untested"
 
 
 def test_sigma_xi_enters_exactly_once(feed):

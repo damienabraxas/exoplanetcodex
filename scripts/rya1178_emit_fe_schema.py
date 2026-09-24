@@ -59,6 +59,11 @@ XI_CAMPAIGN = ROOT / "data/results/rya1120/xi_sigma_reported.json"
 #: settle it. These three runs measure the derivative IN ITS OWN BAND, so they answer the
 #: question the campaign key could not. They take PRECEDENCE over the campaign wherever
 #: they cover a product, and the campaign remains the source for VIS.
+from pipeline.xi_vintage import apply_vintage_supersession  # noqa: E402
+
+SAME_POOL_LEDGER = ROOT / "data/audit/rya1213_reference_matrix/same_pool_ledger.json"
+XI_VINTAGE_REPORT = ROOT / "data/results/rya1225/xi_vintage_supersession.json"
+
 XI_BAND_RUNS = (
     ROOT / "data/results/rya1168/nearuv_xi_dadxi.json",     # near-UV, RYA-1168
     ROOT / "data/results/rya1163/ir_xi_dadxi.json",         # NIR,     RYA-1163
@@ -351,7 +356,7 @@ def load_sources():
     return hold, inst, models, xi
 
 
-def xi_band_index() -> dict:
+def xi_band_index(products: list | None = None) -> dict:
     """The band-keyed dA/dxi runs, indexed on the FULL product key INCLUDING band.
 
     ⚠️ THE THREE FILES DO NOT SHARE ONE SCHEMA, AND ONE OF THEM MISLABELS ITS OWN HEADER.
@@ -382,6 +387,32 @@ def xi_band_index() -> dict:
                 raise SystemExit(f"two band-keyed xi entries for {k} -- the band key must "
                                  f"be unique or a product would silently take one")
             idx[k] = {**e, "_source": str(path.relative_to(ROOT)), "_ticket": doc.get("ticket")}
+
+    #: 🔴 RYA-1225 -- A dA/dxi BELONGS TO A SYNTHESIS, NOT JUST TO A LINE POOL. RYA-1207
+    #: turned molecular opacity on for the near-UV band (use_molecules is true there and
+    #: nowhere else), so every near-UV derivative measured before 2026-09-09 describes a
+    #: model the products no longer use. near-UV Fe II disagreed 2.0-2.8x between the run
+    #: before it and the run after it ON A BYTE-IDENTICAL 12-LINE POOL, while red-optical
+    #: -- whose synthesis did not move -- agreed to 1.03-1.08x.
+    #:
+    #: Staleness is MEASURED, not listed: a run that records the feed `A` it ran against
+    #: carries its own expiry date. Substitution additionally requires RYA-1213's
+    #: same_pool_ledger to certify the two tiers are ONE pool; where it does not, the
+    #: entry is reported and left alone rather than quietly swapped.
+    if products is not None and SAME_POOL_LEDGER.exists():
+        idx, superseded = apply_vintage_supersession(
+            idx, products, json.loads(SAME_POOL_LEDGER.read_text()))
+        if superseded:
+            XI_VINTAGE_REPORT.parent.mkdir(parents=True, exist_ok=True)
+            XI_VINTAGE_REPORT.write_text(json.dumps(
+                {"ticket": "RYA-1225",
+                 "note": ("band-keyed dA/dxi entries measured against an abundance the "
+                          "product no longer carries. SUPERSEDED rows were replaced by the "
+                          "same-pool measurement taken after the synthesis change; FLAGGED "
+                          "rows are owed and were left untouched."),
+                 "n_superseded": sum(1 for r in superseded if r["action"] == "SUPERSEDED"),
+                 "n_flagged": sum(1 for r in superseded if r["action"] != "SUPERSEDED"),
+                 "rows": superseded}, indent=2) + "\n")
     return idx
 
 
@@ -537,7 +568,7 @@ def xi_index(xi_doc: dict, feed: dict) -> dict:
     for e in xi_doc["products"]:
         by_key.setdefault((e["ion"], e["holding"], e["tier"], e["treatment"], e["route"]), []).append(e)
 
-    band = xi_band_index()
+    band = xi_band_index(feed.get("products"))
 
     #: 🔴 `serves` COUNTS ONLY THE BANDS THAT STILL DRAW ON THE CAMPAIGN -- and that is what
     #: retires MEASURED_KEY_AMBIGUOUS rather than relabelling it. The ambiguity was never
@@ -965,7 +996,13 @@ def update_xi_budget(p: dict, idx: dict) -> None:
     p["sigma_syst_complete"] = round(math.sqrt(sum(v * v for v in named)), 6) if named else None
     terms = [p.get("sigma_stat"), p.get("sigma_syst_complete")]
     got = [t for t in terms if t]
-    p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    #: 🔴 RYA-1226 -- THE CONTRACT OWNS THE TOTAL ONCE A ROW IS MIGRATED. A row carrying an
+    #: RYA-587 `uncertainty` block has a canonical sigma_reported over all sixteen
+    #: components; recomputing the legacy two-term quadrature over it would silently
+    #: discard fourteen of them and restore the understated bar the migration exists to
+    #: replace. The xi component itself is still refreshed above -- only the TOTAL defers.
+    if "uncertainty" not in p:
+        p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
     p["sigma_reported_basis"] = (
         "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
         "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
@@ -1191,7 +1228,10 @@ def verify(feed: dict) -> list:
             errs.append(f"grade/line_set disagree: {p['holding']}/{p['treatment']}")
         # sigma_reported must be the quadrature it claims to be
         st, sy, rep = p.get("sigma_stat"), p.get("sigma_syst_complete"), p.get("sigma_reported")
-        if rep is not None:
+        #: RYA-1226: a migrated row's total is the RYA-587 canonical one over all sixteen
+        #: components, which is NOT the legacy two-term quadrature and must not be asserted
+        #: to be. Its own contract validation is the check that applies there.
+        if rep is not None and "uncertainty" not in p:
             want_rep = math.sqrt(sum(t * t for t in (st, sy) if t))
             if abs(rep - want_rep) > 1e-6:
                 errs.append(f"sigma_reported not the stated quadrature: "
@@ -1227,8 +1267,21 @@ def main() -> int:
 
     if a.xi_only:
         idx = xi_index(xi_doc, feed)
+        #: 🔴 RYA-1225 -- THE REFRESH MUST REACH THE TIER THAT WAS WRONG. This path was
+        #: written for the Reference tier, but the superseded near-UV Fe II slopes sit on
+        #: DEEPGRADED products: their derivative predates RYA-1207's near-UV molecular
+        #: opacity while their abundance does not. Refreshing only REFERENCE would leave
+        #: the 2.0-2.8x split standing on exactly the rows this ticket exists to close.
+        superseded_keys = set()
+        if XI_VINTAGE_REPORT.exists():
+            for r in json.loads(XI_VINTAGE_REPORT.read_text())["rows"]:
+                if r["action"] == "SUPERSEDED":
+                    k = r["key"]
+                    superseded_keys.add((k["ion"], k["holding"], k["tier"],
+                                         k["treatment"], k["band"]))
         for p in feed["products"]:
-            if p.get("tier") == "REFERENCE":
+            key = (p["ion"], p["holding"], p["tier"], p["treatment"], p["band"])
+            if p.get("tier") == "REFERENCE" or key in superseded_keys:
                 update_xi_budget(p, idx)
     else:
         feed, _ = enrich(feed, hold, inst, models, xi_doc)
