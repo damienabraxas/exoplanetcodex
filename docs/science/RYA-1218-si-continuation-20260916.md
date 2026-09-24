@@ -116,3 +116,7 @@ Microturbulence perturbations (0.9/1.1 km/s) give `-0.05714 dex per km/s`, contr
 in `data/results/rya1218/si_response_exact/si_exact_pool_response_summary.json`.
 These two terms are now measured diagnostics; the product budget remains HOLD until
 transition covariance and the remaining RYA-587 components are evidenced.
+
+## Progress update — 2026-09-23
+
+The exact seven-line Si uncertainty work now has measured diagnostics for Teff, xi, log g, metallicity, measurement scatter, pseudo-continuum, profile response, telluric conditioning, holding-instrument spread, blends, and the explicit correlated transition-data model. The Amarsi NLTE grid overlaps only 5701.104 A (-0.0131 dex) and 5772.146 A (-0.0184 dex) of the production pool; the full-pool NLTE term remains HOLD. The master synthesis list shows nearby CN contributors in every production window, so molecular coupling remains HOLD. HFS/isotope treatment is not explicit in the canonical list and remains HOLD. Validation is green: 8 Si uncertainty tests and 1328 registered result artifacts.
