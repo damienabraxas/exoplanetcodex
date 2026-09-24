@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#
+# RYA-1184 pre-push ledger gate (root-cause fix for the recurring drift).
+#
+# WHY A HOOK AND NOT CI: CI is off (RYA-954), so the RYA-659 freshness check never
+# runs on a PR. That is exactly how RYA-1213 merged on 2026-09-16 with the State
+# Register still reading PENDING / "review branch only" -- caught only by the
+# RYA-1221 audit, days later. Until CI returns, this runs the same teeth locally.
+#
+# BLOCKING, NEVER WARN-ONLY (RYA-1184 permanent rule: no silent fallbacks). A
+# warn-and-pass gate is the defect, not the fix.
+#
+# Install:  git config core.hooksPath hooks
+# Bypass:   git push --no-verify   (deliberate, visible, and your name is on it)
+set -uo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT" || exit 1
+
+PY="${CODEX_PY:-}"
+if [ -z "$PY" ]; then
+  for c in "$HOME/venv_ci/bin/python" python3 python; do
+    if command -v "$c" >/dev/null 2>&1 || [ -x "$c" ]; then PY="$c"; break; fi
+  done
+fi
+
+echo "RYA-1184 pre-push ledger gate"
+rc=0
+
+echo "--- SEQUENCE-vs-git reconciler"
+"$PY" scripts/reconcile_sequence_vs_git.py --since-main || rc=1
+
+echo "--- register Version pointer (RYA-690)"
+"$PY" scripts/check_register_version_pointer.py || rc=1
+
+echo "--- register freshness (RYA-659)"
+"$PY" scripts/check_register_freshness.py || rc=1
+
+if [ "$rc" -ne 0 ]; then
+  cat <<'MSG'
+
+PUSH REFUSED -- the ledger does not match merged reality.
+
+Bump SEQUENCE.md and CODEX_STATE_REGISTER.md in THIS PR (RYA-659), sourcing each
+line from that ticket's own end-of-session comment and its merged diff -- never
+from memory (RYA-1184).
+
+If you are deliberately pushing ledger-incomplete work, use --no-verify.
+MSG
+fi
+exit "$rc"
