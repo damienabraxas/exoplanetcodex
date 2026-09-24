@@ -1,0 +1,188 @@
+{
+  "schema": "rya1220.cno_route_uncertainty_summary.v1",
+  "ticket": "RYA-1220",
+  "execution": {
+    "synthesis": "Turbospectrum on Sirius",
+    "engine_comparison": "not required",
+    "promotion": "HOLD until every applicable RYA-587 component is measured, explicitly N/A, or explicitly held"
+  },
+  "routes": [
+    {
+      "instrument": "HARPS",
+      "band": "VIS",
+      "diagnostic": "CN red",
+      "probe": "data/output/rya1220/cn_harps_continuum_v2/fits.json",
+      "nominal": {
+        "A_N": 7.487,
+        "red_chi2": 33.345,
+        "n_pix": 1000,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "HOLD",
+        "level_minus_A_N": 6.638,
+        "level_plus_A_N": null,
+        "response_dex": null,
+        "reason": "negative local-continuum perturbation is edge_pinned and unconstrained; retain as one-sided failure"
+      },
+      "coupling_CO": "HOLD: matched C/O covariance and molecular refit not yet admitted",
+      "telluric": "N/A for this VIS mask pending route-specific residual check",
+      "profile_blends_model": "HOLD: profile residual covariance, blend/isotope identity, and 3D molecular treatment remain open",
+      "holding_repeatability": "HOLD",
+      "publication": "HOLD"
+    },
+    {
+      "instrument": "Kitt Peak",
+      "band": "near-UV",
+      "diagnostic": "NH A-X",
+      "probe": "data/output/rya1220/cn_nearuv_continuum_v1/fits.json",
+      "nominal": {
+        "A_N": 7.957,
+        "red_chi2": 37.275,
+        "n_pix": 600,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "MEASURED_PARTIAL",
+        "nominal_A_N": 7.957,
+        "minus_A_N": 7.788,
+        "plus_A_N": 8.098,
+        "half_range_dex": 0.155,
+        "artifact": "data/output/rya1220/nearuv_nh_uncertainty_v1.json"
+      },
+      "coupling_CO": "N/A for NH fit; C/O still required for the complete CNO solution",
+      "telluric": "N/A for near-UV route",
+      "profile_blends_model": "HOLD: NH blend/line identity, residual covariance, and molecular 3D/model term remain open",
+      "holding_repeatability": "HOLD",
+      "publication": "HOLD",
+      "probe_identity": "NH molecular opacity; provenance identity corrected"
+    },
+    {
+      "instrument": "IAG",
+      "band": "NIR",
+      "diagnostic": "CN A-X",
+      "probe": "data/output/rya1220/cn_iag_3d_anchor_v1/fits.json",
+      "nominal": {
+        "A_N": 7.941,
+        "red_chi2": 42.714,
+        "n_pix": 2211,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "MEASURED_PARTIAL",
+        "prior_global_residual_span_dex": 0.2,
+        "note": "local continuum term is still required for the production mask"
+      },
+      "coupling_CO": {
+        "status": "MEASURED_PARTIAL",
+        "dA_N_dC": -1.045,
+        "dA_N_dO": 0.15,
+        "inputs": "3D atomic C/O anchors"
+      },
+      "telluric": "HOLD: route-specific residual covariance not yet joined",
+      "profile_blends_model": "HOLD: molecular 3D/model-form and blend/isotope admission remain open",
+      "holding_repeatability": "HOLD: IAG/J intervals do not overlap",
+      "publication": "HOLD"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "J",
+      "diagnostic": "CN A-X",
+      "probe": "data/output/rya1220/cn_crires_j_continuum_v1/fits.json",
+      "nominal": {
+        "A_N": 8.018,
+        "red_chi2": 56.219,
+        "n_pix": 948,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "MEASURED",
+        "level_minus_A_N": 7.999,
+        "level_plus_A_N": 8.028,
+        "span_dex": 0.029
+      },
+      "coupling_CO": "HOLD: matched C/O covariance and molecular refit not yet admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; join to this mask remains open",
+      "profile_blends_model": "HOLD: profile residual covariance, blend/isotope identity, and molecular 3D/model term",
+      "holding_repeatability": "HOLD",
+      "publication": "HOLD"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "H",
+      "diagnostic": "OH vibration-rotation",
+      "probe": "data/output/rya1220/oh_crires_h_continuum_v1/fits.json",
+      "nominal": {
+        "A_O": 9.448,
+        "red_chi2": 130.65,
+        "n_pix": 470,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "MEASURED",
+        "level_minus_A_O": 9.327,
+        "level_plus_A_O": 9.54,
+        "span_dex": 0.213
+      },
+      "coupling_CO": "HOLD: OH/CO coupled solution not admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; large model residuals require route review",
+      "profile_blends_model": "HOLD: red chi2 indicates model/profile failure; near-term value is diagnostic only",
+      "holding_repeatability": "HOLD",
+      "publication": "HOLD"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "K",
+      "diagnostic": "CO first overtone",
+      "probe": "data/output/rya1220/co_crires_k_continuum_v1/fits.json",
+      "nominal": {
+        "A_C": 8.665,
+        "red_chi2": 59.049,
+        "n_pix": 535,
+        "status": "ok"
+      },
+      "continuum": {
+        "status": "MEASURED",
+        "level_minus_A_C": 8.608,
+        "level_plus_A_C": 8.715,
+        "span_dex": 0.107
+      },
+      "coupling_CO": "HOLD: coupled C/O covariance and molecular refit not yet admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; join to this mask remains open",
+      "profile_blends_model": "HOLD: profile residual covariance, isotope identity, and molecular 3D/model term",
+      "holding_repeatability": "HOLD",
+      "publication": "HOLD"
+    }
+  ],
+  "unstarted_or_unjoined_routes": [
+    {
+      "instrument": "Kitt Peak",
+      "band": "NIR CN",
+      "status": "MEASURED_PARTIAL",
+      "probe": "data/output/rya1220/cn_kp_continuum_v8/fits.json",
+      "nominal_A_N": 8.198,
+      "continuum_level_minus_A_N": 8.076,
+      "continuum_level_plus_A_N": 8.311,
+      "continuum_span_dex": 0.235,
+      "slope_minus_A_N": 8.197,
+      "slope_plus_A_N": 8.199,
+      "red_chi2": 202.05,
+      "remaining": "C/O covariance, profile/blend/model terms, and holding repeatability remain HOLD"
+    },
+    {
+      "instrument": "ESPRESSO",
+      "band": "VIS",
+      "next": "route coverage and uncertainty audit"
+    },
+    {
+      "instrument": "UVES",
+      "band": "VIS",
+      "next": "route coverage and uncertainty audit"
+    },
+    {
+      "instrument": "HST STIS/COS",
+      "band": "UV",
+      "next": "readiness/model gate before any abundance fit"
+    }
+  ]
+}

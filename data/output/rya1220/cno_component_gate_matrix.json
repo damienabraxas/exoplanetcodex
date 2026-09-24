@@ -1,0 +1,24 @@
+{
+  "schema": "rya1220.cno_component_gate_matrix.v1",
+  "ticket": "RYA-1220",
+  "components": ["profile_measurement", "continuum", "C_O_coupling", "telluric", "blend_isotope", "3d_nlte_model", "holding_repeatability", "target_sun_covariance"],
+  "routes": [
+    {"instrument":"HARPS","band":"VIS","diagnostics":"C I/CH/C2/N I/CN/O I/[O I]","profile_measurement":"MEASURED_PARTIAL","continuum":"HOLD_ONE_SIDED","C_O_coupling":"HOLD","telluric":"HOLD_ROUTE_CHECK","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; ISOTOPE_HOLD","3d_nlte_model":"MEASURED_ATOMIC; HOLD_MOLECULAR","holding_repeatability":"MEASURED_ATOMIC_PARTIAL","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"Kitt Peak","band":"near-UV","diagnostics":"NH/OH","profile_measurement":"MEASURED_PARTIAL","continuum":"MEASURED_NH; HOLD_OH","C_O_coupling":"N/A_FOR_NH; HOLD_COMPLETE_CNO","telluric":"N/A","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; IDENTITY_HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"Kitt Peak","band":"NIR","diagnostics":"CN A-X","profile_measurement":"MEASURED_RESIDUAL_PARTIAL","continuum":"MEASURED_LEVEL_SPAN_0.235_DEX; SLOPE_NULL","C_O_coupling":"HOLD","telluric":"MEASURED_PREVIOUS_GATE; MASK_JOIN_HOLD","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; ISOTOPE_HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"IAG","band":"NIR","diagnostics":"CN A-X","profile_measurement":"MEASURED_RESIDUAL_PARTIAL","continuum":"MEASURED_PARTIAL","C_O_coupling":"MEASURED_PARTIAL_PSD_COVARIANCE; JOINT_FIT_HOLD","telluric":"HOLD_ROUTE_CHECK","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; IDENTITY_ISOTOPE_HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD_NON_OVERLAP","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"CRIRES+","band":"J","diagnostics":"CN A-X","profile_measurement":"MEASURED","continuum":"MEASURED","C_O_coupling":"HOLD","telluric":"MEASURED_EVIDENCE; MASK_JOIN_HOLD","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; ISOTOPE_HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"CRIRES+","band":"H","diagnostics":"OH","profile_measurement":"DIAGNOSTIC_POOR_FIT","continuum":"MEASURED","C_O_coupling":"HOLD","telluric":"MEASURED_EVIDENCE; MASK_JOIN_HOLD","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; ISOTOPE_HOLD","3d_nlte_model":"HOLD","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"CRIRES+","band":"K","diagnostics":"CO","profile_measurement":"MEASURED_PARTIAL","continuum":"MEASURED","C_O_coupling":"HOLD_COUPLED_SOLUTION","telluric":"MEASURED_EVIDENCE; MASK_JOIN_HOLD","blend_isotope":"MODELED_BY_FULL_SYNTHESIS; ISOTOPE_HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"ESPRESSO","band":"VIS","diagnostics":"C I/O I","profile_measurement":"MEASURED_PARTIAL","continuum":"HOLD","C_O_coupling":"HOLD","telluric":"HOLD_ROUTE_CHECK","blend_isotope":"HOLD","3d_nlte_model":"MEASURED_ATOMIC","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"UVES","band":"VIS","diagnostics":"N I/CN","profile_measurement":"MEASURED_PARTIAL","continuum":"HOLD","C_O_coupling":"HOLD_CN","telluric":"HOLD_ROUTE_CHECK","blend_isotope":"HOLD","3d_nlte_model":"HOLD_MOLECULAR","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"},
+    {"instrument":"HST STIS/COS","band":"UV","diagnostics":"C I/O I","profile_measurement":"LOADER_READY_NO_FIT","continuum":"HOLD_FUV_PSEUDO_CONTINUUM","C_O_coupling":"HOLD","telluric":"N/A_SPACE","blend_isotope":"HOLD","3d_nlte_model":"HOLD_AMARSI_GRID","holding_repeatability":"HOLD","target_sun_covariance":"HOLD","promotion":"HOLD"}
+  ],
+  "next_actions": [
+    "admit CN molecular lists covering Kitt Peak 10988–11801 Å",
+    "measure target-Sun differential covariance on matched transitions",
+    "complete blend/isotope and profile residual terms per route",
+    "obtain molecular 3D/model-form treatment for CN/NH/OH/CO",
+    "join holding repeatability only where wavelength pools overlap"
+  ]
+}

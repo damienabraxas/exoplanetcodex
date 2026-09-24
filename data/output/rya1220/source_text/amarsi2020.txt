@@ -1,0 +1,815 @@
+
+PAGE 1
+A&A 636, A120 (2020)
+https://doi.org/10.1051/0004-6361/202037890
+© ESO 2020
+
+
+        The 3D non-LTE solar nitrogen abundance from atomic lines
+
+                      A. M. Amarsi1, N. Grevesse2,3, J. Grumer1, M. Asplund4, P. S. Barklem1, and R. Collet5
+
+
+        1  Theoretical Astrophysics, Department of Physics and Astronomy, Uppsala University, Box 516, 751 20 Uppsala, Sweden
+          e-mail: anish.amarsi@physics.uu.se
+        2  Centre Spatial de Liège, Université de Liége, avenue Pré Aily, 4031 Angleur-Liège, Belgium
+        3  Space sciences, Technologies and Astrophysics Research (STAR) Institute, Université de Liège, Allée du 6 août, 17, B5C,
+          4000 Liège, Belgium
+        4  Research School of Astronomy and Astrophysics, Australian National University, Canberra, ACT 2600, Australia
+        5  Stellar  Astrophysics  Centre,  Department  of  Physics  and  Astronomy,  Aarhus  University,  Ny  Munkegade  120,  8000  Aarhus  C,
+          Denmark
+
+       Received 5 March 2020 / Accepted 27 March 2020
+
+
+                                                                             ABSTRACT
+
+       Nitrogen is an important element in various ﬁelds of stellar and Galactic astronomy, and the solar nitrogen abundance is crucial as a
+       yardstick for comparing different objects in the cosmos. In order to obtain a precise and accurate value for this abundance, we carried out
+       N I line formation calculations in a 3D radiative-hydrodynamic STAGGER model solar atmosphere in full 3D non-local thermodynamic
+       equilibrium (non-LTE). We used a model atom that includes physically motivated descriptions for the inelastic collisions of N I with
+       free electrons and with neutral hydrogen. We selected ﬁve N I lines of high excitation energy to study in detail, based on their strengths
+       and on their being relatively free of blends. We found that these lines are slightly strengthened from non-LTE photon losses and from
+       3D granulation effects, resulting in negative abundance corrections of around−0.01 dex and−0.04 dex, respectively. Our advocated
+       solar nitrogen abundance is logϵN = 7.77, with the systematic 1σ uncertainty estimated to be 0.05 dex. This result is consistent with
+       earlier studies after correcting for differences in line selections and equivalent widths.
+       Key words.  atomic processes – radiative transfer – line: formation – Sun: abundances – Sun: photosphere – stars: abundances
+
+1. Introduction                                                                        near-infrared N I lines (logϵN = 7.78± 0.04), and near-infrared
+Nitrogen  is  an  important  element  in  many  different  areas  of                   rotational-vibrational (∆ν = 1) NH lines (logϵN = 7.88± 0.03);
+astrophysics.  Its  dominant  isotope,  14N,  is  synthesised  via  the                secondary diagnostics include the near-infrared pure-rotational
+CNO-cycle: its main origins in the universe are thought to be                          (∆ν = 0) NH lines as well as various CN electronic bands. For
+asymptotic  giant  branch  stars  and,  at  least  at  low  metallici-                 their  analysis,  the  authors  employed  a  three  dimensional  (3D)
+ties, fast-rotating massive stars (e.g.Karakas & Lattanzio2014;                        radiative-hydrodynamic  model  of  the  solar  atmosphere,  calcu-
+Vincenzo  et  al.2016).  Nitrogen  abundances  shed  light  on  the                    lated  using  the  STAGGER  code  (Nordlund  &  Galsgaard1995;
+structure and evolution of stars, and of galaxies, via measure-                        Collet et al.2018); this particular model was discussed in, for
+ment in a variety of different cosmic objects including measured                       example, Sect. 3 ofScott et al.(2015).
+in  hot  and  cool  stars  in  our  Galaxy  and  its  satellites  (e.g.                     There have been surprisingly few other recent studies of the
+Schiavon et al.2017;Magrini et al.2018;Lyubimkov et al.2019;                           solar nitrogen abundance presented in the literature, at least after
+Salgado  et  al.2019),  in  interstellar  media  (e.g.Belﬁore  et  al.                 considering the broad importance of this element in astronomy.
+2017;Esteban & García-Rojas2018), and in damped Lyman-         α                       Caffau et al.(2009) presented an analysis of the N                 I lines using an
+systems (e.g.Zafar et al.2014;Berg et al.2019).                                        independent 3D model, calculated using CO5BOLD (Freytag et al.
+    The solar abundance of nitrogen is then crucial for having                         2012). Their advocated value is   logϵN = 7.86± 0.12, which is
+a  solid  yardstick  with  which  to  compare  the  different  cosmic                  0.08 dex higher than the N I value fromAsplund et al.(2009), but
+objects  discussed  above.  Nitrogen  forms  highly  volatile  com-                    nevertheless consistent within the stipulated 1σ uncertainties.
+pounds  that  do  not  efﬁciently  condense  into  grains;  thus  its                       A potential shortcoming of these two previous studies lies in
+abundance  as  measured  from  meteorites  does  not  reﬂect  the                      their treatment of departures from local thermodynamic equilib-
+initial  abundance  of  the  solar  system  at  the  time  of  its  birth              rium (LTE). There is a general consensus that N I is susceptible
+(Lodders2019). As such, the most reliable way to infer the ini-                        to departures from LTE, that may amount to around 0.05 dex in
+tial solar system abundance of nitrogen is through spectroscopy                        solar type stars (Takeda & Honda2005).Asplund et al.(2009)
+of the solar photosphere.                                                              applied  non-LTE  abundance  corrections  fromRentzsch-Holm
+    The  challenge  is  to  derive  the  solar  abundance  with  both                  (1996)  based  on  a  one-dimensional  (1D)  model  solar,  while
+high precision and high accuracy. In the current standard set of                       Caffau et al.(2009) calculated non-LTE abundance corrections
+solar abundances (Asplund et al.2009), nitrogen has              logϵN  =              on their temporally- and horizontally-averaged 3D model.
+7.83± 0.051.  This  value  is  primarily  based  on  optical  and                           There are two important developments that make revisiting
+                                                                                       the  nitrogen  abundance  inferred  from  N I  lines  of  importance.
+                   ( NA) + 12, where NA and NH are the number densities                First, it is now possible to carry out full 3D non-LTE radiative
+1   logϵA≡ log10                                                                       transfer  for  spectrum  synthesis  and  abundance  analyses  with-
+                     NH
+of nuclei of element A and of hydrogen.                                                out  making  signiﬁcant  compromises  on  the  resolution  of  the
+                                                                Article published by EDP Sciences                                            A120, page 1 of11
+
+PAGE 2
+                                                                     A&A 636, A120 (2020)
+
+adopted model solar atmosphere, nor on the complexity of the
+non-LTE  model  atom.  In  this  approach,  the  departures  from
+LTE are calculated consistently with the 3D model solar atmo-
+sphere itself, taking into full consideration non-vertical radiative
+transfer.
+    Secondly, non-LTE model atoms can now be constructed that
+are  much  more  reliable  than  ever  before.  This  is  in  large  part
+thanks  to  the  rapid  progress  made  recently  in  modelling  low-
+energy inelastic collisions, with both free electrons, and neutral
+hydrogen. A poor description of such processes can often be the
+main limitation in non-LTE models (Barklem2016a). In the past,
+classical or semi-empirical approaches were commonly used to
+model them, such as that ofvan Regemorter(1962) for electron
+collisions, and the Drawin recipe (Drawin1969,1968) as pre-
+sented inSteenbock & Holweger(1984) andLambert(1993) for
+hydrogen collisions. These are of limited validity however; the
+latter  being  so  uncertain,  a  fudge  factor S H  is  usually  applied
+and  calibrated  so  as  to  match  the  observations.  For  nitrogen,               Fig. 1. Temperatures as functions of Rosseland mean optical depth for
+the situation today is more positive: ab initio cross-sections for                   the  different  model  solar  atmospheres  considered  in  this  study  (top),
+the  electron  collisions  are  available  via  the  B-spline  R-matrix              and  residual  difference  between  the  1D  and⟨3D⟩  models  (bottom).
+(BSR) method (Wang et al.2014); cross-sections for the hydro-                        The optical depths corresponding to peak line formation as well as the
+gen  collisions  involving  low-lying  levels  have  been  calculated                interquartile  ranges  of  the  5  N I  lines  are  indicated;  these  values  are
+via the Landau-Zener model coupled with a linear combination                         based on the line-integrated contribution function to the line depression
+of atomic orbitals (LCAO) method (Amarsi & Barklem2019),                             in the disk-centre intensity (Eq. (15) ofAmarsi2015), calculated using
+and for more highly-excited levels they can be estimated using                       the⟨3D⟩ model solar atmosphere.
+the free electron method (Kaulakys1985,1986,1991), which is
+valid in the Rydberg regime.                                                         relativistic effects via the Breit-Pauli Hamiltonian to represent
+    Our aim here is to revisit the solar nitrogen abundance using                    LS-term  mixing  (Froese  Fischer1997; Froese  Fischer  et  al.
+the  latest  spectrum  synthesis  methods.  Similar  to  our  recent                 2016).  Their  calculations  were  performed  with  an  early  ver-
+studies  of  oxygen  (Amarsi  et  al.2018a)  and  carbon  (Amarsi                    sion of the MCHF Atomic Structure Package, ATSP2K (Froese
+et  al.2019),  we  use  the  3D  non-LTE  radiative  transfer  code                  Fischer2000;Froese Fischer et al.2007). As a sanity check, we
+BALDER  (our  modiﬁed  version  of  MULTI3D),  a  3D  STAGGER                        carried out our own fully-relativistic multiconﬁgurational Dirac-
+model solar atmosphere, and a new non-LTE model atom that                            Hartree-Fock (MCDHF) calculations, using the latest version of
+is based on the BSR and LCAO/free electron methods for the                           the GRASP code (Froese Fischer et al.2019), that is available as
+inelastic collisions. We demonstrated that this approach success-                    open-source2. The agreement between these two approaches was
+fully reproduce the centre-to-limb variations of the O I 777 nm                      found to be better than 0.01 dex.
+lines, as well as various lines of C I, without having to resort to                       We present the measured equivalent widths of the N I  fea-
+any calibrated fudge factors that would always be necessary with                     tures, the CN blends and, thus, the N I  lines, in Table2. Even
+the Drawin recipe and with 1D models.                                                with our stringent selection, four of the ﬁve selected N I  lines
+    The  rest  of  this  paper  is  structured  as  follows.  We  review             are signiﬁcantly blended by CN lines of high excitation energy.
+the method in Sect.2. We discuss the nature of the 3D non-LTE                        Although these CN lines were detected via a 3D LTE synthesis,
+effects on N I in Sect.3. We present and discuss our advocated                       the CN contribution to the equivalent widths of the N I features
+solar nitrogen abundance in Sect.4, and compare the result with                      were estimated empirically by measuring the strengths of neigh-
+those from previous studies. We present a summary and some                           bouring CN lines in the same band. This approach is preferred
+concluding remarks in Sect.5.                                                        over using the 3D LTE synthesis to estimate the blending contri-
+                                                                                     bution, because it is less sensitive to modelling errors: namely,
+2. Method                                                                            neglected  non-LTE  effects  and  deﬁciencies  in  the  3D  model
+                                                                                     atmosphere in the cool upper regions where the molecules form,
+2.1. Abundance indicators and observational data                                     logτR≈−1.5; as well as systematic errors in the absolute logg f
+There are more than 20 different N I lines in the solar spectrum                     values of the CN lines. Since the CN blends form much higher
+that have been used as abundance indicators in the past (Grevesse                    in the atmosphere compared to the N I lines, their contribution to
+et al.1990;Biémont et al.1990;Caffau et al.2009). The lines                          the total equivalent width can therefore simply be subtracted, to
+are all of rather high excitation energy (χlow & 10.3 eV), form-                     give the N I equivalent widths.
+ing deep in the solar atmosphere as we show in Fig.1(  −0.2 ≲                             Although the equivalent width of the N I 822 nm line is not
+logτR ≲ 0.7, at solar disk centre). All tend to be very weak and                     signiﬁcantly affected by CN blends, the wings of this line are vis-
+suffering from blends or from perturbations from nearby lines.                       ibly perturbed in the solar spectrum. Consequently, the ﬁve N I
+After  carefully  considering  their  shapes  in  the  solar  atlas,  we             lines are given equal weight in the abundance analysis presented
+selected just ﬁve N I lines that are strong enough and sufﬁciently                   below.
+clean to serve as reliable abundance indicators.                                          To  minimise  the  impact  of  blends,  the  analysis  is  based
+    We  list  the  parameters  of  the  ﬁve  abundance  indicators  in               on disk-centre intensities rather than on disk-integrated ﬂuxes.
+Table1.  Their  oscillator  strengths  were  drawn  fromTachiev                      The equivalent widths were measured in both the Jungfraujoch
+&  Froese  Fischer(2002),  which  were  calculated  using  the                       (Delbouille  et  al.1973)  and  Kitt  Peak  (Neckel  &  Labs1984)
+multiconﬁgurational  Hartree-Fock  (MCHF)  method,  including                        2   The CompAS GRASP repository: github.com/compas/grasp
+
+A120, page 2 of11
+
+PAGE 3
+                                     A. M. Amarsi et al.: The 3D non-LTE solar nitrogen abundance from atomic lines
+
+Table 1. Parameters of the ﬁve N I lines used in the abundance analysis.
+
+             Line label  λair/nm       Lower   χlow/eV       Upper   χup/eV     logg f      log(γrad./s−1)  σH/a20   αH
+             N I 744         744.229     3s 4P3/2      10.330      3p 4So3/2     11.996 −0.403         +8.751           530       0.2271
+             lN I 822        821.633     3s 4P5/2      10.336      3p 4Po5/2     11.844     +0.138         +8.745           497       0.2286
+             N I 863         862.923     3s 2P3/2      10.690      3p 2Po3/2     12.126     +0.077         +8.713           576       0.2337
+             N I 868         868.340     3s 4P3/2      10.330      3p 4Do5/2     11.758     +0.106         +8.740           481       0.2306
+             N I 1011        1010.89     3p 4Do3/2      11.753      3d 4F5/2     12.979     +0.444         +7.773           750       0.2671
+
+Notes. The table lists: wavelengths in air λair; electronic conﬁgurations and spectroscopic terms of the lower and upper states, with excitation
+energiesχlow andχup; oscillator strengths  f ; natural broadening coefﬁcientsγrad. (FWHM in angular frequency units); and ABO broadening cross-
+sectionsσH at reference velocity 3 = 104 m s−1 and exponentsαH, such that the cross-section is proportional to 3−α (Anstee & O’Mara1995). Data
+sources are the same as used to construct the non-LTE model atom (Sect.2.4); in particular, the transition probabilities were drawn fromTachiev
+& Froese Fischer(2002).
+
+
+Table 2. Equivalent widths of the N I features, measured at solar disk                 2.3. Model solar atmospheres
+centre.                                                                                We illustrate the different model solar atmospheres used in this
+         Line label     Wtotal/pm     Wblend/pm     WN I/pm                            work  in  Fig.1.  The  main  results  of  this  study  are  based  on  a
+                                                                                       3D radiative-hydrodynamic simulation that was calculated using
+         N I 744            0.310           0.075            0.235                     the  STAGGER  code (Nordlund & Galsgaard1995;Collet et al.
+         N I 822            0.770               –               0.770                  2018). This model has a mean effective temperature of   5773 K
+         N I 863            0.620           0.210            0.410                     and was constructed using the solar abundance set ofAsplund
+         N I 868            0.865           0.115            0.750                     et al.(2009); this abundance set was also adopted when calcu-
+         N I 1011           0.275           0.075            0.200                     lating the EOS and background opacities for the line formation
+                                                                                       calculations.  More  details  about  this  3D  model  can  be  found
+Notes. The blending contributions from CN lines are also shown, as are                 in our earlier studies of 3D non-LTE line formation in the Sun
+the contribution to the equivalent widths from the N I lines themselves.               (Amarsi et al.2018a,2019). The detailed 3D non-LTE radiative
+                                                                                       transfer was calculated on eight snapshots of this model, equally
+                                                                                       spaced over 21 hours of solar time.
+atlases,  both  data  sets  having  extremely  high  signal-to-noise                        In addition, calculations were performed on two different 1D
+ratios  and  spectral  resolutions  (Delbouille  &  Roland1995;                        hydrostatic model solar atmospheres, to allow for a differential
+Neckel1999). The two measurements of         WN I agree to better than                 study of the 3D effects and also to aid future comparisons of this
+5%, and the ﬁnal values in Table2are the average of the two                            work. First, calculations were performed on the temporally- and
+atlases.                                                                               horizontally-average of the 3D model solar atmosphere. Details
+                                                                                       of its construction can be found inAmarsi et al.(2018a). The
+2.2. Line formation calculations                                                       solar abundance set ofAsplund et al.(2009) was adopted when
+                                                                                       calculating the EOS and background opacities for the line forma-
+The 3D non-LTE radiative transfer code  BALDER, our modiﬁed                            tion calculations. We refer to this as the⟨3D⟩ model hereafter.
+version of  MULTI3D (Leenaarts & Carlsson2009), was used to                                 Secondly, calculations were performed on the standard 1D
+calculate synthetic solar spectra to compare to the observational                      MARCS model solar atmosphere (Gustafsson et al.2008). This
+data. More details about the code can be found in our previous                         model was constructed using the solar abundance set ofGrevesse
+papers (e.g.Amarsi et al.2018b). In short,                     BALDER solves the       et  al.(2007);  as  such,  we  took  care  to  adopt  this  same  abun-
+radiative transfer equation simultaneously with the equations of                       dance set when calculating the EOS and background opacities
+statistical equilibrium, following the single-transition precondi-                     for the line formation calculations. We veriﬁed that the  MARCS
+tioning  scheme  described  in  Sect.  2.4  ofRybicki  &  Hummer                       model gives consistent results (to better than 0.01 dex in terms
+(1992). During the non-LTE iterations, an integral solver is used                      of  inferred  abundances)  with  our  ATMO  model  (Magic  et  al.
+to solve the radiative transfer equation on short characteristics                      2013, Appendix A), the latter being constructed with an iden-
+(Ibgui  et  al.2013).  Once  the  populations  have  converged,  a                     tical equation of state and radiative transfer solver as used for the
+ﬁnal calculation is carried out on long characteristics. The true                      3D  STAGGER model. This is not too surprising, given that both
+continuum  intensity  is  also  calculated  at  this  point,  by  carry-               the  MARCS  and  the  ATMO  models  were  constructed  with  the
+ing  out  another  calculation  with  all  line  opacities  set  to  zero.             same  underlying  physical  assumptions  (1D,  hydrostatic,  LTE)
+The equation-of-state (EOS) and background line and continu-                           with identical mixing-length descriptions (Böhm-Vitense1958;
+ous opacities are calculated using the code  BLUE (Sect. 2.1.2 of                      Henyey et al.1965) and very similar background opacity data
+Amarsi et al.2016).                                                                    sources as well as EOS. We refer to the MARCS model as the 1D
+    The two main inputs for BALDER are the model atmosphere,                           model hereafter.
+and  the  non-LTE  model  atom.  We  discuss  these  in  turn  in                           In general it is necessary to include two tuneable line broad-
+Sects.2.3and2.4, below. For a given model atmosphere and a                             ening parameters in spectral line synthesis calculations based on
+given non-LTE model atom, radiative transfer calculations were                         1D  model  atmospheres  (e.g.Gray2008,  Chap.  17):  microtur-
+performed  independently  for  different  nitrogen  abundances,  in                    bulenceξmic, and macroturbulenceξmac. These roughly account
+steps of 0.2 dex around a central value of logϵN = 7.83.                               for  line  broadening  due  to  velocity  gradients  and  temperature
+
+                                                                                                                                                    A120, page 3 of11
+
+PAGE 4
+                                                                        A&A 636, A120 (2020)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 2. Grotrian diagrams for N I in the comprehensive starting non-LTE model atom (left), and in the resulting non-LTE model atom after reducing
+its complexity (right). Energy levels are indicated as short black horizontal lines; those levels for which ﬁne structure is not resolved are indicated
+as short blue horizontal lines, and super levels are shown as long blue horizontal lines. All bound–bound radiative transitions considered in the
+non-LTE iterations are shown in grey. The ﬁve abundance indicators are labelled and marked specially in the right panel.
+
+
+inhomogeneities  associated  with  stellar  granulation,  on  scales                     data source was the NIST Atomic Spectra Database (Kramida
+much shorter than and much larger than one optical path length,                          et  al. 2015):  LSJ  energies  and  oscillator  strengths  were  taken
+respectively.  For  the  1D  calculations  with  BALDER,  a  depth-                      from  here,  the  original  data  coming  fromMoore(1993),  and
+independent  microturbulence  of ξmic  =  1 km s−1  was  adopted;                        fromZhu  et  al.(1989),Bell  &  Berrington(1991),Hibbert
+the  weak  nitrogen  lines  are  not  particularly  sensitive  to  this                  et al.(1991),Musielok et al.(1995),Tachiev & Froese Fischer
+parameter, and increasingξmic even to 2 km s−1 only changed the                          (2002),  and  the  unpublished  1994  Opacity  Project  data  set  of
+results  by 0.01 dex  for  the  strongest  lines  in  the  line  selection               Burke  and  Lennon.  Missing  atomic  data  were  then  included,
+(the N I 822 and 868 nm). Macroturbulent broadening as deﬁned                            taking  theoretical  LS  energies,  oscillator  strengths,  photoioni-
+above conserves equivalent widths, as such the choice ofξmac is                          sation cross-sections, and natural broadening coefﬁcients from
+inconsequential to the analysis presented here. Radiative trans-                         The  Opacity  Project  Database  (TOPbase;Cunto  et  al.1993).
+fer  calculations  on  3D  model  atmospheres  naturally  take  into                     Broadening coefﬁcients via elastic neutral hydrogen collisions
+account these broadening effects without having to include extra                         were  obtained  by  interpolating  the  tables  of  Anstee,  Barklem,
+tuneable parameters (Asplund et al.2000).                                                and O’Mara (ABO;Anstee & O’Mara1995;Barklem & O’Mara
+                                                                                         1997;Barklem et al.1998).
+2.4. Non-LTE model atom                                                                       The  cross-sections  for  excitation  and  ionisation  of  N I  via
+                                                                                         electron collisions:
+A  new  non-LTE  model  atom  for  N I  was  constructed  for  this                      N + e−↔ N∗ + e−                                                                    (1)
+study. The method of construction follows that presented in our
+previous  studies  of  O I  (Amarsi  et  al.2018a)  and  C            I  (Amarsi         N + e−↔ N+ + 2e−                                                                  (2)
+et al.2019); we present an overview of the different ingredients
+in the model here, and refer the reader to those papers for further                      were  taken  fromWang  et  al.(2014),  which  are  based  on  the
+details.                                                                                 BSR method (Zatsarinny2006). These data are complete up to
+    We illustrate the “full” and “standard” non-LTE model atoms                          2p2 3d 2D.  For  higher  levels,  for  electron  excitation  the  semi-
+in Fig.2. As in our previous studies, the standard non-LTE model                         empirical recipe ofvan Regemorter(1962) was used (this recipe
+atom  that  was  used  for  the  production  runs  was  generated  by                    is  based  on  the  permitted  radiative  transition  probability;  for
+ﬁrst  constructing  a  full  model,  in  which  we  tried  to  include                   missing  permitted  lines,  and  for  forbidden  lines,  ﬂat  dimen-
+a complete description of N I, without attempting to minimise                            sionless  collision  strengths  of Υ = 1.0,  and  of Υ = 0.1,  were
+the overall complexity of the model. The complexity of the full                          respectively assumed instead); while for electron ionisation, the
+model was then reduced by averaging together certain levels and                          empirical recipe ofAllen(1973) was used.
+transitions,  so  as  to  reduce  the  computational  cost  of  the  3D                       The cross-sections for excitation and charge transfer of N I
+non-LTE calculations, while retaining the most relevant physics                          via hydrogen collisions:
+in  the  model  and  thus  not  compromising  the  accuracy  of  the
+ﬁnal  results.  It  is  important  to  note  that  prior  to  carrying  out              N + H↔ N∗ + H                                                                      (3)
+the ﬁnal solution of the radiative transfer equation, the departure
+coefﬁcients from the standard model were applied to the LTE                              N + H↔ N+ + H−                                                                    (4)
+populations of the full model. This was done to ensure that the
+energy levels, oscillator strengths, partition functions, and so on                      were   taken   from   (Amarsi   &   Barklem2019),   which   were
+were as accurate as possible for the calculation of the synthetic                        calculated  using  the  Landau-Zener  model  for  non-adiabatic
+solar spectra.                                                                           transition  probabilities  combined  with  a  two-electron  LCAO
+    The full model consists of 230 levels of N I along with the                          method  for  the  electronic  structure  (Barklem2016b;  see  also
+low-lying  2p2 3P0,1,2  and  2p2 1D2  levels  of  N II.  The  primary                    the  asymptotic  method  ofBelyaev2013).  As  motivated  in
+
+A120, page 4 of11
+
+PAGE 5
+                                     A. M. Amarsi et al.: The 3D non-LTE solar nitrogen abundance from atomic lines
+
+Amarsi  et  al.(2018a, 2019),  we  added  to  the  LCAO  cross-                      in the solar atmosphere and lost, causing a population cascade to
+sections, the cross-sections calculated using theBarklem(2017)                       lower energies, and hence an underpopulation of the most highly
+code that implements the free electron method (Kaulakys1985,                         excited  levels  (3p 2So, χlow  = 11.6 eV,  and  above).  This  starts
+1986,1991), and redistributing the data to account for different                     to happen at around logτR≈ 0.7, where the N I  lines, of high
+spin states (see Eqs. (8) and (9) ofBarklem2016a). Finally, the                      excitation energy, begin to form (Fig.1). This underpopulation
+cross-sections for ionisation of N I via hydrogen collisions:                        is typically more severe for levels of higher excitation energy,
+                                                                                     as  expected  from  a  population  cascade.  However,  the  depar-
+N + H↔ N+ + H + e−                                                              (5)  ture coefﬁcients of the most highly excited levels resemble each
+                                                                                     other, largely owing to the efﬁcient hydrogen collisions betwee
+were calculated using Eq. (8) ofKaulakys(1985).                                      them.
+    The TOPbase oscillator strengths and the collisional cross-                           Due to number conservation, the underpopulation of the lev-
+sections  adopted  here  were  all  calculated  under  LS-coupling;                  els of high excitation energy must be balanced by a slight over-
+that is, without resolving ﬁne structure. However, the non-LTE                       population of the levels of intermediate excitation energy: 3s 4P
+model  atom  does  resolve  ﬁne  structure.  For  consistency,  the                  (χlow  =  10.3 eV),  3s 2P  (χlow  =  10.7 eV),  and  2p4 4P  (χlow  =
+LS oscillator strengths and collisional cross-sections were redis-                   10.9 eV). This overpopulation and underpopulation behaviour of
+tributed onto the LSJ levels. The TOBbase lines connecting two                       the N I levels is comparable to the behaviour of the levels of high
+LSJ  levels  from  NIST  were  redistributed  using  the  tables  in                 and intermediate excitation energy respectively in C I (Fig. 4 of
+Sect. 27 ofAllen(1973); this is valid under the assumption of                        Amarsi et al.2019), and of the       3p 5P upper state and 3s 5So lower
+pure LS coupling.                                                                    state of the O I 777 nm line (Fig. 4 ofAmarsi et al.2018a), these
+    The collisions were redistributed to account for ﬁne structure                   species also suffering from photon losses.
+in the same way that was described in Sect. 2.4.1 ofAmarsi et al.                         The  3s 2D  (12.4 eV)  level  is  an  anomaly  in  this  picture.
+(2018a). In summary, the rate coefﬁcient from one LS level       x,                  Unlike the other high-excitation levels, the departure coefﬁcients
+to another LS levely, was redistributed among LSJ sublevels by                       of this level stay relatively close to unity. This level has a dif-
+dividing the LS rate coefﬁcient in a given direction  x→ y by                        ferent core (2p2 1D) than the other high-excitation levels in the
+the total number of LSJ target sublevels (y1, y2, . . . ). This pre-                 ﬁgure  (2p2 3P).  As  a  result,  it  is  only  weakly  coupled  to  the
+serves the total LS rate per perturber per unit time into the LS                     rest of the N I system: the electron collisions involving this level
+levely, in the limit where the energy splitting due to ﬁne struc-                    are typically an order of magnitude less efﬁcient than collisions
+ture  goes  to  zero.  The  rate  coefﬁcient  in  the  reverse  direction            involving other levels of comparable energy; while the hydrogen
+y→ x was then calculated strictly using the principle of detailed                    collisions are neglected from the non-LTE model, due to Eqs. (8)
+balance. Finally, collisions within ﬁne structure sublevels (y1↔                     and (9) ofBarklem(2016a).
+y2, . . . ) were introduced and given arbitrarily large rates. This                       The  N I  levels  of  low  excitation  energy  2p3 4So  (0 eV),
+ensures that the total LS rate per perturber per unit time in the                    2p3 2Do  (2.4 eV),  and 2p3 2Po  (3.6 eV)  retain  LTE  populations
+reverse  direction  (y→  x)  is  also  exactly  preserved,  again  in                even very high up in the atmosphere: because of the large energy
+the  limit  where  the  energy  splitting  due  to  ﬁne  structure  goes             gap between these levels and the rest of the N I system, they are
+to zero.                                                                             much more highly populated, and as such their populations are
+    The  standard  model  was  constructed  by  reducing  the  full                  only minutely perturbed by the departures from LTE in upper
+model,  in  the  following  way.  First,  the  ﬁne  structure  in  all               levels.
+LSJ  NIST  levels  within  1.52 eV  of  the  ionisation  limit  of  N I                   We present the abundances inferred from the different spec-
+(2p2 4p 4Do  and above), as well as in the ground level of N II,                     trum synthesis models in Table3. Taking non-LTE effects into
+were collapsed to LS terms, and the transitions connecting them                      account, the N I lines generally become stronger, meaning that
+were  also  collapsed,  in  the  manner  described  in  Sect.  2.3.3                 lower abundances are inferred in 3D non-LTE, compared to in
+ofAmarsi  &  Asplund(2017),  based  on  the  formulae  given  in                     3D LTE. This can be seen in Table3, where the 3D non-LTE
+Martin & Wiese(1999). Second, all levels within              0.88 eV of the          − 3D LTE abundance difference is around−0.01 dex, averaged
+ionisation limit of N I were grouped into two super levels, cor-                     over the ﬁve N I lines.
+responding to the 2S + 1 = 2 (82 levels) and 4 (80 levels) spin                           The  N I  744 nm,  822 nm,  863 nm,  and  868 nm  lines,  have
+systems. The super levels, and corresponding super transitions,                      the 3s 4P or 3s 2P levels of intermediate excitation energy as the
+were constructed in an analogous way to how all ﬁne structure                        lower level, which slightly overpopulate, and different levels of
+were collapsed.                                                                      high excitation energy as the upper level, which underpopulate.
+    We veriﬁed that the standard and full non-LTE model atoms                        They thus suffer from both an enhanced opacity effect (the line
+give consistent results, at least on the⟨3D⟩ model solar atmo-                       opacity going as the departure coefﬁcient of the lower level) and
+sphere. The difference between the abundances inferred from the                      a reduced source function effect (the line source function going
+full and standard non-LTE model atoms was less than 0.0001 dex                       as the ratio of the departure coefﬁcients of the upper to the lower
+for the ﬁve of the lines in Table1.                                                  levels;Rutten2003), both acting to slightly strengthen the line
+                                                                                     (see the integrand of Eq. (15) ofAmarsi2015).
+3. 3D non-LTE effects                                                                     The N I 1011 nm line is more highly excited. Both the lower
+3.1. Nature of the non-LTE effect                                                    and upper levels underpopulate, but as explained above the upper
+                                                                                     level does so to a greater extent. Consequently, the opacity and
+To understand the nature of the non-LTE effects, we illustrate                       source function effects act in opposition; this line, and indeed
+the departure coefﬁcients for the different N I  levels in Fig.3.                    the  infrared  N I  lines  in  general  (see  Table  4  ofCaffau  et  al.
+The  overall  picture  is  qualitatively  similar  to  that  of  previous            2009), are thus less sensitive to departures from LTE. Even so,
+studies (compare with Fig. 1 ofCaffau et al.2009). The mod-                          the source function effect dominates, and the N I 1011 nm line
+els  indicate  that  N I  suffers  from  photon  losses  in  its  lines  of          is stronger in non-LTE, Table3showing that the 3D non-LTE   −
+high excitation energy: photons are scattered to large distances                     3D LTE abundance difference is−0.01 dex.
+
+
+                                                                                                                                                 A120, page 5 of11
+
+PAGE 6
+                                                                            A&A 636, A120 (2020)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 3. Departure coefﬁcients for the lowest 17 LS terms of N I in order of increasing energy (from left to right, top to bottom), as well as the ground
+level of N II (ﬁnal panel). The contours show the distributions in the 3D model solar atmosphere. The departure coefﬁcients calculated in the⟨3D⟩
+and 1D models are overplotted.
+
+Table 3. N I abundances inferred from different spectrum synthesis models.
+
+
+            Line label                                                                            logϵN3D non-LTE           3D LTE  ⟨3D⟩ non-LTE  ⟨3D⟩ LTE         1D non-LTE            1D LTE
+
+            N I 744               7.767                 7.779                  7.808                  7.818                 7.798                   7.806
+            N I 822               7.767                 7.782                  7.810                  7.824                 7.796                   7.806
+            N I 863               7.759                 7.772                  7.815                  7.826                 7.803                   7.812
+            N I 868               7.768                 7.784                  7.808                  7.823                 7.794                   7.805
+            N I 1011              7.772                 7.783                  7.838                  7.848                 7.827                   7.835
+            µ±σ           7.767± 0.002     7.780± 0.002     7.816± 0.006     7.828± 0.005     7.804± 0.006     7.813± 0.006
+
+Notes. Results are based on the equivalent widths measured at solar disk centre given in Table2. Unweighted mean abundances    µ and their standard
+errorsσ are shown in the ﬁnal row.
+
+3.2. Nature of the 3D effect                                                                 models. In the Sun, the N I lines are susceptible to both types of
+To  aid  our  understanding,  it  is  useful  to  disentangle  the  3D                       3D effects. They work in competition, however, as we explain
+effect  on  spectral  line  formation  into  two  separate  effects:  the                    below.
+direct effect, due to the granulation (Nordlund et al.2009) that                                  We investigate the direct 3D effect by illustrating in Fig.4
+is present in the 3D model solar atmosphere but absent in the                                the contribution function of a typical N I line in a vertical slice
+                                                                                             of a snapshot of the 3D model solar atmosphere. The N I lines
+⟨3D⟩ models, and the indirect effect, due to differences in the                              considered in this study are all of rather high excitation energy.
+atmospheric mean stratiﬁcation between the⟨3D⟩ model, and 1D                                 They thus preferentially form in high temperature regions: in the
+
+A120, page 6 of11
+
+PAGE 7
+                                    A. M. Amarsi et al.: The 3D non-LTE solar nitrogen abundance from atomic lines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 4.  Gas temperature (left) and line forming regions for the N I 868 nm line (right) in a vertical slice of a snapshot of the 3D model solar
+atmosphere. The latter quantity is based on the line-integrated contribution function to the line depression in the disk-centre intensity (Eq. (15) of
+Amarsi2015). Contours of constant              logτR are overplotted.
+
+deep atmosphere logτR≈ 0, and in the hot upﬂowing granules,                         non-LTE abundance difference is only +0.01 dex, averaged over
+rather than in the cool intergranular lanes. This can be seen in                    the ﬁve N I  lines. Consequently the overall 3D effect is domi-
+Fig.4: as expected, the contribution function is largest (bright-                   nated by the direct effect, and the 3D non-LTE− 1D non-LTE
+est, in the ﬁgure) in the deep atmosphere around the bumps in                       abundance difference is negative:−0.04 dex, again averaged over
+the contours of equal optical depth, which trace the solar gran-                    the ﬁve N I lines.
+ulation. As also seen for the outer wings of the Balmer lines of
+high excitation energy (see Fig. 2 ofAmarsi et al.2018b), this                      3.3. 3D/non-LTE coupling
+direct 3D effect acts to strengthen the N I lines, due to the gran-
+ules typically having steeper vertical temperature gradients than                   It  is  interesting  to  brieﬂy  consider  how  the  non-LTE  effects
+compared to the mean temperature structure.                                         discussed  in  Sect.3.1,  couple  to  the  3D  effects  discussed  in
+    Although  the  N I   line  formation  is  biased  towards  the                  Sect.3.2.  To  quantify  this  3D/non-LTE  coupling,  we  compare
+granules  in  the  deep  atmosphere−0.2 ≲  logτR ≲  0.7,  some                      the line-by-line non-LTE versus LTE abundance differences in
+additional line formation does occur in the upper atmosphere.                       Table3to  each  other.  The  [3D  non-LTE   −  3D  LTE]−  [1D
+Figure4reveals  that  even  at     logτR≈−1  to−2,  minor  line                     non-LTE −  1D  LTE]  abundance  difference,  is  insigniﬁcant:
+formation  can  occur  in  the  hot  temperature  regions  above  the               −0.004 dex,  averaged  over  the  ﬁve  N I  lines.  This  coupling  is
+intergranular  lanes  (in  the  reversed  granulation;Rutten  et  al.               even  smaller  if  the  indirect  3D  effect  is  omitted,  by  consider-
+2004),  for  example  at    x≈  1.5 Mm,  0.1 ≲  height ≲  0.5 Mm.                   ing the [3D non-LTE− 3D LTE]− [⟨3D⟩ non-LTE−⟨3D⟩ LTE]
+Moreover, in this particular plot a blob of hot gas at x≈ 2.5 Mm,                   abundance difference:−0.002 dex, again averaged over the ﬁve
+height≈ 0.8 Mm (logτR <−4) is apparent. Some line formation                         N I lines.
+occurs here as well, although it is three orders of magnitude less                       The reason for the small 3D/non-LTE coupling can be seen
+efﬁcient than the line formation in the solar granulation in the                    in Fig.3. The panels show that, in the N         I line forming regions
+deep atmosphere.                                                                    −0.2 ≲  logτR ≲  0.7,  the  departure  coefﬁcients  calculated  for
+    These two direct 3D effects, namely N I line formation in the                   different  levels  in  the⟨3D⟩  and  1D  model  solar  atmospheres
+solar granules, and extended line formation in the upper atmo-                      closely follow each other, and also follow the median of the cor-
+sphere, both act to strengthen the N I lines and thus reduce the                    responding  distributions  in  the  3D  model.  They  only  begin  to
+abundances  inferred  from  the  3D  model.  This  can  be  seen  in                deviate from each other higher up in the atmosphere, at logτR ≲
+Table3, where the 3D non-LTE  −⟨3D⟩ non-LTE abundance dif-                          −3; here, the⟨3D⟩ results follow the 3D distribution more closely
+ference is−0.05 dex, averaged over the ﬁve N I lines. The direct                    than the 1D results.
+effect occurs in regions of higher gas temperature, and conse-                           Thus, the 3D/non-LTE coupling is not very severe for N I in
+quently the abundance difference is largest for the lines of higher                 the Sun. We caution, however, that this result does not neces-
+excitation  energy,  namely  the  N I  863 nm  and  1011 nm  lines                  sarily extend to all late-type stars. The Sun has a very stratiﬁed
+(around−0.06 dex), compared to the weaker lines (−0.04 dex).                        atmosphere compared to other late-type stars, and the coupling
+    The nature of the indirect 3D effect can be seen in Fig.1.                      is likely to be larger for stars with stronger granulation contrast;
+There are differences between the mean temperature stratiﬁca-                       namely, for hotter, and more metal-poor stars.
+tion of the 3D model (traced by the⟨3D⟩ model) and that of the
+1D model. At logτR = 0.5 the 1D model is about 150 K hotter,                        4. The solar nitrogen abundance
+and at logτR =−0.5 the 1D model is about 75 K cooler. Thus
+in the N I line forming regions the⟨3D⟩ model has a much shal-                      4.1. Advocated abundance and uncertainty
+lower temperature gradient than the 1D model. The indirect 3D
+effect acts to weaken the N I lines, leading to higher abundances                   Our  recommended  solar  nitrogen  abundance  from  N I  lines
+inferred in the 3D model compared to in the 1D model.                               is  logϵN  =  7.77± 0.05.  This  value  is  determined  from  the
+    The indirect 3D effect is weaker than the direct 3D effect.                     unweighted mean from the ﬁve N I lines given by the 3D non-
+This  can  be  seen  in  Table3,  where  the   ⟨3D⟩  non-LTE−  1D                   LTE  model  (Table3),  and  is  based  on  ﬁtting  the  deblended
+
+                                                                                                                                               A120, page 7 of11
+
+PAGE 8
+                                                                      A&A 636, A120 (2020)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 5. Difference betweenCaffau et al.(2009) and this work, after adopting the line selection and identical equivalent widths (Grevesse et al.
+1990), for different spectrum synthesis models. The three lines in common between that study and the present one are marked in parentheses. The
+right panel shows the differences after correcting the abundances for the differences in logg f  between the two studies.
+
+equivalent  widths  that  were  measured  at  solar  disk  centre                     ⟨3D⟩  model  solar  atmosphere,  to  their  3D  LTE  abundances.
+(Table2).                                                                             Nevertheless, the 3D/non-LTE coupling effect is quite weak for
+    The 3D non-LTE abundance inferred here is lower than that                         N I in the Sun (Sect.3.3). Consequently their “3D LTE              +⟨3D⟩
+inferred  from  the  3D  LTE  model,  and  from  the⟨3D⟩  and  1D                     non-LTE” approximation should be in good agreement with the
+models  in  both  non-LTE  and  LTE.  Both  the  non-LTE  effect                      full 3D non-LTE approach.
+(Sect.3.1) and the 3D effect (Sect.3.2) strengthen the N                                 I lines.The main differences between the present study and that of
+Therefore the 3D non-LTE abundance corrections are negative,                          Caffau et al.(2009) are in the N                 I line selection and the adopted
+relative to the various⟨3D⟩, 1D, and LTE models in Table3.                            equivalent widths.Caffau et al.(2009) include twelve N                       I lines,
+    The line-by-line dispersion is low, corresponding to a stan-                      compared to ﬁve in the present study. The two studies have just
+dard  error  of  0.002 dex  for  the  3D  non-LTE  model  (Table3).                   three lines in common: the N I 744, 822, and 868 nm lines. As
+We  thus  assume  that  the  overall  uncertainty  is  dominated  by                  we discussed in Sect.2.1, a restrictive line selection was adopted
+systematics.                                                                          here based on analysing very carefully line shapes, in order to
+    To estimate systematic errors arising from the measurement                        minimise  the  impact  of  unidentiﬁed  blends  that  tend  to  skew
+of the deblended equivalent widths of the N I  lines, the abun-                       the inferred abundances upwards. Moreover,Caffau et al.(2009)
+dance  analysis  was  repeated  using  the  older  estimates  for  the                adopt  the  de-blended  equivalent  widths  fromGrevesse  et  al.
+equivalent  widths  given  inGrevesse  et  al.(1990).  This  same                     (1990); these values tend to be systematically larger than those
+set  of  equivalent  widths  was  used  in  the  abundance  analysis                  advocated in this study (Sect.4.1). This amounts to an abundance
+ofCaffau et al.(2009). These equivalent widths are systemati-                         difference of 0.06 dex for the ﬁve N I lines in Table1.
+cally somewhat larger: the differences in the inferred abundances                          We illustrate line-by-line abundance differences between the
+range from 0.02 dex larger (N I 868 nm) to 0.11 dex larger (N I                       present study and that ofCaffau et al.(2009), in the left panel of
+1011 nm); the mean difference is 0.057 dex.                                           Fig.5. The plot includes the twelve N         I lines from their study and
+    FollowingScott et al.(2015) we combine, in quadrature, half                       is based on their adopted equivalent widths. The line parameters
+of this difference due to the equivalent widths (0.028 dex), with:                    adopted in the present study (Sect.2.4), are slightly different to
+(a) half the difference between the 3D and⟨3D⟩ results, to quan-                      those adopted inCaffau et al.(2009). In the right panel of the
+tify the uncertainty in the direct 3D effect (0.025 dex); (b) half                    ﬁgure we show the same abundance differences after correcting
+the difference between the⟨3D⟩ and 1D results, to quantify the                        for the differences in the adopted oscillator strengths: ∆ logg f  =
+uncertainty in the indirect 3D effect (0.006 dex); and (c) half the                   −∆ logϵN.
+difference between the non-LTE and LTE results, to quantify the                            The right panel of Fig.5shows that the 3D LTE and  ⟨3D⟩
+uncertainty in the non-LTE effect (0.007 dex). We also fold in the                    LTE  results  from  this  study  and  fromCaffau  et  al.(2009)
+uncertainty in the oscillator strengths, taken to be 0.03 dex based                   are in remarkable agreement, after correcting for differences in
+on their B+/B rankings given on NIST (Kramida et al.2012).                            the  adopted  equivalent  widths  and  line  parameters.  It  is  clear,
+This gives the ﬁnal result of 0.05 dex.                                               however, that there are differences between the two studies, orig-
+                                                                                      inating from differences in the non-LTE modelling. For the three
+4.2. Comparison withCaffau et al.(2009)                                               lines in common between the two studies, these differences reach
+                                                                                      almost−0.03 dex. The main uncertainty in the non-LTE model
+Our advocated result, logϵN = 7.77± 0.05, is somewhat lower                           atom is perhaps the hydrogen collisions (Sect.4.3).Caffau et al.
+than  that  presented  inCaffau  et  al.(2009),  namely                 logϵN  =      (2009) adopt the Drawin recipe for these processes, employing a
+7.86± 0.12. That study and the present one are both based purely                      fudge factor of S H = 1/3. While this was perhaps the best avail-
+on  N I  lines.  Both  are  based  on  3D  radiative-hydrodynamic                     able approach at the time, it is now known that the Drawin recipe
+model  atmospheres  and  non-LTE  radiative  transfer:  however,                      does not describe the correct underlying physical mechanism of
+the present study adopts a full 3D non-LTE approach, whereas                          these processes (Barklem et al.2011). The non-LTE model atom
+their  study  adds  non-LTE  abundance  corrections  from  their                      presented here uses instead the LCAO/free electron method. We
+
+A120, page 8 of11
+
+PAGE 9
+                                      A. M. Amarsi et al.: The 3D non-LTE solar nitrogen abundance from atomic lines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                        Fig. 7.  Difference in the inferred abundances when switching off the
+                                                                                        speciﬁed ingredients in the non-LTE model atom: from left to right, ﬁne
+                                                                                        structure; excitation of N I via electron collisions (Eq. (1)); ionisation of
+                                                                                        N I via electron collisions (Eq. (2)); excitation of N     I via hydrogen col-
+                                                                                        lisions (Eq. (3)); charge transfer of N     I via hydrogen collisions (Eq. (4);
+                                                                                        and ionisation of N I via hydrogen collisions (Eq. (5)). These results are
+                                                                                        based on the standard non-LTE model atom, and using the 1D model
+                                                                                        solar atmosphere.
+
+                                                                                        results of 0.11 dex that suggests neglected blends and deﬁcien-
+                                                                                        cies in the adopted equivalent widths. We conclude that this is
+                                                                                        the main reason for the 0.09 dex larger abundance inferred by
+                                                                                        Caffau et al.(2009). While differences in the non-LTE modelling
+                                                                                        also play a small role (of the order 0.03 dex), differences between
+                                                                                        the  two  3D  model  solar  atmospheres  appear  not  to  contribute
+                                                                                        signiﬁcantly to this discrepancy.
+
+                                                                                        4.3. Model dependence
+                                                                                        We illustrate the line-by-line abundances as functions of differ-
+                                                                                        ent line parameters in Fig.6, for the different spectrum synthesis
+                                                                                        models. The⟨3D⟩ and 1D models give rise to clear trends in the
+                                                                                        inferred abundances with respect to the wavelength, excitation
+                                                                                        energy, and reduced equivalent width. These trends are largely
+                                                                                        driven  by  the  strong  direct  3D  effect  on  the  N I  lines,  that  is
+                                                                                        due  to  the  solar  granulation  (Sect.3.2).  These  trends  are  also
+                                                                                        reﬂected in the relatively large standard errors in Table3from
+                                                                                        these models.
+                                                                                             The ﬂat trends given by the 3D non-LTE and 3D LTE mod-
+                                                                                        els in Fig.6, and the smaller standard errors given in Table3,
+                                                                                        is strong support of the reliability of the 3D model solar atmo-
+                                                                                        sphere used in the present work, at least in the deep layers where
+                                                                                        the N I lines form,−0.2 ≲ logτR ≲ 0.7. This result, combined
+                                                                                        with previous scrutiny of the present 3D model (Sect. 2.1.4 of
+Fig. 6.  Abundances inferred from the ﬁve N I  lines in Table1, using                   Amarsi et al.2018a), and the excellent agreement between the
+the equivalent widths measured at solar disk centre given in Table2.                    3D LTE results of the present study with the 3D LTE results of
+Symbols indicate results from the different spectrum synthesis models.                  Caffau  et  al.(2009)  based  on  an  independent                   CO5BOLD  sim-
+The least squares regressions for each model are overplotted.                           ulation  (when  using  identical  oscillator  strengths  and  equiva-
+                                                                                        lent widths; Sect.4.2), all suggest that uncertainties in the 3D
+                                                                                        radiative-hydrodynamic  simulations  do  not  have  a  signiﬁcant
+have previously argued that this more accurately represents real-                       impact on the error budget in the present study (Sect.4.1).
+ity, on the basis of both physical principles, and empirical results                         We test the sensitivity of the inferred abundances to different
+(Amarsi et al.2018a,2019).                                                              ingredients in the non-LTE model atom in Fig.7. As found for
+    Adopting the same twelve N I lines and using identical oscil-                       C I (see Fig. 5 ofAmarsi et al.2019), the non-LTE results appear
+lator strengths and equivalent widths asCaffau et al.(2009), we                         to be most sensitive to the inelastic collisions with neutral hydro-
+obtain logϵN = 7.87. This is in almost perfect agreement with                           gen that lead to excitation of N I. In the most extreme case, for
+their result, including a similarly large standard deviation in the                     the N I 868 nm line, the inferred abundance changes by almost
+
+                                                                                                                                                      A120, page 9 of11
+
+PAGE 10
+                                                                             A&A 636, A120 (2020)
+
+0.03 dex when hydrogen collisions are switched off; the mean                                  for Advanced Computational Science (UPPMAX) and at the High Performance
+difference for the ﬁve N I lines is 0.02 dex. It is interesting that                          Computing Center North (HPC2N) under project SNIC 2019/3-532. This work
+the N I 1011 nm line clearly has a lower sensitivity to the hydro-                            was  supported  by  computational  resources  provided  by  the  Australian  Gov-
+gen collisions than the other four lines: this likely reﬂects that                            ernment  through  the  National  Computational  Infrastructure  (NCI)  under  the
+                                                                                              National Computational Merit Allocation Scheme.
+the line is the least sensitive to departures from LTE in general,
+owing to the competing non-LTE effects on it (Sect.3.1).
+     Figure7shows that the hydrogen collisions play an important                              References
+role in the non-LTE modelling. We have previously motivated                                   Allen,  C.  W.  1973,Astrophysical  Quantities,  3rd  edn.  (London:  University  of
+our  combined  LCAO/free  electron  method  employed  here,  by                                   London, Athlone Press)
+studying the centre-to-limb variation of lines of O I (Amarsi et al.                          Amarsi, A. M. 2015,MNRAS, 452, 1612
+2018a) and C      I (Amarsi et al.2019). If the hydrogen collisions are                       Amarsi, A. M., & Asplund, M. 2017,MNRAS, 464, 264
+the largest uncertainty in the non-LTE model atom, this places an                             Amarsi, A. M., & Barklem, P. S. 2019,A&A, 625, A78
+upper bound of 0.02 dex on the uncertainty that propagates to the                             Amarsi,  A.  M.,  Lind,  K.,  Asplund,  M.,  Barklem,  P.  S.,  &  Collet,  R.  2016,
+inferred solar nitrogen abundance.                                                                MNRAS, 463, 1518
+                                                                                              Amarsi, A. M., Barklem, P. S., Asplund, M., Collet, R., & Zatsarinny, O. 2018a,
+                                                                                                  A&A, 616, A89
+5. Conclusion                                                                                 Amarsi, A. M., Nordlander, T., Barklem, P. S., et al. 2018b,A&A, 615, A139
+                                                                                              Amarsi, A. M., Barklem, P. S., Collet, R., Grevesse, N., & Asplund, M. 2019,
+We present an analysis of the solar photospheric nitrogen abun-                                   A&A, 624, A111
+dance,  employing  a  full  3D  non-LTE  approach,  and  a  model                             Anders, E., & Grevesse, N. 1989,Geochim. Cosmochim. Acta, 53, 197
+                                                                                              Anstee, S. D., & O’Mara, B. J. 1995,MNRAS, 276, 859
+atom that uses physically-motivated descriptions for the inelas-                              Asplund, M., Nordlund, Å., Trampedach, R., Allende Prieto, C., & Stein, R. F.
+tic  collisions  between  N I  and  free  electrons,  and  between  N I                           2000,A&A, 359, 729
+and  neutral  hydrogen.  We  dissected  the  line  formation  prop-                           Asplund, M., Grevesse, N., Sauval, A. J., & Scott, P. 2009,ARA&A, 47, 481
+erties  of  the  N I  lines,  explaining  how  both  non-LTE  photon                          Bailey, J. E., Nagayama, T., Loisel, G. P., et al. 2015,Nature, 517, 56
+                                                                                              Barklem, P. S. 2016a,A&ARv, 24, 9
+losses, and 3D granulation effects, both act to reduce the abun-                              Barklem, P. S. 2016b,Phys. Rev. A, 93, 042705
+dances inferred from the N I lines of high excitation energy, by                              Barklem, P. S. 2017, Astrophysics Source Code Library
+around 0.01 dex and 0.04 dex respectively. Our advocated value                                    [record  ascl:1701.005]
+is logϵN = 7.77± 0.05.                                                                        Barklem, P. S., & O’Mara, B. J. 1997,MNRAS, 290, 102
+     There  is  currently  an  exceptional  interest  in  revisiting  the                     Barklem, P. S., O’Mara, B. J., & Ross, J. E. 1998,MNRAS, 296, 1057
+                                                                                              Barklem, P. S., Belyaev, A. K., Guitou, M., et al. 2011,A&A, 530, A94
+solar elemental composition, because of the long-standing solar                               Basu, S., & Antia, H. M. 2008,Phys. Rep., 457, 217
+modelling problem. Standard solar interior models fail to repro-                              Belﬁore, F., Maiolino, R., Tremonti, C., et al. 2017,MNRAS, 469, 151
+duce several observational constraints precisely determined from                              Bell, K. L., & Berrington, K. A. 1991,J. Phys., 24, 933
+helioseismology (e.g.Basu & Antia2008). It has been noted in                                  Belyaev, A. K. 2013,Phys. Rev. A, 88, 052704
+                                                                                              Berg, D. A., Erb, D. K., Henry, R. B. C., Skillman, E. D., & McQuinn, K. B. W.
+the literature that replacing the standard set of solar abundances                                2019,ApJ, 874, 93
+ofAsplund  et  al.(2009),  with  the  older  canonical  compila-                              Biémont, E., Froese Fischer, C., Godefroid, M., Vaeck, N., & Hibbert, A. 1990,
+tions ofAnders & Grevesse(1989),Grevesse & Noels(1993),                                           in 3rd International Collogium of the Royal Netherlands Academy of Arts and
+orGrevesse & Sauval(1998), would help resolve the problem.                                        Sciences, 59
+However,  new  analyses  suggest  that  the  origin  of  the  discrep-                        Böhm-Vitense, E. 1958,Z. Astrophys., 46, 108
+                                                                                              Brooke,  J.  S.  A.,  Bernath,  P.  F.,  Western,  C.  M.,  van  Hemert,  M.  C.,  &
+ancy is more complex than simply the adopted solar abundances                                     Groenenboom, G. C. 2014a,J. Chem. Phys., 141, 054310
+(Bailey et al.2015;Buldgen et al.2019).                                                       Brooke, J. S. A., Ram, R. S., Western, C. M., et al. 2014b,ApJS, 210, 23
+     It is thus important to verify that the standard set of solar                            Brooke, J. S. A., Bernath, P. F., & Western, C. M. 2015,J. Chem. Phys., 143,
+abundances are indeed robust. For nitrogen, our advocated value                                   026101
+                                                                                              Buldgen, G., Salmon, S. J. A. J., Noels, A., et al. 2019,A&A, 621, A33
+of logϵN = 7.77± 0.05 is in excellent agreement with that pre-                                Caffau, E., Maiorca, E., Bonifacio, P., et al. 2009,A&A, 498, 877
+sented byAsplund et al.(2009) from N                    I lines, namely logϵN =               Collet,  R.,  Nordlund,  Ã.,  Asplund,  M.,  Hayek,  W.,  &  Trampedach,  R.  2018,
+7.78± 0.05.  However,  it  is  slightly  lower  than  the  standard                               MNRAS, 475, 3369
+value  that  they  advocate,  namely  logϵN  =  7.83± 0.05.  This                             Cunto, W., Mendoza, C., Ochsenbein, F., & Zeippen, C. J. 1993,A&A, 275, L5
+latter  value  is  larger  because  it  folds  in  results  from  the  NH                     Delbouille, L., & Roland, C. 1995,ASP Conf. Ser., 81, 32
+                                                                                              Delbouille,   L.,   Roland,   G.,   &   Neven,   L.   1973,Atlas   Photometrique   Du
+rotational-vibrational lines (∆ν = 1), from whichAsplund et al.                                   Spectre Solaire  De [lambda] 3000  a [lambda] 10000(Liège: Université  de
+(2009)  obtain          logϵN  = 7.88± 0.03.  This  discrepancy  between                          Liège, Institut d’Astrophysique)
+the atomic and molecular diagnostics of more than 0.1 dex is a                                Drawin, H.-W. 1968,Z. Phys., 211, 404
+cause of some concern. New molecular data that are available for                              Drawin, H. W. 1969,Z. Phys., 225, 483
+                                                                                              Esteban, C., & García-Rojas, J. 2018,MNRAS, 478, 2315
+NH (Brooke et al.2014a,2015) and CN (Brooke et al.2014b), as                                  Freytag, B., Steffen, M., Ludwig, H.-G., et al. 2012,J. Comput. Phys., 231, 919
+well as updates to the 3D model atmosphere, may well be enough                                Froese Fischer, C. 1997,Computational Atomic Structure : An MCHF Approach
+to resolve the discrepancy. This should be addressed in a future                                  (Abingdon-on-Thames, UK: Routledge)
+study.                                                                                        Froese Fischer, C. 2000,Comput. Phys. Commun., 128, 635
+                                                                                              Froese Fischer, C., Tachiev, G., Gaigalas, G., & Godefroid, M. R. 2007,Comput.
+                                                                                                  Phys. Commun., 176, 559
+Acknowledgements. We thank the anonymous referee for their helpful sugges-                    Froese Fischer, C., Godefroid, M., Brage, T., Jönsson, P., & Gaigalas, G. 2016,J.
+tions. A.M.A., P.S.B., and J.G. acknowledge support from the Swedish Research                     Phys., 49, 182004
+Council (VR 2016-03765), and the project grants “The New Milky Way” (KAW                      Froese Fischer, C., Gaigalas, G., Jönsson, P., & Biero´n, J. 2019,Comput. Phys.
+2013.0052)  and  “Probing  charge-  and  mass-  transfer  reactions  on  the  atomic              Commun., 237, 184
+level” (KAW 2018.0028) from the Knut and Alice Wallenberg Foundation. M.A.                    Gray,  D.  F.  2008,The  Observation  and  Analysis  of  Stellar  Photospheres
+gratefully acknowledges funding from the Australian Research Council (grants                      (Cambridge: Cambridge University Press)
+DP150100250 and FL110100012). Funding for the Stellar Astrophysics Centre                     Grevesse, N., & Noels, A. 1993, inOrigin and Evolution of the Elements, eds.
+is  provided  by  The  Danish  National  Research  Foundation  (grant  DNRF106).                  N. Prantzos, E. Vangioni-Flam, & M. Casse (Singapore: World Scientiﬁc), 15
+Some of the computations were performed on resources provided by the Swedish                  Grevesse, N., & Sauval, A. J. 1998,Space Sci. Rev., 85, 161
+National Infrastructure  for Computing (SNIC)  at  the Multidisciplinary Center               Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1990,A&A, 232, 225
+
+A120, page 10 of11
+
+PAGE 11
+                                            A. M. Amarsi et al.: The 3D non-LTE solar nitrogen abundance from atomic lines
+
+
+Grevesse, N., Asplund, M., & Sauval, A. J. 2007,The Solar Chemical Compo-                            Moore,  C.  E.  1993,Tables  of  Spectra  of  Hydrogen,  Carbon,  Nitrogen,  and
+   sition, eds. R. von Steiger, G. Gloeckler, & G. M. Mason (Berlin: Springer                            Oxygen Atoms and Ions, ed. J. Gallagher (Boca Raton, Florida: CRC press)
+   Science+Business Media), 105                                                                      Musielok, J., Wiese, W. L., & Veres, G. 1995,Phys. Rev. A, 51, 3588
+Gustafsson, B., Edvardsson, B., Eriksson, K., et al. 2008,A&A, 486, 951                              Neckel, H. 1999,Sol. Phys., 184, 421
+Henyey, L., Vardya, M. S., & Bodenheimer, P. 1965,ApJ, 142, 841                                      Neckel, H., & Labs, D. 1984,Sol. Phys., 90, 205
+Hibbert, A., Biemont, E., Godefroid, M., & Vaeck, N. 1991,A&AS, 88, 505                              Nordlund, Å., & Galsgaard, K. 1995, A 3D MHD code for Parallel Computers,
+Ibgui, L., Hubeny, I., Lanz, T., & Stehlé, C. 2013,A&A, 549, A126                                        Technical report rep., Niels Bohr Institute, University of Copenhagen
+Karakas, A. I., & Lattanzio, J. C. 2014,PASA, 31, e030                                               Nordlund, Å., Stein, R. F., & Asplund, M. 2009,Liv. Rev. Sol. Phys., 6, 2
+Kaulakys, B. P. 1985,J. Phys., 18, L167                                                              Rentzsch-Holm, I. 1996,A&A, 305, 275
+Kaulakys, B. P. 1986,JETP, 91, 391                                                                   Rutten, R. J. 2003,Radiative Transfer in Stellar Atmospheres, 8th edn.(Utrecht:
+Kaulakys, B. P. 1991,J. Phys., 24, L127                                                                  Utrecht University)
+Kramida, A., Ralchenko, Y., Reader, J., et al. 2012, NIST atomic spectra database                    Rutten, R. J., de Wijn, A. G., & Sütterlin, P. 2004,A&A, 416, 333
+   (version 5)                                                                                       Rybicki, G. B., & Hummer, D. G. 1992,A&A, 262, 209
+Kramida, A., Yu. Ralchenko, Reader, J., & NIST ASD Team. 2015, NIST, NIST                            Salgado, C., Da Costa, G. S., Norris, J. E., & Yong, D. 2019,MNRAS, 484, 3093
+   Atomic Spectra Database (ver. 5.3) [online], available: http://physics.                           Schiavon, R. P., Zamora, O., Carrera, R., et al. 2017,MNRAS, 465, 501
+   nist.gov/asd  [2015,  November  2],  National  Institute  of  Standards  and                      Scott, P., Grevesse, N., Asplund, M., et al. 2015,A&A, 573, A25
+   Technology, Gaithersburg, MD                                                                      Steenbock, W., & Holweger, H. 1984,A&A, 130, 319
+Lambert, D. L. 1993,Phys. Scr., 47, 186                                                              Tachiev, G. I., & Froese Fischer, C. 2002,A&A, 385, 716
+Leenaarts, J., & Carlsson, M. 2009,ASP Conf. Ser., 415, 87                                           Takeda, Y., & Honda, S. 2005,PASJ, 57, 65
+Lodders, K. 2019, ArXiv e-prints [arXiv:1912.00844]                                                  van Regemorter, H. 1962,ApJ, 136, 906
+Lyubimkov, L. S., Korotin, S. A., & Lambert, D. L. 2019,MNRAS, 489, 1533                             Vincenzo,  F.,  Belﬁore,  F.,  Maiolino,  R.,  Matteucci,  F.,  &  Ventura,  P.  2016,
+Magic, Z., Collet, R., Asplund, M., et al. 2013,A&A, 557, A26                                            MNRAS, 458, 3466
+Magrini, L., Vincenzo, F., Randich, S., et al. 2018,A&A, 618, A102                                   Wang, Y., Zatsarinny, O., & Bartschat, K. 2014,Phys. Rev. A, 89, 062714
+Martin,  W.  C.,  &  Wiese,  W.  1999,Atomic  Spectroscopy:  A  Compendium  of                       Zafar, T., Centurión, M., Péroux, C., et al. 2014,MNRAS, 444, 744
+   Basic  Ideas,  Notation,  Data,  and  Formulas(Gaithersburg,  USA:  National                      Zatsarinny, O. 2006,Comput. Phys. Commun., 174, 273
+   Institute of Standards and Technology)                                                            Zhu, Q., Bridges, J. M., Hahn, T., & Wiese, W. L. 1989,Phys. Rev. A, 40, 3721
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                           A120, page 11 of11

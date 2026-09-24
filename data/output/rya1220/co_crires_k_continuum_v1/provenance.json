@@ -1,0 +1,100 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1214",
+  "group": "continuum",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1214/pipeline/uncertainty_stack.py": "de51f923f640528da6b929df17611b84496920728adec6ea20d97b66176c88c7",
+    "/home/damienabraxas/scratch/rya1214/data/linelists/ispec_k_19452_24846/atomic_lines.tsv": "6bc6d2b3f07361e9320d187788daa5d481cc36085e0be12dea78c68974a5abe3",
+    "/tmp/cno_3d_anchor_prior.json": "703f515f939693b87f004c067cf502a9b8865da2f4879f7afebf328225c7db00",
+    "/tmp/nitrogen_cn_responses_generic.py": "7446ed3d8f61dd884af56edb609dff0d322621d168d80d23cd76069ffc830864"
+  },
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "adopted_parameter_deltas": {
+    "teff_K": 1.0,
+    "logg": 0.0,
+    "vturb_kms": 0.2912,
+    "feh": 0.0
+  },
+  "background": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.73,
+    "Ni": 6.2
+  },
+  "broadening": [
+    100000.0,
+    3.8,
+    1.8
+  ],
+  "holding": "solar_crires_plus_k_rya1219",
+  "pool": {
+    "molecule": "12C14N",
+    "system": "A-X",
+    "band": "(0-0)",
+    "diagnostic": "CO_K",
+    "windows_air_A": [
+      [
+        23060.1,
+        23063.1
+      ],
+      [
+        23092.87,
+        23095.87
+      ],
+      [
+        23129.28,
+        23132.28
+      ],
+      [
+        23360.51,
+        23363.51
+      ],
+      [
+        23382.95,
+        23385.95
+      ],
+      [
+        23419.7,
+        23422.7
+      ],
+      [
+        23432.77,
+        23435.77
+      ],
+      [
+        23460.18,
+        23463.18
+      ],
+      [
+        24075.37,
+        24078.37
+      ],
+      [
+        24216.59,
+        24219.59
+      ],
+      [
+        24369.47,
+        24372.47
+      ],
+      [
+        24568.77,
+        24571.77
+      ]
+    ]
+  },
+  "indicator_id": "CO_K:molecular:C:windows_sha256:55947156d751957ea41af39d703f12a1802e5c84cb381909eb393bd373b691f8",
+  "n_pixels": 535,
+  "geometry": "disk_integrated_flux",
+  "scale": "1D-LTE",
+  "statistical_correlation_model": "UNRESOLVED",
+  "C_O_covariance": null,
+  "continuum_anchor_amp": 0.005511565499999894,
+  "continuum_anchor_n": 48,
+  "status": "diagnostic_only"
+}

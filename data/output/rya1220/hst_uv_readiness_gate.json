@@ -1,0 +1,18 @@
+{
+  "schema": "rya1220.hst_uv_readiness_gate.v1",
+  "instrument": "HST STIS/COS",
+  "band": "UV",
+  "source": "pipeline/loaders/hst_uv_loader.py and data/audit/procyon_hst/procyon_hst_science_ready.csv",
+  "whitelist": {"rows": 117, "target_confirmed": true, "science_gratings": true, "loader": "built"},
+  "coverage": {"E140M": "1139.97–1729.77 Å; C I 1657 coverage", "E140H": "~1163–1587 Å", "E230H": "~1625–3159 Å"},
+  "conditioning": {"vacuum_frame": "measured native input", "pipeline_frame": "FUV vacuum / NUV air", "chromospheric_core_mask": "wired", "tellurics": "N/A in space UV", "pseudo_continuum": "required for FUV synthesis; no true continuum"},
+  "gates": {
+    "loader_and_target_guard": "PASS_BY_AUDIT",
+    "conditioning_manifest": "PASS_BY_AUDIT",
+    "C_O_3d_nlte_grid": "HOLD: Amarsi grid backend not available for production run",
+    "FUV_pseudo_continuum": "HOLD: RYA-426 synthesis gate 5",
+    "matched_target_sun_differential_covariance": "HOLD",
+    "CNO_abundance": "NOT_RUN"
+  },
+  "decision": "The UV route is data-ready and loader-ready, but not abundance-ready. No C, N, or O value is promoted from this route."
+}

@@ -1,0 +1,137 @@
+"""RYA-1220: measured symmetric sensitivities and paired N covariance.
+
+The fitting callback must re-synthesise/refit the same transitions at each
+perturbation. This module contains no literature abundance or guessed error.
+It deliberately does not confer publication eligibility on a partial budget.
+
+SUPERSEDED AS A BASE-CONTRACT PROPOSAL by the 2026-09-15 RYA-587 directive.
+This unintegrated prototype is retained as audit/test evidence only. Do not
+wire it into product reporting or extend its REQUIRED_TERMS as an independent
+recipe. Reconcile useful algebra/tests with the canonical RYA-587 API when
+available; nitrogen consumers must inherit that API and add only N physics.
+"""
+from __future__ import annotations
+
+import numpy as np
+
+
+REQUIRED_TERMS = (
+    "statistical", "continuum", "line_data", "stellar_parameters",
+    "blend_abundances", "c_o_coupling", "telluric", "model_atmosphere",
+    "line_formation", "holding_repeatability", "diagnostic_family",
+)
+
+
+def covariance(matrix, size, name="covariance"):
+    c = np.asarray(matrix, dtype=float)
+    if c.shape != (size, size) or not np.all(np.isfinite(c)):
+        raise ValueError(f"{name}: expected finite {size} by {size} matrix")
+    if not np.allclose(c, c.T, rtol=1e-10, atol=1e-12):
+        raise ValueError(f"{name}: matrix is not symmetric")
+    if np.min(np.linalg.eigvalsh(c)) < -1e-12 * max(1., np.max(np.abs(c))):
+        raise ValueError(f"{name}: matrix is not positive semidefinite")
+    return c
+
+
+def symmetric_sensitivities(fit, nominal, steps, line_ids):
+    """Return line-level Jacobian plus both one-sided responses.
+
+    ``fit(parameters)`` returns {transition_id: fitted_abundance}. An absent,
+    nonfinite, or changed line pool raises; failed sides cannot disappear.
+    Steps are numerical differentiation steps, distinct from parameter errors.
+    """
+    ids = list(line_ids)
+    if not ids or len(ids) != len(set(ids)):
+        raise ValueError("transition IDs must be nonempty and unique")
+
+    def evaluate(p):
+        values = fit(dict(p))
+        if set(values) != set(ids):
+            raise ValueError("perturbation changed transition membership")
+        a = np.asarray([values[k] for k in ids], dtype=float)
+        if not np.all(np.isfinite(a)):
+            raise ValueError("unmeasured abundance in perturbation")
+        return a
+
+    base = evaluate(nominal)
+    names, columns, responses = [], [], []
+    for name, step in steps.items():
+        if name not in nominal or not np.isfinite(step) or step <= 0:
+            raise ValueError(f"invalid perturbation: {name}")
+        minus = evaluate({**nominal, name: nominal[name] - step})
+        plus = evaluate({**nominal, name: nominal[name] + step})
+        names.append(name)
+        columns.append((plus - minus) / (2 * step))
+        responses.append({
+            "parameter": name, "step": float(step),
+            "minus": minus.tolist(), "plus": plus.tolist(),
+            "slope_minus": ((base - minus) / step).tolist(),
+            "slope_plus": ((plus - base) / step).tolist(),
+            "curvature": ((plus - 2 * base + minus) / step**2).tolist(),
+        })
+    if not names:
+        raise ValueError("no measured sensitivity terms")
+    return {"line_ids": ids, "parameters": names, "nominal": base.tolist(),
+            "jacobian": np.column_stack(columns).tolist(), "responses": responses}
+
+
+def absolute_covariance(jacobian, parameter_covariance, residual_covariance):
+    j = np.asarray(jacobian, dtype=float)
+    if j.ndim != 2 or not np.all(np.isfinite(j)):
+        raise ValueError("finite line by parameter Jacobian required")
+    c = covariance(parameter_covariance, j.shape[1], "parameter covariance")
+    r = covariance(residual_covariance, j.shape[0], "residual covariance")
+    return j @ c @ j.T + r
+
+
+def paired_covariance(target, solar, joint_parameter_covariance,
+                      joint_residual_covariance):
+    """Propagate the target-minus-Sun vector using measured paired responses.
+
+    Joint matrices are ordered target then Sun, including cross-star blocks.
+    Shared gf/continuum/model errors cancel only to the measured extent.
+    Matching also requires caller-verified synthesis/line-data/window identity.
+    """
+    if target["line_ids"] != solar["line_ids"]:
+        raise ValueError("paired transition IDs/order differ")
+    if target["parameters"] != solar["parameters"]:
+        raise ValueError("paired parameter IDs/order differ")
+    jt, js = (np.asarray(x["jacobian"], dtype=float) for x in (target, solar))
+    if jt.shape != js.shape or jt.ndim != 2:
+        raise ValueError("paired Jacobian dimensions differ")
+    n, p = jt.shape
+    if n != len(target["line_ids"]) or p != len(target["parameters"]):
+        raise ValueError("Jacobian labels and dimensions differ")
+    if not np.all(np.isfinite(jt)) or not np.all(np.isfinite(js)):
+        raise ValueError("unmeasured paired sensitivity")
+    cp = covariance(joint_parameter_covariance, 2*p, "joint parameter covariance")
+    cr = covariance(joint_residual_covariance, 2*n, "joint residual covariance")
+    j = np.concatenate((jt, -js), axis=1)
+    d = np.concatenate((np.eye(n), -np.eye(n)), axis=1)
+    return j @ cp @ j.T + d @ cr @ d.T
+
+
+def aggregate(values, line_covariance, weights):
+    """Propagate declared fixed weights; shared terms do not average down."""
+    a, w = np.asarray(values, float), np.asarray(weights, float)
+    if a.ndim != 1 or not len(a) or w.shape != a.shape:
+        raise ValueError("one weight per line required")
+    if not np.all(np.isfinite(a)) or not np.all(np.isfinite(w)):
+        raise ValueError("finite values and weights required")
+    if np.any(w < 0) or not np.isclose(w.sum(), 1., atol=1e-12):
+        raise ValueError("weights must be nonnegative and sum to one")
+    c = covariance(line_covariance, len(a))
+    return {"abundance": float(w @ a), "sigma": float(np.sqrt(max(0., w @ c @ w)))}
+
+
+def publication_gaps(terms):
+    """Every required term needs measured evidence or a reasoned N/A."""
+    gaps = []
+    for name in REQUIRED_TERMS:
+        t = terms.get(name, {})
+        state, evidence = t.get("state"), t.get("evidence")
+        if state not in ("measured", "not_applicable") or not evidence:
+            gaps.append(name)
+        elif state == "measured" and not t.get("artifact"):
+            gaps.append(name)
+    return gaps

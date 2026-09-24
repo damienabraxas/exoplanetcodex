@@ -1,0 +1,29 @@
+{
+  "schema": "rya1220.cno_target_sun_pair_audit.v1",
+  "sources": [
+    "data/audit/cno_synthesis/procyon_vis_cno_per_band.csv",
+    "data/audit/cno_synthesis/solar_vis_cno_per_band.csv",
+    "data/audit/cno_synthesis/procyon_vis_cno_provenance.json",
+    "data/audit/cno_synthesis/solar_vis_cno_provenance.json"
+  ],
+  "instrument_band": "HARPS VIS",
+  "matched_transition_keys": ["CH_Gband", "CI_5052", "CI_5380", "C2_Swan", "CN_red", "OI_6300"],
+  "raw_paired_differences_dex": {
+    "CH_Gband": -0.164,
+    "CI_5052": 0.050,
+    "CI_5380": -0.210,
+    "C2_Swan": 0.108,
+    "CN_red": 2.404,
+    "OI_6300": 0.607
+  },
+  "covariance_inputs": {
+    "same_transition_membership": "MEASURED",
+    "same_instrument_route": "MEASURED",
+    "target_parameter_jacobian": "MISSING",
+    "solar_parameter_jacobian": "MISSING",
+    "cross_star_covariance": "MISSING",
+    "molecular_3d_model_term": "HOLD",
+    "profile_residual_covariance": "MISSING"
+  },
+  "decision": "Matched target/Sun keys exist, but these raw differences are diagnostic only. No differential abundance or uncertainty is promoted until both Jacobians, cross-star covariance, and route-level residual terms are measured. The large CN and [O I] differences are retained as red flags, not averaged away."
+}

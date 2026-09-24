@@ -1,0 +1,17 @@
+{
+  "schema": "rya1220.cno_holding_repeatability_audit.v1",
+  "source": "data/audit/rya1214_cno_products/cno_products_summary.csv",
+  "method": "same element, band, selector, treatment and line count across independently held solar spectra; range is a holding repeatability diagnostic, not a total uncertainty",
+  "measured_atomic_groups": [
+    {"element":"C","band":"VIS","selector":"SET-AGSS21","n_lines":3,"holdings":["solar_harps_molecfit_corrected","solar_kpno_kurucz2005_corrected","solar_kpno_molecfit_corrected"],"values_A_X":[8.469,8.477,8.456],"range_dex":0.021,"status":"MEASURED"},
+    {"element":"N","band":"red-optical","selector":"SET-AGSS21","n_lines":4,"holdings":["solar_iag","solar_kpno_kurucz2005_corrected","solar_kpno_molecfit_corrected"],"values_A_X":[8.351,8.293,8.287],"range_dex":0.064,"status":"MEASURED"},
+    {"element":"O","band":"VIS","selector":"SET-AGSS21","n_lines":6,"holdings":["solar_harps_molecfit_corrected","solar_kpno_kurucz2005_corrected","solar_kpno_molecfit_corrected"],"values_A_X":[9.084,9.017,8.979],"range_dex":0.105,"status":"MEASURED_PARTIAL"},
+    {"element":"O","band":"red-optical","selector":"SET-AGSS21","n_lines":6,"holdings":["solar_iag","solar_kpno_kurucz2005_corrected","solar_kpno_molecfit_corrected"],"values_A_X":[8.899,8.894,8.873],"range_dex":0.026,"status":"MEASURED"}
+  ],
+  "not_admitted": [
+    "Molecular CN/NH/OH/CO routes: no same-pool cross-holding repeatability is available for promotion",
+    "IAG versus CRIRES+ J: declared wavelength pools do not overlap",
+    "Target-Sun repeatability: requires matched target spectra and joint covariance, not solar holding substitution"
+  ],
+  "decision": "These atomic holding ranges are retained as measured repeatability components. They do not close profile, continuum, blend, model, or target-Sun covariance terms."
+}

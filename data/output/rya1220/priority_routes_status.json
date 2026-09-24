@@ -1,0 +1,13 @@
+{
+  "ticket": "RYA-1220",
+  "engine": "Turbospectrum",
+  "execution_host": "sirius",
+  "status": "diagnostic_only",
+  "routes": {
+    "HARPS_VIS_CN_red": {"instrument": "HARPS", "A_N_1d_lte": 7.384, "sigma_fit": 0.835, "red_chi2": 33.536, "status": "HOLD"},
+    "CRIRES_PLUS_J_CN": {"instrument": "CRIRES+", "A_N_1d_lte": 8.016, "sigma_fit": 0.096, "red_chi2": 56.459, "status": "HOLD"},
+    "IAG_IR_continuum_probe": {"instrument": "IAG", "continuum_fraction_step": 0.001, "A_N_nominal": 7.716, "A_N_minus_step": 7.898, "A_N_plus_step": 7.916, "observed_response_span_dex": 0.200, "interpretation": "source spectrum already normalized; residual-placement sensitivity probe", "status": "MEASURED_DIAGNOSTIC"},
+    "KPNO_NEARUV_OH": {"instrument": "Kitt Peak", "windows_A": [[3063.0, 3066.0], [3122.0, 3125.0]], "A_O_1d_lte": 9.745, "sigma_tot": 0.09, "interpretation": "OH A-X is continuum/blend limited and explicitly an upper bound; not a C/O anchor", "status": "DIAGNOSTIC_UPPER_BOUND"}
+  },
+  "unresolved": ["matched target-minus-Sun differential run", "C/O covariance and molecular coupling covariance", "profile residual covariance and continuum response for each priority route", "telluric residual covariance for CRIRES+", "line-list/blend identity admission and isotope treatment", "3D/non-LTE correction for molecular CN", "holding/instrument repeatability"]
+}

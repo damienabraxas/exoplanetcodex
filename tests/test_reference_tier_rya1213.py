@@ -313,17 +313,14 @@ def test_every_completed_reference_xi_pool_reaches_its_product(feed):
 
 def test_xi_only_refresh_is_idempotent_and_preserves_measurement(feed):
     import copy
-    from rya1178_emit_fe_schema import load_sources, update_xi_budget, xi_index
+    from rya1178_emit_fe_schema import update_xi_budget, xi_band_index
     product = copy.deepcopy(next(p for p in feed["products"]
                                  if p.get("tier") == "REFERENCE" and p.get("xi_state") == "MEASURED"))
     original = copy.deepcopy(product)
     product["xi_state"] = "NOT_IN_CAMPAIGN"
     product["sigma_xi"] = None
     product["sigma_reported_caveat"] = "old missing measurement"
-    #: RYA-1224: the real index, not `{"band": ...}`. The floor and the same-artifact
-    #: route live on it, and a partial dict would exercise neither -- which is the
-    #: difference between refreshing a stamp and refreshing the rule that sets it.
-    idx = xi_index(load_sources()[3], feed)
+    idx = {"band": xi_band_index()}
     update_xi_budget(product, idx)
     assert product["xi_state"] == "MEASURED"
     for field in ("A", "n_lines", "sigma_stat", "sigma_syst", "provenance", "code_commit", "generated_at"):

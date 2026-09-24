@@ -1,0 +1,20 @@
+{
+  "schema": "rya1220.solar_cno_profile_quality_audit.v1",
+  "method": "route-level profile diagnostic from completed Sirius fits; red chi2 is reported as evidence, not converted to an arbitrary scale factor",
+  "routes": [
+    {"route":"HARPS VIS CN","artifact":"data/output/rya1220/cn_harps_continuum_v2/fits.json","A_N":7.487,"red_chi2":33.345,"state":"PROFILE_HOLD; one-sided continuum edge failure"},
+    {"route":"Kitt Peak near-UV NH","artifact":"data/output/rya1220/cn_nearuv_continuum_v1/fits.json","A_N":7.957,"red_chi2":37.275,"state":"PROFILE_HOLD; blend/opacity limited"},
+    {"route":"Kitt Peak NIR CN","artifact":"data/output/rya1220/cn_kp_continuum_v8/fits.json","A_N":8.198,"red_chi2":202.05,"state":"PROFILE_HOLD; severe model/blend residual"},
+    {"route":"IAG NIR CN","artifact":"data/output/rya1220/cn_iag_3d_anchor_v1/fits.json","A_N":7.941,"red_chi2":42.714,"state":"PROFILE_HOLD; molecular model/blend residual"},
+    {"route":"CRIRES+ J CN","artifact":"data/output/rya1220/cn_crires_j_continuum_v1/fits.json","A_N":8.018,"red_chi2":56.219,"state":"PROFILE_HOLD; molecular model/blend residual"},
+    {"route":"CRIRES+ H OH","artifact":"data/output/rya1220/oh_crires_h_continuum_v1/fits.json","A_O":9.448,"red_chi2":130.65,"state":"PROFILE_HOLD; severe model failure"},
+    {"route":"CRIRES+ K CO","artifact":"data/output/rya1220/co_crires_k_continuum_v1/fits.json","A_C":8.665,"red_chi2":59.049,"state":"PROFILE_HOLD; molecular/isotope residual"},
+    {"route":"IAG VIS [O I]","artifact":"data/output/rya1220/solar_iag_vis_cno_v2/solar_vis_iag_cno_per_band.csv","A_O":8.907,"red_chi2":64.431,"state":"PROFILE_HOLD; oxygen anchor rejected as diagnostic-only"}
+  ],
+  "decision": "No molecular route has a profile residual term eligible for promotion. The accepted solar C/O anchors remain the cited atomic 3D values, while the completed molecular fits provide sensitivity diagnostics only.",
+  "next_solar_action": "Run route-specific profile residual decomposition (observed-versus-synthetic residual covariance and blend contribution) for the highest-priority solar CN routes, beginning IAG and Kitt Peak NIR."
+  ,"completed_decomposition": [
+    {"route":"IAG NIR CN","artifact":"data/output/rya1220/iag_cn_profile_residual_v2/profile_residuals.json","n_pix":2211,"weighted_residual_rms_flux":0.06534,"mean_lag1_correlation":0.47255,"state":"MEASURED_PARTIAL; correlated residuals remain model/blend HOLD"},
+    {"route":"Kitt Peak NIR CN","artifact":"data/output/rya1220/kp_cn_profile_residual_v1/profile_residuals.json","n_pix":3215,"weighted_residual_rms_flux":0.14216,"mean_lag1_correlation":0.72458,"state":"MEASURED_PARTIAL; severe correlated residuals remain model/blend HOLD"}
+  ]
+}

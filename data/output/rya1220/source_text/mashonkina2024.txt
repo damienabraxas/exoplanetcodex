@@ -1,0 +1,836 @@
+PAGE 1
+arXiv:2406.11367v1  [astro-ph.SR]  17 Jun 2024
+Non-LTE abundances of nitrogen in the Sun
+and reference A–F type stars
+© 2024 L. I. Mashonkina 1∗,2, T. A. Ryabchikova 1
+Institute of Astronomy, RAS, Pyatnitskaya st. 48, 119017 Mo scow, Russia 1
+Institute of Laser Physics, SB RAS, Ac. Lavrentieva ave. 13, Novosibirsk 630090,
+Russia2
+A new model atom of nitrogen was developed using the energy levels o f N I from lab-
+oratory measurements and also predicted in atomic structure calc ulations and the most
+up-to-date atomic data for computing radiative and collisional rate s of the transitions.
+Solar abundance log ε⊙,N(1D NLTE) = 7.92 ±0.03 was determined from lines of N I by
+applying the synthetic spectrum method with the plane-parallel (1D ) MARCS model at-
+mosphere and taking into account the departures from local ther modynamic equilibrium
+(non-LTE eﬀects). Having implemented the 3D-corrections of Ama rsi et al. (2020), we
+obtained for the Sun log ε⊙,N(NLTE+3D) = 7.88 ±0.03. Based on high spectral resolution
+spectra, non-LTE abundances of nitrogen were derived for 11 un evolved A–F type stars
+with reliable atmospheric parameters. Non-LTE leads to strengthe ned N I lines, and the
+non-LTE eﬀects grow with increasing eﬀective temperature. For e ach star, non-LTE leads
+to smaller abundance error compared to the LTE case. For superﬁ cially normal A-type
+stars, non-LTE removes the enhancements relative to the solar n itrogen abundance ob-
+tained in the LTE case. A λ Boo-type star HD 172167 (Vega) also has close-to-solar N
+abundance. The four Am stars reveal a scatter of the N abundan ces, from [N/H] = −0. 44
+to [N/H] = 0.39. The N abundances of the Sun and superﬁcially normal A stars are con-
+sistent within 0.09 dex with the nitrogen abundance of the interstella r gas and the early
+B-type stars.
+Key words: stellar atmospheres, non-LTE line formation, abundances of nitro gen in stars
+∗ e-mail <lima@inasan.ru>
+PAGE 2
+– 2 –
+1. Introduction
+Nitrogen is one of the three most abundant elements (C, N, O) afte r hydrogen and
+helium. It plays an important role in the physics of stars, and knowled ge of its abundance
+in a particular star, or rather, the change compared to the initial a bundance at the birth
+of the star, is the key to understanding the evolutionary status o f the star and the physical
+processes occurring in it. One believes that the chemical compositio n of galactic matter
+changed very little after the formation of the Solar System, there fore, for most chemical
+elements, their meteoritic abundances serve as abundance stand ards for the present-day
+Galactic matter or as cosmic abundance standards. But nitrogen is a volatile element,
+and the cosmic abundance standard for N is determined by the Sun a nd young, unevolved
+stars.
+In the solar spectrum, nitrogen is observed in a few, weak and blend ed lines of
+N I, as well as in the molecular lines of NH and CN. For many years, the abu n-
+dance log ε⊙,N = 8 . 05 ± 0. 04 obtained by Anders and Grevesse (1989) from molecular
+lines using the semi-empirical solar model atmosphere of Holweger an d Mueller (1974)
+was considered as standard. Hereafter, we use the abundance s cale where log εH =
+12. With the same model atmosphere, but from the N I lines, Rentzsch-Holm (1996)
+determined log ε⊙,N = 8 . 05 ± 0. 09 based on the non-local thermodynamic equilibrium
+(non-LTE, NLTE) line formation. In the early 2000s, 3-dimensional (3D) atmospheric
+models based on hydrodynamic calculations became widespread. Usin g the 3D model
+and non-LTE abundance corrections (diﬀerences between non-L TE and LTE abundances:
+∆ NLTE = log εNLTE − log εLTE) for the N I lines calculated with the 1D model, Caﬀau et al.
+(2009) derived log ε⊙,N = 7.86. In self-consistent 3D and non-LTE calculations for N I,
+Amarsi et al. (2020) determined the lower abundance, log ε⊙,N = 7.767, but a higher value
+of log ε⊙,N = 7.89 (3D) was obtained from the NH and CN lines (Amarsi et al., 2021) . It is
+necessary to understand the reasons for such discrepancies be tween diﬀerent authors and
+between atomic and molecular lines.
+For A-type stars, non-LTE abundances from the N I lines were derived by Takeda
+(1992); Lemke and Venn (1995); Rentzsch-Holm (1996); Przybilla and Butler (2001);
+Lyubimkov et al. (2011) and in the later studies based on already dev eloped non-LTE
+methods. The methods were tested on the star Vega (HD 172167) with reliable atmospheric
+parameters and a high-quality observed spectrum. In various wor ks, non-LTE corrections
+PAGE 3
+– 3 –
+for the same line diﬀer by 0.2 dex or more. For example, for N I 8683 ˚A, Rentzsch-Holm
+(1996) and Przybilla and Butler (2001) give ∆ NLTE = −0. 53 dex and −0. 26 dex, respec-
+tively. Takeda (1992) and Lemke and Venn (1995) drew attention t o the sensitivity of
+non-LTE results for N I to abundances of carbon and metals in the atmospheric model,
+i.e. to the continuum absorption coeﬃcient in the ultraviolet (UV) ran ge.
+For the star 21 Peg (HD 209459, B9.5 V), Romanovskaya et al. (202 3) determined
+log εNLTE = 7.53 from the N I lines. This is much lower than the lowest derived solar
+abundance. For comparison, Nieva and Przybilla (2012) found log εNLTE = 7 . 79 ± 0. 04
+from lines of N II in early B-type stars.
+Conﬂicting results for the Sun and young A–B stars motivated the p resent study. The
+following tasks were set.
+1. Construction of a new model atom for nitrogen to be applied to bo th solar type
+and A-type stars. The model atom should be as complete as possible and provide a close
+collisional coupling of the N I high-excitation levels to the ground state of the next stage
+ionization N II.
+2. Determination of abundances from the N I lines in the solar spectrum. We already
+have experience in determining the solar elemental non-LTE abunda nces using a classi-
+cal one-dimensional (1D) model of the solar atmosphere from the MARCS model grid
+(Gustafsson et al., 2008), and our results are in excellent agreeme nt with self-consistent
+3D and non-LTE calculations of Asplund et al. (2021). Namely, Alexee va and Mashonkina
+(2015) obtained the same abundance from lines of C I and molecular lines of C 2 and CH:
+log ε⊙,C = 8. 43 ± 0. 02, which is by 0.03 dex less than that in Asplund et al. (2021). With
+the same atmospheric model, Sitnova and Mashonkina (2018) derive d the non-LTE abun-
+dance from lines of O I, log ε⊙,O = 8 . 70 ± 0. 08, which is consistent within 0.01 dex with
+that in Asplund et al. (2021).
+3. Determination of non-LTE abundances from the N I lines in the selected stars of
+F, A and late B-type. This is an extension of our previous detailed stu dies of the chemical
+composition of these stars. The results of non-LTE abundance de terminations for He, C,
+O, Na, Mg, Si, Ca, Ti, Sr, Zr, and Ba are summarized by Mashonkina et al. (2020) and
+Romanovskaya et al. (2023). Sitnova et al. (2022) and Mashonkina (2024) determined the
+non-LTE abundances of Zn and Sc.
+PAGE 4
+– 4 –
+This article is structured as follows. New model atom of N I is presented in Sect. 2.
+The developed method is used to determine the nitrogen non-LTE ab undances for the
+solar atmosphere (Sect. 3) and for a sample of A-F type stars with reliably determined
+atmospheric parameters (Sect. 4). Conclusions are formulated in Sect 5.
+2. Method of non-LTE calculations for N I
+2.1. New model atom of nitrogen
+Energy levels. The atomic model is built using 321 energy levels of N I from the
+NIST1 database (Kramida et al. 2019) and 503 levels predicted by Kurucz ( 2014) in the
+atomic structure calculations for N I, but not detected (yet) in laboratory measurements.
+The excitation energies of the highest levels are less than the ionizat ion energy of N I
+by 0.08-0.26 eV, which is much smaller than the average kinetic energy of electrons at
+temperatures up to 20 000 K. This ensures eﬀective collisional coup ling of N I with the
+ground state of N II. Multiplet ﬁne structure was neglected. Highly excited levels with low
+energy separation ( <250 cm −1) and of the same parity were combined into superlevels.
+They are formed predominantly from levels predicted in calculations o f the N I atomic
+structure. The average energy of the combined superlevel was c alculated taking into
+account the statistical weights of individual levels. The ﬁnal atomic model includes 59
+levels of N I. Singly ionized nitrogen is represented only by its ground state. Exc ited levels
+increase the partition function of N II by about 5% at T = 10000 K. Test calculations
+have shown that taking into account excited levels of N II has a negligible eﬀect on the
+magnitude of deviations from LTE for levels of N I. The model atom is shown in Fig. 1.
+Radiative rates. gf -values for 46 109 bound-bound (b-b) transitions between levels
+used in constructing the atomic model are taken from calculations b y Kurucz (2014). After
+combining the levels, we got 743 b-b transitions with the oscillator str ength f > 10−6. For
+transitions from the ground state 2 p3 4 S◦ and low-excitation levels 2 p3 2 D◦, 2 p3 2 P◦, in
+which UV pumping of the upper levels can occur, radiative rates are c alculated using the
+Voigt absorption proﬁle (in total, for 16 transitions). For other tr ansitions, the absorption
+proﬁle is the Doppler one.
+For 33 levels with the ionization thresholds λ thr ≤ 18723 ˚A, the photoionization cross-
+sections calculated in the Opacity Project (Seaton, 1987) are tak en from the TOPbase
+1https://www.nist.gov/pml/atomic-spectra-database
+PAGE 5
+– 5 –
+       
+0
+2
+4
+6
+8
+10
+12
+14E(eV)
+N II
+N I
+2So 2 P 2Po 2 D 2Do 2 F 2Fo 4 So 4 P 4Po 4 D 4Do 4 F
+Figure 1: Energy levels in the nitrogen model atom and transitions, in which the N I lines
+used to determine the stellar nitrogen abundances are formed. So lid and dotted horizontal
+segments indicate the energies of even and odd superlevels, respe ctively. The coordinates
+of the superlevels on the X-axis are assigned arbitrarily to minimize th e overlap of even
+and odd levels.
+PAGE 6
+– 6 –
+database (Cunto et al., 1993). For other levels, the cross-sectio ns are calculated in the
+hydrogenic approximation using the eﬀective principal quantum num ber instead of the
+principal quantum number.
+Collisional rates. For electron-impact excitation, we use the data of Wang et al.
+(2014), calculated with one of the variants of the R-matrix method (B-spline R-matrix with
+pseudo states). They are available for 276 transitions between lev els with excitation energy
+Eexc ≤ 13.34 eV. For the remaining b-b transitions, we apply formula of van R egemorter
+(1962), if the transition is allowed, and assume the eﬀective collision s trength Ω = 1 for
+the forbidden transitions. Electron-impact ionization rate is calcula ted using the Seaton
+(1962) formula witn an adopted photoionization cross-section at t he thresholds.
+In the atmospheres of late-type stars, the number density of fr ee electrons is much
+lower than that of neutral hydrogen atoms, so the excitation of le vels and the formation
+of ions can be produced by collisions with not only electrons, but also h ydrogen atoms.
+Rate coeﬃcients for inelastic processes in collisions with H I are taken from calculations
+of Amarsi and Barklem (2019) for 21 transitions N 0 + H 0 ↔ N+ + H −, associated with
+the S, P, D terms of N I, and for 206 b-b transitions.
+2.2. Statistical equilibrium of nitrogen depending on eﬀec tive temperature
+To solve the system of statistical equilibrium (SE) and radiative tran sfer equations in
+a given atmospheric model, we use a modiﬁed code detail (Giddings, 1981; Butler, 1984;
+Przybilla et al., 2011). We note that the line opacity is calculated direct ly, line-by-line
+using the list of lines by Kurucz (1993), which includes about 40 million line s.
+Figure 2 shows b-factors, b = nNLTE/n LTE, for selected levels of N I, which are im-
+portant for understanding the mechanisms of departures from L TE in model atmospheres
+with diﬀerent eﬀective temperatures ( Teﬀ ). Here, nNLTE and nLTE are level populations,
+obtained by solving the SE equations (non-LTE) and using the Boltzm ann-Saha formulas
+(LTE). Throughout this work we use plane-parallel (1D) model atm ospheres. For the Sun,
+the model with Teﬀ = 5780 K and surface gravity log g = 4.44 (5780/4.44) is taken from
+MARCS database 2 (Gustafsson et al.2008). The models 9550/3.95 and 10400/3.55 wer e
+calculated using the LL models code (Shulyak et al., 2004).
+2http://marcs.astro.uu.se
+PAGE 7
+– 7 –
+Figure 2: b-factors of selected levels of N I as a function of optical depth at λ = 5000 ˚A in
+the atmospheric models 5780/4.44 ( Teﬀ = 5780 K, log g = 4.44), 9550/3.95, and 10400/3.55.
+In each panel, tick marks indicate the locations of line center optical depth unity for the
+following lines: N I 8683 (1), 8629 (2) and 6482 ˚A (3). For the solar atmosphere, the
+formation depth is indicated only for the strongest line.
+PAGE 8
+– 8 –
+In an atmosphere with Teﬀ = 5780 K, neutral atoms dominate in the nitrogen abun-
+dance, therefore the ground and two lowest excited levels keep th ermodynamic equilibrium
+populations and reveal b = 1 throughout the atmosphere. The lowe r level 3 s 4P of the
+transitions, in which the observed lines are formed (see Table 1), is o verpopulated (b > 1)
+above log τ5000 = 0 due to radiative pumping from the ground state in the wings of the N I
+1199.55, 1200.22, and 1200.71 ˚A lines. The upper levels, e.g. 3 p 4S◦, are depopulated (b
+< 1) in spontaneous transitions to the lower states. As a result, lines of N I are enhanced
+compared with the LTE case. But the departures from LTE are wea k.
+In the 9550/3.95 model atmosphere, N I remains the dominant ionization stage, but
+radiative processes are strengthened compared to collisional one s, and the departures from
+LTE are stronger than in the case of the solar atmosphere. Not on ly the lower, but also
+the upper levels of the transitions, in which the observed lines are fo rmed, are overpopu-
+lated, but to a lesser extent than the lower ones. Therefore, non -LTE leads to increased
+absorption in the lines.
+In the highest temperature model (10400/3.55), neutral and sin gly ionized nitrogen
+have comparable number densities. For the low-excitation levels 2 p3 2 P◦ (λ thr ≃ 1130 ˚A)
+and 2 p3 2 D◦ (λ thr ≃ 1020 ˚A), the intensity of the ionizing radiation exceeds the local
+value of the Planck function resulting in overionization of these levels . Due to their close
+coupling to the ground state, the latter is also emptied (b < 1). Radiative pumping from
+the ground state leads to enhanced population of the high-excitat ion levels in such a way
+that, in each of the transitions associated with the observed lines, blow > bup (the lower
+and upper levels of the corresponding transitions are indicated in Ta ble 3), and the lines
+are strengthened compared to the LTE case.
+3. Abundance of nitrogen in the solar atmosphere
+Ryabchikova et al. (2022) simultaneously determined the carbon an d nitrogen abun-
+dances of the solar atmosphere, log εC = 8.44 and log εN(CN) = 7.97, from molecular C 2
+and CN lines by ﬁtting the synthetic spectra to the observed one in 2 1 intervals in the range
+5100-5200 ˚A and 12 intervals in the range 7930-8100 ˚A. According to Amarsi et al. (2021),
+the 3D correction to the N abundance derived from CN lines in the sola r spectrum amounts
+to −0. 06 dex, on average. Taking into account this 3D correction, Ryabc hikova et al.
+(2022) deduce log εN(CN,3D) = 7.91 ±0.04.
+PAGE 9
+– 9 –
+Table 1: LTE and NLTE abundances derived from nitrogen lines in the s olar spectrum.
+λ E exc log gf transition log ε
+[˚A] [eV] LTE NLTE + 3D 1
+N I 7442.28 10.33 –0.401 3 s 4P3/2 – 3 p 4S◦
+3/2 7.93 7.91 7.88
+N I 8216.34 10.34 0.138 3 s 4P5/2 – 3 p 4P◦
+5/2 8.00 7.95 7.92
+N I 8629.24 10.69 0.077 3 s 2P3/2 – 3 p 2P◦
+3/2 7.88 7.87 7.83
+N I 8683.40 10.33 0.105 3 s 4P3/2 – 3 p 4D◦
+5/2 7.95 7.90 7.87
+N I 10108.89 11.75 0.443 3 p 4D◦
+3/2 – 3 d 4F5/2 7.96 7.95 7.90
+Mean 7.94 7.92 7.88
+σ 0.04 0.03 0.03
+CN lines 7.97 ±0.042 7.91
+1 after implementing the 3D NLTE corrections from Amarsi et al. (202 0) for lines of N I
+and 3D corrections from Amarsi et al. (2021) for molecular CN lines. 2 from
+Ryabchikova et al. (2022).
+3.1. Analysis of the N I lines in the solar spectrum
+We analyze the spectrum of the Sun as a star using the Atlas of Kuru cz et al. (1984).
+Spectral resolving power is R = λ/ ∆ λ ≃ 520 000. As in our previous studies, we use the
+canonical parameters of the solar atmosphere: Teﬀ = 5780 K, log g = 4.44, microturbulence
+velocity ξt = 0.9 kms −1 and the classical atmospheric model from the MARCS database.
+Abundances from the N I lines were determined by the synthetic spectrum method,
+that is, by automatically ﬁtting the theoretical spectrum to the ob served one. The syn-
+thetic spectrum was calculated with the code synthV NLTE (Tymbal et al., 2019),
+integrated into the BinMag visualization program (Kochukhov, 2018 ). Using b-factors
+from the code detail, synthV NLTE calculates lines of N I taking into account the
+non-LTE eﬀects, while lines of other elements are computed under t he LTE assumption.
+Line atomic parameters for calculating the synthetic spectrum are taken from the cur-
+rent version of the database V ALD3 (Vienna Atomic Line Database, Pakhomov et al.,
+2019). For the N I and CN molecular lines, we adopted gf -values from calculations by
+Tachiev and Froese Fischer (2002) and Brooke et al. (2014), resp ectively. In our calcula-
+tions, we used a ﬁxed value of the solar carbon abundance, log εC = 8.43, as derived by
+Alexeeva and Mashonkina (2015).
+In the solar spectrum, there are no unblended (pure) lines of N I. Five lines, which
+are most suitable for determining N abundance, are listed in Table 1. F our of the ﬁve
+PAGE 10
+– 10 –
+lines are blended with the CN molecular lines, and N I 8216.336 ˚A is blended with a weak
+Cr I line. In addition, the N I 8629.2 and 8683.4 ˚A lines lie in the wings of the strong
+Ca II 8662.14 ˚A line, and the absorption in this line must be taken into account when
+ﬁtting the synthetic spectrum to the observed one. In the same w ay, it is necessary to take
+into account the inﬂuence of nearby lines of other elements, primar ily elements of the iron
+group, which can inﬂuence the position of the continuum near the N I lines.
+Let us consider the ﬁtting procedure separately for each line.
+The N I 8216.336 ˚A line is the most suitable because it is not blended by CN
+molecular lines. However, this line lies in a region with strong telluric lines, making it
+diﬃcult to determine the continuum level. The position of the continuu m was reﬁned by
+comparing the solar spectrum from Kurucz et al. (1984) with the so lar spectrum corrected
+by Wallace et al. (2011) for telluric lines. With the continuum level deﬁn ed over 8215.6 –
+8216.8 ˚A, the entire region was ﬁrst ﬁtted, and then separately proﬁle of N I 8216.336 ˚A,
+as shown in Fig. 3. The nitrogen abundance turned out to be the sam e, log εN = 7.95
+(non-LTE), in both cases. Ignoring weak Cr I 8216.281 ˚A line leads to an increase in the
+nitrogen abundance, by no more than 0.01 dex. As can be seen in Fig. 3, reproducing
+the proﬁle shape of the nitrogen line requires a higher macroturbule nt velocity than for
+the stronger Fe I 8215.8 ˚A line. This is a well-known fact. Gray (1977) also showed
+that the proﬁle shapes of strong and weak Fe I lines in the solar spectrum are ﬁtted with
+macroturbulent velocities of 3.1 and 3.8 kms −1, respectively.
+In order to understand how Amarsi et al. (2020, Table 3, 1D non-L TE) obtained a
+low abundance of log εN = 7.796 for the same line and with the same atmospheric model as
+ours, we carried out test calculations by determining the continuum level along the edges of
+the N I 8216 ˚A line, i.e. using the local continuum, and derived log εN = 7.83, which is close
+to the N abundance published by Amarsi et al. (2020). In their abun dance determinations,
+Amarsi et al. (2020) used the average equivalent width EW = 7.7 m˚A, measured in the two
+solar disk-center intensity spectra of Delbouille et al. (1973) and Ne ckel and Labs (1984).
+Amarsi et al. (2020) note that the diﬀerence in EW (N I 8216 ˚A) between the two spectra
+is less than 5%, but Bi´ emont et al. (1990) measured EW = 8.7 m ˚A for the same line in
+the spectrum of Delbouille et al. (1973), which exceeds the value use d by Amarsi et al.
+(2020), by 13%. With such an overlap of lines of diﬀerent elements, a s in the region 8215.6
+– 8216.8 ˚A, using EW in abundance determinations is unjustiﬁed.
+PAGE 11
+– 11 –
+Figure 3: N I 8216.336 and 8683.40 ˚A lines in the solar ﬂux spectrum (Kurucz et al.
+1984, diamonds) compared to synthetic spectra, where the non- LTE eﬀects are taken into
+account for the N I lines. In each panel: the dotted curve is the best ﬁt to the entire
+region (8215.6 – 8216.8 ˚A and 8682.7 – 8683.7 ˚A); solid curve is the best ﬁt to the N I
+line; dashed curve is the synthetic spectrum without the contribut ion of the N I line; dash-
+dotted straight line shows the local continuum level used in our test calculations, which
+led to a decrease in N abundance, by 0.12 dex for N I 8216 ˚A and 0.05 dex for N I 8683 ˚A.
+See text for more details.
+PAGE 12
+– 12 –
+The N I 8683.40 ˚A line is located in the wings of strong Ca II 8662 ˚A and H I
+8665 ˚A lines. With the continuum level determined taking into account abso rption in
+the Ca II and H I lines, we ﬁrst ﬁtted the spectral range 8682.7 – 8683.7 ˚A, and then
+separately proﬁle of the N I line (Fig. 3). The obtained nitrogen abundance is indicated in
+Table 1. Note that we had to reduce the wavelength of the N I line by 0.025 ˚A to match
+the wavelength diﬀerences between the Fe I 8674.746 and 8688.623 ˚A lines, which have
+reliably measured wavelengths, and the N I 8683.40 ˚A line in the observed and synthetic
+spectra. As in the case of N I 8216 ˚A, we also determined the nitrogen abundance using
+a local continuum, i.e. without taking into account absorption in lines o f Ca II and H I,
+and obtained the lower abundance, by 0.05 dex.
+The N I 7442.28 and 8629.23 ˚A lines are heavily blended, so ﬁtting was carried out
+over a wide spectrum range, including lines of CN and other elements ( Fig. 4). Calculations
+with ﬁxed carbon abundance log εC = 8.43 showed that, when applying the abundance
+obtained from the N I lines: log εN = 7.97 (7442 ˚A) and 7.91 (8629 ˚A), the theoretical
+proﬁles of nearby CN lines appear to be noticeably weaker than the o bserved ones. The
+ﬁt improves as the carbon abundance increases by 0.1 dex. In such a case, the nitrogen
+abundance decreases by 0.06 dex for N I 7442 ˚A and by 0.04 dex for the second line. These
+results are accepted as ﬁnal and indicated in Table 1.
+The N I 10108.89 ˚A line overlaps with the CN line. Excluding the CN line from
+calculations leads to an increase in nitrogen abundance by 0.07 dex. T his is the maximum
+possible uncertainty in the abundance obtained from N I 10108 ˚A.
+From ﬁve lines of N I, we obtained the solar average abundance log εN(1D NLTE)
+= 7.92 ±0.03. Hereafter, a statistical abundance error is calculated as th e dispersion in
+the single-line measurements around the mean σ =
+√ ∑ (x − ¯x)2/ (Nl − 1), where Nl is
+number of lines. We guess that, in calculations of Amarsi et al. (2020 ), the 3D corrections
+for individual lines, (3D non-LTE – 1D non-LTE), are independent of the EW -based
+approach, and we applied them to obtain the NLTE+3D abundances ( Table 1) by simply
+adding our non-LTE abundances and the 3D corrections from Amar si et al. (2020, Table 3).
+The average value is log εN(NLTE+3D) = 7.88 ±0.03.
+Thus, our determinations based on atomic and molecular lines agree w ithin 0.03 dex,
+and both values agree within error with the solar nitrogen abundanc e log ε⊙,N = 7. 85±0. 12,
+recommended by Lodders (2021).
+PAGE 13
+– 13 –
+Figure 4: Best NLTE ﬁts (three-dot-dashed curve) to the solar ﬂ ux spectrum (Kurucz
+et al. 1984, diamonds) around N I 7442.28 ˚A and N I 8629.23 ˚A, obtained with log εN,
+indicated in Table 1, and log εC = 8.53. In each panel: solid curve is the best ﬁt using
+log εC = 8.43; dashed curve is the synthetic spectrum without the contrib ution of the N I
+line.
+PAGE 14
+– 14 –
+Figure 5: Best NLTE ﬁt (solid curve) to the N I 10108.89 ˚A line in the solar ﬂux spectrum
+(Kurucz et al. 1984, diamonds). The dashed curve is a synthetic sp ectrum without the
+contribution of the N I line.
+3.2. Comparisons with literature
+Our abundance from atomic lines agrees within 0.02 dex with log εN(3D+NLTE) =
+7.86±0.12 obtained by Caﬀau et al. (2009). They performed the 3D LTE ca lculations for
+lines of N I and then implemented the non-LTE corrections from calculations wit h a 1D
+model atmosphere. In the non-LTE calculations, inelastic collision wit h hydrogen atoms
+were treated using the Drawin (1969) approximation and applying a s caling factor SH. In
+the solar atmosphere, the non-LTE eﬀects for N I lines are small, and our ∆ NLTE values
+are consistent within 0.01 dex with the corresponding values of Caﬀa u et al. (2009, Table
+4), if SH = 1/3 is adopted. Caﬀau et al. (2009) used slightly diﬀerent gf -values compared
+to the data of Tachiev and Froese Fischer (2002). Conversion to n ew gf -values changes
+the average abundance by less than 0.01 dex.
+The diﬀerence with Amarsi et al. (2020) for the abundances, obta ined in 1D non-
+LTE calculations with the same atmospheric model as in this work, has already been
+noted above. In self-consistent 3D non-LTE calculations, Amarsi et al. (2020) determined
+log εN(3D NLTE) = 7.77 from ﬁve lines of N I. For each line, they calculated a less
+negative non-LTE correction (∆ NLTE ≃ − 0. 01 dex) compared to ours. Therefore, the
+lower abundances in their work are mainly due to using equivalent width s and a physically
+incorrect procedure for subtracting the calculated equivalent wid ths of the CN lines from
+the observed equivalent widths of the N I + CN blends.
+PAGE 15
+– 15 –
+Table 2: List of investigated stars, their atmospheric parameters and nitrogen LTE and
+NLTE abundances.
+HD Name Teﬀ log g [Fe/H] ξt Ref Nl LTE NLTE
+[K] [kms −1] log ε log ε [N/H]
+32115 7250 4.20 0.09 2.3 M20 8 7.93(0.07) 7.84(0.07) –0.01
+47105 γ Gem 9190 3.56 0.17 1.8 R23 8 8.10(0.06) 7.84(0.06) –0.01
+48915 Sirius 9850 4.30 0.52 1.8 M20 10 8.30(0.09) 8.07(0.06) 0.22
+61421 Procyon 6615 3.89 −0.01 2.0 R16 8 8.11(0.05) 7.97(0.05) 0.12
+72660 9700 4.10 0.67 1.8 M20 6 7.57(0.05) 7.41(0.03) –0.44
+73666 40 Cnc 9380 3.78 0.24 1.8 M20 12 8.41(0.12) 8.15(0.03) 0.30
+114330 θ Vir 9600 3.61 0.31 1.4 R23 12 8.00(0.06) 7.77(0.04) –0.08
+172167 Vega 9550 3.95 −0.41 1.8 M20 9 8.09(0.07) 7.82(0.04) –0.03
+193432 ν Cap 10200 3.88 0.12 1.0 R23 9 8.19(0.08) 7.93(0.04) 0.08
+209459 21 Peg 10400 3.55 0.05 0.5 M20 15 8.14(0.13) 7.89(0.06) 0.04
+214994 o Peg 9600 3.81 0.34 2.0 R23 15 8.43(0.15) 8.24(0.09) 0.39
+Nl is number of lines. The numbers in parentheses are the statistical e rrors σ. Ref: M20
+= Mashonkina et al. (2020), R23 = Romanovskaya et al. (2023), R16 =
+Ryabchikova et al. (2016).
+Based on the molecular NH and CN lines, the same authors determined log εN(3D)
+= 7.89 (Amarsi et al., 2021), which is in line with our current results for both atomic and
+molecular lines.
+Magg et al. (2022) use two lines, N I 8629 and 8683 ˚A, with log gf = 0.006 and
+0.162 from own calculations. For the MARCS atmospheric model, they obtained the
+LTE abundance log εN = 7.88 ±0.12. Abundances from individual lines are provided only
+for the ⟨3D⟩ model (their Table A.1), obtained from the 3D model by spatial and t em-
+poral averaging. If we replace oscillator strengths of Magg et al. ( 2022) with that of
+Tachiev and Froese Fischer (2002), we obtain the identical abunda nces from both lines,
+which are lower by only 0.01 dex than log εN = 7.98 ±0.08 indicated by Magg et al. (2022)
+for the ⟨3D⟩ model. Note that, in contrast to Magg et al. (2022), Amarsi et al. ( 2020,
+Table 3) report for the same two N I lines a noticeably smaller diﬀerence between the ⟨3D⟩
+and MARCS models, 0.014 and 0.018 dex (LTE).
+4. Abundance of nitrogen in the A-stars and Procyon
+4.1. Stellar sample, observations and atmospheric paramet ers
+PAGE 16
+– 16 –
+Table 3: LTE and NLTE abundances obtained from individual lines of N I in 21 Peg.
+λ E exc log gf Transition log ε ∆ NLTE
+[˚A] [eV] LTE NLTE [dex]
+6482.70 11.76 -0.510 3 p 4D◦
+7/2 – 4 d 4F9/2 7.87 7.79 -0.08
+6644.96 11.76 -0.858 3 p 4D◦
+7/2 – 5 s 4P5/2 7.99 7.90 -0.09
+6722.61 11.84 -0.714 3 p 4P◦
+5/2 – 4 d 4D7/2 7.95 7.86 -0.09
+7442.30 10.33 -0.401 3 s 4P3/2 – 3 p 4S◦
+3/2 8.13 7.86 -0.27
+7468.31 10.34 -0.183 3 s 4P5/2 – 3 p 4S◦
+3/2 8.11 7.81 -0.30
+8184.86 10.33 -0.305 3 s 4P3/2 – 3 p 4P◦
+5/2 8.23 7.91 -0.32
+8188.01 10.33 -0.298 3 s 4P1/2 – 3 p 4P◦
+3/2 8.23 7.90 -0.33
+8567.74 10.67 -0.670 3 s 2P1/2 – 3 p 2P◦
+3/2 8.16 8.05 -0.11
+8629.24 10.69 0.077 3 s 2P3/2 – 3 p 2P◦
+3/2 8.05 7.90 -0.15
+8683.40 10.33 0.105 3 s 4P3/2 – 3 p 4D◦
+5/2 8.38 7.90 -0.48
+8686.15 10.33 -0.284 3 s 4P1/2 – 3 p 4D◦
+3/2 8.21 7.90 -0.31
+8703.25 10.33 -0.310 3 s 4P1/2 – 3 p 4D◦
+1/2 8.14 7.87 -0.27
+8711.70 10.33 -0.233 3 s 4P3/2 – 3 p 4D◦
+3/2 8.17 7.89 -0.28
+8718.84 10.34 -0.349 3 s 4P5/2 – 3 p 4D◦
+5/2 8.11 7.85 -0.26
+8728.90 10.33 -1.067 3 s 4P3/2 – 3 p 4D◦
+1/2 8.05 7.85 -0.20
+In this study, we analyse lines of N I in the stars with Teﬀ < 11 000 K, which were
+selected from our previous works (Mashonkina et al., 2020; Romano vskaya et al., 2023;
+Ryabchikova et al., 2016). We use the same atmospheric parameter s determined, for each
+star, by several methods and the same observed spectra obtain ed in a wide spectral range
+with R ≥ 60 000 on the CFHT (Canada-France-Hawaii Telescope) and VLT2 ( Very Large
+Telescope) telescopes. More details about the observed spectra and the determination of
+atmospheric parameters can be found in the cited papers. The sam ple stars and their
+atmospheric parameters, Teﬀ , log g, iron abundance [Fe/H] 3, and ξt are listed in Table 2.
+According to our previous determinations (Mashonkina et al., 2020;
+Romanovskaya et al., 2023), in ﬁve stars, the non-LTE abundance s of He, C, O,
+Na, Mg, Si, Ca, Ti, and Fe are consistent with the solar ones within 0.1 d ex. We call them
+as superﬁcially normal stars. The star HD 61421 (Procyon) is a ref erence F-type star with
+a solar chemical composition,as conﬁrmed by Adibekyan et al. (2020) . HD 48915 (Sirius),
+HD 72660, HD 114330 ( θ Vir) and HD 214994 ( o Peg) reveal enhanced metal lines, and
+they are referred to as metllic-lined (Am) stars. HD 172167 (Vega) belongs to λ Boo-type
+3for any two elements X and Y: [X/Y] = log( NX/NY)star − log(NX/NY)Sun.
+PAGE 17
+– 17 –
+Figure 6: N I 8683 and 8686 ˚A lines in Vega spectrum (dotted curve) and the best ﬁt
+(solid curve) obtained with log εN(NLTE) = 7.83 and 7.76, respectively. For comparison,
+the dashed-dotted curve shows the theoretical spectrum from LTE calculations with the
+same nitrogen abundances.
+stars, which have a deﬁciency of Mg, Al, Si, S, Mn, Fe, Ni in their atmo spheres, but
+close-to-solar abundances of volatile elements C, N, O.
+4.2. Nitrogen abundance determinations
+Due to the higher temperatures of A-type stars, more lines of N I can be measured in
+their spectra compared to the solar one. Lines used in abundance d eterminations and their
+atomic parameters are listed in Table 3. Eight of them, with λ 0 ≥ 8567 ˚A, are located in the
+wings of the hydrogen Paschen lines. For six stars from Mashonkina et al. (2020) and for
+Procyon, the LTE and non-LTE abundances from individual lines wer e determined using
+the synthetic spectrum method and the codes synthV NLTE and BinMag, similarly to
+the analysis of the solar spectrum. Quality of ﬁtting the N I 8683 and 8686 ˚A lines in
+the observed spectrum of Vega is shown in Fig. 6. For the remaining f our stars, the LTE
+abundances for individual lines were taken from Romanovskaya et a l. (2023), and the
+non-LTE abundances were obtained by adding the non-LTE correc tions calculated in this
+study for given atmospheric parameters. The LTE and non-LTE ab undances for individual
+lines are presented in Table 3 for 21 Peg and Appendix (Table A.1) for t he remaining stars.
+The average nitrogen abundances for all stars are presented in T able 2 and in Fig. 7. The
+[N/H] values were calculated using the solar abundance log ε⊙,N = 7.85, recommended by
+Lodders (2021).
+For each star, non-LTE leads to a decreased statistical abundan ce error. For several
+stars, such a decrease is signiﬁcant. For example, for HD 73666, σ = 0.12 dex in the LTE
+PAGE 18
+– 18 –
+Figure 7: Nitrogen NLTE (ﬁlled circles) and LTE (open circles) abunda nces log εN of
+the sample stars. The dotted line corresponds to the solar abunda nce recommended by
+Lodders (2021).
+case, but σ = 0.03 dex in the non-LTE calculations.
+Our results show that superﬁcially normal A stars have solar nitrog en abundances.
+Non-LTE removes the enhancements relative to the solar N abunda nce obtained in the
+LTE analysis. The excess [N/H](NLTE) = 0.30 in HD 73666 can be unders tood because
+this star is a member of the Praesepe open cluster, which is charact erised by a supersolar
+metallicity of [Fe/H] = 0.16 (Netopil et al. 2022). Mashonkina et al. (20 20) determined
+[Fe/H] = 0.24 for HD 73666. Thus, each of the normal A stars retain s in its atmosphere
+the nitrogen abundance given to it at birth.
+For Vega, the nitrogen abundance is found to be close-to-solar, a s previously deter-
+mined for C and O (Mashonkina et al., 2020). This is consistent with the present-day
+ideas about the nature of λ Boo-type stars, which accrete circumstellar gas with low abun-
+dances of the elements Mg, Al, Si, S, Mn, Fe, Ni, involved in the format ion of dust (Venn,
+Lambert, 1990), but have close-to-solar abundances of volatile e lements C, N, O.
+Four Am stars show a wide variation in nitrogen abundance, from a de ﬁciency of
+[N/H] = −0. 44 to an excess of [N/H] = 0.39. According to our determinations for a large
+number of elements (Mashonkina et al., 2020; Romanovskaya et al., 2 023; Mashonkina,
+2024), a similar and even greater scatter is observed in these star s only for Ca ([Ca/H]
+from −0. 22 to 0.41) and Sc ([Sc/H] from −0. 80 to 0.49).
+4.3. Uncertainties in non-LTE abundances
+PAGE 19
+– 19 –
+Table 4: Error estimates for NLTE calculations of the N I lines in 21 Peg.
+Changes in log εNLTE (dex)
+7442 ˚A 8683 ˚A
+LTE −∆ NLTE 0.27 0.48
+Photoionization σRBF −0. 02 −0. 03
+(hydrogenic cross-sections)
+Electron-impact excitation σCBB +0.05 +0.09
+(approximate formulas for all transitions)
+Teﬀ (–200 K) σ(Teﬀ ) −0. 03 −0. 02
+log g (+0.1) σ(log g) 0 . 01 0 . 02
+ξt (+0.4 kms −1) σ(ξt) 0 . 00 −0. 01
+Note: 0.00 means smaller than 0.01 dex, in absolute value.
+Observational errors due to the uncertainty in the continuum leve l and the choice of
+spectral range for ﬁtting the N I lines, as well the gf errors are included in the statistical
+error σ. We have the opportunity to estimate the observational error ca used by using
+diﬀerent spectra for one star. For Vega, we used the spectrum o btained by A. Korn with
+the Fibre Optics Cassegrain Echelle Spectrograph (FOCES) on the 2 .2-m telescope at the
+Calar Alto Observatory (Spain); R ≃ 40 000. Another spectrum was taken by Takeda et al.
+(2007) with the HIgh-Dispersion Echelle Spectrograph (HIDES) on the 1.88-m telescope
+at Okayama Observatory 4 (Japan); R ≃ 100 000. In the second spectrum, in the range
+7620-8809 ˚A, it was possible to measure ﬁve lines of N I. They are all located in the wings
+of the hydrogen lines of the Paschen series. The diﬀerence in abund ance between using
+FOCES and HIDES spectra is −0. 02 ± 0. 05. Thus, even for such heavily blended lines,
+the synthetic spectrum method allows us to obtain a reliable nitrogen abundance.
+Using the star 21 Peg and two lines, N I 7442 and 8683 ˚A, we estimated the uncer-
+tainties in the obtained non-LTE abundances due to uncertainties in the non-LTE method
+and atmospheric parameters. Test calculations were carried out w ith hydrogenic pho-
+toionization cross-sections instead of quantum-mechanical ones from the Opacity Project
+and with the approximate formula of van Regemorter (1962) and Ω = 1 to calculate the
+electron-impact excitation rates in all b-b transitions, and not jus t those that are missing
+in the calculations of Wang et al. (2014). For 21 Peg, Fossati et al. ( 2009) estimated the
+uncertainties in Teﬀ , log g and ξt as 200 K, 0.1 dex and 0.4 kms −1. Table 4 summarizes
+the results of our tests.
+4http://pasj.asj.or.jp/v59/n1/590122/590122-frame.html
+PAGE 20
+– 20 –
+    
+ 
+-0.6
+-0.4
+-0.2
+0.0
+NLTE-LTE
+Ts PB01 T92 RH96 LV95
+7442
+7468
+8567
+8629
+8683
+8686
+8703
+8711
+8718
+Figure 8: Non-LTE abundance corrections for individual lines of N I, calculated by diﬀerent
+authors with a model of Vega’s atmosphere. Line wavelengths in ang stroms are indicated
+at the bottom of the panel. Various symbols correspond to this wor k (Ts, ﬁlled circles),
+Przybilla and Butler (2001, PB01, ﬁlled triangles), Takeda (1992, T9 2, empty triangles),
+Rentzsch-Holm (1996, RH96, ﬁlled squares) and Lemke and Venn (1 995, L V95, empty
+squares).
+The non-LTE results are most sensitive to changes in collisional rate s, since we are
+dealing with spectral lines formed between highly excited levels, with a n energy separation
+comparable to the average kinetic energy of electrons. The use of approximate formulas
+leads to weakened non-LTE eﬀects, but the non-LTE corrections for the N I lines still
+remain large in absolute value.
+4.4. Comparisons with literature
+Of all the sample stars, Vega has largest set of nitrogen non-LTE a bundance deter-
+minations in the literature. In all the works, very similar Teﬀ from 9500 to 9550 K and
+log g from 3.9 to 4.0 were employed, so the diﬀerences in results cannot be explained
+by diﬀerences in atmospheric parameters. Using the equivalent widt hs, even for the
+N I lines in the hydrogen line wings, Takeda (1992) and Rentzsch-Holm (1 996) obtained
+log εN ∼ 7.5 (solar metallicity model) and log εN = 7.76 (7.67 after applying the NIST
+gf -values). Lemke and Venn (1995) and Przybilla and Butler (2001) us ed the synthetic
+spectrum method and determined log εN ∼ 7.6 and log εN = 7.67. The use of the NIST
+gf -values would change the average abundances in two latter papers by less than 0.01 dex.
+The non-LTE corrections for individual lines reported in diﬀerent pa pers are compared in
+Fig. 8.
+Takeda (1992) and Lemke and Venn (1995) note the sensitivity of t heir results to vari-
+ations in the background opacity around Lyman α . In our detail code, opacity is calcu-
+PAGE 21
+– 21 –
+lated taking into account the quasi-molecular Lyman α satellites following Allard et al.
+(1998). This may explain the weaker non-LTE eﬀects for N I and the higher obtained
+nitrogen abundances in our work compared to Takeda (1992), Lem ke and Venn (1995),
+Rentzsch-Holm (1996).
+We see substantial discrepancies with the results of Przybilla and Bu tler (2001). They
+are not only due to diﬀerences in the non-LTE methods. Przybilla and Butler (2001)
+calculated systematically less negative non-LTE corrections than o urs, by 0.1 dex, on
+average, but obtained a lower nitrogen abundance, by 0.15 dex. We deduce from this that
+the LTE abundance in their work is substantially lower than ours. This is surprising since
+we use the same FOCES spectrum, the same atmospheric paramete rs and close together
+gf -values.
+For seven stars in common with our sample, the non-LTE abundance s were determined
+by Takeda et al. (2018) using the N I 7468 ˚A line. For Procyon, our results are in line
+with that of Takeda et al. (2018). For ﬁve A-type stars, with Teﬀ and log g, which agree
+with our values within 150 K and 0.1 dex, Takeda et al. (2018) determin ed systematically
+lower NLTE abundances compared to ours, by 0.08–0.12 dex. This ca n be due to applying
+the non-LTE method of Takeda (1992) that overestimates the no n-LTE eﬀects for N I, as
+seen in Fig. 8. For o Peg, the N abundance in Takeda et al. (2018) is lower than ours, by
+0.26 dex, probably, due to the lower log g in their work.
+We have eight stars in common with Romanovskaya et al. (2023), who used the
+non-LTE method developed by Lyubimkov et al. (2011). Compared t o our results, Ro-
+manovskaya et al. (2023) calculated stronger non-LTE eﬀects on the N I lines in the stars
+with Teﬀ > 9000 K. The diﬀerence between the two papers depends mainly on st ellar Teﬀ .
+For example, with the model 9190/3.6, Romanovskaya et al. (2023) calculated more neg-
+ative non-LTE abundance corrections than ours, by 0.05 dex and 0 .16 dex for N I 7442
+and 8683 ˚A, respectively. While in the 10200/3.9 model, the corresponding valu es are
+0.20 dex and 0.28 dex. Romanovskaya et al. (2023) obtained the lowe r average non-LTE
+abundances compared to our results, by 0.09–0.36 dex for diﬀeren t stars, and a nitrogen
+deﬁciency of [N/H] = −0. 11 to −0. 32 for superﬁcially normal A stars, in which the abun-
+dances of the elements from He to Fe are close to the solar ones. It is diﬃcult to imagine
+a mechanism that leads to anomalous nitrogen abundance in a star’s a tmosphere without
+aﬀecting the abundances of other elements. An argument in favor of our results is that for
+PAGE 22
+– 22 –
+these same stars the nitrogen non-LTE abundances appear to be solar.
+5. Conclusions
+A new model of the nitrogen atom has been constructed, which inclu des energy levels
+of N I from laboratory measurements, as presented in NIST, and also en ergy levels pre-
+dicted by R. Kurucz in the atomic structure calculations for N I. Radiative and collisional
+rates for b-b and b-f transitions are calculated using the most up- to-date available so far
+atomic data on photoionization cross-sections, electron-impact e xcitation cross-sections,
+and rate coeﬃcients for inelastic processes in collisions with hydroge n atoms.
+Non-LTE calculations for N I were carried out with the classical MARCS solar model
+atmosphere. Non-LTE leads to strengthened lines of N I and negative non-LTE abundance
+corrections, but the eﬀects are small, that is, ∆ NLTE does not exceed 0.05 dex, in absolute
+value. Using the synthetic spectrum method, we derived the solar n on-LTE abundance
+log εN(1D NLTE) = 7.92 ±0.03 from ﬁve atomic lines. Applying the 3D corrections for
+individual lines from calculations of Amarsi et al. (2020), we obtained log εN(NLTE+3D)
+= 7.88 ±0.03. This value is consistent with log εN(3D) = 7.89, obtained by Amarsi et
+al. (2021) from the NH and CN molecular lines, and with log εN = 7.91, obtained by
+Ryabchikova et al. (2022) from the CN lines and corrected for 3D eﬀ ects in accordance
+with Amarsi et al. (2021). Our results are consistent within the err or bars with the solar
+abundance log ε⊙,N = 7. 85 ± 0. 12, recommended by Lodders (2021).
+Non-LTE calculations were performed for 11 unevolved F-A type st ars with reliably
+determined atmospheric parameters. It is shown that negative no n-LTE abundance correc-
+tions increase in absolute value with increasing Teﬀ , so that ∆ NLTE reaches −0. 48 dex for
+N I 8683 ˚A in the model 10400/3.55. The nitrogen non-LTE abundances were determined
+based on the observed high-quality spectra. For superﬁcially norm al A stars, non-LTE
+removes the excess relative to the solar nitrogen abundance obta ined in LTE analysis. As
+for elements from He to Fe, the nitrogen non-LTE abundance of th ese stars diﬀers from
+the solar abundance by no more than 0.1 dex. A solar abundance was also obtained for
+nitrogen in Vega, a star of the λ Boo type. Thus, we have expanded the list of elements in
+a detailed analysis of the chemical composition of A-type stars – a pr oject whose results
+were presented earlier by Mashonkina et al. (2020), Sitnova et al. ( 2022), Romanovskaya
+et al. (2023), Mashonkina (2024). Four Am stars show a variation in nitrogen abundance,
+from a deﬁciency of [N/H] = −0. 44 to an excess of [N/H] = 0.39.
+PAGE 23
+– 23 –
+If we do not take into account HD 73666, which was born in the open c luster with
+supersolar metallicity, but add Vega to the rest of the superﬁcially n ormal A stars, for
+which no deviation in the nitrogen abundance is expected from its abu ndance in the
+matter from which the star was formed, then the average for ﬁve stars amounts to log εN =
+7.86±0.04. Nieva and Przybilla (2012) proposed the cosmic nitrogen abund ance standard
+log εN = 7. 79 ± 0. 04, as determined from lines of N II in a sample of early B-type stars. For
+comparison, they cited the abundance obtained from analysis of th e interstellar UV lines
+of N I, log εN = 7 . 79 ± 0. 03 (Meyer et al., 1997). The diﬀerence in N abundance between
+the Sun, A–B stars and the interstellar gas is 0.09 dex or ∼ 2σ, and this is an evidence for
+the reliability of modern methods for studying the chemical composit ion of the galactic
+matter.
+LM acknowledges the Russian Science Foundation (grant 23-12-00 134) for a partial
+support of this study (Sects. 2 and 3.2). This study made use of th e NIST, V ALD and
+ADS5 databases.
+5http://adsabs.harvard.edu/abstract service.html
+PAGE 24
+– 24 –
+References
+V. Adibekyan, S. G. Sousa, N. C. Santos, P. Figueira, C. Allende Prie to, E. Delgado
+Mena, J. I. Gonz´ alez Hern´ andez, P. de Laverny, A. Recio-Blanco, T. L. Campante, M.
+Tsantaki, A. A. Hakobyan, M. Oshagh, J. P. Faria, M. Bergemann, G. Israelian, T.
+Boulet, Astron. Astrophys. 642, A182 (2020).
+S. A. Alexeeva and L. I. Mashonkina, Mon. Not. Roy. Astron. Soc. 453, 1619 (2015)
+N. F. Allard, I. Drira, M. Gerbaldi, J. Kielkopf, A. Spielﬁedel, Astron. Astrophys. 335,
+1124 (1998)
+A. M. Amarsi and P. S. Barklem, Astron. Astrophys. 625, A78 (2019).
+A. M. Amarsi, N. Grevesse, J. Grumer, M. Asplund, P. S. Barklem, R . Collet, Astron.
+Astrophys. 636, A120 (2020).
+A. M. Amarsi, N. Grevesse, M. Asplund, R. Collet, Astron. Astroph ys. 656, A113 (2021).
+E. Anders and N. Grevesse, Geochimica et Cosmochimica Acta 53 , 197 (1989).
+M. Asplund, A. M. Amarsi, N. Grevesse, Astron. Astrophys. 653, A141 (2021).
+S. Bagnulo, E. Jehin, C. Ledoux, R. Cabanac, C. Melo, R. Gilmozzi, ES O Paranal Science
+Operations Team, ESO Messenger 114, 10 (2003).
+E. Bi´ emont, C. Froese Fischer, M. Godefroid, N. Vaeck, A. Hibbe rt, 3rd International
+Colloquium of the Royal Netherlands Academy of Arts and Sciences, 59 (1990)
+J. S. A. Brooke, R. S. Ram, C. M. Western, G. Li, D. W. Schwenke, P . F. Bernath,
+Astrophys. J. Suppl. Ser. 210, 23 (2014).
+K. Butler, Ph.D. Thesis, University of London (1984).
+E. Caﬀau, E. Maiorca, P. Bonifacio, R. Faraggiana, M. Steﬀen, H.-G . Ludwig, I. Kamp,
+M. Busso, Astron. Astrophys. 498, 877 (2009).
+W. Cunto, C. Mendoza, F. Ochsenbein, C. J. Zeippen, Astron. Ast rophys. 275, L5 (1993).
+L. Delbouille, G. Roland, L. Neven, Atlas photometrique du spectre s olaire de [lambda]
+3000 a [lambda] 10000 (Liege: Universite de Liege, Institut d’Astrop hysique) (1973)
+PAGE 25
+– 25 –
+H. W. Drawin, Z. Physik 225, 483 (1969)
+L. Fossati, T. Ryabchikova, S. Bagnulo, E. Alecian, J. Grunhut, O. Kochukhov, G. Wade,
+Astron. Astrophys. 503, 945 (2009).
+J. Giddings, Ph.D. Thesis, University of London (1981).
+D. F. Gray, Astrophys. J. 218, 530 (1977).
+B. Gustafsson, B. Edvardsson, K. Eriksson, U.G. Jorgensen, A. Nordlund, and B. Plez,
+Astron. Astrophys. 486, 951 (2008).
+H. Holweger and E. A. Mueller, Solar Phys. 39, 19 (1974).
+O. Kochukhov, Astrophysics Source Code Library, record ascl:18 05.015 (2018)
+A. Kramida, Y. Ralchenko, J. Reader, NIST ASD Team, NIST Atomic S pectra Database
+(version 5.7.1). Gaithersburg MD, USA (2019).
+R. Kurucz, ATLAS-9 model atmospheres. CD-ROM, Harvard-Smit hsonian Center for As-
+trophysics (1993).
+R. Kurucz, Kurucz on-line database of observed and predicted at omic transitions,
+http://kurucz.harvard.edu/atoms/0700/, (2014).
+R. L. Kurucz, I, Furenlid, J. Brault, and L. Testerman, Solar Flux A tlas from 296 to 1300
+nm Nat. Solar Obs., Sunspot, New Mexico (1984).
+M. Lemke and K. A. Venn, Astron. Astrophys. 309, 558 (1996).
+K. Lodders, Space Sci. Rev. 217, id.44 (2021).
+L.S. Lyubimkov, D.L. Lambert, S.A. Korotin, D.B. Poklad, T.M. Rachko vskaya, S.I. Ros-
+topchin, Mon. Not. Roy. Astron. Soc. 410, 1774 (2011).
+E. Magg, M. Bergemann, A. Serenelli, M. Bautista, B. Plez, U. Heiter , J. M. Gerber,
+H.-G. Ludwig, S. Basu, J. W. Ferguson, H. Carvajal Gallego, S. Gam rath, P. Palmeri,
+P. Quinet, Astron. Astrophys. 661, A140 (2022).
+L. Mashonkina, T. Ryabchikova, S. Alexeeva, T. Sitnova, O. Zatsa rinny, Mon. Not. Roy.
+Astron. Soc. 499, 3706 (2020).
+PAGE 26
+– 26 –
+L. Mashonkina, Mon. Not. Roy. Astron. Soc. 527, 8234 (2024).
+D. M. Meyer, J. A. Cardelli, U. J. Soﬁa, Astrophys. J. 490, L103 (1997).
+H. Neckel and D. Labs, Sol. Phys. 90, 205 (1984).
+M. Netopil, ˙I. A. Oralhan, H. C ¸ akmak, R. Michel, Y. Karata¸ s, Mon. Not. Roy. Astron.
+Soc. 509, 421 (2022).
+M.-F. Nieva and N. Przybilla, Astron. Astrophys. 539, A143 (2012).
+Yu. V. Pakhomov, T. A. Ryabchikova, N. E. Piskunov, Astron. Rep . 63, 1010 (2019).
+N. Przybilla and K. Butler, Astron. Astrophys. 379, 955 (2001).
+N. Przybilla, M.-F. Nieva, K. Butler, Journal of Physics Conference Series, 328, 012015
+(2011).
+I. Rentzsch-Holm, Astron. Astrophys. 305, 275 (1996).
+A. Romanovskaya, T. Ryabchikova, Yu. Pakhomov, S. Korotin, T. Sitnova, Mon. Not.
+Roy. Astron. Soc. 525, 3386 (2023).
+T. Ryabchikova, N. Piskunov, R. L. Kurucz, H. C. Stempels, U. Heit er, Y. Pakhomov, P.
+S. Barklem, Phys. Scr., 90, 054005 (2015).
+T. Ryabchikova, N. Piskunov, Yu. Pakhomov, V. Tsymbal, A. Titare nko, T. Sitnova, S.
+Alexeeva, L. Fossati and L. Mashonkina, Mon. Not. Roy. Astron. Soc. 456, 1221 (2016).
+T. Ryabchikova, N. Piskunov, Y. Pakhomov, Atoms 10, 103 (2022).
+M. J. Seaton, in Atomic and Molecular Processes (New York: Academ ic Press) (1962).
+M. J. Seaton, Journal of Physics B: Atomic Molecular Physics 20, 6363 (1987).
+D. Shulyak, V. Tsymbal, T. Ryabchikova, C. St¨ utz, W. W. Weiss, Astron. Astrophys. 428,
+993 (2004).
+T. M. Sitnova and L. I. Mashonkina, Astron. Lett. 44, 411 (2018).
+T. M. Sitnova, S. A. Yakovleva, A. K. Belyaev, L. I. Mashonkina, Mo n. Not. Roy. Astron.
+Soc. 515, 1510 (2022).
+PAGE 27
+– 27 –
+G. I. Tachiev and C. Froese Fischer, Astron. Astrophys. 385, 716 (2002).
+Y. Takeda, Publ. Astron. Soc. Japan 44, 649 (1992).
+Y. Takeda, S. Kawanomoto, N. Ohishi, Publ. Astron. Soc. Japan 59, 245 (2007).
+Y. Takeda, S. Kawanomoto, N. Ohishi, D.-II Kang, B.-C. Lee, K.-M. K im, I. Han, Publ.
+Astron. Soc. Japan 70, 91 (2018).
+V. Tsymbal, T. Ryabchikova, T. Sitnova, in Kudryavtsev D.O., Roman yuk I.I., Yakunin
+I.A., eds, Astron. Soc. Paciﬁc Conf. Ser. 518. Physics of Magnetic stars, San Francisco:
+Astronomical Society of the Paciﬁc, 247 (2019)
+H. van Regemorter, Astrophys. J., 136, 906 (1962).
+K.A. Venn and D.L. Lambert, Astrophys. J. 363, 234 (1990).
+L. Wallace, K. H. Hinkle, W. C. Livingston, S. P. Davis, Astrophys. J. Suppl. Ser. 195, 6
+(2011).
+Y. Wang, O. Zatsarinny, K. Bartschat, Phys. Rev. A89, 062714 (2014).
+PAGE 28
+– 28 –
+Table 5: Appendix A1: LTE and NLTE abundances from individual lines o f N I in the
+sample stars.
+λ log gf log ε ∆ NLTE λ lg gf log ε ∆ NLTE
+[˚A] LTE NLTE [dex] [˚A] LTE NLTE [dex]
+Procyon Sirius
+7442.28 -0.401 8.09 7.99 -0.11 7442.30 -0.401 8.21 8.03 -0.18
+8184.86 -0.305 8.13 8.01 -0.12 7468.31 -0.183 8.17 7.96 -0.21
+8188.01 -0.298 8.14 8.01 -0.12 8184.86 -0.305 8.25 8.03 -0.22
+8216.34 0.138 8.14 7.97 -0.17 8567.74 -0.670 8.27 8.16 -0.11
+8683.40 0.105 8.15 7.98 -0.17 8629.24 0.077 8.32 8.13 -0.19
+8703.25 -0.310 8.03 7.91 -0.12 8683.40 0.105 8.46 8.06 -0.40
+8711.70 -0.233 8.02 7.89 -0.13 8686.15 -0.284 8.32 8.08 -0.24
+8718.84 -0.349 8.15 8.02 -0.13 8703.25 -0.310 8.31 8.09 -0.22
+γ Gem 8711.70 -0.233 8.32 8.08 -0.24
+7442.30 -0.401 8.03 7.80 -0.23 8718.84 -0.349 8.26 8.05 -0.21
+7468.31 -0.183 8.03 7.76 -0.27 θ Vir
+8184.86 -0.305 8.20 7.94 -0.26 7442.30 -0.401 7.92 7.70 -0.22
+8629.24 0.077 8.06 7.82 -0.24 7468.31 -0.183 7.95 7.70 -0.25
+8683.40 0.105 8.17 7.81 -0.36 8184.86 -0.305 8.00 7.75 -0.25
+8686.15 -0.284 8.12 7.86 -0.26 8188.01 -0.298 8.05 7.80 -0.25
+8703.25 -0.310 8.09 7.87 -0.22 8567.74 -0.670 7.98 7.81 -0.17
+8711.70 -0.233 8.10 7.86 -0.24 8629.24 0.077 7.97 7.75 -0.22
+HD 32115 8683.40 0.105 8.14 7.82 -0.32
+6644.96 -0.858 7.94 7.83 -0.11 8686.15 -0.284 8.06 7.82 -0.24
+7442.30 -0.401 7.93 7.85 -0.08 8703.25 -0.310 7.97 7.76 -0.21
+7468.31 -0.183 7.85 7.84 -0.01 8711.70 -0.233 7.97 7.73 -0.24
+8629.24 0.077 7.92 7.83 -0.09 8718.84 -0.349 7.98 7.76 -0.22
+8683.40 0.105 7.87 7.73 -0.14 8728.90 -1.067 7.98 7.80 -0.18
+8703.25 -0.310 7.99 7.89 -0.10 o Peg
+8711.70 -0.233 7.86 7.76 -0.10 6482.70 -0.510 8.06 8.00 -0.06
+8718.84 -0.349 8.04 7.94 -0.10 6644.96 -0.858 8.31 8.25 -0.06
+HD 73666 6722.61 -0.714 8.16 8.10 -0.06
+6482.70 -0.510 8.23 8.19 -0.04 7442.30 -0.401 8.40 8.18 -0.22
+7442.30 -0.401 8.34 8.11 -0.23 7468.31 -0.183 8.41 8.17 -0.24
+7468.31 -0.183 8.35 8.08 -0.27 8184.86 -0.305 8.51 8.29 -0.22
+8184.86 -0.305 8.40 8.13 -0.27 8188.01 -0.298 8.55 8.33 -0.22
+8567.74 -0.670 8.37 8.19 -0.18 8567.74 -0.670 8.40 8.27 -0.13
+8629.24 0.077 8.43 8.13 -0.30 8629.24 0.077 8.39 8.17 -0.22
+8683.40 0.105 8.65 8.16 -0.49 8683.40 0.105 8.70 8.39 -0.31
+8686.15 -0.284 8.44 8.15 -0.29 8686.15 -0.284 8.51 8.30 -0.21
+8703.25 -0.310 8.41 8.16 -0.25 8703.25 -0.310 8.44 8.25 -0.19
+8711.70 -0.233 8.40 8.14 -0.26 8711.70 -0.233 8.49 8.30 -0.19
+8718.84 -0.349 8.38 8.14 -0.24 8718.84 -0.349 8.39 8.21 -0.18
+8728.90 -1.067 8.33 8.17 -0.16 8728.90 -1.067 8.30 8.18 -0.12
+PAGE 29
+– 29 –
+Table 6: Appendix A1, continued.
+λ lg gf log ε ∆ NLTE λ lg gf log ε ∆ NLTE
+[˚A] LTE NLTE [dex] [˚A] LTE NLTE [dex]
+ν Cap Vega
+7442.30 -0.401 8.09 7.84 -0.25 7442.30 -0.401 8.01 7.79 -0.22
+7468.31 -0.183 8.16 7.87 -0.29 7468.31 -0.183 8.06 7.80 -0.26
+8567.74 -0.670 8.13 7.97 -0.16 8567.74 -0.670 8.13 7.90 -0.23
+8629.24 0.077 8.17 7.96 -0.21 8629.24 0.077 8.14 7.83 -0.31
+8683.40 0.105 8.34 7.97 -0.37 8683.40 0.105 8.22 7.83 -0.39
+8686.15 -0.284 8.21 7.94 -0.27 8686.15 -0.284 8.01 7.76 -0.25
+8703.25 -0.310 8.18 7.94 -0.24 8703.25 -0.310 8.06 7.83 -0.23
+8711.70 -0.233 8.22 7.97 -0.25 8711.70 -0.233 8.07 7.82 -0.25
+8718.84 -0.349 8.16 7.92 -0.24 8718.84 -0.349 8.03 7.81 -0.22
+HD 72660
+8629.24 0.077 7.50 7.36 -0.14
+8683.40 0.105 7.62 7.41 -0.21
+8686.15 -0.284 7.62 7.45 -0.17
+8703.25 -0.310 7.55 7.41 -0.14
+8711.70 -0.233 7.55 7.40 -0.15
+8718.84 -0.349 7.57 7.42 -0.15

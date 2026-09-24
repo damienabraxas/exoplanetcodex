@@ -1,5 +1,11 @@
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-09-15 — pending working branch
+
+- **RYA-1220** — nitrogen evidence audit and measured profile probes; gate remains open for full reproduction and covariance. Not merged.
+- **RYA-1220 update (2026-09-23)** — MARCS 2012 acquired on Sirius; native PySME/SMElib repaired by resetting global departure coefficients before LTE syntheses. Na/K controls pass (−0.113/−0.304 dex); native solar N 7468/8216/8683 corrections are −0.0096/−0.0128/−0.0136 dex (median −0.0128). 7442/8629 canonical long-format records and near-UV molecular NH/CN propagation remain open; details in `docs/science/RYA-1220-ticket-update-2026-09-23.md`.
+
+> **Current as of `main` f3688d5** (2026-09-03, RYA-1185) — the landings below were rebuilt from `git log --merges --first-parent origin/main`, not from the previous text of this file. The 2026-08-31 and 2026-09-03 blocks were missing entirely: this log had stopped at 2026-08-30 while sixteen PRs merged.
 > **Current as of `main` 36d5c3d5** (2026-09-17, RYA-1184) — the landings below were rebuilt from `git log --merges --first-parent origin/main`, not from the previous text of this file. The 2026-08-31 and 2026-09-03 blocks were missing entirely: this log had stopped at 2026-08-30 while sixteen PRs merged.
 
 **Read this second, after `LEDGERS.md`, for a quick "what happened recently" catch-up.**
@@ -13,6 +19,10 @@ in the same PR. Append-only (never rewrite history; if a landing was wrong or
 superseded, add a new line noting the correction, don't edit the original).
 
 **Format:** `- **RYA-XXX** — one-sentence summary; what it unblocks`. Keep it
+
+## 2026-09-16 — pending working branch
+
+- **RYA-1220** — resumed under merged RYA-587; mapped historical N products, measured CN C/O/ξ responses, and isolated the fifth N I line.
 under ~140 chars per line. If you need more, it belongs in the register, not here.
 
 ---

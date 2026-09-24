@@ -1,0 +1,850 @@
+PAGE 1
+arXiv:2209.10219v1  [astro-ph.GA]  21 Sep 2022
+Astronomy & Astrophysics manuscript no. nhrich-v10 ©ESO 2022
+September 22, 2022
+Detailed analysis of a sample of ﬁeld metal-poor N-rich dwar fs. *
+M. Spite1, F. Spite1 † , E. Caﬀau1, P . Bonifacio1, and P . François1
+GEPI, Observatoire de Paris, PSL Research University, CNRS , Place Jules Janssen, 92190 Meudon, France
+September 22, 2022
+ABSTRACT
+Aims. The aim of this work is to compare the detailed chemical compo sition of the ﬁeld N-rich dwarf stars to the second generatio n
+stars of globular clusters (GC) in order to investigate the h ypothesis that they originated in GCs.
+Methods. We have measured the abundance of 23 elements (from Li to Eu) i n a sample of six metal-poor N-rich stars (three of them
+pointed out for the ﬁrst time) and we have compared their chem ical composition to, (i) the chemical composition observed in a sample
+of classical metal-poor stars, and (ii) the abundances obse rved in the second generation stars of GCs.
+Results. In metal-poor N-rich stars C and O are slightly deﬁcient but t he scatter of [(C +N+O)/Fe] is very small, a strong indication
+that the N enrichment is the result of a pollution by CNO processed material. The N-rich stars of our sample, like the second generation
+stars in the GCs, show an excess of Na and sometimes of Al, as ex pected if the material from which these stars were formed, ha s been
+polluted by the ejecta of massive AGB stars. For the ﬁrst time we have been able to establish an anti-correlation Na-O in ﬁe ld stars
+like the one observed in NGC6752. The N-rich star HD 74000 has a rather low [Eu /Ba] ratio for its metallicity. Such an anomaly is
+also observed in several second generation stars of M15.
+Conclusions. This analysis supports the hypothesis that the N-rich stars today observed in the ﬁeld, were born as second generation
+stars in GCs.
+Key words. Stars: Abundances – Galaxy: abundances – Galaxy: halo – Glob ular cluters
+1. Introduction
+It is well known that most globular clusters (GC) host multip le
+populations identiﬁed by their di ﬀerent chemical compositions.
+Compared to the ﬁrst population, the second population is
+enriched in He, N and Na and depleted in C and O (Bastian &
+Lardo 2018; Mucciarelli et al. 2019; Gratton et al. 2019).
+To date, there is no complete consensus on the origin of these
+multiple populations. Generally the second population sta rs is
+supposed to be the result of a pollution by the ejecta of ﬁrst
+generation stars (see Bastian & Lardo 2018): intermediate m ass
+asymptotic giant branch (AGB) stars (3 < M < 9M⊙), fast rotat-
+ing massive stars (FRMS) with M > 15 M⊙ (Maeder & Meynet
+2006), and even very massive stars (VMS) with M ∼ 104M⊙
+(Denissenkov & Hartwick 2014).
+Recently it has been proposed by Gieles & Charbonnel (2020)
+that a very massive star with a mass M > 1000 M⊙ forms via
+stellar collisions, during GC formation, and pollutes the i ntra-
+cluster medium.
+* Based on observations collected at the European Organisati on for
+Astronomical Research in the Southern Hemisphere (Archive s of pro-
+grammes 090.B-0504(A) PI Chaname; 095.D-0504(A) PI Melend ez;
+076.B-0166(A) PI Pasquini; 067.D-0086(A) PI Gehren; 071.B-0529(A)
+PI Silva; 065.L-0507(A) PI Primas), and collected at the W. M . Keck
+Observatory, archive programme G401H, PI Melendez. One sta r was
+also observed at ESO with the spectrograph ESPRESSO, progra mme
+107.22RU.001 PI Spite, and two stars were observed at the “Ob serva-
+toire de Haute Provence” (Archives of programme 10A.PNPS.H ALB,
+PI Halbwachs) and at the Narval spectrograph of the “Observa toire du
+Pic du Midi”, programme L172N04, PI Spite.
+† deceased on 2021.07.21 https://www.observatoiredeparis.
+psl.eu/disparition-de-francois-spite.html?lang=en
+Precise determinations of the chemical composition of the ﬁ rst
+and second populations have been obtained (see for example:
+Pasquini et al. 2005, 2007, 2008; Lind et al. 2009), and anti c or-
+relation between the abundance of N, Na and C, O has been
+found to be nearly universal among old and massive clusters
+(Gratton et al. 2019).
+Thanks to the Gaia parallaxes and proper motions we have
+now direct evidence of stellar streams formed by stars lost b y
+GCs (Ibata et al. 2021). Some GCs show also extended tidal tails.
+In some cases, like C-19, the narrow metallicity dispersion and
+sizeable dispersion in Na abundances implies that a stream r e-
+sults from the disruption of a GC, although the cluster, as su ch,
+no longer exists (Martin et al. 2022; Y uan et al. 2022). Prior to
+the availability of the Gaia data, the identiﬁcation of star s lost
+from GCs had to rely on their chemical properties.
+Large systematic studies were undertaken to ﬁnd ﬁeld stars,
+presenting the same chemical anomalies as those observed in
+globular clusters (see e.g. Martell et al. 2011; Ramírez et a l.
+2012). More recently N-rich metal-poor ﬁeld giants have bee n
+discovered in the Galactic bulge thanks to the large spectroscopic
+survey APOGEE (Schiavon et al. 2017) and also in the ﬁeld of
+our Galaxy with LAMOST (Tang et al. 2020). Their analysis
+suggests that the origin of these stars is indeed related to t he
+disintegration of GCs. However such an origin is discussed a nd
+Bekki (2019) suggests that N-rich stars in the Bulge and in th e
+halo can be formed from the destruction of high-density building
+blocks where nitrogen-rich stars are formed from an interst ellar
+medium heavily polluted by AGB ejecta.
+In the Galaxy, at least, three classes of metal-poor N-rich
+stars may be found.
+i– The metal-poor giant stars after the bump undergo a deep
+mixing which brings the CNO processed material to the surfac e
+Article number, page 1 of 12
+PAGE 2
+A&A proofs: manuscript no. nhrich-v10
+(Gratton et al. 2000; Spite et al. 2005, 2006) and the stars ap pear
+to be C-poor and N-rich.
+ii– At low metallicity, many stars, dwarfs or giants, are N-r ich
+and C-rich. Following Lucatello et al. (2006), more than 20% of
+the metal-poor stars with [Fe / H] ≤ − 2. 0 belong to this class of
+Carbon enhanced metal-poor (CEMP) stars. The peculiar chem -
+ical composition of these stars, rich in C and in N, and often also
+in neutron-captured elements, is generally explained by po llu-
+tion by di ﬀerent kinds of AGB stars during the life of the ob-
+served stars or by a formation from a material ejected by ro-
+tating massive stars (e.g. Masseron et al. 2010; Hansen et al .
+2016b,a; Choplin et al. 2016, 2017). Another possibility, invoked
+in particular, to explain the CEMP stars not enriched in neut ron-
+capture elements (CEMP-no), is an enrichment of the cloud th at
+formed the star by faint supernovae providing only carbon an d
+the lighter elements (Ishigaki et al. 2014; Bonifacio et al. 2015).
+iii– A third class of stars, the one we are interested in, in th e
+present paper, contains N-rich stars, with a normal C abunda nce.
+This type of stars seems to exist among ﬁeld dwarf and giant
+stars. It is of particular interest to detect dwarf stars bel onging to
+this class, since their atmosphere has not undergone any mix ing
+with CNO processed material of the deep layers. It is then mor e
+secure to compare their chemical composition to the chemica l
+composition of dwarfs in GCs.
+In metal-poor giant stars, the nitrogen abundance can be
+measured in the visible or in the red from the CN bands (Schi-
+avon et al. 2017; Tang et al. 2020) but in metal-poor dwarfs th e
+lines of these bands are too weak and only the vibrational ban d
+of NH in the near UV (336 nm) can be used (see e. g. Israelian et
+al. 2004). As a consequence, very few N-rich metal-poor dwar fs
+have been detected so far. As far as we know, only ﬁve metal-
+poor dwarfs with [Fe / H] ≤ − 1. 0, have been reported to have a
+ratio [N/Fe]>0.6: HD 25329, HD 74000, HD 97916, HD 160617,
+and HD 166913 by in particular Harmer & Pagel (1973), Schus-
+ter (1981), Laird (1985), Carbon et al. (1986), (see also Spi te &
+Spite 1986).
+In the present paper we analyse in detail these ﬁve stars sus-
+pected (or already known) to be N-rich, and we report the exis -
+tence of three more metal poor dwarfs strongly enriched in ni -
+trogen ([N/ Fe] ≥ 1. 0). In most of these stars we could measure
+the abundance of the elements extended from Li to Eu, and com-
+pare the abundance pattern of the elements with the abundanc e
+pattern of normal metal-poor stars and of the second generat ion
+stars in GCs.
+2. Star sample and reduction
+Near UV spectra of metal-poor dwarf stars around 336 nm,
+have been retrieved from the ESO-VLT-UVES and Keck-HIRES
+archives. These spectra have been often obtained in the aim o f
+studying the behaviour of Be in these stars and the parame-
+ters of their model are, at least in a ﬁrst approximation, alr eady
+known. Among these stars we visually selected three new dwarfs
+or turno ﬀstars presenting a very strong NH band: G24-3, G53-
+41, G90-3. Following Ramírez et al. (2012), G53-41 is oxygen -
+poor and Na-rich, key signatures of the abundance anomalies
+observed in GCs, and thus it was already suspected to be born i n
+a GC.
+Finally a sample of eight metal-poor dwarfs has been selecte d,
+the ﬁve stars already known or suspected to be N-rich and thre e
+new stars selected for their strong NH band in high resolutio n
+spectra.
+The characteristics of all the spectra used in this analysis are
+Fig. 1. Position of G53-41 (black dot) in a G vs BP-RP diagram, com-
+pared to PARSEC isochrones computed for 10, 12 and 14 Gyr.
+given in Table 1. All these spectra have a resolving power R ≥
+40000 and the S /N in the region of the NH band larger than 100.
+2.1. Model Parameters and ages
+We took advantage of the information provided by the Gaia DR2
+(Gaia Collaboration et al. 2018; Arenou et al. 2018) to deriv e
+new stellar parameters: eﬀective temperature and surface gravity.
+We used the distance-dependent reddening provided by Stili sm
+* (Lallement et al. 2019), to deduce the absolute magnitude G 0
+and the colours (BP − RP)0 of the stars. We then compared these
+values to P ARSEC isochrones† (Bressan et al. 2012; Marigo et
+al. 2017) and we derived Teﬀ, log g and the age of the star. The
+data are given in Table 2, and an example of the isochrones is
+shown in Fig. 1. The distance of the stars has been computed by
+a simple inversion of the parallax after correcting by the ze ro-
+point o ﬀset of 0.03 (Lindegren et al. 2018). Since the stars are
+close, the error on the distance of the star is always less than 3 pc,
+the error on G 0 less than 0.06, and the error on (BP − RP)0 less
+than 0.03. We ﬁnally estimate that the error on Teﬀ is less than
+100K and the error on log g less than 0.2 dex. The age of all the
+stars is between 12 and 14 Gyr (Table 2), with two exceptions:
+i–We could not measure the age of HD 25329 because it is
+a rather cool star and still on the main sequence, but from a
+Bayesian estimation Pace (2013) reports for this star, know n to
+have a strong chromospheric activity, an age of about 5 Gyr,
+surprising for a star known to have a metallicity lower than
+[Fe/H]=–1.7.
+ii–The age of HD 97916 ([Fe /H]=–0.75) seems also close to
+5 Gyr (Table 2).
+These two stars will be discussed hereafter.
+2.2. Chemical composition of the stars
+We carried out a classical LTE analysis of the stars using
+MARCS model atmospheres (Gustafsson et al. 1975, 2003; Plez
+2008) and the turbospectrum spectral synthesis code (Alvarez
+& Plez 1998; Plez 2012). The microturbulence velocity was de -
+*https://stilism.obspm.fr
+† http://stev.oapd.inaf.it/cgi-bin/cmd
+Article number, page 2 of 12
+PAGE 3
+Spite M. et al.: Metal-poor N-rich dwarf stars
+Table 1. Spectral ranges ( in nm) of the spectra used in this study. The UVES spectrograph is installed at the ESO-VLT, HARPS at the E SO 3.6m
+telescope, FEROS at the 2.2m ESO telescope, SOPHIE at the 1.9 3m telescope of the “Observatoire de Haute Provence” (OHP), HIRES at the 10m
+Keck telescope and ESPRESSO at the incoherent combined Coud é facility of the ESO-VLT.
+UVES-B390 or HIRES HIRES HIRES
+Star UVES-B346 UVES-B437 UVES-R580 UVES-R860 HARPS FEROS S OPHIE CCD1 CCD2 CCD3 ESPRESSO
+HD 25329 - - - - - - - 302-390 393-489 494-580
+” - - - - - - - - 594-750 753-900
+HD 74000 305-387 - - 671-1000 378-690 - - -
+HD 97916 308-387 - 478.5-680 - - - 387-694 -
+HD 160617 305-387 - - - 378-690 390-910 - -
+HD 166913 307-387 - 478.5-680 - - - - - 370-787
+G24-3 306-387 377-498 478.5-680 672-1000 - - - 307-399
+G53-41 - 329-452 478.7-680 - - - - -
+G90-3 - - - - - - - 302-394 391-485 491-580
+Fig. 2. Fit of the theoretical NH band computed from the Fernando et a l. (2018) data (black line) with A(N) =7.05 and the parameters of HD 74000,
+with synthetic spectra computed from Kurucz data. The best ﬁ t in the total interval 3357-3365 Å is obtained with A(N) =7.55 (red line). In this
+region, the mean di ﬀerence of the N abundance computed with these two di ﬀerent set of data is thus 0.50.
+Table 2. Gaia DR2 data, photometry and model parameters of the stars
+HD HD HD HD HD G G G
+25329 74000 97916 160617 166913 24-3 53-41 90-3
+dist (pc) 18.5 111 97 104 60 129 165 265
+E(B-V)Stil 0.001 0.002 0.006 0.006 0.006 0.038 0.013 0.015
+G0 6.89 4.28 4.12 3.46 4.17 4.63 4.73 3.15
+(BP − RP)0 1.106 0.639 0.599 0.691 0.659 0.661 0.698 0.730
+Age (Gyr) - 14 5 14 14 14 12 14
+Teﬀ 4870 6260 6400 6000 6230 6030 6050 5900
+log g 4.75 4.3 4.35 3.9 4.2 4.4 4.4 3.7
+vt (km s−1) 0.8 1.2 1.2 1.2 1.3 0.9 0.9 1.2
+[Fe/ H] -1.72 -2.00 -0.75 -1.80 -1.50 -1.58 -1.19 -2.18
+rived from the Fe I lines, requiring that the abundance deriv ed
+for individual lines be independent of the equivalent width of
+the line. The abundances of the elements and [Fe /H], are given
+in Table 3. Note that in a ﬁrst time we selected N-rich stars
+with [Fe/H]<–1.0, but with the new determination of the atmo-
+sphere parameters, HD 97916 was found to be less metal-poor
+([Fe/H]=–0.75]). However we decided to keep this star in our
+sample.
+2.2.1. Atomic data, and NL TE corrections
+The atomic data were mainly taken from the “Vienna Atomic
+Line Database” V ALD3 ‡ . For Ba and Eu the isotopic and hy-
+perﬁne structure of the lines has been taken into account.
+In these dwarf stars the NLTE e ﬀects are generally rather weak
+and since the aim of this work is to compare the relative abun-
+‡ http://vald.oreme.org/~vald/php/vald.php?
+Article number, page 3 of 12
+PAGE 4
+A&A proofs: manuscript no. nhrich-v10
+Table 3. Abundance of the elements. As usual, A(X) = 12 + log (N(X)/N(H)), [X/H]=A(X)∗ − A(X)⊙ and [X/Fe]=[X/H]–[Fe /H]. The six N-rich
+stars are at the top of the table, followed by the two stars (HD 97916 and HD166913) that were found to have a normal N abundan ce. The adopted
+solar abundances are in bold type.
+adopted adopted
+Ident. [Fe /H] A(Li) A(Be) A(C) CH [C/Fe] A(N) NH [N/Fe] A(O) 777 [O/Fe] A(O) OH [O/Fe] A(O) [O /Fe] A(Na) [Na /Fe] A(Mg) [Mg /Fe]
+Sun 8.50 7.86 8.76 8.76 8.76 6.30 7.54
+HD 25329 -1.72 - - 7.08 0.30 7.34 1.20 7.47 0.43 7.40 0.36 7.43 0 .39 4.69 0.11 6.03 0.21
+HD 74000 -2.00 2.28 -0.40 6.68 0.18 7.05 1.19 7.23 0.47 7.30 0. 54 7.28 0.52 4.50 0.20 5.87 0.33
+HD 160617 -1.80 2.32 -0.30 6.66 -0.04 7.08 1.02 7.36 0.40 7.40 0.44 7.38 0.42 4.51 0.01 5.99 0.25
+G24-3 -1.58 2.12 -0.02 6.63 -0.29 7.40 1.12 7.52 0.34 7.38 0.2 0 7.44 0.26 4.95 0.23 6.16 0.20
+G53-41 -1.19 2.17 - 7.02 -0.29 7.74 1.07 - 0.18* 7.60 0.03 - 0.1 8 5.16 0.05 6.55 0.20
+G90-3 -2.18 2.30 -0.61 6.50 0.18 7.02 1.34 - - 7.11 0.53 7.11 0. 53 4.39 0.27 5.74 0.38
+HD 97916 -0.75 - <-0.7 7.53 -0.22 6.91 -0.20 8.80 0.79 8.20 0.19 8.52 0.51 5.35 - 0.20 6.88 0.09
+HD 166913 -1.50 2.46 0.45 7.22 0.22 6.17 -0.19 7.81 0.45 7.92 0 .66 7.82 0.56 4.54 -0.26 6.40 0.36
+Ident. [Fe /H] A(Al) [Al /Fe] A(Si) [Si /Fe] A(Ca) [Ca /Fe] A(Sc) [Sc /Fe] A(Ti) [Ti /Fe] A(Cr1) [Cr /Fe] A(Mn) [Mn /Fe] A(Co) [Co /Fe]
+Sun 6.47 7.52 6.33 3.10 4.90 5.64 5.37 4.92
+HD 25329 -1.72 5.00 0.25 6.36 0.56 4.91 0.30 1.55 0.17 3.59 0.4 1 3.92 0.00 3.37 -0.28 - -
+HD 74000 -2.00 4.35 -0.12 5.83 0.31 4.66 0.33 1.30 0.20 3.35 0. 45 3.56 -0.08 3.10 -0.27 3.11 0.19
+HD 160617 -1.80 4.59 -0.08 6.02 0.30 4.83 0.30 1.50 0.20 3.50 0 .40 3.79 -0.05 3.47 -0.10 3.30 0.18
+G24-3 -1.58 4.70 -0.19 6.21 0.27 5.05 0.30 1.71 0.19 3.70 0.38 3.97 -0.09 3.64 -0.15 3.56 0.22
+G53-41 -1.19 4.94 -0.34 6.57 0.24 5.35 0.21 2.10 0.19 4.04 0.3 3 4.38 -0.07 4.25 0.07 4.08 0.35
+G90-3 -2.18 4.62 0.33 5.75 0.41 4.45 0.30 1.10 0.18 3.15 0.43 3 .35 -0.11 2.92 -0.27 3.01 0.27
+HD 97916 -0.75 5.35 -0.37 6.74 -0.03 5.80 0.22 2.65 0.30 4.54 0 .39 4.83 -0.06 4.30 -0.32 4.54 0.37
+HD 166913 -1.50 4.71 -0.26 6.45 0.43 5.18 0.35 1.78 0.18 3.86 0 .46 4.08 -0.06 3.54 -0.33 3.58 0.16
+Ident. [Fe /H] A(Ni) [Ni /Fe] A(Zn) [Zn /Fe] A(Sr) [Sr /Fe] A(Y) [Y /Fe] A(Zr) [Zr /Fe] A(Ba) [Ba /Fe] A(Eu) [Eu /Fe]
+Sun 6.23 4.62 2.92 2.21 2.58 2.17 0.52
+HD 25329 -1.72 4.57 0.06 3.03 0.13 1.52 0.32 0.69 0.20 1.55 0.6 9 0.78 0.33 -0.35 0.85
+HD 74000 -2.00 4.23 0.00 2.73 0.11 1.36 0.44 0.28 0.07 1.05 0.4 7 0.32 0.15 -1.38 0.10
+HD 160617 -1.80 4.45 0.02 2.84 0.02 1.34 0.22 0.30 -0.11 1.04 0 .26 0.63 0.26 -0.76 0.52
+G24-3 -1.58 4.66 0.01 3.05 0.01 1.51 0.17 0.63 0.00 1.29 0.29 0 .79 0.20 -0.92 0.14
+G53-41 -1.19 4.97 -0.07 3.38 -0.05 1.95 0.22 1.20 0.18 1.90 0. 51 1.65 0.67 -0.21 0.46
+G90-3 -2.18 3.91 -0.14 2.58 0.14 0.97 0.23 -0.14 -0.17 0.64 0. 24 -0.14 -0.13 -1.32 0.34
+HD 97916 -0.75 5.55 0.07 3.81 -0.06 2.20 0.03 1.32 -0.14 1.95 0 .12 1.57 0.15 -0.18 0.05
+HD 166913 -1.50 4.82 0.09 3.11 -0.01 1.80 0.38 0.79 0.08 1.43 0 .35 0.85 0.18 -0.64 0.34
+* oxygen abundance following Ramírez et al. (2012)
+Table 4. Parameters of the model adopted for the comparison stars and abundances of the elements relative to iron.
+Star Teﬀlog g vt [Fe/H] [C /Fe] [N /Fe] [O /Fe]777 [O/Fe]OH [O/Fe]adopt [Na/Fe] [Mg /Fe] [Al /Fe] [Si /Fe] [Ca /Fe] [Sc /Fe]
+HD19445 6070 4.4 1.3 -2.15 0.48 -0.11 0.64 0.93 0.79 -0.08 0.5 1 -0.14 0.55 0.41 0.32
+HD76932 6000 4.1 1.3 -0.94 0.05 -0.01 0.68 0.52 0.57 -0.04 0.4 4 -0.10 0.33 0.27 0.34
+HD84937 6300 4.0 1.3 -2.25 0.39 0.09 0.65 0.78 0.72 -0.10 0.30 -0.33 0.38 0.47 0.23
+HD94028 6050 4.3 1.2 -1.40 0.10 -0.29 0.42 0.47 0.45 -0.10 0.3 2 -0.23 0.41 0.23 0.23
+HD140283 5750 3.7 1.4 -2.57 0.46 0.07 0.90 0.76 0.78 -0.29 0.2 6 -0.39 0.38 0.27 0.10
+Star Teﬀlog g vt [Ti/Fe] [Fe /H] [Cr /Fe] [Mn /Fe] [Co /Fe] [Ni /Fe] [Zn /Fe] [Sr /Fe] [Y /Fe] [Zr /Fe] [Ba /Fe] [Eu /Fe]
+HD19445 6070 4.4 1.3 0.51 -2.15 -0.03 -0.10 0.33 0.06 0.18 0.3 9 0.06 0.38 -0.10 0.37
+HD76932 6000 4.1 1.3 0.42 -1.00 0.01 -0.05 0.29 0.17 0.05 0.30 -0.02 0.28 0.10 0.36
+HD84937 6300 4.0 1.3 0.45 -2.25 0.05 -0.27 0.14 -0.07 0.16 0.3 9 -0.01 0.31 -0.22 0.38
+HD94028 6050 4.3 1.2 0.37 -1.40 -0.10 -0.25 0.19 0.11 -0.03 0. 36 0.09 0.37 0.17 0.15
+HD140283 5750 3.7 1.4 0.33 -2.57 0.08 -0.29 0.29 0.12 0.25 -0. 18 -0.42 -0.07 -0.81 -0.28
+dances in N-rich dwarfs to those in normal stars with very sim -
+ilar models, these e ﬀects were taken into account only for O i,
+Na i and Al i.
+–In this type of stars, the oxygen abundance can be generally de-
+termined from the red oxygen permitted triplet at 777 nm. Fol -
+lowing Zhao et al. (2016) when −2. 5 ≤ [Fe/ H] ≤ − 1. 0, the
+NLTE correction is small and close to about –0.1 dex. This cor -
+rection was applied in Table 3.
+–Our determination of the Na abundance is based on the sec-
+ondary Na i lines at 5682, 5688, 6154 and 6160 Å. The NLTE
+correction has been estimated from Lind et al. (2011). In all our
+stars it is very close to -0.1 dex and this correction was appl ied
+in Table 3.
+–To determine the Al abundance we had to use the the resonance
+lines of Al i. The NLTE correction has been computed by Nord-
+lander & Lind (2017) for di ﬀerent atmospheric models, for the
+turnoﬀstars the correction is large, (about +0.4 dex), and it was
+applied in Table 3.
+2.2.2. Molecular data
+The carbon abundance was determined from the CH band at
+314.4 nm and between 430 and 432.5 nm. The abundance de-
+duced from these two regions are in excellent agreement. The
+parameters of the CH molecular bands (Masseron et al. 2014)
+were directly taken from the Bertrand Plez site §.
+The nitrogen abundance was derived from the NH band
+around 336 nm. In Spite et al. (2006) it has been shown that the
+nitrogen abundance based on the Kurucz data, is, on average,
+0.4 dex higher than the nitrogen abundance deduced from
+the CN band. At that time, since the data of the CN band
+§https://nextcloud.lupm.in2p3.fr/s/r8pXijD39YLzw5T
+Article number, page 4 of 12
+PAGE 5
+Spite M. et al.: Metal-poor N-rich dwarf stars
+seemed more robust, a correction of –0.4 dex was applied to th e
+abundance deduced from the NH band. A similar correction was
+also used in the determination of the nitrogen abundance in G Cs
+(Pasquini et al. 2008).
+But more recently Fernando et al. (2018) presented a new
+linelist of the A 3Π− X3Σ− electronic transition of NH based on
+high level calculations. This new linelist seems to correct this
+eﬀect (see section 3.3 in Fernando et al. 2018) and has been
+adopted to compute the N abundance in our stars. The di ﬀerence
+between the N abundance measured from the Fernando et
+al. (2018) linelist and the Kurucz linelist is 0.50 dex in the
+region 3357-3365 Å. However, it can be seen in Fig. 2 that the
+diﬀerence is a little smaller around 3364 Å (0.44 dex), and a
+little larger (0.52 dex) around 3359 Å.
+In Fig. 3 we present, for the eight stars suspected to be N-
+rich, the ﬁt of the observed spectrum with synthetic proﬁles com-
+puted with the NH data of Fernando et al. (2018). In this sampl e
+two stars HD 97916 and HD 166913 with [N / H] ≤ [Fe/ H] are
+not N-rich stars.
+One of our stars, HD 160617, has been already extensively
+studied by Roederer & Lawler (2012) in order to determine
+the abundance distribution of the r-process elements in thi s
+star. They used a very similar model atmosphere, and, as ex-
+pected, there is a good agreement between their abundance de -
+terminations and those given in Table 3, with one exception:
+the abundance of nitrogen. While Roederer & Lawler (2012)
+found A(N) =6.61 we measured A(N) =7.08. The di ﬀerence is
+very probably due to the NH line list used by Roederer & Lawler
+(2012).
+The adopted oxygen abundance has been determined as the
+mean of the abundance deduced from the oxygen triplet of
+O i (when these lines are not out of the extent of our spectra,
+see Table 1), and of the abundance deduced from the OH band
+around 313 nm (Rich & Boesgaard 2009) or 330 nm. As for the
+CH band, the parameters of the OH band were directly retrieve d
+from the Bertrand Plez site; they are based on the Kurucz line
+list.
+2.3. Comparison of the chemical composition of the NH-rich
+dwarfs and the normal metal-poor dwarf
+To better estimate the peculiarities of the NH-rich stars, w e ﬁrst
+compared their chemical composition to the composition of n or-
+mal turno ﬀmetal-poor stars with about the same atmospheric
+parameters (temperature, gravity and metallicity). We cho se a
+sample of metal turno ﬀstars studied with the same methods as
+described in section 2.2 in the frame of the paper of Peterson
+et al. (2020). The parameters of their models and their chemi cal
+abundances are given in Table 4. These stars were mainly ob-
+served with UVES. For HD 19445 a complementary spectrum
+was obtained with the spectrograph NARV AL at the Observa-
+toire du Pic du Midi. For HD 140283 the abundances given by
+Siqueira-Mello et al. (2015) were adopted, we only added the
+N and O abundances measured from the NH and OH bands on
+UVES spectra.
+2.3.1. Nitrogen abundance
+In Fig. 4 we present the [N /Fe] ratio as a function of [Fe /H] in
+the normal ﬁeld turno ﬀstars (black dots) and in the eight stars
+suspected to be N-rich.
+Among these eight stars, six have indeed a very high abun-
+dance of nitrogen with a ratio [N /Fe]>1.0 dex (Table 3), they are
+represented by red squares in Fig. 4. But two of them, HD 97916
+and HD 166913, suspected to be N-rich by Laird (1985), have a
+normal N abundance with [N / Fe] ≤ 0. 0 (blue dots surrounded
+by red squares in Fig. 4). In Table 3, these two stars were put a t
+the end of the list of stars. They will be considered as “norma l”
+turnoﬀstars in the following discussion, and will be represented
+by blue dots in the subsequent ﬁgures.
+From the Fig. 4 it could be deduced that it exists a gap be-
+tween the N-rich stars with [N /Fe]>+1.0 and the normal metal-
+poor stars with [N /Fe] close to zero. In fact, since we have vi-
+sually chosen turno ﬀstars with a very strong NH band, there is
+a strong bias in our selection. Only a large systematic study of
+the abundance of nitrogen in ﬁeld metal-poor turno ﬀstars could
+allow us to know if all the N-rich stars have a [N /Fe] ratio close
+to +1.0 or if there is continuity.
+2.3.2. Abundance of the light elements Li Be
+In Fig. 5, we compare the lithium and beryllium abundance
+A(Li) and A(Be) in normal metal-poor dwarfs and in the NH-
+rich dwarfs. With the temperature scale adopted, based on th e
+Gaia photometry and the P ARSEC isochrones, no clear system-
+atic di ﬀerence between the N-rich stars and the normal turno ﬀ
+stars is visible. This result is, on a more extended sample, i n
+agreement with the result of Spite & Spite (1986). We note tha t
+HD 25329 has no detectable Li, but the temperature of this sta r
+is only 4870K, thus, the convective zone in the atmosphere is
+deep and Li is brought to hot layers where it is little by littl e de-
+stroyed. This star is not plotted in Fig. 5.
+– In addition we note that in the “normal” star HD 97916, Li is
+not detected and it is very Be-poor. We derived A(Be) <-0.7 and
+Boesgaard (2007) who measured A(Be) <-1.3 considers that it is
+a blue straggler. The fact that we found a very young age for th is
+star (section 2.1) reinforces this interpretation.
+– Moreover we note that the “normal” star, HD 166913
+([Fe/H)=–1.5) has a high Li abundance: A(Li) =2.46 (see Fig. 5,
+upper panel). The Be abundance is also rather high in this sta r
+(Fig. 5, lower panel). The ratio 6Li/ 7Li estimated from the
+UVES spectrum could be close to 0.1, but the resolution of the
+spectrum (R = 40000 in the region of the Li feature) is not su ﬃ-
+cient to be conﬁdent in this result. An EXPRESSO spectrum of
+this star ( R = 150000) has been recently obtained and is under
+study. If conﬁrmed, these anomalies (rather high values of L i and
+Be and presence of 6Li) could be explained by the engulfment of
+a planet.
+2.3.3. Abundance of the elements from C to O
+In the interval −2. 5 < [Fe/ H] − 0. 5, the ratios [C /Fe] and
+[O/Fe] increase when the metallicity decreases (see Fig. 6), bu t
+the abundances of C and O in N-rich stars are systematically
+lower by about 0.3 dex than the abundances in the comparison
+stars (see Fig. (Fig. 7) the N-rich stars have practically th e same
+[(C+N+O)/Fe] value as the normal stars. This suggests that the
+nitrogen in N-rich stars was largely formed at the expense of C
+and O.
+Article number, page 5 of 12
+PAGE 6
+A&A proofs: manuscript no. nhrich-v10
+Fig. 3. Fit of the NH band in our sample of stars known or suspected to b e N-rich. The small black crosses are the observed spectrum. The red
+line represents the best ﬁt of the observed spectrum, and the blue lines synthetic spectra computed with two di ﬀerent values of A(N) indicated on
+the ﬁgure. For HD 25329, the cooler dwarf of our sample, the re gion between 3358 and 3362Å is saturated and thus we ﬁtted the observed spectra
+between 3366 and 3369Å. The values of [Fe /H] and [N /H] are indicated for each star on the ﬁgure.
+2.3.4. Abundance of the odd elements Na, Al
+In Fig. 8 we compare the abundance of Na and Al in N-rich stars
+and in normal metal-poor stars. We observe that [Na /Fe] is sys-
+tematically higher in the N-rich stars. It seems that there i s also
+an overabundance of Al in some of these stars, and it reaches
+almost 0.4 dex in G90-3.
+Zhao et al. (2016) had already remarked the high abundance of
+Na in HD 74000 and in G90-03 and the high Al abundance in
+G90-03.
+2.3.5. αand iron-peak elements
+In nitrogen-rich stars, as in “normal” metal-poor stars, th e α el-
+ements Mg, Si, Ca, Ti are enhanced by about 0.4 dex (Fig. 9).
+The iron peak elements behave also as in normal stars: Cr and
+Ni have solar [X /Fe] ratios as well as Zn, [Co /Fe] is close to
++0.2 dex and [Mn/Fe] is subsolar ( ≃ −0. 2 dex).
+Article number, page 6 of 12
+PAGE 7
+Spite M. et al.: Metal-poor N-rich dwarf stars
+Fig. 4. [N/Fe] vs. [Fe /H] for the stars studied in the present paper. Red
+ﬁlled square: N-rich stars. Blue dots surrounded by a red squ are: stars
+reported as being N-rich from low resolution spectra and ﬁna lly found
+to have a normal nitrogen abundance. Black dots: normal meta l-poor
+turnoﬀstars. The blue and red open star symbols represent two dwarf
+stars in NGC6752 discussed in section 3.
+Fig. 5. A(Li) and A(Be) vs. [Fe /H] in the stars studied in the present
+paper. Red squares: N-rich stars. Blue dots: stars reported as being N-
+rich (from low resolution spectra) and ﬁnally found to have a normal
+nitrogen abundance, black dots normal stars.
+2.3.6. Heavy elements
+The elements heavier than Zn are formed by addition of neutrons
+on iron peak elements. There are two basic mechanisms able to
+capture neutrons on existing seed nuclei: a ﬁrst one, rapid r ela-
+tive to the average βdecay (“r” process), happens in core col-
+lapse supernovae or during the merging of neutron stars; ano ther
+one, much slower, (“s” process) happens in thermally pulsin g
+asymptotic giant branch (AGB) stars.
+In metal-poor stars the formation by the r-process dominate s and
+the inﬂuence of the “s” process appears only for [Fe / H] ≥ − 1. 4
+dex (Roederer et al. 2010). For these heavy elements, the rat io
+[X/Fe] is more scattered than it is for the αor the iron-peak ele-
+ments (see for example François et al. 2007), this large scat ter is
+observed in Fig. 9 in particular for Ba and Eu. It is well known
+Fig. 6. [C/Fe] and [O /Fe] vs. [Fe /H] in the stars studied in the present
+paper. The symbols are the same as in Fig. 5. The blue star symb ol rep-
+resent NGC6752-4428 a ﬁrst generation dwarf in NGC6752, and the red
+star symbol NGC6752-200613 a second generation dwarf (see s ection
+3 where these stars will be discussed).
+Fig. 7. [(C+N+O)/Fe] in our sample of stars. The symbols are the same
+as in Fig. 6. The [(C+N+O)/Fe] ratio is about the same in normal and in
+N-rich stars.
+that some metal-poor stars are rich in Eu and Ba (r-rich stars) and
+other are Eu and Ba-poor (r-poor stars). HD 140283, the most
+metal-poor “normal” star in Fig. 9, with [Fe / H] ≃ − 2. 6, is a
+classical “r-poor” metal-poor star with a very low abundanc e of
+Ba and Eu. At the same metallicity ([Fe / H] ≃ −2. 6) many “nor-
+mal” stars have a higher [Ba /Fe] ratio (see Fig. 10 in François et
+al. 2007).
+In Fig. 10 (upper panel), we have plotted [Zr/Y] as a function
+of [Fe/H]. There is a rather good correlation of the abundance of
+Zr and Y in the normal stars of our sample, but there is some
+indication of a slightly lower ratio of [Zr /Y] in the N-rich stars.
+But this diﬀerence has to be conﬁrmed by an homogeneous study
+of larger samples.
+In the most metal-poor stars it has been shown, that the ratio
+[Eu/Ba], is close to 0.5 dex (see e.g. François et al. 2007; Spite
+& Spite 2014; Mashonkina et al. 2010). This is also observed
+in the most metal-poor stars of our sample (Fig. 10, lower pan el)
+Article number, page 7 of 12
+PAGE 8
+A&A proofs: manuscript no. nhrich-v10
+Fig. 8. [Na/Fe] and [Al/Fe] vs. [Fe /H] in the stars studied in the present
+paper. The symbols are the same as in Fig. 6
+with the exception of the N-rich star HD 74000 which has a sola r
+[Eu/Ba] abundance ratio, despite its low metallicity ([Fe/H]=–2).
+This will be discussed later in section 3.5.
+When [Fe /H]>–1.5, [Eu /Ba] tends to be solar, as expected fol-
+lowing Roederer et al. (2010).
+3. Comparison of the abundances in the N-rich
+stars and in the second generation stars of the
+GCs
+It is now generally accepted that, inside a GC, ﬁrst and secon d
+generation stars cohabit (see for exemple Prantzos et al. 20 07;
+Charbonnel et al. 2014). The second generation stars were
+formed from an intracluster gas polluted by H processed
+material ejected by a ﬁrst generation of massive stars. Di ﬀerent
+objects have been suggested as polluters: mainly fast rotat ing
+massive stars (FRMS) with a mass larger than 25 M⊙, massive
+asymptotic giant branch stars with 6 < M < 11M⊙, and also
+massive binaries. The nature of the polluter depends on the
+initial mass of the GC. Compared to the ﬁrst generation of
+stars, the second generation is poor in Li, C and O but rich in
+N, Na (Carretta et al. 2005; Pasquini et al. 2005, 2007, 2008;
+Lind et al. 2009) and sometimes in Al (Mészáros et al. 2020;
+Schiappacasse-Ulloa et al. 2022).
+If the six N-rich stars here studied were born in GCs they cer-
+tainly do not come from the same cluster and since the chemica l
+anomalies depend on the mass of the cluster, we do not expect a
+perfect agreement between our sample of stars and the relati ons
+observed in a given GC. These ﬁeld N-rich stars have di ﬀerent
+metallicities (from –1.2 dex to –2.2 dex), but they have almo st
+the same value of [N /Fe] (i.e. 1 . 02 ≤ [N/ Fe] ≤ 1. 34) and thus
+any correlation between [N/Fe] and the other elements cannot be
+ﬁrmly established. However it is interesting to check wethe r the
+values observed for Li, C, O, Na, Al in these stars, are compar a-
+ble to the values in the GCs.
+3.1. Comparison of the C, N and O abundances
+We would like to compare the C, N and O abundance in our N-
+rich stars with these abundances in a second generation dwar fs
+of a GC.
+The nitrogen abundance has been measured from the NH band in
+two dwarf stars of NGC6752: NGC6752-4428 and NGC6752-
+200613 by Pasquini et al. (2008). Carretta et al. (2005) mea-
+sured the N abundance in nine NGC6752 dwarfs from the CN
+band including the two stars observed by Pasquini et al. (200 8).
+There is a rather good agreement for the nitrogen abundance
+in NGC6752-200613 ([N /Fe]=+1.7 and +1.5) but a clear dis-
+agreement for NGC6752-4428 ([N /Fe]=+1.1 and +0.3). Since
+in metal-poor dwarfs, it is easier to measure the nitrogen ab un-
+dance from the NH band we adopted the Pasquini et al. (2008)
+values and, in a ﬁrst step, we did not take into account the nit ro-
+gen abundances computed by Carretta et al. (2005).
+The star NGC6752-200613 is strongly enriched in nitrogen
+([N/Fe]= 1.5) and Carretta et al. (2005) measured the carbon
+abundance ([C /Fe]=–0.2 dex), but they could not measure the
+oxygen abundance from the red oxygen triplet. We tried to mea -
+sure the oxygen abundance from the OH band in the near UV
+spectrum used by Pasquini et al. (2007) to measure Be in this
+star. We obtained [O/ Fe] = +0. 5 ± 0. 3. (The uncertainty is large
+due to the low S /N in this region of the spectrum.) We can thus
+compare the C, N, O abundances in NGC6752-200613 and in the
+stars of our sample. This is done in Fig. 4, 6, and 7. NGC6752-
+200613 is more N-rich than the stars of our sample of N-rich
+ﬁeld stars but the general behaviour of these stars are simil ar.
+In three stars of our N-rich sample we could estimate the rati o
+12C/13C (Fig. 11) and we found a ratio ≤ 15 indicating a pollu-
+tion by CNO processed material.
+3.2. Anti-correlation Na-O
+The main characteristic of the GC stars is the anti-correlat ion
+between the abundance of Na and the abundance of O (see
+e.g. Charbonnel et al. 2014). In Fig. 12 we present the relati on
+[Na/Fe] vs. [O /Fe] for our sample of stars. We have over plot-
+ted the position of the giant stars of NGC6752 following Bast ian
+& Lardo (2018), and of the dwarf stars following Carretta et a l.
+(2005). The abundance of oxygen in dwarfs is estimated from the
+O itriplet, the lines are weak and a precise estimation require s a
+high S/N ratio. As a consequence the error in the determination
+of the oxygen abundance in the dwarfs of NGC6752 is large. We
+estimate that it is at least 0.2 dex and even 0.3 dex in particu lar
+for NGC6752-200613.
+The general trend of our sample of stars agrees with the trend of
+the NGC 6752 stars.
+This is the ﬁrst time that the existence of a Na-O anticorrela -
+tion has been demonstrated among ﬁeld stars. This has been po s-
+sible because the N-rich stars of our sample proved to be Na-r ich
+and O-poor. This clearly indicates that they are second gene ra-
+tion GC stars. The corollary of this ﬁnding is that ﬁrst gener ation
+of GC stars have a chemical composition that is indistiguish able
+from that of ﬁeld stars.
+3.3. Anti-correlation Li-Na
+A strong anti-correlation between Li and Na has been observe d
+in NGC6752 (Pasquini et al. 2005), but the slope of this anti-
+correlation is much weaker in M4 (Monaco et al. 2012; Spite
+et al. 2016) and in NGC 6397 (González Hernández et al. 2009;
+Lind et al. 2009). As a consequence, and since we never observ e
+Article number, page 8 of 12
+PAGE 9
+Spite M. et al.: Metal-poor N-rich dwarf stars
+Fig. 9. [X/Fe] vs. [Fe/H] for the αelements (Mg to Ti), the iron peak elements (Cr to Zn) and the n eutron capture elements (Sr to Eu). The symbols
+are the same as in Fig. 6.
+a very high excess of Na in our metal-poor N-rich stars we do
+not expect to observe a clear Li-Na anti-correlation, as it c an
+be guessed from Fig. 5 where N-rich and normal reference star s
+seem to share the same Li abundance.
+3.4. Anti-correlation Al-Mg
+In some GCs, an anti-correlation Al-Mg is observed (Mészáro s
+et al. 2020; Baeza et al. 2022, and references therein). The M g-
+Al cycle needs large temperatures ( >70 million Kelvin) to op-
+erate but Al-rich stars, with [Al /Fe]>0.3, in GCs is sometimes
+observed in massive GCs. G 90-3 could be one of these stars.
+Compared to the other stars, G 90-3 is not Mg-poor, but since i n
+the gas there is almost ten times more Mg than Al, the aluminium
+abundance is more sensitive to a pollution than Mg.
+3.5. The neutron-capture elements in N-rich stars and in the
+GCs. The [Eu/Ba] ratio.
+The heavy elements have been studied in detail in very few GCs
+and only in giant stars. However, since the abundance of thes e
+elements in the atmosphere, is not supposed to vary during th e
+evolution of a star, at least during the main sequence and the
+red giant branch (RGB) phases, it is possible to compare the
+abundances of the heavy elements in dwarfs and in RGB stars.
+In metal-poor GCs, like in very metal-poor stars), r-proces s
+production dominates, and the ratio [Eu /Ba] is generally close
+to 0.5 dex as observed in the very metal-poor ﬁeld stars, a val ue
+characteristic of the “r” process (see e.g. François et al. 2 007;
+Spite & Spite 2014).
+Article number, page 9 of 12
+PAGE 10
+A&A proofs: manuscript no. nhrich-v10
+Fig. 10. [Zr/Y] and [Eu/Ba] vs. [Fe/H] in the stars studied in the present
+paper. The symbols are the same as in Fig. 6
+In a given cluster generally the abundance of the n-capture
+elements does not vary from star to star (see e.g. Roederer 20 11;
+Kirby et al. 2020). However a small number of GCs show vari-
+ations, the best example of this phenomenon is M15 (Sobeck et
+al. 2011; Worley et al. 2013).
+In this cluster, [Eu/Fe] and [Ba/Fe] varies and no correlation was
+established between [Na /Fe] and [Eu /Fe] or [Ba /Fe]. The large
+scatter of these abundances is attributed to an inhomogenei ty of
+the original cloud.
+In this cluster Johnson & Bolte (2002) found that the ratio [Y/Zr]
+is lower than in the ﬁeld stars. It seems also in Fig. 10 (upper
+panel) that [Y /Zr] is lower in the N-rich stars than in the normal
+stars. However the di ﬀerence is not as large as the di ﬀerence
+(0.3 dex) reported by Johnson & Bolte (2002).
+Although [Eu /Fe] varies from star to star, in most of the M15
+stars the ratio [Eu /Ba] is constant, close to the “r” process ratio
+(+0.5 dex). However we remark that in this cluster, following the
+data of Worley et al. (2013), there are two stars, in their “S9 7”
+sample, with a low ratio of [Eu /Ba] (high [Ba /Eu]), K969 and
+K479 (Fig. 13a in Worley et al. 2013). These stars have also a
+rather high value of the Na abundance with [Na / Fe] ≥ 0. 5dex
+(Sneden et al. 1997). Likewise, the star ID42262 in the “W13”
+sample with a very low [Eu /Ba] ratio (Fig. 13b in Worley et al.
+2013) has the highest [Na /Fe] ratio of the sample ([Na / Fe] =
++0. 9dex). As a consequence, it seems that in GC stars, a high
+value of [Na /Fe] is sometimes (not always) associated with a
+low value of [Eu /Ba] indicating a “s” process contamination.
+One of our N-rich stars, HD 74000, with [Eu /Ba]=–0.05 at
+[Fe/H]=–2.0, seems to have a solar [Eu /Ba] ratio unexpected for
+its metallicity (see Fig. 10). This star, like some Na-rich s tars in
+M15, has been probably polluted by “s” process material ejec ted
+by a ﬁrst generation AGB stars.
+Fig. 11. 12C/ 13Cin three of our sample of stars. The computations have
+been done for 12C/ 13C=30 12C/ 13C=5 (blue lines) and for the best ﬁt
+(red line): 12C/ 13C=10 for HD 74000, and 12C/ 13C=15 for HD 160617
+and G53-41.
+4. Conclusion
+We have studied a sample of eight dwarf stars suspected to be
+N-rich (and not enhanced in C), like the second generation st ars
+of GCs. The N abundance is deduced from the computation of
+the NH band in the near UV , based on the new parameters of
+Fernando et al. (2018). Two stars suspected to be N-rich by Laird
+(1985), were found to have a normal N abundance. The six other
+stars, were found to have a ratio [N /Fe]>1.0 dex.
+If the N-rich stars in the ﬁeld, are second generation stars
+ejected from GCs, we do not expect the same homogeneity
+of their chemical composition as found in a given GC since
+these stars were formed in di ﬀerent clusters with di ﬀerent ini-
+tial masses and thus di ﬀerent histories and metal-enrichment.
+The abundances of C, N, O in our sample of N-rich stars
+present the same characteristics as those found in the the se cond
+generation stars of the GCs. C and O are slightly deﬁcient but the
+scatter of [(C +N+O)/Fe] is very small. When [Fe /H] decreases
+from -0.5 to -2.0 dex, [(C +N+O)/Fe] increases from about 0.2
+to 0.6 dex as observed in normal stars. This is a strong indica -
+tion that the N enrichment is the result of a pollution by CNO
+processed material.
+Article number, page 10 of 12
+PAGE 11
+Spite M. et al.: Metal-poor N-rich dwarf stars
+Fig. 12. The position of our stars in the [Na /Fe] vs. [O /Fe] diagram is
+compared to the stars of the GC NGC6752. The symbols are the same as
+in Fig. 6, the giants in NGC6752 are represented by small star symbols,
+and the dwarfs by larger star symbols. The error is larger in t he case
+of dwarfs since they are fainter and an approximative estima tion of this
+error has been indicated on the ﬁgure.
+The N-rich stars of our sample, like the second generation
+stars in the GCs, show an excess of Na and sometimes of Al, as
+expected if these stars have been polluted by the ejecta of AG B
+stars. A Na-O anti-correlation is observed, similar to the r elation
+observed in NGC6752.
+The N-rich star HD 74000 has a solar value of the ra-
+tio [Eu /Ba], this low value is unexpected for its metallic-
+ity ([Fe /H]=-2.0 dex). At this metallicity indeed, the neutron-
+capture elements are generally only formed by the “r” proces s
+and [Eu/Ba]=+0.5 dex. We show that this peculiarity is also ob-
+served in at least three stars of M15 which all have an excess o f
+the Na abundance, as expected for second generation stars. W e
+suppose that in these stars a ﬁrst generation of AGB stars has
+enriched the matter in “s” process material.
+This analysis supports the hypothesis that the N-rich stars ,
+today observed in the ﬁeld, were formed as second generation
+stars in GCs and lost through the tidal interaction between t he
+GC and the Galaxy.
+Acknowledgements. This work uses results from the European Space Agency
+(ESA) space mission Gaia. Gaia data are being processed by th e Gaia
+Data Processing and Analysis Consortium (DPAC). Funding fo r the DPAC
+is provided by national institutions, in particular the ins titutions partic-
+ipating in the Gaia MultiLateral Agreement (MLA). The Gaia m ission
+website is https: //www.cosmos.esa.int/gaia. The Gaia archive website is
+https://archives.esac.esa.int/gaia.
+References
+Alvarez R., Plez B., 1998, A&A 330, 1109
+Andrievsky, S. M., Spite, M., Korotin, S. A., et al. 2008, A&A , 481, 481
+Arenou, F., Luri, X., Babusiaux, C., et al. 2018, A&A, 616, A1 7
+Baeza, I., Fernández-Trincado, J. G., Villanova, S., et al.2022, arXiv:2204.09703
+Bastian, N. & Lardo, C. 2018, ARA&A, 56, 83. doi:10.1146 /annurev-astro-
+081817-051839
+Bekki, K. 2019, MNRAS, 490, 4007
+Boesgaard, A. M. 2007, ApJ, 667, 1196. doi:10.1086 /521075
+Bonifacio, P ., Ca ﬀau, E., Spite, M., et al. 2015, A&A, 579, A28.
+doi:10.1051/0004-6361/201425266
+Bressan, A., Marigo, P ., Girardi, L., et al. 2012, MNRAS, 427 , 127
+Carbon, D. F., Kraft, R. P ., Barbuy, B., et al. 1986, Rev. Mexi cana Astron. As-
+troﬁs., 12, 173
+Carretta, E., Gratton, R. G., Lucatello, S., et al. 2005, A&A , 433, 597.
+doi:10.1051/0004-6361:20041892
+Charbonnel, C., Chantereau, W., Krause, M., et al. 2014, A&A , 569, L6
+Choplin, A., Hirschi, R., Meynet, G., et al. 2017, A&A, 607, L 3
+Choplin, A., Maeder, A., Meynet, G., et al. 2016, A&A, 593, A3 6
+Denissenkov, P . A. & Hartwick, F. D. A. 2014, MNRAS, 437, L21.
+doi:10.1093/mnrasl/slt133
+Fernando, A. M., Bernath, P . F., Hodges, J. N., et al. 2018,
+J. Quant. Spectr. Rad. Transf., 217, 29. doi:10.1016 /j.jqsrt.2018.05.021
+François, P ., Depagne, E., Hill, V ., et al. 2007, A&A, 476, 935
+Gaia Collaboration, Brown, A. G. A., V allenari, A., et al. 20 18, A&A, 616, A1
+Gieles, M. & Charbonnel, C. 2020, Star Clusters: From the Mil ky Way to the
+Early Universe, 351, 297. doi:10.1017 /S1743921319007658
+González Hernández, J. I., Bonifacio, P ., Caﬀau, E., et al. 2009, A&A, 505, L13.
+doi:10.1051/0004-6361/200912713
+Gratton, R. G., Sneden, C., Carretta, E., et al. 2000, A&A, 35 4, 169
+Gratton, R., Bragaglia, A., Carretta, E., et al. 2019, A&A Re v., 27, 8.
+doi:10.1007/s00159-019-0119-3
+Gruyters, P ., Nordlander, T., & Korn, A. J. 2014, A&A, 567, A7 2.
+doi:10.1051/0004-6361/201423590
+Gustafsson B., Bell R. A., Eriksson K., Nordlund Å., 1975, A& A, 42, 407
+Gustafsson B., Edvardsson B., Eriksson K., et al. 2003, in St ellar Atmosphere
+Modeling, ed. I. Hubeny, D. Mihalas, & K. Werner, ASP Conf. Se r., 288, 331
+Hansen, T. T., Andersen, J., Nordström, B., et al. 2016, A&A, 588, A3
+Hansen, T. T., Andersen, J., Nordström, B., et al. 2016, A&A, 586, A160
+Harmer, D. L. & Pagel, B. E. J. 1973, MNRAS, 165, 91.
+doi:10.1093/mnras/165.1.91
+Ibata, R., Malhan, K., Martin, N., et al. 2021, ApJ, 914, 123. doi:10.3847/1538-
+4357/abfcc2
+Ishigaki, M. N., Tominaga, N., Kobayashi, C., et al. 2014, Ap J, 792, L32.
+doi:10.1088/2041-8205/792/2/L32
+Israelian, G., Ecuvillon, A., Rebolo, R., et al. 2004, A&A, 4 21, 649.
+doi:10.1051/0004-6361:20047132
+Johnson, J. A. & Bolte, M. 2002, ApJ, 579, 616. doi:10.1086 /342829
+Kirby, E. N., Duggan, G., Ramirez-Ruiz, E., et al. 2020, ApJ, 891, L13.
+doi:10.3847/2041-8213/ab78a1
+Laird, J. B. 1985, ApJ, 289, 556
+Lallement, R., Babusiaux, C., V ergely, J. L., et al. 2019, A&A, 625, A135
+Lind, K., Primas, F., Charbonnel, C., et al. 2009, A&A, 503, 5 45
+Lind, K., Asplund, M., Barklem, P . S., et al. 2011, A&A, 528, A 103.
+doi:10.1051/0004-6361/201016095
+Lindegren, L., Hernández, J., Bombrun, A., et al. 2018, A&A, 616, A2
+Lucatello, S., Beers, T. C., Christlieb, N., et al. 2006, ApJ , 652, L37
+Maeder, A. & Meynet, G. 2006, A&A, 448, L37. doi:10.1051 /0004-
+6361:200600012
+Marigo, P ., Girardi, L., Bressan, A., et al. 2017, ApJ, 835, 7 7
+Martell, S. L., Smolinski, J. P ., Beers, T. C., et al. 2011, A& A, 534, A136
+Martin, N. F., V enn, K. A., Aguado, D. S., et al. 2022, Nature, 601, 45.
+doi:10.1038/s41586-021-04162-2
+Mashonkina, L., Christlieb, N., Barklem, P . S., et al. 2010, A&A, 516, A46.
+doi:10.1051/0004-6361/200913825
+Masseron, T., Johnson, J. A., Plez, B., et al. 2010, A&A, 509, A93
+Masseron, T., Plez, B., V an Eck, S., et al. 2014, A&A, 571, A47
+Mészáros, S., Masseron, T., García-Hernández, D. A., et al. 2020, MNRAS, 492,
+1641. doi:10.1093/mnras/stz3496
+Monaco, L., Villanova, S., Bonifacio, P ., et al. 2012, A&A, 5 39, A157.
+doi:10.1051/0004-6361/201117709
+Mucciarelli, A., Lapenna, E., Lardo, C., et al. 2019, ApJ, 87 0, 124.
+doi:10.3847/1538-4357/aaf3a4
+Nordlander, T. & Lind, K. 2017, A&A, 607, A75. doi:10.1051 /0004-
+6361/201730427
+Pace, G. 2013, A&A, 551, L8. doi:10.1051 /0004-6361/201220364
+Peterson, R. C., Barbuy, B., & Spite, M. 2020, A&A, 638, A64
+Pasquini, L., Bonifacio, P ., Randich, S., et al. 2004, A&A, 4 26, 651.
+doi:10.1051/0004-6361:20041254
+Pasquini, L., Bonifacio, P ., Molaro, P ., et al. 2005, A&A, 441, 549
+Pasquini, L., Bonifacio, P ., Randich, S., et al. 2007, A&A, 4 64, 601
+Pasquini, L., Ecuvillon, A., Bonifacio, P ., et al. 2008, A&A , 489, 315
+Peterson, R. C., Barbuy, B., & Spite, M. 2020, A&A, 638, A64.
+doi:10.1051/0004-6361/202037689
+Plez, B. 2008, Physica Scripta V olume T, 133, 014003. doi:10 .1088/0031-
+8949/2008/T133/014003
+Plez, B. 2012, Turbospectrum: Code for spectral synthesis, ascl:1205.004
+Prantzos, N., Charbonnel, C., & Iliadis, C. 2007, A&A, 470, 1 79
+Ramírez, I., Meléndez, J., & Chanamé, J. 2012, ApJ, 757, 164
+Rich, J. A. & Boesgaard, A. M. 2009, ApJ, 701, 1519
+Roederer, I. U., Cowan, J. J., Karakas, A. I., et al. 2010, ApJ , 724, 975.
+doi:10.1088/0004-637X/724/2/975
+Article number, page 11 of 12
+PAGE 12
+A&A proofs: manuscript no. nhrich-v10
+Roederer, I. U. 2011, ApJ, 732, L17. doi:10.1088 /2041-8205/732/1/L17
+Roederer, I. U. & Lawler, J. E. 2012, ApJ, 750, 76
+Schiappacasse-Ulloa, J., Lucatello, S., Rain, M. J., et al. 2022, MNRAS, 511,
+231
+Schiavon, R. P ., Johnson, J. A., Frinchaboy, P . M., et al. 201 7, MNRAS, 466,
+1010
+Schlegel, D. J., Finkbeiner, D. P ., & Davis, M. 1998, ApJ, 500 , 525
+Schuster, W. J. 1981, Rev. Mexicana Astron. Astroﬁs., 5, 69
+Siqueira-Mello, C., Andrievsky, S. M., Barbuy, B., et al. 20 15, A&A, 584, A86
+Sneden, C., Kraft, R. P ., Shetrone, M. D., et al. 1997, AJ, 114 , 1964.
+doi:10.1086/118618
+Sobeck, J. S., Kraft, R. P ., Sneden, C., et al. 2011, AJ, 141, 1 75.
+doi:10.1088/0004-6256/141/6/175
+Spite, F., & Spite, M. 1986, A&A, 163, 140
+Spite, M., Cayrel, R., Hill, V ., et al. 2006, A&A, 455, 291
+Spite, M., Cayrel, R., Plez, B., et al. 2005, A&A, 430, 655
+Spite, M. & Spite, F. 2014, Astronomische Nachrichten, 335, 65.
+doi:10.1002/asna.201311998
+Spite, M., Spite, F., Gallagher, A. J., et al. 2016, A&A, 594, A79.
+doi:10.1051/0004-6361/201628759
+Tang, B., Fernández-Trincado, J. G., Liu, C., et al. 2020, Ap J, 891, 28
+Worley, C. C., Hill, V ., Sobeck, J., et al. 2013, A&A, 553, A47 .
+doi:10.1051/0004-6361/201321097
+Y uan, Z., Martin, N. F., Ibata, R. A., et al. 2022, MNRAS, subm itted,
+arXiv:2203.02512
+Zhao, G., Mashonkina, L., Y an, H. L., et al. 2016, ApJ, 833, 22 5
+Article number, page 12 of 12

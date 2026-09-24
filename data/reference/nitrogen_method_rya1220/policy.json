@@ -1,0 +1,123 @@
+{
+  "ticket": "RYA-1220",
+  "status": "draft_for_ratification",
+  "production_enforced": false,
+  "admit_current_products": false,
+  "canonical_gf_changed": false,
+  "required_uncertainty_terms": [
+    "statistical",
+    "continuum",
+    "line_data",
+    "stellar_parameters",
+    "blend_abundances",
+    "c_o_coupling",
+    "telluric",
+    "model_atmosphere",
+    "line_formation",
+    "holding_repeatability",
+    "diagnostic_family"
+  ],
+  "requirements": [
+    "Exact quantum transition identity and independent gf provenance",
+    "Observed detection, coverage and telluric assessment",
+    "Geometry and atmospheric-scale provenance",
+    "Same-line symmetric refits with stable membership and step convergence",
+    "Measured nuisance covariance including C/O",
+    "Paired target-minus-Sun per transition before aggregation",
+    "Separate diagnostic families until covariance-aware consistency is established"
+  ],
+  "prohibited": [
+    "Solar-calibrated gf ingestion",
+    "Universal empirical NH/CN offset",
+    "Blanket 3D correction across line subsets",
+    "Treating missing uncertainty as zero",
+    "Calling non-overlapping IAG/J holdings a matched-line comparison",
+    "Interpreting catalog central-depth sum as integrated blend absorption"
+  ],
+  "regimes": [
+    {
+      "regime": "solar_and_twins",
+      "routes": [
+        "selected_NI",
+        "CN",
+        "IR_NH"
+      ],
+      "admission": "held_pending_five_line_reproduction_and_full_budget"
+    },
+    {
+      "regime": "FGK_dwarfs",
+      "routes": [
+        "nearUV_NH",
+        "CN",
+        "detected_NI"
+      ],
+      "admission": "target_specific_validation"
+    },
+    {
+      "regime": "cool_giants",
+      "routes": [
+        "H_band_CN_with_CO_OH"
+      ],
+      "admission": "coupled_CNO_and_isotope_validation"
+    },
+    {
+      "regime": "metal_poor",
+      "routes": [
+        "nearUV_NH",
+        "blue_CN"
+      ],
+      "admission": "line_data_and_3D_validation_or_upper_limit"
+    },
+    {
+      "regime": "warm_AF",
+      "routes": [
+        "NI_NLTE"
+      ],
+      "admission": "model_atom_domain_and_blend_validation"
+    }
+  ],
+  "measured_nitrogen_responses": {
+    "solar_iag_cn_ax_ir": {
+      "pool": "12-window IAG CN A-X (0-0), 2211 pixels; physical pool identity in cn_iag_coupling_v2/provenance.json",
+      "nominal_A_N": 7.716,
+      "dA_N_dC": -0.975,
+      "dA_N_dO": 0.15,
+      "teff_pm_1K": 0.0,
+      "xi_minus_A_N": 7.716,
+      "xi_plus_A_N": 7.907,
+      "xi_step_kms": 0.2912,
+      "xi_central_slope": 0.654,
+      "profile_sigma_dex": 0.016,
+      "red_chi2": 43.113,
+      "status": "diagnostic_sensitivity_only",
+      "source": "data/output/rya1220/cn_iag_coupling_v2 and cn_iag_stellar_v2"
+    }
+  },
+  "unresolved": [
+    "Missing 10108.90 A transition",
+    "Unmeasured molecular C/O responses",
+    "Incomplete continuum/blend/atmosphere/formation/holding budget",
+    "C/O covariance and CN residual-pixel covariance",
+    "No observed target-Sun covariance pilot",
+    "Publisher integration and scientific ratification"
+  ],
+  "uncertainty_contract": {
+    "owner": "RYA-587",
+    "status": "awaiting_canonical_API_and_integration",
+    "inherit_base_unchanged": true,
+    "nitrogen_prototype_authoritative": false,
+    "resume_requirements": [
+      "Canonical component schema/API and provenance/applicability states",
+      "Absolute and matched-reference differential covariance path",
+      "Publication HOLD enforcement",
+      "Fe regression and audit of completed RYA-1213 xi shell outputs and ingestion/product stamping"
+    ],
+    "nitrogen_extensions": [
+      "N I blends",
+      "CN/NH equilibrium and C/O covariance",
+      "Evidence-supported indicator/model covariance"
+    ],
+    "gerber_experimental_completeness_requirement": false
+  },
+  "required_uncertainty_terms_note": "Historical audit checklist only; canonical required terms and applicability are owned by RYA-587."
+}

@@ -1,0 +1,23 @@
+{
+  "ticket": "RYA-1220",
+  "component": "molecular_coupling",
+  "status": "MEASURED_PARTIAL",
+  "latest_same_pool_run": {"host": "sirius", "route": "IAG IR CN A-X", "C_anchor": 8.46, "O_anchor": 8.73, "A_N_nominal": 7.941, "dA_N_dC": -1.045, "dA_N_dO": 0.15, "red_chi2": 42.714, "n_pixels": 2211, "all_fits_constrained": true, "artifact": "data/output/rya1220/cn_iag_3d_anchor_v1/fits.json"},
+  "diagnostic_execution": {"host": "sirius", "engine": "Turbospectrum", "adapter": "pipeline.nitrogen_uncertainty.molecular_coupling", "result_sigma_dex_at_rho_0": 0.0713, "contract_state": "HOLD", "reason": "rho=0 is an explicit diagnostic assumption, not measured covariance"},
+  "why": "A documented independent accepted-anchor covariance is now attached and PSD-checked; a fully joint C/O-plus-CN fit remains open.",
+  "required_input": {
+    "order": ["A(C)", "A(O)"],
+    "matrix_units": "dex^2",
+    "matrix_definition": "Cov([A(C), A(O)]) from the same route, same star, and same fitted data conditioning",
+    "required_evidence": ["C and O response refits on the exact CN pool", "marginal uncertainties for C and O", "correlation or a documented independent-source assumption", "positive-semidefinite covariance check"]
+  },
+  "available_diagnostic": {
+    "cn_jacobian_dA_N_dC_dO": [-0.975, 0.15],
+    "source": "data/output/rya1220/cn_iag_coupling_v2/provenance.json",
+    "solar_vis_inputs": {"A_C": 8.488, "sigma_C_dex": 0.034, "A_O": 8.81, "sigma_O_dex": 0.421, "source": "data/audit/cno_synthesis/solar_vis_cno_product.csv"},
+    "provisional_independent_sigma_N_dex": 0.0713,
+    "rho_range_sigma_N_dex": {"rho_minus_1": 0.0300, "rho_zero": 0.0713, "rho_plus_1": 0.0963},
+    "interpretation": "These values are sensitivity diagnostics only. They are not adopted because O has red_chi2=66.97, the C/O covariance is not observed, and C/O and CN were not jointly refit."
+  },
+  "next_execution": "Run a Sirius Turbospectrum joint C/O fit on the exact CN pool, then replace the independent-anchor covariance with the measured same-route matrix."
+}

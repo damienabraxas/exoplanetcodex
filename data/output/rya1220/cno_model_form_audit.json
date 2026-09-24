@@ -1,0 +1,24 @@
+{
+  "schema": "rya1220.cno_model_form_audit.v1",
+  "sources": [
+    "data/audit/rya1214_cno_products/amarsi2021_cn_ir_reference.prov.json",
+    "data/audit/rya1214_cno_products/nearuv_molecular_sizing.json",
+    "data/audit/cno_synthesis/solar_phase_a_cross_arm.json",
+    "data/audit/rya1136_cno_intake/source_bibliography.csv"
+  ],
+  "measured_or_published_model_terms": {
+    "CN_IR": {"comparison": "Amarsi 2021 same-line 1D versus 3D reference", "kp_1d_to_3d_dex": -0.081, "iag_1d_to_3d_dex": -0.082, "use": "diagnostic model-form scale; not applied to current 1D products"},
+    "C_I": {"model": "Amarsi 2019 3D-NLTE", "use": "accepted atomic anchor/cross-check", "status": "MEASURED"},
+    "O_I": {"model": "Amarsi 2019 O I 777 and Caffau 2015 [O I] 6300", "use": "accepted atomic anchors", "status": "MEASURED"},
+    "N_I": {"model": "Amarsi 2020 departure grid", "use": "registered solar N I correction; off-Sun coverage remains owed", "status": "MEASURED_PARTIAL"},
+    "nearUV_NH_OH": {"model": "molecular opacity sizing", "measured_missing_opacity_lever_dex": -0.050, "interpretation": "lower-bound diagnostic; under-corrected opacity remains", "status": "HOLD"}
+  },
+  "unresolved_molecular_routes": {
+    "CN_VIS": "no route-specific molecular 3D correction grid admitted",
+    "CN_CRiRES_J": "no route-specific molecular 3D correction grid admitted",
+    "OH_CRiRES_H": "no molecular 3D correction admitted; fit red chi2 130.65",
+    "CO_CRiRES_K": "no molecular 3D correction admitted; isotope/model term open",
+    "NH_nearUV": "opacity deficit and continuum/blend coupling prevent a symmetric model term"
+  },
+  "decision": "Atomic C/O anchors may carry their cited corrections. Molecular corrections remain diagnostic or lower-bound evidence until transition-specific 3D/model calculations are run; no universal molecular offset is applied."
+}

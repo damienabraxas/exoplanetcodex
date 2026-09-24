@@ -1,0 +1,1078 @@
+PAGE 1
+arXiv:1212.4091v1  [astro-ph.SR]  17 Dec 2012
+Submitted to The Astrophysical Journal
+Chemical Abundances in Field Red Giants from High-Resoluti on
+H-Band Spectra using the APOGEE Spectral Linelist
+Verne V. Smith and Katia Cunha
+National Optical Astronomy Observatories, Tucson, AZ 8571 9 USA and
+Observatorio Nacional, Sao Cristovao, Rio de Janeiro, Braz il
+vsmith@noao.edu
+Matthew D. Shetrone
+Department of Astronomy and McDonald Observatory, Univers ity of Texas, Austin, TX
+78712 USA
+Szabolcs Meszaros and Carlos Allende Prieto
+Instituto d’Astroﬁsica de Canarias, 38205, La Laguna, Tene rife, Spain
+Dmitry Bizyaev
+Apache Point Observatory, Sunspot, NM 88349 USA and
+Strenberg Astronomical Institute, Moscow 119992, Russia
+Ana Garcia Perez and Steven R. Majewski
+Department of Astronomy, University of Virginia, Charlott esville, V A 22904 USA
+Ricardo Schiavon
+Astrophysics Research Institute, Liverpool John Moores Un iversity, Liverpool L3 5UX UK
+Jon Holtzman
+Department of Astronomy, New Mexico State University, Las C ruces, NM 88003 USA
+Jennifer A. Johnson
+Department of Astronomy, Ohio State University, Columbus, OH 43210
+ABSTRACT
+PAGE 2
+– 2 –
+High-resolution H-band spectra of ﬁve bright ﬁeld K, M, and MS giant s, ob-
+tained from the archives of the Kitt Peak National Observatory (K PNO) Fourier
+Transform Spectrometer (FTS), are analyzed to determine chem ical abundances
+of 16 elements. The abundances were derived via spectrum synthe sis using the de-
+tailed linelist prepared for the SDSS III Apache Point Galactic Evolutio n Exper-
+iment (APOGEE), which is a high-resolution near-infrared spectros copic survey
+to derive detailed chemical abundance distributions and precise rad ial velocities
+for 100,000 red giants sampling all Galactic stellar populations. The re d giant
+sample studied here was chosen to probe which chemical elements ca n be derived
+reliably from the H-band APOGEE spectral region. These red giants consist of
+two K-giants ( α Boo and µ Leo), two M-giants ( β And and δ Oph), and one
+thermally-pulsing asymptotic giant branch (TP-AGB) star of spect ral type MS
+(HD 199799). Measured chemical abundances include the cosmoch emically im-
+portant isotopes 12C, 13C, 14N, and 16O, along with Mg, Al, Si, K, Ca, Ti, V,
+Cr, Mn, Fe, Co, Ni, and Cu. The K and M giants exhibit the abundance s igna-
+ture of the ﬁrst dredge-up of CN-cycle material, while the TP-AGB s tar shows
+clear evidence of the addition of 12C synthesized during 4He-burning thermal
+pulses and subsequent third dredge-up. A comparison of the abun dances derived
+here with published values for these stars reveals consistent resu lts to ∼0.1 dex.
+The APOGEE spectral region and linelist is, thus, well-suited for prob ing both
+Galactic chemical evolution, as well as internal nucleosynthesis and mixing in
+populations of red giants via high-resolution spectroscopy.
+1. Introduction
+The Apache Point Observatory Galactic Evolution Experiment (APOG EE) is one of
+4 experiments that are part of the Sloan Digital Sky Survey III (SD SS-III; Eisenstein et
+al. 2011). APOGEE is obtaining high-resolution (R ∼22,300), high signal-to-noise ratio
+(S/N≥100 per pixel), H-band ( λ1.51–1.69 µm) spectra of evolved, late-type stars, with the
+goal being to measure chemical abundances of 15 elements per sta r. Coupled with radial
+velocities that are accurate to ∼100 m-s −1, APOGEE is creating the ﬁrst high-precision
+spectroscopic and radial-velocity survey of all Galactic stellar popu lations (bulge, bar, disks,
+halo) using a uniform set of stellar tracers and spectral diagnostic s, with a plan to observe
+and derive these parameters for 100,000 red giants by the end of 2 014.
+The physical and chemical parameters of the APOGEE stars are de rived from a suite of
+software packages that, together, are called the APOGEE Stellar Parameters and Chemical
+PAGE 3
+– 3 –
+Abundances Pipeline (ASPCAP); the details of this software and its a nalysis techniques will
+be discussed by Allende-Prieto et al. (2012, in preparation). The ﬁr st-generation output of
+ASPCAP, which will be based on 1-D stellar atmosphere analyses in LTE , will consist of the
+stellar parameters of eﬀective temperature, T eﬀ , surface gravity (noted as log g), and the
+1-D microturbulence parameter ( ξ), along with the abundances of up to 16 elements (Fe,
+12C, 14N, 16O, Mg, Al, Si, K, Ca, Ti, V, Cr, Mn, Co, Ni, or Cu) and, for many stars, the 13C
+isotopic abundance.
+One of the central components of the ASPCAP machinery is a spect ral linelist con-
+structed to produce the synthetic spectra that are used to com pare to the observed ones;
+the APOGEE linelist will be presented and discussed in detail by Shetro ne et al. (2012, in
+preparation).
+The goal of this study is to analyze a small number nearby ﬁeld red gia nts with well-
+deﬁned stellar parameters and use the APOGEE linelist to derive deta iled chemical abun-
+dances via standard “manual” abundance analysis techniques (Ram irez and Allende Prieto
+2011 is a recent example using such techniques). The derived stellar parameters and chemical
+abundances can be compared to the same quantities derived via ASP CAP using the same
+spectra, linelist, and model atmosphere grid. This comparison will be an important test of
+ASPCAP. This work will also present new abundances in these stars b ased on an extensive
+and up-to-date spectral linelist in the near-IR H-band.
+Abundances will be presented in this paper using two diﬀerent types of nomenclature,
+with one abundance scale deﬁned as A(X)=Log(N(X)/N(H)) + 12.0. The other scale com-
+pares the element ratio of N(X)/N(Q) in a target star to the Sun via [X/Q]=(A(X)TargetStar
+– A(X) ⊙) – (A(Q) TargetStar – A(Q) ⊙).
+2. Observational Data: The Fourier Transform Spectra of Bri ght Field Red
+Giants
+The APOGEE high-resolution spectra cover the wavelength range f rom ∼λ15100 to
+16900˚A and to analyze bright red giants over this spectral interval, data were obtained from
+the archives of the Fourier transform spectrometer (FTS–Hall e t al. 1979) that operated
+at the coude focus of the Kitt Peak National Observatory Mayall 4 -m reﬂector. A more
+complete description of observing techniques and the original data is discussed in Hinkle,
+Wallace, & Livingston (1995), in particular for the spectral atlas of α Boo.
+The originally reduced spectra of selected stars were recorded as ﬂux versus wavenumber
+(cm−1) over diﬀerent dates and runs and covered a broad region in the H- band. The spectra
+PAGE 4
+– 4 –
+analyzed here were resampled in wavelength space and restricted t o a wavelength range of
+λ15000 to 17000 ˚A. The resolution of the spectra for diﬀerent stars varies from R= 45,000 to
+100,000, but were all higher than what is being observed for APOGEE . The higher resolution
+allows for a detailed investigation of the limits of what can be derived hig h-quality (i.e., high
+resolution and high signal-to-noise) red-gaint spectra when using t he APOGEE linelist.
+3. The “Standard Star” Parameters
+3.1. The Choices
+There are ﬁve stars analyzed here: the well-studied α Boo, a mildly metal-poor K1.5
+giant, µ Leo, the prototype metal-rich star (Spinrad & Taylor 1969), which is a K1 giant,
+two near-solar-metallicity M giants, β And (M0III) and δ Oph (M0III), and HD199799,
+an AGB star of spectral type MS with a mild enhancement of 12C and a slightly elevated
+ratio of C/O (relative to solar) due to third dredge-up (Smith & Lamb ert 1990). Figure 1
+illustrates a small portion of the APOGEE wavelength coverage for f our of the red giants
+here. This region from 15560 – 15590 ˚A includes representative species and how they vary
+with spectral type (or eﬀective temperature) and metallicity. Line s from the main CNO-
+containing molecules, CO, OH, and CN fall within this region, as noted in the ﬁgure. Of
+particular interest is the metal-rich K-giant µ Leo, which exhibits quite strong CN lines;
+much of the variation in the spectrum of µ Leo compared to the other giants result from the
+high line-density of CN. This ﬁgure also points to the desirability of ana lyzing large numbers
+of red giants via spectrum synthesis techniques using a detailed linelis t.
+With a signiﬁcant fraction of its red-giant targets in the thin and thic k disks, plus the
+inner bulge and bar, the ﬁve types of red giants studied here span a range of temperature
+and metallicity that provides a good test for ASPCAP. The APOGEE su rvey targets red
+giants with eﬀective temperatures from T eﬀ =3400K–5000K, having surface gravities from
+log g=3.0 to -0.5, and metallicities from [Fe/H]= -5.0 to +1.0. These nearb y giants have
+well-measured photometry and parallaxes, so temperatures, lumin osities, and masses are all
+rather well-constrained. In addition, four of the ﬁve stars have p revious abundance analyses
+in the literature and thus provide comparison tests for the abunda nces derived from the
+APOGEE linelist.
+PAGE 5
+– 5 –
+3.2. Basic Data
+Deriving stellar chemical abundances from high-resolution spectra requires as basic input
+the eﬀective temperature (T eﬀ ), surface gravity (characterized as log g with g as cm-s −2),
+and overall metallicity as the fundamental parameters of the mode l atmosphere. In addition,
+high-resolution abundance analyses of cool stars that use static 1-D stellar atmospheres also
+require the derivation of a non-thermal Doppler-like broadening te rm called microturbulence
+(ξ), which is determined as part of the spectral analysis. The ﬁrst st ep is the determination
+of T eﬀ and, for these relatively nearby red giants, is set by the near-infr ared magnitudes of
+J and K. This particular choice is used because the APOGEE targets a re selected from the
+2MASS catalog (Strutskie et al. 2006) and therefore all have (J–K ) available. The aim is to
+focus on utilizing near-IR data and then compare to published literat ure results.
+All of the red giants here have parallaxes measured by Hipparcos an d thus have distances
+known to various levels of accuracy. The parallax is used to set the d istance and, thus, M K.
+Bolometric corrections from Bessell, Castelli, & Plez (1998) are used in conjunction with
+(J–K) to determine M bol and consequently stellar luminosity. Basic data for the red giants
+are presented in Table 1.
+The most important derived quantity aﬀecting the overall shape of the spectrum is
+Teﬀ , which here is based on an average of two T eﬀ -(J–K) calibrations; one from Gonzalez
+Hernandez & Bonifacio (2009) and the other from Bessell et al. (19 98). The Gonzalez
+Hernandez & Bonifacio calibration is deﬁned in the 2MASS photometric system of (J–K S),
+so the original Johonson (1965) (J–K) colors and K magitudes for t hese bright red giants
+(which have saturated magnitudes in the 2MASS catalog) were tran sformed to 2MASS values
+using the prescription from Carpenter (2001). The diﬀerences be tween the two calibrations,
+for a given metallicity, are less than 30-50K for T eﬀ ≤4500K, but above this temperature
+the Bessell et al. (1998) becomes cooler by about 100K for a given ( J–KS) (where we
+have transformed the Bessell et al. scale onto the 2MASS system) . There is also a small
+metallicity eﬀect on the (J–K S) calibration which, for a given (J–K S) can be ∼100K over the
+broad metallicity range of [m/H]= -2.0 to +0.0 (where m is taken to repre sent the generic
+abundance of metals, i.e. those elements other than H and He). Give n diﬀerences between
+two independent T eﬀ calibrations of less than 30-50K over the temperature range of th e
+target stars, as well as their modest range in metallicity, and well-de termined magnitudes
+with ∼ 0.02 uncertainty in (J–K S) (which translates to ∆T eﬀ =30K), the derived values of
+Teﬀ have uncertainties of ±50K or less.
+Given the stellar luminosity and eﬀective temperature, these funda mental properties
+are then compared to stellar evolution models presented in Bertelli e t al. (2008; 2009, with
+data from these papers taken from the website http://stev.oapd .inaf.it/YZV AR ) to estimate
+PAGE 6
+– 6 –
+stellar masses and, ultimately, surface gravities through:
+g/g⊙= (M/M ⊙) × (L⊙/L) × (Teﬀ /Teﬀ ⊙)4.
+Determining the surface gravity from evolutionay tracks is an itera tive process, because
+it requires knowledge of the stellar metallicity. This is illustrated in Figur e 2 where the stellar
+luminosity and T eﬀ are plotted along with evolutionary models from a range of masses, w ith
+each panel having a diﬀerent metallicity: Z=0.017 (top panel), 0.008 ( middle panel), and
+0.004 (bottom panel), correpsonding to overall metallicities of [m/H]= +0.07, -0.26, and
+-0.56, respectively, when taking Z=0.0145 for the Sun, as suggest ed by Lodders (2010). The
+illustrated evolutionary tracks follow stellar evolution up to the tip of the ﬁrst ascent red
+giant branch (which we label RGB). Initial model metalliities for the st ars studied here are
+based on previously published results, with β And, δ Oph, and HD199799 started with solar
+metallicity, α Boo with [Fe/H]= -0.5, and µ Leo with [Fe/H]= +0.3. As there are numerous Fe
+I lines in this spectral region, a sample of Fe I lines are used to determ ine the iron abundance.
+Given the limited range of metallicity spanned by the nearby red giants studied here, the
+Fe abundance is a good proxy for the overall stellar metallicity. If th e derived Fe abundance
+diﬀered by more than 0.1 dex from the assumed value, a new surface gravity was derived
+and a new model generated in order to reanalyze the Fe I lines until c onvergence between
+model abundance and derived abundance. For these relatively well- studied red giants, no
+more than two iterations were required until convergence. Table 2 presents, for these red
+giants, the derived parameters T eﬀ , Log (L/L ⊙), mass, log g, microturbulent velocity ( ξ – see
+Section 4.2), and overall metallicity, which is represented by [Fe/H] a s discussed in Section
+4.2.
+3.3. Stellar Parameters and Evolutionary State
+Given the position of the stars in the Log L versus T eﬀ plane shown in Figure 2, it can
+be ascertained that 4 stars ( α Boo, µ Leo, δ Oph, and β And) are most likely ﬁrst-ascent
+red giants of low to moderate mass. Based on its warmer temperatu re and somewhat lower
+luminoisty, it may be more likely that µ Leo is in, or very near the core-He burning phase
+(clump giant) and has thus already ascended the RGB and experienc ed the core-He ﬂash. It
+is also possible that the other 3 stars already noted above may be po st-He core-burning stars
+ascending the AGB; however, lifetimes on the two separate evolutio nary sequences would
+favor them as being on the RGB. All fall above the “luminosity bump” ( Fusi Pecci et al.
+1990) and would have thus experienced any extra-mixing that may o ccur during that phase
+of stellar evolution.
+PAGE 7
+– 7 –
+The coolest and most luminous red giant in this sample, HD199799, is an AGB star that
+is experiencing the third dredge-up, as evidenced by the observat ion of Tc I in its spectrum
+and its elevated s-process abundances, such as [Y/Fe] ∼+0.5 or [Nd/Fe] ∼+0.4 (Smith &
+Lambert 1988; 1990).
+4. The Abundance Analysis
+As with the initial abundances to be derived from APOGEE, the analys is here will
+rely on 1-D model atmospheres computed in LTE. Within APOGEE, the choice was made
+to base the initial abundance determinations on an extensive model atmosphere database
+generated using the ATLAS9 code (Kurucz 1993), thus the model atmospheres used here
+are based on these APOGEE models. ATLAS9 is widely used as a univers al LTE 1D plane-
+parallel atmosphere modeling code. The details of constructing the atmosphere database for
+APOGEE using ATLAS9 are presented in Meszaros et al. (2012).
+The individual elemental abundances themselves will also be derived u nder the assump-
+tion of LTE with the spectrum synthesis code MOOG as the analysis to ol (Sneden 1973 is
+the original reference, but updated information, data, and the m ost recent versions of the
+code can be found at http://www.as.utexas.edu/ ∼chris/moog.html).
+An extensive eﬀort was made to produce as complete a spectral line list as possible, so
+the analysis technique used here, as in APOGEE in general, is to utilize s pectrum synthesis
+in a quantitative comparison between synthetic and observed spec tra. All abundances are
+determined for each spectral line, or group of closely spaced molec ular lines, via minimizing
+the residuals between observed and synthetic spectra as a funct ion of the abundance in
+question.
+4.1. Choice of Fe I Lines and the Microturbulence
+Due to both its relatively large cosmic abundance and large number of energy levels,
+iron has historically been used as a diagnostic species for certain ste llar parameters, as well
+as an overall metallicity indicator, so the results for Fe I lines selecte d from the APOGEE
+linelist (Shetrone et al. 2012) are discussed here. In particular, Fe I lines are well-suited for
+setting the microturbulent velocity, ξ, that is required for 1-D model atmosphere abundance
+analyses.
+A large number of Fe I lines fall within the APOGEE spectral window (15 100 – 16900
+˚A), although there are no Fe II lines strong enough to be detected in these red giants. Since
+PAGE 8
+– 8 –
+all abundance determinations are done via spectrum synthesis, th e Fe I lines were culled
+to include those lines which contain only contributions from Fe I (this w as determined by
+preliminary synthesis of the red giant spectra, then setting the Fe abundance to zero and
+ensuring that the spectral feature in question vanished); since t he Fe I lines are so numerous,
+this stringent selection still results in an adequate list of lines. Table 3 presents the Fe I lines
+used for the iron abundance determinations. As is true of most of t he atomic lines in the
+H-band, the excitation energies are dominated by rather high-exc itation lines, although for
+Fe I there are two lower-excitation lines.
+The Fe I lines span a large enough range in line-strength that they ca n be used to set
+the microturbulent velocity. This parameter is deﬁned by the value o f ξ that produces no
+trend in the Fe abundance as a function of line-strength. For a ran ge of microturbulent
+velocities Fe abundances were determined from each Fe I line and the adopted value of ξ was
+one in which a linear regression between A(Fe) as a function of log(W λ /λ) yielded a slope
+of zero. This procedure is illustrated graphically in Figure 3, where th e abundances derived
+for each individual line is plotted versus ξ (the continuous lines); the circle with errorbars
+shows where the slope of A(Fe) with line-strength goes to zero.
+The microturbulent velocities set by the Fe I lines, as well as the Fe ab undances are
+listed in Table 2 as part of the derived set of stellar parameters. The individual line-by-line
+abundances as determined for each Fe I line are also listed in Table 3. T he Fe abundances
+were used to set the ﬁnal overall metallicities of the ATLAS9 model a tmospheres for the
+analysis of additional elements via atomic or molecular lines.
+4.2. The C, N, and O Abundances
+Abundances for 12C, 14N, 16O, and the minor carbon isotope 13C are derived from
+combinations of vibration-rotation (V–R) lines of CO (X 1Σ +) and OH (X 2Π), along with
+electronic transitions of CN (A 2Π – X 2Σ). Although the details of the ingredients that went
+into these molecular lines in the APOGEE linelist will be found in Shetrone e t al. (2012 –
+in preparation), a few highlights are noted here. The adopted disso ciation energies (D 0) are
+11.092 eV for CO, 4.395 eV for OH, and 7.76 eV for CN. The gf-values a re from Goorvitch
+(1994) for CO, Goldman et al. (1998) for OH, and the CN gf-values a re taken from the
+baseline linelist of Kurucz (1993), with updates to these values from the prescription given
+in Melendez & Barbuy (1999).
+The procedure used for the CNO analysis, since all red giants studie d here have C/O
+≤ 1, is to use CO to set the carbon abundance. With that carbon abun dance, OH provides
+PAGE 9
+– 9 –
+an O-abundance, which, if diﬀerent from the initial value (taken to b e the solar value scaled
+by the stellar value of [Fe/H]), is used to re-analyze the CO lines. This p rocess is repeated
+until the C and O abundances yield consistent abundances from CO a nd OH. With these
+values of C and O, the CN lines are used to derive the abundance of nit rogen. In general,
+the abundance of N has little to no eﬀect on the CO and OH lines, howev er, the respective
+ﬁnal C, N, and O abundances all provide self-consistent results fr om CO, OH, and CN.
+All spectral features were synthesized and the molecular regions that were used to
+extract the abundances are listed in Table 4. In this case, if a range of wavelengths is given
+it indicates that a spectral window containing numerous molecular line s was used (for CO
+and OH), while for CN individual transitions were identiﬁed and synthe sized. As with Table
+3, the abundances derived for each feature are also listed in Table 4 . In the case of 13C, as
+has been customery for minor isotopes, the abundance is listed as t he ratio of 12C/13C, with
+A(12C) being set by the mean abundance of carbon-12.
+4.3. The Other Atomic Lines and Elemental Abundances
+With the Fe and C, N, and O abundances in hand, additional elements a re derived via
+atomic spectral lines in the wavelength interval 15100 – 16900 ˚A. The APOGEE linelist was
+searched for suitable species, all neutral over the T eﬀ range of the red giants here, and some 12
+other elements were deemed detectable and able to be analyzed qua ntitatively: Mg I, Al I, Si
+I, K I, Ca I, Ti I, V I, Cr I, Mn I, Co I, Ni I, and Cu I. The additional a tomic lines are listed
+in Table 5. As with the molecular lines, if a precise wavelength is shown, t he transition
+in question is represented by a single line, however if the wavelength is approximated by
+an integer value it indicates multiple transitions due to hyperﬁne (hfs ) splitting or isotopic
+splitting. In the case of isotopic components, solar-system isotop ic fractions are assumed and,
+in general, this assumption has no signiﬁcant eﬀect on the derived to tal atomic abundances.
+Figure 4 illustrates the ﬁtting procedure for an atomic line from Mn I in δ Oph, with the
+underlying hfs components illustrated, as well as nearby blending fe atures, with several
+synthetic spectra plotted which have diﬀering Mn abundances. As w ith the previous Tables
+3 and 4, individual abundances are provided for each line or feature . As noted previously,
+the details of the generation of the APOGEE linelist will be found in Shet rone et al. (2012).
+Table 6 provides a summary table of all abundances listed as their mea n values and
+standard deviations from the lines or spectral intervals shown in Ta bles 3, 4, and 5. In cases
+where only one line or region was observed, no standard deviation is g iven. The abundance
+of 13C is given as the isotopic ratio of 12C/13C.
+PAGE 10
+– 10 –
+4.4. Abundance Sensitivity to Stellar Parameters
+Most of the abundances presented here are derived from more th an one atomic or molec-
+ular line or features of lines, thus internal consistency in the avera ge abundances are deﬁned
+by the scatter from the individual features. This scatter is chara cterized by the standard
+deviations of Table 6. Because multiple features arise from diﬀering lin e strengths (weak
+versus strong), excitation potentials, or ionization fractions, th ese respective standard devi-
+ations provide some estimate as to how well the 1-D LTE analysis can r ecover the details
+of the underlying stellar spectrum from the basic model atmospher e parameters T eﬀ , log
+g, metallicity, and derived value of ξ. The typical standard deviations from Table 6 are
+∼±0.05 dex. Of note, is the metal-rich K-giant µ Leo, which exhibits exceptionally strong
+CN lines, that are numerous throughout this H-band window. The ba ckground CN absorp-
+tion, creates blending which lowers the overall signature of other a bundances and increases
+the uncertainty in these other abundances; this is reﬂected in the generally larger standard
+deviations found in the µ Leo abundances.
+Besides internal consistency from the various spectral lines of diﬀ erent species, it is useful
+to explore their sensitivities to stellar parameters in order to chara cterize the magnitudes of
+possible systematic eﬀects due to uncertainties in the four primary parameters of eﬀective
+temeprature, surface gravity, metallicity, and 1-D derived microt urbulent velocity. For this
+discussion T eﬀ is written as T, log g as G, model atmosphere metallicity ([m/H]) as m, an d
+microturbulent velocity as ξ. Because the abundance for a given element, A=log[N(A)/N(H)]
++ 12. = A(T,G,m, ξ), the incremental change in this abundance due to small variations in
+the parameters is given by
+dA=(∂A/∂T )dT + ( ∂A/∂G )dG + ( ∂A/∂ξ )dξ + ( ∂A/∂m )dm.
+The scatter in the abundance caused by small changes in the stellar parameters is then
+deﬁned as
+σ 2A=⟨dA2⟩
+and dA 2 can be written as
+(dA)2=[(∂A/∂T )dT]2 + [( ∂A/∂G )dG]2 + [( ∂A/∂ξ )dξ]2 + [( ∂A/∂m )dm]2
++(∂A/∂T )(∂A/∂G )[dTdG + dGdT]
++(∂A/∂T )(∂A/∂ξ )[dTdξ + d ξdT]
++(∂A/∂T )(∂A/∂m )[dTdm + dmdT]
++(∂A/∂G )(∂A/∂ξ )[dGdξ + d ξdG]
+PAGE 11
+– 11 –
++(∂A/∂G )(∂A/∂m )[dGdm + dmdG]
++(∂A/∂ξ )(∂A/∂m )[dξdm + dmd ξ].
+The partial derivative terms are calculated by changing each model parameter and
+determining the resulting change in logarithmic abundance, A. Since t he perturbation in
+stellar parameters is relatively small, the changes are approximated by linear trends. As
+this paper is a limited study of a few stars as a test of the APOGEE linelis t, a test of
+abundance sensitivity to stellar parameters is carried out for a rep resentative model taken
+with T eﬀ =4000K, log g=1.3, [m/H]=+0.0, with ξ=2.0 km-s −1. Predicted equivalent widths
+were generated for the lines used in the abundance analysis and the stellar parameters were
+then pertrubed by dT=+50K, dG=+0.2 dex, dm=+0.1 dex, and d ξ=+0.2 km-s−1, with new
+abundances derived for each separate perturbation, giving the c hange in abundance for each
+parameter change. These coeﬃcients, which reﬂect the change in abundance, are listed in
+Table 7 and provide an overall view of how sensitive the derived abund ances are to changes
+in stellar parameters that are representative of realistic errors f or these particular red giants.
+Columns 6 and 7 in Table 7 provide the values of dA two cases: one using only the
+ﬁrst four terms which contains the change in abundance due to cha nges in each primary
+parameter (dA’ in column 6, which is valid if all parameters are indepen dent of each other),
+while column 7 includes the covariant terms. Within the analysis techniq ue applied here,
+it was found that the microturbulent velocity did not measurably dep end on the derived
+eﬀective temperature or gravity, and the dT-d ξ and dG-d ξ cross terms are not included. As
+can be seen by the comparison of dA’ and dA, the covariant terms c ontribute signiﬁcantly,
+in many species, to the uncertainty. The largest covariant terms a re typically those between
+Teﬀ and log g, caused by the slope of the RGB in the T eﬀ –log(L/L⊙) plane (since L ∼T4
+eﬀ /g).
+4.5. Comparison to Previously Published Abundances
+The abundances derived here rely on the APOGEE H-band spectral window from λ15100
+to 16900 ˚A, along with parallaxes and photometry. Historically, most detailed a bundance
+patterns obtained from high-resolution spectroscopy have tend ed to be based on wavelengths
+below λ10000˚A so it is useful to compare the abundances based on the APOGEE line list
+with those from other studies for stars in common. Within the sample of red giants discussed
+here, previous high-resolution abundance analyses have been con ducted on α Boo, µ Leo, β
+And, and HD 199799.
+PAGE 12
+– 12 –
+4.5.1. α Boo
+Being the nearest red giant, α Boo is often used as the standard star of choice for abun-
+dance comparisons. Ramirez & Allende Prieto (2012) have produced a recent and detailed
+high-resolution optical spectral analysis, revieiwng both fundame ntal stellar parameters for
+this star, as well as deriving an extensive set of elemental abundan ces. They used the ob-
+served spectral energy distribution and compared to theoretica l ones from the Kurucz grid
+of no-overshoot model atmospheres with α -element enhanced compositions ([ α /Fe]=+0.4;
+Castelli & Kurucz 2003) in order to set the T eﬀ for α Boo. The ﬂux from λ ∼0.3 – 10 µm
+was used with the resultant best-ﬁt T eﬀ =4286±30K. This value is entirely consistent with
+that obtained here (T eﬀ =4275±50K) based on the (J–K) color and calibration used here
+from Bessell et al. (1998) and Gonzalez Hernandez & Bonifacio (200 9).
+Ramirez & Allende Prieto (2012) used stellar evolutionary model trac ks to estimate the
+mass (as well as age) of α Boo, as the eﬀective temperature and parallax are known to high
+precision. The mass was set by comparison to Yonsei-Yale isochrone s (Yi et al. 2001; Kim
+et al. 2002) and was found to be M=1.08 ±0.06M⊙, which yields a surface gravity of log
+g=1.66±0.05. In this study the T eﬀ =4275K value from the (J–K) color is adopted, while
+the Ramirez & Allende Prieto log g is used. These stellar parameters we re used to generate
+a model atmosphere as described in Section 4 with the ATLAS9 code in the same manner
+as is being done for the APOGEE targets (Meszaros et al. 2012).
+The microturbulence, ξ, derived by Ramiriz & Allende Prieto was set by Fe I lines and
+was found to be ξ=1.74 km-s −1. The Fe I lines used from the APOGEE linelist yielded a
+value of ξ=1.85±0.05 km-s −1: very close to that derived from optical Fe I lines.
+A direct comparison of the derived abundances here with those fro m Ramirez & Allende
+Prieto (2012) using completely diﬀersent sets of lines leads to the fo llowing mean diﬀerence
+and standard deviation for 13 elements in common of ∆A(x)(This pap er – Ramirez & Allende
+Prieto)=+0.03±0.10 dex. There is no signiﬁcant oﬀset in the overall abundance patt erns
+and the scatter is that expected given the uncertainties in the log g f scales and internal line-
+to-line scatter within each study. This comparison suggests that a bundances derived from
+the APOGEE linelist can be used for comparisons to those found from analyses at visual
+wavelengths when high-quality spectra are analyzed.
+4.5.2. µ Leo
+This K-giant is often cited as the “prototype” for metal-rich stars , having been noted
+as such by Spinrad & Taylor (1969), and some of its spectral region s contain numerous
+PAGE 13
+– 13 –
+and strong CN lines. Two older abundance studies in the literature (G ratton & Sneden
+1990; Smith & Ruck 2000) are used to compare to the abundances d erived here, as well as
+a more recent analysis by Fulbright, McWilliam, & Rich (2007–FMR). As w ith the α Boo
+comparison in Section 4.5.1, both of these published analyses are bas ed on high-resolution
+spectra in the visual. Both studies used T eﬀ =4540K for µ Leo, which is similar to the value
+4550K adopted here. The surface gravities were slightly diﬀerent, with log g= 2.3 ±0.3 in
+Gratton & Sneden and 2.2 ±0.1 in Smith & Ruck; both values agree with the value here,
+within the uncertainties, of log g=2.1 derived from the luminosity and e stimate of stellar
+mass.
+The value of ξ=1.8 km-s −1 found from the H-band Fe I lines is slightly higher than
+1.2 km-s 1 found by both Gratton & Sneden (1990) and Smith & Ruck (2000), b ut with all
+studies having uncertainties of 0.3-0.5 km-s −1, this oﬀset cannot be claimed to be signiﬁcant.
+A comparison of abundances between here and Gratton & Sneden ( 1990) for 12 elements
+ﬁnds a mean ∆A(x)(This paper - GS)=-0.05 ±0.14 dex, while the same comparsion with
+Smith & Ruck (2000) yields ∆A(x)=-0.05 ±0.02 dex for the 3 elements analyzed by them:
+Fe, Mg, and Ca. The abundance oﬀsets are not signiﬁcant and the s catter is within what is
+expected.
+The more recent abundance analysis of µ Leo by FMR was part of their study of bulge
+red giants. Their derived stellar parameters were quite similar to tho se found here, with
+Teﬀ (FMR)=4520K, (∆T(this study - FMR)= +30K), Log g = 2.33 (∆log g(T his study -
+FMR)= -0.23), and ξ=1.50 km-s −1 (∆ ξ(This study - FMR)= +0.3 km-s −1). There are 7
+elements in common (Fe, O, Mg, Al, Si, Ca and Ti) and the mean diﬀerenc e is ∆A(x)(This
+study - FMR)=-0.10 ± 0.13 dex. A comparison amongst the three µ Leo studies points to
+rather small oﬀsets in stellar parameters ( ∼ 30K in T eﬀ , 0.2 dex in log g, 0.3-0.5 km s −1
+in ξ, and 0.1 dex in [m/H]) with the conclusion that H-band spectroscopy c an be compared
+reliably to optical analyses with reasonable accuracies, even at this higher metallicity.
+4.5.3. β And
+This M-giant was analyzed previously by Smith & Lambert (1985) who d erived Teﬀ =3800K
+(from its (V–K) color), log g=1.6, and ξ=2.1 km-s−1. The derived eﬀective temperature here
+of 3825K is very close to Smith & Lambert, as is the microturbulence o f 2.2 km-s −1. The sur-
+face gravity from Smith & Lambert is larger by 0.7 dex, but their value relied on the distance
+(as it does in this paper), for which they used a luminosity calibration f or the Ca II K-line
+reversal that was tied to a pre-Hipparcos Hyades distance that w as too small. Making the
+estimated log g corrections to the Smith & Lambert (1985) abundan ces (based on their pub-
+PAGE 14
+– 14 –
+lished sensitivities of abundance with log g) for 12C, 14N, 16O, Ti, Fe, and Ni we ﬁnd a mean
+diﬀerence and standard deviation of ∆A(x) (This paper - Smith & Lam bert)=+0.02±0.14
+dex.
+Beta And was also used as a comparison star by Chou et al. (2010) in t heir study of
+Sgr dwarf-galaxy tidal streams in the Galactic halo. Chou et al. (201 0) applied a sim-
+ilar technique as that employed here to estimate temperatures and gravities and found
+Teﬀ =3850±75K, log g=0.9 and ξ=1.96 km-s −1, giving diﬀerences of only 25K in T eﬀ , 0.0 in
+log g, and +0.24 km-s −1 in ξ. Their analysis used the spectral region around λ7500˚A contain-
+ing a sample of Fe I and Ti I lines and determined A(Fe)=7.12 ±0.06 and A(Ti)=4.55 ±0.12,
+which can be compared to values of 7.23 ±0.03 and 4.72 ±0.02, respectively, here, yielding
+diﬀerences of +0.11 dex in Fe and +0.17 dex in Ti.
+4.5.4. HD 199799
+HD 199799 is classiﬁed as spectral type M2S, which means that it disp layed enhanced
+bands of ZrO in classiﬁcation spectra. Smith & Lambert (1988) dete cted the radioactive
+s-process element Tc I in its spectrum, identifying this star as an int rinsic TP-AGB star
+undergoing third dredge-up. A quantitative abundance analysis wa s then carried out by
+Smith & Lambert (1990) and they derived similar stellar parameters t o those derived here:
+the same T eﬀ =3400K, with a slightly lower value of log g=+0.3, compared to +0.5 here .
+The microturbulent velocity determined here from the H-band spec tra is ξ=2.4 km-s −1,
+which is 0.7 km-s −1 larger than Smith & Lambert (1990), who used Fe I lines near λ7500˚A.
+Taking into account the slightly lower gravity and smaller ξ, the abundances from Smith &
+Lambert (1990) can be compared to those here for Fe, 12C, 14N, 16O, Ti, Cr, Co, and Ni, with
+the mean diﬀerence being ∆A(x)( Us - SL90)= -0.08 ±0.13. The respective carbon isotopic
+ratios compare well, with Smith & Lambert (1990) ﬁnding 12C/13C=28, while a value of 27 is
+obtained here. The derived C/O ratios are the same in the two studie s, with 12C/16O=0.68.
+The comparisons presented here are between studies that have p ossibly used somewhat
+diﬀerent families of model atmospheres (e.g. MARCS or ATLAS), diﬀe rent spectral regions,
+and linelists derived from heterogeneous sources. Given the variet y of data and analysis
+techniques, the derived abundances, in all cases, compare well at approximately the 0.10
+to 0.15 dex level. A glance at Table 7 reveals that such diﬀerences fall within this range
+of uncertainty for most elements given modest changes in fundame ntal model atmosphere
+parameters. Since the derived stellar parameters themselves rely to some degree on the type
+of analysis, the generally good agreement between the derived abu ndances from the various
+published sources, along with the expected uncertainties in this stu dy, as presented in Table
+PAGE 15
+– 15 –
+7, is encouraging. The gist of the comparisons, since many of the st udies are based on optical
+spectra, is that H-band spectrscopy can be used to deﬁne a prec ise internal abundance scale
+that can also extended to abundances derived from other, more c ommon spectral windows,
+such as in the optical.
+5. Discussion
+The abundances from Table 6 and an estimation of their respective u ncertainties from
+Table 7, along with the stellar parameters from Table 2 represent, t o some extent, what AS-
+PCAP will produce from the APOGEE spectra. The following discussion highlights these
+abundances in light of internal red giant stellar evolution, as well as G alactic chemical evo-
+lution and stellar populations. These discussion topics anticipate wha t sorts of information
+will be gleaned from the APOGEE targets.
+5.1. CNO Abundances and Red-Giant Evolution
+Based on their luminosities and eﬀective temperatures (Figure 2), f our of the red giants
+studied here are either ﬁrst-ascent giants or, perhaps for µ Leo, a clump red giant. HD
+199799 is in a more advanced stage of stellar evolution where it is unde rgoing thermal pulses
+and third dredge-up on the AGB. The combination of nucleosynthes is and convective mixing
+in evolved red giants should result in surface abundances of 12C, 13C, and 14N that have
+been altered from their initial (main sequence) values due to CN-cyc le H-burning and ﬁrst
+dredge-up.
+The result of CN-cycle mixing is seen mostly easily in the 12C/13C ratios which are
+much higher in main-sequence stars, with the Sun having a value of 89 . All four of the
+RGB or clump giants have quite low values, ranging from 12C/13C∼6-20. Gilroy (1989) and
+many subsequent studies of both open and globular clusters (e.g., M ikolatis et al. 2012 or
+Briley et al. 1995) have noted that the carbon isotopic ratios corre late with stellar mass in
+stars above the luminosity bump on the RGB or in the clump; red giants more massive than
+M∼2.5M⊙ have values of 12C/13C∼22-30, while lower-mass red giants exhibit decreasing
+isotopic ratios with declining mass. The mass estimates derived here f or ﬁeld stars from
+distance-luminosity and stellar evolutionary tracks are modestly we ll-deﬁned and the top
+panel of Figure 5 shows the 12C/13C values versus the estimated stellar mass. Also plotted
+are representative results for open clusters from Gilroy (1989) a nd Mikolaitis et al. (2012),
+and the globular cluster M71 from Briley et al. (1995). The cluster re d giants have recently
+PAGE 16
+– 16 –
+evolved from the cluster turn-oﬀs, which have a well-determined ma sses. For the lower-mass
+stars included in these cluster studies, evolution along the RGB is rap id ( ∼107 yrs) when
+compared to main sequence lifetimes ( ∼108-109 yrs) so the red giant mass is similar to the
+turn-oﬀ mass. This can be demonstrated using the evolutionary tr acks from Bertelli et al.
+(2009), where an isochrone with a turn-oﬀ mass of 4.0M ⊙ has a red giant tip mass of 4.2M ⊙,
+or a ratio of RGB to TO masses of 1.05. This ratio of masses becomes e ven closer to 1.0 for
+lower masses, which include all of the points in Figure 5. The points fro m Gilroy represent
+the mean values of 12C/13C for 19 open clusters with a total of 55 red giants in her sample.
+The mean carbon isotopic ratios for two other open clusters (with a total of 10 red giants
+from Cr261 or NGC6253) from Mikolaitis et al. (2012) are also shown ( open blue squares).
+A representative globular cluster, M71, which has a lower main-sequ ence mass (M ∼0.9M⊙)
+from Briley et al. (1995) is plotted as the open blue triangle and repre sents the mean of
+two of the CN-weak stars in this cluster. The CN-strong giants tha t Briley et al. also
+studied are not plotted, as they exhibit slightly lower isotopic ratios b ut almost certainly
+represent 2nd generation stars in M71 that were formed from larg e fractions of the ejecta
+of 1st generation intermediate-mass red giants and thus are not r epresentative of single-star
+red giant evolution.
+The curves in the top panel of Figure 5 represent stellar evolutiona ry model results
+from Charbonnel & Lagarde (2010); the solid black line illustrates th eir predictions for
+standard RGB dredge-up (no “extra-mixing” or rotation included) . Clearly, standard RGB
+ﬁrst dredge-up does not ﬁt the observed trend of 12C/13C for red giants with M ≤2.2M⊙.
+This poor comparison between theory and observation has led to wo rk in trying to identify
+other types of “extra mixing” mechanisms that would lead to lower ca rbon-isotopic ratios in
+the lower-mass red giants. Two such hypothesized mechanisms are thermohaline mixing or
+thermohaline mixing coupled with rotational mixing, as discussed rece ntly by Charbonnel
+& Lagarde (2010). The dashed curves present results from Char bonnel & Lagarde also,
+with the short dashes for thermohaline mixing only and the long dashe s for thermohaline
+mixing plus rotational mixing for models with initial equatorial rotation al velocities of 110
+km-s−1. The stellar models that incorporate these particular types of ext ra-mixing provide
+fair agreement with the observations, although these are not the only types of processes that
+have been studied and are used here to merely illustrate the eﬀect o f extra mixing. The
+trends found in the clusters also overlap well with the ﬁeld stars ana lyzed here, except for
+HD 199799, which is in a diﬀerent evolutionary phase than the other r ed giants. This star
+has enriched its surface in 12C that was synthesized by He-burning as a TP-AGB star. In
+the simplest case of pure 12C dredge-up, the surface 12C/13C ratio would increase, which is
+where HD 199799 lies in the top panel of Figure 5 relative to the other red giants. Such an
+eﬀect has been noted by both Lambert et al. (1986) and Smith & Lam bert (1990), where
+PAGE 17
+– 17 –
+these studies ﬁnd increasing values of 12C/13C as TP-AGB stars evolve from M to MS to S
+to C stars (with increasing values of 12C/16O).
+The bottom panel of Figure 5 plots the abundance by number ratio o f N(C)/N(N) versus
+stellar mass, where the carbon abundance is now the total of 12C + 13C: for reference the solar
+ratio is 3.80. Nitrogen is also the total abundance, however in the ca se of the observations,
+15N is ignored as its abundance is very low (and not detected in these re d giants) when
+compared to 14N. There is an observed decrease in C/N with increasing mass as pred icted
+by both standard RGB dredge-up and dredge-up plus thermohaline mixing (Charbonnel &
+Lagarde 2010), which are shown as the solid and dashed curves, re spectively, and are from
+the same models as in the top panel. In the case of the C/N ratios, th e total carbon and
+nitrogen abundances are not as strongly inﬂuenced by non-stand ard mixing as the carbon
+isotopic ratios.
+Figure 6 combines the C/N ratios versus 12C/13C ratios for both the observed red
+giants and the models from Charbonnel & Lagarde (2010). When dis played this way, the
+diﬀerent behavior between C/N versus 12C/13C is striking and these two values are purely
+spectroscopically derived quantities. The trend of C/N with 12C/13 seems to provide a
+sensitive indicator of red giant mixing processes, as well as yields a ma ss estimate for stars
+on the RGB. Again, HD 199799 stands apart from the other red gian ts as it has internally
+enhanced its 12C abundance by about a factor of two since it was a RGB star, based on its
+12C/13C and mass, relative to other RGB stars in the top panel of Figure 5. The dashed-
+dotted line connects to the region in this diagram where HD 199799 wo uld fall if its surface
+12C abundance were reduced by a factor of two, which is a simpliﬁed ske tch of how TP-AGB
+stars might evolve across such a diagram from the RGB.
+The assumption of only CN-cycle mixing taking place in the red giants is t ested in Figure
+7, where the total carbon abundance ( 12C + 13C) is plotted versus the nitrogen abundance
+(here 14N). The solar values of C and N are also shown, along with the dashed lin e illustrating
+scaled solar-abundances for both C and N. The continuous blue cur ves represent decreasing
+carbon and increasing nitrogen abundances from the scaled solar lin es, with the constraint
+that the number of C + N nuclei is conserved, as in the CN-cycle (with no leakage into the
+ON-cycle). Each curve is scaled in its initial C and N abundances by the stellar value of
+[Fe/H] for α Boo, β And, δ Oph, and µ Leo. CN-cycle mixing alone is suﬃcient to represent
+the derived abundances of C and N with initial abundances having [C + N /Fe]∼0.0 for each
+RGB star. Due to having undergone third dredge-up and 12C enrichment, HD 199799 will
+be oﬀset from its CN curve, so no curve is plotted for it. The dashed -dotted line simply
+shows the shift in A(C) if HD 199799 has doubled its RGB 12C abundance. Having nearly
+the same metallicity as β And, HD 199799 might be expected to have been near the CN
+PAGE 18
+– 18 –
+curve for β And before it began its evolution as a TP-AGB star.
+The APOGEE H-band wavelength region presents good opportunitie s for probing many
+nuclear and mixing processes that occur over the various phases o f red giant evolution.
+5.2. Element Ratios and Galactic Chemical Evolution
+Other than the C and N isotopes, the vast majority of APOGEE red g iant targets will
+not have altered their surface abundances of the other studied e lements, so the remaining
+elements are dominated by chemical evolution within the various stella r populations of the
+Milky Way (or its accreted systems). The derived abundances of ea ch of the other elements
+are discussed in the light of observed trends of these elements with A(Fe) from other studies
+in the literature. The number of published abundances is now enormo us; however in this
+ﬁrst exploratory study using the APOGEE linelist, a comparison with a small number of
+selected literature sources is suﬃcient. For comparison purposes in this paper a stellar
+sample representative of the Milky Way stellar populations was const ructed using Reddy et
+al. (2003; thin disk with some thick disk and having 58 stars), Reddy e t al. (2006; thick
+disk with 176 stars), Johnson (2002; halo with 23 stars), and Fulbr ight (2002; halo with 178
+stars).
+The investigation of elements derived from the APOGEE linelist is via a nu mber of
+ﬁgures, beginning with Figure 8, which presents values of O/Fe, Mg/ Fe, and Al/Fe versus
+A(Fe); the shorthand notation here of x/Fe denotes the logarith mic number ratio of element
+x to iron, log[N(x)/N(Fe)], or A(x) - A(Fe). This nomenclature is cho sen over the [x/Fe]
+in the plots as it presents a direct logarithmic number ratio with the so lar abundance ratio
+being noted in each panel, thus no reference to the underlying solar abundance is needed, but
+the relative scales are equivalent to [x/Fe]. The top panel of Figure 8 shows the behavior of
+O/Fe and, as has been well-known for decades, values of O/Fe are e levated in the thick disk
+and halo stars. Among the ﬁeld red giants here, the slightly metal-po or objects α Boo and β
+And both have O/Fe enhanced by ∼+0.2 – +0.3. The near-solar metallicity M-giant δ Oph
+has a near-solar ratio of O/Fe, while the metal-rich giant µ Leo also exhibits a near-solar
+value O/Fe.
+The behavior of Mg/Fe is shown in the middle panel of Figure 8 and, like o xygen,
+Mg/Fe ratios are typically elevated in the thick disk and halo population s. The four red
+giants closest to solar in A(Fe) all exhibit basically solar Mg/Fe ratios, with α Boo having a
+slight enhancement of ∼+0.1 dex, which overlaps the thick disk populations.
+Aluminum abundances are plotted in the bottom panel of Figure 8 and the behavior of
+PAGE 19
+– 19 –
+Al/Fe versus A(Fe) is not so well-deﬁned, with relatively large scatte r. Mu Leo is found to be
+modestly enhanced in Al/Fe by about +0.10–+0.15 dex, as is α Boo, with an enhancement
+of ∼+0.2.
+The abundances for the rest of the elements studied here are illust rated in Figure 9 (for
+Si, K, and Ca), Figure 10 (for Ti, V, and Cr), Figure 11 (for Mn, Co, a nd Ni), and Figure
+12 (for Cu). In all elements, the general trends found in the gene ral Galactic populations
+are recovered in the small sample of ﬁeld red giants included here. Th e one exception is Ti
+in δ Oph and µ Leo, both of which are found to exhibit enhanced values of Ti/Fe of + 0.2
+dex. There is no obvious explanation for this, however the continuin g analysis of APOGEE
+spectra with this linelist wuill reveal if this possible eﬀect appears in sig niﬁcant numbers
+of other red giants. The results presented and discussed here ind icate that H-band spectra
+analyzed in LTE with the APOGEE linelist and 1D model atmospheres can provide accurate
+results for chemical abundances.
+6. Conclusions
+Archival high-resolution FTS spectra from λ15100–16900˚A are analyzed to derive de-
+tailed chemical abundance distributions for ﬁve ﬁeld red giants using the APOGEE linelist
+and model atmosphere grid. The red giants span a range in T eﬀ from 3400K to 4540K and
+log g from 0.5 to 2.1, covering a signiﬁcant part of the eﬀective tempe rature - surface gravity
+range being observed in the APOGEE survey.
+Chemical abundances are determined for 16 elements, along with th e minor carbon
+isotope, 13C. Comparisons of the abundances derived here with those from pr eviously pub-
+lished studies of four of the target stars here, mostly from visual- wavelength high-resolution
+spectra, ﬁnd abundance diﬀerences of ∼0.1 dex. The APOGEE wavelength window with its
+derived linelist and model atmosphere grid, coupled to spectrum syn thesis modelling, can be
+used to analyze high-resolution H-band spectra of red giants to pr obe both Galactic chemical
+evolution in stellar populations, as well as internal red giant nucleosy nthesis and mixing.
+7. Acknowledgments
+We thank Ken Hinkle, for helping to make the archival FTS spectral a vailable and to
+Luan Ghezzi for useful comments on an initial draft of this paper. VS acknowledges partial
+support for this research from the National Science Foundation ( AST1109888) and CAPES,
+Brazil. This publication makes use of data products from the Two Micr on All Sky Survey,
+PAGE 20
+– 20 –
+which is a joint project of the University of Massachusetts and the Infrared Processing and
+Analysis Center/California Institute of Technology, funded by the National Aeronautics and
+Space Administration and the National Science Foundation. This res earch has made use of
+the SIMBAD database, operated at CDS, Strasbourg, France.
+Funding for SDSS-III has been provided by the Alfred P. Sloan Foun dation, the Partic-
+ipating Institutions, the National Science Foundation, and the U.S. Department of Energy
+Oﬃce of Science. The SDSS-III web site is http://www.sdss3.org/.
+SDSS-III is managed by the Astrophysical Research Consortium f or the Participating
+Institutions of the SDSS-III Collaboration including the University o f Ari- zona, the Brazilian
+Participation Group, BrookhavenNa- tional Laboratory, Univers ity of Cambridge, Carnegie
+Mellon University, University of Florida, the French Participation Gro up, the German Par-
+ticipation Group, Harvard University, the Instituto de Astroﬁsica de Ca- narias, the Michi-
+gan State/Notre Dame/JINA Participa- tion Group, Johns Hopkins University, Lawrence
+Berke- ley National Laboratory, Max Planck Institute for Astro- physics, New Mexico State
+University, New York Univer- sity, Ohio State University, Pennsylva nia State Univer- sity,
+University of Portsmouth, Princeton University, the Spanish Part icipation Group, University
+of Tokyo, Uni- versity of Utah, Vanderbilt University, University of Vir- ginia, University of
+Washington, and Yale University.
+Facilities: NOAO, Mayall 4m (FTS).
+REFERENCES
+Allende Prietro, C. and ASPCAP team 2012, in preparation
+Bertelli, G., Girardi, L., Marigo, P., Nasi, E. 2008, A&A, 484, 815
+Bertelli, G., Nasi, E., Girardi, L., Marigo, P. 2009, A&A, 508, 355
+Bessell, M. S., Castelli, F., Plez, B. 1998, A&A, 333, 321
+Briley, M. M., Smith, V. V., & Lambert, D. L. 1995, ApJ, 424, L119
+Carpenter, J.M. 2001, AJ, 121, 285
+Castelli, F. & Kurucz, R. L. 2003, New Grids of ATLAS9 Model Atmosp heres, IAUS, 210,
+20PD
+Charbonnel, C. & Lagarde, N. 2010, A&A 522, 10
+PAGE 21
+– 21 –
+Chou, M-Y. Majewski, S. R., Cunha, K., Smith, V. V., Patterson, R. J ., & Martnez-Delgado,
+D. 2010, ApJ, 720 L5
+Eisenstein, D. J., Weinberg, D. H., Agol, E., Hiroaki, A., Allende Prieto, C ., and 239 coau-
+thors 2011, AJ, 142, 72
+Fulbright, J. P. 2002, AJ, 123, 404
+Fulbright, J. P., McWilliam, A., Rich, R. M. 2007, ApJ, 661, 1152
+Fusi Pecci, F., Ferraro, F. R., Crocker, D. A., Rood, R. T., Buonann o, R. 1990, A&A, 238,
+95
+Gilroy, K. K. 1989, ApJ, 347, 835
+Goldman, A., Shoenfeld, W. G., Goorvitch, D., Chackerian, C., Jr., Dot he, H., Melen, F.,
+Abrams, M. C., & Selby, J. E. A. 1998, J. Quant. Spectrosc. Radiat . Transfer, 59, 453
+Gonzalez Hernandez, J.I., & Bonifacio, P. 2009, A&A, 497, 497
+Goorvitch, D. 1994, ApJS, 95, 535
+Gratton, R. G., & Sneden, C. 1990, A&A, 234, 366
+Hall, D. N. B., Ridgway, S. T., Bell, E. A., Yarborough, J. M. 1979, Proc . SPIE, 172, 121
+Hinkle, K., Wallace, L., & Livingston, W. 1995, PASP, 107, 1042
+Johnson, H. L. 1965, Comm. Lunar & Planetary Lab. 53
+Johnson, J. A. 2002, ApJS, 139, 219
+Kim, Y., Demarque, P., Yi, S. K. & Alexander, D. R. 2002, ApJS, 143, 4 99
+Kurucz, R. L. 1993, ATLAS9 Stellar Atmosphere Programs and 2 km s1 grid. Kurucz CD-
+ROM No. 13. Cambridge, Mass.:Smithsonian Astrophysical Observat ory, 1993, 13
+Lambert, D. L., Gustafsson, B., Eriksson, K., Hinkle, K. H. 1986, Ap JS, 62, 373
+Lodders, K. 2010, in Principles and Perspectives in Cosmochemistry , Astrophysics & Space
+Science Proceedings, Part 3 (Springer-Verlag: Berlin Heidelberg), A. Goswami & B.E.
+Reddy, eds., p.379
+Melendez, J., & Barbuy, B. 1999, ApJS, 124, 527
+PAGE 22
+– 22 –
+Meszaros, S., Allende Prieto, C., Edvardsson, B., Castelli, F., Garcia P erez, A. E., Gustafs-
+son, B., Majewski, S. R., Plez, B., Schiavon, R., Shetrone, M., de Vicen te, A. 2012,
+AJ, 144, 120
+Mikolaitis, S., Tautvaisiene, G., Gratton, R., Bragaglia, A., & Carretta , E. 2012, A&A 541,
+137
+Ramirez, I. & Allende Prieto C. 2011, ApJ, 743, 135
+Reddy, B. E., Tomkin, J., Lambert, D. L., & Allende Prieto, C. 2003, MN RAS, 340, 304
+Reddy, B. E., Lambert, D. L., & Allende Prieto, C. 2006, 367, 1239
+Shetrone, M. and ASPCAP team, in preparation
+Smith, G., & Ruck, M. J. 2000, A&A, 356, 570
+Smith, V. V., & Lambert, D. L. 1985, ApJ, 294, 326
+Smith, V. V., & Lambert, D. L. 1988, ApJ, 333, 219
+Smith, V. V., & Lambert, D. L. 1990, ApJS, 72, 387
+Sneden, C. 1973, ApJ, 184, 839
+Spinrad, H., & Taylor, B. J. 1969, ApJ, 157, 1279
+Skrutskie, M.F., Cutri, R.M., Stiening, R., Weinberg, M.D., Schneider, S.,C arpenter, J.M.,
+Beichman, C., Capps, R., Chester, T., Elias, J., Huchra, J., Liebert, J ., Lonsdale, C.,
+Monet, D.G., Price, S., Seitzer, P., Jarrett, T., Kirkpatrick, J.D., Gizis , J., Howard,
+E., Evans, T., Fowler, J., Fullmer, L., Hurt, R., Light, R., Kopan, E.L., Ma rsh, K.A.,
+McCallon, H.L., Tam, R., Van Dyk, S., Wheelock, S. 2006, AJ, 131, 1163
+van Leeuwen, F. 2007, A&A, 474, 653
+Yi, S.; Demarque, P.; Kim, Y., Lee, Y., Ree, C. H.; Lejeune, T. & Barnes , S. 2001, ApJS,
+136, 417
+This preprint was prepared with the AAS L ATEX macros v5.2.
+PAGE 23
+– 23 –
+0
+0.5
+1
+OH OHCN CO(3-0)CNFe I Fe I
+OH
+CN Fe I Fe I
+CO
+0
+0.5
+1
+0
+0.5
+1
+0
+0.5
+1
+Fig. 1.— Sample spectra of red giants in the region near the 12C16O (3–0) bandhead. These
+stars span a range in temperature, from T ef f = 4550 K ( µ Leo) down to T eﬀ = 3825 K ( β
+And) and in metallicity, with α Boo having [Fe/H] =-0.52, while µ Leo has [Fe/H]=+0.31
+dex. These panels illustrate both the quality of the spectra and the variation of molecular
+and atomic line absorption with primarily T eﬀ .
+PAGE 24
+– 24 –
+0
+1
+2
+3
+4
+0.8
+1.0
+1.5
+2.0
+2.5
+3.0
+0
+1
+2
+3
+4
+0.8
+1.0
+1.5
+2.0
+2.5
+7000 6000 5000 4000 3000
+0
+1
+2
+3
+4 HD199799
+0.8
+1.0
+1.5
+2.0
+2.5 
+Fig. 2.— The positions of the ﬁeld red giants in the Log (L/L ⊙) - T eﬀ plane, which is a
+modiﬁed HR-diagram. The continous curves represent stellar evolu tion tracks for diﬀerent
+mass stars with each panel representing a diﬀerent heavy-elemen t mass fraction (Z); this is
+equivalent to overall stellar metallicity with the Sun having Z=0.0145 (L odders 2010). The
+model tracks are used to set log g for each red giant studied here.
+PAGE 25
+– 25 –
+Fig. 3.— The individual Fe I abundances as a function of microturbulen t velocity for µ Leo
+(top panel) and β And (bottom panel). Each curve represents a single Fe I line. Stron ger
+lines are more sensitive to changes in ξ than weaker lines. The value of ξ that yields no
+signiﬁcant abundance diﬀerences as a function of reduced line-str ength (log W λ /λ) is taken
+as the characteristic microturbulent velocity for the star. The de rived microturbulent velocity
+as displayed here also corresponds to the smallest scatter in A(Fe) .
+PAGE 26
+– 26 –
+0
+0.2
+0.4
+0.6
+0.8
+1
+Hyper-fine components
+Fig. 4.— A comparison of the observed spectrum near the Mn I line at 1 5262˚Ain δ Oph (blue
+open circles) with synthetic spectra which were computed for Mn ab undances separated in
+intervals of 0.1 dex. This Mn I transition consists of a number of hfs c omponents of diﬀering
+wavelengths, as shown, with the vertical length of each componen t proportional to the gf-
+value of that component transition. Note that Mn I is blended with a C N feature containing
+both 12C14N and 13C14N lines, thus the value of 12C/13C ratio must be included. Both the
+hfs structure and CN blending illutrates the need for the APOGEE an alysis to be based on
+spectrum synthesis with an accurate linelist.
+PAGE 27
+– 27 –
+0
+10
+20
+30
+0 1 2 3 4
+0
+1
+2
+3
+4
+Mass (Solar Masses)
+Fig. 5.— The behavior of the nuclei 12C, 13C, and 14N with stellar mass on the RGB as
+characterized by 12C/13C and C/N (where C= 12C+13C and N=14N). The relative abundances
+of these nuclei are altered by H-burning via the CN-cycle and conve ctive mixing on the RGB
+dredges up the processed abundances. The TP-AGB star HD 1997 99 is identiﬁed, as it has
+increased signiﬁcantly its 12C abundance from He-burning and third dredge-up and has thus
+increased its 12C/13C relative to when it was on the RGB.
+PAGE 28
+– 28 –
+0 10 20 30
+0
+1
+2
+3
+Model Mass
+1.0
+1.25
+1.40
+1.5
+1.7
+2.0
+2.5
+4.0
+Fig. 6.— Observed and model predicted behavior of N(C)/N(N) vers us 12C/13C; the model
+curves show so-called standard dredge-up (solid line curve) and a t hermohaline mixing model
+as a function of stellar mass from Charbonel & Lagarde (2010; das hed line curve). Standard
+dredge-up does not predict the observed behavior of N(C)/N(N) as a function of 12C/13C and
+some type of additional mixing process is needed. The TP-AGB star H D 199799 is identiﬁed
+here as it has dredged-up enough 12C to have approximately doubled its abundance relative
+to its abundance on the RGB; the dashed-dotted line moves HD 1997 99 to its approximate
+position when it was evolving along the RGB.
+PAGE 29
+– 29 –
+7 8 9
+7
+8
+9
+A(C)
+C + N = Constant
+HD 199799 
+Fig. 7.— Testing if total N(C) + N(N) is conserved, as would be expect ed for pure CN-cycle
+dredge-up. The dashed line represents metallicity scaled values of A (C) and A(N) with a
+solar C/N ratio. The blue curves map constant values of C+N scaled t o the metallicity
+(taken to be [Fe/H]) of each star. Clearly, initial (main-sequence) v alues of [C+N/Fe]=0,
+followed by simple CN-cycle dredge-up, are adequate representat ions of what is observed in
+these ﬁeld RGB stars. The TP-AGB star HD 199799 has increased it 12C abundance by
+approximately 0.35 dex and this shift in A(C) is shown by the dashed-d otted line.
+PAGE 30
+– 30 –
+Fig. 8.— The abundances of oxygen, magnesium, and aluminium, relativ e to iron, shown
+as log(N(X)/N(H)) versus A(Fe). The 5 stars studied here are re presented by the ﬁlled red
+circles. The small blue symbols are results from Reddy et al. (2003; 2 006) and the lower
+metallicity small majenta symbols are from Fulbright (2002) and John son (2003). The solar
+position is indicated with the dashed line showing the solar abundance r atio. The abundances
+derived here using the APOGEE linelist are well mapped into the genera l trends observed
+for Galatic ﬁeld populations. The error bars are taken from the sta ndard deviations in Table
+6. Errors for the ratios are quadrature sums of the element in-qu estion and Fe I values of σ.
+PAGE 31
+– 31 –
+Fig. 9.— The abundances of silicon, potassium, and calcium, relative to iron, versus A(Fe).
+The plotting format and symbols are the same as in Figure 8.
+PAGE 32
+– 32 –
+Fig. 10.— The abundances of titanium, vanadium, and chromium, relat ive to iron, versus
+A(Fe). The plotting format and symbols are the same as in Figure 8.
+PAGE 33
+– 33 –
+Fig. 11.— The abundances of manganese, cobalt, and nickel, relative to iron, versus A(Fe).
+The plotting format and symbols are the same as in Figure 8.
+PAGE 34
+– 34 –
+Fig. 12.— The abundance of copper relative to iron versus A(Fe). Th e plotting format and
+symbols are the same as in Figure 8.
+PAGE 35
+– 35 –
+Table 1. Red Giant Standard Stars: Observed Properties
+Star HR SpT π (mas)a d(pc) J-K Sb Mbol c
+β And 337 M0III 16.4 ±0.8 61 ±3 0.98 -3.06 ±0.11
+µ Leo 3905 K2III 26.3 ±0.2 38 ±1 0.68 0.41 ±0.05
+α Boo 5340 K2III 88.8 ±0.5 11.3 ±0.1 0.79 -0.92 ±0.03
+δ Oph 6056 M0III 19.1 ±0.2 52.5 ±0.5 0.97 -2.16 ±0.05
+HD 199799 ... M2S 2.6 ±0.6 386 ±92 1.25 -3.64 ±0.54
+aParallax from van Leeuwen (2007)
+bJohnson (1965) transformed to the 2MASS system using Carpen ter (2001)
+cCalculated from M K with bolometric corrections from Bessell et al. (1998)
+PAGE 36
+– 36 –
+Table 2. Red Giant Standard Stars: Derived Parameters
+Star Log(L/L ⊙) M/M ⊙ Teﬀ (K) Log g (cm-s −2) ξ (km-s−1) [Fe/H] a
+β And 3.11 ±0.05 1.9 ±0.2 3825 ±75 0.9 ±0.1 2.20 ±0.10 -0.2
+µ Leo 2.68 ±0.03 2.0 ±0.3 4550 ±50 2.1 ±0.1 1.80 ±0.15 +0.3
+α Boo 2.24 ±0.02 1.1 ±0.2 4275 ±50 1.7 ±0.1 1.85 ±0.05 -0.4
+δ Oph 2.75 ±0.03 1.5 ±0.2 3850 ±75 1.2 ±0.1 1.90 ±0.10 +0.0
+HD 199799 3.34 ±0.22 1.5 ±0.2 3400 ±75 0.5 ±0.2 2.40 ±0.20 -0.2
+a[Fe/H] represents the overall metallicity used in the ﬁnal m odel atmosphere. Final Fe abun-
+dances are given in Table 6
+PAGE 37
+– 37 –
+Table 3. Fe I Lines used in the Abundance Determinations
+λ (˚A) χ (eV) log gf α Boo β And δ Oph µ Leo HD 199799
+15194.492 2.223 -4.779 7.04 7.22 7.37 7.83 7.05
+15207.526 5.385 +0.080 7.04 7.29 7.40 bl a 7.20
+15395.718 5.620 -0.341 6.96 7.27 bl a 7.88 7.42
+15490.339 2.198 -4.807 6.99 7.23 7.55 7.76 7.50
+15648.510 5.426 -0.701 6.97 7.20 7.35 7.75 7.03
+15964.867 5.921 -0.128 6.93 7.22 7.35 7.65 7.33
+16040.657 5.874 +0.066 6.94 7.20 bl a 7.69 7.14
+16153.247 5.351 -0.743 6.94 7.22 7.53 7.75 7.32
+16165.032 6.319 +0.723 6.98 7.24 7.56 7.73 7.30
+abl: Feature too blended to use in cooler or very metal-rich re d giants.
+PAGE 38
+– 38 –
+Table 4. Molecular Lines and Features used for 12C, 13C, 14N, and 16O
+Molecular Lines λ –interval ( ˚A) α Boo β And δ Oph µ Leo HD 199799
+12C from 12C16O lines
+(3-0) V-R 15578 – 15586 7.86 8.05 8.27 w a 8.51
+(4-1) V-R 15774 – 15787 7.97 8.11 8.24 8.46 8.51
+(5-2) V-R 15976 – 16000 7.90 8.07 8.23 8.56 8.38
+(6-3) V-R 16183 – 16196 7.90 8.03 8.22 8.54 8.43
+12C/13C ratios from 13C16O and 13C14N lines
+13C16O(3-0) V-R 15922 – 15926 7 17 14 w a 30
+13C16O(4-1) V-R 16120 – 16125 6 15 11 w a 32
+13C16O(6-3) V-R 16740 – 16747 6 13 11 w a 20
+13C14N 15314 – 15315 w a wa wa 22 w a
+13C14N 15354 – 15356 w a wa wa 17 w a
+16O from 16OH lines
+(2-0) P 1 9.5 15277 – 15282 8.55 8.83 8.78 9.10 8.80
+(3-1) P 2 3.5 15390 – 15392 8.54 8.78 8.76 8.93 8.60
+(3-1) P 2 4.5 15504 – 15507 8.48 8.71 8.73 9.15 8.58
+(2-0) P 2 11.5 15568 – 15573 8.51 8.80 8.78 8.98 8.52
+(3-1) P 2 9.5 16189 – 16193 8.47 8.78 8.81 9.07 8.63
+14N from 12C14N lines
+(1-2) Q2 41.5 15260. 7.61 8.10 8.23 8.83 8.31
+(1-2) P2 34.5 15322. 7.68 8.07 8.21 8.88 8.35
+(1-2) R2 56.5 15397. 7.65 8.06 8.26 8.63 8.28
+(0-1) R1 68.5 15332. 7.63 7.95 bl b 8.68 8.35
+(0-1) P2 49.5 15410. 7.66 8.03 8.13 8.80 bl b
+(0-1) Q2 59.5 15447. 7.64 7.98 8.28 8.73 bl b
+(0-1) Q1 60.5 15466. 7.65 8.06 8.23 8.51 bl b
+(1-2) P2 38.5 15472. 7.71 8.13 8.11 8.68 8.25
+(0-1) P1 51.5 15482. 7.56 8.03 8.15 8.68 8.25
+aw: Feature too weak to use.
+bbl: Feature too blended by nearby lines.
+PAGE 39
+– 39 –
+Table 5. Atomic Lines used and Derived Abundance
+Element λ (˚A) χ (eV) log gf α Boo β And δ Oph µ Leo HD 199799
+Mg I 15740.716 5.931 -0.262 7.15 7.25 7.53 7.80 7.29
+15748.9 5.932 +0.276 7.09 s a 7.57 s a 7.23
+15765.8 5.933 +0.504 7.04 s a sa 7.87 bl b
+15879.5 5.946 -1.248 7.13 7.20 7.45 7.82 bl b
+15886.2 5.946 -1.555 7.22 7.21 7.53 bl b 7.18
+15889.485 5.946 -2.013 bl b 7.30 7.55 7.90 w c
+15954.477 6.588 -0.807 7.25 7.36 7.61 bl b 7.45
+Al I 16718.957 4.085 +0.290 6.15 6.15 s a 6.85 bl b
+16763.359 4.087 -0.524 6.16 6.09 6.45 6.94 6.10
+Si I 15361.161 5.954 -1.925 6.99 bl b blb blb wc
+15376.831 6.222 -0.649 7.18 7.17 7.57 7.66 w c
+15833.602 6.222 -0.168 6.93 6.95 7.28 7.72 7.20
+15960.063 5.984 +0.107 7.07 7.14 7.43 7.88 w c
+16060.009 5.954 -0.566 7.21 7.25 7.59 7.74 7.33
+16094.787 5.964 -0.168 7.11 7.06 7.46 7.66 7.32
+16215.670 5.964 -0.665 7.15 7.23 7.62 bl b blb
+16680.770 5.984 -0.140 7.11 7.25 7.62 7.83 7.35
+16828.159 5.984 -1.102 7.13 7.17 7.45 7.85 bl b
+K I 15163.067 2.670 +0.524 4.81 4.82 5.18 5.63 5.20
+15168.376 2.670 +0.347 4.77 4.89 bl b blb blb
+Ca I 16136.823 4.531 -0.552 5.75 6.09 6.23 6.69 6.06
+16150.763 4.532 -0.229 5.88 5.95 6.21 6.53 6.07
+16155.236 4.532 -0.619 5.82 6.02 6.30 6.61 6.16
+16157.364 4.554 -0.208 5.90 6.02 6.23 6.63 6.16
+Ti I 15543.756 1.879 -1.120 4.53 4.74 5.05 5.58 4.74
+15602.842 2.267 -1.643 4.66 4.74 5.03 5.43 bl b
+15698.979 1.887 -2.060 4.52 4.69 5.03 5.13 bl b
+15715.573 1.873 -1.250 4.57 4.71 5.14 bl b 4.70
+16635.161 2.345 -1.807 4.65 bl b 5.10 5.46 4.90
+V I 15924. 2.138 -1.175 3.61 3.66 3.86 4.18 bl b
+Cr I 15680.063 4.697 +0.179 5.08 5.38 5.62 6.11 5.20
+15860.214 4.697 -0.012 5.14 5.39 5.57 6.16 5.54
+Mn I 15159. 4.889 +0.544 4.88 5.19 bl b 5.82 bl b
+15217. 4.889 +0.414 4.91 5.26 5.47 5.83 5.32
+15262. 4.889 +0.345 4.78 5.08 5.21 5.71 5.30
+Co I 16757.7 3.409 -1.230 4.50 4.73 4.85 5.23 4.50
+Ni I 15605.680 5.299 -0.376 5.76 6.08 6.18 6.69 6.05
+15632.654 5.305 -0.106 5.82 5.99 6.20 6.65 6.02
+16584.439 5.299 -0.528 5.71 6.00 6.21 6.58 6.12
+16589.295 5.469 -0.600 5.81 6.03 6.23 6.72 5.98
+16673.711 6.029 +0.317 5.72 bl b blb 6.39 6.12
+16815.471 5.305 -0.606 5.79 5.94 6.06 6.58 5.95
+16818.760 6.039 +0.311 5.77 bl b 6.22 bl b 5.95
+Cu I 16005.7 5.348 -0.131 3.55 4.01 4.18 4.41 4.20
+as: Feature too strong to use.
+bbl: Feature too blended by nearby lines.
+PAGE 40
+– 40 –
+cw: Feature too weak.
+PAGE 41
+– 41 –
+Table 6. Chemical Abundances
+Element α Boo β And δ Oph µ Leo HD 199799
+Fe 6.98 ±0.04 7.23 ±0.03 7.44 ±0.09 7.76 ±0.08 7.25 ±0.12
+12C 7.96 ±0.05 8.06 ±0.03 8.24 ±0.02 8.52 ±0.05 8.46 ±0.06
+12C/13C 6.3 ±0.6 15 ±2 12 ±2 20 ±3 27 ±6
+14N 7.64 ±0.04 8.05 ±0.06 8.20 ±0.06 8.71 ±0.11 8.31 ±0.05
+16O 8.64 ±0.04 8.78 ±0.04 8.77 ±0.03 9.05 ±0.09 8.63 ±0.09
+Mg 7.15 ±0.08 7.26 ±0.07 7.54 ±0.05 7.85 ±0.05 7.28 ±0.11
+Al 6.16 ±0.01 6.12 ±0.03 6.45 6.90 ±0.05 6.10
+Si 7.12 ±0.07 7.18 ±0.07 7.53 ±0.08 7.76 ±0.09 7.30 ±0.07
+K 4.79 ±0.02 4.86 ±0.04 5.18 5.63 5.20
+Ca 5.84 ±0.07 6.02 ±0.06 6.24 ±0.04 6.62 ±0.07 6.11 ±0.05
+Ti 4.59 ±0.07 4.72 ±0.02 5.07 ±0.05 5.40 ±0.19 4.78 ±0.10
+V 3.61 3.66 3.86 4.18 ...
+Cr 5.11 ±0.03 5.38 ±0.01 5.60 ±0.03 6.14 ±0.03 5.37 ±0.17
+Mn 4.86 ±0.07 5.18 ±0.09 5.34 ±0.13 5.79 ±0.07 5.31 ±0.01
+Co 4.50 4.73 4.85 5.23 4.50
+Ni 5.77 ±0.04 6.01 ±0.05 6.18 ±0.06 6.60 ±0.12 6.03 ±0.07
+Cu 3.55 4.01 4.18 4.41 4.20
+PAGE 42
+– 42 –
+Table 7. Abundance Sensitivity: T eﬀ =4000K, Log g=1.3, ξ=2.0 km-s −1, [m/H]=0.0
+Species ∂A/∂T (+50K) ∂A/∂G (+0.2 dex) ∂A/∂ξ (+0.2 km-s −1) ∂A/∂m (+0.1 dex) dA’ dA
+Fe I +0.015 +0.003 -0.056 +0.032 0.066 0.087
+CO +0.032 +0.072 -0.011 +0.041 0.089 0.167
+CN -0.018 +0.064 -0.006 +0.038 0.077 0.127
+OH +0.124 -0.022 -0.079 +0.111 0.186 0.363
+Mg I +0.017 -0.031 -0.042 +0.029 0.062 0.098
+Al I +0.055 -0.077 -0.052 +0.027 0.111 0.207
+Si I +0.003 -0.013 -0.039 +0.038 0.056 0.065
+K I +0.042 -0.046 -0.048 +0.014 0.081 0.143
+Ca I +0.045 -0.046 -0.032 +0.017 0.074 0.143
+Ti I +0.082 -0.004 -0.111 +0.015 0.139 0.168
+V I +0.076 +0.009 -0.054 +0.011 0.094 0.132
+Cr I +0.038 -0.018 -0.031 +0.016 0.055 0.100
+Mn I +0.032 -0.057 -0.056 +0.041 0.095 0.163
+Co I +0.026 +0.033 -0.075 +0.034 0.092 0.136
+Ni I -0.005 +0.017 -0.043 +0.031 0.056 0.068
+Cu I +0.001 +0.032 -0.013 +0.019 0.039 0.044

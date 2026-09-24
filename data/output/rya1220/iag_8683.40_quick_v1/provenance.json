@@ -1,0 +1,32 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1214",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1214/pipeline/abundances_derive.py": "f137dd30a5ad01e99f671cd3f4b9a7c6b85bf0e080cfc907f37cd837e1cdb308",
+    "/mnt/codex-data/engines/ispec_src/input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv": "9231e3109703afa9abcabf24609ff7a669c7b60731d85d5dafdd86123b263f17"
+  },
+  "holding": "HoldingSpec(holding_id='solar_iag', reader='iag', pre_normalised=True, path_key=None, span_A=(5001.1, 11083.46), caveat='', note='Baker+2020 TELLURIC-CORRECTED atlas, normalised. \ud83d\udd34 THE SPAN IS DECLARED NOW (RYA-767): it was absent, so covers() answered True for every window ever asked -- including the 954 A of blue this atlas does not reach at all. MEASURED telluric state on the served flux: O2 A-band 0.18% of pixels below 0.5, H2O 9280-9600 0.00% -- against 46.25%/51.63% for the raw Reiners sibling, a 250x separation. This holding IS corrected; the long-standing doubt was a stale CATALOGUE ROW pointing at the other file, never the reader.', reference_continuum=False)",
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "background": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.69,
+    "Ni": 6.2
+  },
+  "broadening": [
+    700000.0,
+    3.8,
+    1.8
+  ],
+  "gf": {
+    "apply_canonical_gf": true,
+    "detail": "canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)"
+  },
+  "engine": "turbospectrum",
+  "limitation": "1D LTE flux; fixed broadening; no empirical CN subtraction; continuum perturbation steps are probes, not adopted errors"
+}
