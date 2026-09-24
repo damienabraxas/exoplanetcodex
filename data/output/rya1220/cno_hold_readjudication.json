@@ -1,0 +1,176 @@
+{
+  "schema": "rya1220.cno_hold_readjudication.v1",
+  "ticket": "RYA-1220",
+  "red_chi2_flag": 10.0,
+  "routes": [
+    {
+      "route": "cn_crires_j_continuum_v1",
+      "n_fits": 3,
+      "red_chi2_min": 56.13,
+      "red_chi2_max": 56.33,
+      "constrained": false
+    },
+    {
+      "route": "cn_harps_continuum_v2",
+      "n_fits": 2,
+      "red_chi2_min": 33.34,
+      "red_chi2_max": 33.66,
+      "constrained": false
+    },
+    {
+      "route": "cn_iag_3d_anchor_v1",
+      "n_fits": 5,
+      "red_chi2_min": 42.71,
+      "red_chi2_max": 42.72,
+      "constrained": false
+    },
+    {
+      "route": "cn_iag_coupling_v2",
+      "n_fits": 5,
+      "red_chi2_min": 42.72,
+      "red_chi2_max": 43.11,
+      "constrained": false
+    },
+    {
+      "route": "cn_iag_stellar_v2",
+      "n_fits": 5,
+      "red_chi2_min": 42.8,
+      "red_chi2_max": 43.12,
+      "constrained": false
+    },
+    {
+      "route": "cn_kp_continuum_v8",
+      "n_fits": 5,
+      "red_chi2_min": 194.69,
+      "red_chi2_max": 212.63,
+      "constrained": false
+    },
+    {
+      "route": "cn_nearuv_continuum_v1",
+      "n_fits": 5,
+      "red_chi2_min": 36.74,
+      "red_chi2_max": 44.25,
+      "constrained": false
+    },
+    {
+      "route": "co_crires_k_continuum_v1",
+      "n_fits": 5,
+      "red_chi2_min": 58.67,
+      "red_chi2_max": 59.85,
+      "constrained": false
+    },
+    {
+      "route": "iag_10108_reference_cn_v1",
+      "n_fits": 1,
+      "red_chi2_min": 0.37,
+      "red_chi2_max": 0.37,
+      "constrained": true
+    },
+    {
+      "route": "iag_7442.29_quick_v1",
+      "n_fits": 2,
+      "red_chi2_min": 0.1,
+      "red_chi2_max": 0.51,
+      "constrained": true
+    },
+    {
+      "route": "iag_8216_v1",
+      "n_fits": 10,
+      "red_chi2_min": 4.66,
+      "red_chi2_max": 7.92,
+      "constrained": true
+    },
+    {
+      "route": "iag_8629.23_quick_v1",
+      "n_fits": 2,
+      "red_chi2_min": 0.13,
+      "red_chi2_max": 0.24,
+      "constrained": true
+    },
+    {
+      "route": "iag_8683.40_quick_v1",
+      "n_fits": 2,
+      "red_chi2_min": 0.1,
+      "red_chi2_max": 0.2,
+      "constrained": true
+    },
+    {
+      "route": "oh_crires_h_continuum_v1",
+      "n_fits": 5,
+      "red_chi2_min": 129.8,
+      "red_chi2_max": 131.66,
+      "constrained": false
+    },
+    {
+      "route": "smoke_8216_v3",
+      "n_fits": 1,
+      "red_chi2_min": 0.0,
+      "red_chi2_max": 0.0,
+      "constrained": true
+    }
+  ],
+  "constrained_routes": [
+    "iag_10108_reference_cn_v1",
+    "iag_7442.29_quick_v1",
+    "iag_8216_v1",
+    "iag_8629.23_quick_v1",
+    "iag_8683.40_quick_v1",
+    "smoke_8216_v3"
+  ],
+  "unconstrained_routes": [
+    "cn_crires_j_continuum_v1",
+    "cn_harps_continuum_v2",
+    "cn_iag_3d_anchor_v1",
+    "cn_iag_coupling_v2",
+    "cn_iag_stellar_v2",
+    "cn_kp_continuum_v8",
+    "cn_nearuv_continuum_v1",
+    "co_crires_k_continuum_v1",
+    "oh_crires_h_continuum_v1"
+  ],
+  "finding": "The holds are NOT uniform bookkeeping. Every ATOMIC N I route is well constrained (red_chi2 0.00-7.92); every MOLECULAR route is unconstrained (red_chi2 33.34-212.63). Promoting a covariance or model-form component on an unconstrained fit would be arithmetic on noise, so those holds are CORRECT and the fits must be repaired first.",
+  "hold_classes": {
+    "FIT_QUALITY": [
+      "cn_crires_j_continuum_v1",
+      "cn_harps_continuum_v2",
+      "cn_iag_3d_anchor_v1",
+      "cn_iag_coupling_v2",
+      "cn_iag_stellar_v2",
+      "cn_kp_continuum_v8",
+      "cn_nearuv_continuum_v1",
+      "co_crires_k_continuum_v1",
+      "oh_crires_h_continuum_v1"
+    ],
+    "EVIDENCE_EXISTS": {
+      "holding_repeatability_atomic": {
+        "evidence": "data/output/rya1220/cno_holding_repeatability_audit.json",
+        "status": "MEASURED for C VIS 0.021, N red-optical 0.064, O VIS 0.105, O red-optical 0.026 dex",
+        "gate_says": "HOLD on most routes",
+        "action": "wire the measured atomic ranges into the atomic routes"
+      },
+      "model_form_atomic": {
+        "evidence": "data/output/rya1220/cno_model_form_audit.json",
+        "status": "C I and O I MEASURED (Amarsi 2019 3D-NLTE / Caffau 2015); N I MEASURED_PARTIAL (Amarsi 2020 grid)",
+        "gate_says": "3d_nlte_model HOLD_MOLECULAR",
+        "action": "the audit's own decision admits atomic anchors; wire them"
+      },
+      "cn_ir_1d_to_3d": {
+        "evidence": "cno_model_form_audit.json measured_or_published_model_terms",
+        "status": "KP -0.081, IAG -0.082 dex -- two holdings agreeing to 0.001",
+        "gate_says": "not applied",
+        "action": "admissible as a BOUND on the molecular model-form term even though it is not applied as a correction"
+      }
+    },
+    "RUN_OWED": {
+      "c_o_joint_fit": "rho=0 is an assumption, not a measurement; needs a Sirius Turbospectrum joint C/O refit on the exact CN pool",
+      "target_sun_jacobians": "both target and solar parameter Jacobians MISSING",
+      "molecular_3d_per_transition": "no transition-specific grid for CN_VIS, CN_CRIRES_J, OH_H, CO_K"
+    }
+  },
+  "red_flags_not_covariance_problems": {
+    "CN_red_target_minus_sun_dex": 2.404,
+    "OI_6300_target_minus_sun_dex": 0.607,
+    "sigma_O_dex": 0.421,
+    "note": "These are in cno_target_sun_pair_audit.json / c_o_covariance_assessment.json. A 2.4 dex paired CN difference is a defect in the diagnostic, not a missing covariance term. No amount of Jacobian work promotes it."
+  }
+}

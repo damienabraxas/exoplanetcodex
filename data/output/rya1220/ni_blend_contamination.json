@@ -1,0 +1,89 @@
+{
+  "schema": "rya1220.ni_blend_contamination.v1",
+  "ticket": "RYA-1220",
+  "source_extract": "/Users/ryanschmitt/Documents/Exoplanet Codex/vald_raw_archive/current/vald_solar_redopt_6910_9500_hfson_raw.txt",
+  "method": "summed catalogued central_depth of non-N-I lines within +/-0.05 A, over the N I line's own central_depth",
+  "admit_max_ratio": 0.5,
+  "lines": [
+    {
+      "wavelength_air_A": 7442.298,
+      "own_central_depth": 0.003,
+      "n_contaminants": 1,
+      "blend_depth_ratio": 0.667,
+      "cn_depth_ratio": 0.667,
+      "nearest": {
+        "species": "CN 1",
+        "wavelength_air_A": 7442.2776,
+        "separation_A": -0.0204,
+        "central_depth": 0.002
+      },
+      "admit": false,
+      "cn_circular": true
+    },
+    {
+      "wavelength_air_A": 7468.312,
+      "own_central_depth": 0.005,
+      "n_contaminants": 1,
+      "blend_depth_ratio": 0.4,
+      "cn_depth_ratio": 0.0,
+      "nearest": {
+        "species": "Fe 1",
+        "wavelength_air_A": 7468.2857,
+        "separation_A": -0.0263,
+        "central_depth": 0.002
+      },
+      "admit": true,
+      "cn_circular": false
+    },
+    {
+      "wavelength_air_A": 8216.336,
+      "own_central_depth": 0.009,
+      "n_contaminants": 0,
+      "blend_depth_ratio": 0.0,
+      "cn_depth_ratio": 0.0,
+      "nearest": null,
+      "admit": true,
+      "cn_circular": false
+    },
+    {
+      "wavelength_air_A": 8629.235,
+      "own_central_depth": 0.004,
+      "n_contaminants": 1,
+      "blend_depth_ratio": 0.75,
+      "cn_depth_ratio": 0.75,
+      "nearest": {
+        "species": "CN 1",
+        "wavelength_air_A": 8629.2426,
+        "separation_A": 0.0076,
+        "central_depth": 0.003
+      },
+      "admit": false,
+      "cn_circular": true
+    },
+    {
+      "wavelength_air_A": 8683.403,
+      "own_central_depth": 0.008,
+      "n_contaminants": 1,
+      "blend_depth_ratio": 0.25,
+      "cn_depth_ratio": 0.25,
+      "nearest": {
+        "species": "CN 1",
+        "wavelength_air_A": 8683.3902,
+        "separation_A": -0.0128,
+        "central_depth": 0.002
+      },
+      "admit": true,
+      "cn_circular": false
+    }
+  ],
+  "admitted": [
+    7468.312,
+    8216.336,
+    8683.403
+  ],
+  "rejected": [
+    7442.298,
+    8629.235
+  ],
+  "finding": "The two lines RYA-1220 ADDED (7442.298, 8629.235) are the two most contaminated of the five, and both contaminants are CN. 8629.235 carries a CN line 0.0076 A away at 75% of its own depth. Using CN-blended N I lines to adjudicate N I against CN is circular; they are flagged, not adopted."
+}
