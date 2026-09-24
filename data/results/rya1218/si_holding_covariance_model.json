@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "component": "holding_instrument",
+  "pool_n": 7,
+  "holdings": {
+    "harps": 7.586,
+    "iag": 7.625,
+    "kpno": 7.657
+  },
+  "grand_mean": 7.622666666666667,
+  "instrument_offsets": {
+    "harps": -0.03666666666666707,
+    "iag": 0.0023333333333326323,
+    "kpno": 0.03433333333333266
+  },
+  "model": "one random instrument intercept per holding; fully correlated across the seven lines within a holding; independent instrument intercepts across holdings",
+  "sigma_dex": 0.03555746522649391,
+  "pairwise_line_rms_dex": {
+    "harps-iag": 0.0751037,
+    "harps-kpno": 0.0938715,
+    "iag-kpno": 0.0345274
+  },
+  "state": "MEASURED_DIAGNOSTIC",
+  "admission": "HOLD",
+  "reason": "Instrument mean spread is quantified, but the final product scope and relation to line measurement covariance must be ratified before publication."
+}

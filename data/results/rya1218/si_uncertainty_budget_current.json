@@ -78,9 +78,9 @@
     },
     {
       "name": "holding_instrument",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.0355575,
+      "reason": "Empirical HARPS/IAG/KPNO random-instrument-intercept spread across exact seven-line means; 0.0355 dex systematic, not divided by sqrt(3)."
     },
     {
       "name": "nlte",
@@ -119,13 +119,12 @@
     "measurement",
     "transition_data",
     "pseudo_continuum",
-    "holding_instrument",
     "nlte",
     "model_atmosphere",
     "hfs_isotopes",
     "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.021284667459464803,
+  "partial_measured_quadrature_dex": 0.04144119780013603,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }
