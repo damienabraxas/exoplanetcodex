@@ -124,7 +124,37 @@ def main() -> int:
                        & (rows["method"] == "synthesis_fit")).sum())
 
     if ew_rows.empty:
-        print(json.dumps({"status": "NO-EW-ROWS", "n_not_covered": not_covered}, indent=2))
+        # 🔴 ZERO COVERAGE MUST BE WRITTEN DOWN, NOT JUST PRINTED (RYA-1229). This branch
+        # used to print and return 2 without touching the report, so the report on disk
+        # went on describing a PREVIOUS revision of the product — a certification of a
+        # file that no longer existed, which is worse than no certification at all. The
+        # guard now always leaves a report that describes the product it just read, and
+        # NO-COVERAGE is a recorded verdict the test can check against the product itself.
+        report = {
+            "ticket": "RYA-870",
+            "product": str(product.relative_to(ROOT)),
+            "product_commit_sha": header.get("commit_sha"),
+            "n_rows_in_product": int(len(rows)),
+            "n_ew_route_in_aggregate": 0,
+            "n_sampled": 0, "n_tested": 0, "n_passed": 0, "n_failed": 0,
+            "n_synthesis_rows_NOT_COVERED": not_covered,
+            "coverage_note": (
+                "NO EW-ROUTE ROWS TO TEST. The reproduction re-inverts an equivalent "
+                "width, so it can only test rows whose abundance came from EW inversion; "
+                f"every one of the {not_covered} in-aggregate rows in this product is a "
+                "synthesis fit, which needs the observed spectrum and is never counted as "
+                "passing. Since RYA-1229 the product is a projection of the FEED, and no "
+                "published Fe product with force-added per-line evidence uses the "
+                "PROFILEFIT (EW) route -- all 10 of them are among the 21 unresolved. The "
+                "guard's previous 8/8 PASS was measured on rows from two SUPERSEDED "
+                "artifacts (engine label `1D-LTE (ts-lte)`) that back no published "
+                "product, so it was evidence about data the site does not serve."),
+            "results": [],
+            "verdict": "NO-COVERAGE",
+        }
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / "rya870_reproducibility.json").write_text(json.dumps(report, indent=2) + "\n")
+        print(json.dumps({k: v for k, v in report.items() if k != "results"}, indent=2))
         return 2
 
     sample = ew_rows.sample(n=min(a.sample, len(ew_rows)), random_state=a.seed)

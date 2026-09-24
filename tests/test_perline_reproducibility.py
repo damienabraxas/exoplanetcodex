@@ -52,9 +52,53 @@ def test_the_guard_describes_the_product_that_is_committed(report):
         "product than the one committed — re-run the guard")
 
 
+def _ew_route_rows_in_the_product() -> int:
+    """How many in-aggregate rows the guard COULD test, read off the product itself."""
+    import csv
+    import io
+    body = "".join(l for l in PRODUCT.read_text().splitlines(keepends=True)
+                   if not l.startswith("#"))
+    return sum(1 for r in csv.DictReader(io.StringIO(body))
+               if r["status"] == "in_aggregate" and r["method"] == "ew_integration")
+
+
+def test_a_zero_coverage_verdict_is_true_of_the_product(report):
+    """🔴 "NOTHING TO TEST" IS A CLAIM, AND IT GETS CHECKED (RYA-1229).
+
+    The reproduction re-inverts an equivalent width, so it can only test rows whose
+    abundance came from EW inversion. Since the product became a projection of the feed,
+    no published Fe product with force-added per-line evidence uses the PROFILEFIT (EW)
+    route — all ten are among the 21 unresolved — so the guard has zero coverage. That is
+    a real loss and it is recorded as NO-COVERAGE rather than hidden: the guard's previous
+    8/8 PASS was measured on rows from two SUPERSEDED artifacts (`1D-LTE (ts-lte)`) that
+    back no published product.
+
+    ⚠️ This test is what stops NO-COVERAGE becoming a silent skip. If the product does
+    contain EW-route rows, a NO-COVERAGE verdict is a BUG in the guard, not a state of the
+    repo — and the next test then demands they all reproduce.
+    """
+    n = _ew_route_rows_in_the_product()
+    if report.get("verdict") == "NO-COVERAGE":
+        assert n == 0, (
+            f"the guard reported NO-COVERAGE but the product has {n} in-aggregate "
+            f"EW-route rows it could have tested — the guard is not looking at them")
+        assert report["n_tested"] == 0 and not report["results"]
+        assert "NO EW-ROUTE ROWS TO TEST" in report["coverage_note"], (
+            "a zero-coverage report must say WHY, in the report, not only in a log")
+    else:
+        assert n > 0, (
+            f"the guard claims to have tested {report['n_tested']} rows but the product "
+            f"has no EW-route rows — the report describes another product")
+
+
 def test_every_sampled_row_reproduces_its_own_number(report):
     """The deliverable's teeth: a row that cannot reproduce its A(X) from its own published
     constants is a FAILURE of the product, never a warning."""
+    if report.get("verdict") == "NO-COVERAGE":
+        # asserted for real in test_a_zero_coverage_verdict_is_true_of_the_product
+        pytest.skip("the guard has no EW-route rows to test; the verdict is checked "
+                    "against the product in test_a_zero_coverage_verdict_is_true_of_"
+                    "the_product")
     assert report["n_tested"] > 0, "a guard that tested nothing has not run"
     failures = [r for r in report["results"] if r.get("outcome") == "FAIL"]
     assert not failures, (
