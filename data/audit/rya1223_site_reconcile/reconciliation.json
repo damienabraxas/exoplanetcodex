@@ -1,0 +1,639 @@
+{
+  "counts_by_band": {
+    "VIS": {
+      "CORRECT": 86,
+      "STALE": 0,
+      "NEW": 0,
+      "ORPHAN": 0
+    },
+    "red-optical": {
+      "CORRECT": 24,
+      "STALE": 0,
+      "NEW": 0,
+      "ORPHAN": 0
+    },
+    "NIR": {
+      "CORRECT": 22,
+      "STALE": 0,
+      "NEW": 0,
+      "ORPHAN": 0
+    },
+    "H": {
+      "CORRECT": 6,
+      "STALE": 0,
+      "NEW": 0,
+      "ORPHAN": 0
+    },
+    "near-UV": {
+      "CORRECT": 16,
+      "STALE": 6,
+      "NEW": 0,
+      "ORPHAN": 0
+    },
+    "_other_bands": {
+      "CORRECT": 0,
+      "STALE": 0,
+      "NEW": 0,
+      "ORPHAN": 0
+    }
+  },
+  "in_scope_totals": {
+    "CORRECT": 154,
+    "STALE": 6,
+    "NEW": 0,
+    "ORPHAN": 0
+  },
+  "by_band": {
+    "VIS": {
+      "CORRECT": [
+        {
+          "product": "Fe II | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | ALL | harps | solar_harps_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | ENGINE-B"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | harps | solar_harps_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | harps | solar_harps_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | ALL | iag_fts_solar_atlas | solar_iag | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | ALL | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-B"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-mean3D-LTE-gerber-stagger"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-mean3D-NLTE-gerber-stagger"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | ALL | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-mean3D-LTE-gerber-stagger"
+        },
+        {
+          "product": "Fe I | VIS | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-mean3D-NLTE-gerber-stagger"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A-3DNLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | VIS | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        }
+      ],
+      "STALE": [],
+      "NEW": [],
+      "ORPHAN": []
+    },
+    "red-optical": {
+      "CORRECT": [
+        {
+          "product": "Fe I | red-optical | GRADED | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | red-optical | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        }
+      ],
+      "STALE": [],
+      "NEW": [],
+      "ORPHAN": []
+    },
+    "NIR": {
+      "CORRECT": [
+        {
+          "product": "Fe I | NIR | GRADED | crires_plus | solar_crires_plus_y_wide_rya1054 | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | crires_plus | solar_crires_plus_y_wide_rya1054 | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | crires_plus | solar_crires_plus_y_wide_rya1054 | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | crires_plus | solar_crires_plus_y_wide_rya1054 | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | crires_plus | solar_crires_plus_y_wide_rya1054 | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | crires_plus | solar_crires_plus_y_wide_rya1054 | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | iag_fts_solar_atlas | solar_iag | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | iag_fts_solar_atlas | solar_iag | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | iag_fts_solar_atlas | solar_iag | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | GRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | NIR | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        }
+      ],
+      "STALE": [],
+      "NEW": [],
+      "ORPHAN": []
+    },
+    "H": {
+      "CORRECT": [
+        {
+          "product": "Fe I | H | GRADED | crires_plus | solar_crires_plus_h_rya1094 | 1D-LTE"
+        },
+        {
+          "product": "Fe I | H | GRADED | crires_plus | solar_crires_plus_h_rya1094 | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | H | GRADED | crires_plus | solar_crires_plus_h_rya1094 | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | H | REFERENCE | crires_plus | solar_crires_plus_h_rya1094 | 1D-LTE"
+        },
+        {
+          "product": "Fe I | H | REFERENCE | crires_plus | solar_crires_plus_h_rya1094 | ENGINE-B-NLTE"
+        },
+        {
+          "product": "Fe I | H | REFERENCE | crires_plus | solar_crires_plus_h_rya1094 | synth-1D-LTE-gerber"
+        }
+      ],
+      "STALE": [],
+      "NEW": [],
+      "ORPHAN": []
+    },
+    "near-UV": {
+      "CORRECT": [
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe II | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | synth-1D-LTE-gerber"
+        },
+        {
+          "product": "Fe I | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A"
+        },
+        {
+          "product": "Fe I | near-UV | REFERENCE | kpno_solar_atlas | solar_kpno_molecfit_corrected | synth-1D-LTE-gerber"
+        }
+      ],
+      "STALE": [
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.122134,
+              "feed": 0.2391787538440949
+            }
+          }
+        },
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.13692,
+              "feed": 0.2511638277230282
+            }
+          }
+        },
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | 1D-LTE",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.120513,
+              "feed": 0.23811028904692483
+            }
+          }
+        },
+        {
+          "product": "Fe II | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_molecfit_corrected | ENGINE-A",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.121397,
+              "feed": 0.24321517653711408
+            }
+          }
+        },
+        {
+          "product": "Fe I | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | 1D-LTE",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.131227,
+              "feed": 0.24456359353837548
+            }
+          }
+        },
+        {
+          "product": "Fe I | near-UV | DEEPGRADED | kpno_solar_atlas | solar_kpno_kurucz2005_corrected | ENGINE-A",
+          "differs": {
+            "sigma_reported": {
+              "live": 0.131227,
+              "feed": 0.2483123976890423
+            }
+          }
+        }
+      ],
+      "NEW": [],
+      "ORPHAN": []
+    }
+  },
+  "other_bands": {
+    "CORRECT": [],
+    "STALE": [],
+    "NEW": [],
+    "ORPHAN": []
+  },
+  "ticket": "RYA-1223",
+  "read_only": true,
+  "scope": {
+    "bands": [
+      "VIS",
+      "red-optical",
+      "NIR",
+      "H",
+      "near-UV"
+    ],
+    "held": "",
+    "why": "Ryan 2026-09-19 Option B: publish the complete bands now, hold near-UV until RYA-1226 wires its measured components."
+  },
+  "feed": {
+    "path": "data/products/solar/Fe.json",
+    "version": "1.222",
+    "products": 160,
+    "codex_commit": "0b792ca61ed61d26313185e676b7500078aa99e1"
+  },
+  "site": {
+    "checkout": "/Users/ryanschmitt/Projects/rya-1223-site",
+    "snapshot": "assets/data/fe-publication/Fe.json",
+    "feed_version_rendered": "1.221",
+    "products_rendered": 160,
+    "site_commit": "ce3a91db2d80e9ec74efe1a5de26ded12178e46e",
+    "site_describe": "ce3a91d RYA-1223: refresh the Fe appendices from feed v1.221"
+  },
+  "compared_fields": [
+    "A",
+    "sigma_reported",
+    "sigma_xi",
+    "xi_state"
+  ]
+}
