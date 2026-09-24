@@ -1,0 +1,81 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "pool_n": 7,
+  "components": {
+    "hfs_isotopes": {
+      "state": "HOLD",
+      "reason": "No explicit Si isotope or HFS component treatment is represented in the canonical master line list for these seven transitions."
+    },
+    "molecular_coupling": {
+      "state": "HOLD",
+      "reason": "CN/molecular contributors are present in the synthesis windows; no matched molecular-on/off response is available."
+    },
+    "blends": {
+      "state": "MEASURED_DIAGNOSTIC",
+      "candidate_sigma_dex": 0.0091429,
+      "source": "si_blend_response_summary.json"
+    }
+  },
+  "rows": [
+    {
+      "wavelength_air_A": 5645.613,
+      "molecular_nearby_count": 3,
+      "molecular_species": [
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "molecular_nearby_count": 3,
+      "molecular_species": [
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "molecular_nearby_count": 2,
+      "molecular_species": [
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "molecular_nearby_count": 2,
+      "molecular_species": [
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "molecular_nearby_count": 2,
+      "molecular_species": [
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "molecular_nearby_count": 6,
+      "molecular_species": [
+        "C",
+        "CN"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "molecular_nearby_count": 19,
+      "molecular_species": [
+        "CN",
+        "Co"
+      ],
+      "hfs_or_isotope_components_in_master": false
+    }
+  ],
+  "next_action": "Run molecular-on/off and finalize blend covariance; retain HFS/isotopes HOLD until explicit isotope treatment is documented."
+}

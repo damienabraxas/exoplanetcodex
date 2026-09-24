@@ -102,9 +102,9 @@
     },
     {
       "name": "blends",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.0091429,
+      "reason": "Sirius exact seven-line blend-on/off response; mean absolute response 0.00914 dex."
     },
     {
       "name": "molecular_coupling",
@@ -120,9 +120,8 @@
     "nlte",
     "model_atmosphere",
     "hfs_isotopes",
-    "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.11634939997743865,
+  "partial_measured_quadrature_dex": 0.11670807810738723,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }

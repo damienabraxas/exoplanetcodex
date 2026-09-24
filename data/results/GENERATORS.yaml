@@ -12854,3 +12854,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Exact-pool NLTE/model-atmosphere coverage audit; Amarsi grid matches only two production lines, so both terms remain HOLD.
+
+  - artifact: rya1218/si_hfs_molecular_audit.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Exact-pool HFS/isotope and molecular-window audit; blend response admitted diagnostically, molecular coupling remains HOLD due nearby CN contributors.
