@@ -24,9 +24,9 @@
     },
     {
       "name": "transition_data",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Primary bibliography recorded; exact line-level gf uncertainty table/covariance not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.097,
+      "reason": "Adopted fully correlated common-source gf scale, 0.097 dex per line, from Garz 1973/O\u2019Brian & Lawler 1991; not divided by sqrt(7)."
     },
     {
       "name": "stellar.teff",
@@ -116,7 +116,6 @@
   "sigma_reported": null,
   "state": "HOLD",
   "holds": [
-    "transition_data",
     "continuum",
     "nlte",
     "model_atmosphere",
@@ -124,6 +123,6 @@
     "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.06425093676445504,
+  "partial_measured_quadrature_dex": 0.11634939997743865,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }

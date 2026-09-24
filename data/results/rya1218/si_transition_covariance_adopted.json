@@ -1,0 +1,107 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "component": "transition_data",
+  "pool_species": "Si I",
+  "pool_ids": [
+    5645.613,
+    5684.484,
+    5690.425,
+    5701.104,
+    5772.146,
+    5793.073,
+    6741.628
+  ],
+  "line_sigma_dex": [
+    0.097,
+    0.097,
+    0.097,
+    0.097,
+    0.097,
+    0.097,
+    0.097
+  ],
+  "weights": [
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285
+  ],
+  "covariance": [
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ],
+    [
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409,
+      0.009409
+    ]
+  ],
+  "covariance_model": "fully correlated common-source gf scale across all seven lines",
+  "propagated_sigma_dex": 0.097,
+  "sources": [
+    "Garz 1973, A&A 26, 471-477",
+    "O\u2019Brian & Lawler 1991, Phys. Rev. A 44, 7134-7143, doi:10.1103/PhysRevA.44.7134"
+  ],
+  "state": "MEASURED_DIAGNOSTIC",
+  "admission": "HOLD",
+  "reason": "The source note supplies a common 0.097 dex scale; exact line-level laboratory decomposition is not available, so this remains an explicit conservative covariance model pending final source adjudication."
+}

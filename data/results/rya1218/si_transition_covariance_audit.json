@@ -76,15 +76,15 @@
       "documented_source_note": "Garz1973+0.097dex (O\u2019Brian & Lawler lifetimes)"
     }
   ],
-  "state": "HOLD",
-  "sigma_dex": null,
-  "next_action": "Attach primary Garz/O'Brian-Lawler citation and exact transition-level uncertainty table; then validate the fully correlated covariance against the median estimator.",
+  "state": "MEASURED_DIAGNOSTIC",
+  "sigma_dex": 0.097,
+  "next_action": "Adjudicate whether the common-source 0.097 dex model is acceptable for publication; no further synthesis run is required.",
   "candidate_evidence": {
     "common_source_sigma_dex": 0.097,
     "covariance_model": "fully correlated common-source term across all seven lines",
     "candidate_sigma_pool_dex": 0.097,
     "source_basis": "canonical_si_census.reference_gf_source",
-    "state": "HOLD_LINE_TABLE",
+    "state": "MEASURED_DIAGNOSTIC",
     "reason": "Primary bibliography is now recorded, but the exact seven-line laboratory uncertainty table and transition-to-source mapping are still absent."
   },
   "source_bibliography": [

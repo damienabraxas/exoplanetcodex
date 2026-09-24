@@ -12842,3 +12842,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Explicit random-instrument-intercept model from HARPS/IAG/Kitt Peak exact-pool means; diagnostic term retained pending scope/covariance ratification.
+
+  - artifact: rya1218/si_transition_covariance_adopted.json
+    generator: scripts/audit_si_uncertainty_rya1218.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Explicit fully correlated 0.097 dex common-source transition covariance across the exact seven-line Si pool; retained as measured diagnostic pending final source adjudication.
