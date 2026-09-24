@@ -52,14 +52,30 @@ def test_the_guard_describes_the_product_that_is_committed(report):
         "product than the one committed — re-run the guard")
 
 
-def _ew_route_rows_in_the_product() -> int:
-    """How many in-aggregate rows the guard COULD test, read off the product itself."""
+def _ew_route_rows_in_the_product() -> tuple[int, int]:
+    """(testable, labelled-but-widthless) in-aggregate EW-route rows, off the product.
+
+    ⚠️ TESTABLE IS NARROWER THAN LABELLED, and conflating them is a mistake I made
+    writing this test: it asserted the guard should have tested 1270 rows that carry no
+    `ew_mA` at all. The guard re-inverts an equivalent width, so a row with no width is
+    not something it is declining to test -- there is nothing there to invert. The second
+    number is reported separately because it is a real defect, just not this guard's:
+    the ENGINE-A band products set `ew_inversion=True` while their own `ew_method` says
+    the measurement was a synthesis flux-fit.
+    """
     import csv
     import io
     body = "".join(l for l in PRODUCT.read_text().splitlines(keepends=True)
                    if not l.startswith("#"))
-    return sum(1 for r in csv.DictReader(io.StringIO(body))
-               if r["status"] == "in_aggregate" and r["method"] == "ew_integration")
+    testable = widthless = 0
+    for r in csv.DictReader(io.StringIO(body)):
+        if r["status"] != "in_aggregate" or r["method"] != "ew_integration":
+            continue
+        if (r["ew_mA"] or "").strip() in ("", "nan"):
+            widthless += 1
+        else:
+            testable += 1
+    return testable, widthless
 
 
 def test_a_zero_coverage_verdict_is_true_of_the_product(report):
@@ -77,18 +93,25 @@ def test_a_zero_coverage_verdict_is_true_of_the_product(report):
     contain EW-route rows, a NO-COVERAGE verdict is a BUG in the guard, not a state of the
     repo — and the next test then demands they all reproduce.
     """
-    n = _ew_route_rows_in_the_product()
+    testable, widthless = _ew_route_rows_in_the_product()
     if report.get("verdict") == "NO-COVERAGE":
-        assert n == 0, (
-            f"the guard reported NO-COVERAGE but the product has {n} in-aggregate "
-            f"EW-route rows it could have tested — the guard is not looking at them")
+        assert testable == 0, (
+            f"the guard reported NO-COVERAGE but the product has {testable} in-aggregate "
+            f"EW-route rows WITH an ew_mA that it could have tested — the guard is not "
+            f"looking at them")
         assert report["n_tested"] == 0 and not report["results"]
         assert "NO EW-ROUTE ROWS TO TEST" in report["coverage_note"], (
             "a zero-coverage report must say WHY, in the report, not only in a log")
+        # 🔴 AND THE OTHER HALF OF THE REASON MUST BE COUNTED, NOT PARAPHRASED. A report
+        # that said only "no EW rows" would hide that 1270 rows claim the EW route and
+        # carry no width — the source-side flag defect the note points at.
+        assert report.get("n_ew_labelled_without_ew_mA") == widthless, (
+            f"the report says {report.get('n_ew_labelled_without_ew_mA')} EW-labelled "
+            f"rows have no ew_mA; the product has {widthless}")
     else:
-        assert n > 0, (
+        assert testable > 0, (
             f"the guard claims to have tested {report['n_tested']} rows but the product "
-            f"has no EW-route rows — the report describes another product")
+            f"has no EW-route row with a width — the report describes another product")
 
 
 def test_every_sampled_row_reproduces_its_own_number(report):
