@@ -1,0 +1,23 @@
+{
+  "schema": "rya1220.solar_blend_priority_review.v1",
+  "source": "data/audit/rya1214_cno_products/n_blend_dominance.csv",
+  "policy": "Use full Turbospectrum synthesis for blended windows. Target-share percentages rank sensitivity; they are not a reason to discard a synthesized line.",
+  "priority_lines": {
+    "C": {
+      "primary_candidates": ["5380.34 A (71.6% C I)", "9078.28 A (72.6% C I)", "9620.77 A (89.0% C I)"],
+      "synthesis_required": ["5052.16 A (10.4% C I; Fe/Cr blend)", "6587.61 A (31.5% C I; Si blend)", "9094.82 A (52.1% C I; Co blend)"],
+      "deprioritize_for_clean-line_checks": ["7111.47 A", "7113.18 A", "8727.12 A", "9088.50 A"]
+    },
+    "N": {
+      "primary_molecular_route": "CN bands; full synthesis is required",
+      "atomic_cross_checks": ["8629.23 A (28.6% N I; CN contributes 57.1% and must be modeled)", "8216.33 A (5.5% N I; Si/Fe/CN blend)"],
+      "blend_dominated_atomic_lines": ["7442.29 A (0.9% N I; Fe I 87.4%)", "8683.40 A (5.9% N I; Ti I 88.1%)", "10108.90 A (2.0% N I; V II 94.1%)"]
+    },
+    "O": {
+      "primary_atomic_route": ["7771.94 A (93.3% O I)", "7774.16 A (96.0% O I)", "7775.38 A (99.1% O I)"],
+      "synthesis_required": ["6300.30 A ([O I] 3%; Sc/Ni blend modeled)", "9260.86–9265.92 A (43–54% O I; CN/V/Mg blends)"],
+      "deprioritize_for_clean-line_checks": ["6155.97–6363.77 A; target share 1.7–4.3%"]
+    }
+  },
+  "decision": "Blend modeling is adequate as the route method. Remaining CNO holds are profile/model residuals, molecular identity/isotope completeness, and C/O coupling; no EW-only rejection is applied to synthesis routes."
+}

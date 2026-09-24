@@ -1,0 +1,37 @@
+{
+  "schema": "rya1220.vis_uv_route_audit.v1",
+  "sources": [
+    "data/audit/cno_synthesis/solar_phase_a_cross_arm.json",
+    "data/audit/cno_synthesis/solar_differential_backbone.json",
+    "data/audit/cno_synthesis/procyon_phase_a_cross_arm.json"
+  ],
+  "routes": [
+    {
+      "instrument": "ESPRESSO",
+      "band": "VIS",
+      "status": "AUDITED_HOLD",
+      "oxygen": {"OI_777": 8.74, "OI_6300": 8.73, "spread_dex": 0.01, "state": "AGREE"},
+      "carbon": {"CI_5052": 8.454, "CI_5380": 8.342, "spread_dex": 0.112, "state": "FLAGGED_DISAGREEMENT"},
+      "uncertainty": {"continuum": "HOLD", "profile_residual": "HOLD", "telluric": "HOLD", "blend_identity": "HOLD", "3d_nlte": "MEASURED for O and C atomic lines", "holding_repeatability": "HOLD"},
+      "publication": "HOLD: O is a validated anchor/cross-check; C requires line-level root-cause work"
+    },
+    {
+      "instrument": "UVES",
+      "band": "VIS",
+      "status": "AUDITED_HOLD",
+      "nitrogen": {"NI_8216": 7.99, "CN_red": 8.518, "spread_dex": 0.528, "state": "FLAGGED_DISAGREEMENT"},
+      "uncertainty": {"continuum": "HOLD", "profile_residual": "HOLD", "telluric": "HOLD", "blend_identity": "HOLD", "3d_nlte": "HOLD for molecular CN", "holding_repeatability": "HOLD"},
+      "coverage": "NH 3360/CN violet remains a declared blue-arm data gap; do not substitute it for the red route",
+      "publication": "HOLD"
+    },
+    {
+      "instrument": "HST STIS/COS",
+      "band": "UV",
+      "status": "READINESS_HOLD",
+      "coverage": "loader and conditioned Procyon STIS smoke test exist; no production solar/target CNO fit admitted",
+      "gates": ["FUV C/O 3D-NLTE grid", "FUV pseudo-continuum synthesis gate", "same-transition target-Sun differential covariance"],
+      "publication": "HOLD"
+    }
+  ],
+  "decision": "No new CNO abundance is promoted. Existing oxygen agreement is retained as route evidence; carbon and nitrogen disagreements remain diagnostic findings requiring line-level uncertainty work."
+}

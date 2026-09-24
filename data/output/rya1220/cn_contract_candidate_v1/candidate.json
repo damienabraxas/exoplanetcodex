@@ -1,0 +1,278 @@
+{
+  "schema": "rya587.uncertainty.v1",
+  "candidate": {
+    "element": "N",
+    "ion": "I",
+    "band": "NIR",
+    "instrument": "iag_fts_solar_atlas",
+    "holding": "solar_iag",
+    "tier": "ALL",
+    "selector": "MOL-CN_AX_IR",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "star": "solar",
+    "A": 7.716,
+    "uncertainty_indicator_ids": [
+      "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb"
+    ],
+    "uncertainty": {
+      "schema": "rya587.uncertainty.v1",
+      "scope": {
+        "star": "solar",
+        "product_key": "N|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|MOL-CN_AX_IR|SYNTH|1D-LTE|our-all",
+        "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7"
+      },
+      "components": [
+        {
+          "name": "measurement",
+          "state": "MEASURED",
+          "sigma_dex": 0.016,
+          "source": "data/output/rya1220/cn_iag_stellar_v2/fits.json",
+          "evidence": {
+            "method": "profile_likelihood",
+            "likelihood": "pipeline.fit_constraint.measure_constraint; profile curvature rescaled to red_chi2=1",
+            "correlation_treatment": "UNRESOLVED: 2211 correlated pixels; no independent residual covariance yet",
+            "n_pixels": 2211
+          }
+        },
+        {
+          "name": "stellar.teff",
+          "state": "MEASURED",
+          "sigma_dex": 0.0,
+          "source": "RYA-1220 CN response run; shared RYA-587 contract",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "parameter": "teff_K",
+            "parameter_source": "pipeline.uncertainty_stack.params_and_deltas(solar): e_teff=1 K",
+            "response_assessment": "Both \u00b11 K refits return A(N)=7.716 at 0.001 dex optimizer precision",
+            "signed_response_dex": 0.0,
+            "delta_minus_dex": 0.0,
+            "delta_plus_dex": 0.0,
+            "delta_parameter": 1.0
+          }
+        },
+        {
+          "name": "stellar.logg",
+          "state": "DEFINED",
+          "sigma_dex": 0.0,
+          "source": "RYA-1220 CN response run; shared RYA-587 contract",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "parameter": "logg",
+            "parameter_source": "solar log g exact by definition in uncertainty_stack",
+            "response_assessment": "N/A: declared delta_p=0",
+            "delta_parameter": 0.0
+          }
+        },
+        {
+          "name": "stellar.xi",
+          "state": "MEASURED",
+          "sigma_dex": 0.0955,
+          "source": "RYA-1220 CN response run; shared RYA-587 contract",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "parameter": "vturb_kms",
+            "parameter_source": "pipeline.uncertainty_stack.params_and_deltas(solar): adopted xi allowance 0.2912 km/s",
+            "response_assessment": "Asymmetric \u00b1xi refits retained; central linear response used provisionally",
+            "signed_response_dex": 0.0955,
+            "delta_minus_dex": 0.0,
+            "delta_plus_dex": 0.191,
+            "delta_parameter": 0.2912
+          }
+        },
+        {
+          "name": "stellar.metallicity",
+          "state": "DEFINED",
+          "sigma_dex": 0.0,
+          "source": "RYA-1220 CN response run; shared RYA-587 contract",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "parameter": "feh",
+            "parameter_source": "solar [Fe/H] exact by definition in uncertainty_stack",
+            "response_assessment": "N/A: declared delta_p=0",
+            "delta_parameter": 0.0
+          }
+        },
+        {
+          "name": "transition_data",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Exact molecular quantum identities and line-specific uncertainty/covariance not yet complete"
+          }
+        },
+        {
+          "name": "continuum",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Source-normalized holding; local continuum perturbation not measured"
+          }
+        },
+        {
+          "name": "profile_ew",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Fit residual/profile covariance unresolved"
+          }
+        },
+        {
+          "name": "pseudo_continuum",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Molecular pseudo-continuum contribution unresolved"
+          }
+        },
+        {
+          "name": "telluric",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Holding is declared clean, but residual uncertainty is not quantified"
+          }
+        },
+        {
+          "name": "holding_instrument",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Repeatability/conditioning response not measured"
+          }
+        },
+        {
+          "name": "nlte",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "CN route is LTE-by-design; model-form uncertainty unresolved"
+          }
+        },
+        {
+          "name": "model_atmosphere",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "3D molecular correction not established for this pool"
+          }
+        },
+        {
+          "name": "hfs_isotopes",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Isotope sensitivity not measured"
+          }
+        },
+        {
+          "name": "blends",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "Species-specific blend decomposition unresolved"
+          }
+        },
+        {
+          "name": "molecular_coupling",
+          "state": "HOLD",
+          "sigma_dex": null,
+          "source": "RYA-1220 CN response run; unresolved evidence",
+          "evidence": {
+            "pool_sha256": "0c555c2f951b3052286e2b3b32abe86af81f083ec4c4dc0d3d2a8ae09ab37ed7",
+            "hold_reason": "C/O covariance absent despite measured dA/dC and dA/dO responses"
+          }
+        }
+      ],
+      "required_extra": [],
+      "covariance": [
+        [
+          0.000256,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.00912025,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "covariance_order": [
+        "measurement",
+        "stellar.teff",
+        "stellar.logg",
+        "stellar.xi",
+        "stellar.metallicity"
+      ],
+      "covariance_source": "Diagonal only for measured terms; unresolved shared covariance is not assumed zero",
+      "assumptions": "Measured terms are provisional; no covariance cancellation assumed for unresolved components",
+      "state": "HOLD",
+      "holds": [
+        "transition_data",
+        "continuum",
+        "profile_ew",
+        "pseudo_continuum",
+        "telluric",
+        "holding_instrument",
+        "nlte",
+        "model_atmosphere",
+        "hfs_isotopes",
+        "blends",
+        "molecular_coupling"
+      ],
+      "sigma_reported": null,
+      "sigma_measured_partial": 0.09683103841227769
+    },
+    "sigma_reported": null
+  },
+  "publication_problems": [
+    "unresolved components: transition_data, continuum, profile_ew, pseudo_continuum, telluric, holding_instrument, nlte, model_atmosphere, hfs_isotopes, blends, molecular_coupling"
+  ],
+  "status": "HOLD_REVIEW_ONLY",
+  "live_feed_modified": false
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "rya1220.nitrogen_blend_synthesis.v2",
+  "route": "solar IAG NIR CN",
+  "A_N": 7.941,
+  "A_C": 8.46,
+  "A_O": 8.73,
+  "method": "full Turbospectrum component synthesis; atomic-N-I and no-molecule counterfactuals",
+  "windows": [
+    {
+      "key": "CN_AX_IR",
+      "window_air_A": [
+        10870.68,
+        10874.0
+      ],
+      "n_pix": 112,
+      "atomic_N_I_lines_in_linelist": 0,
+      "full_synthesis": {
+        "mean_depth": 0.021331454942342763,
+        "rms_vs_observed": 0.09843458357557548,
+        "mean_abs_delta_from_full": 0.0
+      },
+      "without_N_I": {
+        "mean_depth": 0.021331454942342763,
+        "rms_vs_observed": 0.09843458357557548,
+        "mean_abs_delta_from_full": 0.0
+      },
+      "without_molecules": {
+        "mean_depth": 0.018031806368673353,
+        "rms_vs_observed": 0.09963402493234239,
+        "mean_abs_delta_from_full": 0.0032996485736694037
+      },
+      "N_I_model_effect_depth": 0.0,
+      "molecular_model_effect_depth": 0.0032996485736694094
+    }
+  ]
+}

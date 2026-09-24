@@ -1,0 +1,98 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1214",
+  "group": "stellar",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1214/pipeline/uncertainty_stack.py": "de51f923f640528da6b929df17611b84496920728adec6ea20d97b66176c88c7",
+    "/home/damienabraxas/scratch/rya1214/data/linelists/ispec_ir_9200_13000/atomic_lines.tsv": "63d73e37cac0cf1c4f70c31973ab74c5989268e069ec9430fe045303ff210a22",
+    "/tmp/solar_nir_cn_iag_cno_provenance.json": "968ddbe5d89797e090b58206308bbe50a1ac0aaafc8e0dd1c96764db531f4f03",
+    "/tmp/nitrogen_cn_responses.py": "7f183f84c5eb8337c08f0255d3bf7db8f186a7e405d79b01b75610c15fa360e0"
+  },
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "adopted_parameter_deltas": {
+    "teff_K": 1.0,
+    "logg": 0.0,
+    "vturb_kms": 0.2912,
+    "feh": 0.0
+  },
+  "background": {
+    "C": 8.488,
+    "N": 7.999,
+    "O": 8.69,
+    "Ni": 6.2
+  },
+  "broadening": [
+    700000.0,
+    3.8,
+    1.8
+  ],
+  "holding": "solar_iag",
+  "pool": {
+    "molecule": "12C14N",
+    "system": "A-X",
+    "band": "(0-0)",
+    "diagnostic": "CN_AX_IR",
+    "windows_air_A": [
+      [
+        10870.68,
+        10874.0
+      ],
+      [
+        10879.21,
+        10885.06
+      ],
+      [
+        10896.04,
+        10899.04
+      ],
+      [
+        10973.04,
+        10976.04
+      ],
+      [
+        10979.57,
+        10982.57
+      ],
+      [
+        10988.82,
+        10991.82
+      ],
+      [
+        11003.92,
+        11006.92
+      ],
+      [
+        11009.25,
+        11014.16
+      ],
+      [
+        11019.86,
+        11023.26
+      ],
+      [
+        11065.46,
+        11068.46
+      ],
+      [
+        11071.13,
+        11074.13
+      ],
+      [
+        11079.56,
+        11082.56
+      ]
+    ]
+  },
+  "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+  "n_pixels": 2211,
+  "geometry": "disk_integrated_flux",
+  "scale": "1D-LTE",
+  "statistical_correlation_model": "UNRESOLVED",
+  "C_O_covariance": null,
+  "status": "diagnostic_only"
+}

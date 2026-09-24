@@ -1,0 +1,54 @@
+{
+  "schema": "rya1220.sirius_pysme_environment_audit.v1",
+  "host": "sirius",
+  "checked": "2026-09-23",
+  "findings": {
+    "source_checkout": "/srv/codex/engines/pysme_src",
+    "source_package": "/srv/codex/engines/pysme_src/src/pysme",
+    "sme_shared_library": "present",
+    "python_extension_initially": "missing",
+    "default_python": "/mnt/codex-data/venv312/bin/python",
+    "default_numpy": "2.2.6",
+    "initial_import_failure": "numpy.distutils removed in NumPy 2; _smelib was not built",
+    "repair": "compiled _smelib.cpython-312-x86_64-linux-gnu.so with NumPy 2 PyDataType_ELSIZE accessor; SME_Structure import succeeds",
+    "iSpec_sme_binary": "repointed to source SMElib binary using libgfortran.so.5",
+    "atmosphere_data_issue": "MARCS grid acquired from current NADC mirror and installed locally on Sirius.",
+    "marcs_grid": "/home/damienabraxas/.sme/atmospheres/marcs2012.sav",
+    "marcs_archive": "/home/damienabraxas/.sme/atmospheres/marcs2012_v1.0.0.sav.gz",
+    "marcs_archive_bytes": 8358427,
+    "marcs_config": "/home/damienabraxas/.sme/config.json",
+    "native_route_status": "REPAIRED: LTE branch now resets SMElib departure coefficients before curve-of-growth syntheses; Na/K controls and N lines return nonzero corrections."
+  },
+  "nitrogen_smoke_test": {
+    "line_air_A": 8216.34,
+    "backend": "native PySME/SMElib",
+    "result": {
+      "element": "N",
+      "per_line": {
+        "8216.34": 0.0
+      },
+      "delta_median": 0.0
+    },
+    "status": "GRID_LOADED_AND_NATIVE_ROUTE_COMPLETES",
+    "notes": "Native route now loads MARCS and completes the NLTE delta call; this line returned zero delta and needs the full N-line sweep for production results."
+  },
+  "interpretation": "The missing MARCS grid was the immediate blocker. It is now installed and configured; native PySME loads it and completes a nitrogen NLTE smoke call after NumPy 2 compatibility repairs.",
+  "next_step": "Expand the N line set across UV, VIS, and IR; acquire/register near-UV N diagnostics and then propagate corrections into the uncertainty products.",
+  "search_audit": {
+    "searched_roots": [
+      "/home",
+      "/srv",
+      "/mnt",
+      "/opt",
+      "/data"
+    ],
+    "marcs_grid_found": true,
+    "found_atmosphere_assets": [
+      "stagger_avg3d_rya442/sun_avg3d_stagger.mod",
+      "PySME test novars.sav/nosme.sav"
+    ],
+    "marcs_status": "Grid was absent from the searched mounts but acquired from NADC and installed at the configured local Sirius path."
+  },
+  "native_nitrogen_sweep": "data/results/rya1220/pysme_nitrogen/native_solar_sweep.json",
+  "native_nlte_control_crosscheck": "data/results/rya1220/pysme_nitrogen/native_nlte_control_crosscheck.json"
+}

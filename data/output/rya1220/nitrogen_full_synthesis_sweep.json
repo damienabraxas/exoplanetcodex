@@ -1,0 +1,148 @@
+{
+  "schema": "rya1220.nitrogen_full_synthesis_sweep.v1",
+  "scope": "Solar nitrogen: atomic N I lines plus molecular NH/CN routes across UV, VIS, IR",
+  "host": "sirius",
+  "atomic_lines": [
+    {
+      "line_air_A": 7442.29,
+      "backend": "turbospectrum",
+      "holding": "Kitt Peak solar atlas",
+      "narrow_A_N": 8.013599605119147,
+      "wide_A_N": 7.895658993327821,
+      "wide_minus_narrow_dex": -0.11794061179132598,
+      "narrow_red_chi2": 0.03948366230246257,
+      "wide_red_chi2": 0.5726641761728148,
+      "status": "MEASURED_PROFILE_DIAGNOSTIC"
+    },
+    {
+      "line_air_A": 8216.336,
+      "backend": "turbospectrum",
+      "holding": "Kitt Peak solar atlas",
+      "narrow_A_N": 8.152853424409146,
+      "wide_A_N": 8.28564071283539,
+      "wide_minus_narrow_dex": 0.13278728842624332,
+      "narrow_red_chi2": 3.353142205567123,
+      "wide_red_chi2": 7.001737028790639,
+      "status": "MEASURED_PROFILE_DIAGNOSTIC"
+    },
+    {
+      "line_air_A": 8629.23,
+      "backend": "turbospectrum",
+      "holding": "Kitt Peak solar atlas",
+      "narrow_A_N": 8.069073309241046,
+      "wide_A_N": 8.086821372719218,
+      "wide_minus_narrow_dex": 0.01774806347817126,
+      "narrow_red_chi2": 0.14476494356070388,
+      "wide_red_chi2": 0.2222498347996717,
+      "status": "MEASURED_PROFILE_DIAGNOSTIC"
+    },
+    {
+      "line_air_A": 8683.4,
+      "backend": "turbospectrum",
+      "holding": "Kitt Peak solar atlas",
+      "narrow_A_N": 8.08536942190725,
+      "wide_A_N": 8.135785350238706,
+      "wide_minus_narrow_dex": 0.05041592833145536,
+      "narrow_red_chi2": 0.16384622061439744,
+      "wide_red_chi2": 0.28832188729602287,
+      "status": "MEASURED_PROFILE_DIAGNOSTIC"
+    }
+  ],
+  "molecular_routes": [
+    {
+      "band": "near-UV NH",
+      "instrument": "Kitt Peak",
+      "diagnostic": "NH_AX",
+      "artifact": "data/output/rya1220/cn_nearuv_continuum_v1/fits.json",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    },
+    {
+      "band": "VIS CN",
+      "instrument": "HARPS",
+      "diagnostic": "CN_red",
+      "artifact": "data/output/rya1220/cn_harps_continuum_v2/fits.json",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    },
+    {
+      "band": "VIS CN",
+      "instrument": "IAG",
+      "diagnostic": "CN_red",
+      "artifact": "data/output/rya1220/solar_iag_vis_cno_v2/solar_vis_iag_cno_per_band.csv",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    },
+    {
+      "band": "NIR CN",
+      "instrument": "Kitt Peak",
+      "diagnostic": "CN_AX_IR",
+      "artifact": "data/output/rya1220/cn_kp_continuum_v8/fits.json",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    },
+    {
+      "band": "NIR CN",
+      "instrument": "IAG",
+      "diagnostic": "CN_AX_IR",
+      "artifact": "data/output/rya1220/cn_iag_3d_anchor_v1/fits.json",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    },
+    {
+      "band": "NIR CN",
+      "instrument": "CRIRES+ J",
+      "diagnostic": "CN_AX_J",
+      "artifact": "data/output/rya1220/cn_crires_j_continuum_v1/fits.json",
+      "backend": "turbospectrum",
+      "status": "FULL_SYNTHESIS_ROUTE"
+    }
+  ],
+  "backend_applicability": [
+    {
+      "backend": "turbospectrum",
+      "status": "RUN_COMPLETE",
+      "blend_support": "atomic plus molecular opacity"
+    },
+    {
+      "backend": "spectrum",
+      "status": "PROBE_TIMEOUT",
+      "blend_support": "atomic line synthesis; molecular CN/NH lists are not wired in this route"
+    },
+    {
+      "backend": "moog",
+      "status": "PROBE_TIMEOUT",
+      "blend_support": "atomic line synthesis; molecular CN/NH lists are not wired in this route"
+    },
+    {
+      "backend": "moog-scat",
+      "status": "PROBE_TIMEOUT",
+      "blend_support": "atomic line synthesis; molecular CN/NH lists are not wired in this route"
+    },
+    {
+      "backend": "synthe",
+      "status": "PROBE_TIMEOUT",
+      "blend_support": "no admitted CNO production route"
+    },
+    {
+      "backend": "sme",
+      "status": "RUN_VALIDATED",
+      "blend_support": "PySME native atomic synthesis with MARCS and Amarsi departures; molecular blends remain Turbospectrum-only.",
+      "repair": "SMElib global departure coefficients are reset before LTE synthesis."
+    }
+  ],
+  "interpretation": "Turbospectrum remains the complete blend-capable nitrogen route. Native PySME is now validated for atomic N NLTE corrections; molecular NH/CN remains on the Turbospectrum route.",
+  "coverage_gaps": [
+    {
+      "line_air_A": 10108.9,
+      "status": "NO_SOLAR_HOLDING_COVERAGE_IN_REGISTERED_ATLAS_FOR_THIS_SWEEP",
+      "note": "Retained as isolated Amarsi+Brooke diagnostic overlay; no observed solar profile was available for a line-level backend run."
+    }
+  ],
+  "native_pysme_update": {
+    "artifact": "data/results/rya1220/pysme_nitrogen/native_solar_sweep.json",
+    "lines": 3,
+    "delta_median_dex": -0.0128154153,
+    "status": "RUN_COMPLETE"
+  }
+}

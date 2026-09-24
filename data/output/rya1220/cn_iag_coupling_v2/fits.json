@@ -1,0 +1,147 @@
+[
+  {
+    "name": "nominal",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.488,
+      "N": 7.999,
+      "O": 8.69,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+    "fit": {
+      "A_X": 7.716,
+      "red_chi2": 43.113,
+      "sigma_fit": 0.016,
+      "n_pix": 2211,
+      "n_eval": 13,
+      "status": "ok",
+      "frac_rise_weaker": 0.06603948904709957,
+      "edge_distance_dex": 0.9172681761610768,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 436.7132881442085
+  },
+  {
+    "name": "C_-1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.388,
+      "N": 7.999,
+      "O": 8.69,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+    "fit": {
+      "A_X": 8.004,
+      "red_chi2": 42.715,
+      "sigma_fit": 0.043,
+      "n_pix": 2211,
+      "n_eval": 15,
+      "status": "ok",
+      "frac_rise_weaker": 0.07902802003220896,
+      "edge_distance_dex": 1.1954523967855053,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 587.3030478907749
+  },
+  {
+    "name": "C_+1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.588,
+      "N": 7.999,
+      "O": 8.69,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+    "fit": {
+      "A_X": 7.809,
+      "red_chi2": 42.715,
+      "sigma_fit": 0.039,
+      "n_pix": 2211,
+      "n_eval": 21,
+      "status": "ok",
+      "frac_rise_weaker": 0.07219809120151774,
+      "edge_distance_dex": 1.0103995772314036,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 653.4363406053744
+  },
+  {
+    "name": "O_-1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.488,
+      "N": 7.999,
+      "O": 8.59,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+    "fit": {
+      "A_X": 7.896,
+      "red_chi2": 42.715,
+      "sigma_fit": 0.04,
+      "n_pix": 2211,
+      "n_eval": 19,
+      "status": "ok",
+      "frac_rise_weaker": 0.07557744452076487,
+      "edge_distance_dex": 1.0972713238931435,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 605.2371068531647
+  },
+  {
+    "name": "O_+1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.488,
+      "N": 7.999,
+      "O": 8.79,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_IR:12C14N:A-X(0-0):windows_sha256:c4460615564ca9f01a14bc0bf80da543b453b56c9b347a43205ec2130a91babb",
+    "fit": {
+      "A_X": 7.926,
+      "red_chi2": 42.715,
+      "sigma_fit": 0.044,
+      "n_pix": 2211,
+      "n_eval": 18,
+      "status": "ok",
+      "frac_rise_weaker": 0.07642714228641481,
+      "edge_distance_dex": 1.12693099752362,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 439.06990715302527
+  }
+]

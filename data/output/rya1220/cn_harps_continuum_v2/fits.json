@@ -1,0 +1,60 @@
+[
+  {
+    "name": "nominal",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.46,
+      "N": 7.83,
+      "O": 8.73,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_red:12C14N:A-X(0-0):windows_sha256:8c5f68537c531fb2248b623590d816d98391dbb8d709060ab3d4e893b7cda4f5",
+    "fit": {
+      "A_X": 7.487,
+      "red_chi2": 33.345,
+      "sigma_fit": 1.05,
+      "n_pix": 1000,
+      "n_eval": 15,
+      "status": "ok",
+      "frac_rise_weaker": 4.428129662024308e-05,
+      "edge_distance_dex": 0.8570975071746769,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 61.60412921383977
+  },
+  {
+    "name": "continuum_level_-1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.46,
+      "N": 7.83,
+      "O": 8.73,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_red:12C14N:A-X(0-0):windows_sha256:8c5f68537c531fb2248b623590d816d98391dbb8d709060ab3d4e893b7cda4f5",
+    "fit": {
+      "A_X": 6.638,
+      "red_chi2": 33.659,
+      "sigma_fit": null,
+      "n_pix": 1000,
+      "n_eval": 20,
+      "status": "edge_pinned",
+      "frac_rise_weaker": -8.224520793125604e-07,
+      "edge_distance_dex": 0.007997212660881381,
+      "constrained": false,
+      "reason": "NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -8.22e-07 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711)."
+    },
+    "wall_s": 88.64666156610474
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "schema": "rya1220.cno_blend_identity_audit.v1",
+  "sources": [
+    "data/audit/rya1214_cno_products/n_blend_dominance.csv",
+    "data/audit/rya1136_cno_intake/primary_molecular_crossmatch.csv",
+    "data/audit/rya1142_cno_intake_qa/a6_species_and_blend_audit.csv"
+  ],
+  "molecular_crossmatch": {
+    "rows": 328,
+    "species_rows": {"CN": 59, "NH": 31, "OH": 145, "CH": 54, "C2": 39},
+    "join_status": {"PRIMARY_TUPLE_MATCH": 278, "AMBIGUOUS_SUM_MATCH": 26, "AMBIGUOUS_COMPONENT_MATCH": 9, "PRIMARY_UNRESOLVED_SUM_MATCH": 6, "STRENGTH_MISMATCH": 5, "UNMATCHED": 3, "ENERGY_MISMATCH": 1},
+    "admission": "AMBIGUOUS and unmatched molecular joins remain excluded from a promoted abundance until quantum identity is resolved"
+  },
+  "atomic_blend_examples": {
+    "C": [
+      {"line_A": 5052.16, "target_share_pct": 10.4, "dominant_blend": "Fe I"},
+      {"line_A": 5380.34, "target_share_pct": 71.6, "dominant_blend": "C I"},
+      {"line_A": 6587.61, "target_share_pct": 31.5, "dominant_blend": "Si I"},
+      {"line_A": 8335.14, "target_share_pct": 55.1, "dominant_blend": "C I"}
+    ],
+    "N": [
+      {"line_A": 7442.29, "target_share_pct": 0.9, "dominant_blend": "Fe I"},
+      {"line_A": 8216.33, "target_share_pct": 5.5, "dominant_blend": "Si I"},
+      {"line_A": 8629.23, "target_share_pct": 28.6, "dominant_blend": "CN I"},
+      {"line_A": 8683.40, "target_share_pct": 5.9, "dominant_blend": "Ti I"}
+    ],
+    "O": [
+      {"line_A": 6300.30, "target_share_pct": 2.6, "dominant_blend": "Sc II; Ni I identity explicitly resolved elsewhere"},
+      {"line_A": 7771.94, "target_share_pct": 93.3, "dominant_blend": "O I"},
+      {"line_A": 7774.16, "target_share_pct": 96.0, "dominant_blend": "O I"},
+      {"line_A": 7775.38, "target_share_pct": 99.1, "dominant_blend": "O I"}
+    ]
+  },
+  "route_decisions": {
+    "HARPS_VIS": "full Turbospectrum synthesis models catalogued blends; remaining HOLD is profile/model validation, not blend presence",
+    "Kitt_Peak_nearUV": "full synthesis models blends, but NH/OH remain continuum/opacity limited",
+    "Kitt_Peak_NIR_CN": "full Turbospectrum synthesis models atomic and molecular blends; remaining HOLD is structured residual/model validation",
+    "IAG_NIR_CN": "full Turbospectrum synthesis models blends; ambiguous source joins and isotope treatment remain provenance/model terms",
+    "CRIRES_JHK": "full Turbospectrum synthesis models blends; isotope completeness and structured residual/model terms remain HOLD",
+    "ESPRESSO_UVES_VIS": "full synthesis models blends; C/N disagreement routes retain profile/model validation HOLD",
+    "HST_UV": "no production line admission until UV model and pseudo-continuum gates clear"
+  },
+  "blend_policy": "Blend contribution is handled in the full Turbospectrum synthesis. An EW route failing or a target line being a minority absorber does not block a synthesis route by itself; only missing transition identity, missing isotope components, or demonstrably structured residuals remain gates.",
+  "promotion": "No route is promoted from this audit alone"
+}

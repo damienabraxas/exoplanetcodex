@@ -1,0 +1,820 @@
+
+PAGE 1
+A&A 656, A113 (2021)
+https://doi.org/10.1051/0004-6361/202141384                                                                                            &
+c© ESO 2021                                                                            AstronomyAstrophysics
+
+
+The solar carbon, nitrogen, and oxygen abundances from a 3D LTE
+                                                analysis of molecular lines⋆
+
+                                      A. M. Amarsi1          , N. Grevesse2,3  , M. Asplund4              , and R. Collet5
+
+
+
+       1  Theoretical Astrophysics, Department of Physics and Astronomy, Uppsala University, Box 516, 751 20 Uppsala, Sweden
+          e-mail: anish.amarsi@physics.uu.se
+       2  Centre Spatial de Liège, Université de Liège, Avenue Pré Aily, 4031 Angleur-Liège, Belgium
+       3  Space Sciences, Technologies and Astrophysics Research (STAR) Institute, Université de Liège, Allée du 6 Août, 17, B5C,
+          4000 Liège, Belgium
+       4  Australian Academy of Science, Box 783, Canberra ACT 2601, Australia
+       5  Stellar  Astrophysics  Centre,  Department  of  Physics  and  Astronomy,  Aarhus  University,  Ny  Munkegade  120,  8000  Aarhus  C,
+          Denmark
+       Received 26 May 2021 / Accepted 9 September 2021
+                                                                           ABSTRACT
+
+       Carbon, nitrogen, and oxygen are the fourth, sixth, and third most abundant elements in the Sun. Their abundances remain hotly
+       debated due to the so-called solar modelling problem that has persisted for almost 20 years. We revisit this issue by presenting a
+       homogeneous analysis of 408 molecular lines across 12 diagnostic groups, observed in the solar intensity spectrum. Using a realistic
+       3D radiative-hydrodynamic model solar photosphere and local thermodynamic equilibrium (LTE) line formation, we ﬁnd logϵC  =
+       8.47±  0.02, logϵN  =  7.89±  0.04, and logϵO  =  8.70±  0.04. The stipulated uncertainties mainly reﬂect the sensitivity of the
+       results to the model atmosphere; this sensitivity is correlated between the diﬀerent diagnostic groups, which all agree with the mean
+       result to within 0.03 dex. For carbon and oxygen, the molecular results are in excellent agreement with our 3D non-LTE analyses of
+       atomic lines. For nitrogen, however, the molecular indicators give a 0.12 dex larger abundance than the atomic indicators, and our best
+       estimate of the solar nitrogen abundance is given by the mean: 7.83 dex. The solar oxygen abundance advocated here is close to our
+       earlier determination of 8.69 dex, and so the present results do not signiﬁcantly alleviate the solar modelling problem.
+       Key words.  radiative transfer – line: formation – Sun: abundances – Sun: photosphere – Sun: atmosphere
+
+1. Introduction                                                                           For   the   solar   photosphere,   absorption   spectra   of   the
+Carbon,  nitrogen,  and  oxygen  are  among  the  most  important                    molecules  C2,  CH,  NH,  OH,  CN,  and  12C16O  oﬀer  a  promis-
+elements  in  astrophysics  today.  This  is  especially  true  in  the              ing  way  to  infer  the  elemental  abundances  (Lambert1978;
+context of our Solar System, where they are the fourth, sixth,                       Grevesse et al.1990, 1991; Asplund et al.2004, 2005b).  The
+and third most abundant elements, respectively (Asplund et al.                       molecules  complement  the  usual  atomic  indicators  of  the  ele-
+2021). Combined, they dominate the metal content of the solar                        mental abundances: namely, the high excitation permitted lines
+interior;  as  such,  their  abundances  are  central  to  the  debate               of  C i,  N i,  and  O i  that  are  typically  more  sensitive  to  depar-
+on  the  long-standing  so-called  solar  modelling  problem  (see                   tures  from  local  thermodynamic  equilibrium  (LTE;Kiselman
+e.g.,Bahcall et al.2005; Basu & Antia2008; Buldgen et al.                            1993; Asplund2005; Ste                             ﬀen et al.2015; Amarsi et al.2020a)
+2019;Christensen-Dalsgaard2021). This describes an obstinate                         as well as the very weak low excitation forbidden lines of  C i
+discrepancy between helioseismic inferences and ﬁrst-principles                      and O i that form in LTE but are heavily blended (Ca ﬀau et al.
+modelling of the solar interior structure (as traced by the sound                    2008; Amarsi et al.2019).  In  contrast,  the  molecular  transi-
+speed  as  a  function  of  depth,  as  well  as  quantities  such  as               tions  are  expected  to  be  less  sensitive  to  departures  from
+the  helium  abundance  of  the  solar  envelope  and  the  location                 LTE (Hinkle & Lambert1975;Ayres & Wiedemann1989), and
+of  the  bottom  of  the  convection  zone).  The  former  approach                  there  are  many  unblended  features  in  the  solar  spectrum  to
+is  model-insensitive;  in  contrast,  the  latter  approach  depends                choose  from  that  can  be  measured  with  high  precision.  How-
+on  the  adopted  description  of  the  interior  opacity,  which  in                ever,  the  molecular  concentrations  are  sensitive  to  the  atmo-
+turn  depends  on  the  assumed  solar  chemical  composition.  It                   spheric structure and the presence of inhomogeneities, especially
+has  been  suggested  that  an  approximately  15%  larger  opac-                    in  high  layers  near  the  chromospheric  temperature  minimum,
+ity near the base of the convection zone, where oxygen transi-                       which   makes   it   essential   to   base   the   analysis   on   time-
+tions are the largest contributors to the overall opacity together                   dependent, 3D radiative-hydrodynamical models of the photo-
+with iron (Mondet et al.2015), could help to resolve this prob-                      sphere (Asplund et al.2004,2005b). Historically, a disadvantage
+lem  (Christensen-Dalsgaard et al.2009; Serenelli et al.2009;                        of  using  molecules  came  from  having  to  use  rather  uncer-
+Bailey et al.2015).                                                                  tain   energy   levels   and   transition   probabilities;   fortunately,
+                                                                                     driven   in   part   by   their   importance   in   exoplanet   mod-
+                                                                                     elling (Tennyson & Yurchenko2012;Tennyson et al.2016), data
+ ⋆  Full  Table  2  is  only  available  at  the  CDS  via  anonymous  ftp           of high accuracy are now available.
+to cdsarc.u-strasbg.fr (130.79.128.5) or via http://cdsarc.                               Results  from  molecules  factor  into  the  recommended  car-
+u-strasbg.fr/viz-bin/cat/J/A+A/656/A113                                              bon,  nitrogen,  and  oxygen  abundances  in  the  standard  solar
+
+                                                               Article published by EDP Sciences                                           A113, page 1 of11
+
+PAGE 2
+                                                                       A&A 656, A113 (2021)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 1. Illustrative example optical and infrared spectra from the 3D model compared to diﬀerent solar atlases. The theoretical line strengths have
+not been ﬁtted to the data; rather, the input abundance is based on interpolating the theoretical equivalent width to the mean one measured in both
+atlases. No instrumental broadening has been applied, and thus in the infrared the ACE proﬁles are seen to be broader and shallower than both the
+ATMOS and theoretical ones.
+
+chemical composition ofAsplund et al.(2009). However, there                                In general, the equivalent widths of selected lines were deter-
+have been a number of developments since that work that make                          mined  separately  in  both  atlases,  by  identifying  the  contin-
+a new analysis worthwhile. First, improved data have recently                         uum  from  local  maxima  within  a  few  tenths  of  a  nanometre
+become  available  for  all  of  these  molecules:  primarily  tran-                  on either side of the central depression, and subsequently mea-
+sition  probabilities  (Brooke et al.2013, 2014a,b, 2015, 2016;                       suring the area under the continuum by hand using a planime-
+Masseron et al.2014; Li et al.2015)  but  also  molecular  par-                       ter.  The  mean  equivalent  widths  from  the  two  atlases  were
+tition  functions  and  equilibrium  constants  (Barklem & Collet                     adopted; these are typically in excellent agreement, but can vary
+2016). Secondly, a number of accurate, complementary results                          by up to around 5% for problematic lines: for instance, the C2
+have  become  available,  and  it  is  important  to  verify  that  con-              lines, which are typically weak and sit in a crowded region of
+sistent results are obtained. These include 3D non-LTE elemen-                        the  optical  spectrum,  which  makes  the  continuum  diﬃcult  to
+tal abundances based on C i (Amarsi et al.2019;Li et al.2021),                        place  and  proﬁle  shapes  diﬃcult  to  trace.  The  ﬁrst  overtone
+N i (Amarsi et al.2020b), and O                           i (Amarsi et al.2018). Lastly,OH  lines  are  an  exception,  this  analysis  being  based  on  the
+the 3D model atmosphere has been updated, as summarised in                            equivalent  widths  ofMeléndez(2004),  measured  in  the  atlas
+Table 1 ofAsplund et al.(2021); in particular, the newer model                        ofWallace & Livingston(2003).  To  give  some  feeling  for  the
+was constructed with the composition ofAsplund et al.(2009),                          spectral features analysed in this work, we show a CH optical
+rather than the more metal-poor composition ofAsplund et al.                          line and OH infrared line in Fig.1.
+(2005a).                                                                                   In Table1we summarise the di        ﬀerent groups of lines consid-
+    Owing  to  these  developments,  we  here  present  a  selection                  ered and the number of lines in each group. We present the entire
+and analysis of the best molecular diagnostics in the solar spec-                     list  of  line  parameters  and  their  measured  equivalent  widths
+trum.  Preliminary  results  of  the  present  study  have  already                   in Table2. These lines were chosen for being free of blends and
+been  incorporated  into  the  new  solar  chemical  composition                      suﬃciently strong to be measured reliably, while remaining on
+ofAsplund et al.(2021). We ﬁrst present the selection of lines                        or close to the linear part of the curve of growth, to enable the
+and their equivalent widths, and review how the 3D LTE theo-                          elemental  abundances  to  be  inferred  with  high  precision.  The
+retical spectra were calculated (Sect.2). We describe the analysis                    wavelengths, energies, and transition probabilities were adopted
+method and present the ﬁnal results (Sect.3) and discuss them                         fromBrooke et al.(2013,2014b,2015,2016) for C                                                                  2, CN, NH,
+(Sect.4), before presenting our conclusions (Sect.5).                                 and OH, respectively, fromMasseron et al.(2014) for CH, and
+                                                                                      fromLi et al.(2015) for                               12C16O.
+                                                                                           Many  more  lines  were  also  considered  but  not  retained
+2. Method                                                                             in  the  ﬁnal  analysis.  Most  notably,  a  further  463  lines  of  14
+2.1. Observational data and line selection                                            other bands in the red system of CN were studied and initially
+                                                                                      kept (Asplund et al.2021). The analysis of these lines was based
+Our analysis is based on the solar disc-centre intensity spectrum.                    on equivalent widths that were measured automatically over 20
+Diﬀerent standard high-resolution solar atlases were used for dif-                    years ago for the purposes of line identiﬁcation (A. J. Sauval,
+ferent lines, depending on their wavelengths. For lines in the opti-                  priv. comm.). The mean results from these various bands were
+cal and near-infrared, the ground-based Liège (Delbouille et al.                      found to agree with those from the (0−0) band to within 0.05 dex.
+1973,1981,1995) and Hamburg (Neckel & Labs1984;Neckel                                 However,  the dispersions of  the results  are two  to three  times
+1999) atlases (seeDoerr et al.2016for an informative review and                       larger because of random uncertainties in the equivalent widths.
+comparison of these atlases and others in terms of e.g., spectral                     For  this  reason,  these  463  transitions  were  not  retained  in  the
+resolution, telluric absorption and continuum placement) formed                       ﬁnal  analysis.  In  addition,  several  lines  in  the  NH  A−X,  OH
+the observational basis. For lines in the infrared, the space-based                   A−X,  and  CN  B−X  electronic  systems  were  also  considered.
+ATMOS (Abrams et al.1996) and ACE (Hase et al.2010) atlases                           Their  lines  fall  in  the  near  UV,  around  340 nm,  320 nm,  and
+were used.                                                                            390 nm,  respectively.  There  is  a  high  density  of  spectral  lines
+
+A113, page 2 of11
+
+PAGE 3
+                      A. M. Amarsi et al.: The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines
+
+Table 1. Groups of indicators used in the present analysis.
+
+                            Species     System |∆ν|                           Bands                          Nline    λvac./nm         Param.
+                            C2              Swan        0                        (0−0), (1−1)                       32          494−516          logϵC
+                            C2              Swan        1                  (0−1), (1−0), (1−2)                   7           473−562
+                            CH             A−X         0                        (0−0), (1−1)                        6           425−436
+                            CH             X−X         1                  (1−0), (2−1), (3−2)                  48        3295−3795
+                            12C16O       X−X         1       (1−0), (2−1), (3−2), (4−3), (5−4)      28        4297−6329
+                            12C16O       X−X         2                        (2−0), (3−1)                       52        2295−2591
+                            NH             X−X         0                        (0−0), (1−1)                       13      11311−15023      logϵN
+                            NH             X−X         1            (1−0), (2−1), (3−2), (4−3)            18        2891−3445
+                            CN             A−X         0                             (0−0)                             59        1088−1321
+                            OH             X−X         0                  (0−0), (1−1), (2−2)                  84       9389−12280       logϵO
+                            OH             X−X         1                        (1−0), (2−1)                       46        2970−3813
+                            OH             X−X         2                  (2−0), (3−1), (4−2)                  15        1528−1762
+
+Notes. Final column speciﬁes the free parameter that is adjusted so as to match the theoretical equivalent widths to the observed ones, in the
+analysis that follows. C2 Swan, CH A−X and CN A−X are electronic transitions. NH X−X|∆ν| =  0 and OH X−X|∆ν| =  0 are rotational (or
+pure-rotation) transitions. The CH X−X,  12C16O X−X, NH X−X|∆ν| = 1, OH X−X|∆ν|≥ 1 are rovibrational (or vibration–rotation) transitions.
+
+Table 2. Lines used in the present analysis.
+
+
+             Species      System  |∆ν|      Band   λvac./nm       Elow/eV       logg f       W/pm      Param.        3D  ⟨3D⟩       ATMO      MARCS      HM74
+             C2                Swan         0        (0−0)        493.812          1.112          0.843        0.530       logϵC       8.401      8.415      8.380       8.376       8.459
+             C2                Swan         0        (0−0)        495.281          1.029          0.651        0.500       logϵC       8.442      8.457      8.422       8.417       8.501
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             CH              A−X          0        (1−1)        425.420          0.523  −1.506      3.700       logϵC       8.418      8.433      8.368       8.357       8.512
+             CH              A−X          0        (1−1)        425.441          0.523  −1.471      4.000       logϵC       8.422      8.437      8.372       8.360       8.517
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             CH              X−X          1        (1−0)       3294.615         0.773  −2.600      1.590       logϵC       8.455      8.485      8.424       8.418       8.555
+             CH              X−X          1        (1−0)       3303.095         0.915  −2.523      1.460       logϵC       8.479      8.508      8.446       8.441       8.576
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             12C16O        X−X          1        (1−0)       4297.175         2.242  −2.876      8.240       logϵC       8.482      8.580      8.550       8.540       8.623
+             12C16O        X−X          1        (1−0)       4297.866         2.286  −2.872      7.460       logϵC       8.462      8.561      8.530       8.522       8.605
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             NH              X−X          0        (0−0)      11311.232        2.138  −1.557      0.243       logϵN       7.898      8.002      8.015       7.997       8.088
+             NH              X−X          0        (0−0)      11471.850        2.027  −1.570      0.316       logϵN       7.913      8.012      8.035       8.003       8.039
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             CN              A−X          0        (0−0)       1087.516         0.056  −2.601      0.136       logϵN       7.870      8.000      7.964       7.957       8.051
+             CN              A−X          0        (0−0)       1087.548         0.089  −2.630      0.112       logϵN       7.848      7.965      7.944       7.932       8.027
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+             OH              X−X          0        (0−0)       9389.310         3.070  −1.227      1.798       logϵO       8.718      8.779      8.770       8.761       8.834
+             OH              X−X          0        (0−0)       9391.329         3.071  −1.239      1.817       logϵO       8.734      8.797      8.789       8.784       8.851
+             . . .                  . . .           . . .         . . .               . . .                 . . .              . . .             . . .            . . .            . . .           . . .           . . .            . . .            . . .
+
+Notes. Columns 1–7 show the line information, Col. 8 shows the equivalent width measured in the solar disc-centre intensity, and Col. 9 speciﬁes
+the  free  parameter  that  is  adjusted  so  as  to  match  the  theoretical  equivalent  widths  to  the  observed  ones.  Final  columns  show  the  elemental
+abundances inferred from the diﬀerent models. Blended transitions within the same branch were in some cases combined together. The NH lines
+are all in the R branch with three unresolved components. The listed transition probabilities are for the middle component, and the measured
+equivalent width has been reduced by a factor of three. Two lines of each system are shown; the full table is available at the CDS.
+
+in  these  spectral  regions,  making  the  precise  measurement  of                                          mean  eﬀective  temperature  of  the  entire  sequence  (as  well  as
+equivalent widths extremely diﬃcult because of the contamina-                                                 of  the  sample  of  snapshots;  Sect.2.3)  is  5773 K,  with  a  stan-
+tion by other species and because of the diﬃculty to ﬁnd the real                                             dard deviation of 16 K, in excellent agreement with the nomi-
+continuum. For these reasons, these molecular transitions were                                                nal  solar  value  of  5772 K  (Prša et al.2016).  The  model  is  the
+ultimately not included.                                                                                      same  as  that  used  already  in  the  3D  non-LTE  analyses  of  O i
+                                                                                                              lines (Amarsi et al.2018), where it is discussed in more detail; as
+2.2. Model atmospheres                                                                                        well as of C i and N i lines (Amarsi et al.2019,2020b;Li et al.
+                                                                                                              2021).  It  was  also  used  in  the  3D  non-LTE  analyses  of  the
+In  Fig.2we  illustrate  the  temperature  structure  as  a  func-                                            sodium, magnesium, potassium, calcium, and iron abundances,
+tion  of  Rosseland  optical  depth  of  the  model  atmospheres                                              presented inAsplund et al.(2021). It is an updated version of
+used  in  this  study.  The  analysis  was  based  on  a  3D  radiative-                                      the  model  used  in  the  solar  analyses  ofAsplund et al.(2009)
+hydrodynamic  model  of  the  solar  photosphere  computed  with                                              as  well  as  ofScott et al.(2015b,a)  andGrevesse et al.(2015),
+the STAGGER  code  (Collet et al.2011;Magic et al.2013).  The                                                 using  the  latest  version  of  the STAGGER  code  as  described  by
+
+                                                                                                                                                                                           A113, page 3 of11
+
+PAGE 4
+                                                                     A&A 656, A113 (2021)
+
+                                                                                    up to and including the third ionisation stage (e.g., Fe iii), and
+                                                                                    12  molecules  of  hydrogen,  carbon,  nitrogen,  and  oxygen:  H2,
+                                                                                    H+2 ; C2, N2, O2; CH, NH, OH; CN, CO, NO; and H2O.
+                                                                                         For  the  3D  model,  the  calculations  were  performed  on  52
+                                                                                    snapshots each roughly 20 min of solar time apart to adequately
+                                                                                    sample the solar granulation. Compared to the original simula-
+                                                                                    tion, the horizontal resolution was reduced by a factor of 3× 3,
+                                                                                    from 2402 grid points to 802 grid points, while the vertical reso-
+                                                                                    lution was enhanced by a factor of two near the optical surface.
+                                                                                    The intensities were calculated without any extra microturbulent
+                                                                                    broadening, these non-thermal eﬀects being naturally accounted
+                                                                                    for due to the velocity and temperature inhomogeneities in the
+                                                                                    3D model itself (Asplund et al.2000;Nordlund et al.2009). The
+                                                                                    calculations  on  the  1D  models  were  performed  in  almost  the
+                                                                                    same  manner.  The  main  diﬀerence  is  that  for  the  1D  mod-
+                                                                                    els, a depth-independent microturbulence was adopted, ξmic  =
+                                                                                    1.0 km s−1 (Holweger et al.1978).
+Fig. 2. Distribution of temperature and Rosseland mean vertical opti-                    The abundances of all three of carbon, nitrogen, and oxygen
+cal depth for the 3D radiative-hydrodynamical model atmosphere, with                can inﬂuence the theoretical intensity depressions of all the lines
+darker colours indicating larger densities of grid points. The structures           in Table2, through changes to the equation of state and molecu-
+of the 1D model atmospheres used in this work are overplotted. Bottom               lar balance. Therefore, for all of the model atmospheres, all line
+panel: diﬀerence in temperature of the 1D models with respect to the                intensities were calculated for a 3D rectilinear grid of carbon,
+horizontally and temporally averaged⟨3D⟩ model.                                     nitrogen, and oxygen abundances. The abundances were taken to
+                                                                                    be between−0.2 dex and +0.2 dex in steps of 0.1 dex about cen-
+                                                                                    tral values of 8.43, 7.83, and 8.69, respectively (Asplund et al.
+Collet et al.(2018),  with  an  updated  chemical  composition                      2009), resulting in a total of 5  × 5× 5 diﬀerent chemical compo-
+(Asplund et al.2009);  Table  1  ofAsplund et al.(2021)  sum-                       sitions.
+marises some of the diﬀerences with the older generations of the                         The subsequent analysis is based on comparing theoretical
+3D solar model. Test calculations on an older version of the cur-                   equivalent  widths  onto  the  observational  data  (Sect.2.1).  The
+rent 3D model suggest that the diﬀerences in inferred abundance                     theoretical equivalent widths were interpolated in the 3D abun-
+may be roughly around 0.01 dex for most of the molecular indi-                      dance space using cubic splines. For all of the lines predicted by
+cators considered here.                                                             the 3D model, the inferred elemental abundances all fell within
+    For  comparison  purposes,  as  well  as  to  estimate  system-                 the grids stipulated above. However, for the 1D models, there
+atic  errors,  several  1D  hydrostatic  models  were  also  used  in               were some deviations beyond the edges of these grids, stipulated
+this study. These are namely: a temporal and horizontal average                     above. Since the 1D results are not a priority of the present study,
+(on surfaces of equal Rosseland mean optical depth) of the full                     linear extrapolations were applied in those cases.
+3D model (Sect. 2.1.2 ofAmarsi et al.2018), hereafter referred
+to  as  the⟨3D⟩  model;  a  theoretical ATMO  model  (Appendix  A                   3. Abundance analysis and results
+ofMagic et al.2013) that is calculated with the same radiative
+transfer scheme and input physics as the 3D STAGGER model; the                      3.1. Preliminary comments
+solar model from the theoretical MARCS grid (Gustafsson et al.
+2008),  which  is  copiously  used  in  stellar  abundance  analyses;               Combining the individual lines in Table2into a ﬁnal estimate of
+and  the  semi-empirical  model  ofHolweger & Müller(1974),                         the elemental abundances is not a straightforward task. One can
+hereafter the HM74 model. The last model was originally con-                        see that, by taking an unweighted mean of all of the lines would
+structed so as to reproduce a number of key observational diag-                     bias  the  result  towards  those  groups  or  molecules  in  Table1
+nostics: the centre-to-limb variation of the continuum as well as                   having the largest number of analysed transitions. This is unde-
+the wings of Fraunhofer lines to probe the T (τ) relation of the                    sirable because lines of diﬀerent molecules, electronic systems,
+thicker layers of the photosphere; and the centre-to-limb varia-                    and|∆ν| are susceptible to diﬀerent systematics, and the anal-
+tions of the central intensities of around 900 atomic and ionic                     ysis  should  take  advantage  of  this.  This  is  attempted  here,  as
+lines to probe the thinner layers (Holweger1967). We still refer                    described in the remainder of Sect.3.
+to  this  last  model  because  it  has  been  used  for  many  decades
+in  a  very  large  number  of  works,  but  it  should  be  noted  that            3.2. Iterative procedure
+its temperature structure may be slightly too warm in the lay-
+ers where typical atomic lines used for abundance purposes are                      The  analysis  proceeds  in  an  iterative  fashion,  because  the
+formed (Asplund et al.2009; see also Sect.4.2).                                     inferred chemical composition, and its uncertainty, has an eﬀect
+                                                                                    on the theoretical equivalent widths and thus the inferred abun-
+2.3. Line formation calculations                                                    dances. In the initialisation step, a guess was made on the model-
+                                                                                    dependent abundances of carbon, nitrogen, and oxygen, as well
+The  vertical  intensities  emergent  from  the  3D  model,  and  the               as on their uncertainties. The choice of initial guess was not criti-
+four  1D  models,  were  generated  using  the  3D  LTE  radiative                  cal, and varying it across the extent of the calculated grid did not
+transfer code SCATE (Hayek et al.2011). The atomic and molec-                       alter the ﬁnal converged results. For a given line, two of the three
+ular partition functions and equilibrium constants were updated                     abundances were ﬁxed; the free parameter is speciﬁed in Table1.
+to use the data fromBarklem & Collet(2016). When computing                          For CN and  12C16O, the free parameter is the less abundant ele-
+the chemical equilibrium, SCATE includes H−, atoms and ions                         ment: nitrogen and carbon, respectively.
+
+A113, page 4 of11
+
+PAGE 5
+                 A. M. Amarsi et al.: The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines
+
+    In the ﬁrst step, the lines were grouped according to the rows                  assumed  to  be  uncorrelated,  and  hence  the  correlation  coeﬃ-
+in Table1. The assumption is that lines of the same molecule, in                    cientsρi, j were taken to be zero. In contrast both the atmospheric
+the same electronic system, with the same|∆ν| have similar sen-                     and the compositional uncertainties were assumed to be system-
+sitivities to systematic errors implicit in the model atmospheres                   atic and thus perfectly correlated between diﬀerent groups of the
+and molecular data, and should therefore be grouped together.                       same molecule, and therefore ρi, j  =  1. For a given model and
+For each model, unweighted mean values, logϵ (model; group),                        molecule, the uncertainty, σ (model; molecule), was then deter-
+were determined by summing over all lines in a given group. The                     mined by adding these four propagated components together in
+squared uncertainties were calculated as follows:                                   quadrature.
+σ2 (model; group) = σ2 (group; atmos)                                                    In  the  third  step,  the  results  for  diﬀerent  molecules  were
+                                                                                    combined into ﬁnal determinations of the elemental abundances.
+                          + σ2 (model; group; trend)                                Similarly  to  the  previous  step,  these  were  calculated  through
+                          + σ2 (model; group; comp.)                                a weighted mean, summing over all molecules of a given ele-
+                                                                                    ment.  The  four  uncertainty  components  were  propagated  for-
+                          + σ2 (model; group; stat.) .                      (1)     wards again using Eq. (3), this time summing over all molecules
+                                                                                    of  a  particular  element,  rather  than  all  groups  of  a  particular
+The ﬁrst term in Eq. (1) accounts for the sensitivity of the group                  molecule.  The  ﬁnal  uncertainties  in  the  elemental  abundances
+to the model atmosphere. Here, this was estimated as the stan-                      were given by adding the four components in quadrature.
+dard  error  in  the  means  of  the  results  from  the  four  diﬀerent                 With a new estimate of the elemental abundances in hand,
+modelling paradigms: 3D,⟨3D⟩, 1D theoretical ATMO, and 1D                           as  well  as  an  improved  estimate  of  the  composition  error,
+semi-empirical HM74; it is therefore the same for all models.                       σ(model; group; comp.), appearing in Eq. (1), the next iteration
+The  second  term  in  Eq.  (1)  probes  further  shortcomings  that                cycle  was  initiated.  This  proceeded  until  the  elemental  abun-
+may be present in all model atmospheres, for example system-                        dances had converged to ﬁve decimal places.
+atic biases in the equivalent width measurements or molecular                            One  last  note  to  make  is  that  the  line-by-line  abundances
+data. This was evaluated by ﬁtting linear trends as functions of                    were  adjusted  to  take  into  account  that  the  line  formation
+diﬀerent line parameters (namely, wavelength, excitation poten-                     calculations  were  performed  under  the  assumption  that  all
+tial, and logarithmic reduced equivalent width): the most severe                    CO  is  in  the  major  isotopologue,  12C16O.  Using  for  example
+trend was identiﬁed, and half the diﬀerence between the high-                       Eq.  (1)  ofAyres et al.(2013),  and  the  isotopic  ratios  advo-
+est  and  lowest  point  of  the  ﬁt  was  evaluated.  The  third  term             cated inAsplund et al.(2021), this amounted to an increase in
+in  Eq.  (1)  accounts  for  the  uncertainty  in  the  two  ﬁxed  back-            the carbon abundances inferred from the  12C16O lines by only
+ground abundances propagated onto the ﬁtted third abundance,                        0.006 dex.
+omitting the covariance terms. The ﬁnal term in Eq. (1) gives the
+statistical uncertainty. It was evaluated as the sample standard                    3.3. Advocated elemental abundances
+deviation about the ﬁtted trend (noting that there are  Nline− 2
+degrees of freedom), divided by √Nline. Any random errors in                        We  provide  the  converged  line-by-line  values  in  the  ﬁnal  ﬁve
+the equivalent widths and transition probabilities were assumed                     columns of Table2, corresponding to the ﬁve di        ﬀerent models
+to be implicit in this quantity.                                                    considered here. In Table3, we show the abundances inferred
+    In the second step, the results for diﬀerent groups were col-                   from the diﬀerent groups, the collapsed results for the diﬀerent
+lapsed so as to obtain mean values for each molecule and each                       molecules,  and  our  ﬁnal  advocated  elemental  abundances,  for
+model.  This  was  achieved  via  a  weighted  mean.  The  weights                  each of the diﬀerent models. This table also shows the full break-
+were calculated for each model and group, via the uncertainties                     down of uncertainties, albeit only for the 3D model because in
+evaluated using Eq. (1):                                                            practice they are dominated by the atmospheric uncertainty and
+                                                                                    so are similar for the other models.
+w(model; group) =   σ−2 (model; group)∑ σ−2 (model; group).                              (2)In Table3, the ﬁnal advocated abundances as inferred from
+                                                                                    the molecules are logϵC = 8.47± 0.02, logϵN = 7.89± 0.04, and
+Here,  the  summation  in  the  denominator  ensures  that  the                     logϵO = 8.70± 0.04. The stipulated uncertainties are dominated
+weights  for  all  of  the  groups  of  a  given  molecule  sum  up  to             by the atmospheric uncertainty. These were taken to be corre-
+unity  (i.e.,  that  they  are  normalised).  The  results  for  diﬀerent           lated (ρi, j  =  1 in Eq. (3)), which is why the individual groups
+groups, logϵ (model; group), were thus weighted using Eq. (2)                       and molecules typically agree with the ﬁnal values to better than
+and  added  together  so  as  to  determine  the  weighted  mean,                   these stated precisions of 0.02–0.04 dex. The largest deviation
+logϵ (model; molecule).                                                             was found for the NH|∆ν|  =  1 group, for which the nitrogen
+    To  calculate  the  uncertainty  in  this  weighted  mean,  the                 abundance is found to be 0.03 dex larger than the ﬁnal result.
+four uncertainty components appearing in Eq. (1) (atmospheric,
+trend, compositional, and statistical, respectively) were individ-
+ually propagated forwards using the following general formula:                      4. Discussion
+
+           n∑             n∑  n∑                                                    4.1. Line-by-line results in the 3D model
+⟨σ2⟩ =        w2iσ2i  +          wiw jρi, jσiσ j.                                (3)Figures3–5illustrate  the  line-by-line  abundances  for  the  3D
+           i              i  j,/i
+                                                                                    model, for carbon, nitrogen, and oxygen, respectively. The indi-
+For  example,  for  a  given  model  and  molecule,  the  quantity                  vidual  panels  show  the  results  for  diﬀerent  molecules,  plotted
+σ (model; molecule; trend) was determined by setting wi and w j                     against  excitation  potential  and  reduced  equivalent  width.  In
+to w(model; group),  and σi  and σ j  to σ(model; group; trend),                    addition, for each group of indicators, the diﬀerence between the
+and summing over the diﬀerent groups as denoted by the indices                      average results from the 1D models and from the 3D model are
+i and  j in Eq. (3). The statistical and trend uncertainties were                   shown in Fig.6.
+
+                                                                                                                                                A113, page 5 of11
+
+PAGE 6
+                                                                           A&A 656, A113 (2021)
+
+Table 3. Inferred elemental abundances and uncertainties.
+
+  Species     System |∆ν|       3D  ⟨3D⟩     ATMO     MARCS     HM74    σ (atmos.)    σ (trend)    σ(comp.)    σ (stat.)       σ
+                                                                                     Carbon
+  C2              Swan         0       8.455     8.473     8.438      8.433      8.520         0.018           0.003           0.006          0.005      0.020
+  C2              Swan         1       8.474     8.494     8.459      8.454      8.540         0.018           0.004           0.006          0.010      0.022
+                ⟨C2⟩                     8.464     8.483     8.448      8.443      8.530         0.018           0.003           0.006          0.005      0.020
+  CH             A−X         0       8.459     8.471     8.404      8.393      8.555         0.031           0.015           0.005          0.011      0.037
+  CH             X−X         1       8.470     8.503     8.444      8.438      8.573         0.028           0.017           0.006          0.003      0.033
+                ⟨CH⟩                     8.465     8.489     8.427      8.420      8.565         0.029           0.011           0.006          0.005      0.032
+  12C16O       X−X         1       8.487     8.653     8.617      8.606      8.683         0.043           0.021           0.031          0.004      0.057
+  12C16O       X−X         2       8.467     8.681     8.623      8.609      8.743         0.059           0.016           0.029          0.001      0.068
+             ⟨12C16O⟩                  8.479     8.673     8.621      8.608      8.723         0.050           0.014           0.030          0.002      0.060
+                Final                      8.47       8.49       8.45        8.45        8.55           0.02             0.00             0.01            0.00        0.02
+                                                                                    Nitrogen
+  NH             X−X         0       7.881     8.032     8.038      8.021      8.079         0.043           0.036           0.000          0.006      0.057
+  NH             X−X         1       7.921     7.988     7.922      7.914      8.056         0.032           0.008           0.001          0.005      0.033
+                ⟨NH⟩                     7.911     8.002     7.960      7.951      8.065         0.035           0.011           0.000          0.004      0.037
+  CN             A−X         0       7.867     7.964     7.933      7.927      8.016         0.031           0.008           0.030          0.003      0.044
+                ⟨CN⟩                     7.867     7.964     7.933      7.927      8.016         0.031           0.008           0.030          0.003      0.044
+                Final                      7.89       7.99       7.95        7.94        8.04           0.03             0.01             0.01            0.00        0.04
+                                                                                    Oxygen
+  OH             X−X         0       8.690     8.792     8.795      8.782      8.837         0.031           0.041           0.005          0.001      0.052
+  OH             X−X         1       8.707     8.800     8.737      8.728      8.884         0.039           0.008           0.004          0.002      0.040
+  OH             X−X         2       8.690     8.756     8.685      8.673      8.848         0.038           0.066           0.003          0.012      0.077
+                ⟨OH⟩                     8.699     8.791     8.756      8.751      8.852         0.036           0.017           0.004          0.002      0.040
+                Final                      8.70       8.79       8.76        8.75        8.85           0.04             0.02             0.00            0.00        0.04
+
+Notes.  Abundances  are  shown  for  diﬀerent  groups  and  species,  for  all  of  the  models  considered  in  the  present  analysis.  Also  shown  is  the
+breakdown of uncertainties for the 3D model, with the overall uncertainty given in the ﬁnal column.
+
+
+     The  line-by-line  standard  deviations  (reﬂected  in  the  scat-                          The  ﬁgures  provide  some  insight  on  the  most  and  least
+ter about the mean trends in Figs.3–5) are found to be around                               reliable abundance indicators, for each molecule, and for each
+0.02 dex. The lowest scatters are found for the  12C16O|∆ν| = 2                             element. For carbon, the C2 Swan bands emerge as the most reli-
+and  OH|∆ν|  =  1  groups  (0.01 dex).  This  scatter  can  be  par-                        able indicators. They are absent of signiﬁcant trends with line
+tially explained by random measurement errors, which can reach                              parameters (Fig.3), and also have low sensitivity to the model
+of the order 2.5% or 0.01 dex (Sect.2.1); random uncertainties                              atmosphere (Fig.6). The               12C16O lines are the least reliable ones,
+in the adopted transition probabilities likely also contribute. An                          despite their low scatter. This is expected because of the tempera-
+anomalously large scatter is found for the OH|∆ν|  =  2 group                               ture sensitivity of their formation, and thus their sensitivity to the
+(0.05 dex).  This  group  displays  a  severe  trend  with  reduced                         model atmosphere as is reﬂected in Fig.6. For nitrogen, NH and
+equivalent width, which likely reﬂects particular diﬃculties in                             CN are found to have similar weight. Within NH, the|∆ν| =  1
+measuring these extremely weak lines to high precision and high                             lines have the most weight, as the|∆ν| = 0 lines show more pro-
+accuracy.                                                                                   nounced trends, as discussed above. Finally, for oxygen all three
+     The two rotational groups, NH|∆ν| =  0 and OH|∆ν| =  0,                                groups have similar sensitivities to the model atmosphere; the
+show  rather  strong  trends  in  Figs.4and5.  These  lines  are  in                        OH|∆ν| =  1 lines are the most reliable, because of the notice-
+the  far  infrared,  between  11 300  and  15 000 nm  for  NH  and                          able trends in the OH|∆ν| = 0 and OH|∆ν| = 2 groups.
+between 9400 and 12 300 nm for OH; that is to say, further to
+the IR than the rovibrational lines of CH, NH and OH (Table1).                              4.2. Comparison with the 1D models
+Consequently, these infrared rotational lines form higher up in
+the atmosphere than the rovibrational lines (at Rosseland mean                              Typically, the results from the various 1D models are larger than
+optical  depths  that  are  nearly  1 dex  smaller),  on  account  of                       those from the 3D model – in other words, the 3D eﬀects are
+the  strong  wavelength  dependence  of  the  dominant  H−  free-                           usually negative. For carbon, nitrogen, and oxygen, respectively,
+free  continuous  opacity.  Thus  the  depicted  trends  may  in  part                      the⟨3D⟩ results are 0.02, 0.10, and 0.10 dex larger; the ATMO and
+reﬂect  inadequacies  in  the  uppermost  layers  of  the  3D  model                        MARCS results are−0.02, 0.06, and 0.06 dex larger, and the HM74
+due  to  for  example  the  lack  of  magnetic  ﬁelds,  and  absence                        results are 0.08, 0.15, and 0.15 dex larger. This systematic eﬀect
+of  a  chromosphere.  The  OH|∆ν|  =  0  lines  are  stronger  than                         is because of the enhanced formation of molecules in the cool
+the  NH|∆ν|  =  0  lines  (median  equivalent  widths  of  5.6 pm                           pockets of gas that arise due to solar convection. It is particularly
+and 1.7 pm, respectively), and typically form at greater heights;                           eﬀective for the temperature-sensitive  12C16O lines, as well as
+accordingly,  they  display  a  more  prominent  trend  relative  to                        the NH|∆ν| = 0 lines and to a lesser extent the OH|∆ν| = 0 lines
+the  scatter.  In  both  cases,  the  results  from  the  deeper-forming                    (Fig.6) that form in the uppermost regions of the photosphere.
+fainter lines tend to agree better with the rovibrational lines, as                              It is perhaps counter-intuitive that the results from the semi-
+expected.                                                                                   empirical  HM74  model  deviates  quite  strongly  from  the  3D
+
+
+A113, page 6 of11
+
+PAGE 7
+                 A. M. Amarsi et al.: The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 3. Carbon abundances inferred from lines of C2, CH, and 12C16O (rows), against excitation potential and reduced equivalent width (columns).
+Linear regression lines have been overplotted. Shaded area shows the advocated abundance and uncertainty, logϵC = 8.47±  0.02.
+
+
+model.  This  is  related  to  the  smaller  temperature  gradient  of                  stratiﬁcation  in  the  line-forming  region  determined  primarily
+that  model,  with  temperatures  around  50 K  larger  in  the  line-                  by  ﬁtting  the  centre-to-limb  variations  of  the  central  intensi-
+forming  region  relative  to  the ⟨3D⟩  model  (Fig.2),  as  pre-                      ties  of  some  900  atomic  and  ionic  lines,  under  the  assump-
+viously  discussed  byAsplund et al.(2009).  While  the  origin                         tion  of  LTE.  Our  measurements  suggest  that  the  line  depths
+of  this  temperature  diﬀerence  is  not  completely  clear,  we  can                  given byHolweger(1967) are slightly but systematically smaller
+speculate  on  a  few  possible  reasons  for  it.  The  HM74  model                    than those in in the more recent and higher-quality Liège and
+presented  inHolweger & Müller(1974)  is  an  updated  ver-                             Hamburg  solar  atlases  employed  here.  This  could  be  associ-
+sion  ofHolweger(1967),  with  the  photospheric  temperature                           ated with diﬃculties in correcting for stray light and the lower
+
+
+                                                                                                                                                      A113, page 7 of11
+
+PAGE 8
+                                                                       A&A 656, A113 (2021)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 4. Nitrogen abundances inferred from lines of NH and CN (rows), against excitation potential and reduced equivalent width (columns). Linear
+regression lines have been overplotted. Shaded area shows the advocated abundance and uncertainty, logϵN = 7.89±  0.04.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fig. 5. Oxygen abundances inferred from lines of OH, against excitation potential and reduced equivalent width (columns). Linear regression lines
+have been overplotted. Shaded area shows the advocated abundance and uncertainty, logϵO = 8.70±  0.04.
+
+
+spectral resolution of the spectrograph used byHolweger(1967),                        estimate  of  the  temperature  in  the  line  forming  regions.  The
+although  systematic  diﬀerences  in  the  continuum  normalisa-                      assumption of LTE for neutral species of low to moderate ion-
+tion could also play a role. Adopting shallower line depths in                        isation potential including Mg i and Fe i may lead to a similar
+the  construction  of  the  HM74  model  could  at  least  partially                  eﬀect (non-LTE masking;Rutten & Kostik1982); although, this
+explain the shallower temperature gradient and thus the larger                        is  compensated  by  their  choice  of  high  elemental  abundances
+
+
+A113, page 8 of11
+
+PAGE 9
+                 A. M. Amarsi et al.: The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                 Fig.  6.    Diﬀerence  between  1D  and  3D  ele-
+                                                                                                                 mental  abundances  for  the  diﬀerent  groups  in
+                                                                                                                 Table1.
+
+logϵMg  =  logϵFe  =  7.60 when determining the electron num-                         ﬁnd consistent results from all of these  12C16O lines of around
+ber  densities.  It  can  be  noted  that  newer  semi-empirical  solar               logϵC = 8.48 dex, as illustrated in Fig.3. Test calculations sug-
+models  of  the  quiet  Sun,  such  as  those  byGrevesse & Sauval                    gest that the updates to the 3D model help to ensure congruous
+(1999) andAllende Prieto et al.(2001), have temperature struc-                        results from the diﬀerent 12C16O lines.
+tures more closely resembling that of the⟨3D⟩ model.
+                                                                                      4.4. Comparison with atomic results
+4.3. Comparison with earlier studies of molecules                                     It  is  illuminating  to  compare  the  molecular  results  derived
+The  abundance  values  advocated  in  Sect.3.3generally  agree                       here  with  atomic  results  present  in  the  literature.  Recently,
+well with those ofAsplund et al.(2009), which was an updated                          3D non-LTE studies of  C i (Amarsi et al.2019;Li et al.2021),
+analysis ofAsplund et al.(2005b) for carbon andAsplund et al.                         N i  (Amarsi et al.2020b),  and  O                           i  (Amarsi et al.2018)  lines
+(2004) for oxygen using an improved 3D solar model. There are,                        have  been  carried  out.  These  studies  are  based  on  the  same
+nevertheless, some puzzling discrepancies: the most prominent                         model atmosphere as that used here. In addition, 3D LTE stud-
+ones are for CH and NH, which are around 0.03–0.05 dex larger                         ies  with  1D  non-LTE  corrections  have  been  carried  out  for
+here. This oﬀset does not seem to be due mainly to the model                          these species byCa    ﬀau et al.(2008,2009,2010,2013,2015),
+atmosphere  (being  also  apparent  for  the  results  from  the  1D                  as well as full 3D non-LTE calculations of the O i 777 nm triplet
+MARCS models), transition probabilities, nor the adopted equiv-                       bySte    ﬀen et al.(2015) on an independent 3D solar model com-
+alent widths. We speculate that incremental updates to the line                       puted with the CO5BOLD code (Freytag et al.2012).
+formation  code,  and  equation  of  state  solver  (including  input                      A  comparison  can  be  found  inAsplund et al.(2021);  the
+data such as partition functions and equilibrium constants) could                     main  ﬁndings  are  summarised  here.  Due  to  several  diﬀerent
+be the cause of the oﬀset. While the average result for OH is                         updates, in particular a systematic shift in the transition prob-
+consistent, it should be noted that the line-by-line results here                     abilities  for  C i  (Li et al.2021),  the  various  carbon  abundance
+do not show the strong non-linear trends apparent in Fig. 10 of                       indicators  all  now  point  to  a  value  of  around  8.46 dex,  which
+Asplund et al.(2004).                                                                 is  0.03 dex  larger  than  the  value  advocated  byAsplund et al.
+    The   12C16O  lines  were  not  used  to  inform  the  carbon  or                 (2009). For oxygen, the agreement is also very satisfactory, with
+oxygen abundances inAsplund et al.(2009). This is primarily                           the [O i] lines and O i lines indicating on average slightly higher
+because of their temperature sensitivity, although they may also                      and lower results by around 0.02 dex, compared to the molecular
+be  sensitive  to  departures  from  instantaneous  chemical  equi-                   result of 8.70 dex found here.
+librium  (Uitenbroek2000; Asensio Ramos et al.2003);  such                                 For nitrogen, however, there is a prominent discrepancy with
+eﬀects are neglected in the present study. Nevertheless, elemen-                      the atomic lines. With the present 3D model, the N i lines give
+tal abundances via 12C16O lines were also derived byScott et al.                      logϵN = 7.77± 0.05. This is signiﬁcantly lower than the present
+(2006)  (with  the  same  3D  solar  model  as  inAsplund et al.                      molecular  result  of  7.89 ±  0.04 dex;  a  diﬀerence  of  0.12 dex.
+2005b). Fixing log    ϵO  =  8.66 they obtained logϵC  =  8.48 and                    The origin of this problem is unclear. Systematic errors in the
+8.40  from  12C16O|∆ν|  =  1  lines  of  low  and  high  excitation                   transition probabilities or other molecular data cannot be ruled
+potential, respectively; and logϵC = 8.37 from  12C16O|∆ν| = 2                        out, but seem unlikely as discussed inAsplund et al.(2021). The
+lines. The line selection adopted here derives from theirs, albeit                    atomic and molecular lines have opposite temperature sensitivi-
+with  updated  transition  probabilities  fromLi et al.(2015)  that                   ties; consequently, errors in the temperature structure of the 3D
+are  much  improved  as  discussed  inLyons et al.(2018).  We                         model  could  help  explain  the  discrepancy,  although  the  large
+
+                                                                                                                                                  A113, page 9 of11
+
+PAGE 10
+                                                                       A&A 656, A113 (2021)
+
+changes needed would worsen the agreement between the var-                            8.69. Nevertheless, it is illuminating to consider the impact on
+ious  carbon  and  oxygen  abundance  indicators,  as  well  as  the                  the  solar  metallicity  when  adopting  the  carbon,  nitrogen,  and
+excellent agreement with various other solar observables as stud-                     oxygen  abundances  inferred  here,  these  values  being  slightly
+ied byPereira et al.(2013) for the previous generation of the 3D                      larger than the atom-molecule averages. With the chemical mix-
+STAGGER model. If this is indeed the case, the true solar nitrogen                    ture ofAsplund et al.(2021), the metal mass fraction of the solar
+abundance would be close to the mean result from the atoms and                        surface  is Z  =  0.0139 ±  0.0006;  or,  relative  to  the  hydrogen
+molecules: logϵN = 7.83, as advocated inAsplund et al.(2021).                         mass fraction, Z/X = 0.0187± 0.0009. With the molecular abun-
+It can be noted that the various 1D models show even larger dis-                      dances determined here, these values increase to Z = 0.0142 and
+crepancies: for instance, the HM74 model indicates a diﬀerence                        Z/X = 0.0191, where 45% of the diﬀerence is due to the 0.01 dex
+of 0.18 dex, with logϵN  = 7.86 from the N i lines (unpublished                       increase in oxygen abundance, 35% is due to the relatively large
+results fromAmarsi et al.2020b), and log         ϵN  =  8.04 from the                 0.06 dex increase in nitrogen abundance, and just 20% is due to
+molecules (Table3).                                                                   the 0.01 dex increase in carbon abundance. The diﬀerences thus
+    More recently,Bergemann et al.(2021) have studied the O                         i remain well within the stipulated uncertainties.
+777 nm  triplet  lines  and  the  [O i]  630 nm  line,  using  13  snap-
+shots  of  the  3D  model  solar  atmosphere  from  the  STAGGER-                     5. Conclusion
+grid  (Collet et al.2011; Magic et al.2013).  This  3D  model  is
+similar  to  that  employed  inAmarsi et al.(2018, 2019, 2020b)                       We have analysed 408 molecular lines of carbon, nitrogen, and
+as  well  as  in  the  present  study:  It  was  computed  with  the                  oxygen  in  the  solar  intensity  spectrum  using  LTE  line  forma-
+STAGGER code, employing the standard solar chemical compo-                            tion calculations in a 3D radiative-hydrodynamic simulation of
+sition  ofAsplund et al.(2009);  the  13  snapshots  have  a  mean                    the photosphere. From this analysis, advocated elemental abun-
+eﬀective temperature of 5773 K. The authors employed column-                          dances  of  logϵC  =  8.47 ±  0.02,  logϵN  =  7.89 ±  0.04,  and
+by-column non-LTE radiative transfer (the so-called 1.5D non-                         logϵO  =  8.70±  0.04 were obtained. For carbon and oxygen,
+LTE approach); Fig.6of that paper suggests that, at least in this                     these are in good agreement with earlier 3D non-LTE analyses
+particular case, this approximation corresponds to errors that are                    of atomic diagnostics (Amarsi et al.2018,2019;Li et al.2021;
+much less than 0.01 dex, compared to the more realistic 3D non-                       Asplund et al.2021). However, for nitrogen there is a discrep-
+LTE  approach.  From  the  O i  and  [O i]  features  they  obtained                  ancy approaching 3σ of 0.12 dex, compared to the results pre-
+logϵO  =  8.74±  0.03 and logϵO  =  8.77±  0.05, respectively,                        sented inAmarsi et al.(2020b).
+ﬁnally advocating logϵO  =  8.75±  0.03. This is slightly larger                           The  elemental  abundances  of  these  elements  remain  rele-
+than one standard deviation away from our own measurements                            vant  in  the  solar  modelling  problem.  Although  oxygen  dom-
+from the same features: 8.69±  0.03 dex and 8.70±  0.05 dex,                          inates  the  opacity  in  the  most  discrepant  region,  carbon  and
+respectively (Amarsi et al.2018;Asplund et al.2021). Given the                        nitrogen  are  also  relevant  because  they  are  all  mainly  present
+importance  of  the  solar  oxygen  abundance  on  the  solar  mod-                   as  neutral  atoms  in  the  solar  photosphere,  their  molecules  are
+elling problem, we brieﬂy discuss below from where these dif-                         closely coupled together via  12C16O and CN, and they are sim-
+ferences may originate.                                                               ilarly  depleted  in  meteorites  (Lodders et al.2009;Palme et al.
+    For  the  O i  777 nm  triplet  lines,  0.026 dex  of  the  diﬀer-                2014)  and  must  therefore  be  inferred  via  spectroscopic  meth-
+ence can be explained by the choice of transition probabilities.                      ods.  The  solar  oxygen  abundance  determined  here,  consistent
+Bergemann et al.(2021) adopted the recent values ofCiviš et al.                       with  the  atomic  results,  is  just  0.01 dex  larger  than  that  advo-
+(2018)  that  are  based  on  quantum  defect  theory  (e.g.,Seaton                   cated  inAsplund et al.(2009)  and  unfortunately  does  little  to
+1966), averaged together with those ofHibbert et al.(1991) that                       alleviate the solar modelling problem. The carbon and nitrogen
+are based on the (more sophisticated) conﬁguration interaction                        abundances determined here are 0.03 and 0.06 dex larger than
+(CI) approach (as implemented in the CIV3 code;Hibbert1975).                          the  values  advocated  byAsplund et al.(2009).  Although  this
+In contrast,Amarsi et al.(2018) used only the latter dataset. For                     may only slightly reduce the discrepancy with helioseismology,
+the [O i] 630 nm line, most of the discrepancy probably reﬂects                       this revision does indicate that it may be worthwhile to continue
+the  inconsistent  treatment  of  the  N i  blend.Bergemann et al.                    improving the atomic and molecular data as well as the model
+(2021)  assumed  log    ϵNi   =   6.23  (Lodders2003),  and  subse-                   atmospheres and line formation methods.
+quently  corrected  the  strength  of  the  blend  for  absolute  1.5D
+non-LTE eﬀects, rather than deriving a nickel abundance consis-
+tent with their model atmosphere and radiative transfer approach                      Acknowledgements.    We are grateful to Matthias Steﬀen for providing a detailed
+using  other,  clean  Ni i  lines  (see  the  discussion  inScott et al.              and  insightful  referee  report,  which  led  to  a  number  of  improvements  to  this
+2009). E       ﬀectively,Bergemann et al.(2021) adopted a 0      .05 dex              manuscript.  We  thank  T.  Masseron  and  C.  Sneden  for  their  assistance  with
+                                                                                      compiling the molecular data. AMA acknowledges support from the Swedish
+smaller  nickel  contribution  to  the  630 nm  feature  compared                     Research Council (VR 2016-03765 and 2020-03940). MA acknowledges fund-
+toAsplund et al.(2021),  which  translates  to  a  0       .03 dex  larger            ing  from  the  Australian  Research  Council  through  a  Laureate  Fellowship
+inferred  oxygen  abundance.  The  remaining  discrepancies  may                      (FL110100012)  and  a  Discovery  Project  (DP150100250).  This  research  was
+be due to diﬀerences between their new FTS data, and the Liège                        supported by computational resources provided by the Australian Government
+                                                                                      through  the  National  Computational  Infrastructure  (NCI)  under  the  National
+and Hamburg solar atlases employed inAsplund et al.(2021).                            Computational Merit Allocation Scheme and the ANU Merit Allocation Scheme
+They may also be partly due to systematic diﬀerences in the 3D                        (project y89).
+non-LTE radiative transfer codes employed.
+
+4.5. Advocated solar elemental abundances and metallicity                             References
+                                                                                      Abrams, M. C., Goldman, A., Gunson, M. R., Rinsland, C. P., & Zander, R. 1996,
+It  is  preferable  to  fold  in  both  atomic  and  molecular  results                   Appl. Opt., 35, 2747
+to  obtain  ﬁnal  estimates  on  the  elemental  abundances,  in  par-                Allende Prieto, C., Barklem, P. S., Asplund, M., & Ruiz Cobo, B. 2001,ApJ,
+ticular  for  nitrogen.  These  advocated  values  can  be  found                         558, 830
+                                                                                      Amarsi, A. M., Barklem, P. S., Asplund, M., Collet, R., & Zatsarinny, O. 2018,
+inAsplund et al.(2021): log       ϵC = 8.46, logϵN = 7.83, logϵO =                        A&A, 616, A89
+
+A113, page 10 of11
+
+PAGE 11
+                    A. M. Amarsi et al.: The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines
+
+
+Amarsi, A. M., Barklem, P. S., Collet, R., Grevesse, N., & Asplund, M. 2019,                         Delbouille, L., Roland, G., Brault, J., & Testerman, L. 1981,Photometric Atlas
+   A&A, 624, A111                                                                                       of  the  Solar  Spectrum  from  1850  to  10000  cm−1.(Kitt  Peak  National
+Amarsi, A. M., Lind, K., Osorio, Y., et al. 2020a,A&A, 642, A62                                         Observatory)
+Amarsi, A. M., Grevesse, N., Grumer, J., et al. 2020b,A&A, 636, A120                                 Doerr, H.-P., Vitas, N., & Fabbian, D. 2016,A&A, 590, A118
+Asensio Ramos, A., Trujillo Bueno, J., Carlsson, M., & Cernicharo, J. 2003,ApJ,                      Freytag, B., Steﬀen, M., Ludwig, H.-G., et al. 2012,J. Comput. Phys., 231, 919
+   588, L61                                                                                          Grevesse, N., & Sauval, A. J. 1999,A&A, 347, 348
+Asplund, M. 2005,ARA&A, 43, 481                                                                      Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1990,A&A, 232, 225
+Asplund, M., Nordlund, Å., Trampedach, R., Allende Prieto, C., & Stein, R. F.                        Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1991,A&A, 242, 488
+   2000,A&A, 359, 729                                                                                Grevesse, N., Scott, P., Asplund, M., & Sauval, A. J. 2015,A&A, 573, A27
+Asplund, M., Grevesse, N., Sauval, A. J., Allende Prieto, C., & Kiselman, D.                         Gustafsson, B., Edvardsson, B., Eriksson, K., et al. 2008,A&A, 486, 951
+   2004,A&A, 417, 751                                                                                Hase, F., Wallace, L., McLeod, S. D., Harrison, J. J., & Bernath, P. F. 2010,J.
+Asplund, M., Grevesse, N., & Sauval, A. J. 2005a, in Cosmic Abundances as                               Quant. Spectr. Rad., 111, 521
+   Records of Stellar Evolution and Nucleosynthesis, eds. T. G. Barnes, III., &                      Hayek, W., Asplund, M., Collet, R., & Nordlund, Å. 2011,A&A, 529, A158
+   F. N. Bash,ASP Conf. Ser., 336, 25                                                                Hibbert, A. 1975,Comput. Phys. Commun., 9, 141
+Asplund,  M.,  Grevesse,  N.,  Sauval,  A.  J.,  Allende  Prieto,  C.,  &  Blomme,  R.               Hibbert, A., Biemont, E., Godefroid, M., & Vaeck, N. 1991,J. Phys. B, 24, 3943
+   2005b,A&A, 431, 693                                                                               Hinkle, K. H., & Lambert, D. L. 1975,MNRAS, 170, 447
+Asplund,  M.,  Grevesse,  N.,  Sauval,  A.  J.,  &  Scott,  P.  2009,ARA&A,  47,                     Holweger, H. 1967,ZAp, 65, 365
+   481                                                                                               Holweger, H., & Müller, E. A. 1974,Sol. Phys., 39, 19
+Asplund, M., Amarsi, A. M., & Grevesse, N. 2021,A&A, 653, A141                                       Holweger, H., Gehlsen, M., & Ruland, F. 1978,A&A, 70, 537
+Ayres, T. R., & Wiedemann, G. R. 1989,ApJ, 338, 1033                                                 Kiselman, D. 1993,A&A, 275, 269
+Ayres, T. R., Lyons, J. R., Ludwig, H.-G., Caﬀau, E., & Wedemeyer-Böhm, S.                           Lambert, D. L. 1978,MNRAS, 182, 249
+   2013,ApJ, 765, 46                                                                                 Li, G., Gordon, I. E., Rothman, L. S., et al. 2015,ApJS, 216, 15
+Bahcall, J. N., Serenelli, A. M., & Basu, S. 2005,ApJ, 621, L85                                      Li, W., Amarsi, A. M., Papoulia, A., Ekman, J., & Jönsson, P. 2021,MNRAS,
+Bailey, J. E., Nagayama, T., Loisel, G. P., et al. 2015,Nature, 517, 56                                 502, 3780
+Barklem, P. S., & Collet, R. 2016,A&A, 588, A96                                                      Lodders, K. 2003,ApJ, 591, 1220
+Basu, S., & Antia, H. M. 2008,Phys. Rep., 457, 217                                                   Lodders, K., Palme, H., & Gail, H. P. 2009,Landolt Börnstein, 44
+Bergemann, M., Hoppe, R., Semenova, E., et al. 2021,MNRAS, 508, 2236                                 Lyons, J. R., Gharib-Nezhad, E., & Ayres, T. R. 2018,Nat. Commun., 9, 908
+Brooke, J. S. A., Bernath, P. F., Schmidt, T. W., & Bacskay, G. B. 2013,J. Quant.                    Magic, Z., Collet, R., Asplund, M., et al. 2013,A&A, 557, A26
+   Spectr. Rad. Transf., 124, 11                                                                     Masseron, T., Plez, B., Van Eck, S., et al. 2014,A&A, 571, A47
+Brooke,  J.  S.  A.,  Bernath,  P.  F.,  Western,  C.  M.,  van  Hemert,  M.  C.,  &                 Meléndez, J. 2004,ApJ, 615, 1042
+   Groenenboom, G. C. 2014a,J. Chem. Phys., 141, 054310                                              Mondet, G., Blancard, C., Cossé, P., & Faussurier, G. 2015,ApJS, 220, 2
+Brooke, J. S. A., Ram, R. S., Western, C. M., et al. 2014b,ApJS, 210, 23                             Neckel, H. 1999,Sol. Phys., 184, 421
+Brooke, J. S. A., Bernath, P. F., & Western, C. M. 2015,J. Chem. Phys., 143,                         Neckel, H., & Labs, D. 1984,Sol. Phys., 90, 205
+   026101                                                                                            Nordlund, Å., Stein, R. F., & Asplund, M. 2009,Liv. Rev. Sol. Phys., 6, 2
+Brooke, J. S. A., Bernath, P. F., Western, C. M., et al. 2016,J. Quant. Spectr. Rad.                 Palme, H., Lodders, K., & Jones, A. 2014, inSolar System Abundances of the
+   Transf., 168, 142                                                                                    Elements, ed. A. M. Davis (Elsevier), 2, 15
+Buldgen, G., Salmon, S., & Noels, A. 2019,Front. Astron. Space Sci., 6, 42                           Pereira, T. M. D., Asplund, M., Collet, R., et al. 2013,A&A, 554, A118
+Caﬀau, E., Ludwig, H.-G., Steﬀen, M., et al. 2008,A&A, 488, 1031                                     Prša, A., Harmanec, P., Torres, G., et al. 2016,AJ, 152, 41
+Caﬀau, E., Maiorca, E., Bonifacio, P., et al. 2009,A&A, 498, 877                                     Rutten, R. J., & Kostik, R. I. 1982,A&A, 115, 104
+Caﬀau, E., Ludwig, H.-G., Bonifacio, P., et al. 2010,A&A, 514, A92                                   Scott, P. C., Asplund, M., Grevesse, N., & Sauval, A. J. 2006,A&A, 456, 675
+Caﬀau, E., Ludwig, H.-G., Malherbe, J.-M., et al. 2013,A&A, 554, A126                                Scott, P., Asplund, M., Grevesse, N., & Sauval, A. J. 2009,ApJ, 691, L119
+Caﬀau, E., Ludwig, H.-G., Steﬀen, M., et al. 2015,A&A, 579, A88                                      Scott, P., Asplund, M., Grevesse, N., Bergemann, M., & Sauval, A. J. 2015a,
+Christensen-Dalsgaard, J. 2021,Liv. Rev. Sol. Phys., 18, 2                                              A&A, 573, A26
+Christensen-Dalsgaard,  J.,  di  Mauro,  M.  P.,  Houdek,  G.,  &  Pijpers,  F.  2009,               Scott, P., Grevesse, N., Asplund, M., et al. 2015b,A&A, 573, A25
+   A&A, 494, 205                                                                                     Seaton, M. J. 1966,Proc. Phys. Soc., 88, 801
+Civiš, S., Kubelík, P., Ferus, M., et al. 2018,ApJS, 239, 11                                         Serenelli, A. M., Basu, S., Ferguson, J. W., & Asplund, M. 2009,ApJ, 705, L123
+Collet, R., Magic, Z., & Asplund, M. 2011,J. Phys. Conf. Ser., 328, 012003                           Steﬀen, M., Prakapaviˇcius, D., Caﬀau, E., et al. 2015,A&A, 583, A57
+Collet,  R.,  Nordlund,  Ã.,  Asplund,  M.,  Hayek,  W.,  &  Trampedach,  R.  2018,                  Tennyson, J., & Yurchenko, S. N. 2012,MNRAS, 425, 21
+   MNRAS, 475, 3369                                                                                  Tennyson, J., Yurchenko, S. N., Al-Refaie, A. F., et al. 2016,J. Mol. Spectrosc.,
+Delbouille,  L.,  &  Roland,  C.  1995,  in  Laboratory  and  Astronomical  High                        327, 73
+   Resolution Spectra, eds. A. J. Sauval, R. Blomme, & N. Grevesse,ASP Conf.                         Uitenbroek, H. 2000,ApJ, 536, 481
+   Ser., 81, 32                                                                                      Wallace,  L.,  &  Livingston,  W.  2003,An  Atlas  of  the  Solar  Spectrum  in
+Delbouille,  L.,  Roland,  G.,  &  Neven,  L.  1973,Atlas  photometrique  du  spec-                     the  Infrared  from  1850  to  9000  cm-1  (1.1  to  5.4  micrometer),  National
+   tre solaire de [lambda] 3000 a [lambda] 10000(Liège: Université de Liège,                            Solar Observatory, National Optical Astronomy Observatory, Tucson, NSO
+   Institut d’Astrophysique)                                                                            Technical Report
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                          A113, page 11 of11

@@ -1,0 +1,874 @@
+PAGE 1
+Draft version February 2, 2023
+Typeset using LATEX default style in AASTeX631
+Extended MCDHF calculations of energy levels and transition data for N I
+M. C. Li, 1 W. Li, 2 P. J ¨onsson,3 A. M. Amarsi, 4 and J. Grumer 4
+1School of Electronic Information and Electrical Engineering, Huizhou University, Huizhou, China 516007
+2Key Laboratory of Solar Activity, National Astronomical Observatories, Chinese Academy of Sciences, Beijing 100012, China
+3Department of Materials Science and Applied Mathematics, Malm¨ o University, SE-205 06 Malm¨ o, Sweden
+4Theoretical Astrophysics, Department of Physics and Astronomy, Uppsala University, Box 516, SE-751 20 Uppsala, Sweden
+ABSTRACT
+Accurate and extensive atomic data are essential for spectroscopic analyses of stellar atmospheres
+and other astronomical objects. We present energy levels, lifetimes, and transition probabilities for
+neutral nitrogen, the sixth most abundant element in the cosmos. The calculations employ the fully
+relativistic multiconﬁguration Dirac-Hartree-Fock and relativistic conﬁguration interaction methods,
+and span the 103 lowest states up to and including 2s 22p25s. Our theoretical energies are in excellent
+agreement with the experimental data, with an average relative diﬀerence of 0.07%. In addition, our
+transition probabilities are in good agreement with available experimental and theoretical data. We
+further verify the agreement of our data with experimental results via a re-analysis of the solar nitrogen
+abundance, with the results from the Babushkin and Coulomb gauges consistent to 2% or 0.01 dex.
+We estimated the uncertainties of the computed transition data based on a statistical analysis of the
+diﬀerences between the transition rates in Babushkin and Coulomb gauges. Out of the 1701 computed
+electric dipole transitions in this work, 83 (536) are associated with uncertainties less than 5% (10%).
+Keywords: atomic data; solar abundances
+1. INTRODUCTION
+Nitrogen is the sixth most abundant element in the Universe (Asplund et al. 2021), and its abundance is an important
+diagnostic in the study of the structure and evolution of stars (Hirschi 2007; Aerts et al. 2014; Maeder et al. 2014),
+globular clusters (Spite et al. 2022), and galaxies (Belﬁore et al. 2017; Masseron & Gilmore 2015; Schiavon et al. 2017;
+Vincenzo & Kobayashi 2018; Esteban et al. 2020). Nitrogen abundance measurements in the atmospheres of stars via
+stellar spectroscopy are critical in this endeavour. In hot stars of spectral types O, B, A, and F, near-infrared and
+infrared N I lines arising from transitions involving the conﬁgurations 2p 2(3P)3s, 2p 2(3P)3p, 2p 2(1D)3s, 2p 2(3P)3d,
+and 2p2(1D)3p are typically used (Takeda & Takada-Hidai 1995; Przybilla & Butler 2001). Several weak N I lines can
+also be detected in cooler stars (Kolecki & Wang 2022), including the Sun; these have been used to inform the solar
+nitrogen abundance, together with molecular diagnostics such as NH and CN (Lambert 1978; Grevesse et al. 1990;
+Amarsi et al. 2020, 2021).
+High quality atomic data for N I are indispensable for reliable stellar spectroscopic analyses. During the past
+30 years, several tens of experimental and theoretical studies of transition data have been carried out for N I. The
+complete lists of published papers on these measurements and calculations can be retrieved from the NIST Atomic
+Transition Probability Bibliographic database (Kramida & Fuhr 2010). For example, on the experimental side, using
+a wall-stabilized arc source, measurements of transition probabilities and line strengths for visible and infrared lines,
+originating from transition arrays 3s-3p, 3s-4p, 3p-3d, and 4d-5s were performed by Musielok et al. (1995), Bac lawski
+et al. (2002), Bac lawski & Musielok (2010, 2008), and Bridges & Wiese (2010). The relative uncertainties of these
+measurements were claimed to be no more than 15%. Using the same method, Goldbach & Nollez (1991) and Goldbach
+Corresponding author: W. Li
+wxli@nao.cas.cn
+arXiv:2302.00228v1  [physics.atom-ph]  1 Feb 2023
+PAGE 2
+2 Li et al.
+et al. (1992) measured the oscillator strengths for 19 lines in the 90–125 nm region and 18 lines in the 120–200 nm
+region, respectively. There are also a number of experimental measurements of lifetimes and oscillator strengths using
+various techniques (Bengtsson et al. 1992; Dumont et al. 1974; Catherinot & Sy 1979; Copeland et al. 1987; Bromander
+et al. 1978).
+On the theoretical side, a few tens of theoretical studies of excitation energies and transition data for N I have been
+reported. For example, Hibbert et al. (1991) calculated the excitation energies and oscillator strengths for a number of
+dipole-allowed and intercombination transitions between doublet and quartet states with the conﬁguration interaction
+method. Using the multiconﬁgurational Hartree-Fock and Breit-Pauli (MCHF-BP) method, calculations of oscillator
+strengths for N I have been performed by Tong et al. (1994), Tachiev & Froese Fischer (2002) and Froese Fischer &
+Tachiev (2004). Tong et al. (1994) only reported oscillator strengths of transitions among low-lying quartet states,
+whereas Tachiev & Froese Fischer (2002) and Froese Fischer & Tachiev (2004) calculated energy levels and lifetimes
+for all levels up to 2s 22p23d, as well as transition data between these levels. Among these theoretical results, the
+MCHF-BP values (Tachiev & Froese Fischer 2002; Froese Fischer & Tachiev 2004) are in overall better agreement
+with experimental results than the others. More recently, Bautista et al. (2022) calculated the gf -values of the two
+lines at 8683 ˚A and 8629 ˚A, which are diagnostics of the solar nitrogen abundance, using a combination of diﬀerent
+methods, i.e. AUTOSTRUCTURE based on the Thomas-Fermi-Dirac-Amaldi central potential, pseudo-relativistic
+Hartree-Fock, and multiconﬁguration Dirac-Hartree-Fock (MCDHF) methods.
+In the present work we perform large-scale ab initio calculations of excitation energies and electric dipole (E1)
+transition parameters (transition rates, line strengths and weighted oscillator strengths) for the 103 lowest states
+belonging to the 2s 22p3, 2s2p4, 2s22p2nl (n = 3, 4, l = s, p, d, f), and 2s 22p25s conﬁgurations in N I. Calculations are
+based on fully relativistic MCDHF and conﬁguration interaction (RCI) methods, as implemented in the general-purpose
+relativistic atomic structure package GRASP2018 1 (Froese Fischer et al. 2019).
+2. THEORY AND COMPUTATIONS
+2.1. Theory
+In the MCDHF method (Froese Fischer et al. 2016) as implemented in the GRASP code, the atomic eigenstate is
+represented by an atomic state expressed as a linear combination of conﬁguration state functions (CSFs) with equal
+parityP and angular momentum quantum numbers JM :
+Ψ(γPJM ) =
+∑
+i
+ciΦ(γiPJM ) (1)
+The CSFs arejj-coupled many-electron functions built from antisymmetrized products of single-electron Dirac orbitals.
+The quantitiesci andγi are, respectively, the mixing coeﬃcient and additional labeling needed to uniquely specify each
+CSF. The radial parts of the Dirac orbitals and the expansion coeﬃcients ci of the targeted states are all optimized
+to self-consistency by solving the MCDHF equations, which are derived by applying the variational principle on the
+weighted average energy of the targeted states. Higher-order electron-electron interactions, such as the frequency-
+independent Breit interaction and leading quantum electrodynamical eﬀects in the form of the self-energy (SE) and
+the screened vacuum polarization (VP), are included in the subsequent relativistic conﬁguration interaction (RCI)
+calculations using the orbital basis from the MCDHF optimization (Grant 2007).
+The E1 transition data (transition probabilities and weighted oscillator strengths) between two states γ′P′J′ and
+γPJ are expressed in terms of reduced matrix elements of the electric dipole transition operator T(1). From Equation 1,
+these matrix elements can be written as
+⟨Ψ(γPJ )‖T(1)‖Ψ(γ′P′J′)⟩ =
+∑
+i,j
+cic′
+j⟨Φ(γiPJ )‖T(1)‖Φ(γ′
+jP′J′)⟩. (2)
+Here, ci and cj are, respectively, the expansion coeﬃcients of the CSFs for the upper and lower states. Using the
+Brink-and-Satchler convention, the reduced matrix elements in Equation 2 can be expressed in terms of spin-angular
+coeﬃcients d(1)
+ab and operator strengths as
+⟨Φ(γiPJ )‖T(1)‖Φ(γ′
+jP′J′)⟩ =
+∑
+a,b
+d(1)
+ab⟨nalaja‖t(1)‖nblbjb⟩ (3)
+1 See also the open-source GitHub repository maintained by the CompAS collaboration: https://github.com/compas/grasp.
+PAGE 3
+Extended MCDHF calculations of energy levels and transition data for N I 3
+where
+⟨nalaja‖t(1)‖nblbjb⟩ =
+((2jb + 1)ω
+πc
+)1/2
+(−1)ja−1/2
+(
+ja 1 jb
+1
+2 0− 1
+2
+)
+Mab (4)
+Here, n,l,j are, respectively, the principal, orbital and angular quantum numbers of spin-orbitals a and b, ℏω is
+the electromagnetic energy, and Mab is the radiative transition integral deﬁned by Grant (1974). For electric type
+multipoles, the Mab integral can be written as Mab(G) = Me
+ab +GMl
+ab (see equation 4.10 in Grant (1974)), where
+Me
+ab is the Coulomb gauge integral , Ml
+ab the longitudinal part and G the gauge parameter. Two familiar choices,
+corresponding to the velocity and length operator forms in non-relativistic theory, are the Coulomb ( G = 0) and
+Babushkin (G =
+√
+2) gauges.
+The agreement between transition rates in the Coulomb gauge ( AC) and the Babushkin gauge (AB), is often taken
+as an internal indicator of accuracy of calculated data, especially when there are no experimental results available.
+The relative diﬀerences between transition rates AB and AC, d T, is deﬁned as (Froese Fischer 2009; Ekman et al.
+2014)
+dT = |AB− AC|
+max(AB, AC). (5)
+It should be emphasized that d T gives an estimation of the uncertainty for groups of lines in a statistical manner.
+2.2. Computational Schemes
+Calculations were performed in the extended optimal level (EOL) scheme (Dyall et al. 1989) for the weighted
+average of the even and odd parity states. These states belong to the {2s2p4, 2s22p2nl(n = 3, 4,l = s, d), 2s22p25s}
+even conﬁgurations and the {2s22p3, 2s22p2nl(n = 3, 4,l = p, f)} odd conﬁgurations. These target conﬁgurations are
+included in the multireference (MR) set used in the MCDHF calculations.
+Following the CSF generation strategies used by, e.g. Papoulia et al. (2019) and Li et al. (2021), the MCDHF
+calculations were based on CSF expansions for which we impose restrictions on the orbital excitations from the deeper
+subshells. The CSFs are generated and systematically enlarged through single and double (SD) excitation from
+subshells occupied in the predeﬁned MR conﬁgurations to an active set (AS) of orbitals in a step-by-step manner
+(Olsen et al. 1988; Sturesson et al. 2007; Froese Fischer et al. 2016).
+In the present calculations, the orbitals in the n = 1 shell of the MR conﬁgurations are deﬁned as core orbitals.
+The remaining orbitals are deﬁned as valence orbitals. Based on these deﬁnitions, the valence-valence (VV) electron
+correlations are included in the calculation by allowing SD excitations from the valence orbitals to active sets of
+orbitals, with the restriction that there is at most one excitation from the n = 2 shell.
+With an MCDHF orbital basis at hand, the MR set was then further extended and applied in a subsequent RCI
+calculation, as shown in Table 1. The extended MR set comprises conﬁgurations that give rise to LSJ -coupled CSFs
+with weights larger than 0.05. Core-valence (CV) electron correlation eﬀects were taken into account by allowing SD
+substitutions from the valence shells and the 1s 2 core of the conﬁgurations in the extended MR, with the restriction
+that at most one excitation is allowed from 1s 2, to the ﬁnal active set, {11s, 10p, 10d, 10f, 7g, 6h}. The numbers of
+CSFs in the ﬁnal even and odd state expansions were, respectively, 13 431 751 and 17 662 086, distributed over the
+diﬀerentJ symmetries.
+T able 1. Summary of the active space construction. The conﬁgurations in the second and third columns, respectively, represent
+the target states and the extended target MR set in RCI calculation. NCSFs denotes the number of CSFs in the total expansion
+for the even and odd parity states in the ﬁnal RCI calculation.
+Parity MR Extended MR in RCI NCSFs
+2s2p4, 2s22p23s 2s2p 3np(3≤n≤ 5)
+Even 2s 22p23d, 2s22p24s 2p 4nl(3≤n≤ 5,l = s, d) 13 431 751
+2s22p24d, 2s22p25s
+2s22p3, 2s22p23p 2s2p 3nl(3≤n≤ 5,l = s, d)
+Odd 2s 22p24p, 2s22p24f 2p 44f, 2s2p 4np(3≤n≤ 5) 17 662 086
+PAGE 4
+4 Li et al.
+3. RESULTS AND DISCUSSION
+3.1. Energies and Lifetimes
+The calculated energies and corresponding wave function composition in LS-coupling for the lowest 103 states are
+displayed in Table 2. The labelling of the eigenstates is deﬁned by the LSJ -coupled CSF with the largest expansion
+coeﬃcient resulting from the transformation from jj-coupling to LSJ -coupling using the method by Gaigalas et al.
+(2017). We note that LSJ -coupling might not be the best representation to describe the states associated to the
+2s22p24f conﬁguration and that the National Institute of Standards and Technology Atomic Spectra Database (NIST-
+ASD) (Kramida et al. 2021) adopts JK -coupling in their labeling of these. The corresponding experimental energies
+provided via NIST-ASD, as well as radiative lifetimes in both Babushkin (B) and Coulomb (C) forms are also included
+in Table 2. When compared with energies from NIST-ASD, we noticed two pairs of levels, #74-75 (2p 24d 4P5/2 and
+2F5/2) and #80-82 (2p 24d 4D1/2 and 4P1/2), being inverted based on the energy ordering. A closer inspection of the
+LS-composition reveals that these states are strongly mixed, the leading percentages being about 40-60% and the
+second components about 30-40%, and they might be less accurately described by the conventional labelling based on
+the expansion coeﬃcients. Since a close agreement of the computed energies with the NIST-ASD values being observed
+for the other levels, we matched the corresponding two pairs of levels with experimental energies based on the energy
+ordering within each symmetry. Note that the labelling of these two pairs of levels, i.e. #74-75 and #80-82, given in
+the second column of Table 2 are inverted compared to that of the NIST-ASD data.
+T able 2. Energies (in cm −1) and lifetimes (in s) in both the Babushkin ( τB) and Coulomb ( τC) gauges for the lowest 103
+levels of N I. Energy levels are given relative to the ground state and compared with results from NIST-ASD (Kramida et al.
+2021). The labelling in the second column is deﬁned by the composition with the largest expansion coeﬃcient given in the third
+column. This table is available in its entirety in electronic form.
+No. State LS-composition ERCI ENIST ∆E τ B τC
+1 2s 2 2p3 4 S◦
+3/2 0.91 0 0.000 0
+2 2s 2 2p3 2 D◦
+5/2 0.89 19426 19224.464 -201
+3 2s 2 2p3 2 D◦
+3/2 0.89 19435 19233.177 -201
+4 2s 2 2p3 2 P◦
+1/2 0.85 + 0.03 2p 5 2 P◦ 29142 28838.920 -304
+5 2s 2 2p3 2 P◦
+3/2 0.85 + 0.03 2p 5 2 P◦ 29143 28839.306 -303
+6 2s 2 2p2(3P) 3s 4P1/2 0.82 + 0.12 2s 2p 4 4 P 83332 83284.070 -48 2.44E-09 2.44E-09
+7 2s 2 2p2(3P) 3s 4P3/2 0.82 + 0.12 2s 2p 4 4 P 83366 83317.830 -48 2.42E-09 2.42E-09
+8 2s 2 2p2(3P) 3s 4P5/2 0.81 + 0.12 2s 2p 4 4 P 83413 83364.620 -49 2.40E-09 2.39E-09
+9 2s 2 2p2(3P) 3s 2P1/2 0.95 86187 86137.350 -50 2.10E-09 2.10E-09
+10 2s 2 2p2(3P) 3s 2P3/2 0.95 86270 86220.510 -50 2.10E-09 2.10E-09
+... ... ... ... ... ... ...
+Note—The third column gives wave function composition (up to three LS-components with a fractional contribution of
+> 0.02 of the total wave function) in LS-coupling. ∆E donate the diﬀerences between the MCDHF/RCI calculated values and
+the compiled values from NIST-ASD, i.e. ∆ E = ENIST−ERCI. Note that the labelling of the two level pairs, #74-75 and
+#80-82, given in the second column are inverted compared to that of the NIST-ASD data.
+The results of the comparison of computed energy levels in this work with experimental values are shown in Fig. 1.
+As seen in the left panel of Fig. 1, our computed energies agree very well with the NIST compiled experimental energies
+with an average relative diﬀerence of 0.07%. The largest relative diﬀerence between theory and experiment is 1.05%
+for the levels belonging to doublet terms of the 2s 22p3 ground conﬁguration. For the remaining 98 levels, the relative
+diﬀerences of the computed excitation energies are much smaller, with an average of 0.03%. The right panel of Fig. 1
+shows the energy diﬀerences between NIST-ASD values and the present computed data, ∆ E =ENIST–ERCI, plotted
+against the excitation energies, ERCI. We can see that the largest error happens for the ground levels, which are about
+200-300 cm−1 higher than the NIST-ASD values. The root mean square (rms) of the ∆ E values is about 67 cm−1.
+When the computational excitation energies are corrected with the linear ﬁtting results, the rms of the ∆ E values
+decreased to 28 cm−1, with a systematic error of 0.26% of the excitation energies.
+PAGE 5
+Extended MCDHF calculations of energy levels and transition data for N I 5
+0 2 04 06 08 0 1 0 0
+No.
+-1.2
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+(ENIST-ERCI)/ENIST (%)
+02468 1 0
+ERCI (cm-1) 104
+-350
+-300
+-250
+-200
+-150
+-100
+-50
+0
+ENIST-ERCI (cm-1)
+y = 0.0026x-303.3
+Figure 1. Comparison of the current computed excitation energies with the values available in the NIST-ASD. The left panel
+shows the relative diﬀerence for each level, while the right panel shows the absolute diﬀerence along with present computed
+energies. The dashed lines in the left panel, from upper to lower, indicate the 0.2%, 0.1% and 0.0% relative discrepancies,
+respectively. The red solid line in the right panel is the linear ﬁt to the scatter data shown in the ﬁgure.
+In Table 3 we compare the lifetimes from present calculations with other theoretical results and experimental values,
+when available. The calculated lifetimes in Babuskin and Coulomb forms are in agreement within 2.6%. Compared with
+the theoretical results from CIV3 calculations by Hibbert et al. (1991) and MCHF-BP calculations by Froese Fischer
+& Tachiev (2004), excellent agreement is observed for 7 out of 8 lifetime values, with the relative diﬀerence between
+each two of them being less than 7%. For the 2p 2(3P)4s 2P term, the lifetime value from the present work is about a
+factor of two smaller than the CIV3 results, but in agreement with the MCHF-BP value, with the relative diﬀerence
+less than 6% and in better agreement with the experimental value from Dumont et al. (1974). Good agreement is
+also observed between computed and experimental lifetime values, except for the 2p 2(3P)3p 4Po
+5/2 and 2p2(3P)4s 2P
+levels. For the 2p2(3P)3p 4Po
+5/2 level, all the theoretical lifetimes diﬀer substantially from the experimental values and
+the two experimental values by Bromander et al. (1978) and D´ esesquelles (1970) diﬀer by 30% with each other. On
+the contrary, the theoretical results obtained from three diﬀerent methods, i.e. MCDHF, MCHF-BP and CIV3, are
+in good agreement within 8%. For the 2p 2(3P)4s 2P state, all the theoretical values are larger than the experimental
+result obtained from Dumont et al. (1974). Our predicted lifetime is in good agreement with that from MCHF-BP
+calculation (Froese Fischer & Tachiev 2004), while the value from Hibbert et al. (1991) is larger than the others. New
+experimental measurements of lifetimes would therefore be welcome for these levels.
+3.2. Transition parameters
+The E1 transition data, such as wavelengths (λ), transition rates (A), line strengths (S), weighted oscillator strengths
+(gf ) in Babushkin gauge, are listed in Table 4. We note that the wavelengths in Table 4 are computed from the
+experimental energy levels compiled in the NIST-ASD and the transition parameters A and gf are also adjusted to
+the NIST-ASD wavelength values.
+As mentioned in section 2.1, the d T values can be used to assess the accuracy of the transition parameters. The
+former are shown in the last column of Table 4. We also investigated the distribution of d T values with respect to the
+magnitude of the transition rates A. In Table 5, the transitions are organized in ﬁve groups based on the magnitude
+of the A values and the statistical results of d T values, i.e. the mean value ⟨dT⟩ and the corresponding standard
+deviations σ, are given for each group. ⟨dT⟩ and σ are deﬁned as
+⟨dT⟩ =
+∑n
+i=1 dTi
+n (6)
+σ =
+√∑n
+i=1 (dTi−⟨ dT⟩)2
+(n− 1) (7)
+PAGE 6
+6 Li et al.
+T able 3. Comparison of the experimental and calculated lifetimes (in ns, B = Babuskin form and C = Coulomb form). The
+lifetime of a term is the mean value of the lifetime corresponding to the diﬀerentJ values. The notation for experimental values,
+e.g., 44(2) implies 44± 2.
+State or term This work Other calculations Experiments
+B C
+2p2(3P)3p 4D7/2 39.8 40.3 37.9 a; 37.12b 44(2)c; 43(3)d
+2p2(3P)3p 4S3/2 25.3 25.5 24.1 a; 23.26b 26.0(1.5)c; 23.3(2.3)e
+2p2(3P)3p 4P5/2 33.4 33.9 31.6 a; 31.22b 39f; 55(5)g
+2s2p4 4 P 6.90 6.75 6.77 a; 7.14b 7.3(0.7)h; 7.4(0.4)i; 7.0(0.2)j
+7.1(0.4)f; 5.5(1.5)k, 9.9(1.0)l; 7.2(0.7)m
+2p2(3P)3s 4P 2.42 2.42 2.48 a; 2.59b 2.35(0.23)f,h; 2.4(0.1)j; 2.2(0.4)l; 2.5(0.3)m
+2p2(3P)3s 2P 2.10 2.10 2.13 a; 1.95b 1.9(0.3)h,m; 2.3(0.4)h; 2.2(0.1)j
+1.7(0.4)l; 1.9(0.4)l; 2.28(0.2)f
+2p2(1D)3s 2D 2.57 2.58 2.44 a; 2.44 b 2.27(0.3)h; 2.26(0.3)h; 2.65(0.3)f
+2.6(0.1)j; 2.5(0.4)k; 2.2(0.3)m
+2p2(3P)4s 2P 8.52 8.75 8.02 a; 18.8b 6.2h
+Note—a Froese Fischer & Tachiev (2004); b Hibbert et al. (1991); c Bengtsson et al. (1992); d Copeland et al. (1987);
+e Catherinot & Sy (1979); f D´ esesquelles (1970);g Bromander et al. (1978); h Dumont et al. (1974); i Smith et al.
+(1970); j Berry et al. (1971); k Mallow & Burns (1972); l Hutchison (1971); m Lawrence & Savage (1966)
+T able 4. Electric dipole transition data for N I from present calculations. Upper and lower states, wavelength in vacuum,
+λvac., transition probability, A, line strength, S (in unit au of a2
+0e2), weighted oscillator strength, log( gf ), together with the
+relative diﬀerence between two gauges of A values, dT , and Accuracy class, Acc., are shown in the table. The wavelengths and
+all the transition parameters are adjusted to the NIST-ASD Ritz wavelength values. The accuracy class, Acc., is given by: A
+(Uncertainty≤ 3%), B+ (3% < Uncertainty≤ 7%), B (7% < Uncertainty≤ 10%), C+ (10% < Uncertainty≤ 18%), C (18%
+< Uncertainty≤ 25%), D+ (25% < Uncertainty≤ 40%), D (40% < Uncertainty≤ 50%), and E (50% > Uncertainty). This
+table is available in its entirety in electronic form.
+Upper Lower λ (˚A) AB (s−1) AC (s−1) log(gf)B log(gf)C SB SC dT
+Acc.
+dT& gfRCI&
+A gf NIST−ASD
+2s2 2p2(3P) 4d 2D5/2 2s2 2p3 4 So
+3/2 905.221 1.444E+06 1.623E+06 -2.973 -2.922 3.172E-03 3.565E-03 0.110 C+ C
+2s2 2p2(3P) 4d 2D3/2 2s2 2p3 4 So
+3/2 905.411 4.649E+05 5.202E+05 -3.641 -3.592 6.813E-04 7.623E-04 0.106 C+ D+
+2s2 2p2(3P) 4d 4D5/2 2s2 2p3 4 So
+3/2 905.786 1.657E+07 1.861E+07 -1.913 -1.862 3.647E-02 4.096E-02 0.110 C+ B
+2s2 2p2(3P) 4d 4D3/2 2s2 2p3 4 So
+3/2 905.834 3.476E+07 3.898E+07 -1.767 -1.717 5.101E-02 5.719E-02 0.108 C+ B
+2s2 2p2(3P) 4d 4P1/2 2s2 2p3 4 So
+3/2 905.914 5.361E+07 6.005E+07 -1.880 -1.830 3.935E-02 4.407E-02 0.107 C+ B
+2s2 2p2(3P) 4d 4D1/2 2s2 2p3 4 So
+3/2 906.207 3.201E+07 3.588E+07 -2.103 -2.054 2.352E-02 2.636E-02 0.108 C+ C+
+2s2 2p2(3P) 4d 4P3/2 2s2 2p3 4 So
+3/2 906.432 4.903E+07 5.510E+07 -1.617 -1.566 7.209E-02 8.101E-02 0.110 C+ B
+2s2 2p2(3P) 4d 2F5/2 2s2 2p3 4 So
+3/2 906.619 2.562E+07 2.893E+07 -1.722 -1.670 5.655E-02 6.385E-02 0.114 C+ B
+2s2 2p2(3P) 4d 4P5/2 2s2 2p3 4 So
+3/2 906.731 3.759E+07 4.248E+07 -1.556 -1.503 8.298E-02 9.377E-02 0.115 C+ B
+2s2 2p2(3P) 4d 2P1/2 2s2 2p3 4 So
+3/2 907.069 1.240E+06 1.416E+06 -3.514 -3.457 9.139E-04 1.043E-03 0.124 C+ D+
+... ... ... ... ... ... ... ... ... ... ... ...
+Note—AB, log(gf )B, and SB are, respectively, transition rates, weighted oscillator strengths, and line strengths in the
+Babushkin (B) form. AC, log(gf )C, and SC are, respectively, transition rates, weighted oscillator strengths, and line strengths
+in the Coulomb (C) form.
+where n is the number of transitions of each group.
+As can be seen from Table 5, stronger transitions are usually associated with smaller d T values, while weaker
+transitions are associated with relatively larger d T values. This is expected since these weaker transitions are mainly
+unexpected, LS-forbidden E1 transitions, for example, the intercombination transitions and two-electron one-photon
+transitions, and the challenging nature involved in the computations of these types of transitions due to extensive
+cancellation between large contributions, see e.g. Ynnerman & Froese Fischer (1995). The cancellation eﬀect can be
+PAGE 7
+Extended MCDHF calculations of energy levels and transition data for N I 7
+T able 5. Statistical results of dT for the computed transition rates. The transitions are divided into ﬁve groups based on the
+magnitude of the A values (in s−1). The number of transitions (No.), the mean dT (⟨dT⟩), and the standard deviations (σ), are
+given for each group of the transitions. The last three rows show the proportions (in %) of the transitions with d T less than
+0.2, 0.1, and 0.05 in all the transitions with A≥ 102s−1.
+Group No. ⟨dT⟩ σ
+< 100 68 65.77 0.35
+100− 102 199 26.65 0.25
+102− 104 422 17.70 0.20
+104− 106 670 9.42 0.12
+> 106 342 4.51 0.08
+dT <20 84.31
+dT <10 66.04
+dT <5 51.74
+represented by cancellation factor (CF). Computed line strengths are expected to show large uncertainties when CF
+is smaller than about 0.1 or 0.05 (Cowan 1981). For LS-allowed transitions computed in this work, 537 out of 905
+transitions are associated with CFs large than 0.05, while only 167 out of 796 transitions for LS-forbidden transitions.
+For most of the strong transitions with A >106 s−1, the mean ⟨dT⟩ is less than 0.05 ( σ = 0.08). The proportions
+of the transitions with diﬀerent d T values are also statistically analysed and shown in the last three rows: they are
+84.3%, 66.0%, and 51.7% for transitions with d T less than 0.2, 0.1, and 0.05, respectively.
+Fig. 2 depicts the distributions of the d T values for all the E1 transitions with A> 102 s−1. Being consistent with
+the ﬁnding in Table 5, that stronger transitions are associated with smaller d T values and the dT values are within
+0.2 for most of the transitions. The mean d T for all presented E1 transitions shown in Fig. 2 is 0.107 ( σ = 0.18).
+Figure 2. Distributions of dT values along with transition rates A in s −1. The solid lines indicate the 0.1 and 0.2 relative
+diﬀerence between the Babuskin and Coulomb gauges. Note that logarithmic scale is used in both x- and y-axis.
+However, the estimation of uncertainties for each transitions is not trivial and there are a number of methods
+proposed for estimation of uncertainties of calculated transition rates (Kramida 2014; Froese Fischer 2009; Ekman
+et al. 2014; El-Sayed 2021; Gaigalas et al. 2020). In this work, the estimation of uncertainty is performed by two
+methods. The ﬁrst method, which we call d T &A procedure, is performed in steps as follows: 1. The transitions are
+PAGE 8
+8 Li et al.
+divided in groups based on the A values, i.e. A< 100 s−1, 100≤A< 102 s−1, 102≤A< 103 s−1, 103≤A< 104 s−1,
+104≤A <105 s−1, 105≤A <107 s−1, and A≥ 107 s−1. 2. The averaged d Tav is determined for each group. 3. The
+related uncertainty percentage for each transition equals max(d T ,dTav). The second method employs the procedure
+from Kramida (2013), which evaluates the accuracy of the computed transition probabilities from comparison of gfRCI
+and results from NIST-ASD, gfNIST−ASD, and we label it as gfRCI&gfNIST−ASD method. The statistical analysis of
+the number of transitions belonging to speciﬁc accuracy class is performed and the percentage fractions obtained from
+the above two methods are shown in Figure 3.
+For comparison, the percentage fractions in diﬀerent uncertainty categories obtained from dT values are also shown
+in Figure 3. We can see that the percentage fraction belonging to high-accuracy class is decreased from 45% by
+using the dT indicator to 5% using the dT &A procedure and 0 using the gfRCI&gfNIST−ASD method, which indicates
+that using the dT values only for accuracy estimations might underestimate the uncertainties. The accuracy classes
+obtained from dT &A and gfRCI&gfNIST−ASD methods are given for each transition in the last two columns of Table
+4.
+<5% [5,10)% [10,20)% [20,30)% [30,40)% [40,50)% >=50%
+0
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50Percentage
+dT
+dT&A
+gfRCI&gfNIST-ASD
+Figure 3. Percentage fractions of all transitions in diﬀerent uncertainty categories, for the uncertainties based on d T values
+only (blue), dT &A procedure (red), and gfRCI&gfNIST−ASD method (yellow) of Kramida (2013).
+The accuracy of computed transition parameters can also be estimated by comparisons with previous calculations
+and experiments. Fig. 4 shows the comparison of the present log( gf ) values and the results from the NIST-ASD.
+Note that only the values in the NIST-ASD with uncertainties marked C and above are used for comparison. Those
+NIST-ASD values are compiled by Wiese et al. (1996) and Wiese & Fuhr (2007) based on the results from Tachiev &
+Froese Fischer (2002); Musielok et al. (1995), and Hibbert et al. (1991). We can see that the agreement between our
+present computed log(gf ) results and the values from the NIST-ASD is rather good for most of the transitions.
+In Fig. 5, we compare our computed log( gf ) values with the results from the other two calculations by Hibbert
+et al. (1991), performed with the CIV3 code and Tachiev & Froese Fischer (2002), using MCHF-BP method. As is
+seen in the ﬁgure, the diﬀerences between the log( gf ) values computed in this work and results from other sources
+are rather small for most of the transitions. Comparing the present MCDHF/RCI results with those from MCHF-BP
+calculations by Tachiev & Froese Fischer (2002), which are adopted in the NIST-ASD, 304 (261) out of 334 transitions
+are in agreement within 25% (10%). The exceptions are the weak transitions with log( gf ) <−5 . 181 out of 305
+transitions are in agreement within 25% with the results from Hibbert et al. (1991). It seems that when both theoretical
+results, i.e. from Hibbert et al. (1991) and Tachiev & Froese Fischer (2002), are available for the transitions, the present
+MCDHF/RCI results are in better agreement with the latter.
+In Table 6, the computed transition probabilities are compared with the experimental results from Musielok et al.
+(1995) and Bridges & Wiese (2010). The theoretical results obtained from Hibbert et al. (1991) and Tachiev
+PAGE 9
+Extended MCDHF calculations of energy levels and transition data for N I 9
+Figure 4. Comparison of the log(gf ) values from the present calculations with the results available in the NIST-ASD.
+Figure 5. Comparison of the log(gf ) values from the present calculations with the values by Tachiev & Froese Fischer (2002)
+and Hibbert et al. (1991).
+PAGE 10
+10 Li et al.
+& Froese Fischer (2002), when available, are also listed for comparison. The estimated uncertainties d T of the
+MCDHF/RCI transition rates are given in parentheses. From Table 6 we can seen that when the two experimental
+results from Musielok et al. (1995) and Bridges & Wiese (2010) are both available for the multiplet, the present re-
+sults are in slightly better agreement with the latter for the 2p 2(3P)3p→ 2p2(3P)3s transitions, while the situation is
+getting complex in the case of 2p 2(3P)3d→ 2p2(3P)3p transitions. For allowed 2p 2(3P)3p→ 2p2(3P)3s transitions,
+present results are in excellent agreement with the two experimental results, as well as with the MCHF-BP (Tachiev &
+Froese Fischer 2002) and CIV3 (Hibbert et al. 1991) data. While for the 2p 2(3P)3d 4P→ 2p2(3P)3p 4Do transitions,
+the present results are in better agreement with the experimental values from Bridges & Wiese (2010) than those from
+Musielok et al. (1995). For the transitions from 2p2(3P)3d 4P5/2 and 2F5/2 levels, the transition rates from the present
+calculations diﬀer substantially from the experimental values by Bridges & Wiese (2010), that is, by 70%, while the
+values from (Tachiev & Froese Fischer 2002) appear to be in better agreement with the corresponding experimental
+results. A closer inspection of the wave function composition given in Table 2 reveals a strong mixing between these
+two levels. It is very diﬃcult to accurately calculate the radiative properties of such strongly interacting levels.
+T able 6. Comparison of transition rates obtained from experimental values with present MCDHF/RCI and other calcula-
+tions. The present values from MCDHF/RCI calculations are given in the Babushkin gauge. The values in the parentheses
+are the relative diﬀerences between the Babushkin and Coulomb gauges. Note that the values from MCHF calculations
+are those compiled in the NIST database. The numbers in parentheses without % are the uncertainties with respect to the
+last digit quoted, for example, 25.31(114) implies 25 .31± 1.14.
+Transition rateA (106 s−1)
+Transition array Term gu−gl MCDHF/RCI Tachiev Hibbert Musielok Bridges
+& Fischera et al.b et al.c & Wiesed
+2p2(3P)3p− 2p2(3P)3s 4Do−4 P 8 - 6 23.95(1.30%) 25.31(114) 25.96 22 .1(24) 23.2(19)
+6 - 4 17.85(1.30%) 18.81(88) 19.25 16 .7(18) 17.29(138)
+4 - 2 10.95(1.29%) 11.52(55) 11.79 10 .4(11) 10.67(85)
+6 - 6 6.167(1.25%) 6.546(351) 6.725 5 .95(71) 5.96(48)
+4 - 4 12.19(1.27%) 12.88(62) 13.20 11 .7(13) 12.04(96)
+2 - 2 20.51(1.27%) 21.61(97) 22.11 19 .7(22) 20.0(16)
+4 - 6 0.907(1.21%) 0.965(59) 0.993 0 .88(12)
+2 - 4 3.554(1.24%) 3.761(194) 3.857 3 .24(39) 3.70(30)
+2p2(3P)3p− 2p2(3P)3s 4Po−4 P 6 - 6 21.43(1.69%) 22.63(155) 23.07 22 .1(27)
+4 - 4 4.975(1.64%) 5.233(365) 5.312 5 .02(60)
+2 - 2 4.424(1.73%) 4.684(314) 4.771 4 .85(58)
+4 - 6 12.40(1.71%) 13.12(92) 13.41 13 .4(16)
+2 - 4 24.79(1.69%) 26.19(175) 26.67 26 .5(32)
+6 - 4 7.751(1.74%) 8.220(566) 8.385 7 .86(94)
+4 - 2 11.84(1.71%) 12.53(84) 12.74 12 .2(15)
+2p2(3P)3p− 2p2(3P)3s 4So−4 P 4 - 6 18.34(0.99%) 19.61(94) 20.17 19 .0(21) 17.91(143)
+4 - 4 11.20(0.96%) 11.96(52) 12.36 12 .3(14) 11.83(85)
+4 - 2 5.295(0.94%) 5.649(229) 5.856 5 .63(62) 5.71(46)
+2p2(3P)3p− 2p2(3P)3s 2Do−2 P 6 - 4 25.73(0.03%) 25.19(170) 26.79 25 .5(31)
+4 - 2 21.87(0.03%) 21.39(154) 22.63 21 .9(26)
+4 - 4 3.820(0.04%) 3.741(250) 4.043 3 .88(50)
+T able 6 continued on next page
+PAGE 11
+Extended MCDHF calculations of energy levels and transition data for N I 11
+T able 6 (continued)
+Transition rateA (106 s−1)
+Transition array Term gu−gl MCDHF/RCI Tachiev Hibbert Musielok Bridges
+& Fischera et al.b et al.c & Wiesed
+2p2(3P)3p− 2p2(3P)3s 2Po−2 P 4 - 4 26.38(0.35%) 26.78(32) 27.52 25 .2(30)
+2 - 2 20.63(0.37%) 21.45(00) 21.58 19 .8(24)
+2 - 4 10.58(0.32%) 10.75(12) 11.08 9 .70(116)
+4 - 2 4.772(0.37%) 4.871(42) 5.106 4 .64(60)
+2p2(3P)4p− 2p2(3P)3s 2Po−2 P 4 - 4 1.024(9.36%) 0 .749(105)
+2 - 2 0.895(9.61%) 0 .672(94)
+2 - 4 0.368(8.63%) 0 .269(40)
+4 - 2 0.207(9.67%) 0 .240(36)
+2p2(3P)3d− 2p2(3P)3p 2P−2 So 4 - 2 26.19(1.19%) 32.08(590) 32.72 28 .7(37)
+2 - 2 26.02(1.27%) 31.97(583) 32.65 30 .0(39)
+2p2(3P)4d− 2p2(3P)3p 2P−2 So 4 - 2 4.054(12.61%) 3 .58(50)
+2 - 2 4.221(12.95%) 3 .64(51)
+2p2(3P)3d− 2p2(3P)3p 4F−4 Do 10 - 8 36.11(0.98%) 38.96(315) 39.05 37 .5(49)
+8 - 6 31.62(0.98%) 34.11(280) 34.17 31 .9(42)
+6 - 4 27.94(0.97%) 30.15(262) 30.17 28 .5(37) 36.9(55)
+4 - 2 25.92(0.98%) 28.05(237) 27.94 26 .2(34)
+8 - 8 3.479(0.90%) 3.833(427) 3.991 3 .97(52) 4.42(44)
+6 - 6 6.663(0.99%) 7.317(782) 7.606 7 .31(95) 7.58(68)
+4 - 4 9.067(0.96%) 9.833(782) 9.936 9 .89(129) 10.3(9)
+6 - 8 0.218(0.01%) 0.239(29) 0.237 0 .326(46) 0.256(31)
+4 - 6 0.518(0.80%) 0.564(51) 0.579 0 .413(58)
+2p2(3P)3d− 2p2(3P)3p 4P−4 Do 6 - 8 0.570(6.85%) 0.822(169) 0.668 1 .39(18) 0.842(109)
+4 - 6 0.179(13.75%) 0.223(102) 0.048 0 .450(63) 0.236(35)
+2 - 4 0.150(13.72%) 0.183(98) 0 .311(44) 0.152(23)
+6 - 6 0.606(2.53%) 1.394(850) 2.471 2 .28(30) 1.304(130)
+4 - 4 1.845(2.37%) 2.015(518) 2.787 3 .64(47) 2.15(19)
+2 - 2 1.649(3.59%) 1.828(484) 2.999 2 .93(38) 1.91(25)
+6 - 4 0.529(0.25%) 0.348(179) 0.332 0 .760(106) 0.406(45)
+4 - 2 0.358(1.97%) 0.407(117) 0.707 0 .758(106) 0.407(41)
+2p2(3P)3d− 2p2(3P)3p 4D−4 Do 8 - 8 9.264(1.29%) 10.28(124) 10.02 8 .82(115)
+6 - 6 5.149(1.75%) 5.730(704) 4.900 4 .79(62)
+4 - 4 2.963(2.20%) 3.330(526) 2.408 2 .99(39)
+2 - 2 3.366(2.09%) 3.829(610) 2.640 3 .22(42)
+6 - 8 2.675(0.07%) 2.965(404) 3.243 2 .58(34)
+4 - 6 4.030(0.32%) 4.496(540) 4.717 4 .10(53)
+2 - 4 4.821(0.76%) 5.414(621) 5.603 4 .77(62)
+8 - 6 0.577(1.30%) 0.699(111) 0.751 0 .534(75)
+6 - 4 0.989(1.66%) 1.179(185) 1.115 1 .09(14)
+4 - 2 1.194(1.89%) 1.40(23) 1.151 1 .16(15)
+T able 6 continued on next page
+PAGE 12
+12 Li et al.
+T able 6 (continued)
+Transition rateA (106 s−1)
+Transition array Term gu−gl MCDHF/RCI Tachiev Hibbert Musielok Bridges
+& Fischera et al.b et al.c & Wiesed
+2p2(3P)3d− 2p2(3P)3p 4P−4 Po 6 - 6 2.976(1.05%) 3.928(159) 3.069 2 .37(31)
+2 - 2 5.353(0.57%) 5.397(924) 9.480 3 .39(44)
+4 - 6 3.721(0.79%) 3.757(363) 2.740 2 .29(30)
+2 - 4 6.649(0.89%) 6.751(701) 4.178 4 .01(52)
+6 - 4 4.829(0.65%) 7.16(160) 10.01 4 .18(54)
+4 - 2 8.942(0.70%) 9.027(793) 11.03 5 .55(72)
+2p2(3P)3d− 2p2(3P)3p 4D−4 Po 8 - 6 24.10(0.27%) 25.46(66) 25.11 23 .5(31)
+6 - 4 12.38(0.18%) 13.20(80) 11.08 12 .3(16)
+4 - 2 6.058(0.10%) 6.541(706) 4.249 6 .07(79)
+6 - 6 11.88(0.43%) 12.35(66) 13.40 11 .3(15)
+4 - 4 15.14(0.36%) 15.91(42) 15.40 15 .2(20)
+2 - 2 17.97(0.25%) 19.11(120) 14.53 17 .8(23)
+4 - 6 3.254(0.48%) 3.332(347) 4.332 3 .24(42)
+2 - 4 7.305(0.42%) 7.553(747) 10.10 7 .16(93)
+2p2(3P)5s− 2p2(3P)3p 4P−4 Po 6 - 6 1.811(8.10%) 1 .75(25)
+4 - 4 0.392(7.87%) 0 .445(67)
+2 - 2 0.348(7.72%) 0 .365(55)
+4 - 6 0.917(7.44%) 0 .937(141)
+2 - 4 1.838(7.46%) 1 .94(29)
+6 - 4 0.758(8.37%) 0 .738(111)
+4 - 2 1.019(8.08%) 0 .979(147)
+2p2(3P)5s− 2p2(3P)3p 2P−2 Do 4 - 6 2.252(3.43%) 1 .79(25)
+2 - 4 3.086(7.70%) 2 .85(40)
+4 - 4 0.193(1.44%) 0 .230(35)
+2p2(3P)3d− 2p2(3P)3p 2F−4 Do 6 - 6 1.719(0.57%) 1.064(481) 0.420 2 .26(32) 1.34(16)
+8 - 6 0.595(1.00%) 0.609(331) 0.527 1 .08(15) 0.646(78)
+6 - 4 0.268(2.32%) 0.485(687) 0.555 0 .810(113) 0.462(55)
+2p2(3P)3d− 2p2(3P)3p 2F−4 Po 6 - 4 3.564(0.62%) 1.289(1182) 0.160 1 .03(14)
+Note—a Tachiev & Froese Fischer (2002); b Hibbert et al. (1991); c Musielok et al. (1995); d Bridges & Wiese (2010).
+As can be seen from Table 6 , when three theoretical values are available for the transitions, the present MCDHF/RCI
+results seem to be in better agreement with the experimental values obtained by Musielok et al. (1995) than the others.
+50 out of 72 transitions from present calculations agree with Musielok et al. (1995) within 10%, while 33(37) out of 72
+transitions are within the same range for theoretical data from Hibbert et al. (1991)(Tachiev & Froese Fischer (2002)).
+There are also a number of measurements of line strengthS. In Fig. 6, the selected computed S values are compared
+with experimental results by Bac lawski et al. (2002) and Bac lawski & Musielok (2008). The theoretical results of
+Hibbert et al. (1991) and Froese Fischer & Tachiev (2004) are also shown in the ﬁgure. Note that Bac lawski et al.
+(2002) and Bac lawski & Musielok (2008) provided the relative line strengths within multiplets (normalized to 100).
+Therefore, all the theoretical values used for comparison in Fig. 6 are the fractions of line strength for each transition in
+a multiplet, so that their sum is 100 for each multiplet. The computed S values from present work and the MCHF-BP
+PAGE 13
+Extended MCDHF calculations of energy levels and transition data for N I 13
+Figure 6. Comparison of the theoretical relative line strengths, S, with the corresponding experimental results published
+by Bac lawski et al. (2002) and Bac lawski & Musielok (2008).
+calculations by Froese Fischer & Tachiev (2004) are in much better agreement with those experimental values than
+the CIV3 calculations by Hibbert et al. (1991). The S values from the present work are within the uncertainties of
+experimental measurements for most of the transitions.
+3.3. Validation via the solar spectrum
+The Sun is our best understood star, having well constrained parameters (Prˇ sa et al. 2016), and for which exist both
+high quality observations of the emergent intensity (Delbouille & Roland 1995; Neckel 1999; Doerr et al. 2016), as well
+as realistic simulations of the photospheric layer (Nordlund et al. 2009; Pereira et al. 2013). As such, analyses of the
+solar intensity spectrum present an alternative way to test the accuracy of the present calculations.
+For this purpose we consider the study of Amarsi et al. (2020). The authors presented a detailed analysis of 5
+N I lines in the solar disc-center intensity spectrum, using state-of-the-art model atmospheres and radiative transfer
+methods. From this analysis they measured, for each line as well as the average over all lines, the solar nitrogen
+abundance, conventionally reported as the logarithmic number density of nitrogen nuclei relative to that of hydrogen
+nuclei (plus an oﬀset): A (N) ≡ log10 (NN/NH) + 12. They adopted the transition probabilities given by Tachiev &
+Froese Fischer (2002). To ﬁrst order, their results can be modiﬁed to account for new atomic data using
+A (N) new =A (N) Tachiev + ∆new (8)
+where the correction term ∆ new is given by
+∆new = log(gf )Tachiev− log(gf )new. (9)
+Table 7 presents the log(gf ) values of the ﬁve permitted lines in N I used by (Amarsi et al. 2020). The log(gf ) values
+in both Coulomb and Babuskin forms from present calculations are given in the table. We can seen that for these
+ﬁve transition lines, the present log(gf ) values calculated in the Coulomb and Babuskin agree very well, with the d T
+values below 0.02. We also investigated the convergence of the wavelengths and oscillator strengths between the results
+from the calculations of the last two layers. The wavelengths have converged to within 0.1% for all the ﬁve transitions
+and the diﬀerence between the oscillator strengths from the calculation of the last two layers is 0.0002 for 744.229 nm,
+0.01 for 821.633 nm and 868.34 nm, 0.001 for 862.923 nm, and 0.005 for 1010.89 nm. Experimental measurements of
+transition probabilities for the lines were reported by Musielok et al. (1995) and Bridges & Wiese (2010); the derived
+PAGE 14
+14 Li et al.
+T able 7. Comparison of the log(gf ) values of the ﬁve lines used for abundance analysis in Amarsi et al. (2020). B = Babuskin
+form and C = Coulomb form.
+log(gf)
+Upper Lower λair/nm Present Tachiev Hibbert Bautista Musielok Bridges
+B C & Fischer a et al.b et al.c et al.d & Wiesee
+2p2(3P)3p 4So
+3/2 2p2(3P)3s 4P3/2 744.229 −0.429 −0.433 −0.403 −0.386 −0.39± 0.049 −0.41± 0.035
+2p2(3P)3p 4Po
+5/2 2p2(3P)3s 4P5/2 821.633 0 .116 0 .108 0 .138 0 .147 0.13 ± 0.053
+2p2(3P)3p 2Po
+3/2 2p2(3P)3s 2P3/2 862.923 0 .070 0 .068 0 .077 0 .090 0.057 ± 0.046 0.051 ± 0.052
+2p2(3P)3p 4Do
+5/2 2p2(3P)3s 4P3/2 868.340 0 .084 0 .079 0 .106 0 .116 0.14 ± 0.047 0.054 ± 0.047 0.069 ± 0.035
+2p2(3P)3d 4F5/2 2p2(3P)3p 4Do
+3/2 1010.89 0 .410 0 .406 0 .444 0 .443 0.42 ± 0.056 0.53 ± 0.065
+Note—The table lists: upper and lower conﬁgurations along with their spectroscopic terms; wavelengths in air λair; weighted
+oscillator strength log(gf ). aTachiev & Froese Fischer (2002); bHibbert et al. (1991); cBautista et al. (2022); dMusielok et al.
+(1995); eBridges & Wiese (2010).
+70075080085090095010001050
+7.70
+7.75
+7.80
+7.85
+7.90
+70075080085090095010001050
+λAir / nm
+7.70
+7.75
+7.80
+7.85
+7.90A(N)
+Babushkin
+Coulomb
+Musielok et al. (1995)
+Bridges & Wiese (2010)
+Experimental
+70075080085090095010001050
+7.70
+7.75
+7.80
+7.85
+7.90
+70075080085090095010001050
+λAir / nm
+7.70
+7.75
+7.80
+7.85
+7.90A(N)
+Babushkin
+Coulomb
+Tachiev & Fischer (2002)
+Hibbert et al. (1991)
+Bautista et al. (2022)
+Theoretical
+Figure 7. Solar nitrogen abundance inferred using diﬀerent transition probabilities given in Table 7. Both panels illustrate
+results based on the theoretical transition data computed in the present work. The left panel also includes results based on the
+experimental data of Musielok et al. (1995) and Bridges & Wiese (2010), while the right panel includes results based on the
+theoretical data of Tachiev & Froese Fischer (2002), Hibbert et al. (1991), and Bautista et al. (2022). Horizontal lines show
+the mean abundance inferred from each data set. In both panels, the shaded region shows the standard deviation of the result
+based on the experimental data of Musielok et al. (1995), centred on the mean.
+log(gf ) values are shown in the last two columns in Table 7. In all cases, our theoretical values and those from Tachiev
+& Froese Fischer (2002) fall into the range of the estimated uncertainties of the experimental values. The previous
+calculation by Hibbert et al. (1991) yielded larger log( gf ) values than the experimental determinations for 821.633
+nm, 868.340 nm lines while the recommended value for 868.340 nm line by Bautista et al. (2022) is slightly larger than
+the experimental results.
+Fig. 7 compares the data in Table 7 in terms of the solar nitrogen abundance, using Equations 8 and 9. The upper
+panel compares the results based on the present calculations to the those based on the experimental measurements of
+both Musielok et al. (1995) and Bridges & Wiese (2010). We see that the mean solar nitrogen abundance from the
+present calculations (in either gauge) agree well with those from Musielok et al. (1995). Interestingly, this analysis re-
+veals that the transition probability for the 1010.89 nm line from Bridges & Wiese (2010) is signiﬁcantly overestimated,
+as it would imply a solar nitrogen abundance signiﬁcantly lower than what is implied by the other N I lines.
+The lower panel of Fig. 7 compares the results based on the present calculations to the those based on the theoretical
+calculations of Tachiev & Froese Fischer (2002), Hibbert et al. (1991), and Bautista et al. (2022). We see that the
+mean solar nitrogen abundance from the present calculations (in either gauge) are signiﬁcantly higher than those from
+the other three data sets. In particular, this analysis suggests the transition probability for the 868.340 nm line from
+PAGE 15
+Extended MCDHF calculations of energy levels and transition data for N I 15
+Bautista et al. (2022) might be overestimated, as it would imply a solar nitrogen abundance signiﬁcantly lower than
+what is implied by the other N I lines, for all of the other theoretical transition probability data sets.
+Our new calculations suggest A (N) = 7 .79 from N I lines, with the results from both the Babushkin gauge and
+Coulomb gauge in agreement to 0 .01 dex. This is an increase of 0 .02 dex over the result from Amarsi et al. (2020)
+based on the transition probabilities given by Tachiev & Froese Fischer (2002). Factoring in also the results from
+molecular lines (A (N) = 7.89; Amarsi et al. 2021), our mean solar nitrogen abundance becomes 7 .84, an increase of
+0.01 dex over the result given in Asplund et al. (2021). The rather large diﬀerence between the abundances inferred
+from atomic and molecular lines discussed in Amarsi et al. (2021) are thus probably not caused by errors in the N I
+transition probabilities.
+4. CONCLUSIONS
+In the present work, MCDHF and complementary RCI calculations have been performed for the lowest 103 states
+of N I; extending the models of earlier state-of-the-art calculations. Excitation energies, lifetimes, wavelengths, line
+strengths, transition rates, and weighted oscillator strengths have been systematically computed and provided.
+Comparing the excitation energies with experimental data provided by NIST-ASD, the average relative diﬀerences of
+the computed energy levels are 0.07%. The accuracy of the transition data is evaluated based on the relative diﬀerences
+of the computed transition rates in the Coulomb and Babuskin forms, dT , and by extensive comparisons with previous
+theoretical and experimental results. A statistical analysis of the uncertainties d T of the E1 transitions is performed
+and the mean d T for transitions with A > 102 s−1 is estimated to be 0.107 ( σ = 0.18), and 0.045 ( σ = 0.08) for
+transitions with A >106 s−1. The agreement of the experimental and present theoretical transition properties, for
+example, oscillator strengths, transition rates, and line strengths, is overall good. But for some weaker transitions, e.g.
+intercombination transitions, signiﬁcant discrepancies are present. Such transitions are subject to strong cancellation
+eﬀects and cannot be properly considered in the present calculations. An improved methodology is needed to further
+decrease the uncertainties of the respective transition data.
+In addition, the present atomic data were employed in an analysis of the solar nitrogen abundance. Our new data
+suggest a mean solar nitrogen abundance A(N)= 7.79 from ﬁve N I lines, with the results from both the Babushkin
+gauge and Coulomb gauge in agreement to 0.01 dex. The new abundance agrees well with that obtained from the
+experimental measurements of Musielok et al. (1995), while are higher than those from the other theoretical data sets.
+However, the large diﬀerence between the abundances inferred from atomic and molecular lines ( A(N)= 7.89, Amarsi
+et al. (2021)) still exits and it is probably not caused by errors in the N I transition probabilities.
+MCL would like to acknowledge the support from the Guangdong Basic and Applied Basic Research Foundation
+(2022A1515110043) ,the Professorial and Doctoral Scientiﬁc Research Foundation of Huizhou University No.158020137.
+AMA and JG gratefully acknowledge support from the Swedish Research Council (VR 2020-03940, 2020-05467).We
+would also like to thank the anonymous referees for their useful comments that helped improve the original manuscript.
+1
+2
+3
+4
+REFERENCES
+Aerts, C., Molenberghs, G., Kenward, M. G., & Neiner, C.
+2014, ApJ, 781, 88, doi: 10.1088/0004-637X/781/2/88
+Amarsi, A., Grevesse, N., Grumer, J., et al. 2020,
+Astronomy & Astrophysics, 636, A120
+Amarsi, A. M., Grevesse, N., Asplund, M., & Collet, R.
+2021, A&A, 656, A113,
+doi: 10.1051/0004-6361/202141384
+Amarsi, A. M., Grevesse, N., Grumer, J., et al. 2020, A&A,
+636, A120, doi: 10.1051/0004-6361/202037890
+Asplund, M., Amarsi, A., & Grevesse, N. 2021, Astronomy
+& Astrophysics, 653, A141
+Bac lawski, A., & Musielok, J. 2008, Journal of Quantitative
+Spectroscopy and Radiative Transfer, 109, 2537
+—. 2010, Spectrochimica Acta Part B: Atomic
+Spectroscopy, 65, 113
+Bac lawski, A., Wujec, T., & Musielok, J. 2002, Physica
+Scripta, 65, 28
+Bautista, M. A., Bergemann, M., Carvajal Gallego, H.,
+et al. 2022, arXiv e-prints, arXiv:2206.14095.
+https://arxiv.org/abs/2206.14095
+Belﬁore, F., Maiolino, R., Tremonti, C., et al. 2017,
+MNRAS, 469, 151, doi: 10.1093/mnras/stx789
+Bengtsson, G., Larsson, J., Svanberg, S., & Wang, D. 1992,
+Physical Review A, 45, 2712
+Berry, H., Bickel, W., Bashkin, S., D´ esesquelles, J., &
+Schectman, R. 1971, JOSA, 61, 947
+PAGE 16
+16 Li et al.
+Bridges, J., & Wiese, W. 2010, Physical Review A, 82,
+024502
+Bromander, J., Duric, N., Erman, P., & Larsson, M. 1978,
+Physica Scripta, 17, 119,
+doi: 10.1088/0031-8949/17/2/010
+Catherinot, A., & Sy, A. 1979, Physical Review A, 20, 1511
+Copeland, R. A., Jeﬀries, J. B., Hickman, A. P., & Crosley,
+D. R. 1987, The Journal of chemical physics, 86, 4876
+Cowan, R. D. 1981, The theory of atomic structure and
+spectra No. 3 (Univ of California Press)
+Delbouille, L., & Roland, C. 1995, in Astronomical Society
+of the Paciﬁc Conference Series, Vol. 81, Laboratory and
+Astronomical High Resolution Spectra, ed. A. J. Sauval,
+R. Blomme, & N. Grevesse, 32
+D´ esesquelles, J. 1970, Lyon 1 University, France
+Doerr, H. P., Vitas, N., & Fabbian, D. 2016, A&A, 590,
+A118, doi: 10.1051/0004-6361/201628570
+Dumont, P., Biemont, E., & Grevesse, N. 1974, Journal of
+Quantitative Spectroscopy and Radiative Transfer, 14,
+1127
+Dyall, K., Grant, I., Johnson, C., Parpia, F., & Plummer,
+E. 1989, computer physics communications, 55, 425
+Ekman, J., Godefroid, M. R., & Hartman, H. 2014, Atoms,
+2, 215
+El-Sayed, F. 2021, Journal of Quantitative Spectroscopy
+and Radiative Transfer, 276, 107930,
+doi: https://doi.org/10.1016/j.jqsrt.2021.107930
+Esteban, C., Bresolin, F., Garc´ ıa-Rojas, J., & Toribio
+San Cipriano, L. 2020, Monthly Notices of the Royal
+Astronomical Society, 491, 2137
+Froese Fischer, C. 2009, Physica Scripta, 2009, 014019
+Froese Fischer, C., Gaigalas, G., J¨ onsson, P., & Biero´ n, J.
+2019, Computer Physics Communications, 237, 184
+Froese Fischer, C., Godefroid, M., Brage, T., J¨ onsson, P., &
+Gaigalas, G. 2016, Journal of Physics B: Atomic,
+Molecular and Optical Physics, 49, 182004
+Froese Fischer, C., & Tachiev, G. 2004, Atomic Data and
+Nuclear Data Tables, 87, 1
+Gaigalas, G., Froese Fischer, C., Rynkun, P., & J¨ onsson, P.
+2017, Atoms, 5, 6, doi: 10.3390/atoms5010006
+Gaigalas, G., Rynkun, P., Radˇ zi¯ ut˙ e, L., et al. 2020, The
+Astrophysical Journal Supplement Series, 248, 13,
+doi: 10.3847/1538-4365/ab881a
+Goldbach, C., L¨ udtke, T., Martin, M., & Nollez, G. 1992,
+Astronomy and Astrophysics, 266, 605
+Goldbach, C., & Nollez, G. 1991, Le Journal de Physique
+IV, 1, C1
+Grant, I. 1974, Journal of Physics B: Atomic and Molecular
+Physics (1968-1987), 7, 1458
+Grant, I. P. 2007, Relativistic quantum theory of atoms and
+molecules: theory and computation (Springer)
+Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1990,
+A&A, 232, 225
+Hibbert, A., Biemont, E., Godefroid, M., & Vaeck, N. 1991,
+Astronomy and Astrophysics Supplement Series, 88, 505
+Hirschi, R. 2007, A&A, 461, 571,
+doi: 10.1051/0004-6361:20065356
+Hutchison, R. B. 1971, Journal of Quantitative
+Spectroscopy and Radiative Transfer, 11, 81
+Kolecki, J. R., & Wang, J. 2022, AJ, 164, 87,
+doi: 10.3847/1538-3881/ac7de3
+Kramida, A. 2013, Fusion Science and Technology, 63, 313,
+doi: 10.13182/FST13-A16437
+Kramida, A. 2014, Atoms, 2, 86, doi: 10.3390/atoms2020086
+Kramida, A., & Fuhr, J. 2010, NIST atomic transition
+probability bibliographic database (version 9.0), Online
+at https://doi.org/10.18434/T46C7N., National
+Institute of Standards and Technology Gaithersburg,
+MD, USA
+Kramida, A., Yu. Ralchenko, Reader, J., & and NIST ASD
+Team. 2021, NIST Atomic Spectra Database (ver. 5.9),
+[Online]. Available: https://physics.nist.gov/asd
+[2022, April 23]. National Institute of Standards and
+Technology, Gaithersburg, MD.
+Lambert, D. L. 1978, MNRAS, 182, 249,
+doi: 10.1093/mnras/182.2.249
+Lawrence, G., & Savage, B. D. 1966, Physical Review, 141,
+67
+Li, W., Amarsi, A., Papoulia, A., Ekman, J., & J¨ onsson, P.
+2021, Monthly Notices of the Royal Astronomical
+Society, 502, 3780
+Maeder, A., Przybilla, N., Nieva, M.-F., et al. 2014, A&A,
+565, A39, doi: 10.1051/0004-6361/201220602
+Mallow, J., & Burns, J. 1972, Journal of Quantitative
+Spectroscopy and Radiative Transfer, 12, 1081
+Masseron, T., & Gilmore, G. 2015, MNRAS, 453, 1855,
+doi: 10.1093/mnras/stv1731
+Musielok, J., Wiese, W. L., & Veres, G. 1995, Physical
+Review A, 51, 3588
+Neckel, H. 1999, SoPh, 184, 421,
+doi: 10.1023/A:1017165208013
+Nordlund, ˚A., Stein, R. F., & Asplund, M. 2009, Living
+Reviews in Solar Physics, 6, 2, doi: 10.12942/lrsp-2009-2
+Olsen, J., Roos, B. O., Jo/rgensen, P., & Jensen, H. J. A.
+1988, The Journal of chemical physics, 89, 2185
+Papoulia, A., Ekman, J., Gaigalas, G., et al. 2019, Atoms,
+7, 106
+Pereira, T. M. D., Asplund, M., Collet, R., et al. 2013,
+A&A, 554, A118, doi: 10.1051/0004-6361/201321227
+PAGE 17
+Extended MCDHF calculations of energy levels and transition data for N I 17
+Prˇ sa, A., Harmanec, P., Torres, G., et al. 2016, AJ, 152, 41,
+doi: 10.3847/0004-6256/152/2/41
+Przybilla, N., & Butler, K. 2001, Astronomy &
+Astrophysics, 379, 955
+Schiavon, R. P., Zamora, O., Carrera, R., et al. 2017,
+MNRAS, 465, 501, doi: 10.1093/mnras/stw2162
+Smith, W. H., Bromander, J., Curtis, L., & Buchta, R.
+1970, Physica Scripta, 2, 211
+Spite, M., Spite, F., Caﬀau, E., Bonifacio, P., & Fran¸ cois,
+P. 2022, arXiv e-prints, arXiv:2209.10219.
+https://arxiv.org/abs/2209.10219
+Sturesson, L., J¨ onsson, P., & Froese Fischer, C. 2007,
+Computer physics communications, 177, 539
+Tachiev, G., & Froese Fischer, C. 2002, Astronomy &
+Astrophysics, 385, 716
+Takeda, Y., & Takada-Hidai, M. 1995, Publications of the
+Astronomical Society of Japan, 47, 169
+Tong, M., Froese Fischer, C., & Sturesson, L. 1994, Journal
+of Physics B: Atomic, Molecular and Optical Physics, 27,
+4819
+Vincenzo, F., & Kobayashi, C. 2018, Monthly Notices of
+the Royal Astronomical Society, 478, 155
+Wiese, W. L., & Fuhr, J. R. 2007, Journal of Physical and
+Chemical Reference Data, 36, 1287
+Wiese, W. L., Fuhr, J. R., Deters, T. M., et al. 1996, J.
+Phys. Chem. Ref. Data, 7, 157
+Ynnerman, A., & Froese Fischer, C. 1995, Physical Review
+A, 51, 2020

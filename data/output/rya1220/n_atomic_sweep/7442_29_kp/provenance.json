@@ -1,0 +1,33 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1214",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1214/pipeline/abundances_derive.py": "f137dd30a5ad01e99f671cd3f4b9a7c6b85bf0e080cfc907f37cd837e1cdb308",
+    "/srv/codex/engines/ispec_src/input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv": "9231e3109703afa9abcabf24609ff7a669c7b60731d85d5dafdd86123b263f17"
+  },
+  "holding": "HoldingSpec(holding_id='solar_kpno_kurucz2005_corrected', reader='kurucz2005', pre_normalised=True, path_key=None, span_A=(2990.0, 10010.0), caveat='', note='Kurucz 2005, telluric-corrected at source. Served from irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the irradiance file -- so this holding DOES carry its own continuum and pre_normalised is True. It was False until RYA-933 because `0irrad.readme` does not list the residual file and the RYA-929 intake never took it; placing our own continuum instead tilted the band 4% blue-to-red and cost 0.022 dex. VACUUM grid (gravitational redshift included), converted to air on read. Spans 2990-10010 A; nothing telluric-free reaches the IR. \ud83d\udd34 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and made it ENFORCED, not remembered: pipeline.prenormalised_guard refuses to fit/apply a continuum here, and cross-checks the flag against the FLUX -- a declared flag and a mis-routed file agree with each other perfectly and are both wrong, which is exactly what happened here for months.', reference_continuum=False)",
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "background": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.69,
+    "Ni": 6.2
+  },
+  "broadening": [
+    500000.0,
+    3.8,
+    1.8
+  ],
+  "gf": {
+    "apply_canonical_gf": true,
+    "detail": "canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)"
+  },
+  "engine": "turbospectrum",
+  "reference_overlay": null,
+  "limitation": "1D LTE flux; fixed broadening; no empirical CN subtraction; continuum perturbation steps are probes, not adopted errors"
+}

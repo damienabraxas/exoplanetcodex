@@ -1,0 +1,51 @@
+{
+  "schema": "rya1220.nitrogen_line_coverage_audit.v1",
+  "source": "data/reference/nitrogen_method_rya1220/evidence_matrix.csv and run_artifact_manifest.json",
+  "atomic_n_lines": [
+    {
+      "wavelength_air_A": 7468.31,
+      "band": "VIS",
+      "native_pysme": "complete",
+      "delta_dex": -0.0096079336
+    },
+    {
+      "wavelength_air_A": 8216.34,
+      "band": "VIS/near-IR boundary",
+      "native_pysme": "complete",
+      "delta_dex": -0.0128154153
+    },
+    {
+      "wavelength_air_A": 8683.4,
+      "band": "near-IR",
+      "native_pysme": "complete",
+      "delta_dex": -0.0136478772
+    },
+    {
+      "wavelength_air_A": 7442.29,
+      "band": "VIS",
+      "status": "native_synthesis_complete_provisional_level_match",
+      "reason": "canonical VALD record found in project red-optical list; grid labels resolved by energy",
+      "delta_dex": -0.0097164653
+    },
+    {
+      "wavelength_air_A": 8629.23,
+      "band": "near-IR",
+      "status": "native_synthesis_complete",
+      "reason": "confirmed against Amarsi et al. 2020 Table 1",
+      "delta_dex": -0.0099600232,
+      "level_identity": "3s 2P3/2 -> 3p 2Po3/2"
+    },
+    {
+      "wavelength_air_A": 10108.9,
+      "band": "near-IR",
+      "status": "line-list_gap",
+      "reason": "existing intake audit identifies this transition as absent from the current NIR VALD extract"
+    }
+  ],
+  "near_uv": {
+    "NH_3360": "molecular synthesis route required; not a PySME atomic N line",
+    "CN_3883": "molecular synthesis route required; blend-dominated and needs CN/Turbospectrum line list",
+    "atomic_NI": "no approved near-UV atomic N line currently registered; acquire canonical long-format VALD/NIST records before adding"
+  },
+  "next_action": "Complete NH/CN near-UV uncertainty propagation, then run final all-instrument covariance and promotion checks."
+}
