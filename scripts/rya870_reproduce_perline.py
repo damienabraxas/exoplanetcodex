@@ -124,6 +124,10 @@ def main() -> int:
                        & (rows["method"] == "synthesis_fit")).sum())
 
     if ew_rows.empty:
+        agg = rows[rows["status"] == "in_aggregate"]
+        ew_labelled = agg[agg["method"] == "ew_integration"]
+        n_ew_labelled = int(len(ew_labelled))
+        n_ew_no_width = int(ew_labelled["ew_mA"].isna().sum())
         # 🔴 ZERO COVERAGE MUST BE WRITTEN DOWN, NOT JUST PRINTED (RYA-1229). This branch
         # used to print and return 2 without touching the report, so the report on disk
         # went on describing a PREVIOUS revision of the product — a certification of a
@@ -138,17 +142,29 @@ def main() -> int:
             "n_ew_route_in_aggregate": 0,
             "n_sampled": 0, "n_tested": 0, "n_passed": 0, "n_failed": 0,
             "n_synthesis_rows_NOT_COVERED": not_covered,
+            # 🔴 THE REASON IS MEASURED, NOT ASSERTED. Two distinct things are going on
+            # and both are counted off the product rather than described from memory.
+            "n_ew_labelled_in_aggregate": n_ew_labelled,
+            "n_ew_labelled_without_ew_mA": n_ew_no_width,
             "coverage_note": (
-                "NO EW-ROUTE ROWS TO TEST. The reproduction re-inverts an equivalent "
-                "width, so it can only test rows whose abundance came from EW inversion; "
-                f"every one of the {not_covered} in-aggregate rows in this product is a "
-                "synthesis fit, which needs the observed spectrum and is never counted as "
-                "passing. Since RYA-1229 the product is a projection of the FEED, and no "
-                "published Fe product with force-added per-line evidence uses the "
-                "PROFILEFIT (EW) route -- all 10 of them are among the 21 unresolved. The "
-                "guard's previous 8/8 PASS was measured on rows from two SUPERSEDED "
-                "artifacts (engine label `1D-LTE (ts-lte)`) that back no published "
-                "product, so it was evidence about data the site does not serve."),
+                "NO EW-ROUTE ROWS TO TEST, for two reasons that are easy to confuse. "
+                f"(1) {not_covered} in-aggregate rows are synthesis fits, which cannot be "
+                "reproduced from the row alone -- they need the observed spectrum -- and "
+                f"are never counted as passing. (2) {n_ew_labelled} in-aggregate rows ARE "
+                f"labelled `ew_integration`, and {n_ew_no_width} of them carry no `ew_mA`, "
+                "which is the quantity this guard re-inverts. ⚠️ THAT FLAG LOOKS WRONG AT "
+                "SOURCE, not here: the ENGINE-A band products set `ew_inversion=True` on "
+                "every row while their own `ew_method` reads 'synthesis flux-fit, FIXED "
+                "half-width +/-0.62 A (RYA-759 route; no EW exists in this band...)' and "
+                "`ew_mA` is empty. The per-line product projects the flag faithfully, so "
+                "`method` reads `ew_integration` for measurements that were flux fits. "
+                "Fixing that belongs to the band-product emitter. "
+                "Separately: since RYA-1229 this product is a projection of the FEED, and "
+                "the 10 published PROFILEFIT-route products -- the genuine EW route -- are "
+                "all among the 21 with no force-added per-line artifact. The guard's "
+                "previous 8/8 PASS was measured on rows from two SUPERSEDED artifacts "
+                "(engine label `1D-LTE (ts-lte)`) that back no published product, so it "
+                "was evidence about data the site does not serve."),
             "results": [],
             "verdict": "NO-COVERAGE",
         }

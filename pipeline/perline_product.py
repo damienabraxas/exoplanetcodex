@@ -656,6 +656,16 @@ def build_perline_product(star: str, element: str,
         "rows_per_published_product": [
             [*k, int(v)] for k, v in
             out.groupby(list(perline_sources.IDENTITY_FIELDS[1:])).size().items()],
+        # ⚠️ A ROW LABELLED `ew_integration` WITH NO `ew_mA` IS A CONTRADICTION, AND IT IS
+        # NOT OURS. The ENGINE-A band products set `ew_inversion=True` on every row while
+        # their own `ew_method` says "synthesis flux-fit, FIXED half-width +/-0.62 A
+        # (RYA-759 route; no EW exists in this band...)" and leave `ew_mA` empty. This
+        # projection carries the flag faithfully rather than quietly rewriting it -- the
+        # fix belongs to the emitter -- so the count is surfaced here instead of being
+        # left for a reader to trip over. It is also exactly why the RYA-870 reproduce-or-
+        # fail guard reports NO-COVERAGE: it re-inverts an equivalent width.
+        "n_rows_labelled_ew_route_with_no_ew_mA": int(
+            (out["method"].eq("ew_integration") & out["ew_mA"].isna()).sum()),
         "by_status": out["status"].value_counts().to_dict(),
         "by_engine": out["engine"].value_counts().to_dict(),
         "n_gf_from_canonical": int((~out["gf_source"].isin(
