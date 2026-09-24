@@ -76,7 +76,22 @@ def main() -> int:
     #: contract this migration exists to satisfy -- the point is that RYA-587 ACCEPTS these
     #: rows, and that is only demonstrated by asking it.
     assert_publication_feed(feed, previous=json.loads(FEED.read_text()))
+
+    #: 🔴 A CHANGED FEED MUST NOT KEEP ITS VERSION. This script wrote sigma_reported on six
+    #: rows and left `version` alone, so the feed on disk and the feed the version names were
+    #: different documents. That is not cosmetic: the site generator STAMPS `feed_version`
+    #: into the published reproducibility block and RYA-1223's reconcile buckets live rows by
+    #: comparing against it, so an unbumped write makes a page claim provenance it does not
+    #: have. It already bit this branch once -- an earlier pass wrote its own "v1.220" while
+    #: RYA-1224 independently wrote a different v1.220, and the two only came apart on rebase.
+    #: `_bump` is imported from the emitter rather than reimplemented, so one rule sets the
+    #: version no matter which script writes.
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from rya1178_emit_fe_schema import _bump, _now
+    feed["version"] = _bump(feed["version"])
+    feed["updated_at"] = _now()
     FEED.write_text(json.dumps(feed, indent=2) + "\n")
+    print(f"feed version -> v{feed['version']}")
     print(f"applied {len(applied)}, skipped {len(skipped)}")
     for a in applied:
         print(f"  Fe {a['ion']:3} {a['holding'][:31]:31} {a['treatment']:9} "

@@ -98,8 +98,14 @@ def test_the_fe2_rows_now_carry_a_COMPLETE_validated_budget(migration, holding):
     assert row["sigma_reported_if_complete"] > 0
 
 
-def test_the_three_wired_terms_each_cite_a_real_prior_measurement():
-    """🔴 'Unpriceable' with no cited reason re-buries measured work. Each must name its own."""
+def test_each_wired_term_cites_a_real_prior_measurement():
+    """🔴 'Unpriceable' with no cited reason re-buries measured work. Each must name its own.
+
+    Ryan's 2026-09-19 correction moved the normalization term onto RYA-846's MEASUREMENT and
+    withdrew the observed-spread floor that stood in for it, so what this pins has changed:
+    pseudo_continuum is now measured, and `continuum` is N/A because pricing both would count
+    normalization twice.
+    """
     import rya1226_migrate_nearuv_budget as M
     feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
     p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "II"
@@ -107,17 +113,33 @@ def test_the_three_wired_terms_each_cite_a_real_prior_measurement():
              and x["holding"] == KUR)
     terms = {c["name"]: c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]}
 
-    cont = terms["continuum"]
-    assert cont["state"] == "DEFINED" and cont["evidence"]["bound"] is True
-    assert "RYA-1133" in cont["source"]
-    #: the floor is the CURRENT post-opacity spread, not RYA-1133's pre-opacity 0.13
-    assert cont["sigma_dex"] == pytest.approx(0.1075, abs=5e-5)
-    assert cont["evidence"]["rya1133_pre_opacity_half_spread"]["FeII_1D-LTE"] == 0.13
-    assert cont["evidence"]["rya846_candidates_dex"]["lever"] == 2.54
+    #: pseudo_continuum -- RYA-846's measurement, read from its artifact and not restated.
+    pc = terms["pseudo_continuum"]
+    assert pc["state"] == "MEASURED" and not pc["evidence"].get("bound")
+    assert "RYA-846" in pc["source"]
+    rya846 = json.loads((ROOT / "data/results/rya846/rya846_sigma_delta.json").read_text())
+    assert pc["sigma_dex"] == pytest.approx(
+        rya846["decomposition"]["term_net_dex"], abs=1e-6), "must be the artifact's value"
+    #: 🔴 THE NET TERM, NOT THE RAW ONE -- the raw figure double-charges Wallace's own
+    #: internal scatter, and the two differ by 1.8x so a swap would be visible here.
+    assert pc["sigma_dex"] != pytest.approx(rya846["decomposition"]["term_raw_dex"], abs=1e-6)
+    assert pc["evidence"]["supersedes_assumed_dex"] == rya846["assumed_term_dex"] == 0.1
+    assert pc["evidence"]["n_lines_outside_wallace"] == 0
 
+    #: continuum -- N/A, and explicitly BECAUSE pseudo_continuum already carries it.
+    cont = terms["continuum"]
+    assert cont["state"] == "N/A" and cont["sigma_dex"] is None
+    assert cont["evidence"]["not_double_counted"] is True
+    assert "pseudo_continuum" in cont["evidence"]["subsumed_by"]
+
+    #: model_atmosphere -- Ryan asked for the grid-shift lever to be VERIFIED, not assumed.
     atm = terms["model_atmosphere"]
     assert atm["sigma_dex"] == 0.004 and "RYA-1032" in atm["source"]
     assert atm["evidence"]["same_pool"] is True
+    assert atm["evidence"]["grid_shift_lever_exists"] is True
+    #: and the STAGGER step is recorded as the DIFFERENT axis it is, not quietly omitted.
+    stg = atm["evidence"]["stagger_step_is_a_different_axis"]
+    assert stg["varied"] == "dim" and stg["delta_dex"] == 0.101
 
     pew = terms["profile_ew"]
     assert pew["sigma_dex"] == 0.2160 and "RYA-1220" in pew["source"]
@@ -132,11 +154,18 @@ def test_every_bound_is_flagged_as_a_bound_and_not_as_a_measurement():
              and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
              and x["holding"] == KUR)
     terms = {c["name"]: c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]}
-    for name in ("continuum", "model_atmosphere", "profile_ew", "blends"):
+    #: After Ryan's 2026-09-19 correction only TWO terms are bounds. `continuum` and
+    #: `blends` are N/A on evidence, and pseudo_continuum is a measurement -- so a bound
+    #: creeping back onto any of those three fails here.
+    for name in ("model_atmosphere", "profile_ew"):
         assert terms[name]["evidence"].get("bound") is True, name
-    for name in ("measurement", "transition_data", "stellar.xi"):
-        assert terms[name]["state"] == "MEASURED"
-        assert not terms[name]["evidence"].get("bound")
+    for name in ("measurement", "transition_data", "stellar.xi", "pseudo_continuum"):
+        assert terms[name]["state"] == "MEASURED", name
+        assert not terms[name]["evidence"].get("bound"), name
+    for name in ("continuum", "blends"):
+        assert terms[name]["state"] == "N/A", name
+        assert terms[name]["sigma_dex"] is None, name
+        assert not terms[name]["evidence"].get("bound"), name
 
 
 def test_the_bar_is_dominated_by_bounds_and_that_is_stated_not_hidden():
@@ -186,12 +215,16 @@ def test_stellar_teff_is_a_sourced_zero_with_its_omission_sized():
     assert t["evidence"]["derived_but_not_perturbed_dex"] == 0.000665
 
 
-def test_blends_is_BOUNDED_by_the_deficit_not_by_the_payoff_figure():
-    """🔴 The ceiling is RYA-1190's measured DEFICIT, not its payoff.
+def test_blends_is_NOT_a_component_and_carries_no_bound():
+    """🔴 Ryan, 2026-09-19, superseding his own earlier "bound it as a ceiling" directive:
+    blends is NOT an open uncertainty component and must not be bounded.
 
-    The payoff (~0.028) is how much a completeness build would CLOSE -- a different
-    quantity from how wrong the number may be, and 6x smaller. A ceiling must bound the
-    error, so the deficit is the conservative choice.
+    The previous pass charged 0.1721 dex -- 28.7% of the published variance -- for something
+    that does not exist. RYA-1190's own verdict is that this band's catalogued opacity is
+    already COMPLETE to the VALD threshold (there is nothing to catalogue, so no un-modelled
+    resolvable blends), and the deficit it did find was an OPACITY deficit that RYA-1204
+    corrected and RYA-1207 wired into the very synthesis these products are measured on.
+    Both candidate numbers were PRE-correction measurements.
     """
     import rya1226_migrate_nearuv_budget as M
     feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
@@ -200,14 +233,20 @@ def test_blends_is_BOUNDED_by_the_deficit_not_by_the_payoff_figure():
              and x["holding"] == KUR)
     bl = next(c for c in M.build(p, xi_slope=-0.1100)["budget"]["components"]
               if c["name"] == "blends")
-    assert bl["sigma_dex"] == 0.1721, "the deficit, not the 0.028 payoff"
-    assert bl["evidence"]["bound"] is True
-    assert "under development" in bl["evidence"]["status"]
+    assert bl["state"] == "N/A"
+    assert bl["sigma_dex"] is None, "a bound must not come back"
+    assert not bl["evidence"].get("bound")
+    #: both withdrawn numbers stay on the record WITH their reason, so the withdrawal is
+    #: auditable rather than a silent deletion.
+    assert bl["evidence"]["withdrawn_bound_dex"] == 0.1721
+    assert bl["evidence"]["withdrawn_alternative_dex"] == 0.028
+    assert bl["evidence"]["opacity_deficit_corrected_by"] == ["RYA-1204", "RYA-1207"]
+    assert bl["evidence"]["synthesis_is_post_correction"] is True
+    #: and the citation is checked against RYA-1190's artifact, not paraphrased from memory.
     d = json.loads(RYA1190.read_text())
     verdict = d["verdict_per_band"]["near-UV"]
     assert "OPACITY-DOMINATED" in verdict
-    assert "NOT catalogueable" in verdict
-    assert "not a number to plan on" in d["part_A_payoff_estimate"]["reading"]
+    assert "already complete to the VALD threshold" in verdict
 
 
 def test_published_A_is_untouched_by_the_migration_survey():
@@ -263,5 +302,7 @@ def test_a_migrated_rows_total_is_the_contracts_not_the_legacy_quadrature():
     before = p["sigma_reported"]
     legacy = math.sqrt(sum(t * t for t in (p.get("sigma_stat"), p.get("sigma_syst_complete")) if t))
     assert abs(before - legacy) > 0.05, "the two totals must actually differ for this to bite"
-    emit.update_xi_budget(p, {"band": emit.xi_band_index(feed["products"])})
+    #: RYA-1224's index contract refuses a hand-rolled partial dict, so build the real one.
+    hold, inst, models, xi_doc = emit.load_sources()
+    emit.update_xi_budget(p, emit.xi_index(xi_doc, feed))
     assert p["sigma_reported"] == before, "the contract total was clobbered"
