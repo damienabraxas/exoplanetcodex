@@ -39,9 +39,17 @@ ROOT = Path(__file__).resolve().parents[1]
 FEED = ROOT / "data/products/solar/Fe.json"
 SITE_FEED = "assets/data/fe-publication/Fe.json"
 
-#: Ryan's Option B scope. near-UV is tracked separately, never folded in.
-BANDS = ("VIS", "red-optical", "NIR", "H")
-HELD_BAND = "near-UV"
+#: 🔴 ALL FIVE BANDS NOW. Ryan's 2026-09-19 Option B published the complete bands first and
+#: HELD near-UV until RYA-1226 wired its measured components -- so this file used to scope to
+#: four and report near-UV separately. RYA-1226 landed (PR #559): six of the eight near-UV Fe
+#: rows carry a complete, validated RYA-587 budget and the other two are an honest HOLD, so
+#: the gate that held the band is closed and near-UV reconciles like any other band.
+#:
+#: ⚠️ HELD_BAND IS KEPT AND EMPTY ON PURPOSE. Setting it to None would delete the mechanism;
+#: leaving it named records that a band CAN be held, and the next hold is a one-line change
+#: rather than a re-derivation of why the split existed.
+BANDS = ("VIS", "red-optical", "NIR", "H", "near-UV")
+HELD_BAND = ""
 
 #: The fields whose disagreement makes a live row STALE. `A` is the value; the other two are
 #: the bar. A bar that is too SMALL is the defect RYA-1213/587 closed, so the uncertainty is
@@ -76,7 +84,7 @@ def reconcile(feed: dict, site: dict) -> dict:
         raise SystemExit("the feed's identity key is not unique -- refusing to bucket")
 
     out = {b: {"CORRECT": [], "STALE": [], "NEW": [], "ORPHAN": []}
-           for b in (*BANDS, HELD_BAND)}
+           for b in (*BANDS, HELD_BAND) if b}
     other: dict = {"CORRECT": [], "STALE": [], "NEW": [], "ORPHAN": []}
 
     def bucket(band: str) -> dict:
@@ -151,11 +159,14 @@ def main() -> int:
     print()
     print(f"{'band':14}{'CORRECT':>9}{'STALE':>7}{'NEW':>6}{'ORPHAN':>8}")
     for b in (*BANDS, HELD_BAND):
+        if not b:                       # no band is held; see the note on HELD_BAND
+            continue
         c = rep["counts_by_band"][b]
         tag = "   <- HELD (not this ticket)" if b == HELD_BAND else ""
         print(f"{b:14}{c['CORRECT']:>9}{c['STALE']:>7}{c['NEW']:>6}{c['ORPHAN']:>8}{tag}")
     t = rep["in_scope_totals"]
-    print(f"{'IN SCOPE (4)':14}{t['CORRECT']:>9}{t['STALE']:>7}{t['NEW']:>6}{t['ORPHAN']:>8}")
+    print(f"{f'IN SCOPE ({len(BANDS)})':14}{t['CORRECT']:>9}{t['STALE']:>7}"
+          f"{t['NEW']:>6}{t['ORPHAN']:>8}")
 
     a.output.mkdir(parents=True, exist_ok=True)
     (a.output / "reconciliation.json").write_text(json.dumps(rep, indent=2) + "\n")
