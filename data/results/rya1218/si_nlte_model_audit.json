@@ -1,0 +1,50 @@
+{
+  "ticket": "RYA-1218",
+  "contract": "RYA-587",
+  "components": {
+    "nlte": {
+      "state": "HOLD",
+      "exact_pool_matches": 2,
+      "candidate_mean_dex": -0.0157786,
+      "reason": "Amarsi solar grid overlaps only 5701.104 and 5772.146 of the exact seven-line pool; full-pool NLTE covariance is not available."
+    },
+    "model_atmosphere": {
+      "state": "HOLD",
+      "reason": "No matched atmosphere-family perturbation exists for the exact seven-line pool."
+    }
+  },
+  "rows": [
+    {
+      "wavelength_air_A": 5645.613,
+      "matched": false
+    },
+    {
+      "wavelength_air_A": 5684.484,
+      "matched": false
+    },
+    {
+      "wavelength_air_A": 5690.425,
+      "matched": false
+    },
+    {
+      "wavelength_air_A": 5701.104,
+      "delta_nlte_dex": -0.0131,
+      "matched": true
+    },
+    {
+      "wavelength_air_A": 5772.146,
+      "delta_nlte_dex": -0.0184,
+      "matched": true
+    },
+    {
+      "wavelength_air_A": 5793.073,
+      "matched": false
+    },
+    {
+      "wavelength_air_A": 6741.628,
+      "matched": false
+    }
+  ],
+  "source": "data/nlte_grids/Si_Amarsi2020_PySME.csv; Amarsi et al. 2020 A&A 642 A62; RYA-410",
+  "next_action": "Extend or adjudicate NLTE/model response for all seven production lines before admission."
+}
