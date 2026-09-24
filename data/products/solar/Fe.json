@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.219",
-  "updated_at": "2026-09-15T22:59:33Z",
+  "version": "1.221",
+  "updated_at": "2026-09-19T05:36:46Z",
   "products": [
     {
       "element": "Fe",
@@ -41,20 +41,20 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.071344,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2450 was measured on a pool of 9 lines; this product has 8 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.245,
+      "sigma_xi": 0.063336,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2175 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (fb73bd61c29e), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
+      "dA_dxi_dex_per_kms": -0.2175,
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.071344
+        "sigma_xi": 0.063336
       },
-      "sigma_syst_complete": 0.096447,
-      "sigma_reported": 0.190172,
+      "sigma_syst_complete": 0.090683,
+      "sigma_reported": 0.187314,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -73,7 +73,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -111,20 +112,19 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.046592,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1600 was measured on a pool of 3 lines; this product has 2 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.16,
+      "sigma_xi": null,
+      "xi_state": "UNMEASURED",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.046592
+        "sigma_xi": null
       },
-      "sigma_syst_complete": 0.079893,
-      "sigma_reported": 0.117384,
+      "sigma_syst_complete": 0.0649,
+      "sigma_reported": 0.10774,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -143,7 +143,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND."
     },
     {
       "element": "Fe",
@@ -181,21 +182,20 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.077168,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2650 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (617d9c83b84d), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": null
+        "sigma_xi": 0.077168
       },
-      "sigma_syst_complete": 0.0649,
-      "sigma_reported": 0.179354,
+      "sigma_syst_complete": 0.100831,
+      "sigma_reported": 0.19525,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
         "gf_grade": "primary laboratory",
@@ -217,7 +217,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.265
     },
     {
       "element": "Fe",
@@ -256,8 +258,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.063336,
@@ -327,13 +329,13 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
       "xi_state": "UNMEASURED",
-      "xi_note": "only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason) [RYA-1213, data/results/rya1213/reference_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224). The band-keyed run agrees and declined this pool in its own words: \"only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason)\" [RYA-1213, data/results/rya1213/reference_xi_dadxi.json].",
       "sigma_syst_components": {
         "published_syst": 0.0649,
         "sigma_xi": null
@@ -397,8 +399,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.077168,
@@ -467,20 +469,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.066976,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2300 was measured on a pool of 9 lines; this product has 8 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.22999999999999998,
+      "sigma_xi": 0.085904,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2950 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (2cd00c38e15e), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
+      "dA_dxi_dex_per_kms": -0.295,
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.066976
+        "sigma_xi": 0.085904
       },
-      "sigma_syst_complete": 0.093262,
-      "sigma_reported": 0.174511,
+      "sigma_syst_complete": 0.107664,
+      "sigma_reported": 0.182614,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -499,7 +501,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -537,20 +540,19 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.061152,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2100 was measured on a pool of 3 lines; this product has 2 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.21,
+      "sigma_xi": null,
+      "xi_state": "UNMEASURED",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.061152
+        "sigma_xi": null
       },
-      "sigma_syst_complete": 0.089172,
-      "sigma_reported": 0.165144,
+      "sigma_syst_complete": 0.0649,
+      "sigma_reported": 0.153405,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -569,7 +571,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND."
     },
     {
       "element": "Fe",
@@ -607,21 +610,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.082264,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2825 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (96caa00c8052), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": null
+        "sigma_xi": 0.082264
       },
-      "sigma_syst_complete": 0.0649,
-      "sigma_reported": 0.164173,
+      "sigma_syst_complete": 0.104783,
+      "sigma_reported": 0.18363,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
         "gf_grade": "primary laboratory",
@@ -643,7 +645,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.2825
     },
     {
       "element": "Fe",
@@ -682,8 +686,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.085904,
@@ -753,13 +757,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
       "xi_state": "UNMEASURED",
-      "xi_note": "only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason) [RYA-1213, data/results/rya1213/reference_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224). The band-keyed run agrees and declined this pool in its own words: \"only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason)\" [RYA-1213, data/results/rya1213/reference_xi_dadxi.json].",
       "sigma_syst_components": {
         "published_syst": 0.0649,
         "sigma_xi": null
@@ -823,8 +827,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.082264,
@@ -893,20 +897,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.075712,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.2600 was measured on a pool of 9 lines; this product has 8 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.25999999999999995,
+      "sigma_xi": 0.077896,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2675 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (a44486f9e043), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
+      "dA_dxi_dex_per_kms": -0.2675,
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.075712
+        "sigma_xi": 0.077896
       },
-      "sigma_syst_complete": 0.099721,
-      "sigma_reported": 0.172129,
+      "sigma_syst_complete": 0.101389,
+      "sigma_reported": 0.173101,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -925,7 +929,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json"
     },
     {
       "element": "Fe",
@@ -963,20 +968,19 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": 0.039312,
-      "xi_state": "ALIASED",
-      "xi_note": "|dA/dxi|=0.1350 was measured on a pool of 3 lines; this product has 2 (bands sharing that campaign key: ['VIS']). The RYA-1120 run unit is (ion x holding x tier) with NO band, so no band-specific derivative exists. Published as ALIASED \u2014 the term is carried so the budget is not silently short, and labelled so it is not read as this product's own measurement. Retiring it needs a band-keyed re-run of the campaign (RYA-1114 F2).",
-      "dA_dxi_dex_per_kms": -0.13499999999999998,
+      "sigma_xi": null,
+      "xi_state": "UNMEASURED",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": 0.039312
+        "sigma_xi": null
       },
-      "sigma_syst_complete": 0.075878,
-      "sigma_reported": 0.150956,
+      "sigma_syst_complete": 0.0649,
+      "sigma_reported": 0.145747,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -995,7 +999,8 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND."
     },
     {
       "element": "Fe",
@@ -1033,21 +1038,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.08372,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2875 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 8 of its 8 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (a2b7273aa76e), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0649,
-        "sigma_xi": null
+        "sigma_xi": 0.08372
       },
-      "sigma_syst_complete": 0.0649,
-      "sigma_reported": 0.158314,
+      "sigma_syst_complete": 0.105929,
+      "sigma_reported": 0.179087,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
         "gf_grade": "primary laboratory",
@@ -1069,7 +1073,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.2875
     },
     {
       "element": "Fe",
@@ -1108,8 +1114,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.077896,
@@ -1179,13 +1185,13 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
       "xi_state": "UNMEASURED",
-      "xi_note": "only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason) [RYA-1213, data/results/rya1213/reference_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224). The band-keyed run agrees and declined this pool in its own words: \"only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason)\" [RYA-1213, data/results/rya1213/reference_xi_dadxi.json].",
       "sigma_syst_components": {
         "published_syst": 0.0649,
         "sigma_xi": null
@@ -1249,8 +1255,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.08372,
@@ -1323,8 +1329,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013832,
@@ -1398,8 +1404,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -1469,21 +1475,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.02548,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0875 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 12 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.1095,
-        "sigma_xi": null
+        "sigma_xi": 0.02548
       },
-      "sigma_syst_complete": 0.1095,
-      "sigma_reported": 0.121522,
+      "sigma_syst_complete": 0.112425,
+      "sigma_reported": 0.124164,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
         "gf_grade": "primary laboratory",
@@ -1505,7 +1510,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-12T10:11:32Z",
       "annotation_reason": "RYA-1213: the two new near-UV Fe I Reference Gerber-LTE rows landed after the previous annotation pass. Every near-UV product must state the band's residual opacity deficit or it reads as a converged answer.",
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.0875
     },
     {
       "element": "Fe",
@@ -1544,8 +1551,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -1619,8 +1626,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -1694,8 +1701,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.02548,
@@ -1772,8 +1779,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.017472,
@@ -1847,8 +1854,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -1918,21 +1925,20 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.042952,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1475 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (near-UV) on 12 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.1095,
-        "sigma_xi": null
+        "sigma_xi": 0.042952
       },
-      "sigma_syst_complete": 0.1095,
-      "sigma_reported": 0.118577,
+      "sigma_syst_complete": 0.117623,
+      "sigma_reported": 0.126117,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
         "gf_grade": "primary laboratory",
@@ -1954,7 +1960,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-12T10:11:32Z",
       "annotation_reason": "RYA-1213: the two new near-UV Fe I Reference Gerber-LTE rows landed after the previous annotation pass. Every near-UV product must state the band's residual opacity deficit or it reads as a converged answer.",
-      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, above the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.1475
     },
     {
       "element": "Fe",
@@ -1993,8 +2001,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.035672,
@@ -2068,8 +2076,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -2143,8 +2151,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -2217,21 +2225,20 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.03276,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1125 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 20 of its 20 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (1db10a7014f2), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0716,
-        "sigma_xi": null
+        "sigma_xi": 0.03276
       },
-      "sigma_syst_complete": 0.0716,
-      "sigma_reported": 0.112984,
+      "sigma_syst_complete": 0.078739,
+      "sigma_reported": 0.117638,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -2240,7 +2247,9 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.1125
     },
     {
       "element": "Fe",
@@ -2278,21 +2287,20 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:35Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.033488,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1150 x delta_xi=0.2912, measured on THIS PRODUCT'S OWN POOL -- all 9 of its 9 lines paired -- by RYA-1213 (data/results/rya1213/reference_xi_dadxi.json). That run is filed under tier REFERENCE, but the tier label is the only thing that differs: `provenance.sha256` is EQUAL (e0e2754609f2), so this is one artifact published at two tiers, not a sibling's number. Not the RYA-1120 campaign value, whose run unit carries no band and which measured a different pool (RYA-1224).",
       "sigma_syst_components": {
         "published_syst": 0.0653,
-        "sigma_xi": null
+        "sigma_xi": 0.033488
       },
-      "sigma_syst_complete": 0.0653,
-      "sigma_reported": 0.095876,
+      "sigma_syst_complete": 0.073386,
+      "sigma_reported": 0.101556,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -2301,7 +2309,9 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1213/reference_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.115
     },
     {
       "element": "Fe",
@@ -2339,21 +2349,20 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.0364,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1250 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (H) on 19 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0667,
-        "sigma_xi": null
+        "sigma_xi": 0.0364
       },
-      "sigma_syst_complete": 0.0667,
-      "sigma_reported": 0.084085,
+      "sigma_syst_complete": 0.075986,
+      "sigma_reported": 0.091626,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -2366,7 +2375,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.125
     },
     {
       "element": "Fe",
@@ -2405,8 +2416,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -2467,8 +2478,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.033488,
@@ -2529,8 +2540,8 @@
         17491.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0364,
@@ -2589,8 +2600,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:26Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.005824,
@@ -2671,13 +2682,13 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:27Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
       "xi_state": "UNMEASURED",
-      "xi_note": "REFUSED: only 2 paired lines (< 3). Two points define a slope exactly and carry no dispersion; the value would be an artifact of which lines survived. [RYA-1163, data/results/rya1163/ir_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224). The band-keyed run agrees and declined this pool in its own words: \"REFUSED: only 2 paired lines (< 3). Two points define a slope exactly and carry no dispersion; the value would be an artifact of which lines survived.\" [RYA-1163, data/results/rya1163/ir_xi_dadxi.json].",
       "sigma_syst_components": {
         "published_syst": 0.0615,
         "sigma_xi": null
@@ -2753,21 +2764,20 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:27Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:36Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.010192,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0350 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 5 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0615,
-        "sigma_xi": null
+        "sigma_xi": 0.010192
       },
-      "sigma_syst_complete": 0.0615,
-      "sigma_reported": 0.087328,
+      "sigma_syst_complete": 0.062339,
+      "sigma_reported": 0.087921,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.139,
         "basis": "sigma_stat x sqrt(n_lines); valid because sigma_stat is the STANDARD ERROR of the mean \u2014 verified against the per-line layer on the VIS products that carry both (std/sqrt(n) reproduces the published stat_dex; the raw std does not)",
@@ -2801,7 +2811,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.035
     },
     {
       "element": "Fe",
@@ -2840,8 +2852,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:27Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:37Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.005824,
@@ -2923,13 +2935,13 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:28Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:37Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
       "xi_state": "UNMEASURED",
-      "xi_note": "only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason) [RYA-1213, data/results/rya1213/reference_xi_dadxi.json] -- the band-keyed run declined this pool, so no derivative is published for it",
+      "xi_note": "only 2 line(s) in this product's own pool, below min_paired=3 -- a derivative measured on fewer than 3 paired lines exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason). No derivative is published for it and none is borrowed from a pool that does clear the floor: the hold is the same at EVERY tier (RYA-1224). The band-keyed run agrees and declined this pool in its own words: \"only 2 paired line(s), below min_paired=3 \u2014 the derivative exists as a float and is not a measurement (RYA-1163's floor, RYA-1031's reason)\" [RYA-1213, data/results/rya1213/reference_xi_dadxi.json].",
       "sigma_syst_components": {
         "published_syst": 0.0615,
         "sigma_xi": null
@@ -3005,8 +3017,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:28Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:38Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.010192,
@@ -3086,8 +3098,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:29Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:38Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01456,
@@ -3168,8 +3180,8 @@
         11083.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:29Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:39Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.011648,
@@ -3251,21 +3263,20 @@
         11081.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:30Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:39Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.005824,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.0200 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (NIR) on 22 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0636,
-        "sigma_xi": null
+        "sigma_xi": 0.005824
       },
-      "sigma_syst_complete": 0.0636,
-      "sigma_reported": 0.093693,
+      "sigma_syst_complete": 0.063866,
+      "sigma_reported": 0.093874,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.323,
         "basis": "sigma_stat x sqrt(n_lines); valid because sigma_stat is the STANDARD ERROR of the mean \u2014 verified against the per-line layer on the VIS products that carry both (std/sqrt(n) reproduces the published stat_dex; the raw std does not)",
@@ -3299,7 +3310,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.02
     },
     {
       "element": "Fe",
@@ -3338,8 +3351,8 @@
         11081.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:30Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:39Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.015288,
@@ -3421,8 +3434,8 @@
         11081.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:30Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:40Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.01092,
@@ -3504,8 +3517,8 @@
         11081.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:31Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:40Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.005824,
@@ -3586,8 +3599,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:31Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:41Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -3673,8 +3686,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:32Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:41Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.017472,
@@ -3756,8 +3769,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:32Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:42Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.000728,
@@ -3839,8 +3852,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:32Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:42Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.02184,
@@ -3921,8 +3934,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:33Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:42Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.015288,
@@ -4004,8 +4017,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:33Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:43Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013104,
@@ -4087,8 +4100,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:34Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:43Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -4174,8 +4187,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:34Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:44Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.013104,
@@ -4257,8 +4270,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:44Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.010192,
@@ -4340,8 +4353,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.018928,
@@ -4423,8 +4436,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -4482,8 +4495,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -4542,8 +4555,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -4602,8 +4615,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -4662,8 +4675,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -4722,8 +4735,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -4782,8 +4795,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -4842,8 +4855,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.00728,
@@ -4903,8 +4916,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -4964,8 +4977,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5024,8 +5037,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.053872,
@@ -5085,21 +5098,20 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.053872,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1850 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (VIS) on 67 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0634,
-        "sigma_xi": null
+        "sigma_xi": 0.053872
       },
-      "sigma_syst_complete": 0.0634,
-      "sigma_reported": 0.066571,
+      "sigma_syst_complete": 0.083197,
+      "sigma_reported": 0.085638,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -5108,7 +5120,9 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.185
     },
     {
       "element": "Fe",
@@ -5146,21 +5160,20 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:35Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.053872,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1850 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (VIS) on 67 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0634,
-        "sigma_xi": null
+        "sigma_xi": 0.053872
       },
-      "sigma_syst_complete": 0.0634,
-      "sigma_reported": 0.066914,
+      "sigma_syst_complete": 0.083197,
+      "sigma_reported": 0.085905,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -5173,7 +5186,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.185
     },
     {
       "element": "Fe",
@@ -5212,8 +5227,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.064792,
@@ -5274,8 +5289,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5334,8 +5349,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.063336,
@@ -5396,8 +5411,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.062608,
@@ -5458,8 +5473,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -5520,8 +5535,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5579,8 +5594,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -5639,8 +5654,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05824,
@@ -5699,8 +5714,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -5759,8 +5774,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -5820,8 +5835,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -5881,8 +5896,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -5941,8 +5956,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -6002,21 +6017,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.064064,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2200 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (VIS) on 43 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0535,
-        "sigma_xi": null
+        "sigma_xi": 0.064064
       },
-      "sigma_syst_complete": 0.0535,
-      "sigma_reported": 0.058274,
+      "sigma_syst_complete": 0.083465,
+      "sigma_reported": 0.086603,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -6025,7 +6039,9 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.22
     },
     {
       "element": "Fe",
@@ -6063,21 +6079,20 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.068432,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.2350 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (VIS) on 43 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.0535,
-        "sigma_xi": null
+        "sigma_xi": 0.068432
       },
-      "sigma_syst_complete": 0.0535,
-      "sigma_reported": 0.058078,
+      "sigma_syst_complete": 0.086863,
+      "sigma_reported": 0.089755,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -6090,7 +6105,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.235
     },
     {
       "element": "Fe",
@@ -6129,8 +6146,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -6191,8 +6208,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -6251,8 +6268,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.060424,
@@ -6313,8 +6330,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.06188,
@@ -6375,8 +6392,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.063336,
@@ -6437,8 +6454,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -6496,8 +6513,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.073528,
@@ -6556,8 +6573,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0728,
@@ -6616,8 +6633,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -6676,8 +6693,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.038438,
@@ -6736,8 +6753,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -6796,8 +6813,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -6857,8 +6874,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -6916,8 +6933,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -6977,8 +6994,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7038,8 +7055,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7103,8 +7120,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7169,8 +7186,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7236,8 +7253,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.064064,
@@ -7298,8 +7315,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -7358,8 +7375,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:45Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.064064,
@@ -7420,8 +7437,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -7482,8 +7499,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.059696,
@@ -7544,8 +7561,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -7603,8 +7620,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -7663,8 +7680,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.071344,
@@ -7723,8 +7740,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -7783,8 +7800,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -7843,8 +7860,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.05096,
@@ -7904,8 +7921,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -7963,8 +7980,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.052416,
@@ -8023,8 +8040,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -8083,8 +8100,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -8147,8 +8164,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -8212,8 +8229,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -8279,8 +8296,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.062608,
@@ -8341,8 +8358,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -8401,8 +8418,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.062608,
@@ -8463,8 +8480,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.061152,
@@ -8525,8 +8542,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.063336,
@@ -8586,8 +8603,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -8652,8 +8669,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.030576,
@@ -8719,8 +8736,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.045864,
@@ -8785,8 +8802,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.045864,
@@ -8855,8 +8872,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -8916,8 +8933,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -8982,8 +8999,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.03276,
@@ -9049,8 +9066,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051688,
@@ -9115,8 +9132,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051688,
@@ -9185,8 +9202,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0364,
@@ -9246,8 +9263,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -9308,8 +9325,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.049504,
@@ -9370,21 +9387,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.04368,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 68 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.055,
-        "sigma_xi": null
+        "sigma_xi": 0.04368
       },
-      "sigma_syst_complete": 0.055,
-      "sigma_reported": 0.060089,
+      "sigma_syst_complete": 0.070235,
+      "sigma_reported": 0.074287,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -9393,7 +9409,9 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.15
     },
     {
       "element": "Fe",
@@ -9431,21 +9449,20 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
-      "sigma_xi": null,
-      "xi_state": "NOT_IN_CAMPAIGN",
-      "xi_note": "this (ion, holding, tier, treatment) was never run through the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi exists for it at any band. Not inherited from elsewhere.",
+      "sigma_xi": 0.04368,
+      "xi_state": "MEASURED",
+      "xi_note": "|dA/dxi|=0.1500 x delta_xi=0.2912, measured IN THIS PRODUCT'S OWN BAND (red-optical) on 68 paired lines by RYA-1227 (data/results/rya1227/codex_deep_xi_dadxi.json). Supersedes the RYA-1120 campaign value, whose run unit carries no band (RYA-1114 F2).",
       "sigma_syst_components": {
         "published_syst": 0.055,
-        "sigma_xi": null
+        "sigma_xi": 0.04368
       },
-      "sigma_syst_complete": 0.055,
-      "sigma_reported": 0.060169,
+      "sigma_syst_complete": 0.070235,
+      "sigma_reported": 0.074353,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
-      "sigma_reported_caveat": "INCOMPLETE: no dA/dxi exists for this pool, so the xi term is absent from this bar rather than zero. The bar is a LOWER BOUND.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
         "gf_grade": "primary laboratory",
@@ -9458,7 +9475,9 @@
       "opacity_note": "Molecular opacity INCLUDED \u2014 OH A-X, NH, CH and CN violet, 6,223 VALD lines as Turbospectrum lists with the dominant isotopologue (RYA-1207). The band previously carried none: every molecular list iSpec ships begins at 400 nm. Measured PAIRED against a molecules-off run on the same code and pool, the lever is -0.047..-0.055 dex on Fe I and -0.276..-0.332 on Fe II, with chi2r median 81.8 -> 67.4 and control windows containing no molecular line bit-identical. RYA-1209 additionally curated out Fe I 3721.272 (systematic:K07 \u2014 gf attributed to a VALD3 reference that publishes no per-line uncertainty, no NIST accuracy class, so it never met the DEEPGRADED tier's lab-gf definition); the Fe I pool is 57 candidates and the budget clears at gf rung 3 (cited lab), 55/55 GF-LAB, RMS 0.0509 dex. RESIDUAL DEFICIT: the correction still UNDER-corrects \u2014 RYA-1204 measured synth/obs above 1 on 24 of 40 windows after it \u2014 so the band remains short of opacity by an amount not yet measured on this pool, and these values are a floor rather than a converged answer. sigma_syst is unchanged at 0.1122 because it is dominated by the 0.10 dex pseudo-continuum term, not by gf: the true continuum is never observed here. Not adopted for the headline, which rests on the VIS anchor 7.466 (RYA-161: nothing calibrated to a target).",
       "annotated_at": "2026-09-10T22:20:11Z",
       "annotation_reason": "RYA-1208: the two near-UV Fe II `synth-1D-LTE-gerber` cells carry the band's opacity state like every other near-UV product. They were run on the post-RYA-1207 code, so molecular opacity IS included -- verified against the pool rather than assumed: this leg reads 7.422 beside its molecules-on 1D-LTE sibling at 7.402 on the same 12-line pool, where a molecules-OFF run would sit ~0.3 dex higher (RYA-1207 measured the Fe II lever at -0.276..-0.332 dex). The note is the band's, copied verbatim so every near-UV product states the same residual.",
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "xi_source": "data/results/rya1227/codex_deep_xi_dadxi.json",
+      "dA_dxi_dex_per_kms": -0.15
     },
     {
       "element": "Fe",
@@ -9497,8 +9516,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -9559,8 +9578,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.048048,
@@ -9621,8 +9640,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -9683,8 +9702,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -9744,8 +9763,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.039312,
@@ -9806,8 +9825,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -9868,8 +9887,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -9929,8 +9948,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -9995,8 +10014,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.040768,
@@ -10057,8 +10076,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.046592,
@@ -10119,8 +10138,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042224,
@@ -10181,8 +10200,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.048048,
@@ -10242,8 +10261,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.042952,
@@ -10304,8 +10323,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -10366,8 +10385,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -10427,8 +10446,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -10493,8 +10512,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -10555,8 +10574,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.04368,
@@ -10617,8 +10636,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.040768,
@@ -10679,8 +10698,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-09-14T00:18:36Z",
-      "code_commit": "5b74568059bc48be810d03b8a9ca3bf7ffbab560",
+      "generated_at": "2026-09-19T05:36:46Z",
+      "code_commit": "27609ac4ea60c975c7013d983393bbf7d4809acc",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.048048,
