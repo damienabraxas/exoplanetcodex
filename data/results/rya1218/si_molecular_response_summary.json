@@ -1,0 +1,8 @@
+{
+  "ticket":"RYA-1218","contract":"RYA-587","component":"molecular_coupling","pool_n":7,
+  "execution_host":"sirius","perturbation":"CODEX_SI_MOLECULE_OFF=1 exact seven-line HARPS synthesis",
+  "result":{"A_on":7.586,"A_off":7.586,"mean_delta_dex":0.0,"line_rms_dex":0.0},
+  "state":"HOLD",
+  "reason":"The deployed molecular-off selector removed zero transitions from the loaded synthesis linelist, so identical output is not evidence of zero molecular coupling. Master-line audit still shows nearby CN contributors; selector/line-list representation must be reconciled before admission.",
+  "next_action":"Reconcile GES synthesis element labels with the master CN inventory, then rerun the molecular-on/off perturbation."
+}

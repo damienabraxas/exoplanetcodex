@@ -12860,3 +12860,9 @@ artifacts:
     status: COMMITTED
     ticket: RYA-1218
     note: Exact-pool HFS/isotope and molecular-window audit; blend response admitted diagnostically, molecular coupling remains HOLD due nearby CN contributors.
+
+  - artifact: rya1218/si_molecular_response_summary.json
+    generator: scripts/derive_band_products.py
+    status: COMMITTED
+    ticket: RYA-1218
+    note: Molecular-off attempt removed zero loaded transitions; result is invalid as a zero response and remains HOLD pending selector/linelist reconciliation.
