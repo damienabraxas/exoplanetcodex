@@ -387,20 +387,165 @@ def publication_problems(product):
     return []
 
 
+#: 🔴 RYA-1224 -- THE ONLY TWO FIELDS THE LEGACY COMPARISON IGNORES, AND THE LIST IS
+#: CLOSED. Both are readings taken AT EMIT TIME about the emit itself, not statements about
+#: the science: `generated_at` is a wall clock and `code_commit` is `git rev-parse HEAD`.
+#: `rya1178_emit_fe_schema.enrich` restamps both on every product on every run, so under a
+#: whole-dict comparison EVERY row lost its exemption to a ride-along and the feed became
+#: unwritable by its own emitter -- measured at all 160 Fe rows, with those two fields the
+#: ONLY difference from the committed feed (RYA-1224 EOS section 8).
+#:
+#: ⚠️ NOTHING ELSE MAY JOIN THIS TUPLE. The exemption's whole job is to refuse a CHANGED
+#: product without evidence, so every field that could carry a change -- `A`, `n_lines`,
+#: `n_excluded`, any sigma, `xi_state`, any label or note -- must stay inside the
+#: comparison. Adding a third name here would blind the guard to a real move, which is the
+#: opposite of the defect being fixed. `test_rya1224_xi_floor` asserts the tuple's exact
+#: contents and mutation-tests a 0.001 dex nudge to A, so a widening fails loudly.
+LEGACY_RIDE_ALONG_STAMPS = ("generated_at", "code_commit")
+
+
+def _legacy_comparable(product):
+    """A product's content with the emit-time stamps dropped, for the legacy comparison."""
+    return {k: v for k, v in product.items() if k not in LEGACY_RIDE_ALONG_STAMPS}
+
+
+#: 🔴 RYA-1224 (Ryan's ruling, 2026-09-18) -- THE xi-LAYER CORRECTION ROUTE. A legacy row may
+#: be RE-PUBLISHED with a corrected xi layer, in place of the full canonical budget it has
+#: never carried, when the change is provably CONFINED to that layer and the asserting side
+#: names the artifact it was measured on.
+#:
+#: The problem this solves: RYA-1224 made the min_paired floor a property of the rule rather
+#: than of the artifacts, which corrected `xi_state`/`sigma_xi` on real products. Those are
+#: exactly the fields the legacy exemption must refuse a change to without evidence -- so
+#: the more honest number could not be published, while the demonstrably WRONG one (a
+#: derivative borrowed from a pool the product does not have) stayed live because it was
+#: already in the file. The gate was preserving a known defect.
+#:
+#: ⚠️ THIS IS NOT A WEAKER GATE, IT IS A NARROWER ONE, AND EVERY CLAUSE IS LOAD-BEARING:
+#:   * the changed set must be a SUBSET of the xi layer -- one field outside it and the
+#:     route does not apply at all, so `A`, `n_lines`, `n_excluded`, `provenance`, every
+#:     label and every other sigma are as protected as before;
+#:   * `A`, `n_lines`, `n_excluded` are ALSO checked by name, because they are the RYA-161
+#:     firewall and a subset test that silently changed meaning would take them with it;
+#:   * a row that ASSERTS a derivative must name an artifact that EXISTS ON DISK -- resolved,
+#:     not merely non-empty (RYA-1170: point at the SSOT, never take its word for it);
+#:   * a row that WITHDRAWS one needs no artifact, because nothing is being claimed -- but it
+#:     must leave no readable derivative behind, which is the RYA-1224 defect itself;
+#:   * the sigma arithmetic is RECOMPUTED here. This route skips `validate`, so it cannot
+#:     also skip the recompute that makes `sigma_reported` mean something.
+XI_LAYER_FIELDS = (
+    "xi_state", "sigma_xi", "xi_note", "xi_source", "dA_dxi_dex_per_kms",
+    "sigma_syst_complete", "sigma_syst_components",
+    "sigma_reported", "sigma_reported_basis", "sigma_reported_caveat",
+)
+
+#: The RYA-161 firewall fields, named so a change to them can never ride this route.
+XI_IMMUTABLE_FIELDS = ("A", "n_lines", "n_excluded")
+
+#: States in which no derivative is asserted, so no artifact is owed.
+XI_HOLD_STATES = ("UNMEASURED", "NOT_IN_CAMPAIGN")
+
+
+def _quadrature(*terms):
+    got = [t for t in terms if t]
+    return round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+
+
+def xi_layer_correction_problems(product, legacy_row, *, root=None):
+    """Whether this re-publication qualifies as an evidenced xi-layer correction.
+
+    Returns ``None`` when the route does not apply (the change is not confined to the xi
+    layer), ``[]`` when the row qualifies, or a list of reasons when it applies and fails.
+    """
+    changed = {k for k in set(product) | set(legacy_row)
+               if k not in LEGACY_RIDE_ALONG_STAMPS
+               and product.get(k) != legacy_row.get(k)}
+    if not changed or not changed <= set(XI_LAYER_FIELDS):
+        return None                      # not an xi-only change: this route has no opinion
+
+    problems = []
+    for field in XI_IMMUTABLE_FIELDS:
+        if product.get(field) != legacy_row.get(field):
+            problems.append(f"{field} moved on an xi-layer correction -- refused (RYA-161)")
+
+    state, sigma_xi = product.get("xi_state"), product.get("sigma_xi")
+    if sigma_xi is not None:
+        if state != "MEASURED":
+            problems.append(f"sigma_xi is published but xi_state is {state!r}")
+        source = product.get("xi_source")
+        if not isinstance(source, str) or not source.strip():
+            problems.append("an asserted xi derivative must name its artifact in xi_source")
+        else:
+            from pathlib import Path
+            base = Path(root) if root else Path(__file__).resolve().parents[1]
+            if not (base / source).is_file():
+                problems.append(f"xi_source does not resolve to a file: {source}")
+        if product.get("dA_dxi_dex_per_kms") is None:
+            problems.append("a published sigma_xi with no readable derivative")
+    else:
+        if state not in XI_HOLD_STATES:
+            problems.append(f"no sigma_xi but xi_state is {state!r}, not a hold")
+        #: 🔴 THE RYA-1224 DEFECT ITSELF -- the honest label with the borrowed number still
+        #: attached. A hold that leaves the float readable is not a hold.
+        if "dA_dxi_dex_per_kms" in product:
+            problems.append("a held pool still publishes a readable dA_dxi_dex_per_kms")
+
+    complete = _quadrature(product.get("sigma_syst"), sigma_xi)
+    if product.get("sigma_syst_complete") != complete:
+        problems.append(f"sigma_syst_complete is {product.get('sigma_syst_complete')!r}, "
+                        f"not quadrature(sigma_syst, sigma_xi) = {complete!r}")
+    reported = _quadrature(product.get("sigma_stat"), product.get("sigma_syst_complete"))
+    if product.get("sigma_reported") != reported:
+        problems.append(f"sigma_reported is {product.get('sigma_reported')!r}, not "
+                        f"quadrature(sigma_stat, sigma_syst_complete) = {reported!r}")
+    return problems
+
+
 def assert_publication_feed(document, *, previous=None):
     """Require evidence for additions/changes; preserve exact existing legacy rows.
 
     ``previous`` is the destination read before writing, never a candidate-provided
     exemption. Retention does not certify legacy uncertainty completeness.
+
+    The comparison is on SCIENTIFIC CONTENT: the two emit-time stamps in
+    ``LEGACY_RIDE_ALONG_STAMPS`` are excluded, everything else is compared exactly. A clock
+    tick is not a product change; anything else is (RYA-1224).
     """
     legacy = (previous or {}).get("products", [])
+    #: ⚠️ DICT EQUALITY, NOT A CANONICAL JSON DUMP. Round-tripping through `json.dumps` to
+    #: get a hashable key would normalise the very things a change can hide in -- float
+    #: repr, int/float identity, key order in nested provenance -- and RYA-1037 was bitten
+    #: by exactly that class of normalisation. n is 160; an O(n^2) exact comparison is
+    #: cheap and cannot launder a difference.
+    legacy_comparable = [_legacy_comparable(q) for q in legacy]
+    from pipeline.product_eligibility import key_of
+    #: RYA-1224: the xi-layer route needs THIS row's predecessor, not "some equal row", so
+    #: legacy is indexed on the RYA-1127 identity key. A duplicated key is left out of the
+    #: index entirely -- with two candidates there is no unique predecessor, and guessing
+    #: one would be the neighbour-matching error RYA-1206 was built to refuse.
+    by_key = {}
+    for q in legacy:
+        by_key.setdefault(key_of(q), []).append(q)
+    legacy_by_key = {k: v[0] for k, v in by_key.items() if len(v) == 1}
     failures = []
     for product in document.get("products", []):
-        if "uncertainty" not in product and product in legacy:
+        if "uncertainty" not in product and _legacy_comparable(product) in legacy_comparable:
             continue
+        #: RYA-1224 (Ryan, 2026-09-18): a legacy row whose change is CONFINED to the xi
+        #: layer, with the asserting side naming a resolvable artifact and the sigma
+        #: arithmetic recomputed here. `None` means the route has no opinion and the full
+        #: contract decides, exactly as before.
+        predecessor = legacy_by_key.get(key_of(product))
+        if "uncertainty" not in product and predecessor is not None:
+            verdict = xi_layer_correction_problems(product, predecessor)
+            if verdict == []:
+                continue
+            if verdict:
+                failures.append(f"{key_of(product)}: xi-layer correction refused: "
+                                f"{'; '.join(verdict)}")
+                continue
         problems = publication_problems(product)
         if problems:
-            from pipeline.product_eligibility import key_of
             failures.append(f"{key_of(product)}: {'; '.join(problems)}")
     if failures:
         raise UncertaintyError("RYA-587 refuses incomplete live products:\n" + "\n".join(failures))
