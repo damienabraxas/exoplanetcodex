@@ -18,9 +18,9 @@
   "components": [
     {
       "name": "measurement",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.0491,
+      "reason": "Exact seven-line Sirius production fit scatter 0.130 dex divided by sqrt(7); transition/systematic terms remain separate."
     },
     {
       "name": "transition_data",
@@ -54,9 +54,9 @@
     },
     {
       "name": "continuum",
-      "state": "MEASURED",
-      "sigma_dex": 0.002,
-      "reason": "Sirius exact seven-line local-renorm perturbation; candidate response 0.002 dex."
+      "state": "HOLD",
+      "sigma_dex": null,
+      "reason": "No independent sideband continuum perturbation remains after assigning local-renormalization response to pseudo_continuum."
     },
     {
       "name": "profile_ew",
@@ -66,9 +66,9 @@
     },
     {
       "name": "pseudo_continuum",
-      "state": "HOLD",
-      "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "state": "MEASURED",
+      "sigma_dex": 0.002,
+      "reason": "Sirius exact seven-line local-renormalization response used as pseudo-continuum sensitivity."
     },
     {
       "name": "telluric",
@@ -116,15 +116,14 @@
   "sigma_reported": null,
   "state": "HOLD",
   "holds": [
-    "measurement",
     "transition_data",
-    "pseudo_continuum",
+    "continuum",
     "nlte",
     "model_atmosphere",
     "hfs_isotopes",
     "blends",
     "molecular_coupling"
   ],
-  "partial_measured_quadrature_dex": 0.04144119780013603,
+  "partial_measured_quadrature_dex": 0.06425093676445504,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."
 }
