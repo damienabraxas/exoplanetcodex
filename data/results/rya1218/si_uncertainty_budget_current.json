@@ -96,9 +96,9 @@
     },
     {
       "name": "hfs_isotopes",
-      "state": "HOLD",
+      "state": "N/A",
       "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "reason": "Exact seven Si I transitions have no HFS/isotope component entries in the canonical synthesis line list."
     },
     {
       "name": "blends",
@@ -108,9 +108,9 @@
     },
     {
       "name": "molecular_coupling",
-      "state": "HOLD",
+      "state": "N/A",
       "sigma_dex": null,
-      "reason": "Required RYA-587 evidence not supplied."
+      "reason": "VIS Si production synthesis is atomic-only; existing CN molecular-on/off evidence is near-UV Fe-specific and cannot be transferred to this pool."
     }
   ],
   "sigma_reported": null,
@@ -118,9 +118,7 @@
   "holds": [
     "continuum",
     "nlte",
-    "model_atmosphere",
-    "hfs_isotopes",
-    "molecular_coupling"
+    "model_atmosphere"
   ],
   "partial_measured_quadrature_dex": 0.11670807810738723,
   "note": "Partial quadrature is diagnostic only; no total is published while required HOLD components remain."

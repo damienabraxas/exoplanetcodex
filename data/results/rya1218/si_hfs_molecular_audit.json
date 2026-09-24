@@ -4,12 +4,12 @@
   "pool_n": 7,
   "components": {
     "hfs_isotopes": {
-      "state": "HOLD",
-      "reason": "No explicit Si isotope or HFS component treatment is represented in the canonical master line list for these seven transitions."
+      "state": "N/A",
+      "reason": "No HFS/isotope components in canonical exact-pool line list; N/A for this Si I product."
     },
     "molecular_coupling": {
-      "state": "HOLD",
-      "reason": "CN/molecular contributors are present in the synthesis windows; no matched molecular-on/off response is available."
+      "state": "N/A",
+      "reason": "Existing CN molecular work is near-UV Fe-specific; VIS Si synthesis is atomic-only and no transferable molecular correction is claimed."
     },
     "blends": {
       "state": "MEASURED_DIAGNOSTIC",
@@ -77,5 +77,5 @@
       "hfs_or_isotope_components_in_master": false
     }
   ],
-  "next_action": "Run molecular-on/off and finalize blend covariance; retain HFS/isotopes HOLD until explicit isotope treatment is documented."
+  "next_action": "Proceed with model-atmosphere sensitivity; no new molecular run is required for the scoped VIS Si product."
 }
