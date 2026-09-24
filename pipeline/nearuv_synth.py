@@ -389,6 +389,17 @@ def build_solar_context(element: str, resolving_power: float, *,
         if np.any(remove):
             print(f"  ⚠️  BLEND-OFF (RYA-1218 diagnostic): removing {int(np.sum(remove))} nearby Fe transitions")
             linelist = linelist[~remove]
+    if os.environ.get("CODEX_SI_MOLECULE_OFF") == "1":
+        wave = np.asarray(linelist["wave_A"], dtype=float)
+        elem = np.asarray([str(x).strip().upper() for x in linelist["element"]])
+        molecular = {"CN", "C", "CH", "NH", "OH", "CO"}
+        remove = np.zeros(len(linelist), dtype=bool)
+        for center in (5645.613, 5684.484, 5690.425, 5701.104,
+                       5772.146, 5793.073, 6741.628):
+            remove |= np.isin(elem, list(molecular)) & (np.abs(wave - center) <= 0.62)
+        if np.any(remove):
+            print(f"  ⚠️  MOLECULE-OFF (RYA-1218 diagnostic): removing {int(np.sum(remove))} nearby molecular transitions")
+            linelist = linelist[~remove]
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_ATLAS9)
     codes = _atom_codes([element], chem, solar_abund)
