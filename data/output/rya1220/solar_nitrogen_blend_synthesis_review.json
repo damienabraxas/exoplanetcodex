@@ -1,0 +1,24 @@
+{
+  "schema": "rya1220.solar_nitrogen_blend_synthesis_review.v1",
+  "route": "solar IAG NIR CN",
+  "engine": "Turbospectrum full synthesis on Sirius",
+  "input_abundances": {
+    "A(C)": 8.46,
+    "A(N)": 7.941,
+    "A(O)": 8.73
+  },
+  "window": [
+    10870.68,
+    10874.0
+  ],
+  "pixels": 112,
+  "finding": {
+    "molecular_blend_effect_normalized_depth": 0.0032996485736694094,
+    "molecular_blend_fraction_of_full_depth": 0.1546846468085791,
+    "full_rms_vs_observed": 0.09843458357557548,
+    "without_molecules_rms_vs_observed": 0.09963402493234239,
+    "atomic_N_I_lines_in_window": 0,
+    "interpretation": "CN molecular opacity is included in the fitted synthesis; removing it worsens the profile residual. This is a molecular-N blend test, not an optical N I test."
+  },
+  "status": "SYNTH_BLEND_COMPONENT_MEASURED; PROFILE_MODEL_HOLD"
+}

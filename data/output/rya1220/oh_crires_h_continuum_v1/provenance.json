@@ -1,0 +1,104 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1214",
+  "group": "continuum",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1214/pipeline/uncertainty_stack.py": "de51f923f640528da6b929df17611b84496920728adec6ea20d97b66176c88c7",
+    "/home/damienabraxas/scratch/rya1214/data/linelists/ispec_h_15007_17494/atomic_lines.tsv": "521069d66942f8a57a85ee1feb30c4c61eb065c5a15e10086cb303293d873ac6",
+    "/tmp/cno_3d_anchor_prior.json": "703f515f939693b87f004c067cf502a9b8865da2f4879f7afebf328225c7db00",
+    "/tmp/nitrogen_cn_responses_generic.py": "7446ed3d8f61dd884af56edb609dff0d322621d168d80d23cd76069ffc830864"
+  },
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "adopted_parameter_deltas": {
+    "teff_K": 1.0,
+    "logg": 0.0,
+    "vturb_kms": 0.2912,
+    "feh": 0.0
+  },
+  "background": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.73,
+    "Ni": 6.2
+  },
+  "broadening": [
+    100000.0,
+    3.8,
+    1.8
+  ],
+  "holding": "solar_crires_plus_h_rya1094",
+  "pool": {
+    "molecule": "12C14N",
+    "system": "A-X",
+    "band": "(0-0)",
+    "diagnostic": "OH_H",
+    "windows_air_A": [
+      [
+        15277.53,
+        15279.53
+      ],
+      [
+        15408.18,
+        15410.18
+      ],
+      [
+        15567.8,
+        15569.8
+      ],
+      [
+        16191.15,
+        16193.15
+      ],
+      [
+        16367.15,
+        16369.15
+      ],
+      [
+        16455.05,
+        16457.05
+      ],
+      [
+        16533.59,
+        16535.59
+      ],
+      [
+        16604.47,
+        16606.47
+      ],
+      [
+        16655.0,
+        16657.0
+      ],
+      [
+        16871.29,
+        16873.29
+      ],
+      [
+        16885.3,
+        16887.3
+      ],
+      [
+        16903.29,
+        16905.29
+      ],
+      [
+        16908.3,
+        16910.3
+      ]
+    ]
+  },
+  "indicator_id": "OH_H:molecular:O:windows_sha256:923de6e803999766f2097ebcbb0c440887fa1cd64d8dc2da9be9eaf1a6bd3369",
+  "n_pixels": 470,
+  "geometry": "disk_integrated_flux",
+  "scale": "1D-LTE",
+  "statistical_correlation_model": "UNRESOLVED",
+  "C_O_covariance": null,
+  "continuum_anchor_amp": 0.0034032930032618855,
+  "continuum_anchor_n": 36,
+  "status": "diagnostic_only"
+}

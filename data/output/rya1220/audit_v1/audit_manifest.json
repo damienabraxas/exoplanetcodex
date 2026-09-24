@@ -1,0 +1,18 @@
+{
+  "ticket": "RYA-1220",
+  "calibration_applied": false,
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1220/data/linelists/canonical_gf.csv": "7ec8e9e5bd42b12941b6c819738166c140ec0031fd74f4f8e32214a06408aefc",
+    "/Users/ryanschmitt/codex/rya1220/data/reference/amarsi2021_cno/derived/amarsi2021_cno_molecular_lines.csv": "ef6dea9876cc36861a5cef8ad075858f1041887d79b2bc7d1a8a2f536eb05026"
+  },
+  "ni_reference_count": 5,
+  "ni_prior_rows": 24,
+  "molecular_n_reference_count": 90,
+  "publication_status": "HELD",
+  "limitations": [
+    "Existing products are not new reproduction runs.",
+    "N I 1D comparison retains intensity/flux mismatch.",
+    "Molecular table lacks rotational quantum IDs; identities need source-list crossmatch.",
+    "No aggregate absolute-error quadrature is used as a differential error."
+  ]
+}

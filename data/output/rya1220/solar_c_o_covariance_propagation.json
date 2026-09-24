@@ -1,0 +1,25 @@
+{
+  "schema": "rya1220.solar_c_o_covariance_propagation.v1",
+  "route": "IAG NIR CN A-X",
+  "host": "Sirius",
+  "engine": "Turbospectrum",
+  "inputs": {
+    "C_anchor_A": 8.46,
+    "O_anchor_A": 8.73,
+    "sigma_C_dex": 0.038,
+    "sigma_O_dex": 0.050,
+    "cov_CO_dex2": 0.0,
+    "correlation_CO": 0.0,
+    "covariance_assumption": "independent accepted atomic-anchor sources; explicit and documented, not inferred from the CN fit",
+    "jacobian_dA_N_dC": -1.045,
+    "jacobian_dA_N_dO": 0.150,
+    "jacobian_source": "data/output/rya1220/cn_iag_3d_anchor_v1/fits.json",
+    "same_holding_cross_checks": {"C_I_5052": 8.518, "C_I_5380": 8.426, "C2_Swan": 8.497, "O_I_6300": 8.907, "O_I_6300_red_chi2": 64.431, "source": "data/output/rya1220/solar_iag_vis_cno_v2/solar_vis_iag_cno_per_band.csv"}
+  },
+  "covariance_matrix_dex2": [[0.001444, 0.0], [0.0, 0.0025]],
+  "eigenvalues_dex2": [0.001444, 0.0025],
+  "psd_check": "PASS",
+  "propagated_sigma_N_from_CO_dex": 0.0405,
+  "status": "MEASURED_PARTIAL",
+  "remaining_hold": "Same-holding C/O cross-checks now exist, but [O I] 6300 has red chi2=64.431 and C/O response covariance on the identical CN pool is still not measured. Keep the route publication HOLD until the joint response fit and profile/model terms are complete."
+}

@@ -1,0 +1,65 @@
+{
+  "status": "diagnostic_only",
+  "line_air_A": 8216.336,
+  "holding": "solar_iag",
+  "method": "1D-LTE flux",
+  "source": "data/output/rya1220/iag_8216_v1/fits.json",
+  "optimizer_xatol_dex": 0.005,
+  "steps_are_adopted_uncertainties": false,
+  "parameter_covariance": null,
+  "complete_uncertainty_budget": false,
+  "responses": [
+    {
+      "parameter": "continuum_fraction",
+      "step": 0.001,
+      "unit": "fraction",
+      "minus": 7.9341015349959685,
+      "nominal": 7.956185017815006,
+      "plus": 7.993341833055146,
+      "jacobian": 29.62014902958865,
+      "slope_minus": 22.083482819037492,
+      "slope_plus": 37.15681524013981,
+      "curvature": 15073.332421102315,
+      "numerically_resolved": true
+    },
+    {
+      "parameter": "delta_C",
+      "step": 0.1,
+      "unit": "dex",
+      "minus": 7.965722804773055,
+      "nominal": 7.956185017815006,
+      "plus": 7.95439060045633,
+      "jacobian": -0.05666102158362385,
+      "slope_minus": -0.09537786958048855,
+      "slope_plus": -0.01794417358675915,
+      "curvature": 0.7743369599372939,
+      "numerically_resolved": false
+    },
+    {
+      "parameter": "delta_O",
+      "step": 0.1,
+      "unit": "dex",
+      "minus": 7.9619268451494705,
+      "nominal": 7.956185017815006,
+      "plus": 7.963062897912257,
+      "jacobian": 0.005680263813934161,
+      "slope_minus": -0.05741827334464489,
+      "slope_plus": 0.06877880097251321,
+      "curvature": 1.2619707431715808,
+      "numerically_resolved": true
+    },
+    {
+      "parameter": "delta_xi",
+      "step": 0.1,
+      "unit": "km/s",
+      "minus": 7.9559039735428065,
+      "nominal": 7.956185017815006,
+      "plus": 7.963605607325604,
+      "jacobian": 0.03850816891398878,
+      "slope_minus": 0.0028104427219943773,
+      "slope_plus": 0.07420589510598319,
+      "curvature": 0.713954523839888,
+      "numerically_resolved": false
+    }
+  ]
+}

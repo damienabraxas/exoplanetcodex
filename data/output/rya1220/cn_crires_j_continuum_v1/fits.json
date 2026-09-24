@@ -1,0 +1,89 @@
+[
+  {
+    "name": "nominal",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.46,
+      "N": 7.83,
+      "O": 8.73,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_J:12C14N:A-X(0-0):windows_sha256:4279ce90384a0437242a9802e8e9213805df9e5c6b5db56f5ede2525bdb91b97",
+    "fit": {
+      "A_X": 8.018,
+      "red_chi2": 56.219,
+      "sigma_fit": 0.085,
+      "n_pix": 948,
+      "n_eval": 20,
+      "status": "ok",
+      "frac_rise_weaker": 0.03354536343948322,
+      "edge_distance_dex": 1.0123491278245869,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 507.28494233917445
+  },
+  {
+    "name": "continuum_-1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.46,
+      "N": 7.83,
+      "O": 8.73,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_J:12C14N:A-X(0-0):windows_sha256:4279ce90384a0437242a9802e8e9213805df9e5c6b5db56f5ede2525bdb91b97",
+    "fit": {
+      "A_X": 7.999,
+      "red_chi2": 56.328,
+      "sigma_fit": 0.101,
+      "n_pix": 948,
+      "n_eval": 13,
+      "status": "ok",
+      "frac_rise_weaker": 0.03160161037813513,
+      "edge_distance_dex": 1.0309378322305829,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 290.6679637772031
+  },
+  {
+    "name": "continuum_+1",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "composition": {
+      "C": 8.46,
+      "N": 7.83,
+      "O": 8.73,
+      "Ni": 6.2
+    },
+    "indicator_id": "CN_AX_J:12C14N:A-X(0-0):windows_sha256:4279ce90384a0437242a9802e8e9213805df9e5c6b5db56f5ede2525bdb91b97",
+    "fit": {
+      "A_X": 8.028,
+      "red_chi2": 56.128,
+      "sigma_fit": 0.09,
+      "n_pix": 948,
+      "n_eval": 15,
+      "status": "ok",
+      "frac_rise_weaker": 0.03552555987599289,
+      "edge_distance_dex": 1.002236313188357,
+      "constrained": true,
+      "reason": ""
+    },
+    "wall_s": 336.6389034460299
+  }
+]

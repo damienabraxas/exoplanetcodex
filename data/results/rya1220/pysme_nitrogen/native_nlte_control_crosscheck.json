@@ -1,0 +1,34 @@
+{
+  "schema": "rya1220.pysme_native_nlte_control_crosscheck.v1",
+  "host": "sirius",
+  "backend": "PySME native / SMElib",
+  "star": {
+    "teff": 5772,
+    "logg": 4.44,
+    "feh": 0.0,
+    "vmic": 1.0
+  },
+  "controls": [
+    {
+      "element": "Na",
+      "line_air_A": 5682.633,
+      "expected_reference_dex": -0.129,
+      "native_delta_dex": -0.11322676288568356
+    },
+    {
+      "element": "K",
+      "line_air_A": 7698.964,
+      "expected_reference_dex": -0.31,
+      "native_delta_dex": -0.30359775093277364
+    },
+    {
+      "element": "N",
+      "line_air_A": 8216.34,
+      "expected_reference_dex": -0.015,
+      "native_delta_dex": -0.012815415294648247
+    }
+  ],
+  "verdict": "NATIVE_NLTE_APPLICATION_REPAIRED",
+  "finding": "The cause was persistent SMElib global departure coefficients: LTE syntheses returned the preceding NLTE coefficients because the LTE branch did not call ResetDepartureCoefficients(). The reset is now installed on Sirius; Na, K, and N controls return nonzero corrections consistent with their references.",
+  "next": "Run the expanded N line set and near-UV acquisition/registration."
+}

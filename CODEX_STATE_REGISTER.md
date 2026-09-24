@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v152** · _Last updated: 2026-09-15 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v154** · _Last updated: 2026-09-16 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -60,6 +60,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
+| Nitrogen method gate | Audit in progress; current RYA-1214 products remain diagnostic | Priority Sirius Turbospectrum routes recorded: HARPS CN-red A(N)=7.384 (σfit 0.835), CRIRES+ J CN A(N)=8.016 (σfit 0.096); IAG residual-continuum probe spans 0.200 dex for ±0.001 placement steps. Source spectra are already normalized; residual placement is measured separately. C/O/profile/telluric/holding covariance, molecular 3D/NLTE, line/blend admission and matched differential remain HOLD; no abundance admitted | RYA-1220 — [working audit](docs/science/RYA-1220-nitrogen-method-audit.md), [priority route status](data/output/rya1220/priority_routes_status.json), [contract migration](data/results/rya1220/contract_migration_v2/summary.csv); merged RYA-587 c6529aab supplies the shared API | OPEN | Complete route-specific continuum/profile/telluric probes, CN blend/isotope and line identity admission, C/O covariance, molecular 3D/NLTE treatment, holding repeatability, then matched target–Sun pilot and policy ratification |
 | Solar Fe I (value) | 3D-NLTE anchor — PASS | **7.466** (3D-corrected; 1D-NLTE measurement 7.516, −0.05 Magic-2013 1D→3D) | RYA-247 (NLTE unit fix), RYA-336 (scale-aware gate), **RYA-553 (3D correction APPLIED)**, **RYA-681 (guard re-keyed on the value)** | SETTLED-WITH-CAVEAT — the value **7.466 is correct** and the correction's idempotency is now keyed on the VALUE, not on a prose label (RYA-681: `pipeline/solar_scale_provenance.py`; `scale_state` column + value cross-check at ±0.025 = \|correction\|/2). `FE_GATE [7.41,7.51]` UNCHANGED — it cannot see a doubled correction (0.05 == its half-width), so RYA-166 A1 gained an orthogonal scale-identity assertion instead (7.416 → FAIL). ⚠️ **CAVEAT: gold v3's Fe `method_scale` still reads `1D-NLTE (Fe I)` beside the 3D value, so `phase_c` LOUD-FAILS and the verdict channel is blocked** — clearing it needs a ratified gold v4 (RYA-669, Ryan's call); gold is write-once (RYA-469) | gold v4 re-freeze to fix the LABEL (RYA-669/RYA-527); off-solar per-Teff/[Fe/H] 3D generalisation (RYA-550) |
 | Solar Fe I (scatter) | honest floor, NOT a defect | 0.138 dex (RYA-407 verdict c) | RYA-407 (PR #48, MERGED `220f263`) | SETTLED as honest floor — no cited mechanism reaches 0.10; gate threshold too strict → recalibrated to a G-anchor acceptance profile by RYA-446 (MERGED #71) | principled new vetting genuinely lowers it |
 | Solar Fe II (arbiter) | balanced — PASS | synth arbiter ≈7.486–7.500, ΔFe(I−II) −0.007…−0.015 | RYA-305/341 (arbiter ratified), RYA-406 (gate scores it) | SETTLED — the ratified ionization arbiter is **SYNTHESIS** Fe II; on main (RYA-405 confirmed the solved stack is integrated, NOT regressed) | 3D-NLTE, or new synth Fe II (RYA-338 flux-space) |
@@ -302,6 +303,9 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v154** (2026-09-16) — **RYA-1220** resumed under merged RYA-587: isolated 10108.90 Å transition/CN overlay and same-pool CN C/O/ξ responses recorded; gate remains OPEN with covariance and blend evidence held.
+- **v153** (2026-09-15) — **RYA-1220** resumed on merged RYA-587 (c6529aab); nitrogen consumes the shared uncertainty API. Prior profile evidence retained; scientific gate remains OPEN.
 
 - **v152** (2026-09-15) — **RYA-1213 integration checks:** repaired inherited result-generator registry drift for Al/Si outputs. Audit declarations moved beside their actual audit paths; historical Al checkpoint aggregation remains explicitly unreproducible because its harness was not committed. No measurement changed or rerun.
 

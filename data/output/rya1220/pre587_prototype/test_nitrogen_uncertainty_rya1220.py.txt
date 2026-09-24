@@ -1,0 +1,46 @@
+import numpy as np
+import pytest
+
+from pipeline.nitrogen_uncertainty import (
+    absolute_covariance, aggregate, covariance, paired_covariance,
+    publication_gaps, symmetric_sensitivities,
+)
+
+
+def test_symmetric_fit_preserves_nonlinearity():
+    def fit(p):
+        return {"CN_a": 8 - p["C"] + .5*p["C"]**2, "CN_b": 8 - 2*p["C"]}
+    s = symmetric_sensitivities(fit, {"C": 0.}, {"C": .1}, ["CN_a", "CN_b"])
+    np.testing.assert_allclose(s["jacobian"], [[-1], [-2]])
+    np.testing.assert_allclose(s["responses"][0]["curvature"], [1, 0], atol=1e-10)
+    assert s["responses"][0]["slope_minus"] != s["responses"][0]["slope_plus"]
+
+
+def test_shared_gf_cancels_only_when_sensitivities_match():
+    t = {"line_ids": ["NI_a"], "parameters": ["gf"], "jacobian": [[-1.]]}
+    s = {**t, "jacobian": [[-1.]]}
+    joint = np.full((2, 2), .04)
+    noise = np.diag([.0001, .0001])
+    np.testing.assert_allclose(paired_covariance(t, s, joint, noise), [[.0002]])
+    s["jacobian"] = [[-.5]]
+    np.testing.assert_allclose(paired_covariance(t, s, joint, noise), [[.0102]])
+
+
+def test_c_o_covariance_changes_error_and_common_scale_survives_more_lines():
+    j = [[-1., .5], [-1., .5]]
+    c = [[.04, .01], [.01, .04]]
+    v = absolute_covariance(j, c, np.eye(2)*.0001)
+    result = aggregate([8., 8.1], v, [.5, .5])
+    assert result["sigma"] == pytest.approx(np.sqrt(.04+.00005))
+    assert result["abundance"] == pytest.approx(8.05)
+
+
+def test_missing_side_and_invalid_covariance_fail():
+    with pytest.raises(ValueError, match="membership"):
+        symmetric_sensitivities(lambda p: {} if p["C"] > 0 else {"a": 8.},
+                                {"C": 0.}, {"C": .1}, ["a"])
+    with pytest.raises(ValueError, match="positive semidefinite"):
+        covariance([[1, 2], [2, 1]], 2)
+    with pytest.raises(ValueError, match="finite"):
+        covariance([[float("nan")]], 1)
+    assert "c_o_coupling" in publication_gaps({"c_o_coupling": {"state": "measured"}})

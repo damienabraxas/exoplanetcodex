@@ -1,0 +1,6 @@
+A_X,red_chi2,sigma_fit,n_pix,n_eval,status,frac_rise_weaker,edge_distance_dex,constrained,reason,key,element,role,wall_s,A_X_nlte,nlte_delta,nlte_flag,nlte_ref
+8.518,39.284,0.045,442,16,ok,0.7072127200947583,1.1416946571284594,True,,CI_5052,C,cross_check,43.0,8.518,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.426,52.715,0.06,459,21,ok,0.19528895408710795,1.1662909974489066,True,,CI_5380,C,cross_check,56.4,8.426,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.497,21.081,0.005,1493,22,ok,2.1994693849602127,1.1634326202888143,True,,C2_Swan,C,cross_check,71.2,8.497,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+8.55,32.073,0.149,1747,21,ok,0.005846967712356712,1.1948747051680275,True,,CN_red,N,primary,126.8,8.55,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+8.907,64.431,0.25,251,16,ok,0.014129684176708252,1.192663365977885,True,,OI_6300,O,primary,45.2,8.907,0.0,lte_forbidden_insensitive,[O I] forbidden — LTE-insensitive

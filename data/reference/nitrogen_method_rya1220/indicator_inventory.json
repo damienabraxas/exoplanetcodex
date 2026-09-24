@@ -1,0 +1,270 @@
+{
+  "source_file": "/home/damienabraxas/scratch/rya1214/pipeline/cno_synthesis.py",
+  "source_sha256": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+  "indicators": [
+    {
+      "region": "vis",
+      "holding": "solar_harps_molecfit_corrected",
+      "key": "CN_red",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          6125.0,
+          6130.0
+        ],
+        [
+          6195.0,
+          6200.0
+        ]
+      ],
+      "reference": "CN red A-X 6000-6200 (Brooke+Sneden 2014); primary N, given A(C). Also deblends Li 6707 (RYA-103)."
+    },
+    {
+      "region": "nearuv",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "key": "NH_AX",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          3358.0,
+          3361.0
+        ],
+        [
+          3370.0,
+          3373.0
+        ]
+      ],
+      "reference": "NH A-X (0,0) band head 3360 A; near-UV molecular N. UPPER BOUND \u2014 the near-UV synthesis under-corrects opacity (RYA-1204/1207/1189)."
+    },
+    {
+      "region": "j_cn_crires",
+      "holding": "solar_crires_plus_j_rya1219",
+      "key": "CN_AX_J",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          11640.31,
+          11643.31
+        ],
+        [
+          11706.82,
+          11709.82
+        ],
+        [
+          11710.6,
+          11713.6
+        ],
+        [
+          11764.43,
+          11767.43
+        ],
+        [
+          11780.47,
+          11783.47
+        ],
+        [
+          11798.36,
+          11801.36
+        ],
+        [
+          11824.61,
+          11827.61
+        ],
+        [
+          11828.93,
+          11831.93
+        ],
+        [
+          11919.84,
+          11922.84
+        ],
+        [
+          11924.65,
+          11927.65
+        ],
+        [
+          11973.74,
+          11976.74
+        ],
+        [
+          12072.6,
+          12075.6
+        ]
+      ],
+      "reference": "CN A-X on CRIRES+ J, Brooke+2014 gf (12C14N_1087-1320.bsyn); AGSS21 own line positions, EW-ranked, per-observation telluric filter."
+    },
+    {
+      "region": "vis_kp_k05",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "key": "CN_red",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          6125.0,
+          6130.0
+        ],
+        [
+          6195.0,
+          6200.0
+        ]
+      ],
+      "reference": "CN red A-X 6000-6200 (Brooke+Sneden 2014); primary N, given A(C). Also deblends Li 6707 (RYA-103)."
+    },
+    {
+      "region": "vis_kp_mf",
+      "holding": "solar_kpno_molecfit_corrected",
+      "key": "CN_red",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          6125.0,
+          6130.0
+        ],
+        [
+          6195.0,
+          6200.0
+        ]
+      ],
+      "reference": "CN red A-X 6000-6200 (Brooke+Sneden 2014); primary N, given A(C). Also deblends Li 6707 (RYA-103)."
+    },
+    {
+      "region": "vis_iag",
+      "holding": "solar_iag",
+      "key": "CN_red",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          6125.0,
+          6130.0
+        ],
+        [
+          6195.0,
+          6200.0
+        ]
+      ],
+      "reference": "CN red A-X 6000-6200 (Brooke+Sneden 2014); primary N, given A(C). Also deblends Li 6707 (RYA-103)."
+    },
+    {
+      "region": "nir_cn_kp",
+      "holding": "solar_kpno_molecfit_corrected",
+      "key": "CN_AX_IR",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          10988.82,
+          10991.82
+        ],
+        [
+          11003.92,
+          11006.92
+        ],
+        [
+          11009.25,
+          11014.16
+        ],
+        [
+          11019.86,
+          11023.26
+        ],
+        [
+          11071.13,
+          11074.13
+        ],
+        [
+          11079.56,
+          11082.56
+        ],
+        [
+          11091.45,
+          11094.76
+        ],
+        [
+          11106.99,
+          11109.99
+        ],
+        [
+          11576.5,
+          11579.5
+        ],
+        [
+          11640.31,
+          11643.31
+        ],
+        [
+          11710.6,
+          11713.6
+        ],
+        [
+          11798.36,
+          11801.36
+        ]
+      ],
+      "reference": "CN A-X 10872-13204 A (Brooke+2014 gf, validated against Amarsi 2021 Table 2 to a median 0.0064 dex). THE band AGSS21 nitrogen rests on; windows are AGSS21 own line positions, H2O 11120-11560 excluded."
+    },
+    {
+      "region": "nir_cn_iag",
+      "holding": "solar_iag",
+      "key": "CN_AX_IR",
+      "kind": "molecular_band",
+      "element": "N",
+      "windows_air_A": [
+        [
+          10870.68,
+          10874.0
+        ],
+        [
+          10879.21,
+          10885.06
+        ],
+        [
+          10896.04,
+          10899.04
+        ],
+        [
+          10973.04,
+          10976.04
+        ],
+        [
+          10979.57,
+          10982.57
+        ],
+        [
+          10988.82,
+          10991.82
+        ],
+        [
+          11003.92,
+          11006.92
+        ],
+        [
+          11009.25,
+          11014.16
+        ],
+        [
+          11019.86,
+          11023.26
+        ],
+        [
+          11065.46,
+          11068.46
+        ],
+        [
+          11071.13,
+          11074.13
+        ],
+        [
+          11079.56,
+          11082.56
+        ]
+      ],
+      "reference": "CN A-X 10872-11083 A on the IAG FTS, to its own red edge. 16 of AGSS21 59 CN lines, all telluric-clean."
+    }
+  ]
+}

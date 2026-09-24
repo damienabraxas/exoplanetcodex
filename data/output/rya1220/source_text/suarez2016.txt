@@ -1,0 +1,766 @@
+PAGE 1
+Astronomy & Astrophysics manuscript no. nitrogen_revised c©ESO 2021
+November 5, 2021
+CNO behaviour in planet-harbouring stars. ⋆
+I. Nitrogen abundances in stars with planets.
+L. Suárez-Andrés 1, 2,⋆⋆ , G. Israelian 1, 2, J.I. González Hernández 1, 2, V. Zh. Adibekyan 3, E. Delgado Mena 3,
+N. C. Santos 3, 4 and S. G. Sousa 3, 4
+1 Instituto de Astrofísica de Canarias, E-38205 La Laguna, Tenerife, Spain
+2 Depto. Astrofísica, Universidad de La Laguna (ULL), E-38206 La Laguna, Tenerife, Spain
+3 Instituto de Astrofísica e Ciências do Espaço, Universidade do Porto, CAUP, Rua das Estrelas, 4150-762 Porto,
+Portugal
+4 Departamento de Física e Astronomia, Faculdade de Cîencias, Universidade do Porto, 4169-007 Porto, Portugal
+Received X, 2016; accepted X, 2016
+ABSTRACT
+Context. Carbon, nitrogen, and oxygen (CNO) are key elements in stellar formation and evolution, and their abundances
+should also have a signiﬁcant impact on planetary formation and evolution.
+Aims. We present a detailed spectroscopic analysis of 74 solar-type stars, 42 of which are known to harbour planets. We
+determine the nitrogen abundances of these stars and investigate a possible connection between N and the presence of
+planetary companions.
+Methods. We used VLT/UVES to obtain high-resolution near-UV spectra of our targets. Spectral synthesis of the NH
+band at 3360Å was performed with the spectral synthesis codes MOOG and FITTING.
+Results. We identify several spectral windows from which accurate N abundance can be obtained. Nitrogen distributions
+for stars with and without planets show that planet hosts are nitrogen-rich when compared to single stars. However,
+given the linear trend between [N/Fe] vs [Fe/H], this fact can be explained as being due to the metal-rich nature of
+planet hosts.
+Conclusions. We conclude that reliable N abundances can be derived for metal-rich solar type stars from the near UV
+molecular band at 3360 Å. We conﬁrm a linear trend between [N/Fe] and metallicity expected from standard models
+of Galactic chemical evolution.
+Key words. stars: abundances - stars: chemically peculiar – stars: planetary systems
+1. Introduction
+The study of C, N, and O in stars is crucial because they
+are the most abundant elements after H and He. These el-
+ements play an important role in stellar interiors because
+they generate energy through the CNO cycle, thereby af-
+fecting the lifetime of the stars (Liang et al. 2001)
+Nitrogen is created in a diﬀerent nucleosynthetic pro-
+cess from that giving rise to carbon and oxygen. Whereas
+for carbon and oxygen the dominant production modes are
+theα-chain reactions, for nitrogen the dominant production
+mode lies in the re-arrangement of nuclei during the CNO
+cycle (see Maeder 2009). One important question regard-
+ing N is its origin. Since N needs C and O to be formed,
+if it is formed from pre-existing C and O in the star, it is
+called “secondary”. If, instead, the carbon and oxygen are
+⋆ Based on observations collected with the UVES spectro-
+graph at the 8-m Very Large Telescope (VLT) - program IDs:
+074.C-0134(A), 075.D-0453(A), 086.D-0082(A), 093.D-0328(A),
+installed at the Cerro Paranal Observatory.
+⋆⋆ Send oﬀprint requests to: L. Suárez-Andrés
+e-mail: lsuarez@iac.es
+produced in the star itself and then used to produce nitro-
+gen, then the nitrogen is called “primary”. Several studies
+have proved that production of nitrogen at low metallicities
+comes from primary rather than secondary sources (Pagel
+&Edmunds1981;Bessell&Norris1982;Carbonetal.1987;
+Henry et al. 2000; Israelian et al. 2004). At higher metal-
+licities, secondary processes dominate.
+Twomainsourcesforprimaryproductionhavebeenpro-
+posed:
+1. Rotating massive stars, implying detached N and Fe
+abundances and overabundance of N regarding Fe
+(Maeder & Meynet 2000).
+2. Intermediate-mass stars (4-8 M⊙) during their ther-
+mally pulsing AGB phase through CNO processing in
+the convective envelope (Marigo 2001; van den Hoek &
+Groenewegen 1997). The contribution by massive stars
+is negligible (Liang et al. 2001; Pettini et al. 2002), so
+dominant contributors are intermediate- and low-mass
+stars (ILMS). These ILMSs are also a source for sec-
+ondary production.
+Article number, page 1 of 10
+arXiv:1605.03049v1  [astro-ph.SR]  10 May 2016
+PAGE 2
+A&A proofs: manuscript no. nitrogen_revised
+Gonzalez (1997) and Santos et al. (2001) discovered
+that, on average, planet hosts are more metal-rich than “sin-
+gle” stars(starswithnoknowncompanionplanet;fromnow
+on designated as single stars). Two hypotheses have been
+suggested to explain this anomaly:
+1. Self enrichment: This scenario should be triggered by
+the action of hot jupiters migrating from outside the
+protoplanetary disc. During this migration, planetesi-
+mals from the disc are accreted on to the star. This
+mechanism would be eﬃcient only during the ﬁrst 20–
+30 Myr or later when the surface convection layers of
+the star for the ﬁrst time attains its minimum size con-
+ﬁguration (Chavero et al. 2010). Israelian et al. (2001,
+2003) found evidence of pollution, suggesting the infall
+of a planet, in HD82943(see, however, Mandell et al.
+2004; Ghezzi et al. 2009).
+The self-enrichment scenario could lead to a relative
+overabundance of refractories, such as Si, Mg, Ca, Ti,
+andtheiron-groupelements,comparedtovolatiles,such
+as C, N, O, S, and Zn. The accretion of small planets
+may aﬀect the composition of the convective layer of
+the stars (see Théado & Vauclair 2012, and references
+therein). To how great an extent this aﬀects the ac-
+cretion of volatiles such as C, N, and O (see González
+Hernández et al. 2013) remains unanswered.
+2. Primordial cloud: Santos et al. (2001, 2002, 2003) pro-
+posed that this over-abundance most probably is caused
+by a metal-rich primordial cloud. They claimed that
+the observed abundances are representative of the pri-
+mordial cloud where the star was formed. This idea is
+supported by models of planet formation and evolution
+based on the core-accretion process (e.g. Ida & Lin 2004;
+Mordasini et al. 2012)
+Later abundance studies on stars with and without planets
+conﬁrmed the primordial cloud as the most likely reason
+for the metal-rich nature of planet-host stars (Santos et al.
+2004, 2005; Valenti & Fischer 2005), although this correla-
+tion is valid for giant planet hosts only (Sousa et al. 2008,
+2011b; Buchhave et al. 2012)
+Interestingly, recent studies suggest that speciﬁc ele-
+ment abundances may have a particularly relevant role in
+the planet formation process (Adibekyan et al. 2014, 2015)
+or in its composition (Santos et al. 2015). The abundances
+of volatiles (such as C, N, and O) may be particularly rele-
+vant in this respect. This consideration prompted the study
+of speciﬁc chemical abundances in the planet hosts. There
+are very few studies of nitrogen in solar-type stars owing to
+the lack of strong atomic lines. Ecuvillon et al. (2004) stud-
+ied the abundance of nitrogen of 91 solar type stars. Using
+both the NH molecular band at 3360Å and the NI atomic
+line at 7468Å, they rejected the self-enrichment scenario as
+a formation source on the grounds that they could ﬁnd no
+underabundances of volatiles compared to refractory ele-
+ments. They showed that the [N/H] abundance scales per-
+fectly with metallicity for both planet-host and comparison
+samples. They also found no diﬀerence for nitrogen in the
+[N/Fe] abundance ratios when comparing stars with and
+without planets.
+More recently, Da Silva al. (2015), using the CN band
+at 4215Å, have studied the abundance of nitrogen in 140
+dwarf stars. They found a steeper slope for the [N/Fe] ver-
+sus [Fe/H] abundance ratios than Ecuvillon et al. (2004).
+The main problem in studying nitrogen abundances is
+the lack of strong nitrogen lines in the red part of the spec-
+trum so that near-UV measurements are required. We are
+forced to study the very crowded molecular band at 3360Å,
+where continuum determination is not straightforward.
+The purpose of this study is to extend the sample of
+Ecuvillon et al. (2004) and investigate in detail nitrogen
+abundances using the 3360Å NH molecular band. We have
+performed a systematic study of nitrogen abundances in
+dwarf stars with a wide range of stellar parameters. The
+strategy and methodology followed in this study is the same
+as that stated in Ecuvillon et al. (2004), but with a larger
+sample and higher-quality spectra.
+We have also determined the kinematic properties of our
+sample. Then using the kinematic and chemical properties
+of the stars, we separated them into diﬀerent stellar popu-
+lations to investigate the N abundances within a Galactic
+context.
+This work is the ﬁrst step in comparing CNO abun-
+dances of planet-host stars with the CNO abundances of
+their planets (through transmission spectroscopy or direct
+spectroscopy, as in the case of Spitzer). Testing and im-
+proving planetary formation models will play a key role in
+future studies of habitability, CNO being key elements for
+life.
+2. Sample description
+The high-resolution spectra analysed in this study were
+obtained with the UVES spectrograph installed at the
+VLT/UT2 Kueyen telescope (Paranal Observatory, ESO,
+Chile) during several campaigns (see Table 1) and have pre-
+viously been used in the analysis of stellar parameters, to-
+gether with the derivation of precise chemical abundances
+(see e.g. Santos et al. 2004; Sousa et al. 2011a,b; Delgado
+Mena et al. 2012).
+Table 1: Observing logs for the campaigns
+Campaign Observing dates
+074.C-0134(A) 21-22 Dec. 2004
+075.D-0453(A) First semester 2005
+086.D-0082(A) Oct. 2010 - Nov. 2011
+093.D-0328(A) Mar. - Jul. 2014
+High spectral resolving power (R = 80, 000) and a rela-
+tively high signal-to-noise ratio (S/N) are optimal for prop-
+erly analysing the NH band at 3360Å. The average S/N of
+our sample in the studied regions is 150.
+The sample consists of 74 dwarf stars (42 stars with
+planets1 and 32 comparison stars without detected planets)
+with eﬀective temperatures between 4583 K and 6431 K,
+metallicities from −0.45 to 0.55 dex, and surface gravities
+from 3.69 to 4.82 dex. Comparison sample stars were taken
+from HARPS and CORALIE samples.
+1 Data from:www.exoplanet.eu.
+Article number, page 2 of 10
+PAGE 3
+Suárez-Andrés, L. et al.: Nitrogen abundances in planet harboring stars.
+3. Analysis
+3.1. Stellar parameters and chemical abundances
+The stellar parameters used in this study were taken from
+Sousa et al. (2008, 2011a,b); Tsantaki et al. (2013) and
+González Hernández et al. (2010, 2013). All stellar parame-
+ters used were derived by measuring equivalent widths of Fe
+I and Fe II lines using the code ARES (Sousa et al. 2007).
+Also, chemical abundances of elements other than N were
+adapted in targets with more recent stellar parameters (de-
+rived by our group with the same technique). To do this,
+the uncertainties presented in their original source were fol-
+lowed so systematic eﬀects in the chemical abundances or
+the stellar parameters are negligible, not aﬀecting the con-
+sistency of our results.
+Chemical abundances of the elements with spectral lines
+present in the NH band were obtained from Adibekyan et
+al. (2012b) and González Hernández et al. (2010, 2013).
+These elements are Ca, Ti, Mn, and Si (note that the abun-
+dances of these elements were simply scaled with iron in
+Ecuvillon et al. (2004)). The N abundance is also aﬀected
+by C and O molecular equilibrium. The C and O abun-
+dances were obtained from Suárez-Andrés et al. (2016, in
+prep) and Bertran de Lis et al. (2015), respectively. How-
+ever, there are 26 stars with no previous measurements of
+O. We have decided to use the aforementioned results to
+interpolate for a given set of stellar parameters and use
+these new O abundances to calculate the molecular equilib-
+rium. Our tests show that N abundances are unaﬀected by
+changes of the order of±0.2 dex in C and O.
+Nitrogen abundances were determined using a standard
+local thermodynamic equilibrium (LTE) analysis with the
+spectral synthesis code MOOG (Sneden 1973, 2013 ver-
+sion) and a grid of Kurucz (1993) ATLAS9 atmospheres.
+All the atmospheric parameters, Teﬀ, logg, ξt and [Fe/H]
+were taken, as already mentioned, from Sousa et al. (2008,
+2011a,b); Tsantaki et al. (2013) and González Hernández
+et al. (2010, 2013). The adopted solar abundances for ni-
+trogen and iron were logϵ(N)⊙=8.05 dex and logϵ(Fe)⊙ =
+7.47 (Santos et al. 2004).
+3.2. The NH band
+The NH band is the strongest feature observed in the
+λλ3345 − 3375 spectral region. We determined N abun-
+dances by ﬁtting synthetic spectra to the data in this wave-
+length range. The dissociation potential used for NH spec-
+tra is Do = 3.37 eV, as recommended in Grevesse et al.
+(1990). The complete line list used in this study was ob-
+tained from Ecuvillon et al. (2004), which was calibrated
+with the KURUCZ ATLAS spectrum (Kurucz et al. 1984)
+using the abundance logϵ(N)⊙=8.05 dex.
+The number and the strength of the atomic lines of dif-
+ferent elements in the spectral region of the NH band in-
+crease with metallicity. The presence of many blended lines
+and numerous strong molecular bands make the placement
+of the continuum level very diﬃcult. The high-resolution
+solar atlas (Kurucz et al. 1984) can help to achieve a reli-
+able continuum placement for solar-type stars (e.g. Ecuvil-
+lon et al. (2004)). However, large variations of metallicity
+and eﬀective temperature among the stars in our sample
+do not allow us to use the solar spectrum as a reference.
+To account for this eﬀect, we have generated a grid of syn-
+Fig. 1: Top panel: Solar observed (solid line) and synthetic
+(dotted line) spectra in the spectral regionλλ3370-3375Å.
+Middle and bottom panel: Observed (solid) and synthetic
+spectra (green-dotted lined, red-dashed and blue-dashed
+dotted) of HD 222582 and HD 330075.
+thetic spectra for all the stars in oursample. Synthetic spec-
+tra are calculated for a given set of stellar parameters and
+variations of nitrogen abundances [N/H] between−0.7 and
+0.5. Our reference points for the continuum placement are
+those for which the ﬂux variation (for a givenTeﬀ) due
+to the N abundance changes from [N/Fe] =−0.7 to +0.5,
+is less than 1%. This strategy is demonstrated in Fig. 1
+for two stars with diﬀerent atmospheric parameters. Rota-
+tionalbroadeningwassetasafreeparameter(itwasﬁxedin
+Ecuvillon et al. (2004)) withv sini varying between 0.0 and
+14.0 with a step of 1 km/s. Macroturbulence was not taken
+into account. In order to ﬁnd the best ﬁt abundance value
+for each star, we used the FITTING program (González
+Article number, page 3 of 10
+PAGE 4
+A&A proofs: manuscript no. nitrogen_revised
+Hernández et al. 2011) and the MOOG synthesis code in
+its 2013 version. The best ﬁt was obtained using aχ2 mini-
+mization procedure by comparing each synthetic spectrum
+with the observed one in the following spectral regions:
+λλ3344.0 − 3344.3, λλ3346.2 − 3346.7, λλ3347.0 − 3347.8,
+λλ3353.8 − 3354.4, λλ3357.4 − 3358.0, λλ3358.5 − 3359.7,
+λλ3360.3 − 3362.0, λλ3364.1 − 3364.8, λλ3370.8 − 3371.8,
+λλ3374.9 − 3375.4. These spectral regions were chosen be-
+cause of the presence of relatively strong NH features that
+allow reliable abundance measurements. We use aχ2 com-
+parison for the observed and synthetic spectra, and we de-
+ﬁneχ2=∑N
+i=1(Fi −Si)2/N, where Fi and Si are the ob-
+served and synthetic ﬂuxes respectively at wavelength point
+i. The χ2 for each spectral region was normalised with
+the number of points,N. Best-ﬁt nitrogen abundances are
+extracted from each spectral range and the ﬁnal nitrogen
+abundance for each star is then computed as the average of
+these values.
+The FITTING program creates the following input
+data, required by MOOG: the atmospheric model, the line
+list, the range of nitrogen abundance of the grid of synthetic
+spectra, and the wavelength at which we want to analyse
+these abundances. To obtain the ﬁnal abundance value, we
+analysed ten diﬀerent ranges but use only those that have
+abundance values within 1σ.
+In Fig. 1 we show the observed and synthetic spectra for
+the Sun and two stars that are depicted for diﬀerent tem-
+peratures and metallicities within our sample. For these two
+stars, three diﬀerent nitrogen abundances are also shown.
+To examine how variations in the atmospheric parame-
+ters aﬀect the NH abundances, we test [N/H] sensitivity in
+stars with very diﬀerent parameter values, given the wide
+range of stellar parameters. For each set of stars we tested
+the nitrogen-abundance sensitivity to changes in the atmo-
+spheric parameter (± 100K for Teﬀ, ± 0.2 dex inlogg, ±
+0.2 in metallicity). The results are shown in Table 2. The ef-
+fect of microturbulence was not taken into account because
+an increase of 0.3kms−1 produced an average decrease of
+0.002 dex in nitrogen abundance, which is negligible in com-
+parison with the eﬀects of other parameters. The error due
+to continuum placement of 0.1 dex was considered for all
+stars. All eﬀects were added quadratically to obtain the ﬁ-
+naluncertaintiesinnitrogenabundancesusingthefollowing
+relation:
+∆[N/H] = (∆2
+σ + ∆2
+Teff + ∆2
+logg + ∆2
+met + ∆2
+cont)1/2
+4. Results
+We analysed near-UV high-resolution spectra of 42 planet
+host stars and 32 comparison stars, as mentioned in Section
+2. We aim to explore possible diﬀerences in nitrogen abun-
+dances between the two samples. Our results for planet-host
+are presented stars in Table A.1 and for the comparison
+sample in Table A.2.
+In Fig. 2 we show the [N/Fe] abundance ratio as a func-
+tion of Teﬀ. Stars with eﬀective temperatures below 5000
+K were excluded from the analysis because of uncertainties
+in the behaviour of those cool stars: we ﬁnd no explanation
+for the decrease in nitrogen abundance as we move to lower
+temperatures. The vertical dashed line at 5000 K separates
+the cool stars from the sample studied. From now on in this
+paper,allresultsandconclusionswillrefertostarswith Teﬀ
+> 5000 K (65 stars). Because of the high dispersion, we did
+Fig. 2: [N/Fe] abundance ratio of the stars in this study
+plotted against eﬀective temperature,Teﬀ. Filled green cir-
+cles represent planet hosts and open red circles the com-
+parison sample. Filled blue squares represent cool planet
+hosts while open blue squares represent single stars. The
+vertical dashed line at 5000 K separates the cool stars from
+the studied sample.
+not ﬁnd any clear trend of [N/Fe] withTeﬀ. However, it can
+be seen that most of the planet-host stars have [N/Fe] > 0.
+We have also looked for distinguishable trends between
+these samples by representing [N/Fe] and [N/H] abundance
+ratios as functions of [Fe/H] for both samples (see Fig. 3).
+These plots indicate that both samples behave approxi-
+matelysimilarly.However,thereseemstobeasteepertrend
+in [N/H] vs [Fe/H] for stars with planets, whereas stars
+without planets almost maintain the 1:1 relation. We note
+the same behaviour in the bottom panel of Fig. 3 ([N/Fe] vs
+[Fe/H]), where the stars with planets below and above solar
+metallicity have values of [N/Fe] lower and higher than zero
+respectively. Unfortunately, owing to the metal-rich nature
+of giant-planet hosts, the number of stars with giant plan-
+ets at metallicities below solar is too small for us to be able
+to conﬁrm this behaviour. The observed trend may simply
+be related to Galactic chemical evolution.
+In the top panel of Fig. 4 we show the [N/H] abun-
+dance distributions for both samples. As can be seen, there
+is an oﬀset between the samples, which is expected because
+planet-host stars are metal rich as compared with single
+stars. We expect this result because, if nitrogen scales with
+iron, then we can expect higher [N/H] because giant-planet
+host stars are enhanced in Fe. In the bottom panel of Fig. 4
+we show the [N/Fe] abundance distribution. We see that
+most of the stars with planets have [N/Fe]≥0 (∼ 90 per
+cent), as opposed to the single-star sample, more spread
+than the stars with planets sample. In this case, only∼60
+per cent of the stars have [N/Fe] ≥ 0. A Kolmogorov-
+Smirnov (K-S) test predicts the ∼0.06 probability (PKS)
+that stars with and without planets come from the same
+distribution. The distribution of abundance ratios [N/Fe]
+vs [Fe/H] of stars without planets shows a weak linear in-
+creasing trend (see Fig. 3), although the slope is consistent
+with zero. The number of points may not be suﬃcient to
+really conﬁrm this increasing trend. Thus, we may conclude
+that stars with planets are, on average, nitrogen rich when
+Article number, page 4 of 10
+PAGE 5
+Suárez-Andrés, L. et al.: Nitrogen abundances in planet harboring stars.
+Fig. 3: [N/H] and [N/Fe] abundance ratios of our sample
+stars versus metallicity, [Fe/H]. Filled green circles repre-
+sent planet hosts and open red circles, the comparison sam-
+ple. Dashed lines stand for solar values.
+compared to single stars, but it may be due to the metal-
+rich nature of the planet host stars.
+If we extend the study of nitrogen abundance to metal-
+poor stars (Israelian et al. 2004), we will ensure that the
+behaviour seen in Figure 3 is part of the same trend ob-
+served in these metal-poor stars down to metallicites∼ −2
+dex. In Figure 5 we can see how these two sets, (Israelian
+et al. (2004) and this study) follow the same trend down
+to metallicities of−2.0dex because nitrogen behaves like a
+secondary production element in this range of metallicities.
+At metallicities lower than−2.0 dex, we see a signature of
+primary N.
+5. Galactic evolution of N: dependance on age
+Interpretation of chemical abundances in terms of stellar
+agescanbehelpfultoconstraintheeﬀectsofGalacticchem-
+ical evolution.
+Stellar ages for our sample were estimated applying stel-
+lar evolutional models from the Padova group (Bressan et
+Fig. 4: [N/H] and [N/Fe] abundance distributions.
+Fig. 5: N/H plotted against Fe/H for metal-poor stars from
+Israelian et al. (2004) indicated by red squares and stars
+from this study indicated by green circles.
+al. 2012), using the web interface2(see Sousa et al. 2011a,
+for more details).
+Nissen 2015 performed a detailed study of abundance
+ratios of several elements, such as C, O and Si, as a function
+2 http://stev.oapd.inaf.it/cgi-bin/cmd
+Article number, page 5 of 10
+PAGE 6
+A&A proofs: manuscript no. nitrogen_revised
+Table 2: Sensitivity of the nitrogen abundance derived from the NH band at 3360Å. Changes of 100 K inTeﬀ, 0.2 dex in
+gravity, and 0.2 in [Fe/H] were applied.
+Star
+(Teﬀ; logg; [Fe/H])
+HD 93083 HD 222582 HD 39091
+(5048; 4.32; 0.04) (5779; 4.32; -0.01) (6003; 4.42; 0.09)
+∆Teﬀ = ± 100K ±0.05 ±0.08 ±0.10
+HD 11964A HD 93083 HD 1237
+(5332; 3.90; 0.10) (5105; 4.43; 0.09) (5514; 4.50; 0.07)
+∆logg = ± 0.2 dex ∓0.01 ∓0.05 ∓0.03
+HD 4208 HD 69830 HD 73256
+(5599; 4.44; -0.28) (5402; 4.40; -0.06) (5526; 4.42; 0.23)
+∆([Fe/H]) = ± 0.2 dex ∓0.16 ∓0.01 ∓0.08
+of the stellar age. They conclude that each element behaves
+in a diﬀerent way regarding the stellar age, suggesting that
+more variables such an evolving initial mass function and
+asymptotic giant branch stars should also be considered.
+Although that work is only for solar twin stars, we try to
+extend this result to solar type stars and for nitrogen, an
+element not studied in that work.
+In the top panel of Fig.6 we show [N/Fe] abundances
+as a function of stellar age for the thin disk stars. There
+seem to be a weak trend in the behaviour of nitrogen, as its
+abundance decreases with age. Although single stars appear
+to show a steeper decreasing trend towards older stars than
+planethostsstars,probablyduetothelownumberofpoints
+and the high dispersion of the abundance measurements,the
+slopes of these two trends are consistent within their error
+bars.
+Fig. 6: Abundance ratio of [N/Fe] as a function of stellar
+age for the stars belonging to the thin disk. Linear ﬁt is
+provided for the whole sample (black line) and each sub-
+sample (red and green lines).
+6. Kinematic properties
+To study the kinematic properties of the sample stars and
+which stellar populations they belong to, we applied both
+purely chemical (e.g. Adibekyan et al. 2011; Recio-Blanco
+et al. 2014) and kinematic approaches (e.g. Bensby et al.
+2003; Reddy et al. 2006). The Galactic space velocity com-
+ponents of the stars were calculated as in (Adibekyan et al.
+2012b) using the astrometric3 and radial velocity data of
+the stars. The average errors in theU,V, andW velocities
+are approximately 2–3 km s−1.
+To assess the likelihood of the stars being members of
+diﬀerentstellarpopulationswefollowedReddyetal.(2006),
+and adopted the results of Bensby et al. (2003) for the pop-
+ulation fractions. According to this separation, among the
+65 stars, we have 58 (89 per cent) stars from the thin disc,
+four from the thick disc, and three transition stars that do
+not belong to any group.
+The separation of the Galactic stellar components
+based only on stellar abundances is probably superior to
+that based on kinematics alone (e.g. Navarro et al. 2011;
+Adibekyan et al. 2011) because chemistry is a relatively
+more stable property of sunlike stars than spatial positions
+and kinematics. We used the position of the stars in the
+[α/Fe]–[Fe/H]plane(hereαreferstotheaverageabundance
+of Si and Ti) to separate the thin- and thick-disc stellar
+components. We adopt the boundary (separation line) be-
+tween the stellar populations from Adibekyan et al. (2011).
+According to our separation, 53 stars (≈82 per cent) are not
+enhanced inα-elements and belong to the thin-disc popu-
+lation. The [α/Fe] versus [Fe/H] plot for the sample stars
+is shown in the bottom panel of Figure 7.
+In the top plot of Fig. 7 we show the dependence of
+[N/α] on the metallicity. The ﬁgure shows that the [N/α]
+abundance ratio correlates with the metallicity. This trend
+is expected if the N abundance scales with the iron abun-
+dance, as was suggested above.
+3 The SIMBAD Astronomical Database (http://simbad.u-
+strasbg.fr/simbad/) was used.
+Article number, page 6 of 10
+PAGE 7
+Suárez-Andrés, L. et al.: Nitrogen abundances in planet harboring stars.
+Fig. 7: [N/α] plotted against [Fe/H] (top) and [α/Fe] plot-
+ted against [Fe/H] (bottom) for the sample. Stars that are
+enhanced inα-elements are shown in blue squares and the
+thin-disc stars (non-α-enhanced) are represented by red
+ﬁlled circles.
+7. The star–planet connection
+The increasing number of exoplanets discovered via dif-
+ferent methods has led to a wide diversity of parame-
+ters (masses, radii, eccentricity, orbital period, etc.) being
+known for these planets. Many studies have suggested that
+the formation of giant planets correlates with the metallici-
+ties of stellar hosts, (see Santos et al. 2001, 2004; Fischer &
+Valenti 2005; Sousa et al. 2011a; Mortier et al. 2013). More-
+over, it has been shown that the formation of planets (of
+both high and low masses) at low metallicities is favoured
+by enhancedα-elements (Adibekyan et al. 2012a,c).
+Models of planet formation require precise stellar abun-
+dances. Chemical abundances of planet hosts are useful
+when studying the properties of the planetary companion
+(Sousa et al. 2015). The relationship between [N/Fe] and
+the mass of the planet is shown in Figure 8. In those stars
+which host many planets, the most massive planet was con-
+sidered in the plot. As we can see, the masses of the planets
+are between 0.015 and 10.3MJ, but most stars have plan-
+ets with less than 4MJ orbiting around them. To remove
+this bias, which is due to the lack of planets with higher
+masses, we created bins with increasing steps, with sizes of
+0.5, 1, 1.5MJ and two bins of 4MJ. Error bars indicate
+the standard deviation of each bin. Although the results are
+biased because of the lack of data in the highest-mass part,
+we cannot obtain a clear relationship between [N/Fe] and
+the planetary mass (covariancesx,y = 0.031; wherex =MJ
+and y = [N/Fe ]). We see an increase of the [N/Fe] ratio in
+the ﬁrst mass bins followed by constant [N/Fe] value for the
+more massive planets. Even so, the number of stars is not
+statistically signiﬁcant to conﬁrm this.
+8. Discussion and conclusions
+We present nitrogen abundances for 74 solar-type stars
+observed with the UVES spectrograph at the VLT/UT2
+Kueyen telescope (Paranal Observatory, ESO, Chile). In
+Fig. 8: [N/Fe] plotted againstMp sini, with [Fe/H] in the
+auxiliary axis. Dots represent the whole sample and red
+asterisks represent binned values. We also represent in red
+a second-degree polinomial ﬁt for those binned values.
+our sample, 42 of the 74 are planet-hosts and 32 stars do
+not have any known planetary companion. All targets have
+been studied using spectral synthesis in the NH band at
+3360Å. The stars in our sample have eﬀective tempera-
+tures between 4583 K and 6431 K, metallicities from−0.45
+to 0.55 dex, and surface gravities from 3.69 to 4.82 dex.
+We performed a detailed analysis of this sample to obtain
+precise nitrogen abundances and investigate possible diﬀer-
+ences between the stars with planets and the single stars.
+Nitrogen abundances of both samples behave in a similar
+way regardingTeﬀ, logg, and [Fe/H].
+We extended our results to the metal-poor regime, com-
+paring our results with previous work by Israelian et al.
+(2004). Both results can be accommodated under a com-
+mon ﬁt in an [N/H] versus [Fe/H] plot until metallicities
+down to −2.0 dex (where the production of nitrogen has
+a secondary origin), suggesting that both metal-poor stars
+and solar-like stars follow the same behaviour.
+The correlation between the presence of planets and ni-
+trogen abundances is expected: The large amount of nitro-
+gen in a protoplanetary disc would favour the formation of
+massive giant planets through the core accretion scenario.
+We searched for correlations between planet mass and
+[N/Fe] abundance ratio, but did not ﬁnd any signiﬁcant
+correlation.
+Acknowledgements. J.I.G.H. acknowledges ﬁnancial support from
+the Spanish Ministry of Economy and Competitiveness (MINECO)
+under the 2011 Severo Ochoa program MINECO SEV-2011-0187
+and the 2013 Ramón y Cajal programme MINECO RYC-2013-
+14875, and the Spanish ministry project MINECO AYA2014-56359-
+P. E.D.M and V.Zh.A. acknowledge the support from the Fun-
+dação para a Ciência e Tecnologia, FCT (Portugal) in the form of
+the grants SFRH/BPD/76606/2011 and SFRH/BPD/70574/2010 re-
+spectively. V.Zh.A also aknowledges the support from COST Ac-
+tion TD1308 through STSM grant with reference Number: COST-
+STSM-TD 1308-32051. N.C.S. and S.G.S.also acknowledge sup-
+port from FCT through Investigador FCT contracts of reference
+IF/00169/2012andIF/00028/2014,andPOPH/FSE(EC)byFEDER
+funding through the “Programa Operacional de Factores de Com-
+petitividade - COMPETE”. This work was supported by Fundação
+para a Ciência e a Tecnologia (FCT) through the research grant
+UID/DIS/04434/2013 (POCI-01-0145-FEDER-007672) PTDC/FIS-
+AST/7073/2014 and PTDC/FIS-AST/1526/2014.
+Article number, page 7 of 10
+PAGE 8
+A&A proofs: manuscript no. nitrogen_revised
+References
+Adibekyan, V. Z., Santos, N. C., Sousa, S. G., Israelian, G. 2011,
+A&A, 535, L11
+Adibekyan, V. Z., Santos, N. C., Sousa, S. G., et al. 2012, A&A, 543,
+A89
+Adibekyan, V. Z., Sousa, S. G., Santos, N. C., et al. 2012, A&A, 545,
+AA32
+Adibekyan, V. Z., Delgado Mena, E., Sousa, S. G., et al. 2012, A&A,
+547, A36
+Adibekyan, V. Z., González Hernández, J. I., Delgado Mena, E., et
+al. 2014, A&A, 564, L15
+Adibekyan, V., Santos, N. C., Figueira, P., et al. 2015, A&A, 581, L2
+Anders, E., & Grevesse, N. 1989, Geochim. Cosmochim. Acta, 53, 197
+Bensby T., Feltzing S., Lundström I. 2003, A&A, 410, 527
+Bertran de Lis, S., Delgado Mena, E., Adibekyan, V. Z., Santos, N. C.,
+& Sousa, S. G. 2015, A&A, 576, A89
+Bessell, M. S., & Norris, J. 1982, ApJ, 263, L29
+Bressan, A., Marigo, P., Girardi, L., et al. 2012, MNRAS, 427, 127
+Buchhave, L. A., Latham, D. W., Johansen, A., et al. 2012, Nature,
+486, 375
+Carbon, D. F., Barbuy, B., Kraft, R. P., Friel, E. D., & Suntzeﬀ, N. B.
+1987, PAGP, 99, 335
+Chavero, C., de La Reza, R., Domingos, R. C., et al. 2010, A&A, 517,
+AA40
+Da Silva, R., Milone, A. d. C., & Rocha-Pinto, H. J. 2015, A&A, 580,
+A24
+Delgado Mena, E., Israelian, G., González Hernández, J. I., Santos,
+N. C., & Rebolo, R. 2012, ApJ, 746, 47
+Ecuvillon, A., Israelian, G., Santos, N. C., et al. 2004, A&A, 418, 703
+Fischer, D. A., & Valenti, J. 2005, ApJ, 622, 1102
+Ghezzi, L., Cunha, K., Smith, V. V., et al. 2009, ApJ, 698, 451
+Gonzalez, G. 1997, MNRAS, 285, 403
+González Hernández, J. I., Israelian, G., Santos, N. C., et al. 2010,
+ApJ, 720, 1592
+González Hernández, J. I., Casares, J., Rebolo, R., et al. 2011, ApJ,
+738, 95
+González Hernández, J. I., Delgado-Mena, E., Sousa, S. G., et al. 2013,
+A&A, 552, A6
+Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1990, A&A, 232,
+225
+Henry, R. B. C., Edmunds, M. G., Köppen, J. 2000, ApJ, 541, 660
+Ida, S., & Lin, D. N. C. 2004, ApJ, 604, 388
+Israelian, G., Santos, N. C., Mayor, M., & Rebolo, R. 2001, Nature,
+411, 163
+Israelian, G., Santos, N. C., Mayor, M., & Rebolo, R. 2003, A&A, 405,
+753
+Israelian, G., Ecuvillon, A., Rebolo, R., et al. 2004, A&A, 421, 649
+Kurucz, R. L., Furenlid, I., Brault, J., & Testerman, L. 1984, National
+Solar Observatory Atlas, Sunspot, New Mexico: National Solar Ob-
+servatory, 1984,
+Kurucz, R. 1993, in ATLAS9 Stellar Atmosphere Programs and 2
+km s−2 grid, Kurucz CD-ROM (Cambridge, Mass.: Smithsonian
+Astrophysical Observatory), 13
+Liang, Y. C., Zhao, G., & Shi, J. R. 2001, A&A, 374, 936
+Maeder, A., & Meynet, G. 2000, ARA&A, 38, 143
+Maeder, A. 2009, Physics, Formation and Evolution of Rotating Stars:
+, Astronomy and Astrophysics Library. ISBN 978-3-540-76948-
+4. Springer Berlin Heidelberg, 2009,
+Mandell, A. M., Ge, J., & Murray, N. 2004, AJ, 127, 1147
+Marigo, P. 2001, A&A, 370, 194
+Mordasini, C., Alibert, Y., Klahr, H., & Henning, T. 2012, A&A, 547,
+A111
+Mortier, A., Santos, N. C., Sousa, S. G., et al. 2013, A&A, 551, A112
+Navarro J. F., Abadi M. G., Venn K. A., Freeman K. C., Anguiano
+B. 2011, MNRAS, 412, 1203
+Nissen, P. E. 2015, A&A, 579, A52
+Pagel, B. E. J., & Edmunds, M. G. 1981, ARA&A, 19, 77
+Pettini, M., Ellison, S. L., Bergeron, J., & Petitjean, P. 2002, A&A,
+391, 21
+Reddy B. E., Lambert D. L., Allende Prieto C. 2006, MNRAS, 367,
+1329
+Recio-Blanco, A., de Laverny, P., Kordopatis, G., et al. 2014, A&A,
+567, A5
+Santos, N. C., Israelian, G., & Mayor, M. 2001, A&A, 373, 1019
+Santos, N. C., García López, R. J., Israelian, G., et al. 2002, A&A,
+386, 1028
+Santos, N. C., Israelian, G., Mayor, M., Rebolo, R., & Udry, S. 2003,
+A&A, 398, 363
+Santos, N. C., Israelian, G., & Mayor, M. 2004, A&A, 415, 1153
+Santos, N. C., Israelian, G., Mayor, M., et al. 2005, A&A, 437, 1127
+Santos, N. C., Adibekyan, V., Mordasini, C., et al. 2015, A&A, 580,
+L13
+Sneden, C. A. 1973, Ph.D. Thesis,
+Sousa, S. G., Santos, N. C., Israelian, G., Mayor, M. & Monteiro,
+M. J. P. F. G. 2007, A&A, 469, 783
+Sousa, S. G., Santos, N. C., Mayor, M., et al. 2008, A&A, 487, 373
+Sousa, S. G., Santos, N. C., Israelian, G., et al. 2011a, A&A, 526,
+AA99
+Sousa,S.G.,Santos,N.C.,Israelian,G.,Mayor,M.,&Udry,S.2011b,
+A&A, 533, AA141
+Sousa, S. G., Santos, N. C., Mortier, A., et al. 2015, A&A, 576, A94
+Théado & Vauclair, ApJ, 744, 2
+Tsantaki, M., Sousa, S. G., Adibekyan, V. Z., et al. 2013, A&A, 555,
+A150
+Valenti, J. A., & Fischer, D. A. 2005, ApJS, 159, 141
+van den Hoek, L. B., & Groenewegen, M. A. T. 1997, A&AS, 123, 305
+Appendix A: Nitrogen abundances for stars with
+and without planets
+Article number, page 8 of 10
+PAGE 9
+Suárez-Andrés, L. et al.: Nitrogen abundances in planet harboring stars.
+Table A.1: Nitrogen abundances for a set of stars with planets.
+Star Teﬀ (K) logg (cm s−2) ξt(kms−1) [Fe/H] [N/H]
+HD 142 6431 4.82 2.1 0.05 0.12 ± 0.10
+HD 1237 5489 4.46 1.04 0.06 0.07 ± 0.10
+HD 2039 5990 4.56 1.24 0.34 0.36 ± 0.10
+HD 2638 5169 4.41 0.66 0.12 0.13 ± 0.11
+HD 4203 5728 4.23 1.18 0.43 0.53 ± 0.11
+HD 4208 5600 4.41 0.88 -0.29 -0.32 ± 0.12
+HD 16141 5786 4.17 1.1 0.15 0.18 ± 0.10
+HD 17051 6237 4.46 1.31 0.2 0.29 ± 0.13
+HD 19994 6315 4.44 1.66 0.27 0.38 ± 0.12
+HD 20794 5398 4.41 0.7 -0.41 -0.44 ± 0.11
+HD 23079 6009 4.5 1.2 -0.11 -0.16 ± 0.10
+HD 27894 4833 4.3 0.33 0.26 0.07 ± 0.13
+HD 28185 5621 4.36 0.92 0.19 0.24 ± 0.12
+HD 30177 5601 4.34 0.89 0.37 0.47 ± 0.14
+HD 39091 5991 4.4 1.09 0.09 0.14 ± 0.10
+HD 50554 6129 4.41 1.11 0.01 0.10 ± 0.12
+HD 52265 6167 4.44 1.28 0.24 0.34 ± 0.12
+HD 65216 5614 4.46 0.81 -0.17 -0.17 ± 0.10
+HD 63454 4756 4.32 0.31 0.13 0.01 ± 0.11
+HD 69830 5370 4.38 0.67 -0.07 -0.06 ± 0.10
+HD 70642 5659 4.43 0.81 0.17 0.24 ± 0.11
+HD 72659 5926 4.24 1.13 -0.02 0.08 ± 0.10
+HD 73256 5465 4.36 1.0 0.21 0.26 ± 0.10
+HD 74156 6099 4.34 1.38 0.16 0.26 ± 0.11
+HD 75289 6139 4.35 1.22 0.3 0.26 ± 0.12
+HD 82943 5992 4.42 1.06 0.28 0.29 ± 0.13
+HD 93083 5048 4.32 0.81 0.08 0.09 ± 0.10
+HD 106252 5880 4.4 1.13 -0.07 0.00 ± -0.10
+HD 114386 4774 4.37 0.01 -0.09 -0.12 ± 0.10
+HD 114729 5865 4.2 1.29 -0.26 -0.26 ± 0.10
+HD 117207 5649 4.31 0.95 0.21 0.35 ± 0.10
+HD 117618 6003 4.45 1.16 0.03 0.16 ± 0.10
+HD 11964A 5285 3.81 0.95 0.06 0.06 ± 0.11
+HD 208487 6172 4.54 1.22 0.1 0.16 ± 0.11
+HD 210277 5470 4.26 0.9 0.15 0.16 ± 0.10
+HD 213240 5967 4.28 1.22 0.13 0.15 ± 0.10
+HD 216435 6034 4.21 1.27 0.27 0.38 ± 0.12
+HD 216437 5882 4.25 1.25 0.25 0.39 ± 0.11
+HD 216770 5351 4.31 0.85 0.2 0.29 ± 0.10
+HD 217107 5679 4.32 1.15 0.35 0.39 ± 0.10
+HD 222582 5781 4.37 1.02 -0.01 0.05 ± 0.10
+HD 330075 4958 4.24 0.32 0.05 -0.05 ± 0.10
+Article number, page 9 of 10
+PAGE 10
+A&A proofs: manuscript no. nitrogen_revised
+Table A.2: Nitrogen abundances for a set of stars without planets (comparison sample).
+Star Teﬀ (K) logg (cm s−2) ξt(kms−1) [Fe/H] [N/H]
+HD 870 5360 4.4 0.79 -0.12 -0.14 ± 0.10
+HD 1581 5990 4.49 1.24 -0.18 -0.23 ± 0.10
+HD 3823 6054 4.37 1.44 -0.26 -0.36 ± 0.12
+HD 8326 4834 4.35 0.44 0.04 -0.05 ± 0.10
+HD 8389A 5182 4.33 0.81 0.36 0.23 ± 0.11
+HD 9796 5139 4.34 0.49 -0.25 -0.32 ± 0.10
+HD 15337 5088 4.36 0.51 0.06 0.01 ± 0.10
+HD 16270 4583 4.23 0.16 0.14 0.02 ± 0.11
+HD 20807 5875 4.5 1.15 -0.23 -0.17 ± 0.10
+HD 21019 5468 3.93 1.1 -0.45 -0.42 ± 0.12
+HD 33636 5994 4.71 1.79 -0.08 -0.15 ± 0.11
+HD 35854 4808 4.35 0.16 -0.14 -0.37 ± 0.11
+HD 37226 6178 4.16 1.61 -0.12 -0.12 ± 0.10
+HD 40105 5064 3.69 0.91 0.02 0.10 ± 0.10
+HD 44573 4990 4.42 0.61 -0.07 -0.19 ± 0.11
+HD 65907A 5995 4.62 1.18 -0.29 -0.24 ± 0.10
+HD 72769 5587 4.3 0.86 0.29 0.38 ± 0.11
+HD 73121 6083 4.27 1.33 0.09 0.15 ± 0.11
+HD 76151 5781 4.44 0.93 0.12 0.21 ± 0.10
+HD 103891 6072 4.05 1.5 -0.19 -0.08 ± 0.11
+HD 108063 6081 4.11 1.54 0.55 0.74 ± 0.15
+HD 119629 6250 4.17 1.73 -0.17 -0.16 ± 0.11
+HD 141597 6285 4.38 1.23 -0.4 -0.26 ± 0.14
+HD 191033 6206 4.47 1.35 -0.19 -0.08 ± 0.13
+HD 205536 5418 4.36 0.79 -0.07 -0.16 ± 0.11
+HD 208068 6007 4.64 1.17 -0.38 -0.47 ± 0.13
+HD 211415 5864 4.42 1.01 -0.21 -0.27 ± 0.12
+HD 213042 4670 4.22 0.35 0.14 0.08 ± 0.11
+HD 214094 6288 4.28 1.46 -0.01 -0.01 ± 0.10
+HD 220367 6116 4.45 1.44 -0.23 -0.20 ± 0.11
+HD 222335 5220 4.48 0.62 -0.21 -0.25 ± 0.10
+CD-436810 6011 4.41 1.09 -0.44 -0.31 ± 0.11
+Article number, page 10 of 10

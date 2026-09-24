@@ -1,0 +1,59 @@
+{
+  "schema": "rya1220.pysme_native_nitrogen_sweep.v1",
+  "host": "sirius",
+  "backend": "PySME native / SMElib",
+  "atmosphere": "/home/damienabraxas/.sme/atmospheres/marcs2012.sav",
+  "star": {
+    "teff": 5772,
+    "logg": 4.44,
+    "feh": 0.0,
+    "vmic": 1.0
+  },
+  "lines": [
+    {
+      "band": "VIS",
+      "wavelength_air_A": 7468.31,
+      "status": "complete",
+      "delta_dex": -0.009607933604081964
+    },
+    {
+      "band": "IR",
+      "wavelength_air_A": 8216.34,
+      "status": "complete",
+      "delta_dex": -0.012815415294648247
+    },
+    {
+      "band": "IR",
+      "wavelength_air_A": 8683.4,
+      "status": "complete",
+      "delta_dex": -0.013647877197715985
+    },
+    {
+      "band": "VIS",
+      "wavelength_air_A": 7442.298,
+      "status": "complete_provisional_level_match",
+      "delta_dex": -0.0097164653,
+      "source": "Amarsi et al. 2020 Table 1",
+      "level_identity": "3s 4P3/2 -> 3p 4So3/2"
+    },
+    {
+      "band": "near-IR",
+      "wavelength_air_A": 8629.235,
+      "status": "complete",
+      "delta_dex": -0.0099600232,
+      "source": "Amarsi et al. 2020 Table 1; matches energy-resolved PySME grid labels",
+      "level_identity": "3s 2P3/2 -> 3p 2Po3/2"
+    }
+  ],
+  "summary": {
+    "n_lines": 5,
+    "delta_median_dex": -0.0099600232,
+    "delta_range_dex": [
+      -0.013647877197715985,
+      -0.009607933604081964
+    ]
+  },
+  "interpretation": "Five canonical atomic N records now synthesize on native PySME. The 8629.235 level identity is confirmed against Amarsi et al. 2020 Table 1 (3s 2P3/2 -> 3p 2Po3/2), so it is promoted from provisional.",
+  "uv": "No registered N line in the current NLTE_LINES registry is in the near-UV; UV coverage remains an input-line acquisition task.",
+  "repair": "PySME nlte.update_coefficients now calls dll.ResetDepartureCoefficients() in the LTE/no-elements branch."
+}

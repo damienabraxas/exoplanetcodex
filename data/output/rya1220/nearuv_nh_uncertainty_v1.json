@@ -1,0 +1,28 @@
+{
+  "schema": "rya1220.nearuv_nh_uncertainty.v1",
+  "ticket": "RYA-1220",
+  "route": "Kitt Peak near-UV NH A-X (0-0)",
+  "engine": "Turbospectrum on Sirius",
+  "nominal_A_N": 7.957,
+  "components": {
+    "fit_sigma_dex": 0.011,
+    "continuum_level_minus_dex": -0.1689999999999996,
+    "continuum_level_plus_dex": 0.1410000000000009,
+    "continuum_half_range_dex": 0.15500000000000025,
+    "continuum_slope_minus_dex": 0.0019999999999997797,
+    "continuum_slope_plus_dex": -0.009999999999999787
+  },
+  "measured": {
+    "continuum": "PASS_PARTIAL",
+    "fit": "MEASURED"
+  },
+  "held": {
+    "profile_residual_covariance": "HOLD",
+    "NH_blend_identity": "HOLD",
+    "molecular_3D_model_form": "HOLD",
+    "holding_repeatability": "HOLD",
+    "statistical_correlation_model": "UNRESOLVED"
+  },
+  "interpretation": "Continuum perturbation is measured and dominates the current local NH uncertainty (0.155 dex half-range). Do not combine with fit sigma as independent; correlated residual/model terms remain unresolved and publication remains HOLD.",
+  "source": "data/output/rya1220/cn_nearuv_continuum_v1/fits.json"
+}

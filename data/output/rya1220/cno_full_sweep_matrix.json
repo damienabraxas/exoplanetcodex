@@ -1,0 +1,20 @@
+{
+  "ticket": "RYA-1220",
+  "scope": "CNO atomic and molecular full instrument-band-engine sweep",
+  "execution_policy": "Sirius for all synthesis and NLTE runs; uncertainty is per instrument and band",
+  "engine": "Turbospectrum on Sirius; no Engine-A versus Engine-B comparison is required by RYA-1220 or RYA-587",
+  "routes": [
+    {"instrument": "HARPS", "band": "VIS", "indicators": "C I, CH/C2, N I, CN, O I/[O I]", "prior_artifact": "data/audit/cno_synthesis/solar_vis_cno_product.csv", "status": "computed; uncertainty expansion active"},
+    {"instrument": "Kitt Peak", "band": "near-UV", "indicators": "NH/OH", "prior_artifact": "data/audit/cno_synthesis/solar_nearuv_cno_product.csv", "status": "computed; OH is upper-bound/continuum-limited"},
+    {"instrument": "Kitt Peak", "band": "NIR CN", "indicators": "CN A-X", "prior_artifact": "data/audit/cno_synthesis/solar_nir_cn_kp_cno_product.csv", "status": "computed; C/O inputs pinned, uncertainty expansion active"},
+    {"instrument": "IAG", "band": "NIR CN", "indicators": "CN A-X", "prior_artifact": "data/audit/cno_synthesis/solar_nir_cn_iag_cno_product.csv", "status": "computed; residual continuum and 3D-anchor rerun active"},
+    {"instrument": "CRIRES+", "band": "J", "indicators": "CN A-X", "prior_artifact": "data/audit/rya1214_crires_jk/solar_crires_plus_j_rya1219_rest.csv", "status": "computed; band-specific uncertainty expansion required"},
+    {"instrument": "CRIRES+", "band": "H", "indicators": "OH vibration-rotation", "prior_artifact": "data/audit/rya1214_cno_products/oh_h_bsyn_build.prov.json", "status": "engine/list build present; product uncertainty audit required"},
+    {"instrument": "CRIRES+", "band": "K", "indicators": "CO first overtone", "prior_artifact": "data/audit/rya1214_cno_products/co_k_bsyn_build.prov.json", "status": "engine/list build present; product uncertainty audit required"},
+    {"instrument": "ESPRESSO", "band": "VIS", "indicators": "C I, O I 777/[O I]", "prior_artifact": "data/audit/cno_synthesis/solar_phase_a_cross_arm.json", "status": "3D/NLTE cross-arm evidence present; per-product uncertainty audit required"},
+    {"instrument": "UVES", "band": "VIS", "indicators": "N I/CN", "prior_artifact": "data/audit/cno_synthesis/solar_phase_a_cross_arm.json", "status": "declared route; coverage/uncertainty audit required"},
+    {"instrument": "HST STIS/COS", "band": "UV", "indicators": "C I/O I", "prior_artifact": "pipeline/cno_synthesis.py HST_UV wiring", "status": "declared but readiness/model gates must be checked"}
+  ],
+  "global_uncertainty_requirements": ["same-pool C/O covariance", "per-band continuum and pseudo-continuum", "profile residual covariance", "telluric residuals", "line/blend/isotope identity", "3D/NLTE/model-atmosphere term", "holding repeatability", "matched target-Sun differential covariance"],
+  "promotion_rule": "No CNO value is promoted until its route has a measured or explicitly N/A/HOLD component for every applicable RYA-587 term. Engine comparison is not an admission requirement."
+}

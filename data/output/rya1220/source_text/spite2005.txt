@@ -1,0 +1,1165 @@
+PAGE 1
+arXiv:astro-ph/0409536v3  26 Jan 2005
+1Astronomy & Astrophysics manuscript no. 1274 December 6, 2018
+(DOI: will be inserted by hand later)
+First stars VI - Abundances of C, N, O, Li, and mixing in
+extremely metal-poor giants. Galactic evolution of the lig ht
+elements ⋆
+M. Spite 1, R. Cayrel 1, B. Plez 2, V. Hill 1, F. Spite 1, E. Depagne 3, P. Fran¸ cois1, P. Bonifacio 4, B. Barbuy 5,
+T. Beers 6, J. Andersen 7,8, P. Molaro 4, B. Nordstr¨ om7,9, and F. Primas 10
+1 GEPI, Observatoire de Paris-Meudon, F-92125 Meudon Cedex, France,
+2 GRAAL, Universit´ e de Montpellier II, F-34095 Montpellier Cedex 05, France,
+3 European Southern Observatory (ESO), 3107 Alonso de Cordov a, Vitacura, Casilla 19001, Santiago 19, Chile
+4 Osservatorio Astronomico di Trieste, INAF, Via G.B. Tiepol o 11, I-34131 Trieste, Italy,
+5 IAG, Universidade de Sao Paulo, Depto. de Astronomia, rua do Matao 1226, Sao Paulo 05508-900, Brazil,
+6 Department of Physics & Astronomy and JINA: Joint Institute for Nuclear Astrophysics, Michigan State
+University, East Lansing, MI 48824, USA
+7 Astronomical Observatory, NBIfAFG, Juliane Maries Vej 30, DK-2100 Copenhagen, Denmark,
+8 Nordic Optical Telescope Scientiﬁc Association, Apartado 474, ES-38 700 Santa Cruz de La Palma, Spain,
+9 Lund Observatory, Box 43, SE-221 00 Lund, Sweden,
+10 European Southern Observatory, Karl Schwarzschild-Str. 2 , D-85749 Garching b. M¨ unchen, Germany
+Received XXX; accepted XXX
+Abstract. We have investigated the poorly-understood origin of nitro gen in the early Galaxy by determining
+N abundances from the NH band at 336 nm in 35 extremely metal-p oor halo giants, with carbon and oxygen
+abundances from Cayrel et al. (2004), using high-quality ES O VLT/UVES spectra (30 of our 35 stars are in the
+range − 4. 1 < [Fe/ H] < − 2. 7 and 22 stars have [Fe / H] < − 3. 0). N abundances derived both from the NH band
+and from the CN band at 389 nm for 10 stars correlate well, but s how a systematic diﬀerence of 0.4 dex, which
+we attribute to uncertainties in the physical parameters of the NH band (line positions, gf values, dissociation
+energy, etc.). Because any dredge-up of CNO processed mater ial to the surface may complicate the interpretation
+of CNO abundances in giants, we have also measured the surfac e abundance of lithium in our stars as a diagnostic
+of such mixing.
+Our sample shows a clear dichotomy between two groups of star s. The ﬁrst group shows evidence of C to N
+conversion through CN cycling and strong Li dilution, a sign ature of mixing; these stars are generally more
+evolved and located on the upper Red Giant Branch (RGB) or Hor izontal Branch (HB). The second group has
+[N/ Fe] < 0. 5, shows no evidence for C to N conversion, and Li is only moder ately diluted; these stars belong to
+the lower RGB and we conclude that their C and N abundances are very close to those of the gas from which they
+formed in the early Galaxy, they are called ”unmixed stars”. The [O/Fe] and [(C+N)/Fe] ratios are the same in
+the two groups, conﬁrming that the diﬀerences between them a re caused by dredge-up of CN-processed material
+in the ﬁrst group, with negligible contributions from the O- N cycle.
+The ”unmixed” stars reﬂect the abundances in the early Galax y: the [C/Fe] ratio is constant (about +0.2 dex)
+and the [C/Mg] ratio is close to solar at low metallicity, fav ouring a high C production by massive zero-metal
+supernovae. The [N/Fe] and [N/Mg] ratios scatter widely. Th eir mean values in each metallicity bin decrease with
+increasing metallicity, but this trend could be well a stati stical eﬀect. The larger values of these ratios deﬁne a
+ﬂat upper plateau ([N/Mg]= 0.0, [N/Fe]= +0.1), which could r eﬂect higher values within a wide range of yields
+of zero-metal SNe II. Alternatively, by analogy with the DLA ’s, the lower abundances ([N/Mg]= –1.1, [N/Fe]=
+–0.7) could reﬂect generally low yields from the ﬁrst SNe II, the other stars being N enhanced by winds of massive
+Asymptotic Giant Branch (AGB) stars. Since all the stars sho w clear [ α /Fe] enhancements, they were formed
+before any signiﬁcant enrichment of the Galactic gas by SNe I a, and their composition should reﬂect the yields
+of the ﬁrst SNe II. However, if massive AGB stars or AGB supern ovae evolved more rapidly than SNe Ia and
+contaminated the ISM, our stars would also reﬂect the yields of these AGB stars. At present it cannot be decided
+whether primary N is produced primarily in SNe II or in massiv e AGB stars, or in both.
+The stellar N abundances and [N/O] ratios are compatible wit h those found in Damped Lyman- α (DLA) systems.
+They extend the well-known DLA “plateau” at [N/O] ≈ − 0. 8 to lower metallicities, albeit with more scatter; no
+star is found below the putative “low [N/ α ] plateau” at [N/O] ≈ − 1. 55 in DLAs.
+Key words. Galaxy: abundances – Galaxy: halo – Galaxy: evolution – Star s: abundances – Stars: Mixing – Stars:
+Supernovae
+PAGE 2
+1. Introduction
+Carbon, nitrogen, and oxygen - the CNO elements – are
+key players in the chemical evolution of galaxies. They are
+the most abundant elements after hydrogen and helium
+and the most eﬃcient coolants in the interstellar medium.
+Thus, understanding how the ﬁrst CNO nuclei were syn-
+thesised is crucial for models of the ﬁrst star formation
+and nucleosynthesis in the Universe after the Big Bang.
+There is general consensus that oxygen is almost en-
+tirely contributed by massive type II SNe, primarily dur-
+ing the central hydrogen burning with some contribution
+from neon burning. Carbon can be produced in stars of
+all masses, essentially by He burning. In contrast to O
+and C, however, the initial formation of N is still not well
+understood (Pilyugin et al. 2003).
+N is formed at the expense of C and O during hydrogen
+burning by the CNO cycle. If N is formed directly from He,
+it is called primary; if pre-existing C nuclei are required,
+it is called secondary. In massive stars, mixing (with or
+without stellar rotation) between the helium-burning layer
+(which produces C) and the hydrogen-burning layer can
+induce “primary” N formation; the yield may be very vari-
+able. In intermediate-mass stars with (approx. 4 M⊙ <
+M < 8M⊙), abundant primary N may be produced dur-
+ing the AGB phase.
+The production mechanisms of N are imprinted in the
+abundances of stars formed from the ejecta of massive pro-
+genitor stars. If the N production was secondary, the [N/O]
+ratio should increase with increasing metallicity. For pri-
+mary N production, [N/O] should remain constant.
+From a study of H II regions in irregular galaxies
+(Kobulnicky & Skillman 1996; Izotov & Thuan 1999), the
+[N/O] ratio does indeed appear to be constant at low
+metallicity, at least between [O/H]= –1.6 and –1.2, or
+about − 2.1 < [Fe/H] < − 1.7, suggesting that N is pri-
+mary in this range. From the small dispersion of their
+[N/O] measurements, Izotov & Thuan argue in favor of N
+production by massive stars. However, this conclusion is
+challenged by observations of DLAs, which exhibit large
+scatter and, in particular, lower values of [N/O] than those
+of H II regions in irregular galaxies. Henry et al. (2000)
+could reproduce the plateau in [N/O] by assuming N pro-
+duction by AGB stars and diﬀerent Star Formation Rates
+(SFRs), while Prochaska et al. (2002) proposed a scenario
+involving a diﬀerent IMF at earlier epochs of star forma-
+tion. The complex evidence suggests that primary produc-
+tion of N, if conﬁrmed, might require production by both
+massive stars or AGBs.
+Recently, however, Chiappini, Matteucci & Meynet
+(2003) questioned the very presence of the plateau and
+its signiﬁcance as an evolutionary curve. They further
+stressed that while the [N/O] vs. [O/H] diagram for DLAs
+and H II regions is often interpreted as an evolutionary
+Send oﬀprint requests to : monique.spite@obspm.fr
+⋆ Based on observations obtained with the ESO VLT under
+ESO programme ID 165.N-0276(A). This work has made use
+of the SIMBAD database.
+diagram with [O/H] as the time axis, it does in fact rep-
+resent ﬁnal abundances achieved by objects that evolved
+in completely diﬀerent ways from each other. Hence, the
+best way to determine the lower limit of the [N/O] ratio
+is to measure it in very old Galactic stars.
+Among early discussions of the Galactic evolution of N
+in halo stars, Tomkin & Lambert (1984) analysed 14 disk
+and halo dwarfs in the range − 2.3 ≤ [Fe/H] ≤ − 0.3, us-
+ing the ultraviolet NH band. They found [N/Fe] = –0.25,
+[C/Fe] = –0.21, and an average [N/C] = -0.02 ± 0.3. Laird
+(1985) analysed 116 dwarfs with -2.45 ≤ [Fe/H] ≤ +0.5
+from observations of the G band of CH and the violet NH
+band at low resolution and found [C /Fe] = − 0.22 ± 0.14
+and [N /Fe] = − 0.67 ± 0.21. In both studies, the N abun-
+dances were corrected by +0.65 dex and C by +0.2 dex in
+order to obtain [N/Fe] = [C/Fe] = 0 at solar metallicity.
+Carbon et al. (1987) also observed the CH band and violet
+NH band at low resolution in 83 dwarfs, including 27 in the
+range –2.7 ≤ [Fe/H] ≤ –2.0. Assuming [O/Fe] = +0.6 (im-
+portant for the derived C abundance), they found [C/Fe]
+= –0.03 ± 0.18, and [N/Fe] = –0.45 ± 0.28. These three sets
+of data suggested that Nitrogen showed a behaviour as a
+primary element at the low metallicities studied (–2.7 ≤
+[Fe/H] ≤ –2.0).
+Very recently, Israelian et al. (2004) measured
+nitrogen abundances in 31 unevolved stars with
+− 3.05 ≤ [Fe/H] ≤ − 0.35, using the near-UV NH band. As
+only four stars in their sample have [Fe /H] < − 2.5, their
+metallicity range is complementary to the present work
+(see below). Israelian et al. ﬁnd no trend of [N/Fe] vs.
+[Fe/H], suggesting also primary N production. For stars
+of higher metallicity ([O /H] > − 1.8) they ﬁnd a signiﬁ-
+cant slope of [N/O] versus [O/H], indicative of secondary
+behaviour. Because they derive [N/O] from similar analy-
+ses of the near-UV bands of OH and NH, systematic errors
+in the molecular analysis should at least partly cancel.
+On this background, the aim of the present paper is
+to determine C and N abundances in stars from the very
+earliest phases of the evolution of the Galaxy. Cayrel et
+al. (2004, hereafter Paper V) already analysed the abun-
+dances of 17 elements from C to Zn in 35 extremely metal-
+poor (XMP) stars ( − 4.0 < [Fe/H] < − 2.7). For most el-
+ements, the diagrams of [X/Fe] (or [X/Mg]) vs. [Fe/H]
+(or [Mg/H]) showed very small dispersion, and the trends
+(or absence of trends) of the diﬀerent element ratios with
+metallicity could be determined rather easily. In contrast,
+the relations [C/Fe] vs. [Fe/H] (or [C/Mg] vs. [Mg/H])
+showed so large scatter that no conclusions on the produc-
+tion of C could be drawn. N abundances were measured
+from CN, but this band was only detected in six stars.
+In this paper we use the high UV eﬃciency of the VLT
+spectrograph UVES to push the study of the Galactic evo-
+lution of N a step further. Using the NH band at 336 nm
+allows us to measure N abundances in the same large sam-
+ple of extremely metal-poor halo giants as that of Cayrel et
+al. (2004): 35 stars with –4.1 ≤ [Fe/H] ≤ –2.0, 30 of which
+have − 4 < [Fe/H] <− 2.7 (and 22 have [Fe/H] < − 3.0). At
+these metallicities it is essentially impossible to detect the
+PAGE 3
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 3
+Fig. 1. Reduced UVES spectra in the region of the NH band at 336 nm. Cross es represent the observed spectra, while
+the full lines show synthetic spectra computed for the best-ﬁt N a bundance as well as twice that value (thick and thin
+lines, respectively). The two stars have about the same metallicity, [Fe/H]= –3.06 (BD-18:5550) and [Fe/H]= –3.00
+(CS 22186–025).
+NH band in main-sequence or turnoﬀ stars (unless they
+have a strong N excess), so the less-evolved, unmixed gi-
+ants in our sample oﬀer essentially the only way to mea-
+sure N at such low metallicities.
+Mixing of the outer layers in these stars may invalidate
+conclusions drawn from an abundance analysis of their
+surfaces. Its importance can be estimated from several
+indicators, in particular from the abundance of lithium,
+which is rapidly destroyed if convection drives it to re-
+gions with temperatures above ∼ 2.5 10 6 K. For example
+7Li is destroyed in about 97% of the mass of a 0 .9M⊙ very
+metal-poor star during its main-sequence evolution. When
+the outer convective zone deepens, the remaining 3% is
+diluted by the full mass of the convective zone, and the
+surface Li abundance becomes a diagnostic of the depth of
+this convective zone. Accordingly, we have also measured
+Li abundances in our giants to distinguish between mixed
+and unmixed stars.
+In Sect. 2 we describe the observations, and Sect. 3
+presents the analysis of the data. Sect. 4 discusses mix-
+ing in these stars, while Sect. 5 considers the abundances
+of the CNO elements in the early Galaxy and presents a
+comparison of our results with data from DLAs. Sect. 6 is
+a brief summary of our results and conclusions.
+2. Observations and reductions
+The observations were performed during several observing
+runs from April 2000 to November 2001 with the VLT-
+UT2 and UVES (Dekker et al. 2000), at a resolving power
+of R = 47, 000 at 400 nm. The spectra were reduced using
+the UVES context (Ballester et al. 2000) within MIDAS.
+Details of the observing and reduction procedures are pre-
+sented in Paper V (Cayrel et al. 2004). Taking advantage
+of the high UV eﬃciency of UVES allows us to measure
+the NH band at 336 nm in most of our stars.
+The signal-to-noise ratio of the spectra is diﬃcult to
+estimate in this very crowded region, but is typically
+S/N ≈ 30 (per pixel). An example of the spectrum in
+the region of the NH band is shown in Fig. 1.
+3. Abundance Analysis
+As described in Paper V, we carried out a classical LTE
+analysis using OSMARCS model atmospheres (Gustafsson
+PAGE 4
+4 M. Spite et al.: Light-element abundances and mixing in ext remely metal-poor giants
+T able 1. Adopted model parameters (T eﬀ , log g, vt, [Fe/H]) and light element abundances for the programme stars.
+For Li, C and N the 1 σ measurement error is given. The N abundances from the NH band in c olumn 10 are raw values,
+to be corrected by -0.4 dex (see section 3.2.3 and Fig. 4), the adopt ed values of [N/H] are given in column 11. Remark
+“m” in the last column identiﬁes stars considered to be mixed (see sec tion 4.1). The errors indicated in this table are
+only the measurement errors.
+[N/H] [N/H] adopt.
+Star Tef f log g vt [Fe/H] logN(Li) [C/H] (CN) (NH) [N/H] [O/H] [ C+N
+F e ] R
+1 HD 2796 4950 1.5 2.1 -2.47 < − 0. 30 − 2. 97 ± 0. 06 -1.52 − 1. 22 ± 0. 08 -1.62 -1.97 0.14 m
+2 HD 122563 4600 1.1 2.0 -2.82 < − 0. 60 − 3. 29 ± 0. 05 -2.12 − 1. 72 ± 0. 15 -2.12 -2.20 0.04 m
+3 HD 186478 4700 1.3 2.0 -2.59 < − 0. 50 − 2. 89 ± 0. 07 -2.02 − 1. 57 ± 0. 12 -1.97 -1.84 0.01 m
+4 BD +17:3248 5250 1.4 1.5 -2.07 < 0. 00 − 2. 44 ± 0. 05 -1.37 − 1. 02 ± 0. 10 -1.42 -1.38 0.00 m
+5 BD –18:5550 4750 1.4 1.8 -3.06 0 . 75 ± 0. 04 − 3. 08 ± 0. 04 - − 3. 02 ± 0. 10 -3.42 -2.64 -0.08
+6 CD –38:245 4800 1.5 2.2 -4.19 < − 0. 40 < − 4. 52 - − 2. 72 ± 0. 20 -3.12 - <0.35 m
+7 BS 16467–062 5200 2.5 1.6 -3.77 0 . 80 ± 0. 08 − 3. 52 ± 0. 12 - < − 2. 92 < − 3. 32 - -
+8 BS 16477–003 4900 1.7 1.8 -3.36 0 . 90 ± 0. 04 − 3. 07 ± 0. 08 - < − 3. 22 < − 3. 62 - -
+9 BS 17569–049 4700 1.2 1.9 -2.88 < − 0. 30 − 3. 00 ± 0. 05 -2.12 − 1. 62 ± 0. 12 -2.02 - 0.22 m
+10 CS 22169–035 4700 1.2 2.2 -3.04 < − 0. 35 − 3. 26 ± 0. 05 -2.02 − 1. 62 ± 0. 13 -2.02 - 0.32 m
+11 CS 22172–002 4800 1.3 2.2 -3.86 0 . 32 ± 0. 11 − 3. 86 ± 0. 10 - − 3. 22 ± 0. 20 -3.62 -2.82 0.01
+12 CS 22186–025 4900 1.5 2.0 -3.00 < − 0. 15 − 3. 54 ± 0. 10 - − 1. 62 ± 0. 08 -2.02 -2.41 0.23 m
+13 CS 22189–009 4900 1.7 1.9 -3.49 0 . 54 ± 0. 05 − 3. 18 ± 0. 08 - − 2. 82 ± 0. 12 -3.22 - 0.25
+14 CS 22873–055 4550 0.7 2.2 -2.99 < − 0. 35 − 3. 72 ± 0. 06 - − 1. 52 ± 0. 20 -1.92 -2.47 0.19 m
+15 CS 22873–166 4550 0.9 2.1 -2.97 < − 0. 55 − 3. 10 ± 0. 08 -1.92 − 1. 52 ± 0. 20 -1.92 - 0.37 m
+16 CS 22878–101 4800 1.3 2.0 -3.25 < − 0. 30 − 3. 54 ± 0. 10 - − 1. 52 ± 0. 10 -1.92 - 0.58 m
+17 CS 22885–096 5050 2.6 1.8 -3.78 0 . 83 ± 0. 05 − 3. 52 ± 0. 06 - − 3. 12 ± 0. 13 -3.52 - 0.20
+18 CS 22891–209 4700 1.0 2.1 -3.29 < − 0. 50 − 3. 94 ± 0. 05 - − 1. 77 ± 0. 10 -2.17 -2.52 0.36 m
+19 CS 22892–052 4850 1.6 1.9 -3.03 0 . 20 ± 0. 09 − 2. 14 ± 0. 06 -2.32 − 2. 12 ± 0. 13 -2.52 -2.56 0.83
+20 CS 22896–154 5250 2.7 1.2 -2.69 1 . 15 ± 0. 04 − 2. 46 ± 0. 05 - − 2. 52 ± 0. 12 -2.92 -1.75 0.19
+21 CS 22897–008 4900 1.7 2.0 -3.41 0 . 90 ± 0. 04 − 2. 85 ± 0. 05 - − 2. 77 ± 0. 15 -3.17 - 0.45
+22 CS 22948–066 5100 1.8 2.0 -3.14 < 0. 00 − 3. 14 ± 0. 10 - − 1. 52 ± 0. 10 -1.92 -2.25 0.61 m
+23 CS 22949–037 4900 1.5 1.8 -3.97 < − 0. 30 − 2. 82 ± 0. 10 -1.40 − 1. 32 ± 0. 30 -1.82 -1.99 1.67 m
+24 CS 22952–015 4800 1.3 2.1 -3.43 < − 0. 40 − 4. 02 ± 0. 08 - − 1. 72 ± 0. 10 -2.12 - 0.54 m
+25 CS 22953–003 5100 2.3 1.7 -2.84 0 . 80 ± 0. 04 − 2. 54 ± 0. 03 - − 2. 32 ± 0. 10 -2.72 -2.09 0.57
+26 CS 22956–050 4900 1.7 1.8 -3.33 0 . 97 ± 0. 03 − 3. 06 ± 0. 05 - − 2. 62 ± 0. 10 -3.02 -2.21 0.26
+27 CS 22966–057 5300 2.2 1.4 -2.62 1 . 35 ± 0. 03 − 2. 56 ± 0. 05 - − 2. 12 ± 0. 12 -2.52 -1.63 0.04
+28 CS 22968–014 4850 1.7 1.9 -3.56 0 . 52 ± 0. 08 − 3. 31 ± 0. 06 - − 2. 92 ± 0. 10 -3.32 -2.66 0.25
+29 CS 29491–053 4700 1.3 2.0 -3.04 < − 0. 10 − 3. 31 ± 0. 05 -2.32 − 1. 82 ± 0. 15 -2.22 -2.28 0.16 m
+30 CS 29495–041 4800 1.5 1.8 -2.82 0 . 38 ± 0. 09 − 2. 89 ± 0. 06 - − 2. 02 ± 0. 10 -2.42 -2.14 0.05
+31 CS 29502–042 5100 2.5 1.5 -3.19 0 . 90 ± 0. 05 − 3. 03 ± 0. 04 - − 3. 22 ± 0. 20 -3.62 - 0.15
+32 CS 29516–024 4650 1.2 1.7 -3.06 0 . 33 ± 0. 04 − 3. 12 ± 0. 05 - − 3. 42 ± 0. 20 -3.82 -2.44 -0.09
+33 CS 29518–051 5200 2.6 1.4 -2.69 < − 0. 10 − 2. 82 ± 0. 05 - − 1. 47 ± 0. 15 -1.87 -1.89 0.24 m
+34 CS 30325–094 4950 2.0 1.5 -3.30 < − 0. 25 − 3. 30 ± 0. 05 - − 2. 72 ± 0. 18 -3.12 -2.58 0.00
+35 CS 31082–001 4825 1.5 1.8 -2.91 0 . 85 ± 0. 05 − 2. 69 ± 0. 05 <-2.70 − 3. 02 ± 0. 10 -3.42 -2.31 0.13
+et al. 1975; Plez et al. 1992; Edvardsson et al. 1993;
+Asplund et al. 1997; Gustafsson et al. 2003). Since our
+analysis uses 1D models we adopted, as in Paper V, the
+solar abundances as obtained also from 1D models, i.e., log
+ǫ (O) = 8.74, log ǫ (C) = 8.52, log ǫ (N) = 7.92, and the
+values for other elements from Grevesse & Sauval (1998).
+Abundances were derived using the current version of
+the Turbospectrum code (Alvarez & Plez 1998), which ac-
+counts properly for continuum scattering (see Paper V), a
+feature that is particularly important in the violet part
+of the spectrum. For the CH, CN, and NH bands the
+abundances of C and N were determined from spectrum
+synthesis. Abundances of O from the forbidden line at
+630.031 nm and of Li from the resonance line have been
+derived directly from the equivalent widths of these lines.
+3.1. Atmospheric Parameters
+The procedures used to derive T eﬀ , log g, and the mi-
+croturbulent velocity vt have been explained in detail in
+Paper V, Section 3. Brieﬂy, T eﬀ was derived from broad-
+band photometry ( B − V , V − R, V − I, V − K, J − K),
+calibrated by the IRFM method (Alonso et al. 1999). The
+log g value was obtained by requiring that identical Fe and
+Ti abundances be derived from Fe I and Fe II, or Ti I, Ti II
+lines, respectively, and vt was determined to eliminate any
+abundance trend of the Fe I lines with equivalent width.
+PAGE 5
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 5
+Fig. 2. Observed spectrum of CS 22892-52 near the Li
+line at 670.7 nm (crosses), and synthetic spectra computed
+with log N(Li)= 0.15 and 0.45 (thick and thin lines, re-
+spectively).
+3.2. Abundances of the light elements
+3.2.1. Lithium
+The Li line at 670.7 nm is visible in about half of our stars.
+Table 1 lists the derived Li abundances for these stars, and
+upper limits for the remaining stars.
+Fig. 2 shows the Li feature in the neutron-capture-rich
+XMP star CS 22892–052 (Sneden et al. 2003). We measure
+an equivalent width of 3.3 m˚A, in excellent agreement with
+the value W Li= 3.5 m ˚A by Sneden et al. (2003).
+3.2.2. Carbon and Oxygen
+Carbon and oxygen abundances for our stars were care-
+fully determined in Paper V (speciﬁcally in sections 4.1
+and 4.2) and are reproduced in Table 1 (see also Barbuy
+et al. 2003).
+The O abundance was derived from the [O I] line at
+630.031 nm (Table 1), generally considered to be the most
+reliable O abundance indicator since it is insensitive to
+non-LTE eﬀects. However, these values were computed
+with classical 1D models, and the line has been shown to
+be sensitive to hydrodynamical (3D) eﬀects: The [O/Fe]
+ratio based on the [O I] line is expected to decrease when
+computed with 3D models. So far, explicit 3D corrections
+have only been computed for dwarfs (Nissen et al. 2002).
+Following these authors, at least the sign of the correction
+should not change in giants; and we assume, as a ﬁrst ap-
+proximation, that the correction is the same as for dwarfs.
+The 1D values of [O/Fe]= [O/H]–[Fe/H] (Table 1) should
+then be corrected by about –0.23 dex (see Paper V).
+C abundances were determined by a synthetic spec-
+trum ﬁt to the G band of CH (see Paper V).
+Fig 3 shows the [C/Fe] and [C/Mg] ratios as functions
+of [Fe/H] and [Mg/H]. They show substantially larger
+scatter around the mean value than all other elements
+studied in Paper V. Even if the two peculiar stars with
+very strong C enhancements are excluded, i.e. CS 22892–
+052 (Sneden et al. 1996, 2000, 2003) and CS 22949–037
+(McWilliam et al. 1995, Norris et al. 2001, Depagne et
+al. 2002), the scatter remains very large ( < [C/Fe] > =
+Fig. 3. [C/Fe] and [C/Mg] vs. [Fe/H] and [Mg/H]. Both
+diagrams show far more scatter than seen for other el-
+ements in Paper V. The peculiar “carbon-rich” stars
+CS 22949–037 and CS 22892-052 are labelled; they cannot
+be directly compared to the other stars of the sample.
+–0.09 and σ = 0 .373). In Paper V we studied a subset of
+stars with T eﬀ > 4800 K (the hotter, less evolved part of
+the RGB), but the scatter remained almost constant, with
+< [C/Fe] > = +0.01 and σ = 0.367 (see Figs. 5 and 12 in
+Paper V).
+We conclude that either the gas from which the XMP
+stars formed had a wide range of C abundances, or the
+initial composition in the atmosphere of the stars has been
+altered by subsequent mixing episodes. In the latter case
+we would also expect a correspondingly large scatter in
+the relation of [N/Fe] vs. [Fe/H].
+3.2.3. Nitrogen
+In Paper V, N abundances were computed from the BX
+band of CN at 388.8 nm. This band is extremely weak in
+most of our sample and the nitrogen abundance had been
+computed in only six stars. After a careful examination
+of the spectra, we could in fact detect the CN band and
+measure it, in ten stars (Table 1).
+Moreover in the present paper, we use the lines of the
+violet A3Π i− X 3Σ − NH band at 336 nm (see Fig. 1), which
+PAGE 6
+6 M. Spite et al.: Light-element abundances and mixing in ext remely metal-poor giants
+Fig. 4. [N/H] values derived from the CN and NH bands.
+The correlation is good, but shows a systematic shift of
+about 0.4 dex. The two carbon-rich stars are identiﬁed.
+is not only more readily measurable but also insensitive to
+the C and O abundances (see e.g. Sneden 1973 or Norris et
+al. 2002). We have adopted the Kurucz (2001) data for the
+NH molecule (Table 1, Fig. 4), in particular a dissociation
+energy of 3.47 eV (Huber & Herzberg 1979).
+Fig. 4 compares the N abundances derived from the
+NH and CN molecular bands. The correlation is good, but
+there is a systematic diﬀerence of about 0.4 dex, well above
+the internal errors. The reason for this discrepancy is un-
+clear, but we recall that the physical parameters (line po-
+sitions, gf values, etc.) of the NH band are not yet well es-
+tablished. We use a dissociation energy of 3.47 eV (Huber
+& Herzberg 1979), while Sneden (1973) and Norris et al.
+(2002) preferred a value of 3.21 eV. However, adopting
+a lower dissociation energy would further increase our N
+abundances from NH and the discrepancy with the re-
+sults from CN. In contrast, the dissociation energy and
+other parameters of the CN molecule seem to be better
+established. We have adopted D CN = 7.76eV (Huber &
+Herzberg 1979), which is supported by more recent experi-
+mental (e.g. 7.74 ± 0.02, Huang et al. 1992) and theoretical
+values (e.g. 7.72 ± 0.02, Pradhan et al. 1994).
+We conclude that our nitrogen abundances from the
+NH band (Table 1) should be corrected by –0.4 dex and
+use these corrected values in the following discussions.
+Fig. 5 shows the relations [N/Fe] vs. [Fe/H] and
+[N/Mg] vs. [Mg/H]. Here again the scatter is extremely
+large, even greater than in the case of C.
+3.3. Errors due to the uncertainty of the atmospheric
+parameters
+Except for measurement errors, the main source of error
+in the C, N, and Li abundances is the uncertainty in T eﬀ ,
+which is about 80 K (Paper V). For given T eﬀ , the ion-
+ization equilibrium constrains log g with an internal error
+of 0.1 dex, while vt is constrained to within ± 0.2 km s −1.
+In Table 2 we list the uncertainties in logN(Li), [C/Fe],
+[N/Fe] and also [(C+N)/Fe] and [C/N] arising from these
+sources for two stars, HD 122563 (T eﬀ = 4600 K) and
+Fig. 5. [N/Fe] vs. [Fe/H] and [N/Mg] vs. [Mg/H] for our
+sample. The scatter of the points is even larger than in
+Fig. 3 (the scale of both ﬁgures is the same).
+CS 22948–066 (T eﬀ = 5100 K), at the cool and warm end
+of our sample.
+The errors are very similar in both cases and thus are
+practically independent of the temperature of the star be-
+tween 4600 and 5100K. Since log g is derived from the
+ionization equilibrium, it is not independent of T eﬀ , so a
+change in T eﬀ also aﬀects log g. The total error budget
+therefore contains signiﬁcant covariance terms. To min-
+imise these eﬀects we have computed [C/Fe], [N/Fe] and
+[(C+N)/Fe] relative to Fe I for each model, since these
+abundances are aﬀected similarly by a change in temper-
+ature.
+The total error has been approximated by
+√
+(σ2
+m +
+σ2
+T + σ2
+g + σ2
+v) where σm is the measurement error (Table
+1) and σT , σg, σv are derived from Table 2 (∆( D − A),
+∆( B − A), ∆( C − A)). Note that in Table 2 the assumed
+change in Tef f is 100 K.
+4. Mixing in metal-poor giants
+4.1. Evidence from Carbon and Nitrogen
+The aim of this paper is to study the synthesis of the light
+elements in the Galaxy at the earliest times, i.e. their
+abundances in gas that was enriched by the ﬁrst Type
+PAGE 7
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 7
+T able 2.Changes (∆) in the derived N abundance caused
+by errors in model atmosphere parameters for HD 122563,
+a cool star, and CS 22948-066 (hotter). A is the adopted
+model; B, C, and D vary log g, vt, and T eﬀ individually
+as shown, while in model E, log g and vt have been re-
+adjusted for consistency with the lower T eﬀ (See also Paper
+V, Tables 6 and 7).
+HD 122563
+A: T ef f= 4600 K, log g= 1.0 dex, vt= 2.0 km s − 1
+B: T ef f= 4600 K, log g= 0.9 dex, vt= 2.0 km s − 1
+C: T ef f= 4600 K, log g= 1.0 dex, vt= 1.8 km s − 1
+D: T ef f= 4500 K, log g= 1.0 dex, vt= 2.0 km s − 1
+E: T ef f= 4500 K, log g= 0.6 dex, vt= 1.8 km s − 1
+∆ B− A ∆ C− A ∆ D− A ∆ E− A
+[F e/H ] 0.03 0.03 -0.11 0.03
+logN(Li) 0.01 0.00 -0.12 -0.06
+logN(C) 0.04 0.00 -0.23 -0.08
+[C/F e I ] 0.02 -0.09 -0.03 -0.05
+logN(N) 0.05 0.00 -0.30 -0.05
+[N/F e I ] 0.05 -0.13 -0.14 -0.06
+[C/N ] -0.01 0.00 0.10 0.00
+[(C + N )/F e I ] 0.07 -0.02 -0.24 0.05
+CS 22948–066
+A: T ef f= 5100 K, log g= 1.8 dex, vt= 2.0 km s − 1
+B: T ef f= 5100 K, log g= 1.7 dex, vt= 2.0 km s − 1
+C: T ef f= 5100 K, log g= 1.8 dex, vt= 1.8 km s − 1
+D: T ef f= 5000 K, log g= 1.8 dex, vt= 2.0 km s − 1
+E: T ef f= 5000 K, log g= 1.5 dex, vt= 2.0 km s − 1
+∆ B− A ∆ C− A ∆ D− A ∆ E− A
+[F e/H ] -0.02 +0.02 -0.05 -0.11
+logN(Li) 0.01 0.00 -0.11 -0.10
+logN(C) +0.04 0.00 -0.20 -0.10
+[C/F e I ] +0.04 -0.05 -0.09 +0.00
+logN(N) +0.05 0.00 -0.30 -0.10
+[N/F e I ] +0.05 -0.05 -0.19 -0.01
+[C/N ] -0.01 0.00 0.07 -0.03
+[(C + N )/F e I ] 0.07 -0.02 -0.24 0.01
+II supernovae. Generally, the convective atmosphere of a
+cool star is a good tracer of the chemical composition of
+the interstellar gas at the time and place of its formation.
+However, in giant stars material from deeper layers may be
+dredged to the surface and thereby alter the initial com-
+position (e. g. Gratton et al. 2000), so we must carefully
+check if such mixing has occurred in our stars.
+Fig. 6. [N/Fe] vs. [C/Fe] for our sample. Two groups are
+clearly separated: the “mixed” stars ([N/Fe] > 0.5) shown
+as open circles, and the “unmixed” stars ([N/Fe] < 0.5)
+shown as dots (both with error bars). CS 22892-52 and
+CS 22949-37 are the two peculiar carbon-rich stars.
+In dredged-up matter that has been processed by the
+CNO cycle, N has been produced at the expense of C, and
+the atmosphere of the star becomes “N rich” and “C poor”
+relative to its initial composition (thus, mixing during any
+ﬁrst dredge-up episodes cannot explain the C-rich stars,
+especially in our low-mass stars.)
+Fig. 6 shows [N/Fe] vs. [C/Fe] for all stars in our sam-
+ple. The stars clearly fall in two separate groups: the ap-
+parently unmixed stars with [C/Fe] ≥ 0.0 and [N/Fe] <
++0.5, and stars with [C/Fe] < 0.0 and [N/Fe] > +0.5
+which show evidence of mixing. These ratios are, by them-
+selves, no proof that the stars of the second group have
+been mixed internally; the gas from which they were
+formed could have had this composition. However, for sim-
+plicity we will continue to refer to these two groups as the
+unmixed and mixed stars, respectively. The ’mixed’ stars
+are identiﬁed by an “m” in Table 1 (last column).
+4.2. Evidence from the C/N ratio
+Because the CNO process turns C into N, the [C/N] ratio
+is a sensitive indicator of mixing. Fig. 7 shows the [C/N]
+ratio vs. T eﬀ . Like in Fig. 6, the mixed and unmixed stars
+are well separated. Note that most of the unmixed stars
+have T eﬀ ≥ 4800 K (cf. Paper V, Section 4.1).
+Two stars in our sample are known to be C rich:
+CS 22892–052 (Sneden et al. 2003) falls close to the un-
+mixed stars in Fig. 6, while CS 22949–037 (Depagne et al.
+2002) is quite peculiar, as its huge N abundance is sugges-
+tive of mixing (consistent with its low 12C/13C ratio), yet
+it falls quite far from the other mixed stars. None of these
+two stars appears unusual in Fig. 7, however.
+For three stars we have only upper abundance lim-
+its: CD–38:245 (C only), BS 16477-003 (N only), and
+BS 16467–032 (both C and N); they are marked with ar-
+PAGE 8
+8 M. Spite et al.: Light-element abundances and mixing in ext remely metal-poor giants
+Fig. 7. [C/N] vs. T eﬀ for the sample; symbols as in Fig.
+6. The line [C/N]= –0.4 separates the mixed and unmixed
+stars. Stars with only upper limits on C and/or N abun-
+dance have been omitted. Note that most unmixed stars
+have T eﬀ ≥ 4800 K (cf. also Paper V, sect. 4.1).
+rows in Fig. 6, but omitted in Fig. 7 as the [C/N] ratio is
+undeﬁned in these stars.
+4.3. Evidence from Lithium
+When low-mass stars, such as those in our sample, evolve
+through the subgiant and red giant branches, the sur-
+face convection zone progressively deepens. This mixes
+the stellar atmosphere with material from deeper layers
+in which Li has been depleted by nuclear burning, and
+reduces the observed Li abundance of the star. The de-
+gree of dilution increases as the convective zone penetrates
+deeper; thus, one expects a steady decline of the observed
+Li abundance as a star ascends the RGB (Pilachowski et
+al., 1993). If mixing of the surface material is deep enough
+to reach the layers where C is burned into N, the atmo-
+spheric Li will a fortiori burn away rapidly. The mixed
+stars should thus show much lower Li abundances than
+the unmixed stars. We have performed this test.
+Fig. 8 shows the observed surface abundance of Li as a
+function of [N/Fe] and [C/N]. The Li line is not detected
+in any of the mixed stars ([N/Fe] > 0.5 or [C/N] < − 0.5),
+with an upper limit to the Li abundance of log N(Li) <0.
+In contrast, we ﬁnd log N(Li) > 0.15 for all the unmixed
+stars, with the sole exception of CS 30325–094 (log N(Li)
+< − 0.25). Several eﬀects may deplete the fragile Li in in-
+dividual stars (rotation, gravity waves, binary interaction,
+. . . ) so we have not sought to clarify this single anomaly.
+The consistent results from the [N/Fe] and [C/N] ratios
+and the Li abundance are strong evidence that the stars
+with [N/Fe] > 0.5 or [C/N] < − 0.5 did experience mixing
+between deeper CNO-processed layers and the surface of
+the stars.
+4.4. Location in the H-R diagram
+Changes of abundances have been detected as stars evolve
+along the RGB in both globular cluster giants (Kraft 1994)
+Fig. 8. Lithium abundances vs. [N/Fe] and [C/N] (sym-
+bols as in Fig. 6). All the mixed stars ([N/Fe] > 0.5 or
+[C/N] < − 0.5; dotted lines) have destroyed their original
+Li.
+and ﬁeld stars (Gratton et al. 2000). It would thus be
+interesting to study the positions of our XMP stars in an
+H-R diagram to see at which phase of the evolution mixing
+has occurred. Unfortunately, these stars are too distant
+to have usable parallaxes, so their precise distances and
+luminosities are unknown.
+However, the spectroscopic value of log g is a ﬁrst-
+order indicator of the luminosity of the star. These values
+of log g may suﬀer from NLTE eﬀects and thus be dif-
+ferent from the true gravity, but Gratton et al. (2000)
+argue that NLTE corrections to log g are smaller than
+suggested in most previous literature; moreover, our stars
+lie in relatively narrow intervals of temperature and grav-
+ity, and NLTE eﬀects on iron should be constant in the
+metallicity range of our stars (Korn, Shi, & Gehren, 2003).
+Therefore, any corrections would be similar for all the
+stars, and abundance trends with log g should be robust
+against NLTE eﬀects.
+Fig. 9 shows the log g - log Teﬀ diagram for our sample.
+The unmixed stars form a fairly well-deﬁned lower RGB,
+while virtually all stars on and above the HB have the
+spectroscopic characteristics of mixed stars, as previously
+found for moderately metal-poor ﬁeld stars by Gratton et
+al. (2000). Three stars deviate from the general trend and
+are discussed in the following:
+PAGE 9
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 9
+Fig. 9. log g vs. log T eﬀ diagram for the sample (symbols
+as in Fig. 6). The RGB and HB are fairly well-deﬁned
+(dashed lines). At ﬁxed T eﬀ , the unmixed stars on the
+“low” RGB have higher log g than the mixed stars.
+BD 17:3248, a mixed star strongly enriched in r-
+process elements (Cowan et al. 2002), has been classiﬁed as
+an RHB star (Bond 1999, Pilachowski et al. 1996, Alonso
+et al. 1998), in good agreement with its position in Fig.
+9. In contrast, the Hipparcos parallax, π = 3.67 ± 1.5mas,
+would place BD 17:3248 on the subgiant branch. However,
+Cowan et al. (2002) conclude, from Str¨ omgren photome-
+try, that the star is indeed highly evolved and the small
+Hipparcos parallax probably unreliable.
+CS 22966-057, the hottest star of our sample, falls be-
+tween the lower RGB and the HB. Our two spectra of this
+star from September and October 2001 yield radial veloc-
+ities of +100.7 km s −1 and +103.0 km s −1, a variation too
+large to be explained by our observational error, 0.5 km
+s−1. This star is probably a binary.
+CS 29518–051 falls on the low RGB, but has all the
+characteristics of a mixed star. A large error in its gravity
+is unlikely. Our single spectrum gives no information on
+any velocity variations, but the star clearly deserves close
+attention in the future.
+4.5. Deep mixing and the early Galactic O abundance
+A very deep mixing event might bring matter to the sur-
+face in which the O-N cycle has partially transformed O
+into N. It is thus interesting to compare the O abundances
+of the mixed and unmixed stars. As seen in Fig. 10, there
+is no signiﬁcant diﬀerence in [O/Fe] between mixed and
+unmixed stars, and thus no evidence for contamination by
+deep mixing, as might occur in an AGB star of an earlier
+generation or in a hypothetical binary companion. This re-
+sult is strong evidence that the O abundances determined
+Fig. 10. [O/Fe] vs. [Fe/H] for the sample; symbols as in
+Fig. 6. The lack of any signiﬁcant diﬀerence between mixed
+and unmixed stars is strong evidence that deep mixing
+has not occurred (the O abundances shown here are not
+corrected for 3D eﬀects; cf. Paper V).
+in Paper V are indeed reliable indicators of the very early
+nucleosynthesis in the Galaxy.
+4.6. CNO abundance ratios as detailed diagnostics of
+mixing
+Fig. 11 compares the [N/O] ratios in mixed and unmixed
+stars. As expected, [N/O] is systematically higher in the
+mixed stars, which have themselves produced N from C
+in the CN cycle. This additional N must therefore be of
+secondary origin 1. Moreover, [N/O] and [O/H] are tightly
+correlated in all the mixed stars, in contrast with the large
+scatter observed in the unmixed stars. The large amount
+of N brought to the surface of the mixed stars has thus
+erased the large scatter of the initial N abundances. If
+this amount of N brought to the surface is assumed to
+be roughly independent of the metallicity of the star, the
+[N/O] ratio should decrease with increasing [O/H], as in-
+deed seen in the data (Fig. 11, mixed stars, dashed line).
+Because we ﬁnd no evidence for processing by the O-
+N cycle in the mixed stars, if the excess of N is due to
+internal mixing it results only from the transformation of
+C nuclei into N. Thus we would expect that the mean value
+of the C+N abundance in the mixed and unmixed stars
+should be the same. Fig. 12 shows that within errors this
+hypothesis is compatible with the observations. Note that
+the three mixed stars which stand out towards the high
+[(C+N)/Fe] ratios may belong to the horizontal branch.
+The peculiar C-rich stars CS 22949–037 and CS 22892–
+052 cannot be compared directly to the other stars of the
+sample. Both are included in Fig. 11, where CS 22892–052
+has a rather high [N/O] ratio for an unmixed star while
+CS 22949-037 falls among the other mixed stars. Both
+have been omitted from Fig. 12, where they would fall far
+1 Note that a high N abundance in a metal-poor star does
+not necessarily imply that its atmosphere has been mixed wit h
+its CN processing interior. A few unmixed, N-rich, metal-po or
+stars are known to exist (e.g. G64-12, Israelian et al. 2004) .
+PAGE 10
+10 M. Spite et al.: Light-element abundances and mixing in ex tremely metal-poor giants
+Fig. 11. [N/O] vs. [O/H] for the sample; symbols as in
+Fig. 6 (The carbon stars CS 22892–052 and CS22949–037
+are shown as triangles). The [N/O] vs. [O/H] relation in
+the mixed stars is quite tight, [N/O] decreasing slightly
+with increasing [O/H] (dashed line). This suggests that
+the amount of N mixed to the surface does not depend
+strongly on metallicity.
+Fig. 12. [(C+N)/Fe] vs. [Fe/H]; symbols as in Fig. 6. The
+C+N abundance shows much smaller scatter than C or N
+alone (cf. Figs. 3 and 5). <[(C+N)/Fe]> ≈ 0.25 dex at low
+[Fe/H]. CS 22949–037 and CS 22892–052 are not shown
+here.
+from the other stars in their groups.
+The consistent evidence discussed above shows that
+our sample divides cleanly into two groups. In one, the
+stars have experienced mixing of their atmospheres over
+their lifetimes; in the other they have not.
+5. CNO elements in the early Galaxy
+We have presented strong evidence that the atmospheric
+CNO abundances of the unmixed stars represent the orig-
+inal abundances of these species in the gas from which the
+stars formed. We discuss the consequences of this identi-
+ﬁcation in the following.
+Fig. 13. [C/Fe] and [C/Mg] vs. [Fe/H] and [Mg/H] for the
+unmixed stars. [C/Mg] may increase slightly towards lower
+metallicity; for [Mg/H] < − 2.9, <[C/Mg]>≈ 0.0 dex.
+Fig. 14. [C/O] vs. [O/H] for our unmixed stars (dots)
+and the halo stars from Akerman et al. (2004; squares).
+The lines show the predictions of their standard model
+for C and O, using the yields of Meynet & Maeder (2002,
+dotted), Chieﬃ & Limongi (2002, dashed), and Chieﬃ &
+Limongi with a top-heavy IMF ( M > 10M⊙, solid line).
+The data seem to favour substantial early C production
+in massive zero-metal supernovae.
+5.1. Carbon and the [C/O] ratio
+Fig. 13 shows the C abundance in our unmixed stars, with
+both Fe and Mg as reference elements. The [C/Fe] vs.
+[Fe/H] relation is remarkably ﬂat; [C/Fe] ≈ +0.18 ± 0.16
+dex over the entire range − 4.0 < [Fe/H] < − 2.5. The dis-
+PAGE 11
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 11
+persion of the [C/Mg] ratios is only slightly larger than for
+[C/Fe]; a mild decrease of [C/Mg] with increasing metal-
+licity is suggested.
+Akerman et al. (2004) recently studied the variation
+of the [C/O] ratio vs. [O/H] in metal-poor halo stars. At
+low metallicity ([O /H] < − 2.0), [C/O] is expected to de-
+crease because O from massive supernovae increasingly
+dominates the enrichment process, while C is produced in
+stars of all masses. However, Akerman et al. (2004) found
+no decrease in [C/O] at low metallicity; on the contrary,
+[C/O] appeared to actually increase below [O/H]= –1.5,
+possibly to near-solar values at the lowest metallicities.
+Fig. 14 shows [C/O] vs. [O/H] for the combined data
+set; our stars extend to much lower metallicities than those
+of Akerman et al. Although the O and C indicators used in
+these two studies are completely diﬀerent (high-excitation
+C and O lines in Akerman et al., CH and [OI] lines in our
+case), the results agree nicely where the samples overlap.
+Our XMP stars conﬁrm that [C/O] increases to near solar
+values at very low metallicity.
+Fig. 14 also shows the predictions of diﬀerent chemical
+evolution models, following Akerman et al. (2004):
+– Their standard model using the Meynet & Maeder
+(2002) yields for massive stars (8 ≤ M ≤ 80M⊙) and
+the Kroupa et al. (1993) IMF (dotted line).
+– Their standard model with the same IMF, but C and O
+yields from Chieﬃ & Limongi (2002) for metallicities
+0 ≤ z ≤ 10−5 (dashed line). Chieﬃ & Limongi (2002)
+argue that the ejecta of metal-free supernovae should
+be carbon rich, because the high core temperature in
+these stars during helium burning would favour the
+reaction 3 4He(2α, γ)12C over 12C(α, γ)16O.
+– The same model and Chieﬃ & Limongi yields, but
+with a top-heavy IMF ( M ≥ 10M⊙; solid line).
+Our new data suggest that the best model would be some-
+where between the last two of these.
+5.2. Nitrogen and the [N/ α] ratio
+Fig. 15 shows [N/Fe] and [N/Mg] vs. [Fe/H] and [Mg/H]
+for the subsample of unmixed stars. The trends of these
+ratios are not compatible with secondary N production
+in the early Galaxy: instead, a decrease of [N/Mg] and
+[N/Fe] with decreasing metallicity would be expected. The
+early production of N was thus primary. It may be due to
+massive stars where it would be induced, e.g., by mixing
+between the C producing regions and the H burning layer
+where C is transformed into N. But it could also be due
+to contributions by AGB stars.
+– Fig. 15 appears to show that the mean values of [N/Fe]
+and [N/Mg] decrease with increasing metallicity, per-
+haps reﬂecting a decrease in N production relative to
+both Fe and Mg (the [C/Mg] ratio shows a similar
+trend, but it is much weaker and not signiﬁcant). The
+scatter in both relations is much larger than for both
+[C/Fe] and [C/Mg] (see Fig. 13). Similarly to the case
+Fig. 15. [N/Fe] and [N/Mg] vs. [Fe/H] and [Mg/H] for
+our unmixed stars. With increasing metallicity, [N/Fe]
+and [N/Mg] decrease (dashed lines) and the dispersion
+increases, a behaviour unexpected from theoretical expec-
+tations.
+of C, the scatter in [N/Mg] increases markedly with
+increasing [Mg/H] from about [Mg/H]= –3.
+However, were our N measurements to suﬀer from
+metallicity-dependent systematic errors, a spurious
+slope might result. 3D eﬀects in model atmopheres (see
+Sec. 3.2.3) might cause such metallicity-dependent er-
+rors. However, although one cannot yet be certain, it is
+unlikely that diﬀerential eﬀects in stars with [Mg/H]
+between –2.8 and –3.8 could vary the N abundance
+by the 0.5 dex needed to eliminate the observed slope
+(Asplund 2004). Moreover, such a systematic eﬀect
+could not explain the increased dispersion of [N/Fe]
+and [N/Mg] towards higher metallicity.
+Such a decrease of the nitrogen production with
+increasing metallicity is not predicted by any massive-
+star yields at low metallicities .
+– Another interpretation is possible, however (Fig. 16):
+We have only ﬁve N abundance measurements (plus
+two upper limits) in the interval − 3.7 < [Mg/H] < − 3
+where the dispersion seems to vanish, so the absence
+of a spread at low metallicity could be just a statistical
+eﬀect. If so, the mean slope drawn in Fig. 15 would
+not be real, and [N/Mg] and [N/Fe] would simply
+vary from star to star without any mean trend (Fig.
+16). Two possible explanations are:
+PAGE 12
+12 M. Spite et al.: Light-element abundances and mixing in ex tremely metal-poor giants
+i) The maximum [N/Mg] value ( ∼ 0.0) reﬂects the
+primary N production by normal massive supernovae,
+but with some stars showing much lower production.
+N is not easily produced in massive SNe, and the
+yields may depend critically on various parameters,
+such as rotation (Maeder & Meynet 2002), explain-
+ing the spread in the observed N abundance. The
+spread seems to appear at less extreme deﬁciencies
+([Fe/H] > − 3.4), reﬂecting the yields of later, i.e.
+lower-mass supernovae.
+ii) The lowest N abundances in our stars might
+represent galactic gas enriched by SNe II, but before
+any enrichment by massive AGB stars. The majority
+of the N-rich stars in Fig. 16 would then be formed
+from matter more or less enriched by AGB winds,
+and the scatter in the N abundances would arise
+from local, inhomogeneous N enrichment of the gas
+from which our stars formed. In this case, metallicity
+would not be a good indicator of age. Moreover, we
+would then expect the s-process elements to be more
+abundant in N-rich than in N-poor unmixed stars.
+A preliminary analysis shows no clear diﬀerence in
+s-process abundances between the two sets of stars;
+this will be discussed in more detail in a forthcoming
+paper on the neutron-capture elements in our XMP
+stars (Fran¸ cois et al. 2004, in prep.; Paper VII).
+In both tentative explanations there remains to explain
+why the interstellar medium is enriched in N up to a
+ﬁxed maximum ([N/Fe] ≈ 0.3 dex and [N/Mg] ≈ 0.2
+dex), as clearly seen in Fig. 16.
+5.3. Comparison of halo stars and DLAs
+We have argued that the N abundance in our unmixed
+XMP stars is very close to that of the gas from which
+the stars were formed. The stars on the lower RGB have
+possibly experienced the ﬁrst dredge-up (if any), but this
+should only aﬀect the [N/Fe] or [N/Mg] ratios slightly
+(Gratton et al., 2000), even in rapidly rotating stars
+(Meynet & Maeder, 2002).
+We now compare our results to the [N/ α] ratios in
+DLAs and extragalactic H II regions (or Blue Compact
+Galaxies, BCGs). E.g., both Prochaska et al. (2002) and
+Centuri´ on et al. (2003) suggest the existence of a plateau
+at [N/ α] ∼ –1.5 dex in addition to the well-known one at
+[N/α] = -0.8 dex, which is common to DLAs and BCGs.
+Fig. 17 shows [N/O] vs. [O/H] for our unmixed XMP
+giants, the metal-poor dwarfs studied by Israelian et al.
+(2004), and the DLAs studied by Centuri´ on et al. (2003)
+and Molaro et al. (2003). Because O abundances have been
+measured in very few DLAs, we plot [N /α] vs. [ α/H] for
+the DLAs (where α is O, S, or Si, depending on the DLA),
+which should be equivalent to [N/O] vs, [O/H] (Molaro
+2003). Error bars have been omitted for the DLAs, but
+the ( internal) error of [N/ α] in DLAs is claimed to be of
+order 0.02 dex.
+Fig. 16. The same data as in Fig. 15, but interpreted dif-
+ferently. We assume here that the low dispersion at low
+metallicity is a spurious eﬀect due to the small size of
+the sample, while [N/Fe] and [N/Mg] in general shows
+large scatter from star to star, with 0 .7 < [N/Fe] < 0.3
+and − 1.1 < [N/Mg] < 0.2 as seen for [Fe/H] > –3.3.
+In addition to the internal errors, systematic uncer-
+tainties aﬀecting the two sets of observations include:
+(i) The stellar data are subject to the neglect of 3D eﬀects
+in our 1D atmospheres; using 3D models (see section 3.2.2)
+would reduce the O abundance by typically ∼ 0.2 dex, but
+without a full 3D computation for the NH molecule the net
+eﬀect on [N/O] is diﬃcult to assess. In addition, our abso-
+lute N abundances also depend on the uncertain physical
+parameters for the NH band (see section 3.2.3) and were
+corrected by –0.4 dex to force agreement with abundances
+from the CN band. Systematic oﬀsets in our N/O ratios
+can therefore neither be excluded nor assessed quantita-
+tively at present. New, accurate values of gf and dissocia-
+tion energy for NH as well as studies of 3D model atmo-
+sphere eﬀects on the band strength are urgently needed.
+(ii) The DLA observations are aﬀected by uncertain dust
+corrections. In particular, Si is easily locked onto grains,
+and the DLAs for which Si was used to represent O are
+subject to larger uncertainties.
+For stars of higher metallicity ([O/H] > − 1.8), the sig-
+niﬁcant slope of [N/O] vs. [O/H] is indicative of secondary
+N production (Israelian et al. 2004). While noting the pos-
+sible systematic errors, we ﬁnd most of our unmixed stars
+to have [N/O] ∼ − 0.9, similar to the metal-poor stars of
+Israelian et al. (2004) but extending to much lower [O/H]
+PAGE 13
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 13
+Fig. 17. Light-element abundance ratios in metal-poor
+dwarfs (Israelian et al. 2004, open circles), in our un-
+mixed giants (ﬁlled circles), and in DLAs (crosses). [N/O]
+vs. [O/H] is shown for the stars, [N /α] vs . [α/H] for the
+DLAs, following Centuri´ on et al. (2003), where α may
+denote O, S, or Si in diﬀerent DLAs. The DLAs with
+[α/H] < − 2 have [N /α] ≈ − 1.4, while the most metal-
+poor stars have [N /α] ≈ − 0.8; but given the scatter in
+both samples, this diﬀerence may not be signiﬁcant. The
+horizontal and sloping dotted lines show the relations
+for primary and secondary N production, respectively.
+Neither sample shows any dependence of N abundance
+on metallicity for [O/H] or [ α/H] < − 1.0 dex; thus, early
+N production was mainly primary.
+values. This seems to agree also with the main [N/ α]
+plateau of the DLAs. However, while the DLA data hint
+at the existence of two distinct plateaus, the stars also oc-
+cupy the region between them. Note also that none of our
+stellar [N/O] ratios is below the “lower” [N/ α] plateau of
+the DLAs.
+The similarities and diﬀerences between our stellar
+sample and the DLAs can be summarised as follows:
+Similarities:
+1. Both stars and DLAs form a well-populated plateau at
+[N/O]∼ − 0.9, independent of metallicity;
+2. No star or DLA is found with [N/O] < − 1.5.
+Diﬀerences:
+1. The stellar data extend to lower metallicity than
+DLAs, with [N/O]∼ − 0.9 at the lowest values of [O/H].
+2. Even when excluding the N-rich stars (as in Fig. 17),
+[N/O] in stars scatters more than in DLAs.
+Given the scatter of [N/O] in both stars and DLAs, these
+diﬀerences may not be signiﬁcant, however.
+Given the still-limited amount of data, it may be pre-
+mature to attempt to ﬁt all of these facts into a simple
+and coherent picture. We believe, however, that the lack
+of any signiﬁcant trend of [N/O] with metallicity in both
+stars and DLAs requires primary N production in both.
+In Fig. 17 the dotted lines indicate the relations for pri-
+mary and secondary N production from Centuri´ on et al.
+(2003). For [O /H] < − 2, the mean value of [N/O] is close
+to the primary production line, which suggests that mas-
+sive stars have enriched the ISM in N before our very old
+XMP stars and DLAs were formed.
+There is, however, no conclusive evidence whether the
+main site of this primary N production is massive Pop III
+stars (exploding as SNe II), AGB stars, or AGB super-
+novae (SN I.5). On the one hand, the positive correlation
+of [N/H] with [O/H] suggests an origin in massive stars,
+despite the large scatter in [N/O]. On the other hand, the
+large spread in [N/O] among Galactic stars might suggest
+that early AGB stars could play an important role. It may
+well be that N is produced in comparable amounts in both
+massive stars and AGB stars.
+6. Conclusions
+6.1. Internal mixing
+Our careful analysis of CNO and Li abundances in ex-
+tremely metal-poor giants from high-quality spectra has
+demonstrated that they fall cleanly in two groups:
+– The ﬁrst group shows clear signs of mixing of signiﬁ-
+cant amounts of CN-cycle products to the surface, very
+similar to the extra mixing found by Gratton et al.
+(2000) in moderately metal-poor ﬁeld giants. Evidence
+for this includes the non-detection of Li and low [C/N]
+in stars with low log g values: these stars belong to the
+upper RGB or the HB. No signature of ON cycle pro-
+cessing is detected in the mixed stars. A forthcoming
+paper will discuss the 12C/13C ratio to further study
+the extent of mixing in these stars.
+– The second group shows no signature of mixing with
+CNO burning layers: N Li > 0.14 and [C /N] > − 0.5.
+These stars have higher log g and lie on the lower
+RGB. They may still have experienced the ﬁrst dredge-
+up, but this is expected to change their atmospheric C
+and N abundances very little (Gratton et al. 2000), or
+not at all (Denissenkov and Weiss 2004).
+The mixed and unmixed stars have approximately the
+same value of [(C+N)/Fe] ≈ +0.25 dex, indicating that
+the diﬀerence between the two groups could be entirely
+due to internal mixing with CN-processed material. We
+thus conﬁrm the results on extra-mixing by Gratton et al.
+(2000) and extend them towards lower metallicity.
+6.2. The unmixed subsample
+We ﬁnd that the C and N abundances in the unmixed
+XMP stars should be close to those of the gas from which
+they were formed. These abundances thus provide useful
+constraints on the yields of the ﬁrst stars (Pop III su-
+pernovae, early AGBs, AGB supernovae,...) and on any
+trends of these yields with metallicity and perhaps time.
+– The [C/Fe] ratio is remarkably constant with [Fe/H]
+and shows only moderate scatter. [C/Mg] and [C/O]
+PAGE 14
+14 M. Spite et al.: Light-element abundances and mixing in ex tremely metal-poor giants
+Fig. 18. Same as Fig. 15, but only for stars included in
+Fig. 17. The general decrease of [N/Mg] with [Mg/H] and
+the diﬀerent behaviors of [N/Mg] and [N/O] remain visi-
+ble.
+decrease slightly with metallicity from solar values at
+[Mg/H] ≈ − 3.5 and [O/H] ≈ − 3.0, respectively. We
+thus conﬁrm the trends suggested by Akerman (2004)
+and extend them to even lower metallicity.
+– The N abundances show large scatter, and the sam-
+ple of unmixed stars is limited in size; the abundance
+trends are therefore diﬃcult to verify and interpret.
+While the mean values of both [N/Fe] and [N/Mg] ap-
+pear to decrease with increasing metallicity (Fig. 15),
+this could be just a statistical eﬀect. In any case, the
+observed trends are incompatible with secondary N
+production in the early Galaxy.
+Our sample of unmixed XMP stars shows ranges
+of − 1.1 < [N/Mg] < − 0.0 and − 0.8 < [N/Fe] < +0.2
+(Fig. 16). Two tentative interpretations of this large
+spread are suggested:
+i) The primary N production by SNe II is close to the
+lower value of [N/Mg] (–1.1), and stars with higher
+[N/Mg] values would be formed from material enriched
+by the winds of massive AGB stars; or
+ii) The primary N production by SNe II is close to the
+higher value of [N/Mg] (0.0), explaining the [N/Mg]
+ratio in most of our XMP stars. However, this primary
+production depends critically on various parameters
+and could be less active in some cases, especially in
+less massive supernovae. Some stars would then be-
+come ”nitrogen-poor”.
+In order to test these diﬀerent interpretations of the
+trends of [N/Mg] and [N/Fe] vs. metallicity, it would
+be important to measure the N abundances in a larger
+sample of XMP stars (especially for [Fe /H] < − 3.4 or
+[Mg/H] < − 3.2) to ascertain whether the small spread
+of [N/Fe] and [N/Mg] at very low metallicity is real or
+just a statistical eﬀect.
+– A diagram of [N/O] vs. [O/H] for the same stars shows
+no visible trend in the range − 2.8 < [O/H] < − 1.6,
+but the dispersion is very large ( σ = 0.31). The
+diﬀerent behaviour of [N/Mg] and [N/O] is surprising,
+because both O and Mg are thought to be α elements.
+Because O was measurable in fewer stars than Mg,
+we have repeated the comparison using only stars
+with both Mg and O abundances (Fig. 18). As seen,
+the slope of [N/Mg] versus [Mg/H] remains visible.
+Although the sample is small, the diﬀerent trends
+in [N/Mg] and [N/O] seem hard to explain as just a
+statistical eﬀect; they are are probably real and do
+not favor secondary production of N.
+– We have compared the [N /O] ratios in our XMP stars
+with [N /α] data for DLA systems. The metallicity
+ranges of the two samples are complementary. In spite
+of the large scatter, the weight of the evidence sug-
+gests that the N production was primary, especially in
+the ﬁrst phases of Galactic evolution. It cannot yet be
+decided, however, whether this primary N production
+was due to massive Population III supernovae, AGB
+stars, or perhaps AGB supernovae (SN I.5); all three
+sources may play signiﬁcant roles.
+The absolute values of the measured abundances are
+susceptible to various uncertainties, from inaccuracy of the
+molecular parameters to the eﬀects of simpliﬁed models
+(LTE and 1D approximations). However, these systematic
+eﬀects should be similar from star to star and the derived
+trends remain robust. It is important, however, to verify
+the eﬀects of 3D NLTE model eﬀects and improved molec-
+ular data on the derived abundances as soon as possible.
+As another item for the future, we have found that the
+abundance anomalies observed in the “mixed” stars are
+due to mixing between their surfaces and CNO-processing
+layers, similar to the scenario (extra mixing) inferred by
+Gratton et al. (2000) and theoretically explained by, e.g.
+Charbonnel (1995) and Denissenkov & VandenBerg (2003
+and references therein). However, we cannot completely
+rule out the possibility that the observed anomalies could
+result from pollution by AGB binary companions. It would
+thus be interesting to search for any companions of the
+mixed stars (radial velocities, astrometric orbits, or inter-
+ferometry) in order to check this alternative.
+Acknowledgements. We thank the ESO staﬀ for assistance dur-
+ing all the runs of our Large Programme. T.C.B. acknowl-
+edges partial funding for this work from grants AST 00-
+98508 and AST 00-98549, as well as from grant PHY 02-
+16783: Physics Frontiers Center/Joint Institute for Nucle ar
+Astrophysics (JINA), awarded by the U.S. National Science
+Foundation. BN and JA thank the Carlsberg Foundation and
+the Swedish and Danish Natural Science Research Councils fo r
+partial ﬁnancial support of this work.
+References
+Akerman C. J., Carigi L., Nissen P.E., Pettini M., Asplund M. ,
+2004, A&A 414, 931
+Alonso A., Arribas S., Mart ´inez-Roger C., 1998, A&AS 131,
+209
+PAGE 15
+M. Spite et al.: Light-element abundances and mixing in extr emely metal-poor giants 15
+Alonso A., Arribas S., Mart ´inez-Roger C., 1999, A&AS 140,
+261
+Alvarez R., Plez B., 1998, A&A 330, 1109
+Asplund M., 2004, Mem SAI 75, 300
+Asplund M., Garc ´ ıa P´ erez A. E., 2001, A&A 372, 601
+Barbuy B., Mel´ endez J., Spite M., Spite F., Depagne E., Hill
+V., Cayrel R., Bonifacio P., Damineli A., Torres C. A. O.,
+ApJ 588, 1072
+Asplund M., Gustafsson B., Kiselman D., Eriksson K., 1997,
+A&A 318, 521
+Ballester P., Modigliani A., Boitiquin O., Cristiani S.,
+Hanuschik R. et al., 2000, ESO Messenger 101, 31
+Beers T.C., in Third Stromlo Symposium: The Galactic Halo,
+eds. B. Gilson, T. Axelrod & M. Putman, ASP Conf. Series
+165, p.206
+Beers T.C., Preston G.W., Shectman S.A., 1992, AJ 103, 1987
+Bond H.E., 1980, ApJS 44, 517
+Carbon D., Barbuy B., Kraft R.P., Friel E., Suntzeﬀ N.B.,
+1987, PASP 99, 335
+Cayrel R., Depagne E., Spite M., Hill V., Spite F., Fran¸ cois
+P., Plez B., Beers T., Primas F., Andersen J., Barbuy B.,
+Bonifacio P., Molaro P., Nordstr¨ om B., 2004, A&A 416,
+1117 (Paper V)
+Centuri´ on M., Molaro P., Vladilo G., P´ eroux C., LevshakovS.
+A., D’Odorico V., 2003, A&A 403, 55
+Charbonnel C., 1995, ApJ 453, L41
+Chiappini C., Matteucci, F., Meynet G., 2003, A&A, 410, 257
+Chiappini C., Romano D., Matteucci, F., 2003, MNRAS 339,
+63
+Chieﬃ A., Limongi M., 2002, ApJ 577, 281
+Cowan J.J., Sneden C., Burles S., Ivans I.I., Beers T.C., Tru ran
+J.W., et al., 2002, ApJ 572, 861
+Dekker H., D’Odorico S., Kaufer A. et al., 2000, in Optical
+and IR Telescopes, Instrumentation and Detectors, eds I.
+Masanori & F.A. Morwood, Proc. SPIE, 4008, 534
+Denissenkov P.A., VandenBerg D.A. 2003, ApJ 593, 509
+Denissenkov P.A., Weiss A., 2004, ApJ 603, 119
+Depagne E., Hill V., Spite M., Spite F., Plez B., et al., 2002,
+A&A 390, 187
+Edvardsson B., Andersen J., Gustafsson B., Lambert D. L.,
+Nissen P. E., Tomkin J., 1993, A&A 275, 101
+Gratton R., Sneden C., Carretta E., Bragaglia A., 2000, A&A
+354, 169
+Grevesse N., Sauval A.J., 1998, Space Sci. Rev. 85, 161
+Gustafsson B., Bell R. A., Eriksson K., Nordlund ˚A., 1975,
+A&A 42, 407
+Gustafsson B., Edvardsson B., Eriksson K., Graae-Jørgense n
+U., Mizuno-Wiedner, M., Plez, B., 2003, in Stellar
+Atmosphere Modeling, eds. I. Hubeny, D. Mihalas, K.
+Werner, ASP Conf. Series 288, 331.
+Henry R.B.C., Edmunds M.G., K¨ oppen J., 2000, ApJ 541, 660
+Huang Y., Barts S.A., Halpern J.B., 1992, J. Phys. Chem., 96,
+425
+Huber K.P., Herzberg, G., 1979, Constants of Diatomic
+Molecules, van Nostrand Reinhold, New York
+Israelian G., Ecuvillon A., Rebolo R., Garc ´ ıa-L´ opez R.,
+Bonifacio P., Molaro P., astro-ph/0405049
+Izotov Y.I., Thuan T.X., 1999, ApJ 511, 639
+Kobulnicky H.A., Skillman E.D., 1996, ApJ 471, 211
+Korn A. J., Shi J., Gehren T., 2003, ApJ 407, 691
+Kraft R.P., 1994, ApJS 106,553
+Kroupa P., Tout C.A., Gilmore G., 1993, MNRAS 262, 545
+Kurucz R.L., 2001, in
+http://cfaku5.harvard.edu/programs/atlas9/molec.dat
+Laird J.B., 1985, ApJ 289, 556
+McWilliam A., Preston G.W., Sneden C., Searle L., 1995, AJ
+109, 2757
+Meynet G., Maeder A., 2002, A&A 381, L 25
+Molaro P., 2003, in “CNO in the Universe” C. Charbonnel,
+D. Schaerer & G. Meynet eds, ASP Conference Series, in
+press, astro-ph/0301407
+Molaro P., Centuri´ on M., D’Odorico V., P´ eroux C.,
+2003, in ”Origin and Evolution of the Elements”
+Carnegie Observatories, Pasadena, ed. A. McWilliam,
+astro-ph/0307173
+Nissen P.E., Primas F., Asplund M., Lambert D., 2002, A&A
+390, 235
+Norris J.E., Ryan S.G., Beers T.C., 2001, ApJ 561, 1034
+Norris J.E., Ryan S.G., Beers T.C., Aoki W., Ando H., 2002,
+ApJ 569, 107
+Pilachowski C.A., Sneden C., Booth J., 1993, ApJ 407, 699
+Pilachowski C.A., Sneden C., Kraft R.P., 1996, AJ 111, 1689
+Pilyugin L. S., Thuan T.X., V ´ ılchez, J. M., 2003, A&A 397,
+487
+Plez B. Brett J.M., Nordlund ˚A., 1992, A&A 256, 551
+Pradhan A.D., Partridge H., Bauschlicher C.W. Jr., 1994, J.
+Chem. Phys. 101, 3857
+Prochaska J.X., Henry R.B., O’Meara J.M., Tytler D., Wolfe
+A.M., Kirkman D., Lubin D., Suzuki N., 2002, PASP 114,
+933
+Sneden C., 1973, ApJ 184, 839
+Sneden C., McWilliam A., Preston G.W., et al., 1996, ApJ 467,
+819
+Sneden C., Cowan J.J., Ivans I.I., et al., 2000, ApJ 533, L139
+Sneden C., Cowan J.J., Lawler J.E., Ivans I.I., Burles S., Be ers
+T.C., Primas F., Hill V., et al., 2003, ApJ 591, 936
+Tomkin J., Lambert D.L., 1984, ApJ 279, 220

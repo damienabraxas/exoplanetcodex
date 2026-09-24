@@ -1,0 +1,154 @@
+{
+  "schema": "rya1220.nitrogen_covariance_promotion_matrix.v1",
+  "ticket": "RYA-1220",
+  "scope": "all currently instantiated nitrogen atomic, NH, and CN routes",
+  "routes": [
+    {
+      "instrument": "HARPS",
+      "band": "VIS",
+      "diagnostic": "CN red",
+      "status": "HOLD",
+      "continuum": "HOLD",
+      "coupling_CO": "HOLD: matched C/O covariance and molecular refit not yet admitted",
+      "telluric": "N/A for this VIS mask pending route-specific residual check",
+      "profile_blends_model": "HOLD: profile residual covariance, blend/isotope identity, and 3D molecular treatment remain open",
+      "holding_repeatability": "HOLD"
+    },
+    {
+      "instrument": "Kitt Peak",
+      "band": "near-UV",
+      "diagnostic": "NH A-X",
+      "status": "HOLD",
+      "continuum": "MEASURED_PARTIAL",
+      "coupling_CO": "N/A for NH fit; C/O still required for the complete CNO solution",
+      "telluric": "N/A for near-UV route",
+      "profile_blends_model": "HOLD: NH blend/line identity, residual covariance, and molecular 3D/model term remain open",
+      "holding_repeatability": "HOLD"
+    },
+    {
+      "instrument": "IAG",
+      "band": "NIR",
+      "diagnostic": "CN A-X",
+      "status": "HOLD",
+      "continuum": "MEASURED_PARTIAL",
+      "coupling_CO": {
+        "status": "MEASURED_PARTIAL",
+        "dA_N_dC": -1.045,
+        "dA_N_dO": 0.15,
+        "inputs": "3D atomic C/O anchors"
+      },
+      "telluric": "HOLD: route-specific residual covariance not yet joined",
+      "profile_blends_model": "HOLD: molecular 3D/model-form and blend/isotope admission remain open",
+      "holding_repeatability": "HOLD: IAG/J intervals do not overlap"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "J",
+      "diagnostic": "CN A-X",
+      "status": "HOLD",
+      "continuum": "MEASURED",
+      "coupling_CO": "HOLD: matched C/O covariance and molecular refit not yet admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; join to this mask remains open",
+      "profile_blends_model": "HOLD: profile residual covariance, blend/isotope identity, and molecular 3D/model term",
+      "holding_repeatability": "HOLD"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "H",
+      "diagnostic": "OH vibration-rotation",
+      "status": "HOLD",
+      "continuum": "MEASURED",
+      "coupling_CO": "HOLD: OH/CO coupled solution not admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; large model residuals require route review",
+      "profile_blends_model": "HOLD: red chi2 indicates model/profile failure; near-term value is diagnostic only",
+      "holding_repeatability": "HOLD"
+    },
+    {
+      "instrument": "CRIRES+",
+      "band": "K",
+      "diagnostic": "CO first overtone",
+      "status": "HOLD",
+      "continuum": "MEASURED",
+      "coupling_CO": "HOLD: coupled C/O covariance and molecular refit not yet admitted",
+      "telluric": "MEASURED by existing RYA-1191/1192 CRIRES+ window evidence; join to this mask remains open",
+      "profile_blends_model": "HOLD: profile residual covariance, isotope identity, and molecular 3D/model term",
+      "holding_repeatability": "HOLD"
+    },
+    {
+      "instrument": "Kitt Peak",
+      "band": "NIR CN",
+      "diagnostic": "N/A",
+      "status": "UNJOINED",
+      "continuum": null,
+      "coupling_CO": null,
+      "telluric": null,
+      "profile_blends_model": null,
+      "holding_repeatability": null
+    },
+    {
+      "instrument": "ESPRESSO",
+      "band": "VIS",
+      "diagnostic": "N/A",
+      "status": "UNJOINED",
+      "continuum": null,
+      "coupling_CO": null,
+      "telluric": null,
+      "profile_blends_model": null,
+      "holding_repeatability": null
+    },
+    {
+      "instrument": "UVES",
+      "band": "VIS",
+      "diagnostic": "N/A",
+      "status": "UNJOINED",
+      "continuum": null,
+      "coupling_CO": null,
+      "telluric": null,
+      "profile_blends_model": null,
+      "holding_repeatability": null
+    },
+    {
+      "instrument": "HST STIS/COS",
+      "band": "UV",
+      "diagnostic": "N/A",
+      "status": "UNJOINED",
+      "continuum": null,
+      "coupling_CO": null,
+      "telluric": null,
+      "profile_blends_model": null,
+      "holding_repeatability": null
+    }
+  ],
+  "counts": {
+    "HOLD": 6,
+    "UNJOINED": 4
+  },
+  "promotion_gate": {
+    "required_components": [
+      "measurement",
+      "continuum",
+      "transition_data",
+      "profile/blend residual covariance",
+      "telluric where applicable",
+      "holding repeatability",
+      "model atmosphere/3D molecular term",
+      "C/O covariance for CN",
+      "differential cross-star covariance"
+    ],
+    "decision": "HOLD",
+    "reason": "No route has all required RYA-587 components measured or explicitly N/A; atomic N NLTE is measured, but molecular and differential covariance terms remain open."
+  },
+  "completed_now": [
+    "native atomic N five-line NLTE corrections",
+    "near-UV NH continuum perturbation",
+    "NH molecular identity provenance correction"
+  ],
+  "remaining": [
+    "CN near-UV/molecular blend audit",
+    "same-route C/O covariance fit",
+    "profile residual covariance",
+    "holding repeatability",
+    "target-Sun Jacobians and cross-star covariance",
+    "final promotion check"
+  ]
+}
