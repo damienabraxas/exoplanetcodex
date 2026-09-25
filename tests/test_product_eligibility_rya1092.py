@@ -53,9 +53,6 @@ def test_no_live_product_has_a_null_sigma_syst(doc):
     assert [pe.key_of(p) for p in doc["products"] if p.get("sigma_syst") is None] == []
 
 
-def test_no_live_product_is_outside_the_ratified_species_set(doc):
-    assert [pe.key_of(p) for p in doc["products"] if not pe.is_real_species(p)] == []
-
 
 def test_no_duplicate_live_cells(doc):
     """Two live products with the same identity means the feed cannot say which one IS
@@ -116,20 +113,7 @@ def test_a_product_with_no_holding_RAISES_rather_than_passing(doc):
         pe.evaluate(staged)
 
 
-def test_a_non_Fe_non_Al_species_FAILS(doc):
-    staged = dict(_solid(doc), element="Ba", ion="II")
-    assert "NOT_YET_DEFENSIBLE" in {r.code for r in pe.evaluate(staged)}
 
-
-def test_Al_passes_in_any_ionisation_stage(doc):
-    """Ryan's set is {Fe I, Fe II, Al} -- Al is named without an ion, so both stages are
-    in. Writing it as ("Al", None) rather than guessing "Al I" is the difference between
-    honouring the ruling and narrowing it."""
-    assert pe.is_real_species(dict(_solid(doc), element="Al", ion="I"))
-    assert pe.is_real_species(dict(_solid(doc), element="Al", ion="II"))
-
-
-# ── THE AMARSI CONSTRAINT (Ryan's 2026-08-28 correction) ─────────────────────────
 
 def test_SUPERSEDED_is_never_reachable_from_an_engine_name(doc):
     """🔴 Ryan's correction, pinned so it cannot be undone by a later edit.
@@ -493,3 +477,63 @@ def test_every_moved_product_carries_a_reason_and_a_timestamp(doc):
             "UNCORRECTED_HOLDING", "PRE_CONTINUUM_FIX", "SYST_INCOMPLETE",
             "NOT_YET_DEFENSIBLE", "ANOMALOUS_SCATTER", "STAT_BASIS_MISMATCH",
             "SUPERSEDED"}
+
+
+# --- RYA-1220: the species allowlist was retired ---------------------------------------
+
+def test_the_species_allowlist_is_gone():
+    """Ryan, 2026-09-25: "There should be no gates that are not quantitative."
+
+    NOT_YET_DEFENSIBLE tested membership of a hard-coded {Fe I, Fe II, Al} set. A product
+    could satisfy every measurable criterion and still be quarantined for the element it
+    measured, which held all 36 solar C/N/O products -- 28 of them failing nothing else.
+    """
+    src = (ROOT / "pipeline" / "product_eligibility.py").read_text()
+    assert "REAL_SPECIES" not in src
+    assert "is_real_species" not in src
+    assert not hasattr(pe, "REAL_SPECIES")
+
+
+def test_every_published_cno_product_is_eligible():
+    """The positive control, on the REAL feed rather than a synthetic record.
+
+    A hand-built product trips PRE_CONTINUUM_FIX and UNCORRECTED_HOLDING for want of
+    provenance it never had -- which is those gates working. The claim worth pinning is
+    that nothing about C/N/O ITSELF blocks publication, and the shipped feed shows it.
+    """
+    import json
+    for el in ("C", "N", "O"):
+        path = ROOT / "data" / "products" / "solar" / f"{el}.json"
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text())
+        assert doc["products"], f"{el} has no live products"
+        # evaluate_feed, not a hand-built peer list: peers are defined by peer_group_of,
+        # and passing every product in the element instead grades against a WIDER pool
+        # than the gate does -- which reports scatter anomalies that are not anomalies.
+        verdicts = pe.evaluate_feed(doc)
+        for product in doc["products"]:
+            reasons = verdicts[pe.key_of(product)]
+            assert reasons == (), (
+                f"{el} {product.get('band')} {product.get('selector')} is live but "
+                f"ineligible: {[r.code for r in reasons]}")
+        assert not doc.get("quarantine"), (
+            f"{el} still has {len(doc['quarantine'])} quarantined products")
+
+
+def test_curvature_sigma_renders_beside_a_standard_error():
+    """Both answer '1 sigma on the reported A'; the gate had them incomparable."""
+    assert "curvature_sigma" in pe.STANDARD_ERROR_COMPATIBLE
+    assert "standard_error" in pe.STANDARD_ERROR_COMPATIBLE
+
+
+def test_an_unrecognised_stat_basis_is_still_refused():
+    """Retiring one gate must not open the door to an undeclared basis."""
+    product = {
+        "element": "N", "ion": "I", "band": "red-optical", "instrument": "i", "holding": "h",
+        "tier": "t", "selector": "s", "route": "SYNTH", "treatment": "1D-LTE",
+        "A": 8.29, "sigma_stat": 0.069, "sigma_syst": 0.042, "n_lines": 4,
+        "stat_basis": "some basis nobody declared",
+    }
+    codes = {r.code for r in pe.evaluate(product)}
+    assert "STAT_BASIS_MISMATCH" in codes
