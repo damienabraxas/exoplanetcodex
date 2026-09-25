@@ -1,0 +1,141 @@
+{
+  "schema": "rya1220.molecular_route_model_form.v1",
+  "ticket": "RYA-1220",
+  "source": "Amarsi et al. 2021 Table 2 via data/reference/molecular_cno_literature_rya1220/",
+  "note": "model_atmosphere is a BOUND on the systematic carried by synthesizing in 1D, not a correction; no abundance is moved (RYA-161). Closing this component does not promote a route -- the remaining RYA-587 components and the diagnostic's own standing still apply.",
+  "routes": [
+    {
+      "route": "cn_crires_j_continuum_v1",
+      "diagnostic": "CN_AX_J",
+      "instrument": "CRIRES+",
+      "band": "J",
+      "molecule": "12C14N",
+      "system": "A-X",
+      "vib_band": "(0-0)",
+      "element": "N",
+      "window_air_A": [
+        11640.31,
+        12075.6
+      ],
+      "red_chi2_max_UNCALIBRATED": 56.33,
+      "in_reference_band": true,
+      "model_atmosphere_state": "MEASURED",
+      "model_atmosphere_sigma_dex": 0.061,
+      "model_atmosphere_reason": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+    },
+    {
+      "route": "cn_iag_3d_anchor_v1",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "IAG",
+      "band": "NIR",
+      "molecule": "12C14N",
+      "system": "A-X",
+      "vib_band": "(0-0)",
+      "element": "N",
+      "window_air_A": [
+        10870.68,
+        11082.56
+      ],
+      "red_chi2_max_UNCALIBRATED": 42.72,
+      "in_reference_band": true,
+      "model_atmosphere_state": "MEASURED",
+      "model_atmosphere_sigma_dex": 0.061,
+      "model_atmosphere_reason": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+    },
+    {
+      "route": "cn_kp_continuum_v8",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "Kitt Peak",
+      "band": "NIR",
+      "molecule": "12C14N",
+      "system": "A-X",
+      "vib_band": "(0-0)",
+      "element": "N",
+      "window_air_A": [
+        10988.82,
+        11801.36
+      ],
+      "red_chi2_max_UNCALIBRATED": 212.63,
+      "in_reference_band": true,
+      "model_atmosphere_state": "MEASURED",
+      "model_atmosphere_sigma_dex": 0.061,
+      "model_atmosphere_reason": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+    },
+    {
+      "route": "cn_harps_continuum_v2",
+      "diagnostic": "CN_red",
+      "instrument": "HARPS",
+      "band": "VIS",
+      "molecule": "12C14N",
+      "system": "A-X",
+      "vib_band": "UNSPECIFIED",
+      "element": "N",
+      "window_air_A": [
+        6125.0,
+        6200.0
+      ],
+      "red_chi2_max_UNCALIBRATED": 33.66,
+      "in_reference_band": false,
+      "model_atmosphere_state": "HOLD",
+      "model_atmosphere_sigma_dex": null,
+      "model_atmosphere_reason": "route window 6125-6200 A lies outside the reference used-line range 10875-13208 A for 12C14N A-X. The published 1D->3D shift was measured on those transitions; applying it here would be a real measurement of the wrong population. Measure this band or retire the diagnostic."
+    },
+    {
+      "route": "cn_nearuv_continuum_v1",
+      "diagnostic": "NH_AX",
+      "instrument": "Kitt Peak",
+      "band": "near-UV",
+      "molecule": "NH",
+      "system": "A-X",
+      "vib_band": "(0-0)",
+      "element": "N",
+      "window_air_A": [
+        3358.0,
+        3373.0
+      ],
+      "red_chi2_max_UNCALIBRATED": 44.25,
+      "in_reference_band": false,
+      "model_atmosphere_state": "HOLD",
+      "model_atmosphere_sigma_dex": null,
+      "model_atmosphere_reason": "route window 3358-3373 A lies outside the reference used-line range 28910-150230 A for NH X-X. The published 1D->3D shift was measured on those transitions; applying it here would be a real measurement of the wrong population. Measure this band or retire the diagnostic."
+    },
+    {
+      "route": "oh_crires_h_continuum_v1",
+      "diagnostic": "OH_H",
+      "instrument": "CRIRES+",
+      "band": "H",
+      "molecule": "OH",
+      "system": "X-X",
+      "vib_band": "(2-0)/(3-1)/(4-2)",
+      "element": "O",
+      "window_air_A": [
+        15277.53,
+        16910.3
+      ],
+      "red_chi2_max_UNCALIBRATED": 131.66,
+      "in_reference_band": true,
+      "model_atmosphere_state": "MEASURED",
+      "model_atmosphere_sigma_dex": 0.065,
+      "model_atmosphere_reason": "our synthesis is 1D (MARCS); the published 1D->3D shift for OH X-X on these transitions is -0.065 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+    },
+    {
+      "route": "co_crires_k_continuum_v1",
+      "diagnostic": "CO_K",
+      "instrument": "CRIRES+",
+      "band": "K",
+      "molecule": "12C16O",
+      "system": "X-X",
+      "vib_band": "(2-0)/(3-1)",
+      "element": "C",
+      "window_air_A": [
+        23060.1,
+        24571.77
+      ],
+      "red_chi2_max_UNCALIBRATED": 59.85,
+      "in_reference_band": true,
+      "model_atmosphere_state": "MEASURED",
+      "model_atmosphere_sigma_dex": 0.14,
+      "model_atmosphere_reason": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C16O X-X on these transitions is -0.140 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+    }
+  ]
+}

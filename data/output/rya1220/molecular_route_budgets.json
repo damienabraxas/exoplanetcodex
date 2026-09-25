@@ -1,0 +1,374 @@
+{
+  "schema": "rya1220.molecular_route_budgets.v1",
+  "ticket": "RYA-1220",
+  "policy": "price what the legs support, BOUND what they do not. An unmeasured correlation is bounded at its worst value, never held.",
+  "routes": [
+    {
+      "route": "cn_crires_j_continuum_v1",
+      "diagnostic": "CN_AX_J",
+      "instrument": "CRIRES+",
+      "band": "J",
+      "holding": "solar_crires_plus_j_rya1219",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 8.018,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.085,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.0145,
+          "state": "MEASURED",
+          "note": "continuum: half-range over continuum_-1/continuum_+1"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.061,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "only one holding (CRIRES+) runs CN_AX_J; a second is needed to measure repeatability"
+        }
+      }
+    },
+    {
+      "route": "cn_iag_3d_anchor_v1",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "IAG",
+      "band": "NIR",
+      "holding": "solar_iag",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 7.941,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.225,
+          "state": "MEASURED_BOUNDED",
+          "note": "sigma_fit is 0.037, but 3 runs of this SAME diagnostic on this SAME holding land 0.225 dex apart (7.716, 7.716, 7.941). The chi2 surface is shallow, so the optimum depends on where the fit starts. The run spread bounds the measurement term; sigma_fit alone understates it."
+        },
+        "continuum": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "no continuum leg ran"
+        },
+        "molecular_coupling": {
+          "sigma_dex": 0.1195,
+          "state": "MEASURED_BOUNDED",
+          "note": "dA/dC=-0.104, dA/dO=+0.015 per anchor sigma; rho is UNMEASURED so the term is evaluated at the worst rho in [-1,+1]. Bounded, not assumed.",
+          "detail": {
+            "dA_dC_per_sigma": -0.1045,
+            "dA_dO_per_sigma": 0.015,
+            "sigma_C": 0.034,
+            "sigma_O": 0.421,
+            "anchor_source": "data/output/rya1220/c_o_covariance_assessment.json (solar VIS CNO product)"
+          }
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.061,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": 0.407,
+          "state": "MEASURED",
+          "note": "spread across holdings running the same diagnostic (per-holding mean, so within-holding run scatter is not double counted): IAG 7.791, Kitt Peak 8.198"
+        }
+      },
+      "fit_start_dependence_dex": 0.225
+    },
+    {
+      "route": "cn_iag_coupling_v2",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "IAG",
+      "band": "NIR",
+      "holding": "solar_iag",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 7.716,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.225,
+          "state": "MEASURED_BOUNDED",
+          "note": "sigma_fit is 0.016, but 3 runs of this SAME diagnostic on this SAME holding land 0.225 dex apart (7.716, 7.716, 7.941). The chi2 surface is shallow, so the optimum depends on where the fit starts. The run spread bounds the measurement term; sigma_fit alone understates it."
+        },
+        "continuum": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "no continuum leg ran"
+        },
+        "molecular_coupling": {
+          "sigma_dex": 0.1125,
+          "state": "MEASURED_BOUNDED",
+          "note": "dA/dC=-0.097, dA/dO=+0.015 per anchor sigma; rho is UNMEASURED so the term is evaluated at the worst rho in [-1,+1]. Bounded, not assumed.",
+          "detail": {
+            "dA_dC_per_sigma": -0.0975,
+            "dA_dO_per_sigma": 0.015,
+            "sigma_C": 0.034,
+            "sigma_O": 0.421,
+            "anchor_source": "data/output/rya1220/c_o_covariance_assessment.json (solar VIS CNO product)"
+          }
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.061,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": 0.407,
+          "state": "MEASURED",
+          "note": "spread across holdings running the same diagnostic (per-holding mean, so within-holding run scatter is not double counted): IAG 7.791, Kitt Peak 8.198"
+        }
+      },
+      "fit_start_dependence_dex": 0.225
+    },
+    {
+      "route": "cn_iag_stellar_v2",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "IAG",
+      "band": "NIR",
+      "holding": "solar_iag",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 7.716,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.225,
+          "state": "MEASURED_BOUNDED",
+          "note": "sigma_fit is 0.016, but 3 runs of this SAME diagnostic on this SAME holding land 0.225 dex apart (7.716, 7.716, 7.941). The chi2 surface is shallow, so the optimum depends on where the fit starts. The run spread bounds the measurement term; sigma_fit alone understates it."
+        },
+        "continuum": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "no continuum leg ran"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "stellar.teff": {
+          "sigma_dex": 0.0,
+          "state": "MEASURED",
+          "note": "half-range over teff_K_-1/teff_K_+1"
+        },
+        "stellar.xi": {
+          "sigma_dex": 0.0955,
+          "state": "MEASURED",
+          "note": "half-range over vturb_kms_-1/vturb_kms_+1"
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.061,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": 0.407,
+          "state": "MEASURED",
+          "note": "spread across holdings running the same diagnostic (per-holding mean, so within-holding run scatter is not double counted): IAG 7.791, Kitt Peak 8.198"
+        }
+      },
+      "fit_start_dependence_dex": 0.225
+    },
+    {
+      "route": "cn_kp_continuum_v8",
+      "diagnostic": "CN_AX_IR",
+      "instrument": "Kitt Peak",
+      "band": "NIR",
+      "holding": "solar_kpno_molecfit_corrected",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 8.198,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.042,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.1175,
+          "state": "MEASURED",
+          "note": "continuum_level: half-range over continuum_level_-1/continuum_level_+1"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.061,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C14N A-X on these transitions is -0.061 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": 0.407,
+          "state": "MEASURED",
+          "note": "spread across holdings running the same diagnostic (per-holding mean, so within-holding run scatter is not double counted): IAG 7.791, Kitt Peak 8.198"
+        }
+      }
+    },
+    {
+      "route": "cn_harps_continuum_v2",
+      "diagnostic": "CN_red",
+      "instrument": "HARPS",
+      "band": "VIS",
+      "holding": "solar_harps_molecfit_corrected",
+      "molecule": "12C14N",
+      "element": "N",
+      "A_X": 7.487,
+      "components": {
+        "measurement": {
+          "sigma_dex": 1.05,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.849,
+          "state": "MEASURED_ONE_SIDED",
+          "note": "continuum_level: ONE-SIDED: only continuum_level_-1 ran; the full excursion is carried as the bound rather than halved into a symmetry that was not measured"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "route window 6125-6200 A lies outside the reference used-line range 10875-13208 A for 12C14N A-X. The published 1D->3D shift was measured on those transitions; applying it here would be a real measurement of the wrong population. Measure this band or retire the diagnostic."
+        },
+        "holding_instrument": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "only one holding (HARPS) runs CN_red; a second is needed to measure repeatability"
+        }
+      }
+    },
+    {
+      "route": "cn_nearuv_continuum_v1",
+      "diagnostic": "NH_AX",
+      "instrument": "Kitt Peak",
+      "band": "near-UV",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "molecule": "NH",
+      "element": "N",
+      "A_X": 7.957,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.011,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.155,
+          "state": "MEASURED",
+          "note": "continuum_level: half-range over continuum_level_-1/continuum_level_+1"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "route window 3358-3373 A lies outside the reference used-line range 28910-150230 A for NH X-X. The published 1D->3D shift was measured on those transitions; applying it here would be a real measurement of the wrong population. Measure this band or retire the diagnostic."
+        },
+        "holding_instrument": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "only one holding (Kitt Peak) runs NH_AX; a second is needed to measure repeatability"
+        }
+      }
+    },
+    {
+      "route": "oh_crires_h_continuum_v1",
+      "diagnostic": "OH_H",
+      "instrument": "CRIRES+",
+      "band": "H",
+      "holding": "solar_crires_plus_h",
+      "molecule": "OH",
+      "element": "O",
+      "A_X": 9.448,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.301,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.1065,
+          "state": "MEASURED",
+          "note": "continuum_level: half-range over continuum_level_-1/continuum_level_+1"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.065,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for OH X-X on these transitions is -0.065 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "only one holding (CRIRES+) runs OH_H; a second is needed to measure repeatability"
+        }
+      }
+    },
+    {
+      "route": "co_crires_k_continuum_v1",
+      "diagnostic": "CO_K",
+      "instrument": "CRIRES+",
+      "band": "K",
+      "holding": "solar_crires_plus_k",
+      "molecule": "12C16O",
+      "element": "C",
+      "A_X": 8.665,
+      "components": {
+        "measurement": {
+          "sigma_dex": 0.073,
+          "state": "MEASURED",
+          "note": "the fit's own sigma_fit"
+        },
+        "continuum": {
+          "sigma_dex": 0.0535,
+          "state": "MEASURED",
+          "note": "continuum_level: half-range over continuum_level_-1/continuum_level_+1"
+        },
+        "molecular_coupling": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "C/O perturbation legs did not run on this route",
+          "detail": null
+        },
+        "model_atmosphere": {
+          "sigma_dex": 0.14,
+          "state": "MEASURED",
+          "note": "our synthesis is 1D (MARCS); the published 1D->3D shift for 12C16O X-X on these transitions is -0.140 dex, which bounds the model-form systematic we carry by staying 1D. Bound, not a correction: no abundance is moved."
+        },
+        "holding_instrument": {
+          "sigma_dex": null,
+          "state": "HOLD",
+          "note": "only one holding (CRIRES+) runs CO_K; a second is needed to measure repeatability"
+        }
+      }
+    }
+  ]
+}

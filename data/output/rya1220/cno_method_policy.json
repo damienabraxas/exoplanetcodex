@@ -1,0 +1,79 @@
+{
+  "schema": "rya1220.cno_method_policy.v1",
+  "ticket": "RYA-1220",
+  "ruling_basis": [
+    "Ryan 2026-09-25: more uncertainty in IR is acceptable, especially where the literature hit the same wall; do the best we can and post results.",
+    "Ryan 2026-09-25: Kitt Peak will not be used on future target stars; CRIRES+ and HARPS are the instruments that matter going forward."
+  ],
+  "molecular_N": {
+    "primary": {
+      "diagnostic": "CN A-X (0-0), 10875-13208 A",
+      "instruments": [
+        "CRIRES+ J",
+        "IAG"
+      ],
+      "why": "the band the modern 3D reference analysis actually uses (Amarsi 2021, 59 lines); both holdings sit inside it and CRIRES+ J is telluric-verified",
+      "A_N_solar": {
+        "CRIRES+ J": 8.018,
+        "IAG": [
+          7.941,
+          7.716
+        ]
+      },
+      "known_systematic": "the IAG fit is START-DEPENDENT at 0.225 dex: two runs of the same diagnostic on the same holding land 7.941 and 7.716 while the declared C/O anchor change predicts only -0.033. The chi2 surface is shallow. This bounds `measurement`; it is not hidden in sigma_fit, which reads 0.016-0.037."
+    },
+    "secondary": {
+      "diagnostic": "CN A-X, Kitt Peak NIR",
+      "status": "SOLAR CROSS-CHECK ONLY",
+      "why": "in the reference band and retained for the solar zero point, but Kitt Peak is not carried to target stars (Ryan's ruling). It reads +0.257 dex above IAG on the identical diagnostic, molecule and band."
+    },
+    "rejected": [
+      {
+        "diagnostic": "CN_red 6125-6200 A (HARPS)",
+        "verdict": "REJECTED as an abundance route",
+        "why": "HARPS spans 3780-6910 A and physically cannot reach the reference CN A-X (0-0) band at 10875-13208 A, so this is an instrument limit, not a fixable fit. Its single one-sided continuum leg moves A by 0.849 dex and its frac_rise_weaker is 4.4e-05, three orders below the pack -- a flat chi2 surface. It also carries the 2.404 dex target-Sun difference.",
+        "retain_as": "diagnostic only"
+      },
+      {
+        "diagnostic": "NH A-X 3358-3373 A (Kitt Peak near-UV)",
+        "verdict": "REJECTED",
+        "why": "Amarsi 2021 explicitly does not retain NH UV electronic lines (its NH is X-X vibration-rotation at 2.9-15 um). Spite 2022 measured a 0.44-0.52 dex spread from line-list choice alone over 3357-3365 A. Our own near-UV opacity deficit (RYA-1189/1190/1204/1207) sits on top of that, and this route's frac_rise_weaker is 10.29, two orders above the pack.",
+        "retain_as": "diagnostic only; upper bound at best"
+      }
+    ]
+  },
+  "molecular_C_and_O": {
+    "CO_K": {
+      "instrument": "CRIRES+ K",
+      "A_C": 8.665,
+      "reference_3D": 8.47,
+      "status": "RETAINED with a large model term",
+      "note": "model_atmosphere 0.140 dex -- the largest of any molecule, because CO's published 1D->3D shift is -0.140. Expected, not a defect."
+    },
+    "OH_H": {
+      "instrument": "CRIRES+ H",
+      "A_O": 9.448,
+      "reference_3D": 8.7,
+      "status": "FLAGGED",
+      "note": "+0.758 dex above the reference and edge_distance 0.48, the closest to the grid edge of any route. Retained and reported, not promoted."
+    }
+  },
+  "atomic_N": {
+    "set": [
+      7468.312,
+      8216.336,
+      8683.403
+    ],
+    "rejected": [
+      7442.298,
+      8629.235
+    ],
+    "why_rejected": "CN-blended at 0.67 and 0.75 of their own central depth. Using CN-blended N I lines to adjudicate N I against CN is circular.",
+    "nlte_correction_dex": -0.0128
+  },
+  "irreducible": {
+    "atomic_vs_molecular_N_dex": 0.13,
+    "note": "AGSS21 itself reports atomic 7.77 against molecular 7.90 and recommends 7.83 +/- 0.07. The tension is in the published literature, not introduced by us, and no reconciliation should be expected to close below it."
+  },
+  "what_is_publishable_now": "The atomic N I route (3 clean lines) and the CN A-X NIR molecular route on CRIRES+ J and IAG, each reported with the measured bounds in molecular_route_budgets.json including the 0.225 dex start-dependence. CN_red and NH_AX are diagnostic-only. No route is promoted past its evidence, and none is held for a component the repo can already price."
+}

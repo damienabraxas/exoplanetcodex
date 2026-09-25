@@ -12401,3 +12401,99 @@ artifacts:
       molecular synthesis. Kept as run evidence for the near-UV Fe I derivative;
       the xi_run.json stamp is what pipeline.xi_pairing.assert_pair reads to prove
       the two legs form a nominal -/+ pair.
+  - artifact: rya1220/ni_blend_contamination.json
+    status: COMMITTED
+    generator: scripts/rya1220_ni_blend_audit.py
+    invocation: python3 scripts/rya1220_ni_blend_audit.py
+    ticket: RYA-1220
+    note: >-
+      Contamination of the five Amarsi 2020 solar N I indicators, measured as summed
+      catalogued central_depth within +/-0.05 A over the line's own depth. Read from the
+      PRESERVED long-format VALD extract (RYA-1228 archive), not the built line list --
+      the built list carries no neighbours and no term/J, and a neighbour is the whole
+      question. Finding: the two lines RYA-1220 added (7442.298, 8629.235) are the two
+      most contaminated of the five and BOTH contaminants are CN, the competing N
+      diagnostic. The admitted set reproduces NLTE_LINES['N'] exactly.
+  - artifact: rya1220/cno_hold_readjudication.json
+    status: COMMITTED
+    generator: scripts/rya1220_readjudicate_holds.py
+    invocation: python3 scripts/rya1220_readjudicate_holds.py
+    ticket: RYA-1220
+    note: >-
+      v2. Separates the CNO gate's uniform HOLD into EVIDENCE_EXISTS / RUN_OWED. The v1
+      verdict is WITHDRAWN: it discriminated on red_chi2 > 10, a guard fit_validity.py
+      records as tried and REFUTED on this data (1262 of 1366 in-aggregate lines flagged;
+      the HARPS ERR column is all NaN so the absolute chi2 is meaningless). Under the
+      ratified tools every molecular route is fit_is_physical and constrained. v2 RANKS
+      frac_rise_weaker and edge_distance instead of cutting on them -- RYA-847 swept 9
+      cells / 581 lines and refuted every frac_rise threshold. The strongest signal needs
+      no threshold: CN_AX_IR gives +0.111 on IAG and +0.368 on Kitt Peak, same diagnostic
+      and molecule, so the 0.257 dex gap isolates a HOLDING problem.
+  - artifact: molecular_cno_literature_rya1220/amarsi2021_molecular_reference_by_species.csv
+    status: COMMITTED
+    generator: scripts/rya1220_molecular_literature_matrix.py
+    invocation: python3 scripts/rya1220_molecular_literature_matrix.py
+    ticket: RYA-1220
+    note: >-
+      Per-species rollup of the ingested Amarsi et al. 2021 Table 2 (408 used lines):
+      band coverage, A under five model atmospheres, and the measured 1D->3D model-form
+      term per molecule. The term is molecule-specific (+0.035 CH to -0.140 CO), so a
+      single uniform molecular 3D offset is wrong by up to 0.18 dex.
+  - artifact: molecular_cno_literature_rya1220/our_diagnostics_vs_amarsi2021.csv
+    status: COMMITTED
+    generator: scripts/rya1220_molecular_literature_matrix.py
+    invocation: python3 scripts/rya1220_molecular_literature_matrix.py
+    ticket: RYA-1220
+    note: >-
+      Cross-match of our live molecular indicator windows against the reference used-line
+      ranges. CN_AX_J and CN_AX_IR are inside the reference CN A-X range; CN_red
+      (6125-6200 A) and NH_AX (3358-3373 A) are NOT in the reference set at all, and are
+      the two diagnostics carrying our worst pathologies.
+  - artifact: rya1220/molecular_route_model_form.json
+    status: COMMITTED
+    generator: scripts/rya1220_apply_molecular_model_form.py
+    invocation: python3 scripts/rya1220_apply_molecular_model_form.py
+    ticket: RYA-1220
+    note: >-
+      Applies the measured Amarsi 2021 1D->3D shift as the RYA-587 model_atmosphere
+      component for every molecular CNO route, closing 3d_nlte_model HOLD_MOLECULAR on
+      5 of 7. It is a BOUND on the systematic carried by synthesizing in 1D, never a
+      correction -- no abundance moves. Admitted only inside the reference used-line
+      range; CN_red (6125-6200 A) and NH_AX (3358-3373 A) stay HOLD with that reason
+      attached. Closing this component does not promote any route. red_chi2 is carried
+      only under an UNCALIBRATED name and decides nothing.
+  - artifact: rya1220/molecular_route_budgets.json
+    status: COMMITTED
+    generator: scripts/rya1220_assemble_molecular_budgets.py
+    invocation: python3 scripts/rya1220_assemble_molecular_budgets.py
+    ticket: RYA-1220
+    note: >-
+      RYA-587 component table for every molecular CNO route on every instrument, built
+      from the perturbation legs each route already ran. Prices what the legs support and
+      BOUNDS what they do not: an unmeasured rho is evaluated at its worst value in
+      [-1,+1] rather than held. One-sided continuum legs carry the full excursion, never
+      halved into an unmeasured symmetry. Within-holding run scatter is separated from
+      across-holding spread so a convergence problem is not charged to the instrument --
+      which is how the 0.225 dex IAG start-dependence surfaced.
+  - artifact: rya1220/cno_method_policy.json
+    status: COMMITTED
+    generator: manual (RYA-1220 Work Package E ratification)
+    invocation: n/a -- adjudication record, written from the measured artifacts
+    ticket: RYA-1220
+    note: >-
+      The ratified CNO method policy: CN A-X NIR on CRIRES+ J and IAG as primary
+      molecular N, Kitt Peak as a solar-only cross-check per Ryan's ruling, CN_red and
+      NH A-X near-UV rejected as abundance routes with cited reasons, and the 0.13 dex
+      atomic-vs-molecular N tension recorded as irreducible because AGSS21 reports it too.
+  - artifact: rya1220/cno_target_sun_differential.json
+    status: COMMITTED
+    generator: scripts/rya1220_cno_differential.py
+    invocation: python3 scripts/rya1220_cno_differential.py
+    ticket: RYA-1220
+    note: >-
+      Procyon-minus-Sun CNO differential on HARPS VIS, matched on indicator key and
+      aggregated as MEDIAN OF DIFFERENCES (difference-of-medians reported alongside only
+      to expose the gap). Establishes that the 2.404 dex CN_red difference the pair audit
+      held the campaign on is a broken SOLAR fit -- sigma_fit 0.835, frac_rise 4.8e-05,
+      A(N) 0.45 dex BELOW the solar reference -- and not a stellar difference. Carbon is
+      deliverable from data already in hand: [C/H] = -0.057 dex from 4 matched indicators.

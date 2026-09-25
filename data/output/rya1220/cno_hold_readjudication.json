@@ -1,0 +1,214 @@
+{
+  "schema": "rya1220.cno_hold_readjudication.v2",
+  "ticket": "RYA-1220",
+  "withdrawn": "v1 discriminated on red_chi2 > 10. pipeline/fit_validity.py records that guard as tried and REFUTED on the data (1262 of 1366 in-aggregate lines flagged; the HARPS ERR column is all NaN so the absolute chi2 is meaningless). The v1 verdict that the molecular holds were FIT_QUALITY is withdrawn: under the ratified tools every route is physical and constrained.",
+  "no_threshold_applied": "frac_rise_weaker and edge_distance_dex are RANKED, not cut. RYA-847 swept 9 cells / 581 synthesis lines and refuted every candidate frac_rise threshold; constraint_gate keeps SYNTH_CONSTRAINT None permanently for that reason. Inventing one here would be the same error.",
+  "ranked_by_frac_rise_weaker": [
+    {
+      "diagnostic": "CN_red",
+      "route": "cn_harps_continuum_v2",
+      "frac_rise_weaker": 4.428129662024308e-05,
+      "offset_dex": -0.343
+    },
+    {
+      "diagnostic": "OH_H",
+      "route": "oh_crires_h_continuum_v1",
+      "frac_rise_weaker": 0.005770221204122804,
+      "offset_dex": 0.758
+    },
+    {
+      "diagnostic": "CN_AX_J",
+      "route": "cn_crires_j_continuum_v1",
+      "frac_rise_weaker": 0.03354536343948322,
+      "offset_dex": 0.188
+    },
+    {
+      "diagnostic": "CN_AX_IR",
+      "route": "cn_kp_continuum_v8",
+      "frac_rise_weaker": 0.052217677319845626,
+      "offset_dex": 0.368
+    },
+    {
+      "diagnostic": "CN_AX_IR",
+      "route": "cn_iag_coupling_v2",
+      "frac_rise_weaker": 0.06603948904709957,
+      "offset_dex": -0.114
+    },
+    {
+      "diagnostic": "CN_AX_IR",
+      "route": "cn_iag_stellar_v2",
+      "frac_rise_weaker": 0.06603948904709957,
+      "offset_dex": -0.114
+    },
+    {
+      "diagnostic": "CN_AX_IR",
+      "route": "cn_iag_3d_anchor_v1",
+      "frac_rise_weaker": 0.0816432854400276,
+      "offset_dex": 0.111
+    },
+    {
+      "diagnostic": "CO_K",
+      "route": "co_crires_k_continuum_v1",
+      "frac_rise_weaker": 0.15845115980509414,
+      "offset_dex": 0.205
+    },
+    {
+      "diagnostic": "NH_AX",
+      "route": "cn_nearuv_continuum_v1",
+      "frac_rise_weaker": 10.28790839411761,
+      "offset_dex": 0.127
+    }
+  ],
+  "routes": [
+    {
+      "route": "cn_crires_j_continuum_v1",
+      "diagnostic": "CN_AX_J",
+      "element": "N",
+      "A_X": 8.018,
+      "solar_reference": 7.83,
+      "offset_dex": 0.188,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.03354536343948322,
+      "edge_distance_dex": 1.0123491278245869,
+      "red_chi2_max_UNCALIBRATED": 56.33,
+      "notes": []
+    },
+    {
+      "route": "cn_iag_3d_anchor_v1",
+      "diagnostic": "CN_AX_IR",
+      "element": "N",
+      "A_X": 7.941,
+      "solar_reference": 7.83,
+      "offset_dex": 0.111,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.0816432854400276,
+      "edge_distance_dex": 1.089481285920498,
+      "red_chi2_max_UNCALIBRATED": 42.72,
+      "notes": []
+    },
+    {
+      "route": "cn_iag_coupling_v2",
+      "diagnostic": "CN_AX_IR",
+      "element": "N",
+      "A_X": 7.716,
+      "solar_reference": 7.83,
+      "offset_dex": -0.114,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.06603948904709957,
+      "edge_distance_dex": 0.9172681761610768,
+      "red_chi2_max_UNCALIBRATED": 43.11,
+      "notes": []
+    },
+    {
+      "route": "cn_iag_stellar_v2",
+      "diagnostic": "CN_AX_IR",
+      "element": "N",
+      "A_X": 7.716,
+      "solar_reference": 7.83,
+      "offset_dex": -0.114,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.06603948904709957,
+      "edge_distance_dex": 0.9172681761610768,
+      "red_chi2_max_UNCALIBRATED": 43.12,
+      "notes": []
+    },
+    {
+      "route": "cn_kp_continuum_v8",
+      "diagnostic": "CN_AX_IR",
+      "element": "N",
+      "A_X": 8.198,
+      "solar_reference": 7.83,
+      "offset_dex": 0.368,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.052217677319845626,
+      "edge_distance_dex": 1.1651888761650335,
+      "red_chi2_max_UNCALIBRATED": 212.63,
+      "notes": []
+    },
+    {
+      "route": "cn_harps_continuum_v2",
+      "diagnostic": "CN_red",
+      "element": "N",
+      "A_X": 7.487,
+      "solar_reference": 7.83,
+      "offset_dex": -0.343,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 4.428129662024308e-05,
+      "edge_distance_dex": 0.8570975071746769,
+      "red_chi2_max_UNCALIBRATED": 33.66,
+      "notes": []
+    },
+    {
+      "route": "cn_nearuv_continuum_v1",
+      "diagnostic": "NH_AX",
+      "element": "N",
+      "A_X": 7.957,
+      "solar_reference": 7.83,
+      "offset_dex": 0.127,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 10.28790839411761,
+      "edge_distance_dex": 1.0732635127962338,
+      "red_chi2_max_UNCALIBRATED": 44.25,
+      "notes": []
+    },
+    {
+      "route": "oh_crires_h_continuum_v1",
+      "diagnostic": "OH_H",
+      "element": "O",
+      "A_X": 9.448,
+      "solar_reference": 8.69,
+      "offset_dex": 0.758,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.005770221204122804,
+      "edge_distance_dex": 0.4824367245427297,
+      "red_chi2_max_UNCALIBRATED": 131.66,
+      "notes": [
+        "offset +0.758 dex from the solar reference"
+      ]
+    },
+    {
+      "route": "co_crires_k_continuum_v1",
+      "diagnostic": "CO_K",
+      "element": "C",
+      "A_X": 8.665,
+      "solar_reference": 8.46,
+      "offset_dex": 0.205,
+      "physical": true,
+      "constrained_flag": true,
+      "frac_rise_weaker": 0.15845115980509414,
+      "edge_distance_dex": 0.9947631101830936,
+      "red_chi2_max_UNCALIBRATED": 59.85,
+      "notes": []
+    }
+  ],
+  "paired_holding_evidence": {
+    "diagnostic": "CN_AX_IR",
+    "IAG_offset_dex": 0.111,
+    "KittPeak_offset_dex": 0.368,
+    "difference_dex": 0.257,
+    "why_this_is_the_strongest_signal": "Same diagnostic, same molecule, same band, same reference -- only the holding differs. That isolates a HOLDING problem from a method problem without any threshold at all."
+  },
+  "hold_classes": {
+    "EVIDENCE_EXISTS": {
+      "model_atmosphere": "now MEASURED on 5 of 7 routes -- see data/output/rya1220/molecular_route_model_form.json",
+      "holding_repeatability_atomic": "MEASURED: C VIS 0.021, N red-optical 0.064, O VIS 0.105, O red-optical 0.026 dex"
+    },
+    "RUN_OWED": {
+      "c_o_joint_fit": "rho=0 is an assumption; needs a Sirius Turbospectrum joint C/O refit on the exact CN pool",
+      "target_sun_jacobians": "both target and solar parameter Jacobians MISSING"
+    }
+  },
+  "red_flags_not_covariance_problems": {
+    "CN_red_target_minus_sun_dex": 2.404,
+    "sigma_O_dex": 0.421,
+    "note": "A 2.4 dex paired CN difference is a defect in the diagnostic, not a missing covariance term. No Jacobian work promotes it."
+  }
+}
