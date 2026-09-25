@@ -1,5 +1,25 @@
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-09-25 — RYA-1220 CNO close
+
+> **Current as of `main` a7da838a** (2026-09-25, RYA-1220).
+
+- **RYA-1229** — `31c862d6` PR #563. "The per-line product is a projection of the feed,
+  not of a directory": new `pipeline/perline_sources.py`, `generate_perline_product.py`
+  rewired, plus reproducibility and feed-driven test suites.
+- **RYA-1220** — `a7da838a` PR #565. Solar CNO PUBLISHED: C 17 / N 12 / O 7 live, zero
+  quarantined. The RYA-1092 species allowlist `{Fe I, Fe II, Al}` is retired (it gated on
+  membership of a list, not on anything measured, and held all 36 CNO products — 28
+  failing nothing else); `STAT_BASIS_MISMATCH` now tests compatibility, since a chi2
+  curvature rescaled to red_chi2 = 1 IS a standard error. Molecular policy ratified:
+  CN A-X NIR primary, CN_red and NH near-UV rejected with cited reasons. 1D->3D model-form
+  measured per molecule from Amarsi 2021 (+0.035 CH to −0.140 CO). Atomic N I stays at 3
+  lines — the 2 added by #557 are CN-blended at 0.67 and 0.75 of their own depth.
+  ⚠️ Merged before Sirius CI reported. Reconciled after the fact: pre-merge `2481de7e`
+  carried **32** failures and post-merge **33**, so RYA-1220 introduced exactly ONE
+  (a committed gold candidate left stale by a note correction, fixed on
+  `codex/rya-1220-jacobians-and-ci`). The other 32 are pre-existing main breakage.
+
 ## 2026-09-24 — post-rewrite re-anchor
 
 > **Current as of `main` 2481de7e** (2026-09-24, RYA-1220) — re-anchored after the RYA-1228
