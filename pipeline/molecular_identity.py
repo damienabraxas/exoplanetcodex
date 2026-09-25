@@ -81,6 +81,23 @@ IDENTITIES: dict[str, MolecularIdentity] = {
 }
 
 
+#: Diagnostics that are NOT molecular bands. The old
+#: `molecule = 'NH' if key == 'NH_AX' else '12C14N'` stamped these as CN A-X (0-0) too:
+#: two C I atomic lines and a forbidden [O I] blend, all labelled as a CN molecular band.
+#: An atomic diagnostic has a species and a transition, not a molecule and a vibrational
+#: band, so it gets a pool of the right SHAPE rather than a molecular pool with the
+#: molecule fields left wrong.
+ATOMIC_IDENTITIES: dict[str, dict] = {
+    "CI_5052": {"species": "C", "ion": "I", "kind": "atomic",
+                "note": "C I 5052 A, HARPS VIS cross-check"},
+    "CI_5380": {"species": "C", "ion": "I", "kind": "atomic",
+                "note": "C I 5380 A, HARPS VIS cross-check"},
+    "OI_6300": {"species": "O", "ion": "I", "kind": "forbidden_blend",
+                "note": "[O I] 6300 A forbidden line, Ni I blended -- a FORBIDDEN "
+                        "transition, not a permitted atomic line and not a band"},
+}
+
+
 class MolecularIdentityError(KeyError):
     """The diagnostic has no declared identity; it must not default to CN."""
 
@@ -90,14 +107,26 @@ def identity_for(diagnostic_key: str) -> MolecularIdentity:
         return IDENTITIES[diagnostic_key]
     except KeyError:
         raise MolecularIdentityError(
-            f"{diagnostic_key!r} has no declared molecular identity. Declare it in "
-            f"pipeline.molecular_identity.IDENTITIES -- do not let it fall back to "
-            f"12C14N, which is how OH_H and CO_K came to be stamped as CN A-X (0-0). "
-            f"Declared: {sorted(IDENTITIES)}") from None
+            f"{diagnostic_key!r} has no declared identity. If it is a molecular band, "
+            f"declare it in IDENTITIES; if it is atomic or forbidden, in "
+            f"ATOMIC_IDENTITIES. Do not let it fall back to 12C14N -- that is how OH_H, "
+            f"CO_K and the [O I] 6300 forbidden blend came to be stamped CN A-X (0-0). "
+            f"Declared molecular: {sorted(IDENTITIES)}; "
+            f"atomic: {sorted(ATOMIC_IDENTITIES)}") from None
 
 
 def pool_for(diagnostic_key: str, windows_air_A) -> dict:
-    """The `pool` dict that gets hashed into indicator_id."""
+    """The `pool` dict that gets hashed into indicator_id, shaped by the diagnostic.
+
+    A molecular band is identified by molecule/system/band; an atomic or forbidden
+    diagnostic by species/ion. Giving an atomic line a molecular pool is what put
+    `12C14N A-X (0-0)` on the [O I] 6300 forbidden blend.
+    """
+    atomic = ATOMIC_IDENTITIES.get(diagnostic_key)
+    if atomic is not None:
+        return {"species": atomic["species"], "ion": atomic["ion"],
+                "kind": atomic["kind"], "diagnostic": diagnostic_key,
+                "windows_air_A": windows_air_A}
     ident = identity_for(diagnostic_key)
     return {"molecule": ident.molecule, "system": ident.system, "band": ident.band,
             "diagnostic": diagnostic_key, "windows_air_A": windows_air_A}
