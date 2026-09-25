@@ -107,7 +107,7 @@ def test_the_deep_tier_is_held_back_for_the_reason_ryan_stated(grid):
     deep = [r for r in grid["not_displayed"] if r["tier"] == "DEEPGRADED"]
     assert deep, "no Deep product held back — the showcase rule is not being exercised"
     for r in deep:
-        assert "GRADED product" in r["reason"], r["reason"]
+        assert "secondary" in r["reason"] and "showcase product" in r["reason"], r["reason"]
 
 
 def test_removing_the_report_breaks_the_accounting(products, monkeypatch):

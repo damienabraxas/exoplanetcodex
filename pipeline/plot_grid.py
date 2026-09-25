@@ -56,6 +56,11 @@ def _sections_with_only_deepgraded(products: list[dict]) -> set:
     unaffected (still no GRADED, for the reason RYA-1213 Step 3 measured: the band has one
     lab line at or below the depth gate and a one-line pool has no scatter).
     """
+    #: ⚠️ STILL ON `tier` HERE, DELIBERATELY. This asks "does this band on this holding
+    #: have a CODEX product", and RYA-1213's fix was to test for the ABSENCE OF GRADED
+    #: rather than for an exact tier set. Rewriting it in terms of grade would be a second
+    #: change wearing the first one's clothes, and `is_displayable` consuming the result is
+    #: what has to agree with the site, not this.
     tiers = collections.defaultdict(set)
     for p in products:
         tiers[section_of(p)].add(p.get("tier"))
@@ -78,10 +83,54 @@ def display_section_of(p: dict) -> tuple:
     return section_of(p) + (line_set_for_product(p),)
 
 
+#: 🔴 THE SHOWCASE RULE IS ON `grade`, NOT ON `tier`, AND THAT DISTINCTION IS THE BUG IT
+#: FIXES. It read `tier in ("GRADED", "REFERENCE")`, and four products carry grade
+#: "Reference Grade" while sitting in tier "ALL" -- the AGSS21 line-set 3D-NLTE cells, ONE
+#: OF WHICH IS THE PUBLISHED Fe I HEADLINE. They were refused, and refused silently, so the
+#: number the site reports at the top of the page was absent from the forest below it.
+#:
+#: `grade` is the published PROVENANCE CATEGORY -- what pool a product measured and how it
+#: was selected -- which is exactly the question "should the showcase draw this" asks.
+#: `tier` answers a narrower one and needed a new literal every time a tier appeared, which
+#: is how ALL was missed. Verified on the live feed before the change: grade maps 1:1 onto
+#: tier for every product that was already displayable (Codex Grade 59 <-> GRADED, Deep
+#: Grade 29 <-> DEEPGRADED), so moving the rule to grade admits exactly those four and
+#: changes nothing else. Ryan ruled them IN, 2026-09-25.
+SHOWCASE_GRADES = ("Codex Grade", "Reference Grade")
+
+#: Secondary by policy: "DEEPGRADED is a secondary product -- documented in its own
+#: section, not showcased", with the deep-only exception below.
+SECONDARY_GRADES = ("Deep Grade",)
+
+
+def _why_not_displayed(p: dict) -> str:
+    """Said in the terms the RULE uses, so a reader need not re-derive it."""
+    grade = p.get("grade")
+    if grade in SECONDARY_GRADES:
+        return (f"grade {grade!r} is secondary and this section has a showcase product, so "
+                f"the graded-only rule holds it back (tier {p.get('tier')!r})")
+    if grade not in SHOWCASE_GRADES:
+        return (f"grade {grade!r} is UNRECOGNISED -- it is in neither {SHOWCASE_GRADES} nor "
+                f"{SECONDARY_GRADES}, so nothing decided whether the forest should draw it. "
+                f"Held back and reported rather than dropped; give the grade a rule "
+                f"(tier {p.get('tier')!r})")
+    return (f"grade {grade!r} is a showcase grade, so this entry is a BUG in the reporter "
+            f"itself -- it should have been drawn (tier {p.get('tier')!r})")
+
+
 def is_displayable(p: dict, only_deep: set) -> bool:
-    """GRADED or REFERENCE, or DEEPGRADED in a section that has nothing else."""
-    return (p.get("tier") in ("GRADED", "REFERENCE")
-            or section_of(p) in only_deep)
+    """A showcase grade, or a secondary one in a section that has nothing else.
+
+    ⚠️ AN UNRECOGNISED GRADE IS NOT DRAWN, AND IT IS NOT AN EXCEPTION EITHER. My first cut
+    RAISED here, and that was the wrong instrument twice over: `write_feed` calls `build()`
+    on every publish, so a partial product dict could fail a PUBLISH over a field only the
+    PLOT needs -- it broke `test_uncertainty_contract_rya587` immediately. The reason to be
+    loud was that the old code dropped products silently; `not_displayed` now solves that
+    directly, so an unknown grade is held back AND NAMED rather than crashing the run or
+    vanishing. Report, do not crash, do not hide.
+    """
+    grade = p.get("grade")
+    return grade in SHOWCASE_GRADES or section_of(p) in only_deep
 
 
 def _pick(candidates: list[dict]) -> dict:
@@ -129,13 +178,7 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
                 "product_key": _pe.key_of(p),
                 "tier": p.get("tier"), "grade": p.get("grade"),
                 "selector": p.get("selector"), "line_set": display_section_of(p)[-1],
-                "reason": (
-                    "tier %r is not GRADED or REFERENCE and this section has a GRADED "
-                    "product, so the showcase rule holds it back" % p.get("tier")
-                    if p.get("tier") == "DEEPGRADED" else
-                    "tier %r is neither GRADED nor REFERENCE, so `is_displayable` refuses "
-                    "it -- note the GRADE is %r, and the showcase rule is written on TIER"
-                    % (p.get("tier"), p.get("grade"))),
+                "reason": _why_not_displayed(p),
             })
 
     sections = []

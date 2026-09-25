@@ -123,6 +123,13 @@ def test_GRADED_and_REFERENCE_only_except_where_only_DEEPGRADED_exists(feed, gri
     in every band that has one. DEEPGRADED is untouched -- it is still secondary, and
     still shows only where a band has nothing else, which is what the assertion below
     keeps asserting.
+
+    🔴 AND THE RULE IS NOW ON `grade`, NOT ON `tier`. This asserted
+    `tier in ("GRADED", "REFERENCE")`, which is the shape that lost the four AGSS21
+    line-set 3D-NLTE products: they carry grade "Reference Grade" in tier "ALL", so a
+    tier test refused them -- including the product the site publishes as the Fe I
+    headline -- and refused them silently. Ryan ruled them IN (2026-09-25). Asserting on
+    the grade is also what stops this test going stale the next time a tier appears.
     """
     by_key = {pe.key_of(p): p for p in feed["products"]}
     for s in grid["sections"]:
@@ -130,8 +137,15 @@ def test_GRADED_and_REFERENCE_only_except_where_only_DEEPGRADED_exists(feed, gri
             if not c["product_key"]:
                 continue
             p = by_key[c["product_key"]]
-            assert p["tier"] in ("GRADED", "REFERENCE") or s["only_deepgraded"], (
-                f"{p['tier']} product rendered in a section that has GRADED products")
+            assert p["grade"] in pg.SHOWCASE_GRADES or s["only_deepgraded"], (
+                f"{p['grade']!r} (tier {p['tier']!r}) rendered in a section that has "
+                f"showcase products")
+    #: and the widening actually reached the plot: the Asplund pool is drawn
+    drawn_grades = {by_key[c["product_key"]]["tier"] for s in grid["sections"]
+                    for c in s["cells"] if c["product_key"]}
+    assert "ALL" in drawn_grades, (
+        "no tier-ALL product is drawn — the four Reference-Grade AGSS21 products are "
+        "missing from the forest again")
 
 
 def test_a_REFERENCE_product_never_shares_a_section_with_its_CODEX_sibling(feed, grid):
