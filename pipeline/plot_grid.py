@@ -112,9 +112,31 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
     only_deep = _sections_with_only_deepgraded(products)
 
     buckets: dict = collections.defaultdict(lambda: collections.defaultdict(list))
+    # 🔴 `off_axis` DOES NOT CATCH A PRODUCT THE TIER RULE REFUSED, and for a long time
+    # nothing did. It reports a product that entered a section and found no row; a product
+    # `is_displayable` rejects never enters one, so it left the grid with NO TRACE ANYWHERE
+    # in the feed -- 14 of 160 Fe products, and `off_axis` was empty on all 38 sections, so
+    # the number looked like zero. Two of those 14 are the reason this matters: tier `ALL`
+    # carries grade "Reference Grade" and one of them is the PUBLISHED Fe I headline, absent
+    # from the forest with nothing saying so. Refusing to draw a product is a decision; not
+    # recording the refusal is a defect (the same rule as RYA-711 and RYA-844).
+    not_displayed = []
     for p in products:
         if is_displayable(p, only_deep):
             buckets[display_section_of(p)][p.get("display")].append(p)
+        else:
+            not_displayed.append({
+                "product_key": _pe.key_of(p),
+                "tier": p.get("tier"), "grade": p.get("grade"),
+                "selector": p.get("selector"), "line_set": display_section_of(p)[-1],
+                "reason": (
+                    "tier %r is not GRADED or REFERENCE and this section has a GRADED "
+                    "product, so the showcase rule holds it back" % p.get("tier")
+                    if p.get("tier") == "DEEPGRADED" else
+                    "tier %r is neither GRADED nor REFERENCE, so `is_displayable` refuses "
+                    "it -- note the GRADE is %r, and the showcase rule is written on TIER"
+                    % (p.get("tier"), p.get("grade"))),
+            })
 
     sections = []
     for key in sorted(buckets, key=lambda k: tuple(str(x) for x in k)):
@@ -148,6 +170,11 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
         })
     return {
         "axis": [r["name"] for r in axis],
+        # 🔴 EVERY PRODUCT THE TIER RULE HELD BACK, BY NAME. A reader can now subtract:
+        # len(products) == (cells that resolved) + (alternates) + len(not_displayed), so a
+        # product cannot leave the plot without appearing in one of the three. Nothing here
+        # changes WHICH products are drawn -- it changes whether the omission is countable.
+        "not_displayed": sorted(not_displayed, key=lambda r: r["product_key"]),
         # ⚠️ THE KEY FORMAT IS PUBLISHED, NOT RE-IMPLEMENTED BY THE READER. The renderer
         # joins cells to products on `product_key`; if it hard-coded the field order it
         # would silently stop matching the day KEY_FIELDS changed, and every cell would
