@@ -62,11 +62,59 @@ def _git(*args: str) -> str:
 
 
 def declared_baseline() -> str | None:
-    """The SHA SEQUENCE.md claims to be current as of, or None if unstamped."""
+    """The SHA SEQUENCE.md claims to be current as of, or None if unstamped.
+
+    ⚠️ SEQUENCE.md carries MORE THAN ONE stamp -- it is append-only, so advancing the
+    stamp adds a line rather than replacing one -- and their order in the file does not
+    track their order in history. Picking by position (first or last) is therefore
+    unreliable: the first match was `f3688d5` while a newer `36d5c3d5` sat on the next
+    line, and a newer one still now sits above both.
+
+    So the baseline is chosen by ANCESTRY, not position: of the stamps that are actually
+    on the ref, take the newest. That is self-correcting -- it survives a re-ordering,
+    and after a history rewrite the orphaned stamps simply drop out of contention.
+    """
     if not SEQUENCE.exists():
         return None
-    m = STAMP_RE.search(SEQUENCE.read_text(encoding="utf-8"))
-    return m.group("sha") if m else None
+    shas = [m.group("sha") for m in STAMP_RE.finditer(SEQUENCE.read_text(encoding="utf-8"))]
+    return shas[0] if shas else None
+
+
+def choose_baseline(ref: str) -> tuple[str | None, str]:
+    """The newest stamped SHA that is genuinely an ancestor of `ref`."""
+    if not SEQUENCE.exists():
+        return None, "(none -- SEQUENCE.md absent)"
+    shas = [m.group("sha") for m in STAMP_RE.finditer(SEQUENCE.read_text(encoding="utf-8"))]
+    if not shas:
+        return None, "(none -- SEQUENCE.md carries no stamp)"
+    reachable = []
+    for sha in shas:
+        if not baseline_is_reachable(sha, ref):
+            continue
+        ts = subprocess.run(["git", "log", "-1", "--format=%ct", sha],
+                            capture_output=True, text=True)
+        if ts.returncode == 0 and ts.stdout.strip():
+            reachable.append((int(ts.stdout.strip()), sha))
+    if not reachable:
+        return shas[0], (f"SEQUENCE.md stamp -- ORPHANED; none of {len(shas)} stamps "
+                         f"{shas} is on {ref}")
+    reachable.sort()
+    return reachable[-1][1], (f"newest of {len(reachable)} stamp(s) actually on {ref}")
+
+
+def baseline_is_reachable(since: str, ref: str) -> bool:
+    """Is the declared baseline actually an ancestor of the ref?
+
+    🔴 IT STOPS BEING ONE AFTER A HISTORY REWRITE. The RYA-1228 VALD purge rewrote every
+    commit, so every SHA recorded before it -- in this stamp, in CODEX_STATE_REGISTER.md,
+    in the Linear end-of-session comments -- names an object that still EXISTS locally
+    but is no longer an ancestor of main. `git log <orphan>..main` then returns the whole
+    history, and this reconciler reports hundreds of phantom landings. That is a false
+    alarm, not drift, and it must not read like drift.
+    """
+    proc = subprocess.run(["git", "merge-base", "--is-ancestor", since, ref],
+                          capture_output=True, text=True)
+    return proc.returncode == 0
 
 
 def landed_tickets(ref: str, since: str | None) -> dict[str, list[tuple[str, str, str]]]:
@@ -141,10 +189,26 @@ def main() -> int:
     since = args.since
     baseline_src = "--since"
     if since is None:
-        since = declared_baseline()
-        baseline_src = "SEQUENCE.md 'Current as of' stamp"
+        since, baseline_src = choose_baseline(ref)
     if since is None:
         baseline_src = "(none -- SEQUENCE.md carries no stamp; reconciling ALL history)"
+
+    if since is not None and not baseline_is_reachable(since, ref):
+        print("SEQUENCE-vs-git reconciler (RYA-1184)")
+        print(f"  ref   : {ref} @ {_git('rev-parse', '--short', ref).strip()}")
+        print(f"  since : {since}  [{baseline_src}]")
+        print()
+        print(f"ORPHANED BASELINE -- this is NOT drift.")
+        print(f"  {since} exists but is not an ancestor of {ref}, so the range "
+              f"{since}..{ref} is the entire history and every landing would be")
+        print(f"  reported as missing. A history rewrite does this: the RYA-1228 VALD")
+        print(f"  purge rewrote every commit, so SHAs recorded before it no longer sit")
+        print(f"  on main.")
+        print()
+        print(f"  FIX: re-anchor SEQUENCE.md's 'Current as of `main` <sha>' stamp to a")
+        print(f"  commit that IS on {ref}, and record the rewrite as a landing so the")
+        print(f"  discontinuity is documented rather than silently re-based.")
+        return 3
 
     try:
         landed = landed_tickets(ref, since)

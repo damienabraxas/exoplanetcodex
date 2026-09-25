@@ -1,5 +1,32 @@
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-09-24 — post-rewrite re-anchor
+
+> **Current as of `main` 2481de7e** (2026-09-24, RYA-1220) — re-anchored after the RYA-1228
+> history rewrite. 🔴 **EVERY SHA RECORDED ABOVE THIS LINE PREDATES THAT REWRITE AND IS NO
+> LONGER AN ANCESTOR OF `main`.** The objects still exist, so `git show` on them works and
+> nothing is lost, but `git log <old-sha>..main` returns the whole history and any range
+> query against them is meaningless. Earlier stamps (`f3688d5`, `36d5c3d5`) are retained as
+> historical record, not as usable baselines. The reconciler now reads the LAST stamp and
+> refuses outright on an orphaned one rather than reporting the entire log as drift.
+
+- **RYA-1228** — `94338e09` PR #556. VALD raw-extraction inventory, stewardship policy, and
+  the history purge. 54 raw objects (53 LFS + 1 pre-LFS plain blob) preserved and
+  hash-verified outside git; `data/linelists/vald_*_raw.txt` removed from every commit on
+  all 244 refs. Commit count, tree and every built `linelist_*.csv` unchanged. This is the
+  rewrite that orphaned the SHAs above.
+- **RYA-1220** — `315ccc4d` PR #557. Nitrogen evidence, native NLTE repair, RYA-587
+  migration of all 12 historical N products (all HOLD). ⚠️ This merge also reverted
+  RYA-1224 and RYA-1227 and re-introduced the purged raw files; both were repaired below.
+- **RYA-1224 / RYA-1227** — `54656fac` PR #558. Restored the work reverted by the RYA-1220
+  merge.
+- **RYA-1226** — `150bf396` PR #559. near-UV close-out v2.
+- **RYA-1223** — `d8eaec91` PR #560. Fe publish v2.
+- **RYA-1223** — `9fdf06f3` PR #561. Retired the 7.466 headline claim from the feed's
+  opacity notes.
+- **RYA-1223** — `2481de7e` PR #562. Tracker refresh so the published Generated stamp is
+  coherent.
+
 ## 2026-09-15 — pending working branch
 
 - **RYA-1220** — nitrogen evidence audit and measured profile probes; gate remains open for full reproduction and covariance. Not merged.
