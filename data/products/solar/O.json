@@ -2,12 +2,9 @@
   "schema": "codex.element_product/1",
   "element": "O",
   "star": "solar",
-  "version": "1.7",
-  "updated_at": "2026-09-13T04:21:45Z",
-  "products": [],
-  "archive": [],
-  "gaps": [],
-  "quarantine": [
+  "version": "1.9",
+  "updated_at": "2026-09-25T19:39:46Z",
+  "products": [
     {
       "element": "O",
       "ion": "I",
@@ -33,12 +30,7 @@
         "sha256": "215a07c0904c1913044f2082d9f5611a968e85e7a733ee5c4d53b9aa80344316",
         "artifact_mtime": "2026-09-12T20:22:50Z",
         "ingested_at": "2026-09-12T23:16:50Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:50Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -65,12 +57,7 @@
         "sha256": "d7166bab3667b9190b50f4eda630872e3e2f5fa08c8f97dc089b598a3de6bc96",
         "artifact_mtime": "2026-09-12T20:07:34Z",
         "ingested_at": "2026-09-12T23:16:50Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:50Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -97,12 +84,7 @@
         "sha256": "0828f61bb3525c885c7d4048e07912bb25d96636d951f24a7c3cd423b434827e",
         "artifact_mtime": "2026-09-12T19:50:33Z",
         "ingested_at": "2026-09-12T23:16:51Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:51Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -129,12 +111,7 @@
         "sha256": "3e4322b9b64b0443c44ddd2d7db503580450697616a2b3cb340e848aeedf857b",
         "artifact_mtime": "2026-09-12T20:01:25Z",
         "ingested_at": "2026-09-12T23:16:51Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:51Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -161,12 +138,7 @@
         "sha256": "2a4cc12be7fffb00e00b53423adfc15fe7d8b9e47c89fec753290602fa637e95",
         "artifact_mtime": "2026-09-12T20:21:50Z",
         "ingested_at": "2026-09-12T23:16:52Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:52Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -193,12 +165,7 @@
         "sha256": "bf1081efe806cb25c8c11e2bd87d6d1e84539b7b99634f61e64182df7d229737",
         "artifact_mtime": "2026-09-12T20:05:10Z",
         "ingested_at": "2026-09-12T23:16:52Z"
-      },
-      "quarantined_at": "2026-09-12T23:16:52Z",
-      "quarantine_codes": [
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     },
     {
       "element": "O",
@@ -225,15 +192,12 @@
         "sha256": "8f3b5cce06db71745af92f108693faeb0999190b208abfb2b886444cf290ea45",
         "artifact_mtime": "2026-09-13T04:18:40Z",
         "ingested_at": "2026-09-13T04:21:45Z"
-      },
-      "quarantined_at": "2026-09-13T04:21:45Z",
-      "quarantine_codes": [
-        "STAT_BASIS_MISMATCH",
-        "NOT_YET_DEFENSIBLE"
-      ],
-      "quarantine_reason": "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 eligibility gate, so it was published into quarantine and did not supersede anything. [STAT_BASIS_MISMATCH] sigma_stat here is a 'curvature_sigma' (SYNTH route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. [NOT_YET_DEFENSIBLE] O I is outside the ratified real set {Fe I, Fe II, Al}. It is a pilot measurement, not a product."
+      }
     }
   ],
+  "archive": [],
+  "gaps": [],
+  "quarantine": [],
   "plot_grid": {
     "axis": [
       "EW \u00b7 1D-LTE",

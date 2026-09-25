@@ -39,7 +39,8 @@ THE CRITERIA
 3. `SYST_INCOMPLETE` — no real `sigma_syst`. A product without a systematic budget has no
    error bar, and rendering `A ± sigma_stat` for it silently states a precision nobody
    computed (RYA-968: admission must not manufacture precision).
-4. `NOT_YET_DEFENSIBLE` — the species is outside the ratified real set {Fe I, Fe II, Al}.
+4. `NOT_YET_DEFENSIBLE` — REMOVED (RYA-1220). It gated on a hard-coded species list,
+   which is not a quantitative property of a product.
    Ryan's ruling: everything else is a pilot, and a pilot presented as a product is a
    claim we cannot defend.
 5. `ANOMALOUS_SCATTER` — the line-to-line scatter is grossly inconsistent with the other
@@ -150,9 +151,8 @@ from dataclasses import dataclass
 KEY_FIELDS = ("element", "ion", "band", "instrument", "holding",
               "tier", "selector", "route", "treatment", "line_set")
 
-#: The species a product may claim. Ryan's ruling: {Fe I, Fe II, Al}. `None` for the ion
-#: means any ionisation stage of that element.
-REAL_SPECIES: frozenset = frozenset({("Fe", "I"), ("Fe", "II"), ("Al", None)})
+#: RYA-1220: the species allowlist that used to live here was removed -- it gated on
+#: membership of a list rather than on anything measured. See the note in the gate body.
 
 #: 🔴 THE CONTINUUM FIXES, BY COMMIT. The cutoff below is DERIVED from these, not typed
 #: from a memory of when they landed -- `test_product_eligibility_rya1092` re-resolves
@@ -190,6 +190,23 @@ ANOMALY_MIN_PEERS = 3
 #: The basis the feed as a whole publishes, and therefore the one a product must share to
 #: be readable beside the others. 59 of 63 live products are on the band route.
 _MAJORITY_STAT_BASIS = "standard_error"
+
+#: Bases that answer the SAME question as the majority and may render beside it: "1 sigma
+#: on the reported A". They are constructed differently and keep their own names, because
+#: the name is information -- but they are comparable, so they must not trip the gate.
+#:
+#: 🔴 `curvature_sigma` WAS TREATED AS INCOMPARABLE AND IT HELD 8 CNO PRODUCTS. The gate
+#: said its bar "reads ~sqrt(n) times worse than it is". Measured on ONE VIS cell against
+#: its own peers, that is backwards: curvature sigmas of 0.005 (n=184) and 0.007 (n=167)
+#: sit beside peer standard errors of 0.0128 and 0.125 -- the same order, slightly
+#: TIGHTER. Dividing by sqrt(n) as the gate implied would give 0.0004, an
+#: order of magnitude below every peer in the cell: a manufactured bar, not a corrected
+#: one. A chi2 curvature rescaled to red_chi2 = 1 IS the 1 sigma confidence interval on
+#: the fitted parameter, which is a standard error on the estimator (RYA-1220).
+#:
+#: It also keeps the honest LARGE bars honest: the CN_red solar band fit keeps its 0.835,
+#: which is correct -- that chi2 surface is flat and A really is that poorly determined.
+STANDARD_ERROR_COMPATIBLE: frozenset = frozenset({"standard_error", "curvature_sigma"})
 
 
 class EligibilityError(RuntimeError):
@@ -233,11 +250,6 @@ def key_of(product: dict) -> str:
 def species_of(product: dict) -> tuple:
     return (str(product.get("element") or "").strip(),
             str(product.get("ion") or "").strip() or None)
-
-
-def is_real_species(product: dict) -> bool:
-    el, ion = species_of(product)
-    return (el, ion) in REAL_SPECIES or (el, None) in REAL_SPECIES
 
 
 #: What `sigma_stat` IS, per route. 🔴 NOT A CONVENTION -- A MEASURED FACT about two code
@@ -402,7 +414,7 @@ def evaluate(product: dict, *, peers: list | None = None, require_uncertainty: b
             f"route {product.get('route')!r} is not in STAT_BASIS_BY_ROUTE, so what its "
             f"sigma_stat MEANS is unrecorded. An uncertainty whose definition is unknown "
             f"must not render beside ones whose is."))
-    elif basis != _MAJORITY_STAT_BASIS and uncertainty_problems:
+    elif basis not in STANDARD_ERROR_COMPATIBLE and uncertainty_problems:
         out.append(Ineligible(
             "STAT_BASIS_MISMATCH",
             f"sigma_stat here is a {basis!r} ({product.get('route')} route, "
@@ -411,12 +423,18 @@ def evaluate(product: dict, *, peers: list | None = None, require_uncertainty: b
             f"stat_basis field, so `A +/- sigma_stat` renders as comparable when it is "
             f"not -- this product's bar reads ~sqrt(n) times worse than it is."))
 
-    if not is_real_species(product):
-        el, ion = species_of(product)
-        out.append(Ineligible(
-            "NOT_YET_DEFENSIBLE",
-            f"{el} {ion} is outside the ratified real set {{Fe I, Fe II, Al}}. It is a "
-            f"pilot measurement, not a product."))
+    # 🔴 THE SPECIES ALLOWLIST WAS REMOVED. RYA-1220, Ryan's ruling 2026-09-25: "There
+    # should be no gates that are not quantitative."
+    #
+    # NOT_YET_DEFENSIBLE tested membership of a hard-coded set {Fe I, Fe II, Al}. That is
+    # not a measurement of a product -- it is a list, and a product could satisfy every
+    # measurable criterion here and still be quarantined for the element it measures. It
+    # held all 36 solar C/N/O products, 28 of which failed NOTHING ELSE.
+    #
+    # Every remaining check below is quantitative and stays: a missing sigma_syst, an
+    # unrecorded stat_basis, a scatter ratio over the anomaly threshold, a measurement
+    # predating the continuum fixes, a declared supersession. A product now passes or
+    # fails on what was measured about it.
 
     if product.get("superseded_by") or product.get("superseded_reason"):
         out.append(Ineligible(
