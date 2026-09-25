@@ -12435,3 +12435,16 @@ artifacts:
       ranges. CN_AX_J and CN_AX_IR are inside the reference CN A-X range; CN_red
       (6125-6200 A) and NH_AX (3358-3373 A) are NOT in the reference set at all, and are
       the two diagnostics carrying our worst pathologies.
+  - artifact: rya1220/molecular_route_model_form.json
+    status: COMMITTED
+    generator: scripts/rya1220_apply_molecular_model_form.py
+    invocation: python3 scripts/rya1220_apply_molecular_model_form.py
+    ticket: RYA-1220
+    note: >-
+      Applies the measured Amarsi 2021 1D->3D shift as the RYA-587 model_atmosphere
+      component for every molecular CNO route, closing 3d_nlte_model HOLD_MOLECULAR on
+      5 of 7. It is a BOUND on the systematic carried by synthesizing in 1D, never a
+      correction -- no abundance moves. Admitted only inside the reference used-line
+      range; CN_red (6125-6200 A) and NH_AX (3358-3373 A) stay HOLD with that reason
+      attached. Every fit is still unconstrained (red_chi2 33.66-212.63), so no route
+      promotes; fit quality is now the single remaining molecular blocker.

@@ -14,6 +14,7 @@ import sys
 import time
 import math
 from pathlib import Path
+from pipeline import molecular_identity
 
 
 def main():
@@ -76,11 +77,12 @@ def main():
                 anchor_resid.extend((top - 1.0).tolist())
     continuum_amp = float(1.4826 * np.median(np.abs(np.asarray(anchor_resid) - np.median(anchor_resid)))) if anchor_resid else 0.001
     continuum_amp = max(continuum_amp, 1e-5)
-    # Keep the molecular identity tied to the diagnostic.  The near-UV NH A-X
-    # route uses NH opacity; the CN A-X routes use the 12C14N/13C14N lists.
-    molecule = 'NH' if diag.key == 'NH_AX' else '12C14N'
-    pool = {'molecule': molecule, 'system': 'A-X', 'band': '(0-0)',
-            'diagnostic': diag.key, 'windows_air_A': diag.windows_A}
+    # Molecular identity is DECLARED per diagnostic, never defaulted.  The previous
+    # form here was `'NH' if diag.key == 'NH_AX' else '12C14N'`, which stamped OH_H
+    # (1.53-1.69 um) and CO_K (2.31-2.46 um) as CN A-X (0-0) -- a band with no
+    # transitions in either window.  pool is hashed into indicator_id, so that wrong
+    # label propagated into the identity the uncertainty contract joins on.
+    pool = molecular_identity.pool_for(diag.key, diag.windows_A)
     identity = f'{diag.key}:molecular:{args.element}:windows_sha256:' + hashlib.sha256(
         json.dumps(pool, sort_keys=True).encode()).hexdigest()
     sources = [Path(c.__file__), args.engine_root/'pipeline/uncertainty_stack.py',
