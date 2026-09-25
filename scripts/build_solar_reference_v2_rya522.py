@@ -76,7 +76,13 @@ SYNTHESIS_NOTES = {
     "Cu": "HFS-resolved synthesis (RYA-411/466/473)",
     "V": "HFS-resolved synthesis (RYA-411/466/473)",
 }
-KITTPEAK_NOTES = {"N": "N I red multiplets; +0.37 owed NLTE (RYA-369)",
+KITTPEAK_NOTES = {"N": ("N I red multiplets; NLTE debt CLEARED (RYA-369/526) -- the "
+                        "Amarsi 2020 grid gives -0.0115/-0.0145/-0.0154 per line, mean "
+                        "-0.0138, because N I red is NEAR-LTE at the Sun. The residual "
+                        "+0.36 is a gf/data-channel floor (RYA-161), curation owed, NOT "
+                        "an NLTE debt; do NOT tune it. This note previously read "
+                        "'+0.37 owed NLTE', which described the residual as a debt the "
+                        "verdict had already cleared."),
                   "P": "near-IR multiplet, gf-limited (RYA-460)",
                   "K": "K I 7699 + K NLTE grid (RYA-462)",
                   "Co": "blue-edge, SNR-limited — not trusted (RYA-460)",

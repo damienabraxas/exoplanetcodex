@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v154** · _Last updated: 2026-09-16 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v155** · _Last updated: 2026-09-25 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v155** (2026-09-25) — **RYA-1220 CNO molecular method.** No state VALUE changed; this row records the surfaces that moved. `build_solar_reference_v2_rya522.py`'s Kitt Peak N note read "+0.37 owed NLTE" and now states what THIS register already said at the N I row: the NLTE debt is cleared (per-line −0.0115/−0.0145/−0.0154, N I red is near-LTE at the Sun) and the residual +0.36 is a gf/data-channel floor (RYA-161), curation owed, do NOT tune. Also landed: the molecular 1D→3D model-form term measured per molecule from Amarsi 2021 Table 2 (+0.035 CH to −0.140 CO, so no uniform molecular offset exists) closing `3d_nlte_model` on 5 of 7 routes; molecular identity declared per diagnostic after OH_H and CO_K were found stamped as CN A-X (0-0); the ratified N policy (CN A-X NIR on CRIRES+ J and IAG primary, Kitt Peak solar-only, CN_red and NH near-UV rejected with cited reasons); [C/H](Procyon−Sun) = −0.057 from 4 matched indicators; and 4321 committed scratch files removed. The atomic N I set stays at 3 lines — the 2 added by PR #557 are CN-blended at 0.67 and 0.75 of their own depth.
 - **v154** (2026-09-16) — **RYA-1220** resumed under merged RYA-587: isolated 10108.90 Å transition/CN overlay and same-pool CN C/O/ξ responses recorded; gate remains OPEN with covariance and blend evidence held.
 - **v153** (2026-09-15) — **RYA-1220** resumed on merged RYA-587 (c6529aab); nitrogen consumes the shared uncertainty API. Prior profile evidence retained; scientific gate remains OPEN.
 
