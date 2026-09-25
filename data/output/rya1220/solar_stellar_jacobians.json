@@ -1,0 +1,96 @@
+{
+  "schema": "rya1220.solar_stellar_jacobians.v1",
+  "ticket": "RYA-1220",
+  "star": "solar",
+  "note": "stellar.teff and stellar.xi for the CNO diagnostics, from the harness's own perturbation legs. A pair that straddles nominal gives a slope; one that does not is reported UNRESOLVED with a bound rather than as a small slope.",
+  "n_is_on_the_ratified_route": "N is measured on nir_cn_iag (CN A-X), not vis. The vis region's only N diagnostic is CN_red, whose ksi leg returned NON-MINIMUM (frac_rise_weaker = -5.6e-06): no minimum, so no slope.",
+  "elements": [
+    {
+      "element": "C",
+      "region": "vis",
+      "diagnostic": "CH_Gband",
+      "n_legs": 5,
+      "sigma_fit": 0.006,
+      "components": {
+        "stellar.teff": {
+          "nominal_A": 8.477,
+          "minus_A": 8.485,
+          "plus_A": 8.483,
+          "central_difference_dex_per_sigma": -0.001,
+          "same_side_of_nominal": true,
+          "state": "UNRESOLVED",
+          "sigma_dex": 0.008,
+          "why": "both legs sit on the same side of nominal (8.4850, 8.4830 vs 8.4770), so the response is not monotonic across this step and the central difference (-0.00100) is curvature, not a slope. The larger single-leg excursion is carried as a BOUND."
+        },
+        "stellar.xi": {
+          "nominal_A": 8.477,
+          "minus_A": 8.499,
+          "plus_A": 8.467,
+          "central_difference_dex_per_sigma": -0.016,
+          "same_side_of_nominal": false,
+          "state": "MEASURED",
+          "sigma_dex": 0.016,
+          "why": "both legs straddle nominal; the central difference is a slope"
+        }
+      }
+    },
+    {
+      "element": "O",
+      "region": "vis",
+      "diagnostic": "OI_6300",
+      "n_legs": 5,
+      "sigma_fit": 0.39,
+      "components": {
+        "stellar.teff": {
+          "nominal_A": 8.8,
+          "minus_A": 8.799,
+          "plus_A": 8.801,
+          "central_difference_dex_per_sigma": 0.001,
+          "same_side_of_nominal": false,
+          "state": "MEASURED",
+          "sigma_dex": 0.001,
+          "why": "both legs straddle nominal; the central difference is a slope"
+        },
+        "stellar.xi": {
+          "nominal_A": 8.8,
+          "minus_A": 8.786,
+          "plus_A": 8.8,
+          "central_difference_dex_per_sigma": 0.007,
+          "same_side_of_nominal": true,
+          "state": "UNRESOLVED",
+          "sigma_dex": 0.014,
+          "why": "both legs sit on the same side of nominal (8.7860, 8.8000 vs 8.8000), so the response is not monotonic across this step and the central difference (+0.00700) is curvature, not a slope. The larger single-leg excursion is carried as a BOUND."
+        }
+      }
+    },
+    {
+      "element": "N",
+      "region": "nir_cn_iag",
+      "diagnostic": "CN_AX_IR",
+      "n_legs": 5,
+      "sigma_fit": 0.037,
+      "components": {
+        "stellar.teff": {
+          "nominal_A": 7.942,
+          "minus_A": 7.935,
+          "plus_A": 7.942,
+          "central_difference_dex_per_sigma": 0.0035,
+          "same_side_of_nominal": true,
+          "state": "UNRESOLVED",
+          "sigma_dex": 0.007,
+          "why": "both legs sit on the same side of nominal (7.9350, 7.9420 vs 7.9420), so the response is not monotonic across this step and the central difference (+0.00350) is curvature, not a slope. The larger single-leg excursion is carried as a BOUND."
+        },
+        "stellar.xi": {
+          "nominal_A": 7.942,
+          "minus_A": 7.938,
+          "plus_A": 7.94,
+          "central_difference_dex_per_sigma": 0.001,
+          "same_side_of_nominal": true,
+          "state": "UNRESOLVED",
+          "sigma_dex": 0.004,
+          "why": "both legs sit on the same side of nominal (7.9380, 7.9400 vs 7.9420), so the response is not monotonic across this step and the central difference (+0.00100) is curvature, not a slope. The larger single-leg excursion is carried as a BOUND."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "engine_root": "/home/damienabraxas/scratch/rya1220_jac",
+  "group": "stellar",
+  "source_sha256": {
+    "/home/damienabraxas/scratch/rya1220_jac/pipeline/cno_synthesis.py": "6f0f9310002b8b9a752fe424b90b2d6133234e299c6b24f959e0438fe8c2c751",
+    "/home/damienabraxas/scratch/rya1220_jac/pipeline/uncertainty_stack.py": "de51f923f640528da6b929df17611b84496920728adec6ea20d97b66176c88c7",
+    "/home/damienabraxas/scratch/rya1220_jac/data/output/rya1220/cno_3d_anchor_prior.json": "703f515f939693b87f004c067cf502a9b8865da2f4879f7afebf328225c7db00",
+    "/home/damienabraxas/scratch/rya1220_jac/pipeline/diagnostics/nitrogen_cn_responses.py": "269deb9e38f2293f2ab94740a1a5f335df3e7b49481a13b493b7c4bb541e5bb9"
+  },
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "adopted_parameter_deltas": {
+    "teff_K": 1.0,
+    "logg": 0.0,
+    "vturb_kms": 0.2912,
+    "feh": 0.0
+  },
+  "background": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.73,
+    "Ni": 6.2
+  },
+  "broadening": [
+    115000.0,
+    3.8,
+    1.8
+  ],
+  "holding": "solar_harps_molecfit_corrected",
+  "pool": {
+    "species": "O",
+    "ion": "I",
+    "kind": "forbidden_blend",
+    "diagnostic": "OI_6300",
+    "windows_air_A": [
+      [
+        6299.5,
+        6301.0
+      ]
+    ]
+  },
+  "indicator_id": "OI_6300:molecular:O:windows_sha256:5cb777e8b5153a1c79c5dd00038354c14c0accda6382f7f90566c2c32a9d97b8",
+  "n_pixels": 150,
+  "geometry": "disk_integrated_flux",
+  "scale": "1D-LTE",
+  "statistical_correlation_model": "UNRESOLVED",
+  "C_O_covariance": null,
+  "continuum_anchor_amp": 0.0024794791832671802,
+  "continuum_anchor_n": 14,
+  "status": "diagnostic_only"
+}

@@ -12497,3 +12497,16 @@ artifacts:
       held the campaign on is a broken SOLAR fit -- sigma_fit 0.835, frac_rise 4.8e-05,
       A(N) 0.45 dex BELOW the solar reference -- and not a stellar difference. Carbon is
       deliverable from data already in hand: [C/H] = -0.057 dex from 4 matched indicators.
+  - artifact: rya1220/solar_stellar_jacobians.json
+    status: COMMITTED
+    generator: scripts/rya1220_assemble_stellar_jacobians.py
+    invocation: python3 scripts/rya1220_assemble_stellar_jacobians.py
+    ticket: RYA-1220
+    note: >-
+      Solar stellar.teff / stellar.xi for the CNO diagnostics, from perturbation legs run
+      on Sirius (stellar_jacobian_vis_C, stellar_jacobian_vis_O,
+      stellar_jacobian_nir_cn_N). A leg pair that STRADDLES nominal gives a slope; one
+      that does not is reported UNRESOLVED with the larger single-leg excursion as a
+      bound, never as a small slope. N is measured on nir_cn_iag (CN A-X), NOT vis: the
+      vis region's only N diagnostic is CN_red, whose xi leg returned NON-MINIMUM
+      (frac_rise_weaker = -5.6e-06) -- no minimum, so no slope.
