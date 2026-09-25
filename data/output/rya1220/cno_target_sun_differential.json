@@ -1,0 +1,135 @@
+{
+  "schema": "rya1220.cno_target_sun_differential.v1",
+  "ticket": "RYA-1220",
+  "target": "Procyon",
+  "instrument": "HARPS",
+  "band": "VIS",
+  "method": "median of per-indicator DIFFERENCES, matched on indicator key. Difference of medians is reported alongside only to show the gap; it is not the differential.",
+  "pairs": [
+    {
+      "key": "CH_Gband",
+      "element": "C",
+      "role": "primary",
+      "solar_A": 8.488,
+      "solar_sigma_fit": 0.005,
+      "solar_frac_rise_weaker": 37.99953619038172,
+      "target_A": 8.324,
+      "target_sigma_fit": 0.002,
+      "delta_dex": -0.164,
+      "usable": true,
+      "blockers": []
+    },
+    {
+      "key": "CI_5052",
+      "element": "C",
+      "role": "cross_check",
+      "solar_A": 8.476,
+      "solar_sigma_fit": 0.091,
+      "solar_frac_rise_weaker": 0.3995019674241306,
+      "target_A": 8.526,
+      "target_sigma_fit": 0.008,
+      "delta_dex": 0.05,
+      "usable": true,
+      "blockers": []
+    },
+    {
+      "key": "CI_5380",
+      "element": "C",
+      "role": "cross_check",
+      "solar_A": 8.53,
+      "solar_sigma_fit": 0.098,
+      "solar_frac_rise_weaker": 0.2364595672017745,
+      "target_A": 8.32,
+      "target_sigma_fit": 0.007,
+      "delta_dex": -0.21,
+      "usable": true,
+      "blockers": []
+    },
+    {
+      "key": "C2_Swan",
+      "element": "C",
+      "role": "cross_check",
+      "solar_A": 8.449,
+      "solar_sigma_fit": 0.007,
+      "solar_frac_rise_weaker": 1.9399568043324813,
+      "target_A": 8.557,
+      "target_sigma_fit": 0.008,
+      "delta_dex": 0.108,
+      "usable": true,
+      "blockers": []
+    },
+    {
+      "key": "CN_red",
+      "element": "N",
+      "role": "primary",
+      "solar_A": 7.384,
+      "solar_sigma_fit": 0.835,
+      "solar_frac_rise_weaker": 4.8280676014982754e-05,
+      "target_A": 9.788,
+      "target_sigma_fit": 0.052,
+      "delta_dex": 2.404,
+      "usable": false,
+      "blockers": [
+        "rejected as an abundance route (cno_method_policy.json)",
+        "solar sigma_fit 0.835 > 0.2: the SOLAR end is unconstrained, so this pair measures the fit, not the star"
+      ]
+    },
+    {
+      "key": "OI_6300",
+      "element": "O",
+      "role": "primary",
+      "solar_A": 8.81,
+      "solar_sigma_fit": 0.421,
+      "solar_frac_rise_weaker": 0.0084430534477211,
+      "target_A": 9.417,
+      "target_sigma_fit": 0.015,
+      "delta_dex": 0.607,
+      "usable": false,
+      "blockers": [
+        "solar sigma_fit 0.421 > 0.2: the SOLAR end is unconstrained, so this pair measures the fit, not the star"
+      ]
+    }
+  ],
+  "by_element": {
+    "C": {
+      "state": "MEASURED",
+      "n_usable": 4,
+      "indicators": [
+        "CH_Gband",
+        "CI_5052",
+        "CI_5380",
+        "C2_Swan"
+      ],
+      "median_of_differences_dex": -0.057,
+      "mean_of_differences_dex": -0.054,
+      "sd_dex": 0.1565,
+      "min_dex": -0.21,
+      "max_dex": 0.108,
+      "spread_dex": 0.318,
+      "difference_of_medians_dex": -0.057,
+      "blocked_indicators": [],
+      "note": "indicator-to-indicator spread is the honest uncertainty here; the parameter Jacobians that would let it be decomposed are still owed on both the target and the solar side."
+    },
+    "N": {
+      "state": "BLOCKED",
+      "n_usable": 0,
+      "why": [
+        "rejected as an abundance route (cno_method_policy.json)",
+        "solar sigma_fit 0.835 > 0.2: the SOLAR end is unconstrained, so this pair measures the fit, not the star"
+      ],
+      "blocked_indicators": [
+        "CN_red"
+      ]
+    },
+    "O": {
+      "state": "BLOCKED",
+      "n_usable": 0,
+      "why": [
+        "solar sigma_fit 0.421 > 0.2: the SOLAR end is unconstrained, so this pair measures the fit, not the star"
+      ],
+      "blocked_indicators": [
+        "OI_6300"
+      ]
+    }
+  }
+}

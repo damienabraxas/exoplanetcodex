@@ -12476,3 +12476,15 @@ artifacts:
       molecular N, Kitt Peak as a solar-only cross-check per Ryan's ruling, CN_red and
       NH A-X near-UV rejected as abundance routes with cited reasons, and the 0.13 dex
       atomic-vs-molecular N tension recorded as irreducible because AGSS21 reports it too.
+  - artifact: rya1220/cno_target_sun_differential.json
+    status: COMMITTED
+    generator: scripts/rya1220_cno_differential.py
+    invocation: python3 scripts/rya1220_cno_differential.py
+    ticket: RYA-1220
+    note: >-
+      Procyon-minus-Sun CNO differential on HARPS VIS, matched on indicator key and
+      aggregated as MEDIAN OF DIFFERENCES (difference-of-medians reported alongside only
+      to expose the gap). Establishes that the 2.404 dex CN_red difference the pair audit
+      held the campaign on is a broken SOLAR fit -- sigma_fit 0.835, frac_rise 4.8e-05,
+      A(N) 0.45 dex BELOW the solar reference -- and not a stellar difference. Carbon is
+      deliverable from data already in hand: [C/H] = -0.057 dex from 4 matched indicators.
