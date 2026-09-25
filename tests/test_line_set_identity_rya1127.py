@@ -152,6 +152,42 @@ def test_the_migration_audit_reports_no_unintended_identity_change():
     assert r.returncode == 0, r.stdout[-4000:] + r.stderr[-2000:]
 
 
+def test_check_mode_does_not_WRITE_the_artifact_it_verifies():
+    """🔴 A VERIFIER THAT REWRITES ITS SUBJECT MARKS ITS OWN HOMEWORK.
+
+    The write used to run unconditionally, before the `--check` branch, so this very test
+    overwrote `data/results/rya1127/` and then verified the file it had just produced —
+    and left the repo DIRTY afterwards, which is how a regenerated audit rides along into
+    an unrelated commit (the `df17f8b` failure). `--check` is now read-only and compares
+    instead, so it fails on a stale artifact rather than silently refreshing it.
+    """
+    out = ROOT / "data" / "results" / "rya1127" / "key_migration_audit.json"
+    txt = out.with_suffix(".txt")
+    before = (out.read_bytes(), txt.read_bytes())
+    r = subprocess.run([sys.executable, str(AUDIT), "--check"],
+                       cwd=ROOT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout[-3000:]
+    assert (out.read_bytes(), txt.read_bytes()) == before, (
+        "--check modified the artifact it is supposed to be checking")
+    assert "nothing was written" in r.stdout, (
+        "--check must SAY it wrote nothing, so a reader does not have to diff to find out")
+
+
+def test_check_mode_fails_on_a_stale_artifact(tmp_path):
+    """⚠️ Read-only is not enough on its own: "I did not touch it" is not "it is current".
+    Mutated copy in, non-zero out — otherwise a stale audit passes the gate forever."""
+    out = ROOT / "data" / "results" / "rya1127" / "key_migration_audit.json"
+    original = out.read_bytes()
+    try:
+        out.write_bytes(original.replace(b'"feeds"', b'"feeds_STALE"', 1))
+        r = subprocess.run([sys.executable, str(AUDIT), "--check"],
+                           cwd=ROOT, capture_output=True, text=True)
+        assert r.returncode == 1, "a stale artifact passed --check"
+        assert "STALE" in r.stdout
+    finally:
+        out.write_bytes(original)
+
+
 def test_the_migration_split_nothing_that_is_already_published(doc):
     """The partition of the LIVE feed is unchanged: same number of distinct identities.
 

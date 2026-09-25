@@ -24,6 +24,20 @@
   ],
   "feeds": [
     {
+      "feed": "data/products/solar/C.json",
+      "n_records": 17,
+      "n_old_keys": 17,
+      "n_new_keys": 17,
+      "line_set_census": {
+        "our-all": 17
+      },
+      "splits": [],
+      "merges": [],
+      "unresolved": [],
+      "refinement_holds": true,
+      "refinement_broken": []
+    },
+    {
       "feed": "data/products/solar/Fe.json",
       "n_records": 228,
       "n_old_keys": 189,
@@ -35,6 +49,34 @@
         "asplund": 8,
         "our-ungraded": 6,
         "our-all": 3
+      },
+      "splits": [],
+      "merges": [],
+      "unresolved": [],
+      "refinement_holds": true,
+      "refinement_broken": []
+    },
+    {
+      "feed": "data/products/solar/N.json",
+      "n_records": 12,
+      "n_old_keys": 12,
+      "n_new_keys": 12,
+      "line_set_census": {
+        "our-all": 12
+      },
+      "splits": [],
+      "merges": [],
+      "unresolved": [],
+      "refinement_holds": true,
+      "refinement_broken": []
+    },
+    {
+      "feed": "data/products/solar/O.json",
+      "n_records": 7,
+      "n_old_keys": 7,
+      "n_new_keys": 7,
+      "line_set_census": {
+        "our-all": 7
       },
       "splits": [],
       "merges": [],
