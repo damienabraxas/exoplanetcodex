@@ -253,15 +253,40 @@ def main() -> int:
 
     text = "\n".join(L)
     print(text)
+    # 🔴 --check MUST NOT WRITE. The write used to run unconditionally, so the mode whose
+    # whole job is to VERIFY the committed artifact overwrote it first and then verified
+    # its own output -- a guard marking its own homework. Worse in practice: the test that
+    # calls `--check` therefore left `data/results/rya1127/` modified on every suite run,
+    # so any `git add -A` afterwards swept a regenerated audit into an unrelated commit.
+    # That is the ride-along that put a stray date and a reverted fix into `df17f8b`.
+    if a.check:
+        if bad:
+            print(f"\nFAIL: {bad} unintended identity change(s) or unresolvable "
+                  f"line_set(s)")
+            return 1
+        # ⚠️ AND VERIFY, rather than just declining to write. "I did not touch it" is not
+        # "it is current": the committed artifact must be what this run would have written,
+        # or the report on disk describes a feed that has since changed.
+        want = json.dumps({"old_key_fields": list(OLD_KEY_FIELDS),
+                           "new_key_fields": list(pe.KEY_FIELDS),
+                           "feeds": audits, "rya1106_case": demo}, indent=2) + "\n"
+        for path, expected in ((a.out, want), (a.out.with_suffix(".txt"), text + "\n")):
+            if not path.exists():
+                print(f"\nFAIL: {path} is missing — run without --check to write it")
+                return 1
+            if path.read_text() != expected:
+                print(f"\nFAIL: {path} is STALE — it does not match what this run derives "
+                      f"from the committed feeds. Re-run without --check and commit it.")
+                return 1
+        print("\nCLEAN — the committed audit reproduces, and nothing was written")
+        return 0
+
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps({"old_key_fields": list(OLD_KEY_FIELDS),
                                  "new_key_fields": list(pe.KEY_FIELDS),
                                  "feeds": audits, "rya1106_case": demo}, indent=2) + "\n")
     a.out.with_suffix(".txt").write_text(text + "\n")
     print(f"\nwrote {a.out}")
-    if a.check and bad:
-        print(f"\nFAIL: {bad} unintended identity change(s) or unresolvable line_set(s)")
-        return 1
     return 0
 
 
