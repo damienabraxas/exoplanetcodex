@@ -57,13 +57,27 @@ IDENTITIES: dict[str, MolecularIdentity] = {
         "3358-3373 A band head. Amarsi 2021 explicitly does not retain NH UV electronic "
         "lines; its NH is X-X vibration-rotation at 2.9-15 um."),
     "OH_H": MolecularIdentity(
-        "OH", "X-X", UNSPECIFIED, "O",
+        "OH", "X-X", "(2-0)/(3-1)/(4-2)", "O",
         "CRIRES+ H, 15277-16910 A: OH vibration-rotation, NOT an electronic system. "
-        "Previously stamped 12C14N A-X (0-0)."),
+        "Previously stamped 12C14N A-X (0-0). Band from the diagnostic registry's own "
+        "reference string (Brooke+2016 gf), not inferred."),
     "CO_K": MolecularIdentity(
-        "12C16O", "X-X", UNSPECIFIED, "C",
-        "CRIRES+ K, 23060-24572 A: CO vibration-rotation, NOT an electronic system. "
-        "Previously stamped 12C14N A-X (0-0)."),
+        "12C16O", "X-X", "(2-0)/(3-1)", "C",
+        "CRIRES+ K, 23060-24572 A: CO first overtone, NOT an electronic system. "
+        "Previously stamped 12C14N A-X (0-0). Band from the diagnostic registry "
+        "(Li2015 gf)."),
+    "CH_Gband": MolecularIdentity(
+        "CH", "A-X", "G-band 4290-4315", "C",
+        "HARPS VIS 4303.5-4313.0 A; Masseron+2014/2022. The primary solar and Procyon "
+        "carbon indicator."),
+    "C2_Swan": MolecularIdentity(
+        "C2", "Swan", "(0-0)", "C",
+        "HARPS VIS 5160-5166 A, Swan (0,0) bandhead at 5165."),
+    "OH_AX": MolecularIdentity(
+        "OH", "A-X", "(0-0)/(1-1)", "O",
+        "near-UV 3063-3125 A: OH A-X (0,0) 3064 + (1,1) 3123. ELECTRONIC, unlike OH_H. "
+        "The registry marks it an UPPER BOUND, and it is outside the Amarsi 2021 used "
+        "OH range (1528-12280 nm) exactly as NH_AX is."),
 }
 
 

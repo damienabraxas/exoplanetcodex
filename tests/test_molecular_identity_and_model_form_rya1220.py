@@ -34,9 +34,16 @@ def test_oh_and_co_are_not_cn():
 
 
 def test_no_route_invents_a_vibrational_band():
-    """Where the assignment is not established, say so rather than writing (0-0)."""
-    for key in ("OH_H", "CO_K", "CN_red"):
-        assert mi.identity_for(key).band == mi.UNSPECIFIED
+    """Where the assignment is not established, say so rather than writing (0-0).
+
+    OH_H and CO_K were UNSPECIFIED here until the diagnostic registry's own reference
+    strings supplied their bands -- sourced, so they are now declared. CN_red still has
+    no published assignment and must stay honest about it.
+    """
+    assert mi.identity_for("CN_red").band == mi.UNSPECIFIED
+    for key in ("OH_H", "CO_K"):
+        band = mi.identity_for(key).band
+        assert band != mi.UNSPECIFIED and band != "(0-0)"
 
 
 def test_the_cn_ax_00_band_is_only_claimed_where_it_exists():
@@ -120,3 +127,48 @@ def test_no_frac_rise_threshold_is_applied():
            / "scripts/rya1220_readjudicate_holds.py").read_text()
     assert "ranked_by_frac_rise_weaker" in src
     assert "no_threshold_applied" in src
+
+
+# --- completeness against the live diagnostic registry --------------------------------
+
+def test_every_molecular_diagnostic_in_the_registry_is_declared():
+    """The table must cover what the pipeline can actually run, not what I happened to see.
+
+    The first version declared 6 identities -- the ones that appeared in the RYA-1220 route
+    outputs -- and the Sirius run refused on CH_Gband. That was the no-fallback guard doing
+    its job, but the table should have been derived from the registry in the first place.
+
+    cno_synthesis needs ispec, so this can only run on a synthesis host; it skips elsewhere
+    rather than passing vacuously.
+    """
+    try:
+        from pipeline.cno_synthesis import REGION_DIAGNOSTICS
+    except Exception:
+        pytest.skip("cno_synthesis needs ispec; this check belongs on a synthesis host")
+
+    required = {d.key for diags in REGION_DIAGNOSTICS.values() for d in diags
+                if getattr(d, "kind", None) == "molecular_band"}
+    missing = sorted(required - set(mi.IDENTITIES))
+    assert not missing, f"molecular diagnostics with no declared identity: {missing}"
+
+
+def test_the_nine_known_diagnostics_stay_declared():
+    """Runs everywhere -- pins the set even where ispec is absent."""
+    assert set(mi.IDENTITIES) == {
+        "C2_Swan", "CH_Gband", "CN_AX_IR", "CN_AX_J", "CN_red",
+        "CO_K", "NH_AX", "OH_AX", "OH_H"}
+
+
+def test_vibrational_bands_are_taken_from_the_registry_not_invented():
+    """OH_H and CO_K were UNSPECIFIED until the registry's own reference strings were read."""
+    assert mi.identity_for("OH_H").band == "(2-0)/(3-1)/(4-2)"
+    assert mi.identity_for("CO_K").band == "(2-0)/(3-1)"
+    # CN_red genuinely has no published assignment, so it stays honest
+    assert mi.identity_for("CN_red").band == mi.UNSPECIFIED
+
+
+def test_the_two_near_uv_electronic_routes_are_distinguished_from_their_ir_namesakes():
+    """OH_AX (3064 A, electronic) is not OH_H (1.5 um, vibration-rotation)."""
+    assert mi.identity_for("OH_AX").system == "A-X"
+    assert mi.identity_for("OH_H").system == "X-X"
+    assert mi.identity_for("OH_AX").molecule == mi.identity_for("OH_H").molecule
