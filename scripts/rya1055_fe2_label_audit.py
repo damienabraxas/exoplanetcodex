@@ -205,21 +205,32 @@ def main(argv=None) -> int:
                                  if "excluded_reason" in d.columns else []),
         })
 
-    # ── an observation the label audit fell over, recorded rather than dropped ──────
-    # 🔴 TWO PUBLISHED "solar VIS Fe II DEEPGRADED" POOLS, WITH ZERO OVERLAP. Both sit
-    # inside 4200-6910 A and neither shares a single line with the other:
+    # ── an observation the label audit fell over, and its RESOLUTION ───────────────
+    # 🟢 RESOLVED BY RYA-1229. This block used to report TWO PUBLISHED "solar VIS Fe II
+    # DEEPGRADED" POOLS INSIDE 4200-6910 A SHARING NOT ONE LINE, marked FOR RYA TO
+    # DISPOSITION:
     #
     #   data/products/solar/Fe_perline.csv   11 lines, 5256.9-6456.4 A  (RYA-870,
     #        2026-08-18, sourced from rya847/gated + rya877 -- and it is RYA-877's pool
     #        that RYA-1055's own headline "0 of 11 labelled" was measured on)
-    #   the live band products              9 lines, 4233.2-4583.8 A
+    #   the live band products               9 lines, 4233.2-4583.8 A
     #
-    # It does NOT change this ticket's finding -- a deck with zero Fe II bound-bound
-    # transitions is zero for ANY pool, which is the strength of a deck-level result over
-    # a line-list one. But it is why the ticket's "0 of 11" describes a pool the live
-    # products no longer use, and it is the same shape as the pool-drift confound
-    # RYA-880/1113/1120 keep paying for. Reported for Ryan to disposition; NOT acted on
-    # here.
+    # 🔴 THE PER-LINE PRODUCT WAS THE SIDE THAT WAS WRONG. Its generator globbed two
+    # ticket-scoped snapshot directories named in a module constant; the measurements had
+    # moved to data/results/band_products/ and the constant had not, so it kept succeeding
+    # while reading 13 of 178 per-line files and published RYA-877's retired pool. RYA-1229
+    # rebuilt it as a projection of the FEED -- a file is read only because a published
+    # product's own `provenance.copied_to` names it -- and the overlap is now COMPLETE.
+    #
+    # The finding is kept rather than deleted, because the overlap is the assertion: it is
+    # what a reader needs to know went from empty to total, and if the two pools ever
+    # diverge again this is the line that says so. The disposition ask is discharged.
+    #
+    # ⚠️ RYA-1055's own headline "0 of 11 labelled" still describes RYA-877's pool, not the
+    # live one, and that is UNCHANGED by this -- the deck-level finding does not depend on
+    # the pool (a deck with zero Fe II bound-bound transitions is zero for ANY pool, which
+    # is the strength of a deck-level result over a line-list one), but the COUNT in the
+    # headline is a count of a pool nothing publishes any more.
     import csv as _csv
     _pl = [r for r in _csv.DictReader(
                l for l in PERLINE.read_text().splitlines() if not l.startswith("#"))
@@ -232,15 +243,28 @@ def main(argv=None) -> int:
         import pandas as pd
         pool_b = sorted(round(float(x), 3)
                         for x in pd.read_csv(_lv).wavelength_air_A)
+    overlap = sorted(set(pool_a) & set(pool_b))
+    resolved = bool(pool_b) and set(pool_b) <= set(pool_a)
     disjoint_pools = {
-        "Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)": pool_a,
+        "Fe_perline.csv VIS Fe II (RYA-870, a projection of the feed since RYA-1229)": pool_a,
         "live band product FeII_4200_6910 kpno molecfit DEEPGRADED": pool_b,
-        "overlap": sorted(set(pool_a) & set(pool_b)),
-        "note": ("Two published 'solar VIS Fe II DEEPGRADED' pools inside the same "
-                 "4200-6910 A window sharing NOT ONE line. Does not affect this ticket's "
-                 "finding (a deck with zero Fe II bound-bound transitions is zero for any "
-                 "pool) but it is why RYA-1055's headline '0 of 11 labelled' describes a "
-                 "pool the live products no longer use. FOR RYA TO DISPOSITION."),
+        "overlap": overlap,
+        "status": "RESOLVED by RYA-1229" if resolved else "DISJOINT -- FOR RYA TO DISPOSITION",
+        "note": (
+            ("RESOLVED by RYA-1229. These two published 'solar VIS Fe II DEEPGRADED' pools "
+             "inside 4200-6910 A once shared NOT ONE line, and the per-line product was the "
+             "side that was wrong: its generator globbed two superseded snapshot "
+             "directories (rya847/gated + rya877), reading 13 of 178 per-line files. It is "
+             "now a projection of the FEED, and every line of the live band product is "
+             "present. ⚠️ RYA-1055's headline '0 of 11 labelled' still counts RYA-877's "
+             "retired pool -- the DECK-level finding does not depend on the pool, but the "
+             "count does.")
+            if resolved else
+            ("Two published 'solar VIS Fe II DEEPGRADED' pools inside the same 4200-6910 A "
+             "window that do not agree on their lines. Does not affect this ticket's "
+             "finding (a deck with zero Fe II bound-bound transitions is zero for any pool) "
+             "but it is why RYA-1055's headline '0 of 11 labelled' describes a pool the "
+             "live products no longer use. FOR RYA TO DISPOSITION.")),
     }
 
     # ── how populated the Fe II half of the MPIA grid actually is ───────────────────

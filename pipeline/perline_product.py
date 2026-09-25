@@ -44,7 +44,7 @@ from pathlib import Path
 import pandas as pd
 
 from config import constants
-from pipeline import litscan
+from pipeline import litscan, perline_sources
 from pipeline.problem_children import CURATED_CLASSES, AUTO_CLASSES, REGISTRY_CSV
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,6 +73,12 @@ ROW_COLUMNS = [
     # atomic constants — the replication payload
     "log_gf", "gf_source", "gf_grade", "gf_sigma_dex",
     "damping_rad", "damping_stark", "damping_vdW", "damping_form", "hfs_isotope_note",
+    # 🔴 THE PUBLISHED IDENTITY (RYA-1127), ON EVERY ROW — added by RYA-1229. Without it a
+    # reader cannot tell which published number a line is evidence FOR: one artifact can
+    # back two products, and two products can share ion/band/holding/tier/route/treatment
+    # and differ only in `selector`, publishing values 0.196 dex apart (RYA-1112). `engine`
+    # below is kept for the columns' existing readers and now holds exactly `treatment`.
+    "band", "holding", "tier", "selector", "route", "treatment",
     # measurement
     "instrument", "arm", "method", "ew_mA", "reduced_ew", "red_chi2",
     # the per-line STATISTICAL uncertainty (see the note on _sigma_A below)
@@ -136,6 +142,22 @@ def _assert_inputs_committed(paths) -> str:
         raise PerLineProductError(
             "refusing to generate: these inputs are uncommitted, so `commit_sha` would "
             "not describe the file it stamps —\n  " + "\n  ".join(dirty))
+    # 🔴 "NOT DIRTY" IS NOT "TRACKED" (RYA-1229). `data/results/band_products/` is
+    # gitignored and its per-line files are present only where somebody force-added them.
+    # `git status --porcelain` does not report an ignored file, so an untracked input
+    # passed the clause above in SILENCE — the one check standing between this product and
+    # a commit_sha that describes nothing was blind to the exact case the directory's
+    # gitignore guarantees. Ask git what it is tracking instead.
+    rel = [str(Path(q).resolve().relative_to(ROOT)) for q in paths]
+    tracked = set(_git("ls-files", "--", *rel).splitlines())
+    untracked = [q for q in rel if q not in tracked]
+    if untracked:
+        raise PerLineProductError(
+            "refusing to generate: these inputs are not tracked by git, so this product "
+            "could not be reproduced from the repository it is committed to —\n  "
+            + "\n  ".join(untracked)
+            + "\n(band_products is gitignored; an artifact has to be force-added to count "
+              "as published evidence)")
     return _git("rev-parse", "HEAD")
 
 
@@ -169,6 +191,16 @@ def _build_header(star: str, element: str, sources: dict, input_commit: str) -> 
             if rng is not None else "no litscan for this element"),
         "generated_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "generator_script": "scripts/generate_perline_product.py",
+        # 🔴 THE FILE NAMES ITS OWN REPRODUCTION COMMAND. data/results/GENERATORS.yaml is
+        # scoped to data/results/ and data/processed/ and refuses an entry outside them
+        # (RYA-686), so this artifact cannot be registered there without widening that
+        # convention — a separate decision. Carrying the invocation in the header is what
+        # keeps "what produced this?" answerable, and not being answerable is part of how
+        # this product went a month stale (RYA-1229).
+        "invocation": (
+            "ISPEC_DIR=/mnt/codex-data/engines/ispec_src ~/venv_rya1103/bin/python "
+            "scripts/generate_perline_product.py --star solar --element " + element
+            + " --damping-source synthesis   # Sirius: the GES damping needs iSpec"),
         "sources": "; ".join(f"{k}={v}" for k, v in sources.items()),
     }
 
@@ -416,24 +448,30 @@ def _arm_of(wl_A: float) -> str:
     return "NIR"
 
 
-def build_perline_product(star: str, element: str, band_products,
+def build_perline_product(star: str, element: str,
                           damping_source: str = "synthesis") -> PerLineProduct:
-    band_products = [Path(p) for p in band_products]
-    # 🔴 A CONTROL EXPERIMENT IS NOT A PRODUCT. RYA-877 committed before/after per-line
-    # files under data/results/rya877/control/ to evidence a same-inputs diff; a plain
-    # rglob swept them in and the Fe II lines were counted THREE times (1039 -> 1104 rows).
-    # The row-accounting check could not see it — it compares emitted against what was
-    # READ, and both were inflated together. Directories that hold a deliberate re-run of
-    # the same measurement are excluded by name, and the duplicate guard below is the
-    # backstop for the ones I have not thought of.
-    EXPERIMENT_DIRS = {"control", "before", "after", "sweep", "_regen"}
-    line_files = sorted(
-        f for root in band_products for f in root.rglob("*_lines.csv")
-        if not (EXPERIMENT_DIRS & set(f.relative_to(root).parts[:-1])))
-    if not line_files:
-        raise PerLineProductError(
-            f"no *_lines.csv under {[str(p) for p in band_products]} — this product is a "
-            f"projection of the band products and cannot be built without them")
+    """Project every PUBLISHED product of this element onto its per-line evidence.
+
+    🔴 THE FEED DECIDES WHICH FILES ARE READ (RYA-1229). This used to glob whatever
+    directories a module constant named, and the constant outlived the directories: the
+    generator read 13 of 178 per-line files, covered one of four instruments, and emitted
+    932 rows labelled with a pre-RYA-906 engine name no published product uses — all
+    without a single failure, because nothing was comparing what it read against what had
+    been published. Discovery now starts from data/products/<star>/<element>.json and asks
+    each product where its own evidence is, so the artifact cannot drift from the feed
+    without the drift being the thing that fails.
+
+    ⚠️ THE RYA-877 CONTROL-DIRECTORY EXCLUSION IS GONE, AND DELIBERATELY. It existed
+    because a plain rglob swept `data/results/rya877/control/before|after/` in and counted
+    the Fe II lines three times; the defence was a set of directory names to skip, which
+    only ever covered the cases somebody had already been bitten by (`band_products/`
+    itself holds two `_superseded_*` directories it would not have caught). Nothing is
+    globbed now: a file is read only because a published product's own
+    `provenance.copied_to` names it, so a control or superseded artifact is unreachable by
+    construction rather than by blocklist.
+    """
+    sources, unresolved = perline_sources.resolve_published(star, element)
+    line_files = sorted({s.path for s in sources})
 
     linelist = _load_linelist(star)
     canonical = _load_canonical_gf()
@@ -456,27 +494,52 @@ def build_perline_product(star: str, element: str, band_products,
     inputs = [LINELIST_DIR / f"linelist_{star}.csv", CANONICAL_GF, REGISTRY_CSV, *line_files]
     input_commit = _assert_inputs_committed(inputs)
 
+    # ⚠️ HOISTED, AND MEMOISED. `linelist.assign(species=...)` used to run INSIDE the row
+    # loop, rebuilding a column over the whole linelist once per line, and every lookup
+    # rescanned its table. With the feed as the source there are ~7.7k rows over ~3.0k
+    # distinct (wavelength, EP, species) keys, so the same answer was being recomputed
+    # two and a half times over. The cache is keyed on exactly the arguments the matcher
+    # reads, so it changes speed and nothing else.
+    linelist_sp = linelist.assign(
+        species=linelist["element"].astype(str) + " " + linelist["ion"].astype(str))
+    _ll_cache, _gf_cache = {}, {}
+
+    def _ll_of(wl, ep, species):
+        k = (round(wl, 4), None if ep is None else round(ep, 4), species)
+        if k not in _ll_cache:
+            _ll_cache[k] = _match(linelist_sp, wl, ep, species)
+        return _ll_cache[k]
+
+    def _gf_of(wl, ep, species):
+        k = (round(wl, 4), None if ep is None else round(ep, 4), species)
+        if k not in _gf_cache:
+            _gf_cache[k] = _match(canonical, wl, ep, species)
+        return _gf_cache[k]
+
     rows, n_measured = [], 0
-    for f in line_files:
-        d = pd.read_csv(f)
+    for src in sources:
+        f, d = src.path, src.frame
         _require(d, ["element", "ion", "wavelength_air_A", "instrument", "treatment",
                      "in_aggregate", "abundance"], str(f))
         d = d[d["element"].astype(str).str.strip() == element]
         if d.empty:
-            continue
-        deck = f.parent.name if f.parent.name in ("ts-lte", "gerber-nlte") else ""
+            raise PerLineProductError(
+                f"{f} resolved for a published {element} product but holds no {element} "
+                f"rows — the product has been pointed at another element's evidence")
+        identity = src.identity
         for _, r in d.iterrows():
             n_measured += 1
             wl = float(r["wavelength_air_A"])
             species = f"{r['element']} {r['ion']}".strip()
             ep = (float(r["ep_eV"]) if "ep_eV" in d.columns and pd.notna(r.get("ep_eV"))
                   else None)
-            ll = _match(linelist.assign(species=linelist["element"].astype(str) + " "
-                                        + linelist["ion"].astype(str)), wl, ep, species)
+            ll = _ll_of(wl, ep, species)
             if ep is None and ll is not None:
                 ep = float(ll["excitation_potential_eV"])
-            gf = _match(canonical, wl, ep, species)
+            gf = _gf_of(wl, ep, species)
 
+            vdw = _damp(synth_ll, ll, wl, ep, "waals", "damping_vdW")
+            sig = _sigma_A(r)
             in_agg = str(r["in_aggregate"]) == "True"
             status, code, note = _disposition(pc, species, wl, in_agg,
                                               str(r.get("excluded_reason", "")))
@@ -501,14 +564,16 @@ def build_perline_product(star: str, element: str, band_products,
                 "gf_sigma_dex": _lab_sigma(lab, wl, ep),
                 "damping_rad": _damp(synth_ll, ll, wl, ep, "rad", "damping_rad"),
                 "damping_stark": _damp(synth_ll, ll, wl, ep, "stark", "damping_stark"),
-                "damping_vdW": _damp(synth_ll, ll, wl, ep, "waals", "damping_vdW"),
+                "damping_vdW": vdw,
                 # STATE THE FORM (RYA-489 §6.4) — per line, because the GES list mixes
                 # them: some vdW entries are ABO packed sigma.alpha, others classical.
-                "damping_form": _damping_form(
-                    _damp(synth_ll, ll, wl, ep, "waals", "damping_vdW")),
+                "damping_form": _damping_form(vdw),
                 "hfs_isotope_note": ("HFS components in canonical_gf: "
                                      f"{gf.get('hfs_n_components')}" if gf is not None
                                      and "hfs_n_components" in canonical.columns else ""),
+                "band": identity["band"], "holding": identity["holding"],
+                "tier": identity["tier"], "selector": identity["selector"],
+                "route": identity["route"], "treatment": identity["treatment"],
                 "instrument": r["instrument"],
                 "arm": _arm_of(wl),
                 "method": ("ew_integration" if str(r.get("ew_inversion")) == "True"
@@ -516,26 +581,39 @@ def build_perline_product(star: str, element: str, band_products,
                 "ew_mA": r.get("ew_mA"),
                 "reduced_ew": r.get("rew"),
                 "red_chi2": r.get("red_chi2"),
-                "sigma_A_dex": _sigma_A(r)[0],
-                "sigma_A_basis": _sigma_A(r)[1],
-                "engine": engine + (f" ({deck})" if deck else ""),
+                "sigma_A_dex": sig[0],
+                "sigma_A_basis": sig[1],
+                # 🔴 NO DECK SUFFIX. The old roots were laid out with per-deck
+                # subdirectories and the label was taken from the parent directory name,
+                # producing `1D-LTE (ts-lte)` — a vocabulary the feed has never used and
+                # which made 932 of 1039 rows impossible to join to a published product.
+                # The identity columns above now carry what the suffix was standing in for.
+                "engine": engine,
                 "scale": ("1D-NLTE" if "NLTE" in engine.upper() else "1D-LTE"),
                 "A_X_line": r.get("abundance"),
                 "status": status, "reason_code": code, "reason_note": note,
             })
 
     out = pd.DataFrame(rows, columns=ROW_COLUMNS)
-    # 🔴 ONE ROW PER (line x instrument x engine) — RYA-489 §6.4 and RYA-712. A repeated
-    # key means the same physical measurement entered twice, which silently doubles its
-    # weight for any consumer that groups by engine. Loud, with the offenders named.
-    key = ["element", "ion", "wavelength_air_A", "instrument", "engine"]
+    # 🔴 ONE ROW PER (line x PUBLISHED PRODUCT) — RYA-489 §6.4, RYA-712, widened to the
+    # RYA-1127 identity by RYA-1229. A repeated key means the same physical measurement
+    # entered twice under one product, which silently doubles its weight for any consumer
+    # that groups by product. Loud, with the offenders named.
+    #
+    # ⚠️ IT IS A KEY ON THE IDENTITY AND NOT ON (line x instrument x engine) BECAUSE THE
+    # NARROWER KEY REFUSES LEGITIMATE ROWS. One artifact can back two published products
+    # (18 are published at two tiers with a byte-equal provenance.sha256, RYA-1224), and
+    # band_products holds every tier, selector and route of every holding: on the narrow
+    # key a feed-driven read collides on 6505 of 7026 rows. A line appearing once per
+    # product it is evidence for is the projection working, not a duplicate.
+    key = ["element", "ion", "wavelength_air_A", *perline_sources.IDENTITY_FIELDS[2:]]
     dup = out[out.duplicated(subset=key, keep=False)]
     if not dup.empty:
         show = (dup.groupby(key).size().sort_values(ascending=False).head(5).to_dict())
         raise PerLineProductError(
-            f"{len(dup)} rows share a (line x instrument x engine) key — the same "
-            f"measurement was read more than once, probably from a control or re-run "
-            f"directory. Worst offenders: {show}")
+            f"{len(dup)} rows share a published-identity key — the same measurement "
+            f"entered twice under one product, which silently doubles its weight for any "
+            f"consumer that groups by product. Worst offenders: {show}")
     # 🔴 THE ACCOUNTING. Emitted must equal measured — a projection that filters is not a
     # projection (RYA-844).
     if len(out) != n_measured:
@@ -548,17 +626,46 @@ def build_perline_product(star: str, element: str, band_products,
                             "replication_grade": ("yes" if damping_source == "synthesis"
                                                   else "NO — damping is NOT the constant "
                                                        "the synthesis used"),
-                            "band_products": ", ".join(str(p) for p in band_products),
                             "linelist": f"linelist_{star}.csv",
                             "canonical_gf": CANONICAL_GF.name,
                             "problem_children": REGISTRY_CSV.name},
                            input_commit)
+    # 🔴 REACHABILITY IS A TOP-LEVEL HEADER FACT, not a clause buried in `sources`. A
+    # reader has to be able to see, without opening anything else, that this file is
+    # evidence for 139 of 160 published products and which 21 it is silent about — the
+    # artifact it replaces implied completeness it never had.
+    header["discovery"] = (
+        f"FEED-DRIVEN (RYA-1229): every published product in "
+        f"data/products/{star}/{element}.json, resolved to its own per-line artifact "
+        f"through `provenance.copied_to` and gated on n_lines value-equality")
+    header["products_published"] = len(sources) + len(unresolved)
+    header["products_with_perline_evidence"] = len(sources)
+    header["products_unresolved"] = len(unresolved)
     assert_provenance_resolved(out)
 
     accounting = {
         "n_measured_rows_read": n_measured,
         "n_emitted_rows": len(out),
         "n_line_files": len(line_files),
+        "n_products_with_perline_evidence": len(sources),
+        # 🔴 NAMED, NOT COUNTED. A published product whose per-line evidence cannot be
+        # reached is a fact about the repo that a reader of this product needs; reporting
+        # only a count is how the previous artifact hid 33 of them.
+        "unresolved_products": [[ident, why] for ident, why in unresolved],
+        # a list, not a dict: the key is the identity TUPLE and json refuses a tuple key
+        "rows_per_published_product": [
+            [*k, int(v)] for k, v in
+            out.groupby(list(perline_sources.IDENTITY_FIELDS[1:])).size().items()],
+        # ⚠️ A ROW LABELLED `ew_integration` WITH NO `ew_mA` IS A CONTRADICTION, AND IT IS
+        # NOT OURS. The ENGINE-A band products set `ew_inversion=True` on every row while
+        # their own `ew_method` says "synthesis flux-fit, FIXED half-width +/-0.62 A
+        # (RYA-759 route; no EW exists in this band...)" and leave `ew_mA` empty. This
+        # projection carries the flag faithfully rather than quietly rewriting it -- the
+        # fix belongs to the emitter -- so the count is surfaced here instead of being
+        # left for a reader to trip over. It is also exactly why the RYA-870 reproduce-or-
+        # fail guard reports NO-COVERAGE: it re-inverts an equivalent width.
+        "n_rows_labelled_ew_route_with_no_ew_mA": int(
+            (out["method"].eq("ew_integration") & out["ew_mA"].isna()).sum()),
         "by_status": out["status"].value_counts().to_dict(),
         "by_engine": out["engine"].value_counts().to_dict(),
         "n_gf_from_canonical": int((~out["gf_source"].isin(

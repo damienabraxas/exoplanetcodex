@@ -4275,9 +4275,18 @@ artifacts:
     ticket: RYA-1055
     note: >-
       RYA-1055 item 3: every LIVE Fe II product's label, confirmed rather than asserted --
-      the limit is stamped on all ten, none takes departures from atom.fe607a, and the
-      per-line layer agrees (159 Fe I rows on a 1D-NLTE scale, ZERO Fe II rows). REPORT
-      ONLY, no value re-derived. 🔴 The ionisation balance is quoted SCALE-MATCHED (same
+      the limit is stamped on all 30, none takes departures from atom.fe607a, and the
+      per-line layer agrees: ZERO Fe II rows on a 1D-NLTE scale, which is the finding.
+      ⚠️ TWO COUNTS IN THIS NOTE WERE STALE. "all ten" predates RYA-1203/1208/1213, which
+      took the live Fe II product count 10 -> 13 -> 15 -> 30; the test asserts
+      n_stamped == n_live_fe_ii_products so the EQUALITY is what holds, not the literal.
+      And "159 Fe I rows on a 1D-NLTE scale" tracked the SIZE of Fe_perline.csv rather than
+      anything this audit measures -- RYA-1229 rebuilt that product as a projection of the
+      feed and it reads 2443 with no Fe II row changing state, so the number is no longer
+      quoted here. 🟢 RYA-1229 also DISCHARGED this audit's `two_disjoint_vis_fe_ii_pools`
+      finding: the per-line product was the side that was wrong (it globbed two superseded
+      snapshot directories), and the overlap with the live band product is now complete.
+      REPORT ONLY, no value re-derived. 🔴 The ionisation balance is quoted SCALE-MATCHED (same
       band, instrument, holding, tier, selector, route and treatment) rather than against
       the 7.466 anchor: that anchor is a 3D-NLTE number and these are 1D-NLTE products, so
       the direct comparison is the RYA-669 ratchet -- and the Fe II kurucz2005 cell reads

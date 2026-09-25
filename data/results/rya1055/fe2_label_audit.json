@@ -1,12 +1,12 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-09-24T14:59:26Z",
+  "generated_at": "2026-09-24T20:07:14Z",
   "n_live_fe_ii_products": 30,
   "n_stamped": 30,
   "n_taking_nlte_from_the_gerber_deck": 0,
   "per_line_rows_on_an_nlte_scale": {
-    "I": 159,
+    "I": 2443,
     "II": 0
   },
   "band_product_per_line_nlte_sources": [
@@ -516,18 +516,15 @@
     }
   ],
   "two_disjoint_vis_fe_ii_pools": {
-    "Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)": [
-      5256.932,
-      5337.722,
-      5991.371,
-      6084.102,
-      6147.734,
-      6149.246,
-      6238.386,
-      6247.557,
-      6369.459,
-      6432.676,
-      6456.38
+    "Fe_perline.csv VIS Fe II (RYA-870, a projection of the feed since RYA-1229)": [
+      4233.162,
+      4351.762,
+      4385.377,
+      4416.819,
+      4508.28,
+      4522.628,
+      4549.466,
+      4583.829
     ],
     "live band product FeII_4200_6910 kpno molecfit DEEPGRADED": [
       4233.162,
@@ -539,8 +536,18 @@
       4549.466,
       4583.829
     ],
-    "overlap": [],
-    "note": "Two published 'solar VIS Fe II DEEPGRADED' pools inside the same 4200-6910 A window sharing NOT ONE line. Does not affect this ticket's finding (a deck with zero Fe II bound-bound transitions is zero for any pool) but it is why RYA-1055's headline '0 of 11 labelled' describes a pool the live products no longer use. FOR RYA TO DISPOSITION."
+    "overlap": [
+      4233.162,
+      4351.762,
+      4385.377,
+      4416.819,
+      4508.28,
+      4522.628,
+      4549.466,
+      4583.829
+    ],
+    "status": "RESOLVED by RYA-1229",
+    "note": "RESOLVED by RYA-1229. These two published 'solar VIS Fe II DEEPGRADED' pools inside 4200-6910 A once shared NOT ONE line, and the per-line product was the side that was wrong: its generator globbed two superseded snapshot directories (rya847/gated + rya877), reading 13 of 178 per-line files. It is now a projection of the FEED, and every line of the live band product is present. \u26a0\ufe0f RYA-1055's headline '0 of 11 labelled' still counts RYA-877's retired pool -- the DECK-level finding does not depend on the pool, but the count does."
   },
   "mpia_grid_fill": {
     "Fe I": {

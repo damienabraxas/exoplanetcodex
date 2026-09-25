@@ -52,9 +52,76 @@ def test_the_guard_describes_the_product_that_is_committed(report):
         "product than the one committed — re-run the guard")
 
 
+def _ew_route_rows_in_the_product() -> tuple[int, int]:
+    """(testable, labelled-but-widthless) in-aggregate EW-route rows, off the product.
+
+    ⚠️ TESTABLE IS NARROWER THAN LABELLED, and conflating them is a mistake I made
+    writing this test: it asserted the guard should have tested 1270 rows that carry no
+    `ew_mA` at all. The guard re-inverts an equivalent width, so a row with no width is
+    not something it is declining to test -- there is nothing there to invert. The second
+    number is reported separately because it is a real defect, just not this guard's:
+    the ENGINE-A band products set `ew_inversion=True` while their own `ew_method` says
+    the measurement was a synthesis flux-fit.
+    """
+    import csv
+    import io
+    body = "".join(l for l in PRODUCT.read_text().splitlines(keepends=True)
+                   if not l.startswith("#"))
+    testable = widthless = 0
+    for r in csv.DictReader(io.StringIO(body)):
+        if r["status"] != "in_aggregate" or r["method"] != "ew_integration":
+            continue
+        if (r["ew_mA"] or "").strip() in ("", "nan"):
+            widthless += 1
+        else:
+            testable += 1
+    return testable, widthless
+
+
+def test_a_zero_coverage_verdict_is_true_of_the_product(report):
+    """🔴 "NOTHING TO TEST" IS A CLAIM, AND IT GETS CHECKED (RYA-1229).
+
+    The reproduction re-inverts an equivalent width, so it can only test rows whose
+    abundance came from EW inversion. Since the product became a projection of the feed,
+    no published Fe product with force-added per-line evidence uses the PROFILEFIT (EW)
+    route — all ten are among the 21 unresolved — so the guard has zero coverage. That is
+    a real loss and it is recorded as NO-COVERAGE rather than hidden: the guard's previous
+    8/8 PASS was measured on rows from two SUPERSEDED artifacts (`1D-LTE (ts-lte)`) that
+    back no published product.
+
+    ⚠️ This test is what stops NO-COVERAGE becoming a silent skip. If the product does
+    contain EW-route rows, a NO-COVERAGE verdict is a BUG in the guard, not a state of the
+    repo — and the next test then demands they all reproduce.
+    """
+    testable, widthless = _ew_route_rows_in_the_product()
+    if report.get("verdict") == "NO-COVERAGE":
+        assert testable == 0, (
+            f"the guard reported NO-COVERAGE but the product has {testable} in-aggregate "
+            f"EW-route rows WITH an ew_mA that it could have tested — the guard is not "
+            f"looking at them")
+        assert report["n_tested"] == 0 and not report["results"]
+        assert "NO EW-ROUTE ROWS TO TEST" in report["coverage_note"], (
+            "a zero-coverage report must say WHY, in the report, not only in a log")
+        # 🔴 AND THE OTHER HALF OF THE REASON MUST BE COUNTED, NOT PARAPHRASED. A report
+        # that said only "no EW rows" would hide that 1270 rows claim the EW route and
+        # carry no width — the source-side flag defect the note points at.
+        assert report.get("n_ew_labelled_without_ew_mA") == widthless, (
+            f"the report says {report.get('n_ew_labelled_without_ew_mA')} EW-labelled "
+            f"rows have no ew_mA; the product has {widthless}")
+    else:
+        assert testable > 0, (
+            f"the guard claims to have tested {report['n_tested']} rows but the product "
+            f"has no EW-route row with a width — the report describes another product")
+
+
 def test_every_sampled_row_reproduces_its_own_number(report):
     """The deliverable's teeth: a row that cannot reproduce its A(X) from its own published
     constants is a FAILURE of the product, never a warning."""
+    if report.get("verdict") == "NO-COVERAGE":
+        # asserted for real in test_a_zero_coverage_verdict_is_true_of_the_product
+        pytest.skip("the guard has no EW-route rows to test; the verdict is checked "
+                    "against the product in test_a_zero_coverage_verdict_is_true_of_"
+                    "the_product")
     assert report["n_tested"] > 0, "a guard that tested nothing has not run"
     failures = [r for r in report["results"] if r.get("outcome") == "FAIL"]
     assert not failures, (
