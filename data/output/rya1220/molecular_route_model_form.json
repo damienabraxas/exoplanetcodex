@@ -1,9 +1,8 @@
 {
   "schema": "rya1220.molecular_route_model_form.v1",
   "ticket": "RYA-1220",
-  "red_chi2_flag": 10.0,
   "source": "Amarsi et al. 2021 Table 2 via data/reference/molecular_cno_literature_rya1220/",
-  "note": "model_atmosphere is a BOUND on the systematic carried by synthesizing in 1D, not a correction; no abundance is moved (RYA-161). A route whose FIT is unconstrained stays HOLD overall regardless of this component.",
+  "note": "model_atmosphere is a BOUND on the systematic carried by synthesizing in 1D, not a correction; no abundance is moved (RYA-161). Closing this component does not promote a route -- the remaining RYA-587 components and the diagnostic's own standing still apply.",
   "routes": [
     {
       "route": "cn_crires_j_continuum_v1",
@@ -18,8 +17,7 @@
         11640.31,
         12075.6
       ],
-      "red_chi2_max": 56.33,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 56.33,
       "in_reference_band": true,
       "model_atmosphere_state": "MEASURED",
       "model_atmosphere_sigma_dex": 0.061,
@@ -38,8 +36,7 @@
         10870.68,
         11082.56
       ],
-      "red_chi2_max": 42.72,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 42.72,
       "in_reference_band": true,
       "model_atmosphere_state": "MEASURED",
       "model_atmosphere_sigma_dex": 0.061,
@@ -58,8 +55,7 @@
         10988.82,
         11801.36
       ],
-      "red_chi2_max": 212.63,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 212.63,
       "in_reference_band": true,
       "model_atmosphere_state": "MEASURED",
       "model_atmosphere_sigma_dex": 0.061,
@@ -78,8 +74,7 @@
         6125.0,
         6200.0
       ],
-      "red_chi2_max": 33.66,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 33.66,
       "in_reference_band": false,
       "model_atmosphere_state": "HOLD",
       "model_atmosphere_sigma_dex": null,
@@ -98,8 +93,7 @@
         3358.0,
         3373.0
       ],
-      "red_chi2_max": 44.25,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 44.25,
       "in_reference_band": false,
       "model_atmosphere_state": "HOLD",
       "model_atmosphere_sigma_dex": null,
@@ -118,8 +112,7 @@
         15277.53,
         16910.3
       ],
-      "red_chi2_max": 131.66,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 131.66,
       "in_reference_band": true,
       "model_atmosphere_state": "MEASURED",
       "model_atmosphere_sigma_dex": 0.065,
@@ -138,8 +131,7 @@
         23060.1,
         24571.77
       ],
-      "red_chi2_max": 59.85,
-      "fit_constrained": false,
+      "red_chi2_max_UNCALIBRATED": 59.85,
       "in_reference_band": true,
       "model_atmosphere_state": "MEASURED",
       "model_atmosphere_sigma_dex": 0.14,

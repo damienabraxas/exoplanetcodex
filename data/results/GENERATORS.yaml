@@ -12411,10 +12411,15 @@ artifacts:
     invocation: python3 scripts/rya1220_readjudicate_holds.py
     ticket: RYA-1220
     note: >-
-      Separates the CNO gate's uniform HOLD into FIT_QUALITY / EVIDENCE_EXISTS / RUN_OWED
-      using each route's own red_chi2 against the inherited RYA-1112 constraint flag of
-      10. Every atomic N I route is constrained (0.10-7.92); every molecular route is not
-      (33.34-212.63). Those molecular holds are CORRECT, not bookkeeping.
+      v2. Separates the CNO gate's uniform HOLD into EVIDENCE_EXISTS / RUN_OWED. The v1
+      verdict is WITHDRAWN: it discriminated on red_chi2 > 10, a guard fit_validity.py
+      records as tried and REFUTED on this data (1262 of 1366 in-aggregate lines flagged;
+      the HARPS ERR column is all NaN so the absolute chi2 is meaningless). Under the
+      ratified tools every molecular route is fit_is_physical and constrained. v2 RANKS
+      frac_rise_weaker and edge_distance instead of cutting on them -- RYA-847 swept 9
+      cells / 581 lines and refuted every frac_rise threshold. The strongest signal needs
+      no threshold: CN_AX_IR gives +0.111 on IAG and +0.368 on Kitt Peak, same diagnostic
+      and molecule, so the 0.257 dex gap isolates a HOLDING problem.
   - artifact: molecular_cno_literature_rya1220/amarsi2021_molecular_reference_by_species.csv
     status: COMMITTED
     generator: scripts/rya1220_molecular_literature_matrix.py
@@ -12446,5 +12451,5 @@ artifacts:
       5 of 7. It is a BOUND on the systematic carried by synthesizing in 1D, never a
       correction -- no abundance moves. Admitted only inside the reference used-line
       range; CN_red (6125-6200 A) and NH_AX (3358-3373 A) stay HOLD with that reason
-      attached. Every fit is still unconstrained (red_chi2 33.66-212.63), so no route
-      promotes; fit quality is now the single remaining molecular blocker.
+      attached. Closing this component does not promote any route. red_chi2 is carried
+      only under an UNCALIBRATED name and decides nothing.

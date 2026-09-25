@@ -12,8 +12,26 @@ situations, so the campaign reads as uniformly blocked and nothing can be priori
                    cited reason re-buries measured work)
   RUN_OWED         genuinely needs a synthesis run that has not been performed
 
-Discriminator is the route's own red_chi2. RYA-1112/1152 use red_chi2 > 10 as the
-constraint flag; that threshold is inherited here rather than invented.
+🔴 CORRECTION (this script's first version was wrong). It discriminated on red_chi2 > 10.
+`pipeline/fit_validity.py` records that this exact guard was TRIED AND REFUTED ON THE
+DATA: red_chi2 > 10 flags 1262 of 1366 in-aggregate lines, because the HARPS S1D `ERR`
+column is entirely NaN, so molecfit and the fitter run on a DEFAULT error and the
+absolute chi2 means nothing. Under the repo's ratified tools every molecular route is
+`fit_is_physical` and `constrained`. A conclusion built on an uncalibrated statistic is
+not a conclusion, and the earlier "these holds are FIT_QUALITY" verdict is withdrawn.
+
+WHAT ACTUALLY DISCRIMINATES, from each fit's own constraint metrics:
+
+  * `frac_rise_weaker == 0.0` exactly -- the chi2 surface is FLAT toward weaker
+    abundance, i.e. the fit is not constrained from below at all. `constrained: True`
+    passes it by default because no ratified cut exists (fit_validity.py says so).
+  * an anomalous `frac_rise_weaker` two orders of magnitude off the pack.
+  * `edge_distance_dex` small -- the optimum sits near the grid edge.
+  * the offset from the solar reference, compared ACROSS HOLDINGS ON THE SAME
+    DIAGNOSTIC, which isolates a holding problem from a method problem.
+
+red_chi2 is still reported, clearly labelled uncalibrated, because it is what the route
+files carry -- but nothing is decided on it.
 """
 from __future__ import annotations
 
@@ -22,7 +40,9 @@ import json
 import pathlib
 import sys
 
-RED_CHI2_FLAG = 10.0
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
+RED_CHI2_FLAG = 10.0  # reported only; refuted as a guard (fit_validity.py)
 
 
 def walk(o):
@@ -36,16 +56,58 @@ def walk(o):
             yield from walk(v)
 
 
+ROUTE_ELEMENT = {
+    "cn_crires_j_continuum_v1": ("CN_AX_J", "N"),
+    "cn_iag_3d_anchor_v1": ("CN_AX_IR", "N"),
+    "cn_iag_coupling_v2": ("CN_AX_IR", "N"),
+    "cn_iag_stellar_v2": ("CN_AX_IR", "N"),
+    "cn_kp_continuum_v8": ("CN_AX_IR", "N"),
+    "cn_harps_continuum_v2": ("CN_red", "N"),
+    "cn_nearuv_continuum_v1": ("NH_AX", "N"),
+    "oh_crires_h_continuum_v1": ("OH_H", "O"),
+    "co_crires_k_continuum_v1": ("CO_K", "C"),
+}
+
+
 def route_fits(root: pathlib.Path) -> list[dict]:
+    """Each route's nominal fit, judged on its OWN constraint metrics."""
+    from pipeline.fit_validity import fit_is_physical, solar_reference
+
     rows = []
-    for fits in sorted(root.glob("*/fits.json")):
-        vals = [o["red_chi2"] for o in walk(json.loads(fits.read_text()))
-                if isinstance(o.get("red_chi2"), (int, float))]
-        if not vals:
+    for name, (diagnostic, element) in ROUTE_ELEMENT.items():
+        path = root / name / "fits.json"
+        if not path.exists():
             continue
-        rows.append({"route": fits.parent.name, "n_fits": len(vals),
-                     "red_chi2_min": round(min(vals), 2), "red_chi2_max": round(max(vals), 2),
-                     "constrained": max(vals) <= RED_CHI2_FLAG})
+        recs = json.loads(path.read_text())
+        nominal = [r for r in recs if r.get("name") == "nominal"] or recs
+        fit = nominal[0].get("fit", {})
+        a = fit.get("A_X")
+        ref = solar_reference(element)
+        fr = fit.get("frac_rise_weaker")
+        chis = [o["red_chi2"] for o in walk(recs)
+                if isinstance(o.get("red_chi2"), (int, float))]
+
+        # ⚠️ NO THRESHOLD IS APPLIED TO frac_rise. RYA-847 swept 9 cells / 581
+        # synthesis lines and refuted every candidate cut, and constraint_gate keeps
+        # SYNTH_CONSTRAINT at None PERMANENTLY because of it. So frac_rise is RANKED
+        # as evidence, never used as a gate (the RYA-1189 rule: rank isolation, never
+        # filter on it). Only the OUTPUT is bounded, which fit_validity says is the
+        # legitimate place.
+        ed = fit.get("edge_distance_dex")
+        notes = []
+        if a is not None and ref is not None and abs(a - ref) > 0.5:
+            notes.append(f"offset {a - ref:+.3f} dex from the solar reference")
+
+        rows.append({
+            "route": name, "diagnostic": diagnostic, "element": element,
+            "A_X": a, "solar_reference": ref,
+            "offset_dex": round(a - ref, 3) if (a is not None and ref is not None) else None,
+            "physical": bool(fit_is_physical(a, element)) if a is not None else None,
+            "constrained_flag": fit.get("constrained"),
+            "frac_rise_weaker": fr, "edge_distance_dex": ed,
+            "red_chi2_max_UNCALIBRATED": round(max(chis), 2) if chis else None,
+            "notes": notes,
+        })
     return rows
 
 
@@ -55,78 +117,82 @@ def main() -> int:
     ap.add_argument("--root", default="data/output/rya1220")
     ap.add_argument("--out", default="data/output/rya1220/cno_hold_readjudication.json")
     args = ap.parse_args()
-    root = pathlib.Path(args.root)
-    rows = route_fits(root)
+    rows = route_fits(pathlib.Path(args.root))
     if not rows:
-        print(f"no fits.json under {root}", file=sys.stderr)
+        print(f"no route fits under {args.root}", file=sys.stderr)
         return 2
 
-    ok = [r for r in rows if r["constrained"]]
-    bad = [r for r in rows if not r["constrained"]]
+    ranked = sorted(rows, key=lambda r: (r["frac_rise_weaker"]
+                                          if isinstance(r["frac_rise_weaker"], (int, float))
+                                          else float("nan")))
 
     doc = {
-        "schema": "rya1220.cno_hold_readjudication.v1",
+        "schema": "rya1220.cno_hold_readjudication.v2",
         "ticket": "RYA-1220",
-        "red_chi2_flag": RED_CHI2_FLAG,
+        "withdrawn": (
+            "v1 discriminated on red_chi2 > 10. pipeline/fit_validity.py records that "
+            "guard as tried and REFUTED on the data (1262 of 1366 in-aggregate lines "
+            "flagged; the HARPS ERR column is all NaN so the absolute chi2 is "
+            "meaningless). The v1 verdict that the molecular holds were FIT_QUALITY is "
+            "withdrawn: under the ratified tools every route is physical and constrained."),
+        "no_threshold_applied": (
+            "frac_rise_weaker and edge_distance_dex are RANKED, not cut. RYA-847 swept "
+            "9 cells / 581 synthesis lines and refuted every candidate frac_rise "
+            "threshold; constraint_gate keeps SYNTH_CONSTRAINT None permanently for "
+            "that reason. Inventing one here would be the same error."),
+        "ranked_by_frac_rise_weaker": [
+            {"diagnostic": r["diagnostic"], "route": r["route"],
+             "frac_rise_weaker": r["frac_rise_weaker"], "offset_dex": r["offset_dex"]}
+            for r in ranked],
         "routes": rows,
-        "constrained_routes": [r["route"] for r in ok],
-        "unconstrained_routes": [r["route"] for r in bad],
-        "finding": (
-            "The holds are NOT uniform bookkeeping. Every ATOMIC N I route is well "
-            f"constrained (red_chi2 {min(r['red_chi2_min'] for r in ok):.2f}-"
-            f"{max(r['red_chi2_max'] for r in ok):.2f}); every MOLECULAR route is "
-            f"unconstrained (red_chi2 {min(r['red_chi2_min'] for r in bad):.2f}-"
-            f"{max(r['red_chi2_max'] for r in bad):.2f}). Promoting a covariance or "
-            "model-form component on an unconstrained fit would be arithmetic on noise, "
-            "so those holds are CORRECT and the fits must be repaired first."),
+        "paired_holding_evidence": {
+            "diagnostic": "CN_AX_IR",
+            "IAG_offset_dex": 0.111, "KittPeak_offset_dex": 0.368,
+            "difference_dex": 0.257,
+            "why_this_is_the_strongest_signal": (
+                "Same diagnostic, same molecule, same band, same reference -- only the "
+                "holding differs. That isolates a HOLDING problem from a method problem "
+                "without any threshold at all."),
+        },
         "hold_classes": {
-            "FIT_QUALITY": [r["route"] for r in bad],
             "EVIDENCE_EXISTS": {
-                "holding_repeatability_atomic": {
-                    "evidence": "data/output/rya1220/cno_holding_repeatability_audit.json",
-                    "status": "MEASURED for C VIS 0.021, N red-optical 0.064, O VIS 0.105, "
-                              "O red-optical 0.026 dex",
-                    "gate_says": "HOLD on most routes",
-                    "action": "wire the measured atomic ranges into the atomic routes"},
-                "model_form_atomic": {
-                    "evidence": "data/output/rya1220/cno_model_form_audit.json",
-                    "status": "C I and O I MEASURED (Amarsi 2019 3D-NLTE / Caffau 2015); "
-                              "N I MEASURED_PARTIAL (Amarsi 2020 grid)",
-                    "gate_says": "3d_nlte_model HOLD_MOLECULAR",
-                    "action": "the audit's own decision admits atomic anchors; wire them"},
-                "cn_ir_1d_to_3d": {
-                    "evidence": "cno_model_form_audit.json measured_or_published_model_terms",
-                    "status": "KP -0.081, IAG -0.082 dex -- two holdings agreeing to 0.001",
-                    "gate_says": "not applied",
-                    "action": "admissible as a BOUND on the molecular model-form term even "
-                              "though it is not applied as a correction"}},
+                "model_atmosphere": "now MEASURED on 5 of 7 routes -- see "
+                                    "data/output/rya1220/molecular_route_model_form.json",
+                "holding_repeatability_atomic": "MEASURED: C VIS 0.021, N red-optical "
+                                                "0.064, O VIS 0.105, O red-optical 0.026 dex",
+            },
             "RUN_OWED": {
-                "c_o_joint_fit": "rho=0 is an assumption, not a measurement; needs a Sirius "
-                                 "Turbospectrum joint C/O refit on the exact CN pool",
+                "c_o_joint_fit": "rho=0 is an assumption; needs a Sirius Turbospectrum "
+                                 "joint C/O refit on the exact CN pool",
                 "target_sun_jacobians": "both target and solar parameter Jacobians MISSING",
-                "molecular_3d_per_transition": "no transition-specific grid for CN_VIS, "
-                                               "CN_CRIRES_J, OH_H, CO_K"}},
+            },
+        },
         "red_flags_not_covariance_problems": {
             "CN_red_target_minus_sun_dex": 2.404,
-            "OI_6300_target_minus_sun_dex": 0.607,
             "sigma_O_dex": 0.421,
-            "note": "These are in cno_target_sun_pair_audit.json / c_o_covariance_assessment.json. "
-                    "A 2.4 dex paired CN difference is a defect in the diagnostic, not a "
-                    "missing covariance term. No amount of Jacobian work promotes it."},
+            "note": "A 2.4 dex paired CN difference is a defect in the diagnostic, not a "
+                    "missing covariance term. No Jacobian work promotes it.",
+        },
     }
-    out = pathlib.Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(doc, indent=2) + "\n")
+    pathlib.Path(args.out).write_text(json.dumps(doc, indent=2) + "\n")
 
-    print("RYA-1220 CNO hold re-adjudication")
-    print(f"  red_chi2 flag: {RED_CHI2_FLAG}\n")
+    print("RYA-1220 CNO hold re-adjudication (v2 -- red_chi2 withdrawn as a discriminator)\n")
+    print(f"  {'diagnostic':10s} {'el':2s} {'A_X':>7s} {'offset':>7s} {'frac_rise':>10s} "
+          f"{'edge':>6s} {'chi2*':>8s}  notes")
     for r in rows:
-        mark = "OK " if r["constrained"] else "BAD"
-        print(f"  {mark}  {r['route']:38s} n={r['n_fits']:3d}  "
-              f"red_chi2 {r['red_chi2_min']:8.2f} .. {r['red_chi2_max']:8.2f}")
-    print(f"\n  constrained  : {len(ok)}")
-    print(f"  unconstrained: {len(bad)}  <- these holds are CORRECT, not bookkeeping")
-    print(f"\n  -> {out}")
+        fr = r["frac_rise_weaker"]
+        ed = r["edge_distance_dex"]
+        print(f"  {r['diagnostic']:10s} {r['element']:2s} {r['A_X']:7.3f} "
+              f"{r['offset_dex']:+7.3f} "
+              f"{fr if isinstance(fr,(int,float)) else float('nan'):10.4f} "
+              f"{ed if isinstance(ed,(int,float)) else float('nan'):6.2f} "
+              f"{r['red_chi2_max_UNCALIBRATED']:8.1f}  {'; '.join(r['notes']) or '-'}")
+    print(f"\n  * red_chi2 is UNCALIBRATED here and decides nothing.")
+    print("  frac_rise rank (low = flat chi2 surface, i.e. weakly constrained from below):")
+    for r in ranked:
+        print(f"    {r['frac_rise_weaker']:12.2e}  {r['diagnostic']:10s} {r['route']}")
+    print("  no threshold applied: RYA-847 refuted every frac_rise cut.")
+    print(f"  -> {args.out}")
     return 0
 
 

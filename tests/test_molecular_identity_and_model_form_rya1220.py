@@ -85,3 +85,38 @@ def test_the_term_is_molecule_specific():
 def test_an_unknown_molecule_does_not_borrow_a_neighbours_value():
     with pytest.raises(mf.ModelFormError):
         mf.model_form_term("SiH", 4000, 5000)
+
+
+# --- red_chi2 must never regain the status of a gate -----------------------------------
+
+def test_red_chi2_is_never_used_as_a_gate():
+    """RYA-847/RYA-1152: this guard was tried and refuted on this data.
+
+    red_chi2 > 10 flags 1262 of 1366 in-aggregate lines because the HARPS ERR column is
+    all NaN, so the absolute chi2 is meaningless. Any field that reads as a verdict
+    (fit_constrained, fit_ok) derived from it would re-introduce the refuted guard.
+    """
+    import json
+    import pathlib
+
+    root = pathlib.Path(__file__).resolve().parents[1] / "data/output/rya1220"
+    for name in ("molecular_route_model_form.json", "cno_hold_readjudication.json"):
+        path = root / name
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text())
+        blob = json.dumps(doc)
+        assert "fit_constrained" not in blob, (
+            f"{name} derives a verdict from red_chi2; that guard is refuted")
+        for route in doc.get("routes", []):
+            assert "red_chi2_max" not in route, (
+                "red_chi2 must be carried only under an UNCALIBRATED name")
+
+
+def test_no_frac_rise_threshold_is_applied():
+    """RYA-847 swept 9 cells / 581 lines and refuted every candidate cut."""
+    import pathlib
+    src = (pathlib.Path(__file__).resolve().parents[1]
+           / "scripts/rya1220_readjudicate_holds.py").read_text()
+    assert "ranked_by_frac_rise_weaker" in src
+    assert "no_threshold_applied" in src
