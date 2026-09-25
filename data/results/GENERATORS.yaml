@@ -12415,3 +12415,23 @@ artifacts:
       using each route's own red_chi2 against the inherited RYA-1112 constraint flag of
       10. Every atomic N I route is constrained (0.10-7.92); every molecular route is not
       (33.34-212.63). Those molecular holds are CORRECT, not bookkeeping.
+  - artifact: molecular_cno_literature_rya1220/amarsi2021_molecular_reference_by_species.csv
+    status: COMMITTED
+    generator: scripts/rya1220_molecular_literature_matrix.py
+    invocation: python3 scripts/rya1220_molecular_literature_matrix.py
+    ticket: RYA-1220
+    note: >-
+      Per-species rollup of the ingested Amarsi et al. 2021 Table 2 (408 used lines):
+      band coverage, A under five model atmospheres, and the measured 1D->3D model-form
+      term per molecule. The term is molecule-specific (+0.035 CH to -0.140 CO), so a
+      single uniform molecular 3D offset is wrong by up to 0.18 dex.
+  - artifact: molecular_cno_literature_rya1220/our_diagnostics_vs_amarsi2021.csv
+    status: COMMITTED
+    generator: scripts/rya1220_molecular_literature_matrix.py
+    invocation: python3 scripts/rya1220_molecular_literature_matrix.py
+    ticket: RYA-1220
+    note: >-
+      Cross-match of our live molecular indicator windows against the reference used-line
+      ranges. CN_AX_J and CN_AX_IR are inside the reference CN A-X range; CN_red
+      (6125-6200 A) and NH_AX (3358-3373 A) are NOT in the reference set at all, and are
+      the two diagnostics carrying our worst pathologies.
