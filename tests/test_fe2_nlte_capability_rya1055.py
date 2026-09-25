@@ -341,7 +341,17 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: row VANISHING.
     assert a["n_live_fe_ii_products"] == a["n_stamped"] == 30
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
-    assert a["per_line_rows_on_an_nlte_scale"] == {"I": 159, "II": 0}
+    #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
+    #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of
+    #: `Fe_perline.csv` rather than anything this ticket measures. RYA-1229 rebuilt that
+    #: product as a projection of the feed (1039 -> 7744 rows, one instrument -> four), so
+    #: the Fe I number moved 159 -> 2443 without a single Fe II row changing state. Assert
+    #: the claim: no Fe II per-line row is on an NLTE scale, and the Fe I side is non-empty
+    #: so a zero read cannot pass this vacuously.
+    nlte_scale = a["per_line_rows_on_an_nlte_scale"]
+    assert nlte_scale["II"] == 0, nlte_scale
+    assert nlte_scale["I"] > 0, ("no Fe I row is on an NLTE scale either -- the audit read "
+                                 "an empty or wrong product, so `II == 0` proves nothing")
 
 
 def test_the_balance_is_matched_on_the_full_identity_not_a_looser_key():
@@ -468,23 +478,56 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     nuv = [v for k, v in served.items() if "_3000_3780_" in k]
     assert len(nuv) == 4 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
 
-    # and the OTHER pool, so the two stay distinguishable
+    # ── and the per-line product, which is now the SAME pool (RYA-1229) ────────────
+    #: 🔴 THIS BLOCK USED TO ASSERT THE TWO POOLS DO NOT OVERLAP AT ALL, and treated that
+    #: as proof they "stay distinguishable". The non-overlap was STALENESS, not a feature:
+    #: `Fe_perline.csv` was globbed from two superseded snapshot directories and published
+    #: RYA-877's retired pool (5256.9-6456.4 A) while the live products measure
+    #: 4233.2-4583.8 A. RYA-1229 made it a projection of the feed, so the per-line pool is
+    #: now the live pool. The assertion inverts accordingly, and is stronger for it: two
+    #: INDEPENDENT readings of one measurement -- the band product's own `nlte_delta_dex`
+    #: and the per-line product's ENGINE-A-minus-1D-LTE difference -- must agree.
     import csv
     rows = list(csv.DictReader(
         (l for l in (ROOT / "data/products/solar/Fe_perline.csv").read_text().splitlines()
          if not l.startswith("#"))))
     fe2 = [r for r in rows if r["ion"] == "II" and r["arm"] == "VIS"]
-    lte = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2 if r["engine"] == "1D-LTE"}
-    eng = {r["wavelength_air_A"]: r["A_X_line"] for r in fe2
-           if r["engine"] == "ENGINE-A" and r["status"] == "in_aggregate"}
-    # compare as FLOATS: the CSV writes 6247.557, not 6247.5570.
-    assert sorted(round(float(w), 4) for w in eng) == [6147.7341, 6238.3859, 6247.557]
-    for w, a in eng.items():
-        d = float(a) - float(lte[w])
-        assert abs(d - 0.001) < 5e-5, f"{w}: ENGINE-A minus 1D-LTE = {d:+.6f}"
-    # THE POINT: the two pools do not overlap at all.
+    assert fe2, "no Fe II VIS rows in the per-line product at all"
+
+    #: 🔴 KEYED ON THE PRODUCT, NOT ON THE WAVELENGTH. A dict keyed on wavelength alone
+    #: collapses six published products (three holdings x two tiers) onto one entry, so an
+    #: ENGINE-A value from HARPS would be differenced against a 1D-LTE value from KPNO --
+    #: 0.15 dex apart here. That is the wrong-pool error RYA-1206 was filed about, in
+    #: miniature.
+    def by_product(treatment, in_agg_only):
+        out = {}
+        for r in fe2:
+            if r["treatment"] != treatment:
+                continue
+            if in_agg_only and r["status"] != "in_aggregate":
+                continue
+            key = (r["holding"], r["tier"], r["selector"], r["route"])
+            out.setdefault(key, {})[round(float(r["wavelength_air_A"]), 4)] = \
+                float(r["A_X_line"])
+        return out
+
+    eng, lte = by_product("ENGINE-A", True), by_product("1D-LTE", False)
+    assert len(eng) == 6, sorted(eng)            # three holdings x Deep + Reference
+
+    #: THE POINT, NOW: the served pool is the live pool MINUS the one line curated out on
+    #: its merits (Fe II 4303.170, a CH G-band blend recovering A = 10.0 -- RYA-1191).
     live_vis = {4233.162, 4303.170, 4583.829}
-    assert live_vis & {round(float(w), 3) for w in eng} == set()
+    curated_out = {4303.170}
+    for key, pool in eng.items():
+        got = {round(w, 3) for w in pool}
+        assert got == live_vis - curated_out, (key, sorted(got))
+        for w, a_eng in pool.items():
+            a_lte = lte[key][w]
+            d = a_eng - a_lte
+            #: the SAME bound the band products' own `nlte_delta_dex` is asserted on
+            #: above, and the same SIGN. The old literal was `+0.001` measured on the
+            #: retired pool; MPIA's Fe II departure at the solar node is negative.
+            assert -0.0021 <= d <= -0.0009, f"{key} {w}: ENGINE-A minus 1D-LTE = {d:+.6f}"
 
 
 def test_the_rya1113_contradiction_is_resolved_by_the_per_line_artifacts():
@@ -562,32 +605,43 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
             assert r["nlte_source"] == ["none — LTE, no departure applied"], r["artifact"]
 
 
-def test_the_two_disjoint_vis_fe_ii_pools_are_recorded_not_dropped():
-    """🔴 TWO PUBLISHED "solar VIS Fe II DEEPGRADED" POOLS, ZERO OVERLAP, same window.
+def test_the_two_vis_fe_ii_pools_now_agree_and_the_finding_says_so():
+    """🟢 RESOLVED by RYA-1229, and the resolution is the assertion.
 
-    `Fe_perline.csv` carries 11 lines at 5256.9-6456.4 A (RYA-870, sourced from
-    rya847+rya877 — and it is RYA-877's pool that this ticket's own headline "0 of 11
-    labelled" was measured on). The live band products carry 9 at 4233.2-4583.8 A. Both
-    sit inside 4200-6910 A and they share NOT ONE line.
+    This test used to pin ZERO OVERLAP between two published "solar VIS Fe II DEEPGRADED"
+    pools in the same 4200-6910 A window: `Fe_perline.csv` carried 11 lines at
+    5256.9-6456.4 A while the live band products carried 8 at 4233.2-4583.8 A, sharing not
+    one line. It was recorded FOR RYA TO DISPOSITION.
 
-    It does NOT weaken the finding — a deck with zero Fe II bound-bound transitions is
-    zero for ANY pool, which is the strength of a deck-level result over a line-list one.
-    It is recorded because it is why the ticket's headline number describes a pool the
-    live products no longer use, and because it is FOR RYA TO DISPOSITION, not for this
-    ticket to change.
+    🔴 THE PER-LINE PRODUCT WAS THE SIDE THAT WAS WRONG. Its generator globbed two
+    ticket-scoped snapshot directories named in a module constant; the measurements had
+    moved to `data/results/band_products/` and the constant had not, so it kept succeeding
+    while reading 13 of 178 per-line files and published RYA-877's retired pool. RYA-1229
+    rebuilt it as a projection of the FEED and the live pool is now wholly contained.
+
+    The finding is KEPT rather than deleted, and this test now holds the other direction:
+    if the two pools ever diverge again, it is this line that says so.
+
+    ⚠️ UNCHANGED: RYA-1055's headline "0 of 11 labelled" still counts RYA-877's pool. The
+    DECK-level finding does not depend on the pool — a deck with zero Fe II bound-bound
+    transitions is zero for ANY pool, which is the strength of a deck-level result over a
+    line-list one — but the COUNT in the headline is a count of a pool nothing publishes.
     """
     a = json.loads(AUDIT.read_text())["two_disjoint_vis_fe_ii_pools"]
-    perline = a["Fe_perline.csv VIS Fe II (RYA-870, sourced rya847+rya877)"]
+    perline = a["Fe_perline.csv VIS Fe II (RYA-870, a projection of the feed since RYA-1229)"]
     live = a["live band product FeII_4200_6910 kpno molecfit DEEPGRADED"]
     #: live 9 -> 8 (RYA-1203): Fe II 4303.170 is curated OUT on its merits
     #: (data/catalog/line_curation_exclusions.csv, ruled RYA-1191) -- a CH G-band blend the
-    #: VIS synthesis list cannot represent, recovering A = 10.0. The two pools stay
-    #: DISJOINT, which is what this test measures; only the live side got one line
-    #: smaller, and it did so for a stated reason rather than by drift.
-    assert len(perline) == 11 and len(live) == 8
-    assert a["overlap"] == [], "the pools now overlap — re-read this finding"
-    assert max(live) < min(perline), "the two windows no longer separate cleanly"
-    assert "FOR RYA TO DISPOSITION" in a["note"]
+    #: VIS synthesis list cannot represent, recovering A = 10.0.
+    assert len(live) == 8, live
+    assert set(live) <= set(perline), (
+        "the live band product has lines the per-line projection does not carry: "
+        f"{sorted(set(live) - set(perline))}")
+    assert a["overlap"] == sorted(live), (a["overlap"], sorted(live))
+    assert a["status"] == "RESOLVED by RYA-1229", a["status"]
+    assert "RESOLVED by RYA-1229" in a["note"]
+    #: and the disposition ask must be GONE from the note, not merely contradicted by it
+    assert "FOR RYA TO DISPOSITION" not in a["note"], a["note"]
 
 
 def test_the_mpia_grid_fill_rates_are_recorded_with_their_fe_i_control():
