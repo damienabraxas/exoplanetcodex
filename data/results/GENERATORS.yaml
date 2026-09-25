@@ -12453,3 +12453,26 @@ artifacts:
       range; CN_red (6125-6200 A) and NH_AX (3358-3373 A) stay HOLD with that reason
       attached. Closing this component does not promote any route. red_chi2 is carried
       only under an UNCALIBRATED name and decides nothing.
+  - artifact: rya1220/molecular_route_budgets.json
+    status: COMMITTED
+    generator: scripts/rya1220_assemble_molecular_budgets.py
+    invocation: python3 scripts/rya1220_assemble_molecular_budgets.py
+    ticket: RYA-1220
+    note: >-
+      RYA-587 component table for every molecular CNO route on every instrument, built
+      from the perturbation legs each route already ran. Prices what the legs support and
+      BOUNDS what they do not: an unmeasured rho is evaluated at its worst value in
+      [-1,+1] rather than held. One-sided continuum legs carry the full excursion, never
+      halved into an unmeasured symmetry. Within-holding run scatter is separated from
+      across-holding spread so a convergence problem is not charged to the instrument --
+      which is how the 0.225 dex IAG start-dependence surfaced.
+  - artifact: rya1220/cno_method_policy.json
+    status: COMMITTED
+    generator: manual (RYA-1220 Work Package E ratification)
+    invocation: n/a -- adjudication record, written from the measured artifacts
+    ticket: RYA-1220
+    note: >-
+      The ratified CNO method policy: CN A-X NIR on CRIRES+ J and IAG as primary
+      molecular N, Kitt Peak as a solar-only cross-check per Ryan's ruling, CN_red and
+      NH A-X near-UV rejected as abundance routes with cited reasons, and the 0.13 dex
+      atomic-vs-molecular N tension recorded as irreducible because AGSS21 reports it too.
