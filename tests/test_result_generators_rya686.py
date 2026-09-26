@@ -39,6 +39,16 @@ ROOT = repo_root()
 # RYA-686. Every entry is a defect or a deliberate hand-authored record, never a
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {
+    # RYA-1220: the native PySME N I run. Its driver was never committed, and the
+    # departure-coefficient behaviour the numbers depend on is a HAND-EDIT to a
+    # third-party install on the synthesis host -- `git grep
+    # ResetDepartureCoefficients` finds only prose in two JSON files, and two
+    # divergent copies of that library exist there. The invariant is now stated and
+    # checkable in pipeline/nlte_environment.py, which is what a rerun would have to
+    # satisfy; the run itself cannot be replayed from this repository.
+    "rya1220/pysme_nitrogen/native_solar_sweep.json",
+    "rya1220/pysme_nitrogen/native_nlte_control_crosscheck.json",
+    "rya1220/pysme_nitrogen/line_coverage_next_step.json",
     # RYA-1213 merge audit: historical aggregation harness was not committed.
     "rya1217/gate0_post1176/status.json",
     "rya1217/gate0_post1176/engine_reason_counts.csv",

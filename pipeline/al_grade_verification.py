@@ -31,9 +31,14 @@ def raw_component_records(root: Path) -> pd.DataFrame:
     names = ("vald_solar_fuv_1150_2000_hfson_raw.txt", "vald_solar_nearuv_2000_3780_hfson_raw.txt",
              "vald_solar_raw.txt", "vald_solar_redopt_6910_9500_hfson_raw.txt",
              "vald_solar_ir_9500_17000_hfson_raw.txt", "vald_solar_ir_17000_25000_hfson_raw.txt")
+    # RYA-1228 removed the raw deliveries from git; they are preserved outside it, and
+    # the policy module is the one place that knows where. Resolving against the repo
+    # root alone is what made these tests error the moment the purge landed.
+    from pipeline.data_stewardship_policy import require_vald_delivery
+
     records = []
     for name in names:
-        lines = (root / "data/linelists" / name).read_text().splitlines()
+        lines = require_vald_delivery(name, root).read_text().splitlines()
         for i, line in enumerate(lines):
             if not re.match(r"'Al [12]'", line):
                 continue

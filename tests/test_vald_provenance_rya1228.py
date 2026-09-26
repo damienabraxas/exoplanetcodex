@@ -72,30 +72,57 @@ def test_phase_2_policy_has_landed_and_no_lfs_pattern_remains():
     assert "filter=lfs" not in (ROOT / ".gitattributes").read_text()
 
 
-def test_the_raw_files_are_still_in_the_tree_because_the_purge_has_not_run():
-    """Honest state: the policy is in place, the history rewrite is not.
+def test_the_purge_has_landed_and_no_raw_file_is_tracked():
+    """FLIPPED, as its predecessor said it would be.
 
-    Until the purge runs, the working tree still tracks the raw deliveries and the
-    stewardship invariant legitimately reports them. Flipping this test is how you will
-    know the purge landed.
+    This test used to assert the 23 HEAD raw files were still tracked, because the policy
+    had landed and the history rewrite had not. Its docstring said "flipping this test is
+    how you will know the purge landed". The purge ran on 2026-09-19 across all 244 refs,
+    so it is flipped: the assertion is now that NOTHING matches.
+
+    The content is not lost -- 54 objects are preserved and hash-verified outside git.
+    What must never come back is a tracked copy.
     """
     tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files",
                               "data/linelists/vald_*_raw.txt"],
                              capture_output=True, text=True).stdout.split()
-    assert len(tracked) == 23, f"expected the 23 HEAD raw files, saw {len(tracked)}"
+    assert tracked == [], f"the purge ran, yet {len(tracked)} raw file(s) are tracked again"
 
 
 @pytest.mark.skipif(not ARCHIVE.exists(), reason="preservation archive not on this machine")
 def test_every_LFS_object_across_ALL_REFS_has_a_hash_verified_copy():
-    """🔴 ALL REFS, not HEAD. 30 of the 53 objects exist only in history and a rewrite
-    destroys those too -- verifying the working tree would leave 413.7 MiB unprotected."""
+    """🔴 ALL REFS, not HEAD. Before the purge, 30 of the 53 objects existed only in
+    history and a rewrite destroys those too -- verifying the working tree would have left
+    413.7 MiB unprotected.
+
+    POST-PURGE the expected count is ZERO: the objects are gone from git and preserved
+    outside it. The assertion inverts, but the archive check does not weaken -- every
+    object the manifest claims must still exist on disk, or the preservation that
+    justified the purge is not real.
+    """
     manifest = json.loads((ARCHIVE / "MANIFEST.json").read_text())
-    by_oid = {m["sha256"]: m for m in manifest["objects"]}
-    oids = {line.split(None, 2)[0] for line in _lfs("--all", "--long")}
-    assert len(oids) == 53, f"expected 53 LFS objects across all refs, saw {len(oids)}"
-    assert oids <= set(by_oid), "an LFS object is absent from the archive manifest"
-    for oid in oids:
-        assert (ARCHIVE / by_oid[oid]["archive"]).exists()
+
+    # ⚠️ SCOPED TO THE PUBLISHED REFS, NOT `--all`. `git lfs ls-files --all` walks EVERY
+    # local ref, including stale branches a developer never pruned -- on this machine 126
+    # of them still carry pre-purge history, so `--all` reports 40 objects that GitHub
+    # does not have. The purge's claim is about the published history, so that is what
+    # is asserted; a CI checkout of a single ref sees the same thing either way.
+    for ref in ("HEAD", "origin/main"):
+        probe = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--verify", "-q", ref],
+                               capture_output=True, text=True)
+        if probe.returncode != 0:
+            continue
+        oids = {line.split(None, 2)[0] for line in _lfs("--long", ref)}
+        assert oids == set(), (
+            f"the purge ran, yet {len(oids)} LFS object(s) are reachable from {ref}")
+
+    assert manifest["objects"], "the archive manifest is empty"
+    for entry in manifest["objects"]:
+        copy = ARCHIVE / entry["archive"]
+        assert copy.exists(), f"{entry['archive']}: preserved copy is missing"
+        assert copy.stat().st_size == entry["size_bytes"], (
+            f"{entry['archive']}: size {copy.stat().st_size} != manifest "
+            f"{entry['size_bytes']}")
 
 
 @pytest.mark.skipif(not ARCHIVE.exists(), reason="preservation archive not on this machine")
