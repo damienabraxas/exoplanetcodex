@@ -1636,6 +1636,30 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     # so a near-UV region would have been fitted against an optical spectrum that does not
     # even cover its windows. Dispatched on the region's own instrument.
     obs_w, obs_f = _load_region_spectrum(star_id, region)
+    # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26), the same one
+    # the atomic synthesis route applies: a local linear upper envelope per fit window,
+    # bounded and recorded (pipeline.local_continuum). Replaces "NO CONTINUUM IS FITTED"
+    # below: the pre-normalised atlases sit 0.5-1% low at the solar N I lines, and a
+    # 1-20 mA molecular line is exactly as exposed to that as an atomic one.
+    from pipeline import local_continuum as _lc
+    from pipeline.band_policy import resolve as _band_of
+    from config.synth_bands import SYNTH_BANDS as _SB
+    from pipeline.prenormalised_guard import (assert_not_renormalising as _anr,
+                                              PRE_NORMALISED_HOLDINGS as _PNH)
+    _hold = (holding_for_region(region) if not region.instrument.lower().startswith('harps')
+             else 'solar_harps_molecfit_corrected')
+    _anr(_hold, pre_normalised=_hold in _PNH, local_window_envelope=True,
+         where='cno_synthesis.run_cno (RYA-1230 local envelope)')
+    _all_windows = [w for d in diagnostics for w in d.windows_A]
+    _bandname = _band_of(0.5 * (_all_windows[0][0] + _all_windows[0][1])).name if _all_windows else None
+    _apply = _SB[_bandname].continuum_apply if _bandname in _SB else True
+    _f_A, local_continuum_records = _lc.apply_to_windows(
+        np.asarray(obs_w) * 10.0, obs_f, _all_windows, apply=_apply)
+    obs_f = _f_A
+    _n_app = sum(r['applied'] for r in local_continuum_records)
+    print(f"  [continuum] RYA-1230 local envelope on {_hold}: {_n_app}/"
+          f"{len(local_continuum_records)} windows applied (band {_bandname}, "
+          f"apply={_apply})")
 
     codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
     solar_A_ispec = _solar_A(('C', 'N', 'O', 'Ni'), chem, sab)
@@ -1774,6 +1798,7 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         'engine': 'pipeline.cno_synthesis (RYA-237)',
         'rt_code': 'turbospectrum',
         'region': region.name, 'instrument': region.instrument, 'R_LSF': region.R,
+        'local_continuum_RYA1230': local_continuum_records,
         'atomic_linelist': ll_label,
         'molecular_lists': f'{_MOLECULES_DIR.name}/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)',
         'broadening': {'R': broadening[0], 'vmac': broadening[1], 'vsini': broadening[2],

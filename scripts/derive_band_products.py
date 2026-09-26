@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -1129,6 +1130,8 @@ def synthesis_route(a, pol) -> None:
     #: BAND, not of a 1.2 A fit window. Fitting it per window would place the "continuum"
     #: inside the line being measured.
     _placed_cont: dict = {}
+    #: RYA-1230 — the local-continuum record per line centre, for the per-line artifact.
+    _continuum_by_line: dict = {}
 
     def _band_continuum(h):
         """CONTINUUM_PARAMS['solar'] spline over the whole band, fitted once.
@@ -1183,7 +1186,16 @@ def synthesis_route(a, pol) -> None:
         return _placed_cont["f"]
 
     def _observed(centre: float, pad: float):
-        win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
+        # RYA-1230: read wide enough for the local continuum envelope (+/-5 A). The fit
+        # still masks to its own window, so the extra flux changes nothing else. A line
+        # too near its holding's edge for the envelope keeps the narrow read, and the
+        # rule then records CONTINUUM_UNCONSTRAINED for it rather than refusing the line.
+        from pipeline.local_continuum import ENV_HALF_WIDTH_A as _ENV
+        try:
+            win = load_window_ex(a.instrument, centre, max(pad, _ENV + 0.5),
+                                 holding=a.holding)
+        except LookupError:
+            win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
         if not h.pre_normalised and not getattr(a, "place_continuum", False):
             raise LookupError(
@@ -1242,6 +1254,24 @@ def synthesis_route(a, pol) -> None:
             _sig_px = (_fw / 2.35482) / _px
             _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
             _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
+        # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26). A local
+        # linear upper envelope over +/-5 A of THIS window, on every holding including the
+        # pre-normalised atlases, bounded to 3% of unity and recorded per line. Measured
+        # reason: those atlases sit 0.5-1% low around the solar N I lines, and a 0.5%-deep
+        # line spends that on A(X) (median -0.142 dex over 12 N I cells). `--local-renorm`
+        # (RYA-1000) is the older window-p95 convention; when it was asked for, it has
+        # already normalised the window and this does not divide a second time.
+        if not getattr(a, "local_renorm", False):
+            from pipeline import local_continuum as _lc
+            assert_not_renormalising(
+                h.holding_id, pre_normalised=h.pre_normalised, local_window_envelope=True,
+                where="derive_band_products._observed (RYA-1230 local envelope)")
+            _rec, _cont = _lc.fit(_w, _f, centre, apply=cfg.continuum_apply)
+            _continuum_by_line[round(float(centre), 3)] = _rec
+            if _cont is not None:
+                _f = np.asarray(_f, float) / _cont
+            _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
+                     f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")
         return _w, _f, _prov
 
     # 🔴 THE INSTRUMENT'S COVERAGE DRIVES THE RANGE — RYA-1046 (Ryan's call).
@@ -1426,7 +1456,8 @@ def synthesis_route(a, pol) -> None:
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
 
-    tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}"
+    # Per PROCESS (RYA-1230): two band runs launched in parallel shared this directory.
+    tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}_{os.getpid()}"
     Path(tmp).mkdir(parents=True, exist_ok=True)
     # 🔴 RYA-1044 — ONE FIT LOOP, CALLED TWICE. The Engine-B leg below re-fits THESE SAME
     # lines with the departures applied, and it must do so through THIS code rather than a
@@ -1488,6 +1519,12 @@ def synthesis_route(a, pol) -> None:
                 # populated on one route and blank on another is a schema a consumer has to
                 # special-case.
                 ep_eV=float(r.ep_eV),
+                # RYA-1230: what the standing continuum rule measured, and whether it was
+                # divided out -- on every line, applied or not.
+                continuum_level=_f(getattr(_continuum_by_line.get(round(w, 3)),
+                                           "level_at_centre", None)),
+                continuum_method=(lambda _r: f"{_r.method}; {_r.reason}" if _r else "")(
+                    _continuum_by_line.get(round(w, 3))),
                 # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
                 # here at all. Inheriting it would quarantine lines on a quantity that does
                 # not exist (RYA-770/342).
@@ -2281,6 +2318,17 @@ def synthesis_route(a, pol) -> None:
                                        np.array([l.wavelength_air_A for l in _used]),
                                        cache=a.mpia_cache, star=a.star),
                         engine_a_source(a.element), engine_a_model(a.element))
+        # 🔴 RYA-1230 — the N I 3D-NLTE leg. N has no Amarsi 2019 grid (C/O only), but
+        # Amarsi et al. 2020 Table 3 publishes the Sun's per-line 3D-NLTE and 1D-LTE
+        # abundances from the SAME EWs, so their difference is a cited per-line
+        # correction on all four in-band lines. Solar only; any other star is refused
+        # inside the module, so this is simply skipped there.
+        if a.element == "N" and str(a.ion) == "I" and a.star == "solar":
+            from pipeline import nlte_n_amarsi2020 as _n20
+            _emit_departure("ENGINE-A-3DNLTE",
+                            _n20.deltas([l.wavelength_air_A for l in _used], "3D",
+                                        star=a.star),
+                            _n20.source("3D"), "amarsi", gf="kurucz")
 
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"

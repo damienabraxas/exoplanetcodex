@@ -229,6 +229,11 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
                 out[-1][field] = json.loads(value)
             elif isinstance(value, (dict, list)):
                 out[-1][field] = value
+        # RYA-1230: C/N/O rows carry `grade` from the publisher, never a one-off stamp.
+        from pipeline.cno_grade import grade_for as _cno_grade
+        _g = _cno_grade(out[-1])
+        if _g is not None:
+            out[-1]["grade"] = _g
         reported = r.get("sigma_reported")
         if reported is not None and not pd.isna(reported):
             out[-1]["sigma_reported"] = float(reported)

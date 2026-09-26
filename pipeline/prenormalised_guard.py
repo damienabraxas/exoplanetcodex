@@ -85,6 +85,7 @@ def assert_not_renormalising(holding_id: str, *, pre_normalised: bool,
                              fitting_continuum: bool = False,
                              applying_continuum: bool = False,
                              pinning_unity: bool = False,
+                             local_window_envelope: bool = False,
                              where: str = "") -> None:
     """Raise if `holding_id` ships normalised and the caller is about to touch its continuum.
 
@@ -114,6 +115,18 @@ def assert_not_renormalising(holding_id: str, *, pre_normalised: bool,
             f"re-normalised for months without anything objecting.")
 
     if not registered:
+        return
+
+    # RYA-1230 (Ryan, 2026-09-26): the ONE continuum operation admitted on a pre-normalised
+    # product -- the standing per-band rule, a LOCAL linear upper envelope over +/-5 A of a
+    # single fit window, bounded to within 3% of unity and recorded on every line
+    # (`pipeline.local_continuum`). It is not the RYA-940/929 operation: it never sees a
+    # band, so it cannot tilt one, and a level far enough from unity to be a telluric band
+    # is refused there rather than divided by. The DRIFT check above still runs first, so a
+    # wrong `pre_normalised` flag stays LOUD. Combined with a band-wide fit/apply it is
+    # still refused below.
+    if local_window_envelope and not (fitting_continuum or applying_continuum
+                                      or pinning_unity):
         return
 
     if fitting_continuum or applying_continuum:

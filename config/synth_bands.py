@@ -61,7 +61,18 @@ class SynthBand:
     #:
     #: Turning it on globally would move every published band for an unmeasured reason, so
     #: it is per-band and declared here rather than decided in the route.
+    #:
+    #: 🔴 RYA-1230 (Ryan, 2026-09-26): NOW ON IN EVERY BAND. The reason is measured, not
+    #: assumed: the solar N I lines carry CN inside their own profiles, and the atoms-only
+    #: red-optical synthesis spent that CN on A(N) -- median -0.217 dex over 12 line x
+    #: holding cells, -0.47 on the most blended line. Molecules are solar opacity in every
+    #: band; the near-UV was simply where they were noticed first. Published Fe products do
+    #: not move until they are re-run; that re-run is held for Ryan.
     use_molecules: bool = False
+    #: RYA-1230 standing continuum rule (`pipeline.local_continuum`): True = the local
+    #: envelope is fitted AND divided out; False = measured and recorded only (the near-UV,
+    #: where the true continuum is never observed).
+    continuum_apply: bool = True
 
     @property
     def linelist(self) -> Path:
@@ -108,7 +119,8 @@ def _load() -> tuple[dict[str, SynthBand], float]:
             n_lines=int(b["n_lines"]),
             half_width_note=str(b["half_width_note"]).strip(),
             build_hint=str(b["build_hint"]).strip(),
-            use_molecules=bool(b.get("use_molecules", False)))
+            use_molecules=bool(b.get("use_molecules", False)),
+            continuum_apply=bool((b.get("continuum") or {}).get("apply", True)))
     return bands, k
 
 
