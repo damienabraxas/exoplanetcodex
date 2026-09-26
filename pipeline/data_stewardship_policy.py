@@ -64,6 +64,22 @@ def over_ceiling(path: str, size: int) -> bool:
 # needs a raw delivery resolves it HERE, so there is one answer to where it is, and a
 # caller that cannot find it gets a message naming the archive rather than a bare path.
 
+#: Where a preserved delivery may be found, in order. More than one entry because the
+#: repository is worked from more than one machine and they do NOT share a filesystem:
+#: the curated archive lives on the Mac, while the synthesis host and the CI runner are
+#: the same Linux box and need their own staged copy.
+#:
+#: ⚠️ A MAC-ONLY PATH IS A CI FAILURE. The first version of this resolver named only the
+#: Mac archive, so eight al_grade tests kept erroring on the runner while passing locally
+#: -- a fix that is only a fix on the machine you tested it on. The staged Linux copy is
+#: hash-verified against the archive manifest.
+VALD_SEARCH_ROOTS = (
+    pathlib.Path("/mnt/codex-data/linelists/vald_raw"),
+    pathlib.Path.home() / "Documents" / "Exoplanet Codex" / "vald_raw_archive" / "current",
+    pathlib.Path.home() / "Documents" / "Exoplanet Codex" / "vald_raw_archive" / "superseded",
+)
+
+#: Kept for the message text and for callers that want to name the curated archive.
 VALD_ARCHIVE = (pathlib.Path.home() / "Documents" / "Exoplanet Codex" / "vald_raw_archive")
 
 
@@ -83,8 +99,8 @@ def vald_delivery_path(name: str, root=None):
         in_repo = pathlib.Path(root) / "data" / "linelists" / name
         if in_repo.exists():
             return in_repo
-    for sub in ("current", "superseded"):
-        candidate = VALD_ARCHIVE / sub / name
+    for base in VALD_SEARCH_ROOTS:
+        candidate = base / name
         if candidate.exists():
             return candidate
     return None
@@ -95,7 +111,8 @@ def require_vald_delivery(name: str, root=None):
     if path is None:
         raise RawDeliveryMissing(
             f"{name}: not in the repository (RYA-1228 removed raw VALD deliveries from "
-            f"git) and not in the preservation archive at {VALD_ARCHIVE}. The content is "
-            f"preserved and hash-verified -- restore the archive, do not re-commit the "
-            f"file.")
+            f"git) and not in any preserved location. Searched: "
+            f"{', '.join(str(r) for r in VALD_SEARCH_ROOTS)}. The content IS preserved "
+            f"and hash-verified in the archive at {VALD_ARCHIVE} -- stage a copy on this "
+            f"machine, do not re-commit the file.")
     return path
