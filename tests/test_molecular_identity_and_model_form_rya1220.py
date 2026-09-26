@@ -172,3 +172,47 @@ def test_the_two_near_uv_electronic_routes_are_distinguished_from_their_ir_names
     assert mi.identity_for("OH_AX").system == "A-X"
     assert mi.identity_for("OH_H").system == "X-X"
     assert mi.identity_for("OH_AX").molecule == mi.identity_for("OH_H").molecule
+
+
+# --- atomic and forbidden diagnostics are not molecules --------------------------------
+
+def test_atomic_and_forbidden_diagnostics_get_an_atomic_pool():
+    """The old ternary stamped these 12C14N A-X (0-0) as well.
+
+    Two C I lines and a FORBIDDEN [O I] blend were all carrying a CN molecular band
+    identity. An atomic diagnostic has a species and a transition, not a molecule and a
+    vibrational band, so the pool must be a different SHAPE -- not a molecular pool with
+    the molecule fields set wrong.
+    """
+    for key, species in (("CI_5052", "C"), ("CI_5380", "C"), ("OI_6300", "O")):
+        pool = mi.pool_for(key, [[6300.0, 6301.0]])
+        assert pool["species"] == species
+        assert "molecule" not in pool and "band" not in pool and "system" not in pool
+
+
+def test_the_forbidden_line_is_labelled_forbidden():
+    assert mi.ATOMIC_IDENTITIES["OI_6300"]["kind"] == "forbidden_blend"
+    assert mi.ATOMIC_IDENTITIES["CI_5052"]["kind"] == "atomic"
+
+
+def test_molecular_pools_keep_their_shape():
+    pool = mi.pool_for("CN_AX_J", [[11640.0, 11643.0]])
+    assert set(pool) == {"molecule", "system", "band", "diagnostic", "windows_air_A"}
+    assert "species" not in pool
+
+
+def test_every_diagnostic_of_every_kind_is_declared():
+    """Completeness across ALL kinds, not just molecular_band.
+
+    The first completeness test filtered to kind == 'molecular_band', so it passed while
+    three non-molecular diagnostics were still undeclared -- and the Sirius run hit
+    OI_6300. Scope the check to what the driver actually processes.
+    """
+    try:
+        from pipeline.cno_synthesis import REGION_DIAGNOSTICS
+    except Exception:
+        pytest.skip("cno_synthesis needs ispec; this check belongs on a synthesis host")
+    declared = set(mi.IDENTITIES) | set(mi.ATOMIC_IDENTITIES)
+    required = {d.key for diags in REGION_DIAGNOSTICS.values() for d in diags}
+    missing = sorted(required - declared)
+    assert not missing, f"diagnostics with no declared identity: {missing}"

@@ -113,6 +113,11 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--element", default="Fe")
     ap.add_argument("--star", default="solar")
+    ap.add_argument("--restore", action="store_true",
+                    help="also move quarantined products back to products[] when they "
+                         "now pass the CURRENT gate. Needed after a gate is retired: the "
+                         "sweep only ever moved products OUT, so retiring a criterion "
+                         "left its victims sitting in quarantine forever.")
     ap.add_argument("--apply", action="store_true",
                     help="write the feed. Without it this only reports -- the default is "
                          "deliberately the harmless one.")
@@ -123,8 +128,32 @@ def main() -> int:
         raise SystemExit(f"no feed at {path}")
     doc = json.loads(path.read_text())
     before = list(doc["products"])
+
+    restored = []
+    if a.restore:
+        keep = []
+        for q in doc.get("quarantine", []):
+            # Re-evaluate against the CURRENT gate, on the record's own fields. The three
+            # quarantine bookkeeping keys are not part of the product and are dropped on
+            # the way back out; every other field is carried across byte-identical, which
+            # test_no_published_value_was_edited_to_reconcile (RYA-1080) enforces.
+            probe = {k: v for k, v in q.items()
+                     if k not in ("quarantined_at", "quarantine_reason", "quarantine_codes")}
+            if pe.evaluate(probe, peers=doc.get("products")):
+                keep.append(q)
+            else:
+                restored.append(probe)
+        doc["quarantine"] = keep
+        doc["products"] = list(doc["products"]) + restored
+
     new, moved = sweep(doc)
     print(f"\n=== RYA-1092 eligibility gate — {a.star} {a.element} ===")
+    if a.restore:
+        print(f"  RESTORED from quarantine (now pass the current gate): {len(restored)}")
+        for r in restored[:40]:
+            print(f"    {r.get('band')} · {r.get('holding')} · {r.get('selector')} · "
+                  f"{r.get('treatment')} · A={r.get('A')}")
+        print(f"  still quarantined: {len(doc.get('quarantine', []))}")
     report(new, moved)
 
     holes = empty_cells(before, new["products"])
