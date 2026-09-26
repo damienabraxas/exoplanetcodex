@@ -1,4 +1,19 @@
-data/linelists/vald_*_raw.txt filter=lfs diff=lfs merge=lfs -text
+# RYA-1228 — the vald_*_raw.txt LFS filter is GONE, and nothing replaces it.
+#
+# That one line was the entire GitHub LFS footprint: 53 objects, 853.9 MiB, 30 of them
+# reachable only from history. Raw VALD3 extractions are not Codex measurements; they are
+# external inputs, and they now live under ~/Documents/Exoplanet Codex (RYA-461) and/or
+# Zenodo (RYA-1124), referenced from data/linelists/VALD_PROVENANCE.md.
+#
+# 🔴 THERE MUST BE NO LFS-TRACKED DATA PATTERN IN THIS FILE. A .gitignore entry does not
+# protect you here: .gitattributes is a SEPARATE route into the repository, and it is the
+# one VALD came in through while spectra and model grids were correctly ignored.
+#
+# ⚠️ RESTORED (RYA-1220 follow-up). The 'Merge current main into RYA-1220 work'
+# merge (9e071a55, PR #557) reverted this block and put the LFS filter back -- the
+# same merge that re-added the purged raw files and reverted RYA-1224/RYA-1227.
+# PR #558 restored those two and missed this one, so the LFS route into the
+# repository stayed open after the purge.
 
 # RYA-690 §3D — kill the recurring merge conflict at its source.
 #
