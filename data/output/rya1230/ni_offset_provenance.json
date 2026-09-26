@@ -1,0 +1,38 @@
+{
+ "ticket": "RYA-1230",
+ "status": "DIAGNOSTIC -- no product, gf, or line list changed",
+ "route": "RYA-759 synthesis route (_fit_synth_flux) on build_solar_context('N')",
+ "R": 700000.0,
+ "prod_half_width_A": 1.1,
+ "core_half_width_A": 0.25,
+ "continuum_rule": "S3: p95(observed) within +/-1.5 A (RYA-1000 convention); bracket partner: median(obs/model) over pixels with model>=0.998 within +/-1.5 A",
+ "broadening": {
+  "vmac": 3.8,
+  "vsini": 1.8,
+  "xi": 1.0
+ },
+ "atmospheres": [
+  "ATLAS9.Castelli",
+  "MARCS.GES"
+ ],
+ "gf": {
+  "apply_canonical_gf": true,
+  "detail": "canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)"
+ },
+ "check_value": {
+  "A21_N_I_1D_LTE_MARCS": 7.813,
+  "source": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table 3"
+ },
+ "sources": {
+  "pipeline/abundances_derive.py": "f137dd30a5ad01e99f671cd3f4b9a7c6b85bf0e080cfc907f37cd837e1cdb308",
+  "pipeline/nearuv_synth.py": "faed5c3a39e7ba8e9a789b2996bf4ff2b80f3367b8d16b90e995605db6831986",
+  "data/output/rya1220/audit_v1/ni_five_line_reference.csv": "2b0c6b295fba287d077a10c642bb5383537693210002b2f0de07d155ef886d42",
+  "scripts/rya1230_ni_offset_rca.py": "d93997d05cd4fe324d34c0dfc9193d77697d4c09eb0defd357ec2c31fb1e1959"
+ },
+ "linelist": "<ISPEC_DIR>/input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv",
+ "holdings_run": [
+  "solar_iag (ni_offset_ladder.json)",
+  "solar_kpno_kurucz2005_corrected + solar_kpno_molecfit_corrected (ni_offset_ladder_kp.json)"
+ ],
+ "blend_fields": "recomputed with --blend-only after the fixed-A(N) molecular-term fix"
+}
