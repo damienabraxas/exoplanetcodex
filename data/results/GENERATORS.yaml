@@ -19727,3 +19727,528 @@ artifacts:
     ticket: RYA-1230
     note: >-
       RYA-1230: the nominal product CSV with its validated RYA-587 budget attached (uncertainty, uncertainty_indicator_ids, sigma_reported); the file published into data/products/solar.
+  - artifact: rya1230/legs/unit00/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit00/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit00/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit01/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit01/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit01/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit03/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit03/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit03/nominal/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit04/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit04/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit04/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit06/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit06/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit06/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit07/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit07/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit07/nominal/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit08/nominal/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit08/nominal/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit08/nominal/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit09/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit09/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit09/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit10/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit10/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit10/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit11/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit11/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit11/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit12/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit12/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit12/nominal/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit13/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit13/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit13/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit14/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit14/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit14/nominal/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit15/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit15/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit15/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit16/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit16/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit16/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit19/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit19/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit19/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit20/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit20/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit20/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit21/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit21/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit21/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit22/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit22/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit22/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/legs/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --legs LEGS
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
