@@ -54,6 +54,22 @@ import numpy as np
 #: 1.045 at 15 A -- a broken composite seam). Wide enough to find continuum bins in a
 #: 0.3-1%-deep line's neighbourhood, narrow enough to stay local.
 ENV_HALF_WIDTH_A = 5.0
+#: RYA-1230 RYA-587 `continuum` leg: the SAME envelope, same bins, same window, with only
+#: the per-bin estimator varied (p90 / p99 around the nominal p95), so the envelope stays
+#: constrained and the leg prices PLACEMENT, not "rule off". Env-scoped and loud.
+#: (An earlier +/-1.5 A leg left < 5 bins, went CONTINUUM_UNCONSTRAINED and measured the
+#: whole correction instead -- withdrawn.)
+import os as _os
+ENV_PERCENTILE = float(_os.environ.get("CODEX_CONT_PCT") or 95.0)
+if ENV_PERCENTILE != 95.0:
+    print(f"  \u26a0\ufe0f  CONTINUUM ENVELOPE PERCENTILE OVERRIDE (RYA-1230 budget leg): p{ENV_PERCENTILE:g}")
+#: MODEL-GUIDED selection quantile: the pixels where the SYNTHESIS is in its top decile
+#: inside the window. The budget legs vary it (CODEX_CONT_Q = 80 / 97).
+MODEL_Q = float(_os.environ.get("CODEX_CONT_Q") or 90.0)
+if MODEL_Q != 90.0:
+    print(f"  \u26a0\ufe0f  CONTINUUM MODEL-QUANTILE OVERRIDE (RYA-1230 budget leg): q{MODEL_Q:g}")
+#: Minimum selected pixels for a model-guided fit.
+MIN_MODEL_PIX = 20
 #: Envelope bin width, A. Each bin contributes its p95.
 BIN_A = 1.0
 #: Polynomial degree. Linear: over 10 A the only shape a normalisation error can have that a
@@ -74,7 +90,7 @@ class LocalContinuum:
     n_bins: int
     applied: bool
     reason: str
-    method: str = (f"RYA-1230 local envelope: p95 per {BIN_A:g} A bin over +/-"
+    method: str = (f"RYA-1230 local envelope: p{ENV_PERCENTILE:g} per {BIN_A:g} A bin over +/-"
                    f"{ENV_HALF_WIDTH_A:g} A, {CLIP_MAD:g}-MAD low clip, degree {DEGREE}")
 
 
@@ -94,7 +110,7 @@ def fit(wave_A, flux, centre_A: float, *, env_half_width_A: float = ENV_HALF_WID
     for lo, hi in zip(edges[:-1], edges[1:]):
         s = m & (w >= lo) & (w < hi)
         if s.sum() >= 5:
-            bx.append(0.5 * (lo + hi)); by.append(float(np.percentile(f[s], 95)))
+            bx.append(0.5 * (lo + hi)); by.append(float(np.percentile(f[s], ENV_PERCENTILE)))
     bx, by = np.asarray(bx), np.asarray(by)
     if bx.size < MIN_BINS:
         return LocalContinuum(float("nan"), float("nan"), int(bx.size), False,
@@ -122,6 +138,60 @@ def fit(wave_A, flux, centre_A: float, *, env_half_width_A: float = ENV_HALF_WID
                               "MEASURED, NOT APPLIED: band declares no observable true "
                               "continuum (pseudo-continuum regime)"), None
     return (LocalContinuum(level, slope, int(keep.sum()), True, "applied"),
+            np.polyval(c, w - centre_A))
+
+
+def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
+                     exclude_half_width_A: float,
+                     env_half_width_A: float = ENV_HALF_WIDTH_A,
+                     apply: bool = True) -> tuple[LocalContinuum, np.ndarray | None]:
+    """THE STANDING RULE's estimator where a synthesis is in hand (RYA-1230, second pass).
+
+    WHY NOT THE ENVELOPE. An absolute upper envelope is only a continuum where the true
+    continuum is reached. Measured on our own atlases: at C I 5052 the p95 envelope reads
+    0.005-0.012 BELOW the model-guided level, and at C I 6587 (the H-alpha wing) and N I
+    8216 (the CN forest) the synthesis has NO pixel at 0.998 inside +/-5 A -- there the
+    envelope divides out absorption the synthesis ALSO models, i.e. counts it twice. It
+    moved A(C) VIS by about -0.14 dex before this was caught.
+
+    THE ESTIMATOR compares like with like: observed / synthetic on the pixels where the
+    SYNTHESIS is highest in the window (its top decile, `MODEL_Q`), the fitted line's own
+    window (+/- `exclude_half_width_A`) excluded, straight line in lambda. Wherever the
+    synthesis carries the local pseudo-continuum (line wings, molecular forests, H wings),
+    the ratio cancels it and only the NORMALISATION error remains. Same MAX_SHIFT bound,
+    same record, same refusal to divide by a refused level.
+    """
+    w = np.asarray(wave_A, float)
+    f = np.asarray(flux, float)
+    mw = np.asarray(model_wave_A, float)
+    mf = np.asarray(model_flux, float)
+    inside = (np.isfinite(w) & np.isfinite(f) & (np.abs(w - centre_A) <= env_half_width_A)
+              & (np.abs(w - centre_A) > exclude_half_width_A)
+              & (w >= mw.min()) & (w <= mw.max()))
+    mod = np.interp(w, mw, mf)
+    inside &= np.isfinite(mod) & (mod > 0)
+    method = (f"RYA-1230 model-guided: obs/synth on the synthesis's top {100 - MODEL_Q:g}% "
+              f"pixels within +/-{env_half_width_A:g} A (line window +/-"
+              f"{exclude_half_width_A:g} A excluded), degree {DEGREE}")
+    if inside.sum() < MIN_MODEL_PIX:
+        return LocalContinuum(float("nan"), float("nan"), int(inside.sum()), False,
+                              f"CONTINUUM_UNCONSTRAINED: {int(inside.sum())} pixels", method), None
+    thr = float(np.percentile(mod[inside], MODEL_Q))
+    sel = inside & (mod >= thr)
+    if sel.sum() < MIN_MODEL_PIX:
+        return LocalContinuum(float("nan"), float("nan"), int(sel.sum()), False,
+                              f"CONTINUUM_UNCONSTRAINED: {int(sel.sum())} selected pixels", method), None
+    c = np.polyfit(w[sel] - centre_A, f[sel] / mod[sel], DEGREE)
+    level = float(np.polyval(c, 0.0))
+    slope = float(c[0]) if DEGREE >= 1 else 0.0
+    if abs(level - 1.0) > MAX_SHIFT:
+        return LocalContinuum(level, slope, int(sel.sum()), False,
+                              f"CONTINUUM_UNPLACEABLE: local level {level:.4f} is more than "
+                              f"{MAX_SHIFT:.0%} from unity; shipped continuum kept", method), None
+    if not apply:
+        return LocalContinuum(level, slope, int(sel.sum()), False,
+                              "MEASURED, NOT APPLIED: pseudo-continuum regime", method), None
+    return (LocalContinuum(level, slope, int(sel.sum()), True, "applied", method),
             np.polyval(c, w - centre_A))
 
 
