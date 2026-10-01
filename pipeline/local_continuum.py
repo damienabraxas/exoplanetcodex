@@ -216,3 +216,31 @@ def apply_to_windows(wave_A, flux, windows_A, *, apply: bool = True):
             sel = (w >= lo - 1.0) & (w <= hi + 1.0)
             out[sel] = out[sel] / cont[sel]
     return out, records
+
+
+def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: bool = True):
+    """`apply_to_windows` with the model-guided estimator (`fit_model_guided`): for each
+    fit window, `model_fn(lo_A, hi_A) -> (wave_A, flux)` synthesises the window +/-
+    ENV_HALF_WIDTH_A at the route's current composition, and the window itself is excluded
+    from the continuum pixels. Used by `pipeline.cno_synthesis`, whose CN/CH/OH windows sit
+    in molecular forests where an absolute envelope double-counts the forest.
+    """
+    w = np.asarray(wave_A, float)
+    out = np.asarray(flux, float).copy()
+    records = []
+    for lo, hi in windows_A:
+        c, half = 0.5 * (lo + hi), 0.5 * (hi - lo)
+        env = half + ENV_HALF_WIDTH_A
+        mw, mf = model_fn(c - env - 0.5, c + env + 0.5)
+        mw, mf = np.asarray(mw, float), np.asarray(mf, float)
+        keep = np.abs(mw - c) <= env                 # iSpec zeroes synthesis edges
+        rec, cont = fit_model_guided(w, out, c, mw[keep], mf[keep],
+                                     exclude_half_width_A=half, env_half_width_A=env,
+                                     apply=apply)
+        records.append(dict(window_A=(float(lo), float(hi)), level=rec.level_at_centre,
+                            slope_per_A=rec.slope_per_A, n_pix=rec.n_bins,
+                            applied=rec.applied, reason=rec.reason, method=rec.method))
+        if cont is not None:
+            sel = (w >= lo - 1.0) & (w <= hi + 1.0)
+            out[sel] = out[sel] / cont[sel]
+    return out, records

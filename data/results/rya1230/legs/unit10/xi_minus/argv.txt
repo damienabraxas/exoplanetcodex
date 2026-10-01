@@ -1,0 +1,2 @@
+~/codex/venv/bin/python scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv --out ~/codex/rya1230_runs/legs2/unit10/xi_minus
+{'CODEX_XI_OVERRIDE': '0.90'}

@@ -1,0 +1,2 @@
+~/codex/venv/bin/python scripts/derive_band_products.py --element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv --out ~/codex/rya1230_runs/legs2/unit20/q80
+{'CODEX_CONT_Q': '80'}

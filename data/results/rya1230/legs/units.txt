@@ -1,0 +1,25 @@
+--element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+--element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+--element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_N_adopted_rya1214.csv
+--element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set LBP25=data/linelists/reference_sets/lbp25_magg22_N_rya1230.csv
+--element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set LBP25=data/linelists/reference_sets/lbp25_magg22_N_rya1230.csv
+--element N --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set LBP25=data/linelists/reference_sets/lbp25_magg22_N_rya1230.csv
+--element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b
+--element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element C --ion I --lo 4200 --hi 6910 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+--element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+--element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+--element C --ion I --lo 4200 --hi 6910 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+--element C --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+--element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+--element C --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_C_grid_rya1214.csv
+--element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b
+--element O --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+--element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b
+--element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv
+--element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b
+--element O --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set AGSS21=data/linelists/reference_sets/agss21_cno_O_grid_rya1214.csv

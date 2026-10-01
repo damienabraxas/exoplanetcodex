@@ -1623,6 +1623,11 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
 
     broadening = preflight(region, star_id, diagnostics)
     nlte_backend = NLTE_BACKENDS[region.nlte_backend]
+    # RYA-1230: a per-PROCESS scratch dir -- parallel region runs shared '/tmp/ispec_cno'.
+    if tmp_dir == '/tmp/ispec_cno':
+        import os as _os
+        tmp_dir = f'/tmp/ispec_cno_{_os.getpid()}'
+    Path(tmp_dir).mkdir(parents=True, exist_ok=True)
 
     atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
     ll_path, ll_label, gf_prov = region_atomic_linelist(region, diagnostics)
@@ -1636,31 +1641,6 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     # so a near-UV region would have been fitted against an optical spectrum that does not
     # even cover its windows. Dispatched on the region's own instrument.
     obs_w, obs_f = _load_region_spectrum(star_id, region)
-    # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26), the same one
-    # the atomic synthesis route applies: a local linear upper envelope per fit window,
-    # bounded and recorded (pipeline.local_continuum). Replaces "NO CONTINUUM IS FITTED"
-    # below: the pre-normalised atlases sit 0.5-1% low at the solar N I lines, and a
-    # 1-20 mA molecular line is exactly as exposed to that as an atomic one.
-    from pipeline import local_continuum as _lc
-    from pipeline.band_policy import resolve as _band_of
-    from config.synth_bands import SYNTH_BANDS as _SB
-    from pipeline.prenormalised_guard import (assert_not_renormalising as _anr,
-                                              PRE_NORMALISED_HOLDINGS as _PNH)
-    _hold = (holding_for_region(region) if not region.instrument.lower().startswith('harps')
-             else 'solar_harps_molecfit_corrected')
-    _anr(_hold, pre_normalised=_hold in _PNH, local_window_envelope=True,
-         where='cno_synthesis.run_cno (RYA-1230 local envelope)')
-    _all_windows = [w for d in diagnostics for w in d.windows_A]
-    _bandname = _band_of(0.5 * (_all_windows[0][0] + _all_windows[0][1])).name if _all_windows else None
-    _apply = _SB[_bandname].continuum_apply if _bandname in _SB else True
-    _f_A, local_continuum_records = _lc.apply_to_windows(
-        np.asarray(obs_w) * 10.0, obs_f, _all_windows, apply=_apply)
-    obs_f = _f_A
-    _n_app = sum(r['applied'] for r in local_continuum_records)
-    print(f"  [continuum] RYA-1230 local envelope on {_hold}: {_n_app}/"
-          f"{len(local_continuum_records)} windows applied (band {_bandname}, "
-          f"apply={_apply})")
-
     codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
     solar_A_ispec = _solar_A(('C', 'N', 'O', 'Ni'), chem, sab)
     state = _seed_abundances(star_id, params, codes, solar_A_ispec, feh)
@@ -1674,6 +1654,39 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     if pins:
         print(f"  PINNED (input, not measured): "
               + "  ".join(f"A({e})={v:.3f}" for e, v in sorted(pins.items())))
+
+    # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26), MODEL-GUIDED:
+    # obs / synthetic on the synthesis's own top-decile pixels around each window, the
+    # window itself excluded (pipeline.local_continuum.apply_to_windows_model_guided). Run
+    # AFTER the seed/pins so the forest it compares against is synthesised at this
+    # region's composition. Replaces "NO CONTINUUM IS FITTED"; an absolute envelope in a
+    # CN forest double-counts the forest the synthesis also models.
+    from pipeline import local_continuum as _lc
+    from pipeline.band_policy import resolve as _band_of
+    from config.synth_bands import SYNTH_BANDS as _SB
+    from pipeline.prenormalised_guard import (assert_not_renormalising as _anr,
+                                              PRE_NORMALISED_HOLDINGS as _PNH)
+    _hold = (holding_for_region(region) if not region.instrument.lower().startswith('harps')
+             else 'solar_harps_molecfit_corrected')
+    _anr(_hold, pre_normalised=_hold in _PNH, local_window_envelope=True,
+         where='cno_synthesis.run_cno (RYA-1230 model-guided local continuum)')
+    _all_windows = [w for d in diagnostics for w in d.windows_A]
+    _bandname = _band_of(0.5 * (_all_windows[0][0] + _all_windows[0][1])).name if _all_windows else None
+    _apply = _SB[_bandname].continuum_apply if _bandname in _SB else True
+    _fa0 = _fixed_ab(state, codes)
+
+    def _model(lo_A, hi_A):
+        sw = np.arange(lo_A / 10.0, hi_A / 10.0, _WSTEP_NM)
+        return sw * 10.0, _synth_window(sw, atm, params, ll, iso, sab, _fa0, broadening,
+                                        True, tmp_dir)
+
+    _f_A, local_continuum_records = _lc.apply_to_windows_model_guided(
+        np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply)
+    obs_f = _f_A
+    _n_app = sum(r['applied'] for r in local_continuum_records)
+    print(f"  [continuum] RYA-1230 model-guided local continuum on {_hold}: {_n_app}/"
+          f"{len(local_continuum_records)} windows applied (band {_bandname}, "
+          f"apply={_apply})")
 
     result = CNOResult(star_id=star_id, region=region.name)
     by_key = {d.key: d for d in diagnostics}

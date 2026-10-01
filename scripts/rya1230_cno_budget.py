@@ -130,7 +130,21 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     if key not in _EDGE:
         snr, _ = T.band_continuum_snr(H, sky_inst, raw, band_lo, band_hi, max(hw, 2.0))
         _EDGE[key] = T.thresholds(snr).clean_max_depth
-    edge = _EDGE[key]
+    if ("null", raw) not in _EDGE:
+        #: 🔴 THE CLEAN-WINDOW NULL. raw / corrected differs by REDUCTION everywhere, not
+        #: only where the sky absorbs (C I 4269 read "telluric" pixels in the blue). Measure
+        #: that pair's own dip statistic where no molecular telluric line exists --
+        #: 4300-4900 A, blueward of every O2/H2O band -- and require a telluric pixel to
+        #: clear it (RYA-1192: "a template needs a clean-window null").
+        dips = []
+        for c0 in (4300.0, 4450.0, 4600.0, 4750.0, 4900.0):
+            gg = np.linspace(c0 - 1.0, c0 + 1.0, 400)
+            a_ = H.load_window_ex(sky_inst, c0, 1.5, holding=raw, allow_uncorrected=True)
+            b_ = H.load_window_ex(sky_inst, c0, 1.5, holding=cor, allow_uncorrected=True)
+            tt = np.interp(gg, a_.wave, a_.flux) / np.interp(gg, b_.wave, b_.flux)
+            dips.append(float(np.percentile(np.median(tt) - tt, 99.5)))
+        _EDGE[("null", raw)] = max(dips)
+    edge = max(_EDGE[key], _EDGE[("null", raw)])
     g = np.linspace(w0 - hw, w0 + hw, 400)
 
     def flux(inst, hold):
@@ -140,7 +154,8 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     t = flux(sky_inst, raw) / flux(sky_inst, cor)
     base = float(np.median(t))
     P = (base - t) > edge
-    ev = {"sky_pair": f"{raw}/{cor}", "clean_edge": edge, "sky_baseline": base,
+    ev = {"sky_pair": f"{raw}/{cor}", "clean_edge": edge,
+          "clean_window_null": _EDGE[("null", raw)], "sky_baseline": base,
           "n_px": int(g.size), "n_telluric_px": int(P.sum()),
           "max_depth": float(max(0.0, base - t.min()))}
     if not P.any():
