@@ -76,6 +76,13 @@ class RunDescriptor:
     lo_A: float
     hi_A: float
     engine_deck: str = "ts-lte"
+    #: RYA-1233. The measurement ROUTE this run takes, or None for the policy's first
+    #: permitted method (the pre-RYA-1233 behaviour). The orchestrator sets it on every
+    #: cell: where a band permits BOTH, they are two products (`route` PROFILEFIT vs
+    #: SYNTH in the feed) and the synthesis route is the one that fits the strong lines
+    #: the EW route's saturation / width gates drop -- 150 of 160 live solar Fe products
+    #: are SYNTH, and the matrix used to run only PROFILEFIT in VIS and red-optical.
+    method: str | None = None
 
     @property
     def band(self) -> str:
@@ -151,6 +158,16 @@ def deck_out_dir(deck: str) -> str:
     return BAND_PRODUCTS_DIR if deck == default else f"{BAND_PRODUCTS_DIR}/deck_{deck}"
 
 
+#: The feed's `route` token for each dispatchable method (the products' own vocabulary).
+ROUTE_TOKEN = {"profile-fit": "PROFILEFIT", "synthesis": "SYNTH"}
+
+
+def permitted_methods(lo_A: float, hi_A: float) -> list[str]:
+    """Every method this layer can dispatch that the band's policy permits, in policy order."""
+    policy = band_policy.resolve(0.5 * (lo_A + hi_A))
+    return [m for m in ("profile-fit", "synthesis") if m in policy.permitted_methods]
+
+
 def method_for(descriptor: RunDescriptor) -> Method:
     """Which measurement method this band PERMITS -- from policy, never from taste.
 
@@ -158,6 +175,12 @@ def method_for(descriptor: RunDescriptor) -> Method:
     preference the caller gets to express.
     """
     policy = band_policy.resolve(0.5 * (descriptor.lo_A + descriptor.hi_A))
+    if descriptor.method is not None:
+        if descriptor.method in permitted_methods(descriptor.lo_A, descriptor.hi_A):
+            return descriptor.method
+        raise RunNotPossible(
+            f"band {policy.name} does not permit method {descriptor.method!r} "
+            f"(permitted: {policy.permitted_methods})")
     if "profile-fit" in policy.permitted_methods:
         return "profile-fit"
     if "synthesis" in policy.permitted_methods:
@@ -289,10 +312,15 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
     out_dir = deck_out_dir(descriptor.engine_deck)
     steps.append({
         "name": "derive_products", "script": "scripts/derive_band_products.py",
-        "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir],
+        # RYA-1233: in a band that permits profile-fit the script takes the EW route
+        # unless told otherwise, so a synthesis-route cell must say so.
+        "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir]
+                + (["--force-synthesis"] if method == "synthesis"
+                   and "profile-fit" in permitted_methods(descriptor.lo_A, descriptor.hi_A)
+                   else []),
         "env": env, "interpreter": interpreter,
         "produces": f"{out_dir}/{descriptor.key}_"
-                    f"{'PROFILEFIT' if method == 'profile-fit' else 'SYNTH'}_products.csv",
+                    f"{ROUTE_TOKEN[method]}_products.csv",
         "postcondition": "the products table exists and every treatment carries a value "
                          "and an ErrorBudget; a zero-row product is a FAILURE, not a null",
     })

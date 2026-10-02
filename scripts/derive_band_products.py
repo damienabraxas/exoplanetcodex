@@ -1468,7 +1468,8 @@ def synthesis_route(a, pol) -> None:
     from measure_band_ew import telluric_reason, serves_corrected_flux
     from pipeline.fit_validity import (fit_is_physical,
                                        rejection_reason as fit_rejection_reason)
-    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
+    # RYA-1233: per-HOLDING, as telluric_reason's own docstring asks (RYA-1194).
+    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument, a.holding))
              for r in cand.itertuples()]
     _lifted = [(w, serves_corrected_flux(a.holding, w)) for w, why in _tell if why]
     _lifted = [(w, prov) for w, prov in _lifted if prov]

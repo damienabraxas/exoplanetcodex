@@ -107,7 +107,7 @@ def test_harps_vis_is_on_the_matrix(rm):
 def test_the_window_is_clipped_to_what_the_holding_serves(rm):
     """IAG serves 5001.1 A upward, so its VIS cell starts there -- as RYA-1218's own
     artifact stem (`SiI_5002_6910_iag_...`) independently says it did."""
-    iag = [d for d in rm.expand("solar", "Si", engines=["ts-lte"])
+    iag = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], methods=["profile-fit"])
            if d.holding == "solar_iag" and d.band == "VIS"]
     assert len(iag) == 1
     assert iag[0].lo_A == pytest.approx(5001.1)
@@ -306,12 +306,16 @@ def test_cell_products_match_only_the_decks_own_treatments(rm):
                       lo_A=3782.6, hi_A=6910.0, engine_deck="gerber-nlte")
     feed = {"products": [
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.5},
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.5,
+         "route": "PROFILEFIT"},
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.4},
+         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.4, "route": "PROFILEFIT"},
+        # RYA-1233: same treatment on the OTHER route is another cell's product
+        {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.6, "route": "SYNTH"},
     ]}
     hit = rm.cell_products(feed, d, "VIS")
-    assert [p["treatment"] for p in hit] == ["ENGINE-B-NLTE"]
+    assert [(p["treatment"], p["route"]) for p in hit] == [("ENGINE-B-NLTE", "PROFILEFIT")]
 
 
 # ── rules 1 and 3: refusals, and loud-fail-CONTINUE ──────────────────────────
@@ -369,7 +373,8 @@ def test_a_successful_run_that_published_nothing_is_not_DONE(rm, monkeypatch, tm
     unpub = [c for c in doc["cells"] if c["status"] == rm.UNPUBLISHED]
     assert all("publish_product.py" in c["reason"] for c in unpub)
     assert set(doc["resume"]) >= {"|".join((c["band"], c["instrument"], c["holding"],
-                                            c["ion"], c["engine"])) for c in unpub}
+                                            c["ion"], c["engine"], c["route"]))
+                            for c in unpub}
 
 
 def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
@@ -384,6 +389,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     published = [{"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
                   "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
+                  "route": "PROFILEFIT",
                   "n_lines": 12, "tier": "GRADED"}]
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": published})
 
@@ -394,6 +400,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
                         lambda step, *a, **k: (calls.append(step["name"]), (True, "ok"))[1])
 
     kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+              methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     first = rm.run("solar", "Si", **kw)
@@ -426,6 +433,7 @@ def test_a_deck_independent_step_is_built_once_per_run(rm, monkeypatch, tmp_path
                         lambda step, *a, **k: (ran.append(step["name"]), (True, "ok"))[1])
 
     doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+                 methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     n_decks = len(rm.DECK_EMITS)
@@ -449,6 +457,7 @@ def test_a_reused_step_is_only_reused_after_it_SUCCEEDED(rm, monkeypatch, tmp_pa
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (False, "boom"))[1])
     doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+                 methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     assert ran.count("measure_ew") == doc["cells_total"], \
@@ -461,12 +470,14 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": [
         {"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
          "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
+                  "route": "PROFILEFIT",
          "n_lines": 12, "tier": "GRADED"}]})
 
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
     kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+              methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     assert rm.run("solar", "Si", **kw)["counts"][rm.DONE] == 1
@@ -668,3 +679,26 @@ def test_an_unimportable_harness_excludes_nothing(rm, monkeypatch):
     p = rm.preflight()
     monkeypatch.setattr(p, "harness", lambda: None)
     assert rm.unwired_holdings("solar") == []
+
+
+def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
+    """RYA-1233: 150 of 160 live solar Fe products are SYNTH. The matrix ran only the
+    policy's first method (profile-fit) in VIS / red-optical, so it could rebuild almost
+    none of them -- and its synthesis leg only fit lines the EW gates had passed, which
+    drops exactly the strong lines synthesis exists for."""
+    cells = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], bands=["VIS"],
+                                  instruments=["solar_harps_molecfit_corrected"])]
+    assert sorted(d.method for d in cells) == ["profile-fit", "synthesis"]
+    near_uv = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"], bands=["near-UV"])]
+    assert near_uv and {d.method for d in near_uv} == {"synthesis"}
+
+
+def test_a_synthesis_cell_in_a_profile_fit_band_forces_synthesis():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis")
+    r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+    assert [s["name"] for s in r.steps] == ["derive_products"], "no EW step on SYNTH"
+    assert "--force-synthesis" in r.steps[0]["args"]
+    assert r.steps[0]["produces"].endswith("_SYNTH_products.csv")

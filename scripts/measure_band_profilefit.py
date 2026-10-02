@@ -231,7 +231,9 @@ def main() -> None:
     rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
         c = float(r.wave_air_A)
-        why = telluric_reason(c, a.instrument)
+        # RYA-1233: the HOLDING answers whether tellurics were taken out of this file; the
+        # instrument alone gave the molecfit-corrected HARPS spectrum raw HARPS's rule.
+        why = telluric_reason(c, a.instrument, a.holding)
         if why:
             skipped.append(dict(wave=c, reason=why)); continue
 

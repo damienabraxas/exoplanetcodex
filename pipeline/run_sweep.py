@@ -151,7 +151,7 @@ def _line(entry: dict) -> str:
 
 def run_sweep(star: str, *, bands: list[str] | None = None,
               instruments: list[str] | None = None, engines: list[str] | None = None,
-              dry_run: bool = False, interpreter: str | None = None,
+              methods: list[str] | None = None, dry_run: bool = False, interpreter: str | None = None,
               ispec_dir: str | None = None, step_timeout: int = 7200,
               report_dir: Path | None = None, echo: bool = True) -> dict:
     """Every canonical element of `star`, Fe first, through `run_matrix.run()`.
@@ -208,7 +208,8 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
             try:
                 doc = run_matrix.run(
                     star, e.target, ions=list(e.ions) or None, bands=bands,
-                    instruments=instruments, engines=engines, dry_run=dry_run,
+                    instruments=instruments, engines=engines, methods=methods,
+                    dry_run=dry_run,
                     interpreter=interpreter, ispec_dir=ispec_dir,
                     step_timeout=step_timeout, report_dir=report_dir, echo=False)
                 entry.update(report=doc.get("_report_path"), counts=doc["counts"],

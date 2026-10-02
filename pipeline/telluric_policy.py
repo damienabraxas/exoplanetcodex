@@ -697,8 +697,12 @@ def holding_basis(holding_id: str, instrument: str | None = None) -> str:
     # Raises on an unregistered holding -- deliberately, and only after the verified map
     # and the instrument-level facts have had their say, so a holding we have MEASURED is
     # answerable even if its registry row were missing.
+    # RYA-1233, Ryan 2026-10-02: a telluric-corrected holding is the data. It is never
+    # demoted to "unverified" and excluded line by line -- an incomplete correction is a
+    # defect to FIX in the correction (as RYA-1230 did for Kitt Peak molecfit), not a
+    # reason to drop its lines. Raw holdings are not measured at all (run_matrix.is_raw).
     if applied_state(holding_id) == "applied":
-        return APPLIED_UNVERIFIED
+        return "corrected"
     return "line_selection"
 
 
