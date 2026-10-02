@@ -244,3 +244,34 @@ def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: b
             sel = (w >= lo - 1.0) & (w <= hi + 1.0)
             out[sel] = out[sel] / cont[sel]
     return out, records
+
+
+def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, *,
+                        band_half_width_A: float, use_molecules: bool, apply: bool = True):
+    """THE standing rule for a synthesis route, in one place (RYA-1230 / RYA-1232).
+
+    Synthesises +/- ENV_HALF_WIDTH_A around `centre_A` from the route's OWN context
+    (atmosphere, line list, molecules, the target element at the context's solar value),
+    then `fit_model_guided`, excluding the BAND's fit window (never a leg's, so the
+    core-window leg cannot move the continuum). Returns (flux, record): the flux divided by
+    the placed continuum when applied, else unchanged.
+    """
+    import os
+    from pathlib import Path
+    from pipeline.abundances_derive import _synth_flux_at_abund
+    tmp = f"/tmp/ispec_cont_{os.getpid()}"
+    Path(tmp).mkdir(parents=True, exist_ok=True)
+    env = ENV_HALF_WIDTH_A
+    mw = np.arange((centre_A - env - 0.5) / 10.0, (centre_A + env + 0.5) / 10.0, 0.0005)
+    mf = _synth_flux_at_abund(
+        mw, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
+        ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], element,
+        int(ctx["atom_code"]), float(ctx["solar_A"]),
+        R=float(ctx["resolving_power"]), macroturbulence=float(ctx["macroturbulence"]),
+        vsini=float(ctx["vsini"]), use_molecules=bool(use_molecules), tmp_dir=tmp)
+    edge = np.abs(mw * 10.0 - centre_A) <= env          # iSpec zeroes synthesis edges
+    rec, cont = fit_model_guided(wave_A, flux, centre_A, mw[edge] * 10.0, np.asarray(mf)[edge],
+                                 exclude_half_width_A=float(band_half_width_A), apply=apply)
+    out = np.asarray(flux, float) / cont if cont is not None else flux
+    return out, rec
+

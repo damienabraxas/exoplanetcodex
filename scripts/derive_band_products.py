@@ -1301,33 +1301,13 @@ def synthesis_route(a, pol) -> None:
             assert_not_renormalising(
                 h.holding_id, pre_normalised=h.pre_normalised, local_window_envelope=True,
                 where="derive_band_products._observed (RYA-1230 local envelope)")
-            # MODEL-GUIDED where the band synthesises (every band here): obs / synthetic
-            # on the synthesis's own top-decile pixels, the line window excluded. The
-            # absolute envelope double-counted absorption the synthesis also models
-            # (H-alpha wing at C I 6587, the CN forest at N I 8216) -- see
-            # local_continuum.fit_model_guided. The model is THIS run's: same context,
-            # atmosphere, molecules; the target element at the context's solar value.
-            from pipeline.abundances_derive import _synth_flux_at_abund
-            _env = _lc.ENV_HALF_WIDTH_A
-            Path(f"/tmp/ispec_cont_{os.getpid()}").mkdir(parents=True, exist_ok=True)
-            _mw = np.arange((centre - _env - 0.5) / 10.0, (centre + _env + 0.5) / 10.0, 0.0005)
-            _mf = _synth_flux_at_abund(
-                _mw, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
-                ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], a.element,
-                int(ctx["atom_code"]), float(ctx["solar_A"]),
-                R=float(ctx["resolving_power"]), macroturbulence=float(ctx["macroturbulence"]),
-                vsini=float(ctx["vsini"]), use_molecules=bool(cfg.use_molecules),
-                tmp_dir=f"/tmp/ispec_cont_{os.getpid()}")
-            _edge = (np.abs(_mw * 10.0 - centre) <= _env)          # iSpec zeroes synthesis edges
-            _rec, _cont = _lc.fit_model_guided(
-                _w, _f, centre, _mw[_edge] * 10.0, np.asarray(_mf)[_edge],
-                # the BAND's window, never the leg's: the core-window leg must not move
-                # the continuum too, or profile_ew would be confounded with it
-                exclude_half_width_A=float(cfg.half_width_A),
-                apply=cfg.continuum_apply)
+            # MODEL-GUIDED (local_continuum.place_for_synthesis -- the ONE implementation,
+            # shared with the RYA-1106 Asplund route): obs / synthetic on the synthesis's own
+            # top-decile pixels, the BAND's line window excluded.
+            _f, _rec = _lc.place_for_synthesis(
+                _w, _f, centre, ctx, a.element, band_half_width_A=float(cfg.half_width_A),
+                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply)
             _continuum_by_line[round(float(centre), 3)] = _rec
-            if _cont is not None:
-                _f = np.asarray(_f, float) / _cont
             _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
                      f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")
         # RYA-1230 RYA-587 `telluric` leg: blank every pixel of this window where the

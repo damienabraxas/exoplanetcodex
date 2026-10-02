@@ -213,9 +213,28 @@ def measure_holding(key: str, targets: pd.DataFrame, *, tmp_root: Path,
 
     segs = _kp_segments() if instrument == "kpno_solar_atlas" else None
 
+    from pipeline import local_continuum as _lc
+    from pipeline.prenormalised_guard import assert_not_renormalising
+
     def _load(centre: float, pad: float):
-        w = load_window_ex(instrument, centre, pad, segs=segs, holding=holding)
-        return w.wave, w.flux, w.provenance
+        # RYA-1232: the standing per-band continuum rule (model-guided), the SAME helper the
+        # band route uses, read wide enough for the envelope; the fit masks to its window.
+        try:
+            w = load_window_ex(instrument, centre, max(pad, _lc.ENV_HALF_WIDTH_A + 0.5),
+                               segs=segs, holding=holding)
+        except LookupError:
+            w = load_window_ex(instrument, centre, pad, segs=segs, holding=holding)
+        h = w.holding
+        assert_not_renormalising(h.holding_id, pre_normalised=h.pre_normalised,
+                                 local_window_envelope=True,
+                                 where="rya1106_asplund_replication._load (RYA-1232)")
+        f, rec = _lc.place_for_synthesis(w.wave, w.flux, centre, ctx, "Fe",
+                                         band_half_width_A=float(cfg.half_width_A),
+                                         use_molecules=bool(cfg.use_molecules),
+                                         apply=cfg.continuum_apply)
+        return w.wave, f, (f"{w.provenance} | RYA-1232 LOCAL CONTINUUM "
+                           f"level={rec.level_at_centre:.5f} "
+                           f"{'APPLIED' if rec.applied else rec.reason[:40]}")
 
     tmp = tmp_root / f"synth_{key}"
     tmp.mkdir(parents=True, exist_ok=True)
@@ -224,8 +243,10 @@ def measure_holding(key: str, targets: pd.DataFrame, *, tmp_root: Path,
     for r in targets.itertuples():
         t0 = time.time()
         try:
+            # RYA-1232: molecular opacity is a BAND property (config/synth_bands.yaml)
+            _mol = {"use_molecules": True} if cfg.use_molecules else {}
             res = fit_one(ctx, segs, float(r.wavelength_air_A), cfg.half_width_A,
-                          str(tmp), load=_load)
+                          str(tmp), load=_load, **_mol)
         except Exception as exc:                       # a holding that cannot serve it
             res = {"status": "unserved", "reason": f"{type(exc).__name__}: {exc}",
                    "a_synth": np.nan, "red_chi2": np.nan, "obs_source": ""}
