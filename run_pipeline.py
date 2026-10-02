@@ -32,6 +32,12 @@ and drives the RYA-767 resolver over every cell. The two modes share nothing but
 this file: the whole-star path is unchanged and is what runs when `--element` is
 absent, so nothing that worked before this ticket behaves differently.
 
+RYA-1233 adds `--all-elements`: every canonical element of the star, Fe first, each
+through the same `run_matrix.run()`, with an Fe gate and ONE sweep report
+(`data/results/orchestrator/<star>_SWEEP_latest.json`). See `pipeline/run_sweep.py`.
+--element / --all-elements is the PRODUCTION path. The whole-star chain is the
+pre-RYA-1000 legacy path, kept unchanged and announced by a banner when it runs.
+
 Usage:
     python run_pipeline.py --list-stars
     python run_pipeline.py --star solar
@@ -41,6 +47,10 @@ Usage:
     python run_pipeline.py --star solar --element Si --dry-run
     python run_pipeline.py --star solar --element Si
     python run_pipeline.py --star solar --element Fe --band VIS --engine ts-lte
+
+    # RYA-1233 -- every canonical element, Fe first, one sweep report
+    python run_pipeline.py --star solar --all-elements --dry-run
+    python run_pipeline.py --star solar --all-elements --interpreter ~/venv_rya1103/bin/python
 
 Naming convention — pipeline scripts use the subject_action pattern:
     spectra_*  lines_*  params_*  abundances_*  uncertainty_*  ratios_*
@@ -126,17 +136,66 @@ def _stage(name: str, fn, star_id: str, ticket: str | None = None):
 #: silently mixed with. `--dry-run` without `--element` would otherwise run the
 #: REAL whole-star chain while the operator believed nothing was executing, which
 #: is a silent-wrong of the worst kind: it writes.
-_MATRIX_ONLY = ('ion', 'band', 'instrument', 'engine', 'dry_run')
+_MATRIX_ONLY = ('ion', 'band', 'instrument', 'engine', 'dry_run',
+                'interpreter', 'ispec_dir')
 
 
 def _refuse_matrix_flags_without_element(parser, args) -> None:
     given = [f'--{f.replace("_", "-")}' for f in _MATRIX_ONLY if getattr(args, f, None)]
-    if given and not args.element:
+    if given and not (args.element or getattr(args, 'all_elements', False)):
         parser.error(
             f"{', '.join(given)} {'is' if len(given) == 1 else 'are'} matrix-mode "
             f"flag{'' if len(given) == 1 else 's'} and only mean something with "
-            f"--element. Without it this driver runs the whole-star chain, which would "
-            f"have ignored them and executed for real.")
+            f"--element or --all-elements. Without one this driver runs the whole-star "
+            f"chain, which would have ignored them and executed for real.")
+    # RYA-1233: the sweep derives each element's ion axis itself (the bare `Fe` entry
+    # runs Fe I because `Fe II` is its own target). A global --ion would either empty
+    # most elements or re-run ions another entry owns, so it is refused, not guessed.
+    if getattr(args, 'all_elements', False) and getattr(args, 'ion', None):
+        parser.error("--ion is per-element; with --all-elements the ion axis comes from "
+                     "elements_master.json and the graded pool. Use --element X --ion I.")
+
+
+#: RYA-1233. Where the synthesis interpreter and the iSpec tree come from when no
+#: flag names them, first match wins. CODEX_SYNTH_PYTHON is the ticket's name;
+#: CODEX_INTERPRETER is the one `run_matrix.run()` already read before this ticket,
+#: kept so an existing Sirius environment does not silently lose its pin.
+_INTERPRETER_ENV = ('CODEX_SYNTH_PYTHON', 'CODEX_INTERPRETER')
+_ISPEC_ENV = ('ISPEC_DIR',)
+
+#: Printed before the whole-star chain runs. RYA-1233: it is entirely pre-RYA-1000
+#: code and is NOT the production path; retiring it is a separate decision.
+LEGACY_BANNER = ("LEGACY whole-star chain (pre-RYA-1000 modules). "
+                 "Production path is --element / --all-elements.")
+
+
+def _from_env(names) -> tuple[str, str]:
+    import os
+    for n in names:
+        if os.environ.get(n):
+            return os.environ[n], n
+    return '', ''
+
+
+def _resolve_engine_env(args) -> tuple[str, str]:
+    """(interpreter, ispec_dir) from flags, else env; ONE loud warning if neither."""
+    interp, i_src = (args.interpreter, '--interpreter') if args.interpreter \
+        else _from_env(_INTERPRETER_ENV)
+    ispec, s_src = (args.ispec_dir, '--ispec-dir') if args.ispec_dir \
+        else _from_env(_ISPEC_ENV)
+    missing = [what for what, val in
+               ((f"interpreter (--interpreter or ${' / $'.join(_INTERPRETER_ENV)})", interp),
+                (f"iSpec tree (--ispec-dir or ${' / $'.join(_ISPEC_ENV)})", ispec))
+               if not val]
+    if missing:
+        bar = '!' * 78
+        print(f"{bar}\n!!! WARNING: no {' and no '.join(missing)} is set.\n"
+              f"!!! Every SYNTHESIS cell will resolve BLOCKED (RYA-682 numpy ceiling / "
+              f"ISPEC_DIR precondition).\n!!! Continuing -- the report will show it.\n{bar}",
+              file=sys.stderr, flush=True)
+    else:
+        print(f"engine env: interpreter={interp} [{i_src}]  ispec_dir={ispec} [{s_src}]")
+    return interp, ispec
 
 
 def main() -> None:
@@ -160,9 +219,13 @@ def main() -> None:
         'Given --element, drive the full (band x holding x ion x engine) matrix for '
         'that element instead of the whole-star chain. Every cell gets a terminal '
         'status and a reason; one cell failing never stops the rest.')
-    m.add_argument('--element',
-                   help='Element symbol as data/config/elements_master.json spells it '
-                        '(e.g. Si, Fe, "Fe II"). Drives the matrix mode.')
+    which = m.add_mutually_exclusive_group()
+    which.add_argument('--element',
+                       help='Element symbol as data/config/elements_master.json spells '
+                            'it (e.g. Si, Fe, "Fe II"). Drives the matrix mode.')
+    which.add_argument('--all-elements', action='store_true',
+                       help='RYA-1233: every canonical element in elements_master.json, '
+                            'Fe first, with the Fe gate; writes <star>_SWEEP_latest.json.')
     m.add_argument('--ion', action='append', metavar='ION',
                    help='Limit to one ion (repeatable). Default: every ion the graded '
                         'pool holds a line for.')
@@ -176,6 +239,11 @@ def main() -> None:
                         'bound to data/catalog/model_registry.csv.')
     m.add_argument('--dry-run', action='store_true',
                    help='Expand, resolve and report intended statuses; execute nothing.')
+    m.add_argument('--interpreter', metavar='PATH',
+                   help='Synthesis Python (must sit under the RYA-682 numpy ceiling). '
+                        'Default: $CODEX_SYNTH_PYTHON, then $CODEX_INTERPRETER.')
+    m.add_argument('--ispec-dir', metavar='PATH',
+                   help='iSpec source tree. Default: $ISPEC_DIR.')
     args = parser.parse_args()
 
     if args.list_stars:
@@ -200,21 +268,39 @@ def main() -> None:
 
     star_id = args.star
 
+    # ── RYA-1233: the sweep. Delegates entirely; decides nothing itself. ──────
+    if args.all_elements:
+        from pipeline import run_sweep
+        interp, ispec = _resolve_engine_env(args)
+        doc = run_sweep.run_sweep(
+            star_id, bands=args.band, instruments=args.instrument,
+            engines=args.engine, dry_run=args.dry_run,
+            interpreter=interp or None, ispec_dir=ispec or None)
+        sys.exit(1 if run_sweep.failed(doc) else 0)
+
     # ── RYA-1222: matrix mode. Delegates entirely; decides nothing itself. ────
     if args.element:
         from pipeline import run_matrix
+        interp, ispec = _resolve_engine_env(args)
         try:
             report = run_matrix.run(
                 star_id, args.element, ions=args.ion, bands=args.band,
                 instruments=args.instrument, engines=args.engine,
-                dry_run=args.dry_run)
+                dry_run=args.dry_run, interpreter=interp or None,
+                ispec_dir=ispec or None)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
+        from pipeline.run_sweep import executed
+        print(f"executed: {executed(report)} stage dispatch(es)"
+              f"{' (dry-run)' if args.dry_run else ''}")
         # A cell that FAILED is a real failure and the exit code must say so, or a
         # CI job reads a green run off a report full of broken cells. BLOCKED and
         # NOT_READY are honest empties and do NOT fail the run -- they are the
         # documented output this layer exists to produce (RYA-1187).
         sys.exit(1 if report["counts"][run_matrix.FAILED] else 0)
+
+    # RYA-1233: the legacy path is announced before anything of it runs.
+    print(f"\n{'#'*78}\n# {LEGACY_BANNER}\n{'#'*78}", flush=True)
 
     (normalize, fit_lines, solve_params,
      derive, uncertainty, interpret) = _whole_star_stages()
