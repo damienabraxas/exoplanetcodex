@@ -355,26 +355,72 @@ def test_one_failing_cell_does_not_stop_the_matrix(rm, monkeypatch, tmp_path):
     assert all(c["reason"] == "boom" for c in doc["cells"] if c["status"] == rm.FAILED)
 
 
-def test_a_successful_run_that_published_nothing_is_not_DONE(rm, monkeypatch, tmp_path):
-    """🔴 Every stage exits 0 and the feed is still empty, because publication is a
-    separate human-gated step. Calling that DONE would record an inputs_hash for a
-    cell that is not current, and the cell would silently re-run forever."""
-    monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
-    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
-    monkeypatch.setattr(rm, "record_inputs_hash",
-                        lambda *a, **k: pytest.fail("recorded a hash for an unpublished cell"))
+def _fake_stage(rm, tmp_path, monkeypatch, calls):
+    """Stages that 'succeed' by writing the artifact derive_band_products would write."""
+    monkeypatch.setattr(rm, "ARTIFACT_ROOT", tmp_path)
+    monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
 
+    def run_step(step, star, **k):
+        calls.append(step["name"])
+        if step["name"] == "derive_products":
+            a = step["args"]
+            out = tmp_path / a[a.index("--out") + 1]
+            out.mkdir(parents=True, exist_ok=True)
+            route = "SYNTH" if "--force-synthesis" in a else "PROFILEFIT"
+            stem = (f"{a[a.index('--element') + 1]}{a[a.index('--ion') + 1]}_4200_6908_"
+                    f"{a[a.index('--instrument') + 1]}_{a[a.index('--holding') + 1]}_{route}")
+            (out / f"{stem}_products.csv").write_text("treatment,A\n1D-LTE,7.5\n")
+        return True, "ok"
+    monkeypatch.setattr(rm, "_run_step", run_step)
+
+
+def test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded(
+        rm, monkeypatch, tmp_path):
+    """Publication is human-gated, so an unpublished build is not DONE -- but RYA-1233
+    (Ryan 2026-10-02): it IS recorded, with what it was built from and what it wrote."""
+    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
     reaches_the_executor(rm, monkeypatch)
-    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"],
+    calls: list = []
+    _fake_stage(rm, tmp_path, monkeypatch, calls)
+    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], methods=["synthesis"],
+                 instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
-    assert doc["counts"][rm.UNPUBLISHED] >= 1
-    assert doc["counts"][rm.DONE] == 0
-    unpub = [c for c in doc["cells"] if c["status"] == rm.UNPUBLISHED]
-    assert all("publish_product.py" in c["reason"] for c in unpub)
-    assert set(doc["resume"]) >= {"|".join((c["band"], c["instrument"], c["holding"],
-                                            c["ion"], c["engine"], c["route"]))
-                            for c in unpub}
+    assert doc["counts"][rm.UNPUBLISHED] == 1 and doc["counts"][rm.DONE] == 0
+    assert "publish_product.py" in doc["cells"][0]["reason"]
+    led = json.loads((tmp_path / "inputs_hashes.json").read_text())
+    (entry,) = led.values()
+    assert entry["products"] == [] and entry["artifacts"], entry
+    assert any(r["kind"] == "spectrum" for r in entry["inputs"]), "the spectrum is an input"
+
+
+def test_an_unchanged_unpublished_build_is_not_redone(rm, monkeypatch, tmp_path):
+    """THE point of RYA-1233's last change: nothing changed, so nothing re-runs."""
+    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
+    reaches_the_executor(rm, monkeypatch)
+    calls: list = []
+    _fake_stage(rm, tmp_path, monkeypatch, calls)
+    kw = dict(engines=["ts-lte"], bands=["VIS"], methods=["synthesis"],
+              instruments=["solar_harps_molecfit_corrected"],
+              interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
+              report_dir=tmp_path)
+    assert rm.run("solar", "Si", **kw)["counts"][rm.UNPUBLISHED] == 1
+    calls.clear()
+    second = rm.run("solar", "Si", **kw)
+    assert calls == [], f"an unchanged unpublished build was redone: {calls}"
+    assert second["counts"][rm.SKIP] == 1
+    assert "NOT YET PUBLISHED" in second["cells"][0]["reason"]
+    # ...and a deleted artifact is rebuilt rather than trusted
+    for f in (tmp_path / "data").rglob("*_products.csv"):
+        f.unlink()
+    assert rm.run("solar", "Si", **kw)["counts"][rm.UNPUBLISHED] == 1
+
+
+def test_the_spectrum_a_holding_reads_is_fingerprinted(rm):
+    for hid in ("solar_kpno_molecfit_corrected", "solar_harps_molecfit_corrected",
+                "solar_iag", "solar_kpno_kurucz2005_corrected"):
+        files, why = rm.holding_source_files(hid)
+        assert files, f"{hid}: {why}"
 
 
 def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):

@@ -61,6 +61,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -68,7 +69,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
-                                     permitted_methods, ROUTE_TOKEN)
+                                     permitted_methods, ROUTE_TOKEN, deck_out_dir)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
@@ -77,6 +78,9 @@ CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 ELEMENTS_MASTER = ROOT / "data" / "config" / "elements_master.json"
 PRODUCTS = ROOT / "data" / "products"
 REPORT_DIR = ROOT / "data" / "results" / "orchestrator"
+#: Where stage artifacts are looked up and recorded relative to (RYA-1233). The repo root;
+#: a separate name only so the bookkeeping can be pointed at a scratch tree in a test.
+ARTIFACT_ROOT = ROOT
 #: What lands in REPORT_DIR and why the hash is not on the product:
 #: docs/orchestrator_run_reports_rya1222.md
 
@@ -542,11 +546,66 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if manifest_path:
         rows.append({"kind": "holding_manifest", "name": manifest_path,
                      "digest": _file_fingerprint(ROOT / manifest_path)})
+    # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
+    # Named by file name only (the bytes are the identity; a path is a machine fact).
+    files, why = holding_source_files(descriptor.holding)
+    for f in files:
+        rows.append({"kind": "spectrum", "name": f.name, "digest": _file_fingerprint(f)})
+    if not files:
+        rows.append({"kind": "spectrum", "name": descriptor.holding,
+                     "digest": f"UNFINGERPRINTED: {why}"})
     for ledger in (CANONICAL_GF, MODEL_REGISTRY, HOLDINGS_REGISTRY,
                    ROOT / "data" / "catalog" / "instrument_catalog.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows
+
+
+def holding_source_files(holding_id: str) -> tuple[list[Path], str]:
+    """The files a holding's reader opens, read off the harness's own constants.
+
+    RYA-1233: what makes "inputs unchanged" mean the SPECTRUM is unchanged -- the
+    registry's manifest_path is sometimes a findings note, not the data. One branch per
+    reader in `measure_band_ew._reader`; an unmapped reader returns no files and says so,
+    and its cells are then fingerprinted without the spectrum (named in the inputs).
+    """
+    p = preflight()
+    h = p.harness() if p is not None else None
+    spec = p.holding_spec(holding_id) if p is not None else None
+    if h is None or spec is None:
+        return [], "the harness or this holding's HoldingSpec is unavailable"
+    r = spec.reader
+    try:
+        if r == "kpno":
+            return [Path(seg[2]) for seg in h.kp_segments()], ""
+        if r == "kpno_1984_corrected":
+            return [Path(b[2]) for b in h.corrected_bands_on_disk()], ""
+        if r == "kpno_1984_composite":
+            return ([Path(b[2]) for b in h.corrected_bands_on_disk()]
+                    + [Path(seg[2]) for seg in h.kp_segments()]), ""
+        if r == "kurucz2005":
+            return [Path(str(h.codex_path("data.kurucz2005_residual")))], ""
+        if r == "iag":
+            return [Path(h.IAG_FITS)], ""
+        if r == "iag_reiners":
+            return [Path(h.IAG_REINERS)], ""
+        if r == "harps":
+            return [Path(h.HARPS_CSV)], ""
+        if r == "harps_tellcorr":
+            return [Path(h.HARPS_TELLCORR_CSV)], ""
+        if r == "crires_y":
+            return [Path(str(h.codex_path(spec.path_key))) if spec.path_key
+                    else Path(h.CRIRES_Y_CSV)], ""
+        if r in ("crires_corrected_j", "crires_corrected_k"):
+            arm = r.rsplit("_", 1)[-1].upper()
+            return sorted((ROOT / "data" / "results" / "rya1219_crires_products" / arm)
+                          .glob("*.fits")), ""
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: could not list {holding_id}'s spectrum files "
+              f"({type(exc).__name__}: {exc}); its cells are fingerprinted without them.",
+              file=sys.stderr)
+        return [], f"{type(exc).__name__}: {exc}"
+    return [], f"reader {r!r} has no file map in run_matrix.holding_source_files"
 
 
 def inputs_hash(descriptor: RunDescriptor, resolved, *,
@@ -659,13 +718,36 @@ def load_ledger() -> dict:
 
 
 def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
-                       code_commit: str) -> None:
-    """Record what this cell was built from, after it was built."""
+                       code_commit: str, inputs: list[dict] | None = None,
+                       artifacts: list[dict] | None = None) -> None:
+    """Record what this cell was built from, after it was built -- published or not.
+
+    RYA-1233 (Ryan, 2026-10-02): unchanged work is not redone. `inputs` names every
+    input with its digest (the spectrum included), so a re-run can say WHY it re-ran;
+    `artifacts` are the files the run wrote, with their bytes' digests, so an unpublished
+    cell is current only while what it built is still on disk unchanged.
+    """
     led = load_ledger()
     led[key] = {"inputs_hash": want_hash, "recorded_at": _utc(),
-                "code_commit": code_commit, "products": sorted(product_keys)}
+                "code_commit": code_commit, "products": sorted(product_keys),
+                "inputs": inputs or [], "artifacts": artifacts or []}
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     LEDGER.write_text(json.dumps(led, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
+    """Files this cell's derive step wrote, with their digests (RYA-1233).
+
+    Found by the stage's own stem convention in the deck's output directory --
+    `{species}_{lo}_{hi}_{instrument}_{holding}_{ROUTE}_*` -- and written at or after the
+    cell started. The lo/hi are globbed because a synthesis cell may be clipped to its
+    line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
+    """
+    out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
+    pat = f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}_*"
+    hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
+    return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
+            for f in sorted(hits)]
 
 
 def is_current(products: list[dict], want_hash: str,
@@ -680,9 +762,9 @@ def is_current(products: list[dict], want_hash: str,
     "yes" is exactly the silent fallback the permanent rules forbid. It is re-run
     once, and that run records the hash.
     """
-    if not products:
-        return False, "no published product for this cell"
     if not recorded:
+        if not products:
+            return False, "no published product for this cell, and no recorded build"
         return False, (f"{len(products)} published product(s) exist but no inputs_hash was "
                        f"ever recorded for this cell -- built before this layer, so what "
                        f"they were built from is unknown")
@@ -690,8 +772,21 @@ def is_current(products: list[dict], want_hash: str,
         return False, (f"recorded inputs_hash {str(recorded.get('inputs_hash'))[:12]} != "
                        f"{want_hash[:12]} -- an input or a stage script moved since "
                        f"{recorded.get('recorded_at')}")
-    return True, (f"{len(products)} published product(s) current at inputs_hash "
-                  f"{want_hash[:12]} recorded {recorded.get('recorded_at')}")
+    if products:
+        return True, (f"{len(products)} published product(s) current at inputs_hash "
+                      f"{want_hash[:12]} recorded {recorded.get('recorded_at')}")
+    # RYA-1233: built, not published, nothing changed -- current while what it built is
+    # still on disk byte for byte. A ledger entry alone is not enough.
+    arts = recorded.get("artifacts") or []
+    if not arts:
+        return False, "no published product for this cell, and no recorded artifact"
+    gone = [a["path"] for a in arts
+            if _file_fingerprint(ARTIFACT_ROOT / a["path"]) != a.get("sha256")]
+    if gone:
+        return False, f"recorded artifact(s) missing or changed: {gone}"
+    return True, (f"built {recorded.get('recorded_at')} at inputs_hash {want_hash[:12]}, "
+                  f"inputs unchanged, {len(arts)} artifact(s) on disk; NOT YET PUBLISHED "
+                  f"({arts[0]['path']})")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -963,6 +1058,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.steps_run = [s["name"] for s in resolved.steps]
             continue
         ok, detail = True, ""
+        t0 = time.time()
         for step in resolved.steps:
             # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
             # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
@@ -993,23 +1089,30 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         if not ok:
             cell.status, cell.reason = FAILED, detail
             continue
+        # RYA-1233: record the build whether or not it is published, so unchanged work
+        # is never redone. What it was built from (spectrum included) and what it wrote.
+        arts = artifacts_written(d, t0)
+        if not arts:
+            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
+                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
+                  f"time.", file=sys.stderr)
         feed = load_feed(star, symbol)
         published = cell_products(feed, d, cell.band)
+        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
+        record_inputs_hash(lkey, want, code_commit=commit,
+                           product_keys=[_product_key(p) for p in published],
+                           inputs=rows, artifacts=arts)
+        ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
         if not published:
             cell.status = UNPUBLISHED
             cell.reason = (
-                f"all {len(resolved.steps)} stage(s) exited 0 and wrote their artifact, but "
-                f"no product for this cell is in data/products/{star}/{symbol}.json. "
-                f"Publication is `scripts/publish_product.py` and is human-gated by design "
-                f"(RYA-1034 needs a stated reason; RYA-772 forbids copying an artifact "
-                f"without provenance). Until it is published this cell is NOT current and "
-                f"WILL re-run.")
+                f"built and recorded ({len(arts)} artifact(s) in "
+                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
+                f"Not in data/products/{star}/{symbol}.json -- publication is "
+                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
             continue
         cell.A = published[0].get("A")
         cell.n_lines = published[0].get("n_lines")
-        record_inputs_hash(lkey, want, code_commit=commit,
-                           product_keys=[_product_key(p) for p in published])
-        ledger[lkey] = {"inputs_hash": want}
         cell.status = DONE
         cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
                        f"product(s) recorded at inputs_hash {want[:12]}")
