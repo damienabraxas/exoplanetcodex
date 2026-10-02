@@ -1,0 +1,7 @@
+A_X,red_chi2,sigma_fit,n_pix,n_eval,status,frac_rise_weaker,edge_distance_dex,constrained,reason,key,element,role,wall_s,A_X_nlte,nlte_delta,nlte_flag,nlte_ref
+8.498,18.804,0.006,600,21,ok,34.2309363596737,1.1882279873111,True,,CH_Gband,C,primary,62.7,8.498,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+8.366,58.239,0.093,170,20,ok,0.29286801080592595,1.067740034907282,True,,CI_5052,C,cross_check,27.0,8.366,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.525,57.062,0.096,200,15,ok,0.23557410545604343,1.172902245464817,True,,CI_5380,C,cross_check,20.3,8.525,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.393,18.136,0.009,600,16,ok,1.2257614984243268,1.0948426538245064,True,,C2_Swan,C,cross_check,27.3,8.393,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+6.988,33.517,0.767,1000,21,ok,1.9369597454940193e-05,0.9296682758899406,True,,CN_red,N,primary,66.1,6.988,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+8.806,66.554,0.41,150,20,ok,0.00848638695080848,1.195953490014566,True,,OI_6300,O,primary,28.1,8.806,0.0,lte_forbidden_insensitive,[O I] forbidden — LTE-insensitive

@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "C",
   "star": "solar",
-  "version": "1.71",
-  "updated_at": "2026-10-02T02:08:55Z",
+  "version": "1.76",
+  "updated_at": "2026-10-02T03:08:12Z",
   "products": [
     {
       "element": "C",
@@ -15,22 +15,391 @@
       "selector": "ATOM-CI_5052",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 8.476,
-      "sigma_stat": 0.091,
-      "sigma_syst": 0.03,
+      "A": 8.369,
+      "sigma_stat": 0.092,
+      "sigma_syst": 0.0877,
       "n_lines": 1,
       "n_excluded": 0,
       "dominant_term": null,
-      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "stat_basis": "measured -- 1 sigma from the chi2 curvature of THIS fit (pipeline.fit_constraint), rescaled to red_chi2 = 1",
       "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|ATOM-CI_5052|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.092,
+            "source": "vis nominal joint fit, pipeline.fit_constraint curvature",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "chi2 curvature of the single-abundance fit, rescaled to red_chi2 = 1",
+              "correlation_treatment": "pixels independent after the red_chi2 rescale; residual covariance not modelled",
+              "n_pixels": 170
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.041393,
+            "source": "C I 5052.144 A (pk_4c8f4ce9e4f4): NIST ASD v5.11 grade B (T6070)",
+            "evidence": {
+              "indicator_ids": [
+                "CI_5052:vis:solar_harps_molecfit_corrected:windows_sha256:93e1cb76955cceecdfe878f3"
+              ],
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "line_sigma_dex": [
+                0.041393
+              ],
+              "weights": [
+                1.0
+              ],
+              "line_sources": [
+                "C I 5052.144 A (pk_4c8f4ce9e4f4): NIST ASD v5.11 grade B (T6070)"
+              ],
+              "covariance": [
+                [
+                  0.001713380449
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): solar Teff allowance 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.004368000000000165,
+            "source": "paired xi 0.90/1.10 refits, stamped legs",
+            "evidence": {
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "parameter_source": "RYA-1089 delta_xi 0.2912 km/s",
+              "response_assessment": "A(0.9)=8.366, A(1.0)=8.369, A(1.1)=8.363",
+              "signed_response_dex": -0.004368000000000165,
+              "delta_plus_dex": -0.01747200000000066,
+              "delta_minus_dex": -0.00873600000000033,
+              "delta_parameter": 0.2912,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.006000000000000227,
+            "source": "model-guided continuum quantile q97 vs q80, half-difference",
+            "evidence": {
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "A_q80": 8.368,
+              "A_q97": 8.356
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.0030000000000001137,
+            "source": "fit windows x0.6 about their centres (continuum on unscaled windows)",
+            "evidence": {
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "A_win60": 8.366
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.02200000000000024,
+            "source": "MARCS.GES vs ATLAS9.Castelli",
+            "evidence": {
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "A_marcs": 8.347
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per window measured residual vs an independent correction, via dA/df",
+            "evidence": {
+              "pool_sha256": "c33a1ffcdc6833f3c05f6db1d23c3bcf9bd8eb6867866b064c8955e3e6d250d2",
+              "dA_df": -3.0000000000001137,
+              "per_window": [
+                {
+                  "window_A": [
+                    5051.3,
+                    5053.0
+                  ],
+                  "n_telluric_px": 0,
+                  "max_depth": 0.05291015171466196,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic/forbidden product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "ATOM-CI_5052"
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in every fit window",
+            "evidence": {}
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0736342311700207,
+            "source": "std of this diagnostic across the vis twin regions (HARPS, KP x2, IAG)",
+            "evidence": {
+              "per_holding_A": {
+                "vis": 8.369,
+                "vis_kp_k05": 8.392,
+                "vis_kp_mf": 8.396,
+                "vis_iag": 8.531
+              }
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "vis region is LTE by design (lte_by_design); the product's treatment is 1D-LTE",
+            "evidence": {}
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "continuum placed per window by the model-guided rule; priced on `continuum`",
+            "evidence": {}
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "no HFS in C I/O I/CH/C2/CN lines here; isotopologues at solar ratios",
+            "evidence": {}
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.008464,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.001713380449,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.907942400000144e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.600000000000273e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.000000000000683e-06,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0004840000000000106,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.005422000000000048
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.12707265588237332,
+        "sigma_measured_partial": 0.12707265588237332
+      },
+      "uncertainty_indicator_ids": [
+        "CI_5052:vis:solar_harps_molecfit_corrected:windows_sha256:93e1cb76955cceecdfe878f3"
+      ],
+      "grade": "Codex Grade",
+      "sigma_reported": 0.1270726558823733,
       "provenance": {
-        "host": "Sirius",
-        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
-        "copied_to": "data/results/band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
-        "sha256": "054e5b65b4dd1e76e2b76dbd0000c36ce0afb0949cb0bc407906acb3b2cd5fe6",
-        "artifact_mtime": "2026-09-13T04:18:40Z",
-        "ingested_at": "2026-09-13T04:21:44Z"
-      }
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/visstage/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
+        "copied_to": null,
+        "sha256": "b578b8feae5d00a93d4903e65fa5eba513d2b13bfe2b08113c46dd279870964b",
+        "artifact_mtime": "2026-10-02T03:07:52Z",
+        "ingested_at": "2026-10-02T03:08:11Z"
+      },
+      "star": "solar"
     },
     {
       "element": "C",
@@ -42,22 +411,391 @@
       "selector": "ATOM-CI_5380",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 8.53,
-      "sigma_stat": 0.098,
-      "sigma_syst": 0.03,
+      "A": 8.526,
+      "sigma_stat": 0.097,
+      "sigma_syst": 0.2336,
       "n_lines": 1,
       "n_excluded": 0,
       "dominant_term": null,
-      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "stat_basis": "measured -- 1 sigma from the chi2 curvature of THIS fit (pipeline.fit_constraint), rescaled to red_chi2 = 1",
       "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|ATOM-CI_5380|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.097,
+            "source": "vis nominal joint fit, pipeline.fit_constraint curvature",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "chi2 curvature of the single-abundance fit, rescaled to red_chi2 = 1",
+              "correlation_treatment": "pixels independent after the red_chi2 rescale; residual covariance not modelled",
+              "n_pixels": 200
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.07188200730612536,
+            "source": "C I 5380.325 A (pk_6ae9181d6b95): NIST ASD v5.11 grade B; NIST class C+ via gf_grades.nist_sigma_dex",
+            "evidence": {
+              "indicator_ids": [
+                "CI_5380:vis:solar_harps_molecfit_corrected:windows_sha256:d8e73539e369a44907a1167a"
+              ],
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "line_sigma_dex": [
+                0.07188200730612536
+              ],
+              "weights": [
+                1.0
+              ],
+              "line_sources": [
+                "C I 5380.325 A (pk_6ae9181d6b95): NIST ASD v5.11 grade B; NIST class C+ via gf_grades.nist_sigma_dex"
+              ],
+              "covariance": [
+                [
+                  0.0051670229743578594
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): solar Teff allowance 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.06697600000000167,
+            "source": "paired xi 0.90/1.10 refits, stamped legs",
+            "evidence": {
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "parameter_source": "RYA-1089 delta_xi 0.2912 km/s",
+              "response_assessment": "A(0.9)=8.525, A(1.0)=8.526, A(1.1)=8.479",
+              "signed_response_dex": -0.06697600000000167,
+              "delta_plus_dex": -0.13686400000000173,
+              "delta_minus_dex": -0.002911999999998386,
+              "delta_parameter": 0.2912,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.16949999999999932,
+            "source": "model-guided continuum quantile q97 vs q80, half-difference",
+            "evidence": {
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "A_q80": 8.517,
+              "A_q97": 8.178
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.004999999999999005,
+            "source": "fit windows x0.6 about their centres (continuum on unscaled windows)",
+            "evidence": {
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "A_win60": 8.521
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.026999999999999247,
+            "source": "MARCS.GES vs ATLAS9.Castelli",
+            "evidence": {
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "A_marcs": 8.499
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per window measured residual vs an independent correction, via dA/df",
+            "evidence": {
+              "pool_sha256": "4656c277620aa03d90a53351daf181595b05ed9c8be201b35e9dc158ee3933b0",
+              "dA_df": -3.9999999999995595,
+              "per_window": [
+                {
+                  "window_A": [
+                    5379.3,
+                    5381.3
+                  ],
+                  "n_telluric_px": 0,
+                  "max_depth": 0.03779642964428076,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic/forbidden product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "ATOM-CI_5380"
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in every fit window",
+            "evidence": {}
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.12413265753485948,
+            "source": "std of this diagnostic across the vis twin regions (HARPS, KP x2, IAG)",
+            "evidence": {
+              "per_holding_A": {
+                "vis": 8.526,
+                "vis_kp_k05": 8.288,
+                "vis_kp_mf": 8.293,
+                "vis_iag": 8.258
+              }
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "vis region is LTE by design (lte_by_design); the product's treatment is 1D-LTE",
+            "evidence": {}
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "continuum placed per window by the model-guided rule; priced on `continuum`",
+            "evidence": {}
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "no HFS in C I/O I/CH/C2/CN lines here; isotopologues at solar ratios",
+            "evidence": {}
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.009409,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0051670229743578594,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.004485784576000224,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.02873024999999977,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.4999999999990054e-05,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0007289999999999593,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.015408916666666706
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.25289320713895125,
+        "sigma_measured_partial": 0.25289320713895125
+      },
+      "uncertainty_indicator_ids": [
+        "CI_5380:vis:solar_harps_molecfit_corrected:windows_sha256:d8e73539e369a44907a1167a"
+      ],
+      "grade": "Codex Grade",
+      "sigma_reported": 0.2528932071389512,
       "provenance": {
-        "host": "Sirius",
-        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
-        "copied_to": "data/results/band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
-        "sha256": "a8246d3119d7a18e417c0d6939e27be45b86cb3952b3f6136c60046023b34c2c",
-        "artifact_mtime": "2026-09-13T04:18:40Z",
-        "ingested_at": "2026-09-13T04:21:44Z"
-      }
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/visstage/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
+        "copied_to": null,
+        "sha256": "1ebc8ef643205b926fcee9a46ae2b7798b27af036650180a638cadd6ebf5ab84",
+        "artifact_mtime": "2026-10-02T03:07:53Z",
+        "ingested_at": "2026-10-02T03:08:11Z"
+      },
+      "star": "solar"
     },
     {
       "element": "C",
@@ -69,22 +807,435 @@
       "selector": "MOL-C2_Swan",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 8.449,
-      "sigma_stat": 0.007,
-      "sigma_syst": 0.03,
-      "n_lines": 167,
+      "A": 8.39,
+      "sigma_stat": 0.009,
+      "sigma_syst": 0.12,
+      "n_lines": 1,
       "n_excluded": 0,
       "dominant_term": null,
-      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "stat_basis": "measured -- 1 sigma from the chi2 curvature of THIS fit (pipeline.fit_constraint), rescaled to red_chi2 = 1",
       "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|MOL-C2_Swan|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.009,
+            "source": "vis nominal joint fit, pipeline.fit_constraint curvature",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "chi2 curvature of the single-abundance fit, rescaled to red_chi2 = 1",
+              "correlation_treatment": "pixels independent after the red_chi2 rescale; residual covariance not modelled",
+              "n_pixels": 600
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.10440294241934718,
+            "source": "CONSISTENCY BOUND on the C2 band-strength scale: |A(C2) - A(C I)| (+) sigma(C I), A(C I) = 8.48 +/- 0.0529 (HARPS AGSS21 C I 1D-LTE, same spectrum and model class, NIST-graded gf). Laboratory lifetime sources (Luque & Crosley 1996 JCP 104 2146; Brooke et al. 2013 JQSRT 124 11) not obtainable; a bound, never a lab value",
+            "evidence": {
+              "indicator_ids": [
+                "C2_Swan:vis:solar_harps_molecfit_corrected:windows_sha256:ad7b1e46eff715e544034418"
+              ],
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "line_sigma_dex": [
+                0.10440294241934718
+              ],
+              "weights": [
+                1.0
+              ],
+              "line_sources": [
+                "CONSISTENCY BOUND on the C2 band-strength scale: |A(C2) - A(C I)| (+) sigma(C I), A(C I) = 8.48 +/- 0.0529 (HARPS AGSS21 C I 1D-LTE, same spectrum and model class, NIST-graded gf). Laboratory lifetime sources (Luque & Crosley 1996 JCP 104 2146; Brooke et al. 2013 JQSRT 124 11) not obtainable; a bound, never a lab value"
+              ],
+              "covariance": [
+                [
+                  0.010899974385817524
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): solar Teff allowance 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.02038399999999905,
+            "source": "paired xi 0.90/1.10 refits, stamped legs",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "parameter_source": "RYA-1089 delta_xi 0.2912 km/s",
+              "response_assessment": "A(0.9)=8.393, A(1.0)=8.39, A(1.1)=8.407",
+              "signed_response_dex": 0.02038399999999905,
+              "delta_plus_dex": 0.049503999999998424,
+              "delta_minus_dex": 0.00873600000000033,
+              "delta_parameter": 0.2912,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.0045000000000001705,
+            "source": "model-guided continuum quantile q97 vs q80, half-difference",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "A_q80": 8.438,
+              "A_q97": 8.429
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.03500000000000014,
+            "source": "fit windows x0.6 about their centres (continuum on unscaled windows)",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "A_win60": 8.425
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.0259999999999998,
+            "source": "MARCS.GES vs ATLAS9.Castelli",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "A_marcs": 8.416
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per window measured residual vs an independent correction, via dA/df",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "dA_df": -7.999999999999119,
+              "per_window": [
+                {
+                  "window_A": [
+                    5160.0,
+                    5166.0
+                  ],
+                  "n_telluric_px": 0,
+                  "max_depth": 0.04461349996810193,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "MEASURED",
+            "sigma_dex": 0.0023299999999993838,
+            "source": "paired pins of A(N), A(O) +/- 0.10 on this joint fit x our published budgets, worst rho = +1 (RYA-1220 policy)",
+            "evidence": {
+              "pool_sha256": "7c7d9d5842dd770b806ce9689232bc8b98cdf93b2997e7a238cc020743e98a28",
+              "jacobian": {
+                "N": -0.009999999999994458,
+                "O": -0.019999999999997797
+              },
+              "sigmas": {
+                "N": 0.081,
+                "O": 0.076
+              },
+              "responses": {
+                "N": {
+                  "minus": 8.398,
+                  "plus": 8.396
+                },
+                "O": {
+                  "minus": 8.402,
+                  "plus": 8.398
+                }
+              }
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in every fit window",
+            "evidence": {}
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.033856314034460565,
+            "source": "std of this diagnostic across the vis twin regions (HARPS, KP x2, IAG)",
+            "evidence": {
+              "per_holding_A": {
+                "vis": 8.39,
+                "vis_kp_k05": 8.347,
+                "vis_kp_mf": 8.426,
+                "vis_iag": 8.408
+              }
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "vis region is LTE by design (lte_by_design); the product's treatment is 1D-LTE",
+            "evidence": {}
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "continuum placed per window by the model-guided rule; priced on `continuum`",
+            "evidence": {}
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "no HFS in C I/O I/CH/C2/CN lines here; isotopologues at solar ratios",
+            "evidence": {}
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            8.099999999999999e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.010899974385817524,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0004155074559999612,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0250000000001536e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00122500000000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0006759999999999897,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.428899999997128e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011462500000000114
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "molecular_coupling",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.12028886374813545,
+        "sigma_measured_partial": 0.12028886374813545
+      },
+      "uncertainty_indicator_ids": [
+        "C2_Swan:vis:solar_harps_molecfit_corrected:windows_sha256:ad7b1e46eff715e544034418"
+      ],
+      "grade": "Codex Grade",
+      "sigma_reported": 0.1202888637481354,
       "provenance": {
-        "host": "Sirius",
-        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
-        "copied_to": "data/results/band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
-        "sha256": "1d8e679c1fa71316ef24f80cf3e14e632e98cdf20f92ab40c80cbbb9c57cb33f",
-        "artifact_mtime": "2026-09-13T04:18:40Z",
-        "ingested_at": "2026-09-13T04:21:45Z"
-      }
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/visstage/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
+        "copied_to": null,
+        "sha256": "4472736fefab8de29e8102eb4b036f23015f53177000f011ef5be3c6fa937bba",
+        "artifact_mtime": "2026-10-02T03:07:52Z",
+        "ingested_at": "2026-10-02T03:08:12Z"
+      },
+      "star": "solar"
     },
     {
       "element": "C",
@@ -96,22 +1247,444 @@
       "selector": "MOL-CH_Gband",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 8.488,
+      "A": 8.482,
       "sigma_stat": 0.005,
-      "sigma_syst": 0.03,
-      "n_lines": 184,
+      "sigma_syst": 0.076,
+      "n_lines": 1,
       "n_excluded": 0,
       "dominant_term": null,
-      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "stat_basis": "measured -- 1 sigma from the chi2 curvature of THIS fit (pipeline.fit_constraint), rescaled to red_chi2 = 1",
       "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|MOL-CH_Gband|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.005,
+            "source": "vis nominal joint fit, pipeline.fit_constraint curvature",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "chi2 curvature of the single-abundance fit, rescaled to red_chi2 = 1",
+              "correlation_treatment": "pixels independent after the red_chi2 rescale; residual covariance not modelled",
+              "n_pixels": 600
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.05295256732036271,
+            "source": "CONSISTENCY BOUND on the CH band-strength scale: |A(CH) - A(C I)| (+) sigma(C I), A(C I) = 8.48 +/- 0.0529 (HARPS AGSS21 C I 1D-LTE, same spectrum and model class, NIST-graded gf). Laboratory lifetime sources (Luque & Crosley 1996 JCP 104 2146; Brooke et al. 2013 JQSRT 124 11) not obtainable; a bound, never a lab value",
+            "evidence": {
+              "indicator_ids": [
+                "CH_Gband:vis:solar_harps_molecfit_corrected:windows_sha256:7dc999e3625f6829b73577d3"
+              ],
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "line_sigma_dex": [
+                0.05295256732036271
+              ],
+              "weights": [
+                1.0
+              ],
+              "line_sources": [
+                "CONSISTENCY BOUND on the CH band-strength scale: |A(CH) - A(C I)| (+) sigma(C I), A(C I) = 8.48 +/- 0.0529 (HARPS AGSS21 C I 1D-LTE, same spectrum and model class, NIST-graded gf). Laboratory lifetime sources (Luque & Crosley 1996 JCP 104 2146; Brooke et al. 2013 JQSRT 124 11) not obtainable; a bound, never a lab value"
+              ],
+              "covariance": [
+                [
+                  0.0028039743858175445
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): solar Teff allowance 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.036399999999997934,
+            "source": "paired xi 0.90/1.10 refits, stamped legs",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "parameter_source": "RYA-1089 delta_xi 0.2912 km/s",
+              "response_assessment": "A(0.9)=8.498, A(1.0)=8.482, A(1.1)=8.473",
+              "signed_response_dex": -0.036399999999997934,
+              "delta_plus_dex": -0.02620799999999582,
+              "delta_minus_dex": 0.04659200000000004,
+              "delta_parameter": 0.2912,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.006999999999999673,
+            "source": "model-guided continuum quantile q97 vs q80, half-difference",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "A_q80": 8.481,
+              "A_q97": 8.467
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.010000000000001563,
+            "source": "fit windows x0.6 about their centres (continuum on unscaled windows)",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "A_win60": 8.492
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.014000000000001123,
+            "source": "MARCS.GES vs ATLAS9.Castelli",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "A_marcs": 8.496
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per window measured residual vs an independent correction, via dA/df",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "dA_df": 3.9999999999995595,
+              "per_window": [
+                {
+                  "window_A": [
+                    4303.5,
+                    4306.5
+                  ],
+                  "n_telluric_px": 0,
+                  "max_depth": 0.12438950990383113,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "window_A": [
+                    4310.0,
+                    4313.0
+                  ],
+                  "n_telluric_px": 0,
+                  "max_depth": 0.10576732198196026,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "MEASURED",
+            "sigma_dex": 0.01610500000000016,
+            "source": "paired pins of A(N), A(O) +/- 0.10 on this joint fit x our published budgets, worst rho = -1 (RYA-1220 policy)",
+            "evidence": {
+              "pool_sha256": "df7f74ae436023f98272b05b9765dbd99bd6442a0248d62764269671baf7beb8",
+              "jacobian": {
+                "N": -0.10500000000000398,
+                "O": 0.09999999999999787
+              },
+              "sigmas": {
+                "N": 0.081,
+                "O": 0.076
+              },
+              "responses": {
+                "N": {
+                  "minus": 8.486,
+                  "plus": 8.465
+                },
+                "O": {
+                  "minus": 8.468,
+                  "plus": 8.488
+                }
+              }
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in every fit window",
+            "evidence": {}
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.03231614663497631,
+            "source": "std of this diagnostic across the vis twin regions (HARPS, KP x2, IAG)",
+            "evidence": {
+              "per_holding_A": {
+                "vis": 8.482,
+                "vis_kp_k05": 8.419,
+                "vis_kp_mf": 8.438
+              }
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "vis region is LTE by design (lte_by_design); the product's treatment is 1D-LTE",
+            "evidence": {}
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "continuum placed per window by the model-guided rule; priced on `continuum`",
+            "evidence": {}
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "no HFS in C I/O I/CH/C2/CN lines here; isotopologues at solar ratios",
+            "evidence": {}
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            2.5e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0028039743858175445,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0013249599999998495,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.8999999999995424e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00010000000000003127,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00019600000000003144,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0002593710250000052,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0010443333333332908
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "molecular_coupling",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.07617505329273323,
+        "sigma_measured_partial": 0.07617505329273323
+      },
+      "uncertainty_indicator_ids": [
+        "CH_Gband:vis:solar_harps_molecfit_corrected:windows_sha256:7dc999e3625f6829b73577d3"
+      ],
+      "grade": "Codex Grade",
+      "sigma_reported": 0.0761750532927332,
       "provenance": {
-        "host": "Sirius",
-        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
-        "copied_to": "data/results/band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
-        "sha256": "3cb103caf07cc8ec6509d19061ecd8105bc7e19dcbb78c2aa50b4b0a927193ed",
-        "artifact_mtime": "2026-09-13T04:18:40Z",
-        "ingested_at": "2026-09-13T04:21:44Z"
-      }
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/visstage/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+        "copied_to": null,
+        "sha256": "5da45718a6d44e690e90dca5955a74a0778082ca2354df59ddb2edca9d2afb83",
+        "artifact_mtime": "2026-10-02T03:07:51Z",
+        "ingested_at": "2026-10-02T03:08:12Z"
+      },
+      "star": "solar"
     },
     {
       "element": "C",
@@ -24111,6 +25684,122 @@
       "star": "solar",
       "superseded_at": "2026-10-02T02:08:54Z",
       "superseded_reason": "RYA-1230 re-run: molecular opacity in every band + the standing local-continuum rule; RYA-587 budget from paired legs on this pool (xi, core window, envelope estimator, model grid, telluric, CN blends)"
+    },
+    {
+      "element": "C",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "ATOM-CI_5052",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 8.476,
+      "sigma_stat": 0.091,
+      "sigma_syst": 0.03,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
+        "copied_to": "data/results/band_products/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv",
+        "sha256": "054e5b65b4dd1e76e2b76dbd0000c36ce0afb0949cb0bc407906acb3b2cd5fe6",
+        "artifact_mtime": "2026-09-13T04:18:40Z",
+        "ingested_at": "2026-09-13T04:21:44Z"
+      },
+      "superseded_at": "2026-10-02T03:08:11Z",
+      "superseded_reason": "RYA-1230: HARPS vis-region rerun on the model-guided continuum; RYA-587 budget from paired legs (xi, continuum, window, MARCS, telluric, cross-element pins, Ni blend) + 4-holding spread; CH/C2 band strength by consistency bound vs same-spectrum C I"
+    },
+    {
+      "element": "C",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "ATOM-CI_5380",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 8.53,
+      "sigma_stat": 0.098,
+      "sigma_syst": 0.03,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
+        "copied_to": "data/results/band_products/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv",
+        "sha256": "a8246d3119d7a18e417c0d6939e27be45b86cb3952b3f6136c60046023b34c2c",
+        "artifact_mtime": "2026-09-13T04:18:40Z",
+        "ingested_at": "2026-09-13T04:21:44Z"
+      },
+      "superseded_at": "2026-10-02T03:08:11Z",
+      "superseded_reason": "RYA-1230: HARPS vis-region rerun on the model-guided continuum; RYA-587 budget from paired legs (xi, continuum, window, MARCS, telluric, cross-element pins, Ni blend) + 4-holding spread; CH/C2 band strength by consistency bound vs same-spectrum C I"
+    },
+    {
+      "element": "C",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "MOL-C2_Swan",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 8.449,
+      "sigma_stat": 0.007,
+      "sigma_syst": 0.03,
+      "n_lines": 167,
+      "n_excluded": 0,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
+        "copied_to": "data/results/band_products/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv",
+        "sha256": "1d8e679c1fa71316ef24f80cf3e14e632e98cdf20f92ab40c80cbbb9c57cb33f",
+        "artifact_mtime": "2026-09-13T04:18:40Z",
+        "ingested_at": "2026-09-13T04:21:45Z"
+      },
+      "superseded_at": "2026-10-02T03:08:12Z",
+      "superseded_reason": "RYA-1230: HARPS vis-region rerun on the model-guided continuum; RYA-587 budget from paired legs (xi, continuum, window, MARCS, telluric, cross-element pins, Ni blend) + 4-holding spread; CH/C2 band strength by consistency bound vs same-spectrum C I"
+    },
+    {
+      "element": "C",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "MOL-CH_Gband",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 8.488,
+      "sigma_stat": 0.005,
+      "sigma_syst": 0.03,
+      "n_lines": 184,
+      "n_excluded": 0,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 1 sigma from the chi2 curvature of THIS band's fit (pipeline.fit_constraint.curvature_sigma, rescaled to red_chi2 = 1); NaN where the curvature was not measurable, never 0 and never the retired 1.000 clip",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1214/data/results/band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+        "copied_to": "data/results/band_products/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv",
+        "sha256": "3cb103caf07cc8ec6509d19061ecd8105bc7e19dcbb78c2aa50b4b0a927193ed",
+        "artifact_mtime": "2026-09-13T04:18:40Z",
+        "ingested_at": "2026-09-13T04:21:44Z"
+      },
+      "superseded_at": "2026-10-02T03:08:12Z",
+      "superseded_reason": "RYA-1230: HARPS vis-region rerun on the model-guided continuum; RYA-587 budget from paired legs (xi, continuum, window, MARCS, telluric, cross-element pins, Ni blend) + 4-holding spread; CH/C2 band strength by consistency bound vs same-spectrum C I"
     }
   ],
   "gaps": [],
@@ -27150,40 +28839,7 @@
       "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf"
     ],
-    "not_displayed": [
-      {
-        "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|ATOM-CI_5052|SYNTH|1D-LTE|our-all",
-        "tier": "ALL",
-        "grade": null,
-        "selector": "ATOM-CI_5052",
-        "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade') nor ('Deep Grade',), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
-      },
-      {
-        "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|ATOM-CI_5380|SYNTH|1D-LTE|our-all",
-        "tier": "ALL",
-        "grade": null,
-        "selector": "ATOM-CI_5380",
-        "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade') nor ('Deep Grade',), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
-      },
-      {
-        "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|MOL-C2_Swan|SYNTH|1D-LTE|our-all",
-        "tier": "ALL",
-        "grade": null,
-        "selector": "MOL-C2_Swan",
-        "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade') nor ('Deep Grade',), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
-      },
-      {
-        "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|MOL-CH_Gband|SYNTH|1D-LTE|our-all",
-        "tier": "ALL",
-        "grade": null,
-        "selector": "MOL-CH_Gband",
-        "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade') nor ('Deep Grade',), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
-      }
-    ],
+    "not_displayed": [],
     "key_fields": [
       "element",
       "ion",
@@ -27215,7 +28871,7 @@
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
             "product_key": "C|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-AGSS21|SYNTH|1D-LTE|our-all",
-            "alternates": 0
+            "alternates": 4
           },
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
@@ -27549,8 +29205,8 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "C|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL||SYNTH|1D-LTE|our-all",
-            "alternates": 1
+            "product_key": "C|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|1D-LTE|our-all",
+            "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
