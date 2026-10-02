@@ -48,9 +48,14 @@ GATE_OK = run_matrix.TERMINAL_OK
 #: hole in the report, which is the one outcome this layer is not allowed to have.
 RAN = "RAN"
 NOT_RUN_FE_GATE = "NOT_RUN_FE_GATE"
+#: The graded pool holds no line of this element at the ions it would run. An HONEST
+#: EMPTY (a pool finding -- RYA-945 owes the grading), not a failure: on 2026-10-01
+#: 13 of the 27 solar targets were in this state, and folding them into MATRIX_ERROR
+#: would have made every sweep exit non-zero for a fact no run can change.
+NO_GRADED_POOL = "NO_GRADED_POOL"
 MATRIX_ERROR = "MATRIX_ERROR"      # run_matrix refused to build the matrix; reason given
 CRASHED = "CRASHED"                # an unexpected exception; loud, and the sweep continues
-ELEMENT_STATUSES = (RAN, NOT_RUN_FE_GATE, MATRIX_ERROR, CRASHED)
+ELEMENT_STATUSES = (RAN, NOT_RUN_FE_GATE, NO_GRADED_POOL, MATRIX_ERROR, CRASHED)
 
 FE_GATE_REASON = ("Fe produced no usable cell; every other element's [Fe/H]-dependent "
                   "product would be built on nothing.")
@@ -122,6 +127,14 @@ def would_run_published(doc: dict) -> int:
                if c.get("status") == run_matrix.WOULD_RUN and c.get("A") is not None)
 
 
+def _pool_has(e: SweepEntry) -> bool:
+    """Does the graded pool hold any line this entry would run? run_matrix's own answer."""
+    graded = run_matrix.graded_ions(e.symbol)
+    want = e.ions or ((run_matrix.split_symbol(e.target)[1],)
+                      if run_matrix.split_symbol(e.target)[1] else tuple(graded))
+    return any(i in graded for i in want)
+
+
 def _zero_counts() -> dict[str, int]:
     return {s: 0 for s in run_matrix.STATUSES}
 
@@ -181,6 +194,13 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
                  "counts": _zero_counts(), "cells_total": 0, "executed": 0}
         if fe_gate == "HALT" and not dry_run:
             entry.update(status=NOT_RUN_FE_GATE, reason=FE_GATE_REASON)
+        elif not _pool_has(e):
+            ion_txt = ", ".join(e.ions) if e.ions else (
+                run_matrix.split_symbol(e.target)[1] or "any ion")
+            entry.update(status=NO_GRADED_POOL, reason=(
+                f"the graded pool in {run_matrix.CANONICAL_GF.name} holds no line of "
+                f"{e.symbol} at {ion_txt}: no cell can be built. A POOL finding (grade "
+                f"lines first, RYA-945), not a run failure."))
         elif e.plan_error:
             entry.update(status=MATRIX_ERROR, reason=e.plan_error)
             print(f"!!! {e.label}: {e.plan_error}", file=sys.stderr, flush=True)

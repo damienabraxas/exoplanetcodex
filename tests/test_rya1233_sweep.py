@@ -46,7 +46,12 @@ def _master(rm):
 
 
 def _stub_run(rm, monkeypatch, verdict):
-    """run_matrix.run replaced by `verdict(target, ions) -> {status: n}` (or raise)."""
+    """run_matrix.run replaced by `verdict(target, ions) -> {status: n}` (or raise).
+
+    The graded pool is stubbed to hold I and II of everything, so these tests are
+    about the sweep's bookkeeping and not about which elements are graded today.
+    """
+    monkeypatch.setattr(rm, "graded_ions", lambda sym: ["I", "II"])
     calls = []
 
     def fake(star, target, *, ions=None, dry_run=False, **kw):
@@ -89,9 +94,9 @@ def test_bare_fe_does_not_rebuild_the_fe_ii_cells(sw):
 
 def test_a_bare_entry_with_no_unclaimed_ion_is_reported_not_run_unfiltered(
         rm, sw, monkeypatch, tmp_path):
+    calls = _stub_run(rm, monkeypatch, lambda t, i: {rm.SKIP: 1})
     monkeypatch.setattr(rm, "canonical_elements", lambda: ["Fe", "Fe II"])
     monkeypatch.setattr(rm, "graded_ions", lambda sym: ["II"])
-    calls = _stub_run(rm, monkeypatch, lambda t, i: {rm.SKIP: 1})
     doc = sw.run_sweep("solar", report_dir=tmp_path, echo=False)
     fe = next(r for r in doc["elements"] if r["element"] == "Fe")
     assert fe["status"] == sw.MATRIX_ERROR and "second time" in fe["reason"]
@@ -279,3 +284,22 @@ def test_a_dry_run_counts_would_run_cells_that_already_have_a_product(rm, sw):
     doc = {"cells": [{"status": rm.WOULD_RUN, "A": 7.45}, {"status": rm.WOULD_RUN, "A": None},
                      {"status": rm.BLOCKED, "A": 7.5}]}
     assert sw.would_run_published(doc) == 1
+
+
+def test_an_element_with_no_graded_line_is_an_honest_empty_not_a_failure(
+        rm, sw, monkeypatch, tmp_path):
+    _stub_run(rm, monkeypatch, lambda t, i: {rm.SKIP: 1})
+    monkeypatch.setattr(rm, "graded_ions", lambda sym: [] if sym == "Ni" else ["I", "II"])
+    doc = sw.run_sweep("solar", report_dir=tmp_path, echo=False)
+    ni = next(r for r in doc["elements"] if r["element"] == "Ni")
+    assert ni["status"] == sw.NO_GRADED_POOL and "RYA-945" in ni["reason"]
+    assert not sw.failed(doc)
+
+
+def test_a_pinned_ion_the_pool_lacks_is_an_honest_empty(rm, sw, monkeypatch, tmp_path):
+    calls = _stub_run(rm, monkeypatch, lambda t, i: {rm.SKIP: 1})
+    monkeypatch.setattr(rm, "graded_ions", lambda sym: ["I"])
+    doc = sw.run_sweep("solar", report_dir=tmp_path, echo=False)
+    fe2 = next(r for r in doc["elements"] if r["element"] == "Fe II")
+    assert fe2["status"] == sw.NO_GRADED_POOL
+    assert ("Fe II", ()) not in calls
