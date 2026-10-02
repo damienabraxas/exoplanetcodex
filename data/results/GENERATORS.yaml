@@ -22156,3 +22156,1081 @@ artifacts:
     ticket: RYA-1230
     note: >-
       RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/cn_budget_report.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_minus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_minus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_minus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_plus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_plus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/c_plus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/cscale/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/cscale/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/cscale/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/marcs/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/marcs/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/marcs/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/nominal/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/nominal/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/nominal/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_minus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_minus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_minus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_plus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_plus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/o_plus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q80/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q80/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q80/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q97/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q97/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/q97/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/win60/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/win60/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/win60/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/win60/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_minus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_minus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_minus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_plus/solar_j_cn_crires_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_plus/solar_j_cn_crires_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_plus/solar_j_cn_crires_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/j_cn_crires/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_minus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_minus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_minus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_plus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_plus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/c_plus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/cscale/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/cscale/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/cscale/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/marcs/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/marcs/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/marcs/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/nominal/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/nominal/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/nominal/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_minus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_minus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_minus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_plus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_plus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/o_plus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q80/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q80/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q80/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q97/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q97/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/q97/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/win60/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/win60/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/win60/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/win60/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_minus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_minus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_minus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_plus/solar_nir_cn_iag_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_plus/solar_nir_cn_iag_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_plus/solar_nir_cn_iag_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_iag/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_minus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_minus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_minus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_plus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_plus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/c_plus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/cscale/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/cscale/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/cscale/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/marcs/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/marcs/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/marcs/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/nominal/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/nominal/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/nominal/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_minus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_minus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_minus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_plus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_plus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/o_plus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q80/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q80/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q80/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q97/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q97/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/q97/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/win60/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/win60/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/win60/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/win60/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_minus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_minus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_minus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_plus/solar_nir_cn_kp_cno_per_band.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_plus/solar_nir_cn_kp_cno_product.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_plus/solar_nir_cn_kp_cno_provenance.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/cn_legs/nir_cn_kp/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget_legs.py
+    invocation: python3 scripts/rya1230_cn_budget_legs.py --regions REGIONS --out OUTDIR
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/products_cn/NI_MOL_CN_AX_IR_crires_plus_solar_crires_plus_j_rya1219_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/products_cn/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).
+  - artifact: rya1230/products_cn/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 CN A-X (0-0) RYA-587 budget legs / product (model-guided continuum, full-coverage KP telluric).

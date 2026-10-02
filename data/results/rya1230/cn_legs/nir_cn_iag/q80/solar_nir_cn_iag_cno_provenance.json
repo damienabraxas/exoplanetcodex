@@ -1,0 +1,224 @@
+{
+  "abundances": {
+    "C": 8.488,
+    "N": 7.867,
+    "O": 8.69,
+    "C/O": 0.628
+  },
+  "iterations": 2,
+  "converged": true,
+  "flags": [
+    "pinned_not_measured:C=8.488,O=8.690"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": null,
+      "sys": 0.0,
+      "tot": null,
+      "stat_state": "UNMEASURED",
+      "stat_note": "the chi2 curvature was not measurable for this element's primary band (railed fit, or an objective with no curvature to invert), so there is no statistical term to report and sigma_tot is withheld. NOT zero and NOT the 1.000 the retired np.clip used to emit (RYA-848/RYA-1214)."
+    },
+    "N": {
+      "stat": 0.038,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.038
+    },
+    "O": {
+      "stat": null,
+      "sys": 0.0,
+      "tot": null,
+      "stat_state": "UNMEASURED",
+      "stat_note": "the chi2 curvature was not measurable for this element's primary band (railed fit, or an objective with no curvature to invert), so there is no statistical term to report and sigma_tot is withheld. NOT zero and NOT the 1.000 the retired np.clip used to emit (RYA-848/RYA-1214)."
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "nir_cn_iag",
+    "instrument": "iag_fts_solar_atlas",
+    "R_LSF": 700000.0,
+    "local_continuum_RYA1230": [
+      {
+        "window_A": [
+          10870.68,
+          10874.0
+        ],
+        "level": 0.9427258989831162,
+        "slope_per_A": 0.005093944977591695,
+        "n_pix": 56,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9427 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.66 A (line window +/-1.66 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          10879.21,
+          10885.06
+        ],
+        "level": 0.9710143727461479,
+        "slope_per_A": 6.997769689269161e-05,
+        "n_pix": 112,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-7.925 A (line window +/-2.925 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          10896.04,
+          10899.04
+        ],
+        "level": 0.9751429699934927,
+        "slope_per_A": 0.002798401669729803,
+        "n_pix": 112,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          10973.04,
+          10976.04
+        ],
+        "level": 0.9859786764820989,
+        "slope_per_A": -0.0019707292158759825,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          10979.57,
+          10982.57
+        ],
+        "level": 1.0046102041860983,
+        "slope_per_A": -0.0017608481348461518,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          10988.82,
+          10991.82
+        ],
+        "level": 0.9974314069147686,
+        "slope_per_A": -0.0010638659633136714,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11003.92,
+          11006.92
+        ],
+        "level": 0.9968178319754226,
+        "slope_per_A": 0.0005320278667522477,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11009.25,
+          11014.16
+        ],
+        "level": 0.9948013671308453,
+        "slope_per_A": -0.0010288995037233107,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-7.455 A (line window +/-2.455 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11019.86,
+          11023.26
+        ],
+        "level": 1.0085782264772443,
+        "slope_per_A": -0.0021042235962596715,
+        "n_pix": 110,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.7 A (line window +/-1.7 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11065.46,
+          11068.46
+        ],
+        "level": 1.0001464978173074,
+        "slope_per_A": -6.652276868549504e-05,
+        "n_pix": 109,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11071.13,
+          11074.13
+        ],
+        "level": 1.003227318028168,
+        "slope_per_A": -0.00503377735217484,
+        "n_pix": 108,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11079.56,
+          11082.56
+        ],
+        "level": 0.9888118258867549,
+        "slope_per_A": 0.0021485249008508338,
+        "n_pix": 59,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      }
+    ],
+    "atomic_linelist": "ispec_ir_9200_13000 (NIR band list, 767 lines)",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 700000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "CN_AX_IR",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.867,
+        "kind": "3d_offset_owed",
+        "a_corr": 7.867,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}

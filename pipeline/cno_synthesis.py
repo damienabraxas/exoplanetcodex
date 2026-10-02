@@ -1615,6 +1615,30 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
               'feh': float(rec['feh_ref']), 'vturb_kms': float(rec.get('xi', 1.0))}
     if params_override:
         params.update(params_override)
+    # RYA-1230 RYA-587 budget legs (env-scoped and LOUD; production never sets them):
+    #   CODEX_XI_OVERRIDE       microturbulence of this run (stellar.xi leg)
+    #   CODEX_MODEL_GRID        model atmosphere grid (model_atmosphere leg)
+    #   CODEX_CONT_SCALE        observed flux divided by this after the continuum (dA/df)
+    #   CODEX_CNO_WINDOW_SCALE  fit sub-windows scaled about their centres (profile_ew leg)
+    import os as _os
+    if _os.environ.get("CODEX_XI_OVERRIDE"):
+        params['vturb_kms'] = float(_os.environ["CODEX_XI_OVERRIDE"])
+        print(f"  \u26a0\ufe0f  xi OVERRIDE (RYA-1230 budget leg): {params['vturb_kms']:.4f} km/s")
+    _grid = _os.environ.get("CODEX_MODEL_GRID") or 'ATLAS9.Castelli'
+    if _grid not in ('ATLAS9.Castelli', 'MARCS.GES'):
+        raise SystemExit(f"CODEX_MODEL_GRID={_grid!r} is not ATLAS9.Castelli or MARCS.GES")
+    if _grid != 'ATLAS9.Castelli':
+        print(f"  \u26a0\ufe0f  MODEL GRID OVERRIDE (RYA-1230 budget leg): {_grid}")
+    _wscale = float(_os.environ.get("CODEX_CNO_WINDOW_SCALE") or 1.0)
+    #: the continuum is placed on the UNSCALED windows, so the profile_ew leg moves the fit
+    #: windows only and is not confounded with continuum placement
+    _continuum_diagnostics = list(diagnostics)
+    if _wscale != 1.0:
+        import dataclasses as _dc
+        diagnostics = [_dc.replace(d, windows_A=tuple(
+            (0.5 * (a + b) - 0.5 * _wscale * (b - a), 0.5 * (a + b) + 0.5 * _wscale * (b - a))
+            for a, b in d.windows_A)) for d in diagnostics]
+        print(f"  \u26a0\ufe0f  FIT WINDOW SCALE (RYA-1230 budget leg): x{_wscale}")
     feh = params['feh']
 
     print(f"\n{'='*72}\n  C/N/O synthesis — {star_id} / {region.name} "
@@ -1629,7 +1653,8 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         tmp_dir = f'/tmp/ispec_cno_{_os.getpid()}'
     Path(tmp_dir).mkdir(parents=True, exist_ok=True)
 
-    atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
+    atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'],
+                           model_grid=_grid)
     ll_path, ll_label, gf_prov = region_atomic_linelist(region, diagnostics)
     ll, iso, chem = (_load_synth_resources() if ll_path is None else
                      _load_synth_resources(str(ll_path),
@@ -1670,7 +1695,7 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
              else 'solar_harps_molecfit_corrected')
     _anr(_hold, pre_normalised=_hold in _PNH, local_window_envelope=True,
          where='cno_synthesis.run_cno (RYA-1230 model-guided local continuum)')
-    _all_windows = [w for d in diagnostics for w in d.windows_A]
+    _all_windows = [w for d in _continuum_diagnostics for w in d.windows_A]
     _bandname = _band_of(0.5 * (_all_windows[0][0] + _all_windows[0][1])).name if _all_windows else None
     _apply = _SB[_bandname].continuum_apply if _bandname in _SB else True
     _fa0 = _fixed_ab(state, codes)
@@ -1683,6 +1708,9 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     _f_A, local_continuum_records = _lc.apply_to_windows_model_guided(
         np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply)
     obs_f = _f_A
+    if _os.environ.get("CODEX_CONT_SCALE"):
+        obs_f = np.asarray(obs_f, float) / float(_os.environ["CODEX_CONT_SCALE"])
+        print(f"  \u26a0\ufe0f  CONT SCALE (RYA-1230 budget leg): /{_os.environ['CODEX_CONT_SCALE']}")
     _n_app = sum(r['applied'] for r in local_continuum_records)
     print(f"  [continuum] RYA-1230 model-guided local continuum on {_hold}: {_n_app}/"
           f"{len(local_continuum_records)} windows applied (band {_bandname}, "

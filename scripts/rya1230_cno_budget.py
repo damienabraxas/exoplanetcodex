@@ -106,62 +106,109 @@ _SKY = {"kpno_solar_atlas": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kuruc
         #: HARPS raw cannot set a clean edge (continuum S/N ~31 < the 200 science floor,
         #: telluric_observability refuses a verdict), so its sky MAP is Kitt Peak's too --
         #: line positions are the atmosphere's; the residual is still HARPS's own.
-        "harps": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kurucz2005_corrected")}
+        "harps": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kurucz2005_corrected"),
+        "crires_plus": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kurucz2005_corrected")}
 #: INDEPENDENT corrections to difference each holding against on the telluric pixels, in
 #: order. A candidate byte-identical to raw in THIS window is not a correction there (KP
 #: molecfit leaves the 9000-9300 A H2O band untouched, RYA-1190) and is skipped -- using it
 #: measured the whole sky as kurucz2005's "residual" on C I 9061 (0.33 flux, 5 dex).
 _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-                                                  ("iag_fts_solar_atlas", "solar_iag")],
+                                                  ("iag_fts_solar_atlas", "solar_iag"),
+                                                  ("crires_plus", "solar_crires_plus_j_rya1219")],
+                "solar_crires_plus_j_rya1219": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                                ("iag_fts_solar_atlas", "solar_iag")],
                 "solar_kpno_kurucz2005_corrected": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                                                     ("iag_fts_solar_atlas", "solar_iag")],
                 "solar_iag": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-                              ("kpno_solar_atlas", "solar_kpno_molecfit_corrected")],
+                              ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                              ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                    ("iag_fts_solar_atlas", "solar_iag")]}
 _EDGE: dict = {}
+_SPAN: dict = {}
+
+
+def _full_span(H, inst, hold):
+    if (inst, hold) not in _SPAN:
+        #: a holding can be registered more than once (solar_crires_plus_j_rya1219 has a
+        #: RYA-1219 molecfit reader and an Elgueta reader); use the first span that loads
+        last = None
+        for spec in (sp for specs in H._INSTRUMENT_HOLDINGS.values() for sp in specs
+                     if sp.holding_id == hold and sp.span_A):
+            lo, hi = spec.span_A
+            try:
+                _SPAN[(inst, hold)] = H.load_window_ex(inst, 0.5 * (lo + hi), 0.5 * (hi - lo),
+                                                       holding=hold, allow_uncorrected=True)
+                break
+            except LookupError as exc:
+                last = exc
+        else:
+            raise last
+    return _SPAN[(inst, hold)]
 
 
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     import measure_band_ew as H
     from pipeline import telluric_observability as T
-    sky_inst, raw, cor = _SKY[instrument]
-    key = (raw, band_lo, band_hi)
+    sky_inst, raw, cor = _SKY.get(instrument, _SKY["kpno_solar_atlas"])
+    if w0 > 10000.0:
+        #: Kurucz 2005 stops at 10000 A; beyond it the sky is raw KP over the RYA-1230
+        #: full-coverage molecfit holding (0 A raw, 505bdf0f).
+        cor = "solar_kpno_molecfit_corrected"
+    key = (raw, cor, band_lo, band_hi)
     if key not in _EDGE:
         snr, _ = T.band_continuum_snr(H, sky_inst, raw, band_lo, band_hi, max(hw, 2.0))
         _EDGE[key] = T.thresholds(snr).clean_max_depth
-    if ("null", raw) not in _EDGE:
+    if ("null", raw, cor) not in _EDGE:
         #: 🔴 THE CLEAN-WINDOW NULL. raw / corrected differs by REDUCTION everywhere, not
         #: only where the sky absorbs (C I 4269 read "telluric" pixels in the blue). Measure
         #: that pair's own dip statistic where no molecular telluric line exists --
         #: 4300-4900 A, blueward of every O2/H2O band -- and require a telluric pixel to
         #: clear it (RYA-1192: "a template needs a clean-window null").
         dips = []
-        for c0 in (4300.0, 4450.0, 4600.0, 4750.0, 4900.0):
+        for c0 in (4300.0, 4450.0, 4600.0, 4750.0, 4900.0):  # null measured on THIS pair
             gg = np.linspace(c0 - 1.0, c0 + 1.0, 400)
             a_ = H.load_window_ex(sky_inst, c0, 1.5, holding=raw, allow_uncorrected=True)
             b_ = H.load_window_ex(sky_inst, c0, 1.5, holding=cor, allow_uncorrected=True)
             tt = np.interp(gg, a_.wave, a_.flux) / np.interp(gg, b_.wave, b_.flux)
             dips.append(float(np.percentile(np.median(tt) - tt, 99.5)))
-        _EDGE[("null", raw)] = max(dips)
-    edge = max(_EDGE[key], _EDGE[("null", raw)])
+        _EDGE[("null", raw, cor)] = max(dips)
+    edge = max(_EDGE[key], _EDGE[("null", raw, cor)])
     g = np.linspace(w0 - hw, w0 + hw, 400)
 
     def flux(inst, hold):
-        x = H.load_window_ex(inst, w0, hw + 0.5, holding=hold, allow_uncorrected=True)
+        try:
+            x = H.load_window_ex(inst, w0, hw + 0.5, holding=hold, allow_uncorrected=True)
+        except LookupError:
+            #: CRIRES+ readers validate frame-control lines that only exist across the full
+            #: arm, so a few-A window cannot pass; read the holding's full span once (the
+            #: SAME flux its own fit read) and slice it
+            x = _full_span(H, inst, hold)
+            if not (x.wave.min() <= g.min() and g.max() <= x.wave.max()):
+                raise
         return np.interp(g, x.wave, x.flux)
 
     t = flux(sky_inst, raw) / flux(sky_inst, cor)
     base = float(np.median(t))
     P = (base - t) > edge
     ev = {"sky_pair": f"{raw}/{cor}", "clean_edge": edge,
-          "clean_window_null": _EDGE[("null", raw)], "sky_baseline": base,
+          "clean_window_null": _EDGE[("null", raw, cor)], "sky_baseline": base,
           "n_px": int(g.size), "n_telluric_px": int(P.sum()),
           "max_depth": float(max(0.0, base - t.min()))}
     if not P.any():
         ev["residual_flux"] = 0.0
+        ev["sky_absorption"] = 0.0
         return ev
-    own = flux(instrument, holding)
+    #: the window's mean sky absorption (fraction-weighted), so a residual-to-absorption
+    #: ratio measured on covered windows can bound an uncovered one (RYA-1230 CN)
+    ev["sky_absorption"] = float(np.mean(np.clip(base - t[P], 0, None)) * P.mean())
+    try:
+        own = flux(instrument, holding)
+    except LookupError as exc:
+        #: the sky is measured (KP pair) but this holding's window loader has a gap here
+        ev["residual_flux"] = None
+        ev["residual_basis"] = f"holding loader cannot serve this window: {str(exc)[:100]}"
+        return ev
     if np.array_equal(own, flux(sky_inst, raw)) if instrument == sky_inst else False:
         #: this holding is the raw flux here: nothing was corrected, the residual IS the sky
         ev["residual_basis"] = "holding byte-identical to raw in this window: full depth"
@@ -179,7 +226,9 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         ref = cand
         break
     if ref is None:
-        raise RuntimeError(f"no independent correction covers {w0:.3f} A for {holding}")
+        ev["residual_flux"] = None
+        ev["residual_basis"] = f"NO independent correction covers {w0:.3f} A for {holding}"
+        return ev
     ratio = own / ref
     rbase = float(np.median(ratio[~P])) if (~P).sum() >= 3 else float(np.median(ratio))
     ev["residual_basis"] = f"{holding} vs independent correction {ind}, baseline-removed"
@@ -345,6 +394,8 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 dadf = (float(l.abundance_cs) - float(l.abundance)) / (-CSCALE)
                 try:
                     ev = telluric_line(instrument, holding, float(l.wavelength_air_A), hw, lo, hi)
+                    if ev.get("residual_flux") is None:
+                        raise RuntimeError(ev["residual_basis"])
                 except Exception as exc:                                  # noqa: BLE001
                     notes.append(f"telluric {l.wavelength_air_A}: {type(exc).__name__}: {str(exc)[:160]}")
                     per = None

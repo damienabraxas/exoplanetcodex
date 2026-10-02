@@ -1,0 +1,224 @@
+{
+  "abundances": {
+    "C": 8.488,
+    "N": 7.925,
+    "O": 8.69,
+    "C/O": 0.628
+  },
+  "iterations": 2,
+  "converged": true,
+  "flags": [
+    "pinned_not_measured:C=8.488,O=8.690"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": null,
+      "sys": 0.0,
+      "tot": null,
+      "stat_state": "UNMEASURED",
+      "stat_note": "the chi2 curvature was not measurable for this element's primary band (railed fit, or an objective with no curvature to invert), so there is no statistical term to report and sigma_tot is withheld. NOT zero and NOT the 1.000 the retired np.clip used to emit (RYA-848/RYA-1214)."
+    },
+    "N": {
+      "stat": 0.024,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.024
+    },
+    "O": {
+      "stat": null,
+      "sys": 0.0,
+      "tot": null,
+      "stat_state": "UNMEASURED",
+      "stat_note": "the chi2 curvature was not measurable for this element's primary band (railed fit, or an objective with no curvature to invert), so there is no statistical term to report and sigma_tot is withheld. NOT zero and NOT the 1.000 the retired np.clip used to emit (RYA-848/RYA-1214)."
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "nir_cn_kp",
+    "instrument": "kpno_solar_atlas",
+    "R_LSF": 500000.0,
+    "local_continuum_RYA1230": [
+      {
+        "window_A": [
+          10988.82,
+          10991.82
+        ],
+        "level": 1.0058398317942299,
+        "slope_per_A": 0.007334743324801567,
+        "n_pix": 143,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11003.92,
+          11006.92
+        ],
+        "level": 1.0026454860316896,
+        "slope_per_A": 0.00025326107402074706,
+        "n_pix": 143,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11009.25,
+          11014.16
+        ],
+        "level": 1.0137095340359745,
+        "slope_per_A": 0.0022946355890687384,
+        "n_pix": 143,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-7.455 A (line window +/-2.455 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11019.86,
+          11023.26
+        ],
+        "level": 0.9676097596454986,
+        "slope_per_A": 0.008798303568344002,
+        "n_pix": 142,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9676 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.7 A (line window +/-1.7 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11071.13,
+          11074.13
+        ],
+        "level": 0.9799216606580969,
+        "slope_per_A": 0.011419503629164185,
+        "n_pix": 142,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11079.56,
+          11082.56
+        ],
+        "level": 1.0375959997463071,
+        "slope_per_A": -0.004673639505370549,
+        "n_pix": 140,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 1.0376 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11091.45,
+          11094.76
+        ],
+        "level": 0.9999368490987331,
+        "slope_per_A": 0.001449408199510747,
+        "n_pix": 140,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.655 A (line window +/-1.655 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11106.99,
+          11109.99
+        ],
+        "level": 1.0134834806078057,
+        "slope_per_A": 0.0023536351469561406,
+        "n_pix": 126,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11576.5,
+          11579.5
+        ],
+        "level": 1.0383101811587176,
+        "slope_per_A": -0.0052366276490775744,
+        "n_pix": 117,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 1.0383 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11640.31,
+          11643.31
+        ],
+        "level": 0.964236988276932,
+        "slope_per_A": 0.01093630638649882,
+        "n_pix": 128,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9642 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11710.6,
+          11713.6
+        ],
+        "level": 0.998194609593335,
+        "slope_per_A": -0.0004679999643513779,
+        "n_pix": 126,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          11798.36,
+          11801.36
+        ],
+        "level": 1.0006922861733054,
+        "slope_per_A": 9.9224425281824e-05,
+        "n_pix": 125,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      }
+    ],
+    "atomic_linelist": "ispec_ir_9200_13000 (NIR band list, 767 lines)",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 500000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "CN_AX_IR",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.925,
+        "kind": "3d_offset_owed",
+        "a_corr": 7.925,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}
