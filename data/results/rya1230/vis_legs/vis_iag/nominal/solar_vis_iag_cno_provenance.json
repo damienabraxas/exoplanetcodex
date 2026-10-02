@@ -1,0 +1,196 @@
+{
+  "abundances": {
+    "C": 8.46,
+    "N": 7.858,
+    "O": 8.836,
+    "C/O": 0.421
+  },
+  "iterations": 5,
+  "converged": false,
+  "flags": [
+    "pinned_not_measured:C=8.460",
+    "co_equilibrium_not_converged"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": 0.079,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.079
+    },
+    "N": {
+      "stat": 0.746,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.746
+    },
+    "O": {
+      "stat": 0.262,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.262
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "vis_iag",
+    "instrument": "iag_fts_solar_atlas",
+    "R_LSF": 700000.0,
+    "local_continuum_RYA1230": [
+      {
+        "window_A": [
+          5051.3,
+          5053.0
+        ],
+        "level": 0.9686697833254969,
+        "slope_per_A": -0.000653922419591292,
+        "n_pix": 260,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9687 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-5.85 A (line window +/-0.85 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          5379.3,
+          5381.3
+        ],
+        "level": 0.9777831795409124,
+        "slope_per_A": 0.00032194377027877885,
+        "n_pix": 230,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-6 A (line window +/-1 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          5160.0,
+          5166.0
+        ],
+        "level": 0.9728765079304443,
+        "slope_per_A": 0.0003311446753152068,
+        "n_pix": 249,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-8 A (line window +/-3 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6125.0,
+          6130.0
+        ],
+        "level": 0.9894039845466384,
+        "slope_per_A": -0.00010599897838035926,
+        "n_pix": 177,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-7.5 A (line window +/-2.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6195.0,
+          6200.0
+        ],
+        "level": 0.9949492970726522,
+        "slope_per_A": -0.001169302839092123,
+        "n_pix": 173,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-7.5 A (line window +/-2.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6299.5,
+          6301.0
+        ],
+        "level": 0.9943982329157002,
+        "slope_per_A": -0.0011110239256306117,
+        "n_pix": 168,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 10% pixels within +/-5.75 A (line window +/-0.75 A excluded), degree 1"
+      }
+    ],
+    "atomic_linelist": "GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353) \u2014 band VIS",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 700000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "CI_5052",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.531,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.513,
+        "delta": -0.018,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "CI_5380",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.258,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.239,
+        "delta": -0.019,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "C2_Swan",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.408,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.408,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CN_red",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.858,
+        "kind": "3d_offset_owed",
+        "a_corr": 7.858,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "OI_6300",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 8.836,
+        "kind": "cited_3d_anchor",
+        "a_corr": 8.73,
+        "delta": -0.106,
+        "flag": "3d_lte_caffau2015",
+        "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
+        "unc": 0.05
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}

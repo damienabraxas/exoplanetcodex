@@ -1,0 +1,208 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    7550.0,
+    8000.0
+  ],
+  "fit_window_A": [
+    7525.0,
+    8025.0
+  ],
+  "molecules": [
+    "H2O",
+    "O2"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0752",
+      "md5": "6312cb923c4eb969d50b91ace36981de",
+      "own_range_A": [
+        7520.0,
+        7560.0
+      ],
+      "n_kept": 4437
+    },
+    {
+      "segment": "lm0756",
+      "md5": "18f6f6fb3abca96e62802a7a012a1520",
+      "own_range_A": [
+        7560.0,
+        7600.0
+      ],
+      "n_kept": 4896
+    },
+    {
+      "segment": "lm0760",
+      "md5": "113e60ff46adbb02daa880947767c92c",
+      "own_range_A": [
+        7600.0,
+        7640.0
+      ],
+      "n_kept": 4845
+    },
+    {
+      "segment": "lm0764",
+      "md5": "8539740ceaa48545834334a471227705",
+      "own_range_A": [
+        7640.0,
+        7680.0
+      ],
+      "n_kept": 4794
+    },
+    {
+      "segment": "lm0768",
+      "md5": "b71c5b977dd6aeff5eb3e51fbca68c10",
+      "own_range_A": [
+        7680.0,
+        7720.0
+      ],
+      "n_kept": 4745
+    },
+    {
+      "segment": "lm0772",
+      "md5": "2bd27b301d02cb89d698b8cabe5f5694",
+      "own_range_A": [
+        7720.0,
+        7760.0
+      ],
+      "n_kept": 4695
+    },
+    {
+      "segment": "lm0776",
+      "md5": "0f3db87018cc495a3d23558c3fd42e0c",
+      "own_range_A": [
+        7760.0,
+        7800.0
+      ],
+      "n_kept": 4648
+    },
+    {
+      "segment": "lm0780",
+      "md5": "26cb3c70e7f548f74f2f3392cf092bdc",
+      "own_range_A": [
+        7800.0,
+        7840.0
+      ],
+      "n_kept": 4600
+    },
+    {
+      "segment": "lm0784",
+      "md5": "fdccc3419fac289e7dc7cd588cb08bdb",
+      "own_range_A": [
+        7840.0,
+        7880.0
+      ],
+      "n_kept": 4553
+    },
+    {
+      "segment": "lm0788",
+      "md5": "c73cd7d37bbfc8c172da0733fdfbef09",
+      "own_range_A": [
+        7880.0,
+        7920.0
+      ],
+      "n_kept": 4507
+    },
+    {
+      "segment": "lm0792",
+      "md5": "6da1f0bb68fc55b30cedce0d93f8ca74",
+      "own_range_A": [
+        7920.0,
+        7960.0
+      ],
+      "n_kept": 4462
+    },
+    {
+      "segment": "lm0796",
+      "md5": "7f0b0d10a5b8a4d41c6ea047dbc15e28",
+      "own_range_A": [
+        7960.0,
+        8000.0
+      ],
+      "n_kept": 4418
+    },
+    {
+      "segment": "lm0800",
+      "md5": "f2ffca0b2eedab9c22ffe1eb1292f736",
+      "own_range_A": [
+        8000.0,
+        8040.0
+      ],
+      "n_kept": 4373
+    }
+  ],
+  "n_atlas_pixels": 57852,
+  "resample_step_A": 0.008599999999205465,
+  "n_fit_pixels": 58139,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/Users/ryanschmitt/codex/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "externally_validated": true,
+  "solar_mask_intervals": 197,
+  "solar_mask_pixels": 7687,
+  "solar_mask_fraction": 0.1322,
+  "atlas_resolving_power": 148000.0,
+  "expected_lsf_fwhm_pix": 6.108579510306658,
+  "lsf_start_ladder_pix": [
+    6.109,
+    4.887,
+    7.636,
+    3.971,
+    9.774,
+    3.054
+  ],
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 6.109,
+      "gaussfwhm": 6.092758753523378,
+      "reduced_chi2": 5.813505318298139,
+      "rms_rel_to_mean": 0.024110972792212103,
+      "column_scale": 2.8308,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_H2O": 2.8307787153212534,
+      "rel_mol_col_O2": 1.3557063083666383
+    }
+  ],
+  "accepted": "/Users/ryanschmitt/codex/rya1230_runs/molecfit/c_7550_8000/start_6p11",
+  "correction": {
+    "dt_transmission_sigma": 0.004649143983848272,
+    "t_min": 0.09298287967696543,
+    "n_corrected": 56247,
+    "n_quarantined": 1604,
+    "before": {
+      "n": 52395,
+      "min": -0.00682,
+      "median": 0.98827,
+      "pct_below_0.5": 7.1438114323885875,
+      "pct_below_0.95": 24.590132646244868
+    },
+    "after": {
+      "n": 50791,
+      "min": -0.05016985896514574,
+      "median": 0.9931086993186891,
+      "pct_below_0.5": 0.4469295741371503,
+      "pct_below_0.95": 9.743852257289678
+    },
+    "vs_reference_before": {
+      "n": 52395,
+      "rms": 0.2310021427094974,
+      "median_offset": -0.00502864771054623
+    },
+    "vs_reference_after": {
+      "n": 50791,
+      "rms": 0.06812206757248998,
+      "median_offset": -0.0029754159528444513
+    },
+    "reference_kind": "kurucz2005"
+  }
+}

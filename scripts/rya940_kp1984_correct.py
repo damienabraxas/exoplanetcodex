@@ -201,9 +201,14 @@ def write_inputs(w: np.ndarray, f: np.ndarray, molecules: list[str], include: li
     ]).writeto(destination / "wave_include.fits", overwrite=True)
     fits.BinTableHDU.from_columns([
         fits.Column(name="LIST_MOLEC", format="8A", array=molecules),
+        # RYA-1230: RYA1230_FIXED_COLS="H2O=2.435,O2=1.359" holds each column at the value
+        # the atmosphere was MEASURED to have in the constrained bands (a band with too few
+        # telluric lines to fit its own columns -- the blue). Nothing is fitted then.
         fits.Column(name="FIT_MOLEC", format="1J",
-                    array=np.ones(len(molecules), dtype=np.int32)),
-        fits.Column(name="REL_COL", format="1D", array=np.ones(len(molecules))),
+                    array=np.array([0 if _fixed_cols().get(m) else 1 for m in molecules],
+                                   dtype=np.int32)),
+        fits.Column(name="REL_COL", format="1D",
+                    array=np.array([_fixed_cols().get(m, 1.0) for m in molecules])),
     ]).writeto(destination / "molecules.fits", overwrite=True)
 
     sof_lines = ["science.fits SCIENCE", "wave_include.fits WAVE_INCLUDE",
@@ -253,7 +258,8 @@ def run_molecfit(sof: Path, products: Path, lsf_pix: float,
         # HARPS fit drive a Lorentzian to its bound and eat the column (RYA-931).
         "--FIT_RES_BOX=FALSE", "--RES_BOX=0.0",
         "--FIT_RES_LORENTZ=FALSE", "--RES_LORENTZ=0.0",
-        "--FIT_RES_GAUSS=TRUE", f"--RES_GAUSS={lsf_pix:.4f}",
+        f"--FIT_RES_GAUSS={'FALSE' if os.environ.get('RYA1230_FIX_LSF') else 'TRUE'}",
+        f"--RES_GAUSS={lsf_pix:.4f}",
         "--KERNMODE=FALSE", "--KERNFAC=5.0",
         # Every observing condition is supplied as a VALUE: there are no headers
         # to read, and TELESCOPE_ANGLE is 90 deg because the airmass is unknown
@@ -376,6 +382,11 @@ def apply_and_verify(chosen: Path, grid: np.ndarray, resampled: np.ndarray,
     }
 
 
+def _fixed_cols() -> dict:
+    raw = os.environ.get("RYA1230_FIXED_COLS", "")
+    return {k: float(v) for k, v in (x.split("=") for x in raw.split(",") if x)}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("atlas_dir", type=Path)
@@ -398,6 +409,9 @@ def main() -> None:
                          "beyond 10000 A, where neither Kurucz 2005 nor IAG reaches, and "
                          "the resulting correction is therefore UNVALIDATED against any "
                          "external product -- which the manifest records explicitly.")
+    ap.add_argument("--fix-lsf-ratio", type=float, default=None,
+                    help="RYA-1230: FIX the Gaussian LSF at this multiple of the expected "
+                         "width (measured on an adjacent constrained band); fit columns only")
     args = ap.parse_args()
 
     lo, hi = args.lo - args.pad, args.hi + args.pad
@@ -412,6 +426,12 @@ def main() -> None:
     masked_px = sum(int(round((b - a) / step)) + 1 for a, b in exclude)
     expected_fwhm_pix = (0.5 * (args.lo + args.hi) / ATLAS_RESOLVING_POWER) / step
     ladder = [round(m * expected_fwhm_pix, 3) for m in LSF_START_MULTIPLIERS]
+    if args.fix_lsf_ratio is not None:
+        # RYA-1230: a band with too few telluric lines to constrain the kernel (the blue)
+        # takes a FIXED Gaussian width = the measured fitted/expected ratio of the adjacent
+        # constrained band x this band's own expected width. Only the columns are fitted.
+        os.environ["RYA1230_FIX_LSF"] = "1"
+        ladder = [round(args.fix_lsf_ratio * expected_fwhm_pix, 3)]
     attempts, chosen = [], None
     for start in ladder:
         attempt = args.output / f"start_{start:.2f}".replace(".", "p")
@@ -480,6 +500,8 @@ def main() -> None:
         "expected_lsf_fwhm_pix": expected_fwhm_pix,
         "lsf_start_ladder_pix": ladder,
         "lsf_attempts": attempts,
+        "lsf_fixed_ratio": args.fix_lsf_ratio,
+        "fixed_columns": _fixed_cols() or None,
         "accepted": str(chosen) if chosen else None,
         "correction": correction,
     }

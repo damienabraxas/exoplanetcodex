@@ -1,0 +1,7 @@
+A_X,red_chi2,sigma_fit,n_pix,n_eval,status,frac_rise_weaker,edge_distance_dex,constrained,reason,key,element,role,wall_s,A_X_nlte,nlte_delta,nlte_flag,nlte_ref
+8.486,17.892,0.027,600,15,ok,37.78087419129852,1.1836021590988661,True,,CH_Gband,C,primary,37.7,8.486,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+8.366,61.336,0.097,170,21,ok,0.2788368647343824,1.0796276464518728,True,,CI_5052,C,cross_check,21.9,8.366,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.482,56.696,0.055,200,13,ok,0.23654822724728228,1.1957815919979575,True,,CI_5380,C,cross_check,13.0,8.482,0.0,cI_vis_lte_assumed,Alexeeva & Mashonkina 2015: optical C I ΔNLTE < 0.03 dex
+8.398,18.057,0.01,600,20,ok,1.394969653142499,1.1121544773193657,True,,C2_Swan,C,cross_check,23.3,8.398,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+7.378,33.861,1.087,1000,23,ok,3.297570839447793e-05,1.1092129799172694,True,,CN_red,N,primary,60.5,7.378,0.0,lte_molecular_band,molecular band — no NLTE grid (LTE-by-design)
+7.499,73.489,,150,21,edge_pinned,-1.338730366924026e-06,0.009343116561947973,False,"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -1.34e-06 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711).",OI_6300,O,primary,23.8,7.499,0.0,lte_forbidden_insensitive,[O I] forbidden — LTE-insensitive

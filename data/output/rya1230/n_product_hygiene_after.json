@@ -1,0 +1,526 @@
+{
+ "ticket": "RYA-1230",
+ "part": "A hygiene",
+ "feed_version": "1.15",
+ "n_products": 9,
+ "key_fields": [
+  "element",
+  "ion",
+  "band",
+  "instrument",
+  "holding",
+  "tier",
+  "selector",
+  "route",
+  "treatment",
+  "line_set"
+ ],
+ "products": [
+  {
+   "index": 0,
+   "selector": "SET-AGSS21",
+   "treatment": "1D-LTE",
+   "band": "red-optical",
+   "holding": "solar_iag",
+   "ion": "I",
+   "A": 8.351,
+   "n_lines": 4,
+   "artifact": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv",
+   "sha256": "d1fbf12d550732231df32e167ae4832ec0e079c4004546f93caff0540e3784c7",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_1D-LTE_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "iag_fts_solar_atlas",
+    "holding": "solar_iag",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  },
+  {
+   "index": 1,
+   "selector": "SET-AGSS21",
+   "treatment": "1D-LTE",
+   "band": "red-optical",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "I",
+   "A": 8.293,
+   "n_lines": 4,
+   "artifact": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv",
+   "sha256": "90dc80dc68d666cc92ea246e61454004a696e5eab8235921d1b5a70f686e5276",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  },
+  {
+   "index": 2,
+   "selector": "SET-AGSS21",
+   "treatment": "1D-LTE",
+   "band": "red-optical",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "A": 8.287,
+   "n_lines": 4,
+   "artifact": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+   "sha256": "87578160b01fd18df722a22b88eec9019d3efc3fc1ef684ed766b46b1bb77af6",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_molecfit_corrected",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  },
+  {
+   "index": 3,
+   "selector": "SET-AGSS21",
+   "treatment": "ENGINE-A",
+   "band": "red-optical",
+   "holding": "solar_iag",
+   "ion": "I",
+   "A": 8.091,
+   "n_lines": 2,
+   "artifact": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+   "sha256": "aa82ee1637013b3b34a69f55c16d2af69180a9539b67406a972ddda1d9cda621",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    8216.336,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "iag_fts_solar_atlas",
+    "holding": "solar_iag",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "ENGINE-A",
+    "line_set": null
+   }
+  },
+  {
+   "index": 4,
+   "selector": "SET-AGSS21",
+   "treatment": "ENGINE-A",
+   "band": "red-optical",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "I",
+   "A": 8.189,
+   "n_lines": 2,
+   "artifact": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+   "sha256": "ae17208b1ffcd06e5eaf9c8971adc16630c14485955e6cbdaaac4719a92a34ce",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    8216.336,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "ENGINE-A",
+    "line_set": null
+   }
+  },
+  {
+   "index": 5,
+   "selector": "SET-AGSS21",
+   "treatment": "ENGINE-A",
+   "band": "red-optical",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "A": 8.016,
+   "n_lines": 2,
+   "artifact": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+   "sha256": "a88325dceb9770b20cbbecff32bc8b8e4776116a1214f414906da4b367fa6e61",
+   "kind": "ATOMIC",
+   "lines_csv": "data/results/band_products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv",
+   "species": [
+    "N I"
+   ],
+   "lines": [
+    7442.298,
+    8216.336,
+    8629.235,
+    8683.403
+   ],
+   "in_aggregate": [
+    8216.336,
+    8683.403
+   ],
+   "measures": "A(N) from N I atomic lines (AGSS21 five-line set)",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "red-optical",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_molecfit_corrected",
+    "tier": "ALL",
+    "selector": "SET-AGSS21",
+    "route": "SYNTH",
+    "treatment": "ENGINE-A",
+    "line_set": null
+   }
+  },
+  {
+   "index": 6,
+   "selector": "MOL-CN_red",
+   "treatment": "1D-LTE",
+   "band": "VIS",
+   "holding": "solar_harps_molecfit_corrected",
+   "ion": "I",
+   "A": 7.384,
+   "n_lines": 194,
+   "artifact": "data/results/band_products/NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv",
+   "sha256": "3693da7ea8f6695a379152368be123200b8d9183b9f88cf8b364384348cdcbe5",
+   "kind": "MOLECULAR",
+   "diagnostic": "CN_red",
+   "region": "vis",
+   "windows_A": [
+    [
+     6125.0,
+     6130.0
+    ],
+    [
+     6195.0,
+     6200.0
+    ]
+   ],
+   "window_span_A": 10.0,
+   "molecular_lines_by_species": {
+    "12C14N": 194,
+    "13C14N": 109,
+    "12C12C": 98,
+    "12C13C": 95,
+    "13C13C": 89,
+    "16OH": 70,
+    "12CH": 51,
+    "14N-1H__kNigHt_rovib": 47,
+    "13CH": 46,
+    "16O-1H__MYTHOS_rovib": 43,
+    "12C-1H__MoLLIST_rovib": 40,
+    "14NH": 21,
+    "12C15N": 3
+   },
+   "atomic_lines_by_species_top": {
+    "Fe 1": 47,
+    "S 1": 31,
+    "Fe 2": 26,
+    "V 1": 20,
+    "Cr 2": 17,
+    "Sc 1": 9,
+    "Ce 2": 9,
+    "Ti 1": 9
+   },
+   "n_I_lines_in_windows": 0,
+   "n_lines_is": "12C14N lines in the fit windows",
+   "n_lines_recount": 194,
+   "n_lines_reproduced": true,
+   "measures": "A(N) from the 12C14N (CN A-X) band at fixed A(C); NOT an N I measurement",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "VIS",
+    "instrument": "harps",
+    "holding": "solar_harps_molecfit_corrected",
+    "tier": "ALL",
+    "selector": "MOL-CN_red",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  },
+  {
+   "index": 7,
+   "selector": "MOL-CN_AX_IR",
+   "treatment": "1D-LTE",
+   "band": "NIR",
+   "holding": "solar_iag",
+   "ion": "I",
+   "A": 7.999,
+   "n_lines": 244,
+   "artifact": "data/results/band_products/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv",
+   "sha256": "f327365aff670ef76700c3ef2a90093d73776bccad26166eb8ade6309a676dc6",
+   "kind": "MOLECULAR",
+   "diagnostic": "CN_AX_IR",
+   "region": "nir_cn_iag",
+   "windows_A": [
+    [
+     10870.68,
+     10874.0
+    ],
+    [
+     10879.21,
+     10885.06
+    ],
+    [
+     10896.04,
+     10899.04
+    ],
+    [
+     10973.04,
+     10976.04
+    ],
+    [
+     10979.57,
+     10982.57
+    ],
+    [
+     10988.82,
+     10991.82
+    ],
+    [
+     11003.92,
+     11006.92
+    ],
+    [
+     11009.25,
+     11014.16
+    ],
+    [
+     11019.86,
+     11023.26
+    ],
+    [
+     11065.46,
+     11068.46
+    ],
+    [
+     11071.13,
+     11074.13
+    ],
+    [
+     11079.56,
+     11082.56
+    ]
+   ],
+   "window_span_A": 41.48,
+   "molecular_lines_by_species": {
+    "12C14N": 244,
+    "16O-1H__MYTHOS_rovib": 142,
+    "14N-1H__kNigHt_rovib": 50,
+    "12C-1H__MoLLIST_rovib": 16
+   },
+   "atomic_lines_by_species_top": {
+    "Al 1": 4,
+    "Fe 1": 4,
+    "Si 1": 3,
+    "Ni 1": 2,
+    "Ca 1": 1
+   },
+   "n_I_lines_in_windows": 0,
+   "n_lines_is": "12C14N lines in the fit windows",
+   "n_lines_recount": 244,
+   "n_lines_reproduced": true,
+   "measures": "A(N) from the 12C14N (CN A-X) band at fixed A(C); NOT an N I measurement",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "NIR",
+    "instrument": "iag_fts_solar_atlas",
+    "holding": "solar_iag",
+    "tier": "ALL",
+    "selector": "MOL-CN_AX_IR",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  },
+  {
+   "index": 8,
+   "selector": "MOL-CN_AX_IR",
+   "treatment": "1D-LTE",
+   "band": "NIR",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "A": 8.233,
+   "n_lines": 215,
+   "artifact": "data/results/band_products/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv",
+   "sha256": "523ad48ba86edc1f03e8e1d23045bffa5844b14b2e48a9391781e46f393a7bf6",
+   "kind": "MOLECULAR",
+   "diagnostic": "CN_AX_IR",
+   "region": "nir_cn_kp",
+   "windows_A": [
+    [
+     10988.82,
+     10991.82
+    ],
+    [
+     11003.92,
+     11006.92
+    ],
+    [
+     11009.25,
+     11014.16
+    ],
+    [
+     11019.86,
+     11023.26
+    ],
+    [
+     11071.13,
+     11074.13
+    ],
+    [
+     11079.56,
+     11082.56
+    ],
+    [
+     11091.45,
+     11094.76
+    ],
+    [
+     11106.99,
+     11109.99
+    ],
+    [
+     11576.5,
+     11579.5
+    ],
+    [
+     11640.31,
+     11643.31
+    ],
+    [
+     11710.6,
+     11713.6
+    ],
+    [
+     11798.36,
+     11801.36
+    ]
+   ],
+   "window_span_A": 38.62,
+   "molecular_lines_by_species": {
+    "12C14N": 215,
+    "16O-1H__MYTHOS_rovib": 125,
+    "14N-1H__kNigHt_rovib": 83,
+    "12C-1H__MoLLIST_rovib": 10
+   },
+   "atomic_lines_by_species_top": {
+    "Si 1": 2,
+    "Fe 1": 1,
+    "C 1": 1
+   },
+   "n_I_lines_in_windows": 0,
+   "n_lines_is": "12C14N lines in the fit windows",
+   "n_lines_recount": 215,
+   "n_lines_reproduced": true,
+   "measures": "A(N) from the 12C14N (CN A-X) band at fixed A(C); NOT an N I measurement",
+   "key": {
+    "element": "N",
+    "ion": "I",
+    "band": "NIR",
+    "instrument": "kpno_solar_atlas",
+    "holding": "solar_kpno_molecfit_corrected",
+    "tier": "ALL",
+    "selector": "MOL-CN_AX_IR",
+    "route": "SYNTH",
+    "treatment": "1D-LTE",
+    "line_set": null
+   }
+  }
+ ],
+ "duplicate_groups": [],
+ "n_duplicate_rows": 0
+}

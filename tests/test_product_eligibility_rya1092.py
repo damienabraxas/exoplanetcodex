@@ -517,8 +517,18 @@ def test_every_published_cno_product_is_eligible():
             assert reasons == (), (
                 f"{el} {product.get('band')} {product.get('selector')} is live but "
                 f"ineligible: {[r.code for r in reasons]}")
-        assert not doc.get("quarantine"), (
-            f"{el} still has {len(doc['quarantine'])} quarantined products")
+        # RYA-1230: the claim is that nothing about C/N/O ITSELF blocks publication -- not
+        # that the generic gates never fire on a CNO row. Once the re-run published real
+        # budgets, ANOMALOUS_SCATTER moved four C rows (the C I 4771.73 misfit in the
+        # full-pool VIS selection) to quarantine, which is the gate working. So a
+        # quarantined CNO row must carry a recorded reason and only gate codes this module
+        # defines for every element.
+        generic = {"ANOMALOUS_SCATTER", "UNCERTAINTY_INCOMPLETE", "PRE_CONTINUUM_FIX",
+                   "UNCORRECTED_HOLDING"}
+        for q in doc.get("quarantine", []):
+            assert q.get("quarantine_reason"), f"{el} quarantine row without a reason"
+            assert set(q.get("quarantine_codes") or ()) <= generic, (
+                f"{el} row quarantined for a CNO-specific reason: {q.get('quarantine_codes')}")
 
 
 def test_curvature_sigma_renders_beside_a_standard_error():

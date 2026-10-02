@@ -1,0 +1,232 @@
+{
+  "abundances": {
+    "C": 8.481,
+    "N": 7.83,
+    "O": 8.795,
+    "C/O": 0.485
+  },
+  "iterations": 3,
+  "converged": true,
+  "flags": [
+    "N_primary_unconstrained:CN_red",
+    "N_primary_unconstrained:CN_red",
+    "N_primary_unconstrained:CN_red"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": 0.032,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.032
+    },
+    "N": {
+      "stat": 0.239,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.239
+    },
+    "O": {
+      "stat": 0.382,
+      "sys": 0.0,
+      "stat_state": "MEASURED",
+      "tot": 0.382
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "vis",
+    "instrument": "HARPS",
+    "R_LSF": 115000.0,
+    "local_continuum_RYA1230": [
+      {
+        "window_A": [
+          4303.5,
+          4306.5
+        ],
+        "level": 0.9767664309303884,
+        "slope_per_A": -0.00084154048908065,
+        "n_pix": 200,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          4310.0,
+          4313.0
+        ],
+        "level": 0.9436353925984359,
+        "slope_per_A": -0.003455977739741912,
+        "n_pix": 200,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9436 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6.5 A (line window +/-1.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          5051.3,
+          5053.0
+        ],
+        "level": 0.9797466865602132,
+        "slope_per_A": -0.0005641762787809501,
+        "n_pix": 200,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-5.85 A (line window +/-0.85 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          5379.3,
+          5381.3
+        ],
+        "level": 0.969568625315552,
+        "slope_per_A": 0.001138822969119603,
+        "n_pix": 200,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9696 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-6 A (line window +/-1 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          5160.0,
+          5166.0
+        ],
+        "level": 0.9955330906816396,
+        "slope_per_A": 0.00026138576601668714,
+        "n_pix": 200,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-8 A (line window +/-3 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6125.0,
+          6130.0
+        ],
+        "level": 0.9906943757557846,
+        "slope_per_A": 8.295850391584503e-05,
+        "n_pix": 200,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-7.5 A (line window +/-2.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6195.0,
+          6200.0
+        ],
+        "level": 0.9969050949490704,
+        "slope_per_A": -0.00028992567097752946,
+        "n_pix": 200,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-7.5 A (line window +/-2.5 A excluded), degree 1"
+      },
+      {
+        "window_A": [
+          6299.5,
+          6301.0
+        ],
+        "level": 0.9541784706636448,
+        "slope_per_A": -0.00557931480522414,
+        "n_pix": 200,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 0.9542 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synth on the synthesis's top 20% pixels within +/-5.75 A (line window +/-0.75 A excluded), degree 1"
+      }
+    ],
+    "atomic_linelist": "GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353) \u2014 band VIS",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 115000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "CH_Gband",
+        "element": "C",
+        "role": "primary",
+        "a_lte": 8.481,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.481,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CI_5052",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.368,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.351,
+        "delta": -0.017,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "CI_5380",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.517,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.498,
+        "delta": -0.019,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "C2_Swan",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.438,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.438,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CN_red",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.197,
+        "kind": "3d_offset_owed",
+        "a_corr": 7.197,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "OI_6300",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 8.795,
+        "kind": "cited_3d_anchor",
+        "a_corr": 8.73,
+        "delta": -0.065,
+        "flag": "3d_lte_caffau2015",
+        "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
+        "unc": 0.05
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}

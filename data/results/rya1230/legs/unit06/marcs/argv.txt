@@ -1,0 +1,2 @@
+~/codex/venv/bin/python scripts/derive_band_products.py --element C --ion I --lo 4200 --hi 6910 --instrument harps --holding solar_harps_molecfit_corrected --force-synthesis --skip-engine-b --out ~/codex/rya1230_runs/legs2/unit06/marcs
+{'CODEX_MODEL_GRID': 'MARCS.GES'}

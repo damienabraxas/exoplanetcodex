@@ -1,0 +1,233 @@
+{
+ "ticket": "RYA-1230",
+ "products": [
+  {
+   "region": "nir_cn_iag",
+   "holding": "solar_iag",
+   "A": 7.871,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.18326954704485818,
+   "holds": [],
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.04
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.11512083467811819
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.013104000000000497
+    ],
+    "continuum": [
+     "MEASURED",
+     0.015499999999999847
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.026999999999999247
+    ],
+    "model_atmosphere": [
+     "DEFINED",
+     0.061
+    ],
+    "telluric": [
+     "MEASURED",
+     0.026130437189371313
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.07667999999999982
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.08550048732804537
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv"
+  },
+  {
+   "region": "nir_cn_kp",
+   "holding": "solar_kpno_molecfit_corrected",
+   "A": 7.896,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.18686268165946107,
+   "holds": [],
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.025
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.11512083467811819
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.005823999999999358
+    ],
+    "continuum": [
+     "MEASURED",
+     0.0040000000000000036
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.02400000000000002
+    ],
+    "model_atmosphere": [
+     "DEFINED",
+     0.061
+    ],
+    "telluric": [
+     "DEFINED",
+     0.049769397330540956
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.0830999999999998
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.08550048732804537
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv"
+  },
+  {
+   "region": "j_cn_crires",
+   "holding": "solar_crires_plus_j_rya1219",
+   "A": 8.03,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.19037831904967475,
+   "holds": [],
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.082
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.11512083467811819
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.013104000000000497
+    ],
+    "continuum": [
+     "MEASURED",
+     0.013500000000000068
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0039999999999995595
+    ],
+    "model_atmosphere": [
+     "DEFINED",
+     0.061
+    ],
+    "telluric": [
+     "MEASURED",
+     0.020677892490769935
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.06662000000000019
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.08550048732804537
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "NI_MOL_CN_AX_IR_crires_plus_solar_crires_plus_j_rya1219_SYNTH_MOL-CN_AX_IR_products.csv"
+  }
+ ]
+}

@@ -1,0 +1,2 @@
+~/codex/venv/bin/python scripts/derive_band_products.py --element N --ion I --lo 6910 --hi 9199 --instrument iag_fts_solar_atlas --holding solar_iag --force-synthesis --skip-engine-b --lines-from-set LBP25=data/linelists/reference_sets/lbp25_magg22_N_rya1230.csv --out ~/codex/rya1230_runs/legs2/unit03/xi_plus
+{'CODEX_XI_OVERRIDE': '1.10'}

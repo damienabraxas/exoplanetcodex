@@ -292,6 +292,24 @@ def _xi_override():
             "produce a product labelled as perturbed and measured at the default.")
 
 
+#: RYA-1230 -- the model_atmosphere term of the RYA-587 budget, measured on a product's OWN
+#: pool: the same run with the grid swapped, nothing else varied. Env-scoped and LOUD, the
+#: CODEX_XI_OVERRIDE pattern above, so no production call site changes. Only the two grids
+#: the pipeline already loads are admitted; anything else stops the run rather than
+#: silently measuring the default.
+_MODEL_GRIDS = ('ATLAS9.Castelli', 'MARCS.GES')
+
+
+def _model_grid_override():
+    import os
+    raw = os.environ.get("CODEX_MODEL_GRID")
+    if raw is None or str(raw).strip() == "":
+        return None
+    if raw not in _MODEL_GRIDS:
+        raise SystemExit(f"CODEX_MODEL_GRID={raw!r} is not one of {_MODEL_GRIDS}.")
+    return raw
+
+
 def build_solar_context(element: str, resolving_power: float, *,
                         linelist_file: str = None,
                         apply_canonical_gf: bool = True,
@@ -357,7 +375,28 @@ def build_solar_context(element: str, resolving_power: float, *,
     linelist, isotopes, chem = _load_synth_resources(
         linelist_file=linelist_file, apply_canonical_gf=apply_canonical_gf)
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
-    atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_ATLAS9)
+    # RYA-1230 -- the `blends` leg of the RYA-587 budget for an atomic line whose profile
+    # carries molecular absorption (CN inside the solar N I lines): the SAME run with ONE
+    # OTHER element's abundance offset, so the molecular blend strength moves and nothing
+    # else does. Env-scoped and LOUD; the fitted element itself may not be offset.
+    import os as _os
+    _off = _os.environ.get("CODEX_ABUND_OFFSET")
+    if _off:
+        _sym, _dex = _off.split(":")
+        if _sym == element:
+            raise SystemExit(f"CODEX_ABUND_OFFSET may not offset the fitted element {element}")
+        _code = int(_atom_codes([_sym], chem, solar_abund)[_sym])
+        _field = solar_abund.dtype.names[1]
+        _row = solar_abund['code'] == _code
+        if int(_row.sum()) != 1:
+            raise SystemExit(f"CODEX_ABUND_OFFSET: {_sym} (code {_code}) not found exactly once")
+        solar_abund = solar_abund.copy()
+        solar_abund[_field][_row] += float(_dex)
+        print(f"  \u26a0\ufe0f  ABUNDANCE OFFSET (RYA-1230 budget leg): A({_sym}) {float(_dex):+.3f} dex")
+    _grid = _model_grid_override() or _ATLAS9
+    if _grid != _ATLAS9:
+        print(f"  \u26a0\ufe0f  MODEL GRID OVERRIDE (RYA-1230 budget leg): {_ATLAS9} -> {_grid}")
+    atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_grid)
     codes = _atom_codes([element], chem, solar_abund)
 
     return dict(element=element, atmosphere=atm, teff=teff, logg=logg, feh=feh, vturb=vturb,
@@ -365,7 +404,7 @@ def build_solar_context(element: str, resolving_power: float, *,
                 chem_elements=chem, atom_code=int(codes[element]),
                 resolving_power=float(resolving_power),
                 macroturbulence=float(vmac), vsini=float(vsini),
-                model_grid=_ATLAS9, tmp_dir=tmp_dir,
+                model_grid=_grid, tmp_dir=tmp_dir,
                 solar_A=float(_ispec_solar_A_map([element], chem, solar_abund)[element]))
 
 

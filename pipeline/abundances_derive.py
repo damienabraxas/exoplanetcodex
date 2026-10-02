@@ -1290,6 +1290,9 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     lines carry A_X=nan / the edge value and are marked, never substituted.
     """
     mask = (obs_wave_nm >= wave_base) & (obs_wave_nm <= wave_top)
+    # RYA-1230: a non-finite observed pixel is a MASKED pixel (the telluric budget leg
+    # blanks the pixels a measured sky absorbs); it never enters chi2.
+    mask &= np.isfinite(obs_flux)
     ow, of = obs_wave_nm[mask], obs_flux[mask]
     if of.size < 5:
         return {'status': 'failed', 'reason': 'too few observed pixels',

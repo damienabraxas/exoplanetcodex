@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -971,6 +972,18 @@ def synthesis_route(a, pol) -> None:
             f"no synthesis configuration for band {pol.name!r} — refusing to invent a "
             f"half-width and line-selection rule for a regime nobody has characterised. "
             f"Add an entry to SYNTH_BANDS with its reasoning.")
+    # RYA-1230: a paired lever run overrides ONE band input, named on the command line,
+    # so the two legs of a comparison differ in exactly that input and nothing else.
+    from dataclasses import replace as _replace
+    _mol = getattr(a, "molecules", "config")
+    _cont = getattr(a, "continuum", "config")
+    if _mol != "config":
+        cfg = _replace(cfg, use_molecules=(_mol == "on"))
+    if _cont != "config":
+        cfg = _replace(cfg, continuum_apply=(_cont == "apply"))
+    if _mol != "config" or _cont != "config":
+        print(f"  [override] RYA-1230 paired lever: use_molecules={cfg.use_molecules} "
+              f"continuum_apply={cfg.continuum_apply} (band config overridden)")
 
     sys.path.insert(0, str(ROOT / "scripts"))
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
@@ -1129,6 +1142,31 @@ def synthesis_route(a, pol) -> None:
     #: BAND, not of a 1.2 A fit window. Fitting it per window would place the "continuum"
     #: inside the line being measured.
     _placed_cont: dict = {}
+    #: RYA-1230 — the local-continuum record per line centre, for the per-line artifact.
+    _continuum_by_line: dict = {}
+    _telluric_masked: dict = {}
+    _SKY_PAIRS = {"kpno_solar_atlas": ("solar_kpno", "solar_kpno_molecfit_corrected"),
+                  "harps": ("solar_harps", "solar_harps_molecfit_corrected"),
+                  "iag_fts_solar_atlas": ("solar_kpno", "solar_kpno_molecfit_corrected")}
+    _sky_edge: dict = {}
+
+    def _telluric_mask(w, centre, pad, instrument):
+        """Pixels of `w` a measured sky absorbs beyond its pair's clean edge (RYA-1079)."""
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import measure_band_ew as _H
+        from pipeline import telluric_observability as _T
+        raw, cor = _SKY_PAIRS[instrument]
+        sky_inst = "harps" if instrument == "harps" else "kpno_solar_atlas"
+        if raw not in _sky_edge:
+            snr, _ = _T.band_continuum_snr(_H, sky_inst, raw, a.lo, a.hi, pad)
+            _sky_edge[raw] = _T.thresholds(snr).clean_max_depth
+        ra = _H.load_window_ex(sky_inst, centre, pad + 0.5, holding=raw, allow_uncorrected=True)
+        co = _H.load_window_ex(sky_inst, centre, pad + 0.5, holding=cor, allow_uncorrected=True)
+        fr = np.interp(w, ra.wave, ra.flux)
+        fc = np.interp(w, co.wave, co.flux)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            t = np.where(fc > 0, fr / fc, 0.0)
+        return (1.0 - t) > _sky_edge[raw], f"T={raw}/{cor}, clean edge {_sky_edge[raw]:.5f}"
 
     def _band_continuum(h):
         """CONTINUUM_PARAMS['solar'] spline over the whole band, fitted once.
@@ -1183,7 +1221,16 @@ def synthesis_route(a, pol) -> None:
         return _placed_cont["f"]
 
     def _observed(centre: float, pad: float):
-        win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
+        # RYA-1230: read wide enough for the local continuum envelope (+/-5 A). The fit
+        # still masks to its own window, so the extra flux changes nothing else. A line
+        # too near its holding's edge for the envelope keeps the narrow read, and the
+        # rule then records CONTINUUM_UNCONSTRAINED for it rather than refusing the line.
+        from pipeline.local_continuum import ENV_HALF_WIDTH_A as _ENV
+        try:
+            win = load_window_ex(a.instrument, centre, max(pad, _ENV + 0.5),
+                                 holding=a.holding)
+        except LookupError:
+            win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
         if not h.pre_normalised and not getattr(a, "place_continuum", False):
             raise LookupError(
@@ -1242,6 +1289,65 @@ def synthesis_route(a, pol) -> None:
             _sig_px = (_fw / 2.35482) / _px
             _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
             _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
+        # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26). A local
+        # linear upper envelope over +/-5 A of THIS window, on every holding including the
+        # pre-normalised atlases, bounded to 3% of unity and recorded per line. Measured
+        # reason: those atlases sit 0.5-1% low around the solar N I lines, and a 0.5%-deep
+        # line spends that on A(X) (median -0.142 dex over 12 N I cells). `--local-renorm`
+        # (RYA-1000) is the older window-p95 convention; when it was asked for, it has
+        # already normalised the window and this does not divide a second time.
+        if not getattr(a, "local_renorm", False):
+            from pipeline import local_continuum as _lc
+            assert_not_renormalising(
+                h.holding_id, pre_normalised=h.pre_normalised, local_window_envelope=True,
+                where="derive_band_products._observed (RYA-1230 local envelope)")
+            # MODEL-GUIDED where the band synthesises (every band here): obs / synthetic
+            # on the synthesis's own top-decile pixels, the line window excluded. The
+            # absolute envelope double-counted absorption the synthesis also models
+            # (H-alpha wing at C I 6587, the CN forest at N I 8216) -- see
+            # local_continuum.fit_model_guided. The model is THIS run's: same context,
+            # atmosphere, molecules; the target element at the context's solar value.
+            from pipeline.abundances_derive import _synth_flux_at_abund
+            _env = _lc.ENV_HALF_WIDTH_A
+            Path(f"/tmp/ispec_cont_{os.getpid()}").mkdir(parents=True, exist_ok=True)
+            _mw = np.arange((centre - _env - 0.5) / 10.0, (centre + _env + 0.5) / 10.0, 0.0005)
+            _mf = _synth_flux_at_abund(
+                _mw, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
+                ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], a.element,
+                int(ctx["atom_code"]), float(ctx["solar_A"]),
+                R=float(ctx["resolving_power"]), macroturbulence=float(ctx["macroturbulence"]),
+                vsini=float(ctx["vsini"]), use_molecules=bool(cfg.use_molecules),
+                tmp_dir=f"/tmp/ispec_cont_{os.getpid()}")
+            _edge = (np.abs(_mw * 10.0 - centre) <= _env)          # iSpec zeroes synthesis edges
+            _rec, _cont = _lc.fit_model_guided(
+                _w, _f, centre, _mw[_edge] * 10.0, np.asarray(_mf)[_edge],
+                # the BAND's window, never the leg's: the core-window leg must not move
+                # the continuum too, or profile_ew would be confounded with it
+                exclude_half_width_A=float(cfg.half_width_A),
+                apply=cfg.continuum_apply)
+            _continuum_by_line[round(float(centre), 3)] = _rec
+            if _cont is not None:
+                _f = np.asarray(_f, float) / _cont
+            _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
+                     f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")
+        # RYA-1230 RYA-587 `telluric` leg: blank every pixel of this window where the
+        # MEASURED sky transmission (raw / corrected sibling pair, RYA-1079) absorbs by more
+        # than that pair's own clean edge (1/S0). The paired A(masked) - A(nominal) is then
+        # the pull the telluric-affected pixels exert on THIS pool. A holding with no raw
+        # sibling (IAG) takes the Kitt Peak pair's sky map: line POSITIONS are the
+        # atmosphere's, and the leg records which pair it used. Env-scoped; never production.
+        # RYA-1230 RYA-587 flux-sensitivity leg: the continuum placed 0.1% higher (flux
+        # divided by 1.001), so dA/df is MEASURED per line on this pool. It converts a
+        # measured flux residual (telluric) into dex without borrowing a sensitivity.
+        if os.environ.get("CODEX_CONT_SCALE"):
+            _f = np.asarray(_f, float) / float(os.environ["CODEX_CONT_SCALE"])
+            _prov = f"{_prov} | RYA-1230 CONT SCALE {os.environ['CODEX_CONT_SCALE']}"
+        if os.environ.get("CODEX_TELLURIC_MASK"):
+            _f = np.array(_f, float)
+            _nmask, _pair = _telluric_mask(np.asarray(_w, float), centre, pad, a.instrument)
+            _f[_nmask] = np.nan
+            _telluric_masked[round(float(centre), 3)] = (int(_nmask.sum()), _pair)
+            _prov = f"{_prov} | RYA-1230 TELLURIC MASK {_nmask.sum()} px ({_pair})"
         return _w, _f, _prov
 
     # 🔴 THE INSTRUMENT'S COVERAGE DRIVES THE RANGE — RYA-1046 (Ryan's call).
@@ -1426,7 +1532,8 @@ def synthesis_route(a, pol) -> None:
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
 
-    tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}"
+    # Per PROCESS (RYA-1230): two band runs launched in parallel shared this directory.
+    tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}_{os.getpid()}"
     Path(tmp).mkdir(parents=True, exist_ok=True)
     # 🔴 RYA-1044 — ONE FIT LOOP, CALLED TWICE. The Engine-B leg below re-fits THESE SAME
     # lines with the departures applied, and it must do so through THIS code rather than a
@@ -1488,6 +1595,12 @@ def synthesis_route(a, pol) -> None:
                 # populated on one route and blank on another is a schema a consumer has to
                 # special-case.
                 ep_eV=float(r.ep_eV),
+                # RYA-1230: what the standing continuum rule measured, and whether it was
+                # divided out -- on every line, applied or not.
+                continuum_level=_f(getattr(_continuum_by_line.get(round(w, 3)),
+                                           "level_at_centre", None)),
+                continuum_method=(lambda _r: f"{_r.method}; {_r.reason}" if _r else "")(
+                    _continuum_by_line.get(round(w, 3))),
                 # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
                 # here at all. Inheriting it would quarantine lines on a quantity that does
                 # not exist (RYA-770/342).
@@ -2281,6 +2394,17 @@ def synthesis_route(a, pol) -> None:
                                        np.array([l.wavelength_air_A for l in _used]),
                                        cache=a.mpia_cache, star=a.star),
                         engine_a_source(a.element), engine_a_model(a.element))
+        # 🔴 RYA-1230 — the N I 3D-NLTE leg. N has no Amarsi 2019 grid (C/O only), but
+        # Amarsi et al. 2020 Table 3 publishes the Sun's per-line 3D-NLTE and 1D-LTE
+        # abundances from the SAME EWs, so their difference is a cited per-line
+        # correction on all four in-band lines. Solar only; any other star is refused
+        # inside the module, so this is simply skipped there.
+        if a.element == "N" and str(a.ion) == "I" and a.star == "solar":
+            from pipeline import nlte_n_amarsi2020 as _n20
+            _emit_departure("ENGINE-A-3DNLTE",
+                            _n20.deltas([l.wavelength_air_A for l in _used], "3D",
+                                        star=a.star),
+                            _n20.source("3D"), "amarsi", gf="kurucz")
 
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
@@ -2515,6 +2639,13 @@ def main() -> None:
                          "instrument test — same spectrum, same lines, same pipeline, "
                          "only the resolution changes, so nothing else can explain a "
                          "difference. NOT for producing science products.")
+    ap.add_argument("--molecules", choices=("config", "on", "off"), default="config",
+                    help="RYA-1230: override the band's use_molecules for a PAIRED lever "
+                         "measurement. Default: the band config (config/synth_bands.yaml).")
+    ap.add_argument("--continuum", choices=("config", "apply", "record"), default="config",
+                    help="RYA-1230: override the band's standing local-continuum rule for a "
+                         "PAIRED lever measurement: apply = divide the local envelope out, "
+                         "record = measure and record only. Default: the band config.")
     ap.add_argument("--local-renorm", action="store_true",
                     help="RYA-1000: divide each fit window by its OWN local continuum "
                          "(95th percentile) before fitting, so both arms share one "

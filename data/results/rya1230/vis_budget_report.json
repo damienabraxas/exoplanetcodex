@@ -1,0 +1,495 @@
+{
+ "ticket": "RYA-1230",
+ "twins_A": {
+  "vis": {
+   "CH_Gband": 8.482,
+   "C2_Swan": 8.39,
+   "CI_5052": 8.369,
+   "CI_5380": 8.526,
+   "CN_red": 6.84,
+   "OI_6300": 8.81
+  },
+  "vis_kp_k05": {
+   "CH_Gband": 8.419,
+   "C2_Swan": 8.347,
+   "CI_5052": 8.392,
+   "CI_5380": 8.288,
+   "CN_red": 7.822,
+   "OI_6300": 8.697
+  },
+  "vis_kp_mf": {
+   "CH_Gband": 8.438,
+   "C2_Swan": 8.426,
+   "CI_5052": 8.396,
+   "CI_5380": 8.293,
+   "CN_red": 7.646,
+   "OI_6300": 8.959
+  },
+  "vis_iag": {
+   "CH_Gband": null,
+   "C2_Swan": 8.408,
+   "CI_5052": 8.531,
+   "CI_5380": 8.258,
+   "CN_red": 7.858,
+   "OI_6300": 8.836
+  }
+ },
+ "products": [
+  {
+   "key": "CH_Gband",
+   "selector": "MOL-CH_Gband",
+   "element": "C",
+   "A": 8.482,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.07617505329273323,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.005
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05295256732036271
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.036399999999997934
+    ],
+    "continuum": [
+     "MEASURED",
+     0.006999999999999673
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.010000000000001563
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.014000000000001123
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.01610500000000016
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.03231614663497631
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv"
+  },
+  {
+   "key": "C2_Swan",
+   "selector": "MOL-C2_Swan",
+   "element": "C",
+   "A": 8.39,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.12028886374813545,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.009
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.10440294241934718
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.02038399999999905
+    ],
+    "continuum": [
+     "MEASURED",
+     0.0045000000000001705
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.03500000000000014
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0259999999999998
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.0023299999999993838
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.033856314034460565
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv"
+  },
+  {
+   "key": "CI_5052",
+   "selector": "ATOM-CI_5052",
+   "element": "C",
+   "A": 8.369,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.12707265588237332,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.092
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.041393
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004368000000000165
+    ],
+    "continuum": [
+     "MEASURED",
+     0.006000000000000227
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0030000000000001137
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.02200000000000024
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0736342311700207
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv"
+  },
+  {
+   "key": "CI_5380",
+   "selector": "ATOM-CI_5380",
+   "element": "C",
+   "A": 8.526,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.25289320713895125,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.097
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.07188200730612536
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.06697600000000167
+    ],
+    "continuum": [
+     "MEASURED",
+     0.16949999999999932
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.004999999999999005
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.026999999999999247
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.12413265753485948
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv"
+  },
+  {
+   "key": "CN_red",
+   "selector": "MOL-CN_red",
+   "element": "N",
+   "A": 6.84,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 1.5215639735678725,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     1.211
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.11512083467811819
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.05969599999999925
+    ],
+    "continuum": [
+     "MEASURED",
+     0.42500000000000027
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.2110000000000003
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.609
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "MEASURED",
+     0.09220000000000014
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.4767511580129268
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv"
+  },
+  {
+   "key": "OI_6300",
+   "selector": "FORB-OI_6300",
+   "element": "O",
+   "A": 8.81,
+   "verdict": null,
+   "notes": [],
+   "sigma_reported": 0.43094428832625764,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.4
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.07188200730612536
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.09250000000000025
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0010000000000012221
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.014000000000001123
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "blends": [
+     "MEASURED",
+     0.015200000000000102
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.10752519084692061
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ]
+   },
+   "prod_stem": "OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv"
+  }
+ ]
+}

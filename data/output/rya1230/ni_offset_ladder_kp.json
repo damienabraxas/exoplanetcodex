@@ -1,0 +1,654 @@
+{
+ "ticket": "RYA-1230",
+ "rows": [
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 7442.298,
+   "provenance": "holding=solar_kpno_kurucz2005_corrected \u00b7 irradrelwl.dat",
+   "S0_PROD": {
+    "A": 8.365,
+    "red_chi2": 39.592,
+    "n_pix": 220,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.278,
+    "red_chi2": 199.526,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 7.806,
+    "red_chi2": 200.035,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.538,
+    "red_chi2": 202.147,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.557,
+    "red_chi2": 202.131,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_p95": 0.9948,
+   "continuum_model_ratio": 0.9963304419526298,
+   "continuum_model_ratio_npix": 16,
+   "S3_CONT_model_ratio": {
+    "A": 7.644,
+    "red_chi2": 201.507,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.2679999999999998,
+    -0.16199999999999992
+   ],
+   "dA_per_plus0p1pct_continuum": 0.041999999999999815,
+   "alone": {
+    "window": -0.08699999999999974,
+    "molecules": -0.43599999999999994,
+    "continuum": -0.19899999999999984,
+    "marcs": -0.040000000000000924
+   },
+   "ladder": {
+    "window": -0.08699999999999974,
+    "molecules": -0.4720000000000004,
+    "continuum": -0.2679999999999998,
+    "marcs": 0.019000000000000128
+   },
+   "our_loggf": -0.400991,
+   "published_loggf_amarsi2020": -0.403,
+   "gf_term": -0.0020090000000000385,
+   "ni_ew_model_at_A21_mA": 1.6185229910592949,
+   "ni_ew_model_at_fit_mA": 0.9351448466286844,
+   "amarsi2020_ni_ew_intensity_mA": 2.3499999999999996,
+   "amarsi2020_feature_ew_intensity_mA": 3.1,
+   "amarsi2020_1d_lte_intensity_A": 7.806,
+   "blend_at_fit": {
+    "feature_ew_mA": 2.751459216778513,
+    "molecular_ew_mA": 1.3925852840456943,
+    "ni_ew_mA": 0.9351448466286844,
+    "atomic_other_ew_mA": 0.42372908610413457,
+    "molecular_fraction": 0.5061260859523743,
+    "ni_fraction": 0.33987232699148584,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": -0.25599999999999934,
+   "total_vs_A21": 0.5520000000000005
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8216.336,
+   "provenance": "holding=solar_kpno_kurucz2005_corrected \u00b7 irradrelwl.dat",
+   "S0_PROD": {
+    "A": 8.176,
+    "red_chi2": 55.593,
+    "n_pix": 220,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.169,
+    "red_chi2": 196.826,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 8.136,
+    "red_chi2": 197.023,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.947,
+    "red_chi2": 200.786,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.927,
+    "red_chi2": 200.774,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_p95": 0.9922,
+   "continuum_model_ratio": 0.9927799237766098,
+   "continuum_model_ratio_npix": 47,
+   "S3_CONT_model_ratio": {
+    "A": 7.965,
+    "red_chi2": 200.49,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.18899999999999917,
+    -0.17099999999999937
+   ],
+   "dA_per_plus0p1pct_continuum": 0.020500000000000185,
+   "alone": {
+    "window": -0.006999999999999673,
+    "molecules": 0.17099999999999937,
+    "continuum": -0.18599999999999994,
+    "marcs": -0.028999999999999915
+   },
+   "ladder": {
+    "window": -0.006999999999999673,
+    "molecules": -0.03300000000000125,
+    "continuum": -0.18899999999999917,
+    "marcs": -0.020000000000000462
+   },
+   "our_loggf": 0.137987,
+   "published_loggf_amarsi2020": 0.138,
+   "gf_term": 1.3000000000013001e-05,
+   "ni_ew_model_at_A21_mA": 4.6963885022580225,
+   "ni_ew_model_at_fit_mA": 5.911249843577423,
+   "amarsi2020_ni_ew_intensity_mA": 7.7,
+   "amarsi2020_feature_ew_intensity_mA": 7.7,
+   "amarsi2020_1d_lte_intensity_A": 7.806,
+   "blend_at_fit": {
+    "feature_ew_mA": 13.083261980831981,
+    "molecular_ew_mA": 0.5667364980206996,
+    "ni_ew_mA": 5.911249843577423,
+    "atomic_other_ew_mA": 6.60527563923386,
+    "molecular_fraction": 0.043317675580525225,
+    "ni_fraction": 0.4518177387441965,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": 0.11399999999999988,
+   "total_vs_A21": 0.36300000000000043
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8629.235,
+   "provenance": "holding=solar_kpno_kurucz2005_corrected \u00b7 irradrelwl.dat",
+   "S0_PROD": {
+    "A": 8.479,
+    "red_chi2": 45.744,
+    "n_pix": 220,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.408,
+    "red_chi2": 202.295,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 8.073,
+    "red_chi2": 201.237,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.965,
+    "red_chi2": 203.518,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.971,
+    "red_chi2": 203.533,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_p95": 0.9953,
+   "continuum_model_ratio": 0.9949629987278195,
+   "continuum_model_ratio_npix": 132,
+   "S3_CONT_model_ratio": {
+    "A": 7.958,
+    "red_chi2": 203.686,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.11500000000000021,
+    -0.10800000000000054
+   ],
+   "dA_per_plus0p1pct_continuum": 0.020999999999999908,
+   "alone": {
+    "window": -0.07099999999999973,
+    "molecules": -0.3769999999999989,
+    "continuum": -0.13299999999999912,
+    "marcs": -0.017999999999998906
+   },
+   "ladder": {
+    "window": -0.07099999999999973,
+    "molecules": -0.3349999999999991,
+    "continuum": -0.10800000000000054,
+    "marcs": 0.006000000000000227
+   },
+   "our_loggf": 0.07627599999999997,
+   "published_loggf_amarsi2020": 0.077,
+   "gf_term": 0.0007240000000000302,
+   "ni_ew_model_at_A21_mA": 2.4116000774946365,
+   "ni_ew_model_at_fit_mA": 3.3545586469891635,
+   "amarsi2020_ni_ew_intensity_mA": 4.1,
+   "amarsi2020_feature_ew_intensity_mA": 6.2,
+   "amarsi2020_1d_lte_intensity_A": 7.812,
+   "blend_at_fit": {
+    "feature_ew_mA": 7.798755754837961,
+    "molecular_ew_mA": 4.3422273120355115,
+    "ni_ew_mA": 3.3545586469891635,
+    "atomic_other_ew_mA": 0.10196979581328558,
+    "molecular_fraction": 0.5567846267453381,
+    "ni_fraction": 0.4301402367817663,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": 0.15800000000000036,
+   "total_vs_A21": 0.6659999999999995
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8683.403,
+   "provenance": "holding=solar_kpno_kurucz2005_corrected \u00b7 irradrelwl.dat",
+   "S0_PROD": {
+    "A": 8.23,
+    "red_chi2": 29.263,
+    "n_pix": 220,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.165,
+    "red_chi2": 163.971,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 8.06,
+    "red_chi2": 163.865,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.876,
+    "red_chi2": 167.509,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.523,
+    "red_chi2": 168.111,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_p95": 0.9919,
+   "continuum_model_ratio": 0.9923676063054148,
+   "continuum_model_ratio_npix": 72,
+   "S3_CONT_model_ratio": {
+    "A": 7.894,
+    "red_chi2": 167.284,
+    "n_pix": 50,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.18400000000000016,
+    -0.16600000000000037
+   ],
+   "dA_per_plus0p1pct_continuum": 0.019000000000000128,
+   "alone": {
+    "window": -0.06500000000000128,
+    "molecules": -0.07200000000000095,
+    "continuum": -0.19000000000000128,
+    "marcs": -0.034000000000000696
+   },
+   "ladder": {
+    "window": -0.06500000000000128,
+    "molecules": -0.10499999999999865,
+    "continuum": -0.18400000000000016,
+    "marcs": -0.35300000000000065
+   },
+   "our_loggf": 0.105851,
+   "published_loggf_amarsi2020": 0.106,
+   "gf_term": 0.00014899999999999636,
+   "ni_ew_model_at_A21_mA": 4.650992905651937,
+   "ni_ew_model_at_fit_mA": 2.578369594558553,
+   "amarsi2020_ni_ew_intensity_mA": 7.5,
+   "amarsi2020_feature_ew_intensity_mA": 8.65,
+   "amarsi2020_1d_lte_intensity_A": 7.805,
+   "blend_at_fit": {
+    "feature_ew_mA": 3.4946778428001055,
+    "molecular_ew_mA": 0.44649565219295045,
+    "ni_ew_mA": 2.578369594558553,
+    "atomic_other_ew_mA": 0.4698125960486017,
+    "molecular_fraction": 0.12776446707751363,
+    "ni_fraction": 0.7377989361367393,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": -0.29000000000000004,
+   "total_vs_A21": 0.4170000000000007
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 7442.298,
+   "provenance": "holding=solar_kpno_molecfit_corrected \u00b7 lm0740,lm0744[uncorrected: no telluric band registered]",
+   "S0_PROD": {
+    "A": 8.387,
+    "red_chi2": 45.511,
+    "n_pix": 219,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.35,
+    "red_chi2": 149.363,
+    "n_pix": 49,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 7.807,
+    "red_chi2": 150.207,
+    "n_pix": 49,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.459,
+    "red_chi2": 151.832,
+    "n_pix": 49,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.485,
+    "red_chi2": 151.812,
+    "n_pix": 49,
+    "status": "ok"
+   },
+   "continuum_p95": 0.994723,
+   "continuum_model_ratio": 0.9952767573992407,
+   "continuum_model_ratio_npix": 17,
+   "S3_CONT_model_ratio": {
+    "A": 7.513,
+    "red_chi2": 151.653,
+    "n_pix": 49,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.34800000000000075,
+    -0.2940000000000005
+   ],
+   "dA_per_plus0p1pct_continuum": 0.04150000000000009,
+   "alone": {
+    "window": -0.03700000000000081,
+    "molecules": -0.4170000000000007,
+    "continuum": -0.1769999999999996,
+    "marcs": -0.028999999999999915
+   },
+   "ladder": {
+    "window": -0.03700000000000081,
+    "molecules": -0.5429999999999993,
+    "continuum": -0.34800000000000075,
+    "marcs": 0.02600000000000069
+   },
+   "our_loggf": -0.400991,
+   "published_loggf_amarsi2020": -0.403,
+   "gf_term": -0.0020090000000000385,
+   "ni_ew_model_at_A21_mA": 1.6185229910592949,
+   "ni_ew_model_at_fit_mA": 0.8001629995804035,
+   "amarsi2020_ni_ew_intensity_mA": 2.3499999999999996,
+   "amarsi2020_feature_ew_intensity_mA": 3.1,
+   "amarsi2020_1d_lte_intensity_A": 7.806,
+   "blend_at_fit": {
+    "feature_ew_mA": 2.4114317672849666,
+    "molecular_ew_mA": 1.1875396816004282,
+    "ni_ew_mA": 0.8001629995804035,
+    "atomic_other_ew_mA": 0.42372908610413457,
+    "molecular_fraction": 0.49246248544593085,
+    "ni_fraction": 0.3318207093544711,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": -0.3279999999999994,
+   "total_vs_A21": 0.5740000000000007
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8216.336,
+   "provenance": "holding=solar_kpno_molecfit_corrected \u00b7 kp1984_corrected_8100_8400.txt",
+   "S0_PROD": {
+    "A": 7.899,
+    "red_chi2": 54.075,
+    "n_pix": 229,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 7.856,
+    "red_chi2": 192.736,
+    "n_pix": 52,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 7.859,
+    "red_chi2": 192.891,
+    "n_pix": 52,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.889,
+    "red_chi2": 192.436,
+    "n_pix": 52,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.861,
+    "red_chi2": 192.425,
+    "n_pix": 52,
+    "status": "ok"
+   },
+   "continuum_p95": 1.0009198,
+   "continuum_model_ratio": 1.0010205293299896,
+   "continuum_model_ratio_npix": 55,
+   "S3_CONT_model_ratio": {
+    "A": 7.893,
+    "red_chi2": 192.386,
+    "n_pix": 52,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    0.03000000000000025,
+    0.03399999999999981
+   ],
+   "dA_per_plus0p1pct_continuum": 0.028999999999999915,
+   "alone": {
+    "window": -0.04300000000000015,
+    "molecules": 0.24899999999999967,
+    "continuum": 0.03000000000000025,
+    "marcs": -0.05999999999999961
+   },
+   "ladder": {
+    "window": -0.04300000000000015,
+    "molecules": 0.0030000000000001137,
+    "continuum": 0.03000000000000025,
+    "marcs": -0.02800000000000047
+   },
+   "our_loggf": 0.137987,
+   "published_loggf_amarsi2020": 0.138,
+   "gf_term": 1.3000000000013001e-05,
+   "ni_ew_model_at_A21_mA": 4.6963885022580225,
+   "ni_ew_model_at_fit_mA": 5.173990835835408,
+   "amarsi2020_ni_ew_intensity_mA": 7.7,
+   "amarsi2020_feature_ew_intensity_mA": 7.7,
+   "amarsi2020_1d_lte_intensity_A": 7.806,
+   "blend_at_fit": {
+    "feature_ew_mA": 12.263095765723225,
+    "molecular_ew_mA": 0.4838292906539558,
+    "ni_ew_mA": 5.173990835835408,
+    "atomic_other_ew_mA": 6.60527563923386,
+    "molecular_fraction": 0.03945409054101288,
+    "ni_fraction": 0.421915553354587,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": 0.04800000000000004,
+   "total_vs_A21": 0.0860000000000003
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8629.235,
+   "provenance": "holding=solar_kpno_molecfit_corrected \u00b7 lm0860[uncorrected: no telluric band registered]",
+   "S0_PROD": {
+    "A": 8.39,
+    "red_chi2": 28.226,
+    "n_pix": 207,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.318,
+    "red_chi2": 216.693,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 7.995,
+    "red_chi2": 215.879,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.976,
+    "red_chi2": 216.348,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.973,
+    "red_chi2": 216.364,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "continuum_p95": 0.999088,
+   "continuum_model_ratio": 0.9986356731526356,
+   "continuum_model_ratio_npix": 130,
+   "S3_CONT_model_ratio": {
+    "A": 7.966,
+    "red_chi2": 216.582,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.028999999999999915,
+    -0.019000000000000128
+   ],
+   "dA_per_plus0p1pct_continuum": 0.02300000000000013,
+   "alone": {
+    "window": -0.07200000000000095,
+    "molecules": -0.36100000000000065,
+    "continuum": -0.019000000000000128,
+    "marcs": -0.041999999999999815
+   },
+   "ladder": {
+    "window": -0.07200000000000095,
+    "molecules": -0.3229999999999995,
+    "continuum": -0.019000000000000128,
+    "marcs": -0.0030000000000001137
+   },
+   "our_loggf": 0.07627599999999997,
+   "published_loggf_amarsi2020": 0.077,
+   "gf_term": 0.0007240000000000302,
+   "ni_ew_model_at_A21_mA": 2.4116000774946365,
+   "ni_ew_model_at_fit_mA": 3.3545586469891635,
+   "amarsi2020_ni_ew_intensity_mA": 4.1,
+   "amarsi2020_feature_ew_intensity_mA": 6.2,
+   "amarsi2020_1d_lte_intensity_A": 7.812,
+   "blend_at_fit": {
+    "feature_ew_mA": 7.798755754837961,
+    "molecular_ew_mA": 4.3422273120355115,
+    "ni_ew_mA": 3.3545586469891635,
+    "atomic_other_ew_mA": 0.10196979581328558,
+    "molecular_fraction": 0.5567846267453381,
+    "ni_fraction": 0.4301402367817663,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": 0.16000000000000014,
+   "total_vs_A21": 0.5770000000000008
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "instrument": "kpno_solar_atlas",
+   "wavelength_air_A": 8683.403,
+   "provenance": "holding=solar_kpno_molecfit_corrected \u00b7 lm0868[uncorrected: no telluric band registered]",
+   "S0_PROD": {
+    "A": 8.188,
+    "red_chi2": 49.453,
+    "n_pix": 205,
+    "status": "ok"
+   },
+   "S1_CORE": {
+    "A": 8.133,
+    "red_chi2": 215.736,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S2_MOL": {
+    "A": 8.026,
+    "red_chi2": 215.624,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S3_CONT": {
+    "A": 7.886,
+    "red_chi2": 218.799,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "S4_MARCS": {
+    "A": 7.868,
+    "red_chi2": 218.808,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "continuum_p95": 0.9939405,
+   "continuum_model_ratio": 0.9943838948896802,
+   "continuum_model_ratio_npix": 69,
+   "S3_CONT_model_ratio": {
+    "A": 7.899,
+    "red_chi2": 218.556,
+    "n_pix": 47,
+    "status": "ok"
+   },
+   "continuum_bracket_dex": [
+    -0.13999999999999968,
+    -0.12699999999999978
+   ],
+   "dA_per_plus0p1pct_continuum": 0.019000000000000128,
+   "alone": {
+    "window": -0.05500000000000149,
+    "molecules": -0.07600000000000051,
+    "continuum": -0.16900000000000048,
+    "marcs": -0.027000000000001023
+   },
+   "ladder": {
+    "window": -0.05500000000000149,
+    "molecules": -0.10699999999999932,
+    "continuum": -0.13999999999999968,
+    "marcs": -0.017999999999999794
+   },
+   "our_loggf": 0.105851,
+   "published_loggf_amarsi2020": 0.106,
+   "gf_term": 0.00014899999999999636,
+   "ni_ew_model_at_A21_mA": 4.650992905651937,
+   "ni_ew_model_at_fit_mA": 5.227453414909413,
+   "amarsi2020_ni_ew_intensity_mA": 7.5,
+   "amarsi2020_feature_ew_intensity_mA": 8.65,
+   "amarsi2020_1d_lte_intensity_A": 7.805,
+   "blend_at_fit": {
+    "feature_ew_mA": 6.659012432444569,
+    "molecular_ew_mA": 0.961746421486553,
+    "ni_ew_mA": 5.227453414909413,
+    "atomic_other_ew_mA": 0.4698125960486017,
+    "molecular_fraction": 0.14442778583813057,
+    "ni_fraction": 0.7850193204986072,
+    "core_half_width_A": 0.25
+   },
+   "residual_vs_A21": 0.055000000000000604,
+   "total_vs_A21": 0.3750000000000009
+  }
+ ],
+ "blend_fields_recomputed": "RYA-1230 --blend-only (fixed-A(N) molecular term)"
+}

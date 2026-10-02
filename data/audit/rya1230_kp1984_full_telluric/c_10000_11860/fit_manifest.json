@@ -1,0 +1,522 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    10000.0,
+    11860.0
+  ],
+  "fit_window_A": [
+    9975.0,
+    11885.0
+  ],
+  "molecules": [
+    "H2O"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0996",
+      "md5": "06327f60508e9aad8b044026571ccbd6",
+      "own_range_A": [
+        9960.0,
+        10000.0
+      ],
+      "n_kept": 2873
+    },
+    {
+      "segment": "lm1000",
+      "md5": "27e47adb7c89cdab98a0f8f8967a7b57",
+      "own_range_A": [
+        10000.0,
+        10040.0
+      ],
+      "n_kept": 3451
+    },
+    {
+      "segment": "lm1004",
+      "md5": "041c1a763865e6936bacdb6882b8ff6f",
+      "own_range_A": [
+        10040.0,
+        10080.0
+      ],
+      "n_kept": 3423
+    },
+    {
+      "segment": "lm1008",
+      "md5": "eb0ed0d3c311a70c20380a1ecee360ee",
+      "own_range_A": [
+        10080.0,
+        10120.0
+      ],
+      "n_kept": 3396
+    },
+    {
+      "segment": "lm1012",
+      "md5": "f36e4c97f8a568364b5062863fb163b2",
+      "own_range_A": [
+        10120.0,
+        10160.0
+      ],
+      "n_kept": 3369
+    },
+    {
+      "segment": "lm1016",
+      "md5": "344b0326887f7e0a5d917edc5e3ca2b9",
+      "own_range_A": [
+        10160.0,
+        10200.0
+      ],
+      "n_kept": 3344
+    },
+    {
+      "segment": "lm1020",
+      "md5": "df4c93facbde09f5edf0cb8c74c8d68c",
+      "own_range_A": [
+        10200.0,
+        10240.0
+      ],
+      "n_kept": 3316
+    },
+    {
+      "segment": "lm1024",
+      "md5": "a02ec538b8958663ff55c37e67c80911",
+      "own_range_A": [
+        10240.0,
+        10280.0
+      ],
+      "n_kept": 3292
+    },
+    {
+      "segment": "lm1028",
+      "md5": "df84003349a51d0583907cf0099efc9f",
+      "own_range_A": [
+        10280.0,
+        10320.0
+      ],
+      "n_kept": 3265
+    },
+    {
+      "segment": "lm1032",
+      "md5": "4e42b386bfa387d89cbc063111bc95bf",
+      "own_range_A": [
+        10320.0,
+        10360.0
+      ],
+      "n_kept": 3240
+    },
+    {
+      "segment": "lm1036",
+      "md5": "d85f9eb5c9fba48f6b22be9e3d2c059e",
+      "own_range_A": [
+        10360.0,
+        10400.0
+      ],
+      "n_kept": 3216
+    },
+    {
+      "segment": "lm1040",
+      "md5": "b65041393546a336623a0957623dd336",
+      "own_range_A": [
+        10400.0,
+        10440.0
+      ],
+      "n_kept": 3191
+    },
+    {
+      "segment": "lm1044",
+      "md5": "2a6bb0c3bb184b4bba314cf0bcd9edf5",
+      "own_range_A": [
+        10440.0,
+        10480.0
+      ],
+      "n_kept": 3166
+    },
+    {
+      "segment": "lm1048",
+      "md5": "6f92f2d657237aba5ea4b666e2847240",
+      "own_range_A": [
+        10480.0,
+        10520.0
+      ],
+      "n_kept": 3143
+    },
+    {
+      "segment": "lm1052",
+      "md5": "5daeb0428df7c587451e9539213bf908",
+      "own_range_A": [
+        10520.0,
+        10560.0
+      ],
+      "n_kept": 3118
+    },
+    {
+      "segment": "lm1056",
+      "md5": "afe55edcde30ea6d70e281cc0dc509a0",
+      "own_range_A": [
+        10560.0,
+        10600.0
+      ],
+      "n_kept": 3095
+    },
+    {
+      "segment": "lm1060",
+      "md5": "11231db96f7d4b555121a2e1c3e5ed4b",
+      "own_range_A": [
+        10600.0,
+        10640.0
+      ],
+      "n_kept": 3072
+    },
+    {
+      "segment": "lm1064",
+      "md5": "fe6992646a77af605c3b82673a0cdda4",
+      "own_range_A": [
+        10640.0,
+        10680.0
+      ],
+      "n_kept": 3049
+    },
+    {
+      "segment": "lm1068",
+      "md5": "be1545f9d7f56db2cd7fbaa3bfa49dcb",
+      "own_range_A": [
+        10680.0,
+        10720.0
+      ],
+      "n_kept": 3026
+    },
+    {
+      "segment": "lm1072",
+      "md5": "02f56c2fde9d774d81502a8fd62f20fd",
+      "own_range_A": [
+        10720.0,
+        10760.0
+      ],
+      "n_kept": 3003
+    },
+    {
+      "segment": "lm1076",
+      "md5": "b2dfcca86decbe8ca7abd31a49b641c7",
+      "own_range_A": [
+        10760.0,
+        10800.0
+      ],
+      "n_kept": 2981
+    },
+    {
+      "segment": "lm1080",
+      "md5": "46aa6e48c5dac792cd486b7cae7fb039",
+      "own_range_A": [
+        10800.0,
+        10840.0
+      ],
+      "n_kept": 2960
+    },
+    {
+      "segment": "lm1084",
+      "md5": "7221f87ee04fe88494c4b1107cb26e58",
+      "own_range_A": [
+        10840.0,
+        10880.0
+      ],
+      "n_kept": 2937
+    },
+    {
+      "segment": "lm1088",
+      "md5": "cc239a9da2a26e069df691f59a1b2d33",
+      "own_range_A": [
+        10880.0,
+        10920.0
+      ],
+      "n_kept": 2916
+    },
+    {
+      "segment": "lm1092",
+      "md5": "09fd4c3d409c92ce27bda695d5473581",
+      "own_range_A": [
+        10920.0,
+        10960.0
+      ],
+      "n_kept": 2895
+    },
+    {
+      "segment": "lm1096",
+      "md5": "3ab5ad7eb9a9d6c8b676216ba0cb0f99",
+      "own_range_A": [
+        10960.0,
+        11000.0
+      ],
+      "n_kept": 2874
+    },
+    {
+      "segment": "lm1100",
+      "md5": "27d54af6a6415e84e34d68c420576202",
+      "own_range_A": [
+        11000.0,
+        11040.0
+      ],
+      "n_kept": 2852
+    },
+    {
+      "segment": "lm1104",
+      "md5": "907550093f4261f06825b0ad2cc4a47f",
+      "own_range_A": [
+        11040.0,
+        11080.0
+      ],
+      "n_kept": 2833
+    },
+    {
+      "segment": "lm1108",
+      "md5": "4fa45cb46cb673fbc2b6edf75e851808",
+      "own_range_A": [
+        11080.0,
+        11120.0
+      ],
+      "n_kept": 2811
+    },
+    {
+      "segment": "lm1112",
+      "md5": "aa2e336d6fcb8700e4046dab837f8f61",
+      "own_range_A": [
+        11120.0,
+        11160.0
+      ],
+      "n_kept": 2792
+    },
+    {
+      "segment": "lm1116",
+      "md5": "7f6e360dbb8e2dce22706b83a938cf56",
+      "own_range_A": [
+        11160.0,
+        11200.0
+      ],
+      "n_kept": 2772
+    },
+    {
+      "segment": "lm1120",
+      "md5": "06c93fee1d251540161bc3f90ffd84dd",
+      "own_range_A": [
+        11200.0,
+        11240.0
+      ],
+      "n_kept": 2752
+    },
+    {
+      "segment": "lm1124",
+      "md5": "74b25a018177e756ca18f2d3c81ce92c",
+      "own_range_A": [
+        11240.0,
+        11280.0
+      ],
+      "n_kept": 2732
+    },
+    {
+      "segment": "lm1128",
+      "md5": "e53daf912cf6358b5d7c489092f1f7ea",
+      "own_range_A": [
+        11280.0,
+        11320.0
+      ],
+      "n_kept": 2714
+    },
+    {
+      "segment": "lm1132",
+      "md5": "814ce3e826b6eb6250b5a01a9e9d778f",
+      "own_range_A": [
+        11320.0,
+        11360.0
+      ],
+      "n_kept": 2694
+    },
+    {
+      "segment": "lm1136",
+      "md5": "7dc946447b50c5c2302d1808a46d9254",
+      "own_range_A": [
+        11360.0,
+        11400.0
+      ],
+      "n_kept": 2675
+    },
+    {
+      "segment": "lm1140",
+      "md5": "7b8dc4cdb7cb136fe91706a722801d20",
+      "own_range_A": [
+        11400.0,
+        11440.0
+      ],
+      "n_kept": 2656
+    },
+    {
+      "segment": "lm1144",
+      "md5": "972a26e69b6e1338d978ceaeb116bb3f",
+      "own_range_A": [
+        11440.0,
+        11480.0
+      ],
+      "n_kept": 2638
+    },
+    {
+      "segment": "lm1148",
+      "md5": "d1dafdcd3c0eddc68e36c8cf4f5942b7",
+      "own_range_A": [
+        11480.0,
+        11520.0
+      ],
+      "n_kept": 2620
+    },
+    {
+      "segment": "lm1152",
+      "md5": "ca894564e56e9d3bd785fe53d2a027db",
+      "own_range_A": [
+        11520.0,
+        11560.0
+      ],
+      "n_kept": 2601
+    },
+    {
+      "segment": "lm1156",
+      "md5": "1349d92f671e5d343d67ddb2088e5684",
+      "own_range_A": [
+        11560.0,
+        11600.0
+      ],
+      "n_kept": 2584
+    },
+    {
+      "segment": "lm1160",
+      "md5": "72324af2850db0177532f60dd62a37e8",
+      "own_range_A": [
+        11600.0,
+        11640.0
+      ],
+      "n_kept": 2566
+    },
+    {
+      "segment": "lm1164",
+      "md5": "8bcfa865f8298adc7fcbfd145c9465c7",
+      "own_range_A": [
+        11640.0,
+        11680.0
+      ],
+      "n_kept": 2548
+    },
+    {
+      "segment": "lm1168",
+      "md5": "4c21d1d357fc5b89ec4445259da03225",
+      "own_range_A": [
+        11680.0,
+        11720.0
+      ],
+      "n_kept": 2531
+    },
+    {
+      "segment": "lm1172",
+      "md5": "1b917125cf5f0ce5b555ca473afe5552",
+      "own_range_A": [
+        11720.0,
+        11760.0
+      ],
+      "n_kept": 2513
+    },
+    {
+      "segment": "lm1176",
+      "md5": "31fa5bc8de421657ea605428b68447d8",
+      "own_range_A": [
+        11760.0,
+        11800.0
+      ],
+      "n_kept": 2497
+    },
+    {
+      "segment": "lm1180",
+      "md5": "f56a3a50cce6179c03f5af6ae99e0e53",
+      "own_range_A": [
+        11800.0,
+        11840.0
+      ],
+      "n_kept": 2480
+    },
+    {
+      "segment": "lm1184",
+      "md5": "102478793ee9ae3d8fd3bc6e227ef39d",
+      "own_range_A": [
+        11840.0,
+        11880.0
+      ],
+      "n_kept": 2463
+    },
+    {
+      "segment": "lm1188",
+      "md5": "a60a4fab0b38f068006ff1ce900faa75",
+      "own_range_A": [
+        11880.0,
+        11920.0
+      ],
+      "n_kept": 2446
+    }
+  ],
+  "n_atlas_pixels": 139181,
+  "resample_step_A": 0.013400000001638546,
+  "n_fit_pixels": 142538,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": null,
+  "solar_reference_kind": "none",
+  "solar_reference_md5": null,
+  "externally_validated": false,
+  "solar_mask_intervals": 0,
+  "solar_mask_pixels": 0,
+  "solar_mask_fraction": 0.0,
+  "atlas_resolving_power": 148000.0,
+  "expected_lsf_fwhm_pix": 5.5112948762926,
+  "lsf_start_ladder_pix": [
+    5.511,
+    4.409,
+    6.889,
+    3.582,
+    8.818,
+    2.756
+  ],
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 5.511,
+      "gaussfwhm": 3.920923825350135,
+      "reduced_chi2": 31.98347772350626,
+      "rms_rel_to_mean": 0.05655373845964823,
+      "column_scale": 2.1813,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_H2O": 2.1812697719348657
+    }
+  ],
+  "accepted": "/Users/ryanschmitt/codex/rya1230_runs/molecfit/c_10000_11860/start_5p51",
+  "correction": {
+    "dt_transmission_sigma": 0.008267750892703297,
+    "t_min": 0.16535501785406595,
+    "n_corrected": 132671,
+    "n_quarantined": 6509,
+    "before": {
+      "n": 135832,
+      "min": -0.00413,
+      "median": 0.97741,
+      "pct_below_0.5": 8.774810059485247,
+      "pct_below_0.95": 38.35694092702751
+    },
+    "after": {
+      "n": 129352,
+      "min": 0.3267451631644992,
+      "median": 0.9948510809034345,
+      "pct_below_0.5": 0.13451666769744572,
+      "pct_below_0.95": 8.270455810501577
+    },
+    "vs_reference_before": null,
+    "vs_reference_after": null,
+    "reference_kind": "none"
+  }
+}

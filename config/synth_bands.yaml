@@ -62,6 +62,11 @@ bands:
     # floor on the missing opacity, not a correction stopped at a target (RYA-161).
     # The lists are written by pipeline.nearuv_linelist.write_molecular_bsyn().
     use_molecules: true
+    # RYA-1230 standing continuum rule: MEASURED, NOT APPLIED here. The true continuum is
+    # never observed in the near-UV (median flux 0.283-0.805), so the local upper envelope
+    # is a pseudo-continuum and dividing by it would remove real opacity (RYA-1189).
+    continuum:
+      apply: false
 
   VIS:
     lo_A: 3780.0
@@ -95,6 +100,12 @@ bands:
     half_width_A: 0.62
     min_sep_A: 4.0
     n_lines: 40
+    # RYA-1230 (Ryan 2026-09-26): molecular opacity in EVERY band -- see config/synth_bands.py.
+    use_molecules: true
+    # RYA-1230 standing continuum rule: local linear upper envelope per fit window
+    # (pipeline.local_continuum), applied on every holding incl. pre-normalised atlases.
+    continuum:
+      apply: true
     half_width_note: >-
       20.51 sigma_D at the 5345 A band centre (0.6216 -> 0.62); contains the full fitted
       FWHM of all 87 graded VIS Fe I lines on both arms, margin 1.55x on the widest
@@ -129,6 +140,12 @@ bands:
     half_width_A: 1.10
     min_sep_A: 4.0
     n_lines: 40
+    # RYA-1230 (Ryan 2026-09-26): molecular opacity in EVERY band -- see config/synth_bands.py.
+    use_molecules: true
+    # RYA-1230 standing continuum rule: local linear upper envelope per fit window
+    # (pipeline.local_continuum), applied on every holding incl. pre-normalised atlases.
+    continuum:
+      apply: true
     half_width_note: >-
       0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
     build_hint: RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/
@@ -141,6 +158,12 @@ bands:
     half_width_A: 1.40
     min_sep_A: 4.0
     n_lines: 40
+    # RYA-1230 (Ryan 2026-09-26): molecular opacity in EVERY band -- see config/synth_bands.py.
+    use_molecules: true
+    # RYA-1230 standing continuum rule: local linear upper envelope per fit window
+    # (pipeline.local_continuum), applied on every holding incl. pre-normalised atlases.
+    continuum:
+      apply: true
     half_width_note: >-
       0.40 A scaled by lambda from the near-UV anchor (12000/3400). Anchor 12000 A.
     build_hint: RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/
@@ -153,6 +176,12 @@ bands:
     half_width_A: 1.89
     min_sep_A: 4.0
     n_lines: 40
+    # RYA-1230 (Ryan 2026-09-26): molecular opacity in EVERY band -- see config/synth_bands.py.
+    use_molecules: true
+    # RYA-1230 standing continuum rule: local linear upper envelope per fit window
+    # (pipeline.local_continuum), applied on every holding incl. pre-normalised atlases.
+    continuum:
+      apply: true
     half_width_note: >-
       DERIVED, not carried: 20.51 Doppler sigma (the `invariant` above) at the band
       midpoint 16250.4 A. sigma_D = 16250.4 * 1.7 km/s / c = 0.092149 A; 20.51 *
@@ -181,6 +210,12 @@ bands:
     half_width_A: 2.58
     min_sep_A: 4.0
     n_lines: 40
+    # RYA-1230 (Ryan 2026-09-26): molecular opacity in EVERY band -- see config/synth_bands.py.
+    use_molecules: true
+    # RYA-1230 standing continuum rule: local linear upper envelope per fit window
+    # (pipeline.local_continuum), applied on every holding incl. pre-normalised atlases.
+    continuum:
+      apply: true
     half_width_note: >-
       DERIVED, not carried: 20.51 Doppler sigma at the band midpoint 22149.0 A.
       sigma_D = 22149.0 * 1.7 km/s / c = 0.125598 A; 20.51 * 0.125598 = 2.5760 -> 2.58.
