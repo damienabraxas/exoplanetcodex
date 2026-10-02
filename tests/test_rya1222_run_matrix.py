@@ -432,7 +432,7 @@ def test_a_deck_independent_step_is_built_once_per_run(rm, monkeypatch, tmp_path
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (True, "ok"))[1])
 
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    doc = rm.run("solar", "Fe", ions=["I"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
                  methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -456,7 +456,7 @@ def test_a_reused_step_is_only_reused_after_it_SUCCEEDED(rm, monkeypatch, tmp_pa
     ran = []
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (False, "boom"))[1])
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    doc = rm.run("solar", "Fe", ions=["I"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
                  methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -702,3 +702,33 @@ def test_a_synthesis_cell_in_a_profile_fit_band_forces_synthesis():
     assert [s["name"] for s in r.steps] == ["derive_products"], "no EW step on SYNTH"
     assert "--force-synthesis" in r.steps[0]["args"]
     assert r.steps[0]["produces"].endswith("_SYNTH_products.csv")
+
+
+def test_a_gerber_deck_the_element_does_not_have_is_blocked_before_dispatch():
+    """Every solar Si gerber cell FAILED inside the stage: gerber_nlte has decks for Al and
+    Fe only. A registry fact is answered by the resolver, not discovered by a run."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    from pipeline import gerber_nlte
+    for deck in ("gerber-nlte", "gerber-1d-lte", "gerber-mean3d", "gerber-mean3d-lte"):
+        d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                          holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                          engine_deck=deck, method="synthesis")
+        r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+        if (("Si@mean3D" if "mean3d" in deck else "Si") not in gerber_nlte.DECKS):
+            assert r.blocked_reason and "no Gerber deck" in r.blocked_reason, deck
+    fe = RunDescriptor(element="Fe", ion="I", instrument="harps",
+                       holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                       engine_deck="gerber-nlte", method="synthesis")
+    assert "no Gerber deck" not in (resolve(fe, interpreter=sys.executable,
+                                            ispec_dir="/x").blocked_reason or "")
+
+
+def test_a_synthesis_cell_is_clipped_to_its_list_not_failed():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[0]["args"]
+    assert "--clip-to-synthesis-list" in args
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    assert '"--clip-to-synthesis-list"' in src

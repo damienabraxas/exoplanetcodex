@@ -158,6 +158,19 @@ def deck_out_dir(deck: str) -> str:
     return BAND_PRODUCTS_DIR if deck == default else f"{BAND_PRODUCTS_DIR}/deck_{deck}"
 
 
+def gerber_deck_key(element: str, deck: str) -> str | None:
+    """The `gerber_nlte.DECKS` key a Gerber engine deck needs, or None for a non-Gerber deck.
+
+    The 1D LTE comparand needs the deck too: it is defined as THAT deck's setup with the
+    departures withheld (RYA-1045), and the synthesis route reads the deck to pair depths.
+    """
+    if deck in ("gerber-mean3d", "gerber-mean3d-lte"):
+        return f"{element}@mean3D"
+    if deck in ("gerber-nlte", "gerber-1d-lte"):
+        return element
+    return None
+
+
 #: The feed's `route` token for each dispatchable method (the products' own vocabulary).
 ROUTE_TOKEN = {"profile-fit": "PROFILEFIT", "synthesis": "SYNTH"}
 
@@ -267,6 +280,26 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                if spec.pre_normalised else
                "the product ships NO continuum, so the harness must place one")))
 
+    # ── 3b. the engine deck exists for this element (RYA-1233) ──────────────
+    # The Gerber decks are registered per element (`gerber_nlte.DECKS`: Al, Fe and their
+    # <3D> keys). Asking one for an element it has no deck for used to be discovered
+    # inside the stage, after synthesis set-up -- every solar Si gerber cell FAILED that
+    # way. It is a fact about the registry, so it is answered here, before dispatch.
+    _deck_key = gerber_deck_key(descriptor.element, descriptor.engine_deck)
+    if _deck_key is not None:
+        try:
+            from pipeline import gerber_nlte as _gn
+            _have = _deck_key in _gn.DECKS
+            _why = (f"Gerber deck {_deck_key!r} registered" if _have else
+                    f"no Gerber deck registered for {_deck_key!r} (registered: "
+                    f"{sorted(_gn.DECKS)}); --engine-b-deck {descriptor.engine_deck} cannot "
+                    f"run for {descriptor.element}")
+        except Exception as exc:                               # noqa: BLE001
+            _have, _why = False, f"gerber_nlte could not be read: {type(exc).__name__}: {exc}"
+        checks.append(Precondition("engine_deck_registered", _have, _why))
+        if not _have and blocked is None:
+            blocked = _why
+
     # ── 4. the engine's numpy ceiling, checked BEFORE dispatch (RYA-682) ─────
     if interpreter:
         checks.append(Precondition(
@@ -317,7 +350,11 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
         "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir]
                 + (["--force-synthesis"] if method == "synthesis"
                    and "profile-fit" in permitted_methods(descriptor.lo_A, descriptor.hi_A)
-                   else []),
+                   else [])
+                # A band's synthesis list can start inside the band (VIS: the GES v6 list
+                # starts at 4200 A, the band at 3780). Narrow to it, named in the stem and
+                # provenance, rather than fail the cell.
+                + (["--clip-to-synthesis-list"] if method == "synthesis" else []),
         "env": env, "interpreter": interpreter,
         "produces": f"{out_dir}/{descriptor.key}_"
                     f"{ROUTE_TOKEN[method]}_products.csv",

@@ -1092,7 +1092,30 @@ def synthesis_route(a, pol) -> None:
     _lo_cov, _hi_cov = float(_ll.wave_A.min()), float(_ll.wave_A.max())
     _gap_lo = max(0.0, _lo_cov - a.lo)
     _gap_hi = max(0.0, a.hi - _hi_cov)
-    if _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
+    _CLIP_NOTE = ""
+    if (_gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A) \
+            and getattr(a, "clip_to_synthesis_list", False):
+        # RYA-1233: asked for EXPLICITLY (the orchestrator's synthesis cells). The run is
+        # narrowed to what the list covers BEFORE the stem is built, so the artifact names
+        # the range it was synthesised over -- RYA-967's rule kept, not bypassed -- and
+        # the narrowing is printed and carried into the provenance.
+        _req = (a.lo, a.hi)
+        a.lo, a.hi = max(a.lo, _lo_cov), min(a.hi, _hi_cov)
+        if a.hi <= a.lo:
+            raise SystemExit(f"{pol.name} synthesis list {cfg.linelist.name} covers "
+                             f"{_lo_cov:.1f}-{_hi_cov:.1f} A: nothing of {_req[0]:.1f}-"
+                             f"{_req[1]:.1f} A is synthesisable.")
+        _CLIP_NOTE = (f" CLIPPED TO THE SYNTHESIS LIST (RYA-1233): requested "
+                      f"{_req[0]:.1f}-{_req[1]:.1f} A, {cfg.linelist.name} covers "
+                      f"{_lo_cov:.1f}-{_hi_cov:.1f} A, synthesised {a.lo:.1f}-{a.hi:.1f} A.")
+        print(f"\n  [clip]{_CLIP_NOTE}")
+        _w = _sp.wave_A[(_sp.wave_A >= a.lo) & (_sp.wave_A <= a.hi)]
+        if _w.empty:
+            _w = _ll.wave_A[(_ll.wave_A >= a.lo) & (_ll.wave_A <= a.hi)]
+        if _w.empty:
+            raise SystemExit(f"no line in {cfg.linelist.name} lies within "
+                             f"{a.lo}-{a.hi} A after clipping to the list.")
+    elif _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
         raise SystemExit(
             f"{pol.name} synthesis list {cfg.linelist.name} covers "
             f"{_lo_cov:.1f}-{_hi_cov:.1f} A but the run asks for {a.lo:.1f}-{a.hi:.1f} A "
@@ -1994,6 +2017,7 @@ def synthesis_route(a, pol) -> None:
         + "".join(getattr(_served_specs[k], "caveat", "") + " "
                   for k in sorted(_served) if getattr(_served_specs[k], "caveat", ""))
         + "gf: " + str(prov_gf["detail"]) + ". "
+        + _CLIP_NOTE.strip() + (" " if _CLIP_NOTE else "")
         + "Half-width is FIXED and must be swept. "
         + constraint_describe() + " " +
         # RYA-855 — the rung is QUOTED from the decider, never restated. The sentence
@@ -2686,6 +2710,10 @@ def main() -> None:
                          "applied -- graded and deep-graded together, plus the lines "
                          "whose depth is unknown and which both depth-split selectors "
                          "drop. It publishes as Reference Grade. See _cand_reference.")
+    ap.add_argument("--clip-to-synthesis-list", action="store_true",
+                    help="RYA-1233: narrow a synthesis run to what the band's synthesis "
+                         "line list covers (stem and provenance name the narrowed range) "
+                         "instead of refusing. Off by default.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
