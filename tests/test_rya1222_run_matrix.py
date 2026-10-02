@@ -98,7 +98,7 @@ def test_harps_vis_is_on_the_matrix(rm):
     holding in the repo silently absent from its own element's matrix.
     """
     cells = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"])
-             if d.holding == "solar_harps" and d.band == "VIS"]
+             if d.holding == "solar_harps_molecfit_corrected" and d.band == "VIS"]
     assert cells, "solar_harps VIS produced no cell"
     for d in cells:
         assert d.lo_A == pytest.approx(3782.6), "the window must be clipped, not dropped"
@@ -390,7 +390,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     """
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     published = [{"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
-                  "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.51,
+                  "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
                   "n_lines": 12, "tier": "GRADED"}]
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": published})
 
@@ -400,7 +400,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (calls.append(step["name"]), (True, "ok"))[1])
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps"],
+    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     first = rm.run("solar", "Si", **kw)
@@ -432,7 +432,7 @@ def test_a_deck_independent_step_is_built_once_per_run(rm, monkeypatch, tmp_path
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (True, "ok"))[1])
 
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps"],
+    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     n_decks = len(rm.DECK_EMITS)
@@ -455,7 +455,7 @@ def test_a_reused_step_is_only_reused_after_it_SUCCEEDED(rm, monkeypatch, tmp_pa
     ran = []
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (False, "boom"))[1])
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps"],
+    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     assert ran.count("measure_ew") == doc["cells_total"], \
@@ -467,13 +467,13 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": [
         {"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.51,
+         "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
          "n_lines": 12, "tier": "GRADED"}]})
 
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps"],
+    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     assert rm.run("solar", "Si", **kw)["counts"][rm.DONE] == 1
@@ -520,7 +520,7 @@ def reaches_the_executor(rm, monkeypatch):
     that behaviour belongs -- not as an invisible precondition of every other test.
     """
     class _Row:
-        measurement_ready, blocking_gate = "GO", ""
+        measurement_ready, blocking_gate, reader_wired = "GO", "", True
     monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
     monkeypatch.setattr(rm, "verify_numpy_ceiling",
                         lambda interpreter: (True, f"stubbed for {interpreter}"))
@@ -574,3 +574,35 @@ def test_the_driver_imports_without_loading_any_science_stage():
         capture_output=True, text=True, cwd=str(ROOT))
     assert out.returncode == 0, out.stderr[-2000:]
     assert "pipeline.abundances_derive" not in out.stdout
+
+
+# ── RYA-1233: raw is never used; a corrected spectrum is frozen, not re-gated ──
+
+def test_no_raw_ground_holding_is_ever_on_the_matrix(rm):
+    """Ryan 2026-10-01/02: raw spectra are not used any more -- the corrected holding IS the data."""
+    raw = set(rm.raw_holdings("solar"))
+    assert {"solar_kpno", "solar_harps"} <= raw
+    cells = {d.holding for d in rm.expand("solar", "Si")}
+    assert not (cells & raw), f"raw holdings on the matrix: {sorted(cells & raw)}"
+
+
+def test_every_corrected_holding_is_kept(rm):
+    for hid in ("solar_kpno_molecfit_corrected", "solar_kpno_kurucz2005_corrected",
+                "solar_harps_molecfit_corrected"):
+        assert hid not in rm.raw_holdings("solar")
+
+
+def test_a_corrected_holding_is_not_refused_on_a_stale_label(rm, monkeypatch, tmp_path):
+    """Both fully-corrected KP holdings were NOT_READY on `evidence_state=audited` /
+    a findings.md manifest while raw KP was GO. The element run asks only the reader."""
+    class _Row:
+        measurement_ready, blocking_gate, reader_wired = (
+            "NO-GO", "evidence:audited;telluric:applied-unverified", True)
+    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    monkeypatch.setattr(rm, "verify_numpy_ceiling", lambda i: (True, "stub"))
+    doc = rm.run("solar", "Si", instruments=["solar_kpno_molecfit_corrected"],
+                 engines=["ts-lte"], bands=["VIS"], dry_run=True,
+                 interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
+                 report_dir=tmp_path)
+    assert doc["counts"][rm.NOT_READY] == 0, doc["cells"]
+    assert "solar_kpno" in doc["excluded_raw_holdings"]

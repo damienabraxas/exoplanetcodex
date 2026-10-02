@@ -326,6 +326,27 @@ def holdings_for(star: str) -> list[dict]:
     return hits
 
 
+def is_raw(h: dict) -> bool:
+    """A ground-based holding with no telluric correction applied. NEVER dispatched.
+
+    RYA-1233, Ryan 2026-10-01/02: every band of every ground-based holding is telluric-
+    corrected, and raw spectra are not used any more -- the corrected holding IS the
+    data. "Ground-based" is the instrument catalogue's own answer: only a light path with
+    no atmosphere in it (`telluric_basis=not_applicable`, e.g. a space telescope) is
+    exempt. Read off the registry's `telluric_applied` column, the same field the
+    resolver and RYA-1069 read.
+    """
+    from pipeline import telluric_policy
+    if str(h.get("telluric_applied", "")).strip() == "applied":
+        return False
+    return telluric_policy.basis(h["instrument_id"]) != "not_applicable"
+
+
+def raw_holdings(star: str) -> list[str]:
+    """The star's raw ground-based holdings, which the matrix excludes (named in the report)."""
+    return sorted(h["holding_id"] for h in holdings_for(star) if is_raw(h))
+
+
 def _bands_for(instrument: str) -> list[tuple[str, float, float]]:
     """(band, lo_A, hi_A) overlaps, from RYA-1069's own function.
 
@@ -410,6 +431,8 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
     p = preflight()
     out: list[RunDescriptor] = []
     for h in holdings_for(star):
+        if is_raw(h):
+            continue        # never dispatched; listed in the report's `excluded_raw_holdings`
         inst, hid = h["instrument_id"], h["holding_id"]
         if instruments and inst not in instruments and hid not in instruments:
             continue
@@ -849,19 +872,27 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.reason = "; ".join(f"{p.name}: {p.detail}" for p in unmet)
             continue
 
-        # ── 2. is the DATA ready (RYA-1069) ──────────────────────────────────
+        # ── 2. can the reader serve this window (RYA-1069's reader gate ONLY) ──
+        # RYA-1233, Ryan 2026-10-02: telluric correction and continuum are done ONCE per
+        # holding per band and the corrected spectrum is then frozen for every element.
+        # An element run does not re-adjudicate it -- the conductor's evidence /
+        # product / normalization / telluric gates read registry LABELS that went stale
+        # the moment the data was fixed (both fully-corrected Kitt Peak holdings were
+        # refused while raw Kitt Peak passed). Raw holdings never reach this point
+        # (`is_raw`). The one question left that a corrected spectrum can still fail
+        # is whether the reader actually serves this window.
         if ready_ix is None:
             cell.status, cell.reason = NOT_READY, ready_why
             continue
         row = ready_ix.get((d.holding, cell.band))
         if row is None:
             cell.status, cell.reason = NOT_READY, (
-                f"the RYA-1069 conductor returned no verdict for "
-                f"({d.holding}, {cell.band}). An unassessed cell is NOT a ready one.")
+                f"the RYA-1069 conductor returned no row for ({d.holding}, {cell.band}), "
+                f"so whether the reader serves this window is unknown.")
             continue
-        if row.measurement_ready != "GO":
+        if not row.reader_wired:
             cell.status, cell.reason = NOT_READY, (
-                f"{row.measurement_ready} [{row.blocking_gate}]")
+                f"reader: {d.holding} has no wired reader that serves {cell.band}")
             continue
 
         # ── 3. is the work already current (the loop-killer) ─────────────────
@@ -1012,6 +1043,9 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
                    "lo_A": c.lo_A, "hi_A": c.hi_A, "steps": c.steps_run}
                   for c in cells],
         "resume": [c.cell_key for c in cells if c.status not in TERMINAL_OK],
+        # RYA-1233: raw ground-based holdings are never dispatched, so they own no cell;
+        # named here so their absence from `cells` is a declaration, not a gap.
+        "excluded_raw_holdings": raw_holdings(star),
     }
     # Rule 2, checked rather than trusted: the counts must account for every cell
     # and every cell must carry one of the five statuses. A cell that fell through
