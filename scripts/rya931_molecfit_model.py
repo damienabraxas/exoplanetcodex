@@ -110,6 +110,22 @@ _EMPIRICAL_REGIONS = (
 )
 
 
+def _molecules() -> list[tuple[str, int, float]]:
+    """(molecule, fitted?, relative column). Default: O2 fitted from 1.0 (RYA-931).
+
+    RYA-1232: RYA931_MOLECULES="O2:fit,H2O:1.0" adds molecules HELD at a relative column
+    (here H2O at the night's GDAS column), so molecfit_calctrans can later evaluate them
+    across the full range with the fitted LSF and wavelength solution."""
+    env = os.environ.get("RYA931_MOLECULES", "").strip()
+    if not env:
+        return [("O2", 1, 1.0)]
+    out = []
+    for tok in env.split(","):
+        name, how = tok.split(":")
+        out.append((name, 1, 1.0) if how == "fit" else (name, 0, float(how)))
+    return out
+
+
 def include_regions_A(lo_cut: float = 0.0, hi_cut: float = 1.0e9) -> list[tuple[float, float]]:
     """Fit regions (Å) = every registered telluric band of a FITTED molecule, widened by a
     continuum shoulder, UNIONED with the empirically established regions above.
@@ -123,6 +139,18 @@ def include_regions_A(lo_cut: float = 0.0, hi_cut: float = 1.0e9) -> list[tuple[
     is True, and the substring version duly pulled the CO2 15700-16100 band into a HARPS
     O2 fit — a band 9000 A outside the instrument.
     """
+    # RYA-1232: RYA931_INCLUDE_A="6857-6911[,a-b...]" fits ONLY these regions. The
+    # full-range driver (scripts/rya1232_harps_full_telluric.py) fits the proven O2 B
+    # window and carries the solution to every other wavelength with molecfit_calctrans.
+    _env = os.environ.get("RYA931_INCLUDE_A", "").strip()
+    if _env:
+        _out = []
+        for _tok in _env.split(","):
+            _a, _b = (float(x) for x in _tok.split("-"))
+            _a, _b = max(_a, lo_cut), min(_b, hi_cut)
+            if _b - _a > 1.0:
+                _out.append((_a, _b))
+        return sorted(_out)
     from pipeline.telluric_policy import TELLURIC_BANDS
     want = []
     for lo, hi, name in TELLURIC_BANDS:
@@ -257,9 +285,10 @@ def write_inputs(source: Path, atlas: Path | None, destination: Path) -> dict:
                     array=[b / 1.0e4 for _, b in _regions]),
     ]).writeto(destination / "wave_include.fits", overwrite=True)
     fits.BinTableHDU.from_columns([
-        fits.Column(name="LIST_MOLEC", format="4A", array=["O2"]),
-        fits.Column(name="FIT_MOLEC", format="1J", array=np.array([1], dtype=np.int32)),
-        fits.Column(name="REL_COL", format="1D", array=[1.0]),
+        fits.Column(name="LIST_MOLEC", format="4A", array=[m for m, _, _ in _molecules()]),
+        fits.Column(name="FIT_MOLEC", format="1J",
+                    array=np.array([f for _, f, _ in _molecules()], dtype=np.int32)),
+        fits.Column(name="REL_COL", format="1D", array=[c for _, _, c in _molecules()]),
     ]).writeto(destination / "molecules.fits", overwrite=True)
     # esorex splits SOF lines on whitespace, so an absolute path under
     # "~/Documents/Exoplanet Codex/" is torn in two ("Could not open the input

@@ -2765,9 +2765,16 @@ artifacts:
   - artifact: data/processed/solar_normalized_tellcorr.csv
     status: COMMITTED
     generator: scripts/rya931_normalize_corrected.py
-    invocation: python scripts/rya931_normalize_corrected.py <corrected_exposures_dir> data/processed/solar_normalized_tellcorr.csv
-    ticket: RYA-931; RYA-939
+    invocation: python scripts/rya1232_harps_full_telluric.py <exposures> <gdas> <iag_atlas> <workroot> <corrected_dir> && python scripts/rya931_normalize_corrected.py <corrected_dir> data/processed/solar_normalized_tellcorr.csv --report data/audit/rya1232_harps_full_telluric/normalization.json
+    ticket: RYA-931; RYA-939; RYA-1232
     note: >-
+      RYA-1232: rebuilt with FULL-RANGE correction (H2O 5700-6550, O2 gamma, O2 B) by
+      scripts/rya1232_harps_full_telluric.py -- RYA-931's O2 B molecfit fit carried over the
+      whole exposure by molecfit_calctrans, H2O column fitted against the IAG telluric-free
+      atlas (1.003-1.037 x GDAS over the ten exposures). Per-exposure report:
+      data/audit/rya1232_harps_full_telluric/exposure_correction.json. The O2-B-only
+      version (blob d50ab22) left H2O and O2 gamma byte-identical to raw. The text below
+      describes the RYA-931 build.
       The telluric-CORRECTED sibling, holding solar_harps_molecfit_corrected. Same ten
       exposures and the same normaliser, with O2 B divided out per exposure by its own
       molecfit/GDAS transmission. 256 saturated-core pixels are NaN — quarantined, not
