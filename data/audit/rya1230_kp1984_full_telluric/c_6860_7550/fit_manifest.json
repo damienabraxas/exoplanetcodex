@@ -1,0 +1,271 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    6860.0,
+    7550.0
+  ],
+  "fit_window_A": [
+    6835.0,
+    7575.0
+  ],
+  "molecules": [
+    "H2O",
+    "O2"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0680",
+      "md5": "dcf6228b56a56894001607dce0695a0d",
+      "own_range_A": [
+        6800.0,
+        6840.0
+      ],
+      "n_kept": 4737
+    },
+    {
+      "segment": "lm0684",
+      "md5": "a131345370a94e76fc7304a7ea47c7a2",
+      "own_range_A": [
+        6840.0,
+        6880.0
+      ],
+      "n_kept": 4681
+    },
+    {
+      "segment": "lm0688",
+      "md5": "75cba832fe5779f12a47aa73972426e8",
+      "own_range_A": [
+        6880.0,
+        6920.0
+      ],
+      "n_kept": 4627
+    },
+    {
+      "segment": "lm0692",
+      "md5": "fe1bfe91e2e748c10b851a0f2729155a",
+      "own_range_A": [
+        6920.0,
+        6960.0
+      ],
+      "n_kept": 4574
+    },
+    {
+      "segment": "lm0696",
+      "md5": "58430999e7c4fa758a414f47074418ee",
+      "own_range_A": [
+        6960.0,
+        7000.0
+      ],
+      "n_kept": 4521
+    },
+    {
+      "segment": "lm0700",
+      "md5": "0390cefd73666ae4933cfa6d2a7f751c",
+      "own_range_A": [
+        7000.0,
+        7040.0
+      ],
+      "n_kept": 4471
+    },
+    {
+      "segment": "lm0704",
+      "md5": "441e1da69a5220c7318997689f964b5f",
+      "own_range_A": [
+        7040.0,
+        7080.0
+      ],
+      "n_kept": 4420
+    },
+    {
+      "segment": "lm0708",
+      "md5": "e66dcda8edaa3cd8ca9c98e372133192",
+      "own_range_A": [
+        7080.0,
+        7120.0
+      ],
+      "n_kept": 4370
+    },
+    {
+      "segment": "lm0712",
+      "md5": "81637302279f27d22a261a41600154e0",
+      "own_range_A": [
+        7120.0,
+        7160.0
+      ],
+      "n_kept": 4321
+    },
+    {
+      "segment": "lm0716",
+      "md5": "1ab9f42dc93fd99f8757a3a4b209516a",
+      "own_range_A": [
+        7160.0,
+        7200.0
+      ],
+      "n_kept": 4273
+    },
+    {
+      "segment": "lm0720",
+      "md5": "a59d38475d821aa1f973fa03929a45ca",
+      "own_range_A": [
+        7200.0,
+        7240.0
+      ],
+      "n_kept": 4226
+    },
+    {
+      "segment": "lm0724",
+      "md5": "0f583f3d8e2954ba83e90a9de66a8174",
+      "own_range_A": [
+        7240.0,
+        7280.0
+      ],
+      "n_kept": 4180
+    },
+    {
+      "segment": "lm0728",
+      "md5": "05f95761b8745b729bc68de982e80ea3",
+      "own_range_A": [
+        7280.0,
+        7320.0
+      ],
+      "n_kept": 4134
+    },
+    {
+      "segment": "lm0732",
+      "md5": "d7d1798b1a0077b8e9a3781ca08a1f16",
+      "own_range_A": [
+        7320.0,
+        7360.0
+      ],
+      "n_kept": 4089
+    },
+    {
+      "segment": "lm0736",
+      "md5": "872ba7b16631336f6638584a349b786a",
+      "own_range_A": [
+        7360.0,
+        7400.0
+      ],
+      "n_kept": 4045
+    },
+    {
+      "segment": "lm0740",
+      "md5": "d074b32ec318b8b86f64e67134f4a230",
+      "own_range_A": [
+        7400.0,
+        7440.0
+      ],
+      "n_kept": 4001
+    },
+    {
+      "segment": "lm0744",
+      "md5": "807289808efcfc57d73e82cb1ad565c0",
+      "own_range_A": [
+        7440.0,
+        7480.0
+      ],
+      "n_kept": 3958
+    },
+    {
+      "segment": "lm0748",
+      "md5": "ea5c2bbe51732f60eccd6bb1b643db6f",
+      "own_range_A": [
+        7480.0,
+        7520.0
+      ],
+      "n_kept": 3917
+    },
+    {
+      "segment": "lm0752",
+      "md5": "6312cb923c4eb969d50b91ace36981de",
+      "own_range_A": [
+        7520.0,
+        7560.0
+      ],
+      "n_kept": 4437
+    },
+    {
+      "segment": "lm0756",
+      "md5": "18f6f6fb3abca96e62802a7a012a1520",
+      "own_range_A": [
+        7560.0,
+        7600.0
+      ],
+      "n_kept": 4896
+    }
+  ],
+  "n_atlas_pixels": 79677,
+  "resample_step_A": 0.009200000000419095,
+  "n_fit_pixels": 80435,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/Users/ryanschmitt/codex/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "externally_validated": true,
+  "solar_mask_intervals": 418,
+  "solar_mask_pixels": 14111,
+  "solar_mask_fraction": 0.1754,
+  "atlas_resolving_power": 148000.0,
+  "expected_lsf_fwhm_pix": 5.291568742414649,
+  "lsf_start_ladder_pix": [
+    5.292,
+    4.233,
+    6.614,
+    3.44,
+    8.467,
+    2.646
+  ],
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 5.292,
+      "gaussfwhm": 3.4168803158356233,
+      "reduced_chi2": 3.4497066144139064,
+      "rms_rel_to_mean": 0.01857325502390138,
+      "column_scale": 1.9885,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_H2O": 1.9885173850465907,
+      "rel_mol_col_O2": 1.2997452513039458
+    }
+  ],
+  "accepted": "/Users/ryanschmitt/codex/rya1230_runs/molecfit/c_6860_7550/start_5p29",
+  "correction": {
+    "dt_transmission_sigma": 0.005398615981446773,
+    "t_min": 0.10797231962893544,
+    "n_corrected": 79368,
+    "n_quarantined": 307,
+    "before": {
+      "n": 73666,
+      "min": -0.00666,
+      "median": 0.98307,
+      "pct_below_0.5": 1.6547661064806016,
+      "pct_below_0.95": 22.268074824206554
+    },
+    "after": {
+      "n": 73359,
+      "min": -0.04470174162424964,
+      "median": 0.9921014176120493,
+      "pct_below_0.5": 0.313526629316103,
+      "pct_below_0.95": 10.557668452405295
+    },
+    "vs_reference_before": {
+      "n": 73666,
+      "rms": 0.10941810258724978,
+      "median_offset": -0.006757090790711351
+    },
+    "vs_reference_after": {
+      "n": 73359,
+      "rms": 0.04757175831841295,
+      "median_offset": -0.002533546289463784
+    },
+    "reference_kind": "kurucz2005"
+  }
+}

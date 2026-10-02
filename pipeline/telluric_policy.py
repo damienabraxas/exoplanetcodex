@@ -590,7 +590,10 @@ def applied_state(holding_id: str) -> str:
 VERIFIED_HOLDING_STATE: dict[str, str] = {
     # holding                          state        evidence
     "solar_harps_molecfit_corrected": "corrected",  # RYA-1192: O2 B-band mean|diff| 0.264
-    "solar_kpno_molecfit_corrected":  "raw",        # RYA-1192: RAW on 146/146, max|diff| 0
+    # RYA-1230: FULL-COVERAGE molecfit, 3000-13000 A by molecular complex (was six RYA-940
+    # windows; the rest was byte-identical to raw). Measured: 10000 of 10000 A differ from
+    # raw, 0 A raw, 0 duplicate seams; data/audit/rya1230_kp1984_full_telluric/findings.md.
+    "solar_kpno_molecfit_corrected":  "corrected",
 }
 
 #: 🔴 MEASURED per-holding PER-BAND telluric state (RYA-1191). The map above cannot hold
