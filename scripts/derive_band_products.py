@@ -1092,7 +1092,30 @@ def synthesis_route(a, pol) -> None:
     _lo_cov, _hi_cov = float(_ll.wave_A.min()), float(_ll.wave_A.max())
     _gap_lo = max(0.0, _lo_cov - a.lo)
     _gap_hi = max(0.0, a.hi - _hi_cov)
-    if _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
+    _CLIP_NOTE = ""
+    if (_gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A) \
+            and getattr(a, "clip_to_synthesis_list", False):
+        # RYA-1233: asked for EXPLICITLY (the orchestrator's synthesis cells). The run is
+        # narrowed to what the list covers BEFORE the stem is built, so the artifact names
+        # the range it was synthesised over -- RYA-967's rule kept, not bypassed -- and
+        # the narrowing is printed and carried into the provenance.
+        _req = (a.lo, a.hi)
+        a.lo, a.hi = max(a.lo, _lo_cov), min(a.hi, _hi_cov)
+        if a.hi <= a.lo:
+            raise SystemExit(f"{pol.name} synthesis list {cfg.linelist.name} covers "
+                             f"{_lo_cov:.1f}-{_hi_cov:.1f} A: nothing of {_req[0]:.1f}-"
+                             f"{_req[1]:.1f} A is synthesisable.")
+        _CLIP_NOTE = (f" CLIPPED TO THE SYNTHESIS LIST (RYA-1233): requested "
+                      f"{_req[0]:.1f}-{_req[1]:.1f} A, {cfg.linelist.name} covers "
+                      f"{_lo_cov:.1f}-{_hi_cov:.1f} A, synthesised {a.lo:.1f}-{a.hi:.1f} A.")
+        print(f"\n  [clip]{_CLIP_NOTE}")
+        _w = _sp.wave_A[(_sp.wave_A >= a.lo) & (_sp.wave_A <= a.hi)]
+        if _w.empty:
+            _w = _ll.wave_A[(_ll.wave_A >= a.lo) & (_ll.wave_A <= a.hi)]
+        if _w.empty:
+            raise SystemExit(f"no line in {cfg.linelist.name} lies within "
+                             f"{a.lo}-{a.hi} A after clipping to the list.")
+    elif _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
         raise SystemExit(
             f"{pol.name} synthesis list {cfg.linelist.name} covers "
             f"{_lo_cov:.1f}-{_hi_cov:.1f} A but the run asks for {a.lo:.1f}-{a.hi:.1f} A "
@@ -1468,7 +1491,8 @@ def synthesis_route(a, pol) -> None:
     from measure_band_ew import telluric_reason, serves_corrected_flux
     from pipeline.fit_validity import (fit_is_physical,
                                        rejection_reason as fit_rejection_reason)
-    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
+    # RYA-1233: per-HOLDING, as telluric_reason's own docstring asks (RYA-1194).
+    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument, a.holding))
              for r in cand.itertuples()]
     _lifted = [(w, serves_corrected_flux(a.holding, w)) for w, why in _tell if why]
     _lifted = [(w, prov) for w, prov in _lifted if prov]
@@ -1993,6 +2017,7 @@ def synthesis_route(a, pol) -> None:
         + "".join(getattr(_served_specs[k], "caveat", "") + " "
                   for k in sorted(_served) if getattr(_served_specs[k], "caveat", ""))
         + "gf: " + str(prov_gf["detail"]) + ". "
+        + _CLIP_NOTE.strip() + (" " if _CLIP_NOTE else "")
         + "Half-width is FIXED and must be swept. "
         + constraint_describe() + " " +
         # RYA-855 — the rung is QUOTED from the decider, never restated. The sentence
@@ -2685,6 +2710,10 @@ def main() -> None:
                          "applied -- graded and deep-graded together, plus the lines "
                          "whose depth is unknown and which both depth-split selectors "
                          "drop. It publishes as Reference Grade. See _cand_reference.")
+    ap.add_argument("--clip-to-synthesis-list", action="store_true",
+                    help="RYA-1233: narrow a synthesis run to what the band's synthesis "
+                         "line list covers (stem and provenance name the narrowed range) "
+                         "instead of refusing. Off by default.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
@@ -3067,8 +3096,17 @@ def main() -> None:
         if mean3d:
             treatment = (taxes.MEAN3D_NLTE_STAGGER if nlte
                          else taxes.MEAN3D_LTE_STAGGER).token
+        elif nlte:
+            treatment = "ENGINE-B-NLTE"
+        elif a.engine_b_deck == "gerber-1d-lte":
+            # RYA-1233: the Gerber 1D deck's LTE comparand -- its OWN atmosphere (MARCS.GES)
+            # with departures withheld -- under its registered token, exactly as the
+            # synthesis route above has emitted it since RYA-1045. This route used to label
+            # it "ENGINE-B" and run it on the route's ATLAS9 atmosphere, which made it a
+            # byte-identical re-run of the ts-lte leg written to the same file.
+            treatment = taxes.GERBER1D_LTE_MARCS.token
         else:
-            treatment = "ENGINE-B-NLTE" if nlte else "ENGINE-B"
+            treatment = "ENGINE-B"
         # RYA-880. ⚠️ The NLTE deck has NO additive per-line delta: the departures enter
         # the radiative transfer and RYA-712 makes this a separate product, not a
         # corrected LTE value. None means "no additive correction exists on this route",
@@ -3255,6 +3293,16 @@ def main() -> None:
                   f"ndep={dep['ndep']} nk={dep['nk']} A_deck={dep['deck_abundance']}")
             print(f"    atmosphere MARCS.GES ({len(ctx_b['atmosphere'])} layers), "
                   f"{n_lab} NLTE-labelled {a.element} lines in the list")
+        elif a.engine_b_deck == "gerber-1d-lte":
+            # RYA-1233: same atmosphere family as the NLTE member, departures withheld, so
+            # (ENGINE-B-NLTE minus this) is the NLTE effect on ONE atmosphere (RYA-542).
+            from pipeline.abundances_derive import _load_atmosphere
+            ctx_b["atmosphere"] = _load_atmosphere(
+                float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
+                float(ctx["vturb"]), model_grid="MARCS.GES")
+            ctx_b["nlte_deck"] = None
+            print(f"    atmosphere MARCS.GES ({len(ctx_b['atmosphere'])} layers), "
+                  f"Gerber 1D deck setup, departures WITHHELD")
 
         # TELLURIC — RYA-786. An earlier version of this block DECLARED
         # `telluric_corrected: True` from the instrument catalog to get past the handler's
@@ -3345,6 +3393,9 @@ def main() -> None:
             "computed on; departures are node-fixed because the deck has no abundance "
             "axis, so only the bsyn abundance stamp follows each trial value"
             if nlte else
+            "Turbospectrum LTE on the Gerber 1D deck's own atmosphere (MARCS.GES) with "
+            "departures WITHHELD -- the paired comparand for ENGINE-B-NLTE (RYA-1045)"
+            if a.engine_b_deck == "gerber-1d-lte" else
             "Turbospectrum LTE, NOT the Gerber TS-native NLTE deck")
         # 🔴 RYA-913 — PROVENANCE MUST MATCH INVOCATION. The defect this ticket exists
         # for produced a product tagged `harps` whose every line was read off the Kitt

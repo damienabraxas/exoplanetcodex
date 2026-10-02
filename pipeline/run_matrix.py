@@ -67,7 +67,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-from pipeline.run_descriptor import RunDescriptor, resolve  # noqa: E402
+from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
+                                     permitted_methods, ROUTE_TOKEN)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
@@ -326,6 +327,42 @@ def holdings_for(star: str) -> list[dict]:
     return hits
 
 
+def is_raw(h: dict) -> bool:
+    """A ground-based holding with no telluric correction applied. NEVER dispatched.
+
+    RYA-1233, Ryan 2026-10-01/02: every band of every ground-based holding is telluric-
+    corrected, and raw spectra are not used any more -- the corrected holding IS the
+    data. "Ground-based" is the instrument catalogue's own answer: only a light path with
+    no atmosphere in it (`telluric_basis=not_applicable`, e.g. a space telescope) is
+    exempt. Read off the registry's `telluric_applied` column, the same field the
+    resolver and RYA-1069 read.
+    """
+    from pipeline import telluric_policy
+    if str(h.get("telluric_applied", "")).strip() == "applied":
+        return False
+    return telluric_policy.basis(h["instrument_id"]) != "not_applicable"
+
+
+def raw_holdings(star: str) -> list[str]:
+    """The star's raw ground-based holdings, which the matrix excludes (named in the report)."""
+    return sorted(h["holding_id"] for h in holdings_for(star) if is_raw(h))
+
+
+def unwired_holdings(star: str) -> list[str]:
+    """Holdings with NO wired spectrum reader -- e.g. a published line table such as
+    `elgueta2026_vizier`. RYA-1233: they own no cell (nothing can be measured from them)
+    and are named in the report's `excluded_unwired_holdings` instead of filling it with
+    BLOCKED rows. Only answered when the harness itself imported: if it did not, EVERY
+    holding would look unwired, so the exclusion is skipped and the resolver blocks each
+    cell with the real reason instead.
+    """
+    p = preflight()
+    if p is None or p.harness() is None:
+        return []
+    return sorted(h["holding_id"] for h in holdings_for(star)
+                  if not is_raw(h) and p.holding_spec(h["holding_id"]) is None)
+
+
 def _bands_for(instrument: str) -> list[tuple[str, float, float]]:
     """(band, lo_A, hi_A) overlaps, from RYA-1069's own function.
 
@@ -371,7 +408,8 @@ def _clip_to_holding(spec, lo: float, hi: float) -> tuple[float, float]:
 
 def expand(star: str, element: str, *, ions: list[str] | None = None,
            bands: list[str] | None = None, instruments: list[str] | None = None,
-           engines: list[str] | None = None) -> list[RunDescriptor]:
+           engines: list[str] | None = None,
+           methods: list[str] | None = None) -> list[RunDescriptor]:
     """Every applicable (band x holding x ion x deck) cell, in a stable sorted order.
 
     A cell is omitted ONLY where the wired `HoldingSpec` positively declares a
@@ -408,8 +446,13 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             f"1D -> mean-3D ATMOSPHERE shift as non-LTE physics.")
 
     p = preflight()
+    unwired = set(unwired_holdings(star))
     out: list[RunDescriptor] = []
     for h in holdings_for(star):
+        if is_raw(h):
+            continue        # never dispatched; listed in the report's `excluded_raw_holdings`
+        if h["holding_id"] in unwired:
+            continue        # no reader; listed in the report's `excluded_unwired_holdings`
         inst, hid = h["instrument_id"], h["holding_id"]
         if instruments and inst not in instruments and hid not in instruments:
             continue
@@ -420,12 +463,23 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             lo, hi = _clip_to_holding(spec, lo, hi)
             if hi <= lo:
                 continue                      # declared out of span -- rule 2's one exit
+            # RYA-1233: every route the band permits is its own cell (and its own
+            # product: `route` PROFILEFIT vs SYNTH). A band with no dispatchable method
+            # still gets ONE cell, with the policy's choice left to the resolver, so it
+            # is BLOCKED with the reason rather than dropped.
+            permitted = permitted_methods(lo, hi)
+            want_m = [m for m in permitted if not methods or m in methods]
+            if permitted and not want_m:
+                continue                      # filtered out by the caller's --route
+            want_m = want_m or [None]
             for ion in want_ions:
                 for deck in want_decks:
-                    out.append(RunDescriptor(
-                        element=symbol, ion=ion, instrument=inst, holding=hid,
-                        lo_A=lo, hi_A=hi, engine_deck=deck))
-    out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck))
+                    for m in want_m:
+                        out.append(RunDescriptor(
+                            element=symbol, ion=ion, instrument=inst, holding=hid,
+                            lo_A=lo, hi_A=hi, engine_deck=deck, method=m))
+    out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck,
+                            d.method or ""))
     return out
 
 
@@ -511,6 +565,14 @@ def load_feed(star: str, element: str) -> dict:
     return _publisher().load(element, star)
 
 
+def route_of(descriptor: RunDescriptor) -> str:
+    """The feed's `route` token this cell produces under (PROFILEFIT / SYNTH), or '?'."""
+    try:
+        return ROUTE_TOKEN.get(descriptor.method or method_for(descriptor), "?")
+    except Exception:                                          # noqa: BLE001
+        return "?"          # the resolver will BLOCK this cell with the real reason
+
+
 def cell_prefix_key(descriptor: RunDescriptor) -> str:
     """The part of a product's identity a CELL fixes.
 
@@ -520,7 +582,7 @@ def cell_prefix_key(descriptor: RunDescriptor) -> str:
     the treatment axis is matched separately against the deck's emitted set.
     """
     return "|".join((descriptor.element, descriptor.ion, descriptor.band,
-                     descriptor.instrument, descriptor.holding))
+                     descriptor.instrument, descriptor.holding, route_of(descriptor)))
 
 
 def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict]:
@@ -532,6 +594,7 @@ def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict
             and str(p.get("band")) == band
             and str(p.get("instrument")) == descriptor.instrument
             and str(p.get("holding")) == descriptor.holding
+            and str(p.get("route")) == route_of(descriptor)
             and str(p.get("treatment")) in emits]
 
 
@@ -578,7 +641,8 @@ def ledger_key(star: str, descriptor: RunDescriptor, band: str) -> str:
     """The cell's identity in the sidecar. Carries the deck, which the product key
     does not: two decks over one window are two runs and two hashes."""
     return "|".join((star, descriptor.element, descriptor.ion, band,
-                     descriptor.instrument, descriptor.holding, descriptor.engine_deck))
+                     descriptor.instrument, descriptor.holding, descriptor.engine_deck,
+                     route_of(descriptor)))
 
 
 def load_ledger() -> dict:
@@ -644,6 +708,7 @@ class CellResult:
     engine: str
     status: str
     reason: str
+    route: str = ""            # RYA-1233: PROFILEFIT / SYNTH -- the feed's own token
     A: float | None = None
     n_lines: int | None = None
     product_key: str = ""
@@ -654,7 +719,8 @@ class CellResult:
 
     @property
     def cell_key(self) -> str:
-        return "|".join((self.band, self.instrument, self.holding, self.ion, self.engine))
+        return "|".join((self.band, self.instrument, self.holding, self.ion, self.engine,
+                         self.route))
 
 
 def _utc() -> str:
@@ -787,6 +853,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
+        methods: list[str] | None = None,
         step_timeout: int = 7200, report_dir: Path | None = None,
         echo: bool = True) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
@@ -802,7 +869,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     ispec_dir = ispec_dir or os.environ.get("ISPEC_DIR") or ""
 
     descriptors = expand(star, element, ions=ions, bands=bands,
-                         instruments=instruments, engines=engines)
+                         instruments=instruments, engines=engines, methods=methods)
 
     # The RYA-682 ceiling once per run, not once per cell -- but its verdict is
     # carried INTO every cell, because a failed check must block dispatch rather
@@ -824,6 +891,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         band = _band_of(d, star)
         cell = CellResult(band=band.name_declared, instrument=d.instrument,
                           holding=d.holding, ion=d.ion, engine=d.engine_deck,
+                          route=route_of(d),
                           status=BLOCKED, reason="", lo_A=d.lo_A, hi_A=d.hi_A,
                           product_key=cell_prefix_key(d))
         cells.append(cell)
@@ -849,19 +917,27 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.reason = "; ".join(f"{p.name}: {p.detail}" for p in unmet)
             continue
 
-        # ── 2. is the DATA ready (RYA-1069) ──────────────────────────────────
+        # ── 2. can the reader serve this window (RYA-1069's reader gate ONLY) ──
+        # RYA-1233, Ryan 2026-10-02: telluric correction and continuum are done ONCE per
+        # holding per band and the corrected spectrum is then frozen for every element.
+        # An element run does not re-adjudicate it -- the conductor's evidence /
+        # product / normalization / telluric gates read registry LABELS that went stale
+        # the moment the data was fixed (both fully-corrected Kitt Peak holdings were
+        # refused while raw Kitt Peak passed). Raw holdings never reach this point
+        # (`is_raw`). The one question left that a corrected spectrum can still fail
+        # is whether the reader actually serves this window.
         if ready_ix is None:
             cell.status, cell.reason = NOT_READY, ready_why
             continue
         row = ready_ix.get((d.holding, cell.band))
         if row is None:
             cell.status, cell.reason = NOT_READY, (
-                f"the RYA-1069 conductor returned no verdict for "
-                f"({d.holding}, {cell.band}). An unassessed cell is NOT a ready one.")
+                f"the RYA-1069 conductor returned no row for ({d.holding}, {cell.band}), "
+                f"so whether the reader serves this window is unknown.")
             continue
-        if row.measurement_ready != "GO":
+        if not row.reader_wired:
             cell.status, cell.reason = NOT_READY, (
-                f"{row.measurement_ready} [{row.blocking_gate}]")
+                f"reader: {d.holding} has no wired reader that serves {cell.band}")
             continue
 
         # ── 3. is the work already current (the loop-killer) ─────────────────
@@ -1006,12 +1082,17 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         "cells_total": len(cells),
         "counts": counts,
         "cells": [{"band": c.band, "instrument": c.instrument, "holding": c.holding,
-                   "ion": c.ion, "engine": c.engine, "status": c.status,
+                   "ion": c.ion, "engine": c.engine, "route": c.route,
+                   "status": c.status,
                    "reason": c.reason, "A": c.A, "n_lines": c.n_lines,
                    "product_key": c.product_key, "inputs_hash": c.inputs_hash,
                    "lo_A": c.lo_A, "hi_A": c.hi_A, "steps": c.steps_run}
                   for c in cells],
         "resume": [c.cell_key for c in cells if c.status not in TERMINAL_OK],
+        # RYA-1233: raw ground-based holdings are never dispatched, so they own no cell;
+        # named here so their absence from `cells` is a declaration, not a gap.
+        "excluded_raw_holdings": raw_holdings(star),
+        "excluded_unwired_holdings": unwired_holdings(star),
     }
     # Rule 2, checked rather than trusted: the counts must account for every cell
     # and every cell must carry one of the five statuses. A cell that fell through
@@ -1039,7 +1120,7 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
 def render(doc: dict) -> str:
     """The compact ASCII table plus the one-line verdict. ASCII only (Cloudflare WAF)."""
     head = (f"{'band':<12} {'instrument':<24} {'holding':<34} {'ion':<4} "
-            f"{'engine':<18} {'status':<10} {'A':>8} {'n':>5}  reason")
+            f"{'engine':<18} {'route':<10} {'status':<10} {'A':>8} {'n':>5}  reason")
     lines = [
         f"ORCHESTRATOR  star={doc['star']}  element={doc['element']}  "
         f"{'DRY-RUN' if doc['dry_run'] else 'EXECUTE'}  commit={doc['code_commit']}",
@@ -1054,7 +1135,8 @@ def render(doc: dict) -> str:
         if len(reason) > 96:
             reason = reason[:93] + "..."
         lines.append(f"{c['band']:<12} {c['instrument']:<24} {c['holding']:<34} "
-                     f"{c['ion']:<4} {c['engine']:<18} {c['status']:<10} {a:>8} {n:>5}  {reason}")
+                     f"{c['ion']:<4} {c['engine']:<18} {c.get('route', ''):<10} "
+                     f"{c['status']:<10} {a:>8} {n:>5}  {reason}")
     # Every status in STATUSES, including the zeroes: a verdict line that prints only
     # the non-zero counts cannot be read as "and nothing else happened", which is the
     # one thing an operator needs it to say.
