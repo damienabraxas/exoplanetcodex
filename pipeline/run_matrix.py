@@ -347,6 +347,21 @@ def raw_holdings(star: str) -> list[str]:
     return sorted(h["holding_id"] for h in holdings_for(star) if is_raw(h))
 
 
+def unwired_holdings(star: str) -> list[str]:
+    """Holdings with NO wired spectrum reader -- e.g. a published line table such as
+    `elgueta2026_vizier`. RYA-1233: they own no cell (nothing can be measured from them)
+    and are named in the report's `excluded_unwired_holdings` instead of filling it with
+    BLOCKED rows. Only answered when the harness itself imported: if it did not, EVERY
+    holding would look unwired, so the exclusion is skipped and the resolver blocks each
+    cell with the real reason instead.
+    """
+    p = preflight()
+    if p is None or p.harness() is None:
+        return []
+    return sorted(h["holding_id"] for h in holdings_for(star)
+                  if not is_raw(h) and p.holding_spec(h["holding_id"]) is None)
+
+
 def _bands_for(instrument: str) -> list[tuple[str, float, float]]:
     """(band, lo_A, hi_A) overlaps, from RYA-1069's own function.
 
@@ -429,10 +444,13 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             f"1D -> mean-3D ATMOSPHERE shift as non-LTE physics.")
 
     p = preflight()
+    unwired = set(unwired_holdings(star))
     out: list[RunDescriptor] = []
     for h in holdings_for(star):
         if is_raw(h):
             continue        # never dispatched; listed in the report's `excluded_raw_holdings`
+        if h["holding_id"] in unwired:
+            continue        # no reader; listed in the report's `excluded_unwired_holdings`
         inst, hid = h["instrument_id"], h["holding_id"]
         if instruments and inst not in instruments and hid not in instruments:
             continue
@@ -1046,6 +1064,7 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         # RYA-1233: raw ground-based holdings are never dispatched, so they own no cell;
         # named here so their absence from `cells` is a declaration, not a gap.
         "excluded_raw_holdings": raw_holdings(star),
+        "excluded_unwired_holdings": unwired_holdings(star),
     }
     # Rule 2, checked rather than trusted: the counts must account for every cell
     # and every cell must carry one of the five statuses. A cell that fell through

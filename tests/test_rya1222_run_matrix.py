@@ -146,18 +146,11 @@ def test_resume_is_exactly_the_cells_whose_work_does_not_exist(dry, rm):
     assert len(dry["resume"]) == len(expected)
 
 
-def test_the_band_edge_disagreement_blocks_rather_than_picks_a_winner(dry):
-    """🔴 synth_bands ends red-optical at 9199 A and band_policy at 10000 A.
-
-    A NIR window clipped to 9199-10650 has a midpoint of 9924.5 A, which
-    `band_policy.resolve` -- and therefore `method_for` -- calls red-optical, where
-    profile-fit is PERMITTED and in NIR it is forbidden. The cell would have been
-    dispatched under the wrong regime's method with nothing saying so.
-    """
-    hit = [c for c in dry["cells"] if "BAND-EDGE DISAGREEMENT" in (c["reason"] or "")]
-    assert hit, "the two band tables no longer disagree -- delete this guard and say why"
-    for c in hit:
-        assert c["status"] == "BLOCKED"
+# RYA-1233: `test_the_band_edge_disagreement_blocks_rather_than_picks_a_winner` lived here
+# and asked to be deleted, with a reason, the day the two tables agreed. They agree:
+# pipeline/band_policy.py now reads its optical/NIR edges from config/synth_bands.yaml
+# (`test_band_policy_edges_are_synth_bands_edges`). `_band_of` keeps the refusal, so a
+# future second edge table still blocks rather than tiebreaks.
 
 
 def test_the_report_is_written_and_reloadable(rm, tmp_path):
@@ -606,3 +599,72 @@ def test_a_corrected_holding_is_not_refused_on_a_stale_label(rm, monkeypatch, tm
                  report_dir=tmp_path)
     assert doc["counts"][rm.NOT_READY] == 0, doc["cells"]
     assert "solar_kpno" in doc["excluded_raw_holdings"]
+
+
+def test_band_policy_edges_are_synth_bands_edges():
+    """RYA-1233: two edge tables disagreed (3780/3800, 9199/10000) and BLOCKED every IAG
+    and Kurucz-2005 NIR cell. One table now."""
+    from config.synth_bands import SYNTH_BANDS
+    from pipeline import band_policy
+    pol = {p.name: p for p in band_policy.POLICIES}
+    for name in ("near-UV", "VIS", "red-optical"):
+        assert pol[name].hi_A == SYNTH_BANDS[name].hi_A, name
+    for name in ("VIS", "red-optical", "NIR"):
+        assert pol[name].lo_A == SYNTH_BANDS[name].lo_A, name
+
+
+def test_no_cell_is_blocked_by_a_band_edge_disagreement(rm):
+    for d in rm.expand("solar", "Si"):
+        assert not rm._band_of(d, "solar").disagreement, d
+
+
+def test_every_deck_writes_its_own_products_file():
+    """RYA-1233: five deck runs on one holding left ONE products file (each rewrote it)."""
+    from pipeline.run_descriptor import RunDescriptor, deck_out_dir, BAND_PRODUCTS_DIR
+    from pipeline.run_matrix import DECK_EMITS
+    dirs = [deck_out_dir(d) for d in DECK_EMITS]
+    assert len(set(dirs)) == len(dirs)
+    assert deck_out_dir(RunDescriptor.__dataclass_fields__["engine_deck"].default) \
+        == BAND_PRODUCTS_DIR, "the production deck's directory must not move"
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    assert 'OUT = ROOT / ' + ' / '.join(f'"{p}"' for p in BAND_PRODUCTS_DIR.split("/")) in src
+
+
+def test_the_resolver_passes_each_deck_its_own_out_dir():
+    from pipeline.run_descriptor import RunDescriptor, resolve, deck_out_dir
+    for deck in ("ts-lte", "gerber-1d-lte", "gerber-nlte"):
+        d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                          holding="solar_harps_molecfit_corrected",
+                          lo_A=3782.6, hi_A=6910.0, engine_deck=deck)
+        step = [s for s in resolve(d, interpreter=sys.executable, ispec_dir="/x").steps
+                if s["name"] == "derive_products"][0]
+        assert step["args"][step["args"].index("--out") + 1] == deck_out_dir(deck)
+        assert step["produces"].startswith(deck_out_dir(deck) + "/")
+
+
+def test_no_two_decks_claim_the_same_treatment(rm):
+    seen: dict = {}
+    for deck, toks in rm.DECK_EMITS.items():
+        for t in toks:
+            assert t not in seen, f"{t} emitted by both {seen.get(t)} and {deck}"
+            seen[t] = deck
+
+
+def test_the_profilefit_route_labels_the_gerber_1d_deck_with_its_own_token():
+    """It wrote "ENGINE-B" on ATLAS9 -- a byte-identical re-run of ts-lte under ts-lte's label."""
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    main_route = src[src.index("if not a.skip_engine_b:\n        # RYA-1040"):]
+    head = main_route[:main_route.index("RYA-880.")]
+    assert 'elif a.engine_b_deck == "gerber-1d-lte":' in head
+    assert "taxes.GERBER1D_LTE_MARCS.token" in head
+
+
+def test_a_holding_with_no_reader_owns_no_cell_and_is_named(rm, tmp_path, monkeypatch):
+    assert "elgueta2026_vizier" in rm.unwired_holdings("solar")
+    assert "elgueta2026_vizier" not in {d.holding for d in rm.expand("solar", "Si")}
+
+
+def test_an_unimportable_harness_excludes_nothing(rm, monkeypatch):
+    p = rm.preflight()
+    monkeypatch.setattr(p, "harness", lambda: None)
+    assert rm.unwired_holdings("solar") == []

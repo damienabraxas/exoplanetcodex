@@ -132,6 +132,25 @@ class ResolvedRun:
                 "steps": self.steps}
 
 
+#: Where `derive_band_products` writes when no `--out` is given (its own `OUT`), repo-
+#: relative. tests/test_rya1222_run_matrix.py pins it against that script's constant.
+BAND_PRODUCTS_DIR = "data/results/band_products"
+
+
+def deck_out_dir(deck: str) -> str:
+    """The directory one engine deck's products land in. RYA-1233.
+
+    🔴 Every deck used to write the SAME `{stem}_products.csv`: the stem carries no deck,
+    so each deck's run rewrote the file and threw away the previous deck's row (measured
+    on solar Si raw Kitt Peak: five deck runs, one surviving products file). The default
+    deck keeps the script's own directory, so the production path is unchanged; every
+    other deck gets its own subdirectory, which also gives each deck a distinct
+    `produces` path -- the collision RYA-1222 recorded and left to the resolver.
+    """
+    default = RunDescriptor.__dataclass_fields__["engine_deck"].default
+    return BAND_PRODUCTS_DIR if deck == default else f"{BAND_PRODUCTS_DIR}/deck_{deck}"
+
+
 def method_for(descriptor: RunDescriptor) -> Method:
     """Which measurement method this band PERMITS -- from policy, never from taste.
 
@@ -267,11 +286,12 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                                   "'no measured EWs', which reads like missing data "
                                   "rather than a missing step."),
         })
+    out_dir = deck_out_dir(descriptor.engine_deck)
     steps.append({
         "name": "derive_products", "script": "scripts/derive_band_products.py",
-        "args": common + ["--engine-b-deck", descriptor.engine_deck],
+        "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir],
         "env": env, "interpreter": interpreter,
-        "produces": f"{descriptor.key}_"
+        "produces": f"{out_dir}/{descriptor.key}_"
                     f"{'PROFILEFIT' if method == 'profile-fit' else 'SYNTH'}_products.csv",
         "postcondition": "the products table exists and every treatment carries a value "
                          "and an ErrorBudget; a zero-row product is a FAILURE, not a null",
