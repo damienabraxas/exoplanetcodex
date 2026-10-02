@@ -576,13 +576,15 @@ def holding_source_files(holding_id: str) -> tuple[list[Path], str]:
         return [], "the harness or this holding's HoldingSpec is unavailable"
     r = spec.reader
     try:
+        # allow_corrupt: this only HASHES the files, it never reads them as flux, so a
+        # segment the reader would refuse is still an input whose bytes can be named.
         if r == "kpno":
-            return [Path(seg[2]) for seg in h.kp_segments()], ""
+            return [Path(seg[2]) for seg in h.kp_segments(allow_corrupt=True)], ""
         if r == "kpno_1984_corrected":
             return [Path(b[2]) for b in h.corrected_bands_on_disk()], ""
         if r == "kpno_1984_composite":
             return ([Path(b[2]) for b in h.corrected_bands_on_disk()]
-                    + [Path(seg[2]) for seg in h.kp_segments()]), ""
+                    + [Path(seg[2]) for seg in h.kp_segments(allow_corrupt=True)]), ""
         if r == "kurucz2005":
             return [Path(str(h.codex_path("data.kurucz2005_residual")))], ""
         if r == "iag":
