@@ -76,7 +76,7 @@ def withdraw_held(rows) -> None:
         keys = {}
         for r in rs:
             stem = r["prod_stem"]
-            src = next(iter(Path.home().glob(f"codex/rya1230_runs/legs2/unit{r['unit']:02d}/nominal/{stem}")), None)
+            src = next(iter(Path.home().glob(f"codex/rya1230_runs/legs*/unit{r['unit']:02d}/nominal/{stem}")), None)
             if src is None:
                 continue
             row = normalise(pd.read_csv(src), holding=r["holding"], tier="ALL", route="SYNTH",

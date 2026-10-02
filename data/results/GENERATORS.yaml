@@ -20252,3 +20252,1907 @@ artifacts:
     ticket: RYA-1230
     note: >-
       RYA-1230 nominal run provenance: names the departure source each NLTE/3D leg applied (the explicit model join the site reconciler requires).
+  - artifact: rya1230/cno_budget_report_kpmf.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/c_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit02/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/c_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/core/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/cscale/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/marcs/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q80/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q97/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_minus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_plus/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit05/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit17/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/core/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/cscale/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/marcs/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q80/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q97/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_minus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_plus/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit18/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit23/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/core/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/core/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/cscale/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/cscale/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/marcs/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/marcs/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_provenance.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/nominal/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q80/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q80/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q97/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/q97/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_minus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_minus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_minus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_plus/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_plus/argv.txt
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/legs_kpmf/unit24/xi_plus/xi_run.json
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget_legs.py
+    invocation: python3 scripts/rya1230_cno_budget_legs.py --units UNITS --out OUTDIR --only-units UNITS_IDX
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
+  - artifact: rya1230/products_kpmf/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs LEGSDIR --stage STAGEDIR --report REPORT
+    ticket: RYA-1230
+    note: >-
+      RYA-1230 KP-molecfit CNO rerun on the full-coverage telluric-corrected holding (505bdf0f), with its RYA-587 budget legs.
