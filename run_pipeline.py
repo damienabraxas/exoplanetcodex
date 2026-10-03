@@ -136,7 +136,7 @@ def _stage(name: str, fn, star_id: str, ticket: str | None = None):
 #: silently mixed with. `--dry-run` without `--element` would otherwise run the
 #: REAL whole-star chain while the operator believed nothing was executing, which
 #: is a silent-wrong of the worst kind: it writes.
-_MATRIX_ONLY = ('ion', 'band', 'instrument', 'engine', 'route', 'dry_run',
+_MATRIX_ONLY = ('ion', 'band', 'instrument', 'engine', 'route', 'pool', 'dry_run',
                 'interpreter', 'ispec_dir')
 
 
@@ -240,6 +240,10 @@ def main() -> None:
     m.add_argument('--route', action='append', choices=('profile-fit', 'synthesis'),
                    help='RYA-1233: limit to one measurement route (repeatable). Default: '
                         'every route the band permits, each its own product.')
+    m.add_argument('--pool', action='append', choices=('reference', 'codex', 'deep'),
+                   help='RYA-1233: limit to one graded pool (repeatable). Default: every '
+                        'graded pool the route can measure. The ungraded all-lines pool '
+                        'is never dispatched (governing process step 7).')
     m.add_argument('--dry-run', action='store_true',
                    help='Expand, resolve and report intended statuses; execute nothing.')
     m.add_argument('--interpreter', metavar='PATH',
@@ -277,7 +281,8 @@ def main() -> None:
         interp, ispec = _resolve_engine_env(args)
         doc = run_sweep.run_sweep(
             star_id, bands=args.band, instruments=args.instrument,
-            engines=args.engine, methods=args.route, dry_run=args.dry_run,
+            engines=args.engine, methods=args.route, pools=args.pool,
+            dry_run=args.dry_run,
             interpreter=interp or None, ispec_dir=ispec or None)
         sys.exit(1 if run_sweep.failed(doc) else 0)
 
@@ -289,7 +294,7 @@ def main() -> None:
             report = run_matrix.run(
                 star_id, args.element, ions=args.ion, bands=args.band,
                 instruments=args.instrument, engines=args.engine,
-                methods=args.route,
+                methods=args.route, pools=args.pool,
                 dry_run=args.dry_run, interpreter=interp or None,
                 ispec_dir=ispec or None)
         except run_matrix.MatrixError as exc:
