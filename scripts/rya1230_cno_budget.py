@@ -27,8 +27,11 @@ CONTRACT holds it -- `validate()` issues the verdict, not this script.
                       +0.1% continuum leg). 0 where the sky has no pixel above its clean edge.
   blends              N I only: the CN inside the profile follows A(C); central paired
                       response to A(C) +/- 0.10 scaled to AGSS21's sigma(C) = 0.04
-  nlte                N/A on a 1D-LTE leg; on a departure leg RYA-1032's measured
-                      model-family spread (0.043), FLAGGED cross-element (RYA-1226 precedent)
+  nlte                N/A on a 1D-LTE leg; on a departure leg ASPLUND+2021's rule: half the
+                      pool's own non-LTE correction, floor 0.03 (RYA-1232; was RYA-1032's
+                      cross-element 0.043)
+  model_atmosphere    (+) on a 3D leg, half the pool's own 3D effect (Asplund+2021's
+                      inhomogeneity term), in quadrature
   pseudo_continuum    N/A: the continuum is observed in these bands and placed per line
   hfs_isotopes        N/A where every pool line has hfs_n_components == 1
   molecular_coupling  N/A: atomic selector
@@ -444,17 +447,43 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           evidence={"use_molecules": True, "owed_measurement":
                                     "a paired molecule-strength leg on this C/O pool"}))
 
+    # RYA-1232 -- NLTE and 3D sized by ASPLUND+2021's rules (Sect. 2.1 "Uncertainties"),
+    # measured on THIS pool instead of RYA-1032's cross-element 0.043:
+    #   nlte = 1/2 x the pool's own non-LTE correction, floor 0.03 dex;
+    #   3D   = 1/2 x the pool's own 3D effect (3D-NLTE minus 1D-NLTE), added to
+    #          `model_atmosphere` in quadrature (their "atmospheric inhomogeneities").
     nd = set(nom.loc[nom.in_aggregate == True, "nlte_delta_dex"].dropna().round(6))  # noqa: E712
+    three_d = None
     if nd <= {0.0}:
         comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
                           source="this leg applies no departures (nlte_delta_dex = 0 on every line)",
                           evidence={"nlte_delta_dex": 0.0}))
     else:
-        comps.append(dict(name="nlte", sigma_dex=0.043, state="DEFINED",
-                          source="RYA-1032 model_family_spread (Gerber - Bergemann, 1D-NLTE)",
-                          evidence={"bound": True, "status": "measured on the VIS Fe I pool, carried "
-                                    "cross-element (RYA-1226 precedent)",
-                                    "owed_measurement": "two independent departure treatments on this pool"}))
+        def _deltas(df):
+            a = df[df.in_aggregate == True]                                # noqa: E712
+            return dict(zip(a.wavelength_air_A.round(3), a.nlte_delta_dex.astype(float)))
+        d_here = _deltas(nom)
+        d_1d = d_here
+        if "ENGINE-A-3DNLTE" in lines_stem:
+            sib = nominal_dir / lines_stem.replace("ENGINE-A-3DNLTE", "ENGINE-A")
+            d_1d = _deltas(pd.read_csv(sib)) if sib.exists() else None
+        if d_1d is None:
+            notes.append("nlte: 1D-NLTE sibling missing, cannot split NLTE from 3D")
+        else:
+            common = sorted(set(d_here) & set(d_1d))
+            corr_nlte = float(np.median([d_1d[w] for w in common])) if common else None
+            if corr_nlte is None:
+                notes.append("nlte: no line common to the 1D-NLTE sibling")
+            else:
+                comps.append(dict(
+                    name="nlte", sigma_dex=max(abs(corr_nlte) / 2.0, 0.03), state="MEASURED",
+                    source=("Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum "
+                            "0.03 dex -- the correction measured on this pool (median 1D-NLTE "
+                            "delta of the accepted lines)"),
+                    evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                              "n_lines": len(common), "floor_dex": 0.03}))
+                if "ENGINE-A-3DNLTE" in lines_stem:
+                    three_d = float(np.median([d_here[w] - d_1d[w] for w in common]))
     comps.append(dict(name="pseudo_continuum", sigma_dex=None, state="N/A",
                       source=("outside the near-UV the continuum is observed; it is placed per line "
                               "by the standing rule and priced on `continuum`"),
@@ -471,6 +500,18 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     comps.append(dict(name="holding_instrument", sigma_dex=0.0, state="MEASURED",
                       source="SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
                       evidence={"harness_residual_dex": 0.0}))
+
+    if three_d is not None:
+        ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
+        if ma is None:
+            notes.append("model_atmosphere: marcs leg missing, 3D term not attached")
+        else:
+            one_d = float(ma["sigma_dex"])
+            ma["sigma_dex"] = float(np.hypot(one_d, three_d / 2.0))
+            ma["source"] = (ma["source"] + "; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity "
+                            "term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)")
+            ma["evidence"] = {**ma["evidence"], "one_d_grid_dex": one_d,
+                              "median_3d_effect_dex": three_d}
 
     scope = product_scope(row, star="solar", indicator_ids=ids)
     numeric = [c for c in comps if c["state"] in {"MEASURED", "DEFINED"}]

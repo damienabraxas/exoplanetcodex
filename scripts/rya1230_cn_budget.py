@@ -211,7 +211,8 @@ def build(region: str, legs: Path, others: dict) -> dict:
                           source="std of CN A-X (0-0) across holdings, same star, same diagnostic family",
                           evidence={"per_holding_A": others}))
     comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
-                      source="molecular band synthesised in LTE (cno_synthesis: lte_molecular_band, no NLTE grid)",
+                      source=("molecular band synthesised in LTE (cno_synthesis: lte_molecular_band, no NLTE grid); "
+                              "Amarsi+2021 carry no non-LTE term for molecules either"),
                       evidence={"nlte_flag": "lte_molecular_band"}))
     comps.append(dict(name="blends", sigma_dex=None, state="N/A",
                       source="full atomic + molecular synthesis in every fit window",
