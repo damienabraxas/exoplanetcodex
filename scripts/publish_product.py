@@ -733,7 +733,7 @@ def main() -> int:
     # live. Without this, publishing is the last word regardless of quality, and a bad
     # re-run silently replaces a good measurement -- the failure being newer is precisely
     # what makes it look authoritative.
-    added, updated, unchanged, refused = [], [], [], []
+    added, updated, unchanged, refused, backfilled = [], [], [], [], []
     for row in list(pending):
         reasons = pe.evaluate(row, require_uncertainty=True)
         if not reasons:
@@ -762,6 +762,18 @@ def main() -> int:
                                                       "uncertainty_indicator_ids", "differential_uncertainty",
                                                       "X_H", "X_Fe", "C_O", "sigma_differential"))
         if same:
+            # RYA-1232 -- PROVENANCE BACKFILL, nothing else. A row published from a scratch
+            # path carries copied_to=None (MISSING_COPIED_TO, feed_repo_reconciliation).
+            # Re-publishing the SAME artifact from its committed copy records where it is
+            # committed -- only when every measured field is identical AND the bytes are
+            # the same file (sha256), so no value can move through this path.
+            cp, npv = cur.get("provenance") or {}, row.get("provenance") or {}
+            if (cp.get("copied_to") is None and npv.get("copied_to")
+                    and cp.get("sha256") and cp.get("sha256") == npv.get("sha256")):
+                cur["provenance"] = {**cp, "copied_to": npv["copied_to"],
+                                     "copied_to_backfilled_at": npv.get("ingested_at")}
+                backfilled.append(k)
+                continue
             unchanged.append(k); continue
         if not a.reason:
             print(f"REFUSING to change {k}\n"
@@ -780,7 +792,10 @@ def main() -> int:
         print(f"    ! QUARANTINED not published: {k}\n"
               f"        {', '.join(codes)} -- the existing live record (if any) STANDS",
               file=sys.stderr)
-    if not added and not updated and not refused:
+    if backfilled:
+        print(f"provenance backfilled (copied_to; same sha256, no value change): "
+              f"{len(backfilled)} row(s)")
+    if not added and not updated and not refused and not backfilled:
         print(f"no change — {len(unchanged)} row(s) already current at v{doc['version']}")
         return 0
 
