@@ -752,7 +752,7 @@ def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
                                   instruments=["solar_harps_molecfit_corrected"])]
     assert sorted((d.method, d.pool) for d in cells) == [
         ("profile-fit", "codex"), ("synthesis", "codex"), ("synthesis", "deep"),
-        ("synthesis", "reference")]
+        ("synthesis", "reference"), ("synthesis", "set:SI_AGSS21")]
     near_uv = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"], bands=["near-UV"])]
     assert near_uv and {d.method for d in near_uv} == {"synthesis"}
 
@@ -838,3 +838,32 @@ def test_no_cell_measures_the_ungraded_pool(rm):
         args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
         assert "--lines-deep-graded" in args or (
             "--lines-tier" in args and args[args.index("--lines-tier") + 1] != "all")
+
+
+def test_published_line_sets_become_synthesis_pools(rm):
+    """RYA-1233 step 7: Asplund's set in VIS, Elgueta's / Bergemann's in the IR."""
+    cells = rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"])
+    pools = {(d.band, d.pool) for d in cells if d.pool and d.pool.startswith("set:")}
+    assert ("VIS", "set:SI_AGSS21") in pools
+    assert ("NIR", "set:SI_ELGUETA2026") in pools and ("NIR", "set:SI_BERGEMANN2013") in pools
+    assert all(d.method == "synthesis" for d in cells if d.pool.startswith("set:"))
+
+
+def test_a_set_pool_dispatches_lines_from_set():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    i = args.index("--lines-from-set")
+    assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI.csv"
+
+
+def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
+    reaches_the_executor(rm, monkeypatch)
+    monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (
+        False, "derive_products: exit 1: no graded line in this band sits above the EW depth gate"))
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["deep"], interpreter=sys.executable,
+                 ispec_dir="/x", echo=False, report_dir=tmp_path)
+    assert doc["counts"][rm.FAILED] == 0 and doc["counts"][rm.HELD] >= 1

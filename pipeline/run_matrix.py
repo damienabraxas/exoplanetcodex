@@ -69,7 +69,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
-                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS)
+                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS,
+                                     LINE_SET_REGISTRY, SET_POOL_PREFIX)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
@@ -436,6 +437,8 @@ def cell_process_hold(d: RunDescriptor) -> str:
     if spec is not None and not spec.pre_normalised:
         return (f"PROCESS step 4 (continuum): {d.holding} ships no continuum-normalised "
                 f"product; the per-band continuum is prepared once, before measurement")
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        return ""          # a published set's lines in this window ARE the graded pool
     w, graded = _canonical_species(d.element, d.ion)
     inwin = (w >= d.lo_A) & (w <= d.hi_A)
     if not inwin.any():
@@ -446,6 +449,17 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a LAB-tier "
                 f"gf, so no Reference / Codex / Deep pool exists here")
     return ""
+
+
+#: derive_band_products' own refusals of an empty / too-small pool, all raised before any
+#: synthesis runs. Matched on its message text so nothing is re-decided here.
+EMPTY_POOL_MARKERS = (
+    "pool that is not graded",
+    "no graded line in this band sits above the EW depth gate",
+    "a pool of fewer than 2 lines",
+    "has no line in",
+    "no requested line matched the synthesis list",
+)
 
 
 def is_raw(h: dict) -> bool:
@@ -596,12 +610,20 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             want_m = want_m or [None]
             for ion in want_ions:
                 for deck in want_decks:
+                    # RYA-1233 (step 7): the published reference sets with a line in
+                    # this window -- Asplund's in VIS, Elgueta's / Bergemann's in the IR.
+                    sets_here = [SET_POOL_PREFIX + r["set_name"]
+                                 for r in line_sets_for(symbol, ion)
+                                 if any(lo <= w <= hi for w in r["waves"])]
                     for m in want_m:
                         # RYA-1233 (process step 7): every cell measures a GRADED pool,
                         # one cell per pool this route can measure.
-                        for pool in [k for k, v in POOLS.items()
-                                     if (m is None or m in v["methods"])
-                                     and (not pools or k in pools)]:
+                        lab_pools = [k for k, v in POOLS.items()
+                                     if (m is None or m in v["methods"])]
+                        set_pools = sets_here if m in (None, "synthesis") else []
+                        for pool in [p for p in set_pools + lab_pools
+                                     if not pools or p in pools
+                                     or (p.startswith(SET_POOL_PREFIX) and "set" in pools)]:
                             out.append(RunDescriptor(
                                 element=symbol, ion=ion, instrument=inst, holding=hid,
                                 lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool))
@@ -758,8 +780,29 @@ def route_of(descriptor: RunDescriptor) -> str:
 
 
 def pool_tier(descriptor: RunDescriptor) -> str:
-    """The feed's `tier` / `selector` token for this cell's graded pool ('' if none)."""
+    """The feed's `tier` / `selector` token for this cell's pool ('' if none). A published
+    line set's token is its set name -- the selector its products are published under."""
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        return descriptor.pool[len(SET_POOL_PREFIX):]
     return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+
+
+def line_sets_for(symbol: str, ion: str) -> list[dict]:
+    """Published reference line sets for this species (RYA-1233, process step 7), each with
+    its wavelengths. From data/reference/line_sets/REGISTRY.csv; none is not an error."""
+    key = ("sets", symbol, ion)
+    if key not in _ADAPTERS:
+        rows = []
+        reg = ROOT / LINE_SET_REGISTRY
+        if reg.exists():
+            with reg.open(newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r["element"] == symbol and r["ion"] == ion:
+                        with (ROOT / r["csv"]).open(newline="", encoding="utf-8") as g:
+                            r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
+                        rows.append(r)
+        _ADAPTERS[key] = rows
+    return _ADAPTERS[key]
 
 
 def cell_prefix_key(descriptor: RunDescriptor) -> str:
@@ -876,8 +919,11 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
     line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
     """
     out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
+    tag = pool_tier(d)
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        tag = f"SET-{tag.upper()}"            # derive's stem tag for --lines-from-set
     pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
-           f"{'_' + pool_tier(d) if pool_tier(d) else ''}_*")
+           f"{'_' + tag if tag else ''}_*")
     hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
     return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
             for f in sorted(hits)]
@@ -1239,7 +1285,13 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                 break
             produced_this_run.add(sig)
         if not ok:
-            cell.status, cell.reason = FAILED, detail
+            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
+            # process-step-7 fact about the lines, not a failure of the run.
+            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+            else:
+                cell.status, cell.reason = FAILED, detail
             continue
         # RYA-1233: record the build whether or not it is published, so unchanged work
         # is never redone. What it was built from (spectrum included) and what it wrote.

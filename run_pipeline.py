@@ -240,8 +240,9 @@ def main() -> None:
     m.add_argument('--route', action='append', choices=('profile-fit', 'synthesis'),
                    help='RYA-1233: limit to one measurement route (repeatable). Default: '
                         'every route the band permits, each its own product.')
-    m.add_argument('--pool', action='append', choices=('reference', 'codex', 'deep'),
-                   help='RYA-1233: limit to one graded pool (repeatable). Default: every '
+    m.add_argument('--pool', action='append', choices=('set', 'reference', 'codex', 'deep'),
+                   help='RYA-1233: limit to one graded pool (repeatable); `set` = the published '
+                        'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
     m.add_argument('--dry-run', action='store_true',

@@ -189,6 +189,27 @@ POOLS = {
 }
 
 
+#: RYA-1233: published reference line sets (process step 7 -- the best lines, as close to
+#: Asplund's as possible). Registry: one row per (element, ion, set); the pool name a cell
+#: carries is "set:<SET_NAME>" and it is measured on the synthesis route only.
+LINE_SET_REGISTRY = "data/reference/line_sets/REGISTRY.csv"
+SET_POOL_PREFIX = "set:"
+
+
+def line_set(name: str) -> dict | None:
+    """The registry row of a published line set, or None."""
+    import csv
+    from pathlib import Path
+    reg = Path(__file__).resolve().parents[1] / LINE_SET_REGISTRY
+    if not reg.exists():
+        return None
+    with reg.open(newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            if r["set_name"] == name:
+                return r
+    return None
+
+
 #: The feed's `route` token for each dispatchable method (the products' own vocabulary).
 ROUTE_TOKEN = {"profile-fit": "PROFILEFIT", "synthesis": "SYNTH"}
 
@@ -362,7 +383,18 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
         })
     out_dir = deck_out_dir(descriptor.engine_deck)
     pool_args: list[str] = []
-    if descriptor.pool is not None:
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        _name = descriptor.pool[len(SET_POOL_PREFIX):]
+        _row = line_set(_name)
+        if _row is None or method != "synthesis":
+            why = (f"line set {_name!r} is not in {LINE_SET_REGISTRY}" if _row is None else
+                   f"a published line set is measured on the synthesis route, not {method}")
+            checks.append(Precondition("pool_route", False, why))
+            if blocked is None:
+                blocked = why
+        else:
+            pool_args = ["--lines-from-set", f"{_name}={_row['csv']}"]
+    elif descriptor.pool is not None:
         spec = POOLS.get(descriptor.pool)
         if spec is None or method not in spec["methods"]:
             why = (f"pool {descriptor.pool!r} cannot be measured on the {method} route "
