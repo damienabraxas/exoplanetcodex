@@ -72,8 +72,9 @@ def test_an_unknown_element_is_refused_against_elements_master(rm):
 
 
 def test_the_ion_axis_is_the_graded_pool_not_the_periodic_table(rm):
-    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell."""
-    assert rm.graded_ions("Si") == ["I"]
+    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell.
+    (Si II gained graded lines from the RYA-1233 NIST ASD intake.)"""
+    assert rm.graded_ions("Si") == ["I", "II"]
     assert rm.graded_ions("Fe") == ["I", "II"]
 
 
@@ -107,7 +108,7 @@ def test_harps_vis_is_on_the_matrix(rm):
 def test_the_window_is_clipped_to_what_the_holding_serves(rm):
     """IAG serves 5001.1 A upward, so its VIS cell starts there -- as RYA-1218's own
     artifact stem (`SiI_5002_6910_iag_...`) independently says it did."""
-    iag = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], methods=["profile-fit"])
+    iag = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], methods=["profile-fit"])
            if d.holding == "solar_iag" and d.band == "VIS"]
     assert len(iag) == 1
     assert iag[0].lo_A == pytest.approx(5001.1)
@@ -390,7 +391,8 @@ def test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded(
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["codex"],
                  instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -408,7 +410,7 @@ def test_an_unchanged_unpublished_build_is_not_redone(rm, monkeypatch, tmp_path)
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    kw = dict(engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
               instruments=["solar_harps_molecfit_corrected"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -453,7 +455,8 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (calls.append(step["name"]), (True, "ok"))[1])
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
               methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -530,7 +533,8 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
               methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -744,7 +748,7 @@ def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
     policy's first method (profile-fit) in VIS / red-optical, so it could rebuild almost
     none of them -- and its synthesis leg only fit lines the EW gates had passed, which
     drops exactly the strong lines synthesis exists for."""
-    cells = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], bands=["VIS"],
+    cells = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
                                   instruments=["solar_harps_molecfit_corrected"])]
     assert sorted((d.method, d.pool) for d in cells) == [
         ("profile-fit", "codex"), ("synthesis", "codex"), ("synthesis", "deep"),

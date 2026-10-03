@@ -370,17 +370,20 @@ def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list
         lit_name = str(lit.relative_to(ROOT))
     except ValueError:
         lit_name = str(lit)
-    lit_ion = None
+    lit_ions: list[str] = []
     if lit.exists():
         try:
             import yaml
-            lit_ion = str((yaml.safe_load(lit.read_text(encoding="utf-8")) or {})
-                          .get("ion", "I")).strip()
+            _doc = yaml.safe_load(lit.read_text(encoding="utf-8")) or {}
+            # `ions` when one literature value covers several ions (Si: Si I + Si II
+            # determined jointly); otherwise the single `ion`.
+            lit_ions = [str(i).strip() for i in (_doc.get("ions") or [_doc.get("ion", "I")])]
         except Exception as exc:                               # noqa: BLE001
             print(f"WARNING: {lit_name} unreadable ({type(exc).__name__}: {exc})",
                   file=sys.stderr)
+    lit_ion = "/".join(lit_ions) if lit_ions else None
     for ion in (ions or ["I"]):
-        ok = lit_ion == ion
+        ok = ion in lit_ions
         rows.append({"step": 5, "name": f"literature (litscan) {symbol} {ion}", "ok": ok,
                      "ion": ion,
                      "evidence": (lit_name if ok else

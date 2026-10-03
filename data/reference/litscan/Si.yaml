@@ -1,0 +1,88 @@
+# =============================================================================
+# LITSCAN -- Si  (RYA-1233; TRANSCRIBED FROM RYA-725)
+# =============================================================================
+# SOURCE OF TRUTH: RYA-725 "LITSCAN + FINDINGS: Si -- solar photospheric UV/VIS/IR
+# audit", LITSCAN pass 1 (2026-08-09), transcribed there from the project PDFs
+# aa4044521.pdf (Asplund 2021 = Amarsi 2021 A&A 653 A141 sec 2.4 Si), aa5914826.pdf
+# (Elgueta et al. 2026 A&A 710 A111) and aa5188924.pdf (Sharma 2024). This file is
+# the MACHINE-READABLE PROJECTION of that dossier, not a new scan -- exactly as
+# Fe.yaml projects RYA-714. The dossier stays authoritative and human-editable.
+#
+# THE BAND IS THE SAME RULE AS Fe: best_external +/- sigma_ext, DEVIATE at 2 sigma.
+# The dossier's recommended anchor is Amarsi & Asplund 2017, 7.51 +/- 0.03.
+# =============================================================================
+
+element: Si
+# Amarsi & Asplund 2017 determine A(Si) from 9 Si I + 1 Si II JOINTLY, and with Garz
+# 1973 gf the Si I mean and the Si II value agree within sigma in 3D-NLTE (the
+# ionisation-balance test Asplund 2021 uses to reject Pehlivan Rhodin 2021). The
+# element value therefore covers both ions -- unlike Fe, where Fe II is tracked
+# separately.
+ion: I
+ions: [I, II]
+source_of_truth: RYA-725
+sweep_umbrella: RYA-709
+
+scale: 3D-NLTE
+scale_note: >-
+  Quoted on the 3D-NLTE scale (Amarsi & Asplund 2017 is the first full 3D-NLTE Si
+  analysis). A 1D value must be moved onto this scale BEFORE comparison; the dossier
+  notes the optical 1D-NLTE correction is about -0.01 to -0.02 dex and grows to about
+  -0.10 in the IR.
+
+entries:
+  - source: Amarsi & Asplund 2017
+    citation: MNRAS 464, 264 (doi:10.1093/mnras/stw2445; bibliography amarsi2017_si)
+    value: 7.51
+    sigma: 0.03
+    scale: 3D-NLTE
+    role: best external (anchor)
+    method: first full 3D-NLTE Si; 9 Si I + 1 Si II (Scott 2015 line set); Garz 1973 gf renormalised via Becker 1980 + O'Brian & Lawler 1991
+    note: RYA-725 pass 1 "Recommended sec 4 audit anchor set -- Primary anchor".
+
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141 (sec 2.4 Si)
+    value: 7.51
+    sigma: 0.03
+    scale: 3D-NLTE
+    role: corroborating (adopts Amarsi & Asplund 2017)
+    note: Retains Garz 1973 gf; rejects Pehlivan Rhodin 2021 on ionisation balance.
+
+  - source: Scott et al. 2015b
+    citation: Scott et al. 2015b
+    value: 7.51
+    sigma: 0.03
+    scale: 3D-LTE + 1D-NLTE delta
+    role: corroborating (pre-3D-NLTE)
+
+  - source: Pehlivan Rhodin, Hartman, Nilsson & Joensson 2021
+    citation: A&A (theoretical gf)
+    value: 7.53
+    sigma: 0.03
+    scale: 3D-NLTE
+    role: rejected
+    note: >-
+      EXCLUDED from the band: breaks the Si I / Si II ionisation balance by 0.1 dex in
+      3D-NLTE, rejected by Asplund 2021. Recorded because the dossier carries it.
+
+  - source: Bergemann et al. 2013
+    citation: ApJ 764, 115
+    value: 7.56
+    sigma: 0.05
+    scale: 1D-NLTE
+    role: out-of-scale reference (IR J-band test calculation)
+    note: EXCLUDED from the band (1D-NLTE, Kurucz gf).
+
+range:
+  central: 7.51
+  min: 7.48
+  max: 7.54
+  half_width: 0.03
+  best_external: Amarsi & Asplund 2017 (MNRAS 464, 264)
+  sigma_external: 0.03
+  deviate_beyond: 0.06          # 2 sigma_ext
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+  basis: >-
+    Same rule as Fe.yaml / RYA-714 sec 4: PASS is |delta| <= sigma_ext against the
+    named best external, so the band is 7.51 +/- 0.03; DEVIATE beyond 2 sigma_ext.

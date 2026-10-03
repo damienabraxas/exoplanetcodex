@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-1233",
+  "source": "NIST Atomic Spectra Database (ASD), lines",
+  "compilation": "Kelleher & Podobedova 2008, J. Phys. Chem. Ref. Data 37, 1285 (doi:10.1063/1.2734566) -- the NIST ASD Si critical compilation",
+  "access": "astroquery.nist 0.4.11 (Nist.query)",
+  "reused_from": "scripts/rya1160_pull_nist_cno.py safe_pull + scripts/rya822_pull_nist_nearuv.py tidy",
+  "species": "Si II",
+  "band_A": [
+    3000.0,
+    25000.0
+  ],
+  "chunk_A": 2000.0,
+  "wavelength_type": "vac+air (air above 2000 A)",
+  "pulled_at_utc": "2026-10-03T12:34:56Z",
+  "n_rows": 269,
+  "n_with_log_gf": 207,
+  "n_graded": 207,
+  "grade_counts": {
+    "D": 42,
+    "D+": 40,
+    "C+": 34,
+    "E": 30,
+    "C": 27,
+    "B": 22,
+    "B+": 12
+  }
+}
