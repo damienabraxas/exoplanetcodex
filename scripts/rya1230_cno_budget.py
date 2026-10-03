@@ -27,8 +27,11 @@ CONTRACT holds it -- `validate()` issues the verdict, not this script.
                       +0.1% continuum leg). 0 where the sky has no pixel above its clean edge.
   blends              N I only: the CN inside the profile follows A(C); central paired
                       response to A(C) +/- 0.10 scaled to AGSS21's sigma(C) = 0.04
-  nlte                N/A on a 1D-LTE leg; on a departure leg RYA-1032's measured
-                      model-family spread (0.043), FLAGGED cross-element (RYA-1226 precedent)
+  nlte                N/A on a 1D-LTE leg; on a departure leg ASPLUND+2021's rule: half the
+                      pool's own non-LTE correction, floor 0.03 (RYA-1232; was RYA-1032's
+                      cross-element 0.043)
+  model_atmosphere    (+) on a 3D leg, half the pool's own 3D effect (Asplund+2021's
+                      inhomogeneity term), in quadrature
   pseudo_continuum    N/A: the continuum is observed in these bands and placed per line
   hfs_isotopes        N/A where every pool line has hfs_n_components == 1
   molecular_coupling  N/A: atomic selector
@@ -259,9 +262,29 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
     lo, hi = float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi"))
     notes, comps = [], []
-    if n < 2:
-        return {"row": row, "skip": f"n_lines={n}: a single-line pool has no line-scatter "
-                                    f"measurement; RYA-587 keeps it HOLD"}
+    # RYA-1232 (Ryan: "we do what other scientists do") -- a SINGLE-line pool is priced the
+    # way Asplund+2021 Sect. 2.1 prices one or two lines: from the goodness of the profile
+    # fit. That is the line's own chi2-curvature sigma (fit_constraint.curvature_sigma,
+    # rescaled to red_chi2 = 1, worse side), recorded on the 1D-LTE fit; a departure leg
+    # adds a per-line delta to that SAME fit, so it carries the same sigma.
+    single_sigma = None
+    if n == 1:
+        sa = pd.to_numeric(acc["sigma_A"], errors="coerce").iloc[0] if "sigma_A" in acc else float("nan")
+        if not np.isfinite(sa):
+            lte = nominal_dir / re.sub(r"_(ENGINE-A-3DNLTE|ENGINE-A|ENGINE-B[^_]*)_lines\.csv$",
+                                       "_1D-LTE_lines.csv", lines_stem)
+            if lte.exists():
+                l1 = pd.read_csv(lte)
+                w0 = float(acc["wavelength_air_A"].iloc[0])
+                m = l1[(l1.wavelength_air_A - w0).abs() < 1e-3]
+                if len(m):
+                    sa = pd.to_numeric(m["sigma_A"], errors="coerce").iloc[0]
+        if not np.isfinite(sa):
+            return {"row": row, "skip": "n_lines=1 and the line's fit records no curvature "
+                                        "sigma -- nothing to price it from; HOLD"}
+        single_sigma = float(sa)
+    elif n < 1:
+        return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
     g = gf[gf["species"] == SPECIES[element]]
@@ -297,11 +320,26 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)
-    raw = float(acc["abundance"].astype(float).std(ddof=1))
-    comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
-                      source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-                      evidence={"method": "line_scatter", "independent": True, "n_lines": n,
-                                "raw_sigma": raw, "pool_sha256": digest}))
+    if single_sigma is not None:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from measure_band_ew import load_window_ex
+        w0 = float(acc["wavelength_air_A"].iloc[0])
+        npx = int(np.isfinite(np.asarray(load_window_ex(instrument, w0, hw, holding=holding).flux)).sum())
+        from pipeline.uncertainty_contract import fit_measurement
+        comps.append(fit_measurement(
+            single_sigma,
+            source=("Asplund+2021 Sect. 2.1: one line -> statistical error from the goodness of "
+                    "the profile fit; chi2-curvature sigma of this line, rescaled to red_chi2 = 1"),
+            likelihood="synthesis chi2 over the fit window, curvature at the best abundance",
+            correlation_treatment=("red_chi2 rescaling absorbs pixel correlation and model "
+                                   "inadequacy; the worse-constrained side is taken"),
+            n_pixels=npx))
+    else:
+        raw = float(acc["abundance"].astype(float).std(ddof=1))
+        comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
+                          source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
+                          evidence={"method": "line_scatter", "independent": True, "n_lines": n,
+                                    "raw_sigma": raw, "pool_sha256": digest}))
     w = [1.0 / n] * n
     cov = [[sig[a] * sig[b] if src[a] == src[b] else 0.0 for b in range(n)] for a in range(n)]
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
@@ -365,15 +403,24 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if pc["moved"]:
             notes.append(f"continuum: pool moved ({pc['n_paired']} vs {n})")
         else:
-            comps.append(dict(name="continuum", sigma_dex=abs(pc["median"]) / 2.0, state="MEASURED",
-                              source=("standing model-guided continuum rule, pixel-selection "
-                                      "quantile q97 vs q80 around the nominal q90, central "
-                                      "half-difference, paired on this pool"),
-                              evidence={"pool_sha256": digest, "paired_median_q97_minus_q80": pc["median"],
-                                        "n_paired": pc["n_paired"],
-                                        "withdrawn_leg": ("+/-1.5 A envelope: < 5 bins, went "
-                                                          "CONTINUUM_UNCONSTRAINED and measured "
-                                                          "the whole correction, not placement")}))
+            # RYA-1232: + the REFERENCE spread (IAG atlas vs synthesis), in quadrature --
+            # Amarsi+2021's two-atlas spread. Outside 5001-11086 A the leg equals nominal.
+            ref_l = _leg_lines(unit_dir / "contref", lines_stem)
+            pr = _paired(_acc(ref_l), acc, n) if ref_l is not None else None
+            if ref_l is None:
+                notes.append("continuum: contref leg missing")
+            elif pr["moved"]:
+                notes.append(f"continuum: contref pool moved ({pr['n_paired']} vs {n})")
+            else:
+                comps.append(dict(
+                    name="continuum", sigma_dex=float(np.hypot(pc["median"] / 2.0, pr["median"])),
+                    state="MEASURED",
+                    source=("standing continuum rule (synthesis reference, 3-MAD clipped): "
+                            "placement = q97 vs q80 central half-difference, REFERENCE = "
+                            "IAG-atlas leg minus nominal, in quadrature, paired on this pool"),
+                    evidence={"pool_sha256": digest, "paired_median_q97_minus_q80": pc["median"],
+                              "paired_median_iag_minus_synthesis": pr["median"],
+                              "n_paired": pc["n_paired"]}))
     lever("profile_ew", "core", "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
           {"varied": "fit half-width", "nominal_A": hw, "alternate_A": 0.25})
     lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
@@ -435,17 +482,43 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           evidence={"use_molecules": True, "owed_measurement":
                                     "a paired molecule-strength leg on this C/O pool"}))
 
+    # RYA-1232 -- NLTE and 3D sized by ASPLUND+2021's rules (Sect. 2.1 "Uncertainties"),
+    # measured on THIS pool instead of RYA-1032's cross-element 0.043:
+    #   nlte = 1/2 x the pool's own non-LTE correction, floor 0.03 dex;
+    #   3D   = 1/2 x the pool's own 3D effect (3D-NLTE minus 1D-NLTE), added to
+    #          `model_atmosphere` in quadrature (their "atmospheric inhomogeneities").
     nd = set(nom.loc[nom.in_aggregate == True, "nlte_delta_dex"].dropna().round(6))  # noqa: E712
+    three_d = None
     if nd <= {0.0}:
         comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
                           source="this leg applies no departures (nlte_delta_dex = 0 on every line)",
                           evidence={"nlte_delta_dex": 0.0}))
     else:
-        comps.append(dict(name="nlte", sigma_dex=0.043, state="DEFINED",
-                          source="RYA-1032 model_family_spread (Gerber - Bergemann, 1D-NLTE)",
-                          evidence={"bound": True, "status": "measured on the VIS Fe I pool, carried "
-                                    "cross-element (RYA-1226 precedent)",
-                                    "owed_measurement": "two independent departure treatments on this pool"}))
+        def _deltas(df):
+            a = df[df.in_aggregate == True]                                # noqa: E712
+            return dict(zip(a.wavelength_air_A.round(3), a.nlte_delta_dex.astype(float)))
+        d_here = _deltas(nom)
+        d_1d = d_here
+        if "ENGINE-A-3DNLTE" in lines_stem:
+            sib = nominal_dir / lines_stem.replace("ENGINE-A-3DNLTE", "ENGINE-A")
+            d_1d = _deltas(pd.read_csv(sib)) if sib.exists() else None
+        if d_1d is None:
+            notes.append("nlte: 1D-NLTE sibling missing, cannot split NLTE from 3D")
+        else:
+            common = sorted(set(d_here) & set(d_1d))
+            corr_nlte = float(np.median([d_1d[w] for w in common])) if common else None
+            if corr_nlte is None:
+                notes.append("nlte: no line common to the 1D-NLTE sibling")
+            else:
+                comps.append(dict(
+                    name="nlte", sigma_dex=max(abs(corr_nlte) / 2.0, 0.03), state="MEASURED",
+                    source=("Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum "
+                            "0.03 dex -- the correction measured on this pool (median 1D-NLTE "
+                            "delta of the accepted lines)"),
+                    evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                              "n_lines": len(common), "floor_dex": 0.03}))
+                if "ENGINE-A-3DNLTE" in lines_stem:
+                    three_d = float(np.median([d_here[w] - d_1d[w] for w in common]))
     comps.append(dict(name="pseudo_continuum", sigma_dex=None, state="N/A",
                       source=("outside the near-UV the continuum is observed; it is placed per line "
                               "by the standing rule and priced on `continuum`"),
@@ -462,6 +535,18 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     comps.append(dict(name="holding_instrument", sigma_dex=0.0, state="MEASURED",
                       source="SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
                       evidence={"harness_residual_dex": 0.0}))
+
+    if three_d is not None:
+        ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
+        if ma is None:
+            notes.append("model_atmosphere: marcs leg missing, 3D term not attached")
+        else:
+            one_d = float(ma["sigma_dex"])
+            ma["sigma_dex"] = float(np.hypot(one_d, three_d / 2.0))
+            ma["source"] = (ma["source"] + "; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity "
+                            "term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)")
+            ma["evidence"] = {**ma["evidence"], "one_d_grid_dex": one_d,
+                              "median_3d_effect_dex": three_d}
 
     scope = product_scope(row, star="solar", indicator_ids=ids)
     numeric = [c for c in comps if c["state"] in {"MEASURED", "DEFINED"}]

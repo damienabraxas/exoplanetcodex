@@ -2,11 +2,13 @@
 
 ## 2026-09-25 — RYA-1220 CNO close
 
-> **Current as of `main` a7da838a** (2026-09-25, RYA-1220).
+> **Current as of `main` 3d9c9ae6** (2026-10-01, RYA-1230).
 
 - **RYA-1229** — `31c862d6` PR #563. "The per-line product is a projection of the feed,
   not of a directory": new `pipeline/perline_sources.py`, `generate_perline_product.py`
   rewired, plus reproducibility and feed-driven test suites.
+- **RYA-1230** — `3d9c9ae6` PR #568 (site #44/#45). Solar CNO rerun under molecular opacity in every band and the MODEL-GUIDED standing continuum rule (`pipeline/local_continuum.fit_model_guided`; the first absolute-envelope version double-counted absorption the synthesis also models and was withdrawn), published with full RYA-587 budgets from paired legs: **every live C/N/O product budgeted (C 38 / N 13 / O 19)**. Headlines C 8.460 ± 0.068, N 7.842 ± 0.079 (Lodders/Magg two-line set; N I 7442 rails under A(C)+0.1, so the 4-line AGSS21 set HOLDS), O 8.643 ± 0.076. 🔴 `solar_kpno_molecfit_corrected` was RAW over 8,200 of 9,800 A (RYA-940 corrected six windows); now molecfit-corrected 3000-13000 A, 0 A raw (`505bdf0f`) -- KP CN A-X 8.233 -> 7.896. CN A-X published on IAG 7.871, KP 7.896, CRIRES+ J 8.030 (CN band-strength 0.115 dex from Brooke 2014's lifetime vs Taherian & Slanger). Fe rerun split to RYA-1232.
+- **RYA-1233** — `f9752474` PR #569. Orchestrator front door: `run_pipeline.py --all-elements` (Fe-first sweep via `pipeline/run_sweep.py`, per-element loud-fail-continue, `<star>_SWEEP_latest.json`) and the `--element` path RESTORED byte-for-byte from `fce2615d` -- PR #557's merge `315ccc4d` had silently reverted it and the `check_result_generators.py` carve-out. `run_matrix.run()` contract unchanged; 23 new tests. Source: the PR body (no EOS comment on the issue).
 - **RYA-1220** — `a7da838a` PR #565. Solar CNO PUBLISHED: C 17 / N 12 / O 7 live, zero
   quarantined. The RYA-1092 species allowlist `{Fe I, Fe II, Al}` is retired (it gated on
   membership of a list, not on anything measured, and held all 36 CNO products — 28

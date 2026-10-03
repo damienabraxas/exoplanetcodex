@@ -44,6 +44,7 @@ VIS_REF: dict = {}
 ENV_LEGS = {
     "nominal": {}, "xi_minus": {"CODEX_XI_OVERRIDE": "0.90"}, "xi_plus": {"CODEX_XI_OVERRIDE": "1.10"},
     "q80": {"CODEX_CONT_Q": "80"}, "q97": {"CODEX_CONT_Q": "97"},
+    "contref": {"CODEX_CONT_REF": "iag"},
     "marcs": {"CODEX_MODEL_GRID": "MARCS.GES"}, "cscale": {"CODEX_CONT_SCALE": "1.001"},
     "win60": {"CODEX_CNO_WINDOW_SCALE": "0.6"},
 }

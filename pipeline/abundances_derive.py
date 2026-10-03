@@ -1226,7 +1226,7 @@ def _measure_rv_kms(wave_nm: np.ndarray, flux: np.ndarray) -> float:
     return float(np.median(vs)) if vs else 0.0
 
 
-def _load_observed_spectrum(star_id: str) -> tuple:
+def _load_observed_spectrum(star_id: str, norm_path=None) -> tuple:
     """
     Load the observed normalized spectrum for flux-space fitting (RYA-287).
 
@@ -1242,7 +1242,11 @@ def _load_observed_spectrum(star_id: str) -> tuple:
             break
     if key is None:
         raise ValueError(f"No normalized-spectrum mapping for star '{star_id}'")
-    norm_path = PATHS.get(f'{key}_normalized')
+    # RYA-1232: `norm_path` lets a caller that declared a HOLDING read that holding's file.
+    # Without it this always opened the RAW `{key}_normalized` product, so the C/N/O
+    # HARPS regions fitted raw HARPS while labelling the product solar_harps_molecfit_corrected.
+    if norm_path is None:
+        norm_path = PATHS.get(f'{key}_normalized')
     if norm_path is None or not Path(str(norm_path)).exists():
         raise FileNotFoundError(
             f"Normalized spectrum not found for {star_id}: {norm_path}. "

@@ -85,7 +85,7 @@ def n_cn_lines(region: str) -> int:
 def build(region: str, legs: Path, others: dict) -> dict:
     import rya1230_cno_budget as B
     instrument, holding = REGIONS[region]
-    L = {k: leg(legs, region, k) for k in ("nominal", "xi_minus", "xi_plus", "q80", "q97", "marcs",
+    L = {k: leg(legs, region, k) for k in ("nominal", "xi_minus", "xi_plus", "q80", "q97", "contref", "marcs",
                                            "cscale", "win60", "c_minus", "c_plus", "o_minus", "o_plus")}
     nom = L["nominal"]
     win = windows_of(region)
@@ -135,10 +135,15 @@ def build(region: str, legs: Path, others: dict) -> dict:
         comps.append(dict(name=name, sigma_dex=v, state="DEFINED" if ev.get("bound") else "MEASURED",
                           source=src, evidence=ev))
 
-    if L["q80"] and L["q97"]:
-        comps.append(dict(name="continuum", sigma_dex=abs(L["q97"]["A"] - L["q80"]["A"]) / 2,
-                          state="MEASURED", source="model-guided continuum quantile q97 vs q80, half-difference",
-                          evidence={"pool_sha256": digest, "A_q80": L["q80"]["A"], "A_q97": L["q97"]["A"]}))
+    if L["q80"] and L["q97"] and L["contref"]:
+        _pl = (L["q97"]["A"] - L["q80"]["A"]) / 2
+        _rf = L["contref"]["A"] - L["nominal"]["A"]
+        comps.append(dict(name="continuum", sigma_dex=float((_pl ** 2 + _rf ** 2) ** 0.5),
+                          state="MEASURED",
+                          source=("continuum (synthesis reference, 3-MAD clipped): placement q97 vs q80 "
+                                  "half-difference + REFERENCE (IAG-atlas leg minus nominal), in quadrature"),
+                          evidence={"pool_sha256": digest, "A_q80": L["q80"]["A"], "A_q97": L["q97"]["A"],
+                                    "A_contref_iag": L["contref"]["A"]}))
     else:
         notes.append("continuum legs missing")
     lever("profile_ew", "win60", "fit sub-windows scaled x0.6 about their centres (continuum on unscaled windows)")
@@ -206,7 +211,8 @@ def build(region: str, legs: Path, others: dict) -> dict:
                           source="std of CN A-X (0-0) across holdings, same star, same diagnostic family",
                           evidence={"per_holding_A": others}))
     comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
-                      source="molecular band synthesised in LTE (cno_synthesis: lte_molecular_band, no NLTE grid)",
+                      source=("molecular band synthesised in LTE (cno_synthesis: lte_molecular_band, no NLTE grid); "
+                              "Amarsi+2021 carry no non-LTE term for molecules either"),
                       evidence={"nlte_flag": "lte_molecular_band"}))
     comps.append(dict(name="blends", sigma_dex=None, state="N/A",
                       source="full atomic + molecular synthesis in every fit window",

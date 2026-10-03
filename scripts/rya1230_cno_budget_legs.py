@@ -47,6 +47,9 @@ LEGS = {
     "nominal": ({}, []),
     "q80": ({"CODEX_CONT_Q": "80"}, []),
     "q97": ({"CODEX_CONT_Q": "97"}, []),
+    # RYA-1232: continuum REFERENCE leg -- the IAG telluric-free atlas instead of the
+    # synthesis (Amarsi+2021's two-atlas spread); equals nominal outside 5001-11086 A
+    "contref": ({"CODEX_CONT_REF": "iag"}, []),
     "marcs": ({"CODEX_MODEL_GRID": "MARCS.GES"}, []),
     "tmask": ({"CODEX_TELLURIC_MASK": "1"}, []),
     "cscale": ({"CODEX_CONT_SCALE": "1.001"}, []),
@@ -54,7 +57,7 @@ LEGS = {
     "c_minus": ({"CODEX_ABUND_OFFSET": "C:-0.10"}, []),
     "c_plus": ({"CODEX_ABUND_OFFSET": "C:+0.10"}, []),
 }
-DEFAULT_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "marcs", "cscale")
+DEFAULT_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale")
 
 
 def parse_units(path: Path) -> list[list[str]]:
