@@ -77,8 +77,9 @@ def literature_for(symbol: str, ion: str):
     doc = load_litscan(symbol)
     if doc is None:
         return None, f"no {litscan_path(symbol).relative_to(ROOT)}"
-    if str(doc.get("ion", "I")).strip() != ion:
-        return None, f"the {symbol} litscan is for {symbol} {doc.get('ion')}, not {symbol} {ion}"
+    ions = [str(i).strip() for i in (doc.get("ions") or [doc.get("ion", "I")])]
+    if ion not in ions:
+        return None, f"the {symbol} litscan is for {symbol} {'/'.join(ions)}, not {symbol} {ion}"
     lit = literature_range(symbol)
     return lit, ("" if lit else f"{symbol} litscan declares no `range`")
 
