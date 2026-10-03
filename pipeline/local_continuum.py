@@ -234,8 +234,8 @@ def apply_to_windows(wave_A, flux, windows_A, *, apply: bool = True):
     return out, records
 
 
-#: 🔴 RYA-1232 — FOR THE SUN THE REFERENCE IS THE OBSERVED IAG ATLAS, NOT OUR SYNTHESIS.
-#: Measured (Ryan approved 2026-10-02): at its own top-decile pixels our synthesis sits
+#: RYA-1232 — THE IAG ATLAS AS A CONTINUUM REFERENCE (now the `contref` LEG, see CONT_REF;
+#: the first pass made it nominal, which the N I A/B overturned). Measured 2026-10-02: at its own top-decile pixels our synthesis sits
 #: 1-3% ABOVE the real Sun (obs/synth 0.979-0.994 where obs/IAG is 1.001-1.013 on the same
 #: corrected HARPS: [O I] 6300, C I 5052, C2 5163, CN 6127) -- weak absorption missing
 #: from the line list. Dividing by that "continuum" made every line shallower; on the 4%
@@ -255,14 +255,32 @@ def apply_to_windows(wave_A, flux, windows_A, *, apply: bool = True):
 #:                 maxima; where lines never let the true continuum through (the blue, like
 #:                 the near-UV of RYA-1189) that is a pseudo-continuum. No observed reference
 #:                 is verified there, so it is not used.
-#: So the span is Baker+2020's, 5001.1-11086 A. Outside it a solar window is MEASURED against
-#: the synthesis and NOT APPLIED (`no_verified_reference`), the near-UV's existing treatment.
+#: So the span is Baker+2020's, 5001.1-11086 A. Outside it the `contref` leg has no atlas and
+#: equals the nominal (reference spread 0, recorded).
 SOLAR_ATLAS_SPAN_A = (5001.1, 11086.0)
+
+
+#: 🔴 RYA-1232 FINAL RULE (A/B measured 2026-10-03): the NOMINAL reference is the
+#: SYNTHESIS (3-MAD clipped); the IAG atlas is the RYA-587 `contref` LEG (CODEX_CONT_REF=iag).
+#: A fit compares the observation to OUR synthesis, so the continuum must be placed
+#: relative to that synthesis -- the fitting analogue of Amarsi+2020's local-maxima EWs,
+#: which measure obs and model each against its own local continuum. Measured: N I
+#: (AGSS21, IAG holding) 1D-LTE 7.950 on the synthesis reference vs 8.12 on the IAG
+#: reference; the literature-method EW inversion gives 7.83-7.99, Lodders+2025 7.94,
+#: Mashonkina+2024 7.92 (1D-NLTE). The IAG reference fixed the absolute level but let the
+#: synthesis's missing weak opacity be spent on 0.3-1%-deep lines. [O I] 6300's -0.75 was
+#: unclipped anchors on O2-gamma residuals; clipped it reads 8.93 (synthesis) / 8.87 (IAG).
+#: The reference spread is priced, not hidden: |A(iag) - A(nominal)| enters `continuum`.
+CONT_REF = (_os.environ.get("CODEX_CONT_REF") or "synthesis").strip().lower()
+if CONT_REF != "synthesis":
+    print(f"  \u26a0\ufe0f  CONTINUUM REFERENCE LEG (RYA-587 contref): {CONT_REF}")
 
 
 def solar_atlas_reference(lo_A: float, hi_A: float, resolving_power: float):
     """IAG solar atlas over [lo_A, hi_A], broadened to `resolving_power` -> (wave_A, flux),
     or None outside SOLAR_ATLAS_SPAN_A."""
+    if CONT_REF != "iag":
+        return None
     if lo_A < SOLAR_ATLAS_SPAN_A[0] or hi_A > SOLAR_ATLAS_SPAN_A[1]:
         return None
     import sys
@@ -301,15 +319,13 @@ def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: b
         else:
             mw, mf = model_fn(c - env - 0.5, c + env + 0.5)
             label = "synthesis"
-            if solar_R:                              # the Sun, but no verified reference here
-                win_apply = False
+            pass                                     # no atlas here: the leg equals nominal
         mw, mf = np.asarray(mw, float), np.asarray(mf, float)
         keep = np.abs(mw - c) <= env                 # iSpec zeroes synthesis edges
         rec, cont = fit_model_guided(w, out, c, mw[keep], mf[keep],
                                      exclude_half_width_A=half, env_half_width_A=env,
                                      apply=win_apply, reference=label)
-        if solar_R and ref is None and rec.reason.startswith("MEASURED, NOT APPLIED"):
-            rec.reason = "MEASURED, NOT APPLIED: no_verified_reference (outside the IAG span)"
+
         records.append(dict(window_A=(float(lo), float(hi)), level=rec.level_at_centre,
                             slope_per_A=rec.slope_per_A, n_pix=rec.n_bins,
                             applied=rec.applied, reason=rec.reason, method=rec.method,
@@ -342,7 +358,7 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
                                          apply=apply, reference="IAG solar atlas")
             out = np.asarray(flux, float) / cont if cont is not None else flux
             return out, rec
-        apply = False                                  # the Sun, no verified reference here
+        pass                                           # no atlas here: the leg equals nominal
     import os
     from pathlib import Path
     from pipeline.abundances_derive import _synth_flux_at_abund
@@ -360,8 +376,6 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
     rec, cont = fit_model_guided(wave_A, flux, centre_A, mw[edge] * 10.0, np.asarray(mf)[edge],
                                  exclude_half_width_A=float(band_half_width_A), apply=apply,
                                  reference="synthesis")
-    if star == "solar" and rec.reason.startswith("MEASURED, NOT APPLIED"):
-        rec.reason = "MEASURED, NOT APPLIED: no_verified_reference (outside the IAG span)"
     out = np.asarray(flux, float) / cont if cont is not None else flux
     return out, rec
 

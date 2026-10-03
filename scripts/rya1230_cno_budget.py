@@ -365,15 +365,24 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if pc["moved"]:
             notes.append(f"continuum: pool moved ({pc['n_paired']} vs {n})")
         else:
-            comps.append(dict(name="continuum", sigma_dex=abs(pc["median"]) / 2.0, state="MEASURED",
-                              source=("standing model-guided continuum rule, pixel-selection "
-                                      "quantile q97 vs q80 around the nominal q90, central "
-                                      "half-difference, paired on this pool"),
-                              evidence={"pool_sha256": digest, "paired_median_q97_minus_q80": pc["median"],
-                                        "n_paired": pc["n_paired"],
-                                        "withdrawn_leg": ("+/-1.5 A envelope: < 5 bins, went "
-                                                          "CONTINUUM_UNCONSTRAINED and measured "
-                                                          "the whole correction, not placement")}))
+            # RYA-1232: + the REFERENCE spread (IAG atlas vs synthesis), in quadrature --
+            # Amarsi+2021's two-atlas spread. Outside 5001-11086 A the leg equals nominal.
+            ref_l = _leg_lines(unit_dir / "contref", lines_stem)
+            pr = _paired(_acc(ref_l), acc, n) if ref_l is not None else None
+            if ref_l is None:
+                notes.append("continuum: contref leg missing")
+            elif pr["moved"]:
+                notes.append(f"continuum: contref pool moved ({pr['n_paired']} vs {n})")
+            else:
+                comps.append(dict(
+                    name="continuum", sigma_dex=float(np.hypot(pc["median"] / 2.0, pr["median"])),
+                    state="MEASURED",
+                    source=("standing continuum rule (synthesis reference, 3-MAD clipped): "
+                            "placement = q97 vs q80 central half-difference, REFERENCE = "
+                            "IAG-atlas leg minus nominal, in quadrature, paired on this pool"),
+                    evidence={"pool_sha256": digest, "paired_median_q97_minus_q80": pc["median"],
+                              "paired_median_iag_minus_synthesis": pr["median"],
+                              "n_paired": pc["n_paired"]}))
     lever("profile_ew", "core", "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
           {"varied": "fit half-width", "nominal_A": hw, "alternate_A": 0.25})
     lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",

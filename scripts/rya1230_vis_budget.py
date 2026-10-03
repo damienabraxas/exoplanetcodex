@@ -121,7 +121,7 @@ def build(key, legs, twins_A):
     import rya1230_cno_budget as B
     from pipeline.cno_synthesis import REGION_DIAGNOSTICS
     element, selector, mol = KEYS[key]
-    L = {k: per_band(legs, "vis", k) for k in ("nominal", "xi_minus", "xi_plus", "q80", "q97", "marcs",
+    L = {k: per_band(legs, "vis", k) for k in ("nominal", "xi_minus", "xi_plus", "q80", "q97", "contref", "marcs",
                                                "cscale", "win60", "c_minus", "c_plus", "n_minus",
                                                "n_plus", "o_minus", "o_plus", "ni_minus", "ni_plus")}
     nomdf = L["nominal"]
@@ -183,10 +183,13 @@ def build(key, legs, twins_A):
     else:
         notes.append("xi legs missing")
     q80, q97 = val(L["q80"], key), val(L["q97"], key)
-    if q80 is not None and q97 is not None:
-        comps.append(dict(name="continuum", sigma_dex=abs(q97 - q80) / 2, state="MEASURED",
-                          source="model-guided continuum quantile q97 vs q80, half-difference",
-                          evidence={"pool_sha256": digest, "A_q80": q80, "A_q97": q97}))
+    cref, nom = val(L["contref"], key), val(L["nominal"], key)
+    if q80 is not None and q97 is not None and cref is not None and nom is not None:
+        comps.append(dict(name="continuum", sigma_dex=float((((q97 - q80) / 2) ** 2 + (cref - nom) ** 2) ** 0.5),
+                          state="MEASURED",
+                          source=("continuum (synthesis reference, 3-MAD clipped): placement q97 vs q80 "
+                                  "half-difference + REFERENCE (IAG-atlas leg minus nominal), in quadrature"),
+                          evidence={"pool_sha256": digest, "A_q80": q80, "A_q97": q97, "A_contref_iag": cref}))
     else:
         notes.append("continuum legs missing")
     w60 = val(L["win60"], key)
@@ -273,8 +276,17 @@ def build(key, legs, twins_A):
                       ("pseudo_continuum", "continuum placed per window by the model-guided rule; priced on `continuum`"),
                       ("hfs_isotopes", "no HFS in C I/O I/CH/C2/CN lines here; isotopologues at solar ratios")):
         comps.append(dict(name=name, sigma_dex=None, state="N/A", source=why, evidence={}))
+    # n_lines: a molecular band counts its OWN isotopologue's lines inside the fit windows
+    # (the RYA-1214/1230 recount: CH 184, C2 167, CN red 194); an atomic/forbidden
+    # diagnostic is one line. RYA-1232 fix: this was hard-coded to 1 for every diagnostic.
+    if mol:
+        from rya1230_n_product_hygiene import _bsyn_species_in
+        iso = {"CH": "12CH", "C2": "12C12C", "CN": "12C14N"}[mol]
+        n_lines = int(_bsyn_species_in(win).get(iso, 0))
+    else:
+        n_lines = 1
     row = dict(element=element, ion="I", band="VIS", instrument=INSTRUMENT, treatment="1D-LTE",
-               handler="CNOSynthesis", A=A0, n_lines=1, n_excluded=0, stat_dex=float(r0.sigma_fit),
+               handler="CNOSynthesis", A=A0, n_lines=n_lines, n_excluded=0, stat_dex=float(r0.sigma_fit),
                syst_dex=np.nan, stat_basis=("measured -- 1 sigma from the chi2 curvature of THIS fit "
                                             "(pipeline.fit_constraint), rescaled to red_chi2 = 1"),
                dominant="", route="synth", scale="1D-LTE", model="none", atmos="atlas9", gf="", route_basis="handler", deck="none")

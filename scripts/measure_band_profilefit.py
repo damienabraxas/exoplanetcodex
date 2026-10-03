@@ -199,7 +199,22 @@ def main() -> None:
                 keep.append(base.index[int(np.argmin(d))])
             else:
                 missing.append(w)
-        sel = acc.loc[keep].sort_values("wave_air_A").reset_index(drop=True)
+        sel = acc.loc[keep]
+        if missing:
+            # RYA-1232 -- a line absent ONLY because the accounting table's triage depth
+            # window dropped it is rebuilt by the table's own generator, not refused.
+            sys.path.insert(0, str(ROOT / "scripts"))
+            from line_accounting_rya709 import accounting_rows_for
+            extra = accounting_rows_for(a.element, a.ion, missing)
+            extra = extra[extra.instruments.astype(str).str.len() > 0] if len(extra) else extra
+            if len(extra):
+                found = extra.wave_air_A.values
+                missing = [w for w in missing if np.min(np.abs(found - w)) > 0.05]
+                print(f"  {len(extra)} requested line(s) rebuilt from linelist_solar.csv "
+                      f"(below the accounting table's 0.05 triage depth): "
+                      f"{', '.join(f'{w:.3f}' for w in found)}")
+                sel = pd.concat([sel, extra], ignore_index=True)
+        sel = sel.sort_values("wave_air_A").reset_index(drop=True)
         print(f"  pool from {Path(a.lines_from).name}: {len(req)} requested, "
               f"{len(sel)} found in the accounting table")
         if missing:
