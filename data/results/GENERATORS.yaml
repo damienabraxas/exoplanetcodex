@@ -23836,3 +23836,725 @@ artifacts:
     ticket: RYA-1230
     note: >-
       RYA-1230 HARPS vis-region CNO diagnostics (and their KP/IAG twins) with RYA-587 budget legs.
+
+  # ── RYA-1232: committed copies of the C/N/O products as PUBLISHED (copied_to) ──
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/CI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/stage6/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cno_budget.py
+    invocation: python3 scripts/rya1230_cno_budget.py --legs <runs>/legs6 --stage <runs>/stage6 --report <runs>/budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/cnstage6/NI_MOL_CN_AX_IR_crires_plus_solar_crires_plus_j_rya1219_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs <runs>/cnlegs6 --stage <runs>/cnstage6 --report <runs>/cn_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/cnstage6/NI_MOL_CN_AX_IR_iag_fts_solar_atlas_solar_iag_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs <runs>/cnlegs6 --stage <runs>/cnstage6 --report <runs>/cn_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/cnstage6/NI_MOL_CN_AX_IR_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_MOL-CN_AX_IR_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_cn_budget.py
+    invocation: python3 scripts/rya1230_cn_budget.py --legs <runs>/cnlegs6 --stage <runs>/cnstage6 --report <runs>/cn_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/CI_ATOM_CI_5052_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5052_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/CI_ATOM_CI_5380_harps_solar_harps_molecfit_corrected_SYNTH_ATOM-CI_5380_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/CI_MOL_C2_Swan_harps_solar_harps_molecfit_corrected_SYNTH_MOL-C2_Swan_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/CI_MOL_CH_Gband_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CH_Gband_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/NI_MOL_CN_red_harps_solar_harps_molecfit_corrected_SYNTH_MOL-CN_red_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+  - artifact: rya1232/cno_publish/visstage6/OI_FORB_OI_6300_harps_solar_harps_molecfit_corrected_SYNTH_FORB-OI_6300_products.csv
+    status: COMMITTED
+    generator: scripts/rya1230_vis_budget.py
+    invocation: python3 scripts/rya1230_vis_budget.py --legs <runs>/cnlegs6 --stage <runs>/visstage6 --report <runs>/vis_budget6.json
+    ticket: RYA-1232
+    note: >-
+      Staged product with its RYA-587 budget embedded (uncertainty column), copied
+      into the repo so the feed row's provenance.copied_to resolves; legs run by
+      scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
