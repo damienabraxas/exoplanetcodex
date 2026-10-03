@@ -231,7 +231,7 @@ def measure_holding(key: str, targets: pd.DataFrame, *, tmp_root: Path,
         f, rec = _lc.place_for_synthesis(w.wave, w.flux, centre, ctx, "Fe",
                                          band_half_width_A=float(cfg.half_width_A),
                                          use_molecules=bool(cfg.use_molecules),
-                                         apply=cfg.continuum_apply)
+                                         apply=cfg.continuum_apply, star="solar")
         return w.wave, f, (f"{w.provenance} | RYA-1232 LOCAL CONTINUUM "
                            f"level={rec.level_at_centre:.5f} "
                            f"{'APPLIED' if rec.applied else rec.reason[:40]}")

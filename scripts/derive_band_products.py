@@ -1306,7 +1306,7 @@ def synthesis_route(a, pol) -> None:
             # top-decile pixels, the BAND's line window excluded.
             _f, _rec = _lc.place_for_synthesis(
                 _w, _f, centre, ctx, a.element, band_half_width_A=float(cfg.half_width_A),
-                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply)
+                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply, star=a.star)
             _continuum_by_line[round(float(centre), 3)] = _rec
             _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
                      f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")

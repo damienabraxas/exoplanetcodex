@@ -1727,7 +1727,8 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
                                         True, tmp_dir)
 
     _f_A, local_continuum_records = _lc.apply_to_windows_model_guided(
-        np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply)
+        np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply,
+        solar_R=(float(region.R) if star_id == 'solar' else None))
     obs_f = _f_A
     if _os.environ.get("CODEX_CONT_SCALE"):
         obs_f = np.asarray(obs_f, float) / float(_os.environ["CODEX_CONT_SCALE"])

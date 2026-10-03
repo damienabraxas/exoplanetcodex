@@ -70,6 +70,9 @@ if MODEL_Q != 90.0:
     print(f"  \u26a0\ufe0f  CONTINUUM MODEL-QUANTILE OVERRIDE (RYA-1230 budget leg): q{MODEL_Q:g}")
 #: Minimum selected pixels for a model-guided fit.
 MIN_MODEL_PIX = 20
+#: Model-guided anchors whose obs/reference residual exceeds this many MADs are clipped
+#: (iterated); see fit_model_guided.
+CLIP_MAD_MODEL = 3.0
 #: Envelope bin width, A. Each bin contributes its p95.
 BIN_A = 1.0
 #: Polynomial degree. Linear: over 10 A the only shape a normalisation error can have that a
@@ -144,7 +147,8 @@ def fit(wave_A, flux, centre_A: float, *, env_half_width_A: float = ENV_HALF_WID
 def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
                      exclude_half_width_A: float,
                      env_half_width_A: float = ENV_HALF_WIDTH_A,
-                     apply: bool = True) -> tuple[LocalContinuum, np.ndarray | None]:
+                     apply: bool = True,
+                     reference: str = "synthesis") -> tuple[LocalContinuum, np.ndarray | None]:
     """THE STANDING RULE's estimator where a synthesis is in hand (RYA-1230, second pass).
 
     WHY NOT THE ENVELOPE. An absolute upper envelope is only a continuum where the true
@@ -170,9 +174,9 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
               & (w >= mw.min()) & (w <= mw.max()))
     mod = np.interp(w, mw, mf)
     inside &= np.isfinite(mod) & (mod > 0)
-    method = (f"RYA-1230 model-guided: obs/synth on the synthesis's top {100 - MODEL_Q:g}% "
+    method = (f"RYA-1230 model-guided: obs/{reference} on the {reference}'s top {100 - MODEL_Q:g}% "
               f"pixels within +/-{env_half_width_A:g} A (line window +/-"
-              f"{exclude_half_width_A:g} A excluded), degree {DEGREE}")
+              f"{exclude_half_width_A:g} A excluded), degree {DEGREE}, {CLIP_MAD_MODEL:g}-MAD clipped")
     if inside.sum() < MIN_MODEL_PIX:
         return LocalContinuum(float("nan"), float("nan"), int(inside.sum()), False,
                               f"CONTINUUM_UNCONSTRAINED: {int(inside.sum())} pixels", method), None
@@ -181,7 +185,19 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
     if sel.sum() < MIN_MODEL_PIX:
         return LocalContinuum(float("nan"), float("nan"), int(sel.sum()), False,
                               f"CONTINUUM_UNCONSTRAINED: {int(sel.sum())} selected pixels", method), None
-    c = np.polyfit(w[sel] - centre_A, f[sel] / mod[sel], DEGREE)
+    # RYA-1232: robust fit. Anchor pixels carrying a residual (a telluric leftover after
+    # correction, a cosmic, an unmodelled feature) steered the straight line: at [O I] 6300 on
+    # corrected HARPS the level read 1.022 / 1.001 / 0.996 for envelopes of +4/+5/+6 A;
+    # clipped at CLIP_MAD_MODEL it reads 0.992 / 1.001 / 0.999, and clean windows move < 0.1%.
+    x, y = w[sel] - centre_A, f[sel] / mod[sel]
+    for _ in range(5):
+        c = np.polyfit(x, y, DEGREE)
+        r = y - np.polyval(c, x)
+        mad = 1.4826 * float(np.median(np.abs(r - np.median(r))))
+        keep = np.abs(r) <= CLIP_MAD_MODEL * max(mad, 1.0e-4)
+        if keep.all() or keep.sum() < MIN_MODEL_PIX:
+            break
+        x, y = x[keep], y[keep]
     level = float(np.polyval(c, 0.0))
     slope = float(c[0]) if DEGREE >= 1 else 0.0
     if abs(level - 1.0) > MAX_SHIFT:
@@ -191,7 +207,7 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
     if not apply:
         return LocalContinuum(level, slope, int(sel.sum()), False,
                               "MEASURED, NOT APPLIED: pseudo-continuum regime", method), None
-    return (LocalContinuum(level, slope, int(sel.sum()), True, "applied", method),
+    return (LocalContinuum(level, slope, int(len(x)), True, "applied", method),
             np.polyval(c, w - centre_A))
 
 
@@ -218,7 +234,54 @@ def apply_to_windows(wave_A, flux, windows_A, *, apply: bool = True):
     return out, records
 
 
-def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: bool = True):
+#: 🔴 RYA-1232 — FOR THE SUN THE REFERENCE IS THE OBSERVED IAG ATLAS, NOT OUR SYNTHESIS.
+#: Measured (Ryan approved 2026-10-02): at its own top-decile pixels our synthesis sits
+#: 1-3% ABOVE the real Sun (obs/synth 0.979-0.994 where obs/IAG is 1.001-1.013 on the same
+#: corrected HARPS: [O I] 6300, C I 5052, C2 5163, CN 6127) -- weak absorption missing
+#: from the line list. Dividing by that "continuum" made every line shallower; on the 4%
+#: [O I] 6300 blend it cost -0.75 dex. The solar literature anchors on the OBSERVED atlas
+#: (Amarsi+2021: local maxima, two independent atlases; Asplund+2021: own local placement on
+#: the atlases), and Jofre+2014 note the synthesis-guided placement fails where the list is
+#: incomplete. The IAG atlas carries the real H-alpha wings and molecular forests, so the
+#: ratio still cancels them -- the reason the rule became model-guided -- without the
+#: missing-opacity bias.
+#:
+#: 🔴 THE REFERENCE IS USED ONLY WHERE IT PASSES THE TWO-ATLAS CHECK (Amarsi+2021 practice).
+#: Measured 25 A windows, level = holding / IAG on IAG's top decile:
+#:   5000-10000 A: HARPS 0.988-1.007, KP-molecfit 0.997-1.008, KP-Kurucz2005 0.993-1.006
+#:                 (band medians) -- three independent reductions agree with Baker+2020 to ~1%.
+#:   4000-4500 A:  HARPS 0.900, KP 0.962, K2005 0.958 against Reiners+2016 -- and HARPS vs KP
+#:                 disagree by 6% with EACH OTHER. Baker+2020 (and Reiners) normalise on local
+#:                 maxima; where lines never let the true continuum through (the blue, like
+#:                 the near-UV of RYA-1189) that is a pseudo-continuum. No observed reference
+#:                 is verified there, so it is not used.
+#: So the span is Baker+2020's, 5001.1-11086 A. Outside it a solar window is MEASURED against
+#: the synthesis and NOT APPLIED (`no_verified_reference`), the near-UV's existing treatment.
+SOLAR_ATLAS_SPAN_A = (5001.1, 11086.0)
+
+
+def solar_atlas_reference(lo_A: float, hi_A: float, resolving_power: float):
+    """IAG solar atlas over [lo_A, hi_A], broadened to `resolving_power` -> (wave_A, flux),
+    or None outside SOLAR_ATLAS_SPAN_A."""
+    if lo_A < SOLAR_ATLAS_SPAN_A[0] or hi_A > SOLAR_ATLAS_SPAN_A[1]:
+        return None
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import measure_band_ew as _mbe                                     # noqa: E402
+    from scipy.ndimage import gaussian_filter1d
+    w, f = _mbe.iag_atlas()
+    k = (w >= lo_A - 1.0) & (w <= hi_A + 1.0)
+    w, f = w[k], f[k]
+    if w.size < 50:
+        return None
+    step = float(np.median(np.diff(w)))
+    fwhm = 0.5 * (lo_A + hi_A) / float(resolving_power)
+    return w, gaussian_filter1d(f, fwhm / 2.3548 / step)
+
+
+def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: bool = True,
+                                  solar_R: float | None = None):
     """`apply_to_windows` with the model-guided estimator (`fit_model_guided`): for each
     fit window, `model_fn(lo_A, hi_A) -> (wave_A, flux)` synthesises the window +/-
     ENV_HALF_WIDTH_A at the route's current composition, and the window itself is excluded
@@ -231,15 +294,26 @@ def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: b
     for lo, hi in windows_A:
         c, half = 0.5 * (lo + hi), 0.5 * (hi - lo)
         env = half + ENV_HALF_WIDTH_A
-        mw, mf = model_fn(c - env - 0.5, c + env + 0.5)
+        ref = solar_atlas_reference(c - env - 0.5, c + env + 0.5, solar_R) if solar_R else None
+        win_apply = apply
+        if ref is not None:
+            mw, mf, label = ref[0], ref[1], "IAG solar atlas"
+        else:
+            mw, mf = model_fn(c - env - 0.5, c + env + 0.5)
+            label = "synthesis"
+            if solar_R:                              # the Sun, but no verified reference here
+                win_apply = False
         mw, mf = np.asarray(mw, float), np.asarray(mf, float)
         keep = np.abs(mw - c) <= env                 # iSpec zeroes synthesis edges
         rec, cont = fit_model_guided(w, out, c, mw[keep], mf[keep],
                                      exclude_half_width_A=half, env_half_width_A=env,
-                                     apply=apply)
+                                     apply=win_apply, reference=label)
+        if solar_R and ref is None and rec.reason.startswith("MEASURED, NOT APPLIED"):
+            rec.reason = "MEASURED, NOT APPLIED: no_verified_reference (outside the IAG span)"
         records.append(dict(window_A=(float(lo), float(hi)), level=rec.level_at_centre,
                             slope_per_A=rec.slope_per_A, n_pix=rec.n_bins,
-                            applied=rec.applied, reason=rec.reason, method=rec.method))
+                            applied=rec.applied, reason=rec.reason, method=rec.method,
+                            reference=label))
         if cont is not None:
             sel = (w >= lo - 1.0) & (w <= hi + 1.0)
             out[sel] = out[sel] / cont[sel]
@@ -247,7 +321,8 @@ def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: b
 
 
 def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, *,
-                        band_half_width_A: float, use_molecules: bool, apply: bool = True):
+                        band_half_width_A: float, use_molecules: bool, apply: bool = True,
+                        star: str):
     """THE standing rule for a synthesis route, in one place (RYA-1230 / RYA-1232).
 
     Synthesises +/- ENV_HALF_WIDTH_A around `centre_A` from the route's OWN context
@@ -256,6 +331,18 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
     core-window leg cannot move the continuum). Returns (flux, record): the flux divided by
     the placed continuum when applied, else unchanged.
     """
+    env = ENV_HALF_WIDTH_A
+    if star == "solar":
+        ref = solar_atlas_reference(centre_A - env - 0.5, centre_A + env + 0.5,
+                                    float(ctx["resolving_power"]))
+        if ref is not None:
+            k = np.abs(ref[0] - centre_A) <= env
+            rec, cont = fit_model_guided(wave_A, flux, centre_A, ref[0][k], ref[1][k],
+                                         exclude_half_width_A=float(band_half_width_A),
+                                         apply=apply, reference="IAG solar atlas")
+            out = np.asarray(flux, float) / cont if cont is not None else flux
+            return out, rec
+        apply = False                                  # the Sun, no verified reference here
     import os
     from pathlib import Path
     from pipeline.abundances_derive import _synth_flux_at_abund
@@ -271,7 +358,10 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
         vsini=float(ctx["vsini"]), use_molecules=bool(use_molecules), tmp_dir=tmp)
     edge = np.abs(mw * 10.0 - centre_A) <= env          # iSpec zeroes synthesis edges
     rec, cont = fit_model_guided(wave_A, flux, centre_A, mw[edge] * 10.0, np.asarray(mf)[edge],
-                                 exclude_half_width_A=float(band_half_width_A), apply=apply)
+                                 exclude_half_width_A=float(band_half_width_A), apply=apply,
+                                 reference="synthesis")
+    if star == "solar" and rec.reason.startswith("MEASURED, NOT APPLIED"):
+        rec.reason = "MEASURED, NOT APPLIED: no_verified_reference (outside the IAG span)"
     out = np.asarray(flux, float) / cont if cont is not None else flux
     return out, rec
 
