@@ -230,6 +230,10 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
                       file=sys.stderr, flush=True)
         if fe_gate == "HALT" and dry_run:
             entry["fe_gate_would_block"] = True
+        if entry["verdict"] is None:
+            # RYA-1234: every element carries a verdict; one that never ran has nothing
+            # checked against the literature.
+            entry["verdict"] = "INCOMPLETE"
         out.append(entry)
         say(_line(entry))
 

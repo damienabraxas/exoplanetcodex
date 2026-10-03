@@ -349,7 +349,7 @@ def holdings_for(star: str) -> list[dict]:
 _EQUILIBRIUM_PARAMS = {"teff", "logg", "xi"}
 
 
-def process_steps(star: str, symbol: str) -> list[dict]:
+def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list[dict]:
     """The element-level steps that must be complete before ANY cell of this element is
     measured: 1 star, 5 litscan, 8 stellar parameters, 9 iron first. One row per step:
     {step, name, ok, evidence}. Evidence names the artifact either way."""
@@ -363,15 +363,31 @@ def process_steps(star: str, symbol: str) -> list[dict]:
         params = None
         rows.append({"step": 1, "name": "star selected", "ok": False,
                      "evidence": f"config/stars.yaml: {exc}"})
+    # Step 5 is per ION: a litscan names the ion it covers (Fe.yaml is Fe I and says Fe II
+    # is tracked separately), so Fe II is not "done" because Fe I's literature is.
     lit = LITSCAN_DIR / f"{symbol}.yaml"
     try:
         lit_name = str(lit.relative_to(ROOT))
     except ValueError:
         lit_name = str(lit)
-    rows.append({"step": 5, "name": "literature (litscan)", "ok": lit.exists(),
-                 "evidence": (lit_name if lit.exists() else
-                              f"no {lit_name} -- the literature on this element for this "
-                              f"star has not been gathered")})
+    lit_ion = None
+    if lit.exists():
+        try:
+            import yaml
+            lit_ion = str((yaml.safe_load(lit.read_text(encoding="utf-8")) or {})
+                          .get("ion", "I")).strip()
+        except Exception as exc:                               # noqa: BLE001
+            print(f"WARNING: {lit_name} unreadable ({type(exc).__name__}: {exc})",
+                  file=sys.stderr)
+    for ion in (ions or ["I"]):
+        ok = lit_ion == ion
+        rows.append({"step": 5, "name": f"literature (litscan) {symbol} {ion}", "ok": ok,
+                     "ion": ion,
+                     "evidence": (lit_name if ok else
+                                  f"{lit_name} covers {symbol} {lit_ion}, not {symbol} {ion}"
+                                  if lit_ion else
+                                  f"no {lit_name} -- the literature on this element for "
+                                  f"this star has not been gathered")})
     if params is not None:
         unsolved = sorted(set(params.get("solve", [])) & _EQUILIBRIUM_PARAMS)
         rows.append({"step": 8, "name": "stellar parameters", "ok": not unsolved,
@@ -1094,10 +1110,12 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
     produced_this_run: set[str] = set()
 
-    steps = process_steps(star, symbol)
+    steps = process_steps(star, symbol, sorted({d.ion for d in descriptors}) or None)
     missing = [r for r in steps if not r["ok"]]
-    element_hold = "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
-                             for r in missing)
+
+    def element_hold_for(ion: str) -> str:
+        return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
+                         for r in missing if r.get("ion") in (None, ion))
 
     cells: list[CellResult] = []
     for d in descriptors:
@@ -1110,8 +1128,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         cells.append(cell)
 
         # ── P. Ryan's governing process: steps 1-9 before measurement (RYA-1233) ─
-        if element_hold:
-            cell.status, cell.reason = HELD, element_hold
+        _eh = element_hold_for(d.ion)
+        if _eh:
+            cell.status, cell.reason = HELD, _eh
             continue
         _hold = cell_process_hold(d)
         if _hold:
