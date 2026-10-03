@@ -191,7 +191,8 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
 
         entry = {"element": e.target, "label": e.label, "symbol": e.symbol,
                  "ions": list(e.ions) or None, "status": RAN, "report": None,
-                 "counts": _zero_counts(), "cells_total": 0, "executed": 0}
+                 "counts": _zero_counts(), "cells_total": 0, "executed": 0,
+                 "verdict": None}
         if fe_gate == "HALT" and not dry_run:
             entry.update(status=NOT_RUN_FE_GATE, reason=FE_GATE_REASON)
         elif not _pool_has(e):
@@ -214,7 +215,8 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
                     interpreter=interpreter, ispec_dir=ispec_dir,
                     step_timeout=step_timeout, report_dir=report_dir, echo=False)
                 entry.update(report=doc.get("_report_path"), counts=doc["counts"],
-                             cells_total=doc["cells_total"], executed=executed(doc))
+                             cells_total=doc["cells_total"], executed=executed(doc),
+                             verdict=(doc.get("verdict") or {}).get("element_verdict"))
                 if dry_run:
                     entry["would_run_with_published_product"] = would_run_published(doc)
             except run_matrix.MatrixError as exc:
