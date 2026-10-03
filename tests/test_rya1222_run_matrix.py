@@ -303,11 +303,15 @@ def test_the_cell_key_carries_the_holding_not_just_the_instrument(rm):
 def test_cell_products_match_only_the_decks_own_treatments(rm):
     from pipeline.run_descriptor import RunDescriptor
     d = RunDescriptor(element="Fe", ion="I", instrument="harps", holding="solar_harps",
-                      lo_A=3782.6, hi_A=6910.0, engine_deck="gerber-nlte")
+                      lo_A=3782.6, hi_A=6910.0, engine_deck="gerber-nlte", pool="codex")
     feed = {"products": [
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
          "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.5,
-         "route": "PROFILEFIT"},
+         "route": "PROFILEFIT", "selector": "GRADED"},
+        # RYA-1233: same everything, another POOL -- another cell's product
+        {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.7,
+         "route": "PROFILEFIT", "selector": "REFERENCE"},
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
          "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.4, "route": "PROFILEFIT"},
         # RYA-1233: same treatment on the OTHER route is another cell's product
@@ -367,8 +371,12 @@ def _fake_stage(rm, tmp_path, monkeypatch, calls):
             out = tmp_path / a[a.index("--out") + 1]
             out.mkdir(parents=True, exist_ok=True)
             route = "SYNTH" if "--force-synthesis" in a else "PROFILEFIT"
+            tag = ("_DEEPGRADED" if "--lines-deep-graded" in a else
+                   "_" + {"reference": "REFERENCE", "graded": "GRADED"}[
+                       a[a.index("--lines-tier") + 1]])
             stem = (f"{a[a.index('--element') + 1]}{a[a.index('--ion') + 1]}_4200_6908_"
-                    f"{a[a.index('--instrument') + 1]}_{a[a.index('--holding') + 1]}_{route}")
+                    f"{a[a.index('--instrument') + 1]}_{a[a.index('--holding') + 1]}_{route}"
+                    f"{tag}")
             (out / f"{stem}_products.csv").write_text("treatment,A\n1D-LTE,7.5\n")
         return True, "ok"
     monkeypatch.setattr(rm, "_run_step", run_step)
@@ -382,7 +390,7 @@ def test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded(
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], methods=["synthesis"],
+    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
                  instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -400,7 +408,7 @@ def test_an_unchanged_unpublished_build_is_not_redone(rm, monkeypatch, tmp_path)
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    kw = dict(engines=["ts-lte"], bands=["VIS"], methods=["synthesis"],
+    kw = dict(engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
               instruments=["solar_harps_molecfit_corrected"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -435,7 +443,7 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     published = [{"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
                   "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
-                  "route": "PROFILEFIT",
+                  "route": "PROFILEFIT", "selector": "GRADED",
                   "n_lines": 12, "tier": "GRADED"}]
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": published})
 
@@ -516,7 +524,7 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": [
         {"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
          "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
-                  "route": "PROFILEFIT",
+                  "route": "PROFILEFIT", "selector": "GRADED",
          "n_lines": 12, "tier": "GRADED"}]})
 
     reaches_the_executor(rm, monkeypatch)
@@ -574,6 +582,10 @@ def reaches_the_executor(rm, monkeypatch):
     monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
     monkeypatch.setattr(rm, "verify_numpy_ceiling",
                         lambda interpreter: (True, f"stubbed for {interpreter}"))
+    # RYA-1233: the governing process (steps 1-9) has its own tests below; these tests
+    # are about what happens after it has let a cell through.
+    monkeypatch.setattr(rm, "process_steps", lambda *a, **k: [])
+    monkeypatch.setattr(rm, "cell_process_hold", lambda *a, **k: "")
 
 
 # ── the RYA-682 ceiling is CHECKED, not asserted ─────────────────────────────
@@ -734,7 +746,9 @@ def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
     drops exactly the strong lines synthesis exists for."""
     cells = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], bands=["VIS"],
                                   instruments=["solar_harps_molecfit_corrected"])]
-    assert sorted(d.method for d in cells) == ["profile-fit", "synthesis"]
+    assert sorted((d.method, d.pool) for d in cells) == [
+        ("profile-fit", "codex"), ("synthesis", "codex"), ("synthesis", "deep"),
+        ("synthesis", "reference")]
     near_uv = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"], bands=["near-UV"])]
     assert near_uv and {d.method for d in near_uv} == {"synthesis"}
 
@@ -778,3 +792,45 @@ def test_a_synthesis_cell_is_clipped_to_its_list_not_failed():
     assert "--clip-to-synthesis-list" in args
     src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
     assert '"--clip-to-synthesis-list"' in src
+
+
+# ── RYA-1233: Ryan's governing process -- steps 1-9 before measurement ─────────
+
+def test_an_element_without_its_literature_is_held_not_measured(rm, tmp_path, monkeypatch):
+    """Step 5. Si was measured on 2026-10-02 with no litscan; under the process it waits."""
+    monkeypatch.setattr(rm, "LITSCAN_DIR", tmp_path)          # no <El>.yaml anywhere
+    monkeypatch.setattr(rm, "_run_step",
+                        lambda *a, **k: pytest.fail("a held cell was dispatched"))
+    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], interpreter=sys.executable,
+                 ispec_dir="/x", echo=False, report_dir=tmp_path)
+    assert doc["counts"][rm.HELD] == doc["cells_total"] > 0
+    assert all("PROCESS step 5" in c["reason"] for c in doc["cells"])
+    step5 = [r for r in doc["process_steps"] if r["step"] == 5][0]
+    assert step5["ok"] is False
+
+
+def test_iron_first(rm, monkeypatch):
+    """Step 9: a non-Fe element waits for a published Fe product."""
+    monkeypatch.setattr(rm, "load_feed", lambda star, el: {"products": []})
+    rows = {r["step"]: r for r in rm.process_steps("solar", "Si")}
+    assert rows[9]["ok"] is False and "[Fe/H]" in rows[9]["evidence"]
+    assert 9 not in {r["step"] for r in rm.process_steps("solar", "Fe")}
+
+
+def test_a_band_with_no_lab_graded_line_is_held_at_step_7(rm):
+    from pipeline.run_descriptor import RunDescriptor
+    d = RunDescriptor(element="Fe", ion="II", instrument="crires_plus",
+                      holding="solar_crires_plus_h_rya1094", lo_A=15007.11, hi_A=17493.69,
+                      method="synthesis", pool="reference")
+    assert "PROCESS step 7" in rm.cell_process_hold(d)
+
+
+def test_no_cell_measures_the_ungraded_pool(rm):
+    """Step 7: every dispatched cell names a graded pool; `--lines-tier all` never runs."""
+    from pipeline.run_descriptor import resolve
+    cells = rm.expand("solar", "Fe", engines=["ts-lte"], bands=["VIS"])
+    assert cells and all(d.pool in ("reference", "codex", "deep") for d in cells)
+    for d in cells[:4]:
+        args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+        assert "--lines-deep-graded" in args or (
+            "--lines-tier" in args and args[args.index("--lines-tier") + 1] != "all")

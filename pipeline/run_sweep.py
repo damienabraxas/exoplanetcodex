@@ -33,10 +33,9 @@ from pathlib import Path
 
 from pipeline import run_matrix
 
-#: RYA-1233: these symbols run before everything else, and gate it. Fe because every
-#: other element's [X/Fe] product is referenced to it. The order WITHIN this group,
-#: and of everything after it, is elements_master.json's own.
-FE_FIRST = ("Fe",)
+#: RYA-1233: these symbols run before everything else, and gate it (governing process
+#: step 9). Defined once, in run_matrix, so the single-element path obeys it too.
+FE_FIRST = run_matrix.FE_FIRST
 
 #: The cell statuses that mean "this cell's work exists" -- the gate counts these.
 #: run_matrix's own definition, not a second copy of it.
@@ -151,7 +150,8 @@ def _line(entry: dict) -> str:
 
 def run_sweep(star: str, *, bands: list[str] | None = None,
               instruments: list[str] | None = None, engines: list[str] | None = None,
-              methods: list[str] | None = None, dry_run: bool = False, interpreter: str | None = None,
+              methods: list[str] | None = None, pools: list[str] | None = None,
+              dry_run: bool = False, interpreter: str | None = None,
               ispec_dir: str | None = None, step_timeout: int = 7200,
               report_dir: Path | None = None, echo: bool = True) -> dict:
     """Every canonical element of `star`, Fe first, through `run_matrix.run()`.
@@ -209,6 +209,7 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
                 doc = run_matrix.run(
                     star, e.target, ions=list(e.ions) or None, bands=bands,
                     instruments=instruments, engines=engines, methods=methods,
+                    pools=pools,
                     dry_run=dry_run,
                     interpreter=interpreter, ispec_dir=ispec_dir,
                     step_timeout=step_timeout, report_dir=report_dir, echo=False)

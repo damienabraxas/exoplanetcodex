@@ -69,7 +69,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
-                                     permitted_methods, ROUTE_TOKEN, deck_out_dir)
+                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
@@ -78,6 +78,10 @@ CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 ELEMENTS_MASTER = ROOT / "data" / "config" / "elements_master.json"
 PRODUCTS = ROOT / "data" / "products"
 REPORT_DIR = ROOT / "data" / "results" / "orchestrator"
+LITSCAN_DIR = ROOT / "data" / "reference" / "litscan"
+#: RYA-1233, governing process step 9: IRON FIRST -- the Fe result sets [Fe/H] for every
+#: other element. Moved here from run_sweep so a single-element run obeys it too.
+FE_FIRST = ("Fe",)
 #: Where stage artifacts are looked up and recorded relative to (RYA-1233). The repo root;
 #: a separate name only so the bookkeeping can be pointed at a scratch tree in a test.
 ARTIFACT_ROOT = ROOT
@@ -112,7 +116,11 @@ WOULD_RUN = "WOULD_RUN"
 #: on the next pass -- which is the loop this ticket exists to kill, and the only
 #: honest thing to do is say so in the report rather than let it spin silently.
 UNPUBLISHED = "UNPUBLISHED"
-STATUSES = (DONE, SKIP, FAILED, BLOCKED, NOT_READY, WOULD_RUN, UNPUBLISHED)
+#: RYA-1233. A step of Ryan's governing process that must precede measurement (steps 1-8,
+#: and step 9's "iron first") is not complete for this cell. Nothing is dispatched; the
+#: reason names the step and the artifact that is missing. See `PROCESS_STEPS`.
+HELD = "HELD"
+STATUSES = (DONE, SKIP, FAILED, BLOCKED, NOT_READY, HELD, WOULD_RUN, UNPUBLISHED)
 #: A cell whose work exists. Everything else lands in the report's `resume` list.
 TERMINAL_OK = (DONE, SKIP)
 
@@ -331,6 +339,93 @@ def holdings_for(star: str) -> list[dict]:
     return hits
 
 
+# ═════════════════════════════════════════════════════════════════════════════
+# Ryan's governing process (RYA-1233 header, 2026-10-01): steps 1-8, and step 9's
+# iron-first, come BEFORE any measurement. Each is read off the artifact that proves it.
+# Steps 2-4 for a holding are what puts it on the matrix at all (`is_raw`,
+# `unwired_holdings`) plus the continuum check per cell; 6-7 are per cell (band window).
+# ═════════════════════════════════════════════════════════════════════════════
+
+_EQUILIBRIUM_PARAMS = {"teff", "logg", "xi"}
+
+
+def process_steps(star: str, symbol: str) -> list[dict]:
+    """The element-level steps that must be complete before ANY cell of this element is
+    measured: 1 star, 5 litscan, 8 stellar parameters, 9 iron first. One row per step:
+    {step, name, ok, evidence}. Evidence names the artifact either way."""
+    from config.constants import get_star_params
+    rows: list[dict] = []
+    try:
+        params = get_star_params(star)
+        rows.append({"step": 1, "name": "star selected", "ok": True,
+                     "evidence": f"config/stars.yaml has {star!r}"})
+    except KeyError as exc:
+        params = None
+        rows.append({"step": 1, "name": "star selected", "ok": False,
+                     "evidence": f"config/stars.yaml: {exc}"})
+    lit = LITSCAN_DIR / f"{symbol}.yaml"
+    try:
+        lit_name = str(lit.relative_to(ROOT))
+    except ValueError:
+        lit_name = str(lit)
+    rows.append({"step": 5, "name": "literature (litscan)", "ok": lit.exists(),
+                 "evidence": (lit_name if lit.exists() else
+                              f"no {lit_name} -- the literature on this element for this "
+                              f"star has not been gathered")})
+    if params is not None:
+        unsolved = sorted(set(params.get("solve", [])) & _EQUILIBRIUM_PARAMS)
+        rows.append({"step": 8, "name": "stellar parameters", "ok": not unsolved,
+                     "evidence": ("pinned in config/stars.yaml" if not unsolved else
+                                  f"{unsolved} must be SOLVED for {star}; no solved-"
+                                  f"parameter artifact exists")})
+    if symbol not in FE_FIRST:
+        try:
+            fe = sum(len(load_feed(star, s).get("products", [])) for s in FE_FIRST)
+        except Exception as exc:                               # noqa: BLE001
+            fe, why = 0, f"{type(exc).__name__}: {exc}"
+        else:
+            why = ""
+        rows.append({"step": 9, "name": "iron first", "ok": fe > 0,
+                     "evidence": (f"{fe} published {'/'.join(FE_FIRST)} product(s) for "
+                                  f"{star}" if fe else
+                                  f"no published Fe product for {star} -- Fe sets [Fe/H] "
+                                  f"for every other element {why}").strip()})
+    return rows
+
+
+def _canonical_species(symbol: str, ion: str):
+    key = ("canon", symbol, ion)
+    if key not in _ADAPTERS:
+        import pandas as pd
+        from pipeline.gf_empirical import GRADED_TIERS
+        df = pd.read_csv(CANONICAL_GF, low_memory=False,
+                         usecols=["species", "wavelength_air_A", "gf_tier"])
+        df = df[df.species.astype(str) == f"{symbol} {ion}"]
+        _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
+                          df.gf_tier.astype(str).isin(GRADED_TIERS).values)
+    return _ADAPTERS[key]
+
+
+def cell_process_hold(d: RunDescriptor) -> str:
+    """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
+    for this cell's holding and window; otherwise the reason, naming the step."""
+    p = preflight()
+    spec = p.holding_spec(d.holding) if p is not None else None
+    if spec is not None and not spec.pre_normalised:
+        return (f"PROCESS step 4 (continuum): {d.holding} ships no continuum-normalised "
+                f"product; the per-band continuum is prepared once, before measurement")
+    w, graded = _canonical_species(d.element, d.ion)
+    inwin = (w >= d.lo_A) & (w <= d.hi_A)
+    if not inwin.any():
+        return (f"PROCESS step 6 (lines secured): canonical_gf.csv holds no "
+                f"{d.element} {d.ion} line in {d.lo_A:g}-{d.hi_A:g} A")
+    if not (inwin & graded).any():
+        return (f"PROCESS step 7 (graded lines): none of the {int(inwin.sum())} "
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a lab-"
+                f"graded gf, so no Reference / Codex / Deep pool exists here")
+    return ""
+
+
 def is_raw(h: dict) -> bool:
     """A ground-based holding with no telluric correction applied. NEVER dispatched.
 
@@ -413,7 +508,8 @@ def _clip_to_holding(spec, lo: float, hi: float) -> tuple[float, float]:
 def expand(star: str, element: str, *, ions: list[str] | None = None,
            bands: list[str] | None = None, instruments: list[str] | None = None,
            engines: list[str] | None = None,
-           methods: list[str] | None = None) -> list[RunDescriptor]:
+           methods: list[str] | None = None,
+           pools: list[str] | None = None) -> list[RunDescriptor]:
     """Every applicable (band x holding x ion x deck) cell, in a stable sorted order.
 
     A cell is omitted ONLY where the wired `HoldingSpec` positively declares a
@@ -479,11 +575,16 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             for ion in want_ions:
                 for deck in want_decks:
                     for m in want_m:
-                        out.append(RunDescriptor(
-                            element=symbol, ion=ion, instrument=inst, holding=hid,
-                            lo_A=lo, hi_A=hi, engine_deck=deck, method=m))
+                        # RYA-1233 (process step 7): every cell measures a GRADED pool,
+                        # one cell per pool this route can measure.
+                        for pool in [k for k, v in POOLS.items()
+                                     if (m is None or m in v["methods"])
+                                     and (not pools or k in pools)]:
+                            out.append(RunDescriptor(
+                                element=symbol, ion=ion, instrument=inst, holding=hid,
+                                lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool))
     out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck,
-                            d.method or ""))
+                            d.method or "", d.pool or ""))
     return out
 
 
@@ -634,6 +735,11 @@ def route_of(descriptor: RunDescriptor) -> str:
         return "?"          # the resolver will BLOCK this cell with the real reason
 
 
+def pool_tier(descriptor: RunDescriptor) -> str:
+    """The feed's `tier` / `selector` token for this cell's graded pool ('' if none)."""
+    return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+
+
 def cell_prefix_key(descriptor: RunDescriptor) -> str:
     """The part of a product's identity a CELL fixes.
 
@@ -643,7 +749,8 @@ def cell_prefix_key(descriptor: RunDescriptor) -> str:
     the treatment axis is matched separately against the deck's emitted set.
     """
     return "|".join((descriptor.element, descriptor.ion, descriptor.band,
-                     descriptor.instrument, descriptor.holding, route_of(descriptor)))
+                     descriptor.instrument, descriptor.holding, route_of(descriptor),
+                     pool_tier(descriptor)))
 
 
 def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict]:
@@ -656,6 +763,7 @@ def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict
             and str(p.get("instrument")) == descriptor.instrument
             and str(p.get("holding")) == descriptor.holding
             and str(p.get("route")) == route_of(descriptor)
+            and str(p.get("selector")) == pool_tier(descriptor)
             and str(p.get("treatment")) in emits]
 
 
@@ -703,7 +811,7 @@ def ledger_key(star: str, descriptor: RunDescriptor, band: str) -> str:
     does not: two decks over one window are two runs and two hashes."""
     return "|".join((star, descriptor.element, descriptor.ion, band,
                      descriptor.instrument, descriptor.holding, descriptor.engine_deck,
-                     route_of(descriptor)))
+                     route_of(descriptor), pool_tier(descriptor)))
 
 
 def load_ledger() -> dict:
@@ -746,7 +854,8 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
     line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
     """
     out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
-    pat = f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}_*"
+    pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
+           f"{'_' + pool_tier(d) if pool_tier(d) else ''}_*")
     hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
     return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
             for f in sorted(hits)]
@@ -806,6 +915,7 @@ class CellResult:
     status: str
     reason: str
     route: str = ""            # RYA-1233: PROFILEFIT / SYNTH -- the feed's own token
+    pool: str = ""             # RYA-1233: REFERENCE / GRADED / DEEPGRADED -- the feed's tier
     A: float | None = None
     n_lines: int | None = None
     product_key: str = ""
@@ -817,7 +927,7 @@ class CellResult:
     @property
     def cell_key(self) -> str:
         return "|".join((self.band, self.instrument, self.holding, self.ion, self.engine,
-                         self.route))
+                         self.route, self.pool))
 
 
 def _utc() -> str:
@@ -950,7 +1060,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
-        methods: list[str] | None = None,
+        methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int = 7200, report_dir: Path | None = None,
         echo: bool = True) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
@@ -966,7 +1076,8 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     ispec_dir = ispec_dir or os.environ.get("ISPEC_DIR") or ""
 
     descriptors = expand(star, element, ions=ions, bands=bands,
-                         instruments=instruments, engines=engines, methods=methods)
+                         instruments=instruments, engines=engines, methods=methods,
+                         pools=pools)
 
     # The RYA-682 ceiling once per run, not once per cell -- but its verdict is
     # carried INTO every cell, because a failed check must block dispatch rather
@@ -983,15 +1094,29 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
     produced_this_run: set[str] = set()
 
+    steps = process_steps(star, symbol)
+    missing = [r for r in steps if not r["ok"]]
+    element_hold = "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
+                             for r in missing)
+
     cells: list[CellResult] = []
     for d in descriptors:
         band = _band_of(d, star)
         cell = CellResult(band=band.name_declared, instrument=d.instrument,
                           holding=d.holding, ion=d.ion, engine=d.engine_deck,
-                          route=route_of(d),
+                          route=route_of(d), pool=pool_tier(d),
                           status=BLOCKED, reason="", lo_A=d.lo_A, hi_A=d.hi_A,
                           product_key=cell_prefix_key(d))
         cells.append(cell)
+
+        # ── P. Ryan's governing process: steps 1-9 before measurement (RYA-1233) ─
+        if element_hold:
+            cell.status, cell.reason = HELD, element_hold
+            continue
+        _hold = cell_process_hold(d)
+        if _hold:
+            cell.status, cell.reason = HELD, _hold
+            continue
 
         # ── 0. the two band tables must agree about where this cell IS ───────
         if band.disagreement:
@@ -1120,6 +1245,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                        f"product(s) recorded at inputs_hash {want[:12]}")
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
+                     process=steps,
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
     if echo:
@@ -1171,6 +1297,7 @@ def _band_of(d: RunDescriptor, star: str) -> _Band:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
+            process: list[dict] | None = None,
             numpy_why: str, interpreter: str, ispec_dir: str, code_commit: str,
             report_dir: Path | None) -> dict:
     counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
@@ -1184,10 +1311,11 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         "environment": {"interpreter": interpreter or None,
                         "ispec_dir": ispec_dir or None,
                         "numpy_ceiling_check": numpy_why},
+        "process_steps": process or [],
         "cells_total": len(cells),
         "counts": counts,
         "cells": [{"band": c.band, "instrument": c.instrument, "holding": c.holding,
-                   "ion": c.ion, "engine": c.engine, "route": c.route,
+                   "ion": c.ion, "engine": c.engine, "route": c.route, "pool": c.pool,
                    "status": c.status,
                    "reason": c.reason, "A": c.A, "n_lines": c.n_lines,
                    "product_key": c.product_key, "inputs_hash": c.inputs_hash,
@@ -1225,11 +1353,14 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
 def render(doc: dict) -> str:
     """The compact ASCII table plus the one-line verdict. ASCII only (Cloudflare WAF)."""
     head = (f"{'band':<12} {'instrument':<24} {'holding':<34} {'ion':<4} "
-            f"{'engine':<18} {'route':<10} {'status':<10} {'A':>8} {'n':>5}  reason")
+            f"{'engine':<18} {'route':<10} {'pool':<10} {'status':<10} {'A':>8} {'n':>5}  reason")
     lines = [
         f"ORCHESTRATOR  star={doc['star']}  element={doc['element']}  "
         f"{'DRY-RUN' if doc['dry_run'] else 'EXECUTE'}  commit={doc['code_commit']}",
         f"numpy ceiling: {doc['environment']['numpy_ceiling_check']}",
+        # RYA-1233: the governing process, before any cell -- what is done and what is not.
+        *[f"process step {r['step']:>2} {r['name']:<22} {'done' if r['ok'] else 'NOT DONE'}"
+          f"  {r['evidence']}" for r in doc.get("process_steps", [])],
         "",
         head, "-" * len(head),
     ]
@@ -1241,6 +1372,7 @@ def render(doc: dict) -> str:
             reason = reason[:93] + "..."
         lines.append(f"{c['band']:<12} {c['instrument']:<24} {c['holding']:<34} "
                      f"{c['ion']:<4} {c['engine']:<18} {c.get('route', ''):<10} "
+                     f"{c.get('pool', ''):<10} "
                      f"{c['status']:<10} {a:>8} {n:>5}  {reason}")
     # Every status in STATUSES, including the zeroes: a verdict line that prints only
     # the non-zero counts cannot be read as "and nothing else happened", which is the

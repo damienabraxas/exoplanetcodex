@@ -83,6 +83,11 @@ class RunDescriptor:
     #: the EW route's saturation / width gates drop -- 150 of 160 live solar Fe products
     #: are SYNTH, and the matrix used to run only PROFILEFIT in VIS and red-optical.
     method: str | None = None
+    #: RYA-1233, Ryan's governing process step 7: measurement runs on a GRADED pool --
+    #: "reference" (every lab-gf line), "codex" (lab lines at/below the depth gate) or
+    #: "deep" (lab lines above it) -- never the ungraded all-lines pool. None keeps the
+    #: stage's own default (all), which the orchestrator never dispatches.
+    pool: str | None = None
 
     @property
     def band(self) -> str:
@@ -169,6 +174,19 @@ def gerber_deck_key(element: str, deck: str) -> str | None:
     if deck in ("gerber-nlte", "gerber-1d-lte"):
         return element
     return None
+
+
+#: RYA-1233. Each graded pool: the derive_band_products flags that select it, the feed's
+#: `tier` / `selector` token its products carry, and the routes that can measure it (EW
+#: cannot reach the deep lines, and the Reference set includes them).
+POOLS = {
+    "reference": {"args": ["--lines-tier", "reference"], "tier": "REFERENCE",
+                  "methods": ("synthesis",)},
+    "codex":     {"args": ["--lines-tier", "graded"], "tier": "GRADED",
+                  "methods": ("synthesis", "profile-fit")},
+    "deep":      {"args": ["--lines-deep-graded"], "tier": "DEEPGRADED",
+                  "methods": ("synthesis",)},
+}
 
 
 #: The feed's `route` token for each dispatchable method (the products' own vocabulary).
@@ -343,11 +361,23 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                                   "rather than a missing step."),
         })
     out_dir = deck_out_dir(descriptor.engine_deck)
+    pool_args: list[str] = []
+    if descriptor.pool is not None:
+        spec = POOLS.get(descriptor.pool)
+        if spec is None or method not in spec["methods"]:
+            why = (f"pool {descriptor.pool!r} cannot be measured on the {method} route "
+                   f"(pools: { {k: v['methods'] for k, v in POOLS.items()} })")
+            checks.append(Precondition("pool_route", False, why))
+            if blocked is None:
+                blocked = why
+        else:
+            pool_args = list(spec["args"])
     steps.append({
         "name": "derive_products", "script": "scripts/derive_band_products.py",
         # RYA-1233: in a band that permits profile-fit the script takes the EW route
         # unless told otherwise, so a synthesis-route cell must say so.
         "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir]
+                + pool_args
                 + (["--force-synthesis"] if method == "synthesis"
                    and "profile-fit" in permitted_methods(descriptor.lo_A, descriptor.hi_A)
                    else [])
