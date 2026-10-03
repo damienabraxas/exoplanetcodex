@@ -262,9 +262,29 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
     lo, hi = float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi"))
     notes, comps = [], []
-    if n < 2:
-        return {"row": row, "skip": f"n_lines={n}: a single-line pool has no line-scatter "
-                                    f"measurement; RYA-587 keeps it HOLD"}
+    # RYA-1232 (Ryan: "we do what other scientists do") -- a SINGLE-line pool is priced the
+    # way Asplund+2021 Sect. 2.1 prices one or two lines: from the goodness of the profile
+    # fit. That is the line's own chi2-curvature sigma (fit_constraint.curvature_sigma,
+    # rescaled to red_chi2 = 1, worse side), recorded on the 1D-LTE fit; a departure leg
+    # adds a per-line delta to that SAME fit, so it carries the same sigma.
+    single_sigma = None
+    if n == 1:
+        sa = pd.to_numeric(acc["sigma_A"], errors="coerce").iloc[0] if "sigma_A" in acc else float("nan")
+        if not np.isfinite(sa):
+            lte = nominal_dir / re.sub(r"_(ENGINE-A-3DNLTE|ENGINE-A|ENGINE-B[^_]*)_lines\.csv$",
+                                       "_1D-LTE_lines.csv", lines_stem)
+            if lte.exists():
+                l1 = pd.read_csv(lte)
+                w0 = float(acc["wavelength_air_A"].iloc[0])
+                m = l1[(l1.wavelength_air_A - w0).abs() < 1e-3]
+                if len(m):
+                    sa = pd.to_numeric(m["sigma_A"], errors="coerce").iloc[0]
+        if not np.isfinite(sa):
+            return {"row": row, "skip": "n_lines=1 and the line's fit records no curvature "
+                                        "sigma -- nothing to price it from; HOLD"}
+        single_sigma = float(sa)
+    elif n < 1:
+        return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
     g = gf[gf["species"] == SPECIES[element]]
@@ -300,11 +320,26 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)
-    raw = float(acc["abundance"].astype(float).std(ddof=1))
-    comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
-                      source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-                      evidence={"method": "line_scatter", "independent": True, "n_lines": n,
-                                "raw_sigma": raw, "pool_sha256": digest}))
+    if single_sigma is not None:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from measure_band_ew import load_window_ex
+        w0 = float(acc["wavelength_air_A"].iloc[0])
+        npx = int(np.isfinite(np.asarray(load_window_ex(instrument, w0, hw, holding=holding).flux)).sum())
+        from pipeline.uncertainty_contract import fit_measurement
+        comps.append(fit_measurement(
+            single_sigma,
+            source=("Asplund+2021 Sect. 2.1: one line -> statistical error from the goodness of "
+                    "the profile fit; chi2-curvature sigma of this line, rescaled to red_chi2 = 1"),
+            likelihood="synthesis chi2 over the fit window, curvature at the best abundance",
+            correlation_treatment=("red_chi2 rescaling absorbs pixel correlation and model "
+                                   "inadequacy; the worse-constrained side is taken"),
+            n_pixels=npx))
+    else:
+        raw = float(acc["abundance"].astype(float).std(ddof=1))
+        comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
+                          source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
+                          evidence={"method": "line_scatter", "independent": True, "n_lines": n,
+                                    "raw_sigma": raw, "pool_sha256": digest}))
     w = [1.0 / n] * n
     cov = [[sig[a] * sig[b] if src[a] == src[b] else 0.0 for b in range(n)] for a in range(n)]
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
