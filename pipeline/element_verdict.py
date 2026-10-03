@@ -226,6 +226,11 @@ def verdict(star: str, element: str, *, report_dir: Path | None = None,
         ev = INCOMPLETE
     elif n_failed or any(j["status"] == OUT_OF_BAND for j in judged):
         ev = REVIEW
+    elif not any(j["status"] == IN_BAND for j in judged):
+        # Process step 12 is a CHECK against literature. Every product NO_REFERENCE means
+        # nothing was checked -- that is not a pass (Fe II, whose litscan does not exist,
+        # read PASS on zero comparisons before this).
+        ev = INCOMPLETE
     else:
         ev = PASS
     v = {"element_verdict": ev, "benchmark": bench, "benchmark_basis": bench_why,

@@ -108,3 +108,27 @@ def test_no_products_is_incomplete_not_pass(ev, tmp_path, monkeypatch):
     monkeypatch.setattr(rm, "load_ledger", lambda: {})
     assert ev.verdict("solar", "Si", report_dir=tmp_path)["verdict"]["element_verdict"] \
         == ev.INCOMPLETE
+
+
+def test_all_no_reference_is_incomplete_not_pass(ev, tmp_path, monkeypatch):
+    """Fe II read PASS with zero comparisons: step 12 never happened."""
+    from pipeline import run_matrix as rm
+    cell = {"band": "VIS", "instrument": "harps", "holding": "solar_harps_molecfit_corrected",
+            "ion": "II", "engine": "ts-lte", "route": "SYNTH", "pool": "REFERENCE",
+            "status": rm.HELD}
+    (tmp_path / "solar_FeII_latest.json").write_text(json.dumps(
+        {"generated_at": "2026-10-03T00:00:00Z", "cells": [cell]}))
+    prod = {"element": "Fe", "ion": "II", "band": "VIS", "instrument": "harps",
+            "holding": "solar_harps_molecfit_corrected", "route": "SYNTH",
+            "selector": "REFERENCE", "treatment": "1D-LTE", "A": 7.47}
+    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": [prod]})
+    monkeypatch.setattr(rm, "load_ledger", lambda: {})
+    v = ev.verdict("solar", "Fe II", report_dir=tmp_path)["verdict"]
+    assert v["counts"]["NO_REFERENCE"] == 1 and v["element_verdict"] == ev.INCOMPLETE
+
+
+def test_step_5_is_per_ion(ev):
+    from pipeline import run_matrix as rm
+    rows = {r["ion"]: r for r in rm.process_steps("solar", "Fe", ["I", "II"]) if r["step"] == 5}
+    assert rows["I"]["ok"] is True and rows["II"]["ok"] is False
+    assert "covers Fe I, not Fe II" in rows["II"]["evidence"]
