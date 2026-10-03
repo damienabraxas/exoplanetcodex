@@ -1248,8 +1248,23 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                      process=steps,
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
+    # RYA-1234 (governing process steps 12-13): every element run ends with its literature
+    # check and problem lines, written into this report. Here, not in the sweep, so the
+    # single-element path gets it too. Loud on failure; it never undoes the run above.
+    try:
+        from pipeline import element_verdict
+        ev = element_verdict.verdict(star, element, report_dir=report_dir)
+        report["verdict"], report["problem_lines"] = ev["verdict"], ev["problem_lines"]
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: element verdict for {star} {element} failed: "
+              f"{type(exc).__name__}: {exc}", file=sys.stderr)
+        report["verdict"] = {"element_verdict": "ERROR",
+                             "error": f"{type(exc).__name__}: {exc}"}
     if echo:
         print(render(report))
+        v = report.get("verdict") or {}
+        print(f"verdict: {v.get('element_verdict')}  {v.get('counts', '')}  "
+              f"problem lines: {len(report.get('problem_lines') or [])}")
     return report
 
 
