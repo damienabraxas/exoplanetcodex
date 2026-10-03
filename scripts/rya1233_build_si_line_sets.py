@@ -52,24 +52,40 @@ def _tol(text: str) -> float:
     return max(FLOOR_A, 0.5 * 10 ** (-dec))
 
 
+def _canonical_waves() -> dict:
+    """canonical line id -> its wavelength in the synthesis-facing list."""
+    with (ROOT / "data/linelists/canonical_gf.csv").open(newline="") as fh:
+        return {r["line_id"]: r["wavelength_air_A"] for r in csv.DictReader(fh)}
+
+
 def _rows():
+    """(set, species, wavelength to MATCH on, ep, published log gf, band, published wavelength).
+
+    The match wavelength is the CANONICAL one wherever a prior ticket already matched the
+    published line to its canonical id (RYA-1169 for AGSS21, RYA-1058 for Elgueta): a
+    source printed to 0.01 A sits up to 0.012 A from the list (Amarsi's 6741.64 vs
+    6741.628), which a printed-precision window misses. The published wavelength is kept
+    beside it for provenance."""
+    cw = _canonical_waves()
     out = []
     with (ROOT / "data/reference/si_agss21/si_agss21_lines.csv").open() as fh:
         for r in csv.DictReader(fh):
             if r["reference_status"] != "used":
                 continue
-            out.append(("SI_AGSS21", r["species"], r["wavelength_air_A"], r["ep_eV"],
-                        r["published_loggf"], r["band"]))
+            out.append(("SI_AGSS21", r["species"],
+                        cw.get(r["canonical_line_id"], r["wavelength_air_A"]), r["ep_eV"],
+                        r["published_loggf"], r["band"], r["wavelength_air_A"]))
     with (ROOT / "data/audit/rya1058_elgueta/normalized_lines.csv").open() as fh:
         for r in csv.DictReader(fh):
             if r["species"] == "SiI" and r["sun_Gd_rob"].strip() == "Y":
-                out.append(("SI_ELGUETA2026", "Si I", r["wavelength_A"], r["lower_ep_eV"],
-                            r["elgueta_loggf"], r["band"]))
+                out.append(("SI_ELGUETA2026", "Si I",
+                            cw.get(r["canonical_line_id"], r["wavelength_A"]), r["lower_ep_eV"],
+                            r["elgueta_loggf"], r["band"], r["wavelength_A"]))
     with (ROOT / "data/audit/rya1218_si_protocol/si_nir_line_pool.csv").open() as fh:
         for r in csv.DictReader(fh):
             if r["source"] == "Bergemann2013":
                 out.append(("SI_BERGEMANN2013", "Si I", r["wavelength_air_A"], r["ep_eV"],
-                            r["loggf"], r["band"]))
+                            r["loggf"], r["band"], r["wavelength_air_A"]))
     return out
 
 
@@ -82,14 +98,15 @@ def main() -> None:
     for (name, species), rows in sorted(groups.items()):
         # The MOST precise row sets the window: a csv round-trip drops trailing zeros
         # (Table 1's 7034.90 reads back as 7034.9), which would otherwise widen it 10x.
-        tol = min(_tol(r[2]) for r in rows)
+        tol = min(_tol(r[6]) for r in rows)
         fn = OUT / f"{name.lower()}_{species.replace(' ', '')}.csv"
         with fn.open("w", newline="") as fh:
             w = csv.writer(fh)
-            w.writerow(["line_set", "species", "wavelength_air_A", "ep_eV", "loggf_published",
-                        "band_published", "match_tol_A", "source", "doi"])
+            w.writerow(["line_set", "species", "wavelength_air_A", "wavelength_published_A",
+                        "ep_eV", "loggf_published", "band_published", "match_tol_A",
+                        "source", "doi"])
             for r in sorted(rows, key=lambda r: float(r[2])):
-                w.writerow([r[0], r[1], r[2], r[3], r[4], r[5], tol,
+                w.writerow([r[0], r[1], r[2], r[6], r[3], r[4], r[5], tol,
                             SETS[name]["source"], SETS[name]["doi"]])
         el, ion = species.split()
         ws = [float(r[2]) for r in rows]

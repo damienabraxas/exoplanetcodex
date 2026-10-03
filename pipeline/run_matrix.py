@@ -691,6 +691,14 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if manifest_path:
         rows.append({"kind": "holding_manifest", "name": manifest_path,
                      "digest": _file_fingerprint(ROOT / manifest_path)})
+    # RYA-1233: a published-set pool's line list is an input like any other -- a corrected
+    # set must re-run its cells.
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        from pipeline.run_descriptor import line_set
+        _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):])
+        if _row is not None:
+            rows.append({"kind": "line_set", "name": _row["csv"],
+                         "digest": _file_fingerprint(ROOT / _row["csv"])})
     # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
     # Named by file name only (the bytes are the identity; a path is a machine fact).
     files, why = holding_source_files(descriptor.holding)

@@ -867,3 +867,24 @@ def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
                  methods=["synthesis"], pools=["deep"], interpreter=sys.executable,
                  ispec_dir="/x", echo=False, report_dir=tmp_path)
     assert doc["counts"][rm.FAILED] == 0 and doc["counts"][rm.HELD] >= 1
+
+
+def test_a_set_file_is_part_of_its_cells_fingerprint(rm):
+    """A corrected line set must re-run its cells (RYA-1233)."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+    kinds = {row["kind"]: row["name"] for row in rm.input_fingerprints(d, r, manifest_path=None)}
+    assert kinds.get("line_set") == "data/reference/line_sets/si_agss21_SiI.csv"
+
+
+def test_every_agss21_si_line_matches_the_synthesis_wavelength():
+    """Amarsi's Table 1 prints 0.01 A; three lines sat > 0.005 A from the list and were lost."""
+    import csv
+    rows = list(csv.DictReader(open(ROOT / "data/reference/line_sets/si_agss21_SiI.csv")))
+    cg = {round(float(r["wavelength_air_A"]), 3) for r in
+          csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv")) if r["species"] == "Si I"}
+    assert len(rows) == 9
+    assert all(round(float(r["wavelength_air_A"]), 3) in cg for r in rows)
