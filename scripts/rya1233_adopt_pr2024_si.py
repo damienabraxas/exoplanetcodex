@@ -37,6 +37,9 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from pipeline.wavelength_util import vac_to_air  # noqa: E402  (RYA-501 single source)
+
 SRC = ROOT / "data/linelists/primary_gf/pehlivan_rhodin2024"
 GF = ROOT / "data/linelists/canonical_gf.csv"
 AUDIT = ROOT / "data/audit/rya1233_si_pr2024/adoption.csv"
@@ -47,13 +50,9 @@ TOL_A, CLEAR_A = 0.03, 0.10
 STATUS = "adjudicated_rya1233_pr2024"
 
 
-def vac_to_air(w):
-    s2 = (1e4 / np.asarray(w, float)) ** 2
-    n = 1 + 0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2)
-    return np.asarray(w, float) / n
-
-
 def _vac_A(nm):
+    """B4's printed nm -> air A: vacuum inside 2000-20000 A (ReadMe), air outside.
+    The converter is the codebase's single one (pipeline.wavelength_util, RYA-501)."""
     w = np.asarray(nm, float) * 10.0
     return np.where((w > 2000) & (w < 20000), vac_to_air(w), w)
 
