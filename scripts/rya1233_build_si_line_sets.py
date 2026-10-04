@@ -25,7 +25,8 @@ build Reference pools without an agent:
                    Source: data/reference/si_deshmukh2022/table2_subsample.csv.
 
 STEP 7 -- GRADED. A published set is a line SELECTION; whether each line is graded is a
-property of the gf the synthesis will use. Every set file carries `gf_graded` (the
+property of the gf the synthesis will use, and of the standing cull: a line registered
+`exclude`/`active` in data/registry/problem_children.csv is never graded. Every set file carries `gf_graded` (the
 canonical row has a published uncertainty: a stored gf_sigma_dex -- lab, Garz, Pehlivan
 Rhodin -- or a NIST accuracy grade), and `<file>_graded.csv` holds only those lines. The
 orchestrator dispatches the GRADED file (`graded_csv` in the registry); a line nobody has
@@ -65,8 +66,29 @@ SETS = {
 }
 
 
-def _graded(species: str, wave: float, cg: list) -> bool:
-    """Does the canonical row this line synthesises with carry a published gf uncertainty?"""
+def _culled() -> dict:
+    """(species, wavelength) -> problem_class for every line the problem-children registry
+    EXCLUDES (required_treatment exclude + status active; RYA-807's discriminator). The
+    standing cull protocol: a line that is garbage for the Sun (saturated past the RYA-458
+    ceiling, blended, a >3 robust-sigma outlier) and that the literature does not use is
+    registered there, printed in the element appendix, and never measured again."""
+    import re
+    out = {}
+    with (ROOT / "data/registry/problem_children.csv").open(newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            if r["required_treatment"].strip() != "exclude" or r["status"].strip() != "active":
+                continue
+            m = re.match(r"\s*([0-9]+\.[0-9]+)", r["lambda_or_scope"])
+            if m:
+                out[(r["species"].strip(), float(m.group(1)))] = r["problem_class"].strip()
+    return out
+
+
+def _graded(species: str, wave: float, cg: list, culled: dict | None = None) -> bool:
+    """Graded = the canonical row carries a published gf uncertainty AND the line is not
+    culled in the problem-children registry."""
+    if culled and any(sp == species and abs(w - wave) < 0.01 for sp, w in culled):
+        return False
     m = [r for r in cg if r["species"] == species and abs(float(r["wavelength_air_A"]) - wave) < 0.01]
     if len(m) != 1:
         return False
@@ -142,6 +164,7 @@ def main() -> None:
         groups.setdefault((row[0], row[1]), []).append(row)
     reg = []
     cg = _canonical_rows()
+    culled = _culled()
     for (name, species), rows in sorted(groups.items()):
         # The MOST precise row sets the window: a csv round-trip drops trailing zeros
         # (Table 1's 7034.90 reads back as 7034.9), which would otherwise widen it 10x.
@@ -157,7 +180,7 @@ def main() -> None:
             w.writerow(head)
             gw.writerow(head)
             for r in sorted(rows, key=lambda r: float(r[2])):
-                g = _graded(species, float(r[2]), cg)
+                g = _graded(species, float(r[2]), cg, culled)
                 row = [r[0], r[1], r[2], r[6], r[3], r[4], r[5], tol,
                        SETS[name]["source"], SETS[name]["doi"], g]
                 w.writerow(row)
