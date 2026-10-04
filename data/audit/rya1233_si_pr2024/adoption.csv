@@ -1,0 +1,1156 @@
+source_table,air_A,upper,lower,pr_loggf,pr_sigma_dex,action,why,canonical_A,ep_eV,old_loggf,old_tier,old_reference,d_loggf
+B3,11991.57,3s^2^3p4p ^3^D_1_,3s^2^3p4s ^3^P_0_^o^,-0.168,0.02,adopted,,11991.568,4.9201,-0.171,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",0.003
+B3,12103.54,3s^2^3p4p ^3^D_1_,3s^2^3p4s ^3^P_1_^o^,-0.465,0.02,adopted,,12103.534,4.9296,-0.396,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.069
+B3,12395.83,3s^2^3p4p ^3^D_1_,3s^2^3p4s ^3^P_2_^o^,-1.727,0.06,adopted,,12395.832,4.9538,-1.682,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.045
+B3,14224.53,3s^2^3p4p ^3^D_1_,3s^2^3p4s ^1^P_1_^o^,-1.419,0.03,adopted,,14224.5257,5.0823,-1.455,KURUCZ,K07,0.036
+B3,11984.19,3s^2^3p4p ^3^D_2_,3s^2^3p4s ^3^P_1_^o^,0.176,0.03,adopted,,11984.198,4.9296,0.239,VALD3,VALD3,-0.063
+B3,12270.69,3s^2^3p4p ^3^D_2_,3s^2^3p4s ^3^P_2_^o^,-0.526,0.08,adopted,,12270.692,4.9538,-0.396,VALD3,VALD3,-0.13
+B3,10660.97,3s^2^3p4p ^3^P_1_,3s^2^3p4s ^3^P_0_^o^,-0.347,0.02,adopted,,10660.973,4.9201,-0.324,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.023
+B3,10749.38,3s^2^3p4p ^3^P_1_,3s^2^3p4s ^3^P_1_^o^,-0.266,0.01,adopted,,10749.378,4.9296,-0.205,VALD3,VALD3,-0.061
+B3,10979.31,3s^2^3p4p ^3^P_1_,3s^2^3p4s ^3^P_2_^o^,-0.673,0.02,adopted,,10979.308,4.9538,-0.562,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.111
+B3,12390.15,3s^2^3p4p ^3^P_1_,3s^2^3p4s ^1^P_1_^o^,-1.789,0.11,adopted,,12390.154,5.0823,-1.767,VALD3,VALD3,-0.022
+B3,26424.18,3s^2^3p4p ^3^P_1_,3s3p^3^ ^3^D_1_^o^,-1.463,0.12,unmatched,no canonical row within 0.03 A,,,,,,
+B3,26546.52,3s^2^3p4p ^3^P_1_,3s3p^3^ ^3^D_2_^o^,-0.876,0.04,unmatched,no canonical row within 0.03 A,,,,,,
+B3,10603.43,3s^2^3p4p ^3^P_2_,3s^2^3p4s ^3^P_1_^o^,-0.396,0.02,adopted,,10603.425,4.9296,-0.305,VALD3,VALD3,-0.091
+B3,10827.09,3s^2^3p4p ^3^P_2_,3s^2^3p4s ^3^P_2_^o^,0.219,0.01,adopted,,10827.088,4.9538,0.239,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.02
+B3,25861.38,3s^2^3p4p ^3^P_2_,3s3p^3^ ^3^D_3_^o^,-0.71,0.03,unmatched,no canonical row within 0.03 A,,,,,,
+B3,10371.26,3s^2^3p4p ^3^S_1_,3s^2^3p4s ^3^P_1_^o^,-0.824,0.03,adopted,,10371.263,4.9296,-0.705,VALD3,VALD3,-0.119
+B3,10585.14,3s^2^3p4p ^3^S_1_,3s^2^3p4s ^3^P_2_^o^,-0.066,0.02,adopted,,10585.141,4.9538,-0.046,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.02
+B4,63331.944,3s^2^ 3p 5d ^3^P_0_^o^,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",-3.045,0.1784,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63301.195,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^1^P_1_^o^,-1.769,0.1146,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63168.999,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_","3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-1.468,0.048,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63115.056,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_3_^o^,-0.37,0.047,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63033.301,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^F_3_^o^,0.066,0.0468,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63032.0,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^D_3_^o^,-0.333,0.0939,unmatched,no canonical row within 0.03 A,,,,,,
+B4,63030.3,3s^2^ 3p 3d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_3_,-2.699,0.0481,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62984.707,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3pnd a^3^P_1_^o^,-0.021,0.0645,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62962.0,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_2_,-0.958,0.0585,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62712.753,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.667,0.0736,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62676.081,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-2.177,0.1049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62384.666,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^1^F_3_^o^,-0.47,0.1077,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62311.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3pnd a^3^P_0_^o^,0.191,0.0613,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62094.33,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-0.339,0.0473,unmatched,no canonical row within 0.03 A,,,,,,
+B4,62057.491,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 4d ^3^P_1_^o^,-3.483,0.1449,unmatched,no canonical row within 0.03 A,,,,,,
+B4,61091.012,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3pnd a^3^P_1_^o^,0.08,0.0605,unmatched,no canonical row within 0.03 A,,,,,,
+B4,61072.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3pnd a^3^P_1_^o^,0.309,0.058,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60785.063,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3pnd a^3^P_2_^o^,-0.884,0.0698,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60614.0,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 5p ^3^P_2_,0.373,0.0634,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60604.224,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^D_1_^o^,-0.534,0.0895,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60263.508,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_3_^o^,-1.459,0.0846,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60229.644,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_3_^o^,-1.764,0.097,unmatched,no canonical row within 0.03 A,,,,,,
+B4,60143.466,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,0.28,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59965.843,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",-1.062,0.0553,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59936.91,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,-0.642,0.0496,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59899.0,3s^2^ 3p 3d ^3^F_3_^o^,3s^2^ 3p 4p ^3^D_3_,-1.134,0.0501,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59863.177,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-1.097,0.0477,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59796.0,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^D_2_^o^,-1.326,0.0877,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59724.027,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^D_2_^o^,-0.523,0.0996,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59552.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^S_1_,-3.222,0.0499,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59521.4,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3pnd a^3^P_2_^o^,0.517,0.0588,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59495.16,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3pnd a^3^P_2_^o^,-0.302,0.0621,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59476.653,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,3s^2^ 3p 4d ^3^F_3_^o^,0.273,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59326.971,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^1^P_1_^o^,-2.814,0.1413,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59223.111,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_","3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-1.884,0.1972,unmatched,no canonical row within 0.03 A,,,,,,
+B4,59003.003,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^1^P_1_^o^,-0.736,0.0775,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58984.07,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 5p ^3^D_3_,-0.891,0.0524,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58896.457,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^D_3_^o^,-0.041,0.1027,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58865.116,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^1^S_0_,-2.515,0.1014,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58706.0,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 5p ^3^P_1_,0.127,0.0632,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58538.173,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^1^D_2_,-1.961,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58512.0,3s^2^ 3p 4p ^3^P_1_,3s^2^ 3p 3d ^1^D_2_^o^,-3.599,0.1485,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58239.965,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,-1.607,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,58121.085,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_5_,0.075,0.0469,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57880.0,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_1_,-0.15,0.0593,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57802.666,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3pnd a^3^P_2_^o^,-1.064,0.0576,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57785.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3pnd a^3^P_2_^o^,-0.276,0.0588,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57748.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^S_1_,-1.242,0.0495,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57548.591,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,-1.68,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57517.708,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_2_^o^,-1.123,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57504.743,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-2.637,0.1574,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57455.018,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^F_3_^o^,-2.389,0.2287,unmatched,no canonical row within 0.03 A,,,,,,
+B4,57192.0,3s^2^ 3p 3d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_2_,-1.112,0.0495,unmatched,no canonical row within 0.03 A,,,,,,
+B4,56837.009,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^D_1_^o^,-1.07,0.0754,unmatched,no canonical row within 0.03 A,,,,,,
+B4,56798.0,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_0_,-0.334,0.0681,unmatched,no canonical row within 0.03 A,,,,,,
+B4,56328.0,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-0.309,0.0465,unmatched,no canonical row within 0.03 A,,,,,,
+B4,56062.139,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^D_2_^o^,-0.414,0.0914,unmatched,no canonical row within 0.03 A,,,,,,
+B4,56052.775,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 5p ^3^D_2_,-0.941,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55850.0,3s^2^ 3p 3d ^3^F_4_^o^,3s^2^ 3p 4p ^3^D_3_,-0.029,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55647.621,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",-2.642,0.0588,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55595.986,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",-3.29,0.0534,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55551.79,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^D_1_^o^,-1.235,0.0977,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55391.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_2_,-0.846,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55214.148,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^1^F_3_^o^,-1.289,0.0734,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55190.592,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,-0.951,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55128.068,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-2.507,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,55000.569,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^F_2_^o^,-2.351,0.2234,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54982.062,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^F_2_^o^,-2.134,0.0902,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54941.704,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 4d ^1^P_1_^o^,-0.649,0.0809,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54846.422,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 5p ^3^D_1_,-2.591,0.0544,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54811.339,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^D_2_^o^,-0.699,0.0952,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54622.0,3s^2^ 3p 3d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_1_,-0.35,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54601.0,3s^2^ 3p 3d ^3^F_3_^o^,3s^2^ 3p 4p ^3^D_2_,-0.177,0.0496,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54521.0,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_3_,-0.934,0.0542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54435.0,3s^2^ 3p 4p ^3^P_2_,3s^2^ 3p 3d ^1^D_2_^o^,-3.118,0.1725,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54389.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^D_2_,0.171,0.0479,unmatched,no canonical row within 0.03 A,,,,,,
+B4,54227.729,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^D_3_^o^,-0.24,0.093,unmatched,no canonical row within 0.03 A,,,,,,
+B4,53804.488,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,-0.727,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,53476.222,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-1.708,0.0781,unmatched,no canonical row within 0.03 A,,,,,,
+B4,53445.269,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-1.657,0.0815,unmatched,no canonical row within 0.03 A,,,,,,
+B4,53307.632,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 5p ^3^D_2_,-0.582,0.0624,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52845.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^P_1_,-0.55,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52492.639,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^1^P_1_^o^,-2.042,0.1434,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52476.993,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^D_1_^o^,-0.79,0.0673,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52373.0,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 5s ^1^P_1_^o^,0.003,0.0513,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52176.163,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,-0.558,0.059,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52121.23,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,-2.691,0.0809,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52083.0,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 5p ^3^D_3_,0.001,0.055,unmatched,no canonical row within 0.03 A,,,,,,
+B4,52014.928,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^1^F_3_^o^,-0.548,0.0833,unmatched,no canonical row within 0.03 A,,,,,,
+B4,51962.601,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_","3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-2.039,0.1606,unmatched,no canonical row within 0.03 A,,,,,,
+B4,51815.754,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^D_2_^o^,-3.443,0.1767,unmatched,no canonical row within 0.03 A,,,,,,
+B4,51813.123,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-2.516,0.1058,unmatched,no canonical row within 0.03 A,,,,,,
+B4,51784.065,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-1.588,0.0781,unmatched,no canonical row within 0.03 A,,,,,,
+B4,51420.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_1_,-0.484,0.049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,50981.964,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",-0.586,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,50905.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^S_1_,0.024,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,50564.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_0_,-0.333,0.0511,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49803.947,3s^2^ 3p 4p ^1^P_1_,3s3p^3^  ^3^D_1_^o^,-3.291,0.158,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49734.097,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",-2.41,0.0608,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49721.361,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",-0.75,0.0583,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49642.672,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^1^P_1_^o^,-2.425,0.0734,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49635.0,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_2_,-0.395,0.0532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49478.0,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 5p ^1^P_1_,-0.57,0.0478,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49243.909,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-3.37,0.1251,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49065.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^P_2_,0.243,0.0513,unmatched,no canonical row within 0.03 A,,,,,,
+B4,49043.0,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^3^D_2_,-3.871,0.1452,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48687.0,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_1_,-0.297,0.06,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48659.409,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^1^P_1_^o^,-1.854,0.0722,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48542.134,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,-2.248,0.1401,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48339.42,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^1^F_3_^o^,-0.025,0.0751,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48202.574,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-3.017,0.1745,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48188.103,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,-0.804,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,48117.0,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^3^D_1_,-0.791,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47996.967,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-1.337,0.0616,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47972.03,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_2_^o^,-2.419,0.0473,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47822.978,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",-2.606,0.0598,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47806.038,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",-3.75,0.0659,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47738.416,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^S_1_,-2.176,0.0488,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47710.902,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-0.129,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47607.0,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 5p ^3^D_2_,-0.428,0.059,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47455.777,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 5s ^1^P_1_^o^,-0.402,0.0518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47290.312,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-1.858,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,47276.63,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.386,0.0465,unmatched,no canonical row within 0.03 A,,,,,,
+B4,46695.892,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",-3.387,0.0583,unmatched,no canonical row within 0.03 A,,,,,,
+B4,46695.63,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 4d ^3^D_1_^o^,-0.825,0.0555,unmatched,no canonical row within 0.03 A,,,,,,
+B4,46588.228,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 5s ^1^P_1_^o^,-2.031,0.0942,unmatched,no canonical row within 0.03 A,,,,,,
+B4,46283.954,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^1^P_1_^o^,-0.468,0.0855,unmatched,no canonical row within 0.03 A,,,,,,
+B4,46116.357,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_2_,-2.852,0.1251,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45923.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^P_1_,-1.216,0.053,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45759.24,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^D_3_^o^,-3.279,0.1896,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45724.319,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^D_3_^o^,-1.553,0.0769,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45689.577,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^D_3_^o^,0.011,0.0696,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45562.695,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.148,0.1455,unmatched,no canonical row within 0.03 A,,,,,,
+B4,45200.069,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^1^D_2_,-2.719,0.1211,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44799.696,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-2.89,0.0766,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44732.0,3s^2^ 3p 3d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_3_,-1.916,0.3024,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44586.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^D_1_,-0.123,0.055,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44488.439,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^D_1_^o^,0.055,0.0678,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44400.892,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 5s ^3^P_2_^o^,-2.557,0.0642,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44325.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_2_,0.188,0.0538,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44310.764,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-2.358,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44298.751,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.567,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44033.039,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,0.364,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44029.762,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^D_2_^o^,0.092,0.0626,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44012.283,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^D_2_^o^,-0.838,0.071,unmatched,no canonical row within 0.03 A,,,,,,
+B4,44012.05,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-0.792,0.047,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43997.431,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^D_2_^o^,0.29,0.0642,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43935.168,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 5p ^1^P_1_,-1.003,0.0648,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43792.155,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-0.127,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43643.004,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,-1.088,0.0858,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43567.0,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_1_,-2.118,0.0914,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43329.847,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_1_,-0.422,0.0528,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43321.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_3_,0.39,0.0566,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43246.273,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-3.654,0.1152,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43228.831,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-2.595,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43090.484,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-2.456,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43079.123,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.767,0.0469,unmatched,no canonical row within 0.03 A,,,,,,
+B4,43018.709,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-0.837,0.0566,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42790.488,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.12,0.1251,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42773.411,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-2.936,0.2318,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42720.693,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_0_,-1.644,0.0613,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42660.569,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-0.38,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42126.814,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-2.627,0.0511,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42117.677,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",-0.916,0.055,unmatched,no canonical row within 0.03 A,,,,,,
+B4,42098.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^S_1_,-0.079,0.0605,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41950.849,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-3.708,0.0745,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41871.804,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-2.283,0.1747,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41727.397,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 4d ^1^P_1_^o^,-0.716,0.0468,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41710.0,3s^2^ 3p 3d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_2_,-2.203,0.2445,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41651.429,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.277,0.1395,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41591.144,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-1.928,0.0542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41580.56,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.95,0.0861,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41494.103,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^F_3_^o^,-0.543,0.0707,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41482.725,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,-0.18,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41478.579,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^F_3_^o^,-3.053,0.239,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41465.387,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^F_3_^o^,-1.346,0.076,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41444.387,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-1.916,0.1747,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41436.813,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^1^F_3_^o^,0.464,0.0583,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41338.439,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,0.451,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41239.664,3s^2^ 3p 5p ^3^P_0_,3s^2^ 3p 5s ^1^P_1_^o^,-2.103,0.0687,unmatched,no canonical row within 0.03 A,,,,,,
+B4,41215.868,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",-3.38,0.0687,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40972.138,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^1^P_1_,-1.196,0.0593,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40934.921,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,-1.977,0.1196,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40909.048,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^D_3_^o^,-1.424,0.0576,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40884.378,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^D_3_^o^,0.667,0.0629,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40831.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^P_2_,0.011,0.0648,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40816.0,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 5s ^3^P_2_^o^,-2.162,0.0506,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40699.0,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^P_0_^o^,-0.046,0.0488,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40687.488,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 5s ^1^P_1_^o^,-0.502,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40585.7,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.866,0.1027,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40583.0,3s^2^ 3p 3d ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-2.353,0.3046,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40570.338,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-1.882,0.118,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40541.488,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 5s ^3^P_1_^o^,-0.307,0.049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40510.0,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^S_1_,0.102,0.0634,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40332.761,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^D_3_^o^,0.024,0.0598,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40326.0,3s^2^ 3p 3d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_1_,-3.042,0.191,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40320.711,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^D_3_^o^,-1.422,0.0827,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40248.932,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-1.993,0.1434,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40179.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_2_,-0.84,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40172.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 5s ^3^P_2_^o^,-0.639,0.0522,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40157.0,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^P_1_^o^,-0.162,0.0485,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40147.389,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,0.069,0.0477,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40109.933,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^P_1_,-0.234,0.0532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40013.765,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 4d ^3^D_3_^o^,-0.356,0.0562,unmatched,no canonical row within 0.03 A,,,,,,
+B4,40007.0,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^P_2_^o^,-1.574,0.0499,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39997.296,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^P_2_^o^,-0.194,0.0476,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39990.7,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 5p ^3^S_1_,-0.233,0.0648,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39955.984,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^P_1_^o^,0.212,0.0557,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39955.0,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^1^D_2_,-0.135,0.0725,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39555.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_1_,-2.366,0.0645,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39528.113,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^D_3_^o^,-1.31,0.0499,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39522.271,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-1.868,0.1835,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39521.208,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^D_2_^o^,0.002,0.0618,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39500.056,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-0.259,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39441.399,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 5s ^3^P_0_^o^,-1.003,0.0514,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39404.659,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,-1.597,0.1929,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39344.722,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^D_1_^o^,0.052,0.06,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39336.0,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^P_2_,-0.441,0.0642,unmatched,no canonical row within 0.03 A,,,,,,
+B4,39272.0,3s^2^ 3p 3d ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-2.522,0.2801,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38983.102,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^D_2_^o^,-0.499,0.069,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38971.845,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^D_2_^o^,-0.339,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38959.0,3s^2^ 3p 3d ^3^F_2_^o^,3s^2^ 3p4p ^1^P_1_,-2.188,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38861.0,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^1^S_0_,-1.801,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38829.87,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^D_2_^o^,-3.403,0.0964,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38724.0,3s^2^ 3p 3d ^3^P_0_^o^,3s^2^ 3p 4p ^3^D_1_,-2.646,0.3018,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38632.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^P_1_,-0.089,0.0578,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38597.342,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^D_1_^o^,-0.828,0.0526,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38590.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^D_1_^o^,-0.439,0.053,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38533.225,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^D_1_^o^,-0.898,0.0664,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38502.885,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 5s ^1^P_1_^o^,-2.433,0.0784,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38363.961,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-0.298,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38350.234,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-0.308,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38238.432,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^D_2_^o^,-1.208,0.0488,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38231.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^D_2_^o^,-0.811,0.054,unmatched,no canonical row within 0.03 A,,,,,,
+B4,38180.02,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_2_,-1.242,0.0766,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37960.028,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,-2.133,0.2154,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37930.943,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,-3.119,0.2425,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37767.502,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-3.113,0.1233,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37752.061,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-3.294,0.1676,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37616.456,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_1_,-0.438,0.0548,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37579.857,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,-2.964,0.263,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37531.0,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 5s ^3^P_1_^o^,-1.036,0.0518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37466.135,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^F_3_^o^,-0.539,0.069,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37456.0,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 5s ^3^P_2_^o^,0.576,0.0501,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37445.442,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^1^F_3_^o^,-1.282,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37440.745,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 5s ^1^P_1_^o^,-1.966,0.0468,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37419.422,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-3.65,0.2767,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37404.264,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-2.546,0.2506,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37290.21,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^P_1_,-1.894,0.0473,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37214.647,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 4d ^1^D_2_^o^,-1.646,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37206.174,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-2.085,0.0501,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37167.426,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-3.867,0.1458,unmatched,no canonical row within 0.03 A,,,,,,
+B4,37012.28,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-2.672,0.0731,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36987.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 5s ^3^P_1_^o^,0.387,0.0499,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36982.194,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^F_3_^o^,-2.83,0.098,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36972.062,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^F_3_^o^,-1.92,0.1434,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36850.0,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 5p ^3^P_1_,-1.599,0.0681,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36838.0,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^P_0_,-0.721,0.0626,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36774.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^D_3_,-1.059,0.0518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36713.819,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 4d ^1^F_3_^o^,0.444,0.0518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36684.701,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^1^P_1_,-2.789,0.0651,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36678.0,3s^2^ 3p 4p ^3^D_1_,3s3p^3^  ^3^D_2_^o^,-1.909,0.1133,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36615.98,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-3.255,0.2646,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36603.476,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,-2.44,0.2413,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36587.0,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 5s ^3^P_0_^o^,0.058,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36545.447,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-3.447,0.2755,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36445.0,3s^2^ 3p 4p ^3^D_1_,3s3p^3^  ^3^D_1_^o^,-1.728,0.127,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36429.103,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,-2.676,0.1868,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36420.983,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.885,0.194,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36304.559,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^1^F_3_^o^,-3.486,0.2767,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36245.778,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^S_1_,-1.263,0.0496,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36233.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^D_3_^o^,-0.81,0.0787,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36103.69,3s^2^ 3p 5d ^3^P_0_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,-2.572,0.1733,unmatched,no canonical row within 0.03 A,,,,,,
+B4,36060.0,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^D_2_^o^,-0.868,0.0794,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35965.0,3s^2^ 3p 4p ^3^D_2_,3s3p^3^  ^3^D_3_^o^,-1.783,0.1099,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35804.0,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^D_1_^o^,-1.424,0.0696,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35757.501,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^P_1_^o^,-0.732,0.0465,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35707.0,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 5s ^3^P_2_^o^,-1.03,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35625.832,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,-3.898,0.3044,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35604.0,3s^2^ 3p 4p ^3^D_2_,3s3p^3^  ^3^D_2_^o^,-1.536,0.1258,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35557.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^D_2_^o^,-1.001,0.0725,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35395.248,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,-2.533,0.1912,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35384.0,3s^2^ 3p 4p ^3^D_2_,3s3p^3^  ^3^D_1_^o^,-2.163,0.1325,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35308.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^D_1_^o^,-2.191,0.0818,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35302.993,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^P_2_,-2.003,0.0488,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35238.0,3s^2^ 3p 4p ^1^D_2_,3s^2^ 3p 3d ^1^D_2_^o^,-0.876,0.1108,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35139.121,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^1^P_1_^o^,-1.61,0.0504,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35132.763,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^1^P_1_^o^,-0.37,0.0489,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35120.141,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^1^D_2_,-1.032,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,35011.0,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^P_1_,-0.165,0.0532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34485.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^D_2_,-1.126,0.0578,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34395.087,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 5p ^1^D_2_,-1.873,0.1039,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34164.0,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 5s ^1^P_1_^o^,0.359,0.0469,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34024.0,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^3^D_1_,-0.985,0.0544,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34013.0,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 5s ^3^P_2_^o^,0.42,0.0489,unmatched,no canonical row within 0.03 A,,,,,,
+B4,34008.0,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^D_3_^o^,-0.528,0.0739,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33985.0,3s^2^ 3p 4p ^3^D_3_,3s3p^3^  ^3^D_3_^o^,-1.202,0.1211,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33663.0,3s^2^ 3p 4p ^3^D_3_,3s3p^3^  ^3^D_2_^o^,-2.104,0.1316,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33646.572,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^P_1_,-0.748,0.0569,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33534.0,3s^2^ 3p 5p ^3^P_0_,3s^2^ 3p 5s ^3^P_1_^o^,-0.185,0.0501,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33412.0,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^D_2_^o^,-1.455,0.08,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33412.0,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^D_2_,-2.162,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33400.0,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^1^S_0_,-0.722,0.0815,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33233.842,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^3^F_2_^o^,-1.091,0.109,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33182.0,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 5s ^3^P_2_^o^,0.189,0.0479,unmatched,no canonical row within 0.03 A,,,,,,
+B4,33168.0,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 5s ^3^P_1_^o^,-0.099,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32979.0,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^3^D_1_,-2.237,0.0518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32832.334,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^3^F_3_^o^,-0.641,0.092,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32732.367,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,-2.841,0.1764,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32634.0,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 5p ^3^D_1_,-2.558,0.0464,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32610.585,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-3.125,0.1162,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32599.072,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,-2.017,0.0781,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32428.0,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 5s ^3^P_0_^o^,-0.386,0.0478,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32228.612,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^D_3_,-2.316,0.0502,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32194.206,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-3.78,0.1942,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32148.0,3s^2^ 3p 5p ^3^P_0_,3s^2^ 3p 3d ^3^D_1_^o^,-0.877,0.0986,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32104.728,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^3^F_2_^o^,-1.212,0.109,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32042.0,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^F_4_^o^,-0.494,0.1011,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32013.0,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^D_2_^o^,-0.48,0.0824,unmatched,no canonical row within 0.03 A,,,,,,
+B4,32009.618,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^3^F_2_^o^,-1.69,0.1214,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31878.515,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 5p ^1^P_1_,-0.812,0.0548,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31811.0,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^D_1_^o^,-0.576,0.0734,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31702.0,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 5s ^3^P_1_^o^,-0.616,0.0468,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31638.771,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,-2.908,0.1146,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31517.0,3s^2^ 3p 3d ^1^F_3_^o^,3s^2^ 3p 4p ^1^D_2_,0.375,0.0492,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31474.234,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^3^P_2_,-1.951,0.0651,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31270.08,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-0.531,0.0815,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31248.916,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^1^S_0_,-1.6,0.1389,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31146.0,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^D_3_^o^,-0.105,0.0803,unmatched,no canonical row within 0.03 A,,,,,,
+B4,31096.684,3s^2^ 3p 3d ^3^P_2_^o^,3s^2^ 3p4p ^1^P_1_,-3.515,0.0659,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30978.0,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 5s ^3^P_1_^o^,-1.146,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30959.455,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 5p ^1^P_1_,-2.386,0.0578,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30890.655,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 5p ^3^P_2_,-1.079,0.0588,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30732.0,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^F_3_^o^,-1.742,0.1389,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30684.0,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-1.621,0.0849,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30655.353,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 5p ^1^P_1_,-3.203,0.049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30645.0,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^D_2_^o^,-0.65,0.0812,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30582.424,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 5s ^3^P_2_^o^,-1.821,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30466.107,3s^2^ 3p 3d ^3^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-3.057,0.0974,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30460.18,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^D_1_^o^,-1.29,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30456.568,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^D_2_,-1.501,0.0555,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30452.793,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^S_0_,-0.962,0.06,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30332.0,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 5s ^3^P_0_^o^,-3.254,0.08,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30150.887,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^3^P_1_,-1.011,0.054,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30096.876,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^3^D_1_,-1.513,0.0502,unmatched,no canonical row within 0.03 A,,,,,,
+B4,30010.0,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^F_2_^o^,-3.45,0.1727,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29991.653,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^F_2_^o^,-1.824,0.1527,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29968.581,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^D_2_^o^,-0.964,0.0827,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29791.572,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^D_1_^o^,-1.527,0.093,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29714.635,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^F_3_^o^,-1.832,0.169,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29471.635,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^1^P_1_^o^,-2.333,0.0528,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29064.0,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 5s ^1^P_1_^o^,-0.643,0.0546,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29039.141,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^F_2_^o^,-2.847,0.1926,unmatched,no canonical row within 0.03 A,,,,,,
+B4,29007.0,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^3^D_3_,-2.366,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28700.548,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 5s ^3^P_1_^o^,-2.862,0.1887,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28699.898,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^F_2_^o^,-3.791,0.2236,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28510.85,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 5p ^3^D_3_,-0.725,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28509.538,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^1^D_2_,-2.562,0.2146,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28477.656,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^F_3_^o^,-2.682,0.227,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28406.0,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 5p ^1^P_1_,0.051,0.0488,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28244.678,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^D_3_^o^,-1.243,0.0704,unmatched,no canonical row within 0.03 A,,,,,,
+B4,28011.667,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^S_0_,-1.774,0.1539,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27856.643,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^F_2_^o^,-3.263,0.204,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27848.001,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^1^P_1_^o^,-3.106,0.0781,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27832.035,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^D_2_^o^,-3.716,0.0484,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27679.301,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^D_1_^o^,-1.591,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27590.233,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^1^S_0_,-2.55,0.1186,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27585.0,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 5p ^1^D_2_,-0.724,0.0555,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27564.0,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^3^D_2_,-0.893,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27546.98,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^1^P_1_^o^,-1.368,0.0629,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27413.047,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^3^P_0_^o^,-3.437,0.1202,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27398.852,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^1^D_2_,-4.002,0.2503,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27390.36,3s^2^ 3p 5d ^3^F_4_^o^,3s^2^ 3p 5p ^3^D_3_,0.305,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27357.865,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^1^F_3_^o^,-1.527,0.0731,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27269.0,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^3^D_1_,-0.101,0.0464,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27166.324,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^3^P_1_^o^,-3.33,0.1929,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27115.0,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 5p ^3^D_2_,0.07,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,27097.517,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^3^P_2_^o^,-2.173,0.1964,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26927.338,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^1^D_2_,-2.413,0.083,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26883.715,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_4_^o^,-2.734,0.3005,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26871.658,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_4_^o^,-2.945,0.2941,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26859.655,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^F_4_^o^,-2.269,0.1676,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26652.0,3s^2^ 3p 4p ^3^P_0_,3s3p^3^  ^3^D_1_^o^,-1.208,0.0797,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26640.218,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^3^P_0_^o^,-3.61,0.1699,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26569.232,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^S_1_,-2.201,0.049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26547.0,3s^2^ 3p 4p ^3^P_1_,3s3p^3^  ^3^D_2_^o^,-0.904,0.0787,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26477.848,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 5p ^1^D_2_,-1.179,0.0895,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26424.0,3s^2^ 3p 4p ^3^P_1_,3s3p^3^  ^3^D_1_^o^,-1.34,0.0791,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26407.151,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^3^P_1_^o^,-3.956,0.2961,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26342.77,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^3^P_1_^o^,-3.031,0.1986,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26342.132,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^3^P_2_^o^,-3.165,0.119,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26334.099,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^D_2_,-3.086,0.2632,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26278.067,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 4d ^3^P_2_^o^,-3.292,0.1682,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26070.269,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^1^F_3_^o^,-2.788,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,26059.1,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^P_2_,-2.532,0.0678,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25955.143,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_3_^o^,-1.338,0.054,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25949.068,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_3_^o^,-2.297,0.2205,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25932.715,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^F_3_^o^,-0.325,0.0481,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25873.127,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 5p ^1^P_1_,-2.019,0.0722,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25861.0,3s^2^ 3p 4p ^3^P_2_,3s3p^3^  ^3^D_3_^o^,-0.608,0.0784,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25786.94,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 4d ^1^D_2_^o^,-2.439,0.2532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25674.0,3s^2^ 3p 4p ^3^P_2_,3s3p^3^  ^3^D_2_^o^,-1.299,0.0791,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25611.999,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-1.434,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25602.019,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^S_1_,-1.952,0.0955,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25584.955,3s^2^ 3p 5p ^3^P_0_,3s^2^ 3p 3d ^1^P_1_^o^,-1.6,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25560.0,3s^2^ 3p 4p ^3^P_2_,3s3p^3^  ^3^D_1_^o^,-2.438,0.0806,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25438.276,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,-1.527,0.0769,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25432.441,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_2_^o^,-1.485,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25427.48,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,-0.417,0.0557,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25371.341,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^1^P_1_^o^,-3.849,0.208,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25284.508,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 5p ^3^P_2_,-1.648,0.1331,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25189.856,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^S_1_,-2.476,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25168.769,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^P_0_^o^,-4.515,0.2498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25145.334,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^P_1_,-2.812,0.1661,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25133.08,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_4_^o^,-2.436,0.0583,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25128.0,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^P_2_,-1.861,0.1093,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25123.766,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^F_4_^o^,-0.88,0.0544,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25101.933,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 4d ^1^D_2_^o^,-2.846,0.2684,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25077.0,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.681,0.0576,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25026.0,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^1^D_2_,-1.721,0.0534,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25024.198,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^S_1_,-4.282,0.113,unmatched,no canonical row within 0.03 A,,,,,,
+B4,25013.501,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 5s ^3^P_1_^o^,-3.15,0.1452,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24960.637,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^P_1_^o^,-3.91,0.1879,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24938.968,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^P_0_,-3.198,0.2323,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24915.12,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^3^P_2_^o^,-3.044,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24914.376,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_4_^o^,-2.778,0.2698,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24902.538,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^3^P_2_^o^,-3.198,0.2891,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24902.0,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^1^D_2_,-3.38,0.0681,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24841.77,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^1^D_2_,-3.279,0.06,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24810.0,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_5_,3s^2^ 3p 4d ^3^F_4_^o^,-0.058,0.0571,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24792.284,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 4d ^3^F_4_^o^,-1.764,0.0595,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24730.9,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_2_,-2.358,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24728.799,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^1^D_2_,-2.683,0.1359,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24669.965,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^S_1_,-3.319,0.1991,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24580.94,3s^2^ 3p 3d ^3^D_3_^o^,3s^2^ 3p 4p ^1^D_2_,-1.263,0.0514,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24504.369,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^1^P_1_^o^,-2.047,0.0578,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24488.628,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^D_2_,-0.992,0.0742,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24354.609,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^1^F_3_^o^,-1.521,0.0664,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24354.36,3s^2^ 3p 4p ^3^S_1_,3s3p^3^  ^3^D_2_^o^,-2.002,0.0797,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24351.0,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 5p ^3^P_2_,-2.274,0.2265,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24319.675,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_3_^o^,-1.281,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24310.955,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 4d ^3^F_3_^o^,-1.077,0.0797,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24277.0,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^P_1_,-3.265,0.2796,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24252.713,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^P_0_^o^,-3.463,0.2393,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24251.349,3s^2^ 3p 4p ^3^S_1_,3s3p^3^  ^3^D_1_^o^,-2.459,0.0794,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24245.78,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-2.019,0.0731,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24242.295,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^3^P_2_^o^,-3.827,0.1975,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24234.229,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 3d ^3^D_1_^o^,-1.744,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24229.555,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_2_,-2.372,0.0974,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24165.925,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^1^D_2_,-3.426,0.1915,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24114.841,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_3_^o^,-1.944,0.1556,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24110.532,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_3_^o^,-2.774,0.2275,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24069.799,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^1^P_1_^o^,-3.066,0.0514,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24059.398,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^P_1_^o^,-2.948,0.1008,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24005.414,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^3^P_2_^o^,-3.996,0.262,unmatched,no canonical row within 0.03 A,,,,,,
+B4,24000.442,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 4d ^3^F_3_^o^,-0.735,0.0763,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23960.0,3s^2^ 3p 3d ^1^F_3_^o^,3s^2^ 3p 4p ^3^P_2_,-1.351,0.0506,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23906.0,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_1_,-2.016,0.1419,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23865.323,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,-0.896,0.0803,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23817.0,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-2.825,0.0566,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23802.814,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 4d ^1^D_2_^o^,-3.371,0.1083,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23791.329,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 4d ^1^D_2_^o^,-3.036,0.1377,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23757.139,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^P_1_,-1.742,0.0532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23720.0,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^P_0_,-1.795,0.0855,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23668.04,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^F_2_^o^,-2.411,0.0855,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23667.502,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 5p ^3^D_3_,-2.599,0.1404,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23663.889,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^F_2_^o^,-1.842,0.1014,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23585.679,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-0.577,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23550.757,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 5s ^3^P_2_^o^,-2.807,0.0471,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23544.752,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-3.964,0.0466,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23530.336,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_3_,-3.332,0.0624,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23463.961,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^P_1_^o^,-3.738,0.273,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23437.641,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_1_,-1.675,0.0598,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23412.613,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^3^P_2_^o^,-2.448,0.3026,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23391.468,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^F_2_^o^,-4.382,0.3009,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23388.651,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^F_2_^o^,-3.62,0.2578,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23355.58,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^S_1_,-1.103,0.0678,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23319.949,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^D_2_,-2.579,0.167,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23258.253,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_0_,-2.05,0.1687,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23256.0,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^S_1_,-1.556,0.1434,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23187.981,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 4d ^1^D_2_^o^,-2.668,0.2998,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23151.208,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 5s ^1^P_1_^o^,-2.848,0.0524,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23147.928,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-0.701,0.047,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23112.0,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-3.178,0.0618,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23108.489,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^3^D_1_,-3.226,0.0698,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23047.683,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^1^D_2_,-2.811,0.047,unmatched,no canonical row within 0.03 A,,,,,,
+B4,23043.163,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^S_1_,-3.345,0.0797,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22971.164,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 4d ^1^D_2_^o^,-3.105,0.3016,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22960.473,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^P_2_,-0.884,0.0704,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22940.83,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-1.611,0.0484,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22864.0,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^P_2_,-1.324,0.1425,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22847.811,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 5p ^3^D_3_,-3.689,0.1904,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22757.0,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^S_1_,-1.173,0.1242,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22697.694,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 5p ^3^D_2_,-1.964,0.1264,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22672.0,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.384,0.0645,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22658.468,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_2_,-3.493,0.2016,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22633.0,3s^2^ 3p 5d ^3^P_0_^o^,3s^2^ 3p 5p ^3^S_1_,-1.453,0.1217,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22571.509,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_2_,-3.155,0.281,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22544.0,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^1^F_3_^o^,-0.18,0.0605,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22427.765,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 4d ^1^D_2_^o^,-2.446,0.2714,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22413.318,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-1.742,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22382.0,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^P_2_,-1.68,0.1301,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22373.347,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^3^D_1_,-2.095,0.1696,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22250.535,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^D_2_,-1.08,0.0933,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22248.124,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^P_1_,-2.388,0.0722,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22233.161,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 4d ^3^P_1_^o^,-4.406,0.1945,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22157.0,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^P_1_,-1.255,0.1011,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22139.636,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-2.225,0.0662,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22134.329,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-3.557,0.0719,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22098.261,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 5p ^1^P_1_,-2.732,0.1152,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22078.574,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-1.04,0.0484,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22068.732,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,0.424,0.0481,unmatched,no canonical row within 0.03 A,,,,,,
+B4,22057.944,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^3^D_1_,-3.348,0.238,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21964.452,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_1_,-1.46,0.0942,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21942.73,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 5p ^3^D_2_,-2.573,0.1857,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21930.815,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^3^D_1_,-1.144,0.0974,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21885.296,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,0.317,0.0479,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21880.11,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-0.722,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21843.915,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_2_,-1.244,0.0923,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21825.774,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 5s ^3^P_2_^o^,-2.353,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21825.626,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,0.009,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21821.33,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-3.448,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21806.831,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^P_0_,-2.245,0.0781,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21785.605,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,0.328,0.0489,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21720.088,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,-2.524,0.1542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21704.0,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^P_1_,-2.63,0.0778,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21680.32,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-2.06,0.0506,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21676.081,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_2_^o^,-3.884,0.1515,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21672.478,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-1.991,0.1276,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21658.27,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_1_,-2.779,0.0797,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21619.177,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_3_,-0.599,0.1065,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21591.0,3s^2^ 3p 5d ^3^P_0_^o^,3s^2^ 3p 5p ^3^P_1_,-2.733,0.1389,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21550.6,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^P_0_,-1.769,0.0996,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21533.564,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^D_3_,-2.54,0.2037,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21448.917,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 5s ^3^P_2_^o^,-4.146,0.0475,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21446.102,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-3.218,0.047,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21425.053,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 5p ^1^P_1_,-3.953,0.2088,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21360.03,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-0.016,0.0469,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21135.648,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 5p ^1^P_1_,-1.165,0.0983,unmatched,no canonical row within 0.03 A,,,,,,
+B4,21018.9,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 5p ^1^P_1_,-2.143,0.1155,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20931.861,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-1.095,0.0484,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20922.861,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,0.481,0.048,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20896.048,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^S_1_,-1.8,0.0546,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20846.041,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-1.284,0.0471,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20833.181,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-1.534,0.1473,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20829.267,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-2.965,0.1934,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20825.94,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-3.113,0.1506,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20809.836,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^S_1_,-1.082,0.0532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20807.09,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_2_,-1.743,0.1245,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20768.419,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^P_1_,-1.95,0.1024,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20727.777,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^D_2_,-2.103,0.1011,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20704.371,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-0.099,0.049,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20638.583,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^3^D_1_,-3.161,0.1341,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20638.0,3s^2^ 3p 5s ^3^P_0_^o^,3s^2^ 3p 4p ^3^S_1_,-1.889,0.0475,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20608.456,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-0.01,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20604.495,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-1.34,0.0473,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20560.546,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^3^D_1_,-2.041,0.0648,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20558.771,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_2_,-1.867,0.144,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20544.0,3s^2^ 3p 4p ^1^D_2_,3s3p^3^  ^3^D_3_^o^,-2.93,0.076,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20527.246,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-2.204,0.1337,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20515.64,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,-1.491,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20505.914,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 5s ^3^P_1_^o^,-2.807,0.0475,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20503.341,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-1.267,0.0468,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20426.0,3s^2^ 3p 4p ^1^D_2_,3s3p^3^  ^3^D_2_^o^,-4.255,0.0542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20416.934,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,-3.405,0.2649,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20394.245,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^3^D_1_,-1.38,0.103,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20387.904,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-0.729,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20384.027,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-0.357,0.0483,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20381.123,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^3^P_2_^o^,-2.195,0.2064,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20350.103,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^P_0_^o^,-3.306,0.2672,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20349.0,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-1.003,0.0474,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20330.848,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^D_2_,-3.229,0.263,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20307.0,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 3d ^1^P_1_^o^,-0.664,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20301.98,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,-0.34,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20269.627,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-1.296,0.0467,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20220.648,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 5s ^3^P_0_^o^,-2.996,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20213.822,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 4d ^3^P_1_^o^,-3.946,0.2875,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20211.718,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^P_1_^o^,-3.693,0.2839,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20173.606,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^3^P_2_^o^,-3.625,0.2677,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20169.936,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 5p ^3^D_1_,-2.927,0.1759,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20072.244,3s^2^ 3p 5d ^3^P_0_^o^,3s^2^ 3p 5p ^3^D_1_,-3.56,0.2318,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20059.0,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^D_2_^o^,-1.117,0.0471,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20056.23,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-0.695,0.0472,unmatched,no canonical row within 0.03 A,,,,,,
+B4,20013.0,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_2_,-1.199,0.0501,unmatched,no canonical row within 0.03 A,,,,,,
+B4,19973.747,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^D_1_^o^,-0.659,0.0475,unmatched,no canonical row within 0.03 A,,,,,,
+B4,19971.343,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,-1.018,0.0466,adopted,,19971.3426,6.7181,-0.675,KURUCZ,K07,-0.343
+B4,19928.879,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_2_,-0.344,0.0522,adopted,,19928.8836,6.0986,-0.331,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.013
+B4,19823.571,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 5p ^1^P_1_,-3.988,0.1589,unmatched,no canonical row within 0.03 A,,,,,,
+B4,19760.845,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-2.655,0.2074,adopted,,19760.8454,7.0055,-1.494,KURUCZ,K07,-1.161
+B4,19751.545,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 5p ^1^P_1_,-1.549,0.0495,adopted,,19751.5457,7.0399,-1.289,KURUCZ,K07,-0.26
+B4,19722.505,3s^2^ 3p 3d ^3^D_3_^o^,3s^2^ 3p 4p ^3^P_2_,0.359,0.0528,adopted,,19722.5085,6.0986,0.441,KURUCZ,K07,-0.082
+B4,19647.805,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-3.76,0.1183,adopted,,19647.8044,6.3991,-3.71,KURUCZ,K07,-0.05
+B4,19625.357,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 4d ^1^D_2_^o^,-2.781,0.233,adopted,,19625.3567,7.0055,-1.61,KURUCZ,K07,-1.171
+B4,19622.503,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-4.216,0.2539,adopted,,19622.5023,7.0055,-3.195,KURUCZ,K07,-1.021
+B4,19610.346,3s^2^ 3p 3d ^1^F_3_^o^,3s^2^ 3p 4p ^3^D_3_,-2.301,0.0476,unmatched,no canonical row within 0.03 A,,,,,,
+B4,19597.983,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 5p ^1^P_1_,-1.14,0.0892,adopted,,19597.9836,7.0399,-1.289,KURUCZ,K07,0.149
+B4,19508.154,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_1_,-0.287,0.0516,adopted,,19508.152,6.0827,-0.359,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",0.072
+B4,19506.104,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-0.657,0.0466,adopted,,19506.1042,6.0986,-0.428,KURUCZ,K07,-0.229
+B4,19493.368,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^S_1_,-0.274,0.0473,adopted,,19493.3664,6.1248,-0.395,KURUCZ,K07,0.121
+B4,19432.974,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_1_,0.08,0.0526,adopted,,19432.9707,6.0827,0.098,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.018
+B4,19432.819,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 4d ^1^D_2_^o^,-4.225,0.252,adopted,,19432.8197,7.0055,-2.399,KURUCZ,K07,-1.826
+B4,19385.937,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_0_,-0.333,0.0532,adopted,,19385.9387,6.0787,-0.237,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.096
+B4,19300.372,3s^2^ 3p 5d ^3^P_0_^o^,3s^2^ 3p 5p ^1^P_1_,-4.16,0.2413,unmatched,no canonical row within 0.03 A,,,,,,
+B4,19283.295,3s^2^ 3p 5s ^3^P_0_^o^,3s^2^ 3p 4p ^3^P_1_,-0.548,0.0471,adopted,,19283.2994,6.0827,-0.426,KURUCZ,K07,-0.122
+B4,19030.754,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-0.677,0.0467,adopted,,19030.7582,6.0827,-0.465,KURUCZ,K07,-0.212
+B4,19006.51,3s^2^ 3p 3d ^1^F_3_^o^,3s^2^ 3p 4p ^3^D_2_,-1.929,0.0632,adopted,,19006.5171,5.9639,-1.927,KURUCZ,K07,-0.002
+B4,18916.275,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-1.905,0.0595,adopted,,18916.2713,5.9639,-2.003,KURUCZ,K07,0.098
+B4,18914.435,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-0.442,0.0477,adopted,,18914.4354,6.0787,-0.431,KURUCZ,K07,-0.011
+B4,18722.867,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^P_2_,0.026,0.0473,adopted,,18722.8716,6.0986,0.172,KURUCZ,K07,-0.146
+B4,18626.394,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-3.654,0.0725,unmatched,no canonical row within 0.03 A,,,,,,
+B4,18554.292,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.246,0.0468,adopted,,18554.2928,6.6192,-0.043,KURUCZ,K07,-0.203
+B4,18471.976,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-0.695,0.0488,adopted,,18471.9763,6.6161,-0.567,KURUCZ,K07,-0.128
+B4,18468.281,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-2.846,0.0598,adopted,,18468.2806,6.6161,-2.76,KURUCZ,K07,-0.086
+B4,18429.438,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-0.781,0.0492,adopted,,18429.4383,6.6161,-0.649,KURUCZ,K07,-0.132
+B4,18422.578,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,0.208,0.047,adopted,,18422.5782,6.6161,0.3279999999999999,KURUCZ,K07,-0.12
+B4,18284.507,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^P_1_,-0.819,0.0472,adopted,,18284.5035,6.0827,-0.558,KURUCZ,K07,-0.261
+B4,18271.998,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.176,0.048,adopted,,18271.9983,6.1248,-2.449,KURUCZ,K07,0.273
+B4,17801.178,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 5s ^1^P_1_^o^,-4.295,0.1356,adopted,,17801.1778,6.8031,-2.661,KURUCZ,K07,-1.634
+B4,17771.89,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 5s ^1^P_1_^o^,-2.571,0.1193,adopted,,17771.8906,6.8031,-1.933,KURUCZ,K07,-0.638
+B4,17623.328,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-0.735,0.0498,adopted,,17623.3274,6.6161,-0.624,KURUCZ,K07,-0.111
+B4,17616.945,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,0.017,0.0467,adopted,,17616.9455,6.6161,0.057,KURUCZ,K07,-0.04
+B4,17593.35,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-2.342,0.0502,adopted,,17593.3495,6.0986,-2.054,KURUCZ,K07,-0.288
+B4,17466.879,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.036,0.0464,adopted,,17466.8789,6.6192,0.101,KURUCZ,K07,-0.137
+B4,17393.455,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-1.574,0.0498,adopted,,17393.4554,6.6161,-1.77,KURUCZ,K07,0.196
+B4,17390.632,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-2.078,0.0502,adopted,,17390.6325,6.6161,-1.831,KURUCZ,K07,-0.247
+B4,17384.715,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 5s ^1^P_1_^o^,-3.951,0.22,adopted,,17384.7142,6.8031,-3.23,KURUCZ,K07,-0.721
+B4,17327.275,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,0.562,0.0469,adopted,,17327.2751,6.6161,0.698,KURUCZ,K07,-0.136
+B4,17227.386,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^1^P_1_^o^,-2.53,0.0463,adopted,,17227.3863,6.6192,-2.158,KURUCZ,K07,-0.372
+B4,17225.57,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.035,0.0465,adopted,,17225.5697,6.6192,0.1159999999999999,KURUCZ,K07,-0.151
+B4,17205.73,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-1.349,0.0486,adopted,,17205.7306,6.0827,-1.367,KURUCZ,K07,0.018
+B4,17151.411,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-2.53,0.0536,adopted,,17151.4109,6.6161,-2.447,KURUCZ,K07,-0.083
+B4,17131.733,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 5s ^1^P_1_^o^,-2.25,0.1736,unmatched,no canonical row within 0.03 A,,,,,,
+B4,17110.592,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-2.344,0.0465,adopted,,17110.5926,6.0787,-1.934,KURUCZ,K07,-0.41
+B4,16828.158,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_3_,-1.018,0.0504,adopted,,16828.1586,5.984,-1.012,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.006
+B4,16816.564,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 5s ^1^P_1_^o^,-3.19,0.1099,adopted,,16816.564,6.8031,-2.754,KURUCZ,K07,-0.436
+B4,16777.086,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 5s ^3^P_2_^o^,-4.069,0.1716,adopted,,16777.0856,6.7606,-2.598,KURUCZ,K07,-1.471
+B4,16702.203,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 5s ^1^P_1_^o^,-4.472,0.1353,adopted,,16702.203,6.8031,-3.206,KURUCZ,K07,-1.266
+B4,16680.769,3s^2^ 3p 3d ^3^D_3_^o^,3s^2^ 3p 4p ^3^D_3_,-0.099,0.0488,adopted,,16680.7696,5.984,-0.09,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.009
+B4,16476.86,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 5s ^3^P_1_^o^,-2.018,0.1068,adopted,,16476.8599,6.7341,-2.345,KURUCZ,K07,0.327
+B4,16434.926,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^D_2_,-1.597,0.0478,adopted,,16434.9265,5.9639,-1.063,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.534
+B4,16412.982,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 5s ^1^P_1_^o^,-1.057,0.0502,adopted,,16412.982,6.8031,-0.729,KURUCZ,K07,-0.328
+B4,16381.535,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_2_,-0.413,0.0479,adopted,,16381.5344,5.9639,-0.458,KURUCZ,K07,0.045
+B4,16380.176,3s^2^ 3p 3d ^1^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-0.79,0.0463,adopted,,16380.1763,5.8625,-0.3,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.49
+B4,16292.126,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 5s ^3^P_0_^o^,-2.356,0.1316,adopted,,16292.125800000002,6.7255,-2.602,KURUCZ,K07,0.246
+B4,16241.833,3s^2^ 3p 3d ^3^D_3_^o^,3s^2^ 3p 4p ^3^D_2_,-0.722,0.0498,adopted,,16241.8327,5.9639,-0.759,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",0.037
+B4,16215.67,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p 4p ^3^D_1_,-0.525,0.0481,adopted,,16215.67,5.9537,-0.631,KURUCZ,K07,0.106
+B4,16194.407,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 5s ^3^P_1_^o^,-2.428,0.0538,adopted,,16194.406400000002,6.7341,-2.004,KURUCZ,K07,-0.424
+B4,16186.795,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^3^D_2_^o^,-3.096,0.184,adopted,,16186.7946,6.7206,-2.52,KURUCZ,K07,-0.576
+B4,16186.478,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 5s ^3^P_2_^o^,-1.21,0.1158,adopted,,16186.474800000002,6.7606,-1.62,KURUCZ,K07,0.41
+B4,16182.081,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^P_0_^o^,-4.056,0.2559,adopted,,16182.081,6.2739,-3.378,KURUCZ,K07,-0.678
+B4,16181.162,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 5s ^3^P_2_^o^,-2.948,0.1365,unmatched,no canonical row within 0.03 A,,,,,,
+B4,16170.164,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 5s ^3^P_1_^o^,-1.284,0.1033,adopted,,16170.164100000002,6.7341,-1.427,KURUCZ,K07,0.143
+B4,16163.691,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_1_,-0.818,0.0493,adopted,,16163.6908,5.9537,-0.862,KURUCZ,K07,0.044
+B4,16135.0,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^3^D_1_^o^,-1.988,0.1745,adopted,,16135.0,6.7181,-1.925,KURUCZ,K07,-0.063
+B4,16094.787,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-0.046,0.0501,adopted,,16094.7865,5.9639,-0.144,KURUCZ,K07,0.098
+B4,16088.22,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^P_1_^o^,-3.189,0.0659,adopted,,16088.2206,6.2694,-2.492,KURUCZ,K07,-0.697
+B4,16060.008,3s^2^ 3p 5s ^3^P_0_^o^,3s^2^ 3p 4p ^3^D_1_,-0.41,0.0502,adopted,,16060.008500000002,5.9537,-0.484,KURUCZ,K07,0.074
+B4,16024.407,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^D_3_^o^,-1.626,0.1815,adopted,,16024.406900000002,6.7271,-1.379,KURUCZ,K07,-0.247
+B4,16015.917,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 5s ^3^P_0_^o^,-1.509,0.0961,adopted,,16015.9173,6.7255,-1.6,KURUCZ,K07,0.091
+B4,15960.063,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_3_,0.172,0.0506,adopted,,15960.0629,5.984,0.087,KURUCZ,K07,0.085
+B4,15917.725,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^P_2_^o^,-3.444,0.1245,unmatched,no canonical row within 0.03 A,,,,,,
+B4,15914.116,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^3^D_2_^o^,-1.536,0.1801,adopted,,15914.1161,6.7206,-1.277,KURUCZ,K07,-0.259
+B4,15899.71,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 5s ^3^P_2_^o^,-1.061,0.0939,adopted,,15899.7097,6.7606,-0.934,KURUCZ,K07,-0.127
+B4,15890.705,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^D_2_^o^,-2.282,0.1667,adopted,,15890.704999999998,6.7206,-2.057,KURUCZ,K07,-0.225
+B4,15888.41,3s^2^ 3p 4p ^1^P_1_,3s^2^ 3p 4s ^1^P_1_^o^,0.004,0.0483,adopted,,15888.4094,5.0823,0.063,KURUCZ,K07,-0.059
+B4,15884.454,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-0.883,0.0516,adopted,,15884.4535,5.9537,-0.826,KURUCZ,K07,-0.057
+B4,15864.049,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^3^D_1_^o^,-3.131,0.1762,adopted,,15864.0492,6.7181,-2.681,KURUCZ,K07,-0.45
+B4,15849.002,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 5s ^3^P_1_^o^,-1.589,0.098,adopted,,15849.002,6.7341,-1.482,KURUCZ,K07,-0.107
+B4,15840.785,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^D_1_^o^,-4.712,0.2674,adopted,,15840.7851,6.7181,-2.839,KURUCZ,K07,-1.873
+B4,15833.603,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^1^D_2_,-0.488,0.0613,adopted,,15833.6022,6.2227,-0.078,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.41
+B4,15800.949,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 5s ^1^P_1_^o^,-1.737,0.1065,adopted,,15800.949,6.8031,-1.383,KURUCZ,K07,-0.354
+B4,15797.44,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 5s ^3^P_2_^o^,-1.255,0.0766,adopted,,15797.441,6.7606,-1.321,KURUCZ,K07,0.066
+B4,15778.956,3s^2^ 3p 4p ^1^S_0_,3s3p^3^  ^3^D_1_^o^,-4.069,0.069,adopted,,15778.9552,5.6135,-3.757,KURUCZ,K07,-0.312
+B4,15679.982,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^P_0_^o^,-3.41,0.2435,adopted,,15679.9824,6.2739,-2.256,KURUCZ,K07,-1.154
+B4,15638.472,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 5s ^3^P_1_^o^,-1.715,0.0684,adopted,,15638.4715,6.7341,-2.007,KURUCZ,K07,0.292
+B4,15591.84,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^P_1_^o^,-3.367,0.2346,adopted,,15591.8403,6.2694,-3.319,KURUCZ,K07,-0.048
+B4,15557.779,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_2_,-0.716,0.0513,adopted,,15557.778399999996,5.9639,-0.81,KURUCZ,K07,0.094
+B4,15539.992,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-2.204,0.0864,adopted,,15539.9915,6.8031,-2.431,KURUCZ,K07,0.227
+B4,15538.463,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 5s ^3^P_2_^o^,-2.612,0.071,adopted,,15538.4626,6.7606,-2.208,KURUCZ,K07,-0.404
+B4,15532.449,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 3d ^3^D_1_^o^,-1.772,0.1978,adopted,,15532.4489,6.7181,-1.397,KURUCZ,K07,-0.375
+B4,15506.982,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^D_3_^o^,-1.53,0.1685,adopted,,15506.978,6.7271,-1.286,KURUCZ,K07,-0.244
+B4,15497.0,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^P_1_^o^,-3.128,0.2702,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,15471.964,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 5s ^3^P_0_^o^,-2.231,0.0637,adopted,,15471.9636,6.7255,-2.698,KURUCZ,K07,0.467
+B4,15431.65,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^P_2_^o^,-2.709,0.047,adopted,,15431.6502,6.2612,-2.814,KURUCZ,K07,0.105
+B4,15381.737,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^D_2_^o^,-2.471,0.1745,adopted,,15381.7375,6.7206,-2.196,KURUCZ,K07,-0.275
+B4,15376.94,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^D_2_^o^,-1.764,0.1762,adopted,,15376.9395,6.7206,-2.397,KURUCZ,K07,0.633
+B4,15376.831,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^1^D_2_,-0.423,0.0585,adopted,,15376.8307,6.2227,-0.691,KURUCZ,K07,0.268
+B4,15375.428,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 5s ^3^P_1_^o^,-2.286,0.0489,adopted,,15375.4283,6.7341,-1.699,KURUCZ,K07,-0.587
+B4,15361.161,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_1_,-1.97,0.052,adopted,,15361.1612,5.9537,-2.084,KURUCZ,K07,0.114
+B4,15354.756,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-3.537,0.1353,adopted,,15354.755699999998,6.2227,-3.67,KURUCZ,K07,0.133
+B4,15338.743,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^P_2_^o^,-2.552,0.1162,adopted,,15338.742800000002,6.2612,-2.494,KURUCZ,K07,-0.058
+B4,15330.191,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^D_1_^o^,-1.692,0.1603,adopted,,15330.1905,6.7181,-1.938,KURUCZ,K07,0.246
+B4,15279.772,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 5s ^3^P_1_^o^,-2.797,0.0474,adopted,,15279.7725,6.7341,-2.214,KURUCZ,K07,-0.583
+B4,15243.588,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^D_3_^o^,-1.13,0.1725,adopted,,15243.588,6.7271,-0.867,KURUCZ,K07,-0.263
+B4,15122.549,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^D_2_^o^,-1.52,0.1713,adopted,,15122.5492,6.7206,-1.277,KURUCZ,K07,-0.243
+B4,15120.777,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 5s ^3^P_0_^o^,-4.073,0.2282,adopted,,15120.7766,6.7255,-2.04,KURUCZ,K07,-2.033
+B4,15077.332,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^D_1_^o^,-2.297,0.1491,adopted,,15077.332,6.7181,-2.187,KURUCZ,K07,-0.11
+B4,15037.359,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 5s ^3^P_1_^o^,-2.837,0.2117,unmatched,no canonical row within 0.03 A,,,,,,
+B4,15030.004,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^D_2_^o^,-1.771,0.1719,adopted,,15030.0046,6.7206,-1.214,KURUCZ,K07,-0.557
+B4,14985.338,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^D_1_^o^,-2.194,0.1801,adopted,,14985.3383,6.7181,-1.528,KURUCZ,K07,-0.666
+B4,14925.33,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^P_2_^o^,-2.442,0.2122,adopted,,14925.3292,6.2612,-1.744,KURUCZ,K07,-0.698
+B4,14911.229,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^D_3_^o^,-1.801,0.1606,adopted,,14911.2287,6.7271,-1.479,KURUCZ,K07,-0.322
+B4,14862.844,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^P_0_^o^,-3.377,0.0473,adopted,,14862.8439,6.2739,-2.782,KURUCZ,K07,-0.595
+B4,14861.154,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-1.711,0.0867,adopted,,14861.1537,6.8031,-2.093,KURUCZ,K07,0.382
+B4,14855.92,3s^2^ 3p 5p ^3^P_0_,3s^2^ 3p 3d ^3^P_1_^o^,-2.424,0.0824,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14795.39,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^D_2_^o^,-4.242,0.1615,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14783.626,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^P_1_^o^,-3.27,0.059,adopted,,14783.6261,6.2694,-1.965,KURUCZ,K07,-1.305
+B4,14769.831,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-1.708,0.0553,adopted,,14769.8312,5.9639,-1.692,KURUCZ,K07,-0.016
+B4,14755.764,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 5s ^3^P_2_^o^,-3.664,0.1276,adopted,,14755.7636,6.7606,-3.107,KURUCZ,K07,-0.557
+B4,14753.799,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-4.758,0.1255,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14753.22,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 5s ^1^P_1_^o^,-3.933,0.1087,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14752.13,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 5s ^3^P_2_^o^,-4.399,0.0977,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,14752.106,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^D_1_^o^,-2.803,0.067,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,14752.099,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 5s ^1^P_1_^o^,-1.733,0.0824,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,14639.535,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^P_2_^o^,-1.756,0.0751,adopted,,14639.5359,6.2612,-1.855,KURUCZ,K07,0.099
+B4,14592.512,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-1.217,0.0499,adopted,,14592.512100000002,5.9537,-1.384,KURUCZ,K07,0.167
+B4,14522.008,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 5s ^3^P_1_^o^,-3.194,0.2135,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14486.267,3s^2^ 3p 3d ^3^D_1_^o^,3s^2^ 3p4p ^1^P_1_,-1.732,0.0483,adopted,,14486.2674,5.8625,-3.972,KURUCZ,K07,2.24
+B4,14484.926,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^P_1_^o^,-2.311,0.0653,adopted,,14484.9262,6.2694,-3.45,KURUCZ,K07,1.139
+B4,14444.77,3s^2^ 3p 3d ^3^D_2_^o^,3s^2^ 3p4p ^1^P_1_,-3.515,0.1199,adopted,,14444.7699,5.8625,-3.654,KURUCZ,K07,0.139
+B4,14426.91,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^3^F_2_^o^,-1.88,0.092,adopted,,14426.9098,6.1807,-1.26,KURUCZ,K07,-0.62
+B4,14406.368,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^P_0_^o^,-2.139,0.1011,adopted,,14406.3676,6.2739,-2.203,KURUCZ,K07,0.064
+B4,14361.911,3s^2^ 3p 5s ^3^P_0_^o^,3s^2^ 3p4p ^1^P_1_,-2.699,0.0534,adopted,,14361.9105,5.8625,-2.962,KURUCZ,K07,0.263
+B4,14346.572,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^P_2_^o^,-2.041,0.1033,adopted,,14346.572500000002,6.2612,-3.357,KURUCZ,K07,1.316
+B4,14331.929,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^P_1_^o^,-1.844,0.103,adopted,,14331.9288,6.2694,-1.788,KURUCZ,K07,-0.056
+B4,14301.29,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-3.303,0.1524,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14294.176,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^1^P_1_^o^,-3.63,0.0626,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,14255.799,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 3d ^3^D_1_^o^,-2.33,0.113,adopted,,14255.7992,6.7181,-2.075,KURUCZ,K07,-0.255
+B4,14224.525,3s^2^ 3p 4p ^3^D_1_,3s^2^ 3p 4s ^1^P_1_^o^,-1.457,0.0489,skipped,already set from Table B3,,,,,,
+B4,14221.355,3s^2^ 3p 5s ^3^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-1.014,0.0486,adopted,,14221.3549,5.8625,-1.048,KURUCZ,K07,0.034
+B4,14196.469,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^P_2_^o^,-2.041,0.0936,adopted,,14196.4688,6.2612,-1.528,KURUCZ,K07,-0.513
+B4,14188.975,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-2.358,0.0608,adopted,,14188.9754,6.7271,-2.817,KURUCZ,K07,0.459
+B4,14187.159,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-3.971,0.0486,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14185.615,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-2.684,0.1158,adopted,,14185.615100000005,6.7271,-2.475,KURUCZ,K07,-0.209
+B4,14182.269,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,-0.866,0.0933,adopted,,14182.2685,6.7271,-0.904,KURUCZ,K07,0.038
+B4,14142.038,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 5s ^3^P_2_^o^,-3.421,0.1205,adopted,,14142.0379,6.7606,-2.722,KURUCZ,K07,-0.699
+B4,14140.556,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-4.494,0.138,unmatched,no canonical row within 0.03 A,,,,,,
+B4,14113.016,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^F_3_^o^,-1.018,0.0809,adopted,,14113.016,6.191,-0.436,KURUCZ,K07,-0.582
+B4,14084.047,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-1.109,0.0861,adopted,,14084.0475,6.7206,-0.885,KURUCZ,K07,-0.224
+B4,14082.258,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-2.173,0.1046,adopted,,14082.258,6.7206,-2.137,KURUCZ,K07,-0.036
+B4,14081.115,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^1^P_1_^o^,-4.288,0.1288,adopted,,14081.1155,6.6192,-2.644,KURUCZ,K07,-1.644
+B4,14080.736,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-0.859,0.0902,adopted,,14080.7367,6.7206,-1.064,KURUCZ,K07,0.205
+B4,14073.371,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^S_1_,-0.435,0.0485,adopted,,14073.3709,6.1248,-0.862,KURUCZ,K07,0.427
+B4,14062.784,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^1^P_1_^o^,-2.094,0.1211,adopted,,14062.783799999996,6.6192,-2.338,KURUCZ,K07,0.244
+B4,14059.985,3s^2^ 3p 4p ^3^D_2_,3s^2^ 3p 4s ^1^P_1_^o^,-2.593,0.0464,adopted,,14059.9852,5.0823,-2.358,KURUCZ,K07,-0.235
+B4,14043.04,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,-0.837,0.0923,adopted,,14043.0398,6.7181,-0.889,KURUCZ,K07,0.052
+B4,14041.785,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 5s ^3^P_2_^o^,-4.156,0.1174,adopted,,14041.7853,6.7606,-3.42,KURUCZ,K07,-0.736
+B4,14026.476,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^3^F_2_^o^,-1.294,0.0902,adopted,,14026.4756,6.1807,-0.713,KURUCZ,K07,-0.581
+B4,14013.319,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^1^F_3_^o^,-1.846,0.1425,adopted,,14013.318300000004,6.6161,-1.73,KURUCZ,K07,-0.116
+B4,13995.453,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^F_4_^o^,-0.846,0.0772,adopted,,13995.4486,6.206,-0.259,KURUCZ,K07,-0.587
+B4,13949.676,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^3^F_2_^o^,-1.983,0.098,adopted,,13949.675600000002,6.1807,-1.371,KURUCZ,K07,-0.612
+B4,13918.133,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^1^D_2_,-1.916,0.0534,adopted,,13918.1325,6.2227,-1.898,KURUCZ,K07,-0.018
+B4,13905.338,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-0.666,0.0532,adopted,,13905.3382,6.3991,-0.436,KURUCZ,K07,-0.23
+B4,13819.247,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 3d ^1^P_1_^o^,-2.194,0.1043,adopted,,13819.2474,6.6192,-2.115,KURUCZ,K07,-0.079
+B4,13800.452,3s^2^ 3p 5s ^3^P_2_^o^,3s^2^ 3p4p ^1^P_1_,-3.907,0.0485,adopted,,13800.4514,5.8625,-3.559,KURUCZ,K07,-0.348
+B4,13768.08,3s^2^ 3p 4d ^3^F_3_^o^,3s^2^ 3p 4p ^1^D_2_,-3.415,0.1413,unmatched,no canonical row within 0.03 A,,,,,,
+B4,13762.279,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^F_3_^o^,-1.983,0.0967,adopted,,13762.279100000002,6.191,-1.361,KURUCZ,K07,-0.622
+B4,13724.351,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-2.192,0.064,adopted,,13724.3514,6.7341,-3.272,KURUCZ,K07,1.08
+B4,13711.352,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^S_1_,-0.324,0.0481,adopted,,13711.352100000002,6.1248,-0.182,KURUCZ,K07,-0.142
+B4,13698.199,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^P_2_^o^,-3.461,0.053,unmatched,no canonical row within 0.03 A,,,,,,
+B4,13693.795,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-0.091,0.0492,adopted,,13693.7973,6.1248,-0.081,KURUCZ,K07,-0.01
+B4,13685.709,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-2.026,0.0861,adopted,,13685.7084,6.7271,-2.145,KURUCZ,K07,0.119
+B4,13682.945,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,-0.438,0.0833,adopted,,13682.9455,6.7271,-0.429,KURUCZ,K07,-0.009
+B4,13667.309,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^P_2_,-0.48,0.0518,adopted,,13667.3092,6.0986,-0.672,KURUCZ,K07,0.192
+B4,13658.916,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^1^P_1_^o^,-5.024,0.2785,adopted,,13658.9156,6.6192,-2.486,KURUCZ,K07,-2.538
+B4,13640.681,3s^2^ 3p 4p ^1^P_1_,3s^2^ 3p 4s ^3^P_2_^o^,-3.773,0.0745,adopted,,13640.681300000002,4.9538,-3.744,KURUCZ,K07,-0.029
+B4,13632.248,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 5s ^3^P_1_^o^,-3.735,0.0484,unmatched,no canonical row within 0.03 A,,,,,,
+B4,13631.932,3s^2^ 3p 4d ^3^P_0_^o^,3s^2^ 3p 4p ^3^S_1_,-0.482,0.0493,adopted,,13631.9356,6.1248,-0.458,KURUCZ,K07,-0.024
+B4,13631.29,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 5s ^3^P_1_^o^,-2.17,0.0739,adopted,,13631.2906,6.7341,-2.306,KURUCZ,K07,0.136
+B4,13620.584,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_3_^o^,-0.96,0.0766,adopted,,13620.584,6.7271,-0.962,KURUCZ,K07,0.002
+B4,13619.209,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-2.291,0.0739,adopted,,13619.209,6.7271,-2.301,KURUCZ,K07,0.01
+B4,13616.006,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^1^F_3_^o^,-3.798,0.0933,adopted,,13616.0056,6.6161,-3.107,KURUCZ,K07,-0.691
+B4,13606.912,3s^2^ 3p 5p ^3^D_3_,3s^2^ 3p 3d ^3^F_2_^o^,-3.572,0.1121,adopted,,13606.9118,6.1807,-2.919,KURUCZ,K07,-0.653
+B4,13588.066,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-1.006,0.0849,adopted,,13588.066199999996,6.7206,-1.007,KURUCZ,K07,0.001
+B4,13584.002,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^D_3_^o^,-2.34,0.0678,adopted,,13584.0025,6.7271,-1.881,KURUCZ,K07,-0.459
+B4,13527.564,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_3_^o^,-2.229,0.0611,adopted,,13527.5639,6.7271,-2.245,KURUCZ,K07,0.016
+B4,13523.866,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^D_2_^o^,-1.399,0.0883,adopted,,13523.8656,6.7206,-1.408,KURUCZ,K07,0.009
+B4,13522.51,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-1.25,0.0794,adopted,,13522.5101,6.7206,-1.252,KURUCZ,K07,0.002
+B4,13505.549,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 5s ^3^P_0_^o^,-3.917,0.1464,adopted,,13505.5483,6.7255,-3.203,KURUCZ,K07,-0.714
+B4,13486.344,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,-1.105,0.0836,adopted,,13486.343600000002,6.7181,-1.018,KURUCZ,K07,-0.087
+B4,13457.823,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^1^P_1_^o^,-2.883,0.1011,adopted,,13457.8226,6.6192,-3.199,KURUCZ,K07,0.316
+B4,13433.086,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^D_2_^o^,-2.03,0.0642,adopted,,13433.0869,6.7206,-2.051,KURUCZ,K07,0.021
+B4,13432.23,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^P_1_,-0.738,0.049,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,13432.158,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_2_^o^,-1.598,0.0704,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,13429.07,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^1^S_0_,-1.376,0.0571,adopted,,13429.0702,6.3991,-1.536,KURUCZ,K07,0.16
+B4,13412.515,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^1^F_3_^o^,-2.242,0.1174,adopted,,13412.514700000002,6.6161,-1.933,KURUCZ,K07,-0.309
+B4,13397.396,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^D_1_^o^,-1.561,0.0701,adopted,,13397.3966,6.7181,-1.59,KURUCZ,K07,0.029
+B4,13396.472,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^D_1_^o^,-1.893,0.064,adopted,,13396.471999999998,6.7181,-1.616,KURUCZ,K07,-0.277
+B4,13384.483,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^1^P_1_^o^,-3.859,0.0948,unmatched,no canonical row within 0.03 A,,,,,,
+B4,13368.977,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^3^F_2_^o^,-2.734,0.1177,adopted,,13368.9766,6.1807,-1.997,KURUCZ,K07,-0.737
+B4,13325.627,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^P_2_,-0.545,0.0506,adopted,,13325.6261,6.0986,-0.157,KURUCZ,K07,-0.388
+B4,13309.04,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-0.68,0.049,adopted,,13309.044499999998,6.0986,-0.511,KURUCZ,K07,-0.169
+B4,13287.564,3s^2^ 3p 4p ^1^P_1_,3s^2^ 3p 4s ^3^P_1_^o^,-1.286,0.0471,adopted,,13287.5644,4.9296,-1.255,KURUCZ,K07,-0.031
+B4,13268.715,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^F_3_^o^,-2.499,0.1282,adopted,,13268.7153,6.191,-1.806,KURUCZ,K07,-0.693
+B4,13198.109,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^1^P_1_^o^,-1.306,0.1133,adopted,,13198.1094,6.6192,-1.544,KURUCZ,K07,0.238
+B4,13176.888,3s^2^ 3p 5s ^1^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-0.08,0.0484,adopted,,13176.8883,5.8625,-0.2,KURUCZ,K07,0.12
+B4,13154.53,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^1^F_3_^o^,-1.015,0.1137,adopted,,13154.5305,6.6161,-0.997,KURUCZ,K07,-0.018
+B4,13152.743,3s^2^ 3p 4p ^1^P_1_,3s^2^ 3p 4s  ^3^P_0_^o^,-2.446,0.0493,adopted,,13152.742700000004,4.9201,-2.504,KURUCZ,K07,0.058
+B4,13124.233,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^3^F_2_^o^,-3.428,0.1398,adopted,,13124.2337,6.1807,-2.725,KURUCZ,K07,-0.703
+B4,13102.057,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^P_1_,-0.534,0.0492,adopted,,13102.0575,6.0827,-0.309,KURUCZ,K07,-0.225
+B4,13086.031,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-1.965,0.0611,adopted,,13086.0273,6.0827,-1.412,KURUCZ,K07,-0.553
+B4,13048.598,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^S_0_,-1.816,0.049,adopted,,13048.5979,6.3991,-2.288,KURUCZ,K07,0.472
+B4,13030.926,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-0.848,0.0502,adopted,,13030.9212,6.0787,-0.669,KURUCZ,K07,-0.179
+B4,13029.526,3s^2^ 3p 4d ^3^P_0_^o^,3s^2^ 3p 4p ^3^P_1_,-1.21,0.0501,adopted,,13029.5235,6.0827,-0.924,KURUCZ,K07,-0.286
+B4,12998.506,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^3^F_2_^o^,-4.236,0.1667,adopted,,12998.5061,6.1807,-3.268,KURUCZ,K07,-0.968
+B4,12907.588,3s^2^ 3p 5p ^1^S_0_,3s^2^ 3p 3d ^3^P_1_^o^,-4.851,0.2122,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12799.446,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 3d ^1^P_1_^o^,-1.377,0.0684,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12712.217,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^F_3_^o^,-3.347,0.2032,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12627.673,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.91,0.0536,adopted,,12627.674,6.6192,-0.805,VALD3,VALD3,-0.105
+B4,12589.205,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-1.463,0.0722,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12587.775,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-3.775,0.1638,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12586.559,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-2.483,0.0745,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12583.924,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,-0.518,0.059,adopted,,12583.924,6.6161,-0.462,VALD3,VALD3,-0.056
+B4,12579.54,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^3^F_2_^o^,-3.892,0.1087,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12539.486,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^S_1_,-4.847,0.059,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12458.186,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^S_0_,-1.71,0.0836,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12439.963,3s^2^ 3p 4p ^3^P_0_,3s^2^ 3p 4s ^1^P_1_^o^,-2.849,0.0546,adopted,,12439.963,5.0823,-2.732,VALD3,VALD3,-0.117
+B4,12395.832,3s^2^ 3p 4p ^3^D_1_,3s^2^ 3p 4s ^3^P_2_^o^,-1.721,0.0489,skipped,already set from Table B3,,,,,,
+B4,12390.154,3s^2^ 3p 4p ^3^P_1_,3s^2^ 3p 4s ^1^P_1_^o^,-1.799,0.0478,skipped,already set from Table B3,,,,,,
+B4,12270.692,3s^2^ 3p 4p ^3^D_2_,3s^2^ 3p 4s ^3^P_2_^o^,-0.472,0.0485,skipped,already set from Table B3,,,,,,
+B4,12216.099,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^P_2_,-2.979,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12196.645,3s^2^ 3p 4p ^3^P_2_,3s^2^ 3p 4s ^1^P_1_^o^,-3.426,0.0553,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12191.433,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-1.456,0.0681,adopted,,12191.433,6.6161,-1.39,VALD3,VALD3,-0.066
+B4,12189.24,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,-0.969,0.0548,adopted,,12189.241,6.6161,-1.005,VALD3,VALD3,0.036
+B4,12178.339,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-1.074,0.0465,adopted,,12178.339,6.2694,-1.1,VALD3,VALD3,0.026
+B4,12175.733,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.915,0.0483,adopted,,12175.733,6.6192,-0.855,VALD3,VALD3,-0.06
+B4,12139.727,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^F_3_^o^,-2.13,0.0701,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12138.634,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-3.149,0.1233,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12133.995,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_3_,-1.735,0.1205,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12110.659,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 3d ^1^F_3_^o^,-0.216,0.0532,adopted,,12110.659,6.6161,-0.136,VALD3,VALD3,-0.08
+B4,12103.535,3s^2^ 3p 4p ^3^D_1_,3s^2^ 3p 4s ^3^P_1_^o^,-0.426,0.0484,skipped,already set from Table B3,,,,,,
+B4,12103.187,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^1^P_1_^o^,-3.285,0.0536,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12102.433,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^1^P_1_^o^,-0.779,0.0495,adopted,,12102.433,6.6192,-0.694,VALD3,VALD3,-0.085
+B4,12100.349,3s^2^ 3p 4d ^3^F_3_^o^,3s^2^ 3p 4p ^3^P_2_,-2.018,0.0507,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12081.972,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-0.468,0.0464,adopted,,12081.972,6.2612,-0.518,VALD3,VALD3,0.05
+B4,12080.391,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-1.597,0.0463,adopted,,12080.391,6.2612,-1.635,VALD3,VALD3,0.038
+B4,12065.779,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^1^F_3_^o^,-3.518,0.1344,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12063.759,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-2.584,0.0502,unmatched,no canonical row within 0.03 A,,,,,,
+B4,12031.503,3s^2^ 3p 4p ^3^D_3_,3s^2^ 3p 4s ^3^P_2_^o^,0.409,0.0477,adopted,,12031.504,4.9538,0.477,VALD3,VALD3,-0.068
+B4,12027.947,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^P_1_,-2.246,0.0495,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11991.568,3s^2^ 3p 4p ^3^D_1_,3s^2^ 3p 4s  ^3^P_0_^o^,-0.175,0.048,skipped,already set from Table B3,,,,,,
+B4,11984.198,3s^2^ 3p 4p ^3^D_2_,3s^2^ 3p 4s ^3^P_1_^o^,0.174,0.0479,skipped,already set from Table B3,,,,,,
+B4,11903.707,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-3.38,0.141,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11900.055,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_2_,-1.758,0.0656,adopted,,11900.055,5.9639,-1.864,VALD3,VALD3,0.106
+B4,11890.483,3s^2^ 3p 4p ^3^S_1_,3s^2^ 3p 4s ^1^P_1_^o^,-2.285,0.0507,adopted,,11890.483,5.0823,-2.222,VALD3,VALD3,-0.063
+B4,11863.92,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_3_,-1.649,0.1158,adopted,,11863.92,5.984,-1.457,VALD3,VALD3,-0.192
+B4,11784.678,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_1_,-2.377,0.0477,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11713.05,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-3.166,0.0632,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11700.239,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-0.574,0.0469,adopted,,11700.239,6.2694,-0.526,VALD3,VALD3,-0.048
+B4,11640.943,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_0_^o^,-0.455,0.0466,adopted,,11640.941,6.2739,-0.432,VALD3,VALD3,-0.023
+B4,11640.181,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_2_,-3.284,0.197,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11627.528,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-1.913,0.1374,adopted,,11627.527,5.9639,-1.925,VALD3,VALD3,0.012
+B4,11611.06,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,0.063,0.0464,adopted,,11611.06,6.2612,0.1,VALD3,VALD3,-0.037
+B4,11609.802,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-1.101,0.0466,adopted,,11609.802,6.2612,-1.064,VALD3,VALD3,-0.037
+B4,11608.338,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-2.901,0.2464,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11592.286,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_1_^o^,-0.581,0.0465,adopted,,11592.289,6.2694,-0.554,VALD3,VALD3,-0.027
+B4,11591.467,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-0.352,0.0464,adopted,,11591.466,6.2694,-0.34,VALD3,VALD3,-0.012
+B4,11529.766,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p 4p ^3^D_1_,-3.65,0.1416,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11517.351,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-2.227,0.118,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11503.51,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_2_^o^,-1.759,0.0464,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11502.697,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-0.796,0.0464,adopted,,11502.697,6.2612,-0.761,VALD3,VALD3,-0.035
+B4,11485.815,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 4p ^1^D_2_,-0.431,0.0484,adopted,,11485.811,6.2227,-0.228,VALD3,VALD3,-0.203
+B4,11473.559,3s^2^ 3p 4d ^3^P_0_^o^,3s^2^ 3p 4p ^3^D_1_,-2.306,0.1386,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11465.319,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-2.6,0.1395,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11448.916,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-2.924,0.0653,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11446.269,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-1.457,0.06,adopted,,11446.269,6.206,-1.194,VALD3,VALD3,-0.263
+B4,11308.361,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-0.934,0.0476,adopted,,11308.362,6.191,-0.728,VALD3,VALD3,-0.206
+B4,11306.977,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-1.959,0.0676,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11305.538,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^1^D_2_,-4.374,0.1824,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11292.406,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-2.352,0.0629,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11289.829,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,0.007,0.0465,adopted,,11289.829,6.191,0.198,VALD3,VALD3,-0.191
+B4,11274.533,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^1^D_2_,-3.387,0.2884,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11203.249,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-2.341,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11201.89,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-0.883,0.0476,adopted,,11201.89,6.1807,-0.677,VALD3,VALD3,-0.206
+B4,11196.847,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 4p ^1^D_2_,-1.304,0.0518,adopted,,11196.846,6.2227,-1.624,VALD3,VALD3,0.32
+B4,11187.588,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,0.053,0.0463,adopted,,11187.588,6.1807,0.237,VALD3,VALD3,-0.184
+B4,11132.575,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-1.957,0.0481,unmatched,no canonical row within 0.03 A,,,,,,
+B4,11130.029,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-0.403,0.0483,adopted,,11130.029,6.206,-0.194,VALD3,VALD3,-0.209
+B4,11040.404,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-1.74,0.08,adopted,,11040.405,6.206,-1.449,VALD3,VALD3,-0.291
+B4,11017.966,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_5_,3s^2^ 3p 3d ^3^F_4_^o^,0.543,0.0463,adopted,,11017.966,6.206,0.76,VALD3,VALD3,-0.217
+B4,11013.703,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-1.142,0.0463,adopted,,11013.703,6.206,-0.983,VALD3,VALD3,-0.159
+B4,11005.127,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^D_2_,-2.172,0.1099,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10984.537,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-0.592,0.0466,adopted,,10984.538,6.191,-0.373,VALD3,VALD3,-0.219
+B4,10982.058,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,-0.184,0.0463,adopted,,10982.058,6.191,0.1039999999999999,VALD3,VALD3,-0.288
+B4,10979.308,3s^2^ 3p 4p ^3^P_1_,3s^2^ 3p 4s ^3^P_2_^o^,-0.631,0.0467,skipped,already set from Table B3,,,,,,
+B4,10976.347,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_3_,-2.28,0.0463,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10894.792,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-1.652,0.0618,adopted,,10894.792,6.191,-1.474,VALD3,VALD3,-0.178
+B4,10893.684,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-1.916,0.0618,adopted,,10893.684,6.191,-1.661,VALD3,VALD3,-0.255
+B4,10885.332,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-0.035,0.0464,adopted,,10885.333,6.1807,0.2209999999999999,VALD3,VALD3,-0.256
+B4,10882.809,3s^2^ 3p 4d ^3^F_3_^o^,3s^2^ 3p 4p ^3^D_3_,-0.719,0.0463,adopted,,10882.809,5.984,-0.815,VALD3,VALD3,0.096
+B4,10869.537,3s^2^ 3p 4p ^1^D_2_,3s^2^ 3p 4s ^1^P_1_^o^,0.297,0.0463,adopted,,10869.536,5.0823,0.286,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",0.011
+B4,10868.79,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,0.015,0.0464,adopted,,10868.79,6.191,0.206,VALD3,VALD3,-0.191
+B4,10843.857,3s^2^ 3p 4d ^1^D_2_^o^,3s^2^ 3p4p ^1^P_1_,-0.103,0.0471,adopted,,10843.858,5.8625,0.22,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.323
+B4,10827.088,3s^2^ 3p 4p ^3^P_2_,3s^2^ 3p 4s ^3^P_2_^o^,0.231,0.0469,skipped,already set from Table B3,,,,,,
+B4,10799.331,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-2.48,0.1199,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10797.194,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-2.501,0.0608,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10796.106,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-1.454,0.0538,adopted,,10796.106,6.1807,-1.266,VALD3,VALD3,-0.188
+B4,10786.849,3s^2^ 3p 4p ^3^P_0_,3s^2^ 3p 4s ^3^P_1_^o^,-0.376,0.0469,adopted,,10786.849,4.9296,-0.303,VALD3,VALD3,-0.073
+B4,10784.563,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_2_,-0.746,0.0464,adopted,,10784.562,5.9639,-0.839,VALD3,VALD3,0.093
+B4,10749.378,3s^2^ 3p 4p ^3^P_1_,3s^2^ 3p 4s ^3^P_1_^o^,-0.263,0.0469,skipped,already set from Table B3,,,,,,
+B4,10730.163,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^1^D_2_,-4.143,0.0653,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10727.406,3s^2^ 3p 4d ^3^F_4_^o^,3s^2^ 3p 4p ^3^D_3_,0.333,0.0463,adopted,,10727.406,5.984,0.423,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.09
+B4,10704.129,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^F_2_^o^,-2.426,0.1199,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10703.429,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-3.018,0.0852,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10694.251,3s^2^ 3p 4d ^3^F_3_^o^,3s^2^ 3p 4p ^3^D_2_,0.155,0.0464,adopted,,10694.251,5.9639,0.264,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.109
+B4,10689.716,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_1_,-0.016,0.0464,adopted,,10689.716,5.9537,0.093,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.109
+B4,10660.972,3s^2^ 3p 4p ^3^P_1_,3s^2^ 3p 4s  ^3^P_0_^o^,-0.34,0.0467,skipped,already set from Table B3,,,,,,
+B4,10633.281,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.843,0.0498,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10627.648,3s^2^ 3p 4d ^3^P_2_^o^,3s^2^ 3p4p ^1^P_1_,-0.224,0.047,adopted,,10627.648,5.8625,-0.866,VALD3,VALD3,0.642
+B4,10617.099,3s^2^ 3p 4d ^3^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-3.581,0.1105,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10603.425,3s^2^ 3p 4p ^3^P_2_,3s^2^ 3p 4s ^3^P_1_^o^,-0.389,0.0467,skipped,already set from Table B3,,,,,,
+B4,10602.816,3s^2^ 3p 5p ^1^P_1_,3s^2^ 3p 3d ^1^D_2_^o^,-2.359,0.2098,adopted,,10602.816,5.8708,-0.942,VALD3,VALD3,-1.417
+B4,10585.142,3s^2^ 3p 4p ^3^S_1_,3s^2^ 3p 4s ^3^P_2_^o^,-0.042,0.0473,skipped,already set from Table B3,,,,,,
+B4,10582.16,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^D_2_,-1.095,0.0583,adopted,,10582.16,6.2227,-1.169,VALD3,VALD3,0.074
+B4,10579.874,3s^2^ 3p 4d ^3^P_0_^o^,3s^2^ 3p4p ^1^P_1_,-4.744,0.1907,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10399.825,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-2.844,0.0555,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10384.928,3s^2^ 3p 5p ^3^D_1_,3s^2^ 3p 3d ^1^D_2_^o^,-3.102,0.1824,adopted,,10384.927,5.8708,-1.639,VALD3,VALD3,-1.463
+B4,10378.655,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^S_1_,-2.114,0.055,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10371.264,3s^2^ 3p 4p ^3^S_1_,3s^2^ 3p 4s ^3^P_1_^o^,-0.786,0.0472,skipped,already set from Table B3,,,,,,
+B4,10352.519,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.56,0.0481,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10342.768,3s^2^ 3p 5p ^3^D_2_,3s^2^ 3p 3d ^1^D_2_^o^,-4.129,0.2835,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10313.193,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-1.21,0.0927,adopted,,10313.197,6.3991,-0.886,VALD3,VALD3,-0.324
+B4,10301.374,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 4p ^3^P_2_,-1.885,0.0754,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10288.944,3s^2^ 3p 4p ^3^S_1_,3s^2^ 3p 4s  ^3^P_0_^o^,-1.619,0.0472,adopted,,10288.944,4.9201,-1.476,NIST-C+,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",-0.143
+B4,10276.844,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^1^D_2_,-2.845,0.1199,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10263.149,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-2.551,0.0698,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10229.223,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-2.82,0.1033,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10185.819,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^3^P_1_^o^,-4.377,0.1838,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10179.401,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-4.84,0.2532,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10179.016,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 4p ^3^S_1_,-2.889,0.0571,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10156.126,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_2_,-1.756,0.067,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10131.101,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_2_,-4.213,0.1679,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10124.929,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^S_1_,-2.193,0.0542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10117.21,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^3^P_2_^o^,-4.449,0.2462,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10098.489,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 4p ^1^S_0_,-2.166,0.1656,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10077.165,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^3^P_1_^o^,-5.317,0.2871,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10068.33,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 4p ^3^P_2_,-1.383,0.098,adopted,,10068.329,6.0986,-1.318,VALD3,VALD3,-0.065
+B4,10025.741,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_1_,-1.774,0.1105,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10020.07,3s^2^ 3p 5p ^3^P_1_,3s^2^ 3p 3d ^1^D_2_^o^,-4.046,0.2551,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10013.865,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^S_0_,-1.321,0.0719,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10010.007,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^3^P_2_^o^,-3.14,0.1983,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10001.353,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_1_,-2.404,0.1087,unmatched,no canonical row within 0.03 A,,,,,,
+B4,10000.739,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^P_2_^o^,-3.68,0.1344,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9969.132,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_0_,-1.943,0.0898,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9942.335,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_0_",3s^2^ 3p 3d ^3^P_1_^o^,-3.608,0.2205,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9913.04,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_2_,-1.747,0.0465,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9909.819,3s^2^ 3p 4d ^3^F_2_^o^,3s^2^ 3p4p ^1^P_1_,-3.783,0.1331,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9894.242,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^P_0_^o^,-5.06,0.1143,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9891.725,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^S_1_,-1.344,0.0522,adopted,,9891.725,6.1248,-1.321,VALD3,VALD3,-0.023
+B4,9887.047,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^1^D_2_,-1.234,0.1068,adopted,,9887.047,6.2227,-1.326,VALD3,VALD3,0.092
+B4,9881.951,3s^2^ 3p 5p ^3^P_2_,3s^2^ 3p 3d ^1^D_2_^o^,-3.786,0.2837,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9859.073,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^P_1_^o^,-4.127,0.1068,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9839.329,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 4p ^3^P_1_,-1.657,0.049,adopted,,9839.328,6.0827,-1.726,VALD3,VALD3,0.069
+B4,9810.502,3s^2^ 3p 5p ^3^S_1_,3s^2^ 3p 3d ^1^D_2_^o^,-4.593,0.2172,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9796.727,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^P_2_^o^,-3.798,0.22,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9794.781,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^P_2_^o^,-3.061,0.2109,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9788.783,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_1_,-1.59,0.0477,adopted,,9788.783,6.0827,-1.661,VALD3,VALD3,0.071
+B4,9768.351,3s^2^ 3p 4p ^1^D_2_,3s^2^ 3p 4s ^3^P_2_^o^,-2.64,0.0477,adopted,,9768.351,4.9538,-2.679,VALD3,VALD3,0.039
+B4,9765.812,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^S_1_,-2.871,0.0542,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9757.915,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_0_,-1.825,0.0559,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9753.872,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^P_1_^o^,-3.592,0.2259,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9749.437,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^P_0_^o^,-3.451,0.2518,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9734.819,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^S_0_,-2.072,0.141,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9715.288,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^P_1_^o^,-3.179,0.252,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9690.94,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^P_2_^o^,-3.444,0.253,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9689.385,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^P_2_,-1.067,0.0507,adopted,,9689.386,6.0986,-1.14,VALD3,VALD3,0.073
+B4,9683.401,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 4p ^1^S_0_,-2.617,0.1021,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9652.852,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^P_2_^o^,-3.428,0.244,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9616.716,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^P_1_^o^,-5.108,0.2866,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9585.922,3s^2^ 3p 4p ^1^D_2_,3s^2^ 3p 4s ^3^P_1_^o^,-2.754,0.047,adopted,,9585.922,4.9296,-2.36,VALD3,VALD3,-0.394
+B4,9570.639,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^P_1_,-1.92,0.0493,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9569.943,3s^2^ 3p 5p ^1^D_2_,3s^2^ 3p 3d ^1^D_2_^o^,-2.248,0.2148,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9568.539,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_2_,-2.919,0.06,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9561.216,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 4p ^1^D_2_,-2.142,0.0836,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9555.537,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^P_2_^o^,-4.157,0.2125,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9506.643,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 4p ^1^D_2_,-2.615,0.0704,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9505.205,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^S_1_,-1.255,0.0681,adopted,,9505.205,6.1248,-1.122,VALD3,VALD3,-0.133
+B4,9493.668,"3s^2^ 3p(^2^P_1/2_^o^) 6p_1/2_(1/2,1/2)_1_",3s^2^ 3p 3d ^3^F_2_^o^,-2.67,0.2315,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9464.784,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^F_3_^o^,-2.199,0.208,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9452.719,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_1_,-2.301,0.0611,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9423.93,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_0_,-2.504,0.0483,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9421.786,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-1.249,0.0713,adopted,,9421.786,6.1248,-1.133,VALD3,VALD3,-0.116
+B4,9413.499,3s^2^ 3p 4p ^1^S_0_,3s^2^ 3p 4s ^1^P_1_^o^,-0.523,0.0467,adopted,,9413.5,5.0823,-0.433,VALD3,VALD3,-0.09
+B4,9405.546,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 4p ^3^D_3_,-2.667,0.0489,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9403.307,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_0_",3s^2^ 3p 3d ^3^P_1_^o^,-5.371,0.1485,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9399.211,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_1_",3s^2^ 3p 3d ^3^F_2_^o^,-2.82,0.2234,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9393.423,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 4p ^3^S_1_,-1.635,0.0716,adopted,,9393.42,6.1248,-1.533,VALD3,VALD3,-0.102
+B4,9391.039,"3s^2^ 3p(^2^P_1/2_^o^) 6p_3/2_(1/2,3/2)_2_",3s^2^ 3p 3d ^3^F_2_^o^,-3.275,0.2385,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9387.333,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^F_4_^o^,-1.979,0.2088,adopted,,9387.334,6.206,-1.541,VALD3,VALD3,-0.438
+B4,9343.924,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-3.334,0.1337,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9318.22,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^P_2_,-1.477,0.0908,adopted,,9318.22,6.0986,-1.548,VALD3,VALD3,0.071
+B4,9310.265,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-1.401,0.0544,adopted,,9310.265,6.2694,-1.436,VALD3,VALD3,0.035
+B4,9284.316,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_3_,-3.289,0.0513,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9281.853,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^F_3_^o^,-3.221,0.2405,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9264.374,3s^2^ 3p 4d ^1^F_3_^o^,3s^2^ 3p 4p ^3^D_2_,-2.27,0.0621,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9253.684,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-0.866,0.0532,adopted,,9253.683,6.2612,-0.838,VALD3,VALD3,-0.028
+B4,9252.911,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-1.919,0.0524,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9252.254,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-1.492,0.0502,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9238.037,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-1.893,0.0809,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9210.92,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_3_",3s^2^ 3p 3d ^3^F_2_^o^,-4.91,0.2599,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9210.888,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 4p ^3^D_3_,-2.884,0.0559,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9209.2,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_1_",3s^2^ 3p 3d ^3^F_2_^o^,-3.411,0.2479,unmatched,no canonical row within 0.03 A,,,,,,
+B4,9208.345,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^P_1_,-1.377,0.064,adopted,,9208.345,6.0827,-1.4,VALD3,VALD3,0.023
+B4,9186.84,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^F_3_^o^,-3.318,0.2585,adopted,,9186.839,6.191,-2.716,KURUCZ,K07,-0.602
+B4,9170.793,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^S_1_,-2.371,0.0562,adopted,,9170.793,6.125,-2.01,KURUCZ,K07,-0.361
+B4,9146.731,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_2_,-3.264,0.0481,adopted,,9146.732,5.964,-2.614,KURUCZ,K07,-0.65
+B4,9130.033,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-3.939,0.2164,adopted,,9130.033,6.083,-4.852,KURUCZ,K07,0.913
+B4,9126.426,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^D_2_,-2.455,0.0787,adopted,,9126.426,5.964,-4.334,KURUCZ,K07,1.879
+B4,9117.345,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_2_",3s^2^ 3p 3d ^3^F_2_^o^,-4.353,0.2718,adopted,,9117.345,6.181,-3.667,KURUCZ,K07,-0.686
+B4,9103.394,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 4p ^3^P_1_,-2.428,0.0874,adopted,,9103.395,6.083,-2.502,KURUCZ,K07,0.074
+B4,9103.175,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-1.917,0.0725,adopted,,9103.175,6.079,-1.941,KURUCZ,K07,0.024
+B4,9083.625,"3s^2^ 3p(^2^P_3/2_^o^) 6p_1/2_(3/2,1/2)_1_",3s^2^ 3p 3d ^3^F_2_^o^,-5.32,0.2875,adopted,,9083.625,6.181,-3.58,KURUCZ,K07,-1.74
+B4,9078.415,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p 4p ^3^D_1_,-2.992,0.0713,adopted,,9078.415,5.954,-2.412,KURUCZ,K07,-0.58
+B4,9075.456,3s^2^ 3p 4d ^3^D_3_^o^,3s^2^ 3p 4p ^3^D_2_,-3.328,0.0858,adopted,,9075.455,5.964,-2.408,KURUCZ,K07,-0.92
+B4,9065.068,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^F_3_^o^,-4.292,0.2891,adopted,,9065.068,6.191,-3.254,KURUCZ,K07,-1.038
+B4,9062.259,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-1.189,0.0585,adopted,,9062.259,6.269,-1.165,KURUCZ,K07,-0.024
+B4,9058.411,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p 4p ^3^D_1_,-4.277,0.1133,adopted,,9058.411,5.954,-2.421,KURUCZ,K07,-1.856
+B4,9051.455,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_0_^o^,-0.976,0.0566,adopted,,9051.451,6.274,-0.986,KURUCZ,K07,0.01
+B4,9036.953,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-3.495,0.0781,adopted,,9036.954,6.261,-3.127,KURUCZ,K07,-0.368
+B4,9022.013,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_1_^o^,-1.1,0.0562,adopted,,9022.01,6.269,-1.107,KURUCZ,K07,0.007
+B4,9021.59,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^P_1_^o^,-0.869,0.0542,adopted,,9021.59,6.269,-0.895,KURUCZ,K07,0.026
+B4,9008.512,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^P_2_^o^,-0.546,0.0538,adopted,,9008.512,6.261,-0.546,KURUCZ,K07,-0.0
+B4,9007.91,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-1.711,0.0566,adopted,,9007.91,6.261,-1.692,KURUCZ,K07,-0.019
+B4,8997.397,"3s^2^ 3p(^2^P_3/2_^o^) 6p_3/2_(3/2,3/2)_2_",3s^2^ 3p 3d ^3^F_2_^o^,-4.506,0.2437,adopted,,8997.397,6.181,-3.801,KURUCZ,K07,-0.705
+B4,8996.613,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^P_2_,-3.036,0.0573,adopted,,8996.613,6.099,-2.633,KURUCZ,K07,-0.403
+B4,8993.345,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-3.085,0.2498,adopted,,8993.345,6.223,-2.079,KURUCZ,K07,-1.006
+B4,8968.138,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^P_2_^o^,-2.272,0.0544,adopted,,8968.141,6.261,-2.276,KURUCZ,K07,0.004
+B4,8967.727,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^P_2_^o^,-1.31,0.054,adopted,,8967.727,6.261,-1.32,KURUCZ,K07,0.01
+B4,8949.091,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^D_2_,-1.08,0.0673,adopted,,8949.091,5.964,-1.055,OTHER,1993PhyS..,-0.025
+B4,8925.295,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 4p ^3^D_1_,-1.366,0.0693,adopted,,8925.295,5.954,-1.349,KURUCZ,K07,-0.017
+B4,8899.226,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 4p ^1^D_2_,-0.802,0.0464,adopted,,8899.231,6.223,-0.546,OTHER,1993PhyS..,-0.256
+B4,8894.15,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^P_1_,-2.599,0.0701,adopted,,8894.15,6.083,-2.313,KURUCZ,K07,-0.286
+B4,8892.719,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^D_3_,-0.778,0.071,adopted,,8892.72,5.984,-0.781,OTHER,1993PhyS..,0.003
+B4,8889.791,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 4p ^3^S_1_,-3.643,0.0473,adopted,,8889.791,6.125,-3.276,KURUCZ,K07,-0.367
+B4,8887.57,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-3.187,0.3033,adopted,,8887.57,6.206,-5.391,KURUCZ,K07,2.204
+B4,8886.251,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-3.414,0.2758,adopted,,8886.251,6.206,-4.245,KURUCZ,K07,0.831
+B4,8884.938,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-2.761,0.1458,adopted,,8884.938,6.206,-2.741,KURUCZ,K07,-0.02
+B4,8883.685,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^D_1_,-1.721,0.0707,adopted,,8883.684,5.954,-1.737,KURUCZ,K07,0.016
+B4,8879.763,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 4p ^1^D_2_,-4.097,0.252,adopted,,8879.763,6.223,-4.155,KURUCZ,K07,0.058
+B4,8829.64,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 4p ^1^D_2_,-2.744,0.0469,adopted,,8829.64,6.223,-4.749,KURUCZ,K07,2.005
+B4,8792.965,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-1.481,0.054,adopted,,8792.965,6.191,-1.406,KURUCZ,K07,-0.075
+B4,8792.267,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-2.55,0.1707,adopted,,8792.267,6.191,-2.727,KURUCZ,K07,0.177
+B4,8791.675,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-3.561,0.1559,adopted,,8791.674,6.191,-2.291,KURUCZ,K07,-1.27
+B4,8790.389,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,-0.439,0.0499,adopted,,8790.389,6.191,-0.326,KURUCZ,K07,-0.113
+B4,8780.748,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 4p ^1^D_2_,-1.149,0.049,adopted,,8780.748,6.223,-1.751,KURUCZ,K07,0.602
+B4,8766.417,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^D_2_,-1.648,0.0739,adopted,,8766.418,5.964,-1.607,KURUCZ,K07,-0.041
+B4,8764.877,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^D_2_,-2.805,0.2295,adopted,,8764.877,6.223,-2.418,KURUCZ,K07,-0.387
+B4,8752.006,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^D_2_^o^,-0.338,0.0467,adopted,,8752.007,5.871,0.078,KURUCZ,K07,-0.416
+B4,8751.177,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^D_2_^o^,-1.65,0.0472,adopted,,8751.177,5.871,-1.266,KURUCZ,K07,-0.384
+B4,8742.446,3s^2^ 3p(^2^P_1/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^D_2_^o^,-0.466,0.0463,adopted,,8742.446,5.871,-0.073,KURUCZ,K07,-0.393
+B4,8729.281,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-1.329,0.0605,adopted,,8729.281,6.181,-2.427,KURUCZ,K07,1.098
+B4,8728.594,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-1.547,0.048,adopted,,8728.594,6.181,-1.438,KURUCZ,K07,-0.109
+B4,8728.01,3s^2^ 3p(^2^P_1/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-0.428,0.0538,adopted,,8728.01,6.181,-0.37,KURUCZ,K07,-0.058
+B4,8703.644,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^D_1_,-2.892,0.0766,adopted,,8703.645,5.954,-2.827,KURUCZ,K07,-0.065
+B4,8703.255,3s^2^ 3p 5p ^1^P_1_,3s3p^3^  ^3^D_2_^o^,-5.345,0.0728,adopted,,8703.256,5.616,-4.219,KURUCZ,K07,-1.126
+B4,8690.061,3s^2^ 3p 5p ^1^P_1_,3s3p^3^  ^3^D_1_^o^,-3.458,0.2639,adopted,,8690.061,5.614,-4.828,KURUCZ,K07,1.37
+B4,8687.465,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-2.476,0.0477,adopted,,8687.465,6.206,-2.41,KURUCZ,K07,-0.066
+B4,8686.351,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-0.916,0.0471,adopted,,8686.352,6.206,-0.814,KURUCZ,K07,-0.102
+B4,8680.548,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 4p ^3^P_2_,-4.23,0.2029,unmatched,no canonical row within 0.03 A,,,,,,
+B4,8680.08,3s^2^ 3p 4d ^1^P_1_^o^,3s^2^ 3p4p ^1^P_1_,-1.897,0.0467,adopted,,8680.08,5.863,-3.247,KURUCZ,K07,1.35
+B4,8667.379,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^D_2_,-2.03,0.0824,adopted,,8667.38,5.964,-1.949,KURUCZ,K07,-0.081
+B4,8661.177,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_4_^o^,-2.52,0.2101,adopted,,8661.177,6.206,-1.985,KURUCZ,K07,-0.535
+B4,8648.464,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_5_,3s^2^ 3p 3d ^3^F_4_^o^,0.016,0.0526,adopted,,8648.465,6.206,0.139,KURUCZ,K07,-0.123
+B4,8646.371,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^F_4_^o^,-1.684,0.0534,adopted,,8646.371,6.206,-1.62,KURUCZ,K07,-0.064
+B4,8629.6,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 4p ^3^P_1_,-3.412,0.0905,adopted,,8629.6,6.083,-3.168,KURUCZ,K07,-0.244
+B4,8606.012,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^D_1_,-2.062,0.0719,adopted,,8606.012,5.954,-2.016,KURUCZ,K07,-0.046
+B4,8597.05,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-1.168,0.048,adopted,,8597.05,6.191,-1.058,KURUCZ,K07,-0.11
+B4,8595.96,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,-0.898,0.0588,adopted,,8595.96,6.191,-0.7,KURUCZ,K07,-0.198
+B4,8593.016,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^1^D_2_,-4.623,0.1108,unmatched,no canonical row within 0.03 A,,,,,,
+B4,8579.455,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 4p ^1^D_2_,-2.863,0.1641,adopted,,8579.455,6.223,-3.017,KURUCZ,K07,0.154
+B4,8579.092,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^D_3_,-2.565,0.0821,adopted,,8579.092,5.984,-2.577,KURUCZ,K07,0.012
+B4,8571.306,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_3_^o^,-1.88,0.0905,adopted,,8571.306,6.191,-1.855,KURUCZ,K07,-0.025
+B4,8570.761,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-2.501,0.1553,adopted,,8570.762,6.191,-2.158,KURUCZ,K07,-0.343
+B4,8556.805,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[9/2]_4_,3s^2^ 3p 3d ^3^F_3_^o^,-0.512,0.0578,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,8556.776,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[7/2]_3_,3s^2^ 3p 3d ^1^D_2_^o^,-0.518,0.0464,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,8555.903,3s^2^ 3p 5p ^3^D_1_,3s3p^3^  ^3^D_2_^o^,-2.877,0.2082,adopted,,8555.903,5.616,-3.127,KURUCZ,K07,0.25
+B4,8550.353,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^1^D_2_,-1.646,0.1083,adopted,,8550.353,6.223,-1.81,KURUCZ,K07,0.164
+B4,8547.841,3s^2^ 3p 5p ^3^D_2_,3s3p^3^  ^3^D_3_^o^,-2.778,0.2074,adopted,,8547.841,5.619,-3.062,KURUCZ,K07,0.284
+B4,8543.151,3s^2^ 3p 5p ^3^D_1_,3s3p^3^  ^3^D_1_^o^,-3.894,0.2987,adopted,,8543.151,5.614,-3.502,KURUCZ,K07,-0.392
+B4,8536.164,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[7/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-0.734,0.0585,adopted,,8536.163,6.181,-0.574,KURUCZ,K07,-0.16
+B4,8534.376,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^F_3_^o^,-3.743,0.2819,adopted,,8534.376,6.191,-2.629,KURUCZ,K07,-1.114
+B4,8527.266,3s^2^ 3p 5p ^3^D_2_,3s3p^3^  ^3^D_2_^o^,-3.248,0.2778,adopted,,8527.266,5.616,-3.797,KURUCZ,K07,0.549
+B4,8514.6,3s^2^ 3p 5p ^3^D_2_,3s3p^3^  ^3^D_1_^o^,-3.691,0.2753,adopted,,8514.599,5.614,-5.07,KURUCZ,K07,1.379
+B4,8510.783,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_3_,3s^2^ 3p 3d ^3^F_2_^o^,-2.802,0.0836,adopted,,8510.782,6.181,-2.847,KURUCZ,K07,0.045
+B4,8510.661,3s^2^ 3p 5d ^3^P_1_^o^,3s^2^ 3p 4p ^1^D_2_,-3.513,0.1934,adopted,,8510.661,6.223,-3.606,KURUCZ,K07,0.093
+B4,8510.246,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[5/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-1.747,0.0645,adopted,,8510.245,6.181,-1.702,KURUCZ,K07,-0.045
+B4,8509.656,3s^2^ 3p 4d ^3^D_2_^o^,3s^2^ 3p4p ^1^P_1_,-3.352,0.1165,adopted,,8509.656,5.863,-3.679,KURUCZ,K07,0.327
+B4,8502.219,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_3_,3s^2^ 3p 3d ^1^D_2_^o^,-0.994,0.0475,adopted,,8502.219,5.871,-0.627,KURUCZ,K07,-0.367
+B4,8501.544,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[5/2]_2_,3s^2^ 3p 3d ^1^D_2_^o^,-1.237,0.0484,adopted,,8501.544,5.871,-0.817,KURUCZ,K07,-0.42
+B4,8492.078,3s^2^ 3p 4d ^3^D_1_^o^,3s^2^ 3p4p ^1^P_1_,-2.072,0.048,adopted,,8492.077,5.863,-2.742,KURUCZ,K07,0.67
+B4,8474.74,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_1_,3s^2^ 3p 3d ^3^F_2_^o^,-3.662,0.2808,adopted,,8474.74,6.181,-2.556,KURUCZ,K07,-1.106
+B4,8474.37,3s^2^ 3p(^2^P_3/2_^o^) 5f ^2^[3/2]_2_,3s^2^ 3p 3d ^3^F_2_^o^,-3.864,0.2333,adopted,,8474.37,6.181,-3.092,KURUCZ,K07,-0.772
+B4,8461.483,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^D_2_,-2.632,0.0463,adopted,,8461.483,5.964,-2.757,KURUCZ,K07,0.125
+B4,8443.97,3s^2^ 3p(^2^P_3/2_^o^) 4f ^2^[3/2]_2_,3s^2^ 3p 3d ^1^D_2_^o^,-1.318,0.0465,adopted,,8443.969,5.871,-0.884,KURUCZ,K07,-0.434
+B4,8435.271,3s^2^ 3p 4p ^1^S_0_,3s^2^ 3p 4s ^3^P_1_^o^,-3.291,0.0566,adopted,,8435.271,4.93,-3.138,KURUCZ,K07,-0.153
+B4,8417.904,3s^2^ 3p 5p ^3^D_3_,3s3p^3^  ^3^D_3_^o^,-2.611,0.2481,adopted,,8417.903,5.619,-4.596,KURUCZ,K07,1.985
+B4,8402.986,3s^2^ 3pnd a^3^P_2_^o^,3s^2^ 3p 4p ^3^D_1_,-3.714,0.0573,adopted,,8402.986,5.954,-4.641,KURUCZ,K07,0.927
+B4,8397.949,3s^2^ 3p 5p ^3^D_3_,3s3p^3^  ^3^D_2_^o^,-3.438,0.2582,adopted,,8397.949,5.616,-5.126,KURUCZ,K07,1.688
+B4,8396.818,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.921,0.0464,adopted,,8396.819,6.125,-3.016,KURUCZ,K07,0.095
+B4,8395.314,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^D_2_,-3.047,0.1068,adopted,,8395.313,5.964,-3.07,KURUCZ,K07,0.023
+B4,8374.978,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p4p ^1^P_1_,-3.581,0.0803,adopted,,8374.978,5.863,-3.672,KURUCZ,K07,0.091
+B4,8338.33,"3s^2^ 3p(^2^P_1/2_^o^) 6s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p4p ^1^P_1_,-1.835,0.0704,adopted,,8338.33,5.863,-1.667,KURUCZ,K07,-0.168
+B4,8337.724,3s^2^ 3pnd a^3^P_1_^o^,3s^2^ 3p 4p ^3^D_1_,-3.148,0.0578,adopted,,8337.725,5.954,-3.453,KURUCZ,K07,0.305
+B4,8317.394,3s^2^ 3p 5p ^3^P_0_,3s3p^3^  ^3^D_1_^o^,-2.355,0.1956,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,8315.503,3s^2^ 3pnd a^3^P_0_^o^,3s^2^ 3p 4p ^3^D_1_,-3.391,0.109,adopted,,8315.503,5.954,-3.516,KURUCZ,K07,0.125
+B4,8306.705,3s^2^ 3p 5p ^3^P_1_,3s3p^3^  ^3^D_2_^o^,-2.213,0.1843,adopted,,8306.705,5.616,-2.101,KURUCZ,K07,-0.112
+B4,8305.733,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_3_,-3.259,0.055,adopted,,8305.733,5.984,-3.143,KURUCZ,K07,-0.116
+B4,8297.721,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 4p ^3^S_1_,-2.247,0.0466,adopted,,8297.721,6.125,-2.074,KURUCZ,K07,-0.173
+B4,8294.684,3s^2^ 3p 5p ^3^P_1_,3s3p^3^  ^3^D_1_^o^,-2.53,0.2008,adopted,,8294.684,5.614,-2.587,KURUCZ,K07,0.057
+B4,8253.938,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 4p ^3^S_1_,-2.561,0.0595,adopted,,8253.938,6.125,-2.425,KURUCZ,K07,-0.136
+B4,8250.564,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_2_,-2.856,0.0634,adopted,,8250.564,6.099,-3.517,KURUCZ,K07,0.661
+B4,8236.068,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 4p ^3^S_1_,-3.396,0.0964,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,8230.635,3s^2^ 3p 5p ^3^P_2_,3s3p^3^  ^3^D_3_^o^,-1.817,0.1756,adopted,,8230.635,5.619,-1.651,KURUCZ,K07,-0.166
+B4,8211.557,3s^2^ 3p 5p ^3^P_2_,3s3p^3^  ^3^D_2_^o^,-2.364,0.201,adopted,,8211.558,5.616,-2.395,KURUCZ,K07,0.031
+B4,8199.811,3s^2^ 3p 5p ^3^P_2_,3s3p^3^  ^3^D_1_^o^,-3.412,0.2122,adopted,,8199.811,5.614,-3.546,KURUCZ,K07,0.134
+B4,8197.317,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^S_1_,-3.773,0.138,adopted,,8197.317,6.125,-2.752,KURUCZ,K07,-1.021
+B4,8195.451,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_2_,-2.398,0.0501,adopted,,8195.451,5.964,-2.236,KURUCZ,K07,-0.162
+B4,8179.518,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p4p ^1^P_1_,-4.89,0.0544,unmatched,no canonical row within 0.03 A,,,,,,
+B4,8171.285,3s^2^ 3p 5d ^1^F_3_^o^,3s^2^ 3p 4p ^3^P_2_,-1.543,0.0736,adopted,,8171.285,6.099,-2.142,KURUCZ,K07,0.599
+B4,8164.308,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_1_,-2.142,0.059,adopted,,8164.308,6.083,-2.846,KURUCZ,K07,0.704
+B4,8162.162,3s^2^ 3p 5p ^3^S_1_,3s3p^3^  ^3^D_2_^o^,-2.613,0.1901,adopted,,8162.162,5.616,-2.401,KURUCZ,K07,-0.212
+B4,8154.868,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_2_,-1.758,0.0536,adopted,,8154.868,6.099,-1.766,KURUCZ,K07,0.008
+B4,8150.555,3s^2^ 3p 5p ^3^S_1_,3s3p^3^  ^3^D_1_^o^,-3.003,0.2032,adopted,,8150.555,5.614,-2.88,KURUCZ,K07,-0.123
+B4,8142.824,3s^2^ 3p 5d ^1^P_1_^o^,3s^2^ 3p 4p ^3^P_0_,-2.155,0.0725,adopted,,8142.824,6.079,-2.665,KURUCZ,K07,0.51
+B4,8140.563,3s^2^ 3p 5d ^1^D_2_^o^,3s^2^ 3p 4p ^3^D_1_,-2.197,0.0687,adopted,,8140.563,5.954,-1.762,KURUCZ,K07,-0.435
+B4,8112.579,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_2_,-2.859,0.0483,adopted,,8112.575,6.099,-3.777,KURUCZ,K07,0.918
+B4,8093.232,"3s^2^ 3p(^2^P_3/2_^o^) 6s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p4p ^1^P_1_,-1.086,0.0626,adopted,,8093.232,5.863,-1.075,KURUCZ,K07,-0.011
+B4,8074.574,3s^2^ 3p 5d ^3^F_2_^o^,3s^2^ 3p 4p ^3^D_3_,-3.146,0.0781,unmatched,2 canonical rows within 0.10 A -- ambiguous,,,,,,
+B4,8071.283,3s^2^ 3p 5d ^3^D_3_^o^,3s^2^ 3p 4p ^3^P_2_,-1.318,0.0883,adopted,,8071.283,6.099,-1.192,KURUCZ,K07,-0.126
+B4,8070.591,3s^2^ 3p 5d ^3^D_2_^o^,3s^2^ 3p 4p ^3^P_1_,-1.502,0.0911,adopted,,8070.592,6.083,-1.621,KURUCZ,K07,0.119
+B4,8057.872,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^P_2_,-2.402,0.0526,adopted,,8057.872,6.099,-2.359,KURUCZ,K07,-0.043
+B4,8046.802,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_2_^o^",3s^2^ 3p 4p ^3^S_1_,-1.84,0.0693,adopted,,8046.802,6.125,-1.773,KURUCZ,K07,-0.067
+B4,8035.618,3s^2^ 3p 5d ^3^F_3_^o^,3s^2^ 3p 4p ^3^D_3_,-1.427,0.0576,adopted,,8035.618,5.984,-1.372,KURUCZ,K07,-0.055
+B4,8034.909,3s^2^ 3p 5d ^3^P_2_^o^,3s^2^ 3p 4p ^3^S_1_,-2.87,0.2032,adopted,,8034.909,6.125,-1.932,KURUCZ,K07,-0.938
+B4,8013.042,3s^2^ 3p 5p ^1^D_2_,3s3p^3^  ^3^D_3_^o^,-3.287,0.1485,adopted,,8013.042,5.619,-3.163,KURUCZ,K07,-0.124
+B4,8012.255,"3s^2^ 3p(^2^P_1/2_^o^) 7s_1/2_(1/2,1/2)_0_^o^",3s^2^ 3p 4p ^3^P_1_,-2.164,0.0516,adopted,,8012.255,6.083,-2.272,KURUCZ,K07,0.108
+B4,8009.379,"3s^2^ 3p(^2^P_3/2_^o^) 7s_1/2_(3/2,1/2)_1_^o^",3s^2^ 3p 4p ^3^S_1_,-3.151,0.071,adopted,,8009.379,6.125,-2.949,KURUCZ,K07,-0.202
+B4,8008.387,3s^2^ 3p 5d ^3^D_1_^o^,3s^2^ 3p 4p ^3^P_0_,-1.84,0.0569,adopted,,8008.387,6.079,-1.827,KURUCZ,K07,-0.013

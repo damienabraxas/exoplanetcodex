@@ -398,7 +398,9 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
             if blocked is None:
                 blocked = why
         else:
-            pool_args = ["--lines-from-set", f"{_name}={_row['csv']}"]
+            # Step 7: the set's GRADED lines only -- a line with no published gf uncertainty
+            # is not measured (RYA-1233; the set file keeps every published line).
+            pool_args = ["--lines-from-set", f"{_name}={_row.get('graded_csv') or _row['csv']}"]
     elif descriptor.pool is not None:
         spec = POOLS.get(descriptor.pool)
         if spec is None or method not in spec["methods"]:

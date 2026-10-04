@@ -700,8 +700,8 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
         _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
                         descriptor.ion)
         if _row is not None:
-            rows.append({"kind": "line_set", "name": _row["csv"],
-                         "digest": _file_fingerprint(ROOT / _row["csv"])})
+            _f = _row.get("graded_csv") or _row["csv"]
+            rows.append({"kind": "line_set", "name": _f, "digest": _file_fingerprint(ROOT / _f)})
     # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
     # Named by file name only (the bytes are the identity; a path is a machine fact).
     files, why = holding_source_files(descriptor.holding)
@@ -810,7 +810,9 @@ def line_sets_for(symbol: str, ion: str) -> list[dict]:
             with reg.open(newline="", encoding="utf-8") as fh:
                 for r in csv.DictReader(fh):
                     if r["element"] == symbol and r["ion"] == ion:
-                        with (ROOT / r["csv"]).open(newline="", encoding="utf-8") as g:
+                        # Step 7: a set reaches a cell only through its GRADED lines.
+                        with (ROOT / (r.get("graded_csv") or r["csv"])).open(
+                                newline="", encoding="utf-8") as g:
                             r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
                         rows.append(r)
         _ADAPTERS[key] = rows

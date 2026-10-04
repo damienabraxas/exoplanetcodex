@@ -1,0 +1,16 @@
+# Deshmukh et al. 2022, A&A 668, A48 (arXiv 2212.07485), Table 2 "Atomic data for spectral lines of Si i and Si ii":
+# the lines marked * ("the line was in the chosen subsample"), transcribed by RYA-1233 (2026-10-04) from the local
+# arXiv PDF "Reference documents/Deshmukh2022_solar_Si_CO5BOLD_2212.07485.pdf". "new" log gf = Pehlivan Rhodin (2018);
+# "old" = G73+OBL91 (Garz 1973 + 0.097) or K14 (Kurucz 2014). weight = their 1-3 line weight. E in cm-1.
+species,wavelength_air_A,transition,loggf_old,loggf_old_ref,loggf_new,weight,elow_cm,eupp_cm
+Si I,5645.61,4s 3Po1 - 5p 3P2,-2.04,G73+OBL91,-2.067,1,39760,57468
+Si I,5665.55,4s 3Po0 - 5p 3P1,-1.94,G73+OBL91,-2.025,2,39683,57329
+Si I,5684.48,4s 3Po2 - 5p 3S1,-1.55,G73+OBL91,-1.606,2,39955,57542
+Si I,5690.43,4s 3Po1 - 5p 3P1,-1.77,G73+OBL91,-1.802,3,39760,57328
+Si I,5701.11,4s 3Po1 - 5p 3P0,-1.95,G73+OBL91,-1.981,3,39760,57296
+Si I,5793.07,4s 3Po1 - 5p 3D2,-1.96,G73+OBL91,-1.893,2,39760,57017
+Si I,7680.27,4p 1P1 - 5d 1Do2,-0.59,G73+OBL91,-0.678,2,47284,60301
+Si I,10288.94,4s 3Po0 - 4p 3S1,,,-1.622,2,39683,49400
+Si I,12390.15,4s 1Po1 - 4p 3P1,,,-1.805,2,40992,49061
+Si I,12395.83,4s 3Po2 - 4p 3D1,,,-1.723,2,39955,48020
+Si II,6371.36,4s 2S1/2 - 4p 2Po1/2,-0.040,K14,-0.120,1,65500,81299

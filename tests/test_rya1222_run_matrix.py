@@ -856,7 +856,7 @@ def test_a_set_pool_dispatches_lines_from_set():
                       method="synthesis", pool="set:SI_AGSS21")
     args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
     i = args.index("--lines-from-set")
-    assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI.csv"
+    assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI_graded.csv"
 
 
 def test_a_set_pool_reads_its_own_ions_file():
@@ -868,7 +868,7 @@ def test_a_set_pool_reads_its_own_ions_file():
                       method="synthesis", pool="set:SI_AGSS21")
     args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
     assert args[args.index("--lines-from-set") + 1] == \
-        "SI_AGSS21=data/reference/line_sets/si_agss21_SiII.csv"
+        "SI_AGSS21=data/reference/line_sets/si_agss21_SiII_graded.csv"
 
 
 def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
@@ -889,7 +889,7 @@ def test_a_set_file_is_part_of_its_cells_fingerprint(rm):
                       method="synthesis", pool="set:SI_AGSS21")
     r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
     kinds = {row["kind"]: row["name"] for row in rm.input_fingerprints(d, r, manifest_path=None)}
-    assert kinds.get("line_set") == "data/reference/line_sets/si_agss21_SiI.csv"
+    assert kinds.get("line_set") == "data/reference/line_sets/si_agss21_SiI_graded.csv"
 
 
 def test_every_agss21_si_line_matches_the_synthesis_wavelength():
@@ -900,3 +900,26 @@ def test_every_agss21_si_line_matches_the_synthesis_wavelength():
           csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv")) if r["species"] == "Si I"}
     assert len(rows) == 9
     assert all(round(float(r["wavelength_air_A"]), 3) in cg for r in rows)
+
+
+def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
+    """Step 7 (RYA-1233): CRIRES+ Si was measured on Elgueta's whole set while 32 of its 42
+    lines carried VALD/Kurucz gf nobody had published an uncertainty for. The orchestrator
+    dispatches the set's graded file, and every line in it is priced in canonical_gf."""
+    import csv
+    import math
+    reg = list(csv.DictReader(open(ROOT / "data/reference/line_sets/REGISTRY.csv")))
+    cg = [r for r in csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv"))
+          if r["species"].startswith("Si ")]
+    for r in reg:
+        assert r["graded_csv"].endswith("_graded.csv")
+        for line in csv.DictReader(open(ROOT / r["graded_csv"])):
+            w = float(line["wavelength_air_A"])
+            m = [c for c in cg if c["species"] == line["species"]
+                 and abs(float(c["wavelength_air_A"]) - w) < 0.01]
+            assert len(m) == 1, (r["set_name"], w)
+            sig = m[0]["gf_sigma_dex"]
+            assert (sig and not math.isnan(float(sig))) or m[0]["nist_grade"].strip(), \
+                (r["set_name"], w, "unpriced gf dispatched")
+    elg = next(r for r in reg if r["set_name"] == "SI_ELGUETA2026")
+    assert int(elg["n_graded"]) < int(elg["n_lines"])
