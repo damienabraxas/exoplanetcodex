@@ -44,6 +44,7 @@ DOI = "10.1051/0004-6361/202245686"
 REF = "Pehlivan Rhodin et al. 2024, A&A 682, A184"
 GARZ_LIMIT_A = 8000.0
 TOL_A, CLEAR_A = 0.03, 0.10
+STATUS = "adjudicated_rya1233_pr2024"
 
 
 def vac_to_air(w):
@@ -144,9 +145,8 @@ def main(argv=None) -> int:
             cg.at[i, "gf_source_doi"] = DOI
             cg.at[i, "gf_tier"] = "LAB" if kind == "exp" else "PR2024-CALC"
             cg.at[i, "lab_source_tag"] = "PR2024_exp" if kind == "exp" else "PR2024_calc"
-            cg.at[i, "adjudication_status"] = (
-                "RYA-1233: IR Si I graded on Pehlivan Rhodin 2024 (Lodders 2025: preferred; "
-                "Deshmukh 2022 IR set); previous " f"{old.log_gf} ({old.gf_tier}, {old.loggf_reference})")
+            # A fixed token (RYA-834's convention); the value it replaced is in the audit.
+            cg.at[i, "adjudication_status"] = STATUS
     au = pd.DataFrame(audit)
     print(au.groupby(["source_table", "action"]).size().to_string())
     if not a.check:

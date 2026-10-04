@@ -129,8 +129,13 @@ def test_no_band_row_adopts_nist_as_its_gf():
         # Burheim 2023, an EXPERIMENTAL measurement. The rule this test guards is that
         # nothing in this band adopts a NIST value (asserted above, and still true) —
         # a primary LAB value is exactly what the band was always allowed to have.
+        # `adjudicated_rya1233_pr2024` added deliberately: RYA-1233 graded the IR Si I lines
+        # on Pehlivan Rhodin et al. 2024 (A&A 682, A184) -- experimental branching fractions
+        # and lifetimes, not NIST (asserted above, still true). Si I only.
         assert r.get("adjudication_status") in ("lab_rya834", "single_source",
-                                                "adjudicated_rya1009")
+                                                "adjudicated_rya1009") or (
+            r.get("adjudication_status") == "adjudicated_rya1233_pr2024"
+            and r.get("species") == "Si I")
 
 
 def test_the_summary_records_why_nist_was_not_adopted():
@@ -186,7 +191,11 @@ def test_every_line_above_the_last_lab_measurement_stays_single_source():
             and not (r.get("adjudication_status") == CNO_NIST_STATUS
                      and r.get("species") in CNO_SPECIES)]
     assert band
-    assert all(r["adjudication_status"] == "single_source" for r in band)
+    # Si I above Garz's reach is graded on Pehlivan Rhodin 2024 (RYA-1233): a primary
+    # source, not NIST -- the floor this test states is "never adopt NIST", still held.
+    assert all(r["adjudication_status"] == "single_source"
+               or (r["adjudication_status"] == "adjudicated_rya1233_pr2024"
+                   and r["species"] == "Si I") for r in band)
 
 
 # ── judgement 3: the matcher is controlled ───────────────────────────────────
