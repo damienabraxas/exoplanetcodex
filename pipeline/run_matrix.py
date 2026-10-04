@@ -793,7 +793,8 @@ def pool_tier(descriptor: RunDescriptor) -> str:
     """The feed's `tier` / `selector` token for this cell's pool ('' if none). A published
     line set's token is its set name -- the selector its products are published under."""
     if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
-        return descriptor.pool[len(SET_POOL_PREFIX):]
+        # The publish path's own token (rya1230 budget assembler `_selector`): SET-<NAME>.
+        return "SET-" + descriptor.pool[len(SET_POOL_PREFIX):]
     return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
 
 
@@ -931,7 +932,7 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
     out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
     tag = pool_tier(d)
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
-        tag = f"SET-{tag.upper()}"            # derive's stem tag for --lines-from-set
+        tag = tag.upper()                     # derive's stem tag for --lines-from-set: SET-<NAME>
     pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
            f"{'_' + tag if tag else ''}_*")
     hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]

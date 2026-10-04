@@ -287,7 +287,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
-    g = gf[gf["species"] == SPECIES[element]]
+    # RYA-1233: the species is the PRODUCT's own (element + ion), not a C/N/O-only map --
+    # Si I and Si II run through this same assembler.
+    _ion = str(prod["ion"].iloc[0]).strip() if "ion" in prod.columns else ""
+    species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
+    g = gf[gf["species"] == species]
     ids, sig, src = [], [], []
     for _, l in acc.iterrows():
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
