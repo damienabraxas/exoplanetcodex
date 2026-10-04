@@ -459,6 +459,8 @@ EMPTY_POOL_MARKERS = (
     "a pool of fewer than 2 lines",
     "has no line in",
     "no requested line matched the synthesis list",
+    "Where the population is mostly saturated the deep pool IS this band's graded pool",
+    "Refusing to emit a 'graded' product with no graded line in it",
 )
 
 
