@@ -859,6 +859,18 @@ def test_a_set_pool_dispatches_lines_from_set():
     assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI.csv"
 
 
+def test_a_set_pool_reads_its_own_ions_file():
+    """SI_AGSS21 is two registry rows (Si I, Si II). Keyed on the name alone, every Si II
+    cell was handed the Si I file and refused "7 of 7 lines not in the synthesis list"."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="II", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    assert args[args.index("--lines-from-set") + 1] == \
+        "SI_AGSS21=data/reference/line_sets/si_agss21_SiII.csv"
+
+
 def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (

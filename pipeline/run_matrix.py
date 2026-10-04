@@ -697,7 +697,8 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     # set must re-run its cells.
     if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
         from pipeline.run_descriptor import line_set
-        _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):])
+        _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
+                        descriptor.ion)
         if _row is not None:
             rows.append({"kind": "line_set", "name": _row["csv"],
                          "digest": _file_fingerprint(ROOT / _row["csv"])})

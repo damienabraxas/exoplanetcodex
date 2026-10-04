@@ -196,8 +196,12 @@ LINE_SET_REGISTRY = "data/reference/line_sets/REGISTRY.csv"
 SET_POOL_PREFIX = "set:"
 
 
-def line_set(name: str) -> dict | None:
-    """The registry row of a published line set, or None."""
+def line_set(name: str, element: str, ion: str) -> dict | None:
+    """The registry row of a published line set FOR THIS SPECIES, or None.
+
+    A set name is not unique: SI_AGSS21 is one row per ion (9 Si I lines, 1 Si II line).
+    Keyed on the name alone, the first row won and every Si II cell was handed the Si I
+    file -- 7 of 7 lines "not in the synthesis list" (RYA-1233)."""
     import csv
     from pathlib import Path
     reg = Path(__file__).resolve().parents[1] / LINE_SET_REGISTRY
@@ -205,7 +209,7 @@ def line_set(name: str) -> dict | None:
         return None
     with reg.open(newline="", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
-            if r["set_name"] == name:
+            if r["set_name"] == name and r["element"] == element and r["ion"] == ion:
                 return r
     return None
 
@@ -385,9 +389,10 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
     pool_args: list[str] = []
     if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
         _name = descriptor.pool[len(SET_POOL_PREFIX):]
-        _row = line_set(_name)
+        _row = line_set(_name, descriptor.element, descriptor.ion)
         if _row is None or method != "synthesis":
-            why = (f"line set {_name!r} is not in {LINE_SET_REGISTRY}" if _row is None else
+            why = (f"line set {_name!r} has no {descriptor.element} {descriptor.ion} row in "
+                   f"{LINE_SET_REGISTRY}" if _row is None else
                    f"a published line set is measured on the synthesis route, not {method}")
             checks.append(Precondition("pool_route", False, why))
             if blocked is None:
