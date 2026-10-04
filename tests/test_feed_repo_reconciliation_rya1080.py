@@ -391,8 +391,12 @@ def test_regenerability_gaps_are_recorded_not_silent(findings):
     # population merely being large. NOT a lowered tolerance (RYA-161) -- a different and
     # tighter assertion, and it would fail if RYA-1100 had dropped a gap rather than a
     # duplicate.
-    live = json.loads(FEED.read_text())["products"]
-    on_mac = [p for p in live if str(p["provenance"].get("host", "")).lower() == "mac"]
+    # RYA-1232: count over EVERY feed the check scans (`frr.check` globs solar/*.json), not
+    # Fe.json alone. The equality held only while Fe was the sole feed with committed Mac
+    # artifacts; C/N/O rows gained `copied_to` and the Fe-only count fell 80 short.
+    live = [p for f in sorted(FEED.parent.glob("*.json"))
+            for p in json.loads(f.read_text()).get("products", [])]
+    on_mac = [p for p in live if str((p.get("provenance") or {}).get("host", "")).lower() == "mac"]
     assert len(gaps) == len(on_mac), (
         f"{len(on_mac)} live products were produced on the Mac but {len(gaps)} "
         f"regenerability gaps were recorded — a gap went silent (RYA-1011)")

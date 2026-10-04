@@ -933,6 +933,27 @@ def holding_for_region(region: RegionConfig) -> str:
         f"no holding declared for region {region.name!r} on {region.instrument!r}")
 
 
+def _load_harps_holding(star_id: str, holding: str = 'solar_harps_molecfit_corrected'):
+    """HARPS observed spectrum FOR THE DECLARED HOLDING -> (wave_nm, flux).
+
+    🔴 RYA-1232: every HARPS path here called `_load_observed_spectrum(star_id)`, which
+    opens the RAW `solar_normalized.csv`, while `holding_for_region` (and the product row)
+    named `solar_harps_molecfit_corrected`. So C I 5052/5380, CH, C2, CN red and [O I] 6300
+    were fitted on uncorrected HARPS -- [O I] 6300 sits in the O2 gamma band. The file is
+    now resolved FROM the holding, through the same constant the band route reads
+    (`measure_band_ew.HARPS_TELLCORR_CSV`), and an unmapped holding is refused."""
+    if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+        return _load_observed_spectrum(star_id)
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import measure_band_ew as _mbe                                   # noqa: E402
+    paths = {'solar_harps_molecfit_corrected': _mbe.HARPS_TELLCORR_CSV,
+             'solar_harps': _mbe.HARPS_CSV}
+    if holding not in paths:
+        raise ArmNotWired(f"{star_id}: no HARPS file mapped for holding {holding!r}")
+    print(f"  [arm-load] harps / {holding}: {paths[holding]}")
+    return _load_observed_spectrum(star_id, norm_path=paths[holding])
+
+
 def _load_region_spectrum(star_id: str, region: RegionConfig):
     """The observed spectrum for (star, region) -> (wave_nm, flux).
 
@@ -944,7 +965,7 @@ def _load_region_spectrum(star_id: str, region: RegionConfig):
     atlas is right there.
     """
     if region.instrument.lower().startswith('harps'):
-        return _load_observed_spectrum(star_id)
+        return _load_harps_holding(star_id, holding_for_region(region))
     if region.holding and region.instrument in ('kpno_solar_atlas', 'crires_plus'):
         # An explicitly-held region reads through the ONE generic reader, by holding.
         return _load_generic_atlas_arm(star_id, region, holding_for_region(region))
@@ -1112,7 +1133,7 @@ def resolve_arm_spectrum(star_id: str, arm: ArmWiring):
     if not arm.ready:
         raise ArmNotWired(f"{star_id}/{arm.name}: {arm.defer_reason}")
     if arm.loader == 'harps_normalized':
-        return _load_observed_spectrum(star_id)
+        return _load_harps_holding(star_id)
     if arm.loader == 'reflected_solar':
         if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
             raise ArmNotWired(
@@ -1706,7 +1727,8 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
                                         True, tmp_dir)
 
     _f_A, local_continuum_records = _lc.apply_to_windows_model_guided(
-        np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply)
+        np.asarray(obs_w) * 10.0, obs_f, _all_windows, _model, apply=_apply,
+        solar_R=(float(region.R) if star_id == 'solar' else None))
     obs_f = _f_A
     if _os.environ.get("CODEX_CONT_SCALE"):
         obs_f = np.asarray(obs_f, float) / float(_os.environ["CODEX_CONT_SCALE"])
@@ -2106,7 +2128,7 @@ def oi_blend_partition(star_id: str = 'solar', *, tmp_dir: str = '/tmp/ispec_cno
     atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
     ll, iso, chem = _load_synth_resources()        # already canonical-gf (RYA-353)
     sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
-    obs_w, obs_f = _load_observed_spectrum(star_id)
+    obs_w, obs_f = _load_harps_holding(star_id, holding_for_region(region))
     codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
 
     # CRITICAL: the live Ni gf MUST equal the gf_resolver canonical (no hardcoded copy).

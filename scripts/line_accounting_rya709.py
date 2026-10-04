@@ -73,6 +73,41 @@ def features(ll: pd.DataFrame, element: str) -> pd.DataFrame:
         d=("central_depth", "max"), n=("wavelength_air_A", "size")).reset_index(drop=True)
 
 
+def accounting_rows_for(element: str, ion: str, waves, star: str = "solar") -> pd.DataFrame:
+    """Accounting rows for NAMED lines, built exactly as `audit` builds them (same feature
+    grouping, coverage and canonical-gf annotation) but WITHOUT the triage depth window.
+
+    RYA-1232: `DEPTH_LO = 0.05` is documented as "never a science threshold -- nothing
+    downstream reads it", but `measure_band_profilefit` selects from this table, so the
+    literature's solar N I lines (3-6% deep, Amarsi+2020's five) were unmeasurable by the
+    EW route. A pool somebody else CHOSE (`--lines-from`) is measured whatever its depth;
+    these rows are how it gets the same accounting fields. `depth_bypass` marks them.
+    """
+    ll = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
+    g = features(ll, element)
+    g = g[g.ion.astype(str) == str(ion)]
+    out = []
+    for w in waves:
+        if g.empty:
+            break
+        d = np.abs(g.w.values - float(w))
+        i = int(np.argmin(d))
+        if d[i] > GROUP_A:
+            continue
+        r = g.iloc[i]
+        ins = tuple(c.instrument_id for c in coverage_at(float(r.w), star).covering)
+        out.append(dict(element=element, ion=str(ion), wave_air_A=round(float(r.w), 4),
+                        log_gf=round(float(r.gf), 3), ep_eV=round(float(r.ep), 4),
+                        predicted_depth=round(float(r.d), 4), instruments="|".join(ins),
+                        measured_in_pool=False, depth_bypass=True))
+    pl = pd.DataFrame(out)
+    if len(pl):
+        pl, _ = annotate_used_gf(
+            pl, wl_col="wave_air_A", ep_col="ep_eV", gf_col="log_gf",
+            intake_source="linelist_solar.csv (VALD intake, max over the HFS cluster)")
+    return pl
+
+
 def audit(star: str = "solar") -> dict:
     ll = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
     pool = pd.read_csv(ROOT / "data" / "measured" / "sol_ew_results_v1.csv", comment="#")

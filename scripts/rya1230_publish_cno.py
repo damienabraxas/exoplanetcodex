@@ -18,9 +18,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-REASON = ("RYA-1230 re-run: molecular opacity in every band + the standing local-continuum "
-          "rule; RYA-587 budget from paired legs on this pool (xi, core window, envelope "
-          "estimator, model grid, telluric, CN blends)")
+REASON = ("RYA-1232 re-run on prepared spectra: full-range telluric (KP + HARPS molecfit), "
+          "molecular opacity in every band, continuum placed relative to the synthesis "
+          "(3-MAD clipped); RYA-587 budget from paired legs on this pool (xi, core window, "
+          "continuum placement + IAG-atlas reference, model grid + Asplund 3D term, Asplund "
+          "NLTE term, telluric, CN blends; single-line pools by profile-fit sigma)")
 
 
 def main() -> int:
@@ -28,6 +30,9 @@ def main() -> int:
     ap.add_argument("--report", type=Path, required=True)
     ap.add_argument("--stage", type=Path, required=True)
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--origin-dir", type=Path, default=None,
+                    help="where the staged artifacts were PRODUCED; with --stage under the "
+                         "repo this records copied_to (feed_repo_reconciliation)")
     a = ap.parse_args()
     rows = json.loads(a.report.read_text())["products"]
     done, rc_all = set(), 0
@@ -43,6 +48,8 @@ def main() -> int:
                "--element", r["element"], "--star", "solar", "--reason", REASON]
         if r.get("selector"):
             cmd += ["--selector", r["selector"]]
+        if a.origin_dir is not None:
+            cmd += ["--origin-path", str(a.origin_dir / r["prod_stem"])]
         if not a.apply:
             cmd.append("--dry-run")
         p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
