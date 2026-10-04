@@ -55,6 +55,17 @@ entries:
     scale: 3D-LTE + 1D-NLTE delta
     role: corroborating (pre-3D-NLTE)
 
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07); local AbundancesLodders.pdf
+    value: 7.56
+    sigma: 0.05
+    scale: compiled photospheric (see their text)
+    role: corroborating (independent compilation)
+    note: >-
+      Their recommended photospheric A(Si); meteoritic-scaled 7.55 +/- 0.02. They note line
+      selection and the Pehlivan Rhodin 2024 gf move Si by up to +0.05-0.09. Not the band
+      centre -- the band is the dossier's best external (Amarsi & Asplund 2017).
+
   - source: Pehlivan Rhodin, Hartman, Nilsson & Joensson 2021
     citation: A&A (theoretical gf)
     value: 7.53
