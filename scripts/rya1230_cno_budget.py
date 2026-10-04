@@ -126,7 +126,17 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                               ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-                                                   ("iag_fts_solar_atlas", "solar_iag")]}
+                                                   ("iag_fts_solar_atlas", "solar_iag")],
+                #: RYA-1233: the Elgueta CRIRES+ Y products (9800-10796 A). Independent
+                #: corrections there: KP molecfit (full coverage), IAG (to 10650 A), Kurucz
+                #: 2005 (to 10010 A). The two Y holdings are ONE source (sp/Sun_Y_rv.dat), so
+                #: neither is the other's independent check.
+                "solar_crires_plus_y_wide_rya1054": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                                     ("iag_fts_solar_atlas", "solar_iag"),
+                                                     ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
+                "solar_crires_plus_y_rya794": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                               ("iag_fts_solar_atlas", "solar_iag"),
+                                               ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")]}
 _EDGE: dict = {}
 _SPAN: dict = {}
 

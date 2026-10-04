@@ -960,22 +960,10 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "sampling than Baker (4.06M vs 728K points)."),
     ),
     "crires_plus": (
-        # RYA-1233: these two holdings read RYA-1214's REST-FRAME products. They used to
-        # read RYA-1219's molecfit FITS directly -- TOPOCENTRIC and in VACUUM (measured
-        # +107 km/s against Kitt Peak), from a path inside the checkout where the FITS never
-        # were -- so the J/K holdings were empty everywhere, and wrong had they not been.
-        # RYA-1214 conditioned both arms (8/8 frames pass, frame matches Y/H) and its
-        # products have been on main since 4f891cea; nothing pointed at them.
-        HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_y",
-                    pre_normalised=True, span_A=(11159.9, 13489.5),
-                    path_key="repo.crires_plus_solar_j_rya1219",
-                    note="RYA-1219 full-arm J molecfit products, rest-frame conditioned and "
-                         "air by RYA-1214 (scripts/rya1214_condition_crires_jk.py)."),
-        HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_y",
-                    pre_normalised=True, span_A=(19452.4, 24845.6),
-                    path_key="repo.crires_plus_solar_k_rya1219",
-                    note="RYA-1219 full-arm K molecfit products, rest-frame conditioned and "
-                         "air by RYA-1214 (scripts/rya1214_condition_crires_jk.py)."),
+        # RYA-1233: a STALE first pair of J/K specs (reader crires_corrected_j/k: RYA-1219's
+        # topocentric, VACUUM molecfit FITS, +107 km/s against Kitt Peak, from a path never in
+        # the checkout) sat HERE, ahead of the rest-frame specs below with the SAME ids --
+        # and selection by id returns the first, so J/K were empty everywhere. Removed.
         HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
                     span_A=(10280.0, 10680.0), caveat=GDSAT_CAVEAT,
                     note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
