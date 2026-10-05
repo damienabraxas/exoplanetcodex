@@ -126,7 +126,17 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                               ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-                                                   ("iag_fts_solar_atlas", "solar_iag")]}
+                                                   ("iag_fts_solar_atlas", "solar_iag")],
+                #: RYA-1233: the Elgueta CRIRES+ Y products (9800-10796 A). Independent
+                #: corrections there: KP molecfit (full coverage), IAG (to 10650 A), Kurucz
+                #: 2005 (to 10010 A). The two Y holdings are ONE source (sp/Sun_Y_rv.dat), so
+                #: neither is the other's independent check.
+                "solar_crires_plus_y_wide_rya1054": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                                     ("iag_fts_solar_atlas", "solar_iag"),
+                                                     ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
+                "solar_crires_plus_y_rya794": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                               ("iag_fts_solar_atlas", "solar_iag"),
+                                               ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")]}
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -287,7 +297,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
-    g = gf[gf["species"] == SPECIES[element]]
+    # RYA-1233: the species is the PRODUCT's own (element + ion), not a C/N/O-only map --
+    # Si I and Si II run through this same assembler.
+    _ion = str(prod["ion"].iloc[0]).strip() if "ion" in prod.columns else ""
+    species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
+    g = gf[gf["species"] == species]
     ids, sig, src = [], [], []
     for _, l in acc.iterrows():
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)

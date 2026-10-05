@@ -1,0 +1,229 @@
+J/A+A/682/A184      Atomic Data for SiI and SiII        (Pehlivan Rhodin+, 2024)
+================================================================================
+Accurate and experimentally validated transition data for Si I and Si II.
+    Pehlivan Rhodin A., Hartman H., Nilsson H., Jonsson P.
+    <Astron. Astrophys. 682, A184 (2024)>
+    =2024A&A...682A.184P        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data - methods: laboratory: atomic - methods: numerical -
+          techniques: spectroscopic
+
+Abstract:
+    In this work, we analyse spectra of neutral silicon from laboratory
+    measurements and perform atomic structure calculations both for
+    neutral and singly ionised silicon. We report accurate oscillator
+    strengths of SiI and SiII lines, including lines from highly excited
+    levels.
+
+    We have performed large scale atomic structure calculations with the
+    relativistic multiconfiguration Dirac-Hartree-Fock method using the
+    GRASP2K package to determine log gf values of SiI and SiII lines,
+    taking into account valence-valence and core-valence electron
+    correlation. In addition, we have derived oscillator strengths of SiI
+    lines by combining the experimental branching fractions with radiative
+    lifetimes from our calculations. The silicon plasma has been obtained
+    from a hollow cathode discharge lamp and the intensity-calibrated
+    high-resolution spectra have been recorded by a Fourier transform
+    spectrometer.
+
+    We provide an extensive set of accurate experimental and theoretical
+    loggf values. 17 loggf values of SiI lines in the infrared were
+    derived for the first time from experimental measurements. The
+    experimental uncertainties of f-values vary between 5% for the strong
+    lines and 25% for the weak lines. The theoretical values agree very
+    well with the experimental values of this study and complete the
+    missing transitions involving levels up to 3s^2^ 3p7s of SiI. In
+    addition, we provide accurate calculated loggf values of SiII lines
+    from the levels up to 3s^2^ 7f.
+
+Description:
+    Atomic transition data for SiI and SiII are presented in the tables.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+tableb1.dat       73      118   SiI energy levels
+tableb2.dat       86      113   Radiative lifetimes of SiI levels
+tableb3.dat       99       17   log(gf) values for SiI
+tableb4.dat      163     1533   Radiative transition data of SiI
+tableb5.dat       53       56   SiII energy levels
+tableb6.dat       73       53   Radiative lifetimes of SiII levels
+tableb7.dat      100       15   SiII A-values
+tableb8.dat      115      448   Radiative transition data of SiII
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 36  A36   ---     Level     Energy level configuration
+  38- 42  I5    cm-1    Energy    Energy from this work
+  44- 51  F8.2  cm-1    Energy2   ? Energy from W16 (1)
+  53- 57  I5    cm-1    Energy3   ? Energy from CFF06 (2)
+  59- 63  I5    cm-1    Energy4   ? Energy from S15 (3)
+  65- 73  F9.3  cm-1    Energy5   Energy from M&Z83 (4)
+--------------------------------------------------------------------------------
+Note (1): Energy level value from Wu et al., 2016CaJPh..94..359W
+Note (2): Energy level value from Froese Fischer et al., 2006ADNDT..92..607F
+Note (3): Energy level value from Savukov, 2016PhRvA..93b2511S
+Note (4): Energy level value from Martin and Zalubas, 1983JPCRD..12..323M
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label      Explanations
+--------------------------------------------------------------------------------
+   1- 46  A46   ---     Level      Energy level designation
+  48- 56  F9.3  cm-1    Energy     Energy from M&Z83 (1)
+  58- 66  F9.2  ns      Lifetime   Radiative lifetime from this work (2)
+  68- 77  F10.2 ns      Lifetime2  ? Radiative lifetime from CFF05 (3)
+  79- 82  F4.1  ns      Lifetime3  ? Radiative lifetime from OL91 (4)
+  84- 86  F3.1  ns    e_Lifetime3  ? Radiative lifetime error from OL91 (4)
+--------------------------------------------------------------------------------
+Note (1): Energy level value from Martin and Zalubas, 1983JPCRD..12..323M
+Note (2): Radiative lifetime from this work
+Note (3): Radiative lifetime from Froese Fischer, 2005PhRvA..71d2506F
+Note (4): Radiative lifetime from O'Brian and Lawler, 1991PhRvA..44.7134O
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb3.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label       Explanations
+--------------------------------------------------------------------------------
+   1- 17  A17   ---     ULevel      Upper Energy level designation
+  19- 38  A20   ---     LLevel      Lower Energy level designation
+  40- 47  F8.3  nm      lambda      Transition wavelength (1)
+  49- 56  F8.3  cm-1    Wavenumber  Transition wavenumber (1)
+  58- 63  F6.4  ---     BF          Branching fraction
+  65- 66  I2    %     e_BF          Branching fraction uncertainty
+  68- 75  E8.3  s-1     Aul         Transition probability
+  77- 82  F6.3  ---     loggfExp    Experimental oscillator strengths
+  84- 87  F4.2  ---   e_loggfExp    Experimental oscillator strengths error
+  89- 94  F6.3  ---     loggfCal    Calculated oscillator strengths
+  96- 99  F4.2  ---   e_loggfCal    Calculated oscillator strengths error
+--------------------------------------------------------------------------------
+Note (1): Wavelengths and wavenumbers derived from energy levels as presented
+  in NIST database (http://physics.nist.gov/asd [accessed: 2017-12-05]).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label       Explanations
+--------------------------------------------------------------------------------
+   1- 46  A46   ---     ULevel      Upper Energy level designation
+  48- 93  A46   ---     LLevel      Lower Energy level designation
+  95-103  F9.3  cm-1    Wavenumber  Transition wavenumber (1)
+ 105-113  F9.4  nm      lambda      Transition vacuum wavelength (1)
+     115  A1    ---   n_lambda      [*] * for wavelength from Ritz numbers (2)
+ 119-127  E9.4  s-1     A           Transition probability
+ 129-137  E9.4  --      gf          Calculated weighted oscillator strength
+ 139-147  E9.4  s-1     Aresc       Rescaled transition probability
+ 149-157  E9.4  --      gfresc      Rescaled calculated weighted oscillator
+                                     strength
+ 159-163  F5.3  --      funcert     Uncertainty oscillator strengths (G1)
+--------------------------------------------------------------------------------
+Note (1): Wavelengths and wavenumbers derived from energy levels as presented
+  in NIST database (http://physics.nist.gov/asd [accessed: 2017-12-05])
+  where available, else from Ritz numbers (n_lambda = *).
+Note (2): * for Ritz wavelengths calculated from the energy differences;
+  these transitions are not identified in the NIST database.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb5.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 23  A23   ---     Level     Energy level configuration
+  25- 30  I6    cm-1    Energy    Energy from this work
+  32- 36  I5    cm-1    Energy2   ? Energy from CFF06 (1)
+  38- 43  I6    cm-1    Energy3   ? Energy from A&K14 (2)
+  45- 53  F9.2  cm-1    Energy4   Energy from M&Z83 (3)
+--------------------------------------------------------------------------------
+Note (1): Energy level value from Froese Fischer et al., 2006ADNDT..92..607F
+Note (2): Energy level value from Aggarwal and Keenan, 2014MNRAS.442..388A
+Note (3): Energy level value from Martin and Zalubas, 1983JPCRD..12..323M
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb6.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 23  A23   ---     Level     Energy level designation
+  25- 33  F9.2  cm-1    Energy    Energy from M&Z83 (1)
+  35- 43  F9.2  ns      tau       Radiative lifetime from this work (2)
+  45- 54  F10.2 ns      tau2      ? Radiative lifetime from CFF06 (3)
+  56- 63  F8.1  ns      tau3      ? Radiative lifetime from experiments
+  65- 71  F7.1  ns    e_tau3      ? Radiative lifetime error from experiments
+      73  A1    ---   r_tau3      [cde] Reference for Lifetime3 (4)
+--------------------------------------------------------------------------------
+Note (1): Energy level value from Martin and Zalubas, 1983JPCRD..12..323M
+Note (2): Radiative lifetime from this work
+Note (3): Radiative lifetime from Froese Fischer, 2006ADNDT..92..607F
+Note (4): Radiative lifetimes from experiment as follows:
+          c = Bashkin et al., 1980PhyS...21..820B
+          d = Calamai et al., 1993ApJ...415L..59C
+          e = Bergeson and Lawler, 1993ApJ...414L.137B
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb7.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 17  A17   ---     ULevel    Upper Energy level designation
+  19- 26  F8.2  cm-1    UEnergy   Energy upper level
+  28- 47  A20   ---     LLevel    Lower Energy level designation
+  49- 54  F6.2  cm-1    LEnergy   Energy lower level
+  56- 62  F7.3  nm      lambda    Transition vacuum wavelength (1)
+  64- 71  E8.3  s-1     A         Transition probability, this calculation
+  73- 76  I4    s-1     Aexp      ? Transition probability, exp C93 (2)
+  78- 80  I3    s-1   e_Aexp      ? Transition probability error, exp C93 (2)
+  84- 91  E8.3  s-1     Atheo1    Transition probability, calc N98 (3)
+  93-100  E8.3  s-1     Atheo2    Transition probability, calc AK14 (4)
+--------------------------------------------------------------------------------
+Note (1): Wavelength and wavenumber values are from the NIST database
+          (http://physics.nist.gov/asd[accessed: 2017-12-05]) when available.
+Note (2): Calamai et al., 1993ApJ...415L..59C
+Note (3): Nahar, 1993PhyS...48..297N
+Note (4): Aggarwal and Keenan, 2014MNRAS.442..388A
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: tableb8.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label      Explanations
+--------------------------------------------------------------------------------
+   1- 22  A22   ---     ULevel     Upper Energy level designation
+  24- 45  A22   ---     LLevel     Lower Energy level designation
+  47- 55  F9.2  cm-1    Wavenumber Transition wavenumber (1)
+  57- 65  F9.4  nm      lambda     Transition vacuum wavelength (1)
+      67  A1    ---   n_lambda     [*] * for wavelength from Ritz numbers (2)
+  71- 79  E9.4  s-1     A          Transition probability
+  81- 89  E9.4  --      gf         Calculated weighted oscillator strengths
+  91- 99  E9.4  s-1     Aresc      Rescaled transition probability
+ 101-109  E9.4  --      gfresc     Rescaled calculated weighted oscillator
+                                    strengths
+ 111-115  F5.3  --      funcert    Uncertainty oscillator strengths (G1)
+--------------------------------------------------------------------------------
+Note (1): Wavelengths and wavenumbers derived from energy levels as presented
+  in NIST database (http://physics.nist.gov/asd[accessed: 2017-12-05])
+  where available, else from Ritz numbers (n_lambda = *).
+Note (2): * for Ritz wavelengths calculated from the energy differences;
+  these transitions are not identified in the NIST database.
+--------------------------------------------------------------------------------
+
+Global notes:
+Note (G1): Estimated uncertainties based on the expression
+  u(f)/f=(A_l_-A_v_)/max(A_l_,A_v_), where A_l_ and A_v_ are the transition
+  rates in length and velocity forms (Ekman et al., 2014, Atoms, 2, 215).
+  Uncertainties were rounded to three decimals. The large uncertainties in some
+  of the oscillator strengths are, in general, due to the difficulties in
+  calculating the two-electron transitions or intercombination lines.
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+    Henrik Hartman, Henrik.Hartman(at)mau.se
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  20-Feb-2024

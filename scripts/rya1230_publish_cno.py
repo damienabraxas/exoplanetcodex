@@ -30,6 +30,9 @@ def main() -> int:
     ap.add_argument("--report", type=Path, required=True)
     ap.add_argument("--stage", type=Path, required=True)
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--reason", default=REASON,
+                    help="RYA-1233: the publish reason recorded on every product (RYA-1034); "
+                         "defaults to the C/N/O text -- pass the element's own")
     ap.add_argument("--origin-dir", type=Path, default=None,
                     help="where the staged artifacts were PRODUCED; with --stage under the "
                          "repo this records copied_to (feed_repo_reconciliation)")
@@ -45,7 +48,7 @@ def main() -> int:
         done.add(src)
         cmd = [sys.executable, "scripts/publish_product.py", "--from", str(src),
                "--holding", r["holding"], "--tier", "ALL", "--route", "SYNTH",
-               "--element", r["element"], "--star", "solar", "--reason", REASON]
+               "--element", r["element"], "--star", "solar", "--reason", a.reason]
         if r.get("selector"):
             cmd += ["--selector", r["selector"]]
         if a.origin_dir is not None:

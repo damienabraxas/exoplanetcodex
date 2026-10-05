@@ -69,7 +69,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
-                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS)
+                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS,
+                                     LINE_SET_REGISTRY, SET_POOL_PREFIX)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
@@ -349,7 +350,7 @@ def holdings_for(star: str) -> list[dict]:
 _EQUILIBRIUM_PARAMS = {"teff", "logg", "xi"}
 
 
-def process_steps(star: str, symbol: str) -> list[dict]:
+def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list[dict]:
     """The element-level steps that must be complete before ANY cell of this element is
     measured: 1 star, 5 litscan, 8 stellar parameters, 9 iron first. One row per step:
     {step, name, ok, evidence}. Evidence names the artifact either way."""
@@ -363,15 +364,34 @@ def process_steps(star: str, symbol: str) -> list[dict]:
         params = None
         rows.append({"step": 1, "name": "star selected", "ok": False,
                      "evidence": f"config/stars.yaml: {exc}"})
+    # Step 5 is per ION: a litscan names the ion it covers (Fe.yaml is Fe I and says Fe II
+    # is tracked separately), so Fe II is not "done" because Fe I's literature is.
     lit = LITSCAN_DIR / f"{symbol}.yaml"
     try:
         lit_name = str(lit.relative_to(ROOT))
     except ValueError:
         lit_name = str(lit)
-    rows.append({"step": 5, "name": "literature (litscan)", "ok": lit.exists(),
-                 "evidence": (lit_name if lit.exists() else
-                              f"no {lit_name} -- the literature on this element for this "
-                              f"star has not been gathered")})
+    lit_ions: list[str] = []
+    if lit.exists():
+        try:
+            import yaml
+            _doc = yaml.safe_load(lit.read_text(encoding="utf-8")) or {}
+            # `ions` when one literature value covers several ions (Si: Si I + Si II
+            # determined jointly); otherwise the single `ion`.
+            lit_ions = [str(i).strip() for i in (_doc.get("ions") or [_doc.get("ion", "I")])]
+        except Exception as exc:                               # noqa: BLE001
+            print(f"WARNING: {lit_name} unreadable ({type(exc).__name__}: {exc})",
+                  file=sys.stderr)
+    lit_ion = "/".join(lit_ions) if lit_ions else None
+    for ion in (ions or ["I"]):
+        ok = ion in lit_ions
+        rows.append({"step": 5, "name": f"literature (litscan) {symbol} {ion}", "ok": ok,
+                     "ion": ion,
+                     "evidence": (lit_name if ok else
+                                  f"{lit_name} covers {symbol} {lit_ion}, not {symbol} {ion}"
+                                  if lit_ion else
+                                  f"no {lit_name} -- the literature on this element for "
+                                  f"this star has not been gathered")})
     if params is not None:
         unsolved = sorted(set(params.get("solve", [])) & _EQUILIBRIUM_PARAMS)
         rows.append({"step": 8, "name": "stellar parameters", "ok": not unsolved,
@@ -397,12 +417,15 @@ def _canonical_species(symbol: str, ion: str):
     key = ("canon", symbol, ion)
     if key not in _ADAPTERS:
         import pandas as pd
-        from pipeline.gf_empirical import GRADED_TIERS
         df = pd.read_csv(CANONICAL_GF, low_memory=False,
                          usecols=["species", "wavelength_air_A", "gf_tier"])
         df = df[df.species.astype(str) == f"{symbol} {ion}"]
+        # The SAME definition derive_band_products' Reference / Codex / Deep selectors use:
+        # LAB-tier lines (`gf_tier` contains "LAB"). NIST-C+ is a better gf, not a graded
+        # pool -- counting it here dispatched 39 solar Si cells that derive then refused
+        # with "a pool that is not graded" (RYA-1233 Si run, 2026-10-03).
         _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
-                          df.gf_tier.astype(str).isin(GRADED_TIERS).values)
+                          df.gf_tier.astype(str).str.contains("LAB", na=False).values)
     return _ADAPTERS[key]
 
 
@@ -414,6 +437,8 @@ def cell_process_hold(d: RunDescriptor) -> str:
     if spec is not None and not spec.pre_normalised:
         return (f"PROCESS step 4 (continuum): {d.holding} ships no continuum-normalised "
                 f"product; the per-band continuum is prepared once, before measurement")
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        return ""          # a published set's lines in this window ARE the graded pool
     w, graded = _canonical_species(d.element, d.ion)
     inwin = (w >= d.lo_A) & (w <= d.hi_A)
     if not inwin.any():
@@ -421,9 +446,22 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 f"{d.element} {d.ion} line in {d.lo_A:g}-{d.hi_A:g} A")
     if not (inwin & graded).any():
         return (f"PROCESS step 7 (graded lines): none of the {int(inwin.sum())} "
-                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a lab-"
-                f"graded gf, so no Reference / Codex / Deep pool exists here")
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a LAB-tier "
+                f"gf, so no Reference / Codex / Deep pool exists here")
     return ""
+
+
+#: derive_band_products' own refusals of an empty / too-small pool, all raised before any
+#: synthesis runs. Matched on its message text so nothing is re-decided here.
+EMPTY_POOL_MARKERS = (
+    "pool that is not graded",
+    "no graded line in this band sits above the EW depth gate",
+    "a pool of fewer than 2 lines",
+    "has no line in",
+    "no requested line matched the synthesis list",
+    "Where the population is mostly saturated the deep pool IS this band's graded pool",
+    "Refusing to emit a 'graded' product with no graded line in it",
+)
 
 
 def is_raw(h: dict) -> bool:
@@ -574,12 +612,20 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             want_m = want_m or [None]
             for ion in want_ions:
                 for deck in want_decks:
+                    # RYA-1233 (step 7): the published reference sets with a line in
+                    # this window -- Asplund's in VIS, Elgueta's / Bergemann's in the IR.
+                    sets_here = [SET_POOL_PREFIX + r["set_name"]
+                                 for r in line_sets_for(symbol, ion)
+                                 if any(lo <= w <= hi for w in r["waves"])]
                     for m in want_m:
                         # RYA-1233 (process step 7): every cell measures a GRADED pool,
                         # one cell per pool this route can measure.
-                        for pool in [k for k, v in POOLS.items()
-                                     if (m is None or m in v["methods"])
-                                     and (not pools or k in pools)]:
+                        lab_pools = [k for k, v in POOLS.items()
+                                     if (m is None or m in v["methods"])]
+                        set_pools = sets_here if m in (None, "synthesis") else []
+                        for pool in [p for p in set_pools + lab_pools
+                                     if not pools or p in pools
+                                     or (p.startswith(SET_POOL_PREFIX) and "set" in pools)]:
                             out.append(RunDescriptor(
                                 element=symbol, ion=ion, instrument=inst, holding=hid,
                                 lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool))
@@ -647,6 +693,15 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if manifest_path:
         rows.append({"kind": "holding_manifest", "name": manifest_path,
                      "digest": _file_fingerprint(ROOT / manifest_path)})
+    # RYA-1233: a published-set pool's line list is an input like any other -- a corrected
+    # set must re-run its cells.
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        from pipeline.run_descriptor import line_set
+        _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
+                        descriptor.ion)
+        if _row is not None:
+            _f = _row.get("graded_csv") or _row["csv"]
+            rows.append({"kind": "line_set", "name": _f, "digest": _file_fingerprint(ROOT / _f)})
     # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
     # Named by file name only (the bytes are the identity; a path is a machine fact).
     files, why = holding_source_files(descriptor.holding)
@@ -736,8 +791,32 @@ def route_of(descriptor: RunDescriptor) -> str:
 
 
 def pool_tier(descriptor: RunDescriptor) -> str:
-    """The feed's `tier` / `selector` token for this cell's graded pool ('' if none)."""
+    """The feed's `tier` / `selector` token for this cell's pool ('' if none). A published
+    line set's token is its set name -- the selector its products are published under."""
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        # The publish path's own token (rya1230 budget assembler `_selector`): SET-<NAME>.
+        return "SET-" + descriptor.pool[len(SET_POOL_PREFIX):]
     return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+
+
+def line_sets_for(symbol: str, ion: str) -> list[dict]:
+    """Published reference line sets for this species (RYA-1233, process step 7), each with
+    its wavelengths. From data/reference/line_sets/REGISTRY.csv; none is not an error."""
+    key = ("sets", symbol, ion)
+    if key not in _ADAPTERS:
+        rows = []
+        reg = ROOT / LINE_SET_REGISTRY
+        if reg.exists():
+            with reg.open(newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r["element"] == symbol and r["ion"] == ion:
+                        # Step 7: a set reaches a cell only through its GRADED lines.
+                        with (ROOT / (r.get("graded_csv") or r["csv"])).open(
+                                newline="", encoding="utf-8") as g:
+                            r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
+                        rows.append(r)
+        _ADAPTERS[key] = rows
+    return _ADAPTERS[key]
 
 
 def cell_prefix_key(descriptor: RunDescriptor) -> str:
@@ -854,8 +933,11 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
     line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
     """
     out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
+    tag = pool_tier(d)
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        tag = tag.upper()                     # derive's stem tag for --lines-from-set: SET-<NAME>
     pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
-           f"{'_' + pool_tier(d) if pool_tier(d) else ''}_*")
+           f"{'_' + tag if tag else ''}_*")
     hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
     return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
             for f in sorted(hits)]
@@ -1094,10 +1176,12 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
     produced_this_run: set[str] = set()
 
-    steps = process_steps(star, symbol)
+    steps = process_steps(star, symbol, sorted({d.ion for d in descriptors}) or None)
     missing = [r for r in steps if not r["ok"]]
-    element_hold = "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
-                             for r in missing)
+
+    def element_hold_for(ion: str) -> str:
+        return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
+                         for r in missing if r.get("ion") in (None, ion))
 
     cells: list[CellResult] = []
     for d in descriptors:
@@ -1110,8 +1194,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         cells.append(cell)
 
         # ── P. Ryan's governing process: steps 1-9 before measurement (RYA-1233) ─
-        if element_hold:
-            cell.status, cell.reason = HELD, element_hold
+        _eh = element_hold_for(d.ion)
+        if _eh:
+            cell.status, cell.reason = HELD, _eh
             continue
         _hold = cell_process_hold(d)
         if _hold:
@@ -1214,7 +1299,13 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                 break
             produced_this_run.add(sig)
         if not ok:
-            cell.status, cell.reason = FAILED, detail
+            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
+            # process-step-7 fact about the lines, not a failure of the run.
+            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+            else:
+                cell.status, cell.reason = FAILED, detail
             continue
         # RYA-1233: record the build whether or not it is published, so unchanged work
         # is never redone. What it was built from (spectrum included) and what it wrote.
@@ -1248,8 +1339,23 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                      process=steps,
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
+    # RYA-1234 (governing process steps 12-13): every element run ends with its literature
+    # check and problem lines, written into this report. Here, not in the sweep, so the
+    # single-element path gets it too. Loud on failure; it never undoes the run above.
+    try:
+        from pipeline import element_verdict
+        ev = element_verdict.verdict(star, element, report_dir=report_dir)
+        report["verdict"], report["problem_lines"] = ev["verdict"], ev["problem_lines"]
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: element verdict for {star} {element} failed: "
+              f"{type(exc).__name__}: {exc}", file=sys.stderr)
+        report["verdict"] = {"element_verdict": "ERROR",
+                             "error": f"{type(exc).__name__}: {exc}"}
     if echo:
         print(render(report))
+        v = report.get("verdict") or {}
+        print(f"verdict: {v.get('element_verdict')}  {v.get('counts', '')}  "
+              f"problem lines: {len(report.get('problem_lines') or [])}")
     return report
 
 

@@ -72,8 +72,9 @@ def test_an_unknown_element_is_refused_against_elements_master(rm):
 
 
 def test_the_ion_axis_is_the_graded_pool_not_the_periodic_table(rm):
-    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell."""
-    assert rm.graded_ions("Si") == ["I"]
+    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell.
+    (Si II gained graded lines from the RYA-1233 NIST ASD intake.)"""
+    assert rm.graded_ions("Si") == ["I", "II"]
     assert rm.graded_ions("Fe") == ["I", "II"]
 
 
@@ -107,7 +108,7 @@ def test_harps_vis_is_on_the_matrix(rm):
 def test_the_window_is_clipped_to_what_the_holding_serves(rm):
     """IAG serves 5001.1 A upward, so its VIS cell starts there -- as RYA-1218's own
     artifact stem (`SiI_5002_6910_iag_...`) independently says it did."""
-    iag = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], methods=["profile-fit"])
+    iag = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], methods=["profile-fit"])
            if d.holding == "solar_iag" and d.band == "VIS"]
     assert len(iag) == 1
     assert iag[0].lo_A == pytest.approx(5001.1)
@@ -390,7 +391,8 @@ def test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded(
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["codex"],
                  instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
@@ -408,7 +410,7 @@ def test_an_unchanged_unpublished_build_is_not_redone(rm, monkeypatch, tmp_path)
     reaches_the_executor(rm, monkeypatch)
     calls: list = []
     _fake_stage(rm, tmp_path, monkeypatch, calls)
-    kw = dict(engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
               instruments=["solar_harps_molecfit_corrected"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -453,7 +455,8 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (calls.append(step["name"]), (True, "ok"))[1])
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
               methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -530,7 +533,8 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
               methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
@@ -744,11 +748,11 @@ def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
     policy's first method (profile-fit) in VIS / red-optical, so it could rebuild almost
     none of them -- and its synthesis leg only fit lines the EW gates had passed, which
     drops exactly the strong lines synthesis exists for."""
-    cells = [d for d in rm.expand("solar", "Si", engines=["ts-lte"], bands=["VIS"],
+    cells = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
                                   instruments=["solar_harps_molecfit_corrected"])]
     assert sorted((d.method, d.pool) for d in cells) == [
         ("profile-fit", "codex"), ("synthesis", "codex"), ("synthesis", "deep"),
-        ("synthesis", "reference")]
+        ("synthesis", "reference"), ("synthesis", "set:SI_AGSS21")]
     near_uv = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"], bands=["near-UV"])]
     assert near_uv and {d.method for d in near_uv} == {"synthesis"}
 
@@ -834,3 +838,88 @@ def test_no_cell_measures_the_ungraded_pool(rm):
         args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
         assert "--lines-deep-graded" in args or (
             "--lines-tier" in args and args[args.index("--lines-tier") + 1] != "all")
+
+
+def test_published_line_sets_become_synthesis_pools(rm):
+    """RYA-1233 step 7: Asplund's set in VIS, Elgueta's / Bergemann's in the IR."""
+    cells = rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"])
+    pools = {(d.band, d.pool) for d in cells if d.pool and d.pool.startswith("set:")}
+    assert ("VIS", "set:SI_AGSS21") in pools
+    assert ("NIR", "set:SI_ELGUETA2026") in pools and ("NIR", "set:SI_BERGEMANN2013") in pools
+    assert all(d.method == "synthesis" for d in cells if d.pool.startswith("set:"))
+
+
+def test_a_set_pool_dispatches_lines_from_set():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    i = args.index("--lines-from-set")
+    assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI_graded.csv"
+
+
+def test_a_set_pool_reads_its_own_ions_file():
+    """SI_AGSS21 is two registry rows (Si I, Si II). Keyed on the name alone, every Si II
+    cell was handed the Si I file and refused "7 of 7 lines not in the synthesis list"."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="II", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    assert args[args.index("--lines-from-set") + 1] == \
+        "SI_AGSS21=data/reference/line_sets/si_agss21_SiII_graded.csv"
+
+
+def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
+    reaches_the_executor(rm, monkeypatch)
+    monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (
+        False, "derive_products: exit 1: no graded line in this band sits above the EW depth gate"))
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["deep"], interpreter=sys.executable,
+                 ispec_dir="/x", echo=False, report_dir=tmp_path)
+    assert doc["counts"][rm.FAILED] == 0 and doc["counts"][rm.HELD] >= 1
+
+
+def test_a_set_file_is_part_of_its_cells_fingerprint(rm):
+    """A corrected line set must re-run its cells (RYA-1233)."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+    kinds = {row["kind"]: row["name"] for row in rm.input_fingerprints(d, r, manifest_path=None)}
+    assert kinds.get("line_set") == "data/reference/line_sets/si_agss21_SiI_graded.csv"
+
+
+def test_every_agss21_si_line_matches_the_synthesis_wavelength():
+    """Amarsi's Table 1 prints 0.01 A; three lines sat > 0.005 A from the list and were lost."""
+    import csv
+    rows = list(csv.DictReader(open(ROOT / "data/reference/line_sets/si_agss21_SiI.csv")))
+    cg = {round(float(r["wavelength_air_A"]), 3) for r in
+          csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv")) if r["species"] == "Si I"}
+    assert len(rows) == 9
+    assert all(round(float(r["wavelength_air_A"]), 3) in cg for r in rows)
+
+
+def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
+    """Step 7 (RYA-1233): CRIRES+ Si was measured on Elgueta's whole set while 32 of its 42
+    lines carried VALD/Kurucz gf nobody had published an uncertainty for. The orchestrator
+    dispatches the set's graded file, and every line in it is priced in canonical_gf."""
+    import csv
+    import math
+    reg = list(csv.DictReader(open(ROOT / "data/reference/line_sets/REGISTRY.csv")))
+    cg = [r for r in csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv"))
+          if r["species"].startswith("Si ")]
+    for r in reg:
+        assert r["graded_csv"].endswith("_graded.csv")
+        for line in csv.DictReader(open(ROOT / r["graded_csv"])):
+            w = float(line["wavelength_air_A"])
+            m = [c for c in cg if c["species"] == line["species"]
+                 and abs(float(c["wavelength_air_A"]) - w) < 0.01]
+            assert len(m) == 1, (r["set_name"], w)
+            sig = m[0]["gf_sigma_dex"]
+            assert (sig and not math.isnan(float(sig))) or m[0]["nist_grade"].strip(), \
+                (r["set_name"], w, "unpriced gf dispatched")
+    elg = next(r for r in reg if r["set_name"] == "SI_ELGUETA2026")
+    assert int(elg["n_graded"]) < int(elg["n_lines"])
