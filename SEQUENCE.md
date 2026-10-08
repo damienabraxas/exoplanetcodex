@@ -2,11 +2,12 @@
 
 ## 2026-09-25 — RYA-1220 CNO close
 
-> **Current as of `main` 3d9c9ae6** (2026-10-01, RYA-1230).
+> **Current as of `main` 62918f6c** (2026-10-08, RYA-1232).
 
 - **RYA-1229** — `31c862d6` PR #563. "The per-line product is a projection of the feed,
   not of a directory": new `pipeline/perline_sources.py`, `generate_perline_product.py`
   rewired, plus reproducibility and feed-driven test suites.
+- **RYA-1232** — `bc8f2a8f` PR #575 (site #46, #47). Spectra prepared once for every holding and C/N/O republished: HARPS `solar_harps_molecfit_corrected` was O2-B-only, now full-range (H2O 5700-6550, O2 gamma, O2 B; `scripts/rya1232_harps_full_telluric.py`, molecfit O2 B + calctrans, H2O fitted vs the IAG atlas); `cno_synthesis` HARPS regions had read RAW HARPS under a corrected label. Continuum placed relative to the synthesis, 3-MAD clipped, the IAG atlas a RYA-587 `contref` leg (A/B on Amarsi's N I lines: 7.95 vs 8.12). Asplund+2021 uncertainty rules (NLTE = half own correction, floor 0.03; 3D term); single-line pools priced by profile-fit sigma. Headlines C 8.430 +/- 0.072, N 7.883 +/- 0.182 (CN A-X; N I 7.89-7.91), O 8.660 +/- 0.101. Feed reconciliation 70 blocking -> 0. IR C/O (CRIRES+) and the Fe publish continue on `ryandamienschmitt/rya-1232-ir-cno-fe`.
 - **RYA-1230** — `3d9c9ae6` PR #568 (site #44/#45). Solar CNO rerun under molecular opacity in every band and the MODEL-GUIDED standing continuum rule (`pipeline/local_continuum.fit_model_guided`; the first absolute-envelope version double-counted absorption the synthesis also models and was withdrawn), published with full RYA-587 budgets from paired legs: **every live C/N/O product budgeted (C 38 / N 13 / O 19)**. Headlines C 8.460 ± 0.068, N 7.842 ± 0.079 (Lodders/Magg two-line set; N I 7442 rails under A(C)+0.1, so the 4-line AGSS21 set HOLDS), O 8.643 ± 0.076. 🔴 `solar_kpno_molecfit_corrected` was RAW over 8,200 of 9,800 A (RYA-940 corrected six windows); now molecfit-corrected 3000-13000 A, 0 A raw (`505bdf0f`) -- KP CN A-X 8.233 -> 7.896. CN A-X published on IAG 7.871, KP 7.896, CRIRES+ J 8.030 (CN band-strength 0.115 dex from Brooke 2014's lifetime vs Taherian & Slanger). Fe rerun split to RYA-1232.
 - **RYA-1233** — `f9752474` PR #569. Orchestrator front door: `run_pipeline.py --all-elements` (Fe-first sweep via `pipeline/run_sweep.py`, per-element loud-fail-continue, `<star>_SWEEP_latest.json`) and the `--element` path RESTORED byte-for-byte from `fce2615d` -- PR #557's merge `315ccc4d` had silently reverted it and the `check_result_generators.py` carve-out. `run_matrix.run()` contract unchanged; 23 new tests. Source: the PR body (no EOS comment on the issue).
 - **RYA-1220** — `a7da838a` PR #565. Solar CNO PUBLISHED: C 17 / N 12 / O 7 live, zero
