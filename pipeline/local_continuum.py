@@ -255,9 +255,12 @@ def apply_to_windows(wave_A, flux, windows_A, *, apply: bool = True):
 #:                 maxima; where lines never let the true continuum through (the blue, like
 #:                 the near-UV of RYA-1189) that is a pseudo-continuum. No observed reference
 #:                 is verified there, so it is not used.
-#: So the span is Baker+2020's, 5001.1-11086 A. Outside it the `contref` leg has no atlas and
-#: equals the nominal (reference spread 0, recorded).
-SOLAR_ATLAS_SPAN_A = (5001.1, 11086.0)
+#: So the span is Baker+2020's processed range, 5001.1-10000 A. 🔴 RYA-1232: the file runs to
+#: 11086 A but Baker+2020 processed 500-1000 nm and the agreement above was only ever verified
+#: to 10000 A. Beyond it IAG sits 2-7% LOW against both KP and CRIRES+ at 10490-10870 A and its
+#: C I Y lines read A(C) 8.89-9.27 where KP/CRIRES+ give 8.56-8.62 on the same lines. Outside the
+#: span the `contref` leg has no atlas and equals the nominal (reference spread 0, recorded).
+SOLAR_ATLAS_SPAN_A = (5001.1, 10000.0)
 
 
 #: 🔴 RYA-1232 FINAL RULE (A/B measured 2026-10-03): the NOMINAL reference is the

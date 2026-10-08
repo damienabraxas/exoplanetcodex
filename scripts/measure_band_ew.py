@@ -935,7 +935,10 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
-                    span_A=(5001.10, 11083.46),   # AIR (vac 5002.5-11086.5)
+                    # 🔴 RYA-1232: capped at 10000 A, Baker+2020's processed range (file runs to
+                    # 11083.46 air). Beyond it the normalisation is 2-7% low vs KP AND CRIRES+
+                    # (10490-10870 A) and C I reads A(C) 8.89-9.27 vs 8.56-8.62 elsewhere.
+                    span_A=(5001.10, 10000.0),
                     note="Baker+2020 TELLURIC-CORRECTED atlas, normalised. 🔴 THE SPAN IS "
                          "DECLARED NOW (RYA-767): it was absent, so covers() answered True "
                          "for every window ever asked -- including the 954 A of blue this "

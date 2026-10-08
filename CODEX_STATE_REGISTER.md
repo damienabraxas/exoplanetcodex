@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v161** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v162** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v162** (2026-10-08) — **RYA-1232: IAG span capped at 10000 A** (Baker+2020's processed range; agreement with HARPS/KP was only verified to 10000). Beyond it IAG is 2-7% low vs KP AND CRIRES+ (10490-10870 A) and C I Y reads 8.89-9.27 vs 8.56-8.62 from KP/CRIRES+ on the same lines, with the damping fix in. Applies to the solar_iag holding and the contref leg.
 - **v161** (2026-10-08) — **RYA-1232: IR synthesis lists were missing every line VALD gave no vdW for.** Our Turbospectrum DROPS an atomic line with fdamp 0.0 (not a default): 100/767 (Y/J; all 9 O I 926 nm), 472/5244 (H; 84 C I, 137 Mg I incl. 15740.71 at 45% depth), 425/3958 (K). The builder now writes GESv6's Unsöld factor (2.5; Na I 2.0); the three tracked lists patched by scripts/rya1232_fill_unsold_damping.py (one field per row). Every H-band C I product (A(C) 9.6-11) and the O I 926 nm 'gap' trace to it. GESv6 optical list unaffected (0 zero rows). Near-UV list (generated, untracked) to be rebuilt.
 - **v160** (2026-10-08) — **RYA-1232 KP 1984 molecfit prepared spectrum re-quarantined.** The correction is unbiased vs IAG/CRIRES+ J but its per-pixel error is k(1-T)/T (k 0.23-0.34 optical, 0.06-0.09 NIR), not RYA-940's dT/T; RYA-940's own 5% budget now applied with the measured law (T floors 0.54-0.87; 8900-10000 A quarantined 6.2% -> 29.5%). 36 of 328 graded KP-mf lines lose core pixels; every KP-mf product is being rerun. No published value changed yet.
 - **v159** (2026-10-08) — **RYA-1232 CRIRES+ holdings.** No published VALUE changed yet. Holding state: new `solar_crires_plus_h_rya1232` (our 7 Vesta H IDPs, molecfit-corrected over every H segment, 116/116, and rest-frame conditioned 7/7) supersedes `solar_crires_plus_h_rya1094` (Elgueta's reduction, CH4 residual 37% at 16656 A) for science. The topocentric RYA-1219 J/K readers are renamed `*_topocentric` and moved after the conditioned run; the science J/K names now resolve only to the RYA-1214 rest-frame products (small windows had read unconditioned flux).
