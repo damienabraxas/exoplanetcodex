@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v158** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v159** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v159** (2026-10-08) — **RYA-1232 CRIRES+ holdings.** No published VALUE changed yet. Holding state: new `solar_crires_plus_h_rya1232` (our 7 Vesta H IDPs, molecfit-corrected over every H segment, 116/116, and rest-frame conditioned 7/7) supersedes `solar_crires_plus_h_rya1094` (Elgueta's reduction, CH4 residual 37% at 16656 A) for science. The topocentric RYA-1219 J/K readers are renamed `*_topocentric` and moved after the conditioned run; the science J/K names now resolve only to the RYA-1214 rest-frame products (small windows had read unconditioned flux).
 - **v158** (2026-10-08) — **RYA-1232 C/N/O republished on prepared spectra.** State VALUES changed: solar C 8.430 +/- 0.072 (KP-mf VIS AGSS21 3D-NLTE), N 7.883 +/- 0.182 (IAG CN A-X; atomic N I 7.89-7.91 agrees), O 8.660 +/- 0.101 (KP red-optical AGSS21 3D-NLTE). Holding state: `solar_harps_molecfit_corrected` full-range telluric-corrected (was O2 B only). Rules: continuum relative to the synthesis (3-MAD clipped, IAG atlas as the contref leg); NLTE/3D uncertainty per Asplund+2021.
 - **v157** (2026-10-01) — **RYA-1230 solar CNO published with RYA-587 budgets.** State VALUES changed: solar C 8.460 ± 0.068 (HARPS VIS AGSS21 3D-NLTE), N 7.842 ± 0.079 (KP-mf, Lodders/Magg 8629+8683, 3D-NLTE; supersedes the 8.189 headline from a 2-line ENGINE-A row), O 8.643 ± 0.076 (IAG red-optical AGSS21 3D-NLTE); every live C/N/O product carries a full 16-component budget. The N "+0.36 gf/data-channel floor (RYA-161)" in v155 is REFUTED: the RCA measured gf at 0.000 dex; the offset was missing molecular opacity plus continuum placement. Holding state: `solar_kpno_molecfit_corrected` flips raw -> corrected (`VERIFIED_HOLDING_STATE`) on a full-coverage molecfit correction, 3000-13000 A, 0 A raw.
 - **v156** (2026-09-25) — **RYA-1228 orphaned-SHA re-pin.** No state VALUE changed. The RYA-1228 history rewrite changed every SHA, so artifacts that record WHICH COMMIT produced them named objects no longer on `main`, and their reproduce-from-generator tests failed. Re-pinned by regeneration, not edit: `element_status_tracker.csv` and `element_disposition_rya663.json`/`.md` move phase_c `0d6166b6` -> `94ca526b` and artifact `ae518e81` -> `ea8db9ef` — same commit, same content, same timestamp, only the identity. Every changed line contains a SHA and nothing else moved. Same class as the SEQUENCE.md stamp, which orphaned the same way; expect it wherever a provenance SHA predates the rewrite.

@@ -24574,8 +24574,3 @@ artifacts:
       Holding solar_crires_plus_h_rya1232. Seven Vesta H IDPs, 116 segments molecfit-corrected
       (H2O+CO2+CH4, per-night GDAS, 0 failed), rest-frame conditioned (7/7 PASS). Replaces
       rya1094 (Elgueta's reduction) for science. Known residual: CH4 at 16656.0 A (~24%).
-  - artifact: rya1214_crires_jk/rest_frame_conditioning_H.json
-    status: COMMITTED
-    generator: scripts/rya1214_condition_crires_jk.py
-    invocation: python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1232_crires_products --arm H --manifest data/audit/rya1232_crires_h/corrected_products_manifest.csv
-    ticket: RYA-1232
