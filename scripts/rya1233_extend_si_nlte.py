@@ -127,10 +127,21 @@ def derive(star: dict, lines) -> dict:
     return out
 
 
+def _node(args):
+    (te, lg, fe), lines = args
+    from config.constants import SOLAR_ASPLUND2021
+    pn._A_SUN.setdefault(ELEMENT, SOLAR_ASPLUND2021[ELEMENT])
+    pn.NLTE_LINES[ELEMENT] = list(lines)
+    d = derive({"teff": te, "logg": lg, "feh": fe, "vmic": 1.0}, lines)
+    print(f"  node {te}/{lg}/{fe:+.2f} done", flush=True)
+    return d
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--solar-only", action="store_true")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args()
     from config.constants import SOLAR_ASPLUND2021
     pn._A_SUN.setdefault(ELEMENT, SOLAR_ASPLUND2021[ELEMENT])
@@ -157,13 +168,14 @@ def main() -> int:
 
     if not a.write:
         raise SystemExit("pass --solar-only or --write")
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(a.jobs) as ex:
+        results = list(ex.map(_node, [(n, new_lines) for n in NODES]))
     rows = []
-    for i, (te, lg, fe) in enumerate(NODES):
-        d = derive({"teff": te, "logg": lg, "feh": fe, "vmic": 1.0}, new_lines)
+    for (te, lg, fe), d in zip(NODES, results):       # node order, then wavelength
         for w in sorted(d):
             rows.append(dict(element=ELEMENT, ion=1, wave_A=round(w, 3), teff_K=te, logg=lg,
                              feh=fe, delta_nlte=round(float(d[w]), 4)))
-        print(f"  [{i + 1}/{len(NODES)}] {te}/{lg}/{fe:+.2f} done", flush=True)
     out = pd.concat([old, pd.DataFrame(rows)], ignore_index=True)
     out.to_csv(CSV, index=False)
     print(f"wrote {CSV.name}: {len(old)} kept + {len(rows)} new = {len(out)} rows")
