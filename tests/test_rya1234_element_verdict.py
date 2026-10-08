@@ -132,3 +132,14 @@ def test_step_5_is_per_ion(ev):
     rows = {r["ion"]: r for r in rm.process_steps("solar", "Fe", ["I", "II"]) if r["step"] == 5}
     assert rows["I"]["ok"] is True and rows["II"]["ok"] is False
     assert "covers Fe I, not Fe II" in rows["II"]["evidence"]
+
+
+def test_judge_feed_checks_every_published_product_however_it_was_built():
+    """RYA-1233: 26 Si products published from the budget legs read INCOMPLETE on 0 judged,
+    because `verdict` judges only a run report's cells. Step 12 is about the FEED."""
+    from pipeline import element_verdict as ev
+    v = ev.judge_feed("solar", "Si")
+    assert v["n_products_judged"] == 26
+    assert v["counts"]["IN_BAND"] >= 1
+    assert v["element_verdict"] in (ev.PASS, ev.REVIEW)
+    assert all(c["cell_status"] == "PUBLISHED" for c in v["cells"])
