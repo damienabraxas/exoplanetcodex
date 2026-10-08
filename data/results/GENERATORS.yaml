@@ -24574,3 +24574,13 @@ artifacts:
       Holding solar_crires_plus_h_rya1232. Seven Vesta H IDPs, 116 segments molecfit-corrected
       (H2O+CO2+CH4, per-night GDAS, 0 failed), rest-frame conditioned (7/7 PASS). Replaces
       rya1094 (Elgueta's reduction) for science. Known residual: CH4 at 16656.0 A (~24%).
+  - artifact: rya1232_kp_telluric_error/error_law.json
+    status: COMMITTED
+    generator: scripts/rya1232_kp_telluric_error_floor.py
+    invocation: python3 scripts/rya1232_kp_telluric_error_floor.py --apply
+    ticket: RYA-1232
+    note: >-
+      KP 1984 molecfit correction error measured vs IAG (to 11075 A) and CRIRES+ J (beyond):
+      unbiased, sigma(T) = k(1-T)/T, k 0.23-0.34 optical / 0.06-0.09 NIR. --apply quarantines
+      T < k/(k+0.05) in data/processed/kp1984_telluric_corrected/*.txt (RYA-940's own 5% budget,
+      which its dT/T estimate under-applied: T_min 0.22 vs measured 0.54-0.87).

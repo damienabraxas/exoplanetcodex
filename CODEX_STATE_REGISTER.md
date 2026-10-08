@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v159** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v160** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v160** (2026-10-08) — **RYA-1232 KP 1984 molecfit prepared spectrum re-quarantined.** The correction is unbiased vs IAG/CRIRES+ J but its per-pixel error is k(1-T)/T (k 0.23-0.34 optical, 0.06-0.09 NIR), not RYA-940's dT/T; RYA-940's own 5% budget now applied with the measured law (T floors 0.54-0.87; 8900-10000 A quarantined 6.2% -> 29.5%). 36 of 328 graded KP-mf lines lose core pixels; every KP-mf product is being rerun. No published value changed yet.
 - **v159** (2026-10-08) — **RYA-1232 CRIRES+ holdings.** No published VALUE changed yet. Holding state: new `solar_crires_plus_h_rya1232` (our 7 Vesta H IDPs, molecfit-corrected over every H segment, 116/116, and rest-frame conditioned 7/7) supersedes `solar_crires_plus_h_rya1094` (Elgueta's reduction, CH4 residual 37% at 16656 A) for science. The topocentric RYA-1219 J/K readers are renamed `*_topocentric` and moved after the conditioned run; the science J/K names now resolve only to the RYA-1214 rest-frame products (small windows had read unconditioned flux).
 - **v158** (2026-10-08) — **RYA-1232 C/N/O republished on prepared spectra.** State VALUES changed: solar C 8.430 +/- 0.072 (KP-mf VIS AGSS21 3D-NLTE), N 7.883 +/- 0.182 (IAG CN A-X; atomic N I 7.89-7.91 agrees), O 8.660 +/- 0.101 (KP red-optical AGSS21 3D-NLTE). Holding state: `solar_harps_molecfit_corrected` full-range telluric-corrected (was O2 B only). Rules: continuum relative to the synthesis (3-MAD clipped, IAG atlas as the contref leg); NLTE/3D uncertainty per Asplund+2021.
 - **v157** (2026-10-01) — **RYA-1230 solar CNO published with RYA-587 budgets.** State VALUES changed: solar C 8.460 ± 0.068 (HARPS VIS AGSS21 3D-NLTE), N 7.842 ± 0.079 (KP-mf, Lodders/Magg 8629+8683, 3D-NLTE; supersedes the 8.189 headline from a 2-line ENGINE-A row), O 8.643 ± 0.076 (IAG red-optical AGSS21 3D-NLTE); every live C/N/O product carries a full 16-component budget. The N "+0.36 gf/data-channel floor (RYA-161)" in v155 is REFUTED: the RCA measured gf at 0.000 dex; the offset was missing molecular opacity plus continuum placement. Holding state: `solar_kpno_molecfit_corrected` flips raw -> corrected (`VERIFIED_HOLDING_STATE`) on a full-coverage molecfit correction, 3000-13000 A, 0 A raw.
