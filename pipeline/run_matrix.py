@@ -615,7 +615,7 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
                     # RYA-1233 (step 7): the published reference sets with a line in
                     # this window -- Asplund's in VIS, Elgueta's / Bergemann's in the IR.
                     sets_here = [SET_POOL_PREFIX + r["set_name"]
-                                 for r in line_sets_for(symbol, ion)
+                                 for r in line_sets_for(symbol, ion, star)
                                  if any(lo <= w <= hi for w in r["waves"])]
                     for m in want_m:
                         # RYA-1233 (process step 7): every cell measures a GRADED pool,
@@ -628,7 +628,8 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
                                      or (p.startswith(SET_POOL_PREFIX) and "set" in pools)]:
                             out.append(RunDescriptor(
                                 element=symbol, ion=ion, instrument=inst, holding=hid,
-                                lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool))
+                                lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool,
+                                star=star))
     out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck,
                             d.method or "", d.pool or ""))
     return out
@@ -700,7 +701,8 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
         _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
                         descriptor.ion)
         if _row is not None:
-            _f = _row.get("graded_csv") or _row["csv"]
+            from pipeline.run_descriptor import star_graded_csv
+            _f = star_graded_csv(_row, descriptor.star)
             rows.append({"kind": "line_set", "name": _f, "digest": _file_fingerprint(ROOT / _f)})
     # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
     # Named by file name only (the bytes are the identity; a path is a machine fact).
@@ -799,10 +801,12 @@ def pool_tier(descriptor: RunDescriptor) -> str:
     return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
 
 
-def line_sets_for(symbol: str, ion: str) -> list[dict]:
+def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
     """Published reference line sets for this species (RYA-1233, process step 7), each with
-    its wavelengths. From data/reference/line_sets/REGISTRY.csv; none is not an error."""
-    key = ("sets", symbol, ion)
+    the wavelengths THIS STAR's graded file holds (its culls removed; the set itself keeps
+    every line). From data/reference/line_sets/REGISTRY.csv; none is not an error."""
+    from pipeline.run_descriptor import star_graded_csv
+    key = ("sets", symbol, ion, star)
     if key not in _ADAPTERS:
         rows = []
         reg = ROOT / LINE_SET_REGISTRY
@@ -811,7 +815,7 @@ def line_sets_for(symbol: str, ion: str) -> list[dict]:
                 for r in csv.DictReader(fh):
                     if r["element"] == symbol and r["ion"] == ion:
                         # Step 7: a set reaches a cell only through its GRADED lines.
-                        with (ROOT / (r.get("graded_csv") or r["csv"])).open(
+                        with (ROOT / star_graded_csv(r, star)).open(
                                 newline="", encoding="utf-8") as g:
                             r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
                         rows.append(r)

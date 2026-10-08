@@ -88,6 +88,11 @@ class RunDescriptor:
     #: "deep" (lab lines above it) -- never the ungraded all-lines pool. None keeps the
     #: stage's own default (all), which the orchestrator never dispatches.
     pool: str | None = None
+    #: RYA-1233. The star this run measures. A published line set keeps EVERY reference
+    #: line for every star (a red giant may want the lines the Sun saturates); the lines a
+    #: star CULLS live in data/registry/problem_children.csv, and a set pool dispatches that
+    #: star's graded file (`star_graded_csv`). Not in `key`: one star per results tree.
+    star: str = "solar"
 
     @property
     def band(self) -> str:
@@ -194,6 +199,19 @@ POOLS = {
 #: carries is "set:<SET_NAME>" and it is measured on the synthesis route only.
 LINE_SET_REGISTRY = "data/reference/line_sets/REGISTRY.csv"
 SET_POOL_PREFIX = "set:"
+
+
+def star_graded_csv(row: dict, star: str) -> str:
+    """The graded file a set pool dispatches for `star`: `<set>_graded_<star>.csv` where
+    the builder wrote one (that star culled lines), else the star-agnostic `_graded.csv`
+    -- every reference line with a priced gf -- else the full set."""
+    from pathlib import Path
+    base = row.get("graded_csv") or row["csv"]
+    if base.endswith("_graded.csv"):
+        cand = base[:-len(".csv")] + f"_{star}.csv"
+        if (Path(__file__).resolve().parents[1] / cand).exists():
+            return cand
+    return base
 
 
 def line_set(name: str, element: str, ion: str) -> dict | None:
@@ -400,7 +418,8 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
         else:
             # Step 7: the set's GRADED lines only -- a line with no published gf uncertainty
             # is not measured (RYA-1233; the set file keeps every published line).
-            pool_args = ["--lines-from-set", f"{_name}={_row.get('graded_csv') or _row['csv']}"]
+            pool_args = ["--lines-from-set",
+                         f"{_name}={star_graded_csv(_row, descriptor.star)}"]
     elif descriptor.pool is not None:
         spec = POOLS.get(descriptor.pool)
         if spec is None or method not in spec["methods"]:

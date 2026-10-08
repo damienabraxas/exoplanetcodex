@@ -845,8 +845,25 @@ def test_published_line_sets_become_synthesis_pools(rm):
     cells = rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"])
     pools = {(d.band, d.pool) for d in cells if d.pool and d.pool.startswith("set:")}
     assert ("VIS", "set:SI_AGSS21") in pools
-    assert ("NIR", "set:SI_ELGUETA2026") in pools and ("NIR", "set:SI_BERGEMANN2013") in pools
+    assert ("NIR", "set:SI_ELGUETA2026") in pools and ("NIR", "set:SI_DESHMUKH2022") in pools
+    # Bergemann 2013's four J lines are red-supergiant lines, all saturated in the Sun and
+    # culled FOR THE SUN (problem_children, observed_in Sun) -- no solar pool.
+    assert ("NIR", "set:SI_BERGEMANN2013") not in pools
     assert all(d.method == "synthesis" for d in cells if d.pool.startswith("set:"))
+
+
+def test_a_cull_is_per_star_and_the_reference_list_keeps_every_line(rm):
+    """Ryan, 2026-10-04: all lines stay recorded for the future (a red giant may need the
+    lines the Sun saturates); the solar cull applies to the Sun only."""
+    import csv
+    rm._ADAPTERS.clear()
+    sun = {r["set_name"]: len(r["waves"]) for r in rm.line_sets_for("Si", "I", "solar")}
+    other = {r["set_name"]: len(r["waves"]) for r in rm.line_sets_for("Si", "I", "a_red_giant")}
+    assert sun["SI_BERGEMANN2013"] == 0 and other["SI_BERGEMANN2013"] == 4
+    assert sun["SI_ELGUETA2026"] < other["SI_ELGUETA2026"]
+    full = list(csv.DictReader(open(ROOT / "data/reference/line_sets/si_elgueta2026_SiI.csv")))
+    assert len(full) == 42                                    # every published line, kept
+    assert any(r["culled_in"].startswith("solar:SATURATION_COG") for r in full)
 
 
 def test_a_set_pool_dispatches_lines_from_set():
