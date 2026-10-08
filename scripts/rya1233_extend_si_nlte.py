@@ -16,8 +16,10 @@ SAME METHOD AS RYA-410, ONE CODE PATH
 -------------------------------------
 pipeline.pysme_nlte.nlte_delta: PySME synthesis NLTE vs LTE on the Amarsi et al. 2020 GALAH
 departure grid (nlte_Si_scatt_pysme.grd, Zenodo 3982506), delta = A_NLTE - A_LTE by EW
-matching; grid level labels by nearest energy (pysme_nlte.auto_labels, which REFUSES a
-level more than 0.06 eV from any grid level). Same 11 (Teff, logg, [Fe/H]) nodes.
+matching. Grid level labels: lower by nearest energy, upper by the LS SELECTION RULES
+(pysme_nlte.labels_by_selection_rules) -- RYA-410's nearest-energy auto_labels gave four Si
+lines an unreachable upper level (6125 J1->5, 6741 J3->1, 7034 J2->4, 7226 J1->3), which
+is the case Amarsi & Asplund 2017 resolve by the same rules. Same 11 nodes as RYA-410.
 
 Atomic data: log gf and EP from canonical_gf -- the values the published measurement
 synthesised with (Garz+0.097 optical, Pehlivan Rhodin 2024 IR); E_up = EP + hc/lambda.
@@ -102,10 +104,11 @@ def build_lines(waves):
     out = []
     for wl in waves:
         loggf, ep, eup, vw = atomic(wl)
-        tl, tu, jl, ju = pn.auto_labels(ELEMENT, ep, eup)
+        tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup)
         out.append((wl, loggf, ep, jl, eup, ju, tl, tu, vw))
         print(f"  {wl:10.3f} loggf={loggf:+.3f} EP={ep:.3f} {tl} -> {tu} "
-              f"(J{jl:.0f}->{ju:.0f}) vdW={vw:.1f}", flush=True)
+              f"(J{jl:.0f}->{ju:.0f}) vdW={vw:.1f}" + (f"  [{note}]" if note else ""),
+              flush=True)
     return out
 
 
