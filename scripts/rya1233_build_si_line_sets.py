@@ -25,8 +25,10 @@ build Reference pools without an agent:
                    Source: data/reference/si_deshmukh2022/table2_subsample.csv.
 
 STEP 7 -- GRADED. A published set is a line SELECTION; whether each line is graded is a
-property of the gf the synthesis will use, and of the standing cull: a line registered
-`exclude`/`active` in data/registry/problem_children.csv is never graded. Every set file carries `gf_graded` (the
+property of the gf the synthesis will use. THE CULL IS PER STAR: a line registered
+`exclude`/`active` in data/registry/problem_children.csv for a star (observed_in) is left
+out of `<set>_graded_<star>.csv` only. The full set and `<set>_graded.csv` keep EVERY
+reference line (Ryan, 2026-10-04: "we may run across a red giant eventually"). Every set file carries `gf_graded` (the
 canonical row has a published uncertainty: a stored gf_sigma_dex -- lab, Garz, Pehlivan
 Rhodin -- or a NIST accuracy grade), and `<file>_graded.csv` holds only those lines. The
 orchestrator dispatches the GRADED file (`graded_csv` in the registry); a line nobody has
@@ -66,29 +68,44 @@ SETS = {
 }
 
 
+#: The registry's `observed_in` names a star the way the literature does; the orchestrator
+#: names it by system id.
+STAR_ID = {"Sun": "solar"}
+
+
 def _culled() -> dict:
-    """(species, wavelength) -> problem_class for every line the problem-children registry
-    EXCLUDES (required_treatment exclude + status active; RYA-807's discriminator). The
-    standing cull protocol: a line that is garbage for the Sun (saturated past the RYA-458
-    ceiling, blended, a >3 robust-sigma outlier) and that the literature does not use is
-    registered there, printed in the element appendix, and never measured again."""
+    """star -> {(species, wavelength): problem_class} for every line the problem-children
+    registry EXCLUDES for that star (required_treatment exclude + status active; RYA-807's
+    discriminator). The standing cull protocol: a line that is garbage IN THAT STAR
+    (saturated past the RYA-458 ceiling, an outlier synthesis cannot rescue) and that the
+    literature does not use is registered there, printed in the element appendix, and not
+    measured again IN THAT STAR. The set keeps it: another star (a red giant) may need it.
+    Blends registered `synthesis`/`deblend` are not culls -- synthesis handles them."""
     import re
-    out = {}
+    out: dict = {}
     with (ROOT / "data/registry/problem_children.csv").open(newline="", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
             if r["required_treatment"].strip() != "exclude" or r["status"].strip() != "active":
                 continue
             m = re.match(r"\s*([0-9]+\.[0-9]+)", r["lambda_or_scope"])
-            if m:
-                out[(r["species"].strip(), float(m.group(1)))] = r["problem_class"].strip()
+            if not m:
+                continue
+            for obs in r["observed_in"].split(";"):
+                star = STAR_ID.get(obs.strip())
+                if star:
+                    out.setdefault(star, {})[(r["species"].strip(), float(m.group(1)))] = \
+                        r["problem_class"].strip()
     return out
 
 
-def _graded(species: str, wave: float, cg: list, culled: dict | None = None) -> bool:
-    """Graded = the canonical row carries a published gf uncertainty AND the line is not
-    culled in the problem-children registry."""
-    if culled and any(sp == species and abs(w - wave) < 0.01 for sp, w in culled):
-        return False
+def _cull_of(culled_for_star: dict, species: str, wave: float) -> str:
+    return next((c for (sp, w), c in culled_for_star.items()
+                 if sp == species and abs(w - wave) < 0.01), "")
+
+
+def _graded(species: str, wave: float, cg: list) -> bool:
+    """Graded = the canonical row this line synthesises with carries a published gf
+    uncertainty. Star-independent; a star's culls are applied on top (`_graded_<star>`)."""
     m = [r for r in cg if r["species"] == species and abs(float(r["wavelength_air_A"]) - wave) < 0.01]
     if len(m) != 1:
         return False
@@ -157,6 +174,13 @@ def _rows():
     return out
 
 
+def _write(path, head, rows) -> None:
+    with path.open("w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(head)
+        w.writerows(rows)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     groups: dict = {}
@@ -164,38 +188,49 @@ def main() -> None:
         groups.setdefault((row[0], row[1]), []).append(row)
     reg = []
     cg = _canonical_rows()
-    culled = _culled()
+    culled = _culled()             # {star: {(species, wave): class}}
     for (name, species), rows in sorted(groups.items()):
         # The MOST precise row sets the window: a csv round-trip drops trailing zeros
         # (Table 1's 7034.90 reads back as 7034.9), which would otherwise widen it 10x.
         tol = min(_tol(r[6]) for r in rows)
-        fn = OUT / f"{name.lower()}_{species.replace(' ', '')}.csv"
-        gfn = OUT / f"{name.lower()}_{species.replace(' ', '')}_graded.csv"
+        stem = f"{name.lower()}_{species.replace(' ', '')}"
+        fn, gfn = OUT / f"{stem}.csv", OUT / f"{stem}_graded.csv"
         head = ["line_set", "species", "wavelength_air_A", "wavelength_published_A",
                 "ep_eV", "loggf_published", "band_published", "match_tol_A",
-                "source", "doi", "gf_graded"]
-        n_graded = 0
-        with fn.open("w", newline="") as fh, gfn.open("w", newline="") as gh:
-            w, gw = csv.writer(fh), csv.writer(gh)
-            w.writerow(head)
-            gw.writerow(head)
-            for r in sorted(rows, key=lambda r: float(r[2])):
-                g = _graded(species, float(r[2]), cg, culled)
-                row = [r[0], r[1], r[2], r[6], r[3], r[4], r[5], tol,
-                       SETS[name]["source"], SETS[name]["doi"], g]
-                w.writerow(row)
-                if g:
-                    gw.writerow(row)
-                    n_graded += 1
+                "source", "doi", "gf_graded", "culled_in"]
+        table = []
+        for r in sorted(rows, key=lambda r: float(r[2])):
+            g = _graded(species, float(r[2]), cg)
+            cin = ";".join(f"{st}:{c}" for st in sorted(culled)
+                           if (c := _cull_of(culled[st], species, float(r[2]))))
+            table.append([r[0], r[1], r[2], r[6], r[3], r[4], r[5], tol,
+                          SETS[name]["source"], SETS[name]["doi"], g, cin])
+        # The FULL set: every published line, for every star, kept for good.
+        _write(fn, head, table)
+        # Graded for any star: a priced gf.
+        graded = [t for t in table if t[10]]
+        _write(gfn, head, graded)
+        n_graded = len(graded)
+        # Graded for each star that culled something here: its culls removed.
+        per_star = {}
+        for st in sorted(culled):
+            keep = [t for t in graded if not _cull_of(culled[st], species, float(t[2]))]
+            if len(keep) != len(graded):
+                _write(OUT / f"{stem}_graded_{st}.csv", head, keep)
+                per_star[st] = len(keep)
+            elif (OUT / f"{stem}_graded_{st}.csv").exists():
+                (OUT / f"{stem}_graded_{st}.csv").unlink()
         el, ion = species.split()
         ws = [float(r[2]) for r in rows]
         reg.append({"element": el, "ion": ion, "set_name": name,
                     "csv": str(fn.relative_to(ROOT)), "n_lines": len(rows),
                     "graded_csv": str(gfn.relative_to(ROOT)), "n_graded": n_graded,
+                    "n_graded_solar": per_star.get("solar", n_graded),
                     "lo_A": min(ws), "hi_A": max(ws), "bibliography_key": SETS[name]["bib"],
                     "doi": SETS[name]["doi"], "source": SETS[name]["source"],
                     "gf_basis": SETS[name]["gf_basis"], "ticket": "RYA-1233"})
-        print(f"  {name:<17} {species:<6} {len(rows):3d} lines ({n_graded} graded)  {min(ws):8.1f}-{max(ws):8.1f} A"
+        print(f"  {name:<17} {species:<6} {len(rows):3d} lines ({n_graded} graded, "
+              f"{per_star.get('solar', n_graded)} for solar)  {min(ws):8.1f}-{max(ws):8.1f} A"
               f"  tol {tol} -> {fn.relative_to(ROOT)}")
     with REGISTRY.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(reg[0]))
