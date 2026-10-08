@@ -36,9 +36,14 @@ guessed (the ticket's standing instruction):
     Turbospectrum's LTE line format has no Stark field at all — iSpec's writer never
     emits it. Nothing is assumed about matching conventions.
   * **van der Waals = 0.** 13,029 of the 3000–3780 Å lines carry vdW = 0 because VALD
-    supplied none. That is passed through as 0.0, which is Turbospectrum's documented
-    "use your own default" value. It is a stated choice; `band_stats()` reports the
-    count so the choice is visible in every run rather than buried.
+    supplied none. 🔴 RYA-1232: that was passed through as fdamp 0.0 on the belief that it
+    is Turbospectrum's "use your own default" -- it is NOT: our Turbospectrum DROPS an
+    atomic line with fdamp 0.0 entirely (Fe I 16892.38 depth 0.127 -> 0.003, Mg I 15740.71
+    0.450 -> 0.003, C I 16890.38 absent at any A(C)). Such lines now get the Unsöld
+    approximation with the enhancement factor our production optical list (GESv6) uses for
+    every line it has no ABO/gamma6 for: 2.5 (28,437 of its 28,567 Unsöld rows), Na I 2.0.
+    `waals` keeps VALD's 0 for the record; only `turbospectrum_fdamp` is filled.
+    `band_stats()` reports `n_vdw_unsold_filled`.
 
 Orbital types are 'X' where VALD gives none. That is not an invention: 'X' is already
 present 2,947 times in the production GES list iSpec ships, so it is a value the
@@ -298,7 +303,7 @@ def to_ispec_array(records: list[dict], *, chem_elements=None,
         vdw = float(r['damping_vdW'])
         arr['waals'][i] = vdw
         arr['waals_single_gamma_format'][i] = vdw
-        arr['turbospectrum_fdamp'][i] = vdw
+        arr['turbospectrum_fdamp'][i] = vdw if vdw != 0.0 else unsold_fdamp(arr['element'][i])
         arr['spectrum_fudge_factor'][i] = 1.0
         arr['theoretical_depth'][i] = float(r['central_depth'])
         arr['theoretical_ew'][i] = 0.0
@@ -328,6 +333,19 @@ def to_ispec_array(records: list[dict], *, chem_elements=None,
     return arr
 
 
+#: RYA-1232 -- Turbospectrum's Unsöld enhancement for an atomic line VALD gives no vdW for.
+#: Measured from GESv6_atom_hfs_iso (our optical production list): 28,437 of its 28,567
+#: Unsöld-factor rows carry 2.5; Na I's 66 carry 2.0. fdamp 0.0 is NOT a default -- our
+#: Turbospectrum drops the line.
+UNSOLD_ENHANCEMENT_DEFAULT = 2.5
+UNSOLD_ENHANCEMENT_BY_ELEMENT = {"Na": 2.0}
+
+
+def unsold_fdamp(element: str) -> float:
+    sym = str(element).strip().split()[0]
+    return UNSOLD_ENHANCEMENT_BY_ELEMENT.get(sym, UNSOLD_ENHANCEMENT_DEFAULT)
+
+
 def band_stats(arr: np.ndarray) -> dict:
     """The facts a reader needs to judge the list, including the ones that look bad."""
     els, counts = np.unique(arr['element'], return_counts=True)
@@ -338,6 +356,7 @@ def band_stats(arr: np.ndarray) -> dict:
         'lo_A': float(arr['wave_A'].min()),
         'hi_A': float(arr['wave_A'].max()),
         'n_vdw_zero': int(np.sum(arr['turbospectrum_fdamp'] == 0.0)),
+        'n_vdw_unsold_filled': int(np.sum((arr['waals'] == 0.0) & (arr['turbospectrum_fdamp'] > 0.0))),
         'n_vdw_positive': int(np.sum(arr['turbospectrum_fdamp'] > 0.0)),
         'n_rad_zero': int(np.sum(arr['turbospectrum_rad'] == 0.0)),
         'top_species': [(str(els[i]), int(counts[i])) for i in order[:8]],
