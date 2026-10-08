@@ -140,7 +140,18 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                                                ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
                 #: CRIRES+ H has NO independent correction on the Mac (KP/IAG stop short of H);
                 #: its residual needs the raw/corrected CRIRES+ pair on Sirius (RYA-1192).
-                "solar_crires_plus_h_rya1094": []}
+                "solar_crires_plus_h_rya1094": [],
+                #: RYA-1232: our full-arm corrected H. Independent correction = Elgueta+2026's
+                #: own reduction of the same night (a different telluric removal).
+                "solar_crires_plus_h_rya1232": [("crires_plus", "solar_crires_plus_h_rya1094")]}
+#: RYA-1232 -- holdings that carry their OWN molecfit transmission per pixel (`min_mtrans`
+#: in the rest-frame CSV). KP's raw/corrected sky pair stops at 13000 A, so no H-band product
+#: ever had its telluric component resolved; for these the sky is the model the correction
+#: divided by. No reduction-difference null applies (it is a model, not a ratio of two
+#: reductions); a pixel is telluric where the model absorbs more than OWN_SKY_EDGE.
+_OWN_SKY = {"solar_crires_plus_h_rya1232":
+            "data/results/rya1214_crires_jk/solar_crires_plus_h_rya1232_rest.csv"}
+OWN_SKY_EDGE = 0.01
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -164,9 +175,47 @@ def _full_span(H, inst, hold):
     return _SPAN[(inst, hold)]
 
 
+def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
+    import measure_band_ew as H
+    if holding not in _OWN_SKY_CACHE:
+        _OWN_SKY_CACHE[holding] = pd.read_csv(ROOT / _OWN_SKY[holding])
+    d = _OWN_SKY_CACHE[holding]
+    g = np.linspace(w0 - hw, w0 + hw, 400)
+    t = np.interp(g, d["wavelength_air_A"], d["min_mtrans"])
+    P = (1.0 - t) > OWN_SKY_EDGE
+    ev = {"sky_pair": f"{holding} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
+          "clean_window_null": 0.0, "sky_baseline": 1.0, "n_px": int(g.size),
+          "n_telluric_px": int(P.sum()), "max_depth": float(max(0.0, 1.0 - t.min()))}
+    if not P.any():
+        ev["residual_flux"] = 0.0
+        ev["sky_absorption"] = 0.0
+        return ev
+    ev["sky_absorption"] = float(np.mean(np.clip(1.0 - t[P], 0, None)) * P.mean())
+    own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
+    for ind_inst, ind in _INDEPENDENT[holding]:
+        try:
+            x = H.load_window_ex(ind_inst, w0, hw + 0.5, holding=ind, allow_uncorrected=True)
+        except LookupError:
+            continue
+        ref = np.interp(g, x.wave, x.flux)
+        ratio = own / ref
+        rbase = float(np.median(ratio[~P])) if (~P).sum() >= 3 else float(np.median(ratio))
+        ev["residual_basis"] = f"{holding} vs independent correction {ind}, baseline-removed"
+        ev["residual_flux"] = float(np.mean(np.abs(ratio[P] - rbase)) * P.mean())
+        return ev
+    ev["residual_flux"] = None
+    ev["residual_basis"] = f"NO independent correction covers {w0:.3f} A for {holding}"
+    return ev
+
+
+_OWN_SKY_CACHE: dict = {}
+
+
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     import measure_band_ew as H
     from pipeline import telluric_observability as T
+    if holding in _OWN_SKY:
+        return _telluric_own_sky(instrument, holding, w0, hw)
     sky_inst, raw, cor = _SKY.get(instrument, _SKY["kpno_solar_atlas"])
     if w0 > 10000.0:
         #: Kurucz 2005 stops at 10000 A; beyond it the sky is raw KP over the RYA-1230

@@ -24586,3 +24586,5 @@ artifacts:
       which its dT/T estimate under-applied: T_min 0.22 vs measured 0.54-0.87).
   # RYA-1232: zero-vdW atomic rows in the tracked VALD-built synthesis lists get GESv6's Unsöld
   # enhancement (2.5; Na I 2.0). Turbospectrum DROPS an atomic line with fdamp 0.0.
+  # RYA-1232: data/linelists/canonical_gf.csv +9 O I 926 nm rows (NIST grade A) and C I 16419.33
+  # graded by level identity (NIST grade D) -- scripts/rya1232_canonical_gf_ir_cno.py --apply
