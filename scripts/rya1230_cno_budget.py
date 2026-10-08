@@ -65,7 +65,9 @@ XI_STEP = 0.10
 C_STEP, SIGMA_C = 0.10, 0.04
 SIGMA_C_SOURCE = "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
 CSCALE = 0.001
-SPECIES = {"C": "C I", "N": "N I", "O": "O I"}
+SPECIES = {"C": "C I", "N": "N I", "O": "O I", "Fe": "Fe I"}
+#: RYA-1232: Fe II units carry --ion II; the canonical_gf species is ion-specific.
+SPECIES_ION = {("Fe", "II"): "Fe II"}
 
 
 def _selector(args: list[str]) -> str | None:
@@ -126,7 +128,19 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                               ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
-                                                   ("iag_fts_solar_atlas", "solar_iag")]}
+                                                   ("iag_fts_solar_atlas", "solar_iag")],
+                #: RYA-1232: the CRIRES+ Y arms (9802-10794 A) were missing -> KeyError held 4 Fe
+                #: NIR products. Independent corrections that cover Y: KP molecfit (to 13000),
+                #: IAG (to 11086), Kurucz 2005 (to 10008).
+                "solar_crires_plus_y_wide_rya1054": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                                     ("iag_fts_solar_atlas", "solar_iag"),
+                                                     ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
+                "solar_crires_plus_y_rya794": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
+                                               ("iag_fts_solar_atlas", "solar_iag"),
+                                               ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
+                #: CRIRES+ H has NO independent correction on the Mac (KP/IAG stop short of H);
+                #: its residual needs the raw/corrected CRIRES+ pair on Sirius (RYA-1192).
+                "solar_crires_plus_h_rya1094": []}
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -252,12 +266,56 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     prod = pd.read_csv(nominal_dir / prod_stem)
     acc = _acc(nom)
     n = len(acc)
+    # 🔴 RYA-1232 -- LEG-UNSTABLE LINES. A line the nominal fit accepts but a budget leg's
+    # fit REJECTS (NON-MINIMUM at frac_rise ~1e-5, edge_pinned, FIT-NOT-PHYSICAL) is not
+    # robustly measured in the nominal either: its acceptance hinges on a trivial
+    # perturbation. One such line out of 176 held 16 Fe products ("pool moved"). It is
+    # excluded from the pool as LEG-UNSTABLE -- recorded with the leg and the reason -- and
+    # the product re-aggregated the way the product is formed (median of the accepted
+    # lines' `abundance`, stat = std/sqrt(n)). Bounded: at most 5% of the pool and >= 2
+    # lines left, otherwise the moved pool still HOLDS (it is then not a marginal line).
+    unstable = {}
+    for _lg in ("xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale",
+                "c_minus", "c_plus"):
+        _L = _leg_lines(unit_dir / _lg, lines_stem)
+        if _L is None:
+            continue
+        _ok = set(_acc(_L)["wavelength_air_A"].round(3))
+        _all = {round(float(w), 3): r for w, r in zip(_L["wavelength_air_A"],
+                                                      _L.get("excluded_reason", pd.Series([""] * len(_L))))}
+        for _w in set(acc["wavelength_air_A"].round(3)) - _ok:
+            unstable.setdefault(float(_w), []).append(f"{_lg}: {str(_all.get(_w, ''))[:90]}")
+    if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
+        acc = acc[~acc["wavelength_air_A"].round(3).isin(list(unstable))]
+        n = len(acc)
+        _ab = acc["abundance"].astype(float)
+        restat = {"A": round(float(_ab.median()), 3),
+                  "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4),
+                  "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
+    else:
+        restat = None
+    _pool_w = set(acc["wavelength_air_A"].round(3))
+
+    def _accp(df):
+        a_ = _acc(df)
+        return a_[a_["wavelength_air_A"].round(3).isin(_pool_w)]
     element = str(prod["element"].iloc[0])
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
-    row = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)[0]
+    _rows = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)
+    if not _rows:
+        #: an EMPTY product (no accepted line, no value) -- recorded, never a crash
+        return {"row": {"A": None, "treatment": str(prod.get("treatment", pd.Series([None])).iloc[0]),
+                        "holding": holding, "selector": selector, "element": str(prod["element"].iloc[0]),
+                        "band": None},
+                "skip": "empty product: no accepted line, no value to budget"}
+    row = _rows[0]
     row["star"] = "solar"
+    if restat:
+        row["A"], row["n_lines"] = restat["A"], restat["n_lines"]
+        if "sigma_stat" in row:
+            row["sigma_stat"] = restat["stat_dex"]
     band = row["band"]
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
     lo, hi = float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi"))
@@ -287,7 +345,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
-    g = gf[gf["species"] == SPECIES[element]]
+    g = gf[gf["species"] == SPECIES_ION.get((element, str(_arg(unit_args, "--ion", "I"))), SPECIES[element])]
     ids, sig, src = [], [], []
     for _, l in acc.iterrows():
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
@@ -359,6 +417,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from rya1120_xi_campaign import dA_dxi
     lo_d, hi_d = unit_dir / "xi_minus", unit_dir / "xi_plus"
     L, Hh = _leg_lines(lo_d, lines_stem), _leg_lines(hi_d, lines_stem)
+
+    def _restrict(df):
+        #: the xi legs are paired leg-vs-leg, so they must see the SAME stable pool as
+        #: every other term (a leg-unstable line both xi legs accept still moved it)
+        if df is None:
+            return None
+        df = df.copy()
+        df.loc[~df["wavelength_air_A"].round(3).isin(_pool_w), "in_aggregate"] = False
+        return df
+    L, Hh = _restrict(L), _restrict(Hh)
     if L is not None and Hh is not None:
         d = dA_dxi(Hh, L, step_kms=XI_STEP, minus_dir=lo_d, plus_dir=hi_d, xi_nominal=1.0)
         pl = paired_differential(Hh, L)
@@ -384,7 +452,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if leg is None:
             notes.append(f"{name}: leg {legname} missing")
             return
-        p = _paired(_acc(leg), acc, n)
+        p = _paired(_accp(leg), acc, n)
         if p["moved"]:
             notes.append(f"{name}: pool moved ({p['n_paired']} vs {n})")
             return
@@ -399,14 +467,14 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if lo_l is None or hi_l is None:
         notes.append("continuum: q80/q97 legs missing")
     else:
-        pc = _paired(_acc(hi_l), _acc(lo_l), n)
+        pc = _paired(_accp(hi_l), _accp(lo_l), n)
         if pc["moved"]:
             notes.append(f"continuum: pool moved ({pc['n_paired']} vs {n})")
         else:
             # RYA-1232: + the REFERENCE spread (IAG atlas vs synthesis), in quadrature --
             # Amarsi+2021's two-atlas spread. Outside 5001-11086 A the leg equals nominal.
             ref_l = _leg_lines(unit_dir / "contref", lines_stem)
-            pr = _paired(_acc(ref_l), acc, n) if ref_l is not None else None
+            pr = _paired(_accp(ref_l), acc, n) if ref_l is not None else None
             if ref_l is None:
                 notes.append("continuum: contref leg missing")
             elif pr["moved"]:
@@ -465,7 +533,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if cm is None or cp is None:
             notes.append("blends: A(C) legs missing")
         else:
-            pp = _paired(_acc(cp), _acc(cm), n)
+            pp = _paired(_accp(cp), _accp(cm), n)
             if pp["moved"]:
                 notes.append(f"blends: pool moved ({pp['n_paired']} vs {n})")
             else:
@@ -559,7 +627,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         validate(doc, scope=scope)
     except UncertaintyError as exc:
         verdict = str(exc)
+    if restat:
+        notes.append("leg-unstable excluded: " + ", ".join(restat["leg_unstable"]))
     return {"row": row, "budget": doc, "ids": ids, "notes": notes, "verdict": verdict,
+            "restat": restat,
             "prod_stem": prod_stem, "nominal_dir": str(nominal_dir)}
 
 
@@ -605,6 +676,11 @@ def main() -> int:
             out.append(rec)
             if r["verdict"] is None:
                 df = pd.read_csv(Path(r["nominal_dir"]) / r["prod_stem"])
+                if r.get("restat"):
+                    rs = r["restat"]
+                    df["n_excluded"] = df["n_excluded"] + (df["n_lines"] - rs["n_lines"])
+                    df["A"], df["stat_dex"], df["n_lines"] = rs["A"], rs["stat_dex"], rs["n_lines"]
+                    df["leg_unstable_excluded"] = json.dumps(rs["leg_unstable"])
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
                 df["sigma_reported"] = b["sigma_reported"]

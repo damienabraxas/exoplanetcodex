@@ -960,12 +960,6 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "sampling than Baker (4.06M vs 728K points)."),
     ),
     "crires_plus": (
-        HoldingSpec("solar_crires_plus_j_rya1219", reader="crires_corrected_j",
-                    pre_normalised=True, span_A=(11164.0, 13495.0),
-                    note="RYA-1219 full-arm J molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
-        HoldingSpec("solar_crires_plus_k_rya1219", reader="crires_corrected_k",
-                    pre_normalised=True, span_A=(19459.0, 24855.0),
-                    note="RYA-1219 full-arm K molecfit products; telluric-corrected and normalized; topocentric pending reflected-solar conditioning."),
         HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
                     span_A=(10280.0, 10680.0), caveat=GDSAT_CAVEAT,
                     note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
@@ -1009,6 +1003,19 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                     note="RYA-1219 corrected + RYA-1214 rest-frame conditioned K arm, four "
                          "settings co-added. K2166 kept RYA-1219's controlled CO-refit retry "
                          "and K2148/K2166 place no CO bandhead on a chip (RYA-1219 README)."),
+        # 🔴 RYA-1232: the TOPOCENTRIC RYA-1219 frames have their own names and sit AFTER
+        # the conditioned run. RYA-1218 registered them FIRST under the science names
+        # (solar_crires_plus_{j,k}_rya1219), so every small window resolved to unconditioned
+        # flux shifted by Vesta's velocity: the band route fitted 10 of 12 Elgueta J-band
+        # C I lines to the bottom of the bracket. Only full-span requests (the CN J region)
+        # reached the conditioned product. A pixel audit that wants the raw frame asks for
+        # it by THIS name; a measurement never gets it by default.
+        HoldingSpec("solar_crires_plus_j_rya1219_topocentric", reader="crires_corrected_j",
+                    pre_normalised=True, span_A=(11164.0, 13495.0),
+                    note="RYA-1219 full-arm J molecfit products; telluric-corrected and normalized; TOPOCENTRIC (not rest-frame conditioned) -- audits only."),
+        HoldingSpec("solar_crires_plus_k_rya1219_topocentric", reader="crires_corrected_k",
+                    pre_normalised=True, span_A=(19459.0, 24855.0),
+                    note="RYA-1219 full-arm K molecfit products; telluric-corrected and normalized; TOPOCENTRIC (not rest-frame conditioned) -- audits only."),
         HoldingSpec("solar_vesta_crires_plus_idp", reader="crires_idp",
                     pre_normalised=False,
                     note="Raw Vesta IDPs: adu, un-normalised, TOPOCENT, telluric "
