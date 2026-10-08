@@ -24584,3 +24584,5 @@ artifacts:
       unbiased, sigma(T) = k(1-T)/T, k 0.23-0.34 optical / 0.06-0.09 NIR. --apply quarantines
       T < k/(k+0.05) in data/processed/kp1984_telluric_corrected/*.txt (RYA-940's own 5% budget,
       which its dT/T estimate under-applied: T_min 0.22 vs measured 0.54-0.87).
+  # RYA-1232: zero-vdW atomic rows in the tracked VALD-built synthesis lists get GESv6's Unsöld
+  # enhancement (2.5; Na I 2.0). Turbospectrum DROPS an atomic line with fdamp 0.0.
