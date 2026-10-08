@@ -250,6 +250,13 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 
 # ── one product ────────────────────────────────────────────────────────────────
+def _gf_covariance(sig, src, tags):
+    """RYA-1233: the registry-driven gf covariance (pipeline.gf_error_model)."""
+    from pipeline.gf_error_model import covariance
+    cov, note, _unreviewed = covariance(sig, src, tags)
+    return cov, note
+
+
 def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from config.synth_bands import SYNTH_BANDS
     from pipeline.band_policy import resolve as band_of
@@ -302,7 +309,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     _ion = str(prod["ion"].iloc[0]).strip() if "ion" in prod.columns else ""
     species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
     g = gf[gf["species"] == species]
-    ids, sig, src = [], [], []
+    ids, sig, src, tags = [], [], [], []
     for _, l in acc.iterrows():
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
               & ((g.excitation_potential_eV - l.ep_eV).abs() < 0.005)]
@@ -331,6 +338,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           if len(classes) > 1 else ""))
         sig.append(s)
         src.append(ref)
+        tags.append(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "")
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)
@@ -355,10 +363,9 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           evidence={"method": "line_scatter", "independent": True, "n_lines": n,
                                     "raw_sigma": raw, "pool_sha256": digest}))
     w = [1.0 / n] * n
-    cov = [[sig[a] * sig[b] if src[a] == src[b] else 0.0 for b in range(n)] for a in range(n)]
+    cov, cov_note = _gf_covariance(sig, src, tags)
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
-                                 covariance_source=("canonical_gf per-line sigma; lines sharing "
-                                                    "one source are fully correlated")))
+                                 covariance_source=cov_note))
     for name, why in (("stellar.logg", "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)"),
                       ("stellar.metallicity", "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)")):
         comps.append(dict(name=name, sigma_dex=0.0, state="DEFINED", source=why,

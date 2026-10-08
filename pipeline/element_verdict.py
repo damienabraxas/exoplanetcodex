@@ -195,6 +195,40 @@ def problem_lines(star: str, symbol: str, judged: list[dict], cells: list[dict])
     return out
 
 
+def judge_feed(star: str, element: str) -> dict:
+    """Process step 12 on the FEED: every published product of this element judged against
+    its literature band, however it was built (RYA-1233). `verdict` judges only products a
+    run report's cells produced, so products built by the budget legs and published through
+    the normal publisher were never checked -- 26 Si products read INCOMPLETE on 0 judged.
+    Same `judge`, same element-verdict rules; decides no abundance, writes nothing."""
+    symbol, _ = rm.split_symbol(element)
+    feed = rm.load_feed(star, symbol) or {}
+    bench, bench_why = is_benchmark(star)
+    judged = []
+    for p in feed.get("products", []):
+        lit, why = literature_for(symbol, str(p.get("ion", "I")))
+        j = judge(p, lit, why, bench)
+        j.update(band=p.get("band", ""), instrument=p.get("instrument", ""),
+                 holding=p.get("holding", ""), ion=p.get("ion", ""),
+                 engine=p.get("treatment", ""), route=p.get("route", ""),
+                 pool=p.get("selector", ""), cell_status="PUBLISHED")
+        judged.append(j)
+    if not bench:
+        ev = REPORTED
+    elif not judged or not any(j["status"] == IN_BAND for j in judged):
+        ev = INCOMPLETE
+    elif any(j["status"] == OUT_OF_BAND for j in judged):
+        ev = REVIEW
+    else:
+        ev = PASS
+    return {"element_verdict": ev, "benchmark": bench, "benchmark_basis": bench_why,
+            "n_products_judged": len(judged),
+            "counts": {s: sum(j["status"] == s for j in judged)
+                       for s in (IN_BAND, OUT_OF_BAND, NO_REFERENCE, REPORTED)},
+            "n_scale_mismatch": sum(1 for j in judged if j.get("scale_mismatch")),
+            "cells": judged}
+
+
 def verdict(star: str, element: str, *, report_dir: Path | None = None,
             write: bool = True) -> dict:
     """The element's verdict + problem lines, written INTO its run report (latest and
