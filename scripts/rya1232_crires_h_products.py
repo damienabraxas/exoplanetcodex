@@ -53,7 +53,7 @@ def frame_tag(f) -> str:
 
 
 def main() -> int:
-    from rya1191_crires_h_correct import h_frames
+    from rya1191_crires_h_correct import h_frames, H_LO_A, H_HI_A
     ap = argparse.ArgumentParser()
     ap.add_argument("--work", required=True, type=Path)
     ap.add_argument("--out", required=True, type=Path)
@@ -69,8 +69,12 @@ def main() -> int:
         for s in f.segments:
             z = a.work / f"{tag}_o{int(s.order)}d{int(s.detector)}_corrected.npz"
             if not z.exists():
+                #: only segments the --full-arm selection covers (>= 50 px, overlapping the
+                #: H band 15007-17494 A) are owed a correction; orders wholly outside it are
+                #: not part of the H holding
                 w = np.asarray(s.wave_A, float)
-                if np.isfinite(w).sum() >= 50:
+                w = w[np.isfinite(w)]
+                if w.size >= 50 and not (w.max() < H_LO_A or w.min() > H_HI_A):
                     missing.append(f"o{int(s.order)}d{int(s.detector)}")
                 continue
             d = np.load(z)
