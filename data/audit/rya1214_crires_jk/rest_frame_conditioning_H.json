@@ -1,0 +1,125 @@
+{
+  "ticket": "RYA-1214",
+  "manifest": "data/audit/rya1232_crires_h/corrected_products_manifest.csv",
+  "rest_frame_note": "rest frame = mean photospheric Fe I core (NOT laboratory rest): carries the solar convective blueshift (~-0.3..-0.4 km/s, depth-dependent) + gravitational redshift (+0.633 km/s). Shift-invariant for EW/synthesis; cancels in differential abundances.",
+  "arms": {
+    "H": {
+      "holding": "solar_crires_plus_h_rya1232",
+      "frames": [
+        {
+          "setting": "H1582",
+          "product": "vesta_crires_H1582_ADP.2025-06-06T16:08:50.327_telluric.fits",
+          "mjd": 59905.00726757,
+          "horizons_v_total": 25.354,
+          "anchors_available": 127,
+          "v": 25.9289,
+          "v_std": 0.3483,
+          "n_train": 29,
+          "n_test": 26,
+          "test_residual": 0.078,
+          "n_anchor_lines_measured": 60,
+          "telluric_closure_kms": -0.083,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1559",
+          "product": "vesta_crires_H1559_ADP.2025-06-06T16:08:50.330_telluric.fits",
+          "mjd": 59905.011743,
+          "horizons_v_total": 25.365,
+          "anchors_available": 125,
+          "v": 25.8802,
+          "v_std": 0.4087,
+          "n_train": 36,
+          "n_test": 34,
+          "test_residual": -0.1372,
+          "n_anchor_lines_measured": 76,
+          "telluric_closure_kms": -0.229,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1567",
+          "product": "vesta_crires_H1567_ADP.2025-06-06T16:11:04.003_telluric.fits",
+          "mjd": 59907.01940251,
+          "horizons_v_total": 25.409,
+          "anchors_available": 117,
+          "v": 25.7986,
+          "v_std": 0.1658,
+          "n_train": 33,
+          "n_test": 36,
+          "test_residual": -0.0818,
+          "n_anchor_lines_measured": 82,
+          "telluric_closure_kms": 0.008,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1575",
+          "product": "vesta_crires_H1575_ADP.2025-06-06T16:14:11.197_telluric.fits",
+          "mjd": 59907.99433991,
+          "horizons_v_total": 25.355,
+          "anchors_available": 123,
+          "v": 25.7503,
+          "v_std": 0.3726,
+          "n_train": 35,
+          "n_test": 34,
+          "test_residual": 0.0001,
+          "n_anchor_lines_measured": 71,
+          "telluric_closure_kms": -0.031,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1575",
+          "product": "vesta_crires_H1575_ADP.2025-06-06T16:14:11.200_telluric.fits",
+          "mjd": 59907.99718857,
+          "horizons_v_total": 25.362,
+          "anchors_available": 123,
+          "v": 25.6905,
+          "v_std": 0.3744,
+          "n_train": 33,
+          "n_test": 33,
+          "test_residual": -0.0437,
+          "n_anchor_lines_measured": 70,
+          "telluric_closure_kms": -0.096,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1582",
+          "product": "vesta_crires_H1582_ADP.2025-06-06T16:29:59.732_telluric.fits",
+          "mjd": 59905.99822882,
+          "horizons_v_total": 25.347,
+          "anchors_available": 127,
+          "v": 25.5877,
+          "v_std": 0.3182,
+          "n_train": 27,
+          "n_test": 27,
+          "test_residual": 0.1902,
+          "n_anchor_lines_measured": 60,
+          "telluric_closure_kms": -0.127,
+          "verdict": "PASS"
+        },
+        {
+          "setting": "H1559",
+          "product": "vesta_crires_H1559_ADP.2025-06-06T16:29:59.735_telluric.fits",
+          "mjd": 59906.00458678,
+          "horizons_v_total": 25.363,
+          "anchors_available": 125,
+          "v": 25.6575,
+          "v_std": 0.2673,
+          "n_train": 37,
+          "n_test": 33,
+          "test_residual": 0.2001,
+          "n_anchor_lines_measured": 77,
+          "telluric_closure_kms": -0.237,
+          "verdict": "PASS"
+        }
+      ],
+      "written": "data/results/rya1214_crires_jk/solar_crires_plus_h_rya1232_rest.csv",
+      "n_pixels": 52410,
+      "span_air_A": [
+        14942.9543,
+        17585.1612
+      ],
+      "grid_step_A": 0.05023,
+      "frames_used": 7
+    }
+  }
+}

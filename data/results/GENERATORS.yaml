@@ -24558,3 +24558,24 @@ artifacts:
       Staged product with its RYA-587 budget embedded (uncertainty column), copied
       into the repo so the feed row's provenance.copied_to resolves; legs run by
       scripts/rya1230_cno_budget_legs.py / rya1230_cn_budget_legs.py on the RYA-1232 rules.
+
+  # ── RYA-1232: our full-arm molecfit-corrected CRIRES+ H arm ──
+  - artifact: rya1214_crires_jk/solar_crires_plus_h_rya1232_rest.csv
+    status: COMMITTED
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: >-
+      python3 scripts/rya1191_crires_h_correct.py --run --full-arm --work <work> (per frame) &&
+      python3 scripts/rya1232_crires_h_products.py --work <work> --out data/results/rya1232_crires_products
+      --manifest data/audit/rya1232_crires_h/corrected_products_manifest.csv &&
+      python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1232_crires_products --arm H
+      --manifest data/audit/rya1232_crires_h/corrected_products_manifest.csv
+    ticket: RYA-1232
+    note: >-
+      Holding solar_crires_plus_h_rya1232. Seven Vesta H IDPs, 116 segments molecfit-corrected
+      (H2O+CO2+CH4, per-night GDAS, 0 failed), rest-frame conditioned (7/7 PASS). Replaces
+      rya1094 (Elgueta's reduction) for science. Known residual: CH4 at 16656.0 A (~24%).
+  - artifact: rya1214_crires_jk/rest_frame_conditioning_H.json
+    status: COMMITTED
+    generator: scripts/rya1214_condition_crires_jk.py
+    invocation: python3 scripts/rya1214_condition_crires_jk.py --products data/results/rya1232_crires_products --arm H --manifest data/audit/rya1232_crires_h/corrected_products_manifest.csv
+    ticket: RYA-1232

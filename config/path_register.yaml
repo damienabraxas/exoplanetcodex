@@ -337,6 +337,15 @@ entries:
     desc: >-
       CRIRES+ Vesta K arm, RYA-1219 molecfit-corrected, rest-frame conditioned by RYA-1214
       (scripts/rya1214_condition_crires_jk.py), air, 19452.4-24845.6 A.
+  repo.crires_plus_solar_h_rya1232:
+    root: repo
+    rel: data/results/rya1214_crires_jk/solar_crires_plus_h_rya1232_rest.csv
+    kind: file
+    desc: >-
+      RYA-1232 CRIRES+ H arm from OUR seven Vesta IDPs, molecfit-corrected over every H
+      segment (rya1191_crires_h_correct --full-arm; H2O+CO2+CH4, per-night GDAS) and
+      rest-frame conditioned by rya1214_condition_crires_jk --arm H (all 7 frames PASS:
+      |v - Horizons| <= 0.6 km/s, held-out <= 0.2 km/s, closure <= 0.24 km/s).
   repo.crires_plus_solar_h_rya1094:
     root: repo
     rel: data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv
