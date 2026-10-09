@@ -91,6 +91,32 @@ def _measure_rew(element: str, ion: str, w: float) -> dict:
             "core_dv_kms": round((core - w) / w * 299792.458, 2)}
 
 
+_FRAME: dict = {}
+
+
+def _frame_dv(instrument, holding, lo, hi, load_window_ex, canon) -> tuple:
+    key = (holding, round(lo), round(hi))
+    if key in _FRAME:
+        return _FRAME[key]
+    fe = canon[(canon.species == "Fe I") & canon.gf_tier.astype(str).str.contains("LAB", na=False)
+               & canon.wavelength_air_A.between(lo + 1, hi - 1)].sort_values("log_gf", ascending=False)
+    dvs = []
+    for w in fe.wavelength_air_A.head(60):
+        if len(dvs) >= 20:
+            break
+        try:
+            x = load_window_ex(instrument, float(w), 0.3, holding=holding)
+        except Exception:                                      # noqa: BLE001
+            continue
+        wl, f = np.asarray(x[0], float), np.asarray(x[1], float)
+        near = np.isfinite(f) & (np.abs(wl - w) < 0.08)
+        if near.sum() < 3 or 1 - np.nanmin(f[near]) < 0.3:
+            continue
+        dvs.append((wl[near][int(np.nanargmin(f[near]))] - w) / w * 299792.458)
+    _FRAME[key] = ((round(float(np.median(dvs)), 2), len(dvs)) if len(dvs) >= 5 else (None, len(dvs)))
+    return _FRAME[key]
+
+
 def prepare(star: str, element: str) -> dict:
     from pipeline import gf_error_model, line_sets as ls, problem_children as pc
     from pipeline import run_matrix as rm
@@ -217,12 +243,13 @@ def prepare(star: str, element: str) -> dict:
             res.setdefault("dv_kms", []).append(round(dv, 2))
             if abs(dv) > REST_TOL_KMS:
                 res["off_rest"].append({"wavelength_A": w, "dv_kms": round(dv, 1)})
-        # A FRAME error moves every line of the holding; one line off by 3-4 km/s on every
-        # holding alike is that line's catalogued wavelength (or its convective shift), not
-        # the spectrum's frame (Si 3203.872 reads -3.5/-4.0 on both Kitt Peak holdings).
-        dvs = res.get("dv_kms") or []
-        res["median_dv_kms"] = round(float(np.median(dvs)), 2) if dvs else None
-        res["frame_ok"] = res["median_dv_kms"] is None or abs(res["median_dv_kms"]) <= REST_TOL_KMS
+        # The FRAME is the spectrum's, not the element's: measured on the holding's strongest
+        # Fe I laboratory lines in the window (up to 20, depth >= 0.3). On 3 weak Si lines IAG
+        # Reiners 2016 read -3.2 km/s; on 60 strong Fe I lines it reads +0.46, the same as
+        # Kurucz 2005 (+0.38). Fewer than 5 measurable lines -> frame undetermined (a note).
+        fdv = _frame_dv(d.instrument, d.holding, d.lo_A, d.hi_A, load_window_ex, canon)
+        res["frame_median_dv_kms"], res["frame_n_lines"] = fdv
+        res["frame_ok"] = fdv[0] is None or abs(fdv[0]) <= REST_TOL_KMS
         # A holding is broken when it serves NOTHING it should, or serves lines off rest. A
         # single line in a coverage gap (KP 1984 has none at 11253 A) is a coverage note.
         # Blocking = the holding serves lines OFF its frame. A graded line that falls in a
@@ -282,7 +309,7 @@ def render(rep: dict) -> str:
     L.append(f"  E holdings: {len(rep['holdings'])} windows; {len(bad)} not serving / frame off rest")
     for h in bad:
         L.append(f"      {h['holding']} {h['band']}: served {h['served']}/{h['tested']}, "
-                 f"median dv {h.get('median_dv_kms')} km/s"
+                 f"frame {h.get('frame_median_dv_kms')} km/s on {h.get('frame_n_lines')} Fe I lines"
                  + (f"; lines off rest {h['off_rest']}" if h["off_rest"] else "")
                  + (f"; NOT served {h['not_served']}" if h["not_served"] else ""))
     return "\n".join(L)
