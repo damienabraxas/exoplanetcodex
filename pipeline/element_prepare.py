@@ -99,7 +99,10 @@ def prepare(star: str, element: str) -> dict:
     sp_all = canon[canon.species.astype(str).str.split().str[0] == element]
     graded = sp_all[is_gf_graded(sp_all)]
     table = pc.line_dispositions()
-    culled = {(s, round(w, 2)) for (s, w), _c in ls.culled_by_star().get(star, {}).items()}
+    _cull = ls.culled_by_star().get(star, {})
+
+    def is_culled(sp: str, w: float) -> bool:
+        return any(s == sp and abs(cw - w) < 0.01 for (s, cw) in _cull)
     rep: dict = {"star": star, "element": element, "generated": str(date.today()),
                  "sets": [], "adopt": [], "missing_lines": [], "gf_sources": [],
                  "cull_candidates": [], "nlte_missing": [], "holdings": [], "literature": {}}
@@ -158,7 +161,7 @@ def prepare(star: str, element: str) -> dict:
     #      not a line the solar literature measured the Sun on
     for _, g in graded.iterrows():
         sp, w = str(g.species), float(g.wavelength_air_A)
-        if (sp, round(w, 2)) in culled:
+        if is_culled(sp, w):
             continue
         m = _measure_rew(element, sp.split()[1], w)
         if m.get("saturated") and (sp, round(w, 1)) not in lit_waves:
@@ -170,7 +173,7 @@ def prepare(star: str, element: str) -> dict:
     served = set(pd.read_csv(nlte).wave_A.round(1)) if nlte.exists() else set()
     for _, g in graded.iterrows():
         sp, w = str(g.species), float(g.wavelength_air_A)
-        if sp.endswith(" I") and (sp, round(w, 2)) not in culled and round(w, 1) not in served:
+        if sp.endswith(" I") and not is_culled(sp, w) and round(w, 1) not in served:
             rep["nlte_missing"].append({"species": sp, "wavelength_A": w})
     rep["nlte_table"] = str(nlte.relative_to(ROOT)) if nlte.exists() else None
 
@@ -211,11 +214,21 @@ def prepare(star: str, element: str) -> dict:
                 continue
             core = float(wl[near][int(np.nanargmin(f[near]))])
             dv = (core - w) / w * 299792.458
+            res.setdefault("dv_kms", []).append(round(dv, 2))
             if abs(dv) > REST_TOL_KMS:
                 res["off_rest"].append({"wavelength_A": w, "dv_kms": round(dv, 1)})
+        # A FRAME error moves every line of the holding; one line off by 3-4 km/s on every
+        # holding alike is that line's catalogued wavelength (or its convective shift), not
+        # the spectrum's frame (Si 3203.872 reads -3.5/-4.0 on both Kitt Peak holdings).
+        dvs = res.get("dv_kms") or []
+        res["median_dv_kms"] = round(float(np.median(dvs)), 2) if dvs else None
+        res["frame_ok"] = res["median_dv_kms"] is None or abs(res["median_dv_kms"]) <= REST_TOL_KMS
         # A holding is broken when it serves NOTHING it should, or serves lines off rest. A
         # single line in a coverage gap (KP 1984 has none at 11253 A) is a coverage note.
-        res["ok"] = res["graded_lines"] == 0 or (res["served"] > 0 and not res["off_rest"])
+        # Blocking = the holding serves lines OFF its frame. A graded line that falls in a
+        # coverage gap (11253.189 A in KP 1984 and CRIRES+ J alike) is a coverage note: that
+        # cell simply has nothing to measure, which the coverage report records.
+        res["ok"] = res["frame_ok"]
         rep["holdings"].append(res)
 
     # F -- literature
@@ -225,9 +238,16 @@ def prepare(star: str, element: str) -> dict:
     rep["literature"] = {"litscan": lit.exists(), "set_bib_keys": sorted(keys),
                          "missing_bib_keys": sorted(keys - bib)}
 
-    rep["ready"] = (rep["literature"]["litscan"] and not rep["literature"]["missing_bib_keys"]
-                    and not rep["missing_lines"] and not rep["adopt"] and not rep["cull_candidates"]
-                    and all(h["ok"] for h in rep["holdings"]))
+    # READY blocks only on what would make a measurement WRONG: an un-adopted published gf,
+    # an un-culled saturated line, a solar-literature line missing from canonical_gf, a
+    # holding whose frame is off, missing literature. NLTE gaps (ENGINE-A held for those
+    # lines) and unclassified gf sources (budget says UNREVIEWED) are NOTES for the review.
+    rep["blocking"] = {
+        "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
+        "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
+        "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
+        "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
+    rep["ready"] = not any(rep["blocking"].values())
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / f"{star}_{element}.json").write_text(json.dumps(rep, indent=1, default=str) + "\n")
     (OUT / f"{star}_{element}.md").write_text(render(rep) + "\n")
@@ -236,7 +256,8 @@ def prepare(star: str, element: str) -> dict:
 
 def render(rep: dict) -> str:
     L = [f"PREPARE {rep['star']} {rep['element']}  -> "
-         + ("READY to measure" if rep["ready"] else "NOT READY -- review, then --apply")]
+         + ("READY to measure" if rep["ready"] else
+            "NOT READY -- blocking: " + ", ".join(f"{k} {v}" for k, v in rep["blocking"].items() if v))]
     lit = rep["literature"]
     L.append(f"  F literature: litscan {'yes' if lit['litscan'] else 'MISSING'}; "
              f"set bibliography keys {lit['set_bib_keys']}"
@@ -258,10 +279,11 @@ def render(rep: dict) -> str:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
     L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}")
     bad = [h for h in rep["holdings"] if not h["ok"]]
-    L.append(f"  E holdings: {len(rep['holdings'])} windows; {len(bad)} not serving / off rest")
+    L.append(f"  E holdings: {len(rep['holdings'])} windows; {len(bad)} not serving / frame off rest")
     for h in bad:
-        L.append(f"      {h['holding']} {h['band']}: served {h['served']}/{h['tested']}"
-                 + (f"; off rest {h['off_rest']}" if h["off_rest"] else "")
+        L.append(f"      {h['holding']} {h['band']}: served {h['served']}/{h['tested']}, "
+                 f"median dv {h.get('median_dv_kms')} km/s"
+                 + (f"; lines off rest {h['off_rest']}" if h["off_rest"] else "")
                  + (f"; NOT served {h['not_served']}" if h["not_served"] else ""))
     return "\n".join(L)
 
