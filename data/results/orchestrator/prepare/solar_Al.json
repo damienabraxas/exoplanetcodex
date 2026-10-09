@@ -1,0 +1,530 @@
+{
+ "star": "solar",
+ "element": "Al",
+ "generated": "2026-10-09",
+ "sets": [
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 6696.015,
+   "solar_literature": true,
+   "authors_loggf": -1.569,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 6696.023,
+   "canonical_loggf": -1.46,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0374264979406236,
+   "d_loggf": -0.109
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 6698.672,
+   "solar_literature": true,
+   "authors_loggf": -1.87,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 6698.673,
+   "canonical_loggf": -1.76,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0334237554869497,
+   "d_loggf": -0.11
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 7835.309,
+   "solar_literature": true,
+   "authors_loggf": -0.689,
+   "authors_sigma_dex": 0.04,
+   "canonical_wavelength_A": 7835.309,
+   "canonical_loggf": -0.649,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": -0.04
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 8912.9,
+   "solar_literature": true,
+   "authors_loggf": -1.963,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 8912.9,
+   "canonical_loggf": -2.348,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.385
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 10768.363,
+   "solar_literature": true,
+   "authors_loggf": -2.02,
+   "authors_sigma_dex": 0.06,
+   "canonical": "MISSING"
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 10872.975,
+   "solar_literature": true,
+   "authors_loggf": -1.326,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 10872.973,
+   "canonical_loggf": -1.3996613158447315,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.074
+  }
+ ],
+ "adopt": [
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 6696.015,
+   "solar_literature": true,
+   "authors_loggf": -1.569,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 6696.023,
+   "canonical_loggf": -1.46,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0374264979406236,
+   "d_loggf": -0.109,
+   "line_id": "gf_000020"
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 6698.672,
+   "solar_literature": true,
+   "authors_loggf": -1.87,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 6698.673,
+   "canonical_loggf": -1.76,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0334237554869497,
+   "d_loggf": -0.11,
+   "line_id": "gf_000023"
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 7835.309,
+   "solar_literature": true,
+   "authors_loggf": -0.689,
+   "authors_sigma_dex": 0.04,
+   "canonical_wavelength_A": 7835.309,
+   "canonical_loggf": -0.649,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": -0.04,
+   "line_id": "gf_000063"
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 8912.9,
+   "solar_literature": true,
+   "authors_loggf": -1.963,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 8912.9,
+   "canonical_loggf": -2.348,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.385,
+   "line_id": "gf_000077"
+  },
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 10872.975,
+   "solar_literature": true,
+   "authors_loggf": -1.326,
+   "authors_sigma_dex": 0.06,
+   "canonical_wavelength_A": 10872.973,
+   "canonical_loggf": -1.3996613158447315,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.074,
+   "line_id": "gf_167476"
+  }
+ ],
+ "missing_lines": [
+  {
+   "set": "AL_AGSS21",
+   "species": "Al I",
+   "wavelength_A": 10768.363,
+   "solar_literature": true,
+   "authors_loggf": -2.02,
+   "authors_sigma_dex": 0.06,
+   "canonical": "MISSING"
+  }
+ ],
+ "gf_sources": [
+  {
+   "lab_source_tag": "Burheim2023",
+   "n_graded_lines": 3,
+   "classified": false
+  },
+  {
+   "lab_source_tag": "(none: NIST grade / stored sigma)",
+   "n_graded_lines": 1,
+   "classified": false
+  },
+  {
+   "lab_source_tag": "AL_AGSS21 (to be adopted)",
+   "n_graded_lines": 5,
+   "classified": false
+  }
+ ],
+ "cull_candidates": [],
+ "nlte_missing": [
+  {
+   "species": "Al I",
+   "wavelength_A": 6696.185
+  },
+  {
+   "species": "Al I",
+   "wavelength_A": 11253.189
+  }
+ ],
+ "holdings": [
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.69,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 6696.185,
+     "dv_kms": -3.8
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    0.37,
+    -3.75,
+    0.33
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 6696.185,
+     "dv_kms": -3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    0.24,
+    -3.73,
+    0.09
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_harps_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3782.6,
+   "hi_A": 6910.0,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 6696.185,
+     "dv_kms": -3.8
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    1.23,
+    -3.78,
+    1.23
+   ],
+   "frame_median_dv_kms": 0.88,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag_reiners2016",
+   "band": "VIS",
+   "lo_A": 4047.46,
+   "hi_A": 5001.1,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.51,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "VIS",
+   "lo_A": 5001.1,
+   "hi_A": 6910.0,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 6696.185,
+     "dv_kms": -3.9
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    0.34,
+    -3.89,
+    0.02
+   ],
+   "frame_median_dv_kms": 0.53,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.58,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.52,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10650.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 2,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10010.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 13000.0,
+   "graded_lines": 1,
+   "served": 0,
+   "tested": 1,
+   "off_rest": [],
+   "not_served": [
+    {
+     "wavelength_A": 11253.189,
+     "why": "LookupError: no 1984 atlas or corrected coverage at 11253.189 A"
+    }
+   ],
+   "frame_median_dv_kms": 0.45,
+   "frame_n_lines": 7,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "band": "NIR",
+   "lo_A": 9800.0,
+   "hi_A": 10796.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_rya794",
+   "band": "NIR",
+   "lo_A": 10280.0,
+   "hi_A": 10680.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_j_rya1219",
+   "band": "NIR",
+   "lo_A": 11159.94,
+   "hi_A": 13000.0,
+   "graded_lines": 1,
+   "served": 0,
+   "tested": 1,
+   "off_rest": [],
+   "not_served": [
+    {
+     "wavelength_A": 11253.189,
+     "why": "LookupError: CRIRES+ Y (telluric-corrected) holds only 0 points near 11253.189 A (spans 11159.9-13489.5"
+    }
+   ],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.08,
+   "frame_n_lines": 8,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_k_rya1219",
+   "band": "K",
+   "lo_A": 19452.42,
+   "hi_A": 24845.62,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  }
+ ],
+ "literature": {
+  "litscan": true,
+  "set_bib_keys": [
+   "nordlander_lind2017"
+  ],
+  "missing_bib_keys": []
+ },
+ "nlte_table": "data/nlte_grids/Al_Amarsi2020_PySME.csv",
+ "blocking": {
+  "adopt": 5,
+  "cull_candidates": 0,
+  "missing_solar_literature_lines": 1,
+  "holdings_frame": 0,
+  "literature": 0
+ },
+ "ready": false
+}

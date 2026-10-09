@@ -941,3 +941,16 @@ def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
                 (r["set_name"], w, "unpriced gf dispatched")
     elg = next(r for r in reg if r["set_name"] == "SI_ELGUETA2026")
     assert int(elg["n_graded"]) < int(elg["n_lines"])
+
+
+def test_an_element_is_not_measured_before_its_prepare_report_is_ready(rm, tmp_path, monkeypatch):
+    """RYA-1233: steps 6-8 are `run_pipeline --prepare`; the run refuses an element whose
+    prepare report is missing or NOT READY (Si looped because it measured first)."""
+    import json
+    monkeypatch.setattr(rm, "PREPARE_DIR", tmp_path)
+    row = lambda: next(r for r in rm.process_steps("solar", "Si", ["I"]) if r["step"] == 7)
+    assert not row()["ok"] and "--prepare" in row()["evidence"]
+    (tmp_path / "solar_Si.json").write_text(json.dumps({"ready": False, "blocking": {"adopt": 2}}))
+    assert not row()["ok"] and "adopt 2" in row()["evidence"]
+    (tmp_path / "solar_Si.json").write_text(json.dumps({"ready": True, "blocking": {}}))
+    assert row()["ok"]

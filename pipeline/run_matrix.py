@@ -74,6 +74,8 @@ from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
+#: RYA-1233: `run_pipeline --prepare` writes its report here; the run reads READY from it.
+PREPARE_DIR = ROOT / "data" / "results" / "orchestrator" / "prepare"
 HOLDINGS_REGISTRY = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
 CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 ELEMENTS_MASTER = ROOT / "data" / "config" / "elements_master.json"
@@ -398,6 +400,21 @@ def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list
                      "evidence": ("pinned in config/stars.yaml" if not unsolved else
                                   f"{unsolved} must be SOLVED for {star}; no solved-"
                                   f"parameter artifact exists")})
+    # RYA-1233: steps 6-8 ARE `run_pipeline --prepare`. Measuring before it was READY is what
+    # made Si loop (lines culled after measuring, gf adopted after measuring); the run now
+    # refuses to measure an element whose prepare report is missing or not READY.
+    prep = PREPARE_DIR / f"{star}_{symbol}.json"
+    try:
+        _p = json.loads(prep.read_text()) if prep.exists() else None
+    except Exception:                                          # noqa: BLE001
+        _p = None
+    blocking = ", ".join(f"{k} {v}" for k, v in ((_p or {}).get("blocking") or {}).items() if v)
+    rows.append({"step": 7, "name": "lines prepared (--prepare READY)",
+                 "ok": bool(_p and _p.get("ready")),
+                 "evidence": (f"{prep.relative_to(ROOT)} READY" if _p and _p.get("ready") else
+                              f"{prep.relative_to(ROOT)} NOT READY -- {blocking}" if _p else
+                              f"no {prep.relative_to(ROOT)} -- run `run_pipeline.py --star {star} "
+                              f"--element {symbol} --prepare` and review it before measuring")})
     if symbol not in FE_FIRST:
         try:
             fe = sum(len(load_feed(star, s).get("products", [])) for s in FE_FIRST)
