@@ -6,7 +6,7 @@ PREPARE solar Al  -> NOT READY -- blocking: adopt 5, missing_solar_literature_li
       adopt AL_AGSS21 Al I 7835.309: canonical -0.649 -> authors -0.689 +/- 0.04  (d -0.040)
       adopt AL_AGSS21 Al I 8912.9: canonical -2.348 -> authors -1.963 +/- 0.06  (d +0.385)
       adopt AL_AGSS21 Al I 10872.975: canonical -1.3996613158447315 -> authors -1.326 +/- 0.06  (d +0.074)
-      MISSING AL_AGSS21 Al I 10768.363: MISSING -- add it to canonical_gf (VALD/NIST extraction) before it can be measured
+      MISSING AL_AGSS21 Al I 10768.363: MISSING in canonical_gf; NOT in the synthesis list either -> run the VALD/NIST extraction for this line (codex-vald-extraction) so the synthesis can see it
   B gf source Burheim2023: 3 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source (none: NIST grade / stored sigma): 1 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source AL_AGSS21 (to be adopted): 5 graded lines, NOT in gf_error_model (UNREVIEWED)

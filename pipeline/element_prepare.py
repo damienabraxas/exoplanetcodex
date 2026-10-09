@@ -91,6 +91,35 @@ def _measure_rew(element: str, ion: str, w: float) -> dict:
             "core_dv_kms": round((core - w) / w * 299792.458, 2)}
 
 
+#: The synthesis line lists by wavelength range (the files derive synthesises with).
+SYNTH_LISTS = ((9200.0, ROOT / "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv"),
+               (13000.0, ROOT / "data/linelists/ispec_h_15007_17494/atomic_lines.tsv"),
+               (19000.0, ROOT / "data/linelists/ispec_k_19452_24846/atomic_lines.tsv"))
+_SYN: dict = {}
+
+
+def _in_synthesis_list(species: str, w: float) -> str | None:
+    """Which synthesis list carries this line (None: the synthesis cannot see it either)."""
+    path = None
+    for lo, f in SYNTH_LISTS:
+        if w >= lo:
+            path = f
+    if path is None:
+        import os
+        path = Path(os.environ.get("ISPEC_DIR", "/mnt/codex-data/engines/ispec_src")) / \
+            "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
+    if not path.exists():
+        return None
+    if path not in _SYN:
+        _SYN[path] = pd.read_csv(path, sep="\t", usecols=["element", "wave_A"], low_memory=False)
+    d = _SYN[path]
+    el, ion = species.split()
+    tag = f"{el} {1 if ion == 'I' else 2}"
+    hit = d[(d.element == tag) & ((d.wave_A - w).abs() < 0.02)]
+    return str(path.relative_to(ROOT)) if len(hit) and path.is_relative_to(ROOT) else (
+        str(path) if len(hit) else None)
+
+
 _FRAME: dict = {}
 
 
@@ -156,6 +185,7 @@ def prepare(star: str, element: str) -> dict:
             lit_waves.add((sp, round(w, 1)))
         if len(hit) != 1:
             row["canonical"] = "MISSING" if len(hit) == 0 else f"AMBIGUOUS ({len(hit)})"
+            row["in_synthesis_list"] = _in_synthesis_list(sp, w)
             rep["missing_lines"].append(row)
         else:
             h = hit.iloc[0]
@@ -296,8 +326,12 @@ def render(rep: dict) -> str:
                  f"{a['canonical_loggf']} -> authors {a['authors_loggf']} +/- {a['authors_sigma_dex']}"
                  f"  (d {a['d_loggf']:+.3f})")
     for m in rep["missing_lines"]:
-        L.append(f"      MISSING {m['set']} {m['species']} {m['wavelength_A']}: {m['canonical']} "
-                 f"-- add it to canonical_gf (VALD/NIST extraction) before it can be measured")
+        L.append(f"      MISSING {m['set']} {m['species']} {m['wavelength_A']}: {m['canonical']} in "
+                 f"canonical_gf; "
+                 + (f"in {m['in_synthesis_list']} -> add its canonical_gf row (gf provenance)"
+                    if m.get("in_synthesis_list") else
+                    "NOT in the synthesis list either -> run the VALD/NIST extraction for this "
+                    "line (codex-vald-extraction) so the synthesis can see it"))
     for s in rep["gf_sources"]:
         L.append(f"  B gf source {s['lab_source_tag']}: {s['n_graded_lines']} graded lines, "
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
