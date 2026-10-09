@@ -409,11 +409,15 @@ def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list
     except Exception:                                          # noqa: BLE001
         _p = None
     blocking = ", ".join(f"{k} {v}" for k, v in ((_p or {}).get("blocking") or {}).items() if v)
+    try:
+        pname = str(prep.relative_to(ROOT))
+    except ValueError:                       # a redirected report dir (tests, scratch)
+        pname = str(prep)
     rows.append({"step": 7, "name": "lines prepared (--prepare READY)",
                  "ok": bool(_p and _p.get("ready")),
-                 "evidence": (f"{prep.relative_to(ROOT)} READY" if _p and _p.get("ready") else
-                              f"{prep.relative_to(ROOT)} NOT READY -- {blocking}" if _p else
-                              f"no {prep.relative_to(ROOT)} -- run `run_pipeline.py --star {star} "
+                 "evidence": (f"{pname} READY" if _p and _p.get("ready") else
+                              f"{pname} NOT READY -- {blocking}" if _p else
+                              f"no {pname} -- run `run_pipeline.py --star {star} "
                               f"--element {symbol} --prepare` and review it before measuring")})
     if symbol not in FE_FIRST:
         try:
