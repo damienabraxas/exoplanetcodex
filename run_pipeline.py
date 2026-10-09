@@ -245,6 +245,13 @@ def main() -> None:
                         'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
+    m.add_argument('--publish', action='store_true',
+                   help='RYA-1233: after the run, governing-process steps 11-16 -- RYA-587 '
+                        'budget legs, assemble, publish through publish_product, literature '
+                        'check, coverage report (pipeline/element_publish.py).')
+    m.add_argument('--coverage', action='store_true',
+                   help='RYA-1233: print the definition-of-done table (every band x holding x '
+                        'ion x grade x treatment: PUBLISHED / HELD / NOT_RUN) and exit.')
     m.add_argument('--jobs', type=int, default=1, metavar='N',
                    help='RYA-1233: run up to N matrix cells in parallel (planning stays '
                         'serial; only execution fans out). Default 1.')
@@ -291,6 +298,12 @@ def main() -> None:
         sys.exit(1 if run_sweep.failed(doc) else 0)
 
     # ── RYA-1222: matrix mode. Delegates entirely; decides nothing itself. ────
+    if args.element and args.coverage:
+        from pipeline import coverage_report
+        cov = coverage_report.coverage(star_id, args.element)
+        print(coverage_report.render(cov))
+        sys.exit(0 if cov["done"] else 3)
+
     if args.element:
         from pipeline import run_matrix
         interp, ispec = _resolve_engine_env(args)
@@ -306,6 +319,13 @@ def main() -> None:
         from pipeline.run_sweep import executed
         print(f"executed: {executed(report)} stage dispatch(es)"
               f"{' (dry-run)' if args.dry_run else ''}")
+        if args.publish and not args.dry_run:
+            from pipeline import element_publish
+            s = element_publish.publish(star_id, args.element, report=report,
+                                        jobs=max(args.jobs, 1), interpreter=interp or None)
+            print(f"publish: {len(s['published'])} published, {len(s['held'])} held, "
+                  f"{len(s['dropped'])} dropped -- "
+                  f"{element_publish.budget_dir(star_id, args.element)}/publish_summary.json")
         # A cell that FAILED is a real failure and the exit code must say so, or a
         # CI job reads a green run off a report full of broken cells. BLOCKED and
         # NOT_READY are honest empties and do NOT fail the run -- they are the
