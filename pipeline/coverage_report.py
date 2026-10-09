@@ -55,6 +55,16 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
     if rep.exists():
         for c in json.loads(rep.read_text()).get("cells", []):
             last[(c["band"], c["holding"], c["ion"], c.get("pool") or "")] = c
+    # The budget stage's own verdicts (element_publish): a product built but held by its
+    # RYA-587 budget, or skipped as empty, is HELD with that reason -- not NOT_RUN.
+    budget_held = {}
+    bud = rm.REPORT_DIR / "budget" / f"{star}_{element.replace(' ', '')}" / "report.json"
+    if bud.exists():
+        for o in json.loads(bud.read_text()).get("products", []):
+            why = o.get("skip") or o.get("verdict")
+            if why:
+                budget_held[(o.get("band"), o.get("holding"), o.get("selector") or "",
+                             o.get("key_treatment"))] = f"budget: {why}"
     rows = []
     for ion in rm.graded_ions(symbol) or ["I"]:
         # The THREE grades only (Ryan): published sets (Reference), Codex, Deep. The
@@ -64,7 +74,9 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                            pools=["set", "codex", "deep"]):
             sel = _selector(d.pool)
             hold = rm.cell_process_hold(d)
-            run = last.get((d.band, d.holding, ion, d.pool or ""))
+            # The run report stores the pool as the feed token (pool_tier: GRADED / DEEPGRADED /
+            # SET-<NAME>), not the orchestrator's pool name.
+            run = last.get((d.band, d.holding, ion, rm.pool_tier(d) or ""))
             for t in TREATMENTS:
                 p = index.get((d.band, d.holding, ion, sel, t))
                 if p is not None:
@@ -73,7 +85,10 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out, why = "HELD", hold
                 elif run is not None and run.get("status") in (rm.FAILED, rm.HELD, rm.BLOCKED):
                     out, why = "HELD", f"{run['status']}: {run.get('reason', '')}"
-                elif t == "ENGINE-A" and index.get((d.band, d.holding, ion, sel, "1D-LTE")):
+                elif (d.band, d.holding, sel, t) in budget_held:
+                    out, why = "HELD", budget_held[(d.band, d.holding, sel, t)]
+                elif t == "ENGINE-A" and (index.get((d.band, d.holding, ion, sel, "1D-LTE"))
+                                          or (d.band, d.holding, sel, "1D-LTE") in budget_held):
                     out, why = "HELD", ("no NLTE correction for this pool's lines in the "
                                         "element's ENGINE-A table")
                 else:
