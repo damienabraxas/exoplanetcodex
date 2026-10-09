@@ -161,6 +161,11 @@ def _full_span(H, inst, hold):
 
 
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
+    if holding == "solar_crires_plus_h_rya1094":
+        # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
+        # mtrans of our Vesta IDPs) and the independent correction is our molecfit.
+        from pipeline.crires_h_sky import telluric_line as _h
+        return _h(w0, hw)
     import measure_band_ew as H
     from pipeline import telluric_observability as T
     sky_inst, raw, cor = _SKY.get(instrument, _SKY["kpno_solar_atlas"])

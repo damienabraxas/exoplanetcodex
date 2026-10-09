@@ -62,5 +62,55 @@
     "tar_md5_verified": "1489ce3bc4cafa68ee7fa8ec21f08c58",
     "binary_provenance": "amarsi_galah/Si_amarsi2020_v3.prov.json",
     "refetch": "zenodo.org/records/3982506/files/nlte_Si_scatt_pysme.tar.gz?download=1 (verify md5 1489ce3bc4cafa68ee7fa8ec21f08c58)"
-  }
+  },
+  "extensions": [
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-10-08",
+      "added_waves": [
+        5645.613,
+        5684.484,
+        5690.425,
+        5793.073,
+        6741.628,
+        7034.901,
+        7226.208,
+        9891.725,
+        10068.329,
+        10288.944,
+        10582.16,
+        10784.562,
+        10796.106,
+        11863.92,
+        11900.055,
+        12110.659,
+        12175.733,
+        12178.339,
+        12390.154,
+        12395.832,
+        12439.963,
+        12583.924,
+        13152.743,
+        13154.531,
+        15376.831,
+        16170.164,
+        16434.927,
+        16828.159
+      ],
+      "why": "ENGINE-A served 2 of Asplund's 7 VIS lines and no red-optical or IR line; the published Si products measure Asplund 2021, Deshmukh 2022 and Elgueta 2026 (solar-graded) lines.",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis linelist (RYA-410 rule); labels by pysme_nlte.auto_labels",
+      "existing_rows": "untouched; banked lines re-derived at solar for non-regression",
+      "script": "scripts/rya1233_extend_si_nlte.py",
+      "finding_6125": "RYA-410's banked 6125.021 row was labelled by nearest energy to an unreachable upper level (5f 2[9/2] J=5 from 3D* J=1). Re-derived at solar with the selection-rule label (5f 2[5/2] J=2): -0.0090 vs banked -0.0091 -- the mislabel moved nothing, as Amarsi & Asplund 2017 found for the analogous 722.6 nm choice. Banked row left unchanged.",
+      "non_regression_solar": {
+        "5622.220": 0.0002,
+        "5701.104": 0.0,
+        "5708.400": 0.0047,
+        "5772.146": 0.0003,
+        "5780.384": 0.001,
+        "6125.021": 0.0001,
+        "6253.598": 0.0002
+      }
+    }
+  ]
 }

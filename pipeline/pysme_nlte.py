@@ -225,6 +225,49 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
             float(J[il]), float(J[iu]))
 
 
+def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
+                              tol: float = 0.06):
+    """Grid level labels for a line, the upper level chosen by the LS SELECTION RULES
+    (RYA-1233). Returns (term_lower, term_upper, j_lo, j_up, note).
+
+    `auto_labels` takes the nearest level in energy for both ends. Where the line data's
+    upper level is not LS-coupled, the nearest grid level can be one the transition cannot
+    reach: Si 6125.021 (J 1->5), 6741.628 (J 3->1), 7034.901 (J 2->4), 7226.208 (J 1->3).
+    Amarsi & Asplund 2017 (MNRAS 464, 264, Sect. 2.3.1) met exactly 674.2/703.5/722.6 nm and
+    resolved them by the selection rules -- for 722.6 nm both 3D2 and 3F2 qualify; they
+    took 3D2 and found the departure coefficients differ by <0.01% where the line forms.
+    Here: lower = nearest level within `tol`; upper = the NEAREST level within `tol` of the
+    opposite parity with |dJ| <= 1 and not J 0->0. None within `tol` RAISES."""
+    from pipeline.nlte_bfactor_synth import read_amarsi_grid
+    g = read_amarsi_grid(element)
+    E = np.asarray(g.get('energy'), float)
+    J = np.asarray(g.get('J'), float)
+    conf, term = g.get('conf'), g.get('term')
+
+    def lab(i):
+        return f"{decode_grid_label(conf[i])} {decode_grid_label(term[i])}"
+
+    def odd(i):
+        return '*' in decode_grid_label(term[i])
+
+    il = int(np.argmin(np.abs(E - elow_eV)))
+    if abs(E[il] - elow_eV) > tol:
+        raise ValueError(f"{element}: no grid level within {tol} eV of the lower {elow_eV:.3f} eV")
+    near = int(np.argmin(np.abs(E - eup_eV)))
+    cand = [i for i in range(len(E))
+            if abs(E[i] - eup_eV) <= tol and odd(i) != odd(il)
+            and abs(J[i] - J[il]) <= 1 and not (J[i] == 0 and J[il] == 0)]
+    if not cand:
+        raise ValueError(f"{element}: no LS-allowed upper level within {tol} eV of "
+                         f"{eup_eV:.3f} eV from {lab(il)} J={J[il]:.0f}")
+    iu = min(cand, key=lambda i: abs(E[i] - eup_eV))
+    note = "" if iu == near else (
+        f"nearest-energy upper {lab(near)} J={J[near]:.0f} is not reachable from "
+        f"{lab(il)} J={J[il]:.0f}; selection rules give {lab(iu)} J={J[iu]:.0f} "
+        f"({abs(E[iu] - eup_eV) * 1000:.0f} meV off)")
+    return lab(il), lab(iu), float(J[il]), float(J[iu]), note
+
+
 def _spacefree_grid(element: str) -> str:
     """PySME resolves the NLTE grid via a file URI, which breaks on a path with
     spaces. Symlink the vendored grid into a space-free temp dir and return that."""
