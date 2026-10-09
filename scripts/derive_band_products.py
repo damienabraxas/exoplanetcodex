@@ -302,6 +302,14 @@ def _feature_depth(waves: np.ndarray, species: str = "Fe") -> np.ndarray:
     return out
 
 
+def _is_gf_graded(cg: pd.DataFrame) -> pd.Series:
+    """RYA-1233: the ONE definition of a gf-graded line (pipeline.gf_grades.is_gf_graded):
+    any published gf uncertainty -- lab gf, a stored per-line sigma, or NIST class A-C.
+    Was `gf_tier == LAB` only."""
+    from pipeline.gf_grades import is_gf_graded
+    return is_gf_graded(cg)
+
+
 def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
     """The graded lines EW can NEVER reach: laboratory gf AND too deep to measure — RYA-984.
 
@@ -318,11 +326,11 @@ def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd
     from line_accounting_rya709 import DEPTH_HI
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
-             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & _is_gf_graded(cg)
              & cg.wavelength_air_A.between(lo_A, hi_A)]
     if lab.empty:
         raise SystemExit(
-            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"no gf-graded {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float), species)
     deep = lab[depth > DEPTH_HI]
@@ -380,7 +388,7 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
     from line_accounting_rya709 import DEPTH_HI
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
-             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & _is_gf_graded(cg)
              & cg.wavelength_air_A.between(lo_A, hi_A)]
     if lab.empty:
         raise SystemExit(
@@ -793,7 +801,7 @@ def _graded_mask(waves: np.ndarray, eps: np.ndarray) -> np.ndarray:
     from pipeline import line_match
 
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
-    lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
+    lab = cg[_is_gf_graded(cg)]
     res = line_match.match(
         np.asarray(waves, dtype=float),
         lab.wavelength_air_A.astype(float).values,
