@@ -72,27 +72,37 @@ def main() -> int:
     if len(add):
         print(add[["line_id", "wavelength_air_A", "excitation_potential_eV", "log_gf",
                "nist_grade", "gf_sigma_dex"]].to_string(index=False))
-    # C I 16419.33 -- grade by level identity
-    nc = pd.read_csv(ROOT / "data/linelists/primary_gf/nist_asd_CI_3000_25000.tsv", sep="\t")
-    i = store.index[(store.species == "C I") & ((store.wavelength_air_A - 16419.33).abs() < 0.01)]
-    if len(i) != 1:
-        raise SystemExit(f"C I 16419.33: {len(i)} store rows")
-    r0 = store.loc[i[0]]
-    k = nc[((nc.ei_eV - r0.excitation_potential_eV).abs() < 0.002)
-           & ((nc.wavelength_ritz_A - r0.wavelength_air_A).abs() < 0.3)
-           & ((nc.log_gf - r0.log_gf).abs() < 0.1)]
-    if len(k) != 1:
-        raise SystemExit(f"C I 16419.33: {len(k)} NIST level matches -- refusing")
-    k = k.iloc[0]
-    store.loc[i[0], ["log_gf", "loggf_reference", "nist_grade", "adjudication_status",
-                     "gf_sigma_dex", "gf_tier"]] = [
-        round(float(k.log_gf), 6),
-        f"NIST ASD grade {k.nist_grade} ({k.ref_transition_probability}); level-identity match "
-        f"at air {k.wavelength_ritz_A:.3f} A",
-        k.nist_grade, "nist_rya1232_level_identity",
-        round(nist_sigma_dex(k.nist_grade), 6), "NIST-C+"]
-    print(f"C I 16419.33: VALD3 {r0.log_gf} -> NIST {k.log_gf:.3f} grade {k.nist_grade} "
-          f"sigma {nist_sigma_dex(k.nist_grade):.3f}")
+    # IR C/N/O I rows with NO sigma -- grade by LEVEL identity against our NIST pulls.
+    # (First case: C I 16419.33, 0.11 A from NIST's air wavelength; then C I 17274.94, 0.06 A.)
+    # A row is graded only when EXACTLY ONE NIST transition shares its lower level (EP within
+    # 0.002 eV), lies within 0.3 A and agrees in log gf within 0.1 dex; every other case is
+    # reported and left as it is.
+    pulls = {sp: pd.read_csv(ROOT / f"data/linelists/primary_gf/nist_asd_{sp.replace(' ', '')}_3000_25000.tsv",
+                             sep="\t") for sp in ("C I", "N I", "O I")}
+    todo = store.index[store.species.isin(list(pulls)) & (store.wavelength_air_A > 9200)
+                       & store.gf_sigma_dex.isna()]
+    graded, skipped = 0, 0
+    for i in todo:
+        r0 = store.loc[i]
+        nc = pulls[r0.species]
+        k = nc[((nc.ei_eV - r0.excitation_potential_eV).abs() < 0.002)
+               & ((nc.wavelength_ritz_A - r0.wavelength_air_A).abs() < 0.3)
+               & ((nc.log_gf - r0.log_gf).abs() < 0.1)]
+        if len(k) != 1 or not isinstance(k.iloc[0].nist_grade, str):
+            skipped += 1
+            continue
+        k = k.iloc[0]
+        store.loc[i, ["log_gf", "loggf_reference", "nist_grade", "adjudication_status",
+                      "gf_sigma_dex", "gf_tier"]] = [
+            round(float(k.log_gf), 6),
+            f"NIST ASD grade {k.nist_grade} ({k.ref_transition_probability}); level-identity match "
+            f"at air {k.wavelength_ritz_A:.3f} A",
+            k.nist_grade, "nist_rya1232_level_identity",
+            round(nist_sigma_dex(k.nist_grade), 6), "NIST-C+"]
+        graded += 1
+        print(f"  {r0.species} {r0.wavelength_air_A}: {r0.loggf_reference} {r0.log_gf} -> NIST "
+              f"{k.log_gf:.3f} grade {k.nist_grade} (NIST air {k.wavelength_ritz_A:.3f})")
+    print(f"level identity: {graded} graded, {skipped} left (no unique graded NIST match)")
     if a.apply:
         out = pd.concat([store, add], ignore_index=True)[store.columns]
         out.to_csv(STORE, index=False)

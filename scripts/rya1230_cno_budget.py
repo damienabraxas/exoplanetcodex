@@ -119,6 +119,11 @@ _SKY = {"kpno_solar_atlas": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kuruc
 #: measured the whole sky as kurucz2005's "residual" on C I 9061 (0.33 flux, 5 dex).
 _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                   ("iag_fts_solar_atlas", "solar_iag"),
+                                                  #: RYA-1232: IAG capped at 10000 A left
+                                                  #: 10000-11160 A uncovered (C I 10683,
+                                                  #: Fe I 10142 held); CRIRES+ Y is another
+                                                  #: site's correction over 9802-10794 A.
+                                                  ("crires_plus", "solar_crires_plus_y_wide_rya1054"),
                                                   ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_crires_plus_j_rya1219": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                                                 ("iag_fts_solar_atlas", "solar_iag")],
