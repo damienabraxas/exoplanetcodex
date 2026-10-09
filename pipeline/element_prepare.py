@@ -309,11 +309,15 @@ def prepare(star: str, element: str) -> dict:
     rep["literature"] = {"litscan": lit.exists(), "set_bib_keys": sorted(keys),
                          "missing_bib_keys": sorted(keys - bib)}
 
-    # READY blocks only on what would make a measurement WRONG: an un-adopted published gf,
-    # an un-culled saturated line, a solar-literature line missing from canonical_gf, a
-    # holding whose frame is off, missing literature. NLTE gaps (ENGINE-A held for those
-    # lines) and unclassified gf sources (budget says UNREVIEWED) are NOTES for the review.
+    # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
+    # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
+    # whose frame is off, missing literature -- and on what would make it STALE the moment it
+    # finished: an NLTE table missing graded lines. The table is a cell input, so extending it
+    # after measuring re-runs every cell (RYA-1233 Al: the run was started first and had to be
+    # stopped). Run scripts/extend_nlte_grid.py --element <El> --write (Sirius), then
+    # re-prepare. Unclassified gf sources (budget says UNREVIEWED) stay a NOTE.
     rep["blocking"] = {
+        "nlte_missing": len(rep["nlte_missing"]) if rep.get("nlte_table") else 0,
         "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
@@ -357,7 +361,9 @@ def render(rep: dict) -> str:
     L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
-    L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}")
+    L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
+             + (f" -> on Sirius: scripts/extend_nlte_grid.py --element {rep['element']} --write"
+                if rep["nlte_missing"] and rep.get("nlte_table") else ""))
     bad = [h for h in rep["holdings"] if not h["ok"]]
     L.append(f"  E holdings: {len(rep['holdings'])} windows; {len(bad)} not serving / frame off rest")
     for h in bad:
