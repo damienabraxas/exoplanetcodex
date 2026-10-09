@@ -245,6 +245,9 @@ def main() -> None:
                         'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
+    m.add_argument('--jobs', type=int, default=1, metavar='N',
+                   help='RYA-1233: run up to N matrix cells in parallel (planning stays '
+                        'serial; only execution fans out). Default 1.')
     m.add_argument('--dry-run', action='store_true',
                    help='Expand, resolve and report intended statuses; execute nothing.')
     m.add_argument('--interpreter', metavar='PATH',
@@ -297,7 +300,7 @@ def main() -> None:
                 instruments=args.instrument, engines=args.engine,
                 methods=args.route, pools=args.pool,
                 dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None)
+                ispec_dir=ispec or None, jobs=args.jobs)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
         from pipeline.run_sweep import executed

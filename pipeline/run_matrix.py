@@ -1162,7 +1162,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int = 7200, report_dir: Path | None = None,
-        echo: bool = True) -> dict:
+        echo: bool = True, jobs: int = 1) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
@@ -1201,6 +1201,83 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
                          for r in missing if r.get("ion") in (None, ion))
 
+    import threading
+    _lock = threading.Lock()
+
+    def _execute(cell, d, resolved, want, lkey):
+        """Run one planned cell's stages and record the outcome (RYA-1233: called from
+        a thread pool when jobs > 1; shared state is touched under `_lock`)."""
+        ok, detail = True, ""
+        t0 = time.time()
+        for step in resolved.steps:
+            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
+            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
+            # all five decks over one (holding, band) invoke `measure_band_profilefit`
+            # with byte-identical arguments. Measured on the first full Si run:
+            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
+            # runs rewrote bytes that were already correct.
+            #
+            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
+            # `produces` is what an earlier version of this did and it was WRONG, for
+            # a reason worth writing down: `run_descriptor.resolve` builds the derive
+            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
+            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
+            # Reusing on that string silently skipped `derive_products` for four decks
+            # out of five while the report said they were handled -- a silent gap
+            # produced by the thing built to abolish silent gaps. An identical command
+            # is identical work by construction; a shared output path is not.
+            # (The `produces` collision itself is a defect in the resolver, not here.)
+            sig = _dispatch_signature(step, star)
+            with _lock:
+                _seen = sig in produced_this_run
+            if _seen:
+                cell.steps_run.append(f"{step['name']}:reused")
+                continue
+            ok, detail = _run_step(step, star, timeout=step_timeout)
+            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
+            if not ok:
+                break
+            with _lock:
+                produced_this_run.add(sig)
+        if not ok:
+            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
+            # process-step-7 fact about the lines, not a failure of the run.
+            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+            else:
+                cell.status, cell.reason = FAILED, detail
+            return
+        # RYA-1233: record the build whether or not it is published, so unchanged work
+        # is never redone. What it was built from (spectrum included) and what it wrote.
+        arts = artifacts_written(d, t0)
+        if not arts:
+            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
+                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
+                  f"time.", file=sys.stderr)
+        feed = load_feed(star, symbol)
+        published = cell_products(feed, d, cell.band)
+        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
+        with _lock:
+          record_inputs_hash(lkey, want, code_commit=commit,
+                           product_keys=[_product_key(p) for p in published],
+                           inputs=rows, artifacts=arts)
+          ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
+        if not published:
+            cell.status = UNPUBLISHED
+            cell.reason = (
+                f"built and recorded ({len(arts)} artifact(s) in "
+                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
+                f"Not in data/products/{star}/{symbol}.json -- publication is "
+                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
+            return
+        cell.A = published[0].get("A")
+        cell.n_lines = published[0].get("n_lines")
+        cell.status = DONE
+        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
+                       f"product(s) recorded at inputs_hash {want[:12]}")
+
+    planned: list = []
     cells: list[CellResult] = []
     for d in descriptors:
         band = _band_of(d, star)
@@ -1287,71 +1364,18 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.status, cell.reason = WOULD_RUN, f"would execute -- {why}"
             cell.steps_run = [s["name"] for s in resolved.steps]
             continue
-        ok, detail = True, ""
-        t0 = time.time()
-        for step in resolved.steps:
-            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
-            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
-            # all five decks over one (holding, band) invoke `measure_band_profilefit`
-            # with byte-identical arguments. Measured on the first full Si run:
-            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
-            # runs rewrote bytes that were already correct.
-            #
-            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
-            # `produces` is what an earlier version of this did and it was WRONG, for
-            # a reason worth writing down: `run_descriptor.resolve` builds the derive
-            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
-            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
-            # Reusing on that string silently skipped `derive_products` for four decks
-            # out of five while the report said they were handled -- a silent gap
-            # produced by the thing built to abolish silent gaps. An identical command
-            # is identical work by construction; a shared output path is not.
-            # (The `produces` collision itself is a defect in the resolver, not here.)
-            sig = _dispatch_signature(step, star)
-            if sig in produced_this_run:
-                cell.steps_run.append(f"{step['name']}:reused")
-                continue
-            ok, detail = _run_step(step, star, timeout=step_timeout)
-            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
-            if not ok:
-                break
-            produced_this_run.add(sig)
-        if not ok:
-            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
-            # process-step-7 fact about the lines, not a failure of the run.
-            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
-                cell.status = HELD
-                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
-            else:
-                cell.status, cell.reason = FAILED, detail
-            continue
-        # RYA-1233: record the build whether or not it is published, so unchanged work
-        # is never redone. What it was built from (spectrum included) and what it wrote.
-        arts = artifacts_written(d, t0)
-        if not arts:
-            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
-                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
-                  f"time.", file=sys.stderr)
-        feed = load_feed(star, symbol)
-        published = cell_products(feed, d, cell.band)
-        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
-        record_inputs_hash(lkey, want, code_commit=commit,
-                           product_keys=[_product_key(p) for p in published],
-                           inputs=rows, artifacts=arts)
-        ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
-        if not published:
-            cell.status = UNPUBLISHED
-            cell.reason = (
-                f"built and recorded ({len(arts)} artifact(s) in "
-                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
-                f"Not in data/products/{star}/{symbol}.json -- publication is "
-                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
-            continue
-        cell.A = published[0].get("A")
-        cell.n_lines = published[0].get("n_lines")
-        cell.status = DONE
-        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
-                       f"product(s) recorded at inputs_hash {want[:12]}")
+        planned.append((cell, d, resolved, want, lkey))
+
+    # RYA-1233: the planned cells execute here, `jobs` at a time. Planning above is
+    # serial and decides every hold/skip/dry-run exactly as before; only execution fans out.
+    if planned:
+        if jobs and jobs > 1:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=jobs) as ex:
+                list(ex.map(lambda a: _execute(*a), planned))
+        else:
+            for a in planned:
+                _execute(*a)
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
                      process=steps,
