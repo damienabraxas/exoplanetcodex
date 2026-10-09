@@ -45,6 +45,7 @@ SOLAR_EXTRACTS = ((2000.0, 3780.0, "vald_solar_nearuv_2000_3780_hfson_raw.txt"),
 COMPONENT_WINDOW_A = 0.10
 EP_TOL_EV = 0.01
 TIER = "PUBLISHED-SET"
+UNSOLD_FDAMP = {"Na": 2.0}           # default 2.5 (RYA-1232, GESv6)
 
 
 class LineAddError(RuntimeError):
@@ -146,6 +147,12 @@ def apply(plans: list[dict], *, citation: dict) -> list[dict]:
         path = ROOT / rel
         base = ispec.read_atomic_linelist(str(path))
         add = nl.to_ispec_array(recs)
+        # fdamp 0.0 is NOT a default: our Turbospectrum DROPS the line (RYA-1232, measured).
+        # VALD gives no vdW for these -> Unsöld x 2.5, GESv6's own factor (Na I 2.0), the
+        # value RYA-1232's nearuv_linelist.unsold_fdamp writes.
+        z = add["turbospectrum_fdamp"] == 0.0
+        add["turbospectrum_fdamp"][z] = [UNSOLD_FDAMP.get(str(e).split()[0], 2.5)
+                                         for e in add["element"][z]]
         merged = np.concatenate([base, add.astype(base.dtype)])
         nl.write(merged[np.argsort(merged["wave_A"], kind="stable")], path)
     canon = pd.read_csv(CANONICAL, low_memory=False)
