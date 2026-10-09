@@ -418,17 +418,26 @@ def _canonical_species(symbol: str, ion: str):
     if key not in _ADAPTERS:
         import pandas as pd
         from pipeline.gf_grades import is_gf_graded
+        from pipeline import problem_children as _pc
         df = pd.read_csv(CANONICAL_GF, low_memory=False,
                          usecols=["species", "wavelength_air_A", "gf_tier", "gf_sigma_dex",
                                   "nist_grade"])
         df = df[df.species.astype(str) == f"{symbol} {ion}"]
+        # A line the registry EXCLUDES (exclude + active) is not a graded line for this
+        # star: derive drops it from every aggregate, so counting it here dispatched cells
+        # derive then refused (Si 4102.9 made IAG Reiners 4047-5001 A look runnable).
+        _t = _pc.line_dispositions()
+        _culled = df.wavelength_air_A.astype(float).map(
+            lambda w: _pc.aggregate_action(_pc.disposition_for_line(symbol, ion, w, table=_t))
+            == "exclude").values
         # The SAME definitions derive_band_products' selectors use, pool by pool:
         #   reference -- LAB-tier lines (`gf_tier` contains "LAB");
         #   codex / deep -- gf-graded = ANY published gf uncertainty (RYA-1233, Ryan's
         #     ruling; pipeline.gf_grades.is_gf_graded): lab gf, a stored gf sigma, NIST A-C.
         _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
-                          {"reference": df.gf_tier.astype(str).str.contains("LAB", na=False).values,
-                           "graded": is_gf_graded(df).values})
+                          {"reference": df.gf_tier.astype(str).str.contains("LAB", na=False).values
+                                        & ~_culled,
+                           "graded": is_gf_graded(df).values & ~_culled})
     return _ADAPTERS[key]
 
 
