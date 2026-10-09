@@ -333,6 +333,8 @@ def main() -> int:
             df["sigma_reported"] = b["sigma_reported"]
             df.to_csv(a.stage / stem, index=False)
             rec["prod_stem"] = stem
+        rec.setdefault("holding", HOLDING)
+        rec.setdefault("key_treatment", "1D-LTE")
         out.append(rec)
         print(f"{key:9} {selector:13} A={row['A']}  " + (f"sigma_reported={b['sigma_reported']:.4f}"
               if verdict is None else f"HELD: {verdict} {notes}"))

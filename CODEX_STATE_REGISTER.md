@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v163** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v164** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v164** (2026-10-09) — **RYA-1232 C/N/O republished on the corrected preparation** (C.json 1.200, N.json 1.78, O.json 1.84): KP molecfit floor, VALD damping fill, IAG cap, our corrected CRIRES+ H. New cells: CRIRES+ Y/J/H C I (AGSS21 + Elgueta+2026 sets), CRIRES+ K CO (C 8.701 +/- 0.182), KP/IAG/K2005 NIR C I and O I 926 nm, KP N I. Withdrawn: IAG CN (beyond the IAG cap). Unaffected holdings (HARPS, IAG/K2005 optical) unchanged. Fe held: Fe.json carries two stale near-UV rows RYA-587 refuses; they are replaced by the Sirius deck rerun.
 - **v163** (2026-10-08) — **RYA-1232 gf store + H telluric.** canonical_gf gains the O I 926 nm multiplet (9 rows, NIST ASD grade A from our RYA-1160 pull, = AGSS21's values) -- it held every O I 926 product; C I 16419.33 graded NIST D by level identity (VALD 0.11 A off NIST). The budget's telluric term now resolves CRIRES+ H from the holding's own molecfit transmission vs Elgueta's independent reduction -- no H product ever had it resolved. Declared limits: H-band OH (lines 0.3-0.6% deep vs 0.9% continuum rms) and IAG CN (beyond the 10000 A cap).
 - **v162** (2026-10-08) — **RYA-1232: IAG span capped at 10000 A** (Baker+2020's processed range; agreement with HARPS/KP was only verified to 10000). Beyond it IAG is 2-7% low vs KP AND CRIRES+ (10490-10870 A) and C I Y reads 8.89-9.27 vs 8.56-8.62 from KP/CRIRES+ on the same lines, with the damping fix in. Applies to the solar_iag holding and the contref leg.
 - **v161** (2026-10-08) — **RYA-1232: IR synthesis lists were missing every line VALD gave no vdW for.** Our Turbospectrum DROPS an atomic line with fdamp 0.0 (not a default): 100/767 (Y/J; all 9 O I 926 nm), 472/5244 (H; 84 C I, 137 Mg I incl. 15740.71 at 45% depth), 425/3958 (K). The builder now writes GESv6's Unsöld factor (2.5; Na I 2.0); the three tracked lists patched by scripts/rya1232_fill_unsold_damping.py (one field per row). Every H-band C I product (A(C) 9.6-11) and the O I 926 nm 'gap' trace to it. GESv6 optical list unaffected (0 zero rows). Near-UV list (generated, untracked) to be rebuilt.

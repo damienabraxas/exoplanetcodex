@@ -327,6 +327,8 @@ def main() -> int:
         r = build(region, a.legs, {k: v for k, v in nominal.items() if fam[k] == fam[region]})
         b = r["budget"]
         rec = {"region": region, "holding": r["holding"], "A": r["row"]["A"], "verdict": r["verdict"],
+               "element": SPEC[region]["element"], "selector": SPEC[region]["selector"],
+               "key_treatment": r["row"]["treatment"],
                "notes": r["notes"], "sigma_reported": b["sigma_reported"], "holds": b["holds"],
                "components": {c["name"]: (c["state"], c["sigma_dex"]) for c in b["components"]}}
         if r["verdict"] is None:
