@@ -8,10 +8,13 @@ outcome:
 
   PUBLISHED   a product in data/products/<star>/<El>.json, with its A, sigma and n
   HELD        the cell, or that treatment, cannot be produced -- with the stated reason
-  NOT_RUN     applicable and not yet measured -- the only outcome that means work is owed
+  NOT_RUN     applicable and not yet measured -- work is owed
+  STALE       published, but its inputs (lines, gf, spectrum, culls, NLTE table, code) changed
+              since the build -- work is owed
 
-ENGINE-B on the ts-lte deck is the 1D-LTE fit relabelled and is not a separate cell.
-An element is DONE when no cell is NOT_RUN. ELEMENT_PROTOCOL (docs/) "three honest outcomes"
+A cell's treatments are its deck's emissions (run_matrix.DECK_EMITS); ENGINE-B on the
+ts-lte deck is the 1D-LTE fit relabelled and is not a separate cell.
+An element is DONE when no cell is NOT_RUN or STALE. ELEMENT_PROTOCOL (docs/) "three honest outcomes"
 map here: RESOLVED -> PUBLISHED, BOUNDED/UNRESOLVED -> HELD with its reason.
 """
 from __future__ import annotations
@@ -25,8 +28,8 @@ from pipeline import run_matrix as rm
 #: Band order is the band policy's own (blue to red), never typed here.
 BAND_ORDER = [p.name for p in band_policy.POLICIES]
 
-#: The treatment families a synthesis cell emits on the ts-lte deck.
-TREATMENTS = ("1D-LTE", "ENGINE-A")
+#: A cell's treatments are what its deck EMITS (run_matrix.DECK_EMITS): ts-lte -> 1D-LTE +
+#: ENGINE-A; each Gerber deck -> its own token. ENGINE-B on ts-lte is not a cell.
 #: Orchestrator pool -> the feed's `selector` token.
 POOL_SELECTOR = {"codex": "GRADED", "deep": "DEEPGRADED", "reference": "REFERENCE"}
 GRADE_OF_POOL = {"codex": "Codex Grade", "deep": "Deep Grade", "reference": "Reference (all lab gf)"}
@@ -54,7 +57,7 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
     rep = (report_dir or rm.REPORT_DIR) / f"{star}_{element.replace(' ', '')}_latest.json"
     if rep.exists():
         for c in json.loads(rep.read_text()).get("cells", []):
-            last[(c["band"], c["holding"], c["ion"], c.get("pool") or "")] = c
+            last[(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")] = c
     # The budget stage's own verdicts (element_publish): a product built but held by its
     # RYA-587 budget, or skipped as empty, is HELD with that reason -- not NOT_RUN.
     budget_held = {}
@@ -65,22 +68,42 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
             if why:
                 budget_held[(o.get("band"), o.get("holding"), o.get("selector") or "",
                              o.get("key_treatment"))] = f"budget: {why}"
+    # A PUBLISHED cell is only done while its inputs are the ones it was built on: the ledger
+    # records the inputs hash each build ran against; recompute it now (run()'s own hash).
+    ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
+    manifests = rm._manifest_paths(star)
+
+    def stale(d) -> str:
+        rec = ledger.get(rm.ledger_key(star, d, rm._band_of(d, star).name_declared))
+        if rec is None:
+            # Published without an orchestrator build record (a hand run, or before the
+            # ledger): nothing proves it was built on today's inputs.
+            return "no orchestrator build record for this cell"
+        try:
+            from pipeline.run_descriptor import resolve
+            now = rm.inputs_hash(d, resolve(d, interpreter=None, ispec_dir=None),
+                                 manifest_path=manifests.get(d.holding))
+        except Exception:
+            return ""
+        return "" if now == rec.get("inputs_hash") else "inputs changed since the build"
+
     rows = []
     for ion in rm.graded_ions(symbol) or ["I"]:
         # The THREE grades only (Ryan): published sets (Reference), Codex, Deep. The
         # orchestrator's `reference` pool (every lab line, no depth gate) is Codex + Deep
         # combined and is not a grade of its own -- not an expected cell.
-        for d in rm.expand(star, symbol, ions=[ion], engines=["ts-lte"], methods=["synthesis"],
+        for d in rm.expand(star, symbol, ions=[ion], methods=["synthesis"],
                            pools=["set", "codex", "deep"]):
             sel = _selector(d.pool)
             hold = rm.cell_process_hold(d)
             # The run report stores the pool as the feed token (pool_tier: GRADED / DEEPGRADED /
             # SET-<NAME>), not the orchestrator's pool name.
-            run = last.get((d.band, d.holding, ion, rm.pool_tier(d) or ""))
-            for t in TREATMENTS:
+            run = last.get((d.band, d.holding, ion, d.engine_deck, rm.pool_tier(d) or ""))
+            for t in rm.DECK_EMITS[d.engine_deck]:
                 p = index.get((d.band, d.holding, ion, sel, t))
                 if p is not None:
-                    out, why = "PUBLISHED", ""
+                    why = stale(d)
+                    out = "STALE" if why else "PUBLISHED"
                 elif hold:
                     out, why = "HELD", hold
                 elif run is not None and run.get("status") in (rm.FAILED, rm.HELD, rm.BLOCKED):
@@ -99,15 +122,17 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                              "A": p.get("A") if p else None,
                              "sigma": p.get("sigma_reported") if p else None,
                              "n_lines": p.get("n_lines") if p else None})
-    counts = {k: sum(r["outcome"] == k for r in rows) for k in ("PUBLISHED", "HELD", "NOT_RUN")}
+    counts = {k: sum(r["outcome"] == k for r in rows)
+              for k in ("PUBLISHED", "HELD", "NOT_RUN", "STALE")}
     return {"star": star, "element": element, "feed_version": feed.get("version"),
-            "counts": counts, "done": counts["NOT_RUN"] == 0, "rows": rows}
+            "counts": counts, "done": counts["NOT_RUN"] == 0 and counts["STALE"] == 0,
+            "rows": rows}
 
 
 def render(cov: dict) -> str:
     lines = [f"COVERAGE  {cov['star']} {cov['element']}  feed v{cov['feed_version']}  "
              + "  ".join(f"{k} {v}" for k, v in cov["counts"].items())
-             + ("  -> DONE" if cov["done"] else "  -> NOT DONE (NOT_RUN cells owe work)")]
+             + ("  -> DONE" if cov["done"] else "  -> NOT DONE (NOT_RUN / STALE cells owe work)")]
     for r in sorted(cov["rows"], key=lambda r: (BAND_ORDER.index(r["band"]) if r["band"] in BAND_ORDER else 99,
                                                 r["holding"], r["ion"], r["grade"], r["treatment"])):
         val = (f"{r['A']:.3f} +/- {r['sigma']:.3f} (n={r['n_lines']})" if r["A"] is not None

@@ -463,9 +463,30 @@ def _canonical_species(symbol: str, ion: str):
     return _ADAPTERS[key]
 
 
+def _deck_hold(d: RunDescriptor) -> str:
+    """'' when the cell's deck exists for its element. The Gerber 2023 decks are per element
+    (pipeline.gerber_nlte.DECKS: Fe, Al, ...); without this a Si gerber cell resolved fine,
+    failed inside derive, and the coverage table counted it as owed work."""
+    if not d.engine_deck.startswith("gerber-"):
+        return ""
+    try:
+        from pipeline.gerber_nlte import DECKS
+    except Exception as exc:                       # the adapter cannot load here
+        return f"ENGINE: {d.engine_deck} adapter unavailable ({type(exc).__name__})"
+    key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
+    if key not in DECKS:
+        have = sorted({k.split("@")[0] for k in DECKS if ("@mean3D" in k) == ("mean3d" in d.engine_deck)})
+        return (f"ENGINE: no Gerber {'mean-3D ' if 'mean3d' in d.engine_deck else ''}deck for "
+                f"{d.element} (decks exist for {', '.join(have)})")
+    return ""
+
+
 def cell_process_hold(d: RunDescriptor) -> str:
     """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
     for this cell's holding and window; otherwise the reason, naming the step."""
+    deck_hold = _deck_hold(d)
+    if deck_hold:
+        return deck_hold
     p = preflight()
     spec = p.holding_spec(d.holding) if p is not None else None
     if spec is not None and not spec.pre_normalised:

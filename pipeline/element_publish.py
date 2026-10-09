@@ -11,7 +11,8 @@ those same, already-proven tools composed, with every filter the hand runs neede
                 UNPUBLISHED / SKIP), taken from the orchestrator's own resolution
   2  legs       scripts/rya1230_cno_budget_legs.py -- the RYA-587 paired legs, N in parallel
   3  assemble   scripts/rya1230_cno_budget.py -- the budget per product; holds stay holds
-  4  filter     drop ENGINE-B (on the ts-lte deck it is the 1D-LTE fit relabelled), products
+  4  filter     keep only what each cell's deck EMITS (run_matrix.DECK_EMITS: ENGINE-B on
+                ts-lte is the 1D-LTE fit relabelled; a Gerber deck's 1D-LTE leg duplicates), products
                 with no line in the aggregate, and held budgets -- every drop RECORDED
   5  publish    scripts/rya1230_publish_cno.py --apply --origin-dir (copied_to recorded),
                 through publish_product's own gates
@@ -38,21 +39,24 @@ def budget_dir(star: str, element: str) -> Path:
     return rm.REPORT_DIR / "budget" / f"{star}_{element.replace(' ', '')}"
 
 
-def units_for(star: str, element: str, *, report: dict, interpreter: str) -> list[tuple[str, str]]:
-    """(cell label, derive command line) for every synthesis cell the run built."""
+def units_for(star: str, element: str, *, report: dict,
+              interpreter: str) -> list[tuple[str, str, str]]:
+    """(cell label, derive command line, deck) for every synthesis cell the run built -- on
+    EVERY deck it built (ts-lte and, where the element has them, the Gerber decks)."""
     from pipeline.run_descriptor import resolve
     symbol, _ = rm.split_symbol(element)
-    built = {(c["band"], c["holding"], c["ion"], c.get("pool") or "")
+    built = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
              for c in report.get("cells", []) if c.get("status") in BUILT}
     out = []
-    for d in rm.expand(star, symbol, engines=["ts-lte"], methods=["synthesis"],
-                       pools=["set", "codex", "deep"]):
-        if (rm._band_of(d, star).name_declared, d.holding, d.ion, rm.pool_tier(d)) not in built:
+    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
+        if (rm._band_of(d, star).name_declared, d.holding, d.ion, d.engine_deck,
+                rm.pool_tier(d)) not in built:
             continue
         r = resolve(d, interpreter=interpreter or None, ispec_dir=None)
         step = next(s for s in r.steps if s["name"] == "derive_products")
-        out.append((f"{d.ion} {d.band} {d.holding} {d.pool}",
-                    "python3 scripts/derive_band_products.py " + shlex.join(step["args"])))
+        out.append((f"{d.ion} {d.band} {d.holding} {d.engine_deck} {d.pool}",
+                    "python3 scripts/derive_band_products.py " + shlex.join(step["args"]),
+                    d.engine_deck))
     return out
 
 
@@ -96,8 +100,13 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     keep = []
     for o in r["products"]:
         tag = f"{o.get('band')} {o.get('holding')} {o.get('selector')} {o.get('key_treatment')}"
-        if o.get("key_treatment") == "ENGINE-B":
-            summary["dropped"].append({"product": tag, "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"})
+        deck = units[o["unit"]][2] if isinstance(o.get("unit"), int) and o["unit"] < len(units) else "ts-lte"
+        if o.get("key_treatment") not in rm.DECK_EMITS.get(deck, ()):
+            # A cell publishes only what its deck EMITS (run_matrix.DECK_EMITS): ENGINE-B on
+            # ts-lte is the 1D-LTE fit relabelled, and a Gerber deck's 1D-LTE / ENGINE-A legs
+            # duplicate the ts-lte cell's.
+            summary["dropped"].append({"product": tag, "why": f"not emitted by deck {deck} "
+                                       f"(it emits {', '.join(rm.DECK_EMITS.get(deck, ()))})"})
         elif o.get("skip"):
             summary["held"].append({"product": tag, "why": o["skip"]})
         elif o.get("verdict"):
