@@ -417,15 +417,18 @@ def _canonical_species(symbol: str, ion: str):
     key = ("canon", symbol, ion)
     if key not in _ADAPTERS:
         import pandas as pd
+        from pipeline.gf_grades import is_gf_graded
         df = pd.read_csv(CANONICAL_GF, low_memory=False,
-                         usecols=["species", "wavelength_air_A", "gf_tier"])
+                         usecols=["species", "wavelength_air_A", "gf_tier", "gf_sigma_dex",
+                                  "nist_grade"])
         df = df[df.species.astype(str) == f"{symbol} {ion}"]
-        # The SAME definition derive_band_products' Reference / Codex / Deep selectors use:
-        # LAB-tier lines (`gf_tier` contains "LAB"). NIST-C+ is a better gf, not a graded
-        # pool -- counting it here dispatched 39 solar Si cells that derive then refused
-        # with "a pool that is not graded" (RYA-1233 Si run, 2026-10-03).
+        # The SAME definitions derive_band_products' selectors use, pool by pool:
+        #   reference -- LAB-tier lines (`gf_tier` contains "LAB");
+        #   codex / deep -- gf-graded = ANY published gf uncertainty (RYA-1233, Ryan's
+        #     ruling; pipeline.gf_grades.is_gf_graded): lab gf, a stored gf sigma, NIST A-C.
         _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
-                          df.gf_tier.astype(str).str.contains("LAB", na=False).values)
+                          {"reference": df.gf_tier.astype(str).str.contains("LAB", na=False).values,
+                           "graded": is_gf_graded(df).values})
     return _ADAPTERS[key]
 
 
@@ -439,15 +442,17 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 f"product; the per-band continuum is prepared once, before measurement")
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
         return ""          # a published set's lines in this window ARE the graded pool
-    w, graded = _canonical_species(d.element, d.ion)
+    w, masks = _canonical_species(d.element, d.ion)
+    graded = masks["reference" if d.pool == "reference" else "graded"]
     inwin = (w >= d.lo_A) & (w <= d.hi_A)
     if not inwin.any():
         return (f"PROCESS step 6 (lines secured): canonical_gf.csv holds no "
                 f"{d.element} {d.ion} line in {d.lo_A:g}-{d.hi_A:g} A")
     if not (inwin & graded).any():
         return (f"PROCESS step 7 (graded lines): none of the {int(inwin.sum())} "
-                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a LAB-tier "
-                f"gf, so no Reference / Codex / Deep pool exists here")
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a "
+                f"{'LAB-tier gf' if d.pool == 'reference' else 'published gf uncertainty'}, "
+                f"so no {d.pool or 'graded'} pool exists here")
     return ""
 
 
