@@ -1,0 +1,84 @@
+# The published reference line sets, DECLARED (RYA-1233). One entry per set; the generic
+# builder (pipeline/line_sets.py) turns each into data/reference/line_sets/<set>_<species>.csv
+# plus its graded files and REGISTRY.csv. Adding an element's published set = adding an entry
+# here, never writing a per-element script (the Si builder was Si-only; Al waited on it).
+#
+#   source            the transcribed table (repo path; lines starting '#' are comments)
+#   where             equality filters on source columns (all must hold)
+#   min_wavelength_A  optional: keep only lines at or above this wavelength
+#   species           a fixed species ("Si I"), or {column: ..., map: {SiI: "Si I", ...}}
+#   columns           wavelength (the published one), ep | elow_cm, loggf, band (column or
+#                     fixed band via band_value)
+#   match             canonical_id_col: <col>  -> the canonical row the transcription already
+#                                                 joined (RYA-1169 / RYA-1058)
+#                     canonical_tol_A: <tol>   -> the unique canonical row within tol
+#                     (absent)                 -> the published wavelength as is
+#   solar_literature  true when a SOLAR abundance analysis measured the Sun on exactly these
+#                     lines (Asplund / Amarsi / Deshmukh / Nordlander & Lind+Scott). The cull
+#                     protocol keeps such lines; a benchmark or red-supergiant list does not
+#                     protect a line the Sun cannot use.
+sets:
+  - name: SI_AGSS21
+    element: Si
+    source: data/reference/si_agss21/si_agss21_lines.csv
+    where: {reference_status: used}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: amarsi2017_si
+    doi: 10.1093/mnras/stw2445
+    citation: "Asplund 2021 -> Amarsi & Asplund 2017 (MNRAS 464, 264) Table 1"
+    gf_basis: "the gf the authors used: Garz 1973 + 0.097 dex (Si I); Schulz-Gulde/Blanco/Matheron mean (Si II)"
+    solar_literature: true
+
+  - name: SI_ELGUETA2026
+    element: Si
+    source: data/audit/rya1058_elgueta/normalized_lines.csv
+    where: {species: SiI, sun_Gd_rob: "Y"}
+    species: "Si I"
+    columns: {wavelength: wavelength_A, ep: lower_ep_eV, loggf: elgueta_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: elgueta2026
+    doi: 10.1051/0004-6361/202659148
+    citation: "Elgueta et al. 2026 (A&A 710, A111), Sun/G-dwarf Rob=Y"
+    gf_basis: "VALD3 (2015-01-21, v968) laboratory atomic data, as the authors used"
+    solar_literature: false
+
+  - name: SI_BERGEMANN2013
+    element: Si
+    source: data/audit/rya1218_si_protocol/si_nir_line_pool.csv
+    where: {source: Bergemann2013}
+    species: "Si I"
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band}
+    bib: bergemann2013_si_jband
+    doi: 10.1088/0004-637X/764/2/115
+    citation: "Bergemann et al. 2013 (ApJ 764, 115) Table 1"
+    gf_basis: "the authors' Table 1 log gf"
+    solar_literature: false
+
+  - name: SI_DESHMUKH2022
+    element: Si
+    source: data/reference/si_deshmukh2022/table2_subsample.csv
+    min_wavelength_A: 9000
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, elow_cm: elow_cm, loggf: loggf_new, band_value: NIR}
+    match: {canonical_tol_A: 0.006}
+    bib: deshmukh2022_si
+    doi: 10.1051/0004-6361/202142072
+    citation: "Deshmukh et al. 2022 (A&A 668, A48) Table 2, IR subsample"
+    gf_basis: "Pehlivan Rhodin (2018/2024), as the authors used"
+    solar_literature: true
+
+  - name: AL_AGSS21
+    element: Al
+    source: data/reference/asplund2021_al/nordlander_lind_2017_analysis_lines.csv
+    where: {role: SOLAR_ABUNDANCE_USED}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: elo_eV, loggf: loggf, band: source_band,
+              loggf_sigma: loggf_sigma_dex}
+    match: {canonical_tol_A: 0.012}
+    bib: nordlander_lind2017
+    doi: 10.1051/0004-6361/201730427
+    citation: "Asplund 2021 -> Nordlander & Lind 2017 (A&A 607, A75) Table A.1, the six lines used (Scott et al. 2015b selection)"
+    gf_basis: "the gf the authors used (Nordlander & Lind 2017 Table A.1, per-line sigma)"
+    solar_literature: true
