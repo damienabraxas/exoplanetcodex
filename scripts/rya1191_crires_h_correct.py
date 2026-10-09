@@ -236,6 +236,9 @@ def main(argv=None) -> int:
                    help="re-ask the per-line telluric question on the CORRECTED flux")
     ap.add_argument("--all-segments", action="store_true",
                     help="correct EVERY segment carrying a graded line, not a covering set")
+    ap.add_argument("--lines", default=None,
+                    help="RYA-1233: comma list of air wavelengths (A) to cover INSTEAD of the "
+                         "graded Fe lines -- e.g. another element's graded H-band lines")
     ap.add_argument("--work", default="/tmp/rya1191_crires_h")
     ap.add_argument("--out-dir", default="data/results/rya1191")
     a = ap.parse_args(argv)
@@ -245,7 +248,7 @@ def main(argv=None) -> int:
     if a.verify:
         import pandas as pd  # noqa: F401  (used by verify)
         return verify(work, out)
-    lines = graded_lines()
+    lines = (np.sort(np.array([float(x) for x in a.lines.split(",")])) if a.lines else graded_lines())
     frames = h_frames()
     plan, total = [], 0
     for f in frames:
