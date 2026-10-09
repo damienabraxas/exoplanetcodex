@@ -278,7 +278,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
-    row = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)[0]
+    _rows = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)
+    if not _rows:
+        # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
+        # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is
+        # recorded as skipped, never allowed to take the whole assembly down.
+        return {"row": {"A": None, "treatment": str(prod.get("treatment", pd.Series([""])).iloc[0]),
+                        "holding": holding, "selector": selector,
+                        "element": str(prod["element"].iloc[0]), "band": str(prod["band"].iloc[0])},
+                "skip": "product has no value (no line in the aggregate)"}
+    row = _rows[0]
     row["star"] = "solar"
     band = row["band"]
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
