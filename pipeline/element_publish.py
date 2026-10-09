@@ -110,8 +110,9 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if src in done or not src.exists():
             continue
         done.add(src)
+        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED") else "ALL"
         cmd = [py, "scripts/publish_product.py", "--from", str(src), "--holding", o["holding"],
-               "--tier", "ALL", "--route", "SYNTH", "--element", o["element"], "--star", star,
+               "--tier", tier, "--route", "SYNTH", "--element", o["element"], "--star", star,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]

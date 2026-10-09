@@ -69,9 +69,21 @@ SPECIES = {"C": "C I", "N": "N I", "O": "O I"}
 
 
 def _selector(args: list[str]) -> str | None:
+    """The product's selector, from the pool the unit measured (RYA-1233: Codex and Deep pools
+    published with NO selector, so the two grades shared one identity and coverage could not
+    see either -- Fe's convention is selector = tier = GRADED / DEEPGRADED)."""
     if "--lines-from-set" in args:
         return "SET-" + args[args.index("--lines-from-set") + 1].split("=")[0]
+    if "--lines-deep-graded" in args:
+        return "DEEPGRADED"
+    if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "graded":
+        return "GRADED"
     return None
+
+
+def _tier(args: list[str]) -> str:
+    sel = _selector(args)
+    return sel if sel in ("GRADED", "DEEPGRADED") else "ALL"
 
 
 def _arg(args, flag, default=None):
@@ -278,7 +290,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
-    _rows = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)
+    _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
     if not _rows:
         # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
         # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is
