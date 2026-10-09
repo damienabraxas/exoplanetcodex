@@ -364,7 +364,12 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           if len(classes) > 1 else ""))
         sig.append(s)
         src.append(ref)
-        tags.append(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "")
+        # The gf source's registry key (gf_error_model.source_key): lab tag, else NIST_ASD for a
+        # NIST-graded row, so the correlation is classified rather than UNREVIEWED.
+        from pipeline.gf_error_model import source_key
+        tags.append(source_key(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "",
+                               str(m.loggf_reference),
+                               str(m.nist_grade) if pd.notna(m.nist_grade) else ""))
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)

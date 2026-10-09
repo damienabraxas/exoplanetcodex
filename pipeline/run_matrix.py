@@ -59,6 +59,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -699,6 +700,47 @@ def _file_fingerprint(path: Path) -> str:
     return _HASH_CACHE[key]
 
 
+#: Lines this far outside a cell's window still reach its synthesis (the widest fit window,
+#: K band, is 2.58 A; a strong line's wings reach further).
+GF_SCOPE_PAD_A = 10.0
+
+
+def synthesis_lists_for(lo: float, hi: float) -> list[Path]:
+    """The repo's own band synthesis lists overlapping [lo, hi] (the GES list below 9200 A is
+    iSpec's, outside the repo, and is fingerprinted by the engine install)."""
+    out = []
+    for f in sorted((ROOT / "data" / "linelists").glob("ispec_*/atomic_lines.tsv")):
+        m = re.search(r"_(\d+)_(\d+)$", f.parent.name)
+        if m and float(m.group(1)) <= hi and float(m.group(2)) >= lo:
+            out.append(f)
+    return out
+
+
+def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = ",") -> str:
+    """sha256 of the rows of a table whose `col` lies in [lo, hi] (sorted, so row order and
+    rows elsewhere in the file do not move it). Memoised on the file's identity."""
+    try:
+        st = path.stat()
+    except OSError as exc:
+        return f"ABSENT:{type(exc).__name__}"
+    key = (str(path), st.st_mtime_ns, st.st_size, col, lo, hi)
+    if key not in _HASH_CACHE:
+        import pandas as pd
+        tkey = (str(path), st.st_mtime_ns, st.st_size)
+        if tkey not in _TABLE_CACHE:
+            _TABLE_CACHE.clear()
+            _TABLE_CACHE[tkey] = pd.read_csv(path, sep=sep, dtype=str, keep_default_na=False)
+        d = _TABLE_CACHE[tkey]
+        w = pd.to_numeric(d[col], errors="coerce")
+        sub = d[(w >= lo) & (w <= hi)]
+        body = "\n".join(sorted(sub.to_csv(index=False, header=False).splitlines()))
+        _HASH_CACHE[key] = hashlib.sha256(body.encode()).hexdigest()
+    return _HASH_CACHE[key]
+
+
+_TABLE_CACHE: dict = {}
+
+
 def input_fingerprints(descriptor: RunDescriptor, resolved, *,
                        manifest_path: str | None) -> list[dict]:
     """Every named input this cell depends on, each with the bytes it was hashed on.
@@ -751,7 +793,18 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     # line culled after a build (or an NLTE table extended to more lines) left every affected
     # cell SKIP -- current by its hash, stale in fact.
     _nlte = sorted((ROOT / "data" / "nlte_grids").glob(f"{descriptor.element}_*.csv"))
-    for ledger in (CANONICAL_GF, MODEL_REGISTRY, HOLDINGS_REGISTRY,
+    # RYA-1233: canonical_gf and the synthesis list, SCOPED to the cell's wavelength range.
+    # Hashed whole, one element's gf adoption (Al's six lines) re-ran every cell of every
+    # element; not hashed at all, an added line's opacity (Al I 10768) left the NIR cells it
+    # touches SKIP -- current by hash, stale in fact. Only rows the synthesis of this window
+    # can see belong to its identity.
+    lo, hi = float(descriptor.lo_A) - GF_SCOPE_PAD_A, float(descriptor.hi_A) + GF_SCOPE_PAD_A
+    rows.append({"kind": "ledger_scoped", "name": f"{CANONICAL_GF.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                 "digest": _rows_fingerprint(CANONICAL_GF, "wavelength_air_A", lo, hi)})
+    for _lst in synthesis_lists_for(lo, hi):
+        rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                     "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+    for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
                    ROOT / "data" / "catalog" / "instrument_catalog.csv",
                    ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),

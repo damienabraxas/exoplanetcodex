@@ -8,7 +8,9 @@
 #   min_wavelength_A  optional: keep only lines at or above this wavelength
 #   species           a fixed species ("Si I"), or {column: ..., map: {SiI: "Si I", ...}}
 #   columns           wavelength (the published one), ep | elow_cm, loggf, band (column or
-#                     fixed band via band_value)
+#                     fixed band via band_value); optional loggf_sigma (the authors' per-line
+#                     gf error) and gf_source (the per-line gf origin the authors name) --
+#                     both carried into canonical_gf when prepare --apply adopts the gf
 #   match             canonical_id_col: <col>  -> the canonical row the transcription already
 #                                                 joined (RYA-1169 / RYA-1058)
 #                     canonical_tol_A: <tol>   -> the unique canonical row within tol
@@ -75,7 +77,7 @@ sets:
     where: {role: SOLAR_ABUNDANCE_USED}
     species: {column: species}
     columns: {wavelength: wavelength_air_A, ep: elo_eV, loggf: loggf, band: source_band,
-              loggf_sigma: loggf_sigma_dex}
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
     match: {canonical_tol_A: 0.012}
     bib: nordlander_lind2017
     doi: 10.1051/0004-6361/201730427

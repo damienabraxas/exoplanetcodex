@@ -71,13 +71,20 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         return summary
     ufile = work / "units.txt"
     ufile.write_text("\n".join(u[1] for u in units) + "\n")
-    # A changed unit list invalidates leg directories keyed by unit index (the legs runner
-    # skips a leg whose DONE exists, so unchanged units are reused across invocations).
+    # Leg directories are keyed by unit index and the legs runner skips a leg whose DONE
+    # exists, so legs are reused across invocations -- ONLY while both the unit list and every
+    # built cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
+    # or synthesis-list change re-built the cells and then priced them from stale legs.
+    symbol, _ = rm.split_symbol(element)
+    ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
+    sig = ufile.read_text() + "".join(
+        f"# {k} {v.get('inputs_hash')}\n" for k, v in sorted(ledger.items())
+        if k.startswith(f"{star}|{symbol}|"))
     prev = work / "units.prev.txt"
-    if prev.exists() and prev.read_text() != ufile.read_text():
+    if prev.exists() and prev.read_text() != sig:
         import shutil
         shutil.rmtree(legs, ignore_errors=True)
-    prev.write_text(ufile.read_text())
+    prev.write_text(sig)
     subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
                     "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
     import shutil

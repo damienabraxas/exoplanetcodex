@@ -178,14 +178,26 @@ def prepare(star: str, element: str) -> dict:
         a_gf = float(r[c["loggf"]]) if str(r.get(c["loggf"], "")).strip() not in ("", "nan") else None
         a_sig = (float(r[c["loggf_sigma"]]) if "loggf_sigma" in c
                  and str(r.get(c["loggf_sigma"], "")).strip() not in ("", "nan") else None)
-        row = {"set": spec["name"], "species": sp, "wavelength_A": w,
+        ep = (float(r[c["ep"]]) if "ep" in c else float(r[c["elow_cm"]]) * ls.EV_PER_CM)
+        row = {"set": spec["name"], "species": sp, "wavelength_A": w, "ep_eV": round(ep, 4),
                "solar_literature": bool(spec.get("solar_literature")),
-               "authors_loggf": a_gf, "authors_sigma_dex": a_sig}
+               "authors_loggf": a_gf, "authors_sigma_dex": a_sig,
+               "authors_gf_source": (str(r.get(c["gf_source"], "")).strip() or None
+                                     if "gf_source" in c else None)}
         if spec.get("solar_literature"):
             lit_waves.add((sp, round(w, 1)))
         if len(hit) != 1:
             row["canonical"] = "MISSING" if len(hit) == 0 else f"AMBIGUOUS ({len(hit)})"
             row["in_synthesis_list"] = _in_synthesis_list(sp, w)
+            if len(hit) == 0 and row["in_synthesis_list"] is None and a_gf is not None:
+                # Step 6 the orchestrator can take itself: the transition from our solar VALD
+                # extract + the authors' gf (pipeline.published_line_add). --apply writes it.
+                from pipeline import published_line_add as pla
+                try:
+                    pl = pla.plan(row)
+                    row["add_plan"] = {k: v for k, v in pl.items() if not k.startswith("_")}
+                except pla.LineAddError as exc:
+                    row["add_refused"] = str(exc)
             rep["missing_lines"].append(row)
         else:
             h = hit.iloc[0]
@@ -204,7 +216,9 @@ def prepare(star: str, element: str) -> dict:
 
     # B -- gf sources of graded lines, classified?
     model = gf_error_model.load()
-    tags = graded.lab_source_tag.fillna("").astype(str)
+    tags = pd.Series([gf_error_model.source_key(t, s, g) for t, s, g in zip(
+        graded.lab_source_tag.fillna("").astype(str), graded.loggf_reference.fillna("").astype(str),
+        graded.nist_grade.fillna("").astype(str))], dtype=str)
     for t, n in tags.value_counts().items():
         rep["gf_sources"].append({"lab_source_tag": t or "(none: NIST grade / stored sigma)",
                                   "n_graded_lines": int(n), "classified": t in model})
@@ -326,12 +340,17 @@ def render(rep: dict) -> str:
                  f"{a['canonical_loggf']} -> authors {a['authors_loggf']} +/- {a['authors_sigma_dex']}"
                  f"  (d {a['d_loggf']:+.3f})")
     for m in rep["missing_lines"]:
+        pl = m.get("add_plan")
         L.append(f"      MISSING {m['set']} {m['species']} {m['wavelength_A']}: {m['canonical']} in "
                  f"canonical_gf; "
                  + (f"in {m['in_synthesis_list']} -> add its canonical_gf row (gf provenance)"
                     if m.get("in_synthesis_list") else
-                    "NOT in the synthesis list either -> run the VALD/NIST extraction for this "
-                    "line (codex-vald-extraction) so the synthesis can see it"))
+                    f"--apply ADDS it: {pl['n_components']} components from {pl['extract']} "
+                    f"(centroid {pl['centroid_A']}, VALD total {pl['vald_total_loggf']}) into "
+                    f"{pl['synthesis_list']}, canonical row at the authors' {pl['authors_loggf']} "
+                    f"+/- {pl['authors_sigma_dex']}" if pl and not pl["clashes"] else
+                    f"CANNOT be added automatically: "
+                    f"{m.get('add_refused') or 'would move ' + ', '.join((pl or {}).get('clashes', [])[:5])}"))
     for s in rep["gf_sources"]:
         L.append(f"  B gf source {s['lab_source_tag']}: {s['n_graded_lines']} graded lines, "
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
@@ -349,13 +368,21 @@ def render(rep: dict) -> str:
     return "\n".join(L)
 
 
+def adopted_reference(row: dict, cite: dict) -> str:
+    """'<set citation> (gf: <the per-line source the authors name>)'."""
+    base = cite.get(row["set"], {}).get("citation", row["set"])
+    return base + (f" (gf: {row['authors_gf_source']})" if row.get("authors_gf_source") else "")
+
+
 def apply(star: str, element: str, rep: dict) -> dict:
-    """Write the reviewed plan: adoptions into canonical_gf, culls into problem_children."""
+    """Write the reviewed plan: adoptions into canonical_gf, missing published lines added
+    (synthesis list + canonical row, pipeline.published_line_add), culls into problem_children."""
     from pipeline import line_sets as ls
-    done = {"adopted": 0, "culled": 0}
+    done = {"adopted": 0, "culled": 0, "added": 0}
     if rep["adopt"]:
         cg = pd.read_csv(CANONICAL, low_memory=False)
         audit = []
+        cite = {s["name"]: s for s in ls.load_sources()}
         for a in rep["adopt"]:
             i = cg.index[cg.line_id.astype(str) == a["line_id"]]
             if len(i) != 1:
@@ -363,10 +390,15 @@ def apply(star: str, element: str, rep: dict) -> dict:
             i = i[0]
             audit.append({"line_id": a["line_id"], "species": a["species"],
                           "wavelength_A": a["canonical_wavelength_A"], "old_loggf": cg.at[i, "log_gf"],
-                          "old_tier": cg.at[i, "gf_tier"], "new_loggf": a["authors_loggf"],
+                          "old_tier": cg.at[i, "gf_tier"],
+                          "old_reference": cg.at[i, "loggf_reference"], "new_loggf": a["authors_loggf"],
                           "new_sigma_dex": a["authors_sigma_dex"], "set": a["set"]})
             cg.at[i, "log_gf"] = a["authors_loggf"]
             cg.at[i, "gf_sigma_dex"] = a["authors_sigma_dex"]
+            # The row now carries the AUTHORS' gf: its reference must say so (the old
+            # value's reference stays in the adoption audit CSV).
+            cg.at[i, "loggf_reference"] = adopted_reference(a, cite)
+            cg.at[i, "gf_source_doi"] = cite.get(a["set"], {}).get("doi")
             cg.at[i, "gf_tier"] = ADOPT_TIER
             cg.at[i, "lab_source_tag"] = a["set"]
             cg.at[i, "adjudication_status"] = f"adopted_rya1233_{a['set'].lower()}"
@@ -375,6 +407,16 @@ def apply(star: str, element: str, rep: dict) -> dict:
         ad = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_adoption.csv"
         ad.parent.mkdir(parents=True, exist_ok=True)
         pd.DataFrame(audit).to_csv(ad, index=False)
+    plans = [m for m in rep["missing_lines"] if m.get("add_plan") and not m["add_plan"]["clashes"]]
+    if plans:
+        from pipeline import published_line_add as pla
+        cite = {s["name"]: s for s in ls.load_sources()}
+        # Re-plan from the extract (the report is JSON; the components are not stored in it).
+        written = pla.apply([pla.plan(m) for m in plans], citation=cite)
+        ad = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_added_lines.json"
+        ad.parent.mkdir(parents=True, exist_ok=True)
+        ad.write_text(json.dumps(written, indent=1, default=str) + "\n")
+        done["added"] = len(written)
     if rep["cull_candidates"]:
         b = REGISTRY_PC.read_bytes()
         s = io.StringIO()
