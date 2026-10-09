@@ -927,7 +927,7 @@ def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
     import math
     reg = list(csv.DictReader(open(ROOT / "data/reference/line_sets/REGISTRY.csv")))
     cg = [r for r in csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv"))
-          if r["species"].startswith("Si ")]
+          if r["species"].split()[0] in {x["element"] for x in reg}]
     for r in reg:
         assert r["graded_csv"].endswith("_graded.csv")
         for line in csv.DictReader(open(ROOT / r["graded_csv"])):
@@ -935,8 +935,9 @@ def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
             m = [c for c in cg if c["species"] == line["species"]
                  and abs(float(c["wavelength_air_A"]) - w) < 0.01]
             assert len(m) == 1, (r["set_name"], w)
-            sig = m[0]["gf_sigma_dex"]
-            assert (sig and not math.isnan(float(sig))) or m[0]["nist_grade"].strip(), \
+            import pandas as pd
+            from pipeline.gf_grades import is_gf_graded
+            assert bool(is_gf_graded(pd.DataFrame([m[0]])).iloc[0]), \
                 (r["set_name"], w, "unpriced gf dispatched")
     elg = next(r for r in reg if r["set_name"] == "SI_ELGUETA2026")
     assert int(elg["n_graded"]) < int(elg["n_lines"])

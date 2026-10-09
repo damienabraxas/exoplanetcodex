@@ -249,6 +249,12 @@ def main() -> None:
                    help='RYA-1233: after the run, governing-process steps 11-16 -- RYA-587 '
                         'budget legs, assemble, publish through publish_product, literature '
                         'check, coverage report (pipeline/element_publish.py).')
+    m.add_argument('--prepare', action='store_true',
+                   help='RYA-1233: governing-process steps 1-8 BEFORE measuring -- published '
+                        'sets + authors\' gf, gf-source classification, cull candidates, NLTE '
+                        'coverage, holdings at rest, literature -- one report to review.')
+    m.add_argument('--apply', action='store_true',
+                   help='with --prepare: write the reviewed plan (gf adoptions + culls).')
     m.add_argument('--coverage', action='store_true',
                    help='RYA-1233: print the definition-of-done table (every band x holding x '
                         'ion x grade x treatment: PUBLISHED / HELD / NOT_RUN) and exit.')
@@ -298,6 +304,17 @@ def main() -> None:
         sys.exit(1 if run_sweep.failed(doc) else 0)
 
     # ── RYA-1222: matrix mode. Delegates entirely; decides nothing itself. ────
+    if args.element and args.prepare:
+        from pipeline import element_prepare
+        rep = element_prepare.prepare(star_id, args.element)
+        print(element_prepare.render(rep))
+        if args.apply:
+            done = element_prepare.apply(star_id, args.element, rep)
+            print(f"applied: {done}")
+            rep = element_prepare.prepare(star_id, args.element)
+            print(element_prepare.render(rep))
+        sys.exit(0 if rep["ready"] else 3)
+
     if args.element and args.coverage:
         from pipeline import coverage_report
         cov = coverage_report.coverage(star_id, args.element)

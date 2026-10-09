@@ -726,8 +726,13 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if not files:
         rows.append({"kind": "spectrum", "name": descriptor.holding,
                      "digest": f"UNFINGERPRINTED: {why}"})
+    # RYA-1233: the cull registry and the element's NLTE tables are inputs too. Without them a
+    # line culled after a build (or an NLTE table extended to more lines) left every affected
+    # cell SKIP -- current by its hash, stale in fact.
+    _nlte = sorted((ROOT / "data" / "nlte_grids").glob(f"{descriptor.element}_*.csv"))
     for ledger in (CANONICAL_GF, MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
+                   ROOT / "data" / "catalog" / "instrument_catalog.csv",
+                   ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows
