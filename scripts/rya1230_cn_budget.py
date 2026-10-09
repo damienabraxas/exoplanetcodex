@@ -50,6 +50,8 @@ REGIONS = {
     "nir_cn_iag": ("iag_fts_solar_atlas", "solar_iag"),
     "nir_cn_kp": ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
     "j_cn_crires": ("crires_plus", "solar_crires_plus_j_rya1219"),
+    #: RYA-1232: CRIRES+ K CO first overtone -- the only CRIRES+ K carbon indicator
+    "k_co_crires": ("crires_plus", "solar_crires_plus_k_rya1219"),
 }
 DELTA_XI, XI_STEP, CO_STEP, CSCALE = 0.2912, 0.10, 0.10, 0.001
 SIGMA_C, SIGMA_O = 0.068, 0.076
@@ -59,6 +61,27 @@ TD_SIGMA = math.log10(11.08 / 8.50)
 TD_SOURCE = ("Brooke et al. 2014, ApJS 210, 23, Table 5: computed tau(A2Pi1/2, v=0) = 11.08 us vs "
              "measured 8.50 +/- 0.05 us (Taherian & Slanger 1984); f ~ 1/tau -> log10(11.08/8.50)")
 MODEL_FORM_BOUND = 0.061
+#: RYA-1232 -- per-region indicator spec. CN keeps exactly the values above; CO (measured
+#: element C, the less abundant one, as Amarsi+2021 fit it) carries its own sources.
+CO_TD_SIGMA = math.log10(1.005)
+CO_TD_SOURCE = ("Li et al. 2015, ApJS 216, 15, Sect. 3: the 2-0 band intensities reproduce Malathy "
+                "Devi et al. 2012b 'within approximately 0.1%' P(15)-R(25), up to 0.5% at J=30; the "
+                "worst stated residual (0.5%) is adopted -> log10(1.005)")
+_CN = dict(element="N", ion="I", diag="CN_AX_IR", molecule="12C14N", selector="MOL-CN_AX_IR",
+           gf="brooke2014", td=(TD_SIGMA, TD_SOURCE), stem="NI_MOL_CN_AX_IR",
+           bound=MODEL_FORM_BOUND,
+           bound_source="published 1D->3D shift for 12C14N A-X (0-0), Amarsi et al. 2021 via RYA-1220",
+           partners=("C", "O"), family="CN A-X (0-0)")
+RATIO_FROM = {"k_co_crires": "j_cn_crires"}
+MEASURED_RATIO: dict = {}
+SPEC = {"nir_cn_iag": _CN, "nir_cn_kp": _CN, "j_cn_crires": _CN,
+        "k_co_crires": dict(element="C", ion="I", diag="CO_K", molecule="12C16O", selector="MOL-CO_K",
+                            gf="li2015", td=(CO_TD_SIGMA, CO_TD_SOURCE), stem="CI_MOL_CO_K",
+                            bound=0.140,
+                            bound_source=("published 1D->3D shift for 12C16O X-X, Amarsi et al. 2021 "
+                                          "Table 2 via data/reference/molecular_cno_literature_rya1220 "
+                                          "(3D 8.47 vs MARCS 8.61)"),
+                            partners=("O",), family="12C16O X-X dv=2")}
 
 
 def leg(out: Path, region: str, name: str) -> dict | None:
@@ -67,29 +90,31 @@ def leg(out: Path, region: str, name: str) -> dict | None:
     if not (d / "DONE").exists() or not f.exists():
         return None
     r = pd.read_csv(f)
-    r = r[r.element == "N"].iloc[0]
+    r = r[r.element == SPEC[region]["element"]].iloc[0]
     return {"A": float(r.A_X), "sigma_fit": float(r.sigma_fit), "n_pix": int(r.n_pix),
             "red_chi2": float(r.red_chi2), "constrained": bool(r.constrained), "dir": d}
 
 
 def windows_of(region: str):
     from pipeline.cno_synthesis import REGION_DIAGNOSTICS
-    return [w for dg in REGION_DIAGNOSTICS[region] if dg.element == "N" for w in dg.windows_A]
+    return [w for dg in REGION_DIAGNOSTICS[region] if dg.element == SPEC[region]["element"]
+            for w in dg.windows_A]
 
 
 def n_cn_lines(region: str) -> int:
     from rya1230_n_product_hygiene import _bsyn_species_in
-    return int(_bsyn_species_in(windows_of(region)).get("12C14N", 0))
+    return int(_bsyn_species_in(windows_of(region)).get(SPEC[region]["molecule"], 0))
 
 
 def build(region: str, legs: Path, others: dict) -> dict:
     import rya1230_cno_budget as B
     instrument, holding = REGIONS[region]
+    sp = SPEC[region]
     L = {k: leg(legs, region, k) for k in ("nominal", "xi_minus", "xi_plus", "q80", "q97", "contref", "marcs",
                                            "cscale", "win60", "c_minus", "c_plus", "o_minus", "o_plus")}
     nom = L["nominal"]
     win = windows_of(region)
-    ind = ("CN_AX_IR:12C14N:A-X(0-0):" + region + ":windows_sha256:"
+    ind = (f"{sp['diag']}:{sp['molecule']}:{sp['family']}:" + region + ":windows_sha256:"
            + hashlib.sha256(json.dumps(win).encode()).hexdigest()[:24])
     ids = [ind]
     digest = uc.pool_digest(ids)
@@ -100,8 +125,9 @@ def build(region: str, legs: Path, others: dict) -> dict:
         correlation_treatment=("pixels treated as independent after the red_chi2 rescale; "
                                "residual pixel covariance not modelled"),
         n_pixels=int(nom["n_pix"])))
-    comps.append(uc.transition_data(ids, [TD_SIGMA], [1.0], covariance=[[TD_SIGMA ** 2]],
-                                    sources=[TD_SOURCE], covariance_source=TD_SOURCE))
+    _tds, _tdsrc = sp["td"]
+    comps.append(uc.transition_data(ids, [_tds], [1.0], covariance=[[_tds ** 2]],
+                                    sources=[_tdsrc], covariance_source=_tdsrc))
     for name, why in (("stellar.logg", "solar log g is pinned (RYA-1089)"),
                       ("stellar.metallicity", "solar [Fe/H] is pinned (RYA-1089)")):
         comps.append(dict(name=name, sigma_dex=0.0, state="DEFINED", source=why,
@@ -129,8 +155,7 @@ def build(region: str, legs: Path, others: dict) -> dict:
         v = abs(L[key]["A"] - nom["A"])
         ev = {"pool_sha256": digest, "nominal_A": nom["A"], "leg_A": L[key]["A"]}
         if bound is not None and bound > v:
-            ev.update(bound=True, measured_leg_dex=v, bound_dex=bound,
-                      bound_source="published 1D->3D shift for 12C14N A-X (0-0), Amarsi et al. 2021 via RYA-1220")
+            ev.update(bound=True, measured_leg_dex=v, bound_dex=bound, bound_source=sp["bound_source"])
             v = bound
         comps.append(dict(name=name, sigma_dex=v, state="DEFINED" if ev.get("bound") else "MEASURED",
                           source=src, evidence=ev))
@@ -148,7 +173,7 @@ def build(region: str, legs: Path, others: dict) -> dict:
         notes.append("continuum legs missing")
     lever("profile_ew", "win60", "fit sub-windows scaled x0.6 about their centres (continuum on unscaled windows)")
     lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli; bounded by the published 1D->3D shift",
-          bound=MODEL_FORM_BOUND)
+          bound=sp["bound"])
     if L["cscale"]:
         dadf = (L["cscale"]["A"] - nom["A"]) / (-CSCALE)
         res, lost = [], []
@@ -165,15 +190,27 @@ def build(region: str, legs: Path, others: dict) -> dict:
         uncovered = [r for r in res if r["residual_flux"] is None]
         ratio_num = sum(r["residual_flux"] for r in covered if r["sky_absorption"] > 0)
         ratio_den = sum(r["sky_absorption"] for r in covered if r["sky_absorption"] > 0)
+        transferred = None
+        if uncovered and ratio_den <= 0 and region in RATIO_FROM and RATIO_FROM[region] in MEASURED_RATIO:
+            #: RYA-1232: no K-band correction exists to difference against. Transfer the
+            #: residual/absorption ratio MEASURED on the J arm -- same instrument, same night,
+            #: same RYA-1219 molecfit pipeline -- and bound K by its own molecfit sky depth.
+            transferred = RATIO_FROM[region]
+            ratio_num, ratio_den = MEASURED_RATIO[transferred], 1.0
         if lost or (uncovered and ratio_den <= 0):
             notes.append(f"telluric: {len(lost)} window(s) unreadable, {len(uncovered)} without an "
                          f"independent reference and no covered window to scale from: {lost[:2]}")
         else:
             ratio = ratio_num / ratio_den if ratio_den > 0 else 0.0
+            if covered:
+                MEASURED_RATIO[region] = ratio
             for r in uncovered:
                 r["residual_flux"] = ratio * r["sky_absorption"]
-                r["residual_basis"] += (f"; BOUNDED by this holding's measured residual/absorption "
-                                        f"ratio {ratio:.4f} on its {len(covered)} covered window(s)")
+                r["residual_basis"] += (
+                    f"; BOUNDED by {transferred}'s measured residual/absorption ratio {ratio:.4f} "
+                    "(same instrument, night and molecfit pipeline)" if transferred else
+                    f"; BOUNDED by this holding's measured residual/absorption "
+                    f"ratio {ratio:.4f} on its {len(covered)} covered window(s)")
             n = len(res)
             sig = math.sqrt(sum((abs(dadf) * r["residual_flux"] / n) ** 2 for r in res))
             comps.append(dict(name="telluric", sigma_dex=sig,
@@ -188,7 +225,20 @@ def build(region: str, legs: Path, others: dict) -> dict:
                                         "n_windows_bounded": len(uncovered)}))
     else:
         notes.append("cscale leg missing")
-    if all(L[k] for k in ("c_minus", "c_plus", "o_minus", "o_plus")):
+    if sp["partners"] == ("O",) and L["o_minus"] and L["o_plus"]:
+        #: CO: C is the fitted element; its only partner is O (pinned)
+        jo = (L["o_plus"]["A"] - L["o_minus"]["A"]) / (2 * CO_STEP)
+        comps.append(uc.component(
+            "molecular_coupling", abs(jo) * SIGMA_O, state="MEASURED",
+            source="paired A(O) +/- 0.10 refits of this band (pin) x published sigma(O)",
+            evidence={"responses": {"O": uc.paired_response(
+                {ind: nom["A"]}, {ind: L["o_minus"]["A"]}, {ind: L["o_plus"]["A"]}, delta=CO_STEP,
+                source="paired A(O) pins", parameter_source="Numerical A(O) probe only; not adopted sigma")},
+                "abundance_order": ["O"], "abundance_covariance": [[SIGMA_O ** 2]],
+                "covariance_source": CO_SOURCE,
+                "response_assessment": f"dA(C)/dA(O) = {jo:+.3f} per dex",
+                "pool_sha256": digest}))
+    elif sp["partners"] == ("C", "O") and all(L[k] for k in ("c_minus", "c_plus", "o_minus", "o_plus")):
         jc = (L["c_plus"]["A"] - L["c_minus"]["A"]) / (2 * CO_STEP)
         jo = (L["o_plus"]["A"] - L["o_minus"]["A"]) / (2 * CO_STEP)
         rho = 1.0 if jc * jo >= 0 else -1.0                     # the worst-case correlation
@@ -206,9 +256,16 @@ def build(region: str, legs: Path, others: dict) -> dict:
     else:
         notes.append("C/O legs missing")
     vals = [v for v in others.values() if v is not None]
-    if len(vals) >= 2:
+    if len(vals) < 2 and region == "k_co_crires":
+        #: one holding observes 12C16O dv=2 (KP and IAG stop short of K): the band route's
+        #: definition of the term applies (RYA-869 harness residual)
+        comps.append(dict(name="holding_instrument", sigma_dex=0.0, state="MEASURED",
+                          source=("SynthesisHandler harness residual MEASURED against the known optical "
+                                  "answer (RYA-869); no second holding covers 12C16O dv=2"),
+                          evidence={"harness_residual_dex": 0.0, "per_holding_A": others}))
+    elif len(vals) >= 2:
         comps.append(dict(name="holding_instrument", sigma_dex=float(np.std(vals, ddof=1)), state="MEASURED",
-                          source="std of CN A-X (0-0) across holdings, same star, same diagnostic family",
+                          source=f"std of {sp['family']} across holdings, same star, same diagnostic family",
                           evidence={"per_holding_A": others}))
     comps.append(dict(name="nlte", sigma_dex=None, state="N/A",
                       source=("molecular band synthesised in LTE (cno_synthesis: lte_molecular_band, no NLTE grid); "
@@ -221,19 +278,23 @@ def build(region: str, legs: Path, others: dict) -> dict:
                       source="continuum placed per window by the model-guided rule; priced on `continuum`",
                       evidence={}))
     comps.append(dict(name="hfs_isotopes", sigma_dex=None, state="N/A",
-                      source=("12C14N windows (AGSS21 CN 0-0 positions); 13C14N and 12C15N enter the "
-                              "synthesis at the solar isotope ratios and are not the fitted lines"),
+                      source=(f"{sp['molecule']} windows; minor isotopologues enter the synthesis at "
+                              "the solar isotope ratios and are not the fitted lines"),
                       evidence={"owed_measurement": "a paired 12C/13C leg on this band"}))
-    row = dict(element="N", ion="I", band="NIR", instrument=instrument, treatment="1D-LTE",
+    from pipeline.band_policy import resolve as _band_of
+    _w = windows_of(region)
+    _band = _band_of(0.5 * (min(w[0] for w in _w) + max(w[1] for w in _w))).name \
+        if region == "k_co_crires" else "NIR"
+    row = dict(element=sp["element"], ion=sp["ion"], band=_band, instrument=instrument, treatment="1D-LTE",
                handler="CNOSynthesis", A=nom["A"], n_lines=n_cn_lines(region), n_excluded=0,
                stat_dex=nom["sigma_fit"], syst_dex=np.nan,
                stat_basis=("measured -- 1 sigma from the chi2 curvature of THIS band's fit "
                            "(pipeline.fit_constraint), rescaled to red_chi2 = 1"),
                dominant="", route="synth", scale="1D-LTE", model="none", atmos="atlas9",
-               gf="brooke2014", route_basis="handler", deck="none")
+               gf=sp["gf"], route_basis="handler", deck="none")
     from publish_product import normalise
     pub = normalise(pd.DataFrame([row]), holding=holding, tier="ALL", route="SYNTH",
-                    selector="MOL-CN_AX_IR")[0]
+                    selector=sp["selector"])[0]
     pub["star"] = "solar"
     scope = uc.product_scope(pub, star="solar", indicator_ids=ids)
     numeric = [c for c in comps if c["state"] in {"MEASURED", "DEFINED"}]
@@ -256,18 +317,21 @@ def main() -> int:
     ap.add_argument("--report", type=Path, required=True)
     a = ap.parse_args()
     nominal = {r: (leg(a.legs, r, "nominal") or {}).get("A") for r in REGIONS}
+    #: holding_instrument compares a diagnostic FAMILY across holdings: CN with CN only
+    fam = {r: SPEC[r]["family"] for r in REGIONS}
     a.stage.mkdir(parents=True, exist_ok=True)
     out = []
     for region in REGIONS:
         if nominal[region] is None:
             out.append({"region": region, "skip": "no nominal leg"}); continue
-        r = build(region, a.legs, nominal)
+        r = build(region, a.legs, {k: v for k, v in nominal.items() if fam[k] == fam[region]})
         b = r["budget"]
         rec = {"region": region, "holding": r["holding"], "A": r["row"]["A"], "verdict": r["verdict"],
                "notes": r["notes"], "sigma_reported": b["sigma_reported"], "holds": b["holds"],
                "components": {c["name"]: (c["state"], c["sigma_dex"]) for c in b["components"]}}
         if r["verdict"] is None:
-            stem = f"NI_MOL_CN_AX_IR_{r['row']['instrument']}_{r['holding']}_SYNTH_MOL-CN_AX_IR_products.csv"
+            _sp = SPEC[region]
+            stem = f"{_sp['stem']}_{r['row']['instrument']}_{r['holding']}_SYNTH_{_sp['selector']}_products.csv"
             row = dict(r["row"])
             #: the published sigma_syst is the systematic part of the canonical RYA-587 total
             row["syst_dex"] = round(math.sqrt(max(b["sigma_reported"] ** 2 - row["stat_dex"] ** 2, 0.0)), 4)
