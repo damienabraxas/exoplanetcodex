@@ -842,9 +842,14 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _lst in synthesis_lists_for(lo, hi):
         rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+    # The element's NLTE tables, scoped to the window too: a row added or withdrawn for a
+    # red-optical line must not rebuild the VIS cells (RYA-1233 Si: 11 rows withdrawn).
+    for _n in _nlte:
+        rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                     "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
     for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
                    ROOT / "data" / "catalog" / "instrument_catalog.csv",
-                   ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
+                   ROOT / "data" / "registry" / "problem_children.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows

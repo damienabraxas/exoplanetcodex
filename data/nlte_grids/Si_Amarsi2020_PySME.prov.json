@@ -357,5 +357,18 @@
       "existing_rows": "untouched",
       "script": "scripts/extend_nlte_grid.py"
     }
-  ]
+  ],
+  "not_derivable": {
+    "8315.503": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "8395.313": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "8402.986": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "8461.483": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9103.175": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9103.395": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9208.345": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9318.220": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9393.420": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9421.786": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
+    "9505.205": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)"
+  }
 }

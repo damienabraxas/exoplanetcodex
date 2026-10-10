@@ -155,10 +155,16 @@ def main(argv=None) -> int:
         results = list(ex.map(_node, [(n, new_lines, ELEMENT) for n in NODES]))
     # A line with no finite delta at any node is not written (pysme_nlte returns NaN when the
     # NLTE EW falls outside the LTE curve of growth); prepare's check D keeps naming it.
+    # A line identically 0 at every node has no departure at all -- its levels are not in the
+    # model atom, so NLTE synthesis IS the LTE synthesis. That is "not derivable", not a zero
+    # correction; the grid loader refuses a stored placeholder zero (RYA-413). Recorded in the
+    # provenance instead, where prepare's check D reads it.
+    zero = sorted(w for w in results[0]
+                  if all(np.isfinite(dd.get(w, np.nan)) and dd[w] == 0.0 for dd in results))
     rows = [dict(element=ELEMENT, ion=1, wave_A=round(w, 3), teff_K=te, logg=lg, feh=fe,
                  delta_nlte=round(float(d[w]), 4))
             for (te, lg, fe), d in zip(NODES, results) for w in sorted(d)
-            if all(np.isfinite(dd.get(w, np.nan)) for dd in results)]
+            if w not in zero and all(np.isfinite(dd.get(w, np.nan)) for dd in results)]
     out = pd.concat([old, pd.DataFrame(rows)], ignore_index=True)
     out.to_csv(csv_path, index=False)
     print(f"wrote {csv_path.name}: {len(old)} kept + {len(rows)} new = {len(out)} rows")
@@ -171,6 +177,15 @@ def main(argv=None) -> int:
                         "from the covering synthesis list (RYA-410 rule); labels by "
                         "pysme_nlte.labels_by_selection_rules"),
         "existing_rows": "untouched", "script": "scripts/extend_nlte_grid.py"})
+    nd = {round(w, 3) for w in zero} | {round(w, 3) for w in new
+                                        if not any(abs(r["wave_A"] - w) < 0.01 for r in rows)}
+    if nd:
+        prov.setdefault("not_derivable", {})
+        for w in sorted(nd):
+            prov["not_derivable"][f"{w:.3f}"] = (
+                "identically 0 at every node: the line's levels carry no departure in the model "
+                "atom (NLTE synthesis == LTE)" if w in {round(z, 3) for z in zero} else
+                "NLTE EW outside the LTE curve of growth at one or more nodes (no value)")
     prov_path.write_text(json.dumps(prov, indent=2) + "\n")
     return 0
 

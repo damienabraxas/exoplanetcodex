@@ -244,8 +244,14 @@ def prepare(star: str, element: str) -> dict:
     # table's 15431.65 -> 15431.6, so a present line read as missing
     served = np.sort(pd.read_csv(nlte).wave_A.unique()) if nlte.exists() else np.array([])
 
+    # Lines the table's provenance records as NOT DERIVABLE (no departure in the model atom,
+    # or no bracketed value) are accounted for: ENGINE-A drops them with that reason.
+    _prov = nlte.with_suffix(".prov.json")
+    not_derivable = np.array([float(k) for k in (json.loads(_prov.read_text()).get(
+        "not_derivable") or {})]) if _prov.exists() else np.array([])
+
     def nlte_has(w: float) -> bool:
-        return bool(len(served)) and float(np.min(np.abs(served - w))) < 0.01
+        return any(len(a) and float(np.min(np.abs(a - w))) < 0.01 for a in (served, not_derivable))
     # Only lines some cell can measure: a line between the instruments' bands (Si has ~100 at
     # 13000-15000 and 17500-19400 A) has no cell, and an NLTE row for it is wasted compute.
     windows = sorted({(d.lo_A, d.hi_A) for d in rm.expand(star, element, engines=["ts-lte"],
