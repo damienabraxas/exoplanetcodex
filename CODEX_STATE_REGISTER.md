@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v166** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v167** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v167** (2026-10-10) — **RYA-1232 merged with RYA-1233 main; eligibility gate now runs with peers at publish.** 6 KP-molecfit C/N pools (scatter 3-13x peers) quarantined (C.json 1.201, N.json 1.80). canonical_gf population 169713 (+1 RYA-1233 Al I, +9 RYA-1232 O I 926 nm). Si OWES its H cells on the corrected H holding (strict xfail).
 - **v166** (2026-10-10) — **RYA-1232: O republished** (O.json 1.102): red-optical O I 3D-NLTE 8.751 +/- 0.077 (was 8.660 +/- 0.101), C/O 0.48 +/- 0.12. Gerber Fe deck verified byte-identical on the Mac (md5, 5 files); `require_codex_path` no longer applies Sirius's removable-mount check to an env-overridden root, so deck units can run on the Mac. Deck units 18-23 moved to the Mac (Sirius placeholders).
 - **v165** (2026-10-10) — **RYA-1232 oxygen.** Asplund+2021 oxygen NLTE exception (0.03 floor, CLV-constrained); resolved features counted and fitted once (O I 844.6 had entered as 3 identical lines); Fe I 8446.575, the blend on O I 844.6, set to VALD3 -1.871 from a solar-profile test on 3 spectra (rms halves) over Ruffoni+2014 lab -1.44 +/- 0.13 (Ryan's call), the difference priced as the 844.6 blend term via a CODEX_GF_OVERRIDE leg.
 - **v164** (2026-10-09) — **RYA-1232 C/N/O republished on the corrected preparation** (C.json 1.200, N.json 1.78, O.json 1.84): KP molecfit floor, VALD damping fill, IAG cap, our corrected CRIRES+ H. New cells: CRIRES+ Y/J/H C I (AGSS21 + Elgueta+2026 sets), CRIRES+ K CO (C 8.701 +/- 0.182), KP/IAG/K2005 NIR C I and O I 926 nm, KP N I. Withdrawn: IAG CN (beyond the IAG cap). Unaffected holdings (HARPS, IAG/K2005 optical) unchanged. Fe held: Fe.json carries two stale near-UV rows RYA-587 refuses; they are replaced by the Sirius deck rerun.
