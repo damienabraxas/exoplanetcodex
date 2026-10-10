@@ -302,6 +302,9 @@ _DERIV_OPTS = {
     # Li I 6707 is a ground-state resonance doublet: wide bracket like K (the COG can be
     # flat if the solar line saturates), wide EW window for the blended doublet. RYA-540.
     'Li': {'ew_hw': 1.5, 'offs': (-0.4, -0.2, 0.0, 0.2, 0.4)},
+    # Si I high-excitation red/IR lines: corrections beyond +/-0.2 railed the default bracket
+    # (RYA-1233). The default's five points are kept, so in-bracket values are unchanged.
+    'Si': {'ew_hw': 0.8, 'offs': (-0.4, -0.2, -0.1, 0.0, 0.1, 0.2, 0.4)},
 }
 _DEFAULT_OPTS = {'ew_hw': 0.8, 'offs': (-0.2, -0.1, 0.0, 0.1, 0.2)}
 
@@ -340,6 +343,10 @@ def _linelist_rows(element, lines):
     return rows
 
 
+#: PySME integration accuracy (accrt = accwi) for the NLTE-delta syntheses.
+ACCURACY = 1e-6
+
+
 def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     """One PySME synthesis; returns {feature_wl: EW_mA}. Lazy PySME import (fail-loud).
 
@@ -367,6 +374,11 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     wmax = max(l[0] for l in lines) + 2.0
     sme.wave = np.linspace(wmin, wmax, int((wmax - wmin) * 220))
     sme.atmo.source = 'marcs2012.sav'; sme.atmo.method = 'grid'; sme.atmo.geom = 'PP'
+    # RYA-1233: PySME's default integration accuracy (accrt 1e-4, accwi 3e-3) leaves ~0.05%
+    # structure in the flux -- the whole EW of a 1 mA line: Si I 8013.042 read 3.46 mA at
+    # -0.4 dex vs 0.87 at solar. At 1e-6 the curve is monotonic (0.344 .. 2.109 mA) and the
+    # solar point is unchanged (0.864).
+    sme.accrt = ACCURACY; sme.accwi = ACCURACY
     if nlte:
         sme.nlte.set_nlte(element, grid_path)
     sme = synthesize_spectrum(sme)
@@ -474,10 +486,22 @@ def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
     per_line = {}
     for l in lines:
         wl = l[0]
-        a_star = float(np.interp(ew_nlte[wl], np.array(cog[wl]), A))
-        per_line[wl] = _A_SUN[element] - a_star      # A(NLTE)=A_sun minus A_LTE(=a_star)
+        # A(NLTE)=A_sun minus A_LTE(=a_star); NaN when the COG cannot invert it
+        per_line[wl] = _A_SUN[element] - cog_invert(ew_nlte[wl], cog[wl], A)
     return {'element': element, 'per_line': per_line,
-            'delta_median': float(np.median(list(per_line.values())))}
+            'delta_median': float(np.nanmedian(list(per_line.values())))}
+
+
+def cog_invert(ew: float, cog, abundances) -> float:
+    """The LTE abundance whose EW equals `ew` on the curve of growth, or NaN.
+
+    RYA-1233: np.interp CLAMPS outside the curve -- an NLTE EW beyond the LTE bracket came
+    back as exactly the bracket edge (37 Si I lines read -0.200 / +0.200). Out of range, or a
+    non-monotonic curve, is NaN: no value, never a rail."""
+    c = np.asarray(cog, dtype=float)
+    if not (np.all(np.diff(c) > 0) and c[0] <= ew <= c[-1]):
+        return float("nan")
+    return float(np.interp(ew, c, np.asarray(abundances, dtype=float)))
 
 
 # Published solar anchors for the Step-3 guard — each element validated against its
