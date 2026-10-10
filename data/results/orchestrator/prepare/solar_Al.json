@@ -114,7 +114,28 @@
   }
  ],
  "cull_candidates": [],
- "nlte_missing": [],
+ "nlte_missing": [
+  {
+   "species": "Al I",
+   "wavelength_A": 6696.185
+  },
+  {
+   "species": "Al I",
+   "wavelength_A": 8912.9
+  },
+  {
+   "species": "Al I",
+   "wavelength_A": 10872.973
+  },
+  {
+   "species": "Al I",
+   "wavelength_A": 11253.189
+  },
+  {
+   "species": "Al I",
+   "wavelength_A": 10768.363
+  }
+ ],
  "holdings": [
   {
    "holding": "solar_kpno_kurucz2005_corrected",
@@ -458,12 +479,12 @@
  },
  "nlte_table": "data/nlte_grids/Al_Amarsi2020_PySME.csv",
  "blocking": {
-  "nlte_missing": 0,
+  "nlte_missing": 5,
   "adopt": 0,
   "cull_candidates": 0,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
  },
- "ready": true
+ "ready": false
 }

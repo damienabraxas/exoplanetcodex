@@ -25,6 +25,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -152,9 +153,12 @@ def main(argv=None) -> int:
     from concurrent.futures import ProcessPoolExecutor
     with ProcessPoolExecutor(a.jobs) as ex:
         results = list(ex.map(_node, [(n, new_lines, ELEMENT) for n in NODES]))
+    # A line with no finite delta at any node is not written (pysme_nlte returns NaN when the
+    # NLTE EW falls outside the LTE curve of growth); prepare's check D keeps naming it.
     rows = [dict(element=ELEMENT, ion=1, wave_A=round(w, 3), teff_K=te, logg=lg, feh=fe,
                  delta_nlte=round(float(d[w]), 4))
-            for (te, lg, fe), d in zip(NODES, results) for w in sorted(d)]
+            for (te, lg, fe), d in zip(NODES, results) for w in sorted(d)
+            if all(np.isfinite(dd.get(w, np.nan)) for dd in results)]
     out = pd.concat([old, pd.DataFrame(rows)], ignore_index=True)
     out.to_csv(csv_path, index=False)
     print(f"wrote {csv_path.name}: {len(old)} kept + {len(rows)} new = {len(out)} rows")
