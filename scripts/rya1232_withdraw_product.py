@@ -25,11 +25,36 @@ import publish_product as pp  # noqa: E402
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--element", required=True)
-    ap.add_argument("--holding", required=True)
-    ap.add_argument("--selector", required=True)
-    ap.add_argument("--reason", required=True)
+    ap.add_argument("--holding")
+    ap.add_argument("--selector")
+    ap.add_argument("--reason")
+    ap.add_argument("--quarantine-ineligible", action="store_true",
+                    help="move every LIVE product failing the RYA-1092 feed-level eligibility "
+                         "gate (evaluated WITH peers) to `quarantine`, with the gate's codes")
     ap.add_argument("--apply", action="store_true")
     a = ap.parse_args()
+    if a.quarantine_ineligible:
+        from pipeline import product_eligibility as pe
+        path = ROOT / "data/products/solar" / f"{a.element}.json"
+        doc = json.loads(path.read_text())
+        bad = {k: r for k, r in pe.evaluate_feed(doc).items() if r}
+        hit = [p for p in doc["products"] if pp.key_of(p) in bad]
+        for p in hit:
+            print(f"  {pp.key_of(p)}  A={p.get('A')}  " + "; ".join(f"[{r.code}] {r.detail}" for r in bad[pp.key_of(p)]))
+        if a.apply and hit:
+            now = pp._now()
+            for p in hit:
+                rs = bad[pp.key_of(p)]
+                doc.setdefault("quarantine", []).append(dict(
+                    p, quarantined_at=now, quarantine_codes=[r.code for r in rs],
+                    quarantine_reason=("RYA-1092 eligibility gate, evaluated with peers (RYA-1232): "
+                                       + " ".join(f"[{r.code}] {r.detail}" for r in rs))))
+            doc["products"] = [p for p in doc["products"] if p not in hit]
+            doc["version"] = pp.bump(doc["version"])
+            doc["updated_at"] = now
+            pp.write_feed(path, doc)
+            print(f"quarantined {len(hit)} -> {path.name} v{doc['version']}")
+        return 0
     path = ROOT / "data/products/solar" / f"{a.element}.json"
     doc = json.loads(path.read_text())
     hit = [p for p in doc["products"]

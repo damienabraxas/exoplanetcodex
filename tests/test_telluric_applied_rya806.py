@@ -175,7 +175,10 @@ def test_load_window_refuses_the_uncorrected_IR_arm():
     # data: a refusal must not depend on the data being reachable, or it would report
     # "not staged" for a dataset we hold but may not measure.
     with pytest.raises(M.TelluricNotCorrected) as ei:
-        M.load_window("crires_plus", 15000.0, 1.0)
+        # RYA-1232: 15000 A is now inside our corrected H holding (14943-17585 A), so the
+        # loader rightly serves corrected flux there. 14500 A (between the J arm's end at
+        # 13495 A and H) is covered by no corrected holding -- only the raw IDP.
+        M.load_window("crires_plus", 14500.0, 1.0)
     assert "RYA-424" in str(ei.value)
     assert "allow_uncorrected=True" in str(ei.value), (
         "the refusal must name the door the correction leg uses, or RYA-373 is locked "

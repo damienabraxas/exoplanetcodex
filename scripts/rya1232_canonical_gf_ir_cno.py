@@ -113,12 +113,15 @@ def main() -> int:
     j = store.index[(store.species == "Fe I") & ((store.wavelength_air_A - 8446.575).abs() < 0.002)]
     if len(j) != 1:
         raise SystemExit(f"Fe I 8446.575: {len(j)} store rows")
+    #: no gf_sigma_dex: a cited sigma needs a LAB/NIST source (RYA-945); the lab-vs-adopted
+    #: difference is priced by the `blendgf` budget leg, not stored as a sigma
     store.loc[j[0], ["log_gf", "loggf_reference", "adjudication_status", "gf_sigma_dex"]] = [
         -1.871,
         ("VALD3 -1.871 adopted for a BLEND (RYA-1232): solar-profile fit of O I 844.6 prefers "
-         "-1.7..-2.0 on 3 spectra; Ruffoni+2014 lab -1.44 +/- 0.13 (at 8446.5685) is the alternative"),
-        "rya1232_blend_solar_profile", round(abs(-1.44 - -1.871), 3)]
-    print(f"Fe I 8446.575: -> -1.871 (VALD3), sigma {abs(-1.44 - -1.871):.3f} = lab - adopted")
+         "-1.7..-2.0 on 3 spectra; Ruffoni+2014 lab -1.44 +/- 0.13 (at 8446.5685) is the "
+         "alternative, priced by the blendgf leg"),
+        "rya1232_blend_solar_profile", float("nan")]
+    print("Fe I 8446.575: -> -1.871 (VALD3); lab alternative priced by the blendgf leg")
     if a.apply:
         out = pd.concat([store, add], ignore_index=True)[store.columns]
         out.to_csv(STORE, index=False)

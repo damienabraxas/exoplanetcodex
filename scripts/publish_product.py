@@ -761,7 +761,13 @@ def main() -> int:
     # what makes it look authoritative.
     added, updated, unchanged, refused, backfilled = [], [], [], [], []
     for row in list(pending):
-        reasons = pe.evaluate(row, require_uncertainty=True)
+        #: 🔴 RYA-1232 -- WITH PEERS. Called without them, the ANOMALOUS_SCATTER check (which
+        #: compares a pool with the other pools of its species/band/holding/tier) never ran at
+        #: publish time, so an anomalous pool went live and only the feed-level audit caught it.
+        _g = pe.peer_group_of(row)
+        _peers = [q for q in list(doc.get("products") or []) + pending
+                  if q is not row and key_of(q) != key_of(row) and pe.peer_group_of(q) == _g]
+        reasons = pe.evaluate(row, peers=_peers, require_uncertainty=True)
         if not reasons:
             continue
         k = key_of(row)

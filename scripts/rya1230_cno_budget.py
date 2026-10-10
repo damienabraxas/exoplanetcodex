@@ -334,6 +334,19 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 FEATURE_A = 0.5
 
 
+def _near(waves, pool, tol: float = 1e-3):
+    """Boolean mask: which of `waves` lie within `tol` A of ANY wavelength in `pool`.
+    Tolerance membership, never a rounded join key (RYA-1033: 3-dp rounding splits a line
+    that sits on a rounding boundary)."""
+    w = np.asarray(waves, float)
+    p = np.sort(np.asarray(list(pool), float))
+    if p.size == 0:
+        return np.zeros(w.shape, bool)
+    i = np.clip(np.searchsorted(p, w), 1, p.size - 1) if p.size > 1 else np.zeros(w.shape, int)
+    d = np.minimum(np.abs(w - p[i]), np.abs(w - p[np.maximum(i - 1, 0)]))
+    return d <= tol
+
+
 def _features(acc: pd.DataFrame) -> list:
     """Accepted lines grouped into resolved features: consecutive components closer than
     FEATURE_A A form one feature. Returns [[(wavelength, abundance), ...], ...]."""
@@ -386,7 +399,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         for _w in set(acc["wavelength_air_A"].round(3)) - _ok:
             unstable.setdefault(float(_w), []).append(f"{_lg}: {str(_all.get(_w, ''))[:90]}")
     if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
-        acc = acc[~acc["wavelength_air_A"].round(3).isin(list(unstable))]
+        acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
         restat = {"A": round(float(_ab.median()), 3),
@@ -412,7 +425,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
 
     def _accp(df):
         a_ = _acc(df)
-        return a_[a_["wavelength_air_A"].round(3).isin(_pool_w)]
+        return a_[_near(a_["wavelength_air_A"], _pool_w)]
     element = str(prod["element"].iloc[0])
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
@@ -555,7 +568,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if df is None:
             return None
         df = df.copy()
-        df.loc[~df["wavelength_air_A"].round(3).isin(_pool_w), "in_aggregate"] = False
+        df.loc[~_near(df["wavelength_air_A"], _pool_w), "in_aggregate"] = False
         return df
     L, Hh = _restrict(L), _restrict(Hh)
     if L is not None and Hh is not None:

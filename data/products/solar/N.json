@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "N",
   "star": "solar",
-  "version": "1.79",
-  "updated_at": "2026-10-09T08:09:24Z",
+  "version": "1.80",
+  "updated_at": "2026-10-10T20:48:37Z",
   "products": [
     {
       "element": "N",
@@ -4615,1537 +4615,6 @@
         "artifact_mtime": "2026-10-03T20:54:16Z",
         "ingested_at": "2026-10-03T21:57:44Z",
         "copied_to_backfilled_at": "2026-10-03T22:03:12Z"
-      },
-      "star": "solar"
-    },
-    {
-      "element": "N",
-      "ion": "I",
-      "band": "red-optical",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "tier": "ALL",
-      "selector": "SET-AGSS21",
-      "treatment": "1D-LTE",
-      "display": "Synth \u00b7 1D-LTE",
-      "A": 7.96,
-      "sigma_stat": 0.1425,
-      "sigma_syst": 0.042,
-      "n_lines": 3,
-      "n_excluded": 1,
-      "dominant_term": "line-to-line scatter",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.14253 dex at n_lines=3",
-      "route": "SYNTH",
-      "uncertainty": {
-        "schema": "rya587.uncertainty.v1",
-        "scope": {
-          "star": "solar",
-          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|1D-LTE|our-all",
-          "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
-        },
-        "components": [
-          {
-            "name": "measurement",
-            "state": "MEASURED",
-            "sigma_dex": 0.14252524142917436,
-            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-            "evidence": {
-              "method": "line_scatter",
-              "independent": true,
-              "n_lines": 3,
-              "raw_sigma": 0.24686095951635062,
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
-            }
-          },
-          {
-            "name": "transition_data",
-            "state": "MEASURED",
-            "sigma_dex": 0.029384,
-            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
-            "evidence": {
-              "indicator_ids": [
-                "pk_8ac0b0dc82fc",
-                "pk_ebd0a6918019",
-                "pk_ec835bef2a9b"
-              ],
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "line_sigma_dex": [
-                0.029384,
-                0.029384,
-                0.029384
-              ],
-              "weights": [
-                0.3333333333333333,
-                0.3333333333333333,
-                0.3333333333333333
-              ],
-              "line_sources": [
-                "NIST ASD v5.11 grade B+ (T7370)",
-                "NIST ASD v5.11 grade B+ (T7370)",
-                "NIST ASD v5.11 grade B+ (T7370)"
-              ],
-              "covariance": [
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ],
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ],
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ]
-              ]
-            }
-          },
-          {
-            "name": "stellar.logg",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.metallicity",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.teff",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
-            "evidence": {
-              "parameter_exists": true,
-              "delta_K": 1.0,
-              "owed_measurement": "a Teff perturbation on this pool"
-            }
-          },
-          {
-            "name": "stellar.xi",
-            "state": "MEASURED",
-            "sigma_dex": 0.014559999999999995,
-            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
-              "response_assessment": "central paired median over 3 lines; difference of aggregates -0.0150/km/s",
-              "signed_response_dex": 0.014559999999999995,
-              "delta_plus_dex": 0.014559999999999995,
-              "delta_minus_dex": -0.014559999999999995,
-              "delta_parameter": 0.2912,
-              "dA_dxi": 0.04999999999999998,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "continuum",
-            "state": "MEASURED",
-            "sigma_dex": 0.18480800848448098,
-            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_q97_minus_q80": 0.13,
-              "paired_median_iag_minus_synthesis": 0.173,
-              "n_paired": 3
-            }
-          },
-          {
-            "name": "profile_ew",
-            "state": "MEASURED",
-            "sigma_dex": 0.045,
-            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_dex": -0.045,
-              "n_paired": 3,
-              "varied": "fit half-width",
-              "nominal_A": 1.1,
-              "alternate_A": 0.25
-            }
-          },
-          {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.011,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_dex": -0.011,
-              "n_paired": 3,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
-            "name": "telluric",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "per_line": [
-                {
-                  "wavelength_air_A": 8216.336,
-                  "dA_df": -19.999999999999574,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.0020960109187587,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.03181568427033954,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                },
-                {
-                  "wavelength_air_A": 8629.235,
-                  "dA_df": -28.00000000000047,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.003734278029285,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.0031283890429034678,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                },
-                {
-                  "wavelength_air_A": 8683.403,
-                  "dA_df": -32.00000000000003,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.001974782409113,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.004425303342484699,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                }
-              ]
-            }
-          },
-          {
-            "name": "blends",
-            "state": "MEASURED",
-            "sigma_dex": 0.0156,
-            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "dAN_dAC": -0.38999999999999996,
-              "sigma_C": 0.04,
-              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
-            }
-          },
-          {
-            "name": "nlte",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
-            "evidence": {
-              "nlte_delta_dex": 0.0
-            }
-          },
-          {
-            "name": "pseudo_continuum",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
-            "evidence": {
-              "band": "red-optical",
-              "continuum_levels": [
-                0.99354,
-                0.99804,
-                1.01107
-              ]
-            }
-          },
-          {
-            "name": "hfs_isotopes",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
-            "evidence": {
-              "hfs_n_components": [
-                1
-              ]
-            }
-          },
-          {
-            "name": "molecular_coupling",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "atomic product; the selector is not a MOL- indicator set",
-            "evidence": {
-              "selector": "SET-AGSS21"
-            }
-          },
-          {
-            "name": "holding_instrument",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
-            "evidence": {
-              "harness_residual_dex": 0.0
-            }
-          }
-        ],
-        "required_extra": [],
-        "covariance": [
-          [
-            0.02031344444444444,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0008634194560000001,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00021199359999999985,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.034154,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.002025,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00012099999999999999,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00024335999999999997,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        ],
-        "covariance_order": [
-          "measurement",
-          "transition_data",
-          "stellar.logg",
-          "stellar.metallicity",
-          "stellar.teff",
-          "stellar.xi",
-          "continuum",
-          "profile_ew",
-          "model_atmosphere",
-          "telluric",
-          "blends",
-          "holding_instrument"
-        ],
-        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
-        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
-        "state": "COMPLETE",
-        "holds": [],
-        "sigma_reported": 0.24069112468149803,
-        "sigma_measured_partial": 0.24069112468149803
-      },
-      "uncertainty_indicator_ids": [
-        "pk_8ac0b0dc82fc",
-        "pk_ebd0a6918019",
-        "pk_ec835bef2a9b"
-      ],
-      "grade": "Reference Grade",
-      "sigma_reported": 0.240691124681498,
-      "provenance": {
-        "host": "Mac",
-        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
-        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
-        "sha256": "a511925e2c4967b36cd50519971ad29718478a656ef254065b28ee9e9c029e5d",
-        "artifact_mtime": "2026-10-09T08:05:50Z",
-        "ingested_at": "2026-10-09T08:05:50Z"
-      },
-      "star": "solar"
-    },
-    {
-      "element": "N",
-      "ion": "I",
-      "band": "red-optical",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "tier": "ALL",
-      "selector": "SET-AGSS21",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi",
-      "A": 7.907,
-      "sigma_stat": 0.1443,
-      "sigma_syst": 0.042,
-      "n_lines": 3,
-      "n_excluded": 0,
-      "dominant_term": "line-to-line scatter",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.14427 dex at n_lines=3",
-      "route": "SYNTH",
-      "uncertainty": {
-        "schema": "rya587.uncertainty.v1",
-        "scope": {
-          "star": "solar",
-          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|ENGINE-A-3DNLTE|our-all",
-          "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
-        },
-        "components": [
-          {
-            "name": "measurement",
-            "state": "MEASURED",
-            "sigma_dex": 0.1442709641997,
-            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-            "evidence": {
-              "method": "line_scatter",
-              "independent": true,
-              "n_lines": 3,
-              "raw_sigma": 0.24988464005083097,
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
-            }
-          },
-          {
-            "name": "transition_data",
-            "state": "MEASURED",
-            "sigma_dex": 0.029384,
-            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
-            "evidence": {
-              "indicator_ids": [
-                "pk_8ac0b0dc82fc",
-                "pk_ebd0a6918019",
-                "pk_ec835bef2a9b"
-              ],
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "line_sigma_dex": [
-                0.029384,
-                0.029384,
-                0.029384
-              ],
-              "weights": [
-                0.3333333333333333,
-                0.3333333333333333,
-                0.3333333333333333
-              ],
-              "line_sources": [
-                "NIST ASD v5.11 grade B+ (T7370)",
-                "NIST ASD v5.11 grade B+ (T7370)",
-                "NIST ASD v5.11 grade B+ (T7370)"
-              ],
-              "covariance": [
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ],
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ],
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ]
-              ]
-            }
-          },
-          {
-            "name": "stellar.logg",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.metallicity",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.teff",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
-            "evidence": {
-              "parameter_exists": true,
-              "delta_K": 1.0,
-              "owed_measurement": "a Teff perturbation on this pool"
-            }
-          },
-          {
-            "name": "stellar.xi",
-            "state": "MEASURED",
-            "sigma_dex": 0.014559999999999995,
-            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
-              "response_assessment": "central paired median over 3 lines; difference of aggregates -0.0150/km/s",
-              "signed_response_dex": 0.014559999999999995,
-              "delta_plus_dex": 0.014559999999999995,
-              "delta_minus_dex": -0.014559999999999995,
-              "delta_parameter": 0.2912,
-              "dA_dxi": 0.04999999999999998,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "continuum",
-            "state": "MEASURED",
-            "sigma_dex": 0.18480800848448098,
-            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_q97_minus_q80": 0.13,
-              "paired_median_iag_minus_synthesis": 0.173,
-              "n_paired": 3
-            }
-          },
-          {
-            "name": "profile_ew",
-            "state": "MEASURED",
-            "sigma_dex": 0.045,
-            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_dex": -0.045,
-              "n_paired": 3,
-              "varied": "fit half-width",
-              "nominal_A": 1.1,
-              "alternate_A": 0.25
-            }
-          },
-          {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.015914651666152153,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "paired_median_dex": -0.011,
-              "n_paired": 3,
-              "varied": "atmosphere grid",
-              "one_d_grid_dex": 0.011,
-              "median_3d_effect_dex": -0.0230022727272728
-            }
-          },
-          {
-            "name": "telluric",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "per_line": [
-                {
-                  "wavelength_air_A": 8216.336,
-                  "dA_df": -19.999999999999574,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.0020960109187587,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.03181568427033954,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                },
-                {
-                  "wavelength_air_A": 8629.235,
-                  "dA_df": -27.99999999999958,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.003734278029285,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.0031283890429034678,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                },
-                {
-                  "wavelength_air_A": 8683.403,
-                  "dA_df": -32.00000000000003,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.001974782409113,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.004425303342484699,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                }
-              ]
-            }
-          },
-          {
-            "name": "blends",
-            "state": "MEASURED",
-            "sigma_dex": 0.0156,
-            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "dAN_dAC": -0.38999999999999996,
-              "sigma_C": 0.04,
-              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
-            }
-          },
-          {
-            "name": "nlte",
-            "state": "MEASURED",
-            "sigma_dex": 0.03,
-            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
-            "evidence": {
-              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
-              "median_nlte_correction_dex": -0.0149977272727272,
-              "n_lines": 2,
-              "floor_dex": 0.03
-            }
-          },
-          {
-            "name": "pseudo_continuum",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
-            "evidence": {
-              "band": "red-optical",
-              "continuum_levels": [
-                0.99354,
-                0.99804,
-                1.01107
-              ]
-            }
-          },
-          {
-            "name": "hfs_isotopes",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
-            "evidence": {
-              "hfs_n_components": [
-                1
-              ]
-            }
-          },
-          {
-            "name": "molecular_coupling",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "atomic product; the selector is not a MOL- indicator set",
-            "evidence": {
-              "selector": "SET-AGSS21"
-            }
-          },
-          {
-            "name": "holding_instrument",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
-            "evidence": {
-              "harness_residual_dex": 0.0
-            }
-          }
-        ],
-        "required_extra": [],
-        "covariance": [
-          [
-            0.02081411111111112,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0008634194560000001,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00021199359999999985,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.034154,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.002025,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0002532761376549595,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00024335999999999997,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0009,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        ],
-        "covariance_order": [
-          "measurement",
-          "transition_data",
-          "stellar.logg",
-          "stellar.metallicity",
-          "stellar.teff",
-          "stellar.xi",
-          "continuum",
-          "profile_ew",
-          "model_atmosphere",
-          "telluric",
-          "blends",
-          "nlte",
-          "holding_instrument"
-        ],
-        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
-        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
-        "state": "COMPLETE",
-        "holds": [],
-        "sigma_reported": 0.24385479348326553,
-        "sigma_measured_partial": 0.24385479348326553
-      },
-      "uncertainty_indicator_ids": [
-        "pk_8ac0b0dc82fc",
-        "pk_ebd0a6918019",
-        "pk_ec835bef2a9b"
-      ],
-      "grade": "Reference Grade",
-      "sigma_reported": 0.2438547934832655,
-      "provenance": {
-        "host": "Mac",
-        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv",
-        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv",
-        "sha256": "dc869c874f5712b65431df3156a5a8f9b922af63f9e4b8e608b32144806395d3",
-        "artifact_mtime": "2026-10-09T08:05:50Z",
-        "ingested_at": "2026-10-09T08:05:51Z"
-      },
-      "star": "solar"
-    },
-    {
-      "element": "N",
-      "ion": "I",
-      "band": "red-optical",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "tier": "ALL",
-      "selector": "SET-AGSS21",
-      "treatment": "ENGINE-A",
-      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
-      "A": 8.132,
-      "sigma_stat": 0.2224,
-      "sigma_syst": 0.042,
-      "n_lines": 2,
-      "n_excluded": 1,
-      "dominant_term": "line-to-line scatter",
-      "stat_basis": "measured \u2014 RMS of the random terms, 0.22245 dex at n_lines=2",
-      "route": "SYNTH",
-      "uncertainty": {
-        "schema": "rya587.uncertainty.v1",
-        "scope": {
-          "star": "solar",
-          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|ENGINE-A|our-all",
-          "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978"
-        },
-        "components": [
-          {
-            "name": "measurement",
-            "state": "MEASURED",
-            "sigma_dex": 0.22245000000000023,
-            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-            "evidence": {
-              "method": "line_scatter",
-              "independent": true,
-              "n_lines": 2,
-              "raw_sigma": 0.31459180694989536,
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978"
-            }
-          },
-          {
-            "name": "transition_data",
-            "state": "MEASURED",
-            "sigma_dex": 0.029384,
-            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
-            "evidence": {
-              "indicator_ids": [
-                "pk_8ac0b0dc82fc",
-                "pk_ec835bef2a9b"
-              ],
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "line_sigma_dex": [
-                0.029384,
-                0.029384
-              ],
-              "weights": [
-                0.5,
-                0.5
-              ],
-              "line_sources": [
-                "NIST ASD v5.11 grade B+ (T7370)",
-                "NIST ASD v5.11 grade B+ (T7370)"
-              ],
-              "covariance": [
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ],
-                [
-                  0.0008634194560000001,
-                  0.0008634194560000001
-                ]
-              ]
-            }
-          },
-          {
-            "name": "stellar.logg",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.metallicity",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
-            "evidence": {
-              "delta": 0.0,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "stellar.teff",
-            "state": "DEFINED",
-            "sigma_dex": 0.0,
-            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
-            "evidence": {
-              "parameter_exists": true,
-              "delta_K": 1.0,
-              "owed_measurement": "a Teff perturbation on this pool"
-            }
-          },
-          {
-            "name": "stellar.xi",
-            "state": "MEASURED",
-            "sigma_dex": 0.016743999999999995,
-            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
-              "response_assessment": "central paired median over 2 lines; difference of aggregates 0.0575/km/s",
-              "signed_response_dex": 0.016743999999999995,
-              "delta_plus_dex": 0.016743999999999995,
-              "delta_minus_dex": -0.016743999999999995,
-              "delta_parameter": 0.2912,
-              "dA_dxi": 0.05749999999999998,
-              "parameter_exists": true
-            }
-          },
-          {
-            "name": "continuum",
-            "state": "MEASURED",
-            "sigma_dex": 0.060158644432866004,
-            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "paired_median_q97_minus_q80": 0.1085,
-              "paired_median_iag_minus_synthesis": -0.026,
-              "n_paired": 2
-            }
-          },
-          {
-            "name": "profile_ew",
-            "state": "MEASURED",
-            "sigma_dex": 0.135,
-            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "paired_median_dex": -0.135,
-              "n_paired": 2,
-              "varied": "fit half-width",
-              "nominal_A": 1.1,
-              "alternate_A": 0.25
-            }
-          },
-          {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.03,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "paired_median_dex": -0.03,
-              "n_paired": 2,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
-            "name": "telluric",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "per_line": [
-                {
-                  "wavelength_air_A": 8216.336,
-                  "dA_df": -19.999999999999574,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.0020960109187587,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.03181568427033954,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                },
-                {
-                  "wavelength_air_A": 8683.403,
-                  "dA_df": -32.00000000000003,
-                  "sigma_line_dex": 0.0,
-                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
-                  "clean_edge": 0.16768564509441747,
-                  "clean_window_null": 0.16768564509441747,
-                  "sky_baseline": 1.001974782409113,
-                  "n_px": 400,
-                  "n_telluric_px": 0,
-                  "max_depth": 0.004425303342484699,
-                  "residual_flux": 0.0,
-                  "sky_absorption": 0.0
-                }
-              ]
-            }
-          },
-          {
-            "name": "blends",
-            "state": "MEASURED",
-            "sigma_dex": 0.013900000000000001,
-            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "dAN_dAC": -0.34750000000000003,
-              "sigma_C": 0.04,
-              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
-            }
-          },
-          {
-            "name": "nlte",
-            "state": "MEASURED",
-            "sigma_dex": 0.03,
-            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
-            "evidence": {
-              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
-              "median_nlte_correction_dex": -0.0149977272727272,
-              "n_lines": 2,
-              "floor_dex": 0.03
-            }
-          },
-          {
-            "name": "pseudo_continuum",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
-            "evidence": {
-              "band": "red-optical",
-              "continuum_levels": [
-                0.99354,
-                1.01107
-              ]
-            }
-          },
-          {
-            "name": "hfs_isotopes",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
-            "evidence": {
-              "hfs_n_components": [
-                1
-              ]
-            }
-          },
-          {
-            "name": "molecular_coupling",
-            "state": "N/A",
-            "sigma_dex": null,
-            "source": "atomic product; the selector is not a MOL- indicator set",
-            "evidence": {
-              "selector": "SET-AGSS21"
-            }
-          },
-          {
-            "name": "holding_instrument",
-            "state": "MEASURED",
-            "sigma_dex": 0.0,
-            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
-            "evidence": {
-              "harness_residual_dex": 0.0
-            }
-          }
-        ],
-        "required_extra": [],
-        "covariance": [
-          [
-            0.0494840025000001,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0008634194560000001,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00028036153599999983,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0036190625,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.018225,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0009,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.00019321000000000003,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0009,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ]
-        ],
-        "covariance_order": [
-          "measurement",
-          "transition_data",
-          "stellar.logg",
-          "stellar.metallicity",
-          "stellar.teff",
-          "stellar.xi",
-          "continuum",
-          "profile_ew",
-          "model_atmosphere",
-          "telluric",
-          "blends",
-          "nlte",
-          "holding_instrument"
-        ],
-        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
-        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
-        "state": "COMPLETE",
-        "holds": [],
-        "sigma_reported": 0.2728828613013285,
-        "sigma_measured_partial": 0.2728828613013285
-      },
-      "uncertainty_indicator_ids": [
-        "pk_8ac0b0dc82fc",
-        "pk_ec835bef2a9b"
-      ],
-      "grade": "Reference Grade",
-      "sigma_reported": 0.2728828613013285,
-      "provenance": {
-        "host": "Mac",
-        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
-        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
-        "sha256": "d34f73960b125f05ebcd106a17c8bf315d4b8b71b630b0222bf324bc924a72b1",
-        "artifact_mtime": "2026-10-09T08:05:50Z",
-        "ingested_at": "2026-10-09T08:05:51Z"
       },
       "star": "solar"
     },
@@ -21098,6 +19567,1552 @@
         "ANOMALOUS_SCATTER"
       ],
       "quarantine_reason": "RYA-1092 live-eligibility gate: [ANOMALOUS_SCATTER] line-to-line scatter 0.4822 dex is 34.10x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0). Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.96,
+      "sigma_stat": 0.1425,
+      "sigma_syst": 0.042,
+      "n_lines": 3,
+      "n_excluded": 1,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.14253 dex at n_lines=3",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.14252524142917436,
+            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
+            "evidence": {
+              "method": "line_scatter",
+              "independent": true,
+              "n_lines": 3,
+              "raw_sigma": 0.24686095951635062,
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.029384,
+            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
+            "evidence": {
+              "indicator_ids": [
+                "pk_8ac0b0dc82fc",
+                "pk_ebd0a6918019",
+                "pk_ec835bef2a9b"
+              ],
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "line_sigma_dex": [
+                0.029384,
+                0.029384,
+                0.029384
+              ],
+              "weights": [
+                0.3333333333333333,
+                0.3333333333333333,
+                0.3333333333333333
+              ],
+              "line_sources": [
+                "NIST ASD v5.11 grade B+ (T7370)",
+                "NIST ASD v5.11 grade B+ (T7370)",
+                "NIST ASD v5.11 grade B+ (T7370)"
+              ],
+              "covariance": [
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ],
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ],
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.014559999999999995,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 3 lines; difference of aggregates -0.0150/km/s",
+              "signed_response_dex": 0.014559999999999995,
+              "delta_plus_dex": 0.014559999999999995,
+              "delta_minus_dex": -0.014559999999999995,
+              "delta_parameter": 0.2912,
+              "dA_dxi": 0.04999999999999998,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.18480800848448098,
+            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_q97_minus_q80": 0.13,
+              "paired_median_iag_minus_synthesis": 0.173,
+              "n_paired": 3
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.045,
+            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_dex": -0.045,
+              "n_paired": 3,
+              "varied": "fit half-width",
+              "nominal_A": 1.1,
+              "alternate_A": 0.25
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.011,
+            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_dex": -0.011,
+              "n_paired": 3,
+              "varied": "atmosphere grid"
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8216.336,
+                  "dA_df": -19.999999999999574,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.0020960109187587,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.03181568427033954,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "wavelength_air_A": 8629.235,
+                  "dA_df": -28.00000000000047,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.003734278029285,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.0031283890429034678,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "wavelength_air_A": 8683.403,
+                  "dA_df": -32.00000000000003,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.001974782409113,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.004425303342484699,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "MEASURED",
+            "sigma_dex": 0.0156,
+            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "dAN_dAC": -0.38999999999999996,
+              "sigma_C": 0.04,
+              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
+            "evidence": {
+              "nlte_delta_dex": 0.0
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99354,
+                0.99804,
+                1.01107
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-AGSS21"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.02031344444444444,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0008634194560000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00021199359999999985,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.034154,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.002025,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00012099999999999999,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00024335999999999997,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "blends",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.24069112468149803,
+        "sigma_measured_partial": 0.24069112468149803
+      },
+      "uncertainty_indicator_ids": [
+        "pk_8ac0b0dc82fc",
+        "pk_ebd0a6918019",
+        "pk_ec835bef2a9b"
+      ],
+      "grade": "Reference Grade",
+      "sigma_reported": 0.240691124681498,
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_products.csv",
+        "sha256": "a511925e2c4967b36cd50519971ad29718478a656ef254065b28ee9e9c029e5d",
+        "artifact_mtime": "2026-10-09T08:05:50Z",
+        "ingested_at": "2026-10-09T08:05:50Z"
+      },
+      "star": "solar",
+      "quarantined_at": "2026-10-10T20:48:37Z",
+      "quarantine_codes": [
+        "ANOMALOUS_SCATTER"
+      ],
+      "quarantine_reason": "RYA-1092 eligibility gate, evaluated with peers (RYA-1232): [ANOMALOUS_SCATTER] line-to-line scatter 0.2468 dex is 9.97x the median of the 5 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0)."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.907,
+      "sigma_stat": 0.1443,
+      "sigma_syst": 0.042,
+      "n_lines": 3,
+      "n_excluded": 0,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.14427 dex at n_lines=3",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|ENGINE-A-3DNLTE|our-all",
+          "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.1442709641997,
+            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
+            "evidence": {
+              "method": "line_scatter",
+              "independent": true,
+              "n_lines": 3,
+              "raw_sigma": 0.24988464005083097,
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753"
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.029384,
+            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
+            "evidence": {
+              "indicator_ids": [
+                "pk_8ac0b0dc82fc",
+                "pk_ebd0a6918019",
+                "pk_ec835bef2a9b"
+              ],
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "line_sigma_dex": [
+                0.029384,
+                0.029384,
+                0.029384
+              ],
+              "weights": [
+                0.3333333333333333,
+                0.3333333333333333,
+                0.3333333333333333
+              ],
+              "line_sources": [
+                "NIST ASD v5.11 grade B+ (T7370)",
+                "NIST ASD v5.11 grade B+ (T7370)",
+                "NIST ASD v5.11 grade B+ (T7370)"
+              ],
+              "covariance": [
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ],
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ],
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.014559999999999995,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 3 lines; difference of aggregates -0.0150/km/s",
+              "signed_response_dex": 0.014559999999999995,
+              "delta_plus_dex": 0.014559999999999995,
+              "delta_minus_dex": -0.014559999999999995,
+              "delta_parameter": 0.2912,
+              "dA_dxi": 0.04999999999999998,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.18480800848448098,
+            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_q97_minus_q80": 0.13,
+              "paired_median_iag_minus_synthesis": 0.173,
+              "n_paired": 3
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.045,
+            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_dex": -0.045,
+              "n_paired": 3,
+              "varied": "fit half-width",
+              "nominal_A": 1.1,
+              "alternate_A": 0.25
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.015914651666152153,
+            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "paired_median_dex": -0.011,
+              "n_paired": 3,
+              "varied": "atmosphere grid",
+              "one_d_grid_dex": 0.011,
+              "median_3d_effect_dex": -0.0230022727272728
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8216.336,
+                  "dA_df": -19.999999999999574,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.0020960109187587,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.03181568427033954,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "wavelength_air_A": 8629.235,
+                  "dA_df": -27.99999999999958,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.003734278029285,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.0031283890429034678,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "wavelength_air_A": 8683.403,
+                  "dA_df": -32.00000000000003,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.001974782409113,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.004425303342484699,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "MEASURED",
+            "sigma_dex": 0.0156,
+            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "dAN_dAC": -0.38999999999999996,
+              "sigma_C": 0.04,
+              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "MEASURED",
+            "sigma_dex": 0.03,
+            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
+            "evidence": {
+              "pool_sha256": "35a19c660b12690a869a910447376383807079f2ac27045abbf2b6b913841753",
+              "median_nlte_correction_dex": -0.0149977272727272,
+              "n_lines": 2,
+              "floor_dex": 0.03
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99354,
+                0.99804,
+                1.01107
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-AGSS21"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.02081411111111112,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0008634194560000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00021199359999999985,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.034154,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.002025,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0002532761376549595,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00024335999999999997,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "blends",
+          "nlte",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.24385479348326553,
+        "sigma_measured_partial": 0.24385479348326553
+      },
+      "uncertainty_indicator_ids": [
+        "pk_8ac0b0dc82fc",
+        "pk_ebd0a6918019",
+        "pk_ec835bef2a9b"
+      ],
+      "grade": "Reference Grade",
+      "sigma_reported": 0.2438547934832655,
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv",
+        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A-3DNLTE_products.csv",
+        "sha256": "dc869c874f5712b65431df3156a5a8f9b922af63f9e4b8e608b32144806395d3",
+        "artifact_mtime": "2026-10-09T08:05:50Z",
+        "ingested_at": "2026-10-09T08:05:51Z"
+      },
+      "star": "solar",
+      "quarantined_at": "2026-10-10T20:48:37Z",
+      "quarantine_codes": [
+        "ANOMALOUS_SCATTER"
+      ],
+      "quarantine_reason": "RYA-1092 eligibility gate, evaluated with peers (RYA-1232): [ANOMALOUS_SCATTER] line-to-line scatter 0.2499 dex is 10.10x the median of the 5 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0)."
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-AGSS21",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 8.132,
+      "sigma_stat": 0.2224,
+      "sigma_syst": 0.042,
+      "n_lines": 2,
+      "n_excluded": 1,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.22245 dex at n_lines=2",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|ENGINE-A|our-all",
+          "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.22245000000000023,
+            "source": "per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
+            "evidence": {
+              "method": "line_scatter",
+              "independent": true,
+              "n_lines": 2,
+              "raw_sigma": 0.31459180694989536,
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978"
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "MEASURED",
+            "sigma_dex": 0.029384,
+            "source": "canonical_gf per-line sigma; lines sharing one source are fully correlated",
+            "evidence": {
+              "indicator_ids": [
+                "pk_8ac0b0dc82fc",
+                "pk_ec835bef2a9b"
+              ],
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "line_sigma_dex": [
+                0.029384,
+                0.029384
+              ],
+              "weights": [
+                0.5,
+                0.5
+              ],
+              "line_sources": [
+                "NIST ASD v5.11 grade B+ (T7370)",
+                "NIST ASD v5.11 grade B+ (T7370)"
+              ],
+              "covariance": [
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ],
+                [
+                  0.0008634194560000001,
+                  0.0008634194560000001
+                ]
+              ]
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.016743999999999995,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 2 lines; difference of aggregates 0.0575/km/s",
+              "signed_response_dex": 0.016743999999999995,
+              "delta_plus_dex": 0.016743999999999995,
+              "delta_minus_dex": -0.016743999999999995,
+              "delta_parameter": 0.2912,
+              "dA_dxi": 0.05749999999999998,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "MEASURED",
+            "sigma_dex": 0.060158644432866004,
+            "source": "standing continuum rule (synthesis reference, 3-MAD clipped): placement = q97 vs q80 central half-difference, REFERENCE = IAG-atlas leg minus nominal, in quadrature, paired on this pool",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "paired_median_q97_minus_q80": 0.1085,
+              "paired_median_iag_minus_synthesis": -0.026,
+              "n_paired": 2
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "MEASURED",
+            "sigma_dex": 0.135,
+            "source": "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "paired_median_dex": -0.135,
+              "n_paired": 2,
+              "varied": "fit half-width",
+              "nominal_A": 1.1,
+              "alternate_A": 0.25
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.03,
+            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "paired_median_dex": -0.03,
+              "n_paired": 2,
+              "varied": "atmosphere grid"
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8216.336,
+                  "dA_df": -19.999999999999574,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.0020960109187587,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.03181568427033954,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                },
+                {
+                  "wavelength_air_A": 8683.403,
+                  "dA_df": -32.00000000000003,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 1.001974782409113,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.004425303342484699,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "MEASURED",
+            "sigma_dex": 0.013900000000000001,
+            "source": "CN blended into the N I profiles, full molecular synthesis: paired response to A(C) +/- 0.10 on this pool x sigma(C)",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "dAN_dAC": -0.34750000000000003,
+              "sigma_C": 0.04,
+              "sigma_C_source": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "MEASURED",
+            "sigma_dex": 0.03,
+            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
+            "evidence": {
+              "pool_sha256": "381e36bb3d2c009a1c32d5b624a85c720398a726908348629204720b1cf32978",
+              "median_nlte_correction_dex": -0.0149977272727272,
+              "n_lines": 2,
+              "floor_dex": 0.03
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99354,
+                1.01107
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-AGSS21"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.0494840025000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0008634194560000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00028036153599999983,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0036190625,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.018225,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00019321000000000003,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "transition_data",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "continuum",
+          "profile_ew",
+          "model_atmosphere",
+          "telluric",
+          "blends",
+          "nlte",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.2728828613013285,
+        "sigma_measured_partial": 0.2728828613013285
+      },
+      "uncertainty_indicator_ids": [
+        "pk_8ac0b0dc82fc",
+        "pk_ec835bef2a9b"
+      ],
+      "grade": "Reference Grade",
+      "sigma_reported": 0.2728828613013285,
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1230_runs/stage_r2/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "copied_to": "data/results/rya1232/products/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_ENGINE-A_products.csv",
+        "sha256": "d34f73960b125f05ebcd106a17c8bf315d4b8b71b630b0222bf324bc924a72b1",
+        "artifact_mtime": "2026-10-09T08:05:50Z",
+        "ingested_at": "2026-10-09T08:05:51Z"
+      },
+      "star": "solar",
+      "quarantined_at": "2026-10-10T20:48:37Z",
+      "quarantine_codes": [
+        "ANOMALOUS_SCATTER"
+      ],
+      "quarantine_reason": "RYA-1092 eligibility gate, evaluated with peers (RYA-1232): [ANOMALOUS_SCATTER] line-to-line scatter 0.3145 dex is 12.71x the median of the 5 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0)."
     }
   ],
   "plot_grid": {
@@ -21472,8 +21487,8 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|1D-LTE|our-all",
-            "alternates": 1
+            "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-LBP25|SYNTH|1D-LTE|our-all",
+            "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
@@ -21490,8 +21505,8 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-AGSS21|SYNTH|ENGINE-A|our-all",
-            "alternates": 1
+            "product_key": "N|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-LBP25|SYNTH|ENGINE-A|our-all",
+            "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
