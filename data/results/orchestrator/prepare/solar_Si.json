@@ -2338,6 +2338,30 @@
   "missing_bib_keys": []
  },
  "nlte_table": "data/nlte_grids/Si_Amarsi2020_PySME.csv",
+ "literature_needs": [
+  {
+   "species": "Si I",
+   "band": "near-UV",
+   "n_lines": 21,
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "21 Si I lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "Si II",
+   "band": "near-UV",
+   "n_lines": 3,
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "3 Si II lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  }
+ ],
  "blocking": {
   "nlte_missing": 235,
   "adopt": 0,

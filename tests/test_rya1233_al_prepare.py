@@ -109,3 +109,15 @@ def test_cog_inversion_never_rails():
     assert math.isnan(cog_invert(19.0, cog, A))
     assert math.isnan(cog_invert(9.0, cog, A))
     assert math.isnan(cog_invert(15.0, [10, 12, 11, 16, 18], A))
+
+
+def test_prepare_names_band_literature_needs_over_the_union_of_windows():
+    """RYA-1237 input: a band whose holdings' windows hold the element's lines but none with a
+    published gf uncertainty. Al's H and K are needs; Si's VIS is NOT (one narrow holding
+    lacks graded lines, the band does not)."""
+    import json
+    al = json.loads((ROOT / "data/results/orchestrator/prepare/solar_Al.json").read_text())
+    si = json.loads((ROOT / "data/results/orchestrator/prepare/solar_Si.json").read_text())
+    al_bands = {n["band"] for n in al["literature_needs"]}
+    assert {"H", "K"} <= al_bands
+    assert "VIS" not in {n["band"] for n in si["literature_needs"]}

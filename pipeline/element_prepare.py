@@ -314,6 +314,30 @@ def prepare(star: str, element: str) -> dict:
     keys = {spec["bib"] for spec in ls.load_sources() if spec["element"] == element}
     rep["literature"] = {"litscan": lit.exists(), "set_bib_keys": sorted(keys),
                          "missing_bib_keys": sorted(keys - bib)}
+    # F2 -- literature NEEDS (RYA-1237's input, not its register): a band some holding serves
+    # where the element has lines but none carries a published gf uncertainty, so no Codex
+    # pool can exist until a source is found. Non-blocking: the band is HELD at step 7.
+    # Judged over the UNION of the band's holding windows: one narrow holding without graded
+    # lines is not a need when another holding's window in the same band has them.
+    bands: dict = {}
+    for d in rm.expand(star, element, engines=["ts-lte"], methods=["synthesis"], pools=["codex"]):
+        bands.setdefault((d.ion, d.band), []).append(d)
+    need = {}
+    for (ion, band), ds in bands.items():
+        w, masks = rm._canonical_species(element, ion)
+        inwin = np.zeros(len(w), dtype=bool)
+        for d in ds:
+            inwin |= np.asarray((w >= d.lo_A) & (w <= d.hi_A))
+        if inwin.any() and not (inwin & np.asarray(masks["graded"])).any():
+            need[(ion, band)] = {"species": f"{element} {ion}", "band": band,
+                                 "n_lines": int(inwin.sum()),
+                                 "holdings": [d.holding for d in ds]}
+    rep["literature_needs"] = [
+        {**v, "holdings": sorted(set(v["holdings"])), "scientific_role": "lab_gf",
+         "why_needed": (f"{v['n_lines']} {v['species']} lines in the {v['band']} band, none with a "
+                        f"published gf uncertainty: no Codex/Deep pool until a lab or "
+                        f"error-stated gf source is found (RYA-1237 register input)")}
+        for v in need.values()]
 
     # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
     # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
@@ -364,6 +388,8 @@ def render(rep: dict) -> str:
     for s in rep["gf_sources"]:
         L.append(f"  B gf source {s['lab_source_tag']}: {s['n_graded_lines']} graded lines, "
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
+    for n in rep.get("literature_needs", []):
+        L.append(f"  F2 literature need: {n['why_needed']} [{', '.join(n['holdings'])}]")
     L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")

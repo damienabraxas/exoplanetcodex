@@ -7,6 +7,8 @@ PREPARE solar Si  -> NOT READY -- blocking: nlte_missing 235
   B gf source PR2024_exp: 14 graded lines, classified
   B gf source AGSS21_Si_Amarsi2017: 10 graded lines, classified
   B gf source DenHartog2023: 2 graded lines, NOT in gf_error_model (UNREVIEWED)
+  F2 literature need: 21 Si I lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
+  F2 literature need: 3 Si II lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   C cull candidates (saturated, not a solar-literature line): 0
   D NLTE: 235 graded line(s) not in data/nlte_grids/Si_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Si --write
   E holdings: 18 windows; 0 not serving / frame off rest
