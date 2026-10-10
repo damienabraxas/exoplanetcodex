@@ -77,6 +77,7 @@ MEASURED_RATIO: dict = {}
 SPEC = {"nir_cn_iag": _CN, "nir_cn_kp": _CN, "j_cn_crires": _CN,
         "k_co_crires": dict(element="C", ion="I", diag="CO_K", molecule="12C16O", selector="MOL-CO_K",
                             gf="li2015", td=(CO_TD_SIGMA, CO_TD_SOURCE), stem="CI_MOL_CO_K",
+                            bsyn_species="16O12C",
                             bound=0.140,
                             bound_source=("published 1D->3D shift for 12C16O X-X, Amarsi et al. 2021 "
                                           "Table 2 via data/reference/molecular_cno_literature_rya1220 "
@@ -103,7 +104,9 @@ def windows_of(region: str):
 
 def n_cn_lines(region: str) -> int:
     from rya1230_n_product_hygiene import _bsyn_species_in
-    return int(_bsyn_species_in(windows_of(region)).get(SPEC[region]["molecule"], 0))
+    #: the .bsyn lists name species their own way (CO is '16O12C'); count by that key
+    sp = SPEC[region]
+    return int(_bsyn_species_in(windows_of(region)).get(sp.get("bsyn_species", sp["molecule"]), 0))
 
 
 def build(region: str, legs: Path, others: dict) -> dict:
