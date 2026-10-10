@@ -1,0 +1,76 @@
+{
+  "linelist": {
+    "n_failures": 0,
+    "examples": [],
+    "n_parsed": 161526,
+    "n_in_band": 62072,
+    "lo_A": 3000.00258,
+    "hi_A": 3779.99542,
+    "source": "/Users/ryanschmitt/codex/rya1230/data/linelists/vald_solar_nearuv_2000_3780_hfson_raw.txt",
+    "molecules_excluded": {
+      "species": [
+        "CH",
+        "CN",
+        "NH",
+        "OH"
+      ],
+      "n_lines": 6223,
+      "per_species": {
+        "CH": 653,
+        "CN": 1205,
+        "NH": 2271,
+        "OH": 2094
+      },
+      "engine_rejected": {
+        "H": {
+          "n_lines": 51,
+          "reason": "Turbospectrum reads hydrogen from a DEDICATED file whose first record must declare species '01.000' ion 1, with principal quantum numbers (nblo/nbup) for its Stehle profiles \u2014 which VALD's atomic rows do not carry. Feeding H I through the atomic list makes hydropac abort: 'wrong H line data file!', and excluding it is what makes 3700-3780 A synthesise at all. NOTHING IS LOST: iSpec supplies TS's own DATA/Hlinedata on every call, so the hydrogen lines ARE synthesised \u2014 verified against the Kitt Peak atlas at synth/obs 0.889 (H 13) and 0.927 (H 12). THE EXCLUSION IS AN ENGINE PROPERTY, NOT A NEAR-UV ONE (RYA-762, measured): the same abort fires on the IR PASCHEN members (E_low 12.088 eV). Tested head-to-head in 12800-12830 A \u2014 without H I the window synthesises clean (1499 points, flux 0.666-0.980); with H I bsyn dies. So the rule generalises beyond the band its first evidence came from. \u26a0\ufe0f AND THE 'UNMODELLED NEIGHBOUR' CAVEAT THAT ONCE RODE WITH THIS IS RETRACTED: Hlinedata carries 133 records spanning Lyman through Humphreys (nblo 1-6), INCLUDING Pa-beta 12818.077 (nblo 3, nbup 5), Pa-gamma 10938.093 and Pa-delta 10049.373. So Fe I 12807.15/12808.24 do NOT sit beside an unmodelled Pa-beta \u2014 it is synthesised, exactly as the Balmer members are. Excluding H I from the ATOMIC list never meant the hydrogen line was absent.",
+          "lo_A": 3652.064,
+          "hi_A": 3770.655
+        }
+      }
+    },
+    "n_lines": 55798,
+    "n_species": 102,
+    "n_vdw_zero": 0,
+    "n_vdw_unsold_filled": 13029,
+    "n_vdw_positive": 13029,
+    "n_rad_zero": 13065,
+    "top_species": [
+      [
+        "Co 1",
+        15779
+      ],
+      [
+        "V 1",
+        4813
+      ],
+      [
+        "Fe 1",
+        4364
+      ],
+      [
+        "Mn 1",
+        3277
+      ],
+      [
+        "Nb 2",
+        2898
+      ],
+      [
+        "V 2",
+        2340
+      ],
+      [
+        "Ce 2",
+        2085
+      ],
+      [
+        "Cr 1",
+        1703
+      ]
+    ],
+    "gf_sources_matched": 0,
+    "path": "/Users/ryanschmitt/codex/rya1230/data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv"
+  }
+}

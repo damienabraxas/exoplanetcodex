@@ -42,6 +42,7 @@ import argparse
 import datetime as _dt
 import hashlib
 import json
+import math
 import os
 import re
 import socket
@@ -98,7 +99,8 @@ def _now() -> str:
     return _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def display_name(treatment: str, *, gf: str | None, route: str | None) -> str:
+def display_name(treatment: str, *, gf: str | None, route: str | None,
+                 model: str | None = None) -> str:
     """The RYA-906 axis name, DERIVED. Never typed here, never assembled from a map.
 
     🔴 RYA-1100 — THIS FUNCTION USED TO HAND-TYPE A `_DISPLAY` DICT, under a comment
@@ -128,9 +130,14 @@ def display_name(treatment: str, *, gf: str | None, route: str | None) -> str:
     # read as a pedigree; reading the declared axis vocabulary makes that impossible, and
     # anything outside it means "not stated" -> the pool LEGACY declares for the label.
     pool = str(gf or "").strip().lower()
+    # RYA-1233: the row's own MODEL is a witness too. ENGINE-A's legacy axis is Bergemann
+    # (Fe's MPIA grid), but Si's ENGINE-A rows are the Amarsi 2020 grid and their products
+    # say `model=amarsi` -- the display read "1D-NLTE · Bergemann" on an Amarsi correction.
+    m = str(model or "").strip().lower()
     return treatment_axes.display_for(
         str(treatment), route_token=route,
-        gf=(pool if pool in treatment_axes.GF_POOLS else None))
+        gf=(pool if pool in treatment_axes.GF_POOLS else None),
+        model=(m if m in treatment_axes.MODELS else None))
 
 
 #: The route TOKEN a published record carries, from the strongest witness in the row.
@@ -196,7 +203,7 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
             # empty `gf` cell was all it needed. An absent gf pool means the pool
             # LEGACY declares, which is what `axes_for` already does.
             "display": display_name(treatment, gf=r.get("gf"),
-                                    route=(row_route or route)),
+                                    route=(row_route or route), model=r.get("model")),
             "A": round(float(A), 4),
             "sigma_stat": None if stat is None or pd.isna(stat) else round(float(stat), 4),
             "sigma_syst": None if syst is None or pd.isna(syst) else round(float(syst), 4),
@@ -668,7 +675,26 @@ def main() -> int:
         # Reference pool is built to be pure LAB, so a rung below 3 here means lines in
         # it did not RESOLVE to a lab scale, which is precisely what must block a
         # publication rather than ride along under a grade name (RYA-1212).
-        if a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
+        #: RYA-1233 (Ryan, 2026-10-09): Codex/Deep Grade = lines whose gf carries ANY published
+        #: uncertainty (pipeline.gf_grades.is_gf_graded), not laboratory gf only. A product with
+        #: a RYA-587 budget whose transition_data term prices EVERY line from a published
+        #: per-line sigma corroborates its grade claim directly -- stronger evidence than the
+        #: legacy `_budgets.txt` rung text, which only knows lab gf. One unpriced line still
+        #: refuses; a product without a RYA-587 budget still goes through the rung check.
+        def _priced_by_587(rows) -> bool:
+            for r in rows:
+                u = r.get("uncertainty")
+                u = json.loads(u) if isinstance(u, str) else u
+                td = next((c for c in (u or {}).get("components", [])
+                           if c.get("name") == "transition_data"), None)
+                sig = ((td or {}).get("evidence") or {}).get("line_sigma_dex") or []
+                if not td or td.get("state") != "MEASURED" or not sig or \
+                        any(x is None or not math.isfinite(float(x)) for x in sig):
+                    return False
+            return bool(rows)
+        if a.tier in ("GRADED", "DEEPGRADED") and _priced_by_587(rows):
+            pass
+        elif a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
             m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
                 if budget_text else None
             if m and int(m.group(1)) != 3:
@@ -773,6 +799,18 @@ def main() -> int:
                 cur["provenance"] = {**cp, "copied_to": npv["copied_to"],
                                      "copied_to_backfilled_at": npv.get("ingested_at")}
                 backfilled.append(k)
+            # RYA-1233 -- DISPLAY BACKFILL, same guard. The display name is DERIVED from the
+            # row's axes; when that derivation is corrected (ENGINE-A rows read the row's own
+            # model: Si's Amarsi grid was shown as "Bergemann"), the same artifact re-derives a
+            # different label. Only the label moves -- every measured field is identical and
+            # the bytes are the same file.
+            if (row.get("display") and cur.get("display") != row.get("display")
+                    and cp.get("sha256") and cp.get("sha256") == npv.get("sha256")):
+                cur["display_was"] = cur.get("display")
+                cur["display"] = row["display"]
+                if k not in backfilled:
+                    backfilled.append(k)
+            if k in backfilled:
                 continue
             unchanged.append(k); continue
         if not a.reason:
@@ -793,7 +831,7 @@ def main() -> int:
               f"        {', '.join(codes)} -- the existing live record (if any) STANDS",
               file=sys.stderr)
     if backfilled:
-        print(f"provenance backfilled (copied_to; same sha256, no value change): "
+        print(f"provenance/display backfilled (same sha256, no value change): "
               f"{len(backfilled)} row(s)")
     if not added and not updated and not refused and not backfilled:
         print(f"no change — {len(unchanged)} row(s) already current at v{doc['version']}")

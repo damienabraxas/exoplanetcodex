@@ -31,3 +31,14 @@ Writing it here instead keeps the guarantee (same key, same comparison, tracked
 in git) and keeps this layer's writes out of the science feed entirely.
 `tests/test_rya1222_run_matrix.py::test_the_orchestrator_never_writes_into_the_science_feed`
 pins that measurement, so whoever changes the contract finds out this depended on it.
+
+## Zero-token chain on Sirius (RYA-1235)
+
+```
+python run_pipeline.py --star <id> --all-elements && python scripts/post_run_report.py --star <id>
+```
+
+`post_run_report.py` posts one ASCII summary per element to that element's dossier, routed
+only through `data/catalog/linear_dossiers.csv`; an unchanged report is not re-posted
+(`posted_ledger.json`). It needs `LINEAR_API_KEY` in the environment. Installing a cron
+entry for this chain is Ryan's call and is not done by any ticket.

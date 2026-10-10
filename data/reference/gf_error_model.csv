@@ -1,0 +1,17 @@
+# How each gf SOURCE's per-line errors correlate across the lines of one product (RYA-1233).
+# correlation: scale_only        -> per-line errors random line to line; lines of this source share
+#                                   ONLY an absolute scale whose sigma is scale_sigma_dex
+#              fully_correlated  -> every line of this source moves together (sigma_a * sigma_b)
+# A source NOT listed here is treated fully_correlated (conservative) and its budget is marked
+# UNREVIEWED: classifying it, from the paper / the solar-abundance literature, is part of grading an
+# element's lines (process steps 6-7). group: sources in one group share one scale.
+# Ryan 2026-10-08: "make sure we are handling and computing uncertainty the correct way, even if it is
+# slightly different per element." Si's gf term read 0.129 dex (3-6x C/N/O/Fe) because Garz's full
+# per-line error was charged as fully correlated; Amarsi & Asplund 2017 average it over lines.
+lab_source_tag,group,correlation,scale_sigma_dex,basis,citation,ticket
+AGSS21_Si_Amarsi2017,GARZ_OBL91,scale_only,0.0189,"Garz 1973 relative gf renormalised +0.097 dex to O'Brian & Lawler 1991 lifetimes; tau = 4.5 +/- 0.2 ns (4.4%); Amarsi & Asplund 2017 treat the per-line gf errors as averaging over lines","Pehlivan Rhodin+2024 Table B.2 (OL91 lifetimes); Amarsi & Asplund 2017 Sect. 1",RYA-1233
+PR2024_exp,PR2024,scale_only,0.0414,"experimental branching fractions per line x theoretical lifetimes, 'estimated uncertainties 5%-10%' -- 10% taken as the shared scale","Pehlivan Rhodin+2024 A&A 682 A184, Table B.2 note",RYA-1233
+PR2024_calc,PR2024,scale_only,0.0414,"calculated gf rescaled to the same theoretical lifetimes; per-line sigma already carries the measured exp-calc rms","Pehlivan Rhodin+2024 A&A 682 A184, Table B.2 note",RYA-1233
+AL_AGSS21,TOPBASE_AL,fully_correlated,,"Nordlander & Lind 2017's gf for the six AGSS21 Al I lines are ONE theoretical calculation (TOPbase / Opacity Project, Mendoza et al. 1995), sigma 0.04-0.06 per line; Burheim+2023 Table 3 measures TOPbase (M00) 0.109 and 0.110 dex BELOW experiment on both 4s-5p lines, the same sign -- a systematic, so the per-line sigma is charged fully correlated (conservative)","Nordlander & Lind 2017 A&A 607 A75 Table A.1 + Sect. 2.1.2; Burheim, Hartman & Nilsson 2023 A&A 672 A197 Table 3",RYA-1233
+Burheim2023,BURHEIM2023,scale_only,0.0086,"f = BF x lifetime of the upper level (Eq. 2-4); lifetime errors (3-9%) are per level and independent; lines share only the FTS intensity calibration inside the BF, '2% on average' -- taken as the shared scale (log10 1.02)","Burheim, Hartman & Nilsson 2023 A&A 672 A197 Sect. 3-4",RYA-1233
+NIST_ASD,NIST_ASD,scale_only,0.0,"a NIST ASD accuracy class is a per-line estimate over a compilation of independent primary sources (e.g. Kelleher & Podobedova 2008 for Al/Si); no shared scale is stated -- independent line to line","NIST ASD accuracy classes; Kelleher & Podobedova 2008 JPCRD 37",RYA-1233

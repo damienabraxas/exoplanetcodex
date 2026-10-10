@@ -3,6 +3,10 @@
 ## 2026-09-25 — RYA-1220 CNO close
 
 > **Current as of `main` 62918f6c** (2026-10-08, RYA-1232).
+> **Current as of `main` 6a689c46** (2026-10-09, RYA-1233).
+
+- **RYA-1232** — `bc8f2a8f` PR #575 (site #46). Spectra prepared once per holding (HARPS molecfit full-range H2O 5700-6550 / O2 gamma / O2 B, `30ea9247`; `cno_synthesis` reads the DECLARED holding, `fc029ef1`), continuum synthesis-referenced 3-MAD clipped with IAG as the `contref` leg, NLTE = 1/2 own correction floor 0.03, 3D = 1/2 own 3D effect. C/N/O republished on complete budgets: C 8.430 +/- 0.072, N 7.883 +/- 0.182, O 8.660 +/- 0.101. Source: the PR body.
+- **RYA-1233** — PRs #570 `8155cd9b`, #571 `cef05f99`, #572 `741900f4`, #576 `62918f6c`, #577 `33a919cf`, #578 `35f05c6d`, #579 `6a689c46` (site #48/#49/#50). Orchestrator governing process (skip-unchanged, process order) and Si end to end: Asplund/Amarsi + Deshmukh/Elgueta/Bergemann line sets, per-star culls in `problem_children.csv`, gf correlation registry (`pipeline/gf_error_model.py`, Si `scale_only`), ENGINE-A NLTE on every Si line (LS selection-rule labels), CRIRES+ H own molecfit sky; `Si.json` v1.138 (42 products), Si appendix page and plain-language site status. Source: the merged PR bodies.
 
 - **RYA-1229** — `31c862d6` PR #563. "The per-line product is a projection of the feed,
   not of a directory": new `pipeline/perline_sources.py`, `generate_perline_product.py`

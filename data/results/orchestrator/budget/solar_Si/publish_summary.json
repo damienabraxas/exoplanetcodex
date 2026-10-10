@@ -1,0 +1,188 @@
+{
+ "star": "solar",
+ "element": "Si",
+ "units": [
+  "I VIS solar_kpno_kurucz2005_corrected codex",
+  "II VIS solar_kpno_kurucz2005_corrected codex",
+  "I VIS solar_kpno_molecfit_corrected codex",
+  "II VIS solar_kpno_molecfit_corrected codex",
+  "I VIS solar_harps_molecfit_corrected codex",
+  "II VIS solar_harps_molecfit_corrected codex",
+  "I VIS solar_iag codex",
+  "II VIS solar_iag codex",
+  "I red-optical solar_iag codex",
+  "I red-optical solar_kpno_kurucz2005_corrected codex",
+  "I red-optical solar_kpno_molecfit_corrected codex",
+  "I NIR solar_iag codex",
+  "I NIR solar_kpno_kurucz2005_corrected codex",
+  "I NIR solar_kpno_molecfit_corrected codex",
+  "I NIR solar_crires_plus_y_wide_rya1054 codex",
+  "I NIR solar_crires_plus_y_rya794 codex",
+  "I NIR solar_crires_plus_j_rya1219 codex",
+  "I H solar_crires_plus_h_rya1094 codex",
+  "II H solar_crires_plus_h_rya1094 codex",
+  "I K solar_crires_plus_k_rya1219 codex"
+ ],
+ "dropped": [
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_iag GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "VIS solar_iag GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "red-optical solar_iag GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_iag GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_wide_rya1054 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_rya794 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "NIR solar_crires_plus_j_rya1219 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-B",
+   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+  }
+ ],
+ "published": [
+  "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.513",
+  "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.486",
+  "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.491",
+  "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=7.516",
+  "VIS solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.489",
+  "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=7.488",
+  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.514",
+  "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=7.487",
+  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.511",
+  "VIS solar_iag GRADED 1D-LTE A=7.511",
+  "VIS solar_iag GRADED ENGINE-A A=7.484",
+  "VIS solar_iag GRADED 1D-LTE A=7.489",
+  "red-optical solar_iag GRADED ENGINE-A A=7.573",
+  "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.563",
+  "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.578",
+  "NIR solar_iag GRADED 1D-LTE A=7.538",
+  "NIR solar_iag GRADED ENGINE-A A=7.515",
+  "NIR solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.572",
+  "NIR solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.546",
+  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.549",
+  "NIR solar_crires_plus_y_wide_rya1054 GRADED 1D-LTE A=7.551",
+  "NIR solar_crires_plus_y_wide_rya1054 GRADED ENGINE-A A=7.458",
+  "NIR solar_crires_plus_y_rya794 GRADED 1D-LTE A=7.584",
+  "NIR solar_crires_plus_y_rya794 GRADED ENGINE-A A=7.442",
+  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=7.525",
+  "NIR solar_crires_plus_j_rya1219 GRADED ENGINE-A A=7.496",
+  "H solar_crires_plus_h_rya1094 GRADED ENGINE-A A=7.325"
+ ],
+ "held": [
+  {
+   "product": "red-optical solar_iag GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE",
+   "why": "unresolved components: continuum, telluric"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "product has no value (no line in the aggregate)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "unresolved components: profile_ew, telluric"
+  }
+ ],
+ "verdict": {
+  "element_verdict": "REVIEW",
+  "benchmark": true,
+  "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
+  "n_products_judged": 69,
+  "counts": {
+   "IN_BAND": 35,
+   "OUT_OF_BAND": 34,
+   "NO_REFERENCE": 0,
+   "REPORTED": 0
+  },
+  "n_scale_mismatch": 69
+ },
+ "coverage": {
+  "counts": {
+   "PUBLISHED": 69,
+   "HELD": 56,
+   "NOT_RUN": 65
+  },
+  "done": false
+ }
+}

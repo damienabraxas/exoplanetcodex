@@ -56,62 +56,48 @@ def test_solar_kpno_still_resolves_line_selection():
 
 
 # ── the reason this ticket exists ────────────────────────────────────────────
-def test_the_rya1191_forward_path_is_recognised(monkeypatch):
-    """🔴 THE POINT. Today KP-molecfit is verified RAW, so it excludes — the same answer
-    the instrument-keyed code gave, for a completely different reason. Once RYA-1191
-    corrects the product and re-verifies, the entry flips and the pipeline must follow it
-    WITHOUT any further code change. If this test fails, RYA-1191's fix is invisible."""
+def test_the_corrected_kitt_peak_holding_is_corrected_and_its_raw_sibling_is_not():
+    """RYA-1230 (505bdf0f) corrected solar_kpno_molecfit_corrected over 3000-13000 A, 0 A
+    raw, and the map now says so. The raw sibling must not move with it (RYA-1194)."""
     h, i = "solar_kpno_molecfit_corrected", "kpno_solar_atlas"
-    assert TP.holding_basis(h, i) == "line_selection"
-    assert TP.exclusion(IN_BAND_A, i, h), "today: verified RAW, so the line is quarantined"
-
-    monkeypatch.setitem(TP.VERIFIED_HOLDING_STATE, h, "corrected")
-    assert TP.holding_basis(h, i) == "corrected", (
-        "RYA-1191 corrected the holding and the policy did not notice — this is exactly "
-        "the defect RYA-1194 was filed to prevent")
+    assert TP.VERIFIED_HOLDING_STATE[h] == "corrected"
+    assert TP.holding_basis(h, i) == "corrected"
     assert not TP.exclusion(IN_BAND_A, i, h)
-    # and the raw sibling must NOT have moved with it
     assert TP.holding_basis("solar_kpno", i) == "line_selection"
+    assert TP.exclusion(IN_BAND_A, i, "solar_kpno")
 
 
-def test_a_measurement_outranks_the_registry_label():
-    """RYA-1192's finding, as a rule. The registry says this holding is corrected; the
-    bytes say it is raw on 146/146 lines. The bytes win."""
+def test_a_measured_raw_verdict_outranks_the_registry_label(monkeypatch):
+    """A MEASUREMENT that a product is raw still beats a registry `applied` claim."""
     h = "solar_kpno_molecfit_corrected"
-    assert TP.applied_state(h) == "applied", "premise gone: the registry no longer claims it"
-    assert TP.VERIFIED_HOLDING_STATE[h] == "raw"
-    assert TP.holding_basis(h, "kpno_solar_atlas") == "line_selection", (
-        "a registry label was believed over a measurement that contradicts it")
+    assert TP.applied_state(h) == "applied"
+    monkeypatch.setitem(TP.VERIFIED_HOLDING_STATE, h, "raw")
+    assert TP.holding_basis(h, "kpno_solar_atlas") == "line_selection"
 
 
-def test_the_verified_map_matches_rya1192s_committed_artifact():
-    """The constant is a transcription of a measurement, so it must still agree with the
-    measurement. Otherwise it is just an opinion with a ticket number on it."""
+def test_the_verified_map_carries_its_measurements():
+    """HARPS molecfit is RYA-1192's VERIFIED-CORRECTED. Kitt Peak molecfit was RYA-1192's
+    VERIFIED-RAW and is now corrected by RYA-1230's full-coverage molecfit, which
+    superseded that verdict -- so it is checked against the corrected product on disk,
+    not against the pre-correction artifact."""
     doc = json.loads((ROOT / "data/results/rya1192/rya1192_verification.json").read_text())
     probe = {k: v["probe"] for k, v in doc["availability_on_this_machine"].items()}
-    expect = {"VERIFIED-RAW": "raw", "VERIFIED-CORRECTED": "corrected"}
-    checked = 0
-    for holding, state in TP.VERIFIED_HOLDING_STATE.items():
-        assert holding in probe, f"{holding} is not in RYA-1192's output at all"
-        assert expect.get(probe[holding]) == state, (
-            f"{holding}: map says {state!r}, RYA-1192 measured {probe[holding]!r}")
-        checked += 1
-    assert checked == 2, "both RYA-1192 verdicts must be carried"
+    assert probe["solar_harps_molecfit_corrected"] == "VERIFIED-CORRECTED"
+    assert TP.VERIFIED_HOLDING_STATE["solar_harps_molecfit_corrected"] == "corrected"
+    kp = ROOT / "data/processed/kp1984_telluric_corrected"
+    assert any(kp.glob("kp1984_corrected_3000_*.txt")), "RYA-1230's blue correction is gone"
+    assert TP.VERIFIED_HOLDING_STATE["solar_kpno_molecfit_corrected"] == "corrected"
 
 
-# ── the conservative direction ───────────────────────────────────────────────
-def test_a_claimed_but_unverified_correction_is_not_believed():
-    """`applied` in the registry is a LABEL, and RYA-1192 caught one that was false. An
-    unverified claim excludes — and says so distinguishably, so somebody can close it."""
+def test_a_registry_applied_correction_is_believed():
+    """RYA-1233, Ryan 2026-10-02: a telluric-corrected holding is the data; an incomplete
+    correction is fixed, never answered by excluding its lines. This test used to pin the
+    opposite (`test_a_claimed_but_unverified_correction_is_not_believed`)."""
     h = "solar_crires_plus_h_rya1094"
     assert TP.applied_state(h) == "applied"
     assert h not in TP.VERIFIED_HOLDING_STATE
-    assert TP.holding_basis(h, "crires_plus") == TP.APPLIED_UNVERIFIED
-    why = TP.exclusion(IN_BAND_A, "crires_plus", h)
-    assert why, "an unverified correction claim must not unlock a telluric band"
-    assert "no measurement has confirmed" in why, (
-        "the reason must distinguish 'we measured tellurics here' from 'nobody checked'")
-    assert TP.APPLIED_UNVERIFIED != "corrected"
+    assert TP.holding_basis(h, "crires_plus") == "corrected"
+    assert not TP.exclusion(IN_BAND_A, "crires_plus", h)
 
 
 def test_above_the_atmosphere_stays_a_per_instrument_fact():
@@ -150,19 +136,19 @@ def test_omitting_the_holding_reproduces_the_old_instrument_behaviour():
         assert bool(TP.exclusion(IN_BAND_A, inst)) == (not old), inst
 
 
-def test_only_one_holding_changed_decision_and_it_is_the_verified_one():
-    """The measured blast radius, pinned. Every registered holding is compared instrument-
-    keyed (old) against holding-keyed (new); exactly one may differ, and only because a
-    measurement says so. A second entry here is a value move that needs its own ticket."""
+def test_applied_holdings_keep_their_lines_and_raw_ground_holdings_do_not():
+    """Holding-keyed: every registry-`applied` holding keeps an in-band line; a raw ground
+    holding (not-applied, atmosphere in the path) excludes it."""
     reg = pd.read_csv(TP.HOLDINGS)
-    moved = []
     for _, r in reg.iterrows():
         h, i = str(r.holding_id), str(r.instrument_id)
         try:
-            old = bool(TP.exclusion(IN_BAND_A, i))
+            b = TP.basis(i)
         except KeyError:
-            continue                      # instrument not in the catalog at all
-        if old != bool(TP.exclusion(IN_BAND_A, i, h)):
-            moved.append(h)
-    assert moved == ["solar_harps_molecfit_corrected"], moved
-    assert TP.VERIFIED_HOLDING_STATE["solar_harps_molecfit_corrected"] == "corrected"
+            continue
+        if b in ("not_applicable", "corrected"):
+            continue
+        if str(r.telluric_applied) == "applied" and TP.VERIFIED_HOLDING_STATE.get(h) != "raw":
+            assert not TP.exclusion(IN_BAND_A, i, h), h
+        elif str(r.telluric_applied) == "not-applied":
+            assert TP.exclusion(IN_BAND_A, i, h), h

@@ -60,6 +60,19 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field, fields
 
+from config.synth_bands import SYNTH_BANDS as _SB
+
+#: RYA-1233. The contiguous optical/NIR regime EDGES are config/synth_bands.yaml's --
+#: the table every product is named by. This file used to carry its own copies
+#: (near-UV|VIS at 3800 vs 3780, red-optical|NIR at 10000 vs 9199), and the two tables
+#: disagreeing BLOCKED every IAG / Kurucz-2005 NIR cell: a 9199-10650 A window was "NIR"
+#: by name and "red-optical" by policy, so it would have run under the wrong regime's
+#: rules. One edge, one home. H and K keep their own entries (they already agree), and
+#: NIR keeps 24000 as the fallback ceiling past the named bands.
+_E_NUV_VIS = _SB["VIS"].lo_A
+_E_VIS_RED = _SB["red-optical"].lo_A
+_E_RED_NIR = _SB["NIR"].lo_A
+
 
 @dataclass(frozen=True)
 class BandPolicy:
@@ -94,7 +107,7 @@ CONTROL_BAND = "VIS"
 
 POLICIES: tuple[BandPolicy, ...] = (
     BandPolicy(
-        name="near-UV", lo_A=3000.0, hi_A=3800.0,
+        name="near-UV", lo_A=3000.0, hi_A=_E_NUV_VIS,
         lines_per_A=4.62, median_gap_A=0.146,
         continuum_p95=0.916, continuum_median=0.607,
         permitted_methods=("synthesis",),
@@ -113,7 +126,7 @@ POLICIES: tuple[BandPolicy, ...] = (
             "with more lines. It must be stated, not absorbed into the scatter."),
     ),
     BandPolicy(
-        name="VIS", lo_A=3800.0, hi_A=6910.0,
+        name="VIS", lo_A=_E_NUV_VIS, hi_A=_E_VIS_RED,
         lines_per_A=1.87, median_gap_A=0.277,
         continuum_p95=0.963, continuum_median=0.811,
         permitted_methods=("profile-fit", "synthesis"),
@@ -134,7 +147,7 @@ POLICIES: tuple[BandPolicy, ...] = (
             "frontier bands' error budget rather than being assumed zero."),
     ),
     BandPolicy(
-        name="red-optical", lo_A=6910.0, hi_A=10000.0,
+        name="red-optical", lo_A=_E_VIS_RED, hi_A=_E_RED_NIR,
         lines_per_A=0.34, median_gap_A=1.872,
         continuum_p95=0.997, continuum_median=0.991,
         permitted_methods=("profile-fit", "synthesis"),
@@ -214,7 +227,7 @@ POLICIES: tuple[BandPolicy, ...] = (
             "between observations of the SAME star and cannot be calibrated once."),
     ),
     BandPolicy(
-        name="NIR", lo_A=10000.0, hi_A=24000.0,
+        name="NIR", lo_A=_E_RED_NIR, hi_A=24000.0,
         lines_per_A=0.14, median_gap_A=3.989,
         continuum_p95=0.956, continuum_median=0.862,
         permitted_methods=("synthesis",),

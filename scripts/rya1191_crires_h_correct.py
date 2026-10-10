@@ -263,6 +263,9 @@ def main(argv=None) -> int:
                          "carrying a graded Fe line); implies --all-segments")
     ap.add_argument("--frame-match", default=None,
                     help="only frames whose file name contains this (parallel runs)")
+    ap.add_argument("--lines", default=None,
+                    help="RYA-1233: comma list of air wavelengths (A) to cover INSTEAD of the "
+                         "graded Fe lines -- e.g. another element's graded H-band lines")
     ap.add_argument("--work", default="/tmp/rya1191_crires_h")
     ap.add_argument("--out-dir", default="data/results/rya1191")
     a = ap.parse_args(argv)
@@ -272,7 +275,7 @@ def main(argv=None) -> int:
     if a.verify:
         import pandas as pd  # noqa: F401  (used by verify)
         return verify(work, out)
-    lines = graded_lines()
+    lines = (np.sort(np.array([float(x) for x in a.lines.split(",")])) if a.lines else graded_lines())
     frames = h_frames()
     if a.frame_match:
         frames = [f for f in frames if a.frame_match in f.path.name]

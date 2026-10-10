@@ -1,3 +1,4 @@
+# RYA-1234: REPLACED for the per-line exclusion accounting of the current routes by pipeline/element_verdict.py (Step 0 trust audit).
 """
 pipeline/rejection_ledger.py
 ============================

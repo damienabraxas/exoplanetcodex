@@ -26,11 +26,21 @@ CNO_ELEMENTS = ("C", "N", "O")
 REFERENCE_MOLECULAR_SELECTORS = ("MOL-CN_AX_IR",)
 
 
+#: RYA-1233: the rule is Fe's axis, not a C/N/O one, so it applies to every element that
+#: does not stamp its own -- Si published 26 products with NO grade, and the site's
+#: "Reference Grade preferred" headline had nothing to prefer (it picked a 2-line row).
+SELF_STAMPING = ("Fe",)
+
+
 def grade_for(row: dict) -> str | None:
-    """`grade` for a C/N/O row, or None for any other element (Fe stamps its own)."""
-    if str(row.get("element")) not in CNO_ELEMENTS:
+    """`grade` for a published row, or None for an element that stamps its own (Fe)."""
+    if str(row.get("element")) in SELF_STAMPING:
         return None
     sel = str(row.get("selector") or "")
     if sel.startswith("SET-") or sel in REFERENCE_MOLECULAR_SELECTORS:
         return "Reference Grade"
+    # RYA-1233: the Codex's DEEP pool (gf-graded lines above the 0.60 depth gate) is Deep
+    # Grade, Fe's own axis -- it used to fall through to Codex Grade.
+    if sel.startswith("DEEPGRADED") or str(row.get("tier") or "").startswith("DEEPGRADED"):
+        return "Deep Grade"
     return "Codex Grade"

@@ -507,3 +507,27 @@ def grade_pool(pool: pd.DataFrame, *, wave_col: str = "wavelength_air_A",
         raise ValueError(f"{len(blank)} row(s) carry a blank gf_grade — never allowed "
                          f"(RYA-799: never leave the bar blank)")
     return out
+
+
+# ── RYA-1233: "gf-graded" -- ONE definition for the Codex and Deep grades ─────────────
+#: Ryan, 2026-10-09: Codex Grade is "NIST/VALD/gf graded lines that are not too deep" --
+#: decided as ANY published gf uncertainty, not laboratory gf only. A line is gf-graded when
+#: its canonical row carries one of:
+#:   * a laboratory gf (gf_tier LAB);
+#:   * a stored per-line gf uncertainty (gf_sigma_dex: Garz Table 1, Pehlivan Rhodin 2024
+#:     experimental or calculated, ...);
+#:   * a NIST accuracy class A-C (AAA..C, <= 25%): the evaluation that grades it.
+#: D and E (>= 40%) are not a grade worth the name. VALD's own gf carries no uncertainty,
+#: so a VALD-only line is NOT graded until a source with one is adopted for it.
+GRADED_NIST_CLASSES = ("AAA", "AA", "A+", "A", "B+", "B", "C+", "C")
+
+
+def is_gf_graded(rows: pd.DataFrame) -> pd.Series:
+    """Boolean per canonical_gf row: the gf carries a published uncertainty (see above)."""
+    tier = rows["gf_tier"].astype(str)
+    sig = pd.to_numeric(rows.get("gf_sigma_dex"), errors="coerce")
+    nist = rows.get("nist_grade").astype(str).str.strip()
+    nist_tier = tier.str.replace("NIST-", "", regex=False).str.strip()
+    return (tier.str.contains("LAB", na=False) | sig.notna()
+            | nist.isin(GRADED_NIST_CLASSES)
+            | (tier.str.startswith("NIST-") & nist_tier.isin(GRADED_NIST_CLASSES)))

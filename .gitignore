@@ -114,3 +114,8 @@ data/linelists/vald_procyon_raw/
 #
 # ⚠️ RESTORED (RYA-1220 follow-up): reverted by the 'Merge current main into
 # RYA-1220 work' merge (9e071a55, PR #557) along with the .gitattributes half.
+
+# RYA-1233: orchestrator --publish budget legs (9 re-runs per cell; reproducible, large).
+# The assembled stage/ + report.json beside them ARE committed (feed provenance).
+data/results/orchestrator/budget/*/legs/
+data/results/rya1233_si_budget/legs*/

@@ -59,23 +59,36 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-from pipeline.run_descriptor import RunDescriptor, resolve  # noqa: E402
+from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa: E402
+                                     permitted_methods, ROUTE_TOKEN, deck_out_dir, POOLS,
+                                     LINE_SET_REGISTRY, SET_POOL_PREFIX)
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
+#: RYA-1233: `run_pipeline --prepare` writes its report here; the run reads READY from it.
+PREPARE_DIR = ROOT / "data" / "results" / "orchestrator" / "prepare"
 HOLDINGS_REGISTRY = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
 CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 ELEMENTS_MASTER = ROOT / "data" / "config" / "elements_master.json"
 PRODUCTS = ROOT / "data" / "products"
 REPORT_DIR = ROOT / "data" / "results" / "orchestrator"
+LITSCAN_DIR = ROOT / "data" / "reference" / "litscan"
+#: RYA-1233, governing process step 9: IRON FIRST -- the Fe result sets [Fe/H] for every
+#: other element. Moved here from run_sweep so a single-element run obeys it too.
+FE_FIRST = ("Fe",)
+#: Where stage artifacts are looked up and recorded relative to (RYA-1233). The repo root;
+#: a separate name only so the bookkeeping can be pointed at a scratch tree in a test.
+ARTIFACT_ROOT = ROOT
 #: What lands in REPORT_DIR and why the hash is not on the product:
 #: docs/orchestrator_run_reports_rya1222.md
 
@@ -107,7 +120,11 @@ WOULD_RUN = "WOULD_RUN"
 #: on the next pass -- which is the loop this ticket exists to kill, and the only
 #: honest thing to do is say so in the report rather than let it spin silently.
 UNPUBLISHED = "UNPUBLISHED"
-STATUSES = (DONE, SKIP, FAILED, BLOCKED, NOT_READY, WOULD_RUN, UNPUBLISHED)
+#: RYA-1233. A step of Ryan's governing process that must precede measurement (steps 1-8,
+#: and step 9's "iron first") is not complete for this cell. Nothing is dispatched; the
+#: reason names the step and the artifact that is missing. See `PROCESS_STEPS`.
+HELD = "HELD"
+STATUSES = (DONE, SKIP, FAILED, BLOCKED, NOT_READY, HELD, WOULD_RUN, UNPUBLISHED)
 #: A cell whose work exists. Everything else lands in the report's `resume` list.
 TERMINAL_OK = (DONE, SKIP)
 
@@ -326,6 +343,220 @@ def holdings_for(star: str) -> list[dict]:
     return hits
 
 
+# ═════════════════════════════════════════════════════════════════════════════
+# Ryan's governing process (RYA-1233 header, 2026-10-01): steps 1-8, and step 9's
+# iron-first, come BEFORE any measurement. Each is read off the artifact that proves it.
+# Steps 2-4 for a holding are what puts it on the matrix at all (`is_raw`,
+# `unwired_holdings`) plus the continuum check per cell; 6-7 are per cell (band window).
+# ═════════════════════════════════════════════════════════════════════════════
+
+_EQUILIBRIUM_PARAMS = {"teff", "logg", "xi"}
+
+
+def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list[dict]:
+    """The element-level steps that must be complete before ANY cell of this element is
+    measured: 1 star, 5 litscan, 8 stellar parameters, 9 iron first. One row per step:
+    {step, name, ok, evidence}. Evidence names the artifact either way."""
+    from config.constants import get_star_params
+    rows: list[dict] = []
+    try:
+        params = get_star_params(star)
+        rows.append({"step": 1, "name": "star selected", "ok": True,
+                     "evidence": f"config/stars.yaml has {star!r}"})
+    except KeyError as exc:
+        params = None
+        rows.append({"step": 1, "name": "star selected", "ok": False,
+                     "evidence": f"config/stars.yaml: {exc}"})
+    # Step 5 is per ION: a litscan names the ion it covers (Fe.yaml is Fe I and says Fe II
+    # is tracked separately), so Fe II is not "done" because Fe I's literature is.
+    lit = LITSCAN_DIR / f"{symbol}.yaml"
+    try:
+        lit_name = str(lit.relative_to(ROOT))
+    except ValueError:
+        lit_name = str(lit)
+    lit_ions: list[str] = []
+    if lit.exists():
+        try:
+            import yaml
+            _doc = yaml.safe_load(lit.read_text(encoding="utf-8")) or {}
+            # `ions` when one literature value covers several ions (Si: Si I + Si II
+            # determined jointly); otherwise the single `ion`.
+            lit_ions = [str(i).strip() for i in (_doc.get("ions") or [_doc.get("ion", "I")])]
+        except Exception as exc:                               # noqa: BLE001
+            print(f"WARNING: {lit_name} unreadable ({type(exc).__name__}: {exc})",
+                  file=sys.stderr)
+    lit_ion = "/".join(lit_ions) if lit_ions else None
+    for ion in (ions or ["I"]):
+        ok = ion in lit_ions
+        rows.append({"step": 5, "name": f"literature (litscan) {symbol} {ion}", "ok": ok,
+                     "ion": ion,
+                     "evidence": (lit_name if ok else
+                                  f"{lit_name} covers {symbol} {lit_ion}, not {symbol} {ion}"
+                                  if lit_ion else
+                                  f"no {lit_name} -- the literature on this element for "
+                                  f"this star has not been gathered")})
+    if params is not None:
+        unsolved = sorted(set(params.get("solve", [])) & _EQUILIBRIUM_PARAMS)
+        rows.append({"step": 8, "name": "stellar parameters", "ok": not unsolved,
+                     "evidence": ("pinned in config/stars.yaml" if not unsolved else
+                                  f"{unsolved} must be SOLVED for {star}; no solved-"
+                                  f"parameter artifact exists")})
+    # RYA-1233: steps 6-8 ARE `run_pipeline --prepare`. Measuring before it was READY is what
+    # made Si loop (lines culled after measuring, gf adopted after measuring); the run now
+    # refuses to measure an element whose prepare report is missing or not READY.
+    prep = PREPARE_DIR / f"{star}_{symbol}.json"
+    try:
+        _p = json.loads(prep.read_text()) if prep.exists() else None
+    except Exception:                                          # noqa: BLE001
+        _p = None
+    blocking = ", ".join(f"{k} {v}" for k, v in ((_p or {}).get("blocking") or {}).items() if v)
+    try:
+        pname = str(prep.relative_to(ROOT))
+    except ValueError:                       # a redirected report dir (tests, scratch)
+        pname = str(prep)
+    rows.append({"step": 7, "name": "lines prepared (--prepare READY)",
+                 "ok": bool(_p and _p.get("ready")),
+                 "evidence": (f"{pname} READY" if _p and _p.get("ready") else
+                              f"{pname} NOT READY -- {blocking}" if _p else
+                              f"no {pname} -- run `run_pipeline.py --star {star} "
+                              f"--element {symbol} --prepare` and review it before measuring")})
+    if symbol not in FE_FIRST:
+        try:
+            fe = sum(len(load_feed(star, s).get("products", [])) for s in FE_FIRST)
+        except Exception as exc:                               # noqa: BLE001
+            fe, why = 0, f"{type(exc).__name__}: {exc}"
+        else:
+            why = ""
+        rows.append({"step": 9, "name": "iron first", "ok": fe > 0,
+                     "evidence": (f"{fe} published {'/'.join(FE_FIRST)} product(s) for "
+                                  f"{star}" if fe else
+                                  f"no published Fe product for {star} -- Fe sets [Fe/H] "
+                                  f"for every other element {why}").strip()})
+    return rows
+
+
+def _canonical_species(symbol: str, ion: str):
+    key = ("canon", symbol, ion)
+    if key not in _ADAPTERS:
+        import pandas as pd
+        from pipeline.gf_grades import is_gf_graded
+        from pipeline import problem_children as _pc
+        df = pd.read_csv(CANONICAL_GF, low_memory=False,
+                         usecols=["species", "wavelength_air_A", "gf_tier", "gf_sigma_dex",
+                                  "nist_grade"])
+        df = df[df.species.astype(str) == f"{symbol} {ion}"]
+        # A line the registry EXCLUDES (exclude + active) is not a graded line for this
+        # star: derive drops it from every aggregate, so counting it here dispatched cells
+        # derive then refused (Si 4102.9 made IAG Reiners 4047-5001 A look runnable).
+        _t = _pc.line_dispositions()
+        _culled = df.wavelength_air_A.astype(float).map(
+            lambda w: _pc.aggregate_action(_pc.disposition_for_line(symbol, ion, w, table=_t))
+            == "exclude").values
+        # The SAME definitions derive_band_products' selectors use, pool by pool:
+        #   reference -- LAB-tier lines (`gf_tier` contains "LAB");
+        #   codex / deep -- gf-graded = ANY published gf uncertainty (RYA-1233, Ryan's
+        #     ruling; pipeline.gf_grades.is_gf_graded): lab gf, a stored gf sigma, NIST A-C.
+        _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
+                          {"reference": df.gf_tier.astype(str).str.contains("LAB", na=False).values
+                                        & ~_culled,
+                           "graded": is_gf_graded(df).values & ~_culled})
+    return _ADAPTERS[key]
+
+
+def _deck_hold(d: RunDescriptor) -> str:
+    """'' when the cell's deck exists for its element. The Gerber 2023 decks are per element
+    (pipeline.gerber_nlte.DECKS: Fe, Al, ...); without this a Si gerber cell resolved fine,
+    failed inside derive, and the coverage table counted it as owed work."""
+    if not d.engine_deck.startswith("gerber-"):
+        return ""
+    try:
+        from pipeline.gerber_nlte import DECKS
+    except Exception as exc:                       # the adapter cannot load here
+        return f"ENGINE: {d.engine_deck} adapter unavailable ({type(exc).__name__})"
+    key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
+    if key not in DECKS:
+        have = sorted({k.split("@")[0] for k in DECKS if ("@mean3D" in k) == ("mean3d" in d.engine_deck)})
+        return (f"ENGINE: no Gerber {'mean-3D ' if 'mean3d' in d.engine_deck else ''}deck for "
+                f"{d.element} (decks exist for {', '.join(have)})")
+    return ""
+
+
+def cell_process_hold(d: RunDescriptor) -> str:
+    """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
+    for this cell's holding and window; otherwise the reason, naming the step."""
+    deck_hold = _deck_hold(d)
+    if deck_hold:
+        return deck_hold
+    p = preflight()
+    spec = p.holding_spec(d.holding) if p is not None else None
+    if spec is not None and not spec.pre_normalised:
+        return (f"PROCESS step 4 (continuum): {d.holding} ships no continuum-normalised "
+                f"product; the per-band continuum is prepared once, before measurement")
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        return ""          # a published set's lines in this window ARE the graded pool
+    w, masks = _canonical_species(d.element, d.ion)
+    graded = masks["reference" if d.pool == "reference" else "graded"]
+    inwin = (w >= d.lo_A) & (w <= d.hi_A)
+    if not inwin.any():
+        return (f"PROCESS step 6 (lines secured): canonical_gf.csv holds no "
+                f"{d.element} {d.ion} line in {d.lo_A:g}-{d.hi_A:g} A")
+    if not (inwin & graded).any():
+        return (f"PROCESS step 7 (graded lines): none of the {int(inwin.sum())} "
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a "
+                f"{'LAB-tier gf' if d.pool == 'reference' else 'published gf uncertainty'}, "
+                f"so no {d.pool or 'graded'} pool exists here")
+    return ""
+
+
+#: derive_band_products' own refusals of an empty / too-small pool, all raised before any
+#: synthesis runs. Matched on its message text so nothing is re-decided here.
+EMPTY_POOL_MARKERS = (
+    "pool that is not graded",
+    "no graded line in this band sits above the EW depth gate",
+    "a pool of fewer than 2 lines",
+    "has no line in",
+    "no requested line matched the synthesis list",
+    "Where the population is mostly saturated the deep pool IS this band's graded pool",
+    "Refusing to emit a 'graded' product with no graded line in it",
+)
+
+
+def is_raw(h: dict) -> bool:
+    """A ground-based holding with no telluric correction applied. NEVER dispatched.
+
+    RYA-1233, Ryan 2026-10-01/02: every band of every ground-based holding is telluric-
+    corrected, and raw spectra are not used any more -- the corrected holding IS the
+    data. "Ground-based" is the instrument catalogue's own answer: only a light path with
+    no atmosphere in it (`telluric_basis=not_applicable`, e.g. a space telescope) is
+    exempt. Read off the registry's `telluric_applied` column, the same field the
+    resolver and RYA-1069 read.
+    """
+    from pipeline import telluric_policy
+    if str(h.get("telluric_applied", "")).strip() == "applied":
+        return False
+    return telluric_policy.basis(h["instrument_id"]) != "not_applicable"
+
+
+def raw_holdings(star: str) -> list[str]:
+    """The star's raw ground-based holdings, which the matrix excludes (named in the report)."""
+    return sorted(h["holding_id"] for h in holdings_for(star) if is_raw(h))
+
+
+def unwired_holdings(star: str) -> list[str]:
+    """Holdings with NO wired spectrum reader -- e.g. a published line table such as
+    `elgueta2026_vizier`. RYA-1233: they own no cell (nothing can be measured from them)
+    and are named in the report's `excluded_unwired_holdings` instead of filling it with
+    BLOCKED rows. Only answered when the harness itself imported: if it did not, EVERY
+    holding would look unwired, so the exclusion is skipped and the resolver blocks each
+    cell with the real reason instead.
+    """
+    p = preflight()
+    if p is None or p.harness() is None:
+        return []
+    return sorted(h["holding_id"] for h in holdings_for(star)
+                  if not is_raw(h) and p.holding_spec(h["holding_id"]) is None)
+
+
 def _bands_for(instrument: str) -> list[tuple[str, float, float]]:
     """(band, lo_A, hi_A) overlaps, from RYA-1069's own function.
 
@@ -371,7 +602,9 @@ def _clip_to_holding(spec, lo: float, hi: float) -> tuple[float, float]:
 
 def expand(star: str, element: str, *, ions: list[str] | None = None,
            bands: list[str] | None = None, instruments: list[str] | None = None,
-           engines: list[str] | None = None) -> list[RunDescriptor]:
+           engines: list[str] | None = None,
+           methods: list[str] | None = None,
+           pools: list[str] | None = None) -> list[RunDescriptor]:
     """Every applicable (band x holding x ion x deck) cell, in a stable sorted order.
 
     A cell is omitted ONLY where the wired `HoldingSpec` positively declares a
@@ -408,8 +641,13 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             f"1D -> mean-3D ATMOSPHERE shift as non-LTE physics.")
 
     p = preflight()
+    unwired = set(unwired_holdings(star))
     out: list[RunDescriptor] = []
     for h in holdings_for(star):
+        if is_raw(h):
+            continue        # never dispatched; listed in the report's `excluded_raw_holdings`
+        if h["holding_id"] in unwired:
+            continue        # no reader; listed in the report's `excluded_unwired_holdings`
         inst, hid = h["instrument_id"], h["holding_id"]
         if instruments and inst not in instruments and hid not in instruments:
             continue
@@ -420,12 +658,37 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
             lo, hi = _clip_to_holding(spec, lo, hi)
             if hi <= lo:
                 continue                      # declared out of span -- rule 2's one exit
+            # RYA-1233: every route the band permits is its own cell (and its own
+            # product: `route` PROFILEFIT vs SYNTH). A band with no dispatchable method
+            # still gets ONE cell, with the policy's choice left to the resolver, so it
+            # is BLOCKED with the reason rather than dropped.
+            permitted = permitted_methods(lo, hi)
+            want_m = [m for m in permitted if not methods or m in methods]
+            if permitted and not want_m:
+                continue                      # filtered out by the caller's --route
+            want_m = want_m or [None]
             for ion in want_ions:
                 for deck in want_decks:
-                    out.append(RunDescriptor(
-                        element=symbol, ion=ion, instrument=inst, holding=hid,
-                        lo_A=lo, hi_A=hi, engine_deck=deck))
-    out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck))
+                    # RYA-1233 (step 7): the published reference sets with a line in
+                    # this window -- Asplund's in VIS, Elgueta's / Bergemann's in the IR.
+                    sets_here = [SET_POOL_PREFIX + r["set_name"]
+                                 for r in line_sets_for(symbol, ion, star)
+                                 if any(lo <= w <= hi for w in r["waves"])]
+                    for m in want_m:
+                        # RYA-1233 (process step 7): every cell measures a GRADED pool,
+                        # one cell per pool this route can measure.
+                        lab_pools = [k for k, v in POOLS.items()
+                                     if (m is None or m in v["methods"])]
+                        set_pools = sets_here if m in (None, "synthesis") else []
+                        for pool in [p for p in set_pools + lab_pools
+                                     if not pools or p in pools
+                                     or (p.startswith(SET_POOL_PREFIX) and "set" in pools)]:
+                            out.append(RunDescriptor(
+                                element=symbol, ion=ion, instrument=inst, holding=hid,
+                                lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool,
+                                star=star))
+    out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck,
+                            d.method or "", d.pool or ""))
     return out
 
 
@@ -458,6 +721,47 @@ def _file_fingerprint(path: Path) -> str:
     return _HASH_CACHE[key]
 
 
+#: Lines this far outside a cell's window still reach its synthesis (the widest fit window,
+#: K band, is 2.58 A; a strong line's wings reach further).
+GF_SCOPE_PAD_A = 10.0
+
+
+def synthesis_lists_for(lo: float, hi: float) -> list[Path]:
+    """The repo's own band synthesis lists overlapping [lo, hi] (the GES list below 9200 A is
+    iSpec's, outside the repo, and is fingerprinted by the engine install)."""
+    out = []
+    for f in sorted((ROOT / "data" / "linelists").glob("ispec_*/atomic_lines.tsv")):
+        m = re.search(r"_(\d+)_(\d+)$", f.parent.name)
+        if m and float(m.group(1)) <= hi and float(m.group(2)) >= lo:
+            out.append(f)
+    return out
+
+
+def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = ",") -> str:
+    """sha256 of the rows of a table whose `col` lies in [lo, hi] (sorted, so row order and
+    rows elsewhere in the file do not move it). Memoised on the file's identity."""
+    try:
+        st = path.stat()
+    except OSError as exc:
+        return f"ABSENT:{type(exc).__name__}"
+    key = (str(path), st.st_mtime_ns, st.st_size, col, lo, hi)
+    if key not in _HASH_CACHE:
+        import pandas as pd
+        tkey = (str(path), st.st_mtime_ns, st.st_size)
+        if tkey not in _TABLE_CACHE:
+            _TABLE_CACHE.clear()
+            _TABLE_CACHE[tkey] = pd.read_csv(path, sep=sep, dtype=str, keep_default_na=False)
+        d = _TABLE_CACHE[tkey]
+        w = pd.to_numeric(d[col], errors="coerce")
+        sub = d[(w >= lo) & (w <= hi)]
+        body = "\n".join(sorted(sub.to_csv(index=False, header=False).splitlines()))
+        _HASH_CACHE[key] = hashlib.sha256(body.encode()).hexdigest()
+    return _HASH_CACHE[key]
+
+
+_TABLE_CACHE: dict = {}
+
+
 def input_fingerprints(descriptor: RunDescriptor, resolved, *,
                        manifest_path: str | None) -> list[dict]:
     """Every named input this cell depends on, each with the bytes it was hashed on.
@@ -488,11 +792,94 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if manifest_path:
         rows.append({"kind": "holding_manifest", "name": manifest_path,
                      "digest": _file_fingerprint(ROOT / manifest_path)})
-    for ledger in (CANONICAL_GF, MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
+    # RYA-1233: a published-set pool's line list is an input like any other -- a corrected
+    # set must re-run its cells.
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        from pipeline.run_descriptor import line_set
+        _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
+                        descriptor.ion)
+        if _row is not None:
+            from pipeline.run_descriptor import star_graded_csv
+            _f = star_graded_csv(_row, descriptor.star)
+            rows.append({"kind": "line_set", "name": _f, "digest": _file_fingerprint(ROOT / _f)})
+    # RYA-1233: the SPECTRUM this cell reads -- the frozen, telluric-corrected product.
+    # Named by file name only (the bytes are the identity; a path is a machine fact).
+    files, why = holding_source_files(descriptor.holding)
+    for f in files:
+        rows.append({"kind": "spectrum", "name": f.name, "digest": _file_fingerprint(f)})
+    if not files:
+        rows.append({"kind": "spectrum", "name": descriptor.holding,
+                     "digest": f"UNFINGERPRINTED: {why}"})
+    # RYA-1233: the cull registry and the element's NLTE tables are inputs too. Without them a
+    # line culled after a build (or an NLTE table extended to more lines) left every affected
+    # cell SKIP -- current by its hash, stale in fact.
+    _nlte = sorted((ROOT / "data" / "nlte_grids").glob(f"{descriptor.element}_*.csv"))
+    # RYA-1233: canonical_gf and the synthesis list, SCOPED to the cell's wavelength range.
+    # Hashed whole, one element's gf adoption (Al's six lines) re-ran every cell of every
+    # element; not hashed at all, an added line's opacity (Al I 10768) left the NIR cells it
+    # touches SKIP -- current by hash, stale in fact. Only rows the synthesis of this window
+    # can see belong to its identity.
+    lo, hi = float(descriptor.lo_A) - GF_SCOPE_PAD_A, float(descriptor.hi_A) + GF_SCOPE_PAD_A
+    rows.append({"kind": "ledger_scoped", "name": f"{CANONICAL_GF.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                 "digest": _rows_fingerprint(CANONICAL_GF, "wavelength_air_A", lo, hi)})
+    for _lst in synthesis_lists_for(lo, hi):
+        rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                     "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+    for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
+                   ROOT / "data" / "catalog" / "instrument_catalog.csv",
+                   ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows
+
+
+def holding_source_files(holding_id: str) -> tuple[list[Path], str]:
+    """The files a holding's reader opens, read off the harness's own constants.
+
+    RYA-1233: what makes "inputs unchanged" mean the SPECTRUM is unchanged -- the
+    registry's manifest_path is sometimes a findings note, not the data. One branch per
+    reader in `measure_band_ew._reader`; an unmapped reader returns no files and says so,
+    and its cells are then fingerprinted without the spectrum (named in the inputs).
+    """
+    p = preflight()
+    h = p.harness() if p is not None else None
+    spec = p.holding_spec(holding_id) if p is not None else None
+    if h is None or spec is None:
+        return [], "the harness or this holding's HoldingSpec is unavailable"
+    r = spec.reader
+    try:
+        # allow_corrupt: this only HASHES the files, it never reads them as flux, so a
+        # segment the reader would refuse is still an input whose bytes can be named.
+        if r == "kpno":
+            return [Path(seg[2]) for seg in h.kp_segments(allow_corrupt=True)], ""
+        if r == "kpno_1984_corrected":
+            return [Path(b[2]) for b in h.corrected_bands_on_disk()], ""
+        if r == "kpno_1984_composite":
+            return ([Path(b[2]) for b in h.corrected_bands_on_disk()]
+                    + [Path(seg[2]) for seg in h.kp_segments(allow_corrupt=True)]), ""
+        if r == "kurucz2005":
+            return [Path(str(h.codex_path("data.kurucz2005_residual")))], ""
+        if r == "iag":
+            return [Path(h.IAG_FITS)], ""
+        if r == "iag_reiners":
+            return [Path(h.IAG_REINERS)], ""
+        if r == "harps":
+            return [Path(h.HARPS_CSV)], ""
+        if r == "harps_tellcorr":
+            return [Path(h.HARPS_TELLCORR_CSV)], ""
+        if r == "crires_y":
+            return [Path(str(h.codex_path(spec.path_key))) if spec.path_key
+                    else Path(h.CRIRES_Y_CSV)], ""
+        if r in ("crires_corrected_j", "crires_corrected_k"):
+            arm = r.rsplit("_", 1)[-1].upper()
+            return sorted((ROOT / "data" / "results" / "rya1219_crires_products" / arm)
+                          .glob("*.fits")), ""
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: could not list {holding_id}'s spectrum files "
+              f"({type(exc).__name__}: {exc}); its cells are fingerprinted without them.",
+              file=sys.stderr)
+        return [], f"{type(exc).__name__}: {exc}"
+    return [], f"reader {r!r} has no file map in run_matrix.holding_source_files"
 
 
 def inputs_hash(descriptor: RunDescriptor, resolved, *,
@@ -511,6 +898,45 @@ def load_feed(star: str, element: str) -> dict:
     return _publisher().load(element, star)
 
 
+def route_of(descriptor: RunDescriptor) -> str:
+    """The feed's `route` token this cell produces under (PROFILEFIT / SYNTH), or '?'."""
+    try:
+        return ROUTE_TOKEN.get(descriptor.method or method_for(descriptor), "?")
+    except Exception:                                          # noqa: BLE001
+        return "?"          # the resolver will BLOCK this cell with the real reason
+
+
+def pool_tier(descriptor: RunDescriptor) -> str:
+    """The feed's `tier` / `selector` token for this cell's pool ('' if none). A published
+    line set's token is its set name -- the selector its products are published under."""
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        # The publish path's own token (rya1230 budget assembler `_selector`): SET-<NAME>.
+        return "SET-" + descriptor.pool[len(SET_POOL_PREFIX):]
+    return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+
+
+def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
+    """Published reference line sets for this species (RYA-1233, process step 7), each with
+    the wavelengths THIS STAR's graded file holds (its culls removed; the set itself keeps
+    every line). From data/reference/line_sets/REGISTRY.csv; none is not an error."""
+    from pipeline.run_descriptor import star_graded_csv
+    key = ("sets", symbol, ion, star)
+    if key not in _ADAPTERS:
+        rows = []
+        reg = ROOT / LINE_SET_REGISTRY
+        if reg.exists():
+            with reg.open(newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r["element"] == symbol and r["ion"] == ion:
+                        # Step 7: a set reaches a cell only through its GRADED lines.
+                        with (ROOT / star_graded_csv(r, star)).open(
+                                newline="", encoding="utf-8") as g:
+                            r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
+                        rows.append(r)
+        _ADAPTERS[key] = rows
+    return _ADAPTERS[key]
+
+
 def cell_prefix_key(descriptor: RunDescriptor) -> str:
     """The part of a product's identity a CELL fixes.
 
@@ -520,7 +946,8 @@ def cell_prefix_key(descriptor: RunDescriptor) -> str:
     the treatment axis is matched separately against the deck's emitted set.
     """
     return "|".join((descriptor.element, descriptor.ion, descriptor.band,
-                     descriptor.instrument, descriptor.holding))
+                     descriptor.instrument, descriptor.holding, route_of(descriptor),
+                     pool_tier(descriptor)))
 
 
 def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict]:
@@ -532,6 +959,8 @@ def cell_products(feed: dict, descriptor: RunDescriptor, band: str) -> list[dict
             and str(p.get("band")) == band
             and str(p.get("instrument")) == descriptor.instrument
             and str(p.get("holding")) == descriptor.holding
+            and str(p.get("route")) == route_of(descriptor)
+            and str(p.get("selector")) == pool_tier(descriptor)
             and str(p.get("treatment")) in emits]
 
 
@@ -578,7 +1007,8 @@ def ledger_key(star: str, descriptor: RunDescriptor, band: str) -> str:
     """The cell's identity in the sidecar. Carries the deck, which the product key
     does not: two decks over one window are two runs and two hashes."""
     return "|".join((star, descriptor.element, descriptor.ion, band,
-                     descriptor.instrument, descriptor.holding, descriptor.engine_deck))
+                     descriptor.instrument, descriptor.holding, descriptor.engine_deck,
+                     route_of(descriptor), pool_tier(descriptor)))
 
 
 def load_ledger() -> dict:
@@ -595,13 +1025,40 @@ def load_ledger() -> dict:
 
 
 def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
-                       code_commit: str) -> None:
-    """Record what this cell was built from, after it was built."""
+                       code_commit: str, inputs: list[dict] | None = None,
+                       artifacts: list[dict] | None = None) -> None:
+    """Record what this cell was built from, after it was built -- published or not.
+
+    RYA-1233 (Ryan, 2026-10-02): unchanged work is not redone. `inputs` names every
+    input with its digest (the spectrum included), so a re-run can say WHY it re-ran;
+    `artifacts` are the files the run wrote, with their bytes' digests, so an unpublished
+    cell is current only while what it built is still on disk unchanged.
+    """
     led = load_ledger()
     led[key] = {"inputs_hash": want_hash, "recorded_at": _utc(),
-                "code_commit": code_commit, "products": sorted(product_keys)}
+                "code_commit": code_commit, "products": sorted(product_keys),
+                "inputs": inputs or [], "artifacts": artifacts or []}
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     LEDGER.write_text(json.dumps(led, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
+    """Files this cell's derive step wrote, with their digests (RYA-1233).
+
+    Found by the stage's own stem convention in the deck's output directory --
+    `{species}_{lo}_{hi}_{instrument}_{holding}_{ROUTE}_*` -- and written at or after the
+    cell started. The lo/hi are globbed because a synthesis cell may be clipped to its
+    line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
+    """
+    out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
+    tag = pool_tier(d)
+    if d.pool and d.pool.startswith(SET_POOL_PREFIX):
+        tag = tag.upper()                     # derive's stem tag for --lines-from-set: SET-<NAME>
+    pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
+           f"{'_' + tag if tag else ''}_*")
+    hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
+    return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
+            for f in sorted(hits)]
 
 
 def is_current(products: list[dict], want_hash: str,
@@ -616,9 +1073,9 @@ def is_current(products: list[dict], want_hash: str,
     "yes" is exactly the silent fallback the permanent rules forbid. It is re-run
     once, and that run records the hash.
     """
-    if not products:
-        return False, "no published product for this cell"
     if not recorded:
+        if not products:
+            return False, "no published product for this cell, and no recorded build"
         return False, (f"{len(products)} published product(s) exist but no inputs_hash was "
                        f"ever recorded for this cell -- built before this layer, so what "
                        f"they were built from is unknown")
@@ -626,8 +1083,21 @@ def is_current(products: list[dict], want_hash: str,
         return False, (f"recorded inputs_hash {str(recorded.get('inputs_hash'))[:12]} != "
                        f"{want_hash[:12]} -- an input or a stage script moved since "
                        f"{recorded.get('recorded_at')}")
-    return True, (f"{len(products)} published product(s) current at inputs_hash "
-                  f"{want_hash[:12]} recorded {recorded.get('recorded_at')}")
+    if products:
+        return True, (f"{len(products)} published product(s) current at inputs_hash "
+                      f"{want_hash[:12]} recorded {recorded.get('recorded_at')}")
+    # RYA-1233: built, not published, nothing changed -- current while what it built is
+    # still on disk byte for byte. A ledger entry alone is not enough.
+    arts = recorded.get("artifacts") or []
+    if not arts:
+        return False, "no published product for this cell, and no recorded artifact"
+    gone = [a["path"] for a in arts
+            if _file_fingerprint(ARTIFACT_ROOT / a["path"]) != a.get("sha256")]
+    if gone:
+        return False, f"recorded artifact(s) missing or changed: {gone}"
+    return True, (f"built {recorded.get('recorded_at')} at inputs_hash {want_hash[:12]}, "
+                  f"inputs unchanged, {len(arts)} artifact(s) on disk; NOT YET PUBLISHED "
+                  f"({arts[0]['path']})")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -644,6 +1114,8 @@ class CellResult:
     engine: str
     status: str
     reason: str
+    route: str = ""            # RYA-1233: PROFILEFIT / SYNTH -- the feed's own token
+    pool: str = ""             # RYA-1233: REFERENCE / GRADED / DEEPGRADED -- the feed's tier
     A: float | None = None
     n_lines: int | None = None
     product_key: str = ""
@@ -654,7 +1126,8 @@ class CellResult:
 
     @property
     def cell_key(self) -> str:
-        return "|".join((self.band, self.instrument, self.holding, self.ion, self.engine))
+        return "|".join((self.band, self.instrument, self.holding, self.ion, self.engine,
+                         self.route, self.pool))
 
 
 def _utc() -> str:
@@ -787,8 +1260,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
+        methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int = 7200, report_dir: Path | None = None,
-        echo: bool = True) -> dict:
+        echo: bool = True, jobs: int = 1) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
@@ -802,7 +1276,8 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     ispec_dir = ispec_dir or os.environ.get("ISPEC_DIR") or ""
 
     descriptors = expand(star, element, ions=ions, bands=bands,
-                         instruments=instruments, engines=engines)
+                         instruments=instruments, engines=engines, methods=methods,
+                         pools=pools)
 
     # The RYA-682 ceiling once per run, not once per cell -- but its verdict is
     # carried INTO every cell, because a failed check must block dispatch rather
@@ -819,14 +1294,109 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
     produced_this_run: set[str] = set()
 
+    steps = process_steps(star, symbol, sorted({d.ion for d in descriptors}) or None)
+    missing = [r for r in steps if not r["ok"]]
+
+    def element_hold_for(ion: str) -> str:
+        return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
+                         for r in missing if r.get("ion") in (None, ion))
+
+    import threading
+    _lock = threading.Lock()
+
+    def _execute(cell, d, resolved, want, lkey):
+        """Run one planned cell's stages and record the outcome (RYA-1233: called from
+        a thread pool when jobs > 1; shared state is touched under `_lock`)."""
+        ok, detail = True, ""
+        t0 = time.time()
+        for step in resolved.steps:
+            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
+            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
+            # all five decks over one (holding, band) invoke `measure_band_profilefit`
+            # with byte-identical arguments. Measured on the first full Si run:
+            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
+            # runs rewrote bytes that were already correct.
+            #
+            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
+            # `produces` is what an earlier version of this did and it was WRONG, for
+            # a reason worth writing down: `run_descriptor.resolve` builds the derive
+            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
+            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
+            # Reusing on that string silently skipped `derive_products` for four decks
+            # out of five while the report said they were handled -- a silent gap
+            # produced by the thing built to abolish silent gaps. An identical command
+            # is identical work by construction; a shared output path is not.
+            # (The `produces` collision itself is a defect in the resolver, not here.)
+            sig = _dispatch_signature(step, star)
+            with _lock:
+                _seen = sig in produced_this_run
+            if _seen:
+                cell.steps_run.append(f"{step['name']}:reused")
+                continue
+            ok, detail = _run_step(step, star, timeout=step_timeout)
+            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
+            if not ok:
+                break
+            with _lock:
+                produced_this_run.add(sig)
+        if not ok:
+            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
+            # process-step-7 fact about the lines, not a failure of the run.
+            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+            else:
+                cell.status, cell.reason = FAILED, detail
+            return
+        # RYA-1233: record the build whether or not it is published, so unchanged work
+        # is never redone. What it was built from (spectrum included) and what it wrote.
+        arts = artifacts_written(d, t0)
+        if not arts:
+            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
+                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
+                  f"time.", file=sys.stderr)
+        feed = load_feed(star, symbol)
+        published = cell_products(feed, d, cell.band)
+        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
+        with _lock:
+          record_inputs_hash(lkey, want, code_commit=commit,
+                           product_keys=[_product_key(p) for p in published],
+                           inputs=rows, artifacts=arts)
+          ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
+        if not published:
+            cell.status = UNPUBLISHED
+            cell.reason = (
+                f"built and recorded ({len(arts)} artifact(s) in "
+                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
+                f"Not in data/products/{star}/{symbol}.json -- publication is "
+                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
+            return
+        cell.A = published[0].get("A")
+        cell.n_lines = published[0].get("n_lines")
+        cell.status = DONE
+        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
+                       f"product(s) recorded at inputs_hash {want[:12]}")
+
+    planned: list = []
     cells: list[CellResult] = []
     for d in descriptors:
         band = _band_of(d, star)
         cell = CellResult(band=band.name_declared, instrument=d.instrument,
                           holding=d.holding, ion=d.ion, engine=d.engine_deck,
+                          route=route_of(d), pool=pool_tier(d),
                           status=BLOCKED, reason="", lo_A=d.lo_A, hi_A=d.hi_A,
                           product_key=cell_prefix_key(d))
         cells.append(cell)
+
+        # ── P. Ryan's governing process: steps 1-9 before measurement (RYA-1233) ─
+        _eh = element_hold_for(d.ion)
+        if _eh:
+            cell.status, cell.reason = HELD, _eh
+            continue
+        _hold = cell_process_hold(d)
+        if _hold:
+            cell.status, cell.reason = HELD, _hold
+            continue
 
         # ── 0. the two band tables must agree about where this cell IS ───────
         if band.disagreement:
@@ -849,19 +1419,27 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.reason = "; ".join(f"{p.name}: {p.detail}" for p in unmet)
             continue
 
-        # ── 2. is the DATA ready (RYA-1069) ──────────────────────────────────
+        # ── 2. can the reader serve this window (RYA-1069's reader gate ONLY) ──
+        # RYA-1233, Ryan 2026-10-02: telluric correction and continuum are done ONCE per
+        # holding per band and the corrected spectrum is then frozen for every element.
+        # An element run does not re-adjudicate it -- the conductor's evidence /
+        # product / normalization / telluric gates read registry LABELS that went stale
+        # the moment the data was fixed (both fully-corrected Kitt Peak holdings were
+        # refused while raw Kitt Peak passed). Raw holdings never reach this point
+        # (`is_raw`). The one question left that a corrected spectrum can still fail
+        # is whether the reader actually serves this window.
         if ready_ix is None:
             cell.status, cell.reason = NOT_READY, ready_why
             continue
         row = ready_ix.get((d.holding, cell.band))
         if row is None:
             cell.status, cell.reason = NOT_READY, (
-                f"the RYA-1069 conductor returned no verdict for "
-                f"({d.holding}, {cell.band}). An unassessed cell is NOT a ready one.")
+                f"the RYA-1069 conductor returned no row for ({d.holding}, {cell.band}), "
+                f"so whether the reader serves this window is unknown.")
             continue
-        if row.measurement_ready != "GO":
+        if not row.reader_wired:
             cell.status, cell.reason = NOT_READY, (
-                f"{row.measurement_ready} [{row.blocking_gate}]")
+                f"reader: {d.holding} has no wired reader that serves {cell.band}")
             continue
 
         # ── 3. is the work already current (the loop-killer) ─────────────────
@@ -886,63 +1464,40 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.status, cell.reason = WOULD_RUN, f"would execute -- {why}"
             cell.steps_run = [s["name"] for s in resolved.steps]
             continue
-        ok, detail = True, ""
-        for step in resolved.steps:
-            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
-            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
-            # all five decks over one (holding, band) invoke `measure_band_profilefit`
-            # with byte-identical arguments. Measured on the first full Si run:
-            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
-            # runs rewrote bytes that were already correct.
-            #
-            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
-            # `produces` is what an earlier version of this did and it was WRONG, for
-            # a reason worth writing down: `run_descriptor.resolve` builds the derive
-            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
-            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
-            # Reusing on that string silently skipped `derive_products` for four decks
-            # out of five while the report said they were handled -- a silent gap
-            # produced by the thing built to abolish silent gaps. An identical command
-            # is identical work by construction; a shared output path is not.
-            # (The `produces` collision itself is a defect in the resolver, not here.)
-            sig = _dispatch_signature(step, star)
-            if sig in produced_this_run:
-                cell.steps_run.append(f"{step['name']}:reused")
-                continue
-            ok, detail = _run_step(step, star, timeout=step_timeout)
-            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
-            if not ok:
-                break
-            produced_this_run.add(sig)
-        if not ok:
-            cell.status, cell.reason = FAILED, detail
-            continue
-        feed = load_feed(star, symbol)
-        published = cell_products(feed, d, cell.band)
-        if not published:
-            cell.status = UNPUBLISHED
-            cell.reason = (
-                f"all {len(resolved.steps)} stage(s) exited 0 and wrote their artifact, but "
-                f"no product for this cell is in data/products/{star}/{symbol}.json. "
-                f"Publication is `scripts/publish_product.py` and is human-gated by design "
-                f"(RYA-1034 needs a stated reason; RYA-772 forbids copying an artifact "
-                f"without provenance). Until it is published this cell is NOT current and "
-                f"WILL re-run.")
-            continue
-        cell.A = published[0].get("A")
-        cell.n_lines = published[0].get("n_lines")
-        record_inputs_hash(lkey, want, code_commit=commit,
-                           product_keys=[_product_key(p) for p in published])
-        ledger[lkey] = {"inputs_hash": want}
-        cell.status = DONE
-        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
-                       f"product(s) recorded at inputs_hash {want[:12]}")
+        planned.append((cell, d, resolved, want, lkey))
+
+    # RYA-1233: the planned cells execute here, `jobs` at a time. Planning above is
+    # serial and decides every hold/skip/dry-run exactly as before; only execution fans out.
+    if planned:
+        if jobs and jobs > 1:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=jobs) as ex:
+                list(ex.map(lambda a: _execute(*a), planned))
+        else:
+            for a in planned:
+                _execute(*a)
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
+                     process=steps,
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
+    # RYA-1234 (governing process steps 12-13): every element run ends with its literature
+    # check and problem lines, written into this report. Here, not in the sweep, so the
+    # single-element path gets it too. Loud on failure; it never undoes the run above.
+    try:
+        from pipeline import element_verdict
+        ev = element_verdict.verdict(star, element, report_dir=report_dir)
+        report["verdict"], report["problem_lines"] = ev["verdict"], ev["problem_lines"]
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: element verdict for {star} {element} failed: "
+              f"{type(exc).__name__}: {exc}", file=sys.stderr)
+        report["verdict"] = {"element_verdict": "ERROR",
+                             "error": f"{type(exc).__name__}: {exc}"}
     if echo:
         print(render(report))
+        v = report.get("verdict") or {}
+        print(f"verdict: {v.get('element_verdict')}  {v.get('counts', '')}  "
+              f"problem lines: {len(report.get('problem_lines') or [])}")
     return report
 
 
@@ -990,6 +1545,7 @@ def _band_of(d: RunDescriptor, star: str) -> _Band:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
+            process: list[dict] | None = None,
             numpy_why: str, interpreter: str, ispec_dir: str, code_commit: str,
             report_dir: Path | None) -> dict:
     counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
@@ -1003,15 +1559,21 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         "environment": {"interpreter": interpreter or None,
                         "ispec_dir": ispec_dir or None,
                         "numpy_ceiling_check": numpy_why},
+        "process_steps": process or [],
         "cells_total": len(cells),
         "counts": counts,
         "cells": [{"band": c.band, "instrument": c.instrument, "holding": c.holding,
-                   "ion": c.ion, "engine": c.engine, "status": c.status,
+                   "ion": c.ion, "engine": c.engine, "route": c.route, "pool": c.pool,
+                   "status": c.status,
                    "reason": c.reason, "A": c.A, "n_lines": c.n_lines,
                    "product_key": c.product_key, "inputs_hash": c.inputs_hash,
                    "lo_A": c.lo_A, "hi_A": c.hi_A, "steps": c.steps_run}
                   for c in cells],
         "resume": [c.cell_key for c in cells if c.status not in TERMINAL_OK],
+        # RYA-1233: raw ground-based holdings are never dispatched, so they own no cell;
+        # named here so their absence from `cells` is a declaration, not a gap.
+        "excluded_raw_holdings": raw_holdings(star),
+        "excluded_unwired_holdings": unwired_holdings(star),
     }
     # Rule 2, checked rather than trusted: the counts must account for every cell
     # and every cell must carry one of the five statuses. A cell that fell through
@@ -1039,11 +1601,14 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
 def render(doc: dict) -> str:
     """The compact ASCII table plus the one-line verdict. ASCII only (Cloudflare WAF)."""
     head = (f"{'band':<12} {'instrument':<24} {'holding':<34} {'ion':<4} "
-            f"{'engine':<18} {'status':<10} {'A':>8} {'n':>5}  reason")
+            f"{'engine':<18} {'route':<10} {'pool':<10} {'status':<10} {'A':>8} {'n':>5}  reason")
     lines = [
         f"ORCHESTRATOR  star={doc['star']}  element={doc['element']}  "
         f"{'DRY-RUN' if doc['dry_run'] else 'EXECUTE'}  commit={doc['code_commit']}",
         f"numpy ceiling: {doc['environment']['numpy_ceiling_check']}",
+        # RYA-1233: the governing process, before any cell -- what is done and what is not.
+        *[f"process step {r['step']:>2} {r['name']:<22} {'done' if r['ok'] else 'NOT DONE'}"
+          f"  {r['evidence']}" for r in doc.get("process_steps", [])],
         "",
         head, "-" * len(head),
     ]
@@ -1054,7 +1619,9 @@ def render(doc: dict) -> str:
         if len(reason) > 96:
             reason = reason[:93] + "..."
         lines.append(f"{c['band']:<12} {c['instrument']:<24} {c['holding']:<34} "
-                     f"{c['ion']:<4} {c['engine']:<18} {c['status']:<10} {a:>8} {n:>5}  {reason}")
+                     f"{c['ion']:<4} {c['engine']:<18} {c.get('route', ''):<10} "
+                     f"{c.get('pool', ''):<10} "
+                     f"{c['status']:<10} {a:>8} {n:>5}  {reason}")
     # Every status in STATUSES, including the zeroes: a verdict line that prints only
     # the non-zero counts cannot be read as "and nothing else happened", which is the
     # one thing an operator needs it to say.

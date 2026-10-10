@@ -71,9 +71,21 @@ SPECIES_ION = {("Fe", "II"): "Fe II"}
 
 
 def _selector(args: list[str]) -> str | None:
+    """The product's selector, from the pool the unit measured (RYA-1233: Codex and Deep pools
+    published with NO selector, so the two grades shared one identity and coverage could not
+    see either -- Fe's convention is selector = tier = GRADED / DEEPGRADED)."""
     if "--lines-from-set" in args:
         return "SET-" + args[args.index("--lines-from-set") + 1].split("=")[0]
+    if "--lines-deep-graded" in args:
+        return "DEEPGRADED"
+    if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "graded":
+        return "GRADED"
     return None
+
+
+def _tier(args: list[str]) -> str:
+    sel = _selector(args)
+    return sel if sel in ("GRADED", "DEEPGRADED") else "ALL"
 
 
 def _arg(args, flag, default=None):
@@ -134,9 +146,10 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                    ("iag_fts_solar_atlas", "solar_iag")],
-                #: RYA-1232: the CRIRES+ Y arms (9802-10794 A) were missing -> KeyError held 4 Fe
-                #: NIR products. Independent corrections that cover Y: KP molecfit (to 13000),
-                #: IAG (to 11086), Kurucz 2005 (to 10008).
+                #: RYA-1233: the Elgueta CRIRES+ Y products (9800-10796 A). Independent
+                #: corrections there: KP molecfit (full coverage), IAG (to 10650 A), Kurucz
+                #: 2005 (to 10010 A). The two Y holdings are ONE source (sp/Sun_Y_rv.dat), so
+                #: neither is the other's independent check.
                 "solar_crires_plus_y_wide_rya1054": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                                                      ("iag_fts_solar_atlas", "solar_iag"),
                                                      ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
@@ -222,6 +235,11 @@ _OWN_SKY_CACHE: dict = {}
 
 
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
+    if holding == "solar_crires_plus_h_rya1094":
+        # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
+        # mtrans of our Vesta IDPs) and the independent correction is our molecfit.
+        from pipeline.crires_h_sky import telluric_line as _h
+        return _h(w0, hw)
     import measure_band_ew as H
     from pipeline import telluric_observability as T
     if holding in _OWN_SKY:
@@ -329,6 +347,13 @@ def _features(acc: pd.DataFrame) -> list:
     return out
 
 
+def _gf_covariance(sig, src, tags):
+    """RYA-1233: the registry-driven gf covariance (pipeline.gf_error_model)."""
+    from pipeline.gf_error_model import covariance
+    cov, note, _unreviewed = covariance(sig, src, tags)
+    return cov, note
+
+
 def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from config.synth_bands import SYNTH_BANDS
     from pipeline.band_policy import resolve as band_of
@@ -392,13 +417,15 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
-    _rows = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)
+    _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
     if not _rows:
-        #: an EMPTY product (no accepted line, no value) -- recorded, never a crash
-        return {"row": {"A": None, "treatment": str(prod.get("treatment", pd.Series([None])).iloc[0]),
-                        "holding": holding, "selector": selector, "element": str(prod["element"].iloc[0]),
-                        "band": None},
-                "skip": "empty product: no accepted line, no value to budget"}
+        # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
+        # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is
+        # recorded as skipped, never allowed to take the whole assembly down.
+        return {"row": {"A": None, "treatment": str(prod.get("treatment", pd.Series([""])).iloc[0]),
+                        "holding": holding, "selector": selector,
+                        "element": str(prod["element"].iloc[0]), "band": str(prod["band"].iloc[0])},
+                "skip": "product has no value (no line in the aggregate)"}
     row = _rows[0]
     row["star"] = "solar"
     if restat:
@@ -434,8 +461,12 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         return {"row": row, "skip": "no accepted line"}
 
     # transition data: lambda AND EP join
-    g = gf[gf["species"] == SPECIES_ION.get((element, str(_arg(unit_args, "--ion", "I"))), SPECIES[element])]
-    ids, sig, src = [], [], []
+    # RYA-1233: the species is the PRODUCT's own (element + ion), not a C/N/O-only map --
+    # Si I and Si II run through this same assembler.
+    _ion = str(prod["ion"].iloc[0]).strip() if "ion" in prod.columns else ""
+    species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
+    g = gf[gf["species"] == species]
+    ids, sig, src, tags = [], [], [], []
     for _, l in acc.iterrows():
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
               & ((g.excitation_potential_eV - l.ep_eV).abs() < 0.005)]
@@ -464,6 +495,12 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           if len(classes) > 1 else ""))
         sig.append(s)
         src.append(ref)
+        # The gf source's registry key (gf_error_model.source_key): lab tag, else NIST_ASD for a
+        # NIST-graded row, so the correlation is classified rather than UNREVIEWED.
+        from pipeline.gf_error_model import source_key
+        tags.append(source_key(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "",
+                               str(m.loggf_reference),
+                               str(m.nist_grade) if pd.notna(m.nist_grade) else ""))
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)
@@ -494,10 +531,9 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         else:
             notes.append("measurement: the pool is ONE resolved feature; single-line pricing owed")
     w = [1.0 / n] * n
-    cov = [[sig[a] * sig[b] if src[a] == src[b] else 0.0 for b in range(n)] for a in range(n)]
+    cov, cov_note = _gf_covariance(sig, src, tags)
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
-                                 covariance_source=("canonical_gf per-line sigma; lines sharing "
-                                                    "one source are fully correlated")))
+                                 covariance_source=cov_note))
     for name, why in (("stellar.logg", "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)"),
                       ("stellar.metallicity", "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)")):
         comps.append(dict(name=name, sigma_dex=0.0, state="DEFINED", source=why,

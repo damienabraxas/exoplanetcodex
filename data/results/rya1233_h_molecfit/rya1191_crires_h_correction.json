@@ -1,0 +1,275 @@
+{
+  "ticket": "RYA-1191 (C, fix) \u2014 CRIRES+ H telluric correction",
+  "generated_at": "2026-10-09T00:20:26Z",
+  "molecules": [
+    "H2O",
+    "CH4",
+    "CO2"
+  ],
+  "h_span_A": [
+    15007.0,
+    17494.0
+  ],
+  "n_graded_lines": 4,
+  "n_graded_on_a_correctable_segment": 4,
+  "graded_not_on_any_segment": [],
+  "plan": [
+    {
+      "file": "ADP.2025-06-06T16:08:50.327.fits",
+      "wlen_id": "H1582",
+      "mjd": 59905.00726757,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 3,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16810.67,
+          "hi_A": 16908.33,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 1,
+          "lo_A": 16110.89,
+          "hi_A": 16216.08,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15346.99,
+          "hi_A": 15441.91,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:08:50.330.fits",
+      "wlen_id": "H1559",
+      "mjd": 59905.011743,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 3,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 1,
+          "lo_A": 16826.12,
+          "hi_A": 16943.6,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16331.65,
+          "hi_A": 16445.77,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16097.62,
+          "hi_A": 16198.44,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:11:04.003.fits",
+      "wlen_id": "H1567",
+      "mjd": 59907.01940251,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 2,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16417.43,
+          "hi_A": 16529.59,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 3,
+          "lo_A": 15302.76,
+          "hi_A": 15396.4,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:14:11.197.fits",
+      "wlen_id": "H1575",
+      "mjd": 59907.99433991,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 2,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16732.77,
+          "hi_A": 16832.44,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 16145.85,
+          "hi_A": 16248.01,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:14:11.200.fits",
+      "wlen_id": "H1575",
+      "mjd": 59907.99718857,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 2,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16732.77,
+          "hi_A": 16832.44,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 2,
+          "lo_A": 16145.85,
+          "hi_A": 16248.01,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:29:59.732.fits",
+      "wlen_id": "H1582",
+      "mjd": 59905.99822882,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 3,
+      "segments": [
+        {
+          "order": 4,
+          "detector": 3,
+          "lo_A": 16810.67,
+          "hi_A": 16908.33,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 1,
+          "lo_A": 16110.89,
+          "hi_A": 16216.08,
+          "n_graded": 1
+        },
+        {
+          "order": 7,
+          "detector": 2,
+          "lo_A": 15346.98,
+          "hi_A": 15441.9,
+          "n_graded": 1
+        }
+      ]
+    },
+    {
+      "file": "ADP.2025-06-06T16:29:59.735.fits",
+      "wlen_id": "H1559",
+      "mjd": 59906.00458678,
+      "specsys": "TOPOCENT",
+      "n_segments_with_graded": 3,
+      "segments": [
+        {
+          "order": 3,
+          "detector": 1,
+          "lo_A": 16826.11,
+          "hi_A": 16943.6,
+          "n_graded": 1
+        },
+        {
+          "order": 4,
+          "detector": 1,
+          "lo_A": 16331.64,
+          "hi_A": 16445.76,
+          "n_graded": 1
+        },
+        {
+          "order": 5,
+          "detector": 3,
+          "lo_A": 16097.62,
+          "hi_A": 16198.44,
+          "n_graded": 1
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "file": "ADP.2025-06-06T16:08:50.327.fits",
+      "wlen_id": "H1582",
+      "tag": "H1582_o4d3",
+      "order": 4,
+      "detector": 3,
+      "lo_A": 16810.67,
+      "hi_A": 16908.33,
+      "n_graded": 1,
+      "state": "CORRECTED",
+      "mtrans_min": 0.0,
+      "mtrans_frac_below_097": 0.1285,
+      "chi2": null,
+      "gdas": "gdas_C-70.4-24.6_2022-11-22T00.gdas.fits",
+      "npix": 2031
+    },
+    {
+      "file": "ADP.2025-06-06T16:08:50.327.fits",
+      "wlen_id": "H1582",
+      "tag": "H1582_o5d1",
+      "order": 5,
+      "detector": 1,
+      "lo_A": 16110.89,
+      "hi_A": 16216.08,
+      "n_graded": 1,
+      "state": "CORRECTED",
+      "mtrans_min": 0.0,
+      "mtrans_frac_below_097": 0.1218,
+      "chi2": null,
+      "gdas": "gdas_C-70.4-24.6_2022-11-22T00.gdas.fits",
+      "npix": 2036
+    },
+    {
+      "file": "ADP.2025-06-06T16:08:50.327.fits",
+      "wlen_id": "H1582",
+      "tag": "H1582_o7d2",
+      "order": 7,
+      "detector": 2,
+      "lo_A": 15346.99,
+      "hi_A": 15441.91,
+      "n_graded": 1,
+      "state": "CORRECTED",
+      "mtrans_min": 0.0,
+      "mtrans_frac_below_097": 0.1485,
+      "chi2": null,
+      "gdas": "gdas_C-70.4-24.6_2022-11-22T00.gdas.fits",
+      "npix": 2040
+    },
+    {
+      "file": "ADP.2025-06-06T16:08:50.330.fits",
+      "wlen_id": "H1559",
+      "tag": "H1559_o4d1",
+      "order": 4,
+      "detector": 1,
+      "lo_A": 16331.65,
+      "hi_A": 16445.77,
+      "n_graded": 1,
+      "state": "CORRECTED",
+      "mtrans_min": 0.0,
+      "mtrans_frac_below_097": 0.1703,
+      "chi2": null,
+      "gdas": "gdas_C-70.4-24.6_2022-11-22T00.gdas.fits",
+      "npix": 2037
+    }
+  ],
+  "n_corrected": 4,
+  "n_failed": 0
+}

@@ -76,6 +76,23 @@ class RunDescriptor:
     lo_A: float
     hi_A: float
     engine_deck: str = "ts-lte"
+    #: RYA-1233. The measurement ROUTE this run takes, or None for the policy's first
+    #: permitted method (the pre-RYA-1233 behaviour). The orchestrator sets it on every
+    #: cell: where a band permits BOTH, they are two products (`route` PROFILEFIT vs
+    #: SYNTH in the feed) and the synthesis route is the one that fits the strong lines
+    #: the EW route's saturation / width gates drop -- 150 of 160 live solar Fe products
+    #: are SYNTH, and the matrix used to run only PROFILEFIT in VIS and red-optical.
+    method: str | None = None
+    #: RYA-1233, Ryan's governing process step 7: measurement runs on a GRADED pool --
+    #: "reference" (every lab-gf line), "codex" (lab lines at/below the depth gate) or
+    #: "deep" (lab lines above it) -- never the ungraded all-lines pool. None keeps the
+    #: stage's own default (all), which the orchestrator never dispatches.
+    pool: str | None = None
+    #: RYA-1233. The star this run measures. A published line set keeps EVERY reference
+    #: line for every star (a red giant may want the lines the Sun saturates); the lines a
+    #: star CULLS live in data/registry/problem_children.csv, and a set pool dispatches that
+    #: star's graded file (`star_graded_csv`). Not in `key`: one star per results tree.
+    star: str = "solar"
 
     @property
     def band(self) -> str:
@@ -132,6 +149,99 @@ class ResolvedRun:
                 "steps": self.steps}
 
 
+#: Where `derive_band_products` writes when no `--out` is given (its own `OUT`), repo-
+#: relative. tests/test_rya1222_run_matrix.py pins it against that script's constant.
+BAND_PRODUCTS_DIR = "data/results/band_products"
+
+
+def deck_out_dir(deck: str) -> str:
+    """The directory one engine deck's products land in. RYA-1233.
+
+    🔴 Every deck used to write the SAME `{stem}_products.csv`: the stem carries no deck,
+    so each deck's run rewrote the file and threw away the previous deck's row (measured
+    on solar Si raw Kitt Peak: five deck runs, one surviving products file). The default
+    deck keeps the script's own directory, so the production path is unchanged; every
+    other deck gets its own subdirectory, which also gives each deck a distinct
+    `produces` path -- the collision RYA-1222 recorded and left to the resolver.
+    """
+    default = RunDescriptor.__dataclass_fields__["engine_deck"].default
+    return BAND_PRODUCTS_DIR if deck == default else f"{BAND_PRODUCTS_DIR}/deck_{deck}"
+
+
+def gerber_deck_key(element: str, deck: str) -> str | None:
+    """The `gerber_nlte.DECKS` key a Gerber engine deck needs, or None for a non-Gerber deck.
+
+    The 1D LTE comparand needs the deck too: it is defined as THAT deck's setup with the
+    departures withheld (RYA-1045), and the synthesis route reads the deck to pair depths.
+    """
+    if deck in ("gerber-mean3d", "gerber-mean3d-lte"):
+        return f"{element}@mean3D"
+    if deck in ("gerber-nlte", "gerber-1d-lte"):
+        return element
+    return None
+
+
+#: RYA-1233. Each graded pool: the derive_band_products flags that select it, the feed's
+#: `tier` / `selector` token its products carry, and the routes that can measure it (EW
+#: cannot reach the deep lines, and the Reference set includes them).
+POOLS = {
+    "reference": {"args": ["--lines-tier", "reference"], "tier": "REFERENCE",
+                  "methods": ("synthesis",)},
+    "codex":     {"args": ["--lines-tier", "graded"], "tier": "GRADED",
+                  "methods": ("synthesis", "profile-fit")},
+    "deep":      {"args": ["--lines-deep-graded"], "tier": "DEEPGRADED",
+                  "methods": ("synthesis",)},
+}
+
+
+#: RYA-1233: published reference line sets (process step 7 -- the best lines, as close to
+#: Asplund's as possible). Registry: one row per (element, ion, set); the pool name a cell
+#: carries is "set:<SET_NAME>" and it is measured on the synthesis route only.
+LINE_SET_REGISTRY = "data/reference/line_sets/REGISTRY.csv"
+SET_POOL_PREFIX = "set:"
+
+
+def star_graded_csv(row: dict, star: str) -> str:
+    """The graded file a set pool dispatches for `star`: `<set>_graded_<star>.csv` where
+    the builder wrote one (that star culled lines), else the star-agnostic `_graded.csv`
+    -- every reference line with a priced gf -- else the full set."""
+    from pathlib import Path
+    base = row.get("graded_csv") or row["csv"]
+    if base.endswith("_graded.csv"):
+        cand = base[:-len(".csv")] + f"_{star}.csv"
+        if (Path(__file__).resolve().parents[1] / cand).exists():
+            return cand
+    return base
+
+
+def line_set(name: str, element: str, ion: str) -> dict | None:
+    """The registry row of a published line set FOR THIS SPECIES, or None.
+
+    A set name is not unique: SI_AGSS21 is one row per ion (9 Si I lines, 1 Si II line).
+    Keyed on the name alone, the first row won and every Si II cell was handed the Si I
+    file -- 7 of 7 lines "not in the synthesis list" (RYA-1233)."""
+    import csv
+    from pathlib import Path
+    reg = Path(__file__).resolve().parents[1] / LINE_SET_REGISTRY
+    if not reg.exists():
+        return None
+    with reg.open(newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            if r["set_name"] == name and r["element"] == element and r["ion"] == ion:
+                return r
+    return None
+
+
+#: The feed's `route` token for each dispatchable method (the products' own vocabulary).
+ROUTE_TOKEN = {"profile-fit": "PROFILEFIT", "synthesis": "SYNTH"}
+
+
+def permitted_methods(lo_A: float, hi_A: float) -> list[str]:
+    """Every method this layer can dispatch that the band's policy permits, in policy order."""
+    policy = band_policy.resolve(0.5 * (lo_A + hi_A))
+    return [m for m in ("profile-fit", "synthesis") if m in policy.permitted_methods]
+
+
 def method_for(descriptor: RunDescriptor) -> Method:
     """Which measurement method this band PERMITS -- from policy, never from taste.
 
@@ -139,6 +249,12 @@ def method_for(descriptor: RunDescriptor) -> Method:
     preference the caller gets to express.
     """
     policy = band_policy.resolve(0.5 * (descriptor.lo_A + descriptor.hi_A))
+    if descriptor.method is not None:
+        if descriptor.method in permitted_methods(descriptor.lo_A, descriptor.hi_A):
+            return descriptor.method
+        raise RunNotPossible(
+            f"band {policy.name} does not permit method {descriptor.method!r} "
+            f"(permitted: {policy.permitted_methods})")
     if "profile-fit" in policy.permitted_methods:
         return "profile-fit"
     if "synthesis" in policy.permitted_methods:
@@ -225,6 +341,26 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                if spec.pre_normalised else
                "the product ships NO continuum, so the harness must place one")))
 
+    # ── 3b. the engine deck exists for this element (RYA-1233) ──────────────
+    # The Gerber decks are registered per element (`gerber_nlte.DECKS`: Al, Fe and their
+    # <3D> keys). Asking one for an element it has no deck for used to be discovered
+    # inside the stage, after synthesis set-up -- every solar Si gerber cell FAILED that
+    # way. It is a fact about the registry, so it is answered here, before dispatch.
+    _deck_key = gerber_deck_key(descriptor.element, descriptor.engine_deck)
+    if _deck_key is not None:
+        try:
+            from pipeline import gerber_nlte as _gn
+            _have = _deck_key in _gn.DECKS
+            _why = (f"Gerber deck {_deck_key!r} registered" if _have else
+                    f"no Gerber deck registered for {_deck_key!r} (registered: "
+                    f"{sorted(_gn.DECKS)}); --engine-b-deck {descriptor.engine_deck} cannot "
+                    f"run for {descriptor.element}")
+        except Exception as exc:                               # noqa: BLE001
+            _have, _why = False, f"gerber_nlte could not be read: {type(exc).__name__}: {exc}"
+        checks.append(Precondition("engine_deck_registered", _have, _why))
+        if not _have and blocked is None:
+            blocked = _why
+
     # ── 4. the engine's numpy ceiling, checked BEFORE dispatch (RYA-682) ─────
     if interpreter:
         checks.append(Precondition(
@@ -267,12 +403,49 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                                   "'no measured EWs', which reads like missing data "
                                   "rather than a missing step."),
         })
+    out_dir = deck_out_dir(descriptor.engine_deck)
+    pool_args: list[str] = []
+    if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        _name = descriptor.pool[len(SET_POOL_PREFIX):]
+        _row = line_set(_name, descriptor.element, descriptor.ion)
+        if _row is None or method != "synthesis":
+            why = (f"line set {_name!r} has no {descriptor.element} {descriptor.ion} row in "
+                   f"{LINE_SET_REGISTRY}" if _row is None else
+                   f"a published line set is measured on the synthesis route, not {method}")
+            checks.append(Precondition("pool_route", False, why))
+            if blocked is None:
+                blocked = why
+        else:
+            # Step 7: the set's GRADED lines only -- a line with no published gf uncertainty
+            # is not measured (RYA-1233; the set file keeps every published line).
+            pool_args = ["--lines-from-set",
+                         f"{_name}={star_graded_csv(_row, descriptor.star)}"]
+    elif descriptor.pool is not None:
+        spec = POOLS.get(descriptor.pool)
+        if spec is None or method not in spec["methods"]:
+            why = (f"pool {descriptor.pool!r} cannot be measured on the {method} route "
+                   f"(pools: { {k: v['methods'] for k, v in POOLS.items()} })")
+            checks.append(Precondition("pool_route", False, why))
+            if blocked is None:
+                blocked = why
+        else:
+            pool_args = list(spec["args"])
     steps.append({
         "name": "derive_products", "script": "scripts/derive_band_products.py",
-        "args": common + ["--engine-b-deck", descriptor.engine_deck],
+        # RYA-1233: in a band that permits profile-fit the script takes the EW route
+        # unless told otherwise, so a synthesis-route cell must say so.
+        "args": common + ["--engine-b-deck", descriptor.engine_deck, "--out", out_dir]
+                + pool_args
+                + (["--force-synthesis"] if method == "synthesis"
+                   and "profile-fit" in permitted_methods(descriptor.lo_A, descriptor.hi_A)
+                   else [])
+                # A band's synthesis list can start inside the band (VIS: the GES v6 list
+                # starts at 4200 A, the band at 3780). Narrow to it, named in the stem and
+                # provenance, rather than fail the cell.
+                + (["--clip-to-synthesis-list"] if method == "synthesis" else []),
         "env": env, "interpreter": interpreter,
-        "produces": f"{descriptor.key}_"
-                    f"{'PROFILEFIT' if method == 'profile-fit' else 'SYNTH'}_products.csv",
+        "produces": f"{out_dir}/{descriptor.key}_"
+                    f"{ROUTE_TOKEN[method]}_products.csv",
         "postcondition": "the products table exists and every treatment carries a value "
                          "and an ErrorBudget; a zero-row product is a FAILURE, not a null",
     })

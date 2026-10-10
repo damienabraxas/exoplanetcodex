@@ -7,7 +7,7 @@ canonical gf row, line pool, holding, product, abundance, or astrophysical-gf au
 
 The committed canonical list contains **21,279** rows in the audit window, all in
 3000–3780 A. FUV and NUV each contain **zero** canonical rows. The near-UV list is
-20,568/21,279 VALD3 rows; only
+20,565/21,279 VALD3 rows; only
 71 rows carry the primary-laboratory tier. This is a
 coverage discontinuity, not evidence that no transitions exist below 3000 A.
 

@@ -72,8 +72,9 @@ def test_an_unknown_element_is_refused_against_elements_master(rm):
 
 
 def test_the_ion_axis_is_the_graded_pool_not_the_periodic_table(rm):
-    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell."""
-    assert rm.graded_ions("Si") == ["I"]
+    """Si III exists in nature and in canonical_gf; it has no GRADED line, so no cell.
+    (Si II gained graded lines from the RYA-1233 NIST ASD intake.)"""
+    assert rm.graded_ions("Si") == ["I", "II"]
     assert rm.graded_ions("Fe") == ["I", "II"]
 
 
@@ -98,7 +99,7 @@ def test_harps_vis_is_on_the_matrix(rm):
     holding in the repo silently absent from its own element's matrix.
     """
     cells = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"])
-             if d.holding == "solar_harps" and d.band == "VIS"]
+             if d.holding == "solar_harps_molecfit_corrected" and d.band == "VIS"]
     assert cells, "solar_harps VIS produced no cell"
     for d in cells:
         assert d.lo_A == pytest.approx(3782.6), "the window must be clipped, not dropped"
@@ -107,7 +108,7 @@ def test_harps_vis_is_on_the_matrix(rm):
 def test_the_window_is_clipped_to_what_the_holding_serves(rm):
     """IAG serves 5001.1 A upward, so its VIS cell starts there -- as RYA-1218's own
     artifact stem (`SiI_5002_6910_iag_...`) independently says it did."""
-    iag = [d for d in rm.expand("solar", "Si", engines=["ts-lte"])
+    iag = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], methods=["profile-fit"])
            if d.holding == "solar_iag" and d.band == "VIS"]
     assert len(iag) == 1
     assert iag[0].lo_A == pytest.approx(5001.1)
@@ -146,18 +147,11 @@ def test_resume_is_exactly_the_cells_whose_work_does_not_exist(dry, rm):
     assert len(dry["resume"]) == len(expected)
 
 
-def test_the_band_edge_disagreement_blocks_rather_than_picks_a_winner(dry):
-    """🔴 synth_bands ends red-optical at 9199 A and band_policy at 10000 A.
-
-    A NIR window clipped to 9199-10650 has a midpoint of 9924.5 A, which
-    `band_policy.resolve` -- and therefore `method_for` -- calls red-optical, where
-    profile-fit is PERMITTED and in NIR it is forbidden. The cell would have been
-    dispatched under the wrong regime's method with nothing saying so.
-    """
-    hit = [c for c in dry["cells"] if "BAND-EDGE DISAGREEMENT" in (c["reason"] or "")]
-    assert hit, "the two band tables no longer disagree -- delete this guard and say why"
-    for c in hit:
-        assert c["status"] == "BLOCKED"
+# RYA-1233: `test_the_band_edge_disagreement_blocks_rather_than_picks_a_winner` lived here
+# and asked to be deleted, with a reason, the day the two tables agreed. They agree:
+# pipeline/band_policy.py now reads its optical/NIR edges from config/synth_bands.yaml
+# (`test_band_policy_edges_are_synth_bands_edges`). `_band_of` keeps the refusal, so a
+# future second edge table still blocks rather than tiebreaks.
 
 
 def test_the_report_is_written_and_reloadable(rm, tmp_path):
@@ -310,15 +304,23 @@ def test_the_cell_key_carries_the_holding_not_just_the_instrument(rm):
 def test_cell_products_match_only_the_decks_own_treatments(rm):
     from pipeline.run_descriptor import RunDescriptor
     d = RunDescriptor(element="Fe", ion="I", instrument="harps", holding="solar_harps",
-                      lo_A=3782.6, hi_A=6910.0, engine_deck="gerber-nlte")
+                      lo_A=3782.6, hi_A=6910.0, engine_deck="gerber-nlte", pool="codex")
     feed = {"products": [
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.5},
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.5,
+         "route": "PROFILEFIT", "selector": "GRADED"},
+        # RYA-1233: same everything, another POOL -- another cell's product
         {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.4},
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.7,
+         "route": "PROFILEFIT", "selector": "REFERENCE"},
+        {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
+         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.4, "route": "PROFILEFIT"},
+        # RYA-1233: same treatment on the OTHER route is another cell's product
+        {"element": "Fe", "ion": "I", "band": "VIS", "instrument": "harps",
+         "holding": "solar_harps", "treatment": "ENGINE-B-NLTE", "A": 7.6, "route": "SYNTH"},
     ]}
     hit = rm.cell_products(feed, d, "VIS")
-    assert [p["treatment"] for p in hit] == ["ENGINE-B-NLTE"]
+    assert [(p["treatment"], p["route"]) for p in hit] == [("ENGINE-B-NLTE", "PROFILEFIT")]
 
 
 # ── rules 1 and 3: refusals, and loud-fail-CONTINUE ──────────────────────────
@@ -358,25 +360,77 @@ def test_one_failing_cell_does_not_stop_the_matrix(rm, monkeypatch, tmp_path):
     assert all(c["reason"] == "boom" for c in doc["cells"] if c["status"] == rm.FAILED)
 
 
-def test_a_successful_run_that_published_nothing_is_not_DONE(rm, monkeypatch, tmp_path):
-    """🔴 Every stage exits 0 and the feed is still empty, because publication is a
-    separate human-gated step. Calling that DONE would record an inputs_hash for a
-    cell that is not current, and the cell would silently re-run forever."""
-    monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
-    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
-    monkeypatch.setattr(rm, "record_inputs_hash",
-                        lambda *a, **k: pytest.fail("recorded a hash for an unpublished cell"))
+def _fake_stage(rm, tmp_path, monkeypatch, calls):
+    """Stages that 'succeed' by writing the artifact derive_band_products would write."""
+    monkeypatch.setattr(rm, "ARTIFACT_ROOT", tmp_path)
+    monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
 
+    def run_step(step, star, **k):
+        calls.append(step["name"])
+        if step["name"] == "derive_products":
+            a = step["args"]
+            out = tmp_path / a[a.index("--out") + 1]
+            out.mkdir(parents=True, exist_ok=True)
+            route = "SYNTH" if "--force-synthesis" in a else "PROFILEFIT"
+            tag = ("_DEEPGRADED" if "--lines-deep-graded" in a else
+                   "_" + {"reference": "REFERENCE", "graded": "GRADED"}[
+                       a[a.index("--lines-tier") + 1]])
+            stem = (f"{a[a.index('--element') + 1]}{a[a.index('--ion') + 1]}_4200_6908_"
+                    f"{a[a.index('--instrument') + 1]}_{a[a.index('--holding') + 1]}_{route}"
+                    f"{tag}")
+            (out / f"{stem}_products.csv").write_text("treatment,A\n1D-LTE,7.5\n")
+        return True, "ok"
+    monkeypatch.setattr(rm, "_run_step", run_step)
+
+
+def test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded(
+        rm, monkeypatch, tmp_path):
+    """Publication is human-gated, so an unpublished build is not DONE -- but RYA-1233
+    (Ryan 2026-10-02): it IS recorded, with what it was built from and what it wrote."""
+    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
     reaches_the_executor(rm, monkeypatch)
-    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"],
+    calls: list = []
+    _fake_stage(rm, tmp_path, monkeypatch, calls)
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["codex"],
+                 instruments=["solar_harps_molecfit_corrected"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
-    assert doc["counts"][rm.UNPUBLISHED] >= 1
-    assert doc["counts"][rm.DONE] == 0
-    unpub = [c for c in doc["cells"] if c["status"] == rm.UNPUBLISHED]
-    assert all("publish_product.py" in c["reason"] for c in unpub)
-    assert set(doc["resume"]) >= {"|".join((c["band"], c["instrument"], c["holding"],
-                                            c["ion"], c["engine"])) for c in unpub}
+    assert doc["counts"][rm.UNPUBLISHED] == 1 and doc["counts"][rm.DONE] == 0
+    assert "publish_product.py" in doc["cells"][0]["reason"]
+    led = json.loads((tmp_path / "inputs_hashes.json").read_text())
+    (entry,) = led.values()
+    assert entry["products"] == [] and entry["artifacts"], entry
+    assert any(r["kind"] == "spectrum" for r in entry["inputs"]), "the spectrum is an input"
+
+
+def test_an_unchanged_unpublished_build_is_not_redone(rm, monkeypatch, tmp_path):
+    """THE point of RYA-1233's last change: nothing changed, so nothing re-runs."""
+    monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": []})
+    reaches_the_executor(rm, monkeypatch)
+    calls: list = []
+    _fake_stage(rm, tmp_path, monkeypatch, calls)
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"], methods=["synthesis"], pools=["codex"],
+              instruments=["solar_harps_molecfit_corrected"],
+              interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
+              report_dir=tmp_path)
+    assert rm.run("solar", "Si", **kw)["counts"][rm.UNPUBLISHED] == 1
+    calls.clear()
+    second = rm.run("solar", "Si", **kw)
+    assert calls == [], f"an unchanged unpublished build was redone: {calls}"
+    assert second["counts"][rm.SKIP] == 1
+    assert "NOT YET PUBLISHED" in second["cells"][0]["reason"]
+    # ...and a deleted artifact is rebuilt rather than trusted
+    for f in (tmp_path / "data").rglob("*_products.csv"):
+        f.unlink()
+    assert rm.run("solar", "Si", **kw)["counts"][rm.UNPUBLISHED] == 1
+
+
+def test_the_spectrum_a_holding_reads_is_fingerprinted(rm):
+    for hid in ("solar_kpno_molecfit_corrected", "solar_harps_molecfit_corrected",
+                "solar_iag", "solar_kpno_kurucz2005_corrected"):
+        files, why = rm.holding_source_files(hid)
+        assert files, f"{hid}: {why}"
 
 
 def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
@@ -390,7 +444,8 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     """
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     published = [{"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
-                  "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.51,
+                  "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
+                  "route": "PROFILEFIT", "selector": "GRADED",
                   "n_lines": 12, "tier": "GRADED"}]
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": published})
 
@@ -400,7 +455,9 @@ def test_the_loop_killer_a_second_run_does_zero_work(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (calls.append(step["name"]), (True, "ok"))[1])
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
+              methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     first = rm.run("solar", "Si", **kw)
@@ -432,7 +489,8 @@ def test_a_deck_independent_step_is_built_once_per_run(rm, monkeypatch, tmp_path
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (True, "ok"))[1])
 
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps"],
+    doc = rm.run("solar", "Fe", ions=["I"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+                 methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     n_decks = len(rm.DECK_EMITS)
@@ -455,7 +513,8 @@ def test_a_reused_step_is_only_reused_after_it_SUCCEEDED(rm, monkeypatch, tmp_pa
     ran = []
     monkeypatch.setattr(rm, "_run_step",
                         lambda step, *a, **k: (ran.append(step["name"]), (False, "boom"))[1])
-    doc = rm.run("solar", "Si", bands=["VIS"], instruments=["solar_harps"],
+    doc = rm.run("solar", "Fe", ions=["I"], bands=["VIS"], instruments=["solar_harps_molecfit_corrected"],
+                 methods=["profile-fit"],
                  interpreter=sys.executable, ispec_dir="/x/ispec",
                  echo=False, report_dir=tmp_path)
     assert ran.count("measure_ew") == doc["cells_total"], \
@@ -467,13 +526,16 @@ def test_a_moved_input_re_runs_the_cell(rm, monkeypatch, tmp_path):
     monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")
     monkeypatch.setattr(rm, "load_feed", lambda *a, **k: {"products": [
         {"element": "Si", "ion": "I", "band": "VIS", "instrument": "harps",
-         "holding": "solar_harps", "treatment": "1D-LTE", "A": 7.51,
+         "holding": "solar_harps_molecfit_corrected", "treatment": "1D-LTE", "A": 7.51,
+                  "route": "PROFILEFIT", "selector": "GRADED",
          "n_lines": 12, "tier": "GRADED"}]})
 
     reaches_the_executor(rm, monkeypatch)
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (True, "ok"))
 
-    kw = dict(engines=["ts-lte"], bands=["VIS"], instruments=["solar_harps"],
+    kw = dict(ions=["I"], engines=["ts-lte"], bands=["VIS"],
+              instruments=["solar_harps_molecfit_corrected"],
+              methods=["profile-fit"],
               interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
               report_dir=tmp_path)
     assert rm.run("solar", "Si", **kw)["counts"][rm.DONE] == 1
@@ -520,10 +582,14 @@ def reaches_the_executor(rm, monkeypatch):
     that behaviour belongs -- not as an invisible precondition of every other test.
     """
     class _Row:
-        measurement_ready, blocking_gate = "GO", ""
+        measurement_ready, blocking_gate, reader_wired = "GO", "", True
     monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
     monkeypatch.setattr(rm, "verify_numpy_ceiling",
                         lambda interpreter: (True, f"stubbed for {interpreter}"))
+    # RYA-1233: the governing process (steps 1-9) has its own tests below; these tests
+    # are about what happens after it has let a cell through.
+    monkeypatch.setattr(rm, "process_steps", lambda *a, **k: [])
+    monkeypatch.setattr(rm, "cell_process_hold", lambda *a, **k: "")
 
 
 # ── the RYA-682 ceiling is CHECKED, not asserted ─────────────────────────────
@@ -574,3 +640,317 @@ def test_the_driver_imports_without_loading_any_science_stage():
         capture_output=True, text=True, cwd=str(ROOT))
     assert out.returncode == 0, out.stderr[-2000:]
     assert "pipeline.abundances_derive" not in out.stdout
+
+
+# ── RYA-1233: raw is never used; a corrected spectrum is frozen, not re-gated ──
+
+def test_no_raw_ground_holding_is_ever_on_the_matrix(rm):
+    """Ryan 2026-10-01/02: raw spectra are not used any more -- the corrected holding IS the data."""
+    raw = set(rm.raw_holdings("solar"))
+    assert {"solar_kpno", "solar_harps"} <= raw
+    cells = {d.holding for d in rm.expand("solar", "Si")}
+    assert not (cells & raw), f"raw holdings on the matrix: {sorted(cells & raw)}"
+
+
+def test_every_corrected_holding_is_kept(rm):
+    for hid in ("solar_kpno_molecfit_corrected", "solar_kpno_kurucz2005_corrected",
+                "solar_harps_molecfit_corrected"):
+        assert hid not in rm.raw_holdings("solar")
+
+
+def test_a_corrected_holding_is_not_refused_on_a_stale_label(rm, monkeypatch, tmp_path):
+    """Both fully-corrected KP holdings were NOT_READY on `evidence_state=audited` /
+    a findings.md manifest while raw KP was GO. The element run asks only the reader."""
+    class _Row:
+        measurement_ready, blocking_gate, reader_wired = (
+            "NO-GO", "evidence:audited;telluric:applied-unverified", True)
+    monkeypatch.setattr(rm, "_readiness_index", lambda *a, **k: (_AllGo(_Row()), ""))
+    monkeypatch.setattr(rm, "verify_numpy_ceiling", lambda i: (True, "stub"))
+    doc = rm.run("solar", "Si", instruments=["solar_kpno_molecfit_corrected"],
+                 engines=["ts-lte"], bands=["VIS"], dry_run=True,
+                 interpreter=sys.executable, ispec_dir="/x/ispec", echo=False,
+                 report_dir=tmp_path)
+    assert doc["counts"][rm.NOT_READY] == 0, doc["cells"]
+    assert "solar_kpno" in doc["excluded_raw_holdings"]
+
+
+def test_band_policy_edges_are_synth_bands_edges():
+    """RYA-1233: two edge tables disagreed (3780/3800, 9199/10000) and BLOCKED every IAG
+    and Kurucz-2005 NIR cell. One table now."""
+    from config.synth_bands import SYNTH_BANDS
+    from pipeline import band_policy
+    pol = {p.name: p for p in band_policy.POLICIES}
+    for name in ("near-UV", "VIS", "red-optical"):
+        assert pol[name].hi_A == SYNTH_BANDS[name].hi_A, name
+    for name in ("VIS", "red-optical", "NIR"):
+        assert pol[name].lo_A == SYNTH_BANDS[name].lo_A, name
+
+
+def test_no_cell_is_blocked_by_a_band_edge_disagreement(rm):
+    for d in rm.expand("solar", "Si"):
+        assert not rm._band_of(d, "solar").disagreement, d
+
+
+def test_every_deck_writes_its_own_products_file():
+    """RYA-1233: five deck runs on one holding left ONE products file (each rewrote it)."""
+    from pipeline.run_descriptor import RunDescriptor, deck_out_dir, BAND_PRODUCTS_DIR
+    from pipeline.run_matrix import DECK_EMITS
+    dirs = [deck_out_dir(d) for d in DECK_EMITS]
+    assert len(set(dirs)) == len(dirs)
+    assert deck_out_dir(RunDescriptor.__dataclass_fields__["engine_deck"].default) \
+        == BAND_PRODUCTS_DIR, "the production deck's directory must not move"
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    assert 'OUT = ROOT / ' + ' / '.join(f'"{p}"' for p in BAND_PRODUCTS_DIR.split("/")) in src
+
+
+def test_the_resolver_passes_each_deck_its_own_out_dir():
+    from pipeline.run_descriptor import RunDescriptor, resolve, deck_out_dir
+    for deck in ("ts-lte", "gerber-1d-lte", "gerber-nlte"):
+        d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                          holding="solar_harps_molecfit_corrected",
+                          lo_A=3782.6, hi_A=6910.0, engine_deck=deck)
+        step = [s for s in resolve(d, interpreter=sys.executable, ispec_dir="/x").steps
+                if s["name"] == "derive_products"][0]
+        assert step["args"][step["args"].index("--out") + 1] == deck_out_dir(deck)
+        assert step["produces"].startswith(deck_out_dir(deck) + "/")
+
+
+def test_no_two_decks_claim_the_same_treatment(rm):
+    seen: dict = {}
+    for deck, toks in rm.DECK_EMITS.items():
+        for t in toks:
+            assert t not in seen, f"{t} emitted by both {seen.get(t)} and {deck}"
+            seen[t] = deck
+
+
+def test_the_profilefit_route_labels_the_gerber_1d_deck_with_its_own_token():
+    """It wrote "ENGINE-B" on ATLAS9 -- a byte-identical re-run of ts-lte under ts-lte's label."""
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    main_route = src[src.index("if not a.skip_engine_b:\n        # RYA-1040"):]
+    head = main_route[:main_route.index("RYA-880.")]
+    assert 'elif a.engine_b_deck == "gerber-1d-lte":' in head
+    assert "taxes.GERBER1D_LTE_MARCS.token" in head
+
+
+def test_a_holding_with_no_reader_owns_no_cell_and_is_named(rm, tmp_path, monkeypatch):
+    assert "elgueta2026_vizier" in rm.unwired_holdings("solar")
+    assert "elgueta2026_vizier" not in {d.holding for d in rm.expand("solar", "Si")}
+
+
+def test_an_unimportable_harness_excludes_nothing(rm, monkeypatch):
+    p = rm.preflight()
+    monkeypatch.setattr(p, "harness", lambda: None)
+    assert rm.unwired_holdings("solar") == []
+
+
+def test_a_band_that_permits_both_routes_gets_a_cell_for_each(rm):
+    """RYA-1233: 150 of 160 live solar Fe products are SYNTH. The matrix ran only the
+    policy's first method (profile-fit) in VIS / red-optical, so it could rebuild almost
+    none of them -- and its synthesis leg only fit lines the EW gates had passed, which
+    drops exactly the strong lines synthesis exists for."""
+    cells = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                                  instruments=["solar_harps_molecfit_corrected"])]
+    assert sorted((d.method, d.pool) for d in cells) == [
+        ("profile-fit", "codex"), ("synthesis", "codex"), ("synthesis", "deep"),
+        ("synthesis", "reference"), ("synthesis", "set:SI_AGSS21")]
+    near_uv = [d for d in rm.expand("solar", "Fe", engines=["ts-lte"], bands=["near-UV"])]
+    assert near_uv and {d.method for d in near_uv} == {"synthesis"}
+
+
+def test_a_synthesis_cell_in_a_profile_fit_band_forces_synthesis():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis")
+    r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+    assert [s["name"] for s in r.steps] == ["derive_products"], "no EW step on SYNTH"
+    assert "--force-synthesis" in r.steps[0]["args"]
+    assert r.steps[0]["produces"].endswith("_SYNTH_products.csv")
+
+
+def test_a_gerber_deck_the_element_does_not_have_is_blocked_before_dispatch():
+    """Every solar Si gerber cell FAILED inside the stage: gerber_nlte has decks for Al and
+    Fe only. A registry fact is answered by the resolver, not discovered by a run."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    from pipeline import gerber_nlte
+    for deck in ("gerber-nlte", "gerber-1d-lte", "gerber-mean3d", "gerber-mean3d-lte"):
+        d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                          holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                          engine_deck=deck, method="synthesis")
+        r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+        if (("Si@mean3D" if "mean3d" in deck else "Si") not in gerber_nlte.DECKS):
+            assert r.blocked_reason and "no Gerber deck" in r.blocked_reason, deck
+    fe = RunDescriptor(element="Fe", ion="I", instrument="harps",
+                       holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                       engine_deck="gerber-nlte", method="synthesis")
+    assert "no Gerber deck" not in (resolve(fe, interpreter=sys.executable,
+                                            ispec_dir="/x").blocked_reason or "")
+
+
+def test_a_synthesis_cell_is_clipped_to_its_list_not_failed():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[0]["args"]
+    assert "--clip-to-synthesis-list" in args
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text(encoding="utf-8")
+    assert '"--clip-to-synthesis-list"' in src
+
+
+# ── RYA-1233: Ryan's governing process -- steps 1-9 before measurement ─────────
+
+def test_an_element_without_its_literature_is_held_not_measured(rm, tmp_path, monkeypatch):
+    """Step 5. Si was measured on 2026-10-02 with no litscan; under the process it waits."""
+    monkeypatch.setattr(rm, "LITSCAN_DIR", tmp_path)          # no <El>.yaml anywhere
+    monkeypatch.setattr(rm, "_run_step",
+                        lambda *a, **k: pytest.fail("a held cell was dispatched"))
+    doc = rm.run("solar", "Si", engines=["ts-lte"], bands=["VIS"], interpreter=sys.executable,
+                 ispec_dir="/x", echo=False, report_dir=tmp_path)
+    assert doc["counts"][rm.HELD] == doc["cells_total"] > 0
+    assert all("PROCESS step 5" in c["reason"] for c in doc["cells"])
+    step5 = [r for r in doc["process_steps"] if r["step"] == 5][0]
+    assert step5["ok"] is False
+
+
+def test_iron_first(rm, monkeypatch):
+    """Step 9: a non-Fe element waits for a published Fe product."""
+    monkeypatch.setattr(rm, "load_feed", lambda star, el: {"products": []})
+    rows = {r["step"]: r for r in rm.process_steps("solar", "Si")}
+    assert rows[9]["ok"] is False and "[Fe/H]" in rows[9]["evidence"]
+    assert 9 not in {r["step"] for r in rm.process_steps("solar", "Fe")}
+
+
+def test_a_band_with_no_lab_graded_line_is_held_at_step_7(rm):
+    from pipeline.run_descriptor import RunDescriptor
+    d = RunDescriptor(element="Fe", ion="II", instrument="crires_plus",
+                      holding="solar_crires_plus_h_rya1094", lo_A=15007.11, hi_A=17493.69,
+                      method="synthesis", pool="reference")
+    assert "PROCESS step 7" in rm.cell_process_hold(d)
+
+
+def test_no_cell_measures_the_ungraded_pool(rm):
+    """Step 7: every dispatched cell names a graded pool; `--lines-tier all` never runs."""
+    from pipeline.run_descriptor import resolve
+    cells = rm.expand("solar", "Fe", engines=["ts-lte"], bands=["VIS"])
+    assert cells and all(d.pool in ("reference", "codex", "deep") for d in cells)
+    for d in cells[:4]:
+        args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+        assert "--lines-deep-graded" in args or (
+            "--lines-tier" in args and args[args.index("--lines-tier") + 1] != "all")
+
+
+def test_published_line_sets_become_synthesis_pools(rm):
+    """RYA-1233 step 7: Asplund's set in VIS, Elgueta's / Bergemann's in the IR."""
+    cells = rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"])
+    pools = {(d.band, d.pool) for d in cells if d.pool and d.pool.startswith("set:")}
+    assert ("VIS", "set:SI_AGSS21") in pools
+    assert ("NIR", "set:SI_ELGUETA2026") in pools and ("NIR", "set:SI_DESHMUKH2022") in pools
+    # Bergemann 2013's four J lines are red-supergiant lines, all saturated in the Sun and
+    # culled FOR THE SUN (problem_children, observed_in Sun) -- no solar pool.
+    assert ("NIR", "set:SI_BERGEMANN2013") not in pools
+    assert all(d.method == "synthesis" for d in cells if d.pool.startswith("set:"))
+
+
+def test_a_cull_is_per_star_and_the_reference_list_keeps_every_line(rm):
+    """Ryan, 2026-10-04: all lines stay recorded for the future (a red giant may need the
+    lines the Sun saturates); the solar cull applies to the Sun only."""
+    import csv
+    rm._ADAPTERS.clear()
+    sun = {r["set_name"]: len(r["waves"]) for r in rm.line_sets_for("Si", "I", "solar")}
+    other = {r["set_name"]: len(r["waves"]) for r in rm.line_sets_for("Si", "I", "a_red_giant")}
+    assert sun["SI_BERGEMANN2013"] == 0 and other["SI_BERGEMANN2013"] == 4
+    assert sun["SI_ELGUETA2026"] < other["SI_ELGUETA2026"]
+    full = list(csv.DictReader(open(ROOT / "data/reference/line_sets/si_elgueta2026_SiI.csv")))
+    assert len(full) == 42                                    # every published line, kept
+    assert any(r["culled_in"].startswith("solar:SATURATION_COG") for r in full)
+
+
+def test_a_set_pool_dispatches_lines_from_set():
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    i = args.index("--lines-from-set")
+    assert args[i + 1] == "SI_AGSS21=data/reference/line_sets/si_agss21_SiI_graded.csv"
+
+
+def test_a_set_pool_reads_its_own_ions_file():
+    """SI_AGSS21 is two registry rows (Si I, Si II). Keyed on the name alone, every Si II
+    cell was handed the Si I file and refused "7 of 7 lines not in the synthesis list"."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="II", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
+    assert args[args.index("--lines-from-set") + 1] == \
+        "SI_AGSS21=data/reference/line_sets/si_agss21_SiII_graded.csv"
+
+
+def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
+    reaches_the_executor(rm, monkeypatch)
+    monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (
+        False, "derive_products: exit 1: no graded line in this band sits above the EW depth gate"))
+    doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
+                 methods=["synthesis"], pools=["deep"], interpreter=sys.executable,
+                 ispec_dir="/x", echo=False, report_dir=tmp_path)
+    assert doc["counts"][rm.FAILED] == 0 and doc["counts"][rm.HELD] >= 1
+
+
+def test_a_set_file_is_part_of_its_cells_fingerprint(rm):
+    """A corrected line set must re-run its cells (RYA-1233)."""
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element="Si", ion="I", instrument="harps",
+                      holding="solar_harps_molecfit_corrected", lo_A=3782.6, hi_A=6910.0,
+                      method="synthesis", pool="set:SI_AGSS21")
+    r = resolve(d, interpreter=sys.executable, ispec_dir="/x")
+    kinds = {row["kind"]: row["name"] for row in rm.input_fingerprints(d, r, manifest_path=None)}
+    assert kinds.get("line_set") == "data/reference/line_sets/si_agss21_SiI_graded.csv"
+
+
+def test_every_agss21_si_line_matches_the_synthesis_wavelength():
+    """Amarsi's Table 1 prints 0.01 A; three lines sat > 0.005 A from the list and were lost."""
+    import csv
+    rows = list(csv.DictReader(open(ROOT / "data/reference/line_sets/si_agss21_SiI.csv")))
+    cg = {round(float(r["wavelength_air_A"]), 3) for r in
+          csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv")) if r["species"] == "Si I"}
+    assert len(rows) == 9
+    assert all(round(float(r["wavelength_air_A"]), 3) in cg for r in rows)
+
+
+def test_a_set_line_without_a_published_gf_uncertainty_is_never_dispatched():
+    """Step 7 (RYA-1233): CRIRES+ Si was measured on Elgueta's whole set while 32 of its 42
+    lines carried VALD/Kurucz gf nobody had published an uncertainty for. The orchestrator
+    dispatches the set's graded file, and every line in it is priced in canonical_gf."""
+    import csv
+    import math
+    reg = list(csv.DictReader(open(ROOT / "data/reference/line_sets/REGISTRY.csv")))
+    cg = [r for r in csv.DictReader(open(ROOT / "data/linelists/canonical_gf.csv"))
+          if r["species"].split()[0] in {x["element"] for x in reg}]
+    for r in reg:
+        assert r["graded_csv"].endswith("_graded.csv")
+        for line in csv.DictReader(open(ROOT / r["graded_csv"])):
+            w = float(line["wavelength_air_A"])
+            m = [c for c in cg if c["species"] == line["species"]
+                 and abs(float(c["wavelength_air_A"]) - w) < 0.01]
+            assert len(m) == 1, (r["set_name"], w)
+            import pandas as pd
+            from pipeline.gf_grades import is_gf_graded
+            assert bool(is_gf_graded(pd.DataFrame([m[0]])).iloc[0]), \
+                (r["set_name"], w, "unpriced gf dispatched")
+    elg = next(r for r in reg if r["set_name"] == "SI_ELGUETA2026")
+    assert int(elg["n_graded"]) < int(elg["n_lines"])
+
+
+def test_an_element_is_not_measured_before_its_prepare_report_is_ready(rm, tmp_path, monkeypatch):
+    """RYA-1233: steps 6-8 are `run_pipeline --prepare`; the run refuses an element whose
+    prepare report is missing or NOT READY (Si looped because it measured first)."""
+    import json
+    monkeypatch.setattr(rm, "PREPARE_DIR", tmp_path)
+    row = lambda: next(r for r in rm.process_steps("solar", "Si", ["I"]) if r["step"] == 7)
+    assert not row()["ok"] and "--prepare" in row()["evidence"]
+    (tmp_path / "solar_Si.json").write_text(json.dumps({"ready": False, "blocking": {"adopt": 2}}))
+    assert not row()["ok"] and "adopt 2" in row()["evidence"]
+    (tmp_path / "solar_Si.json").write_text(json.dumps({"ready": True, "blocking": {}}))
+    assert row()["ok"]

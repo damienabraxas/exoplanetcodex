@@ -66,8 +66,6 @@ PRE_NORMALISED_HOLDINGS: frozenset[str] = frozenset({
     "solar_crires_plus_j_rya1219",
     "solar_crires_plus_k_rya1219",
     # RYA-1232: the same RYA-1219 frames under their own TOPOCENTRIC names (audits only)
-    "solar_crires_plus_j_rya1219_topocentric",
-    "solar_crires_plus_k_rya1219_topocentric",
     "solar_delbouille_liege",            # RYA-944 disk-centre intensity, LOCAL normalisation
 })
 
