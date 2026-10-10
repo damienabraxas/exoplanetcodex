@@ -69,9 +69,21 @@ SPECIES = {"C": "C I", "N": "N I", "O": "O I"}
 
 
 def _selector(args: list[str]) -> str | None:
+    """The product's selector, from the pool the unit measured (RYA-1233: Codex and Deep pools
+    published with NO selector, so the two grades shared one identity and coverage could not
+    see either -- Fe's convention is selector = tier = GRADED / DEEPGRADED)."""
     if "--lines-from-set" in args:
         return "SET-" + args[args.index("--lines-from-set") + 1].split("=")[0]
+    if "--lines-deep-graded" in args:
+        return "DEEPGRADED"
+    if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "graded":
+        return "GRADED"
     return None
+
+
+def _tier(args: list[str]) -> str:
+    sel = _selector(args)
+    return sel if sel in ("GRADED", "DEEPGRADED") else "ALL"
 
 
 def _arg(args, flag, default=None):
@@ -278,7 +290,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
-    row = normalise(prod, holding=holding, tier="ALL", route="SYNTH", selector=selector)[0]
+    _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
+    if not _rows:
+        # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
+        # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is
+        # recorded as skipped, never allowed to take the whole assembly down.
+        return {"row": {"A": None, "treatment": str(prod.get("treatment", pd.Series([""])).iloc[0]),
+                        "holding": holding, "selector": selector,
+                        "element": str(prod["element"].iloc[0]), "band": str(prod["band"].iloc[0])},
+                "skip": "product has no value (no line in the aggregate)"}
+    row = _rows[0]
     row["star"] = "solar"
     band = row["band"]
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
@@ -343,7 +364,12 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           if len(classes) > 1 else ""))
         sig.append(s)
         src.append(ref)
-        tags.append(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "")
+        # The gf source's registry key (gf_error_model.source_key): lab tag, else NIST_ASD for a
+        # NIST-graded row, so the correlation is classified rather than UNREVIEWED.
+        from pipeline.gf_error_model import source_key
+        tags.append(source_key(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "",
+                               str(m.loggf_reference),
+                               str(m.nist_grade) if pd.notna(m.nist_grade) else ""))
     if any(math.isnan(s) for s in sig):
         return {"row": row, "skip": "a pool line carries no published gf sigma"}
     digest = pool_digest(ids)

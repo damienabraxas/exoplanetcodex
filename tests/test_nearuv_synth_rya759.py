@@ -6,12 +6,14 @@ are Sirius smoke steps in scripts/rya759_nearuv_synth.py, because a unit test th
 mocked the engine would re-create exactly the failure Move 1 diagnosed: a harness
 reporting success while the engine was never asked anything.
 """
+from pathlib import Path
+
 import numpy as np
 import pytest
 
 from data.linelists.vald_parse import parse_vald_long
 from pipeline import nearuv_synth as ns
-from pipeline.nearuv_linelist import (EV_TO_CM1, NearUVLinelistError, band_stats,
+from pipeline.nearuv_linelist import (unsold_fdamp, EV_TO_CM1, NearUVLinelistError, band_stats,
                                       classify_species,
                                       read_band, to_ispec_array)
 
@@ -153,9 +155,22 @@ def test_gf_source_tag_travels_into_reference_code(extract):
 def test_band_stats_counts_the_awkward_facts(extract):
     recs, _ = parse_vald_long(str(extract))
     recs[0]["damping_vdW"] = 0.0
-    s = band_stats(to_ispec_array(recs, chem_elements=CHEM))
+    arr = to_ispec_array(recs, chem_elements=CHEM)
+    s = band_stats(arr)
     assert s["n_lines"] == 2 and s["n_species"] == 2
-    assert s["n_vdw_zero"] == 1
+    # RYA-1232: VALD's missing vdW is kept in `waals` for the record but never reaches
+    # Turbospectrum as fdamp 0.0 -- which DROPS the line -- it gets GESv6's Unsöld factor.
+    assert s["n_vdw_zero"] == 0 and s["n_vdw_unsold_filled"] == 1
+    assert arr["waals"][0] == 0.0 and arr["turbospectrum_fdamp"][0] == unsold_fdamp(arr["element"][0]) > 0
+
+
+def test_no_tracked_vald_list_hands_turbospectrum_a_zero_fdamp():
+    """RYA-1232: fdamp 0.0 silently deletes an atomic line (C I 16890.38 never formed, Mg I
+    15740.71 -- 45% deep -- absent from every H synthesis). The tracked lists must carry none."""
+    import subprocess, sys
+    r = subprocess.run([sys.executable, "scripts/rya1232_fill_unsold_damping.py", "--check"],
+                       cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout
 
 
 # ── the three guards: each must RAISE ────────────────────────────────────────

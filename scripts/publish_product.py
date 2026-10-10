@@ -42,6 +42,7 @@ import argparse
 import datetime as _dt
 import hashlib
 import json
+import math
 import os
 import re
 import socket
@@ -674,7 +675,26 @@ def main() -> int:
         # Reference pool is built to be pure LAB, so a rung below 3 here means lines in
         # it did not RESOLVE to a lab scale, which is precisely what must block a
         # publication rather than ride along under a grade name (RYA-1212).
-        if a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
+        #: RYA-1233 (Ryan, 2026-10-09): Codex/Deep Grade = lines whose gf carries ANY published
+        #: uncertainty (pipeline.gf_grades.is_gf_graded), not laboratory gf only. A product with
+        #: a RYA-587 budget whose transition_data term prices EVERY line from a published
+        #: per-line sigma corroborates its grade claim directly -- stronger evidence than the
+        #: legacy `_budgets.txt` rung text, which only knows lab gf. One unpriced line still
+        #: refuses; a product without a RYA-587 budget still goes through the rung check.
+        def _priced_by_587(rows) -> bool:
+            for r in rows:
+                u = r.get("uncertainty")
+                u = json.loads(u) if isinstance(u, str) else u
+                td = next((c for c in (u or {}).get("components", [])
+                           if c.get("name") == "transition_data"), None)
+                sig = ((td or {}).get("evidence") or {}).get("line_sigma_dex") or []
+                if not td or td.get("state") != "MEASURED" or not sig or \
+                        any(x is None or not math.isfinite(float(x)) for x in sig):
+                    return False
+            return bool(rows)
+        if a.tier in ("GRADED", "DEEPGRADED") and _priced_by_587(rows):
+            pass
+        elif a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
             m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
                 if budget_text else None
             if m and int(m.group(1)) != 3:

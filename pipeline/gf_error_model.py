@@ -22,10 +22,26 @@ def load() -> dict:
                 for r in rows}
 
 
+#: The registry key for a line graded by its NIST ASD accuracy class and carrying no lab tag.
+NIST_KEY = "NIST_ASD"
+
+
+def source_key(tag: str, src: str = "", nist_grade: str = "") -> str:
+    """The registry key of one line's gf source: its lab tag, else NIST_ASD for a NIST-graded
+    line (graded by class, no tag), else '' (unclassifiable -> UNREVIEWED)."""
+    if tag:
+        return tag
+    if nist_grade or str(src).startswith("NIST ASD"):
+        return NIST_KEY
+    return ""
+
+
 def covariance(sig: list[float], src: list[str], tags: list[str]) -> tuple[list, str, list]:
     """(covariance dex^2, the sentence that says how, unreviewed source names)."""
     model = load()
     n = len(sig)
+
+    tags = [source_key(t, s) for t, s in zip(tags, src)]
 
     def kind(i):
         m = model.get(tags[i])

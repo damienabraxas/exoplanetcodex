@@ -14,3 +14,8 @@ def test_a_published_set_is_reference_grade_for_any_element():
 
 def test_fe_stamps_its_own():
     assert grade_for({"element": "Fe", "selector": "SET-AGSS21"}) is None
+
+
+def test_the_deep_pool_is_deep_grade():
+    assert grade_for({"element": "Si", "selector": "DEEPGRADED"}) == "Deep Grade"
+    assert grade_for({"element": "Si", "selector": "GRADED"}) == "Codex Grade"

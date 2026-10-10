@@ -39,4 +39,8 @@ def grade_for(row: dict) -> str | None:
     sel = str(row.get("selector") or "")
     if sel.startswith("SET-") or sel in REFERENCE_MOLECULAR_SELECTORS:
         return "Reference Grade"
+    # RYA-1233: the Codex's DEEP pool (gf-graded lines above the 0.60 depth gate) is Deep
+    # Grade, Fe's own axis -- it used to fall through to Codex Grade.
+    if sel.startswith("DEEPGRADED") or str(row.get("tier") or "").startswith("DEEPGRADED"):
+        return "Deep Grade"
     return "Codex Grade"

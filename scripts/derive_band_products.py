@@ -302,6 +302,14 @@ def _feature_depth(waves: np.ndarray, species: str = "Fe") -> np.ndarray:
     return out
 
 
+def _is_gf_graded(cg: pd.DataFrame) -> pd.Series:
+    """RYA-1233: the ONE definition of a gf-graded line (pipeline.gf_grades.is_gf_graded):
+    any published gf uncertainty -- lab gf, a stored per-line sigma, or NIST class A-C.
+    Was `gf_tier == LAB` only."""
+    from pipeline.gf_grades import is_gf_graded
+    return is_gf_graded(cg)
+
+
 def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
     """The graded lines EW can NEVER reach: laboratory gf AND too deep to measure — RYA-984.
 
@@ -318,11 +326,11 @@ def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd
     from line_accounting_rya709 import DEPTH_HI
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
-             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & _is_gf_graded(cg)
              & cg.wavelength_air_A.between(lo_A, hi_A)]
     if lab.empty:
         raise SystemExit(
-            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"no gf-graded {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
             f"to run a 'graded' product on a pool that is not graded.")
     depth = _feature_depth(lab.wavelength_air_A.values.astype(float), species)
     deep = lab[depth > DEPTH_HI]
@@ -380,7 +388,7 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
     from line_accounting_rya709 import DEPTH_HI
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
-             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & _is_gf_graded(cg)
              & cg.wavelength_air_A.between(lo_A, hi_A)]
     if lab.empty:
         raise SystemExit(
@@ -793,7 +801,7 @@ def _graded_mask(waves: np.ndarray, eps: np.ndarray) -> np.ndarray:
     from pipeline import line_match
 
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
-    lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
+    lab = cg[_is_gf_graded(cg)]
     res = line_match.match(
         np.asarray(waves, dtype=float),
         lab.wavelength_air_A.astype(float).values,
@@ -1668,9 +1676,34 @@ def synthesis_route(a, pol) -> None:
             if lm.in_aggregate and not fit_is_physical(lm.abundance, a.element):
                 lm.in_aggregate = False
                 lm.excluded_reason = fit_rejection_reason(lm.abundance, a.element)
+            # RYA-1233 -- THE REGISTRY, ON THE SYNTHESIS ROUTE TOO. `_stamp` (RYA-807)
+            # honours problem_children on the EW route only; this route returned before it,
+            # so every synthesis product ignored registered culls. Si's Codex-graded KP NIR
+            # pool aggregated 7 lines culled for the Sun (10585 ... 12270, SATURATION_COG).
+            # Same discriminator: `aggregate_action` -- exclude only `exclude` + `active`.
+            _d = _pc_lookup(lm.wavelength_air_A)
+            if _d is not None:
+                lm.problem_class = str(_d.get("problem_class", ""))
+                lm.problem_status = str(_d.get("status", ""))
+                lm.problem_tickets = str(_d.get("governing_tickets", ""))
+                lm.problem_action = _pc.aggregate_action(_d)
+                if lm.problem_action == "exclude" and lm.in_aggregate:
+                    lm.in_aggregate = False
+                    why = (f"REGISTRY-{_d.get('problem_class', '')}: "
+                           f"{_d.get('required_treatment', '')}/{_d.get('status', '')} per "
+                           f"data/registry/problem_children.csv "
+                           f"[{_d.get('governing_tickets', '')}] -- carried, not dropped")
+                    lm.excluded_reason = (why if not lm.excluded_reason
+                                          else f"{why} | {lm.excluded_reason}")
             lines.append(lm)
         lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
         return lines
+
+    from pipeline import problem_children as _pc
+    _pc_table = _pc.line_dispositions()
+
+    def _pc_lookup(w):
+        return _pc.disposition_for_line(a.element, a.ion, float(w), table=_pc_table)
 
     # The 1D-LTE leg -- unchanged. This is the call RYA-759 published against, and the
     # only difference from before RYA-1044 is that its body now lives in a function the

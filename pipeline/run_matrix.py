@@ -59,6 +59,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -74,6 +75,8 @@ from pipeline.run_descriptor import (RunDescriptor, resolve, method_for,  # noqa
 from pipeline import band_policy  # noqa: E402
 
 MODEL_REGISTRY = ROOT / "data" / "catalog" / "model_registry.csv"
+#: RYA-1233: `run_pipeline --prepare` writes its report here; the run reads READY from it.
+PREPARE_DIR = ROOT / "data" / "results" / "orchestrator" / "prepare"
 HOLDINGS_REGISTRY = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
 CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 ELEMENTS_MASTER = ROOT / "data" / "config" / "elements_master.json"
@@ -398,6 +401,25 @@ def process_steps(star: str, symbol: str, ions: list[str] | None = None) -> list
                      "evidence": ("pinned in config/stars.yaml" if not unsolved else
                                   f"{unsolved} must be SOLVED for {star}; no solved-"
                                   f"parameter artifact exists")})
+    # RYA-1233: steps 6-8 ARE `run_pipeline --prepare`. Measuring before it was READY is what
+    # made Si loop (lines culled after measuring, gf adopted after measuring); the run now
+    # refuses to measure an element whose prepare report is missing or not READY.
+    prep = PREPARE_DIR / f"{star}_{symbol}.json"
+    try:
+        _p = json.loads(prep.read_text()) if prep.exists() else None
+    except Exception:                                          # noqa: BLE001
+        _p = None
+    blocking = ", ".join(f"{k} {v}" for k, v in ((_p or {}).get("blocking") or {}).items() if v)
+    try:
+        pname = str(prep.relative_to(ROOT))
+    except ValueError:                       # a redirected report dir (tests, scratch)
+        pname = str(prep)
+    rows.append({"step": 7, "name": "lines prepared (--prepare READY)",
+                 "ok": bool(_p and _p.get("ready")),
+                 "evidence": (f"{pname} READY" if _p and _p.get("ready") else
+                              f"{pname} NOT READY -- {blocking}" if _p else
+                              f"no {pname} -- run `run_pipeline.py --star {star} "
+                              f"--element {symbol} --prepare` and review it before measuring")})
     if symbol not in FE_FIRST:
         try:
             fe = sum(len(load_feed(star, s).get("products", [])) for s in FE_FIRST)
@@ -417,21 +439,54 @@ def _canonical_species(symbol: str, ion: str):
     key = ("canon", symbol, ion)
     if key not in _ADAPTERS:
         import pandas as pd
+        from pipeline.gf_grades import is_gf_graded
+        from pipeline import problem_children as _pc
         df = pd.read_csv(CANONICAL_GF, low_memory=False,
-                         usecols=["species", "wavelength_air_A", "gf_tier"])
+                         usecols=["species", "wavelength_air_A", "gf_tier", "gf_sigma_dex",
+                                  "nist_grade"])
         df = df[df.species.astype(str) == f"{symbol} {ion}"]
-        # The SAME definition derive_band_products' Reference / Codex / Deep selectors use:
-        # LAB-tier lines (`gf_tier` contains "LAB"). NIST-C+ is a better gf, not a graded
-        # pool -- counting it here dispatched 39 solar Si cells that derive then refused
-        # with "a pool that is not graded" (RYA-1233 Si run, 2026-10-03).
+        # A line the registry EXCLUDES (exclude + active) is not a graded line for this
+        # star: derive drops it from every aggregate, so counting it here dispatched cells
+        # derive then refused (Si 4102.9 made IAG Reiners 4047-5001 A look runnable).
+        _t = _pc.line_dispositions()
+        _culled = df.wavelength_air_A.astype(float).map(
+            lambda w: _pc.aggregate_action(_pc.disposition_for_line(symbol, ion, w, table=_t))
+            == "exclude").values
+        # The SAME definitions derive_band_products' selectors use, pool by pool:
+        #   reference -- LAB-tier lines (`gf_tier` contains "LAB");
+        #   codex / deep -- gf-graded = ANY published gf uncertainty (RYA-1233, Ryan's
+        #     ruling; pipeline.gf_grades.is_gf_graded): lab gf, a stored gf sigma, NIST A-C.
         _ADAPTERS[key] = (df.wavelength_air_A.astype(float).values,
-                          df.gf_tier.astype(str).str.contains("LAB", na=False).values)
+                          {"reference": df.gf_tier.astype(str).str.contains("LAB", na=False).values
+                                        & ~_culled,
+                           "graded": is_gf_graded(df).values & ~_culled})
     return _ADAPTERS[key]
+
+
+def _deck_hold(d: RunDescriptor) -> str:
+    """'' when the cell's deck exists for its element. The Gerber 2023 decks are per element
+    (pipeline.gerber_nlte.DECKS: Fe, Al, ...); without this a Si gerber cell resolved fine,
+    failed inside derive, and the coverage table counted it as owed work."""
+    if not d.engine_deck.startswith("gerber-"):
+        return ""
+    try:
+        from pipeline.gerber_nlte import DECKS
+    except Exception as exc:                       # the adapter cannot load here
+        return f"ENGINE: {d.engine_deck} adapter unavailable ({type(exc).__name__})"
+    key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
+    if key not in DECKS:
+        have = sorted({k.split("@")[0] for k in DECKS if ("@mean3D" in k) == ("mean3d" in d.engine_deck)})
+        return (f"ENGINE: no Gerber {'mean-3D ' if 'mean3d' in d.engine_deck else ''}deck for "
+                f"{d.element} (decks exist for {', '.join(have)})")
+    return ""
 
 
 def cell_process_hold(d: RunDescriptor) -> str:
     """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
     for this cell's holding and window; otherwise the reason, naming the step."""
+    deck_hold = _deck_hold(d)
+    if deck_hold:
+        return deck_hold
     p = preflight()
     spec = p.holding_spec(d.holding) if p is not None else None
     if spec is not None and not spec.pre_normalised:
@@ -439,15 +494,17 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 f"product; the per-band continuum is prepared once, before measurement")
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
         return ""          # a published set's lines in this window ARE the graded pool
-    w, graded = _canonical_species(d.element, d.ion)
+    w, masks = _canonical_species(d.element, d.ion)
+    graded = masks["reference" if d.pool == "reference" else "graded"]
     inwin = (w >= d.lo_A) & (w <= d.hi_A)
     if not inwin.any():
         return (f"PROCESS step 6 (lines secured): canonical_gf.csv holds no "
                 f"{d.element} {d.ion} line in {d.lo_A:g}-{d.hi_A:g} A")
     if not (inwin & graded).any():
         return (f"PROCESS step 7 (graded lines): none of the {int(inwin.sum())} "
-                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a LAB-tier "
-                f"gf, so no Reference / Codex / Deep pool exists here")
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A carries a "
+                f"{'LAB-tier gf' if d.pool == 'reference' else 'published gf uncertainty'}, "
+                f"so no {d.pool or 'graded'} pool exists here")
     return ""
 
 
@@ -664,6 +721,47 @@ def _file_fingerprint(path: Path) -> str:
     return _HASH_CACHE[key]
 
 
+#: Lines this far outside a cell's window still reach its synthesis (the widest fit window,
+#: K band, is 2.58 A; a strong line's wings reach further).
+GF_SCOPE_PAD_A = 10.0
+
+
+def synthesis_lists_for(lo: float, hi: float) -> list[Path]:
+    """The repo's own band synthesis lists overlapping [lo, hi] (the GES list below 9200 A is
+    iSpec's, outside the repo, and is fingerprinted by the engine install)."""
+    out = []
+    for f in sorted((ROOT / "data" / "linelists").glob("ispec_*/atomic_lines.tsv")):
+        m = re.search(r"_(\d+)_(\d+)$", f.parent.name)
+        if m and float(m.group(1)) <= hi and float(m.group(2)) >= lo:
+            out.append(f)
+    return out
+
+
+def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = ",") -> str:
+    """sha256 of the rows of a table whose `col` lies in [lo, hi] (sorted, so row order and
+    rows elsewhere in the file do not move it). Memoised on the file's identity."""
+    try:
+        st = path.stat()
+    except OSError as exc:
+        return f"ABSENT:{type(exc).__name__}"
+    key = (str(path), st.st_mtime_ns, st.st_size, col, lo, hi)
+    if key not in _HASH_CACHE:
+        import pandas as pd
+        tkey = (str(path), st.st_mtime_ns, st.st_size)
+        if tkey not in _TABLE_CACHE:
+            _TABLE_CACHE.clear()
+            _TABLE_CACHE[tkey] = pd.read_csv(path, sep=sep, dtype=str, keep_default_na=False)
+        d = _TABLE_CACHE[tkey]
+        w = pd.to_numeric(d[col], errors="coerce")
+        sub = d[(w >= lo) & (w <= hi)]
+        body = "\n".join(sorted(sub.to_csv(index=False, header=False).splitlines()))
+        _HASH_CACHE[key] = hashlib.sha256(body.encode()).hexdigest()
+    return _HASH_CACHE[key]
+
+
+_TABLE_CACHE: dict = {}
+
+
 def input_fingerprints(descriptor: RunDescriptor, resolved, *,
                        manifest_path: str | None) -> list[dict]:
     """Every named input this cell depends on, each with the bytes it was hashed on.
@@ -712,8 +810,24 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     if not files:
         rows.append({"kind": "spectrum", "name": descriptor.holding,
                      "digest": f"UNFINGERPRINTED: {why}"})
-    for ledger in (CANONICAL_GF, MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
+    # RYA-1233: the cull registry and the element's NLTE tables are inputs too. Without them a
+    # line culled after a build (or an NLTE table extended to more lines) left every affected
+    # cell SKIP -- current by its hash, stale in fact.
+    _nlte = sorted((ROOT / "data" / "nlte_grids").glob(f"{descriptor.element}_*.csv"))
+    # RYA-1233: canonical_gf and the synthesis list, SCOPED to the cell's wavelength range.
+    # Hashed whole, one element's gf adoption (Al's six lines) re-ran every cell of every
+    # element; not hashed at all, an added line's opacity (Al I 10768) left the NIR cells it
+    # touches SKIP -- current by hash, stale in fact. Only rows the synthesis of this window
+    # can see belong to its identity.
+    lo, hi = float(descriptor.lo_A) - GF_SCOPE_PAD_A, float(descriptor.hi_A) + GF_SCOPE_PAD_A
+    rows.append({"kind": "ledger_scoped", "name": f"{CANONICAL_GF.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                 "digest": _rows_fingerprint(CANONICAL_GF, "wavelength_air_A", lo, hi)})
+    for _lst in synthesis_lists_for(lo, hi):
+        rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                     "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+    for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
+                   ROOT / "data" / "catalog" / "instrument_catalog.csv",
+                   ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows
@@ -1148,7 +1262,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int = 7200, report_dir: Path | None = None,
-        echo: bool = True) -> dict:
+        echo: bool = True, jobs: int = 1) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
@@ -1187,6 +1301,83 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
                          for r in missing if r.get("ion") in (None, ion))
 
+    import threading
+    _lock = threading.Lock()
+
+    def _execute(cell, d, resolved, want, lkey):
+        """Run one planned cell's stages and record the outcome (RYA-1233: called from
+        a thread pool when jobs > 1; shared state is touched under `_lock`)."""
+        ok, detail = True, ""
+        t0 = time.time()
+        for step in resolved.steps:
+            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
+            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
+            # all five decks over one (holding, band) invoke `measure_band_profilefit`
+            # with byte-identical arguments. Measured on the first full Si run:
+            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
+            # runs rewrote bytes that were already correct.
+            #
+            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
+            # `produces` is what an earlier version of this did and it was WRONG, for
+            # a reason worth writing down: `run_descriptor.resolve` builds the derive
+            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
+            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
+            # Reusing on that string silently skipped `derive_products` for four decks
+            # out of five while the report said they were handled -- a silent gap
+            # produced by the thing built to abolish silent gaps. An identical command
+            # is identical work by construction; a shared output path is not.
+            # (The `produces` collision itself is a defect in the resolver, not here.)
+            sig = _dispatch_signature(step, star)
+            with _lock:
+                _seen = sig in produced_this_run
+            if _seen:
+                cell.steps_run.append(f"{step['name']}:reused")
+                continue
+            ok, detail = _run_step(step, star, timeout=step_timeout)
+            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
+            if not ok:
+                break
+            with _lock:
+                produced_this_run.add(sig)
+        if not ok:
+            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
+            # process-step-7 fact about the lines, not a failure of the run.
+            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+            else:
+                cell.status, cell.reason = FAILED, detail
+            return
+        # RYA-1233: record the build whether or not it is published, so unchanged work
+        # is never redone. What it was built from (spectrum included) and what it wrote.
+        arts = artifacts_written(d, t0)
+        if not arts:
+            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
+                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
+                  f"time.", file=sys.stderr)
+        feed = load_feed(star, symbol)
+        published = cell_products(feed, d, cell.band)
+        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
+        with _lock:
+          record_inputs_hash(lkey, want, code_commit=commit,
+                           product_keys=[_product_key(p) for p in published],
+                           inputs=rows, artifacts=arts)
+          ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
+        if not published:
+            cell.status = UNPUBLISHED
+            cell.reason = (
+                f"built and recorded ({len(arts)} artifact(s) in "
+                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
+                f"Not in data/products/{star}/{symbol}.json -- publication is "
+                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
+            return
+        cell.A = published[0].get("A")
+        cell.n_lines = published[0].get("n_lines")
+        cell.status = DONE
+        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
+                       f"product(s) recorded at inputs_hash {want[:12]}")
+
+    planned: list = []
     cells: list[CellResult] = []
     for d in descriptors:
         band = _band_of(d, star)
@@ -1273,71 +1464,18 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.status, cell.reason = WOULD_RUN, f"would execute -- {why}"
             cell.steps_run = [s["name"] for s in resolved.steps]
             continue
-        ok, detail = True, ""
-        t0 = time.time()
-        for step in resolved.steps:
-            # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
-            # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
-            # all five decks over one (holding, band) invoke `measure_band_profilefit`
-            # with byte-identical arguments. Measured on the first full Si run:
-            # `measure_ew` executed 15 times for 3 distinct commands, and the 12 extra
-            # runs rewrote bytes that were already correct.
-            #
-            # Keyed on the COMMAND, not on the step's declared `produces`. Keying on
-            # `produces` is what an earlier version of this did and it was WRONG, for
-            # a reason worth writing down: `run_descriptor.resolve` builds the derive
-            # step's `produces` from `descriptor.key` too, so ALL FIVE DECKS DECLARE
-            # THE SAME PRODUCTS ARTIFACT even though each writes a different product.
-            # Reusing on that string silently skipped `derive_products` for four decks
-            # out of five while the report said they were handled -- a silent gap
-            # produced by the thing built to abolish silent gaps. An identical command
-            # is identical work by construction; a shared output path is not.
-            # (The `produces` collision itself is a defect in the resolver, not here.)
-            sig = _dispatch_signature(step, star)
-            if sig in produced_this_run:
-                cell.steps_run.append(f"{step['name']}:reused")
-                continue
-            ok, detail = _run_step(step, star, timeout=step_timeout)
-            cell.steps_run.append(f"{step['name']}:{'ok' if ok else 'FAILED'}")
-            if not ok:
-                break
-            produced_this_run.add(sig)
-        if not ok:
-            # RYA-1233: derive refusing an EMPTY or too-small pool before any synthesis is a
-            # process-step-7 fact about the lines, not a failure of the run.
-            if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
-                cell.status = HELD
-                cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
-            else:
-                cell.status, cell.reason = FAILED, detail
-            continue
-        # RYA-1233: record the build whether or not it is published, so unchanged work
-        # is never redone. What it was built from (spectrum included) and what it wrote.
-        arts = artifacts_written(d, t0)
-        if not arts:
-            print(f"WARNING: {cell.cell_key}: stages succeeded but no artifact matching this "
-                  f"cell was found in {deck_out_dir(d.engine_deck)}; it will re-run next "
-                  f"time.", file=sys.stderr)
-        feed = load_feed(star, symbol)
-        published = cell_products(feed, d, cell.band)
-        rows = input_fingerprints(d, resolved, manifest_path=manifests.get(d.holding))
-        record_inputs_hash(lkey, want, code_commit=commit,
-                           product_keys=[_product_key(p) for p in published],
-                           inputs=rows, artifacts=arts)
-        ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
-        if not published:
-            cell.status = UNPUBLISHED
-            cell.reason = (
-                f"built and recorded ({len(arts)} artifact(s) in "
-                f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
-                f"Not in data/products/{star}/{symbol}.json -- publication is "
-                f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
-            continue
-        cell.A = published[0].get("A")
-        cell.n_lines = published[0].get("n_lines")
-        cell.status = DONE
-        cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
-                       f"product(s) recorded at inputs_hash {want[:12]}")
+        planned.append((cell, d, resolved, want, lkey))
+
+    # RYA-1233: the planned cells execute here, `jobs` at a time. Planning above is
+    # serial and decides every hold/skip/dry-run exactly as before; only execution fans out.
+    if planned:
+        if jobs and jobs > 1:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=jobs) as ex:
+                list(ex.map(lambda a: _execute(*a), planned))
+        else:
+            for a in planned:
+                _execute(*a)
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
                      process=steps,
