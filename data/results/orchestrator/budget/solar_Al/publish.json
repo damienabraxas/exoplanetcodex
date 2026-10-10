@@ -1,0 +1,3029 @@
+{
+ "ticket": "RYA-1230",
+ "products": [
+  {
+   "unit": 0,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.449,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.0617232913343972,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.0028867513459480674
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.008735999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.03905124837953327
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.005
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.001
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -7.000000000000561,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": 5.999999999999339,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 0,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.435,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.06873843033222002,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004851849618436897
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.008735999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.03905124837953327
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.005
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.001
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -7.000000000000561,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": 5.999999999999339,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 1,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.451,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.07485603451960303,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.0024999999999999467
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.011647999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04307261310856355
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0015
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -7.000000000000561,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": 5.999999999999339,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 1,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.429,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.0809720501420497,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.007700454545454426
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.011647999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04307261310856355
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0015
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -7.000000000000561,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": 5.999999999999339,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 2,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.445,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.06271061461662863,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004666666666666661
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0029119999999999992
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04151204644437564
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.001
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -11.00000000000012,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": 3.0000000000001137,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 2,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.43,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.06961414370695525,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.005940168030878999
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0029119999999999992
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04151204644437564
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.001
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -11.00000000000012,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": 3.0000000000001137,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 3,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.45,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.07500279312132316,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004999999999999893
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0058239999999999984
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04366062299143245
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0075
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -11.00000000000012,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 3,
+   "stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.428,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.08126787956464646,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.010200454545454372
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0058239999999999984
+    ],
+    "continuum": [
+     "MEASURED",
+     0.04366062299143245
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.002
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0075
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -11.00000000000012,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -0.0,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 4,
+   "stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.404,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_harps_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.07151311630926163,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.0057831171909656235
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.008735999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.05311544031635246
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.003
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": 2.9999999999992255,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": -4.000000000000448,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 4,
+   "stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.391,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_harps_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.07741868713475306,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.0036016326646729022
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.008735999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.05311544031635246
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.003
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": 2.9999999999992255,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": -4.000000000000448,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 5,
+   "stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.409,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_harps_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.09276616247317765,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.00949999999999962
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.007279999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06966930816363831
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0015
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": 2.9999999999992255,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 5,
+   "stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.387,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_harps_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.09712773543697856,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004299545454545139
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.007279999999999997
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06966930816363831
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.0015
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": 2.9999999999992255,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 6,
+   "stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.446,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_iag",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.0662562558676184,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.0008819171036882676
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.046270941205037094
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.007
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.005
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -12.000000000000455,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": 2.000000000000668,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -8.000000000000007,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 6,
+   "stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.431,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_iag",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.07291219825236386,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.005203363352147715
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.046627391775838585
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.046270941205037094
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.007
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.005
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -12.000000000000455,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6696.185,
+     "dA_df": 2.000000000000668,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00892403287563348,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -8.000000000000007,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 7,
+   "stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.447,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_iag",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.08201749774285973,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.001000000000000334
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0014559999999999996
+    ],
+    "continuum": [
+     "MEASURED",
+     0.055158861482086444
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.005
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0075
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -12.000000000000455,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -8.000000000000007,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 7,
+   "stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.425,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_iag",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "VIS",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.08754607685425002,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.006200454545454814
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0014559999999999996
+    ],
+    "continuum": [
+     "MEASURED",
+     0.055158861482086444
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.005
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0075
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 6696.023,
+     "dA_df": -12.000000000000455,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.00902275387739393,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 6698.673,
+     "dA_df": -8.000000000000007,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0052324539952484095,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 8,
+   "stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.423,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_iag",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.09700434177911832,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004999999999999893
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.04076799999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.07057487159038973
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.011
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.011
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -11.999999999999567,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -68.99999999999994,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 8,
+   "stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.406,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_iag",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.10190734092362515,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.010013181818181671
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.04076799999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.07057487159038973
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.011
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.011
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -11.999999999999567,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -68.99999999999994,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 9,
+   "stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.423,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_iag",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.09700434177911832,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.004999999999999893
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.04076799999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.07057487159038973
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.011
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.011
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -11.999999999999567,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -68.99999999999994,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 9,
+   "stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.406,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_iag",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.10190734092362515,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.010013181818181671
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.04076799999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.07057487159038973
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.011
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.011
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -11.999999999999567,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -68.99999999999994,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 12,
+   "stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.46,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.11211712625642888,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.04300000000000014
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.012971121771072847
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.022
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.087
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -9.999999999999787,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -27.000000000000135,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 12,
+   "stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.443,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.11801065896056083,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.04801318181818193
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.012971121771072847
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.022
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.087
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -9.999999999999787,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -27.000000000000135,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 13,
+   "stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.46,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.11211712625642888,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.04300000000000014
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.012971121771072847
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.022
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.087
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -9.999999999999787,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -27.000000000000135,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 13,
+   "stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.443,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.11801065896056083,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.04801318181818193
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.05
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.0
+    ],
+    "continuum": [
+     "MEASURED",
+     0.012971121771072847
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.022
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.087
+    ],
+    "telluric": [
+     "MEASURED",
+     0.0
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 7835.309,
+     "dA_df": -9.999999999999787,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.008869734337021762,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 8912.9,
+     "dA_df": -27.000000000000135,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.018441702520230696,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 14,
+   "stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+   "A": 6.569,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
+   "sigma_reported": 0.14168344028167468,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.03350000000000008
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06143339889669136
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.106
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.01779200174378549
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -29.000000000000803,
+     "sigma_line_dex": 0.03558400348757098,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_iag, baseline-removed",
+     "residual_flux": 0.001227034603019655
+    },
+    {
+     "wavelength_air_A": 10872.973,
+     "dA_df": -12.9999999999999,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0024787149704245115,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 14,
+   "stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+   "A": 6.553,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "GRADED",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+   "sigma_reported": 0.1442985500027707,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.031146818181818414
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06143339889669136
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.106
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.01779200174378549
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -29.000000000000803,
+     "sigma_line_dex": 0.03558400348757098,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_iag, baseline-removed",
+     "residual_flux": 0.001227034603019655
+    },
+    {
+     "wavelength_air_A": 10872.973,
+     "dA_df": -12.9999999999999,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0024787149704245115,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 15,
+   "stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.569,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.14168344028167468,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.03350000000000008
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06143339889669136
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.106
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.01779200174378549
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -29.000000000000803,
+     "sigma_line_dex": 0.03558400348757098,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_iag, baseline-removed",
+     "residual_flux": 0.001227034603019655
+    },
+    {
+     "wavelength_air_A": 10872.973,
+     "dA_df": -12.9999999999999,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0024787149704245115,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 15,
+   "stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.553,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.1442985500027707,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.031146818181818414
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.06143339889669136
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.106
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.0025
+    ],
+    "telluric": [
+     "MEASURED",
+     0.01779200174378549
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -29.000000000000803,
+     "sigma_line_dex": 0.03558400348757098,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_iag, baseline-removed",
+     "residual_flux": 0.001227034603019655
+    },
+    {
+     "wavelength_air_A": 10872.973,
+     "dA_df": -12.9999999999999,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.0024787149704245115,
+     "residual_flux": 0.0
+    }
+   ]
+  },
+  {
+   "unit": 16,
+   "stem": "AlI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv",
+   "A": 6.747,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-AL_AGSS21_products.csv",
+   "sigma_reported": 0.7809593362686125,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.6995529970664605
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.2941462221413017
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.165
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.052
+    ],
+    "telluric": [
+     "MEASURED",
+     0.02128402632126651
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -19.000000000000128,
+     "sigma_line_dex": 0.02128402632126651,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_crires_plus_y_wide_rya1054 vs independent correction solar_kpno_molecfit_corrected, baseline-removed",
+     "residual_flux": 0.0011202119116455983
+    }
+   ]
+  },
+  {
+   "unit": 16,
+   "stem": "AlI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-AL_AGSS21_ENGINE-A_lines.csv",
+   "A": 6.733,
+   "key_treatment": "ENGINE-A",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "selector": "SET-AL_AGSS21",
+   "element": "Al",
+   "band": "NIR",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "AlI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-AL_AGSS21_ENGINE-A_products.csv",
+   "sigma_reported": 0.7815353382318113,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.6995529970664605
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.06
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.xi": [
+     "MEASURED",
+     0.004367999999999999
+    ],
+    "continuum": [
+     "MEASURED",
+     0.2941462221413017
+    ],
+    "profile_ew": [
+     "MEASURED",
+     0.165
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.052
+    ],
+    "telluric": [
+     "MEASURED",
+     0.02128402632126651
+    ],
+    "blends": [
+     "N/A",
+     null
+    ],
+    "nlte": [
+     "MEASURED",
+     0.03
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "DEFINED",
+     0.0
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ]
+   },
+   "telluric_per_line": [
+    {
+     "wavelength_air_A": 10768.362,
+     "dA_df": -19.000000000000128,
+     "sigma_line_dex": 0.02128402632126651,
+     "n_telluric_px": 104,
+     "max_depth": 0.04843064940157571,
+     "residual_basis": "solar_crires_plus_y_wide_rya1054 vs independent correction solar_kpno_molecfit_corrected, baseline-removed",
+     "residual_flux": 0.0011202119116455983
+    }
+   ]
+  }
+ ]
+}

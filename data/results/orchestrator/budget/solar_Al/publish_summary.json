@@ -1,0 +1,165 @@
+{
+ "star": "solar",
+ "element": "Al",
+ "units": [
+  "I VIS solar_kpno_kurucz2005_corrected ts-lte codex",
+  "I VIS solar_kpno_kurucz2005_corrected ts-lte set:AL_AGSS21",
+  "I VIS solar_kpno_molecfit_corrected ts-lte codex",
+  "I VIS solar_kpno_molecfit_corrected ts-lte set:AL_AGSS21",
+  "I VIS solar_harps_molecfit_corrected ts-lte codex",
+  "I VIS solar_harps_molecfit_corrected ts-lte set:AL_AGSS21",
+  "I VIS solar_iag ts-lte codex",
+  "I VIS solar_iag ts-lte set:AL_AGSS21",
+  "I red-optical solar_iag ts-lte codex",
+  "I red-optical solar_iag ts-lte set:AL_AGSS21",
+  "I red-optical solar_kpno_kurucz2005_corrected ts-lte codex",
+  "I red-optical solar_kpno_kurucz2005_corrected ts-lte set:AL_AGSS21",
+  "I red-optical solar_kpno_molecfit_corrected ts-lte codex",
+  "I red-optical solar_kpno_molecfit_corrected ts-lte set:AL_AGSS21",
+  "I NIR solar_kpno_molecfit_corrected ts-lte codex",
+  "I NIR solar_kpno_molecfit_corrected ts-lte set:AL_AGSS21",
+  "I NIR solar_crires_plus_y_wide_rya1054 ts-lte set:AL_AGSS21"
+ ],
+ "dropped": [
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_iag GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_iag SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  }
+ ],
+ "published": [
+  "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=6.449",
+  "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=6.435",
+  "VIS solar_kpno_kurucz2005_corrected SET-AL_AGSS21 1D-LTE A=6.451",
+  "VIS solar_kpno_kurucz2005_corrected SET-AL_AGSS21 ENGINE-A A=6.429",
+  "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.445",
+  "VIS solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.43",
+  "VIS solar_kpno_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.45",
+  "VIS solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.428",
+  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=6.404",
+  "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=6.391",
+  "VIS solar_harps_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.409",
+  "VIS solar_harps_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.387",
+  "VIS solar_iag GRADED 1D-LTE A=6.446",
+  "VIS solar_iag GRADED ENGINE-A A=6.431",
+  "VIS solar_iag SET-AL_AGSS21 1D-LTE A=6.447",
+  "VIS solar_iag SET-AL_AGSS21 ENGINE-A A=6.425",
+  "red-optical solar_iag GRADED 1D-LTE A=6.423",
+  "red-optical solar_iag GRADED ENGINE-A A=6.406",
+  "red-optical solar_iag SET-AL_AGSS21 1D-LTE A=6.423",
+  "red-optical solar_iag SET-AL_AGSS21 ENGINE-A A=6.406",
+  "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.46",
+  "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.443",
+  "red-optical solar_kpno_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.46",
+  "red-optical solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.443",
+  "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.569",
+  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.553",
+  "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.569",
+  "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.553",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 1D-LTE A=6.747",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 ENGINE-A A=6.733"
+ ],
+ "held": [
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
+   "why": "unresolved components: continuum"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-A",
+   "why": "unresolved components: continuum"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-AL_AGSS21 1D-LTE",
+   "why": "unresolved components: continuum"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-AL_AGSS21 ENGINE-A",
+   "why": "unresolved components: continuum"
+  }
+ ],
+ "verdict": {
+  "element_verdict": "REVIEW",
+  "benchmark": true,
+  "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
+  "n_products_judged": 30,
+  "counts": {
+   "IN_BAND": 23,
+   "OUT_OF_BAND": 7,
+   "NO_REFERENCE": 0,
+   "REPORTED": 0
+  },
+  "n_scale_mismatch": 30
+ },
+ "coverage": {
+  "counts": {
+   "PUBLISHED": 30,
+   "HELD": 124,
+   "NOT_RUN": 116,
+   "STALE": 0
+  },
+  "done": false
+ }
+}
