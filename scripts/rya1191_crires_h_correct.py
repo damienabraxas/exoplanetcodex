@@ -105,6 +105,28 @@ def segments_with_graded(frame, lines) -> list:
     return out
 
 
+def segments_full_arm(frame, lines) -> list:
+    """RYA-1232 -- EVERY segment of the H arm, graded line or not.
+
+    The Fe-only selection above left the arm uncorrected wherever no graded Fe line sat:
+    the CH4 2nu3 Q-branch at 16656 A (raw 56% deep, Elgueta's spectrum still 36.5%) fell
+    in the 16645-16810 A hole and drove the OH oxygen fit to A(O) = 9.47. Ryan's rule is
+    that every ground-based band is telluric-corrected for every element, not for the one
+    that happened to need it first. Same fit, same gates, same outputs -- only the
+    selection changes; `n_graded` is still reported per segment."""
+    out = []
+    for s in frame.segments:
+        w = np.asarray(s.wave_A, float)
+        w = w[np.isfinite(w)]
+        if w.size < 50:
+            continue
+        lo, hi = float(w.min()), float(w.max())
+        if hi < H_LO_A or lo > H_HI_A:
+            continue
+        out.append((s, int(((lines >= lo) & (lines <= hi)).sum()), lo, hi))
+    return out
+
+
 def covering_set(plan_pairs, lines):
     """A minimal set of segments covering every graded line — greedy set cover.
 
@@ -236,6 +258,11 @@ def main(argv=None) -> int:
                    help="re-ask the per-line telluric question on the CORRECTED flux")
     ap.add_argument("--all-segments", action="store_true",
                     help="correct EVERY segment carrying a graded line, not a covering set")
+    ap.add_argument("--full-arm", action="store_true",
+                    help="RYA-1232: correct EVERY segment of the H arm (not only those "
+                         "carrying a graded Fe line); implies --all-segments")
+    ap.add_argument("--frame-match", default=None,
+                    help="only frames whose file name contains this (parallel runs)")
     ap.add_argument("--lines", default=None,
                     help="RYA-1233: comma list of air wavelengths (A) to cover INSTEAD of the "
                          "graded Fe lines -- e.g. another element's graded H-band lines")
@@ -250,9 +277,14 @@ def main(argv=None) -> int:
         return verify(work, out)
     lines = (np.sort(np.array([float(x) for x in a.lines.split(",")])) if a.lines else graded_lines())
     frames = h_frames()
+    if a.frame_match:
+        frames = [f for f in frames if a.frame_match in f.path.name]
+    select = segments_full_arm if a.full_arm else segments_with_graded
+    if a.full_arm:
+        a.all_segments = True
     plan, total = [], 0
     for f in frames:
-        segs = segments_with_graded(f, lines)
+        segs = select(f, lines)
         total += len(segs)
         plan.append({"file": f.path.name, "wlen_id": f.wlen_id, "mjd": float(f.mjd),
                      "specsys": f.specsys, "n_segments_with_graded": len(segs),
@@ -290,7 +322,7 @@ def main(argv=None) -> int:
 
     from pipeline.crires_telluric import _molecfit_segment
     pairs = [(sg, n, lo, hi, f) for f in frames
-             for sg, n, lo, hi in segments_with_graded(f, lines)]
+             for sg, n, lo, hi in select(f, lines)]
     if a.all_segments:
         todo, uncovered = pairs, []
     else:
@@ -303,7 +335,14 @@ def main(argv=None) -> int:
     for sg, n, lo, hi, f in todo:
         s = sg
         if True:
-            tag = f"{f.wlen_id}_o{int(s.order)}d{int(s.detector)}"
+            # RYA-1232: the FRAME is part of the tag. Two frames share each H setting
+            # (H1559 = .330 and .735), and a setting-only tag let parallel runs write one
+            # work directory and one _corrected.npz for two different exposures.
+            tag = (f"{f.wlen_id}_{f.path.stem.split('T')[-1].replace(':', '').replace('.', '')}"
+                   f"_o{int(s.order)}d{int(s.detector)}") if a.full_arm else \
+                  f"{f.wlen_id}_o{int(s.order)}d{int(s.detector)}"
+            if (work / f"{tag}_corrected.npz").exists() and a.full_arm:
+                print(f"  skip {tag} (already corrected)"); continue
             print(f"\n  [molecfit] {f.path.name} {tag} {lo:.1f}-{hi:.1f} A ({n} graded)")
             rec = {"file": f.path.name, "wlen_id": f.wlen_id, "tag": tag,
                    "order": int(s.order), "detector": int(s.detector),
@@ -330,7 +369,9 @@ def main(argv=None) -> int:
     doc["results"] = results
     doc["n_corrected"] = sum(1 for r in results if r["state"] == "CORRECTED")
     doc["n_failed"] = sum(1 for r in results if r["state"] == "FAILED")
-    (out / "rya1191_crires_h_correction.json").write_text(json.dumps(doc, indent=2) + "\n")
+    _name = ("rya1191_crires_h_correction.json" if not a.full_arm else
+             f"rya1232_crires_h_full_arm{('_' + a.frame_match) if a.frame_match else ''}.json")
+    (out / _name).write_text(json.dumps(doc, indent=2) + "\n")
     print(f"\n  corrected {doc['n_corrected']} / failed {doc['n_failed']}")
     print(f"wrote {a.out_dir}/rya1191_crires_h_correction.json")
     return 0

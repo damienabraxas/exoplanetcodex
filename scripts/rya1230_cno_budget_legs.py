@@ -56,6 +56,9 @@ LEGS = {
     # N I only: the CN inside the line profiles follows A(C) -> blends
     "c_minus": ({"CODEX_ABUND_OFFSET": "C:-0.10"}, []),
     "c_plus": ({"CODEX_ABUND_OFFSET": "C:+0.10"}, []),
+    # O I 844.6 only (RYA-1232): the blending Fe I 8446.575 at Ruffoni+2014's lab gf instead
+    # of the adopted VALD value -> the blend term
+    "blendgf": ({"CODEX_GF_OVERRIDE": "pk_b3d47c33d602=-1.44"}, []),
 }
 DEFAULT_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale")
 

@@ -65,7 +65,9 @@ XI_STEP = 0.10
 C_STEP, SIGMA_C = 0.10, 0.04
 SIGMA_C_SOURCE = "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table 2: A(C) = 8.46 +/- 0.04"
 CSCALE = 0.001
-SPECIES = {"C": "C I", "N": "N I", "O": "O I"}
+SPECIES = {"C": "C I", "N": "N I", "O": "O I", "Fe": "Fe I"}
+#: RYA-1232: Fe II units carry --ion II; the canonical_gf species is ion-specific.
+SPECIES_ION = {("Fe", "II"): "Fe II"}
 
 
 def _selector(args: list[str]) -> str | None:
@@ -129,6 +131,11 @@ _SKY = {"kpno_solar_atlas": ("kpno_solar_atlas", "solar_kpno", "solar_kpno_kuruc
 #: measured the whole sky as kurucz2005's "residual" on C I 9061 (0.33 flux, 5 dex).
 _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                   ("iag_fts_solar_atlas", "solar_iag"),
+                                                  #: RYA-1232: IAG capped at 10000 A left
+                                                  #: 10000-11160 A uncovered (C I 10683,
+                                                  #: Fe I 10142 held); CRIRES+ Y is another
+                                                  #: site's correction over 9802-10794 A.
+                                                  ("crires_plus", "solar_crires_plus_y_wide_rya1054"),
                                                   ("crires_plus", "solar_crires_plus_j_rya1219")],
                 "solar_crires_plus_j_rya1219": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                                                 ("iag_fts_solar_atlas", "solar_iag")],
@@ -148,7 +155,26 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                                                      ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
                 "solar_crires_plus_y_rya794": [("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                                                ("iag_fts_solar_atlas", "solar_iag"),
-                                               ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")]}
+                                               ("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected")],
+                #: CRIRES+ H has NO independent correction on the Mac (KP/IAG stop short of H);
+                #: its residual needs the raw/corrected CRIRES+ pair on Sirius (RYA-1192).
+                "solar_crires_plus_h_rya1094": [],
+                #: RYA-1232: our full-arm corrected H. Independent correction = Elgueta+2026's
+                #: own reduction of the same night (a different telluric removal).
+                "solar_crires_plus_h_rya1232": [("crires_plus", "solar_crires_plus_h_rya1094")],
+                "solar_crires_plus_k_rya1219": []}
+#: RYA-1232 -- holdings that carry their OWN molecfit transmission per pixel (`min_mtrans`
+#: in the rest-frame CSV). KP's raw/corrected sky pair stops at 13000 A, so no H-band product
+#: ever had its telluric component resolved; for these the sky is the model the correction
+#: divided by. No reduction-difference null applies (it is a model, not a ratio of two
+#: reductions); a pixel is telluric where the model absorbs more than OWN_SKY_EDGE.
+_OWN_SKY = {"solar_crires_plus_h_rya1232":
+            "data/results/rya1214_crires_jk/solar_crires_plus_h_rya1232_rest.csv",
+            #: K: no other K-band correction exists anywhere in our holdings, so its residual
+            #: is BOUNDED by the caller from a measured ratio (cn_budget: the J arm's)
+            "solar_crires_plus_k_rya1219":
+            "data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv"}
+OWN_SKY_EDGE = 0.01
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -172,6 +198,42 @@ def _full_span(H, inst, hold):
     return _SPAN[(inst, hold)]
 
 
+def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
+    import measure_band_ew as H
+    if holding not in _OWN_SKY_CACHE:
+        _OWN_SKY_CACHE[holding] = pd.read_csv(ROOT / _OWN_SKY[holding])
+    d = _OWN_SKY_CACHE[holding]
+    g = np.linspace(w0 - hw, w0 + hw, 400)
+    t = np.interp(g, d["wavelength_air_A"], d["min_mtrans"])
+    P = (1.0 - t) > OWN_SKY_EDGE
+    ev = {"sky_pair": f"{holding} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
+          "clean_window_null": 0.0, "sky_baseline": 1.0, "n_px": int(g.size),
+          "n_telluric_px": int(P.sum()), "max_depth": float(max(0.0, 1.0 - t.min()))}
+    if not P.any():
+        ev["residual_flux"] = 0.0
+        ev["sky_absorption"] = 0.0
+        return ev
+    ev["sky_absorption"] = float(np.mean(np.clip(1.0 - t[P], 0, None)) * P.mean())
+    own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
+    for ind_inst, ind in _INDEPENDENT[holding]:
+        try:
+            x = H.load_window_ex(ind_inst, w0, hw + 0.5, holding=ind, allow_uncorrected=True)
+        except LookupError:
+            continue
+        ref = np.interp(g, x.wave, x.flux)
+        ratio = own / ref
+        rbase = float(np.median(ratio[~P])) if (~P).sum() >= 3 else float(np.median(ratio))
+        ev["residual_basis"] = f"{holding} vs independent correction {ind}, baseline-removed"
+        ev["residual_flux"] = float(np.mean(np.abs(ratio[P] - rbase)) * P.mean())
+        return ev
+    ev["residual_flux"] = None
+    ev["residual_basis"] = f"NO independent correction covers {w0:.3f} A for {holding}"
+    return ev
+
+
+_OWN_SKY_CACHE: dict = {}
+
+
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     if holding == "solar_crires_plus_h_rya1094":
         # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
@@ -180,6 +242,8 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         return _h(w0, hw)
     import measure_band_ew as H
     from pipeline import telluric_observability as T
+    if holding in _OWN_SKY:
+        return _telluric_own_sky(instrument, holding, w0, hw)
     sky_inst, raw, cor = _SKY.get(instrument, _SKY["kpno_solar_atlas"])
     if w0 > 10000.0:
         #: Kurucz 2005 stops at 10000 A; beyond it the sky is raw KP over the RYA-1230
@@ -267,6 +331,35 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 
 # ── one product ────────────────────────────────────────────────────────────────
+FEATURE_A = 0.5
+
+
+def _near(waves, pool, tol: float = 1e-3):
+    """Boolean mask: which of `waves` lie within `tol` A of ANY wavelength in `pool`.
+    Tolerance membership, never a rounded join key (RYA-1033: 3-dp rounding splits a line
+    that sits on a rounding boundary)."""
+    w = np.asarray(waves, float)
+    p = np.sort(np.asarray(list(pool), float))
+    if p.size == 0:
+        return np.zeros(w.shape, bool)
+    i = np.clip(np.searchsorted(p, w), 1, p.size - 1) if p.size > 1 else np.zeros(w.shape, int)
+    d = np.minimum(np.abs(w - p[i]), np.abs(w - p[np.maximum(i - 1, 0)]))
+    return d <= tol
+
+
+def _features(acc: pd.DataFrame) -> list:
+    """Accepted lines grouped into resolved features: consecutive components closer than
+    FEATURE_A A form one feature. Returns [[(wavelength, abundance), ...], ...]."""
+    pts = sorted(zip(acc["wavelength_air_A"].astype(float), acc["abundance"].astype(float)))
+    out = []
+    for w, v in pts:
+        if out and w - out[-1][-1][0] < FEATURE_A:
+            out[-1].append((w, v))
+        else:
+            out.append([(w, v)])
+    return out
+
+
 def _gf_covariance(sig, src, tags):
     """RYA-1233: the registry-driven gf covariance (pipeline.gf_error_model)."""
     from pipeline.gf_error_model import covariance
@@ -286,6 +379,53 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     prod = pd.read_csv(nominal_dir / prod_stem)
     acc = _acc(nom)
     n = len(acc)
+    # 🔴 RYA-1232 -- LEG-UNSTABLE LINES. A line the nominal fit accepts but a budget leg's
+    # fit REJECTS (NON-MINIMUM at frac_rise ~1e-5, edge_pinned, FIT-NOT-PHYSICAL) is not
+    # robustly measured in the nominal either: its acceptance hinges on a trivial
+    # perturbation. One such line out of 176 held 16 Fe products ("pool moved"). It is
+    # excluded from the pool as LEG-UNSTABLE -- recorded with the leg and the reason -- and
+    # the product re-aggregated the way the product is formed (median of the accepted
+    # lines' `abundance`, stat = std/sqrt(n)). Bounded: at most 5% of the pool and >= 2
+    # lines left, otherwise the moved pool still HOLDS (it is then not a marginal line).
+    unstable = {}
+    for _lg in ("xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale",
+                "c_minus", "c_plus"):
+        _L = _leg_lines(unit_dir / _lg, lines_stem)
+        if _L is None:
+            continue
+        _ok = set(_acc(_L)["wavelength_air_A"].round(3))
+        _all = {round(float(w), 3): r for w, r in zip(_L["wavelength_air_A"],
+                                                      _L.get("excluded_reason", pd.Series([""] * len(_L))))}
+        for _w in set(acc["wavelength_air_A"].round(3)) - _ok:
+            unstable.setdefault(float(_w), []).append(f"{_lg}: {str(_all.get(_w, ''))[:90]}")
+    if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
+        acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
+        n = len(acc)
+        _ab = acc["abundance"].astype(float)
+        restat = {"A": round(float(_ab.median()), 3),
+                  "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4),
+                  "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
+    else:
+        restat = None
+    # 🔴 RYA-1232 -- RESOLVED FEATURES. Fine-structure components closer than FEATURE_A are
+    # fitted in overlapping windows that all see the same blend, so they are ONE measurement
+    # (O I 844.6: 8.544/8.544/8.545 entered as three lines, faked n=6 and set the median
+    # halfway between 777 and 844.6). Each feature = mean of its components; the product is
+    # the median over features, stat = std/sqrt(n_features) -- lines counted as AGSS21 prints them.
+    feats = _features(acc)
+    if any(len(f) > 1 for f in feats):
+        _fv = pd.Series([float(np.mean([v for _, v in f])) for f in feats])
+        nf = len(_fv)
+        restat = dict(restat or {"leg_unstable": {}})
+        restat.update({"A": round(float(_fv.median()), 3),
+                       "stat_dex": (round(float(_fv.std(ddof=1) / math.sqrt(nf)), 4) if nf > 1 else None),
+                       "n_lines": nf, "n_components": len(acc),
+                       "features": [[round(w, 3) for w, _ in f] for f in feats if len(f) > 1]})
+    _pool_w = set(acc["wavelength_air_A"].round(3))
+
+    def _accp(df):
+        a_ = _acc(df)
+        return a_[_near(a_["wavelength_air_A"], _pool_w)]
     element = str(prod["element"].iloc[0])
     holding = _arg(unit_args, "--holding")
     instrument = _arg(unit_args, "--instrument")
@@ -301,6 +441,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 "skip": "product has no value (no line in the aggregate)"}
     row = _rows[0]
     row["star"] = "solar"
+    if restat:
+        row["A"], row["n_lines"] = restat["A"], restat["n_lines"]
+        if "sigma_stat" in row and restat.get("stat_dex") is not None:
+            row["sigma_stat"] = restat["stat_dex"]
     band = row["band"]
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
     lo, hi = float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi"))
@@ -388,11 +532,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                    "inadequacy; the worse-constrained side is taken"),
             n_pixels=npx))
     else:
-        raw = float(acc["abundance"].astype(float).std(ddof=1))
-        comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
-                          source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-                          evidence={"method": "line_scatter", "independent": True, "n_lines": n,
-                                    "raw_sigma": raw, "pool_sha256": digest}))
+        _fv = [float(np.mean([v for _, v in f])) for f in _features(acc)]
+        nf = len(_fv)
+        if nf >= 2:
+            raw = float(np.std(_fv, ddof=1))
+            comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(nf), state="MEASURED",
+                              source=("per-feature scatter of the accepted pool (components within "
+                                      f"{FEATURE_A} A merged, RYA-1232)"),
+                              evidence={"method": "line_scatter", "independent": True, "n_lines": nf,
+                                        "n_components": n, "raw_sigma": raw, "pool_sha256": digest}))
+        else:
+            notes.append("measurement: the pool is ONE resolved feature; single-line pricing owed")
     w = [1.0 / n] * n
     cov, cov_note = _gf_covariance(sig, src, tags)
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
@@ -411,6 +561,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from rya1120_xi_campaign import dA_dxi
     lo_d, hi_d = unit_dir / "xi_minus", unit_dir / "xi_plus"
     L, Hh = _leg_lines(lo_d, lines_stem), _leg_lines(hi_d, lines_stem)
+
+    def _restrict(df):
+        #: the xi legs are paired leg-vs-leg, so they must see the SAME stable pool as
+        #: every other term (a leg-unstable line both xi legs accept still moved it)
+        if df is None:
+            return None
+        df = df.copy()
+        df.loc[~_near(df["wavelength_air_A"], _pool_w), "in_aggregate"] = False
+        return df
+    L, Hh = _restrict(L), _restrict(Hh)
     if L is not None and Hh is not None:
         d = dA_dxi(Hh, L, step_kms=XI_STEP, minus_dir=lo_d, plus_dir=hi_d, xi_nominal=1.0)
         pl = paired_differential(Hh, L)
@@ -436,7 +596,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if leg is None:
             notes.append(f"{name}: leg {legname} missing")
             return
-        p = _paired(_acc(leg), acc, n)
+        p = _paired(_accp(leg), acc, n)
         if p["moved"]:
             notes.append(f"{name}: pool moved ({p['n_paired']} vs {n})")
             return
@@ -451,14 +611,14 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if lo_l is None or hi_l is None:
         notes.append("continuum: q80/q97 legs missing")
     else:
-        pc = _paired(_acc(hi_l), _acc(lo_l), n)
+        pc = _paired(_accp(hi_l), _accp(lo_l), n)
         if pc["moved"]:
             notes.append(f"continuum: pool moved ({pc['n_paired']} vs {n})")
         else:
             # RYA-1232: + the REFERENCE spread (IAG atlas vs synthesis), in quadrature --
             # Amarsi+2021's two-atlas spread. Outside 5001-11086 A the leg equals nominal.
             ref_l = _leg_lines(unit_dir / "contref", lines_stem)
-            pr = _paired(_acc(ref_l), acc, n) if ref_l is not None else None
+            pr = _paired(_accp(ref_l), acc, n) if ref_l is not None else None
             if ref_l is None:
                 notes.append("continuum: contref leg missing")
             elif pr["moved"]:
@@ -488,21 +648,40 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if len(m) != n or m["abundance_cs"].isna().any():
             notes.append("telluric: cscale pool moved")
         else:
-            per, tot = [], 0.0
+            per, tot, evs = [], 0.0, []
             for _, l in m.iterrows():
                 dadf = (float(l.abundance_cs) - float(l.abundance)) / (-CSCALE)
                 try:
                     ev = telluric_line(instrument, holding, float(l.wavelength_air_A), hw, lo, hi)
-                    if ev.get("residual_flux") is None:
+                    if ev.get("residual_flux") is None and ev.get("sky_absorption") is None:
                         raise RuntimeError(ev["residual_basis"])
                 except Exception as exc:                                  # noqa: BLE001
                     notes.append(f"telluric {l.wavelength_air_A}: {type(exc).__name__}: {str(exc)[:160]}")
                     per = None
                     break
-                s = abs(dadf) * ev["residual_flux"]
-                per.append({"wavelength_air_A": float(l.wavelength_air_A), "dA_df": dadf,
-                            "sigma_line_dex": s, **ev})
-                tot += (s / n) ** 2
+                evs.append((l, dadf, ev))
+            if per is not None:
+                #: 🔴 RYA-1232 -- a line no independent correction covers (Fe I 10863.518 sits
+                #: between CRIRES+ Y and J, past the IAG cap) is BOUNDED, as the CN route does:
+                #: its own measured sky absorption x the WORST residual/absorption ratio measured
+                #: on this product's covered lines. No covered ratio -> still unresolved.
+                ratios = [e["residual_flux"] / e["sky_absorption"] for _, _, e in evs
+                          if e.get("residual_flux") is not None and (e.get("sky_absorption") or 0) > 0]
+                for l, dadf, ev in evs:
+                    if ev.get("residual_flux") is None:
+                        if not ratios:
+                            notes.append(f"telluric {l.wavelength_air_A}: {ev['residual_basis']} "
+                                         "and no covered line in this product to bound it from")
+                            per = None
+                            break
+                        ev = dict(ev, residual_flux=ev["sky_absorption"] * max(ratios),
+                                  residual_basis=(ev["residual_basis"] + "; BOUNDED: own sky "
+                                                  f"absorption x worst covered ratio {max(ratios):.3f} "
+                                                  f"(n={len(ratios)} covered lines)"))
+                    s = abs(dadf) * ev["residual_flux"]
+                    per.append({"wavelength_air_A": float(l.wavelength_air_A), "dA_df": dadf,
+                                "sigma_line_dex": s, **ev})
+                    tot += (s / n) ** 2
             if per is not None:
               comps.append(dict(name="telluric", sigma_dex=math.sqrt(tot), state="MEASURED",
                               source=("per-line measured sky depth -> measured residual of this "
@@ -517,7 +696,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if cm is None or cp is None:
             notes.append("blends: A(C) legs missing")
         else:
-            pp = _paired(_acc(cp), _acc(cm), n)
+            pp = _paired(_accp(cp), _accp(cm), n)
             if pp["moved"]:
                 notes.append(f"blends: pool moved ({pp['n_paired']} vs {n})")
             else:
@@ -527,6 +706,21 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                           "paired response to A(C) +/- 0.10 on this pool x sigma(C)"),
                                   evidence={"pool_sha256": digest, "dAN_dAC": resp,
                                             "sigma_C": SIGMA_C, "sigma_C_source": SIGMA_C_SOURCE}))
+    elif element == "O" and _leg_lines(unit_dir / "blendgf", lines_stem) is not None:
+        #: RYA-1232: O I 844.6's blending Fe I 8446.575 -- adopted VALD3 -1.871 vs Ruffoni+2014
+        #: lab -1.44; the product moved by that alternative, paired on this pool
+        _bl = _leg_lines(unit_dir / "blendgf", lines_stem)
+        _fb = [float(np.mean([v for _, v in f])) for f in _features(_accp(_bl))]
+        _fn = [float(np.mean([v for _, v in f])) for f in _features(acc)]
+        if len(_fb) != len(_fn):
+            notes.append(f"blends: blendgf leg pool moved ({len(_fb)} vs {len(_fn)} features)")
+        else:
+            d = float(np.median(_fb) - np.median(_fn))
+            comps.append(dict(name="blends", sigma_dex=abs(d), state="MEASURED",
+                              source=("Fe I 8446.575 blending O I 844.6: adopted VALD3 -1.871 (solar-profile "
+                                      "test) vs Ruffoni+2014 lab -1.44; product shift with the lab value"),
+                              evidence={"pool_sha256": digest, "shift_dex": d,
+                                        "per_feature_shift": [round(b - a, 4) for a, b in zip(_fn, _fb)]}))
     else:
         comps.append(dict(name="blends", sigma_dex=None, state="N/A",
                           source=("full atomic + molecular synthesis in-window (RYA-1230 turned "
@@ -562,7 +756,24 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
             if corr_nlte is None:
                 notes.append("nlte: no line common to the 1D-NLTE sibling")
             else:
-                comps.append(dict(
+                if element == "O":
+                    #: 🔴 RYA-1232 -- Asplund+2021 Sect. 2.1 EXEMPTS oxygen from "half the NLTE
+                    #: correction": its NLTE is constrained by the O I 777 centre-to-limb
+                    #: variation, so half the correction "would significantly overestimate" the
+                    #: error (their O I total error is 0.030). Our departures are the Amarsi+2019
+                    #: grid, built on the Amarsi+2018a O I model validated on that CLV. The
+                    #: Asplund floor (0.03 dex) is carried.
+                    comps.append(dict(
+                        name="nlte", sigma_dex=0.03, state="DEFINED",
+                        source=("Asplund+2021 Sect. 2.1 oxygen exception: NLTE constrained by the O I "
+                                "777 centre-to-limb variation (Amarsi+2018a model, adopted by the "
+                                "Amarsi+2019 grid applied here); the 0.03 dex floor, not half the "
+                                "correction"),
+                        evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                                  "n_lines": len(common), "floor_dex": 0.03,
+                                  "half_correction_not_used_dex": abs(corr_nlte) / 2.0}))
+                else:
+                    comps.append(dict(
                     name="nlte", sigma_dex=max(abs(corr_nlte) / 2.0, 0.03), state="MEASURED",
                     source=("Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum "
                             "0.03 dex -- the correction measured on this pool (median 1D-NLTE "
@@ -611,7 +822,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         validate(doc, scope=scope)
     except UncertaintyError as exc:
         verdict = str(exc)
+    if restat and restat.get("leg_unstable"):
+        notes.append("leg-unstable excluded: " + ", ".join(restat["leg_unstable"]))
     return {"row": row, "budget": doc, "ids": ids, "notes": notes, "verdict": verdict,
+            "restat": restat,
             "prod_stem": prod_stem, "nominal_dir": str(nominal_dir)}
 
 
@@ -657,6 +871,15 @@ def main() -> int:
             out.append(rec)
             if r["verdict"] is None:
                 df = pd.read_csv(Path(r["nominal_dir"]) / r["prod_stem"])
+                if r.get("restat"):
+                    rs = r["restat"]
+                    df["n_excluded"] = df["n_excluded"] + len(rs.get("leg_unstable") or {})
+                    df["A"], df["n_lines"] = rs["A"], rs["n_lines"]
+                    if rs.get("stat_dex") is not None:
+                        df["stat_dex"] = rs["stat_dex"]
+                    df["leg_unstable_excluded"] = json.dumps(rs.get("leg_unstable") or {})
+                    if rs.get("features"):
+                        df["features_merged"] = json.dumps(rs["features"])
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
                 df["sigma_reported"] = b["sigma_reported"]

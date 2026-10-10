@@ -26,6 +26,7 @@ table RAISES (`GfResolutionError`). A 0-match is never defaulted.
 from __future__ import annotations
 
 import functools
+import os
 from pathlib import Path
 
 import numpy as np
@@ -64,6 +65,21 @@ def _index() -> dict:
             f"canonical gf table not found: {_CANON}\n"
             "Run: python3 scripts/migrate_gf_single_source.py --build")
     df = pd.read_csv(_CANON, low_memory=False)
+    # RYA-1232 -- a budget LEG may re-set ONE physical line's gf, named by physical_id:
+    # CODEX_GF_OVERRIDE="pk_b3d47c33d602=-1.44[,pk_...=...]". Used to price a blend's gf
+    # alternative (Fe I 8446.575: VALD -1.871 adopted vs Ruffoni+2014 lab -1.44). Logged
+    # loudly; an id that matches no row raises, so a typo cannot silently do nothing.
+    _ov = os.environ.get("CODEX_GF_OVERRIDE", "").strip()
+    if _ov:
+        for item in _ov.split(","):
+            pid, val = item.split("=")
+            m = df["physical_id"] == pid.strip()
+            if m.sum() != 1:
+                raise KeyError(f"CODEX_GF_OVERRIDE: {pid!r} matches {int(m.sum())} rows")
+            print(f"  [gf OVERRIDE] {pid.strip()} {df.loc[m, 'species'].iloc[0]} "
+                  f"{float(df.loc[m, 'wavelength_air_A'].iloc[0]):.3f}: "
+                  f"{float(df.loc[m, 'log_gf'].iloc[0]):+.3f} -> {float(val):+.3f}")
+            df.loc[m, "log_gf"] = float(val)
     idx: dict = {}
     df['_key'] = [_row_key(z, i) for z, i in zip(df['key_z'], df['ion'])]
     for k, g in df.groupby('_key', sort=False):

@@ -60,7 +60,9 @@ MANIFEST = ROOT / "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
 LINELIST = ROOT / "data/linelists/linelist_solar.csv"
 OUT_DIR = ROOT / "data/results/rya1214_crires_jk"
 AUDIT = ROOT / "data/audit/rya1214_crires_jk"
-HOLDING = {"J": "solar_crires_plus_j_rya1219", "K": "solar_crires_plus_k_rya1219"}
+HOLDING = {"J": "solar_crires_plus_j_rya1219", "K": "solar_crires_plus_k_rya1219",
+           # RYA-1232: the full-arm molecfit-corrected H frames (rya1232_crires_h_products)
+           "H": "solar_crires_plus_h_rya1232"}
 
 ANCHOR_DEPTH = (0.25, 0.85)
 ISOLATION_A, ISOLATION_DEPTH = 0.35, 0.05
@@ -145,15 +147,17 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products", required=True,
                     help="directory holding RYA-1219's J/ and K/ corrected FITS")
-    ap.add_argument("--arm", choices=["J", "K"], action="append")
+    ap.add_argument("--arm", choices=["J", "K", "H"], action="append")
+    ap.add_argument("--manifest", type=Path, default=MANIFEST,
+                    help="RYA-1232: the corrected-products manifest (default RYA-1219's J/K)")
     a = ap.parse_args()
     from astropy.io import fits
 
-    man = pd.read_csv(MANIFEST)
+    man = pd.read_csv(a.manifest)
     arms = a.arm or ["J", "K"]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     AUDIT.mkdir(parents=True, exist_ok=True)
-    report = {"ticket": "RYA-1214", "manifest": str(MANIFEST.relative_to(ROOT)),
+    report = {"ticket": "RYA-1214", "manifest": str(Path(a.manifest).resolve().relative_to(ROOT)),
               "rest_frame_note": rrv.CONVECTIVE_BLUESHIFT_NOTE, "arms": {}}
 
     for arm in arms:
@@ -254,7 +258,9 @@ def main() -> int:
         print(f"  wrote {fn.relative_to(ROOT)}: {len(out)} px, "
               f"{out.wavelength_air_A.min():.1f}-{out.wavelength_air_A.max():.1f} A")
 
-    (AUDIT / "rest_frame_conditioning.json").write_text(json.dumps(report, indent=2) + "\n")
+    _rep = ("rest_frame_conditioning.json" if set(arms) <= {"J", "K"} else
+            f"rest_frame_conditioning_{''.join(sorted(arms))}.json")
+    (AUDIT / _rep).write_text(json.dumps(report, indent=2) + "\n")
     return 0
 
 

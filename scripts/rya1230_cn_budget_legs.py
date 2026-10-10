@@ -37,10 +37,17 @@ XI_NOMINAL, XI_STEP = 1.0, 0.10
 #: +/- STEP (the value printed in each nominal run's "seed A" line is the reference).
 BASE_PINS = {"nir_cn_iag": {"C": 8.488, "O": 8.690}, "nir_cn_kp": {"C": 8.488, "O": 8.690},
              "j_cn_crires": {"C": 8.488, "O": 8.690}, "vis": {},
-             "vis_kp_k05": {}, "vis_kp_mf": {}, "vis_iag": {}}
+             "vis_kp_k05": {}, "vis_kp_mf": {}, "vis_iag": {},
+             # RYA-1232: the IR C/O molecular regions, never run before. CO locks C and O in
+             # equilibrium, so the CO fit pins O and the OH fit pins C at the same values the
+             # CN regions use; the coupling legs price each pin.
+             "k_co_crires": {"O": 8.690}, "h_oh_crires": {"C": 8.488}, "nearuv": {}}
 #: the pin reference for a `vis` coupling leg: the nominal joint solution is read from the
 #: nominal run's per-band output at launch time (see main)
 VIS_REF: dict = {}
+#: RYA-1232: each region's OWN nominal seed (its run.log "seed A: C=.. N=.. O=.. Ni=.."),
+#: so an IR region's coupling legs do not depend on a VIS run in the same invocation
+REGION_SEED: dict = {}
 ENV_LEGS = {
     "nominal": {}, "xi_minus": {"CODEX_XI_OVERRIDE": "0.90"}, "xi_plus": {"CODEX_XI_OVERRIDE": "1.10"},
     "q80": {"CODEX_CONT_Q": "80"}, "q97": {"CODEX_CONT_Q": "97"},
@@ -58,7 +65,7 @@ def leg_spec(region: str, leg: str):
     env = dict(ENV_LEGS.get(leg, {}))
     if leg in PIN_LEGS:
         el, sgn = PIN_LEGS[leg]
-        ref = pins.get(el, VIS_REF.get(el))
+        ref = pins.get(el, REGION_SEED.get(region, {}).get(el, VIS_REF.get(el)))
         if ref is None:
             raise SystemExit(f"{region}/{leg}: no reference value for A({el})")
         pins[el] = round(ref + sgn * STEP, 3)
@@ -110,6 +117,13 @@ def main() -> int:
             m = re.search(r"Ni=([0-9.]+)", seed.read_text())
             if m:
                 VIS_REF["Ni"] = float(m.group(1))
+    import re as _re
+    for _r in a.regions:
+        _log = a.out / _r / "nominal" / "run.log"
+        if _log.exists():
+            _m = _re.search(r"seed A:\s*(.*)", _log.read_text())
+            if _m:
+                REGION_SEED[_r] = {k: float(v) for k, v in _re.findall(r"(\w+)=([0-9.]+)", _m.group(1))}
     tasks = [(r, leg) for r in a.regions for leg in a.legs.split(",")]
     print(f"{len(a.regions)} regions x {len(a.legs.split(','))} legs = {len(tasks)} runs", flush=True)
     with ThreadPoolExecutor(a.jobs) as ex:

@@ -935,7 +935,10 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
-                    span_A=(5001.10, 11083.46),   # AIR (vac 5002.5-11086.5)
+                    # 🔴 RYA-1232: capped at 10000 A, Baker+2020's processed range (file runs to
+                    # 11083.46 air). Beyond it the normalisation is 2-7% low vs KP AND CRIRES+
+                    # (10490-10870 A) and C I reads A(C) 8.89-9.27 vs 8.56-8.62 elsewhere.
+                    span_A=(5001.10, 10000.0),
                     note="Baker+2020 TELLURIC-CORRECTED atlas, normalised. 🔴 THE SPAN IS "
                          "DECLARED NOW (RYA-767): it was absent, so covers() answered True "
                          "for every window ever asked -- including the 954 A of blue this "
@@ -991,6 +994,17 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "Elgueta's most contaminated arm and they SKIP regions inside "
                          "it, so per-region judgement belongs downstream, not in this "
                          "span (RYA-787)."),
+        # 🔴 RYA-1232: OUR full-arm molecfit-corrected H arm. rya1094 (Elgueta's reduction) left
+        # telluric residuals where RYA-1191's Fe-only correction never reached (16645-16810 A);
+        # this is corrected over every H segment and is the H holding for science.
+        HoldingSpec("solar_crires_plus_h_rya1232", reader="crires_y",
+                    pre_normalised=True, path_key="repo.crires_plus_solar_h_rya1232",
+                    span_A=(14943.0, 17585.2), caveat=GDSAT_CAVEAT,
+                    note="RYA-1232 full-arm molecfit-corrected (H2O+CO2+CH4) + rest-frame "
+                         "conditioned H arm from our 7 Vesta IDPs; pixels with molecfit "
+                         "transmission < 0.5 not written. Known residual: the CH4 line at "
+                         "16656.0 A (rest) is under-modelled by molecfit (model 19%, observed "
+                         "~40%) and keeps ~24% residual absorption."),
         # RYA-1214: the RYA-1219 molecfit-corrected Vesta IDPs, rest-frame conditioned by
         # scripts/rya1214_condition_crires_jk.py (all 8 frames PASS held-out <= 0.5 km/s,
         # Horizons, telluric closure). Same reader and contract as the Elgueta Y/H products;

@@ -58,7 +58,7 @@ def main() -> int:
         p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
         tail = (p.stdout + p.stderr).strip().splitlines()[-3:]
         print(f"rc={p.returncode} {r['element']} {r['holding'][:26]:26} {str(r.get('selector')):11} "
-              f"{r['key_treatment']:16} A={r['A']}\n    " + "\n    ".join(tail))
+              f"{str(r.get('key_treatment', '')):16} A={r['A']}\n    " + "\n    ".join(tail))
         rc_all |= p.returncode
     if a.apply and rc_all == 0:
         withdraw_held(rows)

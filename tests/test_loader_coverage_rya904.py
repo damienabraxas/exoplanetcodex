@@ -352,8 +352,13 @@ def test_preflight_dispatch_reader_reads_the_holding_table():
     # APPENDS to the conditioned run; it never displaces an existing holding.
     # RYA-1214 appended the J and K arms (RYA-1219 corrected, rest-frame conditioned here)
     # to the conditioned run, still ahead of the raw IDP.
+    # RYA-1233 removed the stale topocentric RYA-1219 J/K specs that shadowed the rest-frame
+    # ones (RYA-1232 had renamed them; the removal supersedes that).
+    # RYA-1232: our full-arm molecfit-corrected H (solar_crires_plus_h_rya1232) follows
+    # Elgueta's H reduction; every science run names it with --holding.
     assert d.served_holdings["crires_plus"] == (
-        Y_HOLDING, Y_WIDE_HOLDING, H_HOLDING, J_HOLDING, K_HOLDING, IDP_HOLDING)
+        Y_HOLDING, Y_WIDE_HOLDING, H_HOLDING, "solar_crires_plus_h_rya1232", J_HOLDING, K_HOLDING,
+        IDP_HOLDING)
     # and the reader agrees with the harness rather than restating it
     assert {i: tuple(h.holding_id for h in M.holdings_for(i))
             for i in d.instruments} == d.served_holdings

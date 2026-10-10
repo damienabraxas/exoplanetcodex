@@ -1,0 +1,18 @@
+{
+ "ticket": "RYA-1232",
+ "what": "Elgueta+2026 (Gaia FGK benchmark stars: selecting infrared lines, A&A 710, A111) Table B.2 -- ROBUST (YYYY) transitions for the Sun (G dwarf), C I, Y/J/H",
+ "doi": "10.1051/0004-6361/202659148",
+ "local_copy": "~/Documents/Exoplanet Codex/Reference documents/aa59148-26.pdf",
+ "method": "four-stage physical tree Depth -> Saturation -> Purity -> goodness-of-fit, each Y/N/U, anchored to laboratory data (the RYA-968 grade framework's named IR method)",
+ "why": "C/O had no IR product: AGSS21 has no C/O line in CRIRES+ Y/J and our depth-ranked pool admits no O I IR line. The IR literature set is this one; it lists NO O I line for the Sun (IR oxygen is molecular: OH/CO).",
+ "lines_total": 25,
+ "lines_kept": 24,
+ "excluded": [
+  {
+   "wavelength_air_A": 10541.24,
+   "use_status": "EXCLUDED_NO_CANONICAL_GF"
+  }
+ ],
+ "wavelength_medium": "air (VALD3); dlambda vs canonical_gf = 0.000 A on all 24 kept lines",
+ "grade": "Reference Grade (cno_grade: selector SET-<name> = a published reference line set)"
+}

@@ -184,9 +184,15 @@ def test_the_row_population_and_keys_are_untouched(canon):
     #           `0 8977` — zero insertions — and
     #           tests/test_canonical_gf_molecular_separation_rya1182.py recombines the
     #           two files and requires the pre-relocation store back, line for line.
-    assert len(canon) == 169703, (
+    #   169704  RYA-1233 appends Al I 10768.363 (gf_179251), the AGSS21 line the store lacked
+    #           (added_rya1233_al_agss21).
+    #   169713  RYA-1232 appends the O I 926 nm multiplet, 9 components from our NIST pull
+    #           (grade A, = AGSS21) -- the store was seeded from the 420-920 nm optical list
+    #           and never held them (scripts/rya1232_canonical_gf_ir_cno.py).
+    assert len(canon) == 169713, (
         f"{len(canon)} rows — RYA-945 rewrites rows in place and must not change the "
-        f"population; RYA-834, RYA-1047 and RYA-1053 are the tickets that append")
+        f"population; RYA-834, RYA-1047, RYA-1053, RYA-1233 and RYA-1232 are the tickets "
+        f"that append")
     keys = {(r["species"], r["wavelength_air_A"], r["excitation_potential_eV"])
             for r in canon}
     assert len(keys) == len(canon), "duplicate (species, wavelength, EP) keys"

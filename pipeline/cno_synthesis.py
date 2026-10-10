@@ -508,14 +508,19 @@ VIS_IAG = RegionConfig(
 #: NOT the vendored MYTHOS file, which is vacuum and +0.30 dex strong.
 #: ⚠️ 16052.77 A sits in the enumerated CO2 band 15700-16100 A: its window is DROPPED, so
 #: 13 lines are fitted. Windows are +/-1.0 A around each AGSS21 air position.
+#: 🔴 RYA-1232: 16656.00 A DROPPED. A CH4 telluric line sits on it that molecfit
+#: under-models (model 19% absorption, observed ~40%): our full-arm corrected H arm still
+#: carries 24% residual (Elgueta's rya1094: 37%), against an OH signal of 0.3%. It was the
+#: one window that drove the joint fit to A(O) = 9.47. 12 lines are fitted.
 _OH_H_AIR_A = (15278.53, 15409.18, 15568.80, 16192.15, 16368.15, 16456.05, 16534.59,
-               16605.47, 16656.00, 16872.29, 16886.30, 16904.29, 16909.30)
+               16605.47, 16872.29, 16886.30, 16904.29, 16909.30)
 H_OH_CRIRES = RegionConfig(
     name='h_oh_crires', instrument='crires_plus', R=100000.0,
     wave_min_A=15007.11, wave_max_A=17493.69, telluric_correction_required=True,
-    nlte_backend='lte_by_design', holding='solar_crires_plus_h_rya1094',
-    notes='CRIRES+ H, molecfit-corrected (RYA-1191). AGSS21 OH (2-0)/(3-1)/(4-2); '
-          '16052.77 A dropped (CO2 15700-16100).')
+    nlte_backend='lte_by_design', holding='solar_crires_plus_h_rya1232',
+    notes='CRIRES+ H, OUR full-arm molecfit-corrected + rest-frame conditioned H (RYA-1232). '
+          'AGSS21 OH (2-0)/(3-1)/(4-2); 16052.77 A dropped (CO2 15700-16100), 16656.00 A '
+          'dropped (under-modelled CH4 residual).')
 
 #: 🔴 RYA-1214 — CRIRES+ J and K, from the RYA-1219 corrected IDPs conditioned here. J carries
 #: AGSS21's CN A-X band (the only CRIRES+ arm that reaches it: Y ends 76 A short, H starts

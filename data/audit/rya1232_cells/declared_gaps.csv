@@ -1,0 +1,10 @@
+element,indicator,band,holding,status,reason
+O,OH X-X (2-0)/(3-1)/(4-2),H,solar_crires_plus_h_rya1232,DECLARED_LIMIT,"OH lines are 0.3-0.6% deep at solar O (synthesis at A=8.69 vs 6.0); clean-pixel rms around the 12 windows is 0.90% median (0.26-3.06%), so S/N per line < 1. The fit tracked noise: 9.47 -> 7.50 -> 8.35 as inputs changed. Amarsi+2021 measure OH vib-rot from space-based spectra."
+N,CN A-X (0-0),NIR,solar_iag,DECLARED_LIMIT,"Region 10872-11083 A lies beyond the IAG atlas's verified span (Baker+2020 processed 500-1000 nm; capped at 10000 A, RYA-1232). IAG sits 2-7% low vs KP and CRIRES+ at 10490-10870 A; CN lines are a few % deep. N from CN stands on KP and CRIRES+ J."
+C,C I (AGSS21 set),Y,solar_crires_plus_y_wide_rya1054,DECLARED_GAP,"AGSS21 C grid has no line inside the arm's coverage 9801.8-10794.2 A; C I on this arm is measured with the Elgueta+2026 set."
+C,C I (AGSS21 set),J,solar_crires_plus_j_rya1219,DECLARED_GAP,"AGSS21 C grid has no line inside 11161.7-12976 A; C I on this arm is measured with the Elgueta+2026 set."
+O,O I,Y,solar_crires_plus_y_wide_rya1054,DECLARED_GAP,"No O I transition in the synthesis list inside 9801.8-10794.2 A; AGSS21 O I indicators are 6300/7772/8446/9263 A."
+O,O I,J,solar_crires_plus_j_rya1219,DECLARED_GAP,"No O I transition in the synthesis list inside 11161.7-12976 A."
+O,O I,H,solar_crires_plus_h_rya1232,DECLARED_GAP,"No O I line in 15007-17494 A with theoretical depth 0.15-0.9."
+O,O I (auto-selected),NIR,"solar_iag,solar_kpno_kurucz2005_corrected,solar_kpno_molecfit_corrected",DECLARED_GAP,"No O I line deeper than 0.15 by auto-selection; the AGSS21 O I 926 nm set IS measured on these holdings (n=9)."
+C,C I (Elgueta+2026 set),Y,solar_iag,DECLARED_LIMIT,"All Elgueta Y-band C I lines lie beyond 10000 A, past the IAG verified span (RYA-1232 cap). Measured on the same lines with KP molecfit (8.559, n=18) and CRIRES+ Y (8.569, n=6)."
