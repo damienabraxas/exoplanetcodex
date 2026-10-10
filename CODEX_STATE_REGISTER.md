@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v164** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v165** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,6 +304,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v165** (2026-10-10) — **RYA-1232 oxygen.** Asplund+2021 oxygen NLTE exception (0.03 floor, CLV-constrained); resolved features counted and fitted once (O I 844.6 had entered as 3 identical lines); Fe I 8446.575, the blend on O I 844.6, set to VALD3 -1.871 from a solar-profile test on 3 spectra (rms halves) over Ruffoni+2014 lab -1.44 +/- 0.13 (Ryan's call), the difference priced as the 844.6 blend term via a CODEX_GF_OVERRIDE leg.
 - **v164** (2026-10-09) — **RYA-1232 C/N/O republished on the corrected preparation** (C.json 1.200, N.json 1.78, O.json 1.84): KP molecfit floor, VALD damping fill, IAG cap, our corrected CRIRES+ H. New cells: CRIRES+ Y/J/H C I (AGSS21 + Elgueta+2026 sets), CRIRES+ K CO (C 8.701 +/- 0.182), KP/IAG/K2005 NIR C I and O I 926 nm, KP N I. Withdrawn: IAG CN (beyond the IAG cap). Unaffected holdings (HARPS, IAG/K2005 optical) unchanged. Fe held: Fe.json carries two stale near-UV rows RYA-587 refuses; they are replaced by the Sirius deck rerun.
 - **v163** (2026-10-08) — **RYA-1232 gf store + H telluric.** canonical_gf gains the O I 926 nm multiplet (9 rows, NIST ASD grade A from our RYA-1160 pull, = AGSS21's values) -- it held every O I 926 product; C I 16419.33 graded NIST D by level identity (VALD 0.11 A off NIST). The budget's telluric term now resolves CRIRES+ H from the holding's own molecfit transmission vs Elgueta's independent reduction -- no H product ever had it resolved. Declared limits: H-band OH (lines 0.3-0.6% deep vs 0.9% continuum rms) and IAG CN (beyond the 10000 A cap).
 - **v162** (2026-10-08) — **RYA-1232: IAG span capped at 10000 A** (Baker+2020's processed range; agreement with HARPS/KP was only verified to 10000). Beyond it IAG is 2-7% low vs KP AND CRIRES+ (10490-10870 A) and C I Y reads 8.89-9.27 vs 8.56-8.62 from KP/CRIRES+ on the same lines, with the damping fix in. Applies to the solar_iag holding and the contref leg.

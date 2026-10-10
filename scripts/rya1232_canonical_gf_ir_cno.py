@@ -103,6 +103,22 @@ def main() -> int:
         print(f"  {r0.species} {r0.wavelength_air_A}: {r0.loggf_reference} {r0.log_gf} -> NIST "
               f"{k.log_gf:.3f} grade {k.nist_grade} (NIST air {k.wavelength_ritz_A:.3f})")
     print(f"level identity: {graded} graded, {skipped} left (no unique graded NIST match)")
+    # Fe I 8446.575 -- the blend on O I 844.6 nm's red component (Ryan's call, option 1).
+    # Ruffoni+2014 (lab, listed at 8446.5685) give -1.44 +/- 0.13; VALD3 -1.871. The solar
+    # profile 8446.0-8447.0 with A(O) free, on IAG, KP molecfit and Kurucz 2005 independently,
+    # is best fitted at -1.7 to -2.0 (rms 0.0195 -> 0.009); at -1.44 the synthesis is 4% too
+    # deep at 8446.50-8446.65 even with no oxygen, and the fit pulled A(O) down. VALD's value
+    # is adopted for the BLEND; the lab-vs-adopted difference is carried as sigma and priced
+    # on 844.6 by a CODEX_GF_OVERRIDE leg. No Fe product measures this line.
+    j = store.index[(store.species == "Fe I") & ((store.wavelength_air_A - 8446.575).abs() < 0.002)]
+    if len(j) != 1:
+        raise SystemExit(f"Fe I 8446.575: {len(j)} store rows")
+    store.loc[j[0], ["log_gf", "loggf_reference", "adjudication_status", "gf_sigma_dex"]] = [
+        -1.871,
+        ("VALD3 -1.871 adopted for a BLEND (RYA-1232): solar-profile fit of O I 844.6 prefers "
+         "-1.7..-2.0 on 3 spectra; Ruffoni+2014 lab -1.44 +/- 0.13 (at 8446.5685) is the alternative"),
+        "rya1232_blend_solar_profile", round(abs(-1.44 - -1.871), 3)]
+    print(f"Fe I 8446.575: -> -1.871 (VALD3), sigma {abs(-1.44 - -1.871):.3f} = lab - adopted")
     if a.apply:
         out = pd.concat([store, add], ignore_index=True)[store.columns]
         out.to_csv(STORE, index=False)

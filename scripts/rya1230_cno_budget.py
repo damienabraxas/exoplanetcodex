@@ -657,6 +657,21 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                           "paired response to A(C) +/- 0.10 on this pool x sigma(C)"),
                                   evidence={"pool_sha256": digest, "dAN_dAC": resp,
                                             "sigma_C": SIGMA_C, "sigma_C_source": SIGMA_C_SOURCE}))
+    elif element == "O" and _leg_lines(unit_dir / "blendgf", lines_stem) is not None:
+        #: RYA-1232: O I 844.6's blending Fe I 8446.575 -- adopted VALD3 -1.871 vs Ruffoni+2014
+        #: lab -1.44; the product moved by that alternative, paired on this pool
+        _bl = _leg_lines(unit_dir / "blendgf", lines_stem)
+        _fb = [float(np.mean([v for _, v in f])) for f in _features(_accp(_bl))]
+        _fn = [float(np.mean([v for _, v in f])) for f in _features(acc)]
+        if len(_fb) != len(_fn):
+            notes.append(f"blends: blendgf leg pool moved ({len(_fb)} vs {len(_fn)} features)")
+        else:
+            d = float(np.median(_fb) - np.median(_fn))
+            comps.append(dict(name="blends", sigma_dex=abs(d), state="MEASURED",
+                              source=("Fe I 8446.575 blending O I 844.6: adopted VALD3 -1.871 (solar-profile "
+                                      "test) vs Ruffoni+2014 lab -1.44; product shift with the lab value"),
+                              evidence={"pool_sha256": digest, "shift_dex": d,
+                                        "per_feature_shift": [round(b - a, 4) for a, b in zip(_fn, _fb)]}))
     else:
         comps.append(dict(name="blends", sigma_dex=None, state="N/A",
                           source=("full atomic + molecular synthesis in-window (RYA-1230 turned "
