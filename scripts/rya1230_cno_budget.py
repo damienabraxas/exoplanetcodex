@@ -313,6 +313,22 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 
 # ── one product ────────────────────────────────────────────────────────────────
+FEATURE_A = 0.5
+
+
+def _features(acc: pd.DataFrame) -> list:
+    """Accepted lines grouped into resolved features: consecutive components closer than
+    FEATURE_A A form one feature. Returns [[(wavelength, abundance), ...], ...]."""
+    pts = sorted(zip(acc["wavelength_air_A"].astype(float), acc["abundance"].astype(float)))
+    out = []
+    for w, v in pts:
+        if out and w - out[-1][-1][0] < FEATURE_A:
+            out[-1].append((w, v))
+        else:
+            out.append([(w, v)])
+    return out
+
+
 def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from config.synth_bands import SYNTH_BANDS
     from pipeline.band_policy import resolve as band_of
@@ -353,6 +369,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                   "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
     else:
         restat = None
+    # 🔴 RYA-1232 -- RESOLVED FEATURES. Fine-structure components closer than FEATURE_A are
+    # fitted in overlapping windows that all see the same blend, so they are ONE measurement
+    # (O I 844.6: 8.544/8.544/8.545 entered as three lines, faked n=6 and set the median
+    # halfway between 777 and 844.6). Each feature = mean of its components; the product is
+    # the median over features, stat = std/sqrt(n_features) -- lines counted as AGSS21 prints them.
+    feats = _features(acc)
+    if any(len(f) > 1 for f in feats):
+        _fv = pd.Series([float(np.mean([v for _, v in f])) for f in feats])
+        nf = len(_fv)
+        restat = dict(restat or {"leg_unstable": {}})
+        restat.update({"A": round(float(_fv.median()), 3),
+                       "stat_dex": (round(float(_fv.std(ddof=1) / math.sqrt(nf)), 4) if nf > 1 else None),
+                       "n_lines": nf, "n_components": len(acc),
+                       "features": [[round(w, 3) for w, _ in f] for f in feats if len(f) > 1]})
     _pool_w = set(acc["wavelength_air_A"].round(3))
 
     def _accp(df):
@@ -373,7 +403,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     row["star"] = "solar"
     if restat:
         row["A"], row["n_lines"] = restat["A"], restat["n_lines"]
-        if "sigma_stat" in row:
+        if "sigma_stat" in row and restat.get("stat_dex") is not None:
             row["sigma_stat"] = restat["stat_dex"]
     band = row["band"]
     hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[band].half_width_A))
@@ -452,11 +482,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                    "inadequacy; the worse-constrained side is taken"),
             n_pixels=npx))
     else:
-        raw = float(acc["abundance"].astype(float).std(ddof=1))
-        comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(n), state="MEASURED",
-                          source="per-line scatter of the accepted pool (RYA-1230 re-run artifact)",
-                          evidence={"method": "line_scatter", "independent": True, "n_lines": n,
-                                    "raw_sigma": raw, "pool_sha256": digest}))
+        _fv = [float(np.mean([v for _, v in f])) for f in _features(acc)]
+        nf = len(_fv)
+        if nf >= 2:
+            raw = float(np.std(_fv, ddof=1))
+            comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(nf), state="MEASURED",
+                              source=("per-feature scatter of the accepted pool (components within "
+                                      f"{FEATURE_A} A merged, RYA-1232)"),
+                              evidence={"method": "line_scatter", "independent": True, "n_lines": nf,
+                                        "n_components": n, "raw_sigma": raw, "pool_sha256": digest}))
+        else:
+            notes.append("measurement: the pool is ONE resolved feature; single-line pricing owed")
     w = [1.0 / n] * n
     cov = [[sig[a] * sig[b] if src[a] == src[b] else 0.0 for b in range(n)] for a in range(n)]
     comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
@@ -656,7 +692,24 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
             if corr_nlte is None:
                 notes.append("nlte: no line common to the 1D-NLTE sibling")
             else:
-                comps.append(dict(
+                if element == "O":
+                    #: 🔴 RYA-1232 -- Asplund+2021 Sect. 2.1 EXEMPTS oxygen from "half the NLTE
+                    #: correction": its NLTE is constrained by the O I 777 centre-to-limb
+                    #: variation, so half the correction "would significantly overestimate" the
+                    #: error (their O I total error is 0.030). Our departures are the Amarsi+2019
+                    #: grid, built on the Amarsi+2018a O I model validated on that CLV. The
+                    #: Asplund floor (0.03 dex) is carried.
+                    comps.append(dict(
+                        name="nlte", sigma_dex=0.03, state="DEFINED",
+                        source=("Asplund+2021 Sect. 2.1 oxygen exception: NLTE constrained by the O I "
+                                "777 centre-to-limb variation (Amarsi+2018a model, adopted by the "
+                                "Amarsi+2019 grid applied here); the 0.03 dex floor, not half the "
+                                "correction"),
+                        evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                                  "n_lines": len(common), "floor_dex": 0.03,
+                                  "half_correction_not_used_dex": abs(corr_nlte) / 2.0}))
+                else:
+                    comps.append(dict(
                     name="nlte", sigma_dex=max(abs(corr_nlte) / 2.0, 0.03), state="MEASURED",
                     source=("Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum "
                             "0.03 dex -- the correction measured on this pool (median 1D-NLTE "
@@ -705,7 +758,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         validate(doc, scope=scope)
     except UncertaintyError as exc:
         verdict = str(exc)
-    if restat:
+    if restat and restat.get("leg_unstable"):
         notes.append("leg-unstable excluded: " + ", ".join(restat["leg_unstable"]))
     return {"row": row, "budget": doc, "ids": ids, "notes": notes, "verdict": verdict,
             "restat": restat,
@@ -756,9 +809,13 @@ def main() -> int:
                 df = pd.read_csv(Path(r["nominal_dir"]) / r["prod_stem"])
                 if r.get("restat"):
                     rs = r["restat"]
-                    df["n_excluded"] = df["n_excluded"] + (df["n_lines"] - rs["n_lines"])
-                    df["A"], df["stat_dex"], df["n_lines"] = rs["A"], rs["stat_dex"], rs["n_lines"]
-                    df["leg_unstable_excluded"] = json.dumps(rs["leg_unstable"])
+                    df["n_excluded"] = df["n_excluded"] + len(rs.get("leg_unstable") or {})
+                    df["A"], df["n_lines"] = rs["A"], rs["n_lines"]
+                    if rs.get("stat_dex") is not None:
+                        df["stat_dex"] = rs["stat_dex"]
+                    df["leg_unstable_excluded"] = json.dumps(rs.get("leg_unstable") or {})
+                    if rs.get("features"):
+                        df["features_merged"] = json.dumps(rs["features"])
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
                 df["sigma_reported"] = b["sigma_reported"]

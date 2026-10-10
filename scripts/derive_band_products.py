@@ -197,6 +197,8 @@ _LIST_COVERAGE_TOL_A = 5.0
 _NEARUV = SYNTH_BANDS["near-UV"]
 NEARUV_HALF_WIDTH_A = _NEARUV.half_width_A   # no EW exists to key the wing-wide rule
 NEARUV_MIN_SEP_A = _NEARUV.min_sep_A         # keeps the set spread, not piled in one complex
+#: RYA-1232: components closer than this are one resolved feature, fitted once
+FEATURE_A = 0.5
 NEARUV_N_LINES = _NEARUV.n_lines
 #: 🔴 THE PSEUDO-CONTINUUM SYSTEMATIC IS DELIBERATELY NOT DECLARED HERE (RYA-845).
 #: It lives in exactly one place, `pipeline/error_budget.py`, which adds it for any band
@@ -1489,6 +1491,31 @@ def synthesis_route(a, pol) -> None:
             print(f"      {w:10.3f}  {why[:110]}")
         cand = cand[~cand.wave_A.astype(float).isin({w for w, _ in _cur})
                     ].reset_index(drop=True)
+    # 🔴 RYA-1232 -- ONE FIT PER RESOLVED FEATURE. Components closer than FEATURE_A (O I
+    # 844.6 nm: 8446.247/.359/.758; O I 926 nm) were fitted one by one in +/-hw windows that
+    # each saw the same blend: three identical results counted as three lines, and each a
+    # core-window fit of a wide blend -- 844.6's fit gave LTE 8.695 where its own equivalent
+    # width gives 8.822. The synthesis already carries every component and one abundance
+    # scales them all, so the feature is fitted ONCE: centred on its strongest component,
+    # the window widened to cover every component (hw + the farthest component's offset).
+    cand = cand.sort_values("wave_A").reset_index(drop=True)
+    _key = "strength" if "strength" in cand.columns else ("loggf" if "loggf" in cand.columns else None)
+    _grp, _g = [], -1
+    for _i, _w in enumerate(cand.wave_A.astype(float)):
+        if _i == 0 or _w - float(cand.wave_A.iloc[_i - 1]) >= FEATURE_A:
+            _g += 1
+        _grp.append(_g)
+    cand["_feature"] = _grp
+    _keep, _fhw = [], {}
+    for _g, _df in cand.groupby("_feature"):
+        _rep = _df.index[0] if _key is None else _df[_key].astype(float).idxmax()
+        _keep.append(_rep)
+        _off = float((_df.wave_A.astype(float) - float(cand.wave_A[_rep])).abs().max())
+        _fhw[float(cand.wave_A[_rep])] = _off
+        if len(_df) > 1:
+            print(f"  [feature] {len(_df)} components {', '.join(f'{x:.3f}' for x in _df.wave_A)} "
+                  f"fitted ONCE at {float(cand.wave_A[_rep]):.3f} (window +{_off:.3f} A)")
+    cand = cand.loc[sorted(_keep)].drop(columns="_feature").reset_index(drop=True)
     # 🔴 NAME THE RULE THAT ACTUALLY SELECTED, not the default one. This said "by
     # theoretical depth" unconditionally, so a run driven by `--lines-from-set` printed
     # that its 6 O I lines were the strongest in the band -- when the depth floor
@@ -1531,7 +1558,7 @@ def synthesis_route(a, pol) -> None:
             # synthesised without the molecules its band declares. False everywhere but
             # the near-UV, where `**fit_kw` is otherwise unchanged.
             _mol_kw = {"use_molecules": True} if cfg.use_molecules else {}
-            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw, **_mol_kw)
+            res = fit_one(ctx, segs, w, hw + _fhw.get(w, 0.0), tmp, load=_observed, **fit_kw, **_mol_kw)
             a_x = float(res.get("a_synth", float("nan")))
             lm = LineMeasurement(
                 element=a.element, ion=a.ion, wavelength_air_A=w,
