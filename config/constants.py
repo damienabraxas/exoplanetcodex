@@ -1262,7 +1262,12 @@ def require_codex_path(key: str, context: str = "") -> Path:
     e = reg['entries'][key]
     root_cfg = reg['roots'][e['root']]
 
-    if root_cfg.get('removable'):
+    #: RYA-1232: the mount/sentinel check guards the DEFAULT removable root (Sirius's
+    #: /mnt/codex-ext). When the root is explicitly overridden by its env var (e.g. a Mac
+    #: copy, md5-verified against Sirius), that mount is irrelevant -- checking it told the
+    #: Mac "volume absent" with the file present. The existence check below still applies.
+    _overridden = bool(_os.environ.get(root_cfg.get('env') or '', '').strip())
+    if root_cfg.get('removable') and not _overridden:
         mount, sentinel = root_cfg.get('mount'), root_cfg.get('sentinel')
         if mount and not _os.path.ismount(mount):
             raise FileNotFoundError(
