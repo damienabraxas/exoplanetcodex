@@ -241,8 +241,14 @@ def prepare(star: str, element: str) -> dict:
     # D -- NLTE coverage of the graded, un-culled lines
     nlte = ROOT / "data" / "nlte_grids" / f"{element}_Amarsi2020_PySME.csv"
     served = set(pd.read_csv(nlte).wave_A.round(1)) if nlte.exists() else set()
+    # Only lines some cell can measure: a line between the instruments' bands (Si has ~100 at
+    # 13000-15000 and 17500-19400 A) has no cell, and an NLTE row for it is wasted compute.
+    windows = sorted({(d.lo_A, d.hi_A) for d in rm.expand(star, element, engines=["ts-lte"],
+                                                          methods=["synthesis"], pools=["codex"])})
     for _, g in graded.iterrows():
         sp, w = str(g.species), float(g.wavelength_air_A)
+        if not any(lo <= w <= hi for lo, hi in windows):
+            continue
         if sp.endswith(" I") and not is_culled(sp, w) and round(w, 1) not in served:
             rep["nlte_missing"].append({"species": sp, "wavelength_A": w})
     rep["nlte_table"] = str(nlte.relative_to(ROOT)) if nlte.exists() else None

@@ -7,9 +7,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5645.61,
+   "ep_eV": 4.9296,
    "solar_literature": true,
    "authors_loggf": -2.04,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5645.613,
    "canonical_loggf": -2.04,
    "canonical_tier": "LAB",
@@ -20,9 +22,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5684.48,
+   "ep_eV": 4.9538,
    "solar_literature": true,
    "authors_loggf": -1.55,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5684.484,
    "canonical_loggf": -1.55,
    "canonical_tier": "LAB",
@@ -33,9 +37,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5690.43,
+   "ep_eV": 4.9296,
    "solar_literature": true,
    "authors_loggf": -1.77,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5690.425,
    "canonical_loggf": -1.77,
    "canonical_tier": "LAB",
@@ -46,9 +52,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5701.11,
+   "ep_eV": 4.9296,
    "solar_literature": true,
    "authors_loggf": -1.95,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5701.104,
    "canonical_loggf": -1.95,
    "canonical_tier": "LAB",
@@ -59,9 +67,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5772.15,
+   "ep_eV": 5.0823,
    "solar_literature": true,
    "authors_loggf": -1.65,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5772.146,
    "canonical_loggf": -1.65,
    "canonical_tier": "LAB",
@@ -72,9 +82,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 5793.07,
+   "ep_eV": 4.9296,
    "solar_literature": true,
    "authors_loggf": -1.96,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 5793.073,
    "canonical_loggf": -1.96,
    "canonical_tier": "LAB",
@@ -85,9 +97,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 6741.64,
+   "ep_eV": 5.984,
    "solar_literature": true,
    "authors_loggf": -1.65,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 6741.628,
    "canonical_loggf": -1.65,
    "canonical_tier": "LAB",
@@ -98,9 +112,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 7034.9,
+   "ep_eV": 5.8708,
    "solar_literature": true,
    "authors_loggf": -0.78,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 7034.901,
    "canonical_loggf": -0.78,
    "canonical_tier": "LAB",
@@ -111,9 +127,11 @@
    "set": "SI_AGSS21",
    "species": "Si I",
    "wavelength_A": 7226.21,
+   "ep_eV": 5.6135,
    "solar_literature": true,
    "authors_loggf": -1.41,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 7226.208,
    "canonical_loggf": -1.41,
    "canonical_tier": "LAB",
@@ -124,9 +142,11 @@
    "set": "SI_AGSS21",
    "species": "Si II",
    "wavelength_A": 6371.37,
+   "ep_eV": 8.121,
    "solar_literature": true,
    "authors_loggf": -0.044,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 6371.371,
    "canonical_loggf": -0.044,
    "canonical_tier": "LAB",
@@ -137,9 +157,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 9887.047,
+   "ep_eV": 6.223,
    "solar_literature": false,
    "authors_loggf": -1.326,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 9887.047,
    "canonical_loggf": -1.234,
    "canonical_tier": "PR2024-CALC",
@@ -150,9 +172,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 9891.725,
+   "ep_eV": 6.125,
    "solar_literature": false,
    "authors_loggf": -1.321,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 9891.725,
    "canonical_loggf": -1.344,
    "canonical_tier": "PR2024-CALC",
@@ -163,18 +187,38 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10025.743,
+   "ep_eV": 6.083,
    "solar_literature": false,
    "authors_loggf": -1.79,
    "authors_sigma_dex": null,
-   "canonical": "MISSING"
+   "authors_gf_source": null,
+   "canonical": "MISSING",
+   "in_synthesis_list": null,
+   "add_plan": {
+    "species": "Si I",
+    "wavelength_A": 10025.743,
+    "ep_eV": 6.083,
+    "set": "SI_ELGUETA2026",
+    "authors_loggf": -1.79,
+    "authors_sigma_dex": null,
+    "authors_gf_source": null,
+    "extract": "vald_solar_ir_9500_17000_hfson_raw.txt",
+    "n_components": 1,
+    "centroid_A": 10025.7433,
+    "vald_total_loggf": -1.79,
+    "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+    "clashes": []
+   }
   },
   {
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10068.329,
+   "ep_eV": 6.099,
    "solar_literature": false,
    "authors_loggf": -1.318,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10068.329,
    "canonical_loggf": -1.383,
    "canonical_tier": "PR2024-CALC",
@@ -185,9 +229,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10288.944,
+   "ep_eV": 4.92,
    "solar_literature": false,
    "authors_loggf": -1.511,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10288.944,
    "canonical_loggf": -1.619,
    "canonical_tier": "PR2024-CALC",
@@ -198,9 +244,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10313.197,
+   "ep_eV": 6.399,
    "solar_literature": false,
    "authors_loggf": -0.886,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10313.197,
    "canonical_loggf": -1.21,
    "canonical_tier": "PR2024-CALC",
@@ -211,9 +259,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10407.037,
+   "ep_eV": 6.616,
    "solar_literature": false,
    "authors_loggf": -0.597,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10407.037,
    "canonical_loggf": -0.597,
    "canonical_tier": "VALD3",
@@ -224,9 +274,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10414.913,
+   "ep_eV": 6.619,
    "solar_literature": false,
    "authors_loggf": -1.137,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10414.913,
    "canonical_loggf": -1.137,
    "canonical_tier": "VALD3",
@@ -237,9 +289,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10582.16,
+   "ep_eV": 6.223,
    "solar_literature": false,
    "authors_loggf": -1.169,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10582.16,
    "canonical_loggf": -1.095,
    "canonical_tier": "PR2024-CALC",
@@ -250,9 +304,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10627.648,
+   "ep_eV": 5.862,
    "solar_literature": false,
    "authors_loggf": -0.866,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10627.648,
    "canonical_loggf": -0.224,
    "canonical_tier": "PR2024-CALC",
@@ -263,9 +319,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10660.973,
+   "ep_eV": 4.92,
    "solar_literature": false,
    "authors_loggf": -0.266,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10660.973,
    "canonical_loggf": -0.347,
    "canonical_tier": "LAB",
@@ -276,9 +334,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10689.716,
+   "ep_eV": 5.954,
    "solar_literature": false,
    "authors_loggf": -0.12,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10689.716,
    "canonical_loggf": -0.016,
    "canonical_tier": "PR2024-CALC",
@@ -289,9 +349,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10694.251,
+   "ep_eV": 5.964,
    "solar_literature": false,
    "authors_loggf": 0.048,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10694.251,
    "canonical_loggf": 0.155,
    "canonical_tier": "PR2024-CALC",
@@ -302,9 +364,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10727.406,
+   "ep_eV": 5.984,
    "solar_literature": false,
    "authors_loggf": 0.217,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10727.406,
    "canonical_loggf": 0.333,
    "canonical_tier": "PR2024-CALC",
@@ -315,9 +379,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10749.378,
+   "ep_eV": 4.93,
    "solar_literature": false,
    "authors_loggf": -0.205,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10749.378,
    "canonical_loggf": -0.266,
    "canonical_tier": "LAB",
@@ -328,9 +394,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10784.562,
+   "ep_eV": 5.964,
    "solar_literature": false,
    "authors_loggf": -0.839,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10784.562,
    "canonical_loggf": -0.746,
    "canonical_tier": "PR2024-CALC",
@@ -341,9 +409,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10786.849,
+   "ep_eV": 4.93,
    "solar_literature": false,
    "authors_loggf": -0.303,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10786.849,
    "canonical_loggf": -0.376,
    "canonical_tier": "PR2024-CALC",
@@ -354,9 +424,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10796.106,
+   "ep_eV": 6.181,
    "solar_literature": false,
    "authors_loggf": -1.266,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10796.106,
    "canonical_loggf": -1.454,
    "canonical_tier": "PR2024-CALC",
@@ -367,9 +439,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 11863.92,
+   "ep_eV": 5.984,
    "solar_literature": false,
    "authors_loggf": -1.457,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 11863.92,
    "canonical_loggf": -1.649,
    "canonical_tier": "PR2024-CALC",
@@ -380,9 +454,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 11900.055,
+   "ep_eV": 5.964,
    "solar_literature": false,
    "authors_loggf": -1.864,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 11900.055,
    "canonical_loggf": -1.758,
    "canonical_tier": "PR2024-CALC",
@@ -393,9 +469,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 11991.568,
+   "ep_eV": 4.92,
    "solar_literature": false,
    "authors_loggf": -0.109,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 11991.568,
    "canonical_loggf": -0.168,
    "canonical_tier": "LAB",
@@ -406,9 +484,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12031.504,
+   "ep_eV": 4.954,
    "solar_literature": false,
    "authors_loggf": 0.477,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12031.504,
    "canonical_loggf": 0.409,
    "canonical_tier": "PR2024-CALC",
@@ -419,9 +499,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12103.534,
+   "ep_eV": 4.93,
    "solar_literature": false,
    "authors_loggf": -0.35,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12103.534,
    "canonical_loggf": -0.465,
    "canonical_tier": "LAB",
@@ -432,9 +514,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12110.659,
+   "ep_eV": 6.616,
    "solar_literature": false,
    "authors_loggf": -0.136,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12110.659,
    "canonical_loggf": -0.216,
    "canonical_tier": "PR2024-CALC",
@@ -445,9 +529,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12175.733,
+   "ep_eV": 6.619,
    "solar_literature": false,
    "authors_loggf": -0.855,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12175.733,
    "canonical_loggf": -0.915,
    "canonical_tier": "PR2024-CALC",
@@ -458,9 +544,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12178.339,
+   "ep_eV": 6.269,
    "solar_literature": false,
    "authors_loggf": -1.1,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12178.339,
    "canonical_loggf": -1.074,
    "canonical_tier": "PR2024-CALC",
@@ -471,9 +559,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12189.241,
+   "ep_eV": 6.616,
    "solar_literature": false,
    "authors_loggf": -1.005,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12189.241,
    "canonical_loggf": -0.969,
    "canonical_tier": "PR2024-CALC",
@@ -484,9 +574,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12270.692,
+   "ep_eV": 4.954,
    "solar_literature": false,
    "authors_loggf": -0.396,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12270.692,
    "canonical_loggf": -0.526,
    "canonical_tier": "LAB",
@@ -497,9 +589,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12390.154,
+   "ep_eV": 5.082,
    "solar_literature": false,
    "authors_loggf": -1.767,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12390.154,
    "canonical_loggf": -1.789,
    "canonical_tier": "LAB",
@@ -510,9 +604,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12395.832,
+   "ep_eV": 4.954,
    "solar_literature": false,
    "authors_loggf": -1.644,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12395.832,
    "canonical_loggf": -1.727,
    "canonical_tier": "LAB",
@@ -523,9 +619,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12439.963,
+   "ep_eV": 5.082,
    "solar_literature": false,
    "authors_loggf": -2.732,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12439.963,
    "canonical_loggf": -2.849,
    "canonical_tier": "PR2024-CALC",
@@ -536,9 +634,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 12583.924,
+   "ep_eV": 6.616,
    "solar_literature": false,
    "authors_loggf": -0.462,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12583.924,
    "canonical_loggf": -0.518,
    "canonical_tier": "PR2024-CALC",
@@ -549,9 +649,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 13152.743,
+   "ep_eV": 4.92,
    "solar_literature": false,
    "authors_loggf": -2.504,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 13152.742700000004,
    "canonical_loggf": -2.446,
    "canonical_tier": "PR2024-CALC",
@@ -562,9 +664,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 13154.531,
+   "ep_eV": 6.616,
    "solar_literature": false,
    "authors_loggf": -0.997,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 13154.5305,
    "canonical_loggf": -1.015,
    "canonical_tier": "PR2024-CALC",
@@ -575,9 +679,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 15376.831,
+   "ep_eV": 6.223,
    "solar_literature": false,
    "authors_loggf": -0.691,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 15376.8307,
    "canonical_loggf": -0.423,
    "canonical_tier": "PR2024-CALC",
@@ -588,9 +694,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16129.015,
+   "ep_eV": 7.139,
    "solar_literature": false,
    "authors_loggf": -0.659,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16129.0154,
    "canonical_loggf": -0.659,
    "canonical_tier": "KURUCZ",
@@ -601,9 +709,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16163.691,
+   "ep_eV": 5.954,
    "solar_literature": false,
    "authors_loggf": -0.862,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16163.6908,
    "canonical_loggf": -0.818,
    "canonical_tier": "PR2024-CALC",
@@ -614,9 +724,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16170.164,
+   "ep_eV": 6.734,
    "solar_literature": false,
    "authors_loggf": -1.427,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16170.164100000002,
    "canonical_loggf": -1.284,
    "canonical_tier": "PR2024-CALC",
@@ -627,9 +739,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16346.857,
+   "ep_eV": 7.113,
    "solar_literature": false,
    "authors_loggf": -1.088,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16346.8573,
    "canonical_loggf": -1.088,
    "canonical_tier": "KURUCZ",
@@ -640,9 +754,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16434.927,
+   "ep_eV": 5.964,
    "solar_literature": false,
    "authors_loggf": -1.187,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16434.9265,
    "canonical_loggf": -1.597,
    "canonical_tier": "PR2024-CALC",
@@ -653,9 +769,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16828.159,
+   "ep_eV": 5.984,
    "solar_literature": false,
    "authors_loggf": -1.028,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16828.1586,
    "canonical_loggf": -1.018,
    "canonical_tier": "PR2024-CALC",
@@ -666,9 +784,11 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 16957.794,
+   "ep_eV": 7.092,
    "solar_literature": false,
    "authors_loggf": -1.068,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 16957.7942,
    "canonical_loggf": -1.068,
    "canonical_tier": "KURUCZ",
@@ -679,9 +799,11 @@
    "set": "SI_BERGEMANN2013",
    "species": "Si I",
    "wavelength_A": 11991.57,
+   "ep_eV": 4.92,
    "solar_literature": false,
    "authors_loggf": -0.109,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 11991.568,
    "canonical_loggf": -0.168,
    "canonical_tier": "LAB",
@@ -692,9 +814,11 @@
    "set": "SI_BERGEMANN2013",
    "species": "Si I",
    "wavelength_A": 11984.2,
+   "ep_eV": 4.93,
    "solar_literature": false,
    "authors_loggf": 0.239,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 11984.198,
    "canonical_loggf": 0.176,
    "canonical_tier": "LAB",
@@ -705,9 +829,11 @@
    "set": "SI_BERGEMANN2013",
    "species": "Si I",
    "wavelength_A": 12103.54,
+   "ep_eV": 4.93,
    "solar_literature": false,
    "authors_loggf": -0.351,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12103.534,
    "canonical_loggf": -0.465,
    "canonical_tier": "LAB",
@@ -718,9 +844,11 @@
    "set": "SI_BERGEMANN2013",
    "species": "Si I",
    "wavelength_A": 12031.5,
+   "ep_eV": 4.95,
    "solar_literature": false,
    "authors_loggf": 0.477,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12031.504,
    "canonical_loggf": 0.409,
    "canonical_tier": "PR2024-CALC",
@@ -731,9 +859,11 @@
    "set": "SI_DESHMUKH2022",
    "species": "Si I",
    "wavelength_A": 10288.94,
+   "ep_eV": 4.9201,
    "solar_literature": true,
    "authors_loggf": -1.622,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 10288.944,
    "canonical_loggf": -1.619,
    "canonical_tier": "PR2024-CALC",
@@ -744,9 +874,11 @@
    "set": "SI_DESHMUKH2022",
    "species": "Si I",
    "wavelength_A": 12390.15,
+   "ep_eV": 5.0824,
    "solar_literature": true,
    "authors_loggf": -1.805,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12390.154,
    "canonical_loggf": -1.789,
    "canonical_tier": "LAB",
@@ -757,9 +889,11 @@
    "set": "SI_DESHMUKH2022",
    "species": "Si I",
    "wavelength_A": 12395.83,
+   "ep_eV": 4.9538,
    "solar_literature": true,
    "authors_loggf": -1.723,
    "authors_sigma_dex": null,
+   "authors_gf_source": null,
    "canonical_wavelength_A": 12395.832,
    "canonical_loggf": -1.727,
    "canonical_tier": "LAB",
@@ -773,10 +907,28 @@
    "set": "SI_ELGUETA2026",
    "species": "Si I",
    "wavelength_A": 10025.743,
+   "ep_eV": 6.083,
    "solar_literature": false,
    "authors_loggf": -1.79,
    "authors_sigma_dex": null,
-   "canonical": "MISSING"
+   "authors_gf_source": null,
+   "canonical": "MISSING",
+   "in_synthesis_list": null,
+   "add_plan": {
+    "species": "Si I",
+    "wavelength_A": 10025.743,
+    "ep_eV": 6.083,
+    "set": "SI_ELGUETA2026",
+    "authors_loggf": -1.79,
+    "authors_sigma_dex": null,
+    "authors_gf_source": null,
+    "extract": "vald_solar_ir_9500_17000_hfson_raw.txt",
+    "n_components": 1,
+    "centroid_A": 10025.7433,
+    "vald_total_loggf": -1.79,
+    "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+    "clashes": []
+   }
   }
  ],
  "gf_sources": [
@@ -786,9 +938,9 @@
    "classified": true
   },
   {
-   "lab_source_tag": "(none: NIST grade / stored sigma)",
+   "lab_source_tag": "NIST_ASD",
    "n_graded_lines": 27,
-   "classified": false
+   "classified": true
   },
   {
    "lab_source_tag": "PR2024_exp",
@@ -1458,346 +1610,6 @@
   },
   {
    "species": "Si I",
-   "wavelength_A": 13029.5235
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13030.9212
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13048.5979
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13086.0273
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13102.0575
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13124.2337
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13176.8883
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13198.1094
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13268.7153
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13287.5644
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13309.044499999998
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13325.6261
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13368.9766
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13396.471999999998
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13397.3966
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13412.514700000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13429.0702
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13433.0869
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13457.8226
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13486.343600000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13505.5483
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13522.5101
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13523.8656
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13527.5639
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13584.0025
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13588.066199999996
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13606.9118
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13616.0056
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13619.209
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13620.584
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13631.2906
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13631.9356
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13640.681300000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13658.9156
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13667.3092
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13682.9455
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13685.7084
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13693.7973
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13711.352100000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13724.3514
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13762.279100000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13800.4514
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13819.2474
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13905.3382
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13918.1325
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13949.675600000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 13995.4486
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14013.318300000004
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14026.4756
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14041.7853
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14043.0398
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14059.9852
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14062.783799999996
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14073.3709
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14080.7367
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14081.1155
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14082.258
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14084.0475
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14113.016
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14142.0379
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14182.2685
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14185.615100000005
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14188.9754
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14196.4688
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14221.3549
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14224.5257
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14255.7992
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14331.9288
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14346.572500000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14361.9105
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14406.3676
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14426.9098
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14444.7699
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14484.9262
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14486.2674
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14592.512100000002
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14639.5359
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14755.7636
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14769.8312
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14783.6261
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14861.1537
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14862.8439
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14911.2287
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14925.3292
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 14985.3383
-  },
-  {
-   "species": "Si I",
    "wavelength_A": 15030.0046
   },
   {
@@ -2031,90 +1843,6 @@
   {
    "species": "Si I",
    "wavelength_A": 17393.4554
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 17593.3495
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 17616.9455
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 17623.3274
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 17771.8906
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 17801.1778
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18271.9983
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18284.5035
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18422.5782
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18429.4383
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18468.2806
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18471.9763
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18554.2928
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18722.8716
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18914.4354
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 18916.2713
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19006.5171
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19030.7582
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19283.2994
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19385.9387
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19432.8197
-  },
-  {
-   "species": "Si I",
-   "wavelength_A": 19432.9707
   },
   {
    "species": "Si I",
@@ -2611,11 +2339,12 @@
  },
  "nlte_table": "data/nlte_grids/Si_Amarsi2020_PySME.csv",
  "blocking": {
+  "nlte_missing": 235,
   "adopt": 0,
   "cull_candidates": 0,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
  },
- "ready": true
+ "ready": false
 }

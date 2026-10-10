@@ -106,7 +106,10 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out = "STALE" if why else "PUBLISHED"
                 elif hold:
                     out, why = "HELD", hold
-                elif run is not None and run.get("status") in (rm.FAILED, rm.HELD, rm.BLOCKED):
+                elif run is not None and run.get("status") in (rm.FAILED, rm.NOT_READY):
+                    # a failure or a cell owed on another host is WORK OWED, never a hold
+                    out, why = "NOT_RUN", f"{run['status']}: {run.get('reason', '')}"
+                elif run is not None and run.get("status") in (rm.HELD, rm.BLOCKED):
                     out, why = "HELD", f"{run['status']}: {run.get('reason', '')}"
                 elif (d.band, d.holding, sel, t) in budget_held:
                     out, why = "HELD", budget_held[(d.band, d.holding, sel, t)]

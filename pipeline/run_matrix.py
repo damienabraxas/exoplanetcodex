@@ -481,6 +481,23 @@ def _deck_hold(d: RunDescriptor) -> str:
     return ""
 
 
+def deck_host_ready(d: RunDescriptor) -> str:
+    """'' when THIS host holds the deck's data; else NOT_READY's reason. The Gerber decks'
+    model atom + aux tables are Sirius-only: on the Mac every gerber cell used to FAIL inside
+    derive (RYA-1233 Al, 68 cells). Owed work on another host is NOT_READY, never FAILED."""
+    if not d.engine_deck.startswith("gerber-"):
+        return ""
+    try:
+        from pipeline.gerber_nlte import DECKS, GT
+    except Exception as exc:
+        return f"ENGINE: {d.engine_deck} adapter unavailable here ({type(exc).__name__})"
+    key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
+    deck = DECKS.get(key) or {}
+    missing = [f for f in (deck.get("aux"), deck.get("atom")) if f and not os.path.exists(f"{GT}/{f}")]
+    return (f"ENGINE: {d.engine_deck} deck data is Sirius-only and absent on this host "
+            f"({', '.join(missing)} under {GT}) -- run this cell on Sirius") if missing else ""
+
+
 def cell_process_hold(d: RunDescriptor) -> str:
     """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
     for this cell's holding and window; otherwise the reason, naming the step."""
@@ -1440,6 +1457,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         if not row.reader_wired:
             cell.status, cell.reason = NOT_READY, (
                 f"reader: {d.holding} has no wired reader that serves {cell.band}")
+            continue
+        host_why = deck_host_ready(d)
+        if host_why:
+            cell.status, cell.reason = NOT_READY, host_why
             continue
 
         # ── 3. is the work already current (the loop-killer) ─────────────────

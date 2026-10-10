@@ -58,6 +58,21 @@
       "non_regression": "The 22 pre-existing rows are carried through unchanged. 6696/6698 were re-derived at solar and compared against the banked -0.0275 / -0.0171.",
       "generator": "scripts/rya773_extend_al_grid.py --write",
       "derived": "2026-08-11"
+    },
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-10-09",
+      "added_waves": [
+        6696.185,
+        8912.9,
+        10768.363,
+        10872.973,
+        11253.189
+      ],
+      "why": "prepare check D: 5 gf-graded Al I lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
     }
   ]
 }

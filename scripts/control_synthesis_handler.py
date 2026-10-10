@@ -67,7 +67,9 @@ CONTROL_LO, CONTROL_HI = max(3924.0, GES_LO), min(6905.0, GES_HI)
 
 
 # iSpec is a source tree on Sirius, not a pip install.
-ISPEC_SRC = str(codex_path('engines.ispec'))
+# ISPEC_DIR wins, as on the synthesis route (pipeline.nearuv_linelist / run_descriptor): the
+# registry path is Sirius's, so the profile-fit route failed every Mac cell (RYA-1233 Al).
+ISPEC_SRC = os.environ.get("ISPEC_DIR") or str(codex_path('engines.ispec'))
 # RYA-682: numpy >= 2.3 breaks ispec/abundances.py:132, and the failure is SILENT --
 # synthesis-v2 writes a 0-usable-row artifact and exits 0. A control that "passes" on
 # zero rows is worse than one that fails, so this is checked loudly and first.
