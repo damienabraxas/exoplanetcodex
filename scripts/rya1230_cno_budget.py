@@ -267,6 +267,37 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 
 # ── one product ────────────────────────────────────────────────────────────────
+#: Catalogued central depth below which a hyperfine-split line is optically thin enough that
+#: the splitting cannot move its EW (weak-line limit of the curve of growth).
+HFS_THIN_DEPTH = 0.10
+
+
+def _hfs_thin_evidence(rows: pd.DataFrame) -> dict | None:
+    """{wavelength: max component depth} when every split line is thin, else None."""
+    from pipeline.element_prepare import SYNTH_LISTS
+    out = {}
+    for _, r in rows.iterrows():
+        w = float(r.wavelength_air_A)
+        path = None
+        for lo, f in SYNTH_LISTS:
+            if w >= lo:
+                path = f
+        if path is None or not path.exists():
+            return None
+        ll = pd.read_csv(path, sep="\t", usecols=["element", "wave_A", "lower_state_eV",
+                                                    "theoretical_depth"])
+        tag = f"{r.species.split()[0]} {1 if r.species.split()[1] == 'I' else 2}"
+        c = ll[(ll.element == tag) & ((ll.wave_A - w).abs() <= 0.1)
+               & ((ll.lower_state_eV - float(r.excitation_potential_eV)).abs() <= 0.01)]
+        if c.empty:
+            return None
+        d = float(c.theoretical_depth.max())
+        if d > HFS_THIN_DEPTH:
+            return None
+        out[f"{w:.3f}"] = {"n_components": int(len(c)), "max_component_depth": d}
+    return {"lines": out, "threshold_depth": HFS_THIN_DEPTH} if out else None
+
+
 def _gf_covariance(sig, src, tags):
     """RYA-1233: the registry-driven gf covariance (pipeline.gf_error_model)."""
     from pipeline.gf_error_model import covariance
@@ -581,6 +612,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         comps.append(dict(name="hfs_isotopes", sigma_dex=None, state="N/A",
                           source="every pool line has hfs_n_components == 1 (canonical_gf)",
                           evidence={"hfs_n_components": hfs}))
+    else:
+        # RYA-1233 (Al): the hyperfine components ARE in the synthesis list, so HFS is modelled,
+        # not an error source -- except through saturation. An optically thin line's EW is the
+        # total gf however it is split, so where every multi-component pool line is weak
+        # (catalogued component depth <= HFS_THIN_DEPTH) the term is 0 by that limit. A
+        # stronger split line has no measured term yet: the component is left to HOLD.
+        thin = _hfs_thin_evidence(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
+        if thin is not None:
+            comps.append(dict(name="hfs_isotopes", sigma_dex=0.0, state="DEFINED",
+                              source=(f"optically thin limit: every hyperfine-split pool line is "
+                                      f"<= {HFS_THIN_DEPTH} deep (catalogued), so its EW is the "
+                                      f"total gf regardless of the splitting; the components are "
+                                      f"in the synthesis list (VALD lab HFS)"),
+                              evidence=thin))
     comps.append(dict(name="molecular_coupling", sigma_dex=None, state="N/A",
                       source="atomic product; the selector is not a MOL- indicator set",
                       evidence={"selector": selector}))
