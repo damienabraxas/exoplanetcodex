@@ -2,8 +2,8 @@
   "schema": "codex.orchestrator_run/1",
   "star": "solar",
   "element": "Al",
-  "generated_at": "2026-10-10T00:58:40Z",
-  "code_commit": "811477091bf78b36b93bf35a4b7de5d8d5edcbd5-dirty",
+  "generated_at": "2026-10-15T06:11:42Z",
+  "code_commit": "e875bf5e40c4ed392379ef7fd1c4f66953b9ffe5-dirty",
   "dry_run": false,
   "environment": {
     "interpreter": "/Users/ryanschmitt/codex/venv/bin/python",
@@ -45,14 +45,14 @@
   ],
   "cells_total": 355,
   "counts": {
-    "DONE": 0,
-    "SKIP": 24,
+    "DONE": 15,
+    "SKIP": 0,
     "FAILED": 0,
     "BLOCKED": 0,
     "NOT_READY": 152,
     "HELD": 179,
     "WOULD_RUN": 0,
-    "UNPUBLISHED": 0
+    "UNPUBLISHED": 9
   },
   "cells": [
     {
@@ -963,15 +963,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:39Z at inputs_hash cb4795efbd79, inputs unchanged, 10 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_3780_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|PROFILEFIT|GRADED",
-      "inputs_hash": "cb4795efbd79b9e516b418dd0a8e8a728ebac9a8d1cf56da96fc6177d1baa344",
+      "inputs_hash": "303c416dfff5904236bf5a387167a4453a466c3c7befe2019f7a13ad36617d4c",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -981,15 +984,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash b38873f8058d recorded 2026-10-09T23:33:21Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash c96027216316",
       "A": 6.449,
       "n_lines": 3,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|GRADED",
-      "inputs_hash": "b38873f8058d03bd9091d39d2f25f6a669b00baf3341c5a56e907328b2919398",
+      "inputs_hash": "c96027216316fb3b20ebce674208d70f907af981af1a4a4e0f6b04d34b9b6535",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1004,7 +1009,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "df6783b58e0a3376416f2672ba36a58cd7d26ccfa4acd388487d467a4ee8ad5f",
+      "inputs_hash": "08887366abb26989d545586c99d7c2a5a0b5f2279b33aa3d6c4f4137ba65e40c",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
       "steps": [
@@ -1037,15 +1042,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash e12090452f31 recorded 2026-10-09T23:32:34Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 0459f5a25dbd",
       "A": 6.451,
       "n_lines": 2,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "e12090452f316a20a3a9df7e5031d762216c90f7282de64f8ab5557e7579ea2d",
+      "inputs_hash": "0459f5a25dbd58f85bfa82c33a3b3e102747f9e84d1c175241678c32fbeef8a6",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1415,15 +1422,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:39Z at inputs_hash da39dfb6f7c4, inputs unchanged, 10 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_3780_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|PROFILEFIT|GRADED",
-      "inputs_hash": "da39dfb6f7c40433fdbd43c1a4d9f6b8dc394977ea2151b914c2b9f08b7063eb",
+      "inputs_hash": "25b1eddaeba06468d9b6f11a15c35a424362e2443b7431278c78510de91a2a83",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1433,15 +1443,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 696e4c6e9ff6 recorded 2026-10-09T23:35:44Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 36647cea4945",
       "A": 6.445,
       "n_lines": 3,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|GRADED",
-      "inputs_hash": "696e4c6e9ff663632c464e51bf145b21d0e45f880d6582852eea8a9c9b682e30",
+      "inputs_hash": "36647cea4945bad478883247a75da4b4499701ad7318d00068a3f46d3ceef405",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1456,7 +1468,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "00cfbce2410b73a07b2ccd53defb552a2a1eccac6970859cf6ce9f40beb244dc",
+      "inputs_hash": "49bcdad244db6512845050ee4b12691bbf343d9115c68a4be7c1991db1c1418b",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
       "steps": [
@@ -1489,15 +1501,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash ea06a85180b9 recorded 2026-10-09T23:34:48Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 66f0c53e950f",
       "A": 6.45,
       "n_lines": 2,
       "product_key": "Al|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "ea06a85180b9940c114c6234c6bd534c879263cdec92c7ffbbf274f2eadb7ebc",
+      "inputs_hash": "66f0c53e950f17352dbc0877f139c516fb0031fe9bae29d61c67bd1f970ffb18",
       "lo_A": 3780.0,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1867,15 +1881,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:22Z at inputs_hash 8b5c2960dbdb, inputs unchanged, 3 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_3782_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_GRADED_ENGINE-B_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|harps|solar_harps_molecfit_corrected|PROFILEFIT|GRADED",
-      "inputs_hash": "8b5c2960dbdb8a53df03a71325ce5eed7091fe8bcebf9f44ac4ccd706bf03891",
+      "inputs_hash": "4de533a58ef7eb1a9a4b9e8070f38f17f494a881aaf82025f5db72706df76ed6",
       "lo_A": 3782.6,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1885,15 +1902,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 9e9b9ec0e6fd recorded 2026-10-09T23:37:48Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 9ff97c3cec84",
       "A": 6.404,
       "n_lines": 3,
       "product_key": "Al|I|VIS|harps|solar_harps_molecfit_corrected|SYNTH|GRADED",
-      "inputs_hash": "9e9b9ec0e6fd59c0a2d4ad9c3f72b300a8dba4a60b1606ea3df01c1391c12676",
+      "inputs_hash": "9ff97c3cec8472903ae85a2af46e4ab3ba912b7ee92fac41ad0f292df84b3ea7",
       "lo_A": 3782.6,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -1908,7 +1927,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|harps|solar_harps_molecfit_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "03f9644a7e35933935c355d16f29da44f0254ad3f03ac14c501e97145b41990e",
+      "inputs_hash": "ff266f7b7a16752be8808bfca96a2b0c772808050747c6b8ab82775dfd074b6c",
       "lo_A": 3782.6,
       "hi_A": 6910.0,
       "steps": [
@@ -1941,15 +1960,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 9ecadeac3cff recorded 2026-10-09T23:36:51Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash daeb7bacc131",
       "A": 6.409,
       "n_lines": 2,
       "product_key": "Al|I|VIS|harps|solar_harps_molecfit_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "9ecadeac3cff9c0fda37dab6d53f12f865d0916a8a1c8a19e49ebdcf3110c262",
+      "inputs_hash": "daeb7bacc131a6ecf745f9d83135246b1abd84e715243ad3254e02c1001fd850",
       "lo_A": 3782.6,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -2679,15 +2700,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:25Z at inputs_hash 25bcfae98590, inputs unchanged, 8 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_5001_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_GRADED_ENGINE-B_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (10 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|iag_fts_solar_atlas|solar_iag|PROFILEFIT|GRADED",
-      "inputs_hash": "25bcfae985900869f55aeeb8ad5c2ffa59ed69ebbb48f70b23d98046f51f84f7",
+      "inputs_hash": "9ff1cf10e8ffdea40e59fd6d2f5082c3b4548b504bc9c42b76de3e0f895efa15",
       "lo_A": 5001.1,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -2697,15 +2721,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 9d0f74cd0260 recorded 2026-10-09T23:40:17Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash d0142373bb41",
       "A": 6.446,
       "n_lines": 3,
       "product_key": "Al|I|VIS|iag_fts_solar_atlas|solar_iag|SYNTH|GRADED",
-      "inputs_hash": "9d0f74cd02605bc10be8f3e84669b14adc07d6f4ab35f52de07676313188d463",
+      "inputs_hash": "d0142373bb41e3b645fa8dcdc5c3474bedca7939942bf4427a48e0b0c6cf061f",
       "lo_A": 5001.1,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "VIS",
@@ -2720,7 +2746,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|VIS|iag_fts_solar_atlas|solar_iag|SYNTH|DEEPGRADED",
-      "inputs_hash": "625855d6c02efda6e86a3032e5fabde2f0d8aa0919dc6e6cc5b23e78ccac896d",
+      "inputs_hash": "22ff18031dbb452ebc030550d6f84756377cd69263a21f98f042ee9c22ad6b5f",
       "lo_A": 5001.1,
       "hi_A": 6910.0,
       "steps": [
@@ -2753,15 +2779,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 36fc3138f7d5 recorded 2026-10-09T23:39:20Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 6306ab2e6e85",
       "A": 6.447,
       "n_lines": 2,
       "product_key": "Al|I|VIS|iag_fts_solar_atlas|solar_iag|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "36fc3138f7d5ca9e1408e810dfd7b0a3b40d0879d142c2457739ef4513ab857d",
+      "inputs_hash": "6306ab2e6e85c0d2ba1b0e6a5b2029faa9ff78508269bb2ca506e34a6f4e54d8",
       "lo_A": 5001.1,
       "hi_A": 6910.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3131,15 +3159,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:16Z at inputs_hash c2fa21bbf3a4, inputs unchanged, 5 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_PROFILEFIT_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|iag_fts_solar_atlas|solar_iag|PROFILEFIT|GRADED",
-      "inputs_hash": "c2fa21bbf3a4bf59b3c7a0dbb45d76403ecb1772c549ccd87387494b37aa74c0",
+      "inputs_hash": "135a4636972f2193a7a768b3e0531dbe23a51338f711468d3af839446566ff1e",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3149,15 +3180,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash a41bcbcced3e recorded 2026-10-09T23:41:24Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 03e62e666288",
       "A": 6.423,
       "n_lines": 2,
       "product_key": "Al|I|red-optical|iag_fts_solar_atlas|solar_iag|SYNTH|GRADED",
-      "inputs_hash": "a41bcbcced3ee64c53a691df1d6b28b9fdb549fe768953ac93c4047542c835a2",
+      "inputs_hash": "03e62e66628825fd14cc300b9a0991a1cf04c1b82af797dc6c05a927057b536a",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3172,7 +3205,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|iag_fts_solar_atlas|solar_iag|SYNTH|DEEPGRADED",
-      "inputs_hash": "8244abb1a25c149429714469424247c6839648f560805d173fab20a71b6b77bc",
+      "inputs_hash": "eb2f13dba604478714f256da4030b9876e224530847420436b040ae7ac6de3bf",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
       "steps": [
@@ -3205,15 +3238,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 99237c362712 recorded 2026-10-09T23:41:38Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash a727acd980cb",
       "A": 6.423,
       "n_lines": 2,
       "product_key": "Al|I|red-optical|iag_fts_solar_atlas|solar_iag|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "99237c362712ab2b19d1313044801675ded760e93908ac215ed2f39176135d83",
+      "inputs_hash": "a727acd980cbf6bf3910dd41ce9bddb7181c9617834168e5347c399a568f7634",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3583,15 +3618,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:19Z at inputs_hash dab9c4fefcf8, inputs unchanged, 5 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|PROFILEFIT|GRADED",
-      "inputs_hash": "dab9c4fefcf8e2bc10e26f69f4f96edebd53b323949136f3edf435af58b2a65c",
+      "inputs_hash": "8c64d9980fba1fb6a5d2651707d79bcb759f65d024214d4b0b8fa369462efee3",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3601,15 +3639,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-09T23:43:14Z at inputs_hash f5b8371a9ea3, inputs unchanged, 12 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (12 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|GRADED",
-      "inputs_hash": "f5b8371a9ea3c79d7540aa1a8ccfc54b658f11ea17d3856524b537284c93f4ae",
+      "inputs_hash": "e44bc60b0b08286b11332f1c93dfd63874b04a9a536f7dbb2b7891d1e8f7dc1f",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -3624,7 +3664,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "4f1fbf6327c911faa7b600b39e120b6d7a76575e6ce4f751a22918cc29515bd9",
+      "inputs_hash": "5d60e6573c2792c89bd280d5e239e00a7b89e375b37331d106a027273ea24503",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
       "steps": [
@@ -3657,15 +3697,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "built 2026-10-09T23:43:22Z at inputs_hash 23b4ceeb45b2, inputs unchanged, 12 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AL_AGSS21_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (12 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "23b4ceeb45b20b0753e4029c0337e84b18e65470907e5cbc1214082e94e33b4e",
+      "inputs_hash": "f7bb182228a6bf893dcc9c4b25be51a197464e8420a25de27691e997d1fbd048",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -4035,15 +4077,18 @@
       "engine": "ts-lte",
       "route": "PROFILEFIT",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "built 2026-10-10T00:00:33Z at inputs_hash 23e2b1edae87, inputs unchanged, 5 artifact(s) on disk; NOT YET PUBLISHED (data/results/band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_GRADED_1D-LTE_lines.csv)",
+      "status": "UNPUBLISHED",
+      "reason": "built and recorded (5 artifact(s) in data/results/band_products); a re-run with unchanged inputs SKIPs it. Not in data/products/solar/Al.json -- publication is `scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).",
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|PROFILEFIT|GRADED",
-      "inputs_hash": "23e2b1edae8783fb87c3aef7ffb530a6228932ff82cc2d5daa81d3100279ee2c",
+      "inputs_hash": "e559db126651310d5a3a8542051bf865904fcd069733c8fda8f072f6196f5c02",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "measure_ew:ok",
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -4053,15 +4098,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash e5487c3471f4 recorded 2026-10-09T23:45:35Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 1fc8024c8afe",
       "A": 6.46,
       "n_lines": 2,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|GRADED",
-      "inputs_hash": "e5487c3471f4464bb5470980d7384a797eeea0631d39bb2aaec80378b2a8761d",
+      "inputs_hash": "1fc8024c8afeeb00fbe0902d9a778a02ed5385489aeb4a8748cd71500b0cfe50",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "red-optical",
@@ -4076,7 +4123,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "5998894ed65ab3a5c4f22e897c936c266e71798bde855db8fafe8f1696b220ea",
+      "inputs_hash": "6a06cc245ebb5514330c4883f70872ae8397c8e41f6e3e5fb63f8bd634c3331b",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
       "steps": [
@@ -4109,15 +4156,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash fcdfa561a5b4 recorded 2026-10-09T23:45:38Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 56236ebe9e9d",
       "A": 6.46,
       "n_lines": 2,
       "product_key": "Al|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "fcdfa561a5b49937e917140bd430abbf5dcb3915a6b45579cd2aed3d540d6639",
+      "inputs_hash": "56236ebe9e9dcab36f25e641e9e2201391f1c1b5f93f9a87e8e1aca62f653d46",
       "lo_A": 6910.0,
       "hi_A": 9199.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "NIR",
@@ -4955,15 +5004,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "GRADED",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 537f2ae08010 recorded 2026-10-09T23:47:06Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 445c69120506",
       "A": 6.569,
       "n_lines": 2,
       "product_key": "Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|GRADED",
-      "inputs_hash": "537f2ae0801032fb696fdc16b6ce4567fa932c1db2eb6f162f2fb826c5a28197",
+      "inputs_hash": "445c691205067f9c134348f324cde0b4412c20bf4f50bdd65bd8f36e21a682e4",
       "lo_A": 9199.0,
       "hi_A": 13000.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "NIR",
@@ -4978,7 +5029,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|DEEPGRADED",
-      "inputs_hash": "42f1239cd8feb4d0d5af1ce0f1d11d9c018c8a5d76f74865dfef94674a2ebdd6",
+      "inputs_hash": "d1638de41f1807454c54611878c9774cd6465cabf243ee0d3a6c34d940e5a56c",
       "lo_A": 9199.0,
       "hi_A": 13000.0,
       "steps": [
@@ -4998,7 +5049,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|REFERENCE",
-      "inputs_hash": "7eb4bfd0d575ffc621e6dc7029a278e7dfee30e0b97885e74dcc61fb39abc039",
+      "inputs_hash": "cff16b825a4593db53d9044f47e1fa57409505d295e80b706094484fb6284394",
       "lo_A": 9199.0,
       "hi_A": 13000.0,
       "steps": [
@@ -5013,15 +5064,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 45b5efa307f8 recorded 2026-10-09T23:47:14Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash c3a7f6bb52a6",
       "A": 6.569,
       "n_lines": 2,
       "product_key": "Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "45b5efa307f8e76f94160ed7dbebb0d3abf8ad04d84acc6d8a48c4294174ed50",
+      "inputs_hash": "c3a7f6bb52a6c1ad03d521bfe9d6c776f3019f416e2788a8471837d3c1d8c27b",
       "lo_A": 9199.0,
       "hi_A": 13000.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "NIR",
@@ -5324,7 +5377,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|SYNTH|GRADED",
-      "inputs_hash": "1ae4f4537d31d39d7301c1c6d37e511fd171baf207b07575381c2be05d9926b2",
+      "inputs_hash": "78d34697f419f5b942676b35f2c4711e2e931fc4155725bfb2660b72e6bbaec9",
       "lo_A": 9800.0,
       "hi_A": 10796.0,
       "steps": [
@@ -5344,7 +5397,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|SYNTH|DEEPGRADED",
-      "inputs_hash": "4ed5abf9316db6fb9aed5bd6c0fb8fbdf49672bce5ac679f486aeb1bbbd8d9a2",
+      "inputs_hash": "c4ac4c3441da6f5852f7207d55b9c0762358690529504df3d9415cac94d17069",
       "lo_A": 9800.0,
       "hi_A": 10796.0,
       "steps": [
@@ -5377,15 +5430,17 @@
       "engine": "ts-lte",
       "route": "SYNTH",
       "pool": "SET-AL_AGSS21",
-      "status": "SKIP",
-      "reason": "1 published product(s) current at inputs_hash 42a39cc32986 recorded 2026-10-09T23:46:58Z",
+      "status": "DONE",
+      "reason": "ran 1 step(s); 2 published product(s) recorded at inputs_hash 764788e92c87",
       "A": 6.747,
       "n_lines": 1,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|SYNTH|SET-AL_AGSS21",
-      "inputs_hash": "42a39cc329865e542f6af890deb59436889cf4d6301aaf54f945312b0e951969",
+      "inputs_hash": "764788e92c878571e6a2ccc7d154aa70431e4a378cab349b7cb114b1dc04a28f",
       "lo_A": 9800.0,
       "hi_A": 10796.0,
-      "steps": []
+      "steps": [
+        "derive_products:ok"
+      ]
     },
     {
       "band": "NIR",
@@ -5886,7 +5941,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|SYNTH|GRADED",
-      "inputs_hash": "f021822532db1cefd021e9b5803e21781d12325f14fb87feebe7a7945c2f3743",
+      "inputs_hash": "1cd8c28c2fddd26b6ae07d557343d8be3a7bd2ffef79e716ca143fed6ec9c7b4",
       "lo_A": 11159.94,
       "hi_A": 13000.0,
       "steps": [
@@ -5906,7 +5961,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|SYNTH|DEEPGRADED",
-      "inputs_hash": "a4afe614a39cc2974cba5ea2af633817efbbaf1cfc407a45666735568dde5ecf",
+      "inputs_hash": "41dc4de58c7cd9adf3d0d3e31c3842ba1cac6be7a1767e332ce9aed3d9d41db7",
       "lo_A": 11159.94,
       "hi_A": 13000.0,
       "steps": [
@@ -5926,7 +5981,7 @@
       "A": null,
       "n_lines": null,
       "product_key": "Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|SYNTH|REFERENCE",
-      "inputs_hash": "445c7475ff779593685b7c976cca519761d10e3650c14585a921abb37712d36f",
+      "inputs_hash": "7c53b1f524fd53bf0681e26e0f578176b3e92ce9bcf8699345078e0be523394a",
       "lo_A": 11159.94,
       "hi_A": 13000.0,
       "steps": [
@@ -6525,6 +6580,7 @@
     "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|DEEPGRADED",
     "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|REFERENCE",
     "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|PROFILEFIT|GRADED",
     "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|DEEPGRADED",
     "VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|REFERENCE",
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-1d-lte|PROFILEFIT|GRADED",
@@ -6547,6 +6603,7 @@
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|DEEPGRADED",
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|REFERENCE",
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|PROFILEFIT|GRADED",
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|SYNTH|DEEPGRADED",
     "VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|SYNTH|REFERENCE",
     "VIS|harps|solar_harps_molecfit_corrected|I|gerber-1d-lte|PROFILEFIT|GRADED",
@@ -6569,6 +6626,7 @@
     "VIS|harps|solar_harps_molecfit_corrected|I|gerber-nlte|SYNTH|DEEPGRADED",
     "VIS|harps|solar_harps_molecfit_corrected|I|gerber-nlte|SYNTH|REFERENCE",
     "VIS|harps|solar_harps_molecfit_corrected|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "VIS|harps|solar_harps_molecfit_corrected|I|ts-lte|PROFILEFIT|GRADED",
     "VIS|harps|solar_harps_molecfit_corrected|I|ts-lte|SYNTH|DEEPGRADED",
     "VIS|harps|solar_harps_molecfit_corrected|I|ts-lte|SYNTH|REFERENCE",
     "VIS|iag_fts_solar_atlas|solar_iag_reiners2016|I|gerber-1d-lte|PROFILEFIT|GRADED",
@@ -6611,6 +6669,7 @@
     "VIS|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|DEEPGRADED",
     "VIS|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|REFERENCE",
     "VIS|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "VIS|iag_fts_solar_atlas|solar_iag|I|ts-lte|PROFILEFIT|GRADED",
     "VIS|iag_fts_solar_atlas|solar_iag|I|ts-lte|SYNTH|DEEPGRADED",
     "VIS|iag_fts_solar_atlas|solar_iag|I|ts-lte|SYNTH|REFERENCE",
     "red-optical|iag_fts_solar_atlas|solar_iag|I|gerber-1d-lte|PROFILEFIT|GRADED",
@@ -6633,6 +6692,7 @@
     "red-optical|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|DEEPGRADED",
     "red-optical|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|REFERENCE",
     "red-optical|iag_fts_solar_atlas|solar_iag|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "red-optical|iag_fts_solar_atlas|solar_iag|I|ts-lte|PROFILEFIT|GRADED",
     "red-optical|iag_fts_solar_atlas|solar_iag|I|ts-lte|SYNTH|DEEPGRADED",
     "red-optical|iag_fts_solar_atlas|solar_iag|I|ts-lte|SYNTH|REFERENCE",
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-1d-lte|PROFILEFIT|GRADED",
@@ -6655,8 +6715,11 @@
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|DEEPGRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|REFERENCE",
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|PROFILEFIT|GRADED",
+    "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|GRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|DEEPGRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|REFERENCE",
+    "red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|I|ts-lte|SYNTH|SET-AL_AGSS21",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-1d-lte|PROFILEFIT|GRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-1d-lte|SYNTH|GRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-1d-lte|SYNTH|DEEPGRADED",
@@ -6677,6 +6740,7 @@
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|DEEPGRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|REFERENCE",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|gerber-nlte|SYNTH|SET-AL_AGSS21",
+    "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|PROFILEFIT|GRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|SYNTH|DEEPGRADED",
     "red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|I|ts-lte|SYNTH|REFERENCE",
     "NIR|iag_fts_solar_atlas|solar_iag|I|gerber-1d-lte|SYNTH|GRADED",
@@ -6820,15 +6884,15 @@
     "element_verdict": "REVIEW",
     "benchmark": true,
     "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-    "n_products_judged": 15,
+    "n_products_judged": 30,
     "n_failed_cells": 0,
     "counts": {
-      "IN_BAND": 12,
-      "OUT_OF_BAND": 3,
+      "IN_BAND": 23,
+      "OUT_OF_BAND": 7,
       "NO_REFERENCE": 0,
       "REPORTED": 0
     },
-    "n_scale_mismatch": 15,
+    "n_scale_mismatch": 30,
     "cells": [
       {
         "treatment": "1D-LTE",
@@ -6853,7 +6917,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.435,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.005,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -6878,7 +6967,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.429,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.001,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -6903,7 +7017,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.43,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.0,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -6928,7 +7067,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.428,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.002,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -6953,7 +7117,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.391,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.039,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -6978,7 +7167,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.387,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.043,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "OUT_OF_BAND",
+        "delta": -0.003,
+        "band": "VIS",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7003,7 +7217,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.431,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.001,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7028,7 +7267,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.425,
+        "scale": "1D-NLTE",
+        "tier": "validate",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.005,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "VIS",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7053,7 +7317,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.406,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.024,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "red-optical",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7078,7 +7367,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.406,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": -0.024,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "red-optical",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7103,7 +7417,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.443,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.013,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "red-optical",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7128,7 +7467,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.443,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.013,
+        "deviate": false,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "IN_BAND",
+        "delta": 0.0,
+        "band": "red-optical",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7153,7 +7517,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "GRADED",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.553,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.123,
+        "deviate": true,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "OUT_OF_BAND",
+        "delta": 0.083,
+        "band": "NIR",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "GRADED",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7178,7 +7567,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.553,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.123,
+        "deviate": true,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "OUT_OF_BAND",
+        "delta": 0.083,
+        "band": "NIR",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       },
       {
         "treatment": "1D-LTE",
@@ -7203,7 +7617,32 @@
         "engine": "ts-lte",
         "route": "SYNTH",
         "pool": "SET-AL_AGSS21",
-        "cell_status": "SKIP"
+        "cell_status": "DONE"
+      },
+      {
+        "treatment": "ENGINE-A",
+        "A": 6.733,
+        "scale": "1D-NLTE",
+        "tier": "report",
+        "literature": {
+          "central": 6.43,
+          "min": 6.39,
+          "max": 6.47,
+          "scale": "3D-NLTE"
+        },
+        "offset_vs_central": 0.303,
+        "deviate": true,
+        "scale_mismatch": "product on 1D-NLTE, literature on 3D-NLTE: not scale-consistent until moved onto 3D-NLTE",
+        "status": "OUT_OF_BAND",
+        "delta": 0.263,
+        "band": "NIR",
+        "instrument": "crires_plus",
+        "holding": "solar_crires_plus_y_wide_rya1054",
+        "ion": "I",
+        "engine": "ts-lte",
+        "route": "SYNTH",
+        "pool": "SET-AL_AGSS21",
+        "cell_status": "DONE"
       }
     ]
   },

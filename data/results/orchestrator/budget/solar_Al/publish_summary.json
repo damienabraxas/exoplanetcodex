@@ -116,11 +116,11 @@
   "red-optical solar_kpno_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.46",
   "red-optical solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.443",
   "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.569",
-  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.553",
+  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.552",
   "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 1D-LTE A=6.569",
-  "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.553",
+  "NIR solar_kpno_molecfit_corrected SET-AL_AGSS21 ENGINE-A A=6.552",
   "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 1D-LTE A=6.747",
-  "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 ENGINE-A A=6.733"
+  "NIR solar_crires_plus_y_wide_rya1054 SET-AL_AGSS21 ENGINE-A A=6.732"
  ],
  "held": [
   {
@@ -140,6 +140,7 @@
    "why": "unresolved components: continuum"
   }
  ],
+ "legs_incomplete": [],
  "verdict": {
   "element_verdict": "REVIEW",
   "benchmark": true,
