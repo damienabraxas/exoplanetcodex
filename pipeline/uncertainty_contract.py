@@ -261,8 +261,14 @@ def validate(document, *, scope):
         raise UncertaintyError("transition-data uncertainty uses a different indicator pool")
     if not math.isclose(recomputed["sigma_dex"], terms["transition_data"]["sigma_dex"], rel_tol=1e-10):
         raise UncertaintyError("transition-data sigma is inconsistent with its line evidence")
-    if method == "line_scatter" and measurement["n_lines"] != len(data["indicator_ids"]):
-        raise UncertaintyError("scatter line count disagrees with the physical pool")
+    if method == "line_scatter":
+        # RYA-1232: components closer than 0.5 A are ONE resolved feature (fitted in windows
+        # that each see the same blend). The scatter is then over features (n_lines) and its
+        # n_components must be exactly the physical pool; without n_components the scatter
+        # line count must equal the pool, as before.
+        n_pool = measurement.get("n_components", measurement["n_lines"])
+        if n_pool != len(data["indicator_ids"]) or measurement["n_lines"] > n_pool:
+            raise UncertaintyError("scatter line count disagrees with the physical pool")
     for name in ("stellar.teff", "stellar.logg", "stellar.xi", "stellar.metallicity"):
         c = terms[name]
         if c["state"] == "MEASURED":
