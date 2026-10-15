@@ -112,8 +112,17 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         import shutil
         shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
-    subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
-                    "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+    # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
+    # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
+    # still missing is RECORDED, never silently assembled around.
+    for _attempt in range(2):
+        subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
+                        "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+        missing = sorted(str(d.relative_to(legs)) for d in legs.glob("unit*/*")
+                         if d.is_dir() and not (d / "DONE").exists())
+        if not missing:
+            break
+    summary["legs_incomplete"] = missing
     import shutil
     shutil.rmtree(stage, ignore_errors=True)
     rep = work / "report.json"
