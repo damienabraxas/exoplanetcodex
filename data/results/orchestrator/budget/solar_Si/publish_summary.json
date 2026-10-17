@@ -361,22 +361,47 @@
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 72,
+  "n_products_judged": 62,
   "counts": {
-   "IN_BAND": 38,
-   "OUT_OF_BAND": 34,
+   "IN_BAND": 35,
+   "OUT_OF_BAND": 27,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 72
+  "n_scale_mismatch": 62
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 70,
-   "HELD": 524,
+   "PUBLISHED": 62,
+   "HELD": 532,
    "NOT_RUN": 0,
    "STALE": 0
   },
   "done": true
- }
+ },
+ "withdrawn": [
+  "Si|I|H|crires_plus|solar_crires_plus_h_rya1094|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.325",
+  "Si|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-SI_DESHMUKH2022|SYNTH|1D-LTE|our-all A=7.491",
+  "Si|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-SI_DESHMUKH2022|SYNTH|ENGINE-A|our-all A=7.451",
+  "Si|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.573",
+  "Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.563",
+  "Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.578",
+  "Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ALL|SET-SI_ELGUETA2026|SYNTH|1D-LTE|our-all A=7.518",
+  "Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ALL|SET-SI_ELGUETA2026|SYNTH|ENGINE-A|our-all A=7.496",
+  "Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ALL|SET-SI_ELGUETA2026|SYNTH|1D-LTE|our-all A=7.47",
+  "Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ALL|SET-SI_ELGUETA2026|SYNTH|ENGINE-A|our-all A=7.458"
+ ],
+ "preserved": [
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_ELGUETA2026_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_ELGUETA2026_ENGINE-A_products.csv",
+  "archive: SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_DESHMUKH2022_products.csv",
+  "archive: SiI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv"
+ ]
 }

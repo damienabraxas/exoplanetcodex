@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Si",
- "feed_version": "1.271",
+ "feed_version": "1.278",
  "counts": {
-  "PUBLISHED": 70,
-  "HELD": 524,
+  "PUBLISHED": 62,
+  "HELD": 532,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -1590,11 +1590,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.573,
-   "sigma": 0.1277684907936134,
-   "n_lines": 2
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -1824,11 +1824,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.563,
-   "sigma": 0.1276122123767065,
-   "n_lines": 2
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -2058,11 +2058,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.578,
-   "sigma": 0.1269800692021657,
-   "n_lines": 2
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, profile_ew",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -3189,11 +3189,11 @@
    "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.47,
-   "sigma": 0.0655512398334242,
-   "n_lines": 5
+   "outcome": "HELD",
+   "reason": "quarantined: e existing live record. [ANOMALOUS_SCATTER] line-to-line scatter 0.0505 dex is 5.05x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0).",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -3202,11 +3202,11 @@
    "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.458,
-   "sigma": 0.0721514789124724,
-   "n_lines": 5
+   "outcome": "HELD",
+   "reason": "quarantined: e existing live record. [ANOMALOUS_SCATTER] line-to-line scatter 0.0510 dex is 5.10x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0).",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -3813,11 +3813,11 @@
    "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.518,
-   "sigma": 0.0895867917545364,
-   "n_lines": 9
+   "outcome": "HELD",
+   "reason": "quarantined: e existing live record. [ANOMALOUS_SCATTER] line-to-line scatter 0.0924 dex is 6.53x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0).",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -3826,11 +3826,11 @@
    "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.496,
-   "sigma": 0.0943759049820123,
-   "n_lines": 9
+   "outcome": "HELD",
+   "reason": "quarantined: e existing live record. [ANOMALOUS_SCATTER] line-to-line scatter 0.0915 dex is 6.47x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0).",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "H",
@@ -4008,11 +4008,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.325,
-   "sigma": 0.0899192514257795,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "H",

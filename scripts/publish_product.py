@@ -816,6 +816,16 @@ def main() -> int:
                 cur["display"] = row["display"]
                 if k not in backfilled:
                     backfilled.append(k)
+            # RYA-1233 -- RE-MEASURED, SAME RESULT. A rerun that reproduces every measured
+            # field from a NEW artifact must point at that artifact: the old `copied_to` is
+            # typically a stage file the rerun itself replaced or deleted. Only provenance
+            # moves; the previous record is kept in `provenance_was`.
+            if (npv.get("copied_to") and npv.get("sha256")
+                    and cp.get("sha256") != npv.get("sha256")):
+                cur["provenance_was"] = cp
+                cur["provenance"] = npv
+                if k not in backfilled:
+                    backfilled.append(k)
             if k in backfilled:
                 continue
             unchanged.append(k); continue
