@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Al",
- "feed_version": "1.37",
+ "feed_version": "1.67",
  "counts": {
   "PUBLISHED": 30,
-  "HELD": 124,
+  "HELD": 136,
   "NOT_RUN": 116,
   "STALE": 0
  },
@@ -487,9 +487,9 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.449,
-   "sigma": 0.0617232913343972,
-   "n_lines": 3
+   "A": 6.446,
+   "sigma": 0.0779907744544186,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -500,9 +500,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.435,
-   "sigma": 0.0687384260498396,
-   "n_lines": 3
+   "A": 6.423,
+   "sigma": 0.0842497083363026,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -721,9 +721,9 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.445,
-   "sigma": 0.0627106146166286,
-   "n_lines": 3
+   "A": 6.45,
+   "sigma": 0.0727671801020212,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -734,9 +734,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.43,
-   "sigma": 0.0696141420176948,
-   "n_lines": 3
+   "A": 6.427,
+   "sigma": 0.0792421114526824,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -955,9 +955,9 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.404,
-   "sigma": 0.0715131163092616,
-   "n_lines": 3
+   "A": 6.403,
+   "sigma": 0.0957501036866279,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -968,9 +968,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.391,
-   "sigma": 0.0774186820277921,
-   "n_lines": 3
+   "A": 6.381,
+   "sigma": 0.1003191126167223,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -1345,9 +1345,9 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.446,
-   "sigma": 0.0662562558676184,
-   "n_lines": 3
+   "A": 6.443,
+   "sigma": 0.0865288460803679,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -1358,9 +1358,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.431,
-   "sigma": 0.0729121904053654,
-   "n_lines": 3
+   "A": 6.42,
+   "sigma": 0.0920407025803222,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -2047,8 +2047,8 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.46,
-   "sigma": 0.1121171262564288,
+   "A": 6.467,
+   "sigma": 0.074401746861213,
    "n_lines": 2
   },
   {
@@ -2060,8 +2060,8 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.443,
-   "sigma": 0.1180106589605608,
+   "A": 6.45,
+   "sigma": 0.0834390203068106,
    "n_lines": 2
   },
   {
@@ -2099,8 +2099,8 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.46,
-   "sigma": 0.1121171262564288,
+   "A": 6.467,
+   "sigma": 0.074401746861213,
    "n_lines": 2
   },
   {
@@ -2112,8 +2112,8 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.443,
-   "sigma": 0.1180106589605608,
+   "A": 6.45,
+   "sigma": 0.0834390203068106,
    "n_lines": 2
   },
   {
@@ -2124,7 +2124,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2137,7 +2137,7 @@
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2150,7 +2150,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2163,7 +2163,7 @@
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2176,7 +2176,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2189,7 +2189,7 @@
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2202,7 +2202,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2215,7 +2215,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2228,7 +2228,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2241,7 +2241,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2254,7 +2254,7 @@
    "pool": "deep",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2267,7 +2267,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Al I line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2594,7 +2594,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.569,
-   "sigma": 0.1416834402816746,
+   "sigma": 0.1409778818645446,
    "n_lines": 2
   },
   {
@@ -2607,7 +2607,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.552,
-   "sigma": 0.1443417533608138,
+   "sigma": 0.1436492523065701,
    "n_lines": 2
   },
   {
@@ -2646,7 +2646,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.569,
-   "sigma": 0.1416834402816746,
+   "sigma": 0.1409778818645446,
    "n_lines": 2
   },
   {
@@ -2659,7 +2659,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.552,
-   "sigma": 0.1443417533608138,
+   "sigma": 0.1436492523065701,
    "n_lines": 2
   },
   {
@@ -2880,7 +2880,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.747,
-   "sigma": 0.7809593362686125,
+   "sigma": 0.7331687970072864,
    "n_lines": 1
   },
   {
@@ -2893,7 +2893,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.732,
-   "sigma": 0.7815353382318113,
+   "sigma": 0.7337823143856165,
    "n_lines": 1
   },
   {
@@ -3354,6 +3354,162 @@
   {
    "band": "H",
    "holding": "solar_crires_plus_h_rya1094",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "PROCESS step 7 (graded lines): none of the 18 Al I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
    "ion": "I",
    "grade": "Deep Grade",
    "pool": "deep",

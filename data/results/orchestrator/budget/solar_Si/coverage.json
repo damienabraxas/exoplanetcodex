@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Si",
- "feed_version": "1.207",
+ "feed_version": "1.271",
  "counts": {
-  "PUBLISHED": 69,
-  "HELD": 501,
+  "PUBLISHED": 70,
+  "HELD": 524,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -2046,7 +2046,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi",
+   "reason": "budget: unresolved components: continuum, profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2099,8 +2099,8 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.596,
-   "sigma": 0.1239199899128466,
+   "A": 7.595,
+   "sigma": 0.1234783620882622,
    "n_lines": 2
   },
   {
@@ -2112,8 +2112,8 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.578,
-   "sigma": 0.1269800692021657,
+   "A": 7.577,
+   "sigma": 0.1265344328863077,
    "n_lines": 2
   },
   {
@@ -2147,19 +2147,6 @@
    "holding": "solar_iag",
    "ion": "I",
    "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
@@ -2199,19 +2186,6 @@
    "holding": "solar_iag",
    "ion": "I",
    "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
@@ -2251,19 +2225,6 @@
    "holding": "solar_iag",
    "ion": "I",
    "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
@@ -2303,19 +2264,6 @@
    "holding": "solar_iag",
    "ion": "I",
    "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
@@ -2333,9 +2281,9 @@
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.541,
-   "sigma": 0.1266800923154772,
-   "n_lines": 18
+   "A": 7.528,
+   "sigma": 0.1611457155801292,
+   "n_lines": 13
   },
   {
    "band": "NIR",
@@ -2346,9 +2294,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.52,
-   "sigma": 0.1149508033789088,
-   "n_lines": 14
+   "A": 7.497,
+   "sigma": 0.1466687097100867,
+   "n_lines": 9
   },
   {
    "band": "NIR",
@@ -2381,39 +2329,13 @@
    "holding": "solar_iag",
    "ion": "I",
    "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.491,
-   "sigma": 0.1640114839391761,
-   "n_lines": 1
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:SI_DESHMUKH2022",
-   "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.451,
-   "sigma": 0.1667326208752523,
-   "n_lines": 1
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
    "pool": "set:SI_ELGUETA2026",
    "treatment": "1D-LTE",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.527,
-   "sigma": 0.1416032890646971,
-   "n_lines": 4
+   "A": 7.554,
+   "sigma": 0.1395790007245702,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -2424,9 +2346,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.515,
-   "sigma": 0.1454888892049882,
-   "n_lines": 4
+   "A": 7.542,
+   "sigma": 0.1427665837767002,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -2594,7 +2516,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.558,
-   "sigma": 0.1458861695460782,
+   "sigma": 0.0797182127109114,
    "n_lines": 13
   },
   {
@@ -2607,7 +2529,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.547,
-   "sigma": 0.1623336484739178,
+   "sigma": 0.1062899756675085,
    "n_lines": 9
   },
   {
@@ -2877,11 +2799,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.536,
+   "sigma": 0.5164319049290569,
+   "n_lines": 46
   },
   {
    "band": "NIR",
@@ -2892,9 +2814,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.549,
-   "sigma": 0.0859623135354395,
-   "n_lines": 15
+   "A": 7.529,
+   "sigma": 0.5527883177775863,
+   "n_lines": 43
   },
   {
    "band": "NIR",
@@ -2958,7 +2880,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.536,
-   "sigma": 0.0807743854632068,
+   "sigma": 0.0627426081957039,
    "n_lines": 15
   },
   {
@@ -2971,7 +2893,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.522,
-   "sigma": 0.0860095316621081,
+   "sigma": 0.06931975092331,
    "n_lines": 15
   },
   {
@@ -3192,7 +3114,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.551,
-   "sigma": 0.0901552253033028,
+   "sigma": 0.0838985378268852,
    "n_lines": 8
   },
   {
@@ -3205,7 +3127,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.523,
-   "sigma": 0.0965557835262508,
+   "sigma": 0.0907414973006738,
    "n_lines": 8
   },
   {
@@ -3244,7 +3166,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.468,
-   "sigma": 0.1364606492347675,
+   "sigma": 0.0667870405810459,
    "n_lines": 1
   },
   {
@@ -3257,7 +3179,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.428,
-   "sigma": 0.1397193930332302,
+   "sigma": 0.0732154955564344,
    "n_lines": 1
   },
   {
@@ -3504,7 +3426,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.582,
-   "sigma": 0.1235881943003444,
+   "sigma": 0.1130223065169867,
    "n_lines": 4
   },
   {
@@ -3517,7 +3439,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.56,
-   "sigma": 0.1301704236188325,
+   "sigma": 0.1201846046093521,
    "n_lines": 4
   },
   {
@@ -3556,7 +3478,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.468,
-   "sigma": 0.1364608307071105,
+   "sigma": 0.0667874113682712,
    "n_lines": 1
   },
   {
@@ -3569,7 +3491,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.428,
-   "sigma": 0.1397195702730104,
+   "sigma": 0.073215833788018,
    "n_lines": 1
   },
   {
@@ -3582,7 +3504,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.457,
-   "sigma": 0.0963066545176167,
+   "sigma": 0.0823102162819148,
    "n_lines": 2
   },
   {
@@ -3595,7 +3517,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.43,
-   "sigma": 0.100291995852676,
+   "sigma": 0.0869395446969513,
    "n_lines": 2
   },
   {
@@ -3816,7 +3738,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.527,
-   "sigma": 0.1825008207151096,
+   "sigma": 0.1031103067095855,
    "n_lines": 27
   },
   {
@@ -3829,7 +3751,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.507,
-   "sigma": 0.1848644920048011,
+   "sigma": 0.1072383615701461,
    "n_lines": 27
   },
   {
@@ -4142,6 +4064,240 @@
    "reason": "",
    "A": 7.325,
    "sigma": 0.1040471962956191,
+   "n_lines": 3
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "budget: product has no value (no line in the aggregate)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "1D-LTE",
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.418,
+   "sigma": 0.1208549967703117,
+   "n_lines": 3
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:SI_ELGUETA2026",
+   "treatment": "ENGINE-A",
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.38,
+   "sigma": 0.1217897400319196,
    "n_lines": 3
   },
   {
@@ -5012,7 +5168,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.488,
-   "sigma": 0.2232992293363822,
+   "sigma": 0.3033315108780418,
    "n_lines": 3
   },
   {
@@ -6284,7 +6440,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -6297,7 +6453,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -6310,7 +6466,7 @@
    "pool": "deep",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -6323,7 +6479,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10650 A",
+   "reason": "PROCESS step 6 (lines secured): canonical_gf.csv holds no Si II line in 9199-10000 A",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7254,6 +7410,162 @@
   {
    "band": "H",
    "holding": "solar_crires_plus_h_rya1094",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-LTE-gerber-stagger",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber mean-3D deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "ENGINE-B-NLTE",
+   "outcome": "HELD",
+   "reason": "ENGINE: no Gerber deck for Si (decks exist for Al, Fe)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "budget: product has no value (no line in the aggregate)",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-A",
+   "outcome": "HELD",
+   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "1D-LTE",
+   "outcome": "HELD",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "H",
+   "holding": "solar_crires_plus_h_rya1232",
    "ion": "II",
    "grade": "Deep Grade",
    "pool": "deep",

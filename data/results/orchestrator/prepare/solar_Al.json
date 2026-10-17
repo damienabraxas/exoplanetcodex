@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Al",
- "generated": "2026-10-15",
+ "generated": "2026-10-16",
  "sets": [
   {
    "set": "AL_AGSS21",
@@ -310,7 +310,7 @@
    "dv_kms": [
     -0.1
    ],
-   "frame_median_dv_kms": 0.52,
+   "frame_median_dv_kms": 0.48,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -319,14 +319,14 @@
    "holding": "solar_iag",
    "band": "NIR",
    "lo_A": 9199.0,
-   "hi_A": 10650.0,
+   "hi_A": 10000.0,
    "graded_lines": 0,
    "served": 0,
    "tested": 0,
    "off_rest": [],
    "not_served": [],
    "frame_median_dv_kms": null,
-   "frame_n_lines": 2,
+   "frame_n_lines": 1,
    "frame_ok": true,
    "ok": true
   },
@@ -363,8 +363,8 @@
    "dv_kms": [
     0.25
    ],
-   "frame_median_dv_kms": 0.45,
-   "frame_n_lines": 7,
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
    "frame_ok": true,
    "ok": true
   },
@@ -434,6 +434,21 @@
    "ok": true
   },
   {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
    "holding": "solar_crires_plus_k_rya1219",
    "band": "K",
    "lo_A": 19452.42,
@@ -474,7 +489,8 @@
    "band": "H",
    "n_lines": 18,
    "holdings": [
-    "solar_crires_plus_h_rya1094"
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
    ],
    "scientific_role": "lab_gf",
    "why_needed": "18 Al I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"

@@ -1255,7 +1255,7 @@ def _dispatch_signature(step: dict, star: str) -> str:
                       sort_keys=True)
 
 
-def _run_step(step: dict, star: str, *, timeout: int) -> tuple[bool, str]:
+def _run_step(step: dict, star: str, *, timeout: int | None) -> tuple[bool, str]:
     """Dispatch one ordered step. Returns (ok, detail). Raises nothing."""
     interp = step.get("interpreter") or sys.executable
     script = ROOT / step["script"]
@@ -1283,7 +1283,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
-        step_timeout: int = 7200, report_dir: Path | None = None,
+        step_timeout: int | None = None, report_dir: Path | None = None,
         echo: bool = True, jobs: int = 1) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 

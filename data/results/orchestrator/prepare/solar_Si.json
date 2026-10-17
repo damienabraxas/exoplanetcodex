@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Si",
- "generated": "2026-10-10",
+ "generated": "2026-10-15",
  "sets": [
   {
    "set": "SI_AGSS21",
@@ -1189,7 +1189,7 @@
     0.12,
     0.28
    ],
-   "frame_median_dv_kms": 0.52,
+   "frame_median_dv_kms": 0.48,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -1198,8 +1198,8 @@
    "holding": "solar_iag",
    "band": "NIR",
    "lo_A": 9199.0,
-   "hi_A": 10650.0,
-   "graded_lines": 26,
+   "hi_A": 10000.0,
+   "graded_lines": 16,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -1217,7 +1217,7 @@
     3.47
    ],
    "frame_median_dv_kms": null,
-   "frame_n_lines": 2,
+   "frame_n_lines": 1,
    "frame_ok": true,
    "ok": true
   },
@@ -1249,18 +1249,26 @@
    "lo_A": 9199.0,
    "hi_A": 13000.0,
    "graded_lines": 86,
-   "served": 5,
+   "served": 3,
    "tested": 5,
    "off_rest": [],
-   "not_served": [],
+   "not_served": [
+    {
+     "wavelength_A": 9318.22,
+     "why": "LookupError: no 1984 atlas or corrected coverage at 9318.220 A"
+    },
+    {
+     "wavelength_A": 9387.334,
+     "why": "LookupError: no 1984 atlas or corrected coverage at 9387.334 A"
+    }
+   ],
    "dv_kms": [
     -0.7,
     0.97,
-    0.31,
-    -0.82
+    1.9
    ],
-   "frame_median_dv_kms": 0.45,
-   "frame_n_lines": 7,
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
    "frame_ok": true,
    "ok": true
   },
@@ -1353,6 +1361,37 @@
    ],
    "frame_median_dv_kms": 0.08,
    "frame_n_lines": 8,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 74,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 15030.0046,
+     "dv_kms": 3.1
+    },
+    {
+     "wavelength_A": 15122.5492,
+     "dv_kms": -3.2
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    3.11,
+    1.96,
+    -2.87,
+    -3.15,
+    -0.66
+   ],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
    "frame_ok": true,
    "ok": true
   },

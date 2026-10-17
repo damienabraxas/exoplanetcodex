@@ -20,9 +20,8 @@ python3 scripts/derive_band_products.py --element Si --ion I --lo 6910 --hi 9199
 python3 scripts/derive_band_products.py --element Si --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_AGSS21=data/reference/line_sets/si_agss21_SiI_graded.csv --force-synthesis --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --force-synthesis --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 6910 --hi 9199 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_AGSS21=data/reference/line_sets/si_agss21_SiI_graded.csv --force-synthesis --clip-to-synthesis-list
-python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10650 --instrument iag_fts_solar_atlas --holding solar_iag --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
-python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10650 --instrument iag_fts_solar_atlas --holding solar_iag --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_DESHMUKH2022=data/reference/line_sets/si_deshmukh2022_SiI_graded.csv --clip-to-synthesis-list
-python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10650 --instrument iag_fts_solar_atlas --holding solar_iag --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_ELGUETA2026=data/reference/line_sets/si_elgueta2026_SiI_graded_solar.csv --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10000 --instrument iag_fts_solar_atlas --holding solar_iag --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10000 --instrument iag_fts_solar_atlas --holding solar_iag --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_ELGUETA2026=data/reference/line_sets/si_elgueta2026_SiI_graded_solar.csv --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10010 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 10010 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_ELGUETA2026=data/reference/line_sets/si_elgueta2026_SiI_graded_solar.csv --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 9199 --hi 13000 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
@@ -40,67 +39,73 @@ python3 scripts/derive_band_products.py --element Si --ion I --lo 11159.9 --hi 1
 python3 scripts/derive_band_products.py --element Si --ion I --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_ELGUETA2026=data/reference/line_sets/si_elgueta2026_SiI_graded_solar.csv --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion II --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1094 --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Si --ion I --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1232 --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Si --ion I --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1232 --engine-b-deck ts-lte --out data/results/band_products --lines-from-set SI_ELGUETA2026=data/reference/line_sets/si_elgueta2026_SiI_graded_solar.csv --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Si --ion II --lo 15007.1 --hi 17493.7 --instrument crires_plus --holding solar_crires_plus_h_rya1232 --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
 python3 scripts/derive_band_products.py --element Si --ion I --lo 19452.4 --hi 24845.6 --instrument crires_plus --holding solar_crires_plus_k_rya1219 --engine-b-deck ts-lte --out data/results/band_products --lines-tier graded --clip-to-synthesis-list
-# solar|Si|II|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|GRADED ffc4e0a12be583c26a99464a7baa2b43d671a0919b45cecf21d6986a45b080a0
-# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|PROFILEFIT|GRADED a7d148bbd239e4f261833f1bab9d30f8851f42527ebc3690659e0787c331d419
-# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED f5abfb7b68c01c3e472c5004cf9946282da85f81ff1ce4b181dc9527fd8c177d
-# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 72938814fd22f54889194bf768d052d10b6f7b1700116d80571600328c0ec1d9
-# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED 18dfa0b81f4fd80d4669884a61268385ae887a49385e409a3a66359e87127634
-# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED e9e40ad259ea92a7fed505df2679785c5d985bc0fcfeb4eaf32e8438bf4971f1
-# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 521a72c7600afa7e636ce3978332bc23d9535c08051c916300108b2609bea916
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED 6ef5cd7ec5ad88332d44ce5450ccea1c6f42b527356f00a5edcec66a60f43fff
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 9784bc0bd0baa4348ef7a3ca8e1a1984fa3ca6ba773cc7fab21fe2ba14506a03
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 3a94cebda4251d9544ca658dcf661a09279393aab59c7aad38fc2643938307bb
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 0327a5edbd0cd1e6cf788cb6d3026c5c4a7dfc4b65b4a59556ff616413c0383c
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 6e3c8be4423cb4975d0c7ed0592d2499dad74eda0b879b7be0f5f553f10239c1
-# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 4ed5fae8f98f05303a1b7d7d2ea527213f4adad1ca69efe13b3e691ba8477061
-# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|GRADED 1f27262c41f78561317dec1d164f3a693618fd0049c3b5cfffda075988bb3b3f
-# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|SET-SI_ELGUETA2026 c2e9cfbe7d835308330cfcd30a08032b13e25b8a0d6306fbf6d98efa24e654e0
-# solar|Si|I|K|crires_plus|solar_crires_plus_k_rya1219|ts-lte|SYNTH|GRADED 29a66e5d1221bb188bd000dd4bad50c4063fa41799d36ccb3bc3a175977dd104
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|GRADED 78f6679590d323fb145067ad70224e3bece154a94c54cd4a606557035318944f
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|REFERENCE 8745a5272cbe15893ef5e1bea543e59c379655fed3567689c28f606d3b293d14
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|SET-SI_DESHMUKH2022 798a4de89bdfc855928666f33ccb7b2f5414151db8361182f6659f1ad308dd28
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|SET-SI_ELGUETA2026 5b3721012114e28030ff903199f206c4bbaa00ad83f132db430674394e83692b
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|GRADED 7f31ff73b95a45fe4cf92d88ceb87504114bea4f763f97b85fd04ba793595dee
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|SET-SI_DESHMUKH2022 a3b7df076a724bb368908ade4fc97230755372bd43da2dd24bb7a579efa38d2b
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|SET-SI_ELGUETA2026 727afe881e38a83f94a1816a844ee29778dbf940fda1b82fe7d851f078b767d6
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|GRADED 57c5632008bae7af3237021c8c861492931fa96ac4d00a52de960b048933244d
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|SET-SI_DESHMUKH2022 9e62efdf0f5ad24e11e7830cbba27b1190c392d788fdbeeabd18b27f9ab1c5e6
-# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|SET-SI_ELGUETA2026 6b9f86d5b0ec2faa4afa125841cc63afc39b516d3eeecf52d7597bf44f62dde9
-# solar|Si|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED 2d5ee98f0caeb0030348a4b9b2978a645c81dc99c7f80196cb3e425a17126986
+# solar|Si|II|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|GRADED 6dead14c36ac8d24b2aca3e6f6dcae86c855be06fa4d94876deb2dc2451523e1
+# solar|Si|II|H|crires_plus|solar_crires_plus_h_rya1232|ts-lte|SYNTH|GRADED 45dd17545f8ca7137d535b05401b68d1b4a7feb3370e1ed1e87aae1ba83ddc5f
+# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 0f89cf14620002277b20d132273c239646c2aa0a0d3b215a6bdad5ff1afb10a9
+# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED 95fb0a2f9d3ed345b26f1561e4301d1396548c5e0f9488886a662428f51888cc
+# solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 e11de692bfb8be964deac4509702c85424289883d0b5fa1f186aa77a770880af
+# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED ace7a99b29235ca7d08678f0484a8889abfe751d5cfeefb3069813012e92260d
+# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED 34217d039ede85e401abf51eee50b32166cc06e736ac92d99678e282c18b06c7
+# solar|Si|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 429641a2a58e95bb0e53403a465cbefc7027a3478fc21e95ead6635c98cc607e
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED b002ef725852111cfddc5d42f86cb3ce33217a0bde3024ad0dd0324572069305
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED f2f0c89f92ae6a97a070663a8a48ba7507f70d7210ff2f5ad2a8db253de693f7
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 632037bb2f26befc12aa0329c4bf39834bf7a2ced8e6aa82c5a1379b3a5df07c
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 1f6a097aec3930f92c78e88186a679a6696b44cd8914dcde55b2fb039a033642
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 9321c87566a4d1a56ed6f9ade3cc82f0ad49bc57755b9a1a99942ac024b50fee
+# solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 d9faade547a57ee80ed09fb6a28a3e664d60c16fc9aa5ead56ae19da95de2a07
+# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|GRADED 7acd94b8e6cedc377a1733cf06648e4496990cb14f1c28b573d148fcb5983286
+# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|SET-SI_ELGUETA2026 b59f2d331625dffcfae67f5c8b0d0bf0c04c5d3804942c379ef93b437a2fed8a
+# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1232|ts-lte|SYNTH|GRADED ca307aaada230b62f448c89dd52f89faab50f4d3d907cad34f1215cba716de57
+# solar|Si|I|H|crires_plus|solar_crires_plus_h_rya1232|ts-lte|SYNTH|SET-SI_ELGUETA2026 bfbed0033e0abd5dda8f69ff7c7d8d84e83cca7bd2f4b930f95b2884c3be4504
+# solar|Si|I|K|crires_plus|solar_crires_plus_k_rya1219|ts-lte|SYNTH|GRADED 02eb8f4f9054e4fdf85132d85942ac12c70f7bd681d1fe09bf49930268c82649
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|GRADED 9d637c739bf9af55b9b77e569ceef9ce30e3cfea00fa7fd489119b9461421134
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|REFERENCE e2d743c3086c20ff8c4b2fdd00bd71787186800b3114cd66e51373e1b84c974d
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|SET-SI_DESHMUKH2022 d9baccd615245a0950885749967776c25f318fc79d4adaa2207dd3d163c434c7
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|SET-SI_ELGUETA2026 15be6ccd9bec63d8e6b5301dd071d19382ec32b8964282b053ace22ccf7081e9
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|GRADED d96c0d748321d2ee85a6f84b384d9191c30402259b93cb3013dd3e0c6d8ec718
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|SET-SI_DESHMUKH2022 6bc1fc06e2e8c74ae2a34295d802d084a8561421d7b47f24e9b9881f5c5df0f2
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_rya794|ts-lte|SYNTH|SET-SI_ELGUETA2026 e38ecdf852ccb4804905e0b638cca42f9bd29478cd56819b03eae31867cbd1b1
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|GRADED fdde5c77cd2dd962df50ac1f4ba9fcf256c7e55934f2103b36841a93d657d756
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|SET-SI_DESHMUKH2022 7e585a439810f891cbec42feeb61a24a02439afad8dd21a3d30e425089bf5629
+# solar|Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|SET-SI_ELGUETA2026 f3183fb644e52cf834e701dd50200ce7ae35190feafce30d1f5ad101cc698125
+# solar|Si|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED e03933aaa3c504dabd8334dac3b2b0d73cb890351ac19a4ed76848354fd7b9af
 # solar|Si|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_DESHMUKH2022 4b9b82dd80355f6388ef0ddfce48fe67da6cd60d6ffe395d5a8690d8ba1a6bd4
-# solar|Si|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_ELGUETA2026 2046cbbbbd309cad0363d31734e5f8d43578829f953ed9a3a81e72d4ac444e30
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 9896113b4628c385669028eec2c62465aa555427020d54ea698862ac1ccf9bcb
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_ELGUETA2026 e92e35bfc6fdaa6737ce1dfd2b05bc95026b0020255eb4633134d39ede6f78e0
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED b6a07fd47af4817a5321b764dd56e878f732efcf283b9c9a3c35606d5fe7c004
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 1d994766383614b5dbdfeef9e0ca7816e773921fe431ecad47ee51db982487d8
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_DESHMUKH2022 c59b45de1bbd3108fc6730e0d203e7c8a732505f3dc14f420a11aca0770f6bb8
-# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_ELGUETA2026 da5b6ef0bca876f980db45e3d3a21b7b256e29a83b3e12f2444b15b4f6921d73
-# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 6c38c570bbc9e1b88d25610d10d789a27eb194533dd6381c2f4ab6d400c91c54
-# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED 32479ceadaf208dd598283546844f711c45476a39ef645230458486ff286a387
-# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE cb8add79175a539cd72c8c4f870a628b927119eff0613049ea9b941647af8055
-# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 eedfc5b3bbab5936263f3c822f66ce51d5c462071d9e68f6fd10c71991e791fc
-# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED db9adee0554684b122fac9686f2f6d603f3f9348e9e98e9a90b50a8a1f5a256a
-# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED a101fb41bb7b32f11b788334c876d6ba206341b737834cf1d6b8cdbc8db55577
-# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|REFERENCE 878de6b14905569b6a9b67f186ee7786c5f906a0e630d07310fdf26094a29b83
-# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 6ea7597af961330e1a3162206456a758013f4c8b89b470c24143fd6715cdfaea
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED 9910933069d1a875ccf733daffa75251b9f31ff4c4f7d89c1b1a12159c1f72f1
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 2184ec6dd83d1534274b56ec4a4e63aa70b37ff03771c449e1dcc6765915b1f3
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE ce8b54bacbfd8c432375ee0de5ccd947d2520b8ce59e4e2281249531c52cb867
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 b620bd18cce7dfa5c15add4057b23982a6bafb8d7960dff55c7e6c3800934e49
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 81e5e04f401520c1e3b4aa9a81b58262c41e27b792a39548f7c442b71f9853b1
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 1be663dbd23bd31b22dc730eaca5637051aceeae68e4a8855aae6169c4dcf46e
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 513ca1799684a77e3512b10c18f9fba9860c79ddb87366e66505197158376487
-# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 5c8ee63cf4eb60fe4049d286bdc0d4f94a98daaa10ac6c69bf715c2b496cb3c9
-# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED df95e6958ed6c1bae97cef875bba8d8046cc05f6689ea521d53a22dcf3d10afc
-# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED 28e2b1c745aacc31da5e91c66a9d4bbd26552de3638329252d6f54a8e6fcc238
-# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|REFERENCE f5fa6aea66db25bff7ac69b7daffc2cb9077a967998978e550699db6572617bd
-# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 d9f07aa1676822b05fa45e5ba12863301c2643f3084a050293b2fa84d71c0618
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED d8482bb0cf86d4cd618d7751245733edbc7a25e2c2d26c042abdbead9d665210
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 95e0221459d283bfb953e7023c08e9746b34f63bd7640e1e792dd1482ba1353f
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE d0a2222bb26d3b55acd2e5f61cd3065366f37f80007cf5c1a266686a471fd69c
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 f6ff2ca203aa42a1266c4aa57f9544df7f5bc1f72d0c7553f4d8b24d890c62d7
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 95ff03a66a245680454aaaab93bf856769a51999306680b9d0f6e29648be2893
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 3eb79e684fa11500e8f98383418fd7e30fa50b3b65541e125310b0bf888227bb
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 463669e56734f3396dcad53090c376f6d94d8797099f30941ec4babce0245faf
-# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 1b3527b4bba19df9611569f0af0b468890481a031bda71bdc80d93caf47f361b
+# solar|Si|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_ELGUETA2026 35f717512d6c801289eb578320192251892c2964f98863f7009b504e915628dd
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED ce94259ed021df160b9d663c15ccde17f5387b6cf1584c0c076b332884ef5d98
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_ELGUETA2026 42215b49fdf98b483d9faa93191086cd759331e5ccdaf9d95124d11959a21d85
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 2864ffd0066915c42eb1e59f9aef31f07903e3fa2c4f16225de1b58445cb944a
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 7bdbc4d75b48ce758c2fe642d67aa2bf3ba3c4a7c34a18b171c5bb3f3adc3c93
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_DESHMUKH2022 067656385200d3759f482f9063af1c8dbe8d35fa85a16530bb2031ef7e72ce66
+# solar|Si|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_ELGUETA2026 ace44c043de8c22cd4382836b1b094bc88fc1d849bdc0194751ab4be3efc9068
+# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 69f2c9f55bdc2fcbd9b05a0537cc47f69167511e75bee4a748fd28a428954b18
+# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED d1e0c028ef5f363121208b32965e69dc88bc56ffdb4a045ba3c0c8aa9cc36277
+# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE 09a44c25f16cb2b9e3a2e19c095d33476b45517091f065cf06bd705f088d60f9
+# solar|Si|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 f4251260834c4ef7ff51533c5c4c53f072486334d17b1f7d4d93ed5b1f63be7c
+# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED e112c03f7d6688516671b5d1e7479e295906e9f73ff0ae469ab5192aca8c6dee
+# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED 7b1552de58b01147a4e855134c6cc852c0cc41c227013f8d846e5b0da8b84f27
+# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|REFERENCE 7c026cf6b03f9daaede56eff6d985659433b84c421fef054366784dd7d7f7179
+# solar|Si|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 f5b0223c2e8d9b3e2f794cc47a5d37ef3441ac6301e5d4d2c451434b87bb2cf9
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED 15d3855d0b8655ab5f7defb3f6364090bf79c31a38a5f1e438a27b69d4ebc08a
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 4b7b8f3deb88e9d67ac614ad63a832abec79ed66c892fe92ae02fcd57960d938
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE dcc8217e890a2db41b04e4974d3b458303446af3fb13c621c55ccd7cf85062b4
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 7e5a6176c19550eebbf0f1f83a5573250800c578960a7f48335ffc46163af044
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED b5dceef5918093797312510bf3d37b785f31149e03f6c03dfe1aec6cdae74541
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED a7faca4aa7788f8eb87dfcca218d5f7a7cb6c1e768a8aa2c4c6f4935fc865870
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 50b500492a2d258b3eecfadc1020d4b2958ea4c273ceeb0e0c4e4e9afd7f00aa
+# solar|Si|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 e68a956412d3ac69c0c83a7a9d3d851dd13bdefd98eaf88ed910fa3a33cb13e3
+# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED c54bad8884eb978a2b608136b8a9735b38ea4ba21a643278a568d1ef157157a3
+# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED 95457c50f39237993203cbee320a928c2a72d88334e4b147a17d30cc663ff63e
+# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|REFERENCE b749ac7a6b43080fd7af9b74f5d3ca4364a251d33ecd1c4bb1cee10777111771
+# solar|Si|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-SI_AGSS21 570c6b19c6a4dec415ecb06f942d2e55a40f18f6c41ebc95d5b994bb1f930e8b
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED 6fcae8006930424375b95ab2ac66dace6cd05f53d3df5e97ad7ea6e969b97ef1
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED 02f087f701dc19d036c61ce0c9c426a9b9d321ce73e5dcbc96feb37d72fa664d
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE 91f3be4544fe8e8ea071d616e764e6ed86acc31832c02673b7eb308cb9e26105
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-SI_AGSS21 de26f08619eb16b72780f1ba03785949d66ab09680ec500f7c5b5661712c92ef
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED 4ec7ce8c65e0ec704a34eb37968ca5764108fcd2ff70508d4259b62865d1e6b9
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED b605997bd78bb80d734ec99208ccbb1fc1f87376fda454e90357c9834616290a
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE c34425ec4197b5e83c946b430821d18a2c6bdb0003167612edba163a668976ed
+# solar|Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-SI_AGSS21 e6aea426bc00a251504807a153ff8297edccf7230aa5504a689155f807e01391

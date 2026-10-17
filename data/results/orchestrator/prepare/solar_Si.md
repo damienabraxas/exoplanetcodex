@@ -11,4 +11,4 @@ PREPARE solar Si  -> READY to measure
   F2 literature need: 3 Si II lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   C cull candidates (saturated, not a solar-literature line): 0
   D NLTE: 0 graded line(s) not in data/nlte_grids/Si_Amarsi2020_PySME.csv
-  E holdings: 18 windows; 0 not serving / frame off rest
+  E holdings: 19 windows; 0 not serving / frame off rest
