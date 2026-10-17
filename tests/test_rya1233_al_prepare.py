@@ -96,3 +96,28 @@ def test_synthesis_lists_overlap_by_window():
     names = [p.parent.name for p in rm.synthesis_lists_for(10700, 10800)]
     assert names == ["ispec_ir_9200_13000"]
     assert rm.synthesis_lists_for(6600, 6800) == []
+
+
+def test_cog_inversion_never_rails():
+    """np.interp clamps: an NLTE EW outside the LTE curve read as exactly the bracket edge
+    (37 Si I lines at -0.200/+0.200). Out of range or non-monotonic is NaN."""
+    import math
+    from pipeline.pysme_nlte import cog_invert
+    A = [7.31, 7.41, 7.51, 7.61, 7.71]
+    cog = [10.0, 12.0, 14.0, 16.0, 18.0]
+    assert cog_invert(15.0, cog, A) == pytest.approx(7.56)
+    assert math.isnan(cog_invert(19.0, cog, A))
+    assert math.isnan(cog_invert(9.0, cog, A))
+    assert math.isnan(cog_invert(15.0, [10, 12, 11, 16, 18], A))
+
+
+def test_prepare_names_band_literature_needs_over_the_union_of_windows():
+    """RYA-1237 input: a band whose holdings' windows hold the element's lines but none with a
+    published gf uncertainty. Al's H and K are needs; Si's VIS is NOT (one narrow holding
+    lacks graded lines, the band does not)."""
+    import json
+    al = json.loads((ROOT / "data/results/orchestrator/prepare/solar_Al.json").read_text())
+    si = json.loads((ROOT / "data/results/orchestrator/prepare/solar_Si.json").read_text())
+    al_bands = {n["band"] for n in al["literature_needs"]}
+    assert {"H", "K"} <= al_bands
+    assert "VIS" not in {n["band"] for n in si["literature_needs"]}

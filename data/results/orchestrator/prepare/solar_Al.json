@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Al",
- "generated": "2026-10-09",
+ "generated": "2026-10-16",
  "sets": [
   {
    "set": "AL_AGSS21",
@@ -114,28 +114,7 @@
   }
  ],
  "cull_candidates": [],
- "nlte_missing": [
-  {
-   "species": "Al I",
-   "wavelength_A": 6696.185
-  },
-  {
-   "species": "Al I",
-   "wavelength_A": 8912.9
-  },
-  {
-   "species": "Al I",
-   "wavelength_A": 10872.973
-  },
-  {
-   "species": "Al I",
-   "wavelength_A": 11253.189
-  },
-  {
-   "species": "Al I",
-   "wavelength_A": 10768.363
-  }
- ],
+ "nlte_missing": [],
  "holdings": [
   {
    "holding": "solar_kpno_kurucz2005_corrected",
@@ -331,7 +310,7 @@
    "dv_kms": [
     -0.1
    ],
-   "frame_median_dv_kms": 0.52,
+   "frame_median_dv_kms": 0.48,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -340,14 +319,14 @@
    "holding": "solar_iag",
    "band": "NIR",
    "lo_A": 9199.0,
-   "hi_A": 10650.0,
+   "hi_A": 10000.0,
    "graded_lines": 0,
    "served": 0,
    "tested": 0,
    "off_rest": [],
    "not_served": [],
    "frame_median_dv_kms": null,
-   "frame_n_lines": 2,
+   "frame_n_lines": 1,
    "frame_ok": true,
    "ok": true
   },
@@ -384,8 +363,8 @@
    "dv_kms": [
     0.25
    ],
-   "frame_median_dv_kms": 0.45,
-   "frame_n_lines": 7,
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
    "frame_ok": true,
    "ok": true
   },
@@ -455,6 +434,21 @@
    "ok": true
   },
   {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
    "holding": "solar_crires_plus_k_rya1219",
    "band": "K",
    "lo_A": 19452.42,
@@ -478,7 +472,42 @@
   "missing_bib_keys": []
  },
  "nlte_table": "data/nlte_grids/Al_Amarsi2020_PySME.csv",
+ "literature_needs": [
+  {
+   "species": "Al I",
+   "band": "near-UV",
+   "n_lines": 10,
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "10 Al I lines in the near-UV band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "Al I",
+   "band": "H",
+   "n_lines": 18,
+   "holdings": [
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "18 Al I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "Al I",
+   "band": "K",
+   "n_lines": 33,
+   "holdings": [
+    "solar_crires_plus_k_rya1219"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "33 Al I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  }
+ ],
  "blocking": {
+  "nlte_missing": 0,
   "adopt": 0,
   "cull_candidates": 0,
   "missing_solar_literature_lines": 0,

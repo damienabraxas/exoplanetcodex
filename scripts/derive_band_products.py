@@ -2830,6 +2830,11 @@ def main() -> None:
     src = EW_DIR / f"{stem}_ew.csv"
     if not src.exists():
         raise SystemExit(f"no measured EWs at {src}. Run measure_band_profilefit.py first.")
+    if src.stat().st_size == 0 or not src.read_text().strip():
+        # RYA-1233: stage 1 measured no line in this window (Si II red-optical). That is an
+        # empty pool -- the orchestrator's EMPTY_POOL_MARKERS hold -- not a crash.
+        raise SystemExit(f"{a.element} {a.ion} has no line in {a.lo:g}-{a.hi:g} A that the profile "
+                         f"fitter measured ({src.name} is empty)")
     # The tier is part of what was MEASURED, so it belongs in the product name (RYA-984):
     # without it a graded and an ungraded EW product write the SAME filename and the
     # second silently overwrites the first -- the RYA-1006 collision, on this route.

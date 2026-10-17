@@ -24,6 +24,7 @@ stage/ + report.json + publish_summary.json (committed: the feed's provenance po
 from __future__ import annotations
 
 import json
+import re
 import shlex
 import subprocess
 import sys
@@ -60,6 +61,28 @@ def units_for(star: str, element: str, *, report: dict,
     return out
 
 
+def _observed_conditioning(o: dict) -> str | None:
+    """The single `observed_conditioning` value of the product's own per-line artifact."""
+    import pandas as pd
+    stem = o.get("stem") or ""
+    # A correction leg (ENGINE-A ...) is built from the SAME observed artifact as the unit's
+    # 1D-LTE leg, whose per-line rows carry the column.
+    lte = re.sub(r"_[A-Za-z0-9.-]+_lines\.csv$", "_1D-LTE_lines.csv", stem)
+    for f in [ROOT / "data/results/band_products" / s for s in dict.fromkeys([stem, lte])] + \
+            [g for s in dict.fromkeys([stem, lte])
+             for g in sorted((ROOT / "data/results/band_products").glob(f"deck_*/{s}"))]:
+        if stem and f.exists():
+            d = pd.read_csv(f)
+            if "observed_conditioning" in d.columns:
+                vals = sorted(set(d["observed_conditioning"].dropna().astype(str)))
+                if len(vals) == 1:
+                    return vals[0]
+                if len(vals) > 1:
+                    return None              # ambiguous: refuse rather than pick
+                # empty on a correction leg: fall through to the unit's 1D-LTE artifact
+    return None
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
@@ -89,8 +112,17 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         import shutil
         shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
-    subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
-                    "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+    # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
+    # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
+    # still missing is RECORDED, never silently assembled around.
+    for _attempt in range(2):
+        subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
+                        "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+        missing = sorted(str(d.relative_to(legs)) for d in legs.glob("unit*/*")
+                         if d.is_dir() and not (d / "DONE").exists())
+        if not missing:
+            break
+    summary["legs_incomplete"] = missing
     import shutil
     shutil.rmtree(stage, ignore_errors=True)
     rep = work / "report.json"
@@ -132,6 +164,11 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+        cond = _observed_conditioning(o)
+        if cond:
+            # RYA-1176: Al publishing requires the observed-conditioning identity, read from
+            # the measured artifact itself (derive writes it into every per-line row).
+            cmd += ["--observed-conditioning", cond]
         res = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
         tag = f"{o.get('band')} {o.get('holding')} {o.get('selector')} {o.get('key_treatment')} A={o.get('A')}"
         if res.returncode == 0:
