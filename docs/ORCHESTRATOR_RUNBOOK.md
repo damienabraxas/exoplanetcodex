@@ -140,6 +140,10 @@ landing line in `SEQUENCE.md` for the ticket, push, open the PR.
 
 ## 10. Report (end of session)
 
+First the zero-token summary: `python scripts/post_run_report.py --star solar --element <El>`
+(`--dry-run` to preview; needs `LINEAR_API_KEY` in the environment; posts the verdict, cell
+counts and problem lines to the element's literature dossier from `data/catalog/linear_dossiers.csv`,
+e.g. Na -> RYA-735, Mg -> RYA-723; re-runs with no change post nothing). Then, by hand:
 One ASCII comment on the element's ticket: the value vs Asplund, coverage numbers, what
 was HELD and why, any orchestrator problem found (what an agent had to do by hand), the
 PR links. Orchestrator problems also go on RYA-1233 so the pipeline gets better.
