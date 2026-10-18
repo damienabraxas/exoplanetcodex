@@ -22,7 +22,13 @@
 # HOW IT WORKS
 # ------------
 #   roots:    logical root -> env var + default. THE ONLY machine-specific part.
-#   entries:  logical key  -> {root, rel, kind, desc}
+#   entries:  logical key  -> {root, rel, kind, desc[, env]}
+#             An entry's optional `env` replaces the WHOLE path (RYA-1233): for a
+#             store whose layout differs on a mirror host (the Mac's KP atlas).
+#
+# DEFAULTS ARE SIRIUS. All data (VALD, spectra, grids, engines) lives on Sirius
+# until there is a database; a run there needs NO environment at all. Another host
+# overrides roots from a committed profile: config/hosts/<host>.env.
 #
 # Resolve with config.constants:
 #     codex_path('grids.gerber_ts')            -> Path, no existence check
@@ -99,6 +105,12 @@ roots:
       for no reason -- and a missing engine must fail loudly, never read as an
       uncorrected product. Resolution order in code is $ESOREX, then PATH, then
       this root; the root is what makes the SIRIUS default declared in one place.
+  home:
+    env: CODEX_HOME_ROOT
+    default: '~'
+    desc: >-
+      The account's home directory on the host running the pipeline (per-user venvs).
+      Expanded from ~, so no username is committed.
   repo:
     env: CODEX_REPO_ROOT
     default: '{repo}'
@@ -113,6 +125,12 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  data.vald_raw:
+    root: data
+    rel: linelists/vald_raw
+    env: CODEX_VALD_RAW
+    kind: dir
+    desc: Raw VALD extracts, staged on Sirius (hash-verified against the archive manifest).
   # ---- grid stores -------------------------------------------------------
   grids.gerber_ts:
     root: grids
@@ -173,8 +191,17 @@ entries:
   engines.ispec:
     root: engines
     rel: ispec_src
+    env: ISPEC_DIR
     kind: dir
-    desc: iSpec. Honour ISPEC_DIR when set.
+    desc: iSpec source tree (synthesis line lists, atmospheres, molecules).
+  engines.synth_python:
+    root: home
+    rel: venv_rya1103/bin/python
+    env: CODEX_SYNTH_PYTHON
+    kind: file
+    desc: >-
+      Interpreter for iSpec/Turbospectrum synthesis. On Sirius venv_ci CANNOT run iSpec
+      (numpy too new, RYA-682), hence its own venv.
   engines.tsfitpy:
     root: engines
     rel: TSFitPy
@@ -288,6 +315,7 @@ entries:
   data.spectra_kitt_peak:
     root: data
     rel: spectra/Solar Calibration/Kitt Peak Flux Atlas
+    env: CODEX_KP_ATLAS
     kind: dir
     desc: Kitt Peak solar flux atlas, Sirius-side copy.
   data.kurucz2005_irradiance:

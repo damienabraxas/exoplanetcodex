@@ -16,6 +16,8 @@ import fnmatch
 import os
 import pathlib
 
+from config.constants import codex_path
+
 #: Raw external inputs. Not Codex measurements -- they live under
 #: ~/Documents/Exoplanet Codex (RYA-461) and/or Zenodo (RYA-1124).
 RAW_DATA_PATTERNS = (
@@ -74,7 +76,7 @@ def over_ceiling(path: str, size: int) -> bool:
 #: -- a fix that is only a fix on the machine you tested it on. The staged Linux copy is
 #: hash-verified against the archive manifest.
 VALD_SEARCH_ROOTS = (
-    pathlib.Path("/mnt/codex-data/linelists/vald_raw"),
+    codex_path('data.vald_raw'),
     pathlib.Path.home() / "Documents" / "Exoplanet Codex" / "vald_raw_archive" / "current",
     pathlib.Path.home() / "Documents" / "Exoplanet Codex" / "vald_raw_archive" / "superseded",
 )

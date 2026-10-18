@@ -105,8 +105,8 @@ def _in_synthesis_list(species: str, w: float) -> str | None:
         if w >= lo:
             path = f
     if path is None:
-        import os
-        path = Path(os.environ.get("ISPEC_DIR", "/mnt/codex-data/engines/ispec_src")) / \
+        from config.constants import ISPEC_DIR
+        path = ISPEC_DIR / \
             "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
     if not path.exists():
         return None

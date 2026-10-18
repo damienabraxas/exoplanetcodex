@@ -156,6 +156,36 @@ def _refuse_matrix_flags_without_element(parser, args) -> None:
                      "elements_master.json and the graded pool. Use --element X --ion I.")
 
 
+#: RYA-1233: what an element run reads. Roots are listed for the record; the keys must exist.
+CHECK_KEYS = ('engines.ispec', 'engines.synth_python', 'data.spectra_kitt_peak', 'data.vald_raw')
+CHECK_ROOTS = ('data', 'srv_solar', 'grids')
+
+
+def check_paths() -> int:
+    """Print every path the orchestrator needs on this host; 1 if any is missing."""
+    import os
+    from config.constants import codex_path, codex_root, _path_register
+    reg, bad = _path_register(), 0
+    for name in CHECK_ROOTS:
+        r = reg['roots'][name]
+        p = codex_root(name)
+        src = f"${r['env']}" if os.environ.get(r['env']) else 'Sirius default'
+        ok = p.is_dir()
+        bad += not ok
+        print(f"{'ok ' if ok else 'MISSING'}  root {name:<10} {p}  [{src}]")
+    for key in CHECK_KEYS:
+        e = reg['entries'][key]
+        p = codex_path(key)
+        src = f"${e['env']}" if e.get('env') and os.environ.get(e['env']) else f"root {e['root']}"
+        ok = p.exists()
+        bad += not ok
+        print(f"{'ok ' if ok else 'MISSING'}  {key:<24} {p}  [{src}]")
+    if bad:
+        print(f"{bad} missing. On Sirius every default should resolve; elsewhere "
+              f"`source config/hosts/<host>.env` first.")
+    return int(bool(bad))
+
+
 #: RYA-1233. Where the synthesis interpreter and the iSpec tree come from when no
 #: flag names them, first match wins. CODEX_SYNTH_PYTHON is the ticket's name;
 #: CODEX_INTERPRETER is the one `run_matrix.run()` already read before this ticket,
@@ -179,10 +209,16 @@ def _from_env(names) -> tuple[str, str]:
 
 def _resolve_engine_env(args) -> tuple[str, str]:
     """(interpreter, ispec_dir) from flags, else env; ONE loud warning if neither."""
+    from config.constants import codex_path, synth_interpreter
     interp, i_src = (args.interpreter, '--interpreter') if args.interpreter \
         else _from_env(_INTERPRETER_ENV)
     ispec, s_src = (args.ispec_dir, '--ispec-dir') if args.ispec_dir \
         else _from_env(_ISPEC_ENV)
+    # RYA-1233: no flag, no env -> the path register's host default (Sirius needs none).
+    if not interp and synth_interpreter():
+        interp, i_src = synth_interpreter(), 'path register engines.synth_python'
+    if not ispec and codex_path('engines.ispec').is_dir():
+        ispec, s_src = str(codex_path('engines.ispec')), 'path register engines.ispec'
     missing = [what for what, val in
                ((f"interpreter (--interpreter or ${' / $'.join(_INTERPRETER_ENV)})", interp),
                 (f"iSpec tree (--ispec-dir or ${' / $'.join(_ISPEC_ENV)})", ispec))
@@ -255,6 +291,9 @@ def main() -> None:
                         'coverage, holdings at rest, literature -- one report to review.')
     m.add_argument('--apply', action='store_true',
                    help='with --prepare: write the reviewed plan (gf adoptions + culls).')
+    parser.add_argument('--check-paths', action='store_true',
+                        help='RYA-1233: resolve every path the orchestrator needs on THIS host '
+                             '(path register + config/hosts/<host>.env) and exit 1 if any is missing.')
     m.add_argument('--coverage', action='store_true',
                    help='RYA-1233: print the definition-of-done table (every band x holding x '
                         'ion x grade x treatment: PUBLISHED / HELD / NOT_RUN) and exit.')
@@ -269,6 +308,9 @@ def main() -> None:
     m.add_argument('--ispec-dir', metavar='PATH',
                    help='iSpec source tree. Default: $ISPEC_DIR.')
     args = parser.parse_args()
+
+    if args.check_paths:
+        sys.exit(check_paths())
 
     if args.list_stars:
         print("\nRunnable stars (resolve via config/stars.yaml):")

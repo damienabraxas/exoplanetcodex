@@ -170,14 +170,15 @@ def test_the_probe_measures_the_TARGET_not_the_caller():
 
 # ── the resolver audit (item 5) ───────────────────────────────────────────────
 
-def test_the_resolver_audit_FINDS_the_real_ispec_escape():
-    """Non-vacuity: the audit must actually detect the resolver that caused this
-    ticket. An audit reporting zero findings is the same output as a broken audit."""
+def test_the_real_ispec_escape_is_gone():
+    """RYA-1233 removed the escape this audit was anchored on: ISPEC_DIR was
+    `ROOT.parent / 'ispec'` (a guess from the checkout's location) and is now the path
+    register's engines.ispec. The audit must no longer find it in constants.py."""
     from scripts.rya1138_worktree_resolver_audit import audit
-    hits = {(f["file"], f["line"]) for f in audit()}
-    assert ("config/constants.py", 1119) in hits, (
-        "the audit no longer finds `ISPEC_DIR = ROOT.parent / 'ispec'`, the resolver "
-        "that produced RYA-1138's false baseline")
+    import config.constants as c
+    assert not [f for f in audit() if f["file"] == "config/constants.py"
+                and "ispec" in str(f).lower()]
+    assert "ROOT.parent / 'ispec'" not in open(c.__file__).read()
 
 
 def test_the_resolver_audit_does_NOT_flag_correct_in_repo_resolution():

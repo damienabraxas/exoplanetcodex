@@ -49,11 +49,9 @@ OUT = ROOT / "data" / "measured" / "band_ew"
 # Sirius; hardcoding the Mac path is what made the first synthesis control fail with
 # "no Kitt Peak segment covers 4065.381 A" -- a coverage-shaped error message for what
 # was really a missing directory.
-_KP_CANDIDATES = (
-    os.environ.get("CODEX_KP_ATLAS", ""),
-    str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
-    str(codex_path('data.spectra_kitt_peak')),
-)
+# RYA-1233: ONE register key (data.spectra_kitt_peak; $CODEX_KP_ATLAS overrides it on a
+# mirror host). The old local-tree fallback is gone -- data lives on Sirius.
+_KP_CANDIDATES = (str(codex_path('data.spectra_kitt_peak')),)
 
 
 def _resolve_kp_dir() -> Path:

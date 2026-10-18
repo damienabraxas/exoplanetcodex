@@ -1294,8 +1294,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     """
     element = validate_element(element)
     symbol, pinned_ion = split_symbol(element)
-    interpreter = interpreter or os.environ.get("CODEX_INTERPRETER") or ""
-    ispec_dir = ispec_dir or os.environ.get("ISPEC_DIR") or ""
+    from config.constants import ISPEC_DIR, synth_interpreter
+    interpreter = interpreter or synth_interpreter()
+    ispec_dir = ispec_dir or (str(ISPEC_DIR) if ISPEC_DIR.is_dir() else "")
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,
