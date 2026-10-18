@@ -640,7 +640,14 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
 
     # telluric: per line, through the line's own dA/df
     cs = _leg_lines(unit_dir / "cscale", lines_stem)
-    if cs is None:
+    if band == "near-UV":
+        #: RYA-1232: as RYA-1226's accepted near-UV budgets -- no molecular telluric band is
+        #: registered below 3780 A, so there is nothing to price (and the KP near-UV
+        #: continuum S/N, 75, is below the observability floor the per-line test needs)
+        comps.append(dict(name="telluric", sigma_dex=None, state="N/A",
+                          source="3000-3780 A contains no registered telluric band (pipeline.telluric_policy)",
+                          evidence={"band": band}))
+    elif cs is None:
         notes.append("telluric: cscale leg missing")
     else:
         m = acc.merge(cs[["wavelength_air_A", "abundance"]], on="wavelength_air_A",
