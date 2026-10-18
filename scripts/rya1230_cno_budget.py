@@ -80,12 +80,17 @@ def _selector(args: list[str]) -> str | None:
         return "DEEPGRADED"
     if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "graded":
         return "GRADED"
+    #: RYA-1232: the Reference pool is its own identity (Fe: selector = tier = REFERENCE);
+    #: mapping it to ALL published 60 Reference products beside, not in place of, the
+    #: legacy Reference rows
+    if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "reference":
+        return "REFERENCE"
     return None
 
 
 def _tier(args: list[str]) -> str:
     sel = _selector(args)
-    return sel if sel in ("GRADED", "DEEPGRADED") else "ALL"
+    return sel if sel in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
 
 
 def _arg(args, flag, default=None):

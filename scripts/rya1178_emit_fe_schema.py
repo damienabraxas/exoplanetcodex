@@ -968,9 +968,35 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     }
 
 
+def _budget_xi(p: dict) -> dict | None:
+    """RYA-1232: a row carrying an RYA-587 budget measured xi on its OWN pool (paired
+    0.90/1.10 legs, `stellar.xi`). That -- not the band-keyed campaign artifact, whose pool
+    is another run's -- is the row's xi verdict."""
+    u = p.get("uncertainty") or {}
+    c = next((c for c in u.get("components", []) if c.get("name") == "stellar.xi"), None)
+    if not c or c.get("state") != "MEASURED":
+        return None
+    floor = xi_min_paired()
+    if (p.get("n_lines") or 0) < floor:
+        #: RYA-1224's floor is the rule at every tier: a pool below min_paired publishes no
+        #: derivative, whatever its own legs returned
+        return {"xi_state": "UNMEASURED", "sigma_xi": None,
+                "xi_note": f"pool of {p.get('n_lines')} lines is below min_paired={floor}: "
+                           "no xi derivative is published (RYA-1224)"}
+    ev = c.get("evidence") or {}
+    out = {"xi_state": "MEASURED", "sigma_xi": round(float(c["sigma_dex"]), 6),
+           "xi_value_kms": 1.0, "xi_source": "RYA-587 budget stellar.xi: paired xi 0.90/1.10 legs on this product's own pool",
+           "xi_note": str(c.get("source") or "")}
+    if ev.get("delta_parameter") is not None:
+        out["delta_xi_kms"] = float(ev["delta_parameter"])
+    if ev.get("dA_dxi") is not None:
+        out["dA_dxi"] = float(ev["dA_dxi"])
+    return out
+
+
 def update_xi_budget(p: dict, idx: dict) -> None:
     """Refresh only the existing xi component and its derived totals in place."""
-    xt = xi_terms(p, idx)
+    xt = _budget_xi(p) or xi_terms(p, idx)
     p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
     if "dA_dxi" in xt:
         p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
@@ -1071,8 +1097,13 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
             "line_set_for_product -- not stored as an identity field (RYA-1127). Shown "
             "here for readability; the identity key resolves it independently.")
         wr, wr_basis = wavelength_range(p)
-        p["wavelength_range_A"] = wr
-        p["wavelength_range_basis"] = wr_basis
+        #: RYA-1232: a LEGACY row (no RYA-587 `uncertainty` block) keeps the range it was
+        #: published with. Re-deriving it from today's band policy (VIS now opens at 3780 A)
+        #: changed four AGSS21 rows' 3800 -> 3780 with no measurement behind it, and the
+        #: gate then (rightly) refused them as unevidenced changes.
+        if "uncertainty" in p or "wavelength_range_A" not in p:
+            p["wavelength_range_A"] = wr
+            p["wavelength_range_basis"] = wr_basis
         p["generated_at"] = _now()
         p["code_commit"] = _commit()
 
