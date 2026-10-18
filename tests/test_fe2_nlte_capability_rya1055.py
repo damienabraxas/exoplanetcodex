@@ -114,7 +114,7 @@ def test_an_unmeasured_atom_reads_UNMEASURED_and_never_False():
     a physical fact we have not established, and the guard branches on the difference."""
     assert G.atom_ion_reach("atom.al_qmh") is None
     assert G.nlte_ion_capability("Al", "I")[0] is None
-    assert G.nlte_ion_capability("Mg", "II")[0] is None      # no deck registered at all
+    assert G.nlte_ion_capability("Xe", "II")[0] is None      # no deck registered at all
     assert G.nlte_ion_capability("Fe", "nonsense")[0] is None
 
 

@@ -1,0 +1,56 @@
+element: Mg
+ion: I
+ions: [I, II]
+source_of_truth: RYA-723
+implementation_ticket: RYA-1250
+scale: 3D-NLTE
+scale_note: >-
+  The anchor is a full 3D-NLTE result. An LTE-only Mg II product is not a
+  reproduction of it; retain the measured model scale in any comparison.
+entries:
+  - source: Asplund, Amarsi & Grevesse 2021
+    bib: asplund2021
+    citation: A&A 653, A141, Sect. 2.4 (page 9), Table A.1 (page 27)
+    value: 7.55
+    sigma: 0.03
+    scale: 3D-NLTE
+    role: adopted solar anchor
+    method: >-
+      Unweighted line means within Mg I (8 lines) and Mg II (6 lines), then
+      combine the ion means with weights based on total statistical and
+      systematic errors. Mg I is 7.56 +/- 0.01 statistical +/- 0.02 systematic;
+      Mg II is 7.52 +/- 0.03 statistical +/- 0.03 systematic.
+    note: >-
+      The Mg I systematic includes a pressure-broadening allowance. Mg II is
+      sensitive to hydrogen collisions and the electron-pressure treatment.
+      The adopted uncertainty is the authors' 0.03, not a reconstructed SEM.
+  - source: Scott et al. 2015
+    bib: scott2015_light
+    citation: A&A 573, A25, abstract and Sect. 6.2
+    value: 7.59
+    sigma: 0.04
+    scale: 3D+NLTE
+    role: earlier solar analysis, not independent of the AGSS21 lineage
+    method: 3D LTE line formation with NLTE corrections from 1D models; Mg I and Mg II
+  - source: Lodders, Bergemann & Palme 2025
+    bib: lodders2025
+    citation: Space Science Reviews 221; local accepted manuscript, pages 10-12
+    value: 7.58
+    sigma: 0.05
+    scale: literature synthesis (3D-NLTE and mean-3D-NLTE)
+    role: corroborating review, partly shares the AGSS21 input
+    method: Average of Osorio 2015, Bergemann 2017, Asplund 2021, and Magg 2022
+    note: >-
+      Reports persistent line-to-line scatter and calls 5711 A the only clean
+      feature. This conflicts with treating absence from AGSS21 as absence from
+      all solar literature; preserve for review before approving the cull plan.
+range:
+  central: 7.55
+  min: 7.52
+  max: 7.58
+  best_external: Asplund, Amarsi & Grevesse 2021
+  sigma_external: 0.03
+  deviate_beyond: 0.06
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+  basis: Descriptive anchor interval; not a replacement for model-scale and uncertainty checks.

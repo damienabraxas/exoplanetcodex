@@ -1,0 +1,31 @@
+{
+  "branch_only": [
+    "tests/test_cno_cleanup_rya1183.py::test_canonical_gf_was_not_touched",
+    "tests/test_cno_gf_pedigree_rya1172.py::test_canonical_gf_was_not_touched",
+    "tests/test_element_nlte_rya235.py::test_applied_flag_is_not_a_not_applied_sentinel",
+    "tests/test_element_nlte_rya235.py::test_apply_corrects_registry_neutral_only_and_leaves_others",
+    "tests/test_element_nlte_rya235.py::test_deferred_validation_contract_nlte_does_not_fix_uncurated_cr",
+    "tests/test_element_nlte_rya235.py::test_delta_is_nan_outside_hull_and_off_wave",
+    "tests/test_element_nlte_rya235.py::test_does_not_clobber_the_fe_leg",
+    "tests/test_element_nlte_rya235.py::test_grids_load_and_solar_deltas_match_documented",
+    "tests/test_fe2_nlte_capability_rya1055.py::test_an_unmeasured_atom_reads_UNMEASURED_and_never_False",
+    "tests/test_gbs_tolerance_recheck_rya1117.py::test_the_recheck_changed_no_value_and_no_line",
+    "tests/test_nlte_na_mg_ba_rya165.py::test_grid_loads_and_matches_provenance_solar_anchor[Mn]",
+    "tests/test_nlte_na_mg_ba_rya165.py::test_mn_sizeable_si_clean_solar_nlte",
+    "tests/test_nlte_out_of_hull_rya409.py::test_in_hull_does_not_trip_the_guard",
+    "tests/test_nlte_out_of_hull_rya409.py::test_out_of_hull_flags_loud_not_silent",
+    "tests/test_nlte_out_of_hull_rya409.py::test_remaining_four_clamp_loud_at_55cnc",
+    "tests/test_nlte_out_of_hull_rya409.py::test_strict_raises_out_of_hull",
+    "tests/test_nlte_wire_rya462.py::test_cr_nlte_delta_cannot_reach_asplund",
+    "tests/test_oi777_grade_rya1171.py::test_no_log_gf_moved_anywhere_in_the_store",
+    "tests/test_placeholder_zero_guard_rya413.py::test_fixed_ca_grid_has_no_placeholder",
+    "tests/test_placeholder_zero_guard_rya413.py::test_loader_refuses_a_placeholder_grid",
+    "tests/test_reference_lineset_rya1111.py::test_the_entrypoint_dry_run_changes_no_existing_product",
+    "tests/test_vald_provenance_rya1228.py::test_no_built_line_list_was_modified"
+  ],
+  "main_only": [
+    "tests/test_sirius_gate_rya924.py::test_a_REAL_directory_is_accepted",
+    "tests/test_sirius_gate_rya924.py::test_a_missing_directory_is_refused_distinctly"
+  ],
+  "shared": 35
+}

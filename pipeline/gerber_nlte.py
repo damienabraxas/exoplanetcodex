@@ -78,6 +78,10 @@ MARCS_SOLAR = str(codex_path('grids.marcs_standard')
 # element -> (Z, atom, aux, grid). Mirrors ts_gerber_gate.ELEMENTS but carries only what
 # the adapter needs; the GATE remains the authority on whether a deck may be used at all.
 DECKS = {
+    # Validated in RYA-534; abundance_axis() inspects this deck's own aux table.
+    "Mg": dict(Z=12, atom="atom.mg86d",
+               aux="auxData_Mg_MARCS_Nov-13-2024.dat",
+               grid="NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin"),
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),
@@ -268,7 +272,19 @@ def atom_ion_reach(atom: str) -> "dict | None":
     would state a physical fact we have not established, and callers branch on exactly
     that difference (see `nlte_ion_capability`).
     """
-    return ATOM_ION_REACH.get(atom)
+    known = ATOM_ION_REACH.get(atom)
+    if known is not None:
+        return known
+    # Additional measured atoms are data declarations, not element-specific guards.
+    import json
+    from pathlib import Path
+    artifact = Path(__file__).resolve().parents[1] / 'data/reference/nlte_atom_reach' / f'{atom}.json'
+    if not artifact.exists():
+        return None
+    record = json.loads(artifact.read_text())
+    if record['atom'] != atom or record['n_bb_parsed'] != record['n_bb_declared']:
+        raise ValueError(f'Invalid atom-reach evidence: {artifact}')
+    return {int(s['ion_stage']): bool(s['nlte_capable']) for s in record['stages']}
 
 
 def nlte_ion_capability(element: str, ion) -> tuple:

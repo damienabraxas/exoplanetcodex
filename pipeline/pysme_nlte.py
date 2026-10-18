@@ -44,6 +44,7 @@ from pathlib import Path
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline.species import parse_ion
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 # Diagnostic lines per element, with the grid level labels for NLTE matching.
@@ -199,7 +200,18 @@ def decode_grid_label(raw) -> str:
     return b.decode('latin1').strip('\x00 \t\r\n')
 
 
-def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
+def _ion_level_indices(grid, element, ion):
+    """Keep excitation energies within their own ion's energy origin."""
+    stage = parse_ion(ion)
+    species = f"{element} {stage}"
+    indices = np.array([i for i, raw in enumerate(grid.get('spec'))
+                        if decode_grid_label(raw) == species], dtype=int)
+    if not len(indices):
+        raise ValueError(f"{species}: no levels in departure grid")
+    return indices
+
+
+def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06, *, ion=1):
     """Resolve the grid level labels for a line by NEAREST ENERGY — so Family-A
     re-derivations (Mg/Si/Ca/Mn) don't need hand-mapping like Al/S did. Returns
     (term_lower 'conf term', term_upper 'conf term', j_lo, j_up). Raises if either
@@ -209,12 +221,13 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
     g = read_amarsi_grid(element)
     E = g.get('energy'); J = g.get('J')
     conf = g.get('conf'); term = g.get('term')
+    indices = _ion_level_indices(g, element, ion)
 
     def _dec(arr, i):
         return decode_grid_label(arr[i])
 
     def _match(e):
-        i = int(np.argmin(np.abs(E - e)))
+        i = int(indices[np.argmin(np.abs(E[indices] - e))])
         if abs(float(E[i]) - e) > tol:
             raise ValueError(f"{element}: no grid level within {tol} eV of {e:.3f} eV "
                              f"(nearest {float(E[i]):.3f}).")
@@ -226,7 +239,7 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
 
 
 def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
-                              tol: float = 0.06):
+                              tol: float = 0.06, *, ion=1):
     """Grid level labels for a line, the upper level chosen by the LS SELECTION RULES
     (RYA-1233). Returns (term_lower, term_upper, j_lo, j_up, note).
 
@@ -243,6 +256,7 @@ def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
     E = np.asarray(g.get('energy'), float)
     J = np.asarray(g.get('J'), float)
     conf, term = g.get('conf'), g.get('term')
+    indices = _ion_level_indices(g, element, ion)
 
     def lab(i):
         return f"{decode_grid_label(conf[i])} {decode_grid_label(term[i])}"
@@ -250,11 +264,11 @@ def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
     def odd(i):
         return '*' in decode_grid_label(term[i])
 
-    il = int(np.argmin(np.abs(E - elow_eV)))
+    il = int(indices[np.argmin(np.abs(E[indices] - elow_eV))])
     if abs(E[il] - elow_eV) > tol:
         raise ValueError(f"{element}: no grid level within {tol} eV of the lower {elow_eV:.3f} eV")
-    near = int(np.argmin(np.abs(E - eup_eV)))
-    cand = [i for i in range(len(E))
+    near = int(indices[np.argmin(np.abs(E[indices] - eup_eV))])
+    cand = [i for i in indices
             if abs(E[i] - eup_eV) <= tol and odd(i) != odd(il)
             and abs(J[i] - J[il]) <= 1 and not (J[i] == 0 and J[il] == 0)]
     if not cand:
@@ -262,8 +276,8 @@ def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
                          f"{eup_eV:.3f} eV from {lab(il)} J={J[il]:.0f}")
     iu = min(cand, key=lambda i: abs(E[i] - eup_eV))
     note = "" if iu == near else (
-        f"nearest-energy upper {lab(near)} J={J[near]:.0f} is not reachable from "
-        f"{lab(il)} J={J[il]:.0f}; selection rules give {lab(iu)} J={J[iu]:.0f} "
+        f"nearest-energy upper {lab(near)} J={J[near]:g} is not reachable from "
+        f"{lab(il)} J={J[il]:g}; selection rules give {lab(iu)} J={J[iu]:g} "
         f"({abs(E[iu] - eup_eV) * 1000:.0f} meV off)")
     return lab(il), lab(iu), float(J[il]), float(J[iu]), note
 
@@ -309,15 +323,26 @@ _DERIV_OPTS = {
 _DEFAULT_OPTS = {'ew_hw': 0.8, 'offs': (-0.2, -0.1, 0.0, 0.1, 0.2)}
 
 
-def _linelist_rows(element, lines):
+def _linelist_rows(element, lines, *, ion=1):
     """Build PySME long-format line rows from diagnostic lines. HFS-resolved (RYA-411):
     a line's optional 10th element is a list of (wl, gflog) hyperfine components — each is
     emitted as its own row sharing the feature's lower/upper NLTE level labels (HFS splits
     the level by ~ueV, so the departure coefficients are identical). Pure logic (no PySME),
-    so the HFS expansion is unit-testable without the gitignored grid."""
+    so the HFS expansion is unit-testable without the gitignored grid.
+    Optional entry 11 carries explicit gamrad/gamqst (log damping constants);
+    required for ions, where the historical neutral defaults are inappropriate.
+    """
+    ion = parse_ion(ion)
     rows = []
     for line in lines:
         wl, gf, elo, jlo, eup, jup, tl, tu, vw = line[:9]
+        broadening = line[10] if len(line) > 10 else None
+        if ion != 1 and broadening is None:
+            raise ValueError(f"{element} {ion} {wl}: explicit radiative and Stark broadening required")
+        rad, stark = ((broadening['gamrad'], broadening['gamqst'])
+                      if broadening is not None else (7.8, 0.0))
+        if not np.all(np.isfinite([rad, stark, vw])):
+            raise ValueError(f"{element} {ion} {wl}: non-finite broadening")
         comps = line[9] if len(line) > 9 and line[9] else [(wl, gf)]
         for comp in comps:
             # A component is (wl, gflog) — hyperfine structure, which splits a level by
@@ -334,9 +359,9 @@ def _linelist_rows(element, lines):
             cwl, cgf = comp[0], comp[1]
             ctu = comp[2] if len(comp) > 2 else tu
             cjup = comp[3] if len(comp) > 3 else jup
-            rows.append(dict(species=f'{element} 1', wlcent=cwl, excit=elo, gflog=cgf,
-                             gamrad=7.8, gamqst=0.0, gamvw=vw, atom_number=_Z(element),
-                             ionization=1, lande_lower=0.0, lande_upper=0.0, lande=0.0,
+            rows.append(dict(species=f'{element} {ion}', wlcent=cwl, excit=elo, gflog=cgf,
+                             gamrad=rad, gamqst=stark, gamvw=vw, atom_number=_Z(element),
+                             ionization=ion, lande_lower=0.0, lande_upper=0.0, lande=0.0,
                              j_lo=jlo, j_up=cjup, e_upp=eup, term_lower=tl,
                              term_upper=ctu,
                              error=0.0, depth=0.6, reference='RYA-411'))
@@ -347,7 +372,14 @@ def _linelist_rows(element, lines):
 ACCURACY = 1e-6
 
 
-def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
+def assert_nlte_engaged(flags, rows):
+    """Reject PySME's silent LTE fallback for any requested component."""
+    flags = np.asarray(flags).reshape(-1)
+    if len(flags) != len(rows) or not np.all(flags == 1):
+        raise RuntimeError("NLTE departures were not applied to every requested component")
+
+
+def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8, *, ion=1):
     """One PySME synthesis; returns {feature_wl: EW_mA}. Lazy PySME import (fail-loud).
 
     HFS-resolved (RYA-411): a diagnostic 'line' may carry an optional 10th element — a
@@ -362,7 +394,7 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     from pysme.linelist.linelist import LineList
     from pysme.synthesize import synthesize_spectrum
 
-    rows = _linelist_rows(element, lines)
+    rows = _linelist_rows(element, lines, ion=ion)
     sme = SME_Structure()
     sme.teff, sme.logg, sme.monh = star['teff'], star['logg'], star['feh']
     sme.vmic, sme.vmac, sme.vsini = star.get('vmic', 1.0), 0.0, 0.0
@@ -382,6 +414,8 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     if nlte:
         sme.nlte.set_nlte(element, grid_path)
     sme = synthesize_spectrum(sme)
+    if nlte:
+        assert_nlte_engaged(sme.nlte.flags, rows)
     w = np.asarray(sme.wave[0]); f = np.asarray(sme.synth[0])
 
     def ew(c, hw=ew_hw):
@@ -425,7 +459,7 @@ def _select_lines(element: str, lines=None) -> list:
     typo'd wavelength that quietly derived a subset would look exactly like a successful
     derivation of the lines you asked for.
     """
-    registered = NLTE_LINES[element]
+    registered = NLTE_LINES.get(element, [])
     if lines is None:
         return list(registered)
     by_wl = {row[0]: row for row in registered}
@@ -447,7 +481,7 @@ def _select_lines(element: str, lines=None) -> list:
     return out
 
 
-def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
+def nlte_delta(element: str, star: dict = None, offs=None, lines=None, *, ion=1) -> dict:
     """Per-line NLTE abundance correction delta = A(NLTE) - A(LTE) via PySME, plus
     the median. Uses per-element derivation options (_DERIV_OPTS) — wide EW window +
     bracket for saturated lines (K). Raises if the element has no diagnostic lines.
@@ -461,7 +495,10 @@ def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
     few A wide and changes no number, since the features are far apart and independent.
     Subsetting, not a second derivation function: one code path stays authoritative.
     """
-    if element not in NLTE_LINES:
+    ion = parse_ion(ion)
+    if ion != 1 and (lines is None or any(not isinstance(l, (tuple, list)) for l in lines)):
+        raise ValueError("Ionized species require explicit diagnostic rows; neutral defaults cannot be reused")
+    if element not in NLTE_LINES and lines is None:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
     # RYA-567: heavy Sirius-only compute leg (reads the .grd grids + PySME/MARCS RT).
@@ -475,11 +512,13 @@ def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
     print(f"  [in-hull guard {element}] star ok; grid coverage Teff{_bounds['teff']} "
           f"logg{_bounds['logg']} [Fe/H]{_bounds['feh']}")
     lines = _select_lines(element, lines)
+    from pipeline.nlte_environment import require
+    require()  # LTE comparison must reset the native departure coefficients.
     grid = _spacefree_grid(element)
-    ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw)
+    ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw, ion=ion)
     cog = {l[0]: [] for l in lines}
     for off in offs:
-        ew_lte = _synth_ew(element, off, False, star, lines, grid, ew_hw=ew_hw)
+        ew_lte = _synth_ew(element, off, False, star, lines, grid, ew_hw=ew_hw, ion=ion)
         for l in lines:
             cog[l[0]].append(ew_lte[l[0]])
     A = _A_SUN[element] + np.array(offs)
@@ -488,8 +527,10 @@ def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
         wl = l[0]
         # A(NLTE)=A_sun minus A_LTE(=a_star); NaN when the COG cannot invert it
         per_line[wl] = _A_SUN[element] - cog_invert(ew_nlte[wl], cog[wl], A)
-    return {'element': element, 'per_line': per_line,
-            'delta_median': float(np.nanmedian(list(per_line.values())))}
+    return {'element': element, 'ion': ion, 'per_line': per_line,
+            'delta_median': float(np.nanmedian(list(per_line.values()))),
+            'ew_nlte_mA': ew_nlte, 'lte_cog_mA': cog,
+            'abundance_offsets': list(offs)}
 
 
 def cog_invert(ew: float, cog, abundances) -> float:

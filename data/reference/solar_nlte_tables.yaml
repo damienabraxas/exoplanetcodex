@@ -1,0 +1,15 @@
+# Cited same-EW solar abundance differences. These are not in-transfer model grids.
+tables:
+  - element: Mg
+    ions: [I, II]
+    star: solar
+    source: data/reference/mg_agss21/mg_agss21_lines.csv
+    species_column: species
+    wavelength_column: wavelength_air_A
+    canonical_id_column: canonical_line_id
+    match_tol_A: 0.01
+    baseline: A_marcs_lte
+    legs: {1D: A_marcs_nlte, 3D: published_3d_nlte_abundance}
+    model: amarsi
+    bibliography_key: asplund2021
+    citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline"

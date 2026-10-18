@@ -1,0 +1,63 @@
+{
+  "source": "/Users/ryanschmitt/Documents/Exoplanet Codex/vald_raw_archive/current/vald_solar_ir_9500_17000_hfson_raw.txt",
+  "components_in_selected_window": [
+    {
+      "species": "Mg 2",
+      "element": "Mg",
+      "ion": "II",
+      "wavelength": 10092.217,
+      "log_gf": 1.02,
+      "e_low_eV": 11.6297,
+      "j_low": 3.5,
+      "e_up_eV": 12.8579,
+      "j_up": 4.5,
+      "lande_lower": 99.0,
+      "lande_upper": 99.0,
+      "lande_mean": 99.0,
+      "damping_rad": 0.0,
+      "damping_stark": 0.0,
+      "damping_vdW": 0.0,
+      "central_depth": 0.007
+    }
+  ],
+  "mg_components_within_1A": [
+    {
+      "species": "Mg 2",
+      "element": "Mg",
+      "ion": "II",
+      "wavelength": 10092.095,
+      "log_gf": 0.91,
+      "e_low_eV": 11.6297,
+      "j_low": 2.5,
+      "e_up_eV": 12.8579,
+      "j_up": 3.5,
+      "lande_lower": 99.0,
+      "lande_upper": 99.0,
+      "lande_mean": 99.0,
+      "damping_rad": 0.0,
+      "damping_stark": 0.0,
+      "damping_vdW": 0.0,
+      "central_depth": 0.006
+    },
+    {
+      "species": "Mg 2",
+      "element": "Mg",
+      "ion": "II",
+      "wavelength": 10092.217,
+      "log_gf": 1.02,
+      "e_low_eV": 11.6297,
+      "j_low": 3.5,
+      "e_up_eV": 12.8579,
+      "j_up": 4.5,
+      "lande_lower": 99.0,
+      "lande_upper": 99.0,
+      "lande_mean": 99.0,
+      "damping_rad": 0.0,
+      "damping_stark": 0.0,
+      "damping_vdW": 0.0,
+      "central_depth": 0.007
+    }
+  ],
+  "agss21_feature_loggf": 1.283,
+  "held_reason": "Default +/-0.1 A helper window captures only 10092.217. A +/-1 A archive inspection also finds 10092.095, 0.105 A from the rounded published centroid. All damping fields are zero; full feature completeness, gf allocation and broadening remain unverified."
+}

@@ -107,6 +107,9 @@ def clashes(element: str, waves: list[float]) -> list[str]:
 
 def plan(row: dict) -> dict:
     """What adding one missing published line would write (no files touched)."""
+    sigma = row.get('authors_sigma_dex')
+    if sigma is None or not np.isfinite(float(sigma)):
+        raise LineAddError("Published line has no resolved gf uncertainty; cannot admit as graded")
     from pipeline.element_prepare import SYNTH_LISTS
     sp, w, ep = row["species"], float(row["wavelength_A"]), float(row["ep_eV"])
     comps, src = components(sp, w, ep)

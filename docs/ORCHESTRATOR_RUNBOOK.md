@@ -56,7 +56,7 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 
 ## 3. Register the published line set (the Asplund recipe)
 
-1. Find the element in Asplund+2021 Sect. 3 and its line table (Table A.1 for Na/Mg/K/Ca,
+1. Find the element in Asplund+2021 Sect. 2 (Sect. 2.4 for Mg) and its line table (Table A.1 for Na/Mg/K/Ca,
    A.2 for Fe; otherwise the paper Asplund cites, e.g. Amarsi & Asplund 2017 for Si,
    Nordlander & Lind 2017 for Al). Note: which lines, which gf, which ions, and HOW the
    final value is combined (unweighted mean? both ions? one ion only?).
@@ -66,11 +66,25 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
    shape of `data/reference/asplund2021_al/nordlander_lind_2017_analysis_lines.csv`.
 3. Add one entry to `data/reference/line_sets/SOURCES.yaml` (name `<EL>_AGSS21`,
    `solar_literature: true`, bib, doi, citation, gf_basis). Copy the AL_AGSS21 entry.
+   If the authors use an arithmetic mean, declare `aggregation: mean`; this follows
+   the selection through nominal products and paired uncertainty responses. Existing
+   selections without a declaration retain their median recipe.
 4. Build it: `python -m pipeline.line_sets --element <El>` -- writes the per-species csv,
    graded csv and the REGISTRY.csv row.
 5. Re-run prepare. Check A should now list the lines; lines missing from `canonical_gf`
    show an add plan. After reviewing the report: `--prepare --apply` writes the gf
    adoptions and culls. **That `--apply` is the human checkpoint -- report first.**
+
+Check the full and graded counts separately. A registered set with zero graded lines
+does not establish that the measurement uses the authors' gf: the current adoption
+plan requires both a published gf and a per-line sigma. If the source gives no sigma,
+leave it unknown and report the hold; do not transfer an experimental uncertainty to
+a different theoretical or combined-feature gf. A collective accuracy bound is not
+a published per-line standard deviation. Table wavelengths printed in nm can also
+need an explicit canonical-ID join checked on species, wavelength and lower energy;
+do not silently increase a wavelength-only matching tolerance.
+Declared solar reference sets remain in coverage when their graded selection is empty,
+with an explicit input hold rather than disappearing from the matrix.
 
 ## 4. Literature anchor (litscan)
 
@@ -81,19 +95,56 @@ method. Every `bib` key must resolve. Values come from the papers, never from me
 
 ## 5. NLTE table (Sirius only)
 
+Here `python` must be the PySME interpreter resolved by the path-register key
+`engines.venv_pysme_python`, not the iSpec synthesis interpreter. Verify with
+`python -c 'import pysme'` before the check; the synthesis environment can pass
+`--check-paths` while lacking PySME (RYA-1250).
+
 ```bash
 ssh sirius
 cd <a checkout of this branch, NOT under ~/actions-runner>
-python scripts/extend_nlte_grid.py --element <El> --solar-only   # non-regression check
-python scripts/extend_nlte_grid.py --element <El> --write --jobs 3
+python scripts/extend_nlte_grid.py --element <El> --ion <I-or-II> --solar-only   # non-regression check
+python scripts/extend_nlte_grid.py --element <El> --ion <I-or-II> --write --jobs 3
 ```
 Commit the updated `data/nlte_grids/<El>_Amarsi2020_PySME.csv` (+ `.prov.json`), then
 re-run prepare: check D must read 0.
 
+Coverage and failure provenance are keyed by ion. A neutral correction does not
+cover an ionized line at the same wavelength. Ionized diagnostics require explicit
+radiative/Stark broadening and component J matches; the synthesis verifies native
+NLTE engagement and the LTE-reset environment. A non-monotonic or unbracketed
+curve has no correction. Check D also accounts for documented failures, so zero
+unaccounted lines does not by itself establish complete usable NLTE coverage.
+
+### Published solar correction tables
+
+A paper may publish LTE and NLTE abundances from the same equivalent widths
+(e.g. AGSS21 Table A.1). Declare the source columns and explicit canonical joins
+in `data/reference/solar_nlte_tables.yaml`. The shared adapter is solar-only and
+emits cited additive corrections with the baseline atmosphere stated; it does
+not represent an independent in-transfer 3D calculation. These sources are
+fingerprinted with the run inputs and use the existing uncertainty recipe.
+
+Structured prepare reports scope missing/adopted lines to each species/window.
+Unknown/global blockers still hold execution. A missing infrared transition
+therefore does not stop a prepared optical cell. Native Gerber NLTE routes also
+consult the model atom's measured ion reach; a continuum-only ion is not an
+NLTE-capable species.
+
 ## 6. Cull candidates
 
-Prepare lists saturated lines that no solar analysis used. Post the list to the ticket;
+Prepare lists saturated lines absent from registered solar-literature selections. Post the list to the ticket;
 Ryan says yes or no. Approved culls are written by `--prepare --apply`.
+
+More precisely, the code checks membership in the **registered** solar-literature
+sets. Absence from those sets is not evidence of absence from all solar literature.
+Report contrary literature before approval (RYA-1250: Mg I 5711 A is absent from
+AGSS21 Table A.1, but Lodders+2025 explicitly discusses its solar use).
+
+Check the line disposition registry first. A synthesis-required disposition keeps
+the line in synthesis and holds unsuitable EW/profile routes; saturation is not
+a blanket exclusion. Dispositions must identify exact wavelengths that the shared
+matcher can resolve. Prepare reports these as `route_requirements`.
 
 ## 7. Run and publish (hands-off)
 

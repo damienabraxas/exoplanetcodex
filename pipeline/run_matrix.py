@@ -149,7 +149,7 @@ class MatrixError(RuntimeError):
 # every token a deck claims must still be live. A new registry row therefore fails
 # loud here instead of silently never being run.
 DECK_EMITS: dict[str, tuple[str, ...]] = {
-    "ts-lte": ("1D-LTE", "ENGINE-A"),
+    "ts-lte": ("1D-LTE", "ENGINE-A", "ENGINE-A-3DNLTE"),
     "gerber-1d-lte": ("synth-1D-LTE-gerber",),
     "gerber-nlte": ("ENGINE-B-NLTE",),
     "gerber-mean3d-lte": ("synth-mean3D-LTE-gerber-stagger",),
@@ -163,13 +163,9 @@ DECK_EMITS: dict[str, tuple[str, ...]] = {
 DECK_PAIRS: dict[str, str] = {"gerber-mean3d": "gerber-mean3d-lte",
                               "gerber-mean3d-lte": "gerber-mean3d"}
 
-NOT_DISPATCHABLE: dict[str, str] = {
-    "ENGINE-A-3DNLTE": (
-        "the Amarsi 3D-NLTE leg. It is a per-line grid interpolation applied to an "
-        "EW measurement, not a `--engine-b-deck` synthesis, so no descriptor this "
-        "layer emits can dispatch it. It is named here rather than omitted so that "
-        "its absence from the matrix is a DECLARATION and not a gap (RYA-1187)."),
-}
+# derive_band_products emits cited/grid 3D corrections from the LTE fit when
+# available. They must survive orchestration/publication like its 1D correction.
+NOT_DISPATCHABLE: dict[str, str] = {}
 
 
 def _registry_rows() -> list[dict]:
@@ -478,6 +474,11 @@ def _deck_hold(d: RunDescriptor) -> str:
         have = sorted({k.split("@")[0] for k in DECKS if ("@mean3D" in k) == ("mean3d" in d.engine_deck)})
         return (f"ENGINE: no Gerber {'mean-3D ' if 'mean3d' in d.engine_deck else ''}deck for "
                 f"{d.element} (decks exist for {', '.join(have)})")
+    if d.engine_deck in ('gerber-nlte', 'gerber-mean3d'):
+        from pipeline.gerber_nlte import nlte_ion_capability
+        capable, reason = nlte_ion_capability(key, d.ion)
+        if capable is False:
+            return f'ENGINE: {reason}'
     return ""
 
 
@@ -498,9 +499,50 @@ def deck_host_ready(d: RunDescriptor) -> str:
             f"({', '.join(missing)} under {GT}) -- run this cell on Sirius") if missing else ""
 
 
+def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
+    """Scope a reviewed, structured preparation report to the affected cell.
+
+    Legacy/malformed reports remain fail-closed. A missing IR transition must not
+    stop an independently prepared optical cell, or a different ion.
+    """
+    if report.get('ready'):
+        return ''
+    if not report.get('scoped_readiness'):
+        return 'PROCESS step 7: preparation is not READY'
+    required = {'nlte_missing', 'adopt', 'cull_candidates', 'missing_lines', 'holdings', 'literature'}
+    if not required <= report.keys():
+        return 'PROCESS step 7: incomplete preparation report'
+    known = {'nlte_missing', 'adopt', 'cull_candidates', 'missing_solar_literature_lines',
+             'holdings_frame', 'literature'}
+    if any(v for k, v in report.get('blocking', {}).items() if k not in known):
+        return 'PROCESS step 7: unknown preparation blocker'
+    lit = report['literature']
+    if not lit.get('litscan') or lit.get('missing_bib_keys'):
+        return 'PROCESS step 5: unresolved literature'
+    def relevant(row):
+        return (row.get('species') == f'{d.element} {d.ion}'
+                and d.lo_A <= float(row['wavelength_A']) <= d.hi_A)
+    for kind in ('nlte_missing', 'adopt', 'cull_candidates', 'missing_lines'):
+        if any(relevant(r) for r in report[kind]):
+            return f'PROCESS step 7: {kind} in this species/window'
+    if any(not r.get('ok', False) and r.get('holding') == d.holding for r in report['holdings']):
+        return 'PROCESS step 4: holding frame unresolved'
+    return ''
+
+
 def cell_process_hold(d: RunDescriptor) -> str:
     """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
     for this cell's holding and window; otherwise the reason, naming the step."""
+    prep = PREPARE_DIR / f"{d.star}_{d.element}.json"
+    if prep.exists():
+        report = json.loads(prep.read_text())
+        hold = preparation_hold_for_cell(report, d)
+        if hold:
+            return hold
+        if d.method != 'synthesis' and any(
+                r['species'] == f'{d.element} {d.ion}' and d.lo_A <= r['wavelength_A'] <= d.hi_A
+                for r in report.get('route_requirements', [])):
+            return 'PROCESS step 7: registered lines require synthesis'
     deck_hold = _deck_hold(d)
     if deck_hold:
         return deck_hold
@@ -510,7 +552,11 @@ def cell_process_hold(d: RunDescriptor) -> str:
         return (f"PROCESS step 4 (continuum): {d.holding} ships no continuum-normalised "
                 f"product; the per-band continuum is prepared once, before measurement")
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
-        return ""          # a published set's lines in this window ARE the graded pool
+        name = d.pool[len(SET_POOL_PREFIX):]
+        rows = [r for r in line_sets_for(d.element, d.ion, d.star) if r['set_name'] == name]
+        if not any(d.lo_A <= w <= d.hi_A for r in rows for w in r['waves']):
+            return f'PROCESS step 7: published set {name} has no gf-graded line in this window'
+        return ""
     w, masks = _canonical_species(d.element, d.ion)
     graded = masks["reference" if d.pool == "reference" else "graded"]
     inwin = (w >= d.lo_A) & (w <= d.hi_A)
@@ -690,7 +736,7 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
                     # this window -- Asplund's in VIS, Elgueta's / Bergemann's in the IR.
                     sets_here = [SET_POOL_PREFIX + r["set_name"]
                                  for r in line_sets_for(symbol, ion, star)
-                                 if any(lo <= w <= hi for w in r["waves"])]
+                                 if any(lo <= w <= hi for w in r.get("coverage_waves", r["waves"]))]
                     for m in want_m:
                         # RYA-1233 (process step 7): every cell measures a GRADED pool,
                         # one cell per pool this route can measure.
@@ -812,6 +858,9 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     # RYA-1233: a published-set pool's line list is an input like any other -- a corrected
     # set must re-run its cells.
     if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
+        from pipeline.line_sets import aggregation_for
+        rows.append({"kind": "line_set_recipe", "name": "aggregation",
+                     "digest": aggregation_for(descriptor.pool[len(SET_POOL_PREFIX):])})
         from pipeline.run_descriptor import line_set
         _row = line_set(descriptor.pool[len(SET_POOL_PREFIX):], descriptor.element,
                         descriptor.ion)
@@ -831,6 +880,10 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     # line culled after a build (or an NLTE table extended to more lines) left every affected
     # cell SKIP -- current by its hash, stale in fact.
     _nlte = sorted((ROOT / "data" / "nlte_grids").glob(f"{descriptor.element}_*.csv"))
+    from pipeline import solar_nlte_tables
+    for path in solar_nlte_tables.input_paths(descriptor.element, descriptor.ion, descriptor.star):
+        rows.append({'kind': 'cited_nlte', 'name': str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path),
+                     'digest': _file_fingerprint(path)})
     # RYA-1233: canonical_gf and the synthesis list, SCOPED to the cell's wavelength range.
     # Hashed whole, one element's gf adoption (Al's six lines) re-ran every cell of every
     # element; not hashed at all, an added line's opacity (Al I 10768) left the NIR cells it
@@ -954,6 +1007,11 @@ def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
                         with (ROOT / star_graded_csv(r, star)).open(
                                 newline="", encoding="utf-8") as g:
                             r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
+                        # Coverage owes the declared selection even when no line can
+                        # yet enter a graded product. Such cells get an explicit hold.
+                        if star == 'solar' and str(r.get('solar_literature')).lower() == 'true':
+                            with (ROOT / r['csv']).open(newline='', encoding='utf-8') as g:
+                                r['coverage_waves'] = [float(x['wavelength_air_A']) for x in csv.DictReader(g)]
                         rows.append(r)
         _ADAPTERS[key] = rows
     return _ADAPTERS[key]
@@ -1320,9 +1378,14 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     steps = process_steps(star, symbol, sorted({d.ion for d in descriptors}) or None)
     missing = [r for r in steps if not r["ok"]]
 
+    prep_path = PREPARE_DIR / f"{star}_{symbol}.json"
+    scoped_prep = (json.loads(prep_path.read_text()).get('scoped_readiness', False)
+                   if prep_path.exists() else False)
+
     def element_hold_for(ion: str) -> str:
         return "; ".join(f"PROCESS step {r['step']} ({r['name']}): {r['evidence']}"
-                         for r in missing if r.get("ion") in (None, ion))
+                         for r in missing if r.get("ion") in (None, ion)
+                         and not (r["step"] == 7 and scoped_prep))
 
     import threading
     _lock = threading.Lock()

@@ -42,6 +42,18 @@ def load_sources() -> list[dict]:
     return yaml.safe_load(SOURCES.read_text())["sets"]
 
 
+def aggregation_for(selection: str | None) -> str:
+    """The declared line statistic; existing undeclared pools retain their median."""
+    if not selection:
+        return "median"
+    name = selection.split("=", 1)[0].strip().upper()
+    spec = next((s for s in load_sources() if s["name"].upper() == name), {})
+    method = spec.get("aggregation", "median")
+    if method not in ("mean", "median"):
+        raise ValueError(f"Unsupported aggregation for {name}: {method}")
+    return method
+
+
 def _tol(text: str) -> float:
     dec = len(text.split(".")[1]) if "." in text else 0
     return max(FLOOR_A, 0.5 * 10 ** (-dec))

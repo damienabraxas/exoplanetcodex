@@ -1,0 +1,37 @@
+{
+  "atom": "atom.mg86d",
+  "element": "Mg",
+  "md5": "872509f4b44672397f288718b7c1471a",
+  "sha256": "12f354d6a62154a61b21749766c2c9f0d314b99fcc25d0e54ee15691425d8ead",
+  "n_levels_declared": 86,
+  "n_bb_declared": 247,
+  "n_bb_parsed": 247,
+  "n_continua_declared": 85,
+  "n_cross_stage_bb": 0,
+  "highest_level_index_in_any_bb": 79,
+  "stages": [
+    {
+      "ion_stage": 1,
+      "n_levels": 85,
+      "level_index_lo": 1,
+      "level_index_hi": 85,
+      "energy_eV_lo": 0.0,
+      "energy_eV_hi": 7.458,
+      "n_bb_both": 247,
+      "n_bb_any": 247,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 2,
+      "n_levels": 1,
+      "level_index_lo": 86,
+      "level_index_hi": 86,
+      "energy_eV_lo": 7.626,
+      "energy_eV_hi": 7.626,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    }
+  ],
+  "measured_at": "2026-10-18T16:35:43Z"
+}

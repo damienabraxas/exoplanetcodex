@@ -121,10 +121,10 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out, why = "HELD", budget_held[(d.band, d.holding, sel, t)]
                 elif (d.band, d.holding, ion, sel, t) in quarantined:
                     out, why = "HELD", quarantined[(d.band, d.holding, ion, sel, t)]
-                elif t == "ENGINE-A" and (index.get((d.band, d.holding, ion, sel, "1D-LTE"))
+                elif t in ("ENGINE-A", "ENGINE-A-3DNLTE") and (index.get((d.band, d.holding, ion, sel, "1D-LTE"))
                                           or (d.band, d.holding, sel, "1D-LTE") in budget_held):
-                    out, why = "HELD", ("no NLTE correction for this pool's lines in the "
-                                        "element's ENGINE-A table")
+                    out, why = "HELD", (f"no {t} correction emitted for this pool's lines "
+                                        "by its registered grid or cited solar table")
                 else:
                     out, why = "NOT_RUN", ""
                 rows.append({"band": d.band, "holding": d.holding, "ion": ion,

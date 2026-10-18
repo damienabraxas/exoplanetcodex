@@ -1,5 +1,9 @@
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-18 — pending RYA-1250 branch
+
+- **RYA-1250** — Models and five Mg II gf updates applied; shared cited solar correction route and synthesis dispositions in use. Full Mg I + II orchestration underway; source-input holds remain explicit.
+
 ## 2026-09-25 — RYA-1220 CNO close
 
 > **Current as of `main` 62918f6c** (2026-10-08, RYA-1232).
