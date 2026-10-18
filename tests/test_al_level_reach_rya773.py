@@ -142,10 +142,15 @@ def test_new_deltas_are_small_and_negative_like_the_published_atom():
     negative. Reproduced, never tuned — so this is a SIGN-and-ORDER check, deliberately
     loose, not a re-assertion of the derived numbers."""
     d = pd.read_csv(EXTRACT)
-    new = d[~d.wave_A.isin([6696.023, 6698.673])]
+    new = d[d.wave_A.isin([7835.309, 7836.134, 8772.865, 8773.897])]
     assert len(new) == 44
     assert (new.delta_nlte < 0).all(), "NLTE strengthens these lines -> delta negative"
     assert new.delta_nlte.min() > -0.10, "an order larger than the published band"
+    # RYA-1233 appended 5 gf-graded lines x 11 nodes (extend_nlte_grid.py). The IR
+    # 10872/11253 lines are stronger and their corrections larger, still negative.
+    later = d[~d.wave_A.isin([6696.023, 6698.673, 7835.309, 7836.134, 8772.865, 8773.897])]
+    assert len(later) == 55 and (later.delta_nlte < 0).all()
+    assert later.delta_nlte.min() > -0.25
 
 
 def test_every_registered_al_diagnostic_is_in_the_extract():

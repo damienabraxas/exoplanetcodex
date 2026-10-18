@@ -24,6 +24,7 @@ stage/ + report.json + publish_summary.json (committed: the feed's provenance po
 from __future__ import annotations
 
 import json
+import re
 import shlex
 import subprocess
 import sys
@@ -60,9 +61,147 @@ def units_for(star: str, element: str, *, report: dict,
     return out
 
 
+def _observed_conditioning(o: dict) -> str | None:
+    """The single `observed_conditioning` value of the product's own per-line artifact."""
+    import pandas as pd
+    stem = o.get("stem") or ""
+    # A correction leg (ENGINE-A ...) is built from the SAME observed artifact as the unit's
+    # 1D-LTE leg, whose per-line rows carry the column.
+    lte = re.sub(r"_[A-Za-z0-9.-]+_lines\.csv$", "_1D-LTE_lines.csv", stem)
+    for f in [ROOT / "data/results/band_products" / s for s in dict.fromkeys([stem, lte])] + \
+            [g for s in dict.fromkeys([stem, lte])
+             for g in sorted((ROOT / "data/results/band_products").glob(f"deck_*/{s}"))]:
+        if stem and f.exists():
+            d = pd.read_csv(f)
+            if "observed_conditioning" in d.columns:
+                vals = sorted(set(d["observed_conditioning"].dropna().astype(str)))
+                if len(vals) == 1:
+                    return vals[0]
+                if len(vals) > 1:
+                    return None              # ambiguous: refuse rather than pick
+                # empty on a correction leg: fall through to the unit's 1D-LTE artifact
+    return None
+
+
+def _identity(row: dict) -> tuple:
+    return tuple(str(row.get(k) or "") for k in
+                 ("ion", "band", "instrument", "holding", "selector", "treatment"))
+
+
+def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
+                         held: list, why: str, started: str) -> list[str]:
+    """Move every live SYNTH product this run did NOT republish to `archive`.
+
+    RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
+    a narrowed window) left its previous value live, pointing at a stage file this stage had
+    just deleted, and coverage still counted it published. This stage owns the element's
+    synthesis products: the current run is the only source of truth for them, so a product
+    it did not publish is superseded -- archived (never deleted) with the run's reason.
+    """
+    import pandas as pd
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import publish_product as pp
+    current = set()
+    for o in keep:
+        src = stage / o["prod_stem"]
+        if src.exists():
+            for r in pd.read_csv(src).to_dict("records"):
+                current.add(_identity({**r, "holding": o["holding"],
+                                       "selector": o.get("selector")}))
+    why_held = {h["product"]: h["why"] for h in held}
+    path = pp.STORE / star / f"{element}.json"
+    if not path.exists():
+        return []
+    doc = json.loads(path.read_text())
+    # A rerun the eligibility gate sent to quarantine (RYA-1097) leaves the earlier record
+    # live; the current run's verdict is the one that stands, so that record goes too.
+    quarantined_now = {pp.key_of(q): q for q in doc.get("quarantine") or []
+                       if (q.get("quarantined_at") or "") >= started}
+    gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
+            and p.get("star", star) == star
+            and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
+    if not gone:
+        return []
+    now = pp._now()
+    for p in gone:
+        tag = f"{p.get('band')} {p.get('holding')} {p.get('selector')} {p.get('treatment')}"
+        doc.setdefault("archive", []).append(dict(
+            p, superseded_at=now, superseded_reason=(
+                f"{why}. Superseded: the current run "
+                + ("QUARANTINED its rerun ("
+                   + (quarantined_now[pp.key_of(p)].get("quarantine_reason") or "")[-200:] + ")"
+                   if pp.key_of(p) in quarantined_now else
+                   f"HOLDS this product ({why_held[tag]})" if tag in why_held
+                   else "no longer builds this cell") + ", so the earlier value is withdrawn")))
+    doc["products"] = [p for p in doc["products"] if p not in gone]
+    doc["version"] = pp.bump(doc["version"])
+    doc["updated_at"] = now
+    pp.write_feed(path, doc)
+    return [f"{pp.key_of(p)} A={p.get('A')}" for p in gone]
+
+
+def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) -> list[str]:
+    """Keep the artifact of every archived / quarantined record that names one.
+
+    The stage is rebuilt on every run, so a superseded record's `copied_to` pointed at a file
+    the rebuild deleted -- the history could no longer be checked against its own bytes
+    (feed_repo_reconciliation, RYA-1080/1096). The file is copied to `superseded/` from the
+    previous stage (or, failing that, the last commit holding it), verified by sha256, and the
+    record repointed. Measured fields are never touched.
+    """
+    import hashlib
+    import shutil
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import publish_product as pp
+    path = pp.STORE / star / f"{element}.json"
+    if not path.exists():
+        return []
+    doc = json.loads(path.read_text())
+    keep_dir = work / "superseded"
+    done = []
+    for sec in ("archive", "quarantine"):
+        for rec in doc.get(sec) or []:
+            prov = rec.get("provenance") or {}
+            ct, sha = prov.get("copied_to"), prov.get("sha256")
+            if not ct or (ROOT / ct).exists():
+                continue
+            name = Path(ct).name
+            dst = keep_dir / f"{(sha or 'nosha')[:12]}_{name}"
+            if not dst.exists():
+                data = None
+                cand = prev_stage / name
+                if cand.exists():
+                    data = cand.read_bytes()
+                if data is None or (sha and hashlib.sha256(data).hexdigest() != sha):
+                    data = None
+                    revs = subprocess.run(["git", "log", "--all", "--format=%H", "--", ct], cwd=ROOT,
+                                          capture_output=True, text=True).stdout.split()
+                    for rev in revs:
+                        got = subprocess.run(["git", "show", f"{rev}:{ct}"], cwd=ROOT,
+                                             capture_output=True)
+                        if got.returncode == 0 and (not sha or
+                                                    hashlib.sha256(got.stdout).hexdigest() == sha):
+                            data = got.stdout
+                            break
+                if data is None:
+                    continue                 # left as is: reconciliation keeps naming it
+                keep_dir.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(data)
+            rec["provenance"] = {**prov, "copied_to": str(dst.relative_to(ROOT)),
+                                 "copied_to_was": ct}
+            done.append(f"{sec}: {name}")
+    if done:
+        doc["version"] = pp.bump(doc["version"])
+        doc["updated_at"] = pp._now()
+        pp.write_feed(path, doc)
+    return done
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
+    import datetime as _dt
+    started = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     work = budget_dir(star, element)
     legs, stage = work / "legs", work / "stage"
     work.mkdir(parents=True, exist_ok=True)
@@ -89,10 +228,22 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         import shutil
         shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
-    subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
-                    "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+    # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
+    # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
+    # still missing is RECORDED, never silently assembled around.
+    for _attempt in range(2):
+        subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
+                        "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+        missing = sorted(str(d.relative_to(legs)) for d in legs.glob("unit*/*")
+                         if d.is_dir() and not (d / "DONE").exists())
+        if not missing:
+            break
+    summary["legs_incomplete"] = missing
     import shutil
-    shutil.rmtree(stage, ignore_errors=True)
+    prev_stage = work / "stage.prev"
+    shutil.rmtree(prev_stage, ignore_errors=True)
+    if stage.exists():
+        stage.rename(prev_stage)        # kept until superseded records are preserved
     rep = work / "report.json"
     subprocess.run([py, "scripts/rya1230_cno_budget.py", "--legs", str(legs), "--stage", str(stage),
                     "--report", str(rep)], cwd=ROOT, check=True)
@@ -132,6 +283,11 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+        cond = _observed_conditioning(o)
+        if cond:
+            # RYA-1176: Al publishing requires the observed-conditioning identity, read from
+            # the measured artifact itself (derive writes it into every per-line row).
+            cmd += ["--observed-conditioning", cond]
         res = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
         tag = f"{o.get('band')} {o.get('holding')} {o.get('selector')} {o.get('key_treatment')} A={o.get('A')}"
         if res.returncode == 0:
@@ -139,6 +295,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
+    summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
+                                                held=summary["held"], why=why, started=started)
+    summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
+    shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
     cov = coverage_report.coverage(star, element)

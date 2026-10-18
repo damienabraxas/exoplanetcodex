@@ -68,6 +68,12 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
             if why:
                 budget_held[(o.get("band"), o.get("holding"), o.get("selector") or "",
                              o.get("key_treatment"))] = f"budget: {why}"
+    # A product the publisher's eligibility gate sent to quarantine (RYA-1097) is a verdict on
+    # the cell, not missing work: HELD with the gate's reason (RYA-1233 Si CRIRES+ ELGUETA).
+    quarantined = {}
+    for q in feed.get("quarantine", []):
+        quarantined[(q.get("band"), q.get("holding"), str(q.get("ion")), q.get("selector") or "",
+                     q.get("treatment"))] = "quarantined: " + (q.get("quarantine_reason") or "")[-200:]
     # A PUBLISHED cell is only done while its inputs are the ones it was built on: the ledger
     # records the inputs hash each build ran against; recompute it now (run()'s own hash).
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
@@ -106,10 +112,15 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out = "STALE" if why else "PUBLISHED"
                 elif hold:
                     out, why = "HELD", hold
-                elif run is not None and run.get("status") in (rm.FAILED, rm.HELD, rm.BLOCKED):
+                elif run is not None and run.get("status") in (rm.FAILED, rm.NOT_READY):
+                    # a failure or a cell owed on another host is WORK OWED, never a hold
+                    out, why = "NOT_RUN", f"{run['status']}: {run.get('reason', '')}"
+                elif run is not None and run.get("status") in (rm.HELD, rm.BLOCKED):
                     out, why = "HELD", f"{run['status']}: {run.get('reason', '')}"
                 elif (d.band, d.holding, sel, t) in budget_held:
                     out, why = "HELD", budget_held[(d.band, d.holding, sel, t)]
+                elif (d.band, d.holding, ion, sel, t) in quarantined:
+                    out, why = "HELD", quarantined[(d.band, d.holding, ion, sel, t)]
                 elif t == "ENGINE-A" and (index.get((d.band, d.holding, ion, sel, "1D-LTE"))
                                           or (d.band, d.holding, sel, "1D-LTE") in budget_held):
                     out, why = "HELD", ("no NLTE correction for this pool's lines in the "

@@ -152,7 +152,7 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
               instruments: list[str] | None = None, engines: list[str] | None = None,
               methods: list[str] | None = None, pools: list[str] | None = None,
               dry_run: bool = False, interpreter: str | None = None,
-              ispec_dir: str | None = None, step_timeout: int = 7200,
+              ispec_dir: str | None = None, step_timeout: int | None = None,
               report_dir: Path | None = None, echo: bool = True) -> dict:
     """Every canonical element of `star`, Fe first, through `run_matrix.run()`.
 
