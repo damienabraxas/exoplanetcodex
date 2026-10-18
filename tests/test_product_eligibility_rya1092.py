@@ -64,9 +64,14 @@ def test_no_duplicate_live_cells(doc):
 
 def _solid(doc):
     """A product the gate must NOT touch: 1D-LTE, corrected holding, real syst."""
-    for p in doc["products"]:
-        if p["treatment"] == "1D-LTE" and p.get("sigma_syst") is not None:
-            return p
+    #: RYA-1232: prefer a LEGACY row -- the tests below edit identity fields (treatment,
+    #: display) on a copy, and on a row carrying an RYA-587 block that edit makes the budget's
+    #: recorded scope disagree with the row, which is a different (correct) refusal.
+    for want_legacy in (True, False):
+        for p in doc["products"]:
+            if (p["treatment"] == "1D-LTE" and p.get("sigma_syst") is not None
+                    and (("uncertainty" not in p) == want_legacy)):
+                return p
     pytest.skip("no solid 1D-LTE product in the feed")
 
 
@@ -285,7 +290,23 @@ def test_the_two_routes_publish_DIFFERENT_statistics(doc):
     rec = [p for p in _pre_sweep_population(doc)
            if p["route"] == "SYNTH" and p["treatment"] == "1D-LTE" and p["band"] == "VIS"
            and p["holding"] == "solar_kpno_molecfit_corrected" and p["tier"] == "GRADED"]
-    assert rec and rec[0]["sigma_stat"] == pytest.approx(se, abs=5e-4), (
+    assert rec
+    #: RYA-1232: the record is now a rerun whose own per-line table sits beside it; the band
+    #: route's standard error is over RESOLVED FEATURES (components < 0.5 A merged)
+    if (rec[0].get("provenance") or {}).get("copied_to"):
+        from pipeline import perline_sources as _ps
+        _path, _frame, _fam, _why = _ps.resolve(rec[0])
+        assert _path is not None, _why
+        _acc = _frame[_frame.in_aggregate.astype(str) == "True"].sort_values("wavelength_air_A")
+        _feat, _cur = [], []
+        for w, v in zip(_acc.wavelength_air_A.astype(float), _acc.abundance.astype(float)):
+            if _cur and w - _cur[-1][0] >= 0.5:
+                _feat.append(sum(x for _, x in _cur) / len(_cur)); _cur = []
+            _cur.append((w, v))
+        if _cur:
+            _feat.append(sum(x for _, x in _cur) / len(_cur))
+        se = float(pd.Series(_feat).std(ddof=1)) / math.sqrt(len(_feat))
+    assert rec[0]["sigma_stat"] == pytest.approx(se, abs=5e-4), (
         "the band route's sigma_stat must be a STANDARD ERROR")
 
     b = pd.read_csv(ew3d)

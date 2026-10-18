@@ -232,6 +232,11 @@ ATLAS = {
     #: here publishes `atlas: null` -- which the RYA-1178 schema guard catches, but only
     #: after the fact. Both strings are copied from this holding's own row in
     #: data/catalog/holdings_manifest_registry.csv, not composed here.
+    "solar_crires_plus_h_rya1232": (
+        "CRIRES+ solar H arm from our seven Vesta IDPs, 14943-17585 A (RYA-1232)",
+        "corrected: ESO molecfit over EVERY H segment (116/116; H2O+CO2+CH4, per-night GDAS), "
+        "rest-frame conditioned 7/7; pixels with transmission < 0.5 not written; known residual "
+        "CH4 at 16656.0 A (~24%)"),
     "solar_crires_plus_h_rya1094": (
         "CRIRES+ Elgueta+2026 solar H arm, 15007.11-17493.69 A (RYA-1094)",
         "corrected: cr2res + molecfit; inherits RYA-794's telluric verdict for the "
@@ -976,13 +981,17 @@ def _budget_xi(p: dict) -> dict | None:
     c = next((c for c in u.get("components", []) if c.get("name") == "stellar.xi"), None)
     if not c or c.get("state") != "MEASURED":
         return None
+    ev = c.get("evidence") or {}
     floor = xi_min_paired()
     if (p.get("n_lines") or 0) < floor:
         #: RYA-1224's floor is the rule at every tier: a pool below min_paired publishes no
         #: derivative, whatever its own legs returned
-        return {"xi_state": "UNMEASURED", "sigma_xi": None,
-                "xi_note": f"pool of {p.get('n_lines')} lines is below min_paired={floor}: "
-                           "no xi derivative is published (RYA-1224)"}
+        out = {"xi_state": "UNMEASURED", "sigma_xi": None, "xi_value_kms": 1.0,
+               "xi_note": f"pool of {p.get('n_lines')} lines is below min_paired={floor}: "
+                          "no xi derivative is published (RYA-1224)"}
+        if ev.get("delta_parameter") is not None:
+            out["delta_xi_kms"] = float(ev["delta_parameter"])
+        return out
     ev = c.get("evidence") or {}
     out = {"xi_state": "MEASURED", "sigma_xi": round(float(c["sigma_dex"]), 6),
            "xi_value_kms": 1.0, "xi_source": "RYA-587 budget stellar.xi: paired xi 0.90/1.10 legs on this product's own pool",

@@ -882,7 +882,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if restat and restat.get("leg_unstable"):
         notes.append("leg-unstable excluded: " + ", ".join(restat["leg_unstable"]))
     return {"row": row, "budget": doc, "ids": ids, "notes": notes, "verdict": verdict,
-            "restat": restat,
+            "restat": restat, "lines_stem": lines_stem, "pool_w": sorted(float(w) for w in _pool_w),
             "prod_stem": prod_stem, "nominal_dir": str(nominal_dir)}
 
 
@@ -937,6 +937,12 @@ def main() -> int:
                     df["leg_unstable_excluded"] = json.dumps(rs.get("leg_unstable") or {})
                     if rs.get("features"):
                         df["features_merged"] = json.dumps(rs["features"])
+                #: RYA-1232: the per-line evidence of the PUBLISHED pool, beside the product
+                #: -- the nominal table with in_aggregate set to the final pool (leg-unstable
+                #: exclusions applied), so its count is the product's own
+                _ln = pd.read_csv(Path(r["nominal_dir"]) / r["lines_stem"])
+                _ln["in_aggregate"] = _near(_ln["wavelength_air_A"], r["pool_w"])
+                _ln.to_csv(a.stage / r["lines_stem"], index=False)
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
                 df["sigma_reported"] = b["sigma_reported"]
