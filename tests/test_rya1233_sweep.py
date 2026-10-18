@@ -243,10 +243,38 @@ def test_no_engine_env_warns_once_and_continues(monkeypatch, capsys):
     import run_pipeline
     for n in (*run_pipeline._INTERPRETER_ENV, *run_pipeline._ISPEC_ENV):
         monkeypatch.delenv(n, raising=False)
+    # the register defaults must ALSO be absent (true on Sirius only if pointed away)
+    monkeypatch.setenv("CODEX_ENGINE_ROOT", "/nonexistent-rya1233")
+    monkeypatch.setenv("CODEX_HOME_ROOT", "/nonexistent-rya1233")
     got = run_pipeline._resolve_engine_env(argparse.Namespace(interpreter=None, ispec_dir=None))
     assert got == ("", "")
     err = capsys.readouterr().err
     assert err.count("WARNING") == 1 and "BLOCKED" in err
+
+
+def test_no_env_falls_back_to_the_path_register(monkeypatch, tmp_path):
+    """RYA-1233: Sirius needs no environment -- the register's host defaults answer."""
+    import argparse
+    import run_pipeline
+    for n in (*run_pipeline._INTERPRETER_ENV, *run_pipeline._ISPEC_ENV):
+        monkeypatch.delenv(n, raising=False)
+    (tmp_path / "ispec_src").mkdir()
+    py = tmp_path / "venv_rya1103" / "bin" / "python"
+    py.parent.mkdir(parents=True)
+    py.write_text("")
+    monkeypatch.setenv("CODEX_ENGINE_ROOT", str(tmp_path))
+    monkeypatch.setenv("CODEX_HOME_ROOT", str(tmp_path))
+    got = run_pipeline._resolve_engine_env(argparse.Namespace(interpreter=None, ispec_dir=None))
+    assert got == (str(py), str(tmp_path / "ispec_src"))
+
+
+def test_an_entry_env_replaces_the_whole_path(monkeypatch):
+    from config.constants import codex_path
+    monkeypatch.setenv("CODEX_KP_ATLAS", "/mirror/kp atlas")
+    assert str(codex_path('data.spectra_kitt_peak')) == "/mirror/kp atlas"
+    monkeypatch.delenv("CODEX_KP_ATLAS")
+    monkeypatch.setenv("SIRIUS_DATA_ROOT", "/d")
+    assert str(codex_path('data.spectra_kitt_peak')) == "/d/spectra/Solar Calibration/Kitt Peak Flux Atlas"
 
 
 def test_the_ticket_env_name_wins_and_the_existing_one_still_works(monkeypatch):

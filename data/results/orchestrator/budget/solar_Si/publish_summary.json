@@ -2,137 +2,301 @@
  "star": "solar",
  "element": "Si",
  "units": [
-  "I VIS solar_kpno_kurucz2005_corrected codex",
-  "II VIS solar_kpno_kurucz2005_corrected codex",
-  "I VIS solar_kpno_molecfit_corrected codex",
-  "II VIS solar_kpno_molecfit_corrected codex",
-  "I VIS solar_harps_molecfit_corrected codex",
-  "II VIS solar_harps_molecfit_corrected codex",
-  "I VIS solar_iag codex",
-  "II VIS solar_iag codex",
-  "I red-optical solar_iag codex",
-  "I red-optical solar_kpno_kurucz2005_corrected codex",
-  "I red-optical solar_kpno_molecfit_corrected codex",
-  "I NIR solar_iag codex",
-  "I NIR solar_kpno_kurucz2005_corrected codex",
-  "I NIR solar_kpno_molecfit_corrected codex",
-  "I NIR solar_crires_plus_y_wide_rya1054 codex",
-  "I NIR solar_crires_plus_y_rya794 codex",
-  "I NIR solar_crires_plus_j_rya1219 codex",
-  "I H solar_crires_plus_h_rya1094 codex",
-  "II H solar_crires_plus_h_rya1094 codex",
-  "I K solar_crires_plus_k_rya1219 codex"
+  "I VIS solar_kpno_kurucz2005_corrected ts-lte codex",
+  "I VIS solar_kpno_kurucz2005_corrected ts-lte set:SI_AGSS21",
+  "II VIS solar_kpno_kurucz2005_corrected ts-lte codex",
+  "II VIS solar_kpno_kurucz2005_corrected ts-lte set:SI_AGSS21",
+  "I VIS solar_kpno_molecfit_corrected ts-lte codex",
+  "I VIS solar_kpno_molecfit_corrected ts-lte set:SI_AGSS21",
+  "II VIS solar_kpno_molecfit_corrected ts-lte codex",
+  "II VIS solar_kpno_molecfit_corrected ts-lte set:SI_AGSS21",
+  "I VIS solar_harps_molecfit_corrected ts-lte codex",
+  "I VIS solar_harps_molecfit_corrected ts-lte set:SI_AGSS21",
+  "II VIS solar_harps_molecfit_corrected ts-lte codex",
+  "II VIS solar_harps_molecfit_corrected ts-lte set:SI_AGSS21",
+  "I VIS solar_iag ts-lte codex",
+  "I VIS solar_iag ts-lte set:SI_AGSS21",
+  "II VIS solar_iag ts-lte codex",
+  "II VIS solar_iag ts-lte set:SI_AGSS21",
+  "I red-optical solar_iag ts-lte codex",
+  "I red-optical solar_iag ts-lte set:SI_AGSS21",
+  "I red-optical solar_kpno_kurucz2005_corrected ts-lte codex",
+  "I red-optical solar_kpno_kurucz2005_corrected ts-lte set:SI_AGSS21",
+  "I red-optical solar_kpno_molecfit_corrected ts-lte codex",
+  "I red-optical solar_kpno_molecfit_corrected ts-lte set:SI_AGSS21",
+  "I NIR solar_iag ts-lte codex",
+  "I NIR solar_iag ts-lte set:SI_ELGUETA2026",
+  "I NIR solar_kpno_kurucz2005_corrected ts-lte codex",
+  "I NIR solar_kpno_kurucz2005_corrected ts-lte set:SI_ELGUETA2026",
+  "I NIR solar_kpno_molecfit_corrected ts-lte codex",
+  "I NIR solar_kpno_molecfit_corrected ts-lte set:SI_DESHMUKH2022",
+  "I NIR solar_kpno_molecfit_corrected ts-lte set:SI_ELGUETA2026",
+  "I NIR solar_crires_plus_y_wide_rya1054 ts-lte codex",
+  "I NIR solar_crires_plus_y_wide_rya1054 ts-lte set:SI_DESHMUKH2022",
+  "I NIR solar_crires_plus_y_wide_rya1054 ts-lte set:SI_ELGUETA2026",
+  "I NIR solar_crires_plus_y_rya794 ts-lte codex",
+  "I NIR solar_crires_plus_y_rya794 ts-lte set:SI_DESHMUKH2022",
+  "I NIR solar_crires_plus_y_rya794 ts-lte set:SI_ELGUETA2026",
+  "I NIR solar_crires_plus_j_rya1219 ts-lte codex",
+  "I NIR solar_crires_plus_j_rya1219 ts-lte set:SI_DESHMUKH2022",
+  "I NIR solar_crires_plus_j_rya1219 ts-lte set:SI_ELGUETA2026",
+  "I H solar_crires_plus_h_rya1094 ts-lte codex",
+  "I H solar_crires_plus_h_rya1094 ts-lte set:SI_ELGUETA2026",
+  "II H solar_crires_plus_h_rya1094 ts-lte codex",
+  "I H solar_crires_plus_h_rya1232 ts-lte codex",
+  "I H solar_crires_plus_h_rya1232 ts-lte set:SI_ELGUETA2026",
+  "II H solar_crires_plus_h_rya1232 ts-lte codex",
+  "I K solar_crires_plus_k_rya1219 ts-lte codex"
  ],
  "dropped": [
   {
    "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_iag GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "VIS solar_iag GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "red-optical solar_iag GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_iag SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected SET-SI_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_iag GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_iag SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_kurucz2005_corrected SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_kpno_molecfit_corrected GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected SET-SI_DESHMUKH2022 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_crires_plus_y_wide_rya1054 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_wide_rya1054 SET-SI_DESHMUKH2022 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_wide_rya1054 SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_crires_plus_y_rya794 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_rya794 SET-SI_DESHMUKH2022 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_y_rya794 SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "NIR solar_crires_plus_j_rya1219 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_j_rya1219 SET-SI_DESHMUKH2022 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_crires_plus_j_rya1219 SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 SET-SI_ELGUETA2026 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   },
   {
    "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-B",
-   "why": "ENGINE-B on ts-lte = 1D-LTE relabelled"
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
   }
  ],
  "published": [
   "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.513",
   "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.486",
+  "VIS solar_kpno_kurucz2005_corrected SET-SI_AGSS21 1D-LTE A=7.513",
+  "VIS solar_kpno_kurucz2005_corrected SET-SI_AGSS21 ENGINE-A A=7.486",
   "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.491",
+  "VIS solar_kpno_kurucz2005_corrected SET-SI_AGSS21 1D-LTE A=7.528",
   "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=7.516",
   "VIS solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.489",
+  "VIS solar_kpno_molecfit_corrected SET-SI_AGSS21 1D-LTE A=7.516",
+  "VIS solar_kpno_molecfit_corrected SET-SI_AGSS21 ENGINE-A A=7.489",
   "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=7.488",
+  "VIS solar_kpno_molecfit_corrected SET-SI_AGSS21 1D-LTE A=7.518",
   "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.514",
   "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=7.487",
+  "VIS solar_harps_molecfit_corrected SET-SI_AGSS21 1D-LTE A=7.514",
+  "VIS solar_harps_molecfit_corrected SET-SI_AGSS21 ENGINE-A A=7.487",
   "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.511",
+  "VIS solar_harps_molecfit_corrected SET-SI_AGSS21 1D-LTE A=7.535",
   "VIS solar_iag GRADED 1D-LTE A=7.511",
   "VIS solar_iag GRADED ENGINE-A A=7.484",
+  "VIS solar_iag SET-SI_AGSS21 1D-LTE A=7.511",
+  "VIS solar_iag SET-SI_AGSS21 ENGINE-A A=7.484",
   "VIS solar_iag GRADED 1D-LTE A=7.489",
-  "red-optical solar_iag GRADED ENGINE-A A=7.573",
-  "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.563",
-  "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.578",
-  "NIR solar_iag GRADED 1D-LTE A=7.538",
-  "NIR solar_iag GRADED ENGINE-A A=7.515",
-  "NIR solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.572",
-  "NIR solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.546",
-  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.549",
+  "VIS solar_iag SET-SI_AGSS21 1D-LTE A=7.519",
+  "red-optical solar_iag SET-SI_AGSS21 1D-LTE A=7.591",
+  "red-optical solar_iag SET-SI_AGSS21 ENGINE-A A=7.573",
+  "red-optical solar_kpno_kurucz2005_corrected SET-SI_AGSS21 1D-LTE A=7.581",
+  "red-optical solar_kpno_kurucz2005_corrected SET-SI_AGSS21 ENGINE-A A=7.563",
+  "red-optical solar_kpno_molecfit_corrected SET-SI_AGSS21 1D-LTE A=7.595",
+  "red-optical solar_kpno_molecfit_corrected SET-SI_AGSS21 ENGINE-A A=7.577",
+  "NIR solar_iag GRADED 1D-LTE A=7.528",
+  "NIR solar_iag GRADED ENGINE-A A=7.497",
+  "NIR solar_iag SET-SI_ELGUETA2026 1D-LTE A=7.554",
+  "NIR solar_iag SET-SI_ELGUETA2026 ENGINE-A A=7.542",
+  "NIR solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=7.558",
+  "NIR solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=7.547",
+  "NIR solar_kpno_kurucz2005_corrected SET-SI_ELGUETA2026 1D-LTE A=7.558",
+  "NIR solar_kpno_kurucz2005_corrected SET-SI_ELGUETA2026 ENGINE-A A=7.546",
+  "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE A=7.536",
+  "NIR solar_kpno_molecfit_corrected GRADED ENGINE-A A=7.529",
+  "NIR solar_kpno_molecfit_corrected SET-SI_DESHMUKH2022 1D-LTE A=7.581",
+  "NIR solar_kpno_molecfit_corrected SET-SI_DESHMUKH2022 ENGINE-A A=7.552",
+  "NIR solar_kpno_molecfit_corrected SET-SI_ELGUETA2026 1D-LTE A=7.536",
+  "NIR solar_kpno_molecfit_corrected SET-SI_ELGUETA2026 ENGINE-A A=7.522",
   "NIR solar_crires_plus_y_wide_rya1054 GRADED 1D-LTE A=7.551",
-  "NIR solar_crires_plus_y_wide_rya1054 GRADED ENGINE-A A=7.458",
-  "NIR solar_crires_plus_y_rya794 GRADED 1D-LTE A=7.584",
-  "NIR solar_crires_plus_y_rya794 GRADED ENGINE-A A=7.442",
-  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=7.525",
-  "NIR solar_crires_plus_j_rya1219 GRADED ENGINE-A A=7.496",
-  "H solar_crires_plus_h_rya1094 GRADED ENGINE-A A=7.325"
+  "NIR solar_crires_plus_y_wide_rya1054 GRADED ENGINE-A A=7.523",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-SI_DESHMUKH2022 1D-LTE A=7.468",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-SI_DESHMUKH2022 ENGINE-A A=7.428",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-SI_ELGUETA2026 1D-LTE A=7.47",
+  "NIR solar_crires_plus_y_wide_rya1054 SET-SI_ELGUETA2026 ENGINE-A A=7.458",
+  "NIR solar_crires_plus_y_rya794 GRADED 1D-LTE A=7.582",
+  "NIR solar_crires_plus_y_rya794 GRADED ENGINE-A A=7.56",
+  "NIR solar_crires_plus_y_rya794 SET-SI_DESHMUKH2022 1D-LTE A=7.468",
+  "NIR solar_crires_plus_y_rya794 SET-SI_DESHMUKH2022 ENGINE-A A=7.428",
+  "NIR solar_crires_plus_y_rya794 SET-SI_ELGUETA2026 1D-LTE A=7.457",
+  "NIR solar_crires_plus_y_rya794 SET-SI_ELGUETA2026 ENGINE-A A=7.43",
+  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=7.527",
+  "NIR solar_crires_plus_j_rya1219 GRADED ENGINE-A A=7.507",
+  "NIR solar_crires_plus_j_rya1219 SET-SI_DESHMUKH2022 1D-LTE A=7.513",
+  "NIR solar_crires_plus_j_rya1219 SET-SI_DESHMUKH2022 ENGINE-A A=7.487",
+  "NIR solar_crires_plus_j_rya1219 SET-SI_ELGUETA2026 1D-LTE A=7.518",
+  "NIR solar_crires_plus_j_rya1219 SET-SI_ELGUETA2026 ENGINE-A A=7.496",
+  "H solar_crires_plus_h_rya1094 SET-SI_ELGUETA2026 1D-LTE A=7.363",
+  "H solar_crires_plus_h_rya1094 SET-SI_ELGUETA2026 ENGINE-A A=7.325",
+  "H solar_crires_plus_h_rya1232 SET-SI_ELGUETA2026 1D-LTE A=7.418",
+  "H solar_crires_plus_h_rya1232 SET-SI_ELGUETA2026 ENGINE-A A=7.38"
  ],
  "held": [
   {
@@ -140,19 +304,31 @@
    "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
   },
   {
+   "product": "red-optical solar_iag GRADED ENGINE-A",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
+  },
+  {
    "product": "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
    "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
   },
   {
-   "product": "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
+   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-A",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
   },
   {
-   "product": "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: continuum, telluric"
+   "product": "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE",
+   "why": "unresolved components: continuum, profile_ew"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-A",
+   "why": "unresolved components: continuum, profile_ew"
   },
   {
    "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
    "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
   },
   {
@@ -160,29 +336,72 @@
    "why": "product has no value (no line in the aggregate)"
   },
   {
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
+   "why": "unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "product has no value (no line in the aggregate)"
+  },
+  {
    "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "unresolved components: profile_ew, telluric"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
    "why": "unresolved components: profile_ew, telluric"
   }
  ],
+ "legs_incomplete": [],
  "verdict": {
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 69,
+  "n_products_judged": 62,
   "counts": {
    "IN_BAND": 35,
-   "OUT_OF_BAND": 34,
+   "OUT_OF_BAND": 27,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 69
+  "n_scale_mismatch": 62
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 69,
-   "HELD": 56,
-   "NOT_RUN": 65
+   "PUBLISHED": 62,
+   "HELD": 532,
+   "NOT_RUN": 0,
+   "STALE": 0
   },
-  "done": false
- }
+  "done": true
+ },
+ "withdrawn": [
+  "Si|I|H|crires_plus|solar_crires_plus_h_rya1094|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.325",
+  "Si|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-SI_DESHMUKH2022|SYNTH|1D-LTE|our-all A=7.491",
+  "Si|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-SI_DESHMUKH2022|SYNTH|ENGINE-A|our-all A=7.451",
+  "Si|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.573",
+  "Si|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.563",
+  "Si|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded A=7.578",
+  "Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ALL|SET-SI_ELGUETA2026|SYNTH|1D-LTE|our-all A=7.518",
+  "Si|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ALL|SET-SI_ELGUETA2026|SYNTH|ENGINE-A|our-all A=7.496",
+  "Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ALL|SET-SI_ELGUETA2026|SYNTH|1D-LTE|our-all A=7.47",
+  "Si|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ALL|SET-SI_ELGUETA2026|SYNTH|ENGINE-A|our-all A=7.458"
+ ],
+ "preserved": [
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_ELGUETA2026_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_ELGUETA2026_ENGINE-A_products.csv",
+  "archive: SiI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_9199_10650_iag_fts_solar_atlas_solar_iag_SYNTH_SET-SI_DESHMUKH2022_products.csv",
+  "archive: SiI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+  "archive: SiI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv"
+ ]
 }

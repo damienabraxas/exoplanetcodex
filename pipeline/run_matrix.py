@@ -481,6 +481,23 @@ def _deck_hold(d: RunDescriptor) -> str:
     return ""
 
 
+def deck_host_ready(d: RunDescriptor) -> str:
+    """'' when THIS host holds the deck's data; else NOT_READY's reason. The Gerber decks'
+    model atom + aux tables are Sirius-only: on the Mac every gerber cell used to FAIL inside
+    derive (RYA-1233 Al, 68 cells). Owed work on another host is NOT_READY, never FAILED."""
+    if not d.engine_deck.startswith("gerber-"):
+        return ""
+    try:
+        from pipeline.gerber_nlte import DECKS, GT
+    except Exception as exc:
+        return f"ENGINE: {d.engine_deck} adapter unavailable here ({type(exc).__name__})"
+    key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
+    deck = DECKS.get(key) or {}
+    missing = [f for f in (deck.get("aux"), deck.get("atom")) if f and not os.path.exists(f"{GT}/{f}")]
+    return (f"ENGINE: {d.engine_deck} deck data is Sirius-only and absent on this host "
+            f"({', '.join(missing)} under {GT}) -- run this cell on Sirius") if missing else ""
+
+
 def cell_process_hold(d: RunDescriptor) -> str:
     """'' when steps 4 (continuum), 6 (lines secured) and 7 (graded lines) are complete
     for this cell's holding and window; otherwise the reason, naming the step."""
@@ -825,9 +842,14 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _lst in synthesis_lists_for(lo, hi):
         rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+    # The element's NLTE tables, scoped to the window too: a row added or withdrawn for a
+    # red-optical line must not rebuild the VIS cells (RYA-1233 Si: 11 rows withdrawn).
+    for _n in _nlte:
+        rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                     "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
     for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
                    ROOT / "data" / "catalog" / "instrument_catalog.csv",
-                   ROOT / "data" / "registry" / "problem_children.csv", *_nlte):
+                   ROOT / "data" / "registry" / "problem_children.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     return rows
@@ -1233,7 +1255,7 @@ def _dispatch_signature(step: dict, star: str) -> str:
                       sort_keys=True)
 
 
-def _run_step(step: dict, star: str, *, timeout: int) -> tuple[bool, str]:
+def _run_step(step: dict, star: str, *, timeout: int | None) -> tuple[bool, str]:
     """Dispatch one ordered step. Returns (ok, detail). Raises nothing."""
     interp = step.get("interpreter") or sys.executable
     script = ROOT / step["script"]
@@ -1261,7 +1283,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
-        step_timeout: int = 7200, report_dir: Path | None = None,
+        step_timeout: int | None = None, report_dir: Path | None = None,
         echo: bool = True, jobs: int = 1) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
@@ -1272,8 +1294,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     """
     element = validate_element(element)
     symbol, pinned_ion = split_symbol(element)
-    interpreter = interpreter or os.environ.get("CODEX_INTERPRETER") or ""
-    ispec_dir = ispec_dir or os.environ.get("ISPEC_DIR") or ""
+    from config.constants import ISPEC_DIR, synth_interpreter
+    interpreter = interpreter or synth_interpreter()
+    ispec_dir = ispec_dir or (str(ISPEC_DIR) if ISPEC_DIR.is_dir() else "")
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,
@@ -1440,6 +1463,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         if not row.reader_wired:
             cell.status, cell.reason = NOT_READY, (
                 f"reader: {d.holding} has no wired reader that serves {cell.band}")
+            continue
+        host_why = deck_host_ready(d)
+        if host_why:
+            cell.status, cell.reason = NOT_READY, host_why
             continue
 
         # ── 3. is the work already current (the loop-killer) ─────────────────

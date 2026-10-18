@@ -1113,11 +1113,8 @@ def get_star_params(star_id: str) -> dict:
 
 
 # ── iSpec / Turbospectrum installation ───────────────────────────────────────
-# Path to cloned iSpec repo (machine-specific; override via ISPEC_DIR env var).
 import os as _os
-ISPEC_DIR = Path(_os.environ.get('ISPEC_DIR',
-    str(ROOT.parent / 'ispec')
-))
+# ISPEC_DIR itself is resolved through the path register below (engines.ispec).
 RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'moog'
 
 # ── EW→abundance baseline engine (RYA-289) ───────────────────────────────────
@@ -1243,6 +1240,9 @@ def codex_path(key: str) -> Path:
     if key not in reg['entries']:
         raise KeyError(f"unknown path key {key!r}; known: {sorted(reg['entries'])}")
     e = reg['entries'][key]
+    env = e.get('env')
+    if env and _os.environ.get(env, '').strip():
+        return Path(_os.path.expanduser(_os.path.expandvars(_os.environ[env])))
     return codex_root(e['root']) / e['rel']
 
 
@@ -1293,6 +1293,21 @@ def require_codex_path(key: str, context: str = "") -> Path:
             f"(env {reg['roots'][e['root']]['env']})\n"
             f"  There is NO local fallback (RYA-567): stage it, or run on Sirius.")
     return p
+
+#: iSpec tree: register key engines.ispec (Sirius default; $ISPEC_DIR overrides).
+#: RYA-1233: was the checkout's parent dir + 'ispec', a guess from where the repo sat.
+ISPEC_DIR = codex_path('engines.ispec')
+
+
+def synth_interpreter() -> str:
+    """The synthesis interpreter: $CODEX_SYNTH_PYTHON / $CODEX_INTERPRETER, else the
+    register's engines.synth_python when it exists on this host, else ''."""
+    for n in ('CODEX_SYNTH_PYTHON', 'CODEX_INTERPRETER'):
+        if _os.environ.get(n, '').strip():
+            return _os.environ[n]
+    p = codex_path('engines.synth_python')
+    return str(p) if p.exists() else ''
+
 
 #: RYA-695 — the canonical Sirius grid-store layout, and which store holds what.
 #:

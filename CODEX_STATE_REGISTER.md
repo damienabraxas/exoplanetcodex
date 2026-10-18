@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v169** · _Last updated: 2026-10-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v170** · _Last updated: 2026-10-18 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -304,7 +304,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
-- **v169** (2026-10-18) — **RYA-1232 Fe republished** (Fe.json 1.354): 127 live rows with full RYA-587 budgets -- every product the RYA-1232 input fixes touched (IR damping, KP molecfit floors, IAG cap, corrected CRIRES+ H, near-UV list) plus the Gerber deck products. Two stale near-UV rows withdrawn; 9 near-UV Fe I + 5 near-UV deck pools hold (legs lose >5% of lines) and are not republished. 97 optical HARPS/K2005/IAG Reference/AGSS21 rows, inputs unchanged, keep their values and older budgets; the Fe headline stays 7.477 +/- 0.052.
+- **v170** (2026-10-18) — **RYA-1232 Fe republished** (Fe.json 1.354): 127 live rows with full RYA-587 budgets -- every product the RYA-1232 input fixes touched (IR damping, KP molecfit floors, IAG cap, corrected CRIRES+ H, near-UV list) plus the Gerber deck products. Two stale near-UV rows withdrawn; 9 near-UV Fe I + 5 near-UV deck pools hold (legs lose >5% of lines) and are not republished. 97 optical HARPS/K2005/IAG Reference/AGSS21 rows, inputs unchanged, keep their values and older budgets; the Fe headline stays 7.477 +/- 0.052.
+- **v169** (2026-10-18) — **RYA-1233: orchestrator paths from the path register, Sirius by default.** A run on Sirius needs no environment; `config/constants.ISPEC_DIR` now resolves via register key `engines.ispec` (was a guess from the checkout dir). Register entries may carry a whole-path env override (ISPEC_DIR, CODEX_KP_ATLAS, CODEX_VALD_RAW, CODEX_SYNTH_PYTHON); Mac mirror profile `config/hosts/mac.env`; `run_pipeline.py --check-paths` verifies a host. No science value changed.
 - **v168** (2026-10-10) — **RYA-1232: CRIRES+ K CO line count.** The CO .bsyn list names the species '16O12C'; the assembler looked up '12C16O' and published n_lines = 0, which hid the product on the site. Now 64 (C.json 1.202). Value unchanged (8.701 +/- 0.182).
 - **v167** (2026-10-10) — **RYA-1232 merged with RYA-1233 main; eligibility gate now runs with peers at publish.** 6 KP-molecfit C/N pools (scatter 3-13x peers) quarantined (C.json 1.201, N.json 1.80). canonical_gf population 169713 (+1 RYA-1233 Al I, +9 RYA-1232 O I 926 nm). Si OWES its H cells on the corrected H holding (strict xfail).
 - **v166** (2026-10-10) — **RYA-1232: O republished** (O.json 1.102): red-optical O I 3D-NLTE 8.751 +/- 0.077 (was 8.660 +/- 0.101), C/O 0.48 +/- 0.12. Gerber Fe deck verified byte-identical on the Mac (md5, 5 files); `require_codex_path` no longer applies Sirius's removable-mount check to an env-overridden root, so deck units can run on the Mac. Deck units 18-23 moved to the Mac (Sirius placeholders).

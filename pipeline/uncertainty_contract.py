@@ -223,9 +223,15 @@ def validate(document, *, scope):
                        covariance_source=document["covariance_source"],
                        assumptions=document["assumptions"],
                        required_extra=document.get("required_extra", ()))
-    for field in ("state", "holds", "sigma_reported", "covariance_order"):
+    for field in ("state", "holds", "covariance_order"):
         if document.get(field) != rebuilt[field]:
             raise UncertaintyError(f"stale or inconsistent {field}")
+    # RYA-1233: a recomputed quadrature sum differs in the last bit between runs (BLAS
+    # summation order), so the total is compared to rounding, not bit-for-bit.
+    got, want = document.get("sigma_reported"), rebuilt["sigma_reported"]
+    if (got is None) != (want is None) or (
+            want is not None and not math.isclose(got, want, rel_tol=1e-12, abs_tol=1e-15)):
+        raise UncertaintyError("stale or inconsistent sigma_reported")
     if rebuilt["holds"]:
         raise UncertaintyError("unresolved components: " + ", ".join(rebuilt["holds"]))
     terms = {c["name"]: c for c in rebuilt["components"]}
