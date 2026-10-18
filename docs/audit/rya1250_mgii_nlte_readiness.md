@@ -44,8 +44,15 @@ The resumed production run uses `orchestrator_run_v3.log` on Sirius. The latest
 capability/grid/recipe regression pass is 65/65. The full-suite comparison against
 the same main commit found 35 shared failures; grid regressions were corrected and
 rechecked, the old "Mg has no deck" fixture now uses an unregistered element, and
-the seven historical clean-working-tree checks must be rerun after the reviewed
-canonical adoption is committed. Production results remain pending.
+the seven historical clean-working-tree checks pass after the reviewed canonical
+adoption is committed. All 22 initially branch-only failures pass on recheck
+(`branch_only_recheck.log`). The final full-suite check on the committed
+implementation finished with **4500 passed, 35 failed, 53 skipped, 7 xfailed**;
+all 35 failures also occur on the main baseline, with **zero branch-only failures**.
+See `data/output/rya1250/final_full_suite_comparison.json`.
+Production results remain pending. Draft reviews:
+[science #585](https://github.com/damienabraxas/exoplanetcodex/pull/585) and
+[site #55](https://github.com/damienabraxas/exoplanetcodex-site/pull/55).
 
 ## Initial investigation (superseded where noted above)
 

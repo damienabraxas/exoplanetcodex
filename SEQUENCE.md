@@ -2,7 +2,7 @@
 
 ## 2026-10-18 — pending RYA-1250 branch
 
-- **RYA-1250** — Models and five Mg II gf updates applied; shared cited solar correction route and synthesis dispositions in use. Full Mg I + II orchestration underway; source-input holds remain explicit.
+- **RYA-1250** — Models and five Mg II gf updates applied; shared cited solar correction route and synthesis dispositions in use. Mg I + II run active; no new test failures; drafts science #585/site #55.
 
 ## 2026-09-25 — RYA-1220 CNO close
 

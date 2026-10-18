@@ -28,7 +28,7 @@ The saved official NIST response `nist_mgii_asd_20261018.csv` verifies A+ for
 7877/7896/9218/9244 and A for 10914 using species, endpoint energies, wavelength
 and oscillator-strength consistency. Keep AGSS21 gf exactly; the uncertainty
 is the existing NIST-grade conversion and is not an AGSS21 quoted sigma.
-Five Mg II rows are now eligible for adoption and grading. The missing 10092
+Five Mg II rows are now adopted and graded. The missing 10092
 feature and all eight Mg I published-set uncertainties remain unresolved.
 The conservative source-error model treats these five NIST errors as correlated.
 
