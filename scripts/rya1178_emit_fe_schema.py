@@ -1012,10 +1012,13 @@ def _rya587_systematic(p: dict) -> None:
     sr, st = u.get("sigma_reported"), p.get("sigma_stat")
     if sr is None or st is None:
         return
-    syst = round(math.sqrt(max(float(sr) ** 2 - float(st) ** 2, 0.0)), 6)
-    p["sigma_syst"] = syst
-    p["sigma_syst_complete"] = syst
-    p["sigma_syst_components"] = {"rya587_systematic": syst}
+    syst = math.sqrt(max(float(sr) ** 2 - float(st) ** 2, 0.0))
+    #: the schema's split: sigma_syst EXCLUDES xi, sigma_syst_complete = hypot(it, sigma_xi),
+    #: so the xi term enters exactly once (RYA-1178)
+    sx = float(p.get("sigma_xi") or 0.0)
+    p["sigma_syst"] = round(math.sqrt(max(syst ** 2 - sx ** 2, 0.0)), 6)
+    p["sigma_syst_complete"] = round(math.hypot(p["sigma_syst"], sx), 6)
+    p["sigma_syst_components"] = {"rya587_systematic_excl_xi": p["sigma_syst"]}
 
 
 def update_xi_budget(p: dict, idx: dict) -> None:

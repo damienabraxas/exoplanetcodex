@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.389",
-  "updated_at": "2026-10-19T05:01:43Z",
+  "version": "1.390",
+  "updated_at": "2026-10-19T05:21:12Z",
   "products": [
     {
       "element": "Fe",
@@ -17,7 +17,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.456,
       "sigma_stat": 0.0725,
-      "sigma_syst": 0.117457,
+      "sigma_syst": 0.073364,
       "n_lines": 23,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -1445,8 +1445,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.091728,
       "xi_value_kms": 1.0,
@@ -1455,9 +1455,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3149999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.117457
+        "rya587_systematic_excl_xi": 0.073364
       },
-      "sigma_syst_complete": 0.117457,
+      "sigma_syst_complete": 0.117458,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -1489,7 +1489,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.444,
       "sigma_stat": 0.0747,
-      "sigma_syst": 0.125556,
+      "sigma_syst": 0.106656,
       "n_lines": 10,
       "n_excluded": 14,
       "dominant_term": "gf scale (UNGRADED)",
@@ -2231,8 +2231,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.066248,
       "xi_value_kms": 1.0,
@@ -2241,7 +2241,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.22749999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.125556
+        "rya587_systematic_excl_xi": 0.106656
       },
       "sigma_syst_complete": 0.125556,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -2275,7 +2275,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.457,
       "sigma_stat": 0.0732,
-      "sigma_syst": 0.101547,
+      "sigma_syst": 0.072262,
       "n_lines": 23,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -3703,8 +3703,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.071344,
       "xi_value_kms": 1.0,
@@ -3713,7 +3713,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.24499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.101547
+        "rya587_systematic_excl_xi": 0.072262
       },
       "sigma_syst_complete": 0.101547,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -3747,7 +3747,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.848,
       "sigma_stat": 0.1268,
-      "sigma_syst": 0.112544,
+      "sigma_syst": 0.079078,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -4380,8 +4380,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.08008,
       "xi_value_kms": 1.0,
@@ -4390,7 +4390,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.2749999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.112544
+        "rya587_systematic_excl_xi": 0.079078
       },
       "sigma_syst_complete": 0.112544,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -4894,15 +4894,15 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.110219
+        "rya587_systematic_excl_xi": 0.110219
       },
       "sigma_syst_complete": 0.110219,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -4937,7 +4937,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.85,
       "sigma_stat": 0.128,
-      "sigma_syst": 0.104506,
+      "sigma_syst": 0.078984,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -5570,8 +5570,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.068432,
       "xi_value_kms": 1.0,
@@ -5580,7 +5580,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.23499999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.104506
+        "rya587_systematic_excl_xi": 0.078984
       },
       "sigma_syst_complete": 0.104506,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -5614,7 +5614,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.378,
       "sigma_stat": 0.0489,
-      "sigma_syst": 0.107416,
+      "sigma_syst": 0.062501,
       "n_lines": 23,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -7042,8 +7042,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.08736,
       "xi_value_kms": 1.0,
@@ -7052,7 +7052,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.2999999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.107416
+        "rya587_systematic_excl_xi": 0.062501
       },
       "sigma_syst_complete": 0.107416,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -7086,7 +7086,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.371,
       "sigma_stat": 0.0648,
-      "sigma_syst": 0.101071,
+      "sigma_syst": 0.084102,
       "n_lines": 10,
       "n_excluded": 14,
       "dominant_term": "gf scale (UNGRADED)",
@@ -7828,8 +7828,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.056056,
       "xi_value_kms": 1.0,
@@ -7838,7 +7838,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19249999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.101071
+        "rya587_systematic_excl_xi": 0.084102
       },
       "sigma_syst_complete": 0.101071,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -7872,7 +7872,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.386,
       "sigma_stat": 0.0491,
-      "sigma_syst": 0.112936,
+      "sigma_syst": 0.061626,
       "n_lines": 23,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -9300,8 +9300,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.09464,
       "xi_value_kms": 1.0,
@@ -9310,7 +9310,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3249999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.112936
+        "rya587_systematic_excl_xi": 0.061626
       },
       "sigma_syst_complete": 0.112936,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -9344,7 +9344,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.454,
       "sigma_stat": 0.0997,
-      "sigma_syst": 0.116629,
+      "sigma_syst": 0.068158,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -9977,8 +9977,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.09464,
       "xi_value_kms": 1.0,
@@ -9987,7 +9987,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3249999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.116629
+        "rya587_systematic_excl_xi": 0.068158
       },
       "sigma_syst_complete": 0.116629,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -10491,15 +10491,15 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.087441
+        "rya587_systematic_excl_xi": 0.087441
       },
       "sigma_syst_complete": 0.087441,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -10534,7 +10534,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.454,
       "sigma_stat": 0.1007,
-      "sigma_syst": 0.127216,
+      "sigma_syst": 0.068786,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -11167,8 +11167,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.107016,
       "xi_value_kms": 1.0,
@@ -11177,7 +11177,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3674999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.127216
+        "rya587_systematic_excl_xi": 0.068786
       },
       "sigma_syst_complete": 0.127216,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -11211,7 +11211,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.425,
       "sigma_stat": 0.0784,
-      "sigma_syst": 0.111311,
+      "sigma_syst": 0.065124,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -11844,8 +11844,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:00Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.090272,
       "xi_value_kms": 1.0,
@@ -11854,7 +11854,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3099999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.111311
+        "rya587_systematic_excl_xi": 0.065124
       },
       "sigma_syst_complete": 0.111311,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -12358,15 +12358,15 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.097884
+        "rya587_systematic_excl_xi": 0.097884
       },
       "sigma_syst_complete": 0.097884,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -12401,7 +12401,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.426,
       "sigma_stat": 0.0792,
-      "sigma_syst": 0.11535,
+      "sigma_syst": 0.066979,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -13034,8 +13034,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.093912,
       "xi_value_kms": 1.0,
@@ -13044,7 +13044,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3224999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.11535
+        "rya587_systematic_excl_xi": 0.066979
       },
       "sigma_syst_complete": 0.11535,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -13078,7 +13078,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.425,
       "sigma_stat": 0.0784,
-      "sigma_syst": 0.111311,
+      "sigma_syst": 0.065124,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -13711,8 +13711,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.090272,
       "xi_value_kms": 1.0,
@@ -13721,7 +13721,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3099999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.111311
+        "rya587_systematic_excl_xi": 0.065124
       },
       "sigma_syst_complete": 0.111311,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -14225,15 +14225,15 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.097884
+        "rya587_systematic_excl_xi": 0.097884
       },
       "sigma_syst_complete": 0.097884,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -14268,7 +14268,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.426,
       "sigma_stat": 0.0792,
-      "sigma_syst": 0.11535,
+      "sigma_syst": 0.066979,
       "n_lines": 8,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -14901,8 +14901,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.093912,
       "xi_value_kms": 1.0,
@@ -14911,7 +14911,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.3224999999999999,
       "sigma_syst_components": {
-        "rya587_systematic": 0.11535
+        "rya587_systematic_excl_xi": 0.066979
       },
       "sigma_syst_complete": 0.11535,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -14945,7 +14945,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.535,
       "sigma_stat": 0.044,
-      "sigma_syst": 0.087037,
+      "sigma_syst": 0.081489,
       "n_lines": 31,
       "n_excluded": 0,
       "dominant_term": "gf scale (UNGRADED)",
@@ -16521,8 +16521,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.030576,
       "xi_value_kms": 1.0,
@@ -16531,9 +16531,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.10499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.087037
+        "rya587_systematic_excl_xi": 0.081489
       },
-      "sigma_syst_complete": 0.087037,
+      "sigma_syst_complete": 0.087036,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -16565,7 +16565,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.656,
       "sigma_stat": 0.0614,
-      "sigma_syst": 0.099708,
+      "sigma_syst": 0.09194,
       "n_lines": 16,
       "n_excluded": 15,
       "dominant_term": "gf scale (UNGRADED)",
@@ -17343,8 +17343,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.038584,
       "xi_value_kms": 1.0,
@@ -17353,7 +17353,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13249999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.099708
+        "rya587_systematic_excl_xi": 0.09194
       },
       "sigma_syst_complete": 0.099708,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -17387,7 +17387,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.535,
       "sigma_stat": 0.0445,
-      "sigma_syst": 0.08834,
+      "sigma_syst": 0.083896,
       "n_lines": 31,
       "n_excluded": 0,
       "dominant_term": "gf scale (UNGRADED)",
@@ -18963,8 +18963,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.027664,
       "xi_value_kms": 1.0,
@@ -18973,9 +18973,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.09499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.08834
+        "rya587_systematic_excl_xi": 0.083896
       },
-      "sigma_syst_complete": 0.08834,
+      "sigma_syst_complete": 0.088339,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -19007,7 +19007,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.559,
       "sigma_stat": 0.0585,
-      "sigma_syst": 0.083498,
+      "sigma_syst": 0.075146,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -19614,8 +19614,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.0364,
       "xi_value_kms": 1.0,
@@ -19624,7 +19624,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.12499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.083498
+        "rya587_systematic_excl_xi": 0.075146
       },
       "sigma_syst_complete": 0.083498,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -19658,7 +19658,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.624,
       "sigma_stat": 0.0974,
-      "sigma_syst": 0.097073,
+      "sigma_syst": 0.088098,
       "n_lines": 7,
       "n_excluded": 5,
       "dominant_term": "pseudo-continuum",
@@ -20157,8 +20157,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -20167,9 +20167,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.097073
+        "rya587_systematic_excl_xi": 0.088098
       },
-      "sigma_syst_complete": 0.097073,
+      "sigma_syst_complete": 0.097074,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -20201,7 +20201,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.562,
       "sigma_stat": 0.0584,
-      "sigma_syst": 0.056481,
+      "sigma_syst": 0.048826,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -20808,8 +20808,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.028392,
       "xi_value_kms": 1.0,
@@ -20818,7 +20818,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.09749999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.056481
+        "rya587_systematic_excl_xi": 0.048826
       },
       "sigma_syst_complete": 0.056481,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -20852,7 +20852,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.402,
       "sigma_stat": 0.0472,
-      "sigma_syst": 0.233385,
+      "sigma_syst": 0.231177,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -20880,8 +20880,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -20890,9 +20890,9 @@
       "xi_source": "RYA-587 budget stellar.xi: paired xi 0.90/1.10 legs on this product's own pool",
       "dA_dxi_dex_per_kms": -0.11,
       "sigma_syst_components": {
-        "rya587_systematic": 0.233385
+        "rya587_systematic_excl_xi": 0.231177
       },
-      "sigma_syst_complete": 0.233385,
+      "sigma_syst_complete": 0.233386,
       "sigma_reported": 0.23811028904692483,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
@@ -21548,7 +21548,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.494,
       "sigma_stat": 0.0749,
-      "sigma_syst": 0.098605,
+      "sigma_syst": 0.082108,
       "n_lines": 16,
       "n_excluded": 14,
       "dominant_term": "gf scale (UNGRADED)",
@@ -22326,8 +22326,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.0546,
       "xi_value_kms": 1.0,
@@ -22336,7 +22336,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.18749999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.098605
+        "rya587_systematic_excl_xi": 0.082108
       },
       "sigma_syst_complete": 0.098605,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -22370,7 +22370,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.435,
       "sigma_stat": 0.0512,
-      "sigma_syst": 0.062825,
+      "sigma_syst": 0.051206,
       "n_lines": 29,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -23810,8 +23810,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.0364,
       "xi_value_kms": 1.0,
@@ -23820,7 +23820,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.12499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.062825
+        "rya587_systematic_excl_xi": 0.051206
       },
       "sigma_syst_complete": 0.062825,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -23854,7 +23854,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.405,
       "sigma_stat": 0.0641,
-      "sigma_syst": 0.055982,
+      "sigma_syst": 0.042533,
       "n_lines": 11,
       "n_excluded": 1,
       "dominant_term": "pseudo-continuum",
@@ -24430,8 +24430,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.0364,
       "xi_value_kms": 1.0,
@@ -24440,7 +24440,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.12499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.055982
+        "rya587_systematic_excl_xi": 0.042533
       },
       "sigma_syst_complete": 0.055982,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -24474,7 +24474,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.413,
       "sigma_stat": 0.1012,
-      "sigma_syst": 0.086858,
+      "sigma_syst": 0.069805,
       "n_lines": 6,
       "n_excluded": 6,
       "dominant_term": "pseudo-continuum",
@@ -24952,8 +24952,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.051688,
       "xi_value_kms": 1.0,
@@ -24962,7 +24962,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.17749999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.086858
+        "rya587_systematic_excl_xi": 0.069805
       },
       "sigma_syst_complete": 0.086858,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -24996,7 +24996,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.409,
       "sigma_stat": 0.0592,
-      "sigma_syst": 0.055275,
+      "sigma_syst": 0.044521,
       "n_lines": 12,
       "n_excluded": 0,
       "dominant_term": "pseudo-continuum",
@@ -25603,8 +25603,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.03276,
       "xi_value_kms": 1.0,
@@ -25613,7 +25613,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.11249999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.055275
+        "rya587_systematic_excl_xi": 0.044521
       },
       "sigma_syst_complete": 0.055275,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -25647,7 +25647,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.497,
       "sigma_stat": 0.0348,
-      "sigma_syst": 0.148349,
+      "sigma_syst": 0.145163,
       "n_lines": 19,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -26817,8 +26817,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.030576,
       "xi_value_kms": 1.0,
@@ -26827,9 +26827,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.10499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.148349
+        "rya587_systematic_excl_xi": 0.145163
       },
-      "sigma_syst_complete": 0.148349,
+      "sigma_syst_complete": 0.148348,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -26852,7 +26852,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.649,
       "sigma_stat": 0.029,
-      "sigma_syst": 0.233477,
+      "sigma_syst": 0.225908,
       "n_lines": 8,
       "n_excluded": 15,
       "dominant_term": "line-to-line scatter",
@@ -27483,8 +27483,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.058968,
       "xi_value_kms": 1.0,
@@ -27493,7 +27493,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20249999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.233477
+        "rya587_systematic_excl_xi": 0.225908
       },
       "sigma_syst_complete": 0.233477,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -27518,7 +27518,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.502,
       "sigma_stat": 0.0354,
-      "sigma_syst": 0.178348,
+      "sigma_syst": 0.175708,
       "n_lines": 19,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -28688,8 +28688,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.030576,
       "xi_value_kms": 1.0,
@@ -28698,9 +28698,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.10499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.178348
+        "rya587_systematic_excl_xi": 0.175708
       },
-      "sigma_syst_complete": 0.178348,
+      "sigma_syst_complete": 0.178349,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -28723,7 +28723,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.497,
       "sigma_stat": 0.0348,
-      "sigma_syst": 0.148349,
+      "sigma_syst": 0.145163,
       "n_lines": 19,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -29893,8 +29893,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:31Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.030576,
       "xi_value_kms": 1.0,
@@ -29903,9 +29903,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.10499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.148349
+        "rya587_systematic_excl_xi": 0.145163
       },
-      "sigma_syst_complete": 0.148349,
+      "sigma_syst_complete": 0.148348,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -29928,7 +29928,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.649,
       "sigma_stat": 0.029,
-      "sigma_syst": 0.233477,
+      "sigma_syst": 0.225908,
       "n_lines": 8,
       "n_excluded": 15,
       "dominant_term": "line-to-line scatter",
@@ -30559,8 +30559,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:32Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.058968,
       "xi_value_kms": 1.0,
@@ -30569,7 +30569,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20249999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.233477
+        "rya587_systematic_excl_xi": 0.225908
       },
       "sigma_syst_complete": 0.233477,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -30594,7 +30594,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.502,
       "sigma_stat": 0.0354,
-      "sigma_syst": 0.178348,
+      "sigma_syst": 0.175708,
       "n_lines": 19,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -31764,8 +31764,8 @@
         17493.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:32Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.030576,
       "xi_value_kms": 1.0,
@@ -31774,9 +31774,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.10499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.178348
+        "rya587_systematic_excl_xi": 0.175708
       },
-      "sigma_syst_complete": 0.178348,
+      "sigma_syst_complete": 0.178349,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -31799,7 +31799,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.551,
       "sigma_stat": 0.0878,
-      "sigma_syst": 0.062763,
+      "sigma_syst": 0.061051,
       "n_lines": 5,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -32329,8 +32329,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:32Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.01456,
       "xi_value_kms": 1.0,
@@ -32339,7 +32339,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.04999999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.062763
+        "rya587_systematic_excl_xi": 0.061051
       },
       "sigma_syst_complete": 0.062763,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -32857,15 +32857,15 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:32Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:01Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.16382
+        "rya587_systematic_excl_xi": 0.16382
       },
       "sigma_syst_complete": 0.16382,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -32912,7 +32912,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.552,
       "sigma_stat": 0.0874,
-      "sigma_syst": 0.061061,
+      "sigma_syst": 0.061044,
       "n_lines": 5,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -33442,8 +33442,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:32Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:02Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.001456,
       "xi_value_kms": 1.0,
@@ -33452,7 +33452,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.004999999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.061061
+        "rya587_systematic_excl_xi": 0.061044
       },
       "sigma_syst_complete": 0.061061,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -33498,7 +33498,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.551,
       "sigma_stat": 0.0878,
-      "sigma_syst": 0.062763,
+      "sigma_syst": 0.061051,
       "n_lines": 5,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -34028,8 +34028,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:33Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:02Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.01456,
       "xi_value_kms": 1.0,
@@ -34038,7 +34038,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.04999999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.062763
+        "rya587_systematic_excl_xi": 0.061051
       },
       "sigma_syst_complete": 0.062763,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -34556,15 +34556,15 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:33Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:02Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "UNMEASURED",
       "sigma_xi": null,
       "xi_value_kms": 1.0,
       "xi_note": "pool of 2 lines is below min_paired=3: no xi derivative is published (RYA-1224)",
       "delta_xi_kms": 0.2912,
       "sigma_syst_components": {
-        "rya587_systematic": 0.16382
+        "rya587_systematic_excl_xi": 0.16382
       },
       "sigma_syst_complete": 0.16382,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -34611,7 +34611,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.552,
       "sigma_stat": 0.0874,
-      "sigma_syst": 0.061061,
+      "sigma_syst": 0.061044,
       "n_lines": 5,
       "n_excluded": 0,
       "dominant_term": "line-to-line scatter",
@@ -35141,8 +35141,8 @@
         10794.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:34Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:03Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.001456,
       "xi_value_kms": 1.0,
@@ -35151,7 +35151,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.004999999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.061061
+        "rya587_systematic_excl_xi": 0.061044
       },
       "sigma_syst_complete": 0.061061,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -35197,7 +35197,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.46,
       "sigma_stat": 0.0689,
-      "sigma_syst": 0.062375,
+      "sigma_syst": 0.055904,
       "n_lines": 24,
       "n_excluded": 6,
       "dominant_term": "gf scale (UNGRADED)",
@@ -36716,8 +36716,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:34Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:03Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.027664,
       "xi_value_kms": 1.0,
@@ -36726,9 +36726,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.09499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.062375
+        "rya587_systematic_excl_xi": 0.055904
       },
-      "sigma_syst_complete": 0.062375,
+      "sigma_syst_complete": 0.062374,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.338,
@@ -36772,7 +36772,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.369,
       "sigma_stat": 0.0618,
-      "sigma_syst": 0.068888,
+      "sigma_syst": 0.060201,
       "n_lines": 7,
       "n_excluded": 18,
       "dominant_term": "gf scale (UNGRADED)",
@@ -37404,8 +37404,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:34Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:04Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.033488,
       "xi_value_kms": 1.0,
@@ -37414,7 +37414,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.11499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.068888
+        "rya587_systematic_excl_xi": 0.060201
       },
       "sigma_syst_complete": 0.068888,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -37460,7 +37460,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.468,
       "sigma_stat": 0.0719,
-      "sigma_syst": 0.061113,
+      "sigma_syst": 0.057078,
       "n_lines": 23,
       "n_excluded": 7,
       "dominant_term": "gf scale (UNGRADED)",
@@ -38909,8 +38909,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:35Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:04Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.02184,
       "xi_value_kms": 1.0,
@@ -38919,9 +38919,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.07499999999999997,
       "sigma_syst_components": {
-        "rya587_systematic": 0.061113
+        "rya587_systematic_excl_xi": 0.057078
       },
-      "sigma_syst_complete": 0.061113,
+      "sigma_syst_complete": 0.061114,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.345,
@@ -38965,7 +38965,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.52,
       "sigma_stat": 0.0945,
-      "sigma_syst": 0.070128,
+      "sigma_syst": 0.0686,
       "n_lines": 17,
       "n_excluded": 6,
       "dominant_term": "line-to-line scatter",
@@ -40036,8 +40036,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:35Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:05Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.01456,
       "xi_value_kms": 1.0,
@@ -40046,7 +40046,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.04999999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.070128
+        "rya587_systematic_excl_xi": 0.0686
       },
       "sigma_syst_complete": 0.070128,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -40092,7 +40092,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.515,
       "sigma_stat": 0.1059,
-      "sigma_syst": 0.079833,
+      "sigma_syst": 0.079083,
       "n_lines": 4,
       "n_excluded": 14,
       "dominant_term": "line-to-line scatter",
@@ -40622,8 +40622,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:36Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:05Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.01092,
       "xi_value_kms": 1.0,
@@ -40632,7 +40632,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.037499999999999985,
       "sigma_syst_components": {
-        "rya587_systematic": 0.079833
+        "rya587_systematic_excl_xi": 0.079083
       },
       "sigma_syst_complete": 0.079833,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -40678,7 +40678,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.522,
       "sigma_stat": 0.1005,
-      "sigma_syst": 0.07117,
+      "sigma_syst": 0.070932,
       "n_lines": 16,
       "n_excluded": 7,
       "dominant_term": "line-to-line scatter",
@@ -41693,8 +41693,8 @@
         9998.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:36Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:05Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.005824,
       "xi_value_kms": 1.0,
@@ -41703,9 +41703,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.019999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.07117
+        "rya587_systematic_excl_xi": 0.070932
       },
-      "sigma_syst_complete": 0.07117,
+      "sigma_syst_complete": 0.071171,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.402,
@@ -41749,7 +41749,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.517,
       "sigma_stat": 0.0455,
-      "sigma_syst": 0.068637,
+      "sigma_syst": 0.066376,
       "n_lines": 21,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -43063,8 +43063,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:37Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:06Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.017472,
       "xi_value_kms": 1.0,
@@ -43073,7 +43073,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.059999999999999984,
       "sigma_syst_components": {
-        "rya587_systematic": 0.068637
+        "rya587_systematic_excl_xi": 0.066376
       },
       "sigma_syst_complete": 0.068637,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -43119,7 +43119,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.538,
       "sigma_stat": 0.0885,
-      "sigma_syst": 0.130536,
+      "sigma_syst": 0.130463,
       "n_lines": 5,
       "n_excluded": 17,
       "dominant_term": "line-to-line scatter",
@@ -43680,8 +43680,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:37Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:06Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.004368,
       "xi_value_kms": 1.0,
@@ -43690,7 +43690,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.014999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.130536
+        "rya587_systematic_excl_xi": 0.130463
       },
       "sigma_syst_complete": 0.130536,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -43736,7 +43736,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.508,
       "sigma_stat": 0.0464,
-      "sigma_syst": 0.076652,
+      "sigma_syst": 0.072545,
       "n_lines": 21,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -45050,8 +45050,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:37Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:07Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.024752,
       "xi_value_kms": 1.0,
@@ -45060,9 +45060,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.08499999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.076652
+        "rya587_systematic_excl_xi": 0.072545
       },
-      "sigma_syst_complete": 0.076652,
+      "sigma_syst_complete": 0.076651,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.213,
@@ -45106,7 +45106,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.517,
       "sigma_stat": 0.0455,
-      "sigma_syst": 0.068637,
+      "sigma_syst": 0.066376,
       "n_lines": 21,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -46420,8 +46420,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:38Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:07Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.017472,
       "xi_value_kms": 1.0,
@@ -46430,7 +46430,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.059999999999999984,
       "sigma_syst_components": {
-        "rya587_systematic": 0.068637
+        "rya587_systematic_excl_xi": 0.066376
       },
       "sigma_syst_complete": 0.068637,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -46476,7 +46476,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.538,
       "sigma_stat": 0.0885,
-      "sigma_syst": 0.130536,
+      "sigma_syst": 0.130463,
       "n_lines": 5,
       "n_excluded": 17,
       "dominant_term": "line-to-line scatter",
@@ -47037,8 +47037,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:38Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:07Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.004368,
       "xi_value_kms": 1.0,
@@ -47047,7 +47047,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.014999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.130536
+        "rya587_systematic_excl_xi": 0.130463
       },
       "sigma_syst_complete": 0.130536,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -47093,7 +47093,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.508,
       "sigma_stat": 0.0464,
-      "sigma_syst": 0.076652,
+      "sigma_syst": 0.072545,
       "n_lines": 21,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -48407,8 +48407,8 @@
         10008.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:39Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:08Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.024752,
       "xi_value_kms": 1.0,
@@ -48417,9 +48417,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.08499999999999998,
       "sigma_syst_components": {
-        "rya587_systematic": 0.076652
+        "rya587_systematic_excl_xi": 0.072545
       },
-      "sigma_syst_complete": 0.076652,
+      "sigma_syst_complete": 0.076651,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.213,
@@ -48463,7 +48463,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.495,
       "sigma_stat": 0.0358,
-      "sigma_syst": 0.058232,
+      "sigma_syst": 0.057573,
       "n_lines": 18,
       "n_excluded": 10,
       "dominant_term": "gf scale (cited lab)",
@@ -49588,8 +49588,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:39Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:08Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.008736,
       "xi_value_kms": 1.0,
@@ -49598,7 +49598,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.029999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.058232
+        "rya587_systematic_excl_xi": 0.057573
       },
       "sigma_syst_complete": 0.058232,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -49644,7 +49644,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.368,
       "sigma_stat": 0.0606,
-      "sigma_syst": 0.111774,
+      "sigma_syst": 0.111432,
       "n_lines": 5,
       "n_excluded": 16,
       "dominant_term": "gf scale (cited lab)",
@@ -50204,8 +50204,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:40Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:09Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.008736,
       "xi_value_kms": 1.0,
@@ -50214,7 +50214,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.029999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.111774
+        "rya587_systematic_excl_xi": 0.111432
       },
       "sigma_syst_complete": 0.111774,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -50260,7 +50260,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.482,
       "sigma_stat": 0.0333,
-      "sigma_syst": 0.051781,
+      "sigma_syst": 0.050096,
       "n_lines": 20,
       "n_excluded": 8,
       "dominant_term": "gf scale (cited lab)",
@@ -51507,8 +51507,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:40Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:09Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.013104,
       "xi_value_kms": 1.0,
@@ -51517,9 +51517,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.044999999999999984,
       "sigma_syst_components": {
-        "rya587_systematic": 0.051781
+        "rya587_systematic_excl_xi": 0.050096
       },
-      "sigma_syst_complete": 0.051781,
+      "sigma_syst_complete": 0.051782,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.149,
@@ -51563,7 +51563,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.495,
       "sigma_stat": 0.0358,
-      "sigma_syst": 0.058232,
+      "sigma_syst": 0.057573,
       "n_lines": 18,
       "n_excluded": 10,
       "dominant_term": "gf scale (cited lab)",
@@ -52688,8 +52688,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:40Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:10Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.008736,
       "xi_value_kms": 1.0,
@@ -52698,7 +52698,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.029999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.058232
+        "rya587_systematic_excl_xi": 0.057573
       },
       "sigma_syst_complete": 0.058232,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -52744,7 +52744,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.368,
       "sigma_stat": 0.0606,
-      "sigma_syst": 0.111774,
+      "sigma_syst": 0.111432,
       "n_lines": 5,
       "n_excluded": 16,
       "dominant_term": "gf scale (cited lab)",
@@ -53304,8 +53304,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:41Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:10Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.008736,
       "xi_value_kms": 1.0,
@@ -53314,7 +53314,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.029999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.111774
+        "rya587_systematic_excl_xi": 0.111432
       },
       "sigma_syst_complete": 0.111774,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -53360,7 +53360,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.482,
       "sigma_stat": 0.0333,
-      "sigma_syst": 0.051781,
+      "sigma_syst": 0.050096,
       "n_lines": 20,
       "n_excluded": 8,
       "dominant_term": "gf scale (cited lab)",
@@ -54607,8 +54607,8 @@
         12976.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:41Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:10Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.013104,
       "xi_value_kms": 1.0,
@@ -54617,9 +54617,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.044999999999999984,
       "sigma_syst_components": {
-        "rya587_systematic": 0.051781
+        "rya587_systematic_excl_xi": 0.050096
       },
-      "sigma_syst_complete": 0.051781,
+      "sigma_syst_complete": 0.051782,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "irreducible_dispersion": {
         "dispersion_dex": 0.149,
@@ -54688,8 +54688,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -54747,8 +54747,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -54807,8 +54807,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.069888,
@@ -54844,7 +54844,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.419,
       "sigma_stat": 0.0241,
-      "sigma_syst": 0.072875,
+      "sigma_syst": 0.022969,
       "n_lines": 106,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -69281,8 +69281,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.06916,
       "xi_value_kms": 1.0,
@@ -69291,9 +69291,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.23749999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.072875
+        "rya587_systematic_excl_xi": 0.022969
       },
-      "sigma_syst_complete": 0.072875,
+      "sigma_syst_complete": 0.072874,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -69316,7 +69316,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.429,
       "sigma_stat": 0.0247,
-      "sigma_syst": 0.079297,
+      "sigma_syst": 0.038793,
       "n_lines": 102,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -82846,8 +82846,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.06916,
       "xi_value_kms": 1.0,
@@ -82856,7 +82856,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.23749999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.079297
+        "rya587_systematic_excl_xi": 0.038793
       },
       "sigma_syst_complete": 0.079297,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -82904,8 +82904,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -82964,8 +82964,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -83024,8 +83024,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.00728,
@@ -83061,7 +83061,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.428,
       "sigma_stat": 0.014,
-      "sigma_syst": 0.065341,
+      "sigma_syst": 0.051063,
       "n_lines": 171,
       "n_excluded": 4,
       "dominant_term": "gf scale (UNGRADED)",
@@ -116464,8 +116464,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -116474,7 +116474,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.065341
+        "rya587_systematic_excl_xi": 0.051063
       },
       "sigma_syst_complete": 0.065341,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -116523,8 +116523,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -116559,7 +116559,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.429,
       "sigma_stat": 0.0158,
-      "sigma_syst": 0.07057,
+      "sigma_syst": 0.057603,
       "n_lines": 144,
       "n_excluded": 27,
       "dominant_term": "gf scale (UNGRADED)",
@@ -140888,8 +140888,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -140898,7 +140898,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.07057
+        "rya587_systematic_excl_xi": 0.057603
       },
       "sigma_syst_complete": 0.07057,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -140923,7 +140923,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.492,
       "sigma_stat": 0.0141,
-      "sigma_syst": 0.067856,
+      "sigma_syst": 0.049332,
       "n_lines": 171,
       "n_excluded": 4,
       "dominant_term": "gf scale (UNGRADED)",
@@ -174326,8 +174326,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.046592,
       "xi_value_kms": 1.0,
@@ -174336,7 +174336,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15999999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.067856
+        "rya587_systematic_excl_xi": 0.049332
       },
       "sigma_syst_complete": 0.067856,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -174361,7 +174361,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.436,
       "sigma_stat": 0.0138,
-      "sigma_syst": 0.06438,
+      "sigma_syst": 0.049828,
       "n_lines": 171,
       "n_excluded": 4,
       "dominant_term": "gf scale (UNGRADED)",
@@ -207764,8 +207764,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -207774,9 +207774,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.06438
+        "rya587_systematic_excl_xi": 0.049828
       },
-      "sigma_syst_complete": 0.06438,
+      "sigma_syst_complete": 0.064381,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -207799,7 +207799,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.428,
       "sigma_stat": 0.0177,
-      "sigma_syst": 0.065517,
+      "sigma_syst": 0.026996,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -239760,8 +239760,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.059696,
       "xi_value_kms": 1.0,
@@ -239770,9 +239770,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20499999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.065517
+        "rya587_systematic_excl_xi": 0.026996
       },
-      "sigma_syst_complete": 0.065517,
+      "sigma_syst_complete": 0.065516,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -239820,8 +239820,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -239855,7 +239855,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.439,
       "sigma_stat": 0.0183,
-      "sigma_syst": 0.070707,
+      "sigma_syst": 0.040095,
       "n_lines": 157,
       "n_excluded": 10,
       "dominant_term": "gf scale (cited lab)",
@@ -268385,8 +268385,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -268395,7 +268395,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.070707
+        "rya587_systematic_excl_xi": 0.040095
       },
       "sigma_syst_complete": 0.070707,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -268420,7 +268420,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.491,
       "sigma_stat": 0.0173,
-      "sigma_syst": 0.065074,
+      "sigma_syst": 0.025904,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -300381,8 +300381,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.059696,
       "xi_value_kms": 1.0,
@@ -300391,7 +300391,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20499999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.065074
+        "rya587_systematic_excl_xi": 0.025904
       },
       "sigma_syst_complete": 0.065074,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -300416,7 +300416,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.441,
       "sigma_stat": 0.0177,
-      "sigma_syst": 0.066464,
+      "sigma_syst": 0.026037,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -332377,8 +332377,8 @@
         6908.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.061152,
       "xi_value_kms": 1.0,
@@ -332387,7 +332387,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.066464
+        "rya587_systematic_excl_xi": 0.026037
       },
       "sigma_syst_complete": 0.066464,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -332437,8 +332437,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -332473,7 +332473,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.384,
       "sigma_stat": 0.025,
-      "sigma_syst": 0.07792,
+      "sigma_syst": 0.056297,
       "n_lines": 41,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -335450,8 +335450,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.053872,
       "xi_value_kms": 1.0,
@@ -335460,7 +335460,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.18499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.07792
+        "rya587_systematic_excl_xi": 0.056297
       },
       "sigma_syst_complete": 0.07792,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -335485,7 +335485,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.391,
       "sigma_stat": 0.0274,
-      "sigma_syst": 0.077942,
+      "sigma_syst": 0.056328,
       "n_lines": 37,
       "n_excluded": 4,
       "dominant_term": "line-to-line scatter",
@@ -338091,8 +338091,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.053872,
       "xi_value_kms": 1.0,
@@ -338101,9 +338101,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.18499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.077942
+        "rya587_systematic_excl_xi": 0.056328
       },
-      "sigma_syst_complete": 0.077942,
+      "sigma_syst_complete": 0.077943,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -338149,8 +338149,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -338209,8 +338209,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.025626,
@@ -338246,7 +338246,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.428,
       "sigma_stat": 0.014,
-      "sigma_syst": 0.07598,
+      "sigma_syst": 0.063167,
       "n_lines": 131,
       "n_excluded": 1,
       "dominant_term": "gf scale (UNGRADED)",
@@ -358687,8 +358687,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -358697,7 +358697,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.07598
+        "rya587_systematic_excl_xi": 0.063167
       },
       "sigma_syst_complete": 0.07598,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -358746,8 +358746,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -358782,7 +358782,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.426,
       "sigma_stat": 0.0168,
-      "sigma_syst": 0.083422,
+      "sigma_syst": 0.071947,
       "n_lines": 103,
       "n_excluded": 28,
       "dominant_term": "gf scale (UNGRADED)",
@@ -372080,8 +372080,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -372090,7 +372090,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.083422
+        "rya587_systematic_excl_xi": 0.071947
       },
       "sigma_syst_complete": 0.083422,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -372115,7 +372115,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.489,
       "sigma_stat": 0.0136,
-      "sigma_syst": 0.075639,
+      "sigma_syst": 0.063712,
       "n_lines": 131,
       "n_excluded": 1,
       "dominant_term": "gf scale (UNGRADED)",
@@ -392556,8 +392556,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -392566,7 +392566,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.075639
+        "rya587_systematic_excl_xi": 0.063712
       },
       "sigma_syst_complete": 0.075639,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -392591,7 +392591,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.433,
       "sigma_stat": 0.0134,
-      "sigma_syst": 0.077512,
+      "sigma_syst": 0.063014,
       "n_lines": 131,
       "n_excluded": 1,
       "dominant_term": "gf scale (UNGRADED)",
@@ -413032,8 +413032,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -413042,9 +413042,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.077512
+        "rya587_systematic_excl_xi": 0.063014
       },
-      "sigma_syst_complete": 0.077512,
+      "sigma_syst_complete": 0.077511,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -413067,7 +413067,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.391,
       "sigma_stat": 0.0188,
-      "sigma_syst": 0.080745,
+      "sigma_syst": 0.055927,
       "n_lines": 81,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -421804,8 +421804,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -421814,7 +421814,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.080745
+        "rya587_systematic_excl_xi": 0.055927
       },
       "sigma_syst_complete": 0.080745,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -421864,8 +421864,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -421899,7 +421899,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.401,
       "sigma_stat": 0.0201,
-      "sigma_syst": 0.083556,
+      "sigma_syst": 0.061295,
       "n_lines": 71,
       "n_excluded": 10,
       "dominant_term": "gf scale (cited lab)",
@@ -428925,8 +428925,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.056784,
       "xi_value_kms": 1.0,
@@ -428935,9 +428935,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19499999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.083556
+        "rya587_systematic_excl_xi": 0.061295
       },
-      "sigma_syst_complete": 0.083556,
+      "sigma_syst_complete": 0.083555,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -428960,7 +428960,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.458,
       "sigma_stat": 0.0183,
-      "sigma_syst": 0.079382,
+      "sigma_syst": 0.053941,
       "n_lines": 81,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -437697,8 +437697,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -437707,7 +437707,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.079382
+        "rya587_systematic_excl_xi": 0.053941
       },
       "sigma_syst_complete": 0.079382,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -437732,7 +437732,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.401,
       "sigma_stat": 0.0183,
-      "sigma_syst": 0.081499,
+      "sigma_syst": 0.05701,
       "n_lines": 81,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -446469,8 +446469,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -446479,7 +446479,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.081499
+        "rya587_systematic_excl_xi": 0.05701
       },
       "sigma_syst_complete": 0.081499,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -446529,8 +446529,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -446565,7 +446565,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.329,
       "sigma_stat": 0.018,
-      "sigma_syst": 0.065911,
+      "sigma_syst": 0.026329,
       "n_lines": 106,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -461001,8 +461001,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.060424,
       "xi_value_kms": 1.0,
@@ -461011,7 +461011,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20749999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.065911
+        "rya587_systematic_excl_xi": 0.026329
       },
       "sigma_syst_complete": 0.065911,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -461036,7 +461036,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.34,
       "sigma_stat": 0.0187,
-      "sigma_syst": 0.072144,
+      "sigma_syst": 0.040512,
       "n_lines": 101,
       "n_excluded": 6,
       "dominant_term": "gf scale (cited lab)",
@@ -474335,8 +474335,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.059696,
       "xi_value_kms": 1.0,
@@ -474345,9 +474345,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20499999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.072144
+        "rya587_systematic_excl_xi": 0.040512
       },
-      "sigma_syst_complete": 0.072144,
+      "sigma_syst_complete": 0.072145,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier, above the depth gate)",
@@ -474393,8 +474393,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.032032,
@@ -474453,8 +474453,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.038438,
@@ -474513,8 +474513,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -474550,7 +474550,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.41,
       "sigma_stat": 0.0266,
-      "sigma_syst": 0.063234,
+      "sigma_syst": 0.044287,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -480907,8 +480907,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -480917,7 +480917,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.063234
+        "rya587_systematic_excl_xi": 0.044287
       },
       "sigma_syst_complete": 0.063234,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -480966,8 +480966,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -481002,7 +481002,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.411,
       "sigma_stat": 0.0277,
-      "sigma_syst": 0.068362,
+      "sigma_syst": 0.051343,
       "n_lines": 59,
       "n_excluded": 6,
       "dominant_term": "gf scale (cited lab)",
@@ -486488,8 +486488,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -486498,7 +486498,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.068362
+        "rya587_systematic_excl_xi": 0.051343
       },
       "sigma_syst_complete": 0.068362,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -486547,8 +486547,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -486608,8 +486608,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -486673,8 +486673,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -486739,8 +486739,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": null,
@@ -486781,7 +486781,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.367,
       "sigma_stat": 0.0155,
-      "sigma_syst": 0.064831,
+      "sigma_syst": 0.026942,
       "n_lines": 166,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -518385,8 +518385,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.058968,
       "xi_value_kms": 1.0,
@@ -518395,7 +518395,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20249999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.064831
+        "rya587_systematic_excl_xi": 0.026942
       },
       "sigma_syst_complete": 0.064831,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -518445,8 +518445,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -518480,7 +518480,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.371,
       "sigma_stat": 0.0159,
-      "sigma_syst": 0.069527,
+      "sigma_syst": 0.040119,
       "n_lines": 156,
       "n_excluded": 12,
       "dominant_term": "gf scale (cited lab)",
@@ -546673,8 +546673,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.056784,
       "xi_value_kms": 1.0,
@@ -546683,7 +546683,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19499999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.069527
+        "rya587_systematic_excl_xi": 0.040119
       },
       "sigma_syst_complete": 0.069527,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -546708,7 +546708,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.43,
       "sigma_stat": 0.0152,
-      "sigma_syst": 0.061271,
+      "sigma_syst": 0.026325,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -578668,8 +578668,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.055328,
       "xi_value_kms": 1.0,
@@ -578678,7 +578678,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.18999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.061271
+        "rya587_systematic_excl_xi": 0.026325
       },
       "sigma_syst_complete": 0.061271,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -578703,7 +578703,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.373,
       "sigma_stat": 0.0154,
-      "sigma_syst": 0.066598,
+      "sigma_syst": 0.026377,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -610663,8 +610663,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.061152,
       "xi_value_kms": 1.0,
@@ -610673,7 +610673,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.20999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.066598
+        "rya587_systematic_excl_xi": 0.026377
       },
       "sigma_syst_complete": 0.066598,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -610723,8 +610723,8 @@
         6910.0
       ],
       "wavelength_range_basis": "the VIS BAND DEFINITION (pipeline.band_policy), not a run window \u2014 this product's artifact records no wavelength span of its own",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -610759,7 +610759,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.347,
       "sigma_stat": 0.0178,
-      "sigma_syst": 0.070385,
+      "sigma_syst": 0.029152,
       "n_lines": 106,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -625195,8 +625195,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.064064,
       "xi_value_kms": 1.0,
@@ -625205,7 +625205,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.21999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.070385
+        "rya587_systematic_excl_xi": 0.029152
       },
       "sigma_syst_complete": 0.070385,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -625230,7 +625230,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.357,
       "sigma_stat": 0.0184,
-      "sigma_syst": 0.075978,
+      "sigma_syst": 0.041966,
       "n_lines": 102,
       "n_excluded": 5,
       "dominant_term": "gf scale (cited lab)",
@@ -638759,8 +638759,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.063336,
       "xi_value_kms": 1.0,
@@ -638769,7 +638769,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.21749999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.075978
+        "rya587_systematic_excl_xi": 0.041966
       },
       "sigma_syst_complete": 0.075978,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -638817,8 +638817,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:11Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -638877,8 +638877,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.051251,
@@ -638914,7 +638914,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.414,
       "sigma_stat": 0.0248,
-      "sigma_syst": 0.062224,
+      "sigma_syst": 0.044316,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -645271,8 +645271,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -645281,7 +645281,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.062224
+        "rya587_systematic_excl_xi": 0.044316
       },
       "sigma_syst_complete": 0.062224,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -645330,8 +645330,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -645366,7 +645366,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.42,
       "sigma_stat": 0.0258,
-      "sigma_syst": 0.068448,
+      "sigma_syst": 0.052699,
       "n_lines": 59,
       "n_excluded": 6,
       "dominant_term": "gf scale (cited lab)",
@@ -650852,8 +650852,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -650862,7 +650862,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.068448
+        "rya587_systematic_excl_xi": 0.052699
       },
       "sigma_syst_complete": 0.068448,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -650887,7 +650887,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.467,
       "sigma_stat": 0.0241,
-      "sigma_syst": 0.064239,
+      "sigma_syst": 0.042639,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -657244,8 +657244,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.048048,
       "xi_value_kms": 1.0,
@@ -657254,7 +657254,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.16499999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.064239
+        "rya587_systematic_excl_xi": 0.042639
       },
       "sigma_syst_complete": 0.064239,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -657279,7 +657279,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.415,
       "sigma_stat": 0.0241,
-      "sigma_syst": 0.066216,
+      "sigma_syst": 0.043977,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -663636,8 +663636,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.049504,
       "xi_value_kms": 1.0,
@@ -663646,7 +663646,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.16999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.066216
+        "rya587_systematic_excl_xi": 0.043977
       },
       "sigma_syst_complete": 0.066216,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -663671,7 +663671,7 @@
       "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "A": 7.511,
       "sigma_stat": 0.0239,
-      "sigma_syst": 0.071001,
+      "sigma_syst": 0.044496,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -670028,8 +670028,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.055328,
       "xi_value_kms": 1.0,
@@ -670038,7 +670038,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.18999999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.071001
+        "rya587_systematic_excl_xi": 0.044496
       },
       "sigma_syst_complete": 0.071001,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -670064,7 +670064,7 @@
       "display": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "A": 7.548,
       "sigma_stat": 0.0241,
-      "sigma_syst": 0.067073,
+      "sigma_syst": 0.041849,
       "n_lines": 65,
       "n_excluded": 0,
       "dominant_term": "gf scale (cited lab)",
@@ -676421,8 +676421,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.052416,
       "xi_value_kms": 1.0,
@@ -676431,7 +676431,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.17999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.067073
+        "rya587_systematic_excl_xi": 0.041849
       },
       "sigma_syst_complete": 0.067073,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -676457,7 +676457,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.368,
       "sigma_stat": 0.015,
-      "sigma_syst": 0.063159,
+      "sigma_syst": 0.027651,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -711329,8 +711329,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.056784,
       "xi_value_kms": 1.0,
@@ -711339,7 +711339,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19499999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.063159
+        "rya587_systematic_excl_xi": 0.027651
       },
       "sigma_syst_complete": 0.063159,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -711389,8 +711389,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact `provenance` column (stem carries no window)",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.0,
@@ -711424,7 +711424,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.377,
       "sigma_stat": 0.0155,
-      "sigma_syst": 0.070027,
+      "sigma_syst": 0.040979,
       "n_lines": 157,
       "n_excluded": 11,
       "dominant_term": "gf scale (cited lab)",
@@ -742705,8 +742705,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.056784,
       "xi_value_kms": 1.0,
@@ -742715,9 +742715,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19499999999999992,
       "sigma_syst_components": {
-        "rya587_systematic": 0.070027
+        "rya587_systematic_excl_xi": 0.040979
       },
-      "sigma_syst_complete": 0.070027,
+      "sigma_syst_complete": 0.070026,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -742740,7 +742740,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.432,
       "sigma_stat": 0.0149,
-      "sigma_syst": 0.063924,
+      "sigma_syst": 0.026351,
       "n_lines": 167,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -777612,8 +777612,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -777622,7 +777622,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.063924
+        "rya587_systematic_excl_xi": 0.026351
       },
       "sigma_syst_complete": 0.063924,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -777647,7 +777647,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.378,
       "sigma_stat": 0.0149,
-      "sigma_syst": 0.063929,
+      "sigma_syst": 0.026363,
       "n_lines": 166,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -812147,8 +812147,8 @@
         6910.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.05824,
       "xi_value_kms": 1.0,
@@ -812157,7 +812157,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.19999999999999993,
       "sigma_syst_components": {
-        "rya587_systematic": 0.063929
+        "rya587_systematic_excl_xi": 0.026363
       },
       "sigma_syst_complete": 0.063929,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -812182,7 +812182,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.554,
       "sigma_stat": 0.0608,
-      "sigma_syst": 0.236885,
+      "sigma_syst": 0.231655,
       "n_lines": 55,
       "n_excluded": 2,
       "dominant_term": "pseudo-continuum",
@@ -812206,8 +812206,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_value_kms": 1.0,
       "delta_xi_kms": 0.2912,
       "sigma_xi": 0.049504,
@@ -812216,7 +812216,7 @@
       "xi_source": "RYA-587 budget stellar.xi: paired xi 0.90/1.10 legs on this product's own pool",
       "dA_dxi_dex_per_kms": -0.17,
       "sigma_syst_components": {
-        "rya587_systematic": 0.236885
+        "rya587_systematic_excl_xi": 0.231655
       },
       "sigma_syst_complete": 0.236885,
       "sigma_reported": 0.24456359353837548,
@@ -816051,7 +816051,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.532,
       "sigma_stat": 0.0498,
-      "sigma_syst": 0.060889,
+      "sigma_syst": 0.040869,
       "n_lines": 53,
       "n_excluded": 3,
       "dominant_term": "pseudo-continuum",
@@ -819651,8 +819651,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -819661,9 +819661,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.060889
+        "rya587_systematic_excl_xi": 0.040869
       },
-      "sigma_syst_complete": 0.060889,
+      "sigma_syst_complete": 0.06089,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -819686,7 +819686,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.435,
       "sigma_stat": 0.0573,
-      "sigma_syst": 0.058736,
+      "sigma_syst": 0.037585,
       "n_lines": 51,
       "n_excluded": 5,
       "dominant_term": "pseudo-continuum",
@@ -823062,8 +823062,8 @@
         3780.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -823072,7 +823072,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.058736
+        "rya587_systematic_excl_xi": 0.037585
       },
       "sigma_syst_complete": 0.058736,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -823097,7 +823097,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.437,
       "sigma_stat": 0.0196,
-      "sigma_syst": 0.055554,
+      "sigma_syst": 0.036103,
       "n_lines": 96,
       "n_excluded": 1,
       "dominant_term": "gf scale (UNGRADED)",
@@ -834852,8 +834852,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -834862,7 +834862,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.055554
+        "rya587_systematic_excl_xi": 0.036103
       },
       "sigma_syst_complete": 0.055554,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -834887,7 +834887,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.446,
       "sigma_stat": 0.034,
-      "sigma_syst": 0.06409,
+      "sigma_syst": 0.048842,
       "n_lines": 46,
       "n_excluded": 50,
       "dominant_term": "gf scale (UNGRADED)",
@@ -838453,8 +838453,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:42Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.041496,
       "xi_value_kms": 1.0,
@@ -838463,9 +838463,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14249999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.06409
+        "rya587_systematic_excl_xi": 0.048842
       },
-      "sigma_syst_complete": 0.06409,
+      "sigma_syst_complete": 0.064089,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -838488,7 +838488,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.479,
       "sigma_stat": 0.0202,
-      "sigma_syst": 0.055379,
+      "sigma_syst": 0.037481,
       "n_lines": 95,
       "n_excluded": 2,
       "dominant_term": "gf scale (UNGRADED)",
@@ -850029,8 +850029,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -850039,7 +850039,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.055379
+        "rya587_systematic_excl_xi": 0.037481
       },
       "sigma_syst_complete": 0.055379,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -850064,7 +850064,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.437,
       "sigma_stat": 0.0198,
-      "sigma_syst": 0.0613,
+      "sigma_syst": 0.039835,
       "n_lines": 96,
       "n_excluded": 1,
       "dominant_term": "gf scale (UNGRADED)",
@@ -861819,8 +861819,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.046592,
       "xi_value_kms": 1.0,
@@ -861829,7 +861829,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15999999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.0613
+        "rya587_systematic_excl_xi": 0.039835
       },
       "sigma_syst_complete": 0.0613,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -861854,7 +861854,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.424,
       "sigma_stat": 0.0252,
-      "sigma_syst": 0.05139,
+      "sigma_syst": 0.033099,
       "n_lines": 67,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -868238,8 +868238,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.039312,
       "xi_value_kms": 1.0,
@@ -868248,7 +868248,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13499999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.05139
+        "rya587_systematic_excl_xi": 0.033099
       },
       "sigma_syst_complete": 0.05139,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -868273,7 +868273,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.422,
       "sigma_stat": 0.0429,
-      "sigma_syst": 0.061401,
+      "sigma_syst": 0.045914,
       "n_lines": 33,
       "n_excluded": 34,
       "dominant_term": "gf scale (cited lab)",
@@ -870522,8 +870522,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -870532,7 +870532,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.061401
+        "rya587_systematic_excl_xi": 0.045914
       },
       "sigma_syst_complete": 0.061401,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -870557,7 +870557,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.454,
       "sigma_stat": 0.0254,
-      "sigma_syst": 0.051102,
+      "sigma_syst": 0.034326,
       "n_lines": 66,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -876785,8 +876785,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.037856,
       "xi_value_kms": 1.0,
@@ -876795,9 +876795,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.12999999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.051102
+        "rya587_systematic_excl_xi": 0.034326
       },
-      "sigma_syst_complete": 0.051102,
+      "sigma_syst_complete": 0.051101,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -876820,7 +876820,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.423,
       "sigma_stat": 0.0255,
-      "sigma_syst": 0.060959,
+      "sigma_syst": 0.040973,
       "n_lines": 66,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -883048,8 +883048,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -883058,7 +883058,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.060959
+        "rya587_systematic_excl_xi": 0.040973
       },
       "sigma_syst_complete": 0.060959,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -883083,7 +883083,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.437,
       "sigma_stat": 0.0133,
-      "sigma_syst": 0.052163,
+      "sigma_syst": 0.030628,
       "n_lines": 97,
       "n_excluded": 0,
       "dominant_term": "gf scale (UNGRADED)",
@@ -895054,8 +895054,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -895064,7 +895064,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.052163
+        "rya587_systematic_excl_xi": 0.030628
       },
       "sigma_syst_complete": 0.052163,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -895089,7 +895089,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.449,
       "sigma_stat": 0.0168,
-      "sigma_syst": 0.060392,
+      "sigma_syst": 0.04521,
       "n_lines": 46,
       "n_excluded": 51,
       "dominant_term": "gf scale (UNGRADED)",
@@ -898655,8 +898655,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04004,
       "xi_value_kms": 1.0,
@@ -898665,7 +898665,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13749999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.060392
+        "rya587_systematic_excl_xi": 0.04521
       },
       "sigma_syst_complete": 0.060392,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -898690,7 +898690,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.487,
       "sigma_stat": 0.0139,
-      "sigma_syst": 0.054819,
+      "sigma_syst": 0.033124,
       "n_lines": 97,
       "n_excluded": 0,
       "dominant_term": "gf scale (UNGRADED)",
@@ -910661,8 +910661,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -910671,7 +910671,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.054819
+        "rya587_systematic_excl_xi": 0.033124
       },
       "sigma_syst_complete": 0.054819,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -910696,7 +910696,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.44,
       "sigma_stat": 0.0134,
-      "sigma_syst": 0.052974,
+      "sigma_syst": 0.029972,
       "n_lines": 97,
       "n_excluded": 0,
       "dominant_term": "gf scale (UNGRADED)",
@@ -922667,8 +922667,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -922677,7 +922677,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.052974
+        "rya587_systematic_excl_xi": 0.029972
       },
       "sigma_syst_complete": 0.052974,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -922702,7 +922702,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.423,
       "sigma_stat": 0.0165,
-      "sigma_syst": 0.051537,
+      "sigma_syst": 0.029549,
       "n_lines": 68,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -929244,8 +929244,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -929254,9 +929254,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.051537
+        "rya587_systematic_excl_xi": 0.029549
       },
-      "sigma_syst_complete": 0.051537,
+      "sigma_syst_complete": 0.051536,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -929279,7 +929279,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.418,
       "sigma_stat": 0.0177,
-      "sigma_syst": 0.063097,
+      "sigma_syst": 0.04409,
       "n_lines": 34,
       "n_excluded": 34,
       "dominant_term": "gf scale (cited lab)",
@@ -931618,8 +931618,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.045136,
       "xi_value_kms": 1.0,
@@ -931628,7 +931628,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15499999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.063097
+        "rya587_systematic_excl_xi": 0.04409
       },
       "sigma_syst_complete": 0.063097,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -931653,7 +931653,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.455,
       "sigma_stat": 0.0166,
-      "sigma_syst": 0.052151,
+      "sigma_syst": 0.032522,
       "n_lines": 68,
       "n_excluded": 1,
       "dominant_term": "gf scale (cited lab)",
@@ -938195,8 +938195,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.040768,
       "xi_value_kms": 1.0,
@@ -938205,7 +938205,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13999999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.052151
+        "rya587_systematic_excl_xi": 0.032522
       },
       "sigma_syst_complete": 0.052151,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -938230,7 +938230,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.421,
       "sigma_stat": 0.0169,
-      "sigma_syst": 0.047806,
+      "sigma_syst": 0.028226,
       "n_lines": 66,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -944458,8 +944458,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.038584,
       "xi_value_kms": 1.0,
@@ -944468,7 +944468,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.13249999999999995,
       "sigma_syst_components": {
-        "rya587_systematic": 0.047806
+        "rya587_systematic_excl_xi": 0.028226
       },
       "sigma_syst_complete": 0.047806,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -944493,7 +944493,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.413,
       "sigma_stat": 0.0168,
-      "sigma_syst": 0.053243,
+      "sigma_syst": 0.032435,
       "n_lines": 66,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -950877,8 +950877,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -950887,9 +950887,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.053243
+        "rya587_systematic_excl_xi": 0.032435
       },
-      "sigma_syst_complete": 0.053243,
+      "sigma_syst_complete": 0.053244,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -950912,7 +950912,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.403,
       "sigma_stat": 0.0201,
-      "sigma_syst": 0.06738,
+      "sigma_syst": 0.050675,
       "n_lines": 33,
       "n_excluded": 35,
       "dominant_term": "gf scale (cited lab)",
@@ -953251,8 +953251,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.044408,
       "xi_value_kms": 1.0,
@@ -953261,7 +953261,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15249999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.06738
+        "rya587_systematic_excl_xi": 0.050675
       },
       "sigma_syst_complete": 0.06738,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -953286,7 +953286,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.454,
       "sigma_stat": 0.0171,
-      "sigma_syst": 0.166161,
+      "sigma_syst": 0.160706,
       "n_lines": 65,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -959514,8 +959514,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -959524,9 +959524,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.166161
+        "rya587_systematic_excl_xi": 0.160706
       },
-      "sigma_syst_complete": 0.166161,
+      "sigma_syst_complete": 0.16616,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": "laboratory (canonical_gf LAB tier)",
@@ -959549,7 +959549,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.419,
       "sigma_stat": 0.0165,
-      "sigma_syst": 0.053732,
+      "sigma_syst": 0.031292,
       "n_lines": 67,
       "n_excluded": 2,
       "dominant_term": "gf scale (cited lab)",
@@ -965933,8 +965933,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -965943,7 +965943,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.053732
+        "rya587_systematic_excl_xi": 0.031292
       },
       "sigma_syst_complete": 0.053732,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -965968,7 +965968,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.413,
       "sigma_stat": 0.0168,
-      "sigma_syst": 0.053243,
+      "sigma_syst": 0.032435,
       "n_lines": 66,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -972352,8 +972352,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -972362,9 +972362,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.053243
+        "rya587_systematic_excl_xi": 0.032435
       },
-      "sigma_syst_complete": 0.053243,
+      "sigma_syst_complete": 0.053244,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -972387,7 +972387,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.403,
       "sigma_stat": 0.0201,
-      "sigma_syst": 0.06738,
+      "sigma_syst": 0.050675,
       "n_lines": 33,
       "n_excluded": 35,
       "dominant_term": "gf scale (cited lab)",
@@ -974726,8 +974726,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.044408,
       "xi_value_kms": 1.0,
@@ -974736,7 +974736,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.15249999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.06738
+        "rya587_systematic_excl_xi": 0.050675
       },
       "sigma_syst_complete": 0.06738,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
@@ -974761,7 +974761,7 @@
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 7.454,
       "sigma_stat": 0.0171,
-      "sigma_syst": 0.166161,
+      "sigma_syst": 0.160706,
       "n_lines": 65,
       "n_excluded": 4,
       "dominant_term": "gf scale (cited lab)",
@@ -980989,8 +980989,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.042224,
       "xi_value_kms": 1.0,
@@ -980999,9 +980999,9 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14499999999999996,
       "sigma_syst_components": {
-        "rya587_systematic": 0.166161
+        "rya587_systematic_excl_xi": 0.160706
       },
-      "sigma_syst_complete": 0.166161,
+      "sigma_syst_complete": 0.16616,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
       "science_provenance": {
         "gf_source": null,
@@ -981024,7 +981024,7 @@
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 7.419,
       "sigma_stat": 0.0165,
-      "sigma_syst": 0.053732,
+      "sigma_syst": 0.031292,
       "n_lines": 67,
       "n_excluded": 3,
       "dominant_term": "gf scale (cited lab)",
@@ -987408,8 +987408,8 @@
         9199.0
       ],
       "wavelength_range_basis": "artifact stem",
-      "generated_at": "2026-10-19T05:01:43Z",
-      "code_commit": "0c9580dd36442301aeb9f46873b591f581ba1e6b",
+      "generated_at": "2026-10-19T05:21:12Z",
+      "code_commit": "ef13f0c381da293a61154f08c8e5c52c82ec6439",
       "xi_state": "MEASURED",
       "sigma_xi": 0.04368,
       "xi_value_kms": 1.0,
@@ -987418,7 +987418,7 @@
       "delta_xi_kms": 0.2912,
       "dA_dxi_dex_per_kms": -0.14999999999999994,
       "sigma_syst_components": {
-        "rya587_systematic": 0.053732
+        "rya587_systematic_excl_xi": 0.031292
       },
       "sigma_syst_complete": 0.053732,
       "sigma_reported_basis": "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through sigma_syst_complete \u2014 the RYA-1120 artifact's own sigma_reported omitted sigma_syst altogether.",
