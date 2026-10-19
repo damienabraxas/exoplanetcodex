@@ -987,7 +987,18 @@ def main() -> int:
                 #: -- the nominal table with in_aggregate set to the final pool (leg-unstable
                 #: exclusions applied), so its count is the product's own
                 _ln = pd.read_csv(Path(r["nominal_dir"]) / r["lines_stem"])
+                _was = _ln["in_aggregate"].astype(bool)
                 _ln["in_aggregate"] = _near(_ln["wavelength_air_A"], r["pool_w"])
+                #: a line the ASSEMBLY dropped says why, or the per-line product reads "nan"
+                _why = {round(float(k), 3): "; ".join(v) for k, v in
+                        ((r.get("restat") or {}).get("leg_unstable") or {}).items()}
+                _drop = _was & ~_ln["in_aggregate"]
+                if "excluded_reason" not in _ln:
+                    _ln["excluded_reason"] = ""
+                _ln["excluded_reason"] = _ln["excluded_reason"].astype(object)
+                _ln.loc[_drop, "excluded_reason"] = [
+                    "LEG-UNSTABLE (RYA-1232 budget assembly): " + _why.get(round(float(w), 3), "excluded from the budgeted pool")
+                    for w in _ln.loc[_drop, "wavelength_air_A"]]
                 _ln.to_csv(a.stage / r["lines_stem"], index=False)
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
