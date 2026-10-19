@@ -1476,6 +1476,28 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         published = cell_products(feed, d, cell.band)
         lkey = ledger_key(star, d, cell.band)
         current, why = is_current(published, want, ledger.get(lkey))
+        if (not current and not ledger.get(lkey) and published
+                and all(isinstance(p.get("uncertainty"), dict) for p in published)):
+            # RYA-1232 (Ryan, 2026-10-19: "why are we redoing ones we already have?"): a cell
+            # with no build record whose published products ALL carry a full RYA-587 budget
+            # was built by the hand campaign on today's line lists and priced leg by leg -- it
+            # is ADOPTED, once, as current: the ledger records it with `adopted` so the next
+            # input change re-runs it like any other cell. A legacy row (no budget) is still
+            # re-run: nothing on it says what it was built from.
+            rows_ = None if dry_run else input_fingerprints(d, resolved,
+                                                             manifest_path=manifests.get(d.holding))
+            with _lock:
+              if not dry_run:
+                record_inputs_hash(lkey, want, code_commit=commit,
+                                   product_keys=[_product_key(p_) for p_ in published],
+                                   inputs=rows_, artifacts=[])
+                _led = load_ledger()
+                _led[lkey]["adopted"] = ("RYA-1232: published with a full RYA-587 budget by the "
+                                         "hand campaign; adopted, not rebuilt")
+                LEDGER.write_text(json.dumps(_led, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+                ledger[lkey] = {"inputs_hash": want, "artifacts": []}
+            current, why = True, (f"ADOPTED: {len(published)} published product(s) carry full "
+                                  f"RYA-587 budgets (RYA-1232 hand campaign); recorded at {want[:12]}")
         if published:
             cell.A = published[0].get("A")
             cell.n_lines = published[0].get("n_lines")
