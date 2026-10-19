@@ -163,6 +163,16 @@ def test_the_report_is_written_and_reloadable(rm, tmp_path):
     assert len(list(tmp_path.glob("solar_Si_2*.json"))) == 1, "no timestamped copy"
 
 
+def test_live_progress_report_has_terminal_percent(rm, tmp_path):
+    rm.run("solar", "Si", dry_run=True, engines=["ts-lte"], bands=["VIS"],
+           echo=False, report_dir=tmp_path)
+    progress = json.loads((tmp_path / "solar_Si_progress.json").read_text())
+    assert progress["schema"] == "codex.orchestrator_progress/1"
+    assert progress["state"] == "COMPLETE"
+    assert progress["percent"] == 100.0
+    assert progress["cells_completed"] == progress["cells_total"]
+
+
 def test_render_is_ascii_only(dry, rm):
     """Cloudflare's WAF eats non-ASCII in the Linear comment these tables are pasted into."""
     rm.render(dry).encode("ascii")

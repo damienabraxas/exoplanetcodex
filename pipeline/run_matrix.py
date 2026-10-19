@@ -1382,6 +1382,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     #: Artifacts this invocation has already built successfully, by the resolver's own
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
     produced_this_run: set[str] = set()
+    progress_started = _utc()
+    _progress_dir = report_dir or REPORT_DIR
+    _progress_path = _progress_dir / f"{star}_{symbol}_progress.json"
+    _pending: set[str] = set()
 
     steps = process_steps(star, symbol, sorted({d.ion for d in descriptors}) or None)
     missing = [r for r in steps if not r["ok"]]
@@ -1403,6 +1407,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         a thread pool when jobs > 1; shared state is touched under `_lock`)."""
         ok, detail = True, ""
         t0 = time.time()
+        with _lock:
+            _write_progress(_progress_path, star=star, element=element, cells=cells,
+                            pending=_pending, started_at=progress_started,
+                            current=cell.cell_key)
         for step in resolved.steps:
             # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
             # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
@@ -1441,6 +1449,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                 cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
             else:
                 cell.status, cell.reason = FAILED, detail
+            with _lock:
+                _pending.discard(cell.cell_key)
+                _write_progress(_progress_path, star=star, element=element, cells=cells,
+                                pending=_pending, started_at=progress_started,
+                                current=cell.cell_key)
             return
         # RYA-1233: record the build whether or not it is published, so unchanged work
         # is never redone. What it was built from (spectrum included) and what it wrote.
@@ -1464,12 +1477,22 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                 f"{deck_out_dir(d.engine_deck)}); a re-run with unchanged inputs SKIPs it. "
                 f"Not in data/products/{star}/{symbol}.json -- publication is "
                 f"`scripts/publish_product.py`, human-gated (RYA-1034/RYA-772).")
+            with _lock:
+                _pending.discard(cell.cell_key)
+                _write_progress(_progress_path, star=star, element=element, cells=cells,
+                                pending=_pending, started_at=progress_started,
+                                current=cell.cell_key)
             return
         cell.A = published[0].get("A")
         cell.n_lines = published[0].get("n_lines")
         cell.status = DONE
         cell.reason = (f"ran {len(resolved.steps)} step(s); {len(published)} published "
                        f"product(s) recorded at inputs_hash {want[:12]}")
+        with _lock:
+            _pending.discard(cell.cell_key)
+            _write_progress(_progress_path, star=star, element=element, cells=cells,
+                            pending=_pending, started_at=progress_started,
+                            current=cell.cell_key)
 
     planned: list = []
     cells: list[CellResult] = []
@@ -1567,6 +1590,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     # RYA-1233: the planned cells execute here, `jobs` at a time. Planning above is
     # serial and decides every hold/skip/dry-run exactly as before; only execution fans out.
     if planned:
+        _pending.update(cell.cell_key for cell, *_ in planned)
+    _write_progress(_progress_path, star=star, element=element, cells=cells,
+                    pending=_pending, started_at=progress_started,
+                    state="RUNNING" if _pending else "COMPLETE")
+    if planned:
         if jobs and jobs > 1:
             from concurrent.futures import ThreadPoolExecutor
             with ThreadPoolExecutor(max_workers=jobs) as ex:
@@ -1574,6 +1602,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         else:
             for a in planned:
                 _execute(*a)
+    _write_progress(_progress_path, star=star, element=element, cells=cells,
+                    pending=_pending, started_at=progress_started,
+                    state="COMPLETE")
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
                      process=steps,
@@ -1694,6 +1725,33 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
     except ValueError:
         doc["_report_path"] = str(latest)
     return doc
+
+
+def _write_progress(path: Path, *, star: str, element: str, cells: list[CellResult],
+                    pending: set[str], started_at: str, current: str = "",
+                    state: str = "RUNNING") -> None:
+    """Write a small live heartbeat for long matrices.
+
+    The terminal report remains the authority for cell details.  This file is an
+    operator-facing heartbeat only: it is replaced atomically after planning and
+    after each cell, so a watcher can show progress without reading a half-written
+    JSON document or inferring state from log output.
+    """
+    counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
+    total = len(cells)
+    completed = total - len(pending)
+    doc = {
+        "schema": "codex.orchestrator_progress/1",
+        "star": star, "element": element, "state": state,
+        "started_at": started_at, "updated_at": _utc(),
+        "cells_total": total, "cells_completed": completed,
+        "percent": round(100.0 * completed / total, 1) if total else 100.0,
+        "current_cell": current, "counts": counts,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    tmp.replace(path)
 
 
 def render(doc: dict) -> str:
