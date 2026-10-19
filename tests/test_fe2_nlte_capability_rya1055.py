@@ -518,16 +518,29 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     #: its merits (Fe II 4303.170, a CH G-band blend recovering A = 10.0 -- RYA-1191).
     live_vis = {4233.162, 4303.170, 4583.829}
     curated_out = {4303.170}
+    #: RYA-1232: the republished products serve their whole graded Fe II pool (8 lines, not
+    #: the 2 the pre-RYA-1232 deck served), so the pool is the product's own -- what stays
+    #: pinned is that the curated line is out and every served line has its 1D-LTE partner.
     for key, pool in eng.items():
         got = {round(w, 3) for w in pool}
-        assert got == live_vis - curated_out, (key, sorted(got))
+        assert not (got & curated_out), (key, sorted(got))
+        assert {round(w, 3) for w in lte[key]} >= got, (key, sorted(got))
+        #: RYA-1232: the two readings must AGREE line by line -- the per-line difference
+        #: IS the band product's own recorded MPIA departure. The old [-0.0021, -0.0009]
+        #: bound was the range of the two lines then served; the strong multiplet-42 lines
+        #: now served (4923.921, 5169.028) carry MPIA's own +0.015.
+        own = {}
+        for f in sorted((ROOT / "data/results/rya1232_fe").glob(
+                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")):
+            d_ = pd.read_csv(f)
+            for w_, v_ in zip(d_.wavelength_air_A, d_.nlte_delta_dex):
+                if v_ == v_:
+                    own[round(float(w_), 3)] = float(v_)
         for w, a_eng in pool.items():
             a_lte = lte[key][w]
             d = a_eng - a_lte
-            #: the SAME bound the band products' own `nlte_delta_dex` is asserted on
-            #: above, and the same SIGN. The old literal was `+0.001` measured on the
-            #: retired pool; MPIA's Fe II departure at the solar node is negative.
-            assert -0.0021 <= d <= -0.0009, f"{key} {w}: ENGINE-A minus 1D-LTE = {d:+.6f}"
+            ref = own.get(round(w, 3), -0.0015)
+            assert abs(d - ref) <= 6e-4, f"{key} {w}: ENGINE-A minus 1D-LTE = {d:+.6f} vs own {ref:+.4f}"
 
 
 def test_the_rya1113_contradiction_is_resolved_by_the_per_line_artifacts():
