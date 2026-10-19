@@ -50,8 +50,15 @@ def units_for(star: str, element: str, *, report: dict,
              for c in report.get("cells", []) if c.get("status") in BUILT}
     out = []
     for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
-        if (rm._band_of(d, star).name_declared, d.holding, d.ion, d.engine_deck,
-                rm.pool_tier(d)) not in built:
+        identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
+                    d.engine_deck, rm.pool_tier(d))
+        # Older run reports represented a published line-set cell as the generic
+        # GRADED selector. Accept that spelling when matching the descriptor's
+        # SET-* selector so artifacts already built by the orchestrator reach the
+        # budget/publication stage. Canonical and deep pools remain exact matches.
+        if identity not in built and not (
+                d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
+                and (*identity[:-1], "GRADED") in built):
             continue
         r = resolve(d, interpreter=interpreter or None, ispec_dir=None)
         step = next(s for s in r.steps if s["name"] == "derive_products")

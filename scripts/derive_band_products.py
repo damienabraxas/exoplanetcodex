@@ -1828,8 +1828,10 @@ def synthesis_route(a, pol) -> None:
             _layers1d = _load_atmosphere(
                 float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
                 float(ctx["vturb"]), model_grid="MARCS.GES")
+            _probe_a = (float(np.mean(gnlte.abundance_axis(a.element)))
+                        if gnlte.has_abundance_axis(a.element) else None)
             _dep = gnlte.for_node(a.element, float(ctx["teff"]), float(ctx["logg"]),
-                                  float(ctx["feh"]))
+                                  float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(_dep, _layers1d)
             # 🔴 THE 1D PAIR, AND WHY IT HAS TO EXIST (RYA-1045).
             # `ENGINE-B-NLTE` runs on MARCS.GES because the deck demands it. The route's
@@ -3233,8 +3235,10 @@ def main() -> None:
             ctx_b["atmosphere_layers_file"] = model3d["path"]
             ctx_b["nlte_deck"] = "gerber" if nlte else None
             ctx_b["nlte_deck_key"] = deck_key if nlte else None
+            _probe_a = (float(np.mean(gnlte.abundance_axis(deck_key)))
+                        if gnlte.has_abundance_axis(deck_key) else None)
             dep = gnlte.for_node(deck_key, float(ctx["teff"]), float(ctx["logg"]),
-                                 float(ctx["feh"]))
+                                 float(ctx["feh"]), abundance=_probe_a)
             # BOTH gates: the depths must pair index-for-index, and the two tau scales
             # must actually be the same scale -- iSpec overwrites the departure tau with
             # the atmosphere's, so a disagreement would be applied silently.
@@ -3311,9 +3315,11 @@ def main() -> None:
                 float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
                 float(ctx["vturb"]), model_grid="MARCS.GES")
             ctx_b["nlte_deck"] = "gerber"
+            _probe_a = (float(np.mean(gnlte.abundance_axis(a.element)))
+                        if gnlte.has_abundance_axis(a.element) else None)
             dep = gnlte.for_node(a.element,
                                  float(ctx["teff"]), float(ctx["logg"]),
-                                 float(ctx["feh"]))
+                                 float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
             # 🔴 RYA-1050 — WINDOW-LOCAL, NOT ELEMENT-GLOBAL.
             # Called without wavelength bounds this asks "is {element} labelled ANYWHERE in
