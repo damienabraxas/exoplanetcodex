@@ -46,8 +46,18 @@ def main() -> int:
         if src in done or not src.exists():
             continue
         done.add(src)
+        #: RYA-1232: the tier is the BUDGET's own (its scope product_key, field 6) -- the
+        #: assembler derives it from the run (GRADED / DEEPGRADED / ALL); a hard-coded ALL gave
+        #: the row a different identity from its budget and the gate quarantined it
+        tier = "ALL"
+        try:
+            import pandas as _pd
+            _u = json.loads(_pd.read_csv(src)["uncertainty"].iloc[0])
+            tier = _u["scope"]["product_key"].split("|")[5] or "ALL"
+        except Exception:                                                  # noqa: BLE001
+            pass
         cmd = [sys.executable, "scripts/publish_product.py", "--from", str(src),
-               "--holding", r["holding"], "--tier", "ALL", "--route", "SYNTH",
+               "--holding", r["holding"], "--tier", tier, "--route", "SYNTH",
                "--element", r["element"], "--star", "solar", "--reason", a.reason]
         if r.get("selector"):
             cmd += ["--selector", r["selector"]]

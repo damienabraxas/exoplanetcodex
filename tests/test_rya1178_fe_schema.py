@@ -85,6 +85,17 @@ def test_a_the_campaign_derivative_refuses_an_unpaired_run(tmp_path):
 #: 🔴 ABSOLUTE, NEVER RELATIVE. Other modules in this suite chdir, so a relative read
 #: passes when this file runs alone and dies in the full run.
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    return json.loads(PRE_RYA1232_FEED.read_text())
+
 FEED = ROOT / "data/products/solar/Fe.json"
 
 
@@ -222,8 +233,9 @@ def test_the_schema_bump_is_additive_only(feed):
         assert not missing, f"/2 dropped {sorted(missing)} from {p['holding']}"
 
 
-def test_ir_products_name_their_irreducible(feed):
+def test_ir_products_name_their_irreducible(pre_feed):
     """RYA-1178 B / RYA-1164 — a wide bar with a stated cause, not a silent one."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     ir = [p for p in feed["products"] if p["band"] == "NIR"]
     # 🔴 10, NOT 6. RYA-1208 added four NIR `synth-1D-LTE-gerber` cells (CRIRES+ y_wide,
     # IAG, KP-molecfit and KP-kurucz2005 — the last of which had no NIR product of any
@@ -261,9 +273,10 @@ def test_ir_products_name_their_irreducible(feed):
     assert got[("solar_kpno_molecfit_corrected", "GRADED", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
 
 
-def test_the_widest_ir_bars_carry_the_most_lines(feed):
+def test_the_widest_ir_bars_carry_the_most_lines(pre_feed):
     """The RCA, asserted: the bar tracks gf quality, not small-n. If this ever inverts,
     'more lines will not fix it' has stopped being true and the note must be re-derived."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     ir = {(p["holding"], p["treatment"]): p for p in feed["products"] if p["band"] == "NIR"}
     disp = lambda k: ir[k]["irreducible_dispersion"]["dispersion_dex"]
 
@@ -308,8 +321,9 @@ def test_every_withdrawn_record_states_why(feed):
             assert any(str(r.get(k) or "").strip() for k in keys), f"{sec} row has no reason"
 
 
-def test_the_mean3d_pair_is_documented_not_silently_identical(feed):
+def test_the_mean3d_pair_is_documented_not_silently_identical(pre_feed):
     """Part 0. The molecfit pair publishes the same A; the record must say why."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     pair = [p for p in feed["products"]
             if p["holding"] == "solar_kpno_molecfit_corrected"
             and "mean3D" in p["treatment"]]

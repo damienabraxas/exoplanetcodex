@@ -171,8 +171,16 @@ def test_no_live_product_carries_the_blanket_any_more():
                 if abs(float(r.get("sigma_syst") or 0)
                        - eb.UNGRADED_GF_SYSTEMATIC_DEX) < 5e-4]
     assert carriers == [], f"still carrying the blanket: {carriers}"
+    #: RYA-1232: a row whose RYA-587 budget prices gf PER LINE cannot carry the blanket, and
+    #: its measured systematic may legitimately exceed 0.17 (near-UV blends, the H-band
+    #: telluric term) -- the size proxy applies to the rows that could still hold it.
+    def _per_line_gf(r):
+        u = r.get("uncertainty") or {}
+        return any(c.get("name") == "transition_data" and c.get("state") == "MEASURED"
+                   for c in u.get("components") or [])
     over = [(r["holding"], r["sigma_syst"]) for r in doc["products"]
-            if float(r.get("sigma_syst_complete") or 0) >= eb.UNGRADED_GF_SYSTEMATIC_DEX]
+            if not _per_line_gf(r)
+            and float(r.get("sigma_syst_complete") or 0) >= eb.UNGRADED_GF_SYSTEMATIC_DEX]
     assert over == [], f"sigma_syst_complete at or above the blanket: {over}"
 
 

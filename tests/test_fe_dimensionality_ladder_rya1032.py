@@ -27,8 +27,18 @@ from rya1032_fe_dimensionality_ladder import (  # noqa: E402
     LadderError, analyse, load_registry, load_rungs, step)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def _rya1032_feed():
+    """RYA-1232 republished the HARPS VIS rungs on full RYA-587 budgets; this file pins
+    RYA-1032's measured ladder, so it reads the frozen pre-RYA-1232 feed."""
+    import rya1032_fe_dimensionality_ladder as L
+    live, L.FEED = L.FEED, ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+    yield
+    L.FEED = live
+
+
 @pytest.fixture(scope="module")
-def a():
+def a(_rya1032_feed):
     return analyse()
 
 

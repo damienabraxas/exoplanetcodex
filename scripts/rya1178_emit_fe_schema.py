@@ -232,6 +232,11 @@ ATLAS = {
     #: here publishes `atlas: null` -- which the RYA-1178 schema guard catches, but only
     #: after the fact. Both strings are copied from this holding's own row in
     #: data/catalog/holdings_manifest_registry.csv, not composed here.
+    "solar_crires_plus_h_rya1232": (
+        "CRIRES+ solar H arm from our seven Vesta IDPs, 14943-17585 A (RYA-1232)",
+        "corrected: ESO molecfit over EVERY H segment (116/116; H2O+CO2+CH4, per-night GDAS), "
+        "rest-frame conditioned 7/7; pixels with transmission < 0.5 not written; known residual "
+        "CH4 at 16656.0 A (~24%)"),
     "solar_crires_plus_h_rya1094": (
         "CRIRES+ Elgueta+2026 solar H arm, 15007.11-17493.69 A (RYA-1094)",
         "corrected: cr2res + molecfit; inherits RYA-794's telluric verdict for the "
@@ -968,9 +973,57 @@ def nlte_capability(prod: dict, models: pd.DataFrame) -> dict | None:
     }
 
 
+def _budget_xi(p: dict) -> dict | None:
+    """RYA-1232: a row carrying an RYA-587 budget measured xi on its OWN pool (paired
+    0.90/1.10 legs, `stellar.xi`). That -- not the band-keyed campaign artifact, whose pool
+    is another run's -- is the row's xi verdict."""
+    u = p.get("uncertainty") or {}
+    c = next((c for c in u.get("components", []) if c.get("name") == "stellar.xi"), None)
+    if not c or c.get("state") != "MEASURED":
+        return None
+    ev = c.get("evidence") or {}
+    floor = xi_min_paired()
+    if (p.get("n_lines") or 0) < floor:
+        #: RYA-1224's floor is the rule at every tier: a pool below min_paired publishes no
+        #: derivative, whatever its own legs returned
+        out = {"xi_state": "UNMEASURED", "sigma_xi": None, "xi_value_kms": 1.0,
+               "xi_note": f"pool of {p.get('n_lines')} lines is below min_paired={floor}: "
+                          "no xi derivative is published (RYA-1224)"}
+        if ev.get("delta_parameter") is not None:
+            out["delta_xi_kms"] = float(ev["delta_parameter"])
+        return out
+    ev = c.get("evidence") or {}
+    out = {"xi_state": "MEASURED", "sigma_xi": round(float(c["sigma_dex"]), 6),
+           "xi_value_kms": 1.0, "xi_source": "RYA-587 budget stellar.xi: paired xi 0.90/1.10 legs on this product's own pool",
+           "xi_note": str(c.get("source") or "")}
+    if ev.get("delta_parameter") is not None:
+        out["delta_xi_kms"] = float(ev["delta_parameter"])
+    if ev.get("dA_dxi") is not None:
+        out["dA_dxi"] = float(ev["dA_dxi"])
+    return out
+
+
+def _rya587_systematic(p: dict) -> None:
+    """RYA-1232: on a row carrying an RYA-587 block the systematic IS the canonical total
+    minus the random term -- sqrt(sigma_reported^2 - sigma_stat^2) -- exactly as the CN route
+    writes it. The run's legacy budgets.txt systematic (which may hold the 0.17 ungraded-gf
+    placeholder the contract replaced) must not ride along as `sigma_syst`."""
+    u = p.get("uncertainty") or {}
+    sr, st = u.get("sigma_reported"), p.get("sigma_stat")
+    if sr is None or st is None:
+        return
+    syst = math.sqrt(max(float(sr) ** 2 - float(st) ** 2, 0.0))
+    #: the schema's split: sigma_syst EXCLUDES xi, sigma_syst_complete = hypot(it, sigma_xi),
+    #: so the xi term enters exactly once (RYA-1178)
+    sx = float(p.get("sigma_xi") or 0.0)
+    p["sigma_syst"] = round(math.sqrt(max(syst ** 2 - sx ** 2, 0.0)), 6)
+    p["sigma_syst_complete"] = round(math.hypot(p["sigma_syst"], sx), 6)
+    p["sigma_syst_components"] = {"rya587_systematic_excl_xi": p["sigma_syst"]}
+
+
 def update_xi_budget(p: dict, idx: dict) -> None:
     """Refresh only the existing xi component and its derived totals in place."""
-    xt = xi_terms(p, idx)
+    xt = _budget_xi(p) or xi_terms(p, idx)
     p.update({k: v for k, v in xt.items() if k != "dA_dxi"})
     if "dA_dxi" in xt:
         p["dA_dxi_dex_per_kms"] = xt["dA_dxi"]
@@ -1003,6 +1056,8 @@ def update_xi_budget(p: dict, idx: dict) -> None:
     #: replace. The xi component itself is still refreshed above -- only the TOTAL defers.
     if "uncertainty" not in p:
         p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    else:
+        _rya587_systematic(p)
     p["sigma_reported_basis"] = (
         "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
         "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
@@ -1071,8 +1126,13 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
             "line_set_for_product -- not stored as an identity field (RYA-1127). Shown "
             "here for readability; the identity key resolves it independently.")
         wr, wr_basis = wavelength_range(p)
-        p["wavelength_range_A"] = wr
-        p["wavelength_range_basis"] = wr_basis
+        #: RYA-1232: a LEGACY row (no RYA-587 `uncertainty` block) keeps the range it was
+        #: published with. Re-deriving it from today's band policy (VIS now opens at 3780 A)
+        #: changed four AGSS21 rows' 3800 -> 3780 with no measurement behind it, and the
+        #: gate then (rightly) refused them as unevidenced changes.
+        if "uncertainty" in p or "wavelength_range_A" not in p:
+            p["wavelength_range_A"] = wr
+            p["wavelength_range_basis"] = wr_basis
         p["generated_at"] = _now()
         p["code_commit"] = _commit()
 

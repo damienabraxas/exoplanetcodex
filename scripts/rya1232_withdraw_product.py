@@ -25,6 +25,8 @@ import publish_product as pp  # noqa: E402
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--element", required=True)
+    ap.add_argument("--key", action="append", default=None,
+                    help="exact product key (publish_product.key_of); repeatable")
     ap.add_argument("--holding")
     ap.add_argument("--selector")
     ap.add_argument("--reason")
@@ -57,8 +59,9 @@ def main() -> int:
         return 0
     path = ROOT / "data/products/solar" / f"{a.element}.json"
     doc = json.loads(path.read_text())
-    hit = [p for p in doc["products"]
-           if p.get("holding") == a.holding and str(p.get("selector")) == a.selector]
+    hit = ([p for p in doc["products"] if pp.key_of(p) in set(a.key)] if a.key else
+           [p for p in doc["products"]
+            if p.get("holding") == a.holding and str(p.get("selector")) == a.selector])
     for p in hit:
         print(f"  {pp.key_of(p)}  A={p.get('A')}")
     if not hit:

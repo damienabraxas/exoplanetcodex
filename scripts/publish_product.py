@@ -650,7 +650,23 @@ def main() -> int:
         #: Read from the BUDGET for the reason the tier gate below gives — it is the
         #: decider's own output — and the label comes from `error_budget`, not a copy of
         #: its text, so rewording the term cannot silently retire this gate.
-        if budget_text and error_budget.carries_ungraded_gf(budget_text):
+        #: RYA-1232 -- a row carrying an RYA-587 `uncertainty` block prices gf per LINE
+        #: (transition_data MEASURED from each line's own canonical_gf sigma); the run's
+        #: legacy budgets.txt blanket never reaches the published sigma, so there is no
+        #: placeholder to refuse. Anything without that block is gated exactly as before.
+        def _rya587_prices_gf_per_line(path) -> bool:
+            try:
+                import pandas as _pd
+                _df = _pd.read_csv(path)
+                if "uncertainty" not in _df.columns:
+                    return False
+                _u = json.loads(_df["uncertainty"].iloc[0])
+                return any(c.get("name") == "transition_data" and c.get("state") == "MEASURED"
+                           for c in _u.get("components", []))
+            except Exception:                                              # noqa: BLE001
+                return False
+        if (budget_text and error_budget.carries_ungraded_gf(budget_text)
+                and not _rya587_prices_gf_per_line(src)):
             rung = re.search(r"gf rung: (.*)", budget_text)
             print(f"REFUSING: {src.name}\n"
                   f"    its budget rests on the {error_budget.UNGRADED_GF_TERM_LABEL!r} "

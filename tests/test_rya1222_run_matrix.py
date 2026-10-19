@@ -234,7 +234,10 @@ def test_the_orchestrator_never_writes_into_the_science_feed(rm):
     feed = json.loads((ROOT / "data" / "products" / "solar" / "Fe.json").read_text())
     previous = copy.deepcopy(feed)
     assert_publication_feed(copy.deepcopy(feed), previous=previous)   # unchanged: passes
-    feed["products"][0]["inputs_hash"] = "HASH"
+    #: RYA-1232: the feed now mixes fully budgeted rows with legacy ones; the retention
+    #: clause this pins is the LEGACY rows', so mutate one of those
+    legacy = next(p for p in feed["products"] if "uncertainty" not in p)
+    legacy["inputs_hash"] = "HASH"
     with pytest.raises(UncertaintyError):
         assert_publication_feed(feed, previous=previous)
     assert not hasattr(rm, "stamp_inputs_hash"), \

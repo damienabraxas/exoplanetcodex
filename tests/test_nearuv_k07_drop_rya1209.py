@@ -12,6 +12,28 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    return json.loads(PRE_RYA1232_FEED.read_text())
+
+
+@pytest.fixture(scope="module")
+def pre_nearuv_fe1(pre_feed):
+    return [p for p in pre_feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"
+            and p["tier"] == "DEEPGRADED"]
+
+
+@pytest.fixture
+def pre_nearuv_fe1_all(pre_feed):
+    return [p for p in pre_feed["products"] if p["band"] == "near-UV" and p["ion"] == "I"]
+
 FEED = ROOT / "data/products/solar/Fe.json"
 REG = ROOT / "data/catalog/line_curation_exclusions.csv"
 K07 = 3721.270
@@ -79,9 +101,10 @@ def test_the_curation_does_not_catch_a_neighbour():
         assert not excluded("Fe I", w), f"{w} must not be curated"
 
 
-def test_all_four_fe_I_products_carry_post_molecular_values(nearuv_fe1):
+def test_all_four_fe_I_products_carry_post_molecular_values(pre_nearuv_fe1):
     """The point of the ticket: RYA-1207 could not publish these. Now they are published,
     and BELOW the pre-molecular values they replaced (7.596/7.606/7.642/7.651)."""
+    nearuv_fe1 = pre_nearuv_fe1  # RYA-1232: this ticket's landed state (frozen feed)
     assert len(nearuv_fe1) == 4
     pre = {"solar_kpno_kurucz2005_corrected": {"1D-LTE": 7.642, "ENGINE-A": 7.651},
            "solar_kpno_molecfit_corrected": {"1D-LTE": 7.596, "ENGINE-A": 7.606}}
@@ -92,11 +115,12 @@ def test_all_four_fe_I_products_carry_post_molecular_values(nearuv_fe1):
             f"{before} — the molecular correction did not reach this product")
 
 
-def test_EVERY_near_uv_fe_I_product_is_below_its_pre_molecular_value(nearuv_fe1_all):
+def test_EVERY_near_uv_fe_I_product_is_below_its_pre_molecular_value(pre_nearuv_fe1_all):
     """RYA-1213 — the molecular correction is a property of the BAND, so it must reach
     every pool measured in it, not only the four this ticket published. The Reference
     rows are a different pool and a different n; what they share with the Deep rows is
     the opacity, and that is what this asserts."""
+    nearuv_fe1_all = pre_nearuv_fe1_all  # RYA-1232: this ticket's landed state (frozen feed)
     #: ⚠️ ONLY THE TREATMENTS THAT HAVE A PRE-MOLECULAR VALUE, AND THE REST ARE REPORTED
     #: RATHER THAN SKIPPED. RYA-1207 measured the atoms-only baseline for 1D-LTE and
     #: ENGINE-A because those were the only near-UV Fe I legs that existed. RYA-1213's
@@ -130,7 +154,8 @@ def test_the_pool_lost_exactly_one_line(nearuv_fe1):
         assert p["n_lines"] in (54, 55), f"unexpected n_lines {p['n_lines']}"
 
 
-def test_every_near_uv_product_states_what_it_now_contains(feed):
+def test_every_near_uv_product_states_what_it_now_contains(pre_feed):
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     n = [p for p in feed["products"] if p["band"] == "near-UV"]
     # 🔴 10, NOT 8. RYA-1208 added the Fe II `synth-1D-LTE-gerber` leg on both near-UV KP
     # holdings. They are Fe II, so the K07 drop this ticket is about does not touch them

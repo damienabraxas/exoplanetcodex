@@ -15,6 +15,17 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    return json.loads(PRE_RYA1232_FEED.read_text())
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -95,8 +106,9 @@ def test_the_pool_is_byte_identical_so_case_a_is_refuted():
         assert d.empty or d.abs().max() < 1e-9
 
 
-def test_rya1168_recorded_the_abundance_it_ran_against_and_it_is_superseded(feed):
+def test_rya1168_recorded_the_abundance_it_ran_against_and_it_is_superseded(pre_feed):
     """The staleness signal is MEASURED, not asserted: entry A vs the product's A today."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     live = {(p["ion"], p["holding"], p["tier"], p["treatment"], p["band"]): p
             for p in feed["products"]}
     for p in json.loads(A1168.read_text())["pools"]:

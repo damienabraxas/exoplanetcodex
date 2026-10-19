@@ -55,6 +55,31 @@ def published():
     return json.loads(FEED.read_text())
 
 
+#: RYA-1232: the live Fe feed now carries full RYA-587 budgets on every product the RYA-1232
+#: input fixes touched, so it holds no legacy row of the shape the xi-LAYER route exists for.
+#: The route still has to hold for legacy rows (other elements, future feeds), so its tests
+#: bind to a FROZEN snapshot of the pre-RYA-1232 feed -- real rows, real shape.
+LEGACY_SNAPSHOT = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def legacy_published():
+    return json.loads(LEGACY_SNAPSHOT.read_text())
+
+
+@pytest.fixture(scope="module")
+def legacy_feed():
+    from rya1178_emit_fe_schema import enrich
+    hold, inst, models, xi_doc = load_sources()
+    out, _ = enrich(json.loads(LEGACY_SNAPSHOT.read_text()), hold, inst, models, xi_doc)
+    return out
+
+
+@pytest.fixture(scope="module")
+def legacy_idx(legacy_feed):
+    return xi_index(load_sources()[3], legacy_feed)
+
+
 @pytest.fixture(scope="module")
 def idx(feed):
     return xi_index(load_sources()[3], feed)
@@ -179,8 +204,14 @@ def test_one_artifact_published_at_two_tiers_gets_one_xi_verdict(feed):
     """🔴 THE DEFECT ITSELF. `provenance.sha256` EQUAL means one CSV, one measurement --
     `line_set_resolved` differs only because RYA-1127 derives it from `tier` at read time.
     Two xi verdicts on one artifact is the inconsistency this ticket exists to remove."""
-    groups = _cross_tier_groups(feed)
-    assert len(groups) >= 18, f"only {len(groups)} cross-tier artifacts — the guard has lost its subject"
+    #: RYA-1232: the live feed publishes every tier from its OWN run, so it holds no artifact
+    #: at two tiers and the invariant is trivially true there. The rule is still checked
+    #: there, and its teeth (the 18-subject control) are proved on the frozen pre-RYA-1232 feed.
+    from rya1178_emit_fe_schema import enrich
+    hold, inst, models, xi_doc = load_sources()
+    snap, _ = enrich(json.loads(LEGACY_SNAPSHOT.read_text()), hold, inst, models, xi_doc)
+    assert len(_cross_tier_groups(snap)) >= 18, "the snapshot control has lost its subject"
+    groups = {**_cross_tier_groups(snap), **_cross_tier_groups(feed)}
     for sha, g in groups.items():
         states = {q["xi_state"] for q in g}
         assert len(states) == 1, (
@@ -205,8 +236,10 @@ def _deep_1dlte(feed):
                 and p["treatment"] == "1D-LTE")
 
 
-def test_the_cross_tier_route_serves_the_real_case(feed, idx):
+def test_the_cross_tier_route_serves_the_real_case(legacy_feed, legacy_idx):
     """The POSITIVE control for scope C, so the three refusals below are not vacuous."""
+    feed = legacy_feed
+    idx = legacy_idx
     e = xi_same_artifact_entry(_deep_1dlte(feed), idx, feed)
     assert e is not None and e["xi_state"] == "MEASURED"
     assert e["_sibling_tier"] == "REFERENCE"
@@ -219,10 +252,12 @@ def test_the_cross_tier_route_serves_the_real_case(feed, idx):
     ("n_excluded", 4, "a different exclusion set is a different pool"),
 ])
 def test_the_cross_tier_route_declines_when_the_two_rows_are_not_one_product(
-        feed, idx, field, value, why):
+        legacy_feed, legacy_idx, field, value, why):
     """🔴 MATCHING NUMBERS IS A PROXY; THE HASH IS THE CLAIM. RYA-1112 has a Fe II cell
     carrying the Fe I anchor's own digits on a different scale, so resemblance has to be
     refused even when the hash agrees."""
+    feed = legacy_feed
+    idx = legacy_idx
     f = copy.deepcopy(feed)
     prod = _deep_1dlte(f)
     sib = next(q for q in f["products"]
@@ -231,8 +266,10 @@ def test_the_cross_tier_route_declines_when_the_two_rows_are_not_one_product(
     assert xi_same_artifact_entry(prod, idx, f) is None, why
 
 
-def test_the_cross_tier_route_declines_on_a_different_artifact(feed, idx):
+def test_the_cross_tier_route_declines_on_a_different_artifact(legacy_feed, legacy_idx):
     """The hash is the gate. Break it and the route must fall through to the campaign."""
+    feed = legacy_feed
+    idx = legacy_idx
     f = copy.deepcopy(feed)
     prod = _deep_1dlte(f)
     for q in f["products"]:
@@ -241,10 +278,12 @@ def test_the_cross_tier_route_declines_on_a_different_artifact(feed, idx):
     assert xi_same_artifact_entry(prod, idx, f) is None
 
 
-def test_the_cross_tier_route_declines_a_partially_paired_pool(feed, idx, monkeypatch):
+def test_the_cross_tier_route_declines_a_partially_paired_pool(legacy_feed, legacy_idx, monkeypatch):
     """🔴 STRICTER THAN THE SAME-TIER PATH, DELIBERATELY. A run that paired only some of
     the pool is the run's own business within its tier; reached ACROSS the tier key it is
     no longer provably this product's derivative, so it is declined."""
+    feed = legacy_feed
+    idx = legacy_idx
     prod = _deep_1dlte(feed)
     band = dict(idx["band"])
     k = next(key for key, e in band.items()
@@ -276,9 +315,11 @@ def test_the_hoisted_disposition_changed_no_live_verdict(feed):
 
 
 # ── scope E: the index contract ───────────────────────────────────────────────
-def test_a_partial_index_is_refused_by_name(feed, idx):
+def test_a_partial_index_is_refused_by_name(legacy_feed, legacy_idx):
     """🔴 A DEFAULT HERE WOULD BE THE VACUOUS-GUARD FAILURE MODE. A caller that hand-rolls
     `{"band": ...}` must not quietly skip the floor and the identity route."""
+    feed = legacy_feed
+    idx = legacy_idx
     with pytest.raises(KeyError, match="min_paired"):
         xi_terms(_deep_1dlte(feed), {"band": idx["band"]})
 
@@ -330,16 +371,18 @@ def test_the_ride_along_list_is_exactly_the_two_clock_fields():
     assert LEGACY_RIDE_ALONG_STAMPS == ("generated_at", "code_commit")
 
 
-def test_a_clock_tick_alone_is_not_a_product_change(published):
+def test_a_clock_tick_alone_is_not_a_product_change(legacy_published):
     """THE POSITIVE CONTROL, and the actual bug: without this the whole feed is refused.
     A guard that only ever refuses proves nothing (RYA-1178)."""
+    published = legacy_published
     doc, prev = _feeds(published, generated_at="2030-01-01T00:00:00Z",
                        code_commit="0" * 40)
     assert_publication_feed(doc, previous=prev)      # must not raise
 
 
-def test_both_clock_fields_are_ignored_individually(published):
+def test_both_clock_fields_are_ignored_individually(legacy_published):
     """Each on its own, so a passing pair cannot hide one field still tripping it."""
+    published = legacy_published
     for field, value in (("generated_at", "2030-01-01T00:00:00Z"),
                          ("code_commit", "0" * 40)):
         doc, prev = _feeds(published, **{field: value})
@@ -369,40 +412,45 @@ def test_both_clock_fields_are_ignored_individually(published):
     ("tier", "REFERENCE", "a re-identified product"),
     ("A", None, "a withdrawn abundance"),
 ])
-def test_a_real_change_still_trips_the_guard(published, field, value, why):
+def test_a_real_change_still_trips_the_guard(legacy_published, field, value, why):
+    published = legacy_published
     doc, prev = _feeds(published, **{field: value})
     with pytest.raises(UncertaintyError, match="refuses incomplete live products"):
         assert_publication_feed(doc, previous=prev)
 
 
-def test_a_real_change_trips_it_even_alongside_a_clock_tick(published):
+def test_a_real_change_trips_it_even_alongside_a_clock_tick(legacy_published):
     """🔴 THE COMBINATION IS THE REALISTIC CASE -- a re-emit ALWAYS ticks the clock, so a
     guard that only catches a lone change would never fire in production."""
+    published = legacy_published
     doc, prev = _feeds(published, A=7.910, generated_at="2030-01-01T00:00:00Z",
                        code_commit="0" * 40)
     with pytest.raises(UncertaintyError, match="refuses incomplete live products"):
         assert_publication_feed(doc, previous=prev)
 
 
-def test_a_brand_new_product_is_never_exempt(published):
+def test_a_brand_new_product_is_never_exempt(legacy_published):
     """The exemption is RETENTION of an existing row, not a blanket pass."""
+    published = legacy_published
     doc, prev = _feeds(published)
     doc["products"][0]["holding"] = "solar_some_new_holding"
     with pytest.raises(UncertaintyError, match="refuses incomplete live products"):
         assert_publication_feed(doc, previous=prev)
 
 
-def test_a_dropped_field_is_a_change_not_a_match(published):
+def test_a_dropped_field_is_a_change_not_a_match(legacy_published):
     """Excluding a field from the comparison is not the same as tolerating its removal."""
+    published = legacy_published
     doc, prev = _feeds(published)
     del doc["products"][0]["sigma_xi"]
     with pytest.raises(UncertaintyError, match="refuses incomplete live products"):
         assert_publication_feed(doc, previous=prev)
 
 
-def test_a_product_claiming_its_own_budget_is_always_checked(published):
+def test_a_product_claiming_its_own_budget_is_always_checked(legacy_published):
     """`"uncertainty" not in product` is half the exemption: a row that DOES claim a
     canonical budget must be validated even if it is otherwise byte-identical to legacy."""
+    published = legacy_published
     doc, prev = _feeds(published, uncertainty={"schema": "not-the-real-one"})
     with pytest.raises(UncertaintyError, match="refuses incomplete live products"):
         assert_publication_feed(doc, previous=prev)
@@ -455,23 +503,26 @@ def _corrected_measured(row, sigma_xi=0.05, dadxi=-0.2):
     return out
 
 
-def test_a_withdrawal_needs_no_artifact_because_nothing_is_claimed(published):
+def test_a_withdrawal_needs_no_artifact_because_nothing_is_claimed(legacy_published):
     """POSITIVE CONTROL 1 -- the ALIASED -> UNMEASURED direction. Evidence is required to
     ASSERT a number, not to stop asserting one; demanding an artifact to withdraw would
     keep the borrowed value live, which is the defect."""
+    published = legacy_published
     was = _legacy_row(published)
     assert xi_layer_correction_problems(_corrected_hold(was), was) == []
 
 
-def test_an_assertion_qualifies_when_it_names_a_resolvable_artifact(published):
+def test_an_assertion_qualifies_when_it_names_a_resolvable_artifact(legacy_published):
     """POSITIVE CONTROL 2 -- the ALIASED -> MEASURED direction."""
+    published = legacy_published
     was = _legacy_row(published)
     assert xi_layer_correction_problems(_corrected_measured(was), was) == []
 
 
-def test_the_route_has_no_opinion_on_a_change_outside_the_xi_layer(published):
+def test_the_route_has_no_opinion_on_a_change_outside_the_xi_layer(legacy_published):
     """🔴 `None`, NOT `[]`. The route must DECLINE to judge a non-xi change so the full
     contract still decides it -- returning `[]` there would be a blanket pass."""
+    published = legacy_published
     was = _legacy_row(published)
     for field, value in (("A", 7.910), ("n_lines", 7), ("n_excluded", 1),
                          ("grade", "Reference Grade"), ("sigma_stat", 0.9),
@@ -481,8 +532,9 @@ def test_the_route_has_no_opinion_on_a_change_outside_the_xi_layer(published):
         assert xi_layer_correction_problems(now, was) is None, field
 
 
-def test_an_identical_row_is_not_an_xi_correction(published):
+def test_an_identical_row_is_not_an_xi_correction(legacy_published):
     """No change at all is the plain legacy exemption's business, not this route's."""
+    published = legacy_published
     was = _legacy_row(published)
     assert xi_layer_correction_problems(copy.deepcopy(was), was) is None
 
@@ -496,7 +548,8 @@ def test_an_identical_row_is_not_an_xi_correction(published):
     (lambda r: r.update(sigma_reported=0.5), "not quadrature(sigma_stat"),
     (lambda r: r.update(sigma_syst_complete=0.5), "not quadrature(sigma_syst, sigma_xi)"),
 ])
-def test_an_unevidenced_assertion_is_refused(published, break_it, expect):
+def test_an_unevidenced_assertion_is_refused(legacy_published, break_it, expect):
+    published = legacy_published
     was = _legacy_row(published)
     now = _corrected_measured(was)
     break_it(now)
@@ -505,9 +558,10 @@ def test_an_unevidenced_assertion_is_refused(published, break_it, expect):
     assert any(expect in p for p in problems), problems
 
 
-def test_a_hold_that_keeps_the_borrowed_number_is_refused(published):
+def test_a_hold_that_keeps_the_borrowed_number_is_refused(legacy_published):
     """🔴 THE RYA-1224 DEFECT ITSELF, as a refusal: the honest label with the dishonest
     number still attached. `update_xi_budget` really did leave this behind."""
+    published = legacy_published
     was = _legacy_row(published)
     now = _corrected_hold(was)
     now["dA_dxi_dex_per_kms"] = -0.245          # the borrowed float, left readable
@@ -515,7 +569,8 @@ def test_a_hold_that_keeps_the_borrowed_number_is_refused(published):
     assert any("readable dA_dxi_dex_per_kms" in p for p in problems), problems
 
 
-def test_a_hold_may_not_claim_to_be_measured(published):
+def test_a_hold_may_not_claim_to_be_measured(legacy_published):
+    published = legacy_published
     was = _legacy_row(published)
     now = _corrected_hold(was)
     now["xi_state"] = "MEASURED"
@@ -523,12 +578,13 @@ def test_a_hold_may_not_claim_to_be_measured(published):
     assert any("not a hold" in p for p in problems), problems
 
 
-def test_the_immutable_fields_are_checked_BY_NAME_not_only_by_the_subset(published,
+def test_the_immutable_fields_are_checked_BY_NAME_not_only_by_the_subset(legacy_published,
                                                                          monkeypatch):
     """🔴 THE SECOND LINE OF DEFENCE, MUTATION-TESTED. `A` is outside `XI_LAYER_FIELDS`, so
     the subset test already stops it and the by-name check is unreachable today -- which is
     exactly why it must be proven live. Widen the layer to include `A` (the plausible
     future mistake) and the named RYA-161 check must still refuse."""
+    published = legacy_published
     was = _legacy_row(published)
     now = _corrected_hold(was)
     now["A"] = round(was["A"] + 0.001, 6)
@@ -545,8 +601,9 @@ def test_the_xi_layer_list_never_contains_a_firewall_field():
     assert XI_IMMUTABLE_FIELDS == ("A", "n_lines", "n_excluded")
 
 
-def test_end_to_end_an_xi_correction_writes_and_an_A_nudge_does_not(published):
+def test_end_to_end_an_xi_correction_writes_and_an_A_nudge_does_not(legacy_published):
     """The route through the real gate, both directions."""
+    published = legacy_published
     was = _legacy_row(published)
     assert_publication_feed({"products": [_corrected_hold(was)]},
                             previous={"products": [was]})        # must not raise
@@ -556,9 +613,10 @@ def test_end_to_end_an_xi_correction_writes_and_an_A_nudge_does_not(published):
         assert_publication_feed({"products": [bad]}, previous={"products": [was]})
 
 
-def test_a_refused_xi_correction_says_it_was_the_xi_route_that_refused(published):
+def test_a_refused_xi_correction_says_it_was_the_xi_route_that_refused(legacy_published):
     """Diagnostics: a row that tried this route and failed must not be reported as though
     it had simply never had a budget."""
+    published = legacy_published
     was = _legacy_row(published)
     now = _corrected_measured(was)
     now["xi_source"] = "data/results/rya1213/no_such_file.json"
@@ -566,10 +624,11 @@ def test_a_refused_xi_correction_says_it_was_the_xi_route_that_refused(published
         assert_publication_feed({"products": [now]}, previous={"products": [was]})
 
 
-def test_an_ambiguous_predecessor_disqualifies_the_route(published):
+def test_an_ambiguous_predecessor_disqualifies_the_route(legacy_published):
     """🔴 NO UNIQUE PREDECESSOR, NO ROUTE. Two legacy rows on one identity key means the
     correction cannot be attributed, and picking one is the neighbour-matching error
     RYA-1206 exists to refuse."""
+    published = legacy_published
     was = _legacy_row(published)
     twin = copy.deepcopy(was)
     twin["sigma_stat"] = 0.999          # same identity key, different content
@@ -578,12 +637,13 @@ def test_an_ambiguous_predecessor_disqualifies_the_route(published):
                                 previous={"products": [was, twin]})
 
 
-def test_a_prose_only_note_change_is_permitted_on_an_evidenced_row(published):
+def test_a_prose_only_note_change_is_permitted_on_an_evidenced_row(legacy_published):
     """🔴 DOCUMENTED, NOT ACCIDENTAL. This is what let the five already-held rows recover the
     run attribution the floor had swallowed. It is the ONLY xi-layer change the route accepts
     with nothing else moving -- and it is still gated: the row must keep a resolvable
     `xi_source`, a readable derivative, and sigma arithmetic that recomputes. A note is prose;
     every number in the row is checked."""
+    published = legacy_published
     was = _legacy_row(published)
     now = copy.deepcopy(was)
     now["xi_note"] = was["xi_note"] + " (attribution restored)"
@@ -591,8 +651,9 @@ def test_a_prose_only_note_change_is_permitted_on_an_evidenced_row(published):
     assert_publication_feed({"products": [now]}, previous={"products": [was]})
 
 
-def test_a_note_change_does_not_carry_a_broken_number_with_it(published):
+def test_a_note_change_does_not_carry_a_broken_number_with_it(legacy_published):
     """The companion refusal: prose is permitted, prose PLUS a silent number is not."""
+    published = legacy_published
     was = _legacy_row(published)
     now = copy.deepcopy(was)
     now["xi_note"] = "reworded"
