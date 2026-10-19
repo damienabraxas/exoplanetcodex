@@ -84,3 +84,16 @@ sets:
     citation: "Asplund 2021 -> Nordlander & Lind 2017 (A&A 607, A75) Table A.1, the six lines used (Scott et al. 2015b selection)"
     gf_basis: "the gf the authors used (Nordlander & Lind 2017 Table A.1, per-line sigma)"
     solar_literature: true
+
+  - name: FE_AGSS21
+    element: Fe
+    source: data/reference/asplund2021_fe/fe_agss21_lines.csv
+    where: {reference_status: used}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: asplund2021
+    doi: 10.1051/0004-6361/202140445
+    citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.2: 40 Fe I + 13 Fe II lines; resolved to canonical_gf on lambda (0.05 A, half the printed 0.1 A) AND EP (0.02 eV) by pipeline.reference_lineset"
+    gf_basis: "the gf the authors used (Den Hartog+2014, Belmonte+2017 and the Oxford/Hannover/Wisconsin values Scott+2015a adopted; Table A.2 prints no per-line gf source)"
+    solar_literature: true

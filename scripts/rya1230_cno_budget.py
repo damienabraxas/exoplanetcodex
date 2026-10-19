@@ -472,7 +472,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 unstable.pop(_w)
     else:
         tell_excluded = {}
-    if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
+    #: RYA-1232 (Ryan): Fe has hundreds of lines -- a leg-unstable Fe line is simply dropped,
+    #: whatever the count; the 5% cap that HOLDS the product protects scarce-line elements.
+    _fe = str(prod["element"].iloc[0]) == "Fe"
+    if unstable and (_fe or len(unstable) <= max(1, int(0.05 * n))) and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
