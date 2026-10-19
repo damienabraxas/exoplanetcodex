@@ -12,6 +12,8 @@ def test_cited_mgii_differences_use_marcs_lte_baseline():
     assert tab.deltas('Mg','I',waves,'3D',star='solar') == {}
     assert tab.deltas('Mg','II',waves,'3D',star='procyon') == {}
     assert tab.deltas('Mg','II',[7877.5],'3D',star='solar') == {}
+    assert tab.model('Mg', 'II', star='solar') == 'amarsi'
+    assert 'CITED solar 3D-NLTE' in tab.source('Mg', 'II', '3D', star='solar')
 
 
 def report():
