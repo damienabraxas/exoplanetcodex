@@ -13,6 +13,12 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -96,7 +102,7 @@ def test_a_raw_merge_imitates_a_moved_pool_and_that_is_why_the_helper_is_used():
 
 def test_the_slope_was_measured_not_adopted_from_the_reference_tier(art):
     """The ticket forbids same-pool adoption for Fe I; prove the number is not REFERENCE's."""
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads((PRE_RYA1232_FEED).read_text())
     ref = {(p["holding"], p["treatment"]): p.get("dA_dxi_dex_per_kms")
            for p in feed["products"]
            if p["band"] == "near-UV" and p["ion"] == "I" and p["tier"] == "REFERENCE"}
@@ -113,7 +119,7 @@ def test_the_run_is_recorded_as_post_molecular_with_its_provenance(art):
 
 
 def test_no_abundance_moved(art):
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads((PRE_RYA1232_FEED).read_text())
     live = {(p["ion"], p["holding"], p["tier"], p["treatment"], p["band"]): p["A"]
             for p in feed["products"]}
     for r in art["pools"]:

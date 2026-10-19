@@ -16,6 +16,12 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 if str(ROOT / "scripts") not in sys.path:
@@ -191,10 +197,12 @@ def test_the_bar_is_dominated_by_bounds_and_that_is_stated_not_hidden():
     assert pew["sigma_dex"] ** 2 / total > 0.40
 
 
-def test_stellar_xi_carries_real_perturbation_evidence_and_a_measured_asymmetry():
+def test_stellar_xi_carries_real_perturbation_evidence_and_a_measured_asymmetry(monkeypatch):
     """A derived response is not a perturbation -- the contract says so and it is right."""
     import rya1226_migrate_nearuv_budget as M
     feed = json.loads(RYA1226_FEED.read_text())
+    #: the builder's holding spread reads the feed it migrated (RYA-1232 withdrew those rows)
+    monkeypatch.setattr(M, "FEED_PRODUCTS", feed["products"])
     p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "I"
              and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
              and x["holding"] == KUR)

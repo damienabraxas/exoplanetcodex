@@ -24,6 +24,20 @@ import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    from rya1178_emit_fe_schema import enrich
+    hold, inst, models_df, xi_doc = load_sources()
+    out, _ = enrich(json.loads(PRE_RYA1232_FEED.read_text()), hold, inst, models_df, xi_doc)
+    return out
+
 FEED = ROOT / "data/products/solar/Fe.json"
 ARTIFACT = ROOT / "data/results/rya1227/codex_deep_xi_dadxi.json"
 sys.path.insert(0, str(ROOT))
@@ -188,9 +202,10 @@ def test_the_band_key_is_unique_across_every_band_run():
     assert idx, "the band index is empty"
 
 
-def test_every_artifact_pool_reaches_a_real_product(artifact, feed):
+def test_every_artifact_pool_reaches_a_real_product(artifact, pre_feed):
     """No orphan derivative: a measured pool with no product is a pool measured for
     nothing, and usually means the selector did not match the published cell."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     live = {(p["ion"], p["holding"], p["tier"], p["treatment"], p["band"])
             for p in feed["products"]}
     for p in artifact["pools"]:
@@ -198,10 +213,11 @@ def test_every_artifact_pool_reaches_a_real_product(artifact, feed):
         assert key in live, f"the artifact measures a pool with no product: {key}"
 
 
-def test_each_artifact_pool_actually_serves_its_product(artifact, feed):
+def test_each_artifact_pool_actually_serves_its_product(artifact, pre_feed):
     """And the reverse direction: the product must end up MEASURED from this run, with the
     artifact's own sigma. A derivative that reaches the index but loses a precedence
     contest would leave the cell exactly as unfixed as before."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     by_key = {(p["ion"], p["holding"], p["tier"], p["treatment"], p["band"]): p
               for p in feed["products"]}
     for pool in artifact["pools"]:

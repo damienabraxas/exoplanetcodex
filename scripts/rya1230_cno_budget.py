@@ -337,6 +337,8 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 # ── one product ────────────────────────────────────────────────────────────────
 FEATURE_A = 0.5
+#: a +0.1% continuum change moves a physical line by ~0.001-0.01 dex; above this it is a flip
+LEG_FLIP_DEX = 0.05
 
 
 def _near(waves, pool, tol: float = 1e-3):
@@ -434,6 +436,42 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                                       _L.get("excluded_reason", pd.Series([""] * len(_L))))}
         for _w in set(acc["wavelength_air_A"].round(3)) - _ok:
             unstable.setdefault(float(_w), []).append(f"{_lg}: {str(_all.get(_w, ''))[:90]}")
+    #: 🔴 RYA-1232 -- TELLURIC-CONTAMINATED Fe LINES ARE NOT USED (Asplund+2021 practice:
+    #: a line is excluded "due to telluric contamination"). A line whose fit JUMPS under the
+    #: +0.1% continuum leg (|dA| > LEG_FLIP_DEX, where a stable line moves 0.005-0.02) AND sits
+    #: on a nonzero telluric residual cannot be priced: its dA/df is a jump, not a derivative,
+    #: and multiplied by the residual it gave Fe I 7664.16 (O2 A band) a 21 dex per-line sigma
+    #: and 0.61 dex products. Fe only -- Fe has hundreds of lines; scarce-line elements (C/N/O,
+    #: Al) are judged line by line on their goodness of fit instead (Elgueta+2026). Recorded,
+    #: and outside the 5% leg-rejection cap below: this is line selection, not a moving pool.
+    tell_excluded = {}
+    _cs = _leg_lines(unit_dir / "cscale", lines_stem)
+    if _cs is not None and str(prod["element"].iloc[0]) == "Fe":
+        _csv = {round(float(w), 3): float(v) for w, v in zip(_cs["wavelength_air_A"], _cs["abundance"])
+                if pd.notna(v)}
+        _band = str(prod["band"].iloc[0])
+        _hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[_band].half_width_A))
+        for w, v in zip(acc["wavelength_air_A"], acc["abundance"].astype(float)):
+            dv = _csv.get(round(float(w), 3))
+            if dv is None or abs(dv - v) <= LEG_FLIP_DEX:
+                continue
+            try:
+                ev = telluric_line(_arg(unit_args, "--instrument"), _arg(unit_args, "--holding"), float(w),
+                                   _hw, float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi")))
+            except Exception:                                            # noqa: BLE001
+                continue
+            if (ev.get("residual_flux") or 0) > 0:
+                tell_excluded[float(round(float(w), 3))] = (
+                    f"telluric-contaminated: residual {ev['residual_flux']:.4f} under the line and "
+                    f"the fit jumps {dv - v:+.3f} dex under a +0.1% continuum change")
+    if tell_excluded and n - len(tell_excluded) >= 2:
+        acc = acc[~_near(acc["wavelength_air_A"], list(tell_excluded))]
+        n = len(acc)
+        for _w in list(unstable):
+            if _w in tell_excluded:
+                unstable.pop(_w)
+    else:
+        tell_excluded = {}
     if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
@@ -441,8 +479,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         restat = {"A": round(float(_ab.median()), 3),
                   "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4),
                   "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
+    elif tell_excluded:
+        _ab = acc["abundance"].astype(float)
+        restat = {"A": round(float(_ab.median()), 3),
+                  "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4), "n_lines": n,
+                  "leg_unstable": {}}
     else:
         restat = None
+    if restat is not None and tell_excluded:
+        restat["leg_unstable"] = {**restat.get("leg_unstable", {}),
+                                  **{f"{k:.3f}": [v] for k, v in tell_excluded.items()}}
     # 🔴 RYA-1232 -- RESOLVED FEATURES. Fine-structure components closer than FEATURE_A are
     # fitted in overlapping windows that all see the same blend, so they are ONE measurement
     # (O I 844.6: 8.544/8.544/8.545 entered as three lines, faked n=6 and set the median

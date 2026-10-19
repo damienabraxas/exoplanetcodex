@@ -17,6 +17,12 @@ import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
 R = ROOT / "data/results/rya1191"
 DOC_A = R / "rya1191_graded_line_telluric.json"
 CSV_A = R / "rya1191_graded_line_telluric.csv"
@@ -678,8 +684,8 @@ def test_the_irreducible_dispersion_note_no_longer_rests_on_a_bad_fit():
     Guarded it is 0.144 at n=6 — indistinguishable from CRIRES+'s 0.138, so the ~6x ratio
     was that single line."""
     import json as _json
-    feed = _json.loads((ROOT / "data/products/solar/Fe.json").read_text())
-    raw = (ROOT / "data/products/solar/Fe.json").read_text()
+    feed = _json.loads((PRE_RYA1232_FEED).read_text())
+    raw = (PRE_RYA1232_FEED).read_text()
     assert "IRREDUCIBLE under the current NIR line list. It tracks gf QUALITY" not in raw, (
         "the refuted claim is back in the feed")
     # 🔴 COUNTED OVER THE LIVE PRODUCTS, NOT THE RAW FILE, AND NOW 10 NOT 6.

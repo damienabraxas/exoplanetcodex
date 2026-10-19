@@ -1003,6 +1003,21 @@ def _budget_xi(p: dict) -> dict | None:
     return out
 
 
+def _rya587_systematic(p: dict) -> None:
+    """RYA-1232: on a row carrying an RYA-587 block the systematic IS the canonical total
+    minus the random term -- sqrt(sigma_reported^2 - sigma_stat^2) -- exactly as the CN route
+    writes it. The run's legacy budgets.txt systematic (which may hold the 0.17 ungraded-gf
+    placeholder the contract replaced) must not ride along as `sigma_syst`."""
+    u = p.get("uncertainty") or {}
+    sr, st = u.get("sigma_reported"), p.get("sigma_stat")
+    if sr is None or st is None:
+        return
+    syst = round(math.sqrt(max(float(sr) ** 2 - float(st) ** 2, 0.0)), 6)
+    p["sigma_syst"] = syst
+    p["sigma_syst_complete"] = syst
+    p["sigma_syst_components"] = {"rya587_systematic": syst}
+
+
 def update_xi_budget(p: dict, idx: dict) -> None:
     """Refresh only the existing xi component and its derived totals in place."""
     xt = _budget_xi(p) or xi_terms(p, idx)
@@ -1038,6 +1053,8 @@ def update_xi_budget(p: dict, idx: dict) -> None:
     #: replace. The xi component itself is still refreshed above -- only the TOTAL defers.
     if "uncertainty" not in p:
         p["sigma_reported"] = round(math.sqrt(sum(t * t for t in got)), 6) if got else None
+    else:
+        _rya587_systematic(p)
     p["sigma_reported_basis"] = (
         "quadrature(sigma_stat, sigma_syst_complete) where sigma_syst_complete = "
         "quadrature(published sigma_syst, sigma_xi). sigma_xi enters ONCE, through "
