@@ -214,6 +214,26 @@ def star_graded_csv(row: dict, star: str) -> str:
     return base
 
 
+def set_derivation_csv(row: dict, star: str) -> str:
+    """The declared source file used to derive a published reference set.
+
+    Grading is a publication and uncertainty decision, not a prerequisite for
+    evaluating the cited line set.  In particular, a literature set can carry
+    exact source gf values while its per-line uncertainty audit is incomplete.
+    Derivation must still see those declared lines so cited NLTE/3D corrections
+    can be emitted; the error budget keeps the resulting product held until the
+    gf rung is resolved.
+    """
+    # A complete graded set keeps its existing star-specific cull.  When the
+    # literature selection is only partially gradeable, retain every declared
+    # source line so the cited model correction is still evaluated and the
+    # unresolved gf term is handled by the final budget.
+    if (str(row.get("solar_literature", "")).lower() == "true"
+            and int(row.get("n_graded", 0) or 0) < int(row.get("n_lines", 0) or 0)):
+        return row["csv"]
+    return star_graded_csv(row, star)
+
+
 def line_set(name: str, element: str, ion: str) -> dict | None:
     """The registry row of a published line set FOR THIS SPECIES, or None.
 
@@ -416,10 +436,11 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
             if blocked is None:
                 blocked = why
         else:
-            # Step 7: the set's GRADED lines only -- a line with no published gf uncertainty
-            # is not measured (RYA-1233; the set file keeps every published line).
+            # The set's declared source lines are the derivation input.  A missing
+            # published gf uncertainty is charged by the final budget; it must not
+            # suppress cited model corrections before that budget is assembled.
             pool_args = ["--lines-from-set",
-                         f"{_name}={star_graded_csv(_row, descriptor.star)}"]
+                         f"{_name}={set_derivation_csv(_row, descriptor.star)}"]
     elif descriptor.pool is not None:
         spec = POOLS.get(descriptor.pool)
         if spec is None or method not in spec["methods"]:

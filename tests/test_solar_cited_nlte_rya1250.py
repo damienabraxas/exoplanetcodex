@@ -123,7 +123,16 @@ def test_declared_but_ungraded_reference_selection_remains_visible():
     cells=rm.expand('solar','Mg',ions=['I'],engines=['ts-lte'],methods=['synthesis'],pools=['set'])
     vis=[d for d in cells if d.lo_A < 6318 < d.hi_A]
     assert vis, 'The eight declared Mg I features must not disappear from coverage'
-    assert all('no gf-graded line' in rm.cell_process_hold(d) for d in vis)
+    # Derivation is allowed from the declared literature selection.  The missing
+    # per-line gf uncertainty remains a final uncertainty/publication hold.
+    assert all(rm.cell_process_hold(d) == '' for d in vis)
+
+
+def test_incomplete_asplund_ion_set_derives_from_all_declared_lines():
+    from pipeline.run_descriptor import line_set, set_derivation_csv
+    row = line_set("MG_AGSS21", "Mg", "II")
+    assert set_derivation_csv(row, "solar").endswith(
+        "data/reference/line_sets/mg_agss21_MgII.csv")
 
 
 def test_budget_pairs_use_the_declared_statistic_on_paired_lines():

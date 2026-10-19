@@ -554,8 +554,13 @@ def cell_process_hold(d: RunDescriptor) -> str:
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
         name = d.pool[len(SET_POOL_PREFIX):]
         rows = [r for r in line_sets_for(d.element, d.ion, d.star) if r['set_name'] == name]
-        if not any(d.lo_A <= w <= d.hi_A for r in rows for w in r['waves']):
-            return f'PROCESS step 7: published set {name} has no gf-graded line in this window'
+        # The declared reference selection is sufficient to derive cited model
+        # corrections.  gf grading is evaluated later by the uncertainty budget;
+        # using the graded/cull file here incorrectly prevents 3D-NLTE artifacts
+        # from being emitted for a valid literature line set.
+        if not any(d.lo_A <= w <= d.hi_A
+                   for r in rows for w in r.get('coverage_waves', r['waves'])):
+            return f'PROCESS step 6: published set {name} has no declared line in this window'
         return ""
     w, masks = _canonical_species(d.element, d.ion)
     graded = masks["reference" if d.pool == "reference" else "graded"]
@@ -1003,13 +1008,16 @@ def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
             with reg.open(newline="", encoding="utf-8") as fh:
                 for r in csv.DictReader(fh):
                     if r["element"] == symbol and r["ion"] == ion:
-                        # Step 7: a set reaches a cell only through its GRADED lines.
+                        # Keep the graded wavelengths for publication diagnostics, but
+                        # retain the complete declared selection for derivation.
                         with (ROOT / star_graded_csv(r, star)).open(
                                 newline="", encoding="utf-8") as g:
                             r["waves"] = [float(x["wavelength_air_A"]) for x in csv.DictReader(g)]
-                        # Coverage owes the declared selection even when no line can
-                        # yet enter a graded product. Such cells get an explicit hold.
-                        if star == 'solar' and str(r.get('solar_literature')).lower() == 'true':
+                        # Incomplete literature sets owe derivation their complete
+                        # declared selection. Complete sets retain their star-specific
+                        # cull; final publication remains gated by the gf rung.
+                        if (str(r.get('solar_literature')).lower() == 'true'
+                                and int(r.get('n_graded', 0) or 0) < int(r.get('n_lines', 0) or 0)):
                             with (ROOT / r['csv']).open(newline='', encoding='utf-8') as g:
                                 r['coverage_waves'] = [float(x['wavelength_air_A']) for x in csv.DictReader(g)]
                         rows.append(r)
