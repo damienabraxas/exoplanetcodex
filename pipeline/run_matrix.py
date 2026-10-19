@@ -523,7 +523,14 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
         return (row.get('species') == f'{d.element} {d.ion}'
                 and d.lo_A <= float(row['wavelength_A']) <= d.hi_A)
     for kind in ('nlte_missing', 'adopt', 'cull_candidates', 'missing_lines'):
-        if any(relevant(r) for r in report[kind]):
+        rows = report[kind]
+        if kind == 'missing_lines':
+            # An Asplund line whose gf uncertainty is unresolved is still a
+            # declared measurement line.  It belongs in the abundance/3D-NLTE
+            # derivation and becomes an uncertainty/publication hold later.
+            rows = [r for r in rows
+                    if 'no resolved gf uncertainty' not in str(r.get('add_refused', '')).lower()]
+        if any(relevant(r) for r in rows):
             return f'PROCESS step 7: {kind} in this species/window'
     if any(not r.get('ok', False) and r.get('holding') == d.holding for r in report['holdings']):
         return 'PROCESS step 4: holding frame unresolved'

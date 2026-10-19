@@ -32,6 +32,16 @@ def test_ir_or_other_ion_hold_does_not_block_prepared_optical_cell():
     assert preparation_hold_for_cell(report(),d) == ''
 
 
+def test_unresolved_gf_line_is_not_a_measurement_blocker():
+    from pipeline import run_matrix as rm
+    r = report()
+    r['missing_lines'] = [dict(species='Mg I', wavelength_A=9983.2,
+                               add_refused='Published line has no resolved gf uncertainty')]
+    d = SimpleNamespace(element='Mg', ion='I', lo_A=9900, hi_A=10100,
+                        holding='h', method='synthesis', pool='set:MG_AGSS21')
+    assert rm.preparation_hold_for_cell(r, d) == ''
+
+
 def test_pending_adoption_and_unknown_reports_still_block():
     d=SimpleNamespace(element='Mg',ion='II',lo_A=7000,hi_A=9500,holding='h')
     r=report();r['adopt']=[{'species':'Mg II','wavelength_A':7877.}]
