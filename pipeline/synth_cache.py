@@ -104,6 +104,17 @@ def install() -> bool:
         tmp = kw.pop("tmp_dir", None)
         if tmp:
             _SCRATCH.add(str(tmp))
+        # NLTE departures (Gerber decks): the tuple carries the trial abundance as a STAMP
+        # that bsyn checks against the synthesis abundance (gerber_nlte.coefficients). For a
+        # deck with ONE A(X) node (Fe) the coefficients are node-fixed, so the stamp is
+        # restamped per grid node and the key ignores it. A deck WITH an abundance axis has
+        # coefficients that depend on A: the cache steps aside and synthesises directly.
+        nd = kw.get("nlte_departures")
+        if nd:
+            from pipeline import gerber_nlte as _gn
+            if any(_gn.has_abundance_axis(el) for el in nd):
+                return orig(*a, **k)
+            kw["nlte_departures"] = {el: tuple(t[:5]) + (None,) + tuple(t[6:]) for el, t in nd.items()}
         lo = np.floor((w.min() - PAD_NM) / 0.01) * 0.01
         hi = np.ceil((w.max() + PAD_NM) / 0.01) * 0.01
         fine = np.arange(lo, hi + FINE_NM / 2, FINE_NM)
@@ -116,7 +127,11 @@ def install() -> bool:
                 with f.open("rb") as fh:
                     return pickle.load(fh)
             extra = {"tmp_dir": tmp} if tmp is not None else {}
-            flux = orig(fine, trial_A=float(a_), R=0, **kw, **extra)
+            kw_ = dict(kw)
+            if kw_.get("nlte_departures"):
+                kw_["nlte_departures"] = {el: tuple(t[:5]) + (float(a_),) + tuple(t[6:])
+                                          for el, t in kw_["nlte_departures"].items()}
+            flux = orig(fine, trial_A=float(a_), R=0, **kw_, **extra)
             STATS["synth"] += 1
             fd, tp = tempfile.mkstemp(dir=d, suffix=".tmp")
             with os.fdopen(fd, "wb") as fh:

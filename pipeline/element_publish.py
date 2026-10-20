@@ -89,7 +89,8 @@ def _identity(row: dict) -> tuple:
 
 
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str) -> list[str]:
+                         held: list, why: str, started: str,
+                         scope: set | None = None) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -117,8 +118,15 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     # live; the current run's verdict is the one that stands, so that record goes too.
     quarantined_now = {pp.key_of(q): q for q in doc.get("quarantine") or []
                        if (q.get("quarantined_at") or "") >= started}
+    #: 🔴 RYA-1232: ONLY cells this run BUILT can be superseded by it. Fe (scoped to the
+    #: published line set, Ryan 2026-10-19) withdrew 145 live products -- every Codex/Deep row,
+    #: the lab-REFERENCE rows and the Fe anchor itself -- because they were "not republished"
+    #: by a run that never measured them. `scope` = {(band, holding, ion, pool tier)} of the
+    #: run's built cells; a product outside it is not this run's to withdraw.
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
+            and (scope is None or (str(p.get("band")), str(p.get("holding")), str(p.get("ion")),
+                                   str(p.get("selector"))) in scope)
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
     if not gone:
         return []
@@ -321,8 +329,15 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
+    # ...and only pools this stage budgets (`units_for`: set / codex / deep). The lab-only
+    # `reference` pool is built by the matrix but never budgeted here, so nothing of it is
+    # republished -- it must never be withdrawn by this stage either.
+    scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""))
+             for c in report.get("cells", []) if c.get("status") in BUILT
+             and str(c.get("pool") or "") != "REFERENCE"}
     summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started)
+                                                held=summary["held"], why=why, started=started,
+                                                scope=scope)
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict
