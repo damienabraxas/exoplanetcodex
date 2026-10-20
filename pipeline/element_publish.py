@@ -226,7 +226,33 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     prev = work / "units.prev.txt"
     if prev.exists() and prev.read_text() != sig:
         import shutil
-        shutil.rmtree(legs, ignore_errors=True)
+        old = prev.read_text().splitlines()
+        new = sig.splitlines()
+        old_units = [l for l in old if l and not l.startswith("# ")]
+        new_units = [l for l in new if l and not l.startswith("# ")]
+        old_hash = {l for l in old if l.startswith("# ")}
+        new_hash = {l for l in new if l.startswith("# ")}
+        if old_hash <= new_hash and legs.exists():
+            # RYA-1232: the unit list GREW and no recorded input changed -- every unit that
+            # still has the identical command keeps its finished legs (re-indexed to its new
+            # position); only genuinely new units run. Wiping all 181 legs to add cells is
+            # what this replaces.
+            stash = legs.parent / "legs.reindex"
+            shutil.rmtree(stash, ignore_errors=True)
+            legs.rename(stash)
+            legs.mkdir(parents=True, exist_ok=True)
+            pos = {u: i for i, u in enumerate(old_units)}
+            kept = 0
+            for j, u in enumerate(new_units):
+                i = pos.get(u)
+                src = stash / f"unit{i:02d}" if i is not None else None
+                if src is not None and src.exists():
+                    src.rename(legs / f"unit{j:02d}")
+                    kept += 1
+            shutil.rmtree(stash, ignore_errors=True)
+            print(f"budget legs: kept {kept} unit(s) unchanged, {len(new_units) - kept} new")
+        else:
+            shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is

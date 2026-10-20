@@ -43,6 +43,9 @@ STEP_A = 0.05            # dex between abundance nodes
 FINE_NM = 0.0002         # 0.002 A synthesis grid
 PAD_NM = 0.02            # grid margin beyond the caller's window
 STATS = {"calls": 0, "synth": 0}
+#: per-process synthesis scratch dirs seen by the cache; removed at exit (RYA-1232: 2,039 of
+#: them, 50 GB, filled the Mac's disk mid-run)
+_SCRATCH: set = set()
 _INSTALLED = False
 
 
@@ -99,6 +102,8 @@ def install() -> bool:
         trial = float(kw.pop("trial_A"))
         R = kw.pop("R")
         tmp = kw.pop("tmp_dir", None)
+        if tmp:
+            _SCRATCH.add(str(tmp))
         lo = np.floor((w.min() - PAD_NM) / 0.01) * 0.01
         hi = np.ceil((w.max() + PAD_NM) / 0.01) * 0.01
         fine = np.arange(lo, hi + FINE_NM / 2, FINE_NM)
@@ -139,7 +144,13 @@ def install() -> bool:
 
     AD._synth_flux_at_abund = cached
     import atexit
-    atexit.register(lambda: print(f"synth_cache: calls={STATS['calls']} new_syntheses="
-                                  f"{STATS['synth']} dir={cache_dir()}", flush=True))
+    import shutil
+
+    def _bye():
+        for t in _SCRATCH:
+            shutil.rmtree(t, ignore_errors=True)
+        print(f"synth_cache: calls={STATS['calls']} new_syntheses={STATS['synth']} "
+              f"dir={cache_dir()}", flush=True)
+    atexit.register(_bye)
     _INSTALLED = True
     return True
