@@ -481,7 +481,9 @@ def apply(star: str, element: str, rep: dict) -> dict:
         from pipeline import published_line_add as pla
         cite = {s["name"]: s for s in ls.load_sources()}
         # Re-plan from the extract (the report is JSON; the components are not stored in it).
-        written = pla.apply([pla.plan(m) for m in plans], citation=cite)
+        # Preparation may add a literature transition to the synthesis list before
+        # its gf uncertainty has been resolved.  Grading remains gated downstream.
+        written = pla.apply([pla.plan(m, allow_ungraded=True) for m in plans], citation=cite)
         ad = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_added_lines.json"
         ad.parent.mkdir(parents=True, exist_ok=True)
         ad.write_text(json.dumps(written, indent=1, default=str) + "\n")

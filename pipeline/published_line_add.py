@@ -19,8 +19,9 @@ GUARD (RYA-1214's, generalised): the list is shared by every element's products 
 A committed pool line of ANOTHER element within the band's fit half-width of an added
 component would move that product, so the add refuses and names it.
 
-The raw VALD extracts left git in RYA-1228; they are read from data/linelists/ when present,
-else from the preserved archive (VALD_ARCHIVE, `CODEX_VALD_ARCHIVE` overrides).
+The raw VALD extracts left git in RYA-1228; they are read through the registered
+`data.vald_raw` path (``CODEX_VALD_RAW`` on Sirius), with the repository staging
+and legacy archive as compatibility fallbacks.
 """
 from __future__ import annotations
 
@@ -35,6 +36,22 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "data" / "linelists" / "canonical_gf.csv"
 VALD_ARCHIVE = Path(os.environ.get(
     "CODEX_VALD_ARCHIVE", Path.home() / "Documents/Exoplanet Codex/vald_raw_archive/current"))
+
+
+def _vald_roots() -> tuple[Path, ...]:
+    """Return configured VALD locations, in authoritative-to-compatibility order."""
+    roots: list[Path] = []
+    try:
+        from config.constants import codex_path
+        roots.append(codex_path("data.vald_raw"))
+    except (ImportError, KeyError, OSError):
+        pass
+    # Keep explicit overrides useful for older host profiles and local mirrors.
+    for raw in (os.environ.get("CODEX_VALD_RAW"), os.environ.get("CODEX_VALD_ARCHIVE")):
+        if raw:
+            roots.append(Path(raw).expanduser())
+    roots.extend((ROOT / "data" / "linelists", VALD_ARCHIVE))
+    return tuple(dict.fromkeys(roots))
 #: Our solar VALD3 Extract Stellar deliveries with hyperfine structure ON, by span (A, air).
 SOLAR_EXTRACTS = ((2000.0, 3780.0, "vald_solar_nearuv_2000_3780_hfson_raw.txt"),
                   (6910.0, 9500.0, "vald_solar_redopt_6910_9500_hfson_raw.txt"),
@@ -55,11 +72,14 @@ class LineAddError(RuntimeError):
 def extract_for(w: float) -> Path:
     for lo, hi, name in SOLAR_EXTRACTS:
         if lo <= w < hi:
-            for p in (ROOT / "data" / "linelists" / name, VALD_ARCHIVE / name):
-                if p.exists():
-                    return p
-            raise LineAddError(f"{name} (covers {w:.3f} A) is in neither data/linelists/ nor "
-                               f"{VALD_ARCHIVE}")
+            searched = _vald_roots()
+            for root in searched:
+                for p in (root / name, root.parent / name):
+                    if p.exists():
+                        return p
+            raise LineAddError(
+                f"{name} (covers {w:.3f} A) not found; searched VALD roots: "
+                + ", ".join(str(p) for p in searched))
     raise LineAddError(f"no solar hfs-on VALD extract covers {w:.3f} A")
 
 
