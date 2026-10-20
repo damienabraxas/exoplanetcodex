@@ -1476,14 +1476,18 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         published = cell_products(feed, d, cell.band)
         lkey = ledger_key(star, d, cell.band)
         current, why = is_current(published, want, ledger.get(lkey))
-        if (not current and not ledger.get(lkey) and published
+        _rec = ledger.get(lkey) or {}
+        if (not current and (not _rec or _rec.get("adopted")) and published
                 and all(isinstance(p.get("uncertainty"), dict) for p in published)):
             # RYA-1232 (Ryan, 2026-10-19: "why are we redoing ones we already have?"): a cell
             # with no build record whose published products ALL carry a full RYA-587 budget
             # was built by the hand campaign on today's line lists and priced leg by leg -- it
             # is ADOPTED, once, as current: the ledger records it with `adopted` so the next
             # input change re-runs it like any other cell. A legacy row (no budget) is still
-            # re-run: nothing on it says what it was built from.
+            # re-run: nothing on it says what it was built from. An entry that is itself an
+            # ADOPTION (never built by the orchestrator) is re-adopted while the products are
+            # unchanged and still budgeted: a stage-script edit since then says nothing about
+            # products it did not build.
             rows_ = None if dry_run else input_fingerprints(d, resolved,
                                                              manifest_path=manifests.get(d.holding))
             with _lock:

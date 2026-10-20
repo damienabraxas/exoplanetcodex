@@ -2788,6 +2788,10 @@ def main() -> None:
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
     a = ap.parse_args()
+    # RYA-1232: serve the synthesis from the per-line cache (identical fit, ~10x fewer
+    # syntheses on every warm pass); CODEX_SYNTH_CACHE=0 turns it off.
+    from pipeline import synth_cache as _sc
+    _sc.install()
 
     pol_early = resolve_band(0.5 * (a.lo + a.hi))
     # 🔴 RYA-1006 — the conditioning flags are honoured ONLY by `synthesis_route`. On the
