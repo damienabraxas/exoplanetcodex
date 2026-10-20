@@ -1478,7 +1478,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         current, why = is_current(published, want, ledger.get(lkey))
         _rec = ledger.get(lkey) or {}
         if (not current and (not _rec or _rec.get("adopted")) and published
-                and all(isinstance(p.get("uncertainty"), dict) for p in published)):
+                and all(isinstance(p.get("uncertainty"), dict) for p in published)
+                # every treatment the deck emits is published: a PARTIAL cell (ENGINE-A lost
+                # to an MPIA outage, 2026-10-20) is re-run, not adopted
+                and set(DECK_EMITS[d.engine_deck]) <= {str(p_.get("treatment")) for p_ in published}):
             # RYA-1232 (Ryan, 2026-10-19: "why are we redoing ones we already have?"): a cell
             # with no build record whose published products ALL carry a full RYA-587 budget
             # was built by the hand campaign on today's line lists and priced leg by leg -- it
