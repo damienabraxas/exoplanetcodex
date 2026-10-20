@@ -208,7 +208,10 @@ def prepare(star: str, element: str) -> dict:
                 # extract + the authors' gf (pipeline.published_line_add). --apply writes it.
                 from pipeline import published_line_add as pla
                 try:
-                    pl = pla.plan(row)
+                    # A literature line may be measured before its gf uncertainty
+                    # is resolved.  Keep the uncertainty gate for grading, but do
+                    # not prevent the transition from entering the synthesis list.
+                    pl = pla.plan(row, allow_ungraded=True)
                     row["add_plan"] = {k: v for k, v in pl.items() if not k.startswith("_")}
                 except pla.LineAddError as exc:
                     row["add_refused"] = str(exc)
