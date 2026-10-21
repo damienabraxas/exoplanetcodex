@@ -306,7 +306,7 @@ def test_kp_nir_graded_tier_is_confirmed_against_its_pool(feed):
     primary-laboratory, so the GRADED tier is earned."""
     kp = [p for p in feed["products"]
           if p["band"] == "NIR" and p["holding"] == "solar_kpno_molecfit_corrected"
-          and p["treatment"] == "1D-LTE"][0]
+          and p["treatment"] == "1D-LTE" and p.get("tier") == "GRADED"][0]
     tp = kp["tier_provenance"]
     assert tp["pool_reproduced"] and tp["fraction_primary_lab"] == 1.0
     assert tp["tier_verdict"].startswith("CONFIRMED")

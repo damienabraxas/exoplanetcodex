@@ -339,7 +339,9 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: bound-bound transitions), so every one of the new rows must carry the limit too,
     #: which is what the EQUALITY below is actually asserting; the literal only catches a
     #: row VANISHING.
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 30
+    #: 30 -> 54 (RYA-1232): the Asplund-set run adds 24 Fe II products (8 holdings x 1D-LTE,
+    #: Gerber 1D-LTE, mean-3D LTE); every one carries the limit, which the EQUALITY asserts.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 54
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
     #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of

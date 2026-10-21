@@ -97,3 +97,6 @@ sets:
     citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.2: 40 Fe I + 13 Fe II lines; resolved to canonical_gf on lambda (0.05 A, half the printed 0.1 A) AND EP (0.02 eV) by pipeline.reference_lineset"
     gf_basis: "the gf the authors used (Den Hartog+2014, Belmonte+2017 and the Oxford/Hannover/Wisconsin values Scott+2015a adopted; Table A.2 prints no per-line gf source)"
     solar_literature: true
+    #: a product measured on this set is a REPLICATION of Asplund's Fe analysis: it carries
+    #: the explicit `line_set` the legacy Asplund rows carry (pipeline.reference_lineset)
+    reference_lineset: asplund

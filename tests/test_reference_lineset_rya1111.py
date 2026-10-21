@@ -180,7 +180,11 @@ def test_the_axis_is_derived_for_our_own_products_over_the_whole_live_feed():
         "our-graded", "our-deep-graded", "reference"}
     assert {rls.line_set_for_product(p) for p in repl} == {"asplund"}
     assert len(ours) + len(repl) == len(feed["products"])
-    assert len(repl) == 4, "the four RYA-1106 Asplund replications (RYA-1185)"
+    #: RYA-1232: the orchestrator's FE_AGSS21 run publishes 81 more replications of the same
+    #: analysis, tagged `asplund` like the four RYA-1106 rows (selector SET-FE_AGSS21).
+    assert len([p for p in repl if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
+        "the four RYA-1106 Asplund replications (RYA-1185)"
+    assert len([p for p in repl if p.get("selector") == "SET-FE_AGSS21"]) == 81
 
 
 def test_an_unrecognised_tier_is_refused_rather_than_defaulted():

@@ -836,10 +836,12 @@ def test_no_cell_measures_the_ungraded_pool(rm):
     """Step 7: every dispatched cell names a graded pool; `--lines-tier all` never runs."""
     from pipeline.run_descriptor import resolve
     cells = rm.expand("solar", "Fe", engines=["ts-lte"], bands=["VIS"])
-    assert cells and all(d.pool in ("reference", "codex", "deep") for d in cells)
+    #: RYA-1232: Fe now has a published set (FE_AGSS21) -- a graded pool by construction
+    assert cells and all(d.pool in ("reference", "codex", "deep")
+                         or d.pool.startswith(rm.SET_POOL_PREFIX) for d in cells)
     for d in cells[:4]:
         args = resolve(d, interpreter=sys.executable, ispec_dir="/x").steps[-1]["args"]
-        assert "--lines-deep-graded" in args or (
+        assert "--lines-deep-graded" in args or "--lines-from-set" in args or (
             "--lines-tier" in args and args[args.index("--lines-tier") + 1] != "all")
 
 

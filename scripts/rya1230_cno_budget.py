@@ -516,6 +516,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
     _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
+    from pipeline.line_sets import reference_lineset_for_selector
+    _ls = reference_lineset_for_selector(selector)
+    if _ls:
+        for _r in _rows:
+            _r["line_set"] = _ls     # RYA-1232: a replication of a published analysis
     if not _rows:
         # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
         # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is

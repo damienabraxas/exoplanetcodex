@@ -317,6 +317,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+            from pipeline.line_sets import reference_lineset_for_selector
+            _ls = reference_lineset_for_selector(o["selector"])
+            if _ls:
+                cmd += ["--line-set", _ls]
         cond = _observed_conditioning(o)
         if cond:
             # RYA-1176: Al publishing requires the observed-conditioning identity, read from
