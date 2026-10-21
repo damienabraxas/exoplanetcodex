@@ -1,12 +1,12 @@
 {
  "star": "solar",
  "element": "Fe",
- "feed_version": "1.448",
+ "feed_version": "1.474",
  "counts": {
-  "PUBLISHED": 57,
-  "HELD": 155,
-  "NOT_RUN": 350,
-  "STALE": 8
+  "PUBLISHED": 27,
+  "HELD": 133,
+  "NOT_RUN": 339,
+  "STALE": 71
  },
  "done": false,
  "rows": [
@@ -147,11 +147,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 7.554,
+   "sigma": 0.24456359353837548,
+   "n_lines": 55
   },
   {
    "band": "near-UV",
@@ -160,8 +160,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
+   "outcome": "HELD",
+   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -329,11 +329,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.439,
+   "sigma": 0.066663,
+   "n_lines": 67
   },
   {
    "band": "VIS",
@@ -355,11 +355,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.45,
-   "sigma": 0.0586562189622873,
-   "n_lines": 22
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -368,11 +368,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.562,
+   "sigma": 0.06648,
+   "n_lines": 67
   },
   {
    "band": "VIS",
@@ -394,8 +394,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -407,11 +407,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.541,
+   "sigma": 0.066571,
+   "n_lines": 67
   },
   {
    "band": "VIS",
@@ -433,11 +433,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.531,
-   "sigma": 0.0622871250723352,
-   "n_lines": 22
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -446,11 +446,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.488,
+   "sigma": 0.066361,
+   "n_lines": 67
   },
   {
    "band": "VIS",
@@ -472,8 +472,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -486,10 +486,10 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.445,
-   "sigma": 0.104084,
-   "n_lines": 13
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.41,
+   "sigma": 0.0686014218721886,
+   "n_lines": 65
   },
   {
    "band": "VIS",
@@ -499,10 +499,10 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.455,
-   "sigma": 0.107074,
-   "n_lines": 12
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.411,
+   "sigma": 0.073760462633313,
+   "n_lines": 59
   },
   {
    "band": "VIS",
@@ -511,11 +511,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.329,
+   "sigma": 0.0683246356228349,
+   "n_lines": 106
   },
   {
    "band": "VIS",
@@ -524,11 +524,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.34,
+   "sigma": 0.0745286143642216,
+   "n_lines": 101
   },
   {
    "band": "VIS",
@@ -550,50 +550,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 7.462,
-   "sigma": 0.0601324708222622,
-   "n_lines": 22
+   "sigma": 0.0696334952446412,
+   "n_lines": 18
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.415,
+   "sigma": 0.070465541520083,
+   "n_lines": 65
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -602,11 +602,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.548,
+   "sigma": 0.0712713741281022,
+   "n_lines": 65
   },
   {
    "band": "VIS",
@@ -628,8 +628,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -641,11 +641,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.511,
+   "sigma": 0.0749155182750427,
+   "n_lines": 65
   },
   {
    "band": "VIS",
@@ -667,11 +667,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.542,
-   "sigma": 0.063257264804809,
-   "n_lines": 22
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -680,11 +680,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.467,
+   "sigma": 0.0686109502404452,
+   "n_lines": 65
   },
   {
    "band": "VIS",
@@ -706,8 +706,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -720,10 +720,10 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.463,
-   "sigma": 0.111229,
-   "n_lines": 13
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.414,
+   "sigma": 0.0669840787280997,
+   "n_lines": 65
   },
   {
    "band": "VIS",
@@ -733,10 +733,10 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.464,
-   "sigma": 0.112135,
-   "n_lines": 12
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.42,
+   "sigma": 0.0731491954832677,
+   "n_lines": 59
   },
   {
    "band": "VIS",
@@ -745,11 +745,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.347,
+   "sigma": 0.0726007270414628,
+   "n_lines": 106
   },
   {
    "band": "VIS",
@@ -758,11 +758,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.357,
+   "sigma": 0.0781739633358351,
+   "n_lines": 102
   },
   {
    "band": "VIS",
@@ -784,50 +784,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_harps_molecfit_corrected",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_harps_molecfit_corrected",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_harps_molecfit_corrected",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.491,
-   "sigma": 0.0574076030060391,
-   "n_lines": 22
+   "A": 7.469,
+   "sigma": 0.0713043714272769,
+   "n_lines": 18
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_harps_molecfit_corrected",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.436,
+   "sigma": 0.0658426999075477,
+   "n_lines": 171
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_harps_molecfit_corrected",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_harps_molecfit_corrected",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -862,8 +862,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -901,11 +901,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.577,
-   "sigma": 0.0613699927632366,
-   "n_lines": 22
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -914,11 +914,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.492,
+   "sigma": 0.0693055867222332,
+   "n_lines": 171
   },
   {
    "band": "VIS",
@@ -940,8 +940,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -954,10 +954,10 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.498,
-   "sigma": 0.11952,
-   "n_lines": 6
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.428,
+   "sigma": 0.0668241675747284,
+   "n_lines": 171
   },
   {
    "band": "VIS",
@@ -967,10 +967,10 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.433,
-   "sigma": 0.122728,
-   "n_lines": 5
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.429,
+   "sigma": 0.0723173948202981,
+   "n_lines": 144
   },
   {
    "band": "VIS",
@@ -979,11 +979,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.419,
+   "sigma": 0.0767561351423755,
+   "n_lines": 106
   },
   {
    "band": "VIS",
@@ -992,11 +992,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.429,
+   "sigma": 0.0830545954142228,
+   "n_lines": 102
   },
   {
    "band": "VIS",
@@ -1018,50 +1018,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag_reiners2016",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag_reiners2016",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag_reiners2016",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.53,
-   "sigma": 0.077475930300965,
-   "n_lines": 2
+   "A": 7.523,
+   "sigma": 0.0717792630983533,
+   "n_lines": 18
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag_reiners2016",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag_reiners2016",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag_reiners2016",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -1096,8 +1096,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1135,11 +1135,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.615,
-   "sigma": 0.0832569432299793,
-   "n_lines": 2
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -1174,8 +1174,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1252,50 +1252,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.453,
-   "sigma": 0.0657238074536774,
-   "n_lines": 20
+   "A": 7.529,
+   "sigma": 0.085164705741287,
+   "n_lines": 2
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.433,
+   "sigma": 0.0786614521595968,
+   "n_lines": 131
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -1330,8 +1330,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1369,11 +1369,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.533,
-   "sigma": 0.070162245807374,
-   "n_lines": 20
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -1382,11 +1382,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.489,
+   "sigma": 0.0768518772055979,
+   "n_lines": 131
   },
   {
    "band": "VIS",
@@ -1408,8 +1408,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1422,10 +1422,10 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.498,
-   "sigma": 0.102279,
-   "n_lines": 5
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.428,
+   "sigma": 0.0772587460915035,
+   "n_lines": 131
   },
   {
    "band": "VIS",
@@ -1435,10 +1435,10 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "STALE",
-   "reason": "inputs changed since the build",
-   "A": 7.481,
-   "sigma": 0.091445,
-   "n_lines": 4
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.426,
+   "sigma": 0.0850967935520781,
+   "n_lines": 103
   },
   {
    "band": "VIS",
@@ -1447,11 +1447,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.384,
+   "sigma": 0.0818324755013792,
+   "n_lines": 41
   },
   {
    "band": "VIS",
@@ -1460,11 +1460,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.391,
+   "sigma": 0.0826182030725616,
+   "n_lines": 37
   },
   {
    "band": "VIS",
@@ -1486,50 +1486,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.48,
-   "sigma": 0.0447016309863723,
-   "n_lines": 11
+   "A": 7.46,
+   "sigma": 0.074748583270716,
+   "n_lines": 16
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.437,
+   "sigma": 0.0644182562686096,
+   "n_lines": 96
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -1564,8 +1564,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1603,11 +1603,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.545,
-   "sigma": 0.0467468554475082,
-   "n_lines": 11
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -1616,11 +1616,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.479,
+   "sigma": 0.0589484481853308,
+   "n_lines": 95
   },
   {
    "band": "red-optical",
@@ -1642,8 +1642,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1655,11 +1655,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.437,
+   "sigma": 0.0589106224202532,
+   "n_lines": 96
   },
   {
    "band": "red-optical",
@@ -1668,11 +1668,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.446,
+   "sigma": 0.0725499104652158,
+   "n_lines": 46
   },
   {
    "band": "red-optical",
@@ -1720,50 +1720,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.464,
-   "sigma": 0.0422062824719451,
-   "n_lines": 11
+   "A": 7.505,
+   "sigma": 0.0602390016873023,
+   "n_lines": 4
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.44,
+   "sigma": 0.0546427284094409,
+   "n_lines": 97
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -1798,8 +1798,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1837,11 +1837,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.519,
-   "sigma": 0.0433604586116281,
-   "n_lines": 11
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -1850,11 +1850,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.487,
+   "sigma": 0.056554087183176,
+   "n_lines": 97
   },
   {
    "band": "red-optical",
@@ -1876,8 +1876,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1889,11 +1889,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.437,
+   "sigma": 0.0538314336711744,
+   "n_lines": 97
   },
   {
    "band": "red-optical",
@@ -1902,11 +1902,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.449,
+   "sigma": 0.0626850245215289,
+   "n_lines": 46
   },
   {
    "band": "red-optical",
@@ -1954,50 +1954,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "red-optical",
-   "holding": "solar_kpno_molecfit_corrected",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.451,
-   "sigma": 0.0434522452999521,
-   "n_lines": 11
+   "A": 7.472,
+   "sigma": 0.0564049068870362,
+   "n_lines": 4
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.419,
+   "sigma": 0.0562082712861087,
+   "n_lines": 67
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "red-optical",
+   "holding": "solar_kpno_molecfit_corrected",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -2032,8 +2032,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2071,11 +2071,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.525,
-   "sigma": 0.0453197946695216,
-   "n_lines": 11
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -2084,11 +2084,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.454,
+   "sigma": 0.1670381278964245,
+   "n_lines": 65
   },
   {
    "band": "red-optical",
@@ -2110,8 +2110,8 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: product has no value (no line in the aggregate)",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2123,11 +2123,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.413,
+   "sigma": 0.0558310620743492,
+   "n_lines": 66
   },
   {
    "band": "red-optical",
@@ -2136,11 +2136,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.403,
+   "sigma": 0.0703138667088087,
+   "n_lines": 33
   },
   {
    "band": "red-optical",
@@ -2188,50 +2188,50 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_iag",
-   "ion": "I",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 7.471,
-   "sigma": 0.060921228483077,
-   "n_lines": 1
+   "A": 7.488,
+   "sigma": 0.0753481370758152,
+   "n_lines": 4
+  },
+  {
+   "band": "NIR",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.468,
+   "sigma": 0.0943633799428668,
+   "n_lines": 23
+  },
+  {
+   "band": "NIR",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "NIR",
+   "holding": "solar_iag",
+   "ion": "I",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2267,7 +2267,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 90 lines in 9199.0-9998.2 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2305,11 +2305,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.523,
-   "sigma": 0.0621146043388734,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2345,7 +2345,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 90 lines in 9199.0-9998.2 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2357,11 +2357,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.46,
+   "sigma": 0.0929397678643112,
+   "n_lines": 24
   },
   {
    "band": "NIR",
@@ -2370,11 +2370,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.369,
+   "sigma": 0.0925461340317372,
+   "n_lines": 7
   },
   {
    "band": "NIR",
@@ -2435,11 +2435,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.508,
+   "sigma": 0.0896015458159929,
+   "n_lines": 21
   },
   {
    "band": "NIR",
@@ -2461,11 +2461,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.481,
-   "sigma": 0.0458621120614063,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2501,7 +2501,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 90 lines in 9199.0-10008.2 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2539,11 +2539,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.533,
-   "sigma": 0.046482960908851,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2579,7 +2579,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 90 lines in 9199.0-10008.2 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2591,11 +2591,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.517,
+   "sigma": 0.0823488523033274,
+   "n_lines": 21
   },
   {
    "band": "NIR",
@@ -2604,11 +2604,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.538,
+   "sigma": 0.1577086205888985,
+   "n_lines": 5
   },
   {
    "band": "NIR",
@@ -2669,11 +2669,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.482,
+   "sigma": 0.0615643665287733,
+   "n_lines": 20
   },
   {
    "band": "NIR",
@@ -2695,11 +2695,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.454,
-   "sigma": 0.0593971749142315,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2735,7 +2735,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 235 lines in 9203.2-12976.1 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2773,11 +2773,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.506,
-   "sigma": 0.0591308381130953,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "NIR",
@@ -2813,7 +2813,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1335, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe: 235 lines in 9203.2-12976.1 A but NONE carry NLTE level labels. bsyn sets departure = 1 for an unidentified level and iSpec drops an unlabelled element into `nlte_ignored` \u2014 either way the synthesis runs in LTE WITHOUT RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE label is worse than no product. This is a LINE-LIST coverage gap, not a deck failure \u2014 the atom carries transitions for this ionisation stage, these lines have no level identification.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2825,11 +2825,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.495,
+   "sigma": 0.0683566734076165,
+   "n_lines": 18
   },
   {
    "band": "NIR",
@@ -2838,11 +2838,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.368,
+   "sigma": 0.1271450478041851,
+   "n_lines": 5
   },
   {
    "band": "NIR",
@@ -2903,11 +2903,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.552,
+   "sigma": 0.1066170845989477,
+   "n_lines": 5
   },
   {
    "band": "NIR",
@@ -3007,6 +3007,32 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.551,
+   "sigma": 0.107926082104414,
+   "n_lines": 5
+  },
+  {
+   "band": "NIR",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "ion": "I",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "ENGINE-A",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.637,
+   "sigma": 0.2520107071416899,
+   "n_lines": 2
+  },
+  {
+   "band": "NIR",
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "ion": "I",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "1D-LTE",
    "outcome": "NOT_RUN",
    "reason": "",
    "A": null,
@@ -3017,32 +3043,6 @@
    "band": "NIR",
    "holding": "solar_crires_plus_y_wide_rya1054",
    "ion": "I",
-   "grade": "Codex Grade",
-   "pool": "codex",
-   "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_crires_plus_y_wide_rya1054",
-   "ion": "I",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "NIR",
-   "holding": "solar_crires_plus_y_wide_rya1054",
-   "ion": "I",
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
@@ -3527,11 +3527,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.502,
+   "sigma": 0.1818274131213829,
+   "n_lines": 19
   },
   {
    "band": "H",
@@ -3605,11 +3605,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.649,
+   "sigma": 0.2352714563856922,
+   "n_lines": 8
   },
   {
    "band": "H",
@@ -3631,11 +3631,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.497,
+   "sigma": 0.1523756050774186,
+   "n_lines": 19
   },
   {
    "band": "H",
@@ -3644,8 +3644,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
+   "outcome": "HELD",
+   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3852,11 +3852,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.535,
+   "sigma": 0.0989149205592871,
+   "n_lines": 31
   },
   {
    "band": "near-UV",
@@ -3969,11 +3969,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 7.535,
+   "sigma": 0.0975265312856764,
+   "n_lines": 31
   },
   {
    "band": "near-UV",
@@ -3982,11 +3982,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 7.656,
+   "sigma": 0.1170970199203599,
+   "n_lines": 16
   },
   {
    "band": "near-UV",
@@ -4008,11 +4008,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.435,
+   "sigma": 0.0810460628870736,
+   "n_lines": 29
   },
   {
    "band": "near-UV",
@@ -4125,11 +4125,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 7.402,
+   "sigma": 0.23811028904692483,
+   "n_lines": 12
   },
   {
    "band": "near-UV",
@@ -4138,11 +4138,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 7.494,
+   "sigma": 0.1238262784694078,
+   "n_lines": 16
   },
   {
    "band": "VIS",
@@ -4164,6 +4164,45 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.386,
+   "sigma": 0.123147346690067,
+   "n_lines": 23
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "II",
+   "grade": "Reference Grade",
+   "pool": "set:FE_AGSS21",
+   "treatment": "synth-1D-LTE-gerber",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "II",
+   "grade": "Codex Grade",
+   "pool": "codex",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
+   "outcome": "NOT_RUN",
+   "reason": "",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
+  },
+  {
+   "band": "VIS",
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "ion": "II",
+   "grade": "Deep Grade",
+   "pool": "deep",
+   "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
    "reason": "",
    "A": null,
@@ -4176,48 +4215,9 @@
    "ion": "II",
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
-   "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 7.453,
-   "sigma": 0.1023749971076968,
-   "n_lines": 6
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "II",
-   "grade": "Codex Grade",
-   "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
    "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "II",
-   "grade": "Deep Grade",
-   "pool": "deep",
-   "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
-  },
-  {
-   "band": "VIS",
-   "holding": "solar_kpno_kurucz2005_corrected",
-   "ion": "II",
-   "grade": "Reference Grade",
-   "pool": "set:FE_AGSS21",
-   "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4255,11 +4255,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.516,
-   "sigma": 0.1049461645560388,
-   "n_lines": 6
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4295,7 +4295,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4333,11 +4333,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.378,
+   "sigma": 0.1180228044790898,
+   "n_lines": 23
   },
   {
    "band": "VIS",
@@ -4346,11 +4346,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.371,
+   "sigma": 0.1200601098635364,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -4373,7 +4373,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, model_atmosphere, profile_ew, stellar.xi, telluric",
+   "reason": "no NLTE correction for this pool's lines in the element's ENGINE-A table",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4398,11 +4398,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.426,
+   "sigma": 0.1399226728196685,
+   "n_lines": 8
   },
   {
    "band": "VIS",
@@ -4411,11 +4411,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.46,
-   "sigma": 0.0997688932895319,
-   "n_lines": 6
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4451,7 +4451,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4489,11 +4489,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.522,
-   "sigma": 0.1024391139104241,
-   "n_lines": 6
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4529,7 +4529,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4567,11 +4567,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.425,
+   "sigma": 0.1361498913424884,
+   "n_lines": 8
   },
   {
    "band": "VIS",
@@ -4580,11 +4580,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.236,
+   "sigma": 0.1667523061789553,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -4632,11 +4632,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.457,
+   "sigma": 0.125179783486422,
+   "n_lines": 23
   },
   {
    "band": "VIS",
@@ -4645,11 +4645,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.619,
-   "sigma": 0.105283405334614,
-   "n_lines": 6
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4685,7 +4685,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4723,11 +4723,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.704,
-   "sigma": 0.109541456110701,
-   "n_lines": 6
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4763,7 +4763,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4801,11 +4801,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.456,
+   "sigma": 0.138030842035263,
+   "n_lines": 23
   },
   {
    "band": "VIS",
@@ -4814,11 +4814,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
-   "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "no orchestrator build record for this cell",
+   "A": 7.444,
+   "sigma": 0.1460970496074441,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -4879,11 +4879,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.374,
-   "sigma": 0.1060590627245026,
-   "n_lines": 4
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4919,7 +4919,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4957,11 +4957,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.44,
-   "sigma": 0.1050681514668773,
-   "n_lines": 4
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -4997,7 +4997,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5113,11 +5113,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.586,
-   "sigma": 0.1053010171810406,
-   "n_lines": 2
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -5153,7 +5153,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5191,11 +5191,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.652,
-   "sigma": 0.1119214159996284,
-   "n_lines": 2
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "VIS",
@@ -5231,7 +5231,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5347,11 +5347,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.35,
-   "sigma": 0.1007107306788352,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5387,7 +5387,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5425,11 +5425,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.396,
-   "sigma": 0.1022280400696041,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5465,7 +5465,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5581,11 +5581,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.346,
-   "sigma": 0.0966808204098456,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5621,7 +5621,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5659,11 +5659,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.393,
-   "sigma": 0.0976828480066799,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5699,7 +5699,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5815,11 +5815,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.354,
-   "sigma": 0.0969045839959066,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5855,7 +5855,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5893,11 +5893,11 @@
    "grade": "Reference Grade",
    "pool": "set:FE_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
+   "outcome": "NOT_RUN",
    "reason": "",
-   "A": 7.401,
-   "sigma": 0.0987412467278034,
-   "n_lines": 1
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "red-optical",
@@ -5933,7 +5933,7 @@
    "pool": "set:FE_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "NOT_RUN",
-   "reason": "FAILED: derive_products: exit 1:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ |   File \"/Users/ryanschmitt/codex/rya1230/pipeline/gerber_nlte.py\", line 1277, in assert_linelist_supports_nlte |     raise GerberDeckError( | pipeline.gerber_nlte.GerberDeckError: Fe II: NLTE was requested, but this deck's model atom carries NO bound-bound transitions for this ionisation stage, so bsyn would apply departure = 1 to every line and the product would be LTE under an NLTE label (RYA-764/RYA-1050). NO LINE LIST CAN FIX THIS \u2014 label coverage is irrelevant when there is nothing in the atom to label against. Fe II NLTE unavailable on the Gerber deck: atom.fe607a carries 58 Fe II levels but ZERO Fe II bound-bound transitions (12,635 of 12,635 are Fe I -> Fe I), so bsyn applies departure = 1 to every Fe II line and no line list can enable it. Reported LTE. The effect is literature-negligible at solar -- Amarsi's grid gives -0.001 dex (vturb 0.75) and -0.0008 (1.50), and Lind et al. 2017 section 2.2.4 states 'For the Sun, NLTE effects on Fe II lines are insignificant' -- and our own MPIA/Bergemann Fe II deltas agree IN THE MEDIAN: +0.000 dex at the solar node, 146 of 160 grid entries inside +-0.005 -- though the tail is the three strong multiplet-42 lines 4923.932 / 4924.921 / 5169.033, all at +0.015 (max single grid entry +0.016), so 'negligible' is a median statement and not a bound (Fe I control at the same node: median +0.011, up to +0.040). A two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03). Fe II <3D>-LTE IS available (model 5, the <3D>-mean atmosphere is ion-agnostic); model 5 == model 6 on Fe II by construction, which IS the phantom-departure check. This does NOT cover ENGINE-A: that leg reads the MPIA/Bergemann per-line grid, not this atom, and its Fe II corrections are real. RYA-1055.",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null

@@ -126,7 +126,7 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
             and (scope is None or (str(p.get("band")), str(p.get("holding")), str(p.get("ion")),
-                                   str(p.get("selector"))) in scope)
+                                   str(p.get("selector")), str(p.get("treatment"))) in scope)
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
     if not gone:
         return []
@@ -332,9 +332,12 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     # ...and only pools this stage budgets (`units_for`: set / codex / deep). The lab-only
     # `reference` pool is built by the matrix but never budgeted here, so nothing of it is
     # republished -- it must never be withdrawn by this stage either.
-    scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""))
+    # ...and only the TREATMENTS the built cell's deck emits: Gerber decks share the band,
+    # holding, ion and pool with ts-lte, and a ts-lte rerun withdrew their products too.
+    scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""), t)
              for c in report.get("cells", []) if c.get("status") in BUILT
-             and str(c.get("pool") or "") != "REFERENCE"}
+             and str(c.get("pool") or "") != "REFERENCE"
+             for t in rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ())}
     summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
                                                 held=summary["held"], why=why, started=started,
                                                 scope=scope)
