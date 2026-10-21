@@ -49,7 +49,9 @@ def units_for(star: str, element: str, *, report: dict,
     built = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
              for c in report.get("cells", []) if c.get("status") in BUILT}
     out = []
-    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
+    # RYA-1213: the lab-gf `reference` pool is Reference Grade -- budgeted and published too
+    for d in rm.expand(star, symbol, methods=["synthesis"],
+                       pools=["set", "reference", "codex", "deep"]):
         if (rm._band_of(d, star).name_declared, d.holding, d.ion, d.engine_deck,
                 rm.pool_tier(d)) not in built:
             continue
@@ -311,7 +313,8 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if src in done or not src.exists():
             continue
         done.add(src)
-        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED") else "ALL"
+        tier = (o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED", "REFERENCE")
+                else "ALL")
         cmd = [py, "scripts/publish_product.py", "--from", str(src), "--holding", o["holding"],
                "--tier", tier, "--route", "SYNTH", "--element", o["element"], "--star", star,
                "--reason", why, "--origin-path", str(src)]
@@ -333,14 +336,11 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
-    # ...and only pools this stage budgets (`units_for`: set / codex / deep). The lab-only
-    # `reference` pool is built by the matrix but never budgeted here, so nothing of it is
-    # republished -- it must never be withdrawn by this stage either.
+    # ...and only pools this stage budgets (`units_for`: set / reference / codex / deep).
     # ...and only the TREATMENTS the built cell's deck emits: Gerber decks share the band,
     # holding, ion and pool with ts-lte, and a ts-lte rerun withdrew their products too.
     scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""), t)
              for c in report.get("cells", []) if c.get("status") in BUILT
-             and str(c.get("pool") or "") != "REFERENCE"
              for t in rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ())}
     summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
                                                 held=summary["held"], why=why, started=started,

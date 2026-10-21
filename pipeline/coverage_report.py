@@ -32,7 +32,10 @@ BAND_ORDER = [p.name for p in band_policy.POLICIES]
 #: ENGINE-A; each Gerber deck -> its own token. ENGINE-B on ts-lte is not a cell.
 #: Orchestrator pool -> the feed's `selector` token.
 POOL_SELECTOR = {"codex": "GRADED", "deep": "DEEPGRADED", "reference": "REFERENCE"}
-GRADE_OF_POOL = {"codex": "Codex Grade", "deep": "Deep Grade", "reference": "Reference (all lab gf)"}
+#: RYA-1213 / Ryan 2026-10-21: Reference Grade = the published (Asplund) set PLUS every
+#: lab-gf line -- the `reference` pool is the second half of Reference Grade, not a pool of
+#: its own and not Codex + Deep.
+GRADE_OF_POOL = {"codex": "Codex Grade", "deep": "Deep Grade", "reference": "Reference Grade"}
 
 
 def _selector(pool: str | None) -> str:
@@ -95,11 +98,11 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
 
     rows = []
     for ion in rm.graded_ions(symbol) or ["I"]:
-        # The THREE grades only (Ryan): published sets (Reference), Codex, Deep. The
-        # orchestrator's `reference` pool (every lab line, no depth gate) is Codex + Deep
-        # combined and is not a grade of its own -- not an expected cell.
+        # The THREE grades (Ryan): Reference, Codex, Deep. Reference Grade has TWO pools
+        # (RYA-1213): the published line set(s) AND the `reference` pool -- every lab-gf line,
+        # no depth gate. Both are expected cells.
         for d in rm.expand(star, symbol, ions=[ion], methods=["synthesis"],
-                           pools=["set", "codex", "deep"]):
+                           pools=["set", "reference", "codex", "deep"]):
             sel = _selector(d.pool)
             hold = rm.cell_process_hold(d)
             # The run report stores the pool as the feed token (pool_tier: GRADED / DEEPGRADED /
