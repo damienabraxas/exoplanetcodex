@@ -198,7 +198,8 @@ def test_the_reference_products_are_priced_per_line_not_by_placeholder():
     doc = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
     got = {r["holding"]: (r["A"], r["n_lines"], r["sigma_syst"],
                           round(float(r["sigma_reported"]), 4))
-           for r in doc["products"] if r.get("line_set") == "asplund"}
+           for r in doc["products"] if r.get("line_set") == "asplund"
+           and r.get("selector") == "ASPLUND_AGSS21"}       # the four RYA-1106 rows
     assert got == {
         "solar_harps_molecfit_corrected":  (7.4771, 21, 0.0475, 0.0516),
         "solar_iag":                       (7.5039, 21, 0.0475, 0.0497),

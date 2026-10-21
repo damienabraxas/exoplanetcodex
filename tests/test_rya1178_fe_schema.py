@@ -198,8 +198,11 @@ def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
     that they came in through the publisher — every one carries the publisher's provenance
     block (host, sha256, artifact mtime), which is exactly what a hand-appended row lacks
     and what the 24 failures were about."""
+    #: RYA-1232: 81 more `asplund` replications came in through the same publisher (the
+    #: orchestrator's FE_AGSS21 run); the provenance check below covers every one of them.
     asp = [p for p in feed["products"] if p.get("line_set") == "asplund"]
-    assert len(asp) == 4, "the four RYA-1106 Asplund replications"
+    assert len([p for p in asp if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
+        "the four RYA-1106 Asplund replications"
     for r in asp:
         assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
         assert r["treatment"] == "ENGINE-A-3DNLTE" and r["selector"] == "ASPLUND_AGSS21"
