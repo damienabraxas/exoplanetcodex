@@ -12,10 +12,10 @@
 # damping_source: synthesis
 # replication_grade: yes
 # gold_version: Fe_I=v5
-# commit_sha: 55eb5b19b519316afd395641e6c2fd3b6aefe8d7
-# input_commit: 55eb5b19b519316afd395641e6c2fd3b6aefe8d7
+# commit_sha: 05972483e350d1bc84b9891e762c26fe6e4a1f87
+# input_commit: 05972483e350d1bc84b9891e762c26fe6e4a1f87
 # litscan_anchor: best_external Amarsi et al. 2021 (A&A 653, A141) sigma_ext 0.04
-# generated_utc: 2026-10-21T13:55:24+00:00
+# generated_utc: 2026-10-21T14:13:37+00:00
 # generator_script: scripts/generate_perline_product.py
 # invocation: ISPEC_DIR=/mnt/codex-data/engines/ispec_src ~/venv_rya1103/bin/python scripts/generate_perline_product.py --star solar --element Fe --damping-source synthesis   # Sirius: the GES damping needs iSpec
 # sources: damping_source=synthesis; replication_grade=yes; linelist=linelist_solar.csv; canonical_gf=canonical_gf.csv; problem_children=problem_children.csv
