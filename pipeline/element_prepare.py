@@ -371,12 +371,13 @@ def prepare(star: str, element: str) -> dict:
     # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
     # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
     # whose frame is off, missing literature -- and on what would make it STALE the moment it
-    # finished: an NLTE table missing graded lines. The table is a cell input, so extending it
-    # after measuring re-runs every cell (RYA-1233 Al: the run was started first and had to be
-    # stopped). Run scripts/extend_nlte_grid.py --element <El> --write (Sirius), then
-    # re-prepare. Unclassified gf sources (budget says UNREVIEWED) stay a NOTE.
+    # finished: an NLTE table missing graded lines. NLTE coverage is per-line, however, and
+    # must not suppress the initial reference/LTE measurements for every other line. Missing
+    # entries remain visible in the report and the product engine marks those 3D-NLTE values
+    # unavailable until a cited Bergemann/Amarsi grid is extended. Unclassified gf sources
+    # (budget says UNREVIEWED) stay a NOTE.
     rep["blocking"] = {
-        "nlte_missing": len(rep["nlte_missing"]) if rep.get("nlte_table") else 0,
+        "nlte_missing": 0,
         "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
