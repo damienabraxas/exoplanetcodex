@@ -23,6 +23,7 @@ stage/ + report.json + publish_summary.json (committed: the feed's provenance po
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shlex
@@ -346,6 +347,32 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                                                 held=summary["held"], why=why, started=started,
                                                 scope=scope)
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
+    # RYA-1232: the stage is rebuilt per run, but products published by EARLIER runs (other
+    # pools/decks of a scoped run) still cite their files in it. Carry every still-cited file
+    # forward before the previous stage goes -- a scoped Fe run deleted 86 cited artifacts.
+    _fp = ROOT / "data" / "products" / star / f"{element}.json"
+    _feed = json.loads(_fp.read_text()) if _fp.exists() else {}
+    _kept = 0
+    for _p in _feed.get("products", []):
+        _ct = str((_p.get("provenance") or {}).get("copied_to") or "")
+        _src = prev_stage / Path(_ct).name
+        _dst = stage / Path(_ct).name
+        if not (_ct.startswith(str(stage.relative_to(ROOT)) + "/") and _src.exists()):
+            continue
+        _want = (_p.get("provenance") or {}).get("sha256")
+        _sha = lambda f: hashlib.sha256(f.read_bytes()).hexdigest()
+        # absent, or overwritten by another deck's file of the same name (a Gerber deck's
+        # base products.csv is the ts-lte 1D-LTE product's name): restore what it cites
+        if not _dst.exists() or (_want and _sha(_dst) != _want and _sha(_src) == _want):
+            stage.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(_src, _dst)
+            _kept += 1
+    # the per-line tables and budgets beside them travel with them
+    for _f in list(stage.glob("*_products.csv")):
+        for _side in prev_stage.glob(_f.name.replace("_products.csv", "") + "*"):
+            if not (stage / _side.name).exists():
+                shutil.copy2(_side, stage / _side.name)
+    summary["stage_carried_forward"] = _kept
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}

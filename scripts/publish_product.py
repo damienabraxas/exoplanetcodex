@@ -708,7 +708,29 @@ def main() -> int:
                         any(x is None or not math.isfinite(float(x)) for x in sig):
                     return False
             return bool(rows)
+        def _lab_sourced_by_587(rows) -> bool:
+            """RYA-1213/1232: REFERENCE claims LABORATORY gf. Corroborated when every line's
+            gf source (the budget's own `line_sources`, a DOI per line) is a source canonical_gf
+            grades LAB -- the claim itself, per line, not the legacy rung text."""
+            import pandas as _pd
+            cg = ROOT / "data" / "linelists" / "canonical_gf.csv"
+            if not cg.exists():
+                return False
+            c = _pd.read_csv(cg, usecols=["gf_tier", "gf_source_doi"], low_memory=False)
+            lab = {str(x).strip() for x in c.loc[c.gf_tier.astype(str) == "LAB", "gf_source_doi"]
+                   if str(x).strip() not in ("", "nan")}
+            for r in rows:
+                u = r.get("uncertainty")
+                u = json.loads(u) if isinstance(u, str) else u
+                td = next((c_ for c_ in (u or {}).get("components", [])
+                           if c_.get("name") == "transition_data"), None)
+                srcs = ((td or {}).get("evidence") or {}).get("line_sources") or []
+                if not srcs or any(str(x).strip() not in lab for x in srcs):
+                    return False
+            return bool(rows)
         if a.tier in ("GRADED", "DEEPGRADED") and _priced_by_587(rows):
+            pass
+        elif a.tier == "REFERENCE" and _priced_by_587(rows) and _lab_sourced_by_587(rows):
             pass
         elif a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
             m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
