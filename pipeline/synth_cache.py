@@ -86,6 +86,13 @@ def install() -> bool:
     global _INSTALLED
     if _INSTALLED:
         return True
+    # the live MPIA query gets its own disk cache + retry (pipeline/mpia_cache.py) -- installed
+    # here because this is the one hook the fitter calls at start-up
+    try:
+        from pipeline import mpia_cache as _mc
+        _mc.install()
+    except Exception as exc:                                     # noqa: BLE001
+        print(f"WARNING: MPIA cache not installed: {type(exc).__name__}: {exc}")
     if os.environ.get("CODEX_SYNTH_CACHE", "1") == "0":
         return False
     import pipeline.abundances_derive as AD
