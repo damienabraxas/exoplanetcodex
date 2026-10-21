@@ -143,12 +143,17 @@ def plan(row: dict, *, allow_ungraded: bool = False) -> dict:
     if lst is None:
         raise LineAddError(f"{sp} {w:.3f}: its synthesis list is iSpec's own GES list, outside "
                            f"the repo -- not writable here")
+    # A published transition can already be present in the shared synthesis list while
+    # missing only from canonical_gf (common for IR VALD lists).  Keep the canonical
+    # admission path generic, but do not duplicate the physical components in that list.
+    existing = row.get("in_synthesis_list")
     return {"species": sp, "wavelength_A": w, "ep_eV": ep, "set": row["set"],
             "authors_loggf": row["authors_loggf"], "authors_sigma_dex": row["authors_sigma_dex"],
             "authors_gf_source": row.get("authors_gf_source"),
             "extract": src.name, "n_components": len(comps), "centroid_A": round(centroid, 4),
             "vald_total_loggf": round(float(np.log10(np.sum(10 ** gf))), 3),
-            "synthesis_list": str(lst.relative_to(ROOT)),
+            "synthesis_list": existing or str(lst.relative_to(ROOT)),
+            "synthesis_existing": bool(existing),
             "clashes": clashes(sp.split()[0], list(wl)), "_components": comps}
 
 
@@ -165,7 +170,8 @@ def apply(plans: list[dict], *, citation: dict) -> list[dict]:
     import ispec
     by_list: dict = {}
     for p in plans:
-        by_list.setdefault(p["synthesis_list"], []).extend(p["_components"])
+        if not p.get("synthesis_existing"):
+            by_list.setdefault(p["synthesis_list"], []).extend(p["_components"])
     for rel, recs in by_list.items():
         path = ROOT / rel
         base = ispec.read_atomic_linelist(str(path))

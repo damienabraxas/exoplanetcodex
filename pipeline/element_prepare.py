@@ -203,7 +203,7 @@ def prepare(star: str, element: str) -> dict:
         if len(hit) != 1:
             row["canonical"] = "MISSING" if len(hit) == 0 else f"AMBIGUOUS ({len(hit)})"
             row["in_synthesis_list"] = _in_synthesis_list(sp, w)
-            if len(hit) == 0 and row["in_synthesis_list"] is None and a_gf is not None:
+            if len(hit) == 0 and a_gf is not None:
                 # Step 6 the orchestrator can take itself: the transition from our solar VALD
                 # extract + the authors' gf (pipeline.published_line_add). --apply writes it.
                 from pipeline import published_line_add as pla
