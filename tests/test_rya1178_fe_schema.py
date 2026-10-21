@@ -205,12 +205,17 @@ def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
         "the four RYA-1106 Asplund replications"
     for r in asp:
         assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
-        assert r["treatment"] == "ENGINE-A-3DNLTE" and r["selector"] == "ASPLUND_AGSS21"
         # the publisher's fingerprint — a hand-appended row has none of this
         prov = r["provenance"]
         assert prov["sha256"] and prov["artifact_mtime"] and prov["ingested_at"]
-        assert prov["copied_to"].startswith("data/results/rya1106/")
-        assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        if r["selector"] == "ASPLUND_AGSS21":
+            assert r["treatment"] == "ENGINE-A-3DNLTE"
+            assert prov["copied_to"].startswith("data/results/rya1106/")
+            assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        else:
+            #: RYA-1232: the orchestrator's FE_AGSS21 run, staged by element_publish
+            assert r["selector"] == "SET-FE_AGSS21"
+            assert prov["copied_to"].startswith("data/results/orchestrator/budget/solar_Fe/")
 
 
 #: The /1 element-product field set, pinned LITERALLY. /2 must be a strict superset.
