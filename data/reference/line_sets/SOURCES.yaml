@@ -98,3 +98,16 @@ sets:
     citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II)"
     gf_basis: "Exact Table A.1 gf; five Mg II NIST grades independently verified; remaining uncertainties unknown"
     solar_literature: true
+
+  - name: MG_BERGEMANN2017_IR
+    aggregation: mean
+    element: Mg
+    source: data/reference/mg_bergemann2017/mg_bergemann2017_ir_lines.csv
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    bib: bergemann2017_mg
+    doi: 10.3847/1538-4357/aa88cb
+    citation: "Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics)"
+    gf_basis: "Pehlivan Rhodin et al. 2017 laboratory/theoretical gf values as adopted by Bergemann et al.; component-level exceptions retain their cited Butler/Bergemann source and reported uncertainty text"
+    solar_literature: true
