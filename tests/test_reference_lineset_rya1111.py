@@ -184,7 +184,8 @@ def test_the_axis_is_derived_for_our_own_products_over_the_whole_live_feed():
     #: analysis, tagged `asplund` like the four RYA-1106 rows (selector SET-FE_AGSS21).
     assert len([p for p in repl if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
         "the four RYA-1106 Asplund replications (RYA-1185)"
-    assert len([p for p in repl if p.get("selector") == "SET-FE_AGSS21"]) == 81
+    #: 81 -> 87: + the NIR Gerber NLTE / mean-3D NLTE products on the Asplund line (3 holdings)
+    assert len([p for p in repl if p.get("selector") == "SET-FE_AGSS21"]) == 87
 
 
 def test_an_unrecognised_tier_is_refused_rather_than_defaulted():
