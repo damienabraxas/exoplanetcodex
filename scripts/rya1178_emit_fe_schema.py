@@ -225,6 +225,12 @@ ATLAS = {
         "IAG FTS solar flux atlas",
         "corrected: as delivered — measured telluric-free to 0.1% in the O2 A-band core "
         "(RYA-783/786)"),
+    #: RYA-1232: the orchestrator's Asplund-set run reached this holding; copied from its own
+    #: row in data/catalog/holdings_manifest_registry.csv, not composed here.
+    "solar_iag_reiners2016": (
+        "IAG Reiners+2016 solar flux atlas, blue arm (4047.4-5001.1 A)",
+        "applied: NO telluric absorption to remove below 5001 A (bluest registered complex is "
+        "O2 B at 6867 A; agrees with the telluric-free KP2005 residual atlas over 4100-5000 A)"),
     "solar_crires_plus_y_wide_rya1054": (
         "CRIRES+ Vesta Y arm, 9800-10796 A (RYA-1054 wide window)",
         "corrected: cr2res + molecfit"),

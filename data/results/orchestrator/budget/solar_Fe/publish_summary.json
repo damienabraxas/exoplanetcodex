@@ -1,0 +1,269 @@
+{
+ "star": "solar",
+ "element": "Fe",
+ "units": [
+  "I VIS solar_kpno_kurucz2005_corrected ts-lte set:FE_AGSS21",
+  "II VIS solar_kpno_kurucz2005_corrected ts-lte set:FE_AGSS21",
+  "I VIS solar_kpno_molecfit_corrected ts-lte set:FE_AGSS21",
+  "II VIS solar_kpno_molecfit_corrected ts-lte set:FE_AGSS21",
+  "I VIS solar_harps_molecfit_corrected ts-lte set:FE_AGSS21",
+  "II VIS solar_harps_molecfit_corrected ts-lte set:FE_AGSS21",
+  "I VIS solar_iag_reiners2016 ts-lte set:FE_AGSS21",
+  "II VIS solar_iag_reiners2016 ts-lte set:FE_AGSS21",
+  "I VIS solar_iag ts-lte set:FE_AGSS21",
+  "II VIS solar_iag ts-lte set:FE_AGSS21",
+  "I red-optical solar_iag ts-lte set:FE_AGSS21",
+  "II red-optical solar_iag ts-lte set:FE_AGSS21",
+  "I red-optical solar_kpno_kurucz2005_corrected ts-lte set:FE_AGSS21",
+  "II red-optical solar_kpno_kurucz2005_corrected ts-lte set:FE_AGSS21",
+  "I red-optical solar_kpno_molecfit_corrected ts-lte set:FE_AGSS21",
+  "II red-optical solar_kpno_molecfit_corrected ts-lte set:FE_AGSS21",
+  "I NIR solar_iag ts-lte set:FE_AGSS21",
+  "I NIR solar_kpno_kurucz2005_corrected ts-lte set:FE_AGSS21",
+  "I NIR solar_kpno_molecfit_corrected ts-lte set:FE_AGSS21"
+ ],
+ "dropped": [
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag_reiners2016 SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag_reiners2016 SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "VIS solar_iag SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_iag SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_iag SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "red-optical solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_iag SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  },
+  {
+   "product": "NIR solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
+   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A)"
+  }
+ ],
+ "published": [
+  "VIS solar_kpno_kurucz2005_corrected SET-FE_AGSS21 1D-LTE A=7.443",
+  "VIS solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-A A=7.462",
+  "VIS solar_kpno_kurucz2005_corrected SET-FE_AGSS21 1D-LTE A=7.46",
+  "VIS solar_kpno_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.455",
+  "VIS solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-A A=7.469",
+  "VIS solar_kpno_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.474",
+  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.486",
+  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A A=7.523",
+  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.626",
+  "VIS solar_iag_reiners2016 SET-FE_AGSS21 1D-LTE A=7.519",
+  "VIS solar_iag_reiners2016 SET-FE_AGSS21 ENGINE-A A=7.529",
+  "VIS solar_iag_reiners2016 SET-FE_AGSS21 1D-LTE A=7.378",
+  "VIS solar_iag SET-FE_AGSS21 1D-LTE A=7.452",
+  "VIS solar_iag SET-FE_AGSS21 ENGINE-A A=7.46",
+  "VIS solar_iag SET-FE_AGSS21 1D-LTE A=7.601",
+  "red-optical solar_iag SET-FE_AGSS21 1D-LTE A=7.477",
+  "red-optical solar_iag SET-FE_AGSS21 ENGINE-A A=7.505",
+  "red-optical solar_iag SET-FE_AGSS21 1D-LTE A=7.373",
+  "red-optical solar_kpno_kurucz2005_corrected SET-FE_AGSS21 1D-LTE A=7.46",
+  "red-optical solar_kpno_kurucz2005_corrected SET-FE_AGSS21 ENGINE-A A=7.472",
+  "red-optical solar_kpno_kurucz2005_corrected SET-FE_AGSS21 1D-LTE A=7.37",
+  "red-optical solar_kpno_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.449",
+  "red-optical solar_kpno_molecfit_corrected SET-FE_AGSS21 ENGINE-A A=7.488",
+  "red-optical solar_kpno_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.378",
+  "NIR solar_iag SET-FE_AGSS21 1D-LTE A=7.467",
+  "NIR solar_kpno_kurucz2005_corrected SET-FE_AGSS21 1D-LTE A=7.478",
+  "NIR solar_kpno_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.451"
+ ],
+ "held": [],
+ "legs_incomplete": [],
+ "withdrawn": [
+  "Fe|II|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.619",
+  "Fe|II|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.704",
+  "Fe|II|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.374",
+  "Fe|II|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.44",
+  "Fe|II|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.586",
+  "Fe|II|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.652",
+  "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.453",
+  "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.516",
+  "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.46",
+  "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.522",
+  "Fe|II|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.35",
+  "Fe|II|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.396",
+  "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.346",
+  "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.393",
+  "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.354",
+  "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.401",
+  "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.471",
+  "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.523",
+  "Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.481",
+  "Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.533",
+  "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.454",
+  "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.506",
+  "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.532",
+  "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.491",
+  "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.577",
+  "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.617",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.558",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.53",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.615",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.638",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.49",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.453",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.533",
+  "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.557",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.484",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.45",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.531",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.546",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.495",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.462",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.542",
+  "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.562",
+  "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.522",
+  "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.48",
+  "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.545",
+  "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.576",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.507",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.464",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.519",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.562",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|our-all A=7.503",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-1D-LTE-gerber|our-all A=7.451",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|our-all A=7.525",
+  "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-all A=7.554"
+ ],
+ "preserved": [
+  "archive: FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_9199_9998_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_9199_9998_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_5000_iag_fts_solar_atlas_solar_iag_reiners2016_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
+  "archive: FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv"
+ ],
+ "verdict": {
+  "element_verdict": "REVIEW",
+  "benchmark": true,
+  "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
+  "n_products_judged": 182,
+  "counts": {
+   "IN_BAND": 90,
+   "OUT_OF_BAND": 92,
+   "NO_REFERENCE": 0,
+   "REPORTED": 0
+  },
+  "n_scale_mismatch": 170
+ },
+ "coverage": {
+  "counts": {
+   "PUBLISHED": 27,
+   "HELD": 133,
+   "NOT_RUN": 339,
+   "STALE": 71
+  },
+  "done": false
+ },
+ "withdrawal_reverted": "RYA-1232 2026-10-21: the Gerber-deck products listed under 'withdrawn' were RESTORED -- the scope matched (band, holding, ion, pool) without the deck, so a ts-lte rerun withdrew the Gerber treatments of the same cells. element_publish now scopes by the deck's emitted treatments."
+}

@@ -89,7 +89,8 @@ def _identity(row: dict) -> tuple:
 
 
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str) -> list[str]:
+                         held: list, why: str, started: str,
+                         scope: set | None = None) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -117,8 +118,15 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     # live; the current run's verdict is the one that stands, so that record goes too.
     quarantined_now = {pp.key_of(q): q for q in doc.get("quarantine") or []
                        if (q.get("quarantined_at") or "") >= started}
+    #: 🔴 RYA-1232: ONLY cells this run BUILT can be superseded by it. Fe (scoped to the
+    #: published line set, Ryan 2026-10-19) withdrew 145 live products -- every Codex/Deep row,
+    #: the lab-REFERENCE rows and the Fe anchor itself -- because they were "not republished"
+    #: by a run that never measured them. `scope` = {(band, holding, ion, pool tier)} of the
+    #: run's built cells; a product outside it is not this run's to withdraw.
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
+            and (scope is None or (str(p.get("band")), str(p.get("holding")), str(p.get("ion")),
+                                   str(p.get("selector")), str(p.get("treatment"))) in scope)
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
     if not gone:
         return []
@@ -226,7 +234,33 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     prev = work / "units.prev.txt"
     if prev.exists() and prev.read_text() != sig:
         import shutil
-        shutil.rmtree(legs, ignore_errors=True)
+        old = prev.read_text().splitlines()
+        new = sig.splitlines()
+        old_units = [l for l in old if l and not l.startswith("# ")]
+        new_units = [l for l in new if l and not l.startswith("# ")]
+        old_hash = {l for l in old if l.startswith("# ")}
+        new_hash = {l for l in new if l.startswith("# ")}
+        if old_hash <= new_hash and legs.exists():
+            # RYA-1232: the unit list GREW and no recorded input changed -- every unit that
+            # still has the identical command keeps its finished legs (re-indexed to its new
+            # position); only genuinely new units run. Wiping all 181 legs to add cells is
+            # what this replaces.
+            stash = legs.parent / "legs.reindex"
+            shutil.rmtree(stash, ignore_errors=True)
+            legs.rename(stash)
+            legs.mkdir(parents=True, exist_ok=True)
+            pos = {u: i for i, u in enumerate(old_units)}
+            kept = 0
+            for j, u in enumerate(new_units):
+                i = pos.get(u)
+                src = stash / f"unit{i:02d}" if i is not None else None
+                if src is not None and src.exists():
+                    src.rename(legs / f"unit{j:02d}")
+                    kept += 1
+            shutil.rmtree(stash, ignore_errors=True)
+            print(f"budget legs: kept {kept} unit(s) unchanged, {len(new_units) - kept} new")
+        else:
+            shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
@@ -283,6 +317,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+            from pipeline.line_sets import reference_lineset_for_selector
+            _ls = reference_lineset_for_selector(o["selector"])
+            if _ls:
+                cmd += ["--line-set", _ls]
         cond = _observed_conditioning(o)
         if cond:
             # RYA-1176: Al publishing requires the observed-conditioning identity, read from
@@ -295,8 +333,18 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
+    # ...and only pools this stage budgets (`units_for`: set / codex / deep). The lab-only
+    # `reference` pool is built by the matrix but never budgeted here, so nothing of it is
+    # republished -- it must never be withdrawn by this stage either.
+    # ...and only the TREATMENTS the built cell's deck emits: Gerber decks share the band,
+    # holding, ion and pool with ts-lte, and a ts-lte rerun withdrew their products too.
+    scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""), t)
+             for c in report.get("cells", []) if c.get("status") in BUILT
+             and str(c.get("pool") or "") != "REFERENCE"
+             for t in rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ())}
     summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started)
+                                                held=summary["held"], why=why, started=started,
+                                                scope=scope)
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict

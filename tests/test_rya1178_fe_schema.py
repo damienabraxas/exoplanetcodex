@@ -198,16 +198,24 @@ def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
     that they came in through the publisher — every one carries the publisher's provenance
     block (host, sha256, artifact mtime), which is exactly what a hand-appended row lacks
     and what the 24 failures were about."""
+    #: RYA-1232: 81 more `asplund` replications came in through the same publisher (the
+    #: orchestrator's FE_AGSS21 run); the provenance check below covers every one of them.
     asp = [p for p in feed["products"] if p.get("line_set") == "asplund"]
-    assert len(asp) == 4, "the four RYA-1106 Asplund replications"
+    assert len([p for p in asp if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
+        "the four RYA-1106 Asplund replications"
     for r in asp:
         assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
-        assert r["treatment"] == "ENGINE-A-3DNLTE" and r["selector"] == "ASPLUND_AGSS21"
         # the publisher's fingerprint — a hand-appended row has none of this
         prov = r["provenance"]
         assert prov["sha256"] and prov["artifact_mtime"] and prov["ingested_at"]
-        assert prov["copied_to"].startswith("data/results/rya1106/")
-        assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        if r["selector"] == "ASPLUND_AGSS21":
+            assert r["treatment"] == "ENGINE-A-3DNLTE"
+            assert prov["copied_to"].startswith("data/results/rya1106/")
+            assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        else:
+            #: RYA-1232: the orchestrator's FE_AGSS21 run, staged by element_publish
+            assert r["selector"] == "SET-FE_AGSS21"
+            assert prov["copied_to"].startswith("data/results/orchestrator/budget/solar_Fe/")
 
 
 #: The /1 element-product field set, pinned LITERALLY. /2 must be a strict superset.
@@ -306,7 +314,7 @@ def test_kp_nir_graded_tier_is_confirmed_against_its_pool(feed):
     primary-laboratory, so the GRADED tier is earned."""
     kp = [p for p in feed["products"]
           if p["band"] == "NIR" and p["holding"] == "solar_kpno_molecfit_corrected"
-          and p["treatment"] == "1D-LTE"][0]
+          and p["treatment"] == "1D-LTE" and p.get("tier") == "GRADED"][0]
     tp = kp["tier_provenance"]
     assert tp["pool_reproduced"] and tp["fraction_primary_lab"] == 1.0
     assert tp["tier_verdict"].startswith("CONFIRMED")

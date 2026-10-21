@@ -472,7 +472,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 unstable.pop(_w)
     else:
         tell_excluded = {}
-    if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
+    #: RYA-1232 (Ryan): Fe has hundreds of lines -- a leg-unstable Fe line is simply dropped,
+    #: whatever the count; the 5% cap that HOLDS the product protects scarce-line elements.
+    _fe = str(prod["element"].iloc[0]) == "Fe"
+    if unstable and (_fe or len(unstable) <= max(1, int(0.05 * n))) and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
@@ -513,6 +516,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
     _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
+    from pipeline.line_sets import reference_lineset_for_selector
+    _ls = reference_lineset_for_selector(selector)
+    if _ls:
+        for _r in _rows:
+            _r["line_set"] = _ls     # RYA-1232: a replication of a published analysis
     if not _rows:
         # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
         # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is

@@ -357,9 +357,16 @@ def prepare(star: str, element: str) -> dict:
     # after measuring re-runs every cell (RYA-1233 Al: the run was started first and had to be
     # stopped). Run scripts/extend_nlte_grid.py --element <El> --write (Sirius), then
     # re-prepare. Unclassified gf sources (budget says UNREVIEWED) stay a NOTE.
+    #: Ryan's per-element answer to check C (data/reference/cull_decisions.yaml): `no_cull`
+    #: keeps the candidates in the pool, so they are reported but neither block nor get culled
+    import yaml as _yaml
+    _cd = ROOT / "data" / "reference" / "cull_decisions.yaml"
+    rep["cull_decision"] = ((_yaml.safe_load(_cd.read_text()) or {}).get(element) or {}) if _cd.exists() else {}
+    _no_cull = rep["cull_decision"].get("decision") == "no_cull"
     rep["blocking"] = {
         "nlte_missing": len(rep["nlte_missing"]) if rep.get("nlte_table") else 0,
-        "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
+        "adopt": len(rep["adopt"]),
+        "cull_candidates": 0 if _no_cull else len(rep["cull_candidates"]),
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
         "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
@@ -401,7 +408,9 @@ def render(rep: dict) -> str:
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
     for n in rep.get("literature_needs", []):
         L.append(f"  F2 literature need: {n['why_needed']} [{', '.join(n['holdings'])}]")
-    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
+    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}"
+             + (f"  -- decision: {rep['cull_decision']['decision']} ({rep['cull_decision'].get('by')}, "
+                f"{rep['cull_decision'].get('date')}); kept in the pool" if rep.get("cull_decision") else ""))
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
     L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
@@ -466,7 +475,7 @@ def apply(star: str, element: str, rep: dict) -> dict:
         ad.parent.mkdir(parents=True, exist_ok=True)
         ad.write_text(json.dumps(written, indent=1, default=str) + "\n")
         done["added"] = len(written)
-    if rep["cull_candidates"]:
+    if rep["cull_candidates"] and (rep.get("cull_decision") or {}).get("decision") != "no_cull":
         b = REGISTRY_PC.read_bytes()
         s = io.StringIO()
         w = csv.writer(s, lineterminator="\r\n")

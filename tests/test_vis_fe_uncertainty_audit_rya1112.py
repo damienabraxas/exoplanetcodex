@@ -250,7 +250,9 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
 
     # every <3D> MEAN product APPLIES -- the refuted exemption must not come back
     mean3d = [r for r in doc["products"] if "mean3D" in r["treatment"]]
-    assert len(mean3d) == 4
+    #: 4 -> 19 (RYA-1232): + 15 Asplund-set VIS mean-3D products (5 holdings x Fe I LTE,
+    #: Fe I NLTE, Fe II LTE); the rule below must hold on every one of them.
+    assert len(mean3d) == 19
     for r in mean3d:
         assert r["xi_applicability"].startswith("APPLIES"), (
             "the <3D> mean was exempted again — RYA-1099 measured it as xi-SENSITIVE")
