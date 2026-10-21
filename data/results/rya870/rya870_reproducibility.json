@@ -1,17 +1,17 @@
 {
   "ticket": "RYA-870",
   "product": "data/products/solar/Fe_perline.csv",
-  "product_commit_sha": "05972483e350d1bc84b9891e762c26fe6e4a1f87",
-  "n_rows_in_product": 9558,
+  "product_commit_sha": "cc833cf47c522459b51f4d8620f0a4cc6ff6af57",
+  "n_rows_in_product": 9807,
   "n_ew_route_in_aggregate": 0,
   "n_sampled": 0,
   "n_tested": 0,
   "n_passed": 0,
   "n_failed": 0,
-  "n_synthesis_rows_NOT_COVERED": 6709,
+  "n_synthesis_rows_NOT_COVERED": 6909,
   "n_ew_labelled_in_aggregate": 1685,
   "n_ew_labelled_without_ew_mA": 1685,
-  "coverage_note": "NO EW-ROUTE ROWS TO TEST, for two reasons that are easy to confuse. (1) 6709 in-aggregate rows are synthesis fits, which cannot be reproduced from the row alone -- they need the observed spectrum -- and are never counted as passing. (2) 1685 in-aggregate rows ARE labelled `ew_integration`, and 1685 of them carry no `ew_mA`, which is the quantity this guard re-inverts. \u26a0\ufe0f THAT FLAG LOOKS WRONG AT SOURCE, not here: the ENGINE-A band products set `ew_inversion=True` on every row while their own `ew_method` reads 'synthesis flux-fit, FIXED half-width +/-0.62 A (RYA-759 route; no EW exists in this band...)' and `ew_mA` is empty. The per-line product projects the flag faithfully, so `method` reads `ew_integration` for measurements that were flux fits. Fixing that belongs to the band-product emitter. Separately: since RYA-1229 this product is a projection of the FEED, and the 10 published PROFILEFIT-route products -- the genuine EW route -- are all among the 21 with no force-added per-line artifact. The guard's previous 8/8 PASS was measured on rows from two SUPERSEDED artifacts (engine label `1D-LTE (ts-lte)`) that back no published product, so it was evidence about data the site does not serve.",
+  "coverage_note": "NO EW-ROUTE ROWS TO TEST, for two reasons that are easy to confuse. (1) 6909 in-aggregate rows are synthesis fits, which cannot be reproduced from the row alone -- they need the observed spectrum -- and are never counted as passing. (2) 1685 in-aggregate rows ARE labelled `ew_integration`, and 1685 of them carry no `ew_mA`, which is the quantity this guard re-inverts. \u26a0\ufe0f THAT FLAG LOOKS WRONG AT SOURCE, not here: the ENGINE-A band products set `ew_inversion=True` on every row while their own `ew_method` reads 'synthesis flux-fit, FIXED half-width +/-0.62 A (RYA-759 route; no EW exists in this band...)' and `ew_mA` is empty. The per-line product projects the flag faithfully, so `method` reads `ew_integration` for measurements that were flux fits. Fixing that belongs to the band-product emitter. Separately: since RYA-1229 this product is a projection of the FEED, and the 10 published PROFILEFIT-route products -- the genuine EW route -- are all among the 21 with no force-added per-line artifact. The guard's previous 8/8 PASS was measured on rows from two SUPERSEDED artifacts (engine label `1D-LTE (ts-lte)`) that back no published product, so it was evidence about data the site does not serve.",
   "results": [],
   "verdict": "NO-COVERAGE"
 }
