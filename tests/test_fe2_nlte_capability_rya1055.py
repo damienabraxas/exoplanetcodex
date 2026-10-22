@@ -341,7 +341,8 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: row VANISHING.
     #: 30 -> 54 (RYA-1232): the Asplund-set run adds 24 Fe II products (8 holdings x 1D-LTE,
     #: Gerber 1D-LTE, mean-3D LTE); every one carries the limit, which the EQUALITY asserts.
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 54
+    #: 54 -> 56: + near-UV Fe II mean-3D LTE on the lab Reference pool (2 holdings)
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 56
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
     #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of
@@ -607,7 +608,10 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: them unchanged: all report `none — LTE, no departure applied` with zero nonzero
     #: departures, because the Fe II limit is a property of the ATOM and no pool can
     #: change it.
-    assert len(per) == 36, len(per)
+    #: 36 -> 38 (RYA-1232): the near-UV Fe II <3D>-LTE leg on the lab Reference pool (both KP
+    #: holdings). New artifacts, swept in like every widening above; the per-row checks run on
+    #: them too (LTE, no departure applied).
+    assert len(per) == 38, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (
