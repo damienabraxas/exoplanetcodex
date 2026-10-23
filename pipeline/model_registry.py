@@ -173,3 +173,23 @@ def resolve(token: str, path: Path | None = None) -> dict:
     raise ModelRegistryError(
         f"{tok!r} maps to {len(hits)} models "
         f"({', '.join(h['model_id'] for h in hits)}) — an undocumented collision.")
+
+
+#: RYA-1232 (Ryan 2026-10-23): a product made with an EXPERIMENTAL model -- the registry's
+#: "Frankenstein" pair (mean-3D LTE/NLTE Gerber-Stagger, models 5/6) -- is published flagged
+#: so every page draws it as experimental. The flag used to be stamped by hand on two rows;
+#: 46 later products of the same models carried none and rendered as regular results.
+EXPERIMENTAL_NICKNAMES = ("Frankenstein",)
+EXPERIMENTAL_ADOPTION = "EXPERIMENTAL-NOT-ADOPTED"
+
+
+def adoption_for(treatment: str | None, path: Path | None = None) -> str | None:
+    """`EXPERIMENTAL-NOT-ADOPTED` when the treatment's registry model is experimental, else None."""
+    tok = str(treatment or "").strip()
+    if not tok:
+        return None
+    for r in load(path):
+        if r.get("stored_token", "").strip() == tok and \
+                r.get("nickname", "").strip() in EXPERIMENTAL_NICKNAMES:
+            return EXPERIMENTAL_ADOPTION
+    return None
