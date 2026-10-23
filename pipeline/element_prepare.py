@@ -203,7 +203,17 @@ def prepare(star: str, element: str) -> dict:
         if len(hit) != 1:
             row["canonical"] = "MISSING" if len(hit) == 0 else f"AMBIGUOUS ({len(hit)})"
             row["in_synthesis_list"] = _in_synthesis_list(sp, w)
-            if len(hit) == 0 and a_gf is not None:
+            # RYA-1250: a row the synthesis would RESOLVE to (gf_resolver's own tolerance) is the
+            # same physical line. Adding a second row beside it is never read -- the resolver
+            # takes the nearest -- so the authors' gf silently never reaches the synthesis.
+            from pipeline.gf_resolver import WTOL, EPTOL
+            near = canon[(canon.species == sp) & ((canon.wavelength_air_A - w).abs() <= WTOL)
+                         & ((canon.excitation_potential_eV - ep).abs() <= EPTOL)]
+            if len(hit) == 0 and len(near):
+                row["canonical"] = f"NEAR {','.join(near.line_id.astype(str))} -- join explicitly"
+                row["add_refused"] = ("canonical row within the resolver tolerance; set "
+                                      "canonical_line_id instead of adding a duplicate")
+            elif len(hit) == 0 and a_gf is not None:
                 # Step 6 the orchestrator can take itself: the transition from our solar VALD
                 # extract + the authors' gf (pipeline.published_line_add). --apply writes it.
                 from pipeline import published_line_add as pla
