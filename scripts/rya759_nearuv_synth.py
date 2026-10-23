@@ -95,6 +95,12 @@ def step_linelist(args) -> dict:
     out = Path(args.linelist) if args.linelist else None
     path, rep = nl.build(lo_A=LO_A, hi_A=HI_A, out_path=out,
                          gf_sources_csv=gf_csv if gf_csv.exists() else None)
+    # RYA-1232: Gerber NLTE needs each Fe I line's two model-atom levels. The builder writes
+    # 'none' (nearuv_linelist), so a rebuild used to erase any labels silently -- label here,
+    # through the RYA-1094 labeller (both endpoints resolved uniquely, or neither).
+    import subprocess as _sp
+    _sp.run([sys.executable, str(ROOT / "scripts" / "rya1094_label_nlte_levels.py"),
+             "--linelist", str(path), "--species", "Fe 1", "--apply"], check=True)
     print(f"\n[linelist] {path}")
     print(f"  {rep['n_lines']:,} lines / {rep['n_species']} species  "
           f"{rep['lo_A']:.2f}-{rep['hi_A']:.2f} A")
