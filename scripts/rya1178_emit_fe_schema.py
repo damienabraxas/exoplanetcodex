@@ -1091,7 +1091,14 @@ def enrich(feed: dict, hold, inst, models, xi_doc) -> tuple[dict, list]:
     from pipeline.reference_lineset import line_set_for_product
     idx = xi_index(xi_doc, feed)
     notes = []
+    from pipeline.model_registry import adoption_for
     for p in feed["products"]:
+        #: RYA-1232: experimental-model products (the registry's Frankenstein pair) carry the
+        #: flag every page draws in red -- derived from the registry, never hand-stamped. A
+        #: legacy row already flagged is left byte-identical.
+        _ad = adoption_for(p.get("treatment"))
+        if _ad and p.get("adoption") != _ad:
+            p["adoption"] = _ad
         #: 🔴 THE RENAME IS DEFERRED, DELIBERATELY. The ticket asks for `provenance` ->
         #: `artifact_provenance`. 27 code sites read the current name, and several are
         #: VALUE-PROTECTION guards -- RYA-1080's feed/repo reconciliation, RYA-1092's
