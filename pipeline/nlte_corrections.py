@@ -632,6 +632,11 @@ def _load_mpia_element_grid(element: str) -> dict:
     if not path.exists():
         raise FileNotFoundError(f"NLTE grid for {element} not found: {path}")
     df = pd.read_csv(path)
+    # A shared element CSV may contain several ions; never interpolate across stages.
+    # Historical single-ion MPIA extracts omit the column; their stage is the
+    # registry's explicit ion. Only multi-ion-capable tables carry per-row stages.
+    if 'ion' in df.columns:
+        df = df[df['ion'].map(parse_ion) == int(spec['ion'])]
     placeholders = detect_placeholder_zero_lines(df)
     if placeholders:
         raise ValueError(

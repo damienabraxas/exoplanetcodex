@@ -19,8 +19,9 @@ GUARD (RYA-1214's, generalised): the list is shared by every element's products 
 A committed pool line of ANOTHER element within the band's fit half-width of an added
 component would move that product, so the add refuses and names it.
 
-The raw VALD extracts left git in RYA-1228; they are read from data/linelists/ when present,
-else from the preserved archive (VALD_ARCHIVE, `CODEX_VALD_ARCHIVE` overrides).
+The raw VALD extracts left git in RYA-1228; they are read through the registered
+`data.vald_raw` path (``CODEX_VALD_RAW`` on Sirius), with the repository staging
+and legacy archive as compatibility fallbacks.
 """
 from __future__ import annotations
 
@@ -35,6 +36,22 @@ ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "data" / "linelists" / "canonical_gf.csv"
 VALD_ARCHIVE = Path(os.environ.get(
     "CODEX_VALD_ARCHIVE", Path.home() / "Documents/Exoplanet Codex/vald_raw_archive/current"))
+
+
+def _vald_roots() -> tuple[Path, ...]:
+    """Return configured VALD locations, in authoritative-to-compatibility order."""
+    roots: list[Path] = []
+    try:
+        from config.constants import codex_path
+        roots.append(codex_path("data.vald_raw"))
+    except (ImportError, KeyError, OSError):
+        pass
+    # Keep explicit overrides useful for older host profiles and local mirrors.
+    for raw in (os.environ.get("CODEX_VALD_RAW"), os.environ.get("CODEX_VALD_ARCHIVE")):
+        if raw:
+            roots.append(Path(raw).expanduser())
+    roots.extend((ROOT / "data" / "linelists", VALD_ARCHIVE))
+    return tuple(dict.fromkeys(roots))
 #: Our solar VALD3 Extract Stellar deliveries with hyperfine structure ON, by span (A, air).
 SOLAR_EXTRACTS = ((2000.0, 3780.0, "vald_solar_nearuv_2000_3780_hfson_raw.txt"),
                   (6910.0, 9500.0, "vald_solar_redopt_6910_9500_hfson_raw.txt"),
@@ -55,11 +72,14 @@ class LineAddError(RuntimeError):
 def extract_for(w: float) -> Path:
     for lo, hi, name in SOLAR_EXTRACTS:
         if lo <= w < hi:
-            for p in (ROOT / "data" / "linelists" / name, VALD_ARCHIVE / name):
-                if p.exists():
-                    return p
-            raise LineAddError(f"{name} (covers {w:.3f} A) is in neither data/linelists/ nor "
-                               f"{VALD_ARCHIVE}")
+            searched = _vald_roots()
+            for root in searched:
+                for p in (root / name, root.parent / name):
+                    if p.exists():
+                        return p
+            raise LineAddError(
+                f"{name} (covers {w:.3f} A) not found; searched VALD roots: "
+                + ", ".join(str(p) for p in searched))
     raise LineAddError(f"no solar hfs-on VALD extract covers {w:.3f} A")
 
 
@@ -105,8 +125,11 @@ def clashes(element: str, waves: list[float]) -> list[str]:
     return sorted(set(out))
 
 
-def plan(row: dict) -> dict:
+def plan(row: dict, *, allow_ungraded: bool = False) -> dict:
     """What adding one missing published line would write (no files touched)."""
+    sigma = row.get('authors_sigma_dex')
+    if not allow_ungraded and (sigma is None or not np.isfinite(float(sigma))):
+        raise LineAddError("Published line has no resolved gf uncertainty; cannot admit as graded")
     from pipeline.element_prepare import SYNTH_LISTS
     sp, w, ep = row["species"], float(row["wavelength_A"]), float(row["ep_eV"])
     comps, src = components(sp, w, ep)
@@ -120,12 +143,17 @@ def plan(row: dict) -> dict:
     if lst is None:
         raise LineAddError(f"{sp} {w:.3f}: its synthesis list is iSpec's own GES list, outside "
                            f"the repo -- not writable here")
+    # A published transition can already be present in the shared synthesis list while
+    # missing only from canonical_gf (common for IR VALD lists).  Keep the canonical
+    # admission path generic, but do not duplicate the physical components in that list.
+    existing = row.get("in_synthesis_list")
     return {"species": sp, "wavelength_A": w, "ep_eV": ep, "set": row["set"],
             "authors_loggf": row["authors_loggf"], "authors_sigma_dex": row["authors_sigma_dex"],
             "authors_gf_source": row.get("authors_gf_source"),
             "extract": src.name, "n_components": len(comps), "centroid_A": round(centroid, 4),
             "vald_total_loggf": round(float(np.log10(np.sum(10 ** gf))), 3),
-            "synthesis_list": str(lst.relative_to(ROOT)),
+            "synthesis_list": existing or str(lst.relative_to(ROOT)),
+            "synthesis_existing": bool(existing),
             "clashes": clashes(sp.split()[0], list(wl)), "_components": comps}
 
 
@@ -142,7 +170,8 @@ def apply(plans: list[dict], *, citation: dict) -> list[dict]:
     import ispec
     by_list: dict = {}
     for p in plans:
-        by_list.setdefault(p["synthesis_list"], []).extend(p["_components"])
+        if not p.get("synthesis_existing"):
+            by_list.setdefault(p["synthesis_list"], []).extend(p["_components"])
     for rel, recs in by_list.items():
         path = ROOT / rel
         base = ispec.read_atomic_linelist(str(path))

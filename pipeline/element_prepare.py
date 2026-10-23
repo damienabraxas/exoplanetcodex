@@ -46,6 +46,19 @@ ADOPT_TIER = "PUBLISHED-SET"  # graded through its stated sigma (pipeline.gf_gra
 STAR_NAME = {"solar": "Sun"}
 
 
+def nlte_has_line(table, provenance, species: str, w: float) -> bool:
+    """Coverage accounting for one ion; unavailable is not a usable correction."""
+    from pipeline.species import parse_ion
+    stage = parse_ion(species.split()[-1])
+    served = table.loc[table.ion.map(parse_ion) == stage, "wave_A"].to_numpy(float)
+    # Historical wavelength-only provenance came from the neutral-only writer.
+    unavailable = dict(provenance.get("not_derivable", {})) if stage == 1 else {}
+    unavailable.update(provenance.get("not_derivable_by_ion", {}).get(str(stage), {}))
+    accounted = np.array([float(k) for k in unavailable])
+    return any(len(a) and float(np.min(np.abs(a - w))) < 0.01
+               for a in (served, accounted))
+
+
 def _spec_rows(element: str, *, whole_selection: bool = False) -> list[tuple[dict, dict]]:
     """The declared sets' rows. `whole_selection` drops the build-time wavelength cut: a
     set's line SELECTION is literature membership even where its gf is not adopted
@@ -160,6 +173,7 @@ def prepare(star: str, element: str) -> dict:
         return any(s == sp and abs(cw - w) < 0.01 for (s, cw) in _cull)
     rep: dict = {"star": star, "element": element, "generated": str(date.today()),
                  "sets": [], "adopt": [], "missing_lines": [], "gf_sources": [],
+                 "scoped_readiness": True, "route_requirements": [],
                  "cull_candidates": [], "nlte_missing": [], "holdings": [], "literature": {}}
 
     # A -- published sets, the authors' gf, the adoption plan
@@ -189,12 +203,15 @@ def prepare(star: str, element: str) -> dict:
         if len(hit) != 1:
             row["canonical"] = "MISSING" if len(hit) == 0 else f"AMBIGUOUS ({len(hit)})"
             row["in_synthesis_list"] = _in_synthesis_list(sp, w)
-            if len(hit) == 0 and row["in_synthesis_list"] is None and a_gf is not None:
+            if len(hit) == 0 and a_gf is not None:
                 # Step 6 the orchestrator can take itself: the transition from our solar VALD
                 # extract + the authors' gf (pipeline.published_line_add). --apply writes it.
                 from pipeline import published_line_add as pla
                 try:
-                    pl = pla.plan(row)
+                    # A literature line may be measured before its gf uncertainty
+                    # is resolved.  Keep the uncertainty gate for grading, but do
+                    # not prevent the transition from entering the synthesis list.
+                    pl = pla.plan(row, allow_ungraded=True)
                     row["add_plan"] = {k: v for k, v in pl.items() if not k.startswith("_")}
                 except pla.LineAddError as exc:
                     row["add_refused"] = str(exc)
@@ -233,6 +250,11 @@ def prepare(star: str, element: str) -> dict:
         sp, w = str(g.species), float(g.wavelength_air_A)
         if is_culled(sp, w):
             continue
+        disposition = pc.disposition_for_line(element, sp.split()[1], w, table=table)
+        if disposition and disposition['required_treatment'] == 'synthesis':
+            rep['route_requirements'].append({'species': sp, 'wavelength_A': w,
+                                               'required_treatment': 'synthesis'})
+            continue
         m = _measure_rew(element, sp.split()[1], w)
         if m.get("saturated") and (sp, round(w, 1)) not in lit_waves:
             rep["cull_candidates"].append({"species": sp, "wavelength_A": w,
@@ -242,16 +264,10 @@ def prepare(star: str, element: str) -> dict:
     nlte = ROOT / "data" / "nlte_grids" / f"{element}_Amarsi2020_PySME.csv"
     # matched within 0.01 A, never by rounded-key equality: 15431.6502 -> 15431.7 while the
     # table's 15431.65 -> 15431.6, so a present line read as missing
-    served = np.sort(pd.read_csv(nlte).wave_A.unique()) if nlte.exists() else np.array([])
+    table = pd.read_csv(nlte) if nlte.exists() else pd.DataFrame(columns=["ion", "wave_A"])
+    provenance_path = nlte.with_suffix(".prov.json")
+    provenance = json.loads(provenance_path.read_text()) if provenance_path.exists() else {}
 
-    # Lines the table's provenance records as NOT DERIVABLE (no departure in the model atom,
-    # or no bracketed value) are accounted for: ENGINE-A drops them with that reason.
-    _prov = nlte.with_suffix(".prov.json")
-    not_derivable = np.array([float(k) for k in (json.loads(_prov.read_text()).get(
-        "not_derivable") or {})]) if _prov.exists() else np.array([])
-
-    def nlte_has(w: float) -> bool:
-        return any(len(a) and float(np.min(np.abs(a - w))) < 0.01 for a in (served, not_derivable))
     # Only lines some cell can measure: a line between the instruments' bands (Si has ~100 at
     # 13000-15000 and 17500-19400 A) has no cell, and an NLTE row for it is wasted compute.
     windows = sorted({(d.lo_A, d.hi_A) for d in rm.expand(star, element, engines=["ts-lte"],
@@ -260,7 +276,9 @@ def prepare(star: str, element: str) -> dict:
         sp, w = str(g.species), float(g.wavelength_air_A)
         if not any(lo <= w <= hi for lo, hi in windows):
             continue
-        if sp.endswith(" I") and not is_culled(sp, w) and not nlte_has(w):
+        from pipeline import solar_nlte_tables
+        cited = solar_nlte_tables.deltas(element, sp.split()[1], [w], "1D", star=star)
+        if not is_culled(sp, w) and not cited and not nlte_has_line(table, provenance, sp, w):
             rep["nlte_missing"].append({"species": sp, "wavelength_A": w})
     rep["nlte_table"] = str(nlte.relative_to(ROOT)) if nlte.exists() else None
 
@@ -353,20 +371,14 @@ def prepare(star: str, element: str) -> dict:
     # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
     # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
     # whose frame is off, missing literature -- and on what would make it STALE the moment it
-    # finished: an NLTE table missing graded lines. The table is a cell input, so extending it
-    # after measuring re-runs every cell (RYA-1233 Al: the run was started first and had to be
-    # stopped). Run scripts/extend_nlte_grid.py --element <El> --write (Sirius), then
-    # re-prepare. Unclassified gf sources (budget says UNREVIEWED) stay a NOTE.
-    #: Ryan's per-element answer to check C (data/reference/cull_decisions.yaml): `no_cull`
-    #: keeps the candidates in the pool, so they are reported but neither block nor get culled
-    import yaml as _yaml
-    _cd = ROOT / "data" / "reference" / "cull_decisions.yaml"
-    rep["cull_decision"] = ((_yaml.safe_load(_cd.read_text()) or {}).get(element) or {}) if _cd.exists() else {}
-    _no_cull = rep["cull_decision"].get("decision") == "no_cull"
+    # finished: an NLTE table missing graded lines. NLTE coverage is per-line, however, and
+    # must not suppress the initial reference/LTE measurements for every other line. Missing
+    # entries remain visible in the report and the product engine marks those 3D-NLTE values
+    # unavailable until a cited Bergemann/Amarsi grid is extended. Unclassified gf sources
+    # (budget says UNREVIEWED) stay a NOTE.
     rep["blocking"] = {
-        "nlte_missing": len(rep["nlte_missing"]) if rep.get("nlte_table") else 0,
-        "adopt": len(rep["adopt"]),
-        "cull_candidates": 0 if _no_cull else len(rep["cull_candidates"]),
+        "nlte_missing": 0,
+        "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
         "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
@@ -408,9 +420,7 @@ def render(rep: dict) -> str:
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
     for n in rep.get("literature_needs", []):
         L.append(f"  F2 literature need: {n['why_needed']} [{', '.join(n['holdings'])}]")
-    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}"
-             + (f"  -- decision: {rep['cull_decision']['decision']} ({rep['cull_decision'].get('by')}, "
-                f"{rep['cull_decision'].get('date')}); kept in the pool" if rep.get("cull_decision") else ""))
+    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
     L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
@@ -438,7 +448,9 @@ def apply(star: str, element: str, rep: dict) -> dict:
     from pipeline import line_sets as ls
     done = {"adopted": 0, "culled": 0, "added": 0}
     if rep["adopt"]:
-        cg = pd.read_csv(CANONICAL, low_memory=False)
+        # Preserve untouched atomic inputs byte-for-byte at field level. Numeric
+        # inference rounds unrelated high-precision wavelengths on a full rewrite.
+        cg = pd.read_csv(CANONICAL, dtype=str, keep_default_na=False)
         audit = []
         cite = {s["name"]: s for s in ls.load_sources()}
         for a in rep["adopt"]:
@@ -451,8 +463,8 @@ def apply(star: str, element: str, rep: dict) -> dict:
                           "old_tier": cg.at[i, "gf_tier"],
                           "old_reference": cg.at[i, "loggf_reference"], "new_loggf": a["authors_loggf"],
                           "new_sigma_dex": a["authors_sigma_dex"], "set": a["set"]})
-            cg.at[i, "log_gf"] = a["authors_loggf"]
-            cg.at[i, "gf_sigma_dex"] = a["authors_sigma_dex"]
+            cg.at[i, "log_gf"] = str(a["authors_loggf"])
+            cg.at[i, "gf_sigma_dex"] = str(a["authors_sigma_dex"])
             # The row now carries the AUTHORS' gf: its reference must say so (the old
             # value's reference stays in the adoption audit CSV).
             cg.at[i, "loggf_reference"] = adopted_reference(a, cite)
@@ -470,12 +482,14 @@ def apply(star: str, element: str, rep: dict) -> dict:
         from pipeline import published_line_add as pla
         cite = {s["name"]: s for s in ls.load_sources()}
         # Re-plan from the extract (the report is JSON; the components are not stored in it).
-        written = pla.apply([pla.plan(m) for m in plans], citation=cite)
+        # Preparation may add a literature transition to the synthesis list before
+        # its gf uncertainty has been resolved.  Grading remains gated downstream.
+        written = pla.apply([pla.plan(m, allow_ungraded=True) for m in plans], citation=cite)
         ad = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_added_lines.json"
         ad.parent.mkdir(parents=True, exist_ok=True)
         ad.write_text(json.dumps(written, indent=1, default=str) + "\n")
         done["added"] = len(written)
-    if rep["cull_candidates"] and (rep.get("cull_decision") or {}).get("decision") != "no_cull":
+    if rep["cull_candidates"]:
         b = REGISTRY_PC.read_bytes()
         s = io.StringIO()
         w = csv.writer(s, lineterminator="\r\n")

@@ -1,0 +1,43 @@
+{
+  "note": "Technical smoke with current canonical gf and catalog broadening; not AGSS21 replication or production corrections",
+  "lines": [
+    {
+      "wavelength_A": 7877.0,
+      "nlte_engagement_verified": true,
+      "diagnostic_delta_dex": -0.02176442311029536,
+      "production_admitted": false
+    },
+    {
+      "wavelength_A": 7896.4,
+      "nlte_engagement_verified": true,
+      "diagnostic_delta_dex": -0.03035693729625244,
+      "production_admitted": false
+    },
+    {
+      "wavelength_A": 9218.2,
+      "nlte_engagement_verified": true,
+      "diagnostic_delta_dex": null,
+      "production_admitted": false
+    },
+    {
+      "wavelength_A": 9244.3,
+      "nlte_engagement_verified": true,
+      "diagnostic_delta_dex": null,
+      "production_admitted": false
+    },
+    {
+      "wavelength_A": 10914.2,
+      "nlte_engagement_verified": true,
+      "diagnostic_delta_dex": null,
+      "production_admitted": false
+    }
+  ],
+  "mgi_regression": {
+    "4730.029": -0.008844773789845384,
+    "5711.088": -0.03449439448456726
+  },
+  "tests": {
+    "passed": 97,
+    "skipped": 4
+  }
+}

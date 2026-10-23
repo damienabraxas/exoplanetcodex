@@ -42,5 +42,27 @@
     "tar_md5_verified": "cdc4449e17f580cac0c5cf6f041bcc2f",
     "binary_provenance": "amarsi_galah/Mg_amarsi2020_v3.prov.json",
     "refetch": "zenodo.org/records/3982506/files/nlte_Mg_scatt_pysme.tar.gz?download=1 (verify md5 cdc4449e17f580cac0c5cf6f041bcc2f)"
+  },
+  "extensions": [
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-10-18",
+      "ion": 1,
+      "added_waves": [
+        4571.096,
+        5167.322,
+        5172.684,
+        5528.405
+      ],
+      "why": "prepare check D: 5 gf-graded Mg I lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
+    }
+  ],
+  "not_derivable_by_ion": {
+    "1": {
+      "5183.604": "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)"
+    }
   }
 }

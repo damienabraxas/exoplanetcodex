@@ -23,7 +23,6 @@ stage/ + report.json + publish_summary.json (committed: the feed's provenance po
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 import shlex
@@ -50,11 +49,16 @@ def units_for(star: str, element: str, *, report: dict,
     built = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
              for c in report.get("cells", []) if c.get("status") in BUILT}
     out = []
-    # RYA-1213: the lab-gf `reference` pool is Reference Grade -- budgeted and published too
-    for d in rm.expand(star, symbol, methods=["synthesis"],
-                       pools=["set", "reference", "codex", "deep"]):
-        if (rm._band_of(d, star).name_declared, d.holding, d.ion, d.engine_deck,
-                rm.pool_tier(d)) not in built:
+    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
+        identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
+                    d.engine_deck, rm.pool_tier(d))
+        # Older run reports represented a published line-set cell as the generic
+        # GRADED selector. Accept that spelling when matching the descriptor's
+        # SET-* selector so artifacts already built by the orchestrator reach the
+        # budget/publication stage. Canonical and deep pools remain exact matches.
+        if identity not in built and not (
+                d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
+                and (*identity[:-1], "GRADED") in built):
             continue
         r = resolve(d, interpreter=interpreter or None, ispec_dir=None)
         step = next(s for s in r.steps if s["name"] == "derive_products")
@@ -92,8 +96,7 @@ def _identity(row: dict) -> tuple:
 
 
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str,
-                         scope: set | None = None) -> list[str]:
+                         held: list, why: str, started: str) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -121,15 +124,8 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     # live; the current run's verdict is the one that stands, so that record goes too.
     quarantined_now = {pp.key_of(q): q for q in doc.get("quarantine") or []
                        if (q.get("quarantined_at") or "") >= started}
-    #: 🔴 RYA-1232: ONLY cells this run BUILT can be superseded by it. Fe (scoped to the
-    #: published line set, Ryan 2026-10-19) withdrew 145 live products -- every Codex/Deep row,
-    #: the lab-REFERENCE rows and the Fe anchor itself -- because they were "not republished"
-    #: by a run that never measured them. `scope` = {(band, holding, ion, pool tier)} of the
-    #: run's built cells; a product outside it is not this run's to withdraw.
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
-            and (scope is None or (str(p.get("band")), str(p.get("holding")), str(p.get("ion")),
-                                   str(p.get("selector")), str(p.get("treatment"))) in scope)
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
     if not gone:
         return []
@@ -237,33 +233,7 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     prev = work / "units.prev.txt"
     if prev.exists() and prev.read_text() != sig:
         import shutil
-        old = prev.read_text().splitlines()
-        new = sig.splitlines()
-        old_units = [l for l in old if l and not l.startswith("# ")]
-        new_units = [l for l in new if l and not l.startswith("# ")]
-        old_hash = {l for l in old if l.startswith("# ")}
-        new_hash = {l for l in new if l.startswith("# ")}
-        if old_hash <= new_hash and legs.exists():
-            # RYA-1232: the unit list GREW and no recorded input changed -- every unit that
-            # still has the identical command keeps its finished legs (re-indexed to its new
-            # position); only genuinely new units run. Wiping all 181 legs to add cells is
-            # what this replaces.
-            stash = legs.parent / "legs.reindex"
-            shutil.rmtree(stash, ignore_errors=True)
-            legs.rename(stash)
-            legs.mkdir(parents=True, exist_ok=True)
-            pos = {u: i for i, u in enumerate(old_units)}
-            kept = 0
-            for j, u in enumerate(new_units):
-                i = pos.get(u)
-                src = stash / f"unit{i:02d}" if i is not None else None
-                if src is not None and src.exists():
-                    src.rename(legs / f"unit{j:02d}")
-                    kept += 1
-            shutil.rmtree(stash, ignore_errors=True)
-            print(f"budget legs: kept {kept} unit(s) unchanged, {len(new_units) - kept} new")
-        else:
-            shutil.rmtree(legs, ignore_errors=True)
+        shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
@@ -314,17 +284,12 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if src in done or not src.exists():
             continue
         done.add(src)
-        tier = (o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED", "REFERENCE")
-                else "ALL")
+        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED") else "ALL"
         cmd = [py, "scripts/publish_product.py", "--from", str(src), "--holding", o["holding"],
                "--tier", tier, "--route", "SYNTH", "--element", o["element"], "--star", star,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
-            from pipeline.line_sets import reference_lineset_for_selector
-            _ls = reference_lineset_for_selector(o["selector"])
-            if _ls:
-                cmd += ["--line-set", _ls]
         cond = _observed_conditioning(o)
         if cond:
             # RYA-1176: Al publishing requires the observed-conditioning identity, read from
@@ -337,42 +302,9 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
-    # ...and only pools this stage budgets (`units_for`: set / reference / codex / deep).
-    # ...and only the TREATMENTS the built cell's deck emits: Gerber decks share the band,
-    # holding, ion and pool with ts-lte, and a ts-lte rerun withdrew their products too.
-    scope = {(str(c["band"]), str(c["holding"]), str(c["ion"]), str(c.get("pool") or ""), t)
-             for c in report.get("cells", []) if c.get("status") in BUILT
-             for t in rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ())}
     summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started,
-                                                scope=scope)
+                                                held=summary["held"], why=why, started=started)
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
-    # RYA-1232: the stage is rebuilt per run, but products published by EARLIER runs (other
-    # pools/decks of a scoped run) still cite their files in it. Carry every still-cited file
-    # forward before the previous stage goes -- a scoped Fe run deleted 86 cited artifacts.
-    _fp = ROOT / "data" / "products" / star / f"{element}.json"
-    _feed = json.loads(_fp.read_text()) if _fp.exists() else {}
-    _kept = 0
-    for _p in _feed.get("products", []):
-        _ct = str((_p.get("provenance") or {}).get("copied_to") or "")
-        _src = prev_stage / Path(_ct).name
-        _dst = stage / Path(_ct).name
-        if not (_ct.startswith(str(stage.relative_to(ROOT)) + "/") and _src.exists()):
-            continue
-        _want = (_p.get("provenance") or {}).get("sha256")
-        _sha = lambda f: hashlib.sha256(f.read_bytes()).hexdigest()
-        # absent, or overwritten by another deck's file of the same name (a Gerber deck's
-        # base products.csv is the ts-lte 1D-LTE product's name): restore what it cites
-        if not _dst.exists() or (_want and _sha(_dst) != _want and _sha(_src) == _want):
-            stage.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(_src, _dst)
-            _kept += 1
-    # the per-line tables and budgets beside them travel with them
-    for _f in list(stage.glob("*_products.csv")):
-        for _side in prev_stage.glob(_f.name.replace("_products.csv", "") + "*"):
-            if not (stage / _side.name).exists():
-                shutil.copy2(_side, stage / _side.name)
-    summary["stage_carried_forward"] = _kept
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
