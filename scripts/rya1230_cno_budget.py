@@ -101,9 +101,10 @@ def _acc(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["in_aggregate"] == True]  # noqa: E712
 
 
-def _paired(leg: pd.DataFrame, nom: pd.DataFrame, n_product: int) -> dict:
-    r = paired_differential(leg, nom)
-    return {"median": float(r.median), "n_paired": int(r.n_paired),
+def _paired(leg: pd.DataFrame, nom: pd.DataFrame, n_product: int, aggregation="median") -> dict:
+    r = paired_differential(leg, nom, aggregator=aggregation)
+    return {"median": float(r.median), "effect": float(getattr(r, aggregation)),
+            "aggregation": aggregation, "n_paired": int(r.n_paired),
             "moved": int(r.n_paired) != n_product}
 
 
@@ -410,6 +411,9 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from pipeline.band_policy import resolve as band_of
     from publish_product import normalise
 
+    from pipeline.line_sets import aggregation_for
+    aggregation = aggregation_for(_arg(unit_args, "--lines-from-set"))
+    statistic = getattr(np, aggregation)
     lines_stem = stem
     prod_stem = stem.replace("_1D-LTE_lines.csv", "_products.csv").replace(
         "_lines.csv", "_products.csv")
@@ -479,7 +483,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
-        restat = {"A": round(float(_ab.median()), 3),
+        restat = {"A": round(float(statistic(_ab)), 3),
                   "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4),
                   "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
     elif tell_excluded:
@@ -502,7 +506,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         _fv = pd.Series([float(np.mean([v for _, v in f])) for f in feats])
         nf = len(_fv)
         restat = dict(restat or {"leg_unstable": {}})
-        restat.update({"A": round(float(_fv.median()), 3),
+        restat.update({"A": round(float(statistic(_fv)), 3),
                        "stat_dex": (round(float(_fv.std(ddof=1) / math.sqrt(nf)), 4) if nf > 1 else None),
                        "n_lines": nf, "n_components": len(acc),
                        "features": [[round(w, 3) for w, _ in f] for f in feats if len(f) > 1]})
@@ -663,9 +667,9 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     L, Hh = _restrict(L), _restrict(Hh)
     if L is not None and Hh is not None:
         d = dA_dxi(Hh, L, step_kms=XI_STEP, minus_dir=lo_d, plus_dir=hi_d, xi_nominal=1.0)
-        pl = paired_differential(Hh, L)
+        pl = paired_differential(Hh, L, aggregator=aggregation)
         if int(pl.n_paired) == n:
-            slope = float(d["dA_dxi_paired"])
+            slope = float(getattr(pl, aggregation)) / float(d["span_kms"])
             signed = slope * DELTA_XI
             comps.append(dict(name="stellar.xi", sigma_dex=abs(signed), state="MEASURED",
                               source=("per-line paired differential at xi 0.90/1.10 on this "
@@ -673,8 +677,8 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                               evidence={"pool_sha256": digest,
                                         "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
                                         "response_assessment": (
-                                            f"central paired median over {pl.n_paired} lines; "
-                                            f"difference of aggregates {d['dA_dxi_from_aggregates']:.4f}/km/s"),
+                                            f"central paired {aggregation} over {pl.n_paired} lines; "
+                                            f"difference of aggregates {pl.difference_of_aggregates / d['span_kms']:.4f}/km/s"),
                                         "signed_response_dex": signed, "delta_plus_dex": signed,
                                         "delta_minus_dex": -signed, "delta_parameter": DELTA_XI,
                                         "dA_dxi": slope, "parameter_exists": True}))
@@ -686,13 +690,13 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if leg is None:
             notes.append(f"{name}: leg {legname} missing")
             return
-        p = _paired(_accp(leg), acc, n)
+        p = _paired(_accp(leg), acc, n, aggregation)
         if p["moved"]:
             notes.append(f"{name}: pool moved ({p['n_paired']} vs {n})")
             return
-        comps.append(dict(name=name, sigma_dex=abs(p["median"]), state="MEASURED",
+        comps.append(dict(name=name, sigma_dex=abs(p["effect"]), state="MEASURED",
                           source=source, evidence={"pool_sha256": digest,
-                                                   "paired_median_dex": p["median"],
+                                                   f"paired_{aggregation}_dex": p["effect"],
                                                    "n_paired": p["n_paired"], **(extra or {})}))
 
     # continuum: central difference of the envelope estimator, p99 vs p90 around the
@@ -701,27 +705,27 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if lo_l is None or hi_l is None:
         notes.append("continuum: q80/q97 legs missing")
     else:
-        pc = _paired(_accp(hi_l), _accp(lo_l), n)
+        pc = _paired(_accp(hi_l), _accp(lo_l), n, aggregation)
         if pc["moved"]:
             notes.append(f"continuum: pool moved ({pc['n_paired']} vs {n})")
         else:
             # RYA-1232: + the REFERENCE spread (IAG atlas vs synthesis), in quadrature --
             # Amarsi+2021's two-atlas spread. Outside 5001-11086 A the leg equals nominal.
             ref_l = _leg_lines(unit_dir / "contref", lines_stem)
-            pr = _paired(_accp(ref_l), acc, n) if ref_l is not None else None
+            pr = _paired(_accp(ref_l), acc, n, aggregation) if ref_l is not None else None
             if ref_l is None:
                 notes.append("continuum: contref leg missing")
             elif pr["moved"]:
                 notes.append(f"continuum: contref pool moved ({pr['n_paired']} vs {n})")
             else:
                 comps.append(dict(
-                    name="continuum", sigma_dex=float(np.hypot(pc["median"] / 2.0, pr["median"])),
+                    name="continuum", sigma_dex=float(np.hypot(pc["effect"] / 2.0, pr["effect"])),
                     state="MEASURED",
                     source=("standing continuum rule (synthesis reference, 3-MAD clipped): "
                             "placement = q97 vs q80 central half-difference, REFERENCE = "
                             "IAG-atlas leg minus nominal, in quadrature, paired on this pool"),
-                    evidence={"pool_sha256": digest, "paired_median_q97_minus_q80": pc["median"],
-                              "paired_median_iag_minus_synthesis": pr["median"],
+                    evidence={"pool_sha256": digest, f"paired_{aggregation}_q97_minus_q80": pc["effect"],
+                              f"paired_{aggregation}_iag_minus_synthesis": pr["effect"],
                               "n_paired": pc["n_paired"]}))
     lever("profile_ew", "core", "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
           {"varied": "fit half-width", "nominal_A": hw, "alternate_A": 0.25})
@@ -793,11 +797,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         if cm is None or cp is None:
             notes.append("blends: A(C) legs missing")
         else:
-            pp = _paired(_accp(cp), _accp(cm), n)
+            pp = _paired(_accp(cp), _accp(cm), n, aggregation)
             if pp["moved"]:
                 notes.append(f"blends: pool moved ({pp['n_paired']} vs {n})")
             else:
-                resp = pp["median"] / (2 * C_STEP)          # dA(N)/dA(C)
+                resp = pp["effect"] / (2 * C_STEP)          # dA(N)/dA(C)
                 comps.append(dict(name="blends", sigma_dex=abs(resp) * SIGMA_C, state="MEASURED",
                                   source=("CN blended into the N I profiles, full molecular synthesis: "
                                           "paired response to A(C) +/- 0.10 on this pool x sigma(C)"),
@@ -849,7 +853,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
             notes.append("nlte: 1D-NLTE sibling missing, cannot split NLTE from 3D")
         else:
             common = sorted(set(d_here) & set(d_1d))
-            corr_nlte = float(np.median([d_1d[w] for w in common])) if common else None
+            corr_nlte = float(statistic([d_1d[w] for w in common])) if common else None
             if corr_nlte is None:
                 notes.append("nlte: no line common to the 1D-NLTE sibling")
             else:
@@ -866,19 +870,19 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                 "777 centre-to-limb variation (Amarsi+2018a model, adopted by the "
                                 "Amarsi+2019 grid applied here); the 0.03 dex floor, not half the "
                                 "correction"),
-                        evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                        evidence={"pool_sha256": digest, f"{aggregation}_nlte_correction_dex": corr_nlte,
                                   "n_lines": len(common), "floor_dex": 0.03,
                                   "half_correction_not_used_dex": abs(corr_nlte) / 2.0}))
                 else:
                     comps.append(dict(
                     name="nlte", sigma_dex=max(abs(corr_nlte) / 2.0, 0.03), state="MEASURED",
                     source=("Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum "
-                            "0.03 dex -- the correction measured on this pool (median 1D-NLTE "
+                            f"0.03 dex -- the correction measured on this pool ({aggregation} 1D-NLTE "
                             "delta of the accepted lines)"),
-                    evidence={"pool_sha256": digest, "median_nlte_correction_dex": corr_nlte,
+                    evidence={"pool_sha256": digest, f"{aggregation}_nlte_correction_dex": corr_nlte,
                               "n_lines": len(common), "floor_dex": 0.03}))
                 if "ENGINE-A-3DNLTE" in lines_stem:
-                    three_d = float(np.median([d_here[w] - d_1d[w] for w in common]))
+                    three_d = float(statistic([d_here[w] - d_1d[w] for w in common]))
     comps.append(dict(name="pseudo_continuum", sigma_dex=None, state="N/A",
                       source=("outside the near-UV the continuum is observed; it is placed per line "
                               "by the standing rule and priced on `continuum`"),
@@ -920,7 +924,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
             ma["source"] = (ma["source"] + "; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity "
                             "term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)")
             ma["evidence"] = {**ma["evidence"], "one_d_grid_dex": one_d,
-                              "median_3d_effect_dex": three_d}
+                              f"{aggregation}_3d_effect_dex": three_d}
 
     scope = product_scope(row, star="solar", indicator_ids=ids)
     numeric = [c for c in comps if c["state"] in {"MEASURED", "DEFINED"}]

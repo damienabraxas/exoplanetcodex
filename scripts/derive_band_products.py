@@ -66,6 +66,7 @@ from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.treatment_axes import axes_for  # RYA-906
 from pipeline import treatment_axes as taxes  # RYA-1040: <3D> tokens, never typed
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
+from pipeline.line_sets import aggregation_for
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
 from pipeline.error_budget import round_dex  # noqa: E402  RYA-1084
@@ -102,9 +103,11 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
     run where bs4 lives and handed over as a cache -- the numbers are identical, and the
     file records which lines MPIA actually served.
     """
+    from pipeline import solar_nlte_tables
+    cited = solar_nlte_tables.deltas(element, ion, waves, "1D", star=star)
     if cache:
         d = json.loads(Path(cache).read_text())
-        return {float(k): float(v) for k, v in d.items()}
+        return {**{float(k): float(v) for k, v in d.items()}, **cited}
     sys.path.insert(0, str(ROOT))
     from scripts.build_nlte_grids_mpia import _submit_batch
     from config.constants import get_star_params
@@ -126,9 +129,11 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
 
         spec = NLTE_CORRECTION_ELEMENTS.get(element)
         if spec is None or parse_ion(ion) != int(spec["ion"]):
-            return {}
-        out = {}
+            return cited
+        out = dict(cited)
         for wave in waves:
+            if float(wave) in cited:
+                continue
             delta = _mpia_element_delta(
                 element, float(wave), float(p["teff"]), float(p["logg"]), feh,
                 tol=0.06)
@@ -1823,8 +1828,10 @@ def synthesis_route(a, pol) -> None:
             _layers1d = _load_atmosphere(
                 float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
                 float(ctx["vturb"]), model_grid="MARCS.GES")
+            _probe_a = (float(np.mean(gnlte.abundance_axis(a.element)))
+                        if gnlte.has_abundance_axis(a.element) else None)
             _dep = gnlte.for_node(a.element, float(ctx["teff"]), float(ctx["logg"]),
-                                  float(ctx["feh"]))
+                                  float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(_dep, _layers1d)
             # 🔴 THE 1D PAIR, AND WHY IT HAS TO EXIST (RYA-1045).
             # `ENGINE-B-NLTE` runs on MARCS.GES because the deck demands it. The route's
@@ -2096,7 +2103,8 @@ def synthesis_route(a, pol) -> None:
     # proof that the handler is not a function of the treatment name, and no wider set
     # of treatment names could have got both right.
     product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
-                            lines, handler="SynthesisHandler", provenance=prov)
+                            lines, handler="SynthesisHandler", provenance=prov,
+                            aggregation=aggregation_for(getattr(a, "lines_from_set", None)))
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -2193,7 +2201,8 @@ def synthesis_route(a, pol) -> None:
     if eb_lines is not None:
         eb_product = build_product(a.element, a.ion, a.instrument, pol.name,
                                    eb_treatment, eb_lines,
-                                   handler="SynthesisHandler", provenance=eb_prov)
+                                   handler="SynthesisHandler", provenance=eb_prov,
+                                   aggregation=aggregation_for(getattr(a, "lines_from_set", None)))
         eb_rung = gf_rung.for_lines(a.element, a.ion, eb_lines, linelist=ctx["linelist"])
         eb_b = build_budget(a.element, 0.5 * (a.lo + a.hi), eb_product.n_lines,
                             scatter_dex=eb_product.sigma,
@@ -2409,7 +2418,8 @@ def synthesis_route(a, pol) -> None:
             rows_a.append(la)
         p_a = build_product(a.element, a.ion, a.instrument, pol.name, treatment, rows_a,
                             handler="SynthesisHandler",
-                            provenance=source)
+                            provenance=source,
+                            aggregation=aggregation_for(getattr(a, "lines_from_set", None)))
         if p_a.value is not None:
             pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
                 out / f"{stem}_{treatment}_lines.csv", index=False)
@@ -2420,6 +2430,7 @@ def synthesis_route(a, pol) -> None:
             pd.DataFrame([dict(
                 element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
                 treatment=treatment, handler=p_a.handler,
+                provenance=p_a.provenance,
                 A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
                 stat_dex=round_dex(stat_a), syst_dex=round_dex(syst_a),
                 stat_basis=b_a.stat_basis(),
@@ -2444,6 +2455,7 @@ def synthesis_route(a, pol) -> None:
                   f"above stands alone and is NOT an NLTE value.")
 
     _used = [l for l in lines if l.in_aggregate and l.abundance is not None]
+    from pipeline import solar_nlte_tables as _published
     if nlte_cno_species(a.element, a.ion):
         _emit_departure("ENGINE-A", cno_departure_deltas(a.element, a.ion, _used, ctx, "1D"),
                         engine_a_source(a.element), engine_a_model(a.element))
@@ -2454,11 +2466,22 @@ def synthesis_route(a, pol) -> None:
                         cno_departure_deltas(a.element, a.ion, _used, ctx, "3D"),
                         cno_departure_source("3D"), "amarsi", gf="kurucz")
     else:
-        _emit_departure("ENGINE-A",
-                        engine_a_delta(a.element, a.ion,
-                                       np.array([l.wavelength_air_A for l in _used]),
-                                       cache=a.mpia_cache, star=a.star),
-                        engine_a_source(a.element), engine_a_model(a.element))
+        _deltas_1d = engine_a_delta(a.element, a.ion,
+                                   np.array([l.wavelength_air_A for l in _used]),
+                                   cache=a.mpia_cache, star=a.star)
+        _applied = {l.wavelength_air_A: _deltas_1d[l.wavelength_air_A] for l in _used
+                    if l.wavelength_air_A in _deltas_1d}
+        _departure_source = _published.applied_source(a.element, a.ion, _applied,
+                            star=a.star, native_source=engine_a_source(a.element))
+        _emit_departure("ENGINE-A", _deltas_1d,
+                        _departure_source,
+                        engine_a_model(a.element))
+        _cited_3d = _published.deltas(a.element, a.ion,
+                                    [l.wavelength_air_A for l in _used], "3D", star=a.star)
+        if _cited_3d:
+            _emit_departure("ENGINE-A-3DNLTE", _cited_3d,
+                            _published.source(a.element, a.ion, "3D", star=a.star),
+                            _published.model(a.element, a.ion, star=a.star), gf="kurucz")
         # 🔴 RYA-1230 — the N I 3D-NLTE leg. N has no Amarsi 2019 grid (C/O only), but
         # Amarsi et al. 2020 Table 3 publishes the Sun's per-line 3D-NLTE and 1D-LTE
         # abundances from the SAME EWs, so their difference is a cited per-line
@@ -3216,8 +3239,10 @@ def main() -> None:
             ctx_b["atmosphere_layers_file"] = model3d["path"]
             ctx_b["nlte_deck"] = "gerber" if nlte else None
             ctx_b["nlte_deck_key"] = deck_key if nlte else None
+            _probe_a = (float(np.mean(gnlte.abundance_axis(deck_key)))
+                        if gnlte.has_abundance_axis(deck_key) else None)
             dep = gnlte.for_node(deck_key, float(ctx["teff"]), float(ctx["logg"]),
-                                 float(ctx["feh"]))
+                                 float(ctx["feh"]), abundance=_probe_a)
             # BOTH gates: the depths must pair index-for-index, and the two tau scales
             # must actually be the same scale -- iSpec overwrites the departure tau with
             # the atmosphere's, so a disagreement would be applied silently.
@@ -3294,9 +3319,11 @@ def main() -> None:
                 float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
                 float(ctx["vturb"]), model_grid="MARCS.GES")
             ctx_b["nlte_deck"] = "gerber"
+            _probe_a = (float(np.mean(gnlte.abundance_axis(a.element)))
+                        if gnlte.has_abundance_axis(a.element) else None)
             dep = gnlte.for_node(a.element,
                                  float(ctx["teff"]), float(ctx["logg"]),
-                                 float(ctx["feh"]))
+                                 float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
             # 🔴 RYA-1050 — WINDOW-LOCAL, NOT ELEMENT-GLOBAL.
             # Called without wavelength bounds this asks "is {element} labelled ANYWHERE in

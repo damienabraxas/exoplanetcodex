@@ -1,0 +1,228 @@
+{
+  "grid": "/mnt/codex-data/grids/nlte/amarsi_galah/nlte_Mg_scatt_pysme.grd",
+  "species_counts": {
+    "Mg 1": 229,
+    "Mg 2": 86,
+    "Mg 3": 1
+  },
+  "node": "t5750_g+4.50_m+0.00_a-0.00",
+  "node_parameters": [
+    5750.0,
+    4.5,
+    0.0,
+    -0.0
+  ],
+  "note": "Read-only nearest solar-node inventory, not interpolated synthesis or validated corrections; retain all energy candidates at published precision",
+  "lines": [
+    {
+      "wavelength_air_A": 7877,
+      "lower_eV": 9.99554,
+      "upper_eV": 11.5691,
+      "lower": [
+        {
+          "index_1based": 236,
+          "energy_eV": 9.995544,
+          "J": 0.5,
+          "conf": "2p6.4p",
+          "term": "2P*",
+          "b_min": 0.2818446457386017,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7181553542613983
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 240,
+          "energy_eV": 11.569103,
+          "J": 1.5,
+          "conf": "2p6.4d",
+          "term": "2D",
+          "b_min": 0.564848005771637,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.43515199422836304
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 7896.4,
+      "lower_eV": 9.99933,
+      "upper_eV": 11.56904,
+      "lower": [
+        {
+          "index_1based": 237,
+          "energy_eV": 9.999328,
+          "J": 1.5,
+          "conf": "2p6.4p",
+          "term": "2P*",
+          "b_min": 0.2818446457386017,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7181553542613983
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 239,
+          "energy_eV": 11.569039000000002,
+          "J": 2.5,
+          "conf": "2p6.4d",
+          "term": "2D",
+          "b_min": 0.564848005771637,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.43515199422836304
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 9218.2,
+      "lower_eV": 8.65471,
+      "upper_eV": 9.99933,
+      "lower": [
+        {
+          "index_1based": 233,
+          "energy_eV": 8.654711,
+          "J": 0.5,
+          "conf": "2p6.4s",
+          "term": "2S",
+          "b_min": 0.3070192337036133,
+          "b_max": 1.0125194787979126,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.6929807662963867
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 237,
+          "energy_eV": 9.999328,
+          "J": 1.5,
+          "conf": "2p6.4p",
+          "term": "2P*",
+          "b_min": 0.2818446457386017,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7181553542613983
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 9244.3,
+      "lower_eV": 8.65471,
+      "upper_eV": 9.99554,
+      "lower": [
+        {
+          "index_1based": 233,
+          "energy_eV": 8.654711,
+          "J": 0.5,
+          "conf": "2p6.4s",
+          "term": "2S",
+          "b_min": 0.3070192337036133,
+          "b_max": 1.0125194787979126,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.6929807662963867
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 236,
+          "energy_eV": 9.995544,
+          "J": 0.5,
+          "conf": "2p6.4p",
+          "term": "2P*",
+          "b_min": 0.2818446457386017,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7181553542613983
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 10092.2,
+      "lower_eV": 11.62968,
+      "upper_eV": 12.85786,
+      "lower": [
+        {
+          "index_1based": 241,
+          "energy_eV": 11.629671999999998,
+          "J": 2.5,
+          "conf": "2p6.4f",
+          "term": "2F*",
+          "b_min": 0.4865301549434662,
+          "b_max": 1.0156209468841553,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.5134698450565338
+        },
+        {
+          "index_1based": 242,
+          "energy_eV": 11.629687000000002,
+          "J": 3.5,
+          "conf": "2p6.4f",
+          "term": "2F*",
+          "b_min": 0.4865301549434662,
+          "b_max": 1.0156209468841553,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.5134698450565338
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 250,
+          "energy_eV": 12.857863,
+          "J": 3.5,
+          "conf": "2p6.5g",
+          "term": "2G",
+          "b_min": 0.6446900367736816,
+          "b_max": 1.114843726158142,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.35530996322631836
+        },
+        {
+          "index_1based": 251,
+          "energy_eV": 12.857863,
+          "J": 4.5,
+          "conf": "2p6.5g",
+          "term": "2G",
+          "b_min": 0.6446900367736816,
+          "b_max": 1.114843726158142,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.35530996322631836
+        }
+      ]
+    },
+    {
+      "wavelength_air_A": 10914.2,
+      "lower_eV": 8.86365,
+      "upper_eV": 9.99933,
+      "lower": [
+        {
+          "index_1based": 234,
+          "energy_eV": 8.863654000000002,
+          "J": 2.5,
+          "conf": "2p6.3d",
+          "term": "2D",
+          "b_min": 0.22277909517288208,
+          "b_max": 1.002371072769165,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7772209048271179
+        }
+      ],
+      "upper": [
+        {
+          "index_1based": 237,
+          "energy_eV": 9.999328,
+          "J": 1.5,
+          "conf": "2p6.4p",
+          "term": "2P*",
+          "b_min": 0.2818446457386017,
+          "b_max": 1.0,
+          "finite_positive": true,
+          "max_abs_b_minus_1": 0.7181553542613983
+        }
+      ]
+    }
+  ],
+  "citation": "[ 79 115 111 114 105 111  32 101 116  32  97 108  46  32  50  48  49  53\n  32  40  49  48  46  49  48  53  49  47  48  48  48  52  45  54  51  54\n  49  47  50  48  49  53  50  53  56  52  54  41  59  32  65 109  97 114\n 115 105  32 101 116  32  97 108  46  32  50  48  50  48  32  40 105 110\n  32 112 114 101 112  46  41]",
+  "SRC": "[ 46  47  98  95 109 103  49  95 109 111 100  46 115  97 118]"
+}

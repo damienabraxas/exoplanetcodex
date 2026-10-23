@@ -85,21 +85,33 @@ sets:
     gf_basis: "the gf the authors used (Nordlander & Lind 2017 Table A.1, per-line sigma)"
     solar_literature: true
 
-  - name: FE_AGSS21
-    element: Fe
-    source: data/reference/asplund2021_fe/fe_agss21_lines.csv
-    where: {reference_status: used}
+  - name: MG_AGSS21
+    aggregation: mean
+    element: Mg
+    source: data/reference/mg_agss21/mg_agss21_lines.csv
     species: {column: species}
-    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
     match: {canonical_id_col: canonical_line_id}
     bib: asplund2021
     doi: 10.1051/0004-6361/202140445
-    citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.2: 40 Fe I + 13 Fe II lines; resolved to canonical_gf on lambda (0.05 A, half the printed 0.1 A) AND EP (0.02 eV) by pipeline.reference_lineset"
-    gf_basis: "the gf the authors used (Den Hartog+2014, Belmonte+2017 and the Oxford/Hannover/Wisconsin values Scott+2015a adopted; Table A.2 prints no per-line gf source)"
+    citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II)"
+    gf_basis: "Exact Table A.1 gf; five Mg II NIST grades independently verified; remaining uncertainties unknown"
     solar_literature: true
-    #: a product measured on this set is a REPLICATION of Asplund's Fe analysis: it carries
-    #: the explicit `line_set` the legacy Asplund rows carry (pipeline.reference_lineset)
-    reference_lineset: asplund
+
+  - name: MG_BERGEMANN2017_IR
+    aggregation: mean
+    element: Mg
+    source: data/reference/mg_bergemann2017/mg_bergemann2017_ir_lines.csv
+    species: {column: species}
+    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    bib: bergemann2017_mg
+    doi: 10.3847/1538-4357/aa88cb
+    citation: "Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics)"
+    gf_basis: "Pehlivan Rhodin et al. 2017 laboratory/theoretical gf values as adopted by Bergemann et al.; component-level exceptions retain their cited Butler/Bergemann source and reported uncertainty text"
+    solar_literature: true
 
   # ---- RYA-1268: the Asplund set of every remaining element ---------------------------
   # One table (data/reference/agss21_cited_sets/agss21_reference_lines.csv, built by

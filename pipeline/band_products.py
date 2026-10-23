@@ -472,7 +472,7 @@ def pct_label(kw) -> str:
 
 def build_product(element: str, ion: str, instrument: str, band: str, treatment: str,
                   lines: list[LineMeasurement], *, handler: str,
-                  provenance: str = "") -> Product:
+                  provenance: str = "", aggregation: str = "median") -> Product:
     """Aggregate ONE treatment into ONE product. Never touches another treatment.
 
     `handler` names the measurement handler that produced these lines and is REQUIRED
@@ -501,7 +501,11 @@ def build_product(element: str, ion: str, instrument: str, band: str, treatment:
                 f"(RYA-429).")
 
     vals = np.array([l.abundance for l in used], dtype=float)
-    value = float(np.median(vals)) if len(vals) else None
+    if aggregation not in ("mean", "median"):
+        raise ValueError(f"Unsupported line aggregation: {aggregation}")
+    value = float(getattr(np, aggregation)(vals)) if len(vals) else None
+    if aggregation != "median":
+        provenance += "; line aggregation: unweighted mean (declared published-set recipe)"
     # Sigma is the scatter of the lines that actually entered, not a fitted error bar.
     sigma = float(np.std(vals, ddof=1)) if len(vals) > 1 else None
     return Product(element=element, ion=ion, instrument=instrument, band=band,
