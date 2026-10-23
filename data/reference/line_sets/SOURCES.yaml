@@ -104,6 +104,7 @@ sets:
     element: Mg
     source: data/reference/mg_bergemann2017/mg_bergemann2017_ir_lines.csv
     species: {column: species}
+    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05}
     columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band,
               loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
     bib: bergemann2017_mg
