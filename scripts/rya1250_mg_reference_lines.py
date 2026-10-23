@@ -172,9 +172,13 @@ def main() -> int:
         pick = min(near, key=lambda x: abs(float(x[col["wavelength_air_A"]]) - cen))[0] if near else None
         if pick != lid:
             raise SystemExit(f"{sp} {cen:.3f}: resolver picks {pick}, not {lid}")
+        # nist_grade is a fact about NIST's value and other tiers read it: keep it, and keep the
+        # superseded reference so the cross-check source stays on record (RYA-592's rule)
+        prior = r[col["loggf_reference"]].split(" | prior: ")[-1]
         put(r, log_gf=round(total, 3), gf_sigma_dex=None if sigma is None else round(sigma, 4),
-            gf_tier=tier, lab_source_tag=tag, gf_source_doi=doi, nist_grade="",
-            loggf_reference=f"{ref} ({note})", adjudication_status="rya1250_fix_feature_total")
+            gf_tier=tier, lab_source_tag=tag, gf_source_doi=doi,
+            loggf_reference=f"{ref} ({note})" + (f" | prior: {prior}" if prior else ""),
+            adjudication_status="rya1250_fix_feature_total")
         report.append((lid, sp, round(cen, 3), round(total, 3), sigma, tier))
     for lid, total in RESTORE_TOTAL.items():
         r = by_id[lid]

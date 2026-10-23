@@ -40,8 +40,10 @@ def _canon_row(wave):
     return None
 
 
-@pytest.mark.parametrize('wave,loggf,grade', [(5528.405, -0.498, 'B+'),
-                                              (5711.088, -1.724, 'B')])
+# RYA-1250 fix: the gf is now the solar literature's (5528 PR17 exp -0.547, 5711 PR17 theo -1.742
+# as Bergemann+2017 / Magg+2022 adopt); the NIST value + grade stay recorded as the prior reference.
+@pytest.mark.parametrize('wave,loggf,grade', [(5528.405, -0.547, 'B+'),
+                                              (5711.088, -1.742, 'B')])
 def test_canonical_gf_value_and_grade(wave, loggf, grade):
     """The values re-derive from NIST ASD (log gf = log10(g_i * f_ik)); the GRADES are
     what ASD actually reports. Both lines carried grade 'A' before RYA-592 — the source
