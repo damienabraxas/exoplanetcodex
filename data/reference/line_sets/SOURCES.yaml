@@ -100,3 +100,302 @@ sets:
     #: a product measured on this set is a REPLICATION of Asplund's Fe analysis: it carries
     #: the explicit `line_set` the legacy Asplund rows carry (pipeline.reference_lineset)
     reference_lineset: asplund
+
+  # ---- RYA-1268: the Asplund set of every remaining element ---------------------------
+  # One table (data/reference/agss21_cited_sets/agss21_reference_lines.csv, built by
+  # scripts/rya1268_coverage_audit.py); loggf_sigma is set ONLY where NIST's class belongs to
+  # the same gf (|d log gf| <= 0.03) and AGSS21 did not replace the printed gf.
+
+  - name: NA_AGSS21
+    element: Na
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: NA_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: asplund2021
+    doi: 10.1051/0004-6361/202140445
+    citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.1: 5 Na I"
+    gf_basis: "the gf the authors used (Scott+2015b transition data; Table A.1 prints no per-line sigma)"
+    solar_literature: true
+
+  - name: K_AGSS21
+    element: K
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: K_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: asplund2021
+    doi: 10.1051/0004-6361/202140445
+    citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.1: 3 K I (404.4/580.2 dropped)"
+    gf_basis: "NIST-recommended gf (Kramida 2019), as AGSS21 adopted"
+    solar_literature: true
+
+  - name: CA_AGSS21
+    element: Ca
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: CA_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: asplund2021
+    doi: 10.1051/0004-6361/202140445
+    citation: "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.1: 9 Ca I features + 5 Ca II"
+    gf_basis: "the gf the authors used (Scott+2015b line data); 616.93 is the 616.90+616.95 doublet, combined gf"
+    solar_literature: true
+
+  - name: P_AGSS21
+    element: P
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: P_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015_light
+    doi: 10.1051/0004-6361/201424109
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I"
+    gf_basis: "Berzinsh et al. 1997, as the authors used"
+    solar_literature: true
+
+  - name: S_AGSS21
+    element: S
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: S_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015_light
+    doi: 10.1051/0004-6361/201424109
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 S I"
+    gf_basis: "the gf the authors used (Scott+2015 Table 1 refs)"
+    solar_literature: true
+
+  - name: SC_AGSS21
+    element: Sc
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: SC_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 5 Sc I + 9 Sc II"
+    gf_basis: "PRINTED gf is Scott's; AGSS21 replaced it with Lawler et al. 2019 (not held) -- no sigma until adopted"
+    solar_literature: true
+
+  - name: TI_AGSS21
+    element: Ti
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: TI_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 34 Ti I + 14 Ti II (AGSS21 value from Ti II only)"
+    gf_basis: "Lawler et al. 2013 (Ti I) / Wood et al. 2013 (Ti II), as the authors used"
+    solar_literature: true
+
+  - name: V_AGSS21
+    element: V
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: V_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 30 V I + 5 V II"
+    gf_basis: "PRINTED gf is Scott's; AGSS21 replaced it with Lawler+2014 (V I, not held) / Wood+2014a (V II) -- no sigma until adopted"
+    solar_literature: true
+
+  - name: CR_AGSS21
+    element: Cr
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: CR_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 29 Cr I + 10 Cr II"
+    gf_basis: "Cr I as printed (Sobeck+2007 / Blackwell); Cr II replaced by Lawler+2017 in AGSS21 (not held)"
+    solar_literature: true
+
+  - name: MN_AGSS21
+    element: Mn
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: MN_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 14 Mn I"
+    gf_basis: "Den Hartog et al. 2011 / Blackwell-Whitehead & Bergemann 2007, as the authors used"
+    solar_literature: true
+
+  - name: CO_AGSS21
+    element: Co
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: CO_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 13 Co I"
+    gf_basis: "PRINTED gf is Scott's; AGSS21 replaced it with Lawler et al. 2015 for lines in common -- no sigma until adopted"
+    solar_literature: true
+
+  - name: NI_AGSS21
+    element: Ni
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: NI_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: scott2015
+    doi: 10.1051/0004-6361/201424110
+    citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 17 Ni I"
+    gf_basis: "Wood et al. 2014b, as the authors used"
+    solar_literature: true
+
+  - name: CU_AGSS21
+    element: Cu
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: CU_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: grevesse2015_heavy
+    doi: 10.1051/0004-6361/201424111
+    citation: "Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 5 Cu I"
+    gf_basis: "Kock & Richter 1968 renormalised / Meggers via Bielski, as the authors used"
+    solar_literature: true
+
+  - name: ZN_AGSS21
+    element: Zn
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: ZN_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: grevesse2015_heavy
+    doi: 10.1051/0004-6361/201424111
+    citation: "Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 5 Zn I"
+    gf_basis: "the gf the authors used (Grevesse+2015 Table 1 refs)"
+    solar_literature: true
+
+  - name: SR_AGSS21
+    element: Sr
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: SR_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: grevesse2015_heavy
+    doi: 10.1051/0004-6361/201424111
+    citation: "Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 2 Sr I + 3 Sr II"
+    gf_basis: "the gf the authors used (Garcia & Campos; lifetimes for Sr II)"
+    solar_literature: true
+
+  - name: Y_AGSS21
+    element: Y
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: Y_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: grevesse2015_heavy
+    doi: 10.1051/0004-6361/201424111
+    citation: "Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 9 Y II"
+    gf_basis: "Hannaford et al. 1982 renormalised, as the authors used"
+    solar_literature: true
+
+  - name: ZR_AGSS21
+    element: Zr
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: ZR_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: grevesse2015_heavy
+    doi: 10.1051/0004-6361/201424111
+    citation: "Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 8 Zr I + 10 Zr II"
+    gf_basis: "the gf the authors used (Biemont+1981 / Ljung+2006)"
+    solar_literature: true
+
+  - name: BA_AGSS21
+    element: Ba
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: BA_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: gallagher2020_ba
+    doi: 10.1051/0004-6361/201936104
+    citation: "Asplund 2021 -> Gallagher et al. 2020 (A&A 634, A55) Table 1: 4 Ba II"
+    gf_basis: "the gf and per-line error Gallagher+2020 Table 1 prints"
+    solar_literature: true
+
+  - name: LI_AGSS21
+    element: Li
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: LI_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: wang2021_li
+    doi: 10.1093/mnras/staa3381
+    citation: "Asplund 2021 -> Wang et al. 2021 (MNRAS 500, 2159): Li I 670.8 nm doublet"
+    gf_basis: "Yan+1998 gf as Wang+2021 used; NIST ASD AAA"
+    solar_literature: true
+
+  - name: EU_STORM2024
+    element: Eu
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: EU_STORM2024}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: storm2024_y_eu
+    doi: 10.1051/0004-6361/202348971
+    citation: "Lodders 2025 -> Storm et al. 2024 (A&A 683, A200) Table 1: Eu II 6645.104"
+    gf_basis: "Lawler+2001 gf, 12% as Storm+2024 states"
+    solar_literature: true
+
+  - name: Y_STORM2024
+    element: Y
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: Y_STORM2024}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: storm2024_y_eu
+    doi: 10.1051/0004-6361/202348971
+    citation: "Lodders 2025 -> Storm et al. 2024 (A&A 683, A200) Table 1: 4 Y II"
+    gf_basis: "Palmeri+2017 uncorrected gf, ~10% as Storm+2024 states"
+    solar_literature: true

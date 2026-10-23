@@ -1,0 +1,18 @@
+# RYA-1268: solar line sets AGSS21 / Lodders 2025 adopt that are NOT in Scott+2015 / Grevesse+2015 / Table A.1.
+# Hand-transcribed; every value checked against the source table named in `source_table`.
+#   Ba: AGSS21 adopts Gallagher+2020 (3D NLTE, 4 Ba II incl. 614.17 nm) -- Table 1 prints a per-line gf error.
+#   Eu: Lodders 2025 adopts Storm+2024 3D NLTE; its one diagnostic, Eu II 6645.104 (Lawler+2001 gf, "uncertainty of the f-values was estimated at 12%").
+#   Y : Storm+2024 Table 1, Y II with Palmeri+2017 uncorrected gf, "accurate up to ~10%" (Lodders 2025's Y source; AGSS21 keeps Grevesse's Y II set).
+#   Li: AGSS21 adopts Wang+2021 -- the 670.8 nm resonance doublet, gf Yan+1998; the two fine-structure components as NIST ASD lists them (class AAA, 0.3%).
+set_name,paper,species,wavelength_air_A,ep_eV,published_loggf,loggf_sigma_dex,gf_source_per_line,source_table,doi,citation
+BA_AGSS21,gallagher2020_ba,Ba II,4554.033,0.00,0.170,0.004,Gallagher+2020 Table 1 (stated +/-),Gallagher et al. 2020 A&A 634 A55 Table 1,10.1051/0004-6361/201936104,"Asplund 2021 -> Gallagher et al. 2020 (A&A 634, A55) Table 1: 4 Ba II"
+BA_AGSS21,gallagher2020_ba,Ba II,5853.675,0.60,-1.023,0.005,Gallagher+2020 Table 1 (stated +/-),Gallagher et al. 2020 A&A 634 A55 Table 1,10.1051/0004-6361/201936104,"Asplund 2021 -> Gallagher et al. 2020 (A&A 634, A55) Table 1: 4 Ba II"
+BA_AGSS21,gallagher2020_ba,Ba II,6141.713,0.70,-0.070,0.005,Gallagher+2020 Table 1 (stated +/-),Gallagher et al. 2020 A&A 634 A55 Table 1,10.1051/0004-6361/201936104,"Asplund 2021 -> Gallagher et al. 2020 (A&A 634, A55) Table 1: 4 Ba II"
+BA_AGSS21,gallagher2020_ba,Ba II,6496.898,0.60,-0.365,0.004,Gallagher+2020 Table 1 (stated +/-),Gallagher et al. 2020 A&A 634 A55 Table 1,10.1051/0004-6361/201936104,"Asplund 2021 -> Gallagher et al. 2020 (A&A 634, A55) Table 1: 4 Ba II"
+EU_STORM2024,storm2024_y_eu,Eu II,6645.104,1.38,0.12,0.0492,Lawler+2001 (12% as Storm+2024 states),Storm et al. 2024 A&A 683 A200 Table 1 / Sect. 2,10.1051/0004-6361/202348971,"Lodders 2025 -> Storm et al. 2024 (3D NLTE Y and Eu) Table 1: Eu II 6645"
+Y_STORM2024,storm2024_y_eu,Y II,4883.682,1.08,0.15,0.0414,Palmeri+2017 uncorrected (~10% as Storm+2024 states),Storm et al. 2024 Table 1,10.1051/0004-6361/202348971,"Lodders 2025 -> Storm et al. 2024 (3D NLTE Y and Eu) Table 1: 4 Y II"
+Y_STORM2024,storm2024_y_eu,Y II,4900.118,1.03,-0.02,0.0414,Palmeri+2017 uncorrected (~10% as Storm+2024 states),Storm et al. 2024 Table 1,10.1051/0004-6361/202348971,"Lodders 2025 -> Storm et al. 2024 (3D NLTE Y and Eu) Table 1: 4 Y II"
+Y_STORM2024,storm2024_y_eu,Y II,5087.418,1.08,-0.18,0.0414,Palmeri+2017 uncorrected (~10% as Storm+2024 states),Storm et al. 2024 Table 1,10.1051/0004-6361/202348971,"Lodders 2025 -> Storm et al. 2024 (3D NLTE Y and Eu) Table 1: 4 Y II"
+Y_STORM2024,storm2024_y_eu,Y II,5200.406,0.99,-0.62,0.0414,Palmeri+2017 uncorrected (~10% as Storm+2024 states),Storm et al. 2024 Table 1,10.1051/0004-6361/202348971,"Lodders 2025 -> Storm et al. 2024 (3D NLTE Y and Eu) Table 1: 4 Y II"
+LI_AGSS21,wang2021_li,Li I,6707.76,0.00,-0.002,0.0013,NIST ASD AAA (Yan+1998 as Wang+2021 used),NIST ASD + Wang et al. 2021 Sect. 2.1,10.1093/mnras/staa3381,"Asplund 2021 -> Wang et al. 2021 (MNRAS 500, 2159): Li I 670.8 nm doublet"
+LI_AGSS21,wang2021_li,Li I,6707.91,0.00,-0.303,0.0013,NIST ASD AAA (Yan+1998 as Wang+2021 used),NIST ASD + Wang et al. 2021 Sect. 2.1,10.1093/mnras/staa3381,"Asplund 2021 -> Wang et al. 2021 (MNRAS 500, 2159): Li I 670.8 nm doublet"

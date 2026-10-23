@@ -1,0 +1,32 @@
+# LITSCAN -- Cr (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2 and
+# Lodders, Bergemann & Palme 2025 Table 2). Precursor: the element's own literature sweep
+# re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+element: Cr
+ion: I
+ions: [I, II]
+source_of_truth: RYA-1268
+scale: as adopted by AGSS21 (Scott et al. 2015 (A&A 573, A26) + Lawler et al. 2017 Cr II gf)
+entries:
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 5.62
+    sigma: 0.04
+    role: best external (anchor)
+    method: Scott et al. 2015 (A&A 573, A26) + Lawler et al. 2017 Cr II gf
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 5.74
+    sigma: 0.11
+    role: corroborating
+    note: Lodders quality flag B-.
+range:
+  central: 5.62
+  min: 5.58
+  max: 5.66
+  best_external: Asplund et al. 2021 (A&A 653, A141)
+  sigma_external: 0.04
+  deviate_beyond: 0.08
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.

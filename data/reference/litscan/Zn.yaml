@@ -1,0 +1,32 @@
+# LITSCAN -- Zn (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2 and
+# Lodders, Bergemann & Palme 2025 Table 2). Precursor: the element's own literature sweep
+# re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+element: Zn
+ion: I
+ions: [I]
+source_of_truth: RYA-1268
+scale: as adopted by AGSS21 (Grevesse et al. 2015 (A&A 573, A27))
+entries:
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 4.56
+    sigma: 0.05
+    role: best external (anchor)
+    method: Grevesse et al. 2015 (A&A 573, A27)
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 4.55
+    sigma: 0.11
+    role: corroborating
+    note: Lodders quality flag B-.
+range:
+  central: 4.56
+  min: 4.51
+  max: 4.61
+  best_external: Asplund et al. 2021 (A&A 653, A141)
+  sigma_external: 0.05
+  deviate_beyond: 0.10
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.
