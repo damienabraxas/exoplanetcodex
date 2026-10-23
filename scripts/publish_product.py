@@ -749,9 +749,13 @@ def main() -> int:
                       f"corroborate it ({bud.name}). An unverifiable grade claim is not "
                       f"published (RYA-833).", file=sys.stderr)
                 return 7
+        from pipeline.model_registry import adoption_for
         for r in rows:
             r["provenance"] = prov
             r["star"] = a.star
+            _ad = adoption_for(r.get("treatment"))
+            if _ad:
+                r["adoption"] = _ad      # RYA-1232: experimental model, flagged at publication
         pending.extend(rows)
 
     element = pending[0]["element"]
