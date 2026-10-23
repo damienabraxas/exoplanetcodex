@@ -1,0 +1,83 @@
+{
+  "ticket": "RYA-1250",
+  "source": "NIST ASD lines query",
+  "queries": {
+    "Mg I": "3000-3780 A and 19452-24846 A",
+    "wavelength_frame": "air",
+    "grade_policy": "NIST A-C/C+ accepted; D/E excluded"
+  },
+  "adopted": [
+    {
+      "line_id": "gf_148694",
+      "wavelength_air_A": 3091.064,
+      "log_gf": -0.8759999999999999,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -0.876,
+      "new_grade": "B"
+    },
+    {
+      "line_id": "gf_148749",
+      "wavelength_air_A": 3092.985,
+      "log_gf": -0.4470309465378022,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -0.572,
+      "new_grade": "C"
+    },
+    {
+      "line_id": "gf_148896",
+      "wavelength_air_A": 3096.89,
+      "log_gf": -0.2250980820959695,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -0.301,
+      "new_grade": "C+"
+    },
+    {
+      "line_id": "gf_155668",
+      "wavelength_air_A": 3332.146,
+      "log_gf": -1.292,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -1.292,
+      "new_grade": "B"
+    },
+    {
+      "line_id": "gf_155799",
+      "wavelength_air_A": 3336.674,
+      "log_gf": -1.071,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -1.071,
+      "new_grade": "B"
+    },
+    {
+      "line_id": "gf_163407",
+      "wavelength_air_A": 3627.628,
+      "log_gf": -1.256,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -1.256,
+      "new_grade": "C"
+    },
+    {
+      "line_id": "gf_176848",
+      "wavelength_air_A": 19723.532498429395,
+      "log_gf": -0.7390309465378023,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -0.864,
+      "new_grade": "C"
+    },
+    {
+      "line_id": "gf_176858",
+      "wavelength_air_A": 19733.8677034468,
+      "log_gf": -0.5174081885151229,
+      "gf_tier": "VALD3",
+      "nist_grade": NaN,
+      "new_log_gf": -0.593,
+      "new_grade": "C"
+    }
+  ]
+}\n
