@@ -54,16 +54,22 @@ until a cited line table and component treatment are verified.
 The orchestrator's active grade definitions were applied to the held Mg cells.
 Codex Grade requires a published per-line gf uncertainty, a laboratory gf, or a
 NIST accuracy class A--C. Deep Grade is a depth-selected subset of that same
-gf-graded pool. The 3000--3780 Å Mg I selection contains 11 lines and the
-CRIRES+ K selection contains 78 lines, but all are currently VALD3/Kurucz or
-other ungraded provenance. Consequently both pools correctly return zero
-eligible lines; the bands are data-present but grade-unresolved, not empty.
+gf-graded pool. The earlier audit missed NIST ASD matches in the canonical
+VALD-backed selections. The 3000--3780 Å Mg I selection contains 11 lines;
+six now carry adopted NIST B, C, or C+ grades. The CRIRES+ K selection contains
+78 lines; two now carry adopted NIST C grades. The remaining lines stay
+ungraded until the transition identity is established against an uncertainty-
+bearing source.
+
+The raw NIST ASD query results and the exact old/new-value adjudication are
+preserved in `data/linelists/primary_gf/nist_asd_MgI_3000_3780.tsv`,
+`data/linelists/primary_gf/nist_asd_MgI_19452_24846.tsv`, and
+`data/linelists/primary_gf/nist_asd_MgI_adjudication.prov.json`.
 
 Civiš et al. (2013) reports measured Mg I K-band transitions, including lines
 near 2386.6, 2385.0, 2384.3, 2281.8, and 2106.9 nm (their Table 3), and
 provides QDT oscillator strengths in its later transition tables. The paper
 does not provide the per-line gf uncertainty needed by the current Codex/Deep
-definition, so those transitions are recorded as literature candidates and are
-not emitted as a falsely graded product. A future admission requires recovering
-an uncertainty-bearing gf source (or an applicable NIST A--C class) for the
-same component identities.
+definition, so those transitions remain literature candidates unless their
+component identities can be matched to an uncertainty-bearing gf source (or an
+applicable NIST A--C class).
