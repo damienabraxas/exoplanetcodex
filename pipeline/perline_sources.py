@@ -205,6 +205,22 @@ def resolve(product: dict) -> tuple[Path | None, pd.DataFrame | None, str, str]:
     if want is None:
         return None, None, family, "the product declares no n_lines, so nothing gates this"
     have = _aggregate_count(raw, family)
+    #: RYA-1232 -- a product whose RYA-587 scatter is over RESOLVED FEATURES (components
+    #: closer than 0.5 A merged) publishes n_lines = features and records n_components = the
+    #: physical pool. Both must then match exactly: the feature count of the aggregate, and
+    #: its component count.
+    _meas = next((c.get("evidence") or {} for c in (product.get("uncertainty") or {}).get("components", [])
+                  if c.get("name") == "measurement"), {})
+    if _meas.get("n_components") is not None and family == "band_product":
+        _w = sorted(float(x) for x in raw.loc[raw["in_aggregate"].astype(str).eq("True"),
+                                              "wavelength_air_A"])
+        _nf = (1 + sum(1 for a, b in zip(_w, _w[1:]) if b - a >= 0.5)) if _w else 0
+        if have != int(_meas["n_components"]) or _nf != int(want):
+            return None, None, family, (
+                f"n_lines MISMATCH: the product publishes {want} features over "
+                f"{_meas['n_components']} components; {path.name} aggregates {have} components "
+                f"in {_nf} features")
+        have = int(want)
     if have != int(want):
         return None, None, family, (
             f"n_lines MISMATCH: the product publishes {want}, {path.name} aggregates "

@@ -650,7 +650,23 @@ def main() -> int:
         #: Read from the BUDGET for the reason the tier gate below gives — it is the
         #: decider's own output — and the label comes from `error_budget`, not a copy of
         #: its text, so rewording the term cannot silently retire this gate.
-        if budget_text and error_budget.carries_ungraded_gf(budget_text):
+        #: RYA-1232 -- a row carrying an RYA-587 `uncertainty` block prices gf per LINE
+        #: (transition_data MEASURED from each line's own canonical_gf sigma); the run's
+        #: legacy budgets.txt blanket never reaches the published sigma, so there is no
+        #: placeholder to refuse. Anything without that block is gated exactly as before.
+        def _rya587_prices_gf_per_line(path) -> bool:
+            try:
+                import pandas as _pd
+                _df = _pd.read_csv(path)
+                if "uncertainty" not in _df.columns:
+                    return False
+                _u = json.loads(_df["uncertainty"].iloc[0])
+                return any(c.get("name") == "transition_data" and c.get("state") == "MEASURED"
+                           for c in _u.get("components", []))
+            except Exception:                                              # noqa: BLE001
+                return False
+        if (budget_text and error_budget.carries_ungraded_gf(budget_text)
+                and not _rya587_prices_gf_per_line(src)):
             rung = re.search(r"gf rung: (.*)", budget_text)
             print(f"REFUSING: {src.name}\n"
                   f"    its budget rests on the {error_budget.UNGRADED_GF_TERM_LABEL!r} "
@@ -692,7 +708,29 @@ def main() -> int:
                         any(x is None or not math.isfinite(float(x)) for x in sig):
                     return False
             return bool(rows)
+        def _lab_sourced_by_587(rows) -> bool:
+            """RYA-1213/1232: REFERENCE claims LABORATORY gf. Corroborated when every line's
+            gf source (the budget's own `line_sources`, a DOI per line) is a source canonical_gf
+            grades LAB -- the claim itself, per line, not the legacy rung text."""
+            import pandas as _pd
+            cg = ROOT / "data" / "linelists" / "canonical_gf.csv"
+            if not cg.exists():
+                return False
+            c = _pd.read_csv(cg, usecols=["gf_tier", "gf_source_doi"], low_memory=False)
+            lab = {str(x).strip() for x in c.loc[c.gf_tier.astype(str) == "LAB", "gf_source_doi"]
+                   if str(x).strip() not in ("", "nan")}
+            for r in rows:
+                u = r.get("uncertainty")
+                u = json.loads(u) if isinstance(u, str) else u
+                td = next((c_ for c_ in (u or {}).get("components", [])
+                           if c_.get("name") == "transition_data"), None)
+                srcs = ((td or {}).get("evidence") or {}).get("line_sources") or []
+                if not srcs or any(str(x).strip() not in lab for x in srcs):
+                    return False
+            return bool(rows)
         if a.tier in ("GRADED", "DEEPGRADED") and _priced_by_587(rows):
+            pass
+        elif a.tier == "REFERENCE" and _priced_by_587(rows) and _lab_sourced_by_587(rows):
             pass
         elif a.tier in ("GRADED", "DEEPGRADED", "REFERENCE"):
             m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", budget_text) \
@@ -711,9 +749,13 @@ def main() -> int:
                       f"corroborate it ({bud.name}). An unverifiable grade claim is not "
                       f"published (RYA-833).", file=sys.stderr)
                 return 7
+        from pipeline.model_registry import adoption_for
         for r in rows:
             r["provenance"] = prov
             r["star"] = a.star
+            _ad = adoption_for(r.get("treatment"))
+            if _ad:
+                r["adoption"] = _ad      # RYA-1232: experimental model, flagged at publication
         pending.extend(rows)
 
     element = pending[0]["element"]

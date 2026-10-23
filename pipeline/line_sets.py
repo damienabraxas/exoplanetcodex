@@ -221,3 +221,16 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def reference_lineset_for_selector(selector: str | None) -> str | None:
+    """RYA-1232: the explicit `line_set` a product measured on a published set carries, or
+    None. SOURCES.yaml entry `reference_lineset` (e.g. FE_AGSS21 -> asplund): such a product is
+    a replication of that analysis (pipeline.reference_lineset.line_set_for_product)."""
+    sel = str(selector or "")
+    if not sel.startswith("SET-"):
+        return None
+    for spec in load_sources():
+        if spec["name"] == sel[4:]:
+            return spec.get("reference_lineset")
+    return None

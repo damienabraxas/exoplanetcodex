@@ -55,7 +55,30 @@ def test_no_litscan_is_no_reference_and_a_non_benchmark_is_reported(ev):
     assert ev.judge(p, _Lit(), "", False)["status"] == ev.REPORTED
 
 
-def test_fe_ii_is_not_judged_against_the_fe_i_litscan(ev):
+@pytest.fixture
+def fe_i_only_litscan(monkeypatch, tmp_path):
+    """RYA-1232: the live Fe litscan now covers Fe I AND Fe II (Asplund+2021: 7.46 / 7.47).
+    The per-ion LOGIC these tests guard needs a single-ion litscan, so they run on one --
+    the live Fe.yaml with `ions` removed -- instead of on a fact about Fe that changed."""
+    import yaml
+    from pipeline import litscan as L, run_matrix as rm
+    live = yaml.safe_load((rm.LITSCAN_DIR / "Fe.yaml").read_text())
+    live.pop("ions", None)
+    live["ion"] = "I"
+    (tmp_path / "Fe.yaml").write_text(yaml.safe_dump(live))
+    monkeypatch.setattr(rm, "LITSCAN_DIR", tmp_path)
+    _orig = L.load_litscan
+    monkeypatch.setattr(L, "load_litscan", lambda el, *a, **k: live if el == "Fe" else _orig(el, *a, **k))
+    return live
+
+
+def test_the_live_fe_litscan_covers_both_ions(ev):
+    """RYA-1232: Asplund+2021 Sect. 3 gives Fe I and Fe II separately and in agreement."""
+    lit, why = ev.literature_for("Fe", "II")
+    assert lit is not None, why
+
+
+def test_fe_ii_is_not_judged_against_the_fe_i_litscan(ev, fe_i_only_litscan):
     lit, why = ev.literature_for("Fe", "II")
     assert lit is None and "Fe I" in why
 
@@ -110,7 +133,7 @@ def test_no_products_is_incomplete_not_pass(ev, tmp_path, monkeypatch):
         == ev.INCOMPLETE
 
 
-def test_all_no_reference_is_incomplete_not_pass(ev, tmp_path, monkeypatch):
+def test_all_no_reference_is_incomplete_not_pass(ev, tmp_path, monkeypatch, fe_i_only_litscan):
     """Fe II read PASS with zero comparisons: step 12 never happened."""
     from pipeline import run_matrix as rm
     cell = {"band": "VIS", "instrument": "harps", "holding": "solar_harps_molecfit_corrected",
@@ -127,7 +150,7 @@ def test_all_no_reference_is_incomplete_not_pass(ev, tmp_path, monkeypatch):
     assert v["counts"]["NO_REFERENCE"] == 1 and v["element_verdict"] == ev.INCOMPLETE
 
 
-def test_step_5_is_per_ion(ev):
+def test_step_5_is_per_ion(ev, fe_i_only_litscan):
     from pipeline import run_matrix as rm
     rows = {r["ion"]: r for r in rm.process_steps("solar", "Fe", ["I", "II"]) if r["step"] == 5}
     assert rows["I"]["ok"] is True and rows["II"]["ok"] is False

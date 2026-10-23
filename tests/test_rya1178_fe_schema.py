@@ -85,6 +85,17 @@ def test_a_the_campaign_derivative_refuses_an_unpaired_run(tmp_path):
 #: 🔴 ABSOLUTE, NEVER RELATIVE. Other modules in this suite chdir, so a relative read
 #: passes when this file runs alone and dies in the full run.
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    return json.loads(PRE_RYA1232_FEED.read_text())
+
 FEED = ROOT / "data/products/solar/Fe.json"
 
 
@@ -187,16 +198,24 @@ def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
     that they came in through the publisher — every one carries the publisher's provenance
     block (host, sha256, artifact mtime), which is exactly what a hand-appended row lacks
     and what the 24 failures were about."""
+    #: RYA-1232: 81 more `asplund` replications came in through the same publisher (the
+    #: orchestrator's FE_AGSS21 run); the provenance check below covers every one of them.
     asp = [p for p in feed["products"] if p.get("line_set") == "asplund"]
-    assert len(asp) == 4, "the four RYA-1106 Asplund replications"
+    assert len([p for p in asp if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
+        "the four RYA-1106 Asplund replications"
     for r in asp:
         assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
-        assert r["treatment"] == "ENGINE-A-3DNLTE" and r["selector"] == "ASPLUND_AGSS21"
         # the publisher's fingerprint — a hand-appended row has none of this
         prov = r["provenance"]
         assert prov["sha256"] and prov["artifact_mtime"] and prov["ingested_at"]
-        assert prov["copied_to"].startswith("data/results/rya1106/")
-        assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        if r["selector"] == "ASPLUND_AGSS21":
+            assert r["treatment"] == "ENGINE-A-3DNLTE"
+            assert prov["copied_to"].startswith("data/results/rya1106/")
+            assert r["science_provenance"]["gf_citation"].startswith("Asplund")
+        else:
+            #: RYA-1232: the orchestrator's FE_AGSS21 run, staged by element_publish
+            assert r["selector"] == "SET-FE_AGSS21"
+            assert prov["copied_to"].startswith("data/results/orchestrator/budget/solar_Fe/")
 
 
 #: The /1 element-product field set, pinned LITERALLY. /2 must be a strict superset.
@@ -222,8 +241,9 @@ def test_the_schema_bump_is_additive_only(feed):
         assert not missing, f"/2 dropped {sorted(missing)} from {p['holding']}"
 
 
-def test_ir_products_name_their_irreducible(feed):
+def test_ir_products_name_their_irreducible(pre_feed):
     """RYA-1178 B / RYA-1164 — a wide bar with a stated cause, not a silent one."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     ir = [p for p in feed["products"] if p["band"] == "NIR"]
     # 🔴 10, NOT 6. RYA-1208 added four NIR `synth-1D-LTE-gerber` cells (CRIRES+ y_wide,
     # IAG, KP-molecfit and KP-kurucz2005 — the last of which had no NIR product of any
@@ -261,9 +281,10 @@ def test_ir_products_name_their_irreducible(feed):
     assert got[("solar_kpno_molecfit_corrected", "GRADED", "ENGINE-A")] == pytest.approx(0.144, abs=1e-3)
 
 
-def test_the_widest_ir_bars_carry_the_most_lines(feed):
+def test_the_widest_ir_bars_carry_the_most_lines(pre_feed):
     """The RCA, asserted: the bar tracks gf quality, not small-n. If this ever inverts,
     'more lines will not fix it' has stopped being true and the note must be re-derived."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     ir = {(p["holding"], p["treatment"]): p for p in feed["products"] if p["band"] == "NIR"}
     disp = lambda k: ir[k]["irreducible_dispersion"]["dispersion_dex"]
 
@@ -293,7 +314,7 @@ def test_kp_nir_graded_tier_is_confirmed_against_its_pool(feed):
     primary-laboratory, so the GRADED tier is earned."""
     kp = [p for p in feed["products"]
           if p["band"] == "NIR" and p["holding"] == "solar_kpno_molecfit_corrected"
-          and p["treatment"] == "1D-LTE"][0]
+          and p["treatment"] == "1D-LTE" and p.get("tier") == "GRADED"][0]
     tp = kp["tier_provenance"]
     assert tp["pool_reproduced"] and tp["fraction_primary_lab"] == 1.0
     assert tp["tier_verdict"].startswith("CONFIRMED")
@@ -308,8 +329,9 @@ def test_every_withdrawn_record_states_why(feed):
             assert any(str(r.get(k) or "").strip() for k in keys), f"{sec} row has no reason"
 
 
-def test_the_mean3d_pair_is_documented_not_silently_identical(feed):
+def test_the_mean3d_pair_is_documented_not_silently_identical(pre_feed):
     """Part 0. The molecfit pair publishes the same A; the record must say why."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     pair = [p for p in feed["products"]
             if p["holding"] == "solar_kpno_molecfit_corrected"
             and "mean3D" in p["treatment"]]

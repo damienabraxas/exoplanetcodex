@@ -1,0 +1,11 @@
+Fe · red-optical · n=96
+  statistical  0.0200 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.02002 dex at n_lines=96
+  systematic   0.1726 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not. 🔴 NOT PUBLISHABLE (RYA-1212): this is a placeholder for an unmeasured gf quality, not a measurement of one — resolve the pool via cited lab sigmas, a NIST grade, or RYA-968's per-line empirical grading
+    0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
+    0.0200  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  stellar parameters       [SYSTEMATIC] NOT MEASURED for this product: no perturb-and-re-derive has been run on this pool (RYA-282 §2). dA/dp is a property of the LINE SET (RYA-1093), so no element-level number may stand in for it.
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 67 of 96 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x29. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one

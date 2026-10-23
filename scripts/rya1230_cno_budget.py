@@ -80,12 +80,17 @@ def _selector(args: list[str]) -> str | None:
         return "DEEPGRADED"
     if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "graded":
         return "GRADED"
+    #: RYA-1232: the Reference pool is its own identity (Fe: selector = tier = REFERENCE);
+    #: mapping it to ALL published 60 Reference products beside, not in place of, the
+    #: legacy Reference rows
+    if "--lines-tier" in args and args[args.index("--lines-tier") + 1] == "reference":
+        return "REFERENCE"
     return None
 
 
 def _tier(args: list[str]) -> str:
     sel = _selector(args)
-    return sel if sel in ("GRADED", "DEEPGRADED") else "ALL"
+    return sel if sel in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
 
 
 def _arg(args, flag, default=None):
@@ -333,6 +338,8 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
 
 # ── one product ────────────────────────────────────────────────────────────────
 FEATURE_A = 0.5
+#: a +0.1% continuum change moves a physical line by ~0.001-0.01 dex; above this it is a flip
+LEG_FLIP_DEX = 0.05
 
 
 def _near(waves, pool, tol: float = 1e-3):
@@ -433,15 +440,62 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                                       _L.get("excluded_reason", pd.Series([""] * len(_L))))}
         for _w in set(acc["wavelength_air_A"].round(3)) - _ok:
             unstable.setdefault(float(_w), []).append(f"{_lg}: {str(_all.get(_w, ''))[:90]}")
-    if unstable and len(unstable) <= max(1, int(0.05 * n)) and n - len(unstable) >= 2:
+    #: 🔴 RYA-1232 -- TELLURIC-CONTAMINATED Fe LINES ARE NOT USED (Asplund+2021 practice:
+    #: a line is excluded "due to telluric contamination"). A line whose fit JUMPS under the
+    #: +0.1% continuum leg (|dA| > LEG_FLIP_DEX, where a stable line moves 0.005-0.02) AND sits
+    #: on a nonzero telluric residual cannot be priced: its dA/df is a jump, not a derivative,
+    #: and multiplied by the residual it gave Fe I 7664.16 (O2 A band) a 21 dex per-line sigma
+    #: and 0.61 dex products. Fe only -- Fe has hundreds of lines; scarce-line elements (C/N/O,
+    #: Al) are judged line by line on their goodness of fit instead (Elgueta+2026). Recorded,
+    #: and outside the 5% leg-rejection cap below: this is line selection, not a moving pool.
+    tell_excluded = {}
+    _cs = _leg_lines(unit_dir / "cscale", lines_stem)
+    if _cs is not None and str(prod["element"].iloc[0]) == "Fe":
+        _csv = {round(float(w), 3): float(v) for w, v in zip(_cs["wavelength_air_A"], _cs["abundance"])
+                if pd.notna(v)}
+        _band = str(prod["band"].iloc[0])
+        _hw = float(_arg(unit_args, "--half-width-A", SYNTH_BANDS[_band].half_width_A))
+        for w, v in zip(acc["wavelength_air_A"], acc["abundance"].astype(float)):
+            dv = _csv.get(round(float(w), 3))
+            if dv is None or abs(dv - v) <= LEG_FLIP_DEX:
+                continue
+            try:
+                ev = telluric_line(_arg(unit_args, "--instrument"), _arg(unit_args, "--holding"), float(w),
+                                   _hw, float(_arg(unit_args, "--lo")), float(_arg(unit_args, "--hi")))
+            except Exception:                                            # noqa: BLE001
+                continue
+            if (ev.get("residual_flux") or 0) > 0:
+                tell_excluded[float(round(float(w), 3))] = (
+                    f"telluric-contaminated: residual {ev['residual_flux']:.4f} under the line and "
+                    f"the fit jumps {dv - v:+.3f} dex under a +0.1% continuum change")
+    if tell_excluded and n - len(tell_excluded) >= 2:
+        acc = acc[~_near(acc["wavelength_air_A"], list(tell_excluded))]
+        n = len(acc)
+        for _w in list(unstable):
+            if _w in tell_excluded:
+                unstable.pop(_w)
+    else:
+        tell_excluded = {}
+    #: RYA-1232 (Ryan): Fe has hundreds of lines -- a leg-unstable Fe line is simply dropped,
+    #: whatever the count; the 5% cap that HOLDS the product protects scarce-line elements.
+    _fe = str(prod["element"].iloc[0]) == "Fe"
+    if unstable and (_fe or len(unstable) <= max(1, int(0.05 * n))) and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
         restat = {"A": round(float(statistic(_ab)), 3),
                   "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4),
                   "n_lines": n, "leg_unstable": {f"{k:.3f}": v for k, v in unstable.items()}}
+    elif tell_excluded:
+        _ab = acc["abundance"].astype(float)
+        restat = {"A": round(float(_ab.median()), 3),
+                  "stat_dex": round(float(_ab.std(ddof=1) / math.sqrt(n)), 4), "n_lines": n,
+                  "leg_unstable": {}}
     else:
         restat = None
+    if restat is not None and tell_excluded:
+        restat["leg_unstable"] = {**restat.get("leg_unstable", {}),
+                                  **{f"{k:.3f}": [v] for k, v in tell_excluded.items()}}
     # 🔴 RYA-1232 -- RESOLVED FEATURES. Fine-structure components closer than FEATURE_A are
     # fitted in overlapping windows that all see the same blend, so they are ONE measurement
     # (O I 844.6: 8.544/8.544/8.545 entered as three lines, faked n=6 and set the median
@@ -466,6 +520,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     instrument = _arg(unit_args, "--instrument")
     selector = _selector(unit_args)
     _rows = normalise(prod, holding=holding, tier=_tier(unit_args), route="SYNTH", selector=selector)
+    from pipeline.line_sets import reference_lineset_for_selector
+    _ls = reference_lineset_for_selector(selector)
+    if _ls:
+        for _r in _rows:
+            _r["line_set"] = _ls     # RYA-1232: a replication of a published analysis
     if not _rows:
         # RYA-1233: a cell can be BUILT with an empty product (no line survived into the
         # aggregate: A = NaN, n = 0 -- Si II on CRIRES+ H). There is nothing to budget; it is
@@ -675,7 +734,14 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
 
     # telluric: per line, through the line's own dA/df
     cs = _leg_lines(unit_dir / "cscale", lines_stem)
-    if cs is None:
+    if band == "near-UV":
+        #: RYA-1232: as RYA-1226's accepted near-UV budgets -- no molecular telluric band is
+        #: registered below 3780 A, so there is nothing to price (and the KP near-UV
+        #: continuum S/N, 75, is below the observability floor the per-line test needs)
+        comps.append(dict(name="telluric", sigma_dex=None, state="N/A",
+                          source="3000-3780 A contains no registered telluric band (pipeline.telluric_policy)",
+                          evidence={"band": band}))
+    elif cs is None:
         notes.append("telluric: cscale leg missing")
     else:
         m = acc.merge(cs[["wavelength_air_A", "abundance"]], on="wavelength_air_A",
@@ -874,7 +940,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if restat and restat.get("leg_unstable"):
         notes.append("leg-unstable excluded: " + ", ".join(restat["leg_unstable"]))
     return {"row": row, "budget": doc, "ids": ids, "notes": notes, "verdict": verdict,
-            "restat": restat,
+            "restat": restat, "lines_stem": lines_stem, "pool_w": sorted(float(w) for w in _pool_w),
             "prod_stem": prod_stem, "nominal_dir": str(nominal_dir)}
 
 
@@ -929,6 +995,23 @@ def main() -> int:
                     df["leg_unstable_excluded"] = json.dumps(rs.get("leg_unstable") or {})
                     if rs.get("features"):
                         df["features_merged"] = json.dumps(rs["features"])
+                #: RYA-1232: the per-line evidence of the PUBLISHED pool, beside the product
+                #: -- the nominal table with in_aggregate set to the final pool (leg-unstable
+                #: exclusions applied), so its count is the product's own
+                _ln = pd.read_csv(Path(r["nominal_dir"]) / r["lines_stem"])
+                _was = _ln["in_aggregate"].astype(bool)
+                _ln["in_aggregate"] = _near(_ln["wavelength_air_A"], r["pool_w"])
+                #: a line the ASSEMBLY dropped says why, or the per-line product reads "nan"
+                _why = {round(float(k), 3): "; ".join(v) for k, v in
+                        ((r.get("restat") or {}).get("leg_unstable") or {}).items()}
+                _drop = _was & ~_ln["in_aggregate"]
+                if "excluded_reason" not in _ln:
+                    _ln["excluded_reason"] = ""
+                _ln["excluded_reason"] = _ln["excluded_reason"].astype(object)
+                _ln.loc[_drop, "excluded_reason"] = [
+                    "LEG-UNSTABLE (RYA-1232 budget assembly): " + _why.get(round(float(w), 3), "excluded from the budgeted pool")
+                    for w in _ln.loc[_drop, "wavelength_air_A"]]
+                _ln.to_csv(a.stage / r["lines_stem"], index=False)
                 df["uncertainty"] = json.dumps(b)
                 df["uncertainty_indicator_ids"] = json.dumps(r["ids"])
                 df["sigma_reported"] = b["sigma_reported"]

@@ -264,8 +264,15 @@ def test_each_products_kept_rows_equal_its_published_n_lines(feed, resolved):
     bad = []
     for s in sources:
         k = tuple(str(s.identity[f]) for f in ps.IDENTITY_FIELDS)
-        if k in by_id and by_id[k] != int(s.product["n_lines"]):
-            bad.append((k, by_id[k], int(s.product["n_lines"])))
+        #: RYA-1232: a feature-merged product (components < 0.5 A apart are one feature)
+        #: publishes n_lines = FEATURES and records the kept components in its own
+        #: measurement evidence; the per-line projection keeps one row per component.
+        _m = next((c.get("evidence") or {} for c in
+                   ((s.product.get("uncertainty") or {}).get("components") or [])
+                   if c.get("name") == "measurement"), {})
+        want = int(_m.get("n_components") or s.product["n_lines"])
+        if k in by_id and by_id[k] != want:
+            bad.append((k, by_id[k], want))
     assert not bad, f"kept-count != published n_lines for {len(bad)} products: {bad[:5]}"
 
 

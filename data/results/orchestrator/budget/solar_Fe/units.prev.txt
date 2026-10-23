@@ -1,0 +1,139 @@
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-1d-lte --out data/results/band_products/deck_gerber-1d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-mean3d --out data/results/band_products/deck_gerber-mean3d --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-mean3d-lte --out data/results/band_products/deck_gerber-mean3d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-nlte --out data/results/band_products/deck_gerber-nlte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-1d-lte --out data/results/band_products/deck_gerber-1d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck gerber-mean3d-lte --out data/results/band_products/deck_gerber-mean3d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-1d-lte --out data/results/band_products/deck_gerber-1d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-mean3d --out data/results/band_products/deck_gerber-mean3d --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-mean3d-lte --out data/results/band_products/deck_gerber-mean3d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-nlte --out data/results/band_products/deck_gerber-nlte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-1d-lte --out data/results/band_products/deck_gerber-1d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck gerber-mean3d-lte --out data/results/band_products/deck_gerber-mean3d-lte --lines-tier reference --clip-to-synthesis-list
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --engine-b-deck ts-lte --out data/results/band_products --lines-tier reference --clip-to-synthesis-list
+# solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 fbdd4835564f40c825457e8cb6ff4308792e05fad8c32897957bf0e0b98bb5e7
+# solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 142a98734ad7ec6988435dec472d20cadc7338e7f62c0196c6befab2dc30e288
+# solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 8b20c62a87af697aa46c4b5b73f8bd30ed8b0e228eb13ea215162aaf2174cb1e
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-1d-lte|SYNTH|SET-FE_AGSS21 821a8d42a78ade92ef9b6ea1b127782305cc16f1d4a78d3105efd87f3f90b09b
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 9c223adba64994943cb1d5265c221721302482817a9591e754d69f01d4e182a8
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ts-lte|SYNTH|SET-FE_AGSS21 975133f9371a45bdfbfe0c7de02e785dcb564dad2db924d19bcc457e8ca9f3d0
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|SET-FE_AGSS21 2dddf312451e2243cf4adaca13730977c128143284fdc6b5b3de214bc211cf1a
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 b5e5f4a49d103d17e3695b684dfeacc2dcd581367e46244af1b198cf187e8fbf
+# solar|Fe|II|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-FE_AGSS21 718f9fda224618b93be3c587439ef8360b80aa6996b0319ef82ce8133f6aad33
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 0586ff3012fbceeb61684ca708d1985ad53fae4dab5fa55f77c0da58796f1a4b
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 67de9b272041f3239ed00ac58d3c80fba35d65a7f9b71c765fb5f0468a238ed7
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-FE_AGSS21 97f64f90f506538a1cdc2e632e9330b208fe6ec25078c3117cb01f9547ad4bb4
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 98e1d2aaa03fca4b01174a5fcac38210200199f0eb4bf8fbe938705672b49bc2
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 98307dae1b68ed867ea6b3e4c72606b645fb44b0842745aca2a2bf4e39056229
+# solar|Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 0545cf9390d5a8da7333b8a4bf8dfc784632e3a9b52b291f8cca8114473d02a4
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|REFERENCE 28701815196331d8020c1b36f96e99b403820051d0ec8f63e2428ba450fdc4eb
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|DEEPGRADED c52e8e9bdfcecc99e41aae83b1d5e451a06bd97557d70a3449803656760e8ed7
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|GRADED 595d21831f860e55d66321aa16a9c61afe9d7c435ef908c0f500ec45397cde1f
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|REFERENCE e31220984f589c79b514731fec29f787f0288af62f3609ebac9de750ae40cb77
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|DEEPGRADED 32c9f3eba033115dfbf23f0591bb8c3d3ebee505f01e8e3394fe0029cfc88065
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED c993ad9dc57fd6c605755ac01995b594fa07f87396553ab7c9185e6af20fde4f
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE 934e2f7ba9854f8ffbc6a3e0389f1b28956399ed1f9e994ab0eb2e5df932846e
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|REFERENCE ac9ace188bd6508faaa9dca77a0d7d8bad63ee40674baa68fed647af386c4a3e
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|DEEPGRADED 2cfa534136ab0b9ba14f9270819b258cde6a8978b394a4443dafc05f32bf3ecd
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|GRADED 1ea6d8c76647b304b54b3971a220ab57004b0e92081cf751b7608686d5138d82
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|REFERENCE f3e188413d37c09ec410c1d3c7b71bebf194aa2219efa5fdf0c68cab2f14e94d
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|DEEPGRADED 0cca9a8f6cba94edef3e7b1dec0f92e585a2d1740ae67007451fa97efdcb033a
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED 8c4e49f35d80b697c0e95e06ddf4ed40a22ca044fbaf686b684fd0c5f6857002
+# solar|Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 0a020f1227fa2c78f7e11b5f6ff356c1f230a5f985c1a4015a259c3b761885c0
+# solar|Fe|II|red-optical|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|SET-FE_AGSS21 1780129dccd957c1a623cd2e8db98f76894e2939ec992b1fda5aae631f1b1fd3
+# solar|Fe|II|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 d0f598b8a2500fe7bb970495135f0911c555da15b2dcf95a7b3776f50f1f1946
+# solar|Fe|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-FE_AGSS21 62ea34d0409090066e8c3d74f83efebb275ee704e9c9983d2c454cebe91850b9
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 a26fc84350d84f5139bd157e34d1e849cd671c08b1b779c7459eeaeadebd0e6d
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 2a34fc98ccefe929aa6c4c6a736c143fa6d51e4a5579b3448f8a5b53c793700e
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-FE_AGSS21 5b14a994d9f8dce681a13f711d97072d19d0c20094564606a0fea2988466f7d5
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 123a23d6aca63ea74129b739109ce7a5753b4c93fcde3a56c783ec3f89803336
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 0136c7cbafe742d7ffb6f664f52ff6b8c2942e5dfeba278cd80b7aecfc8eae3f
+# solar|Fe|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 41899ba441410dae431ab24ecb20ff48c62e4b0b15a682b3c0def9b75e93a3af
+# solar|Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-1d-lte|SYNTH|REFERENCE 7112c75ae2325811ac6004ffdb6f1d01fdc948c97c5dadf5cf11f3798d0548ef
+# solar|Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d-lte|SYNTH|REFERENCE 5b27b34f865aa084be4c8bf646653ce52ea7bbded91f0f109ab4a26b1467ed3f
+# solar|Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d|SYNTH|REFERENCE 5ae4d76006aec4524eca3321a8f75cd11d5cb6a3faf5cd696e8bfee517a5f0b7
+# solar|Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-nlte|SYNTH|REFERENCE 88ad570f308412a289c0e00b34fb7ece682ba70df0c0296b36cb21a63becf21b
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|REFERENCE 47521c7204f117452807cbc584eaf4d6d0b85d38c6cbd7e21fe670642e2396db
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|SET-FE_AGSS21 6d88855de9ae736a162143e61353b0145e0af96a6e390e888440162331fd043a
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|REFERENCE f287d8127e4d49588277d55fe986eb024cb7a8dbdbe9a9bc5a224f37b138b02a
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 ce067a65724f426e59171886e2c2954fa41339a6ed5848151d504f199da04400
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-mean3d|SYNTH|REFERENCE f5837ba2f041168d082b32683dd34c5d1a1b247e2f8c8b8aeaee4ba69df93261
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-mean3d|SYNTH|SET-FE_AGSS21 053dde6fccabf47d437ea2a5587282b85307a0a3494f3cd2cb4bdc12d87fe1b6
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|REFERENCE 20ff95510bb63d619bcdc08829f7e0957381e124f353c4daf614b7afccb4467a
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|SET-FE_AGSS21 c98484914f263f8342940b749dd7aa486dc1d72f4134912f252abfbf86d793dd
+# solar|Fe|I|NIR|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-FE_AGSS21 9f448228031a6eedec014d720c3fd2277a0cf499e6a75d75d5586f8d34073f1a
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|REFERENCE 512b48364610cd2ac790c3e4c69b92e8ed2eeab63f56715a9881308f1ae3ff42
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 7e9f54d7097392d5cc0e9f7a8023b35f68ed891be0b2578e3613ed3a62e6c8dc
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|REFERENCE 9c3eee8192e6aac49d79f0384f03aabc160c4ff06bed0d604d40ec40814e790d
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 0dc5343380f60d168af9691f271e580751cbe905de5f04267346dc103452595f
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|REFERENCE c0a46e7bd9f71ebf9b197905502ff9ffbbf3605ae927b54e1b250e2e74785f14
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 c5eecdc8160a6892473818de1c99ecc6efea4a1a54c526fb53c4597bdcccd35d
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|REFERENCE 96a0b08a097f88308da7daf5a319680f6093d75430f7d5f1a3baee3cab11690d
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 e857953f3e1e292a481892849f6dd990d56c5e148dec7d41bd7a9bcc486d1225
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-FE_AGSS21 95dd744bfafc44af84e2d70d40e233318a813e49971be33d22d2d4c2797dc596
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|REFERENCE 39426161fe5462eb8a8460e22ab9c45f3d2532cd377daff2b20595e6890682e8
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 bb85e71b2a241f5749d14bb3d5f4612dcd5b38056d12ce331e747af6c7e4085b
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|REFERENCE 4eed55d45f734db19f552b175fc136e525fd12571fab9c21e50791f49f0c5536
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 8eacfbd71682b9bcf72ba43f78048dd4296850737d836edcb4e58803e76a8c77
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|REFERENCE 1e3b50c460990be07a5d17a3815cd5249af19344ba76fcf7cd1973e8aa70281b
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 f5d6bda4832036b846d955d5d986db761108450d80dc89a037646c9e64fb3bf9
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE 482aebcbb6700a703d3031fdd25bb6df693666ae73b907c12bdd380fd3c02627
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 758ece630aadcc9845085cbc75978a01ff66ee9a31fa574bbc48074b187dfbbb
+# solar|Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 7ff2f1667e67799740a4148d9eb30df687a6cde6c37182ae67d8a7a61a321964
+# solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 8330b7b60129c310e84005e592613a5a2e4ae826e859a506f3fcb0143a154806
+# solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 bc249452a9780559a8fc5a9609fa691c1b714922af3aea31c29d96aa2661b313
+# solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 d362fb2f28335ce3e9ca5d987149fa7e2a64e50cdb56fef2fb26b51aa24b94e2
+# solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 25fc5fd4c5f52bb5f1a008d233fe3c261ed87c7cd37eb86ef43c14309f92d0e1
+# solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 d866cf07f6b27af910a5496bdc42cdd6467e42a67d64c37a42dde1319321f87a
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-1d-lte|SYNTH|SET-FE_AGSS21 74ccdb4dd9b0a1d850fabefb4e6e2de7de2a0fda4e24eb43cb01b0f119e33150
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 0dc7fad166529abcaf4ea3b4b0262399976ec735325184624d3d658e69a72df1
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-mean3d|SYNTH|SET-FE_AGSS21 fcdfe1ea1a0425a77c769445c55352c71d7e7ca10a32506fae0bedcf5be7edb0
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|gerber-nlte|SYNTH|SET-FE_AGSS21 4ad446222da898ba4d883abd31bd22c5bb7354df5b261cadb844ad09e92d699e
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag_reiners2016|ts-lte|SYNTH|SET-FE_AGSS21 eb249200a3c7928fc6f6ff36f0ddd5f77ab6b9ad7b3796073decb634b50cfad2
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|SET-FE_AGSS21 5d2ef75f30f0e78515c51d2e1382defc08af30bbfb1235edcc87f7094dd6b1fe
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 7f5d488349ecdb94e46de9270d3c52963c99552c6a4b82f38f79e12b2cf1371b
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag|gerber-mean3d|SYNTH|SET-FE_AGSS21 eb885717e5c3968c641c71b8eaf3e2ccc251e3c6862767b4ef8d2f36212659a2
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|SET-FE_AGSS21 88ae4487aaeb43bccf2597faea902380cead1a1af52bf8b906affad5507e342b
+# solar|Fe|I|VIS|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-FE_AGSS21 dd42a7ad8e1e78c5f54dbd6649106888b092f3b338862dc3f8c6878d0e63b3c3
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|PROFILEFIT|GRADED fc0b59f472c89b8592aaf6c566108844d43379232718a2abfd223b7c52a0713b
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 1a22dd866857d40af8217511ca29a0efaa978fcd6cc526f6502cba6b859b8aae
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 263ce499c7d30d95a9c1a791389f77b9c89d7d8694b4f35587bea1c7e48e488b
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|PROFILEFIT|GRADED 931ce94d09f7b6567f4e9ca2627b3a9c0a5bc5e311f6a09e48c3340bab02602f
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 252abd71523dd674d66ba9ead4ddb173691cbada1f60613dbf8a84c12545e2b6
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 87e2f466e30cb09ea11fcfd625e7335170f6bf8207b049694554a78d82e2baf2
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-FE_AGSS21 508848bd21161897443e2783d07395ac58632aa789b1fb671eefa5a9442fd9e4
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 63d7a241ced354ca1c5735f38ba6f3b1659b157de95ac0aff2a363d432ddec2d
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 286d0393f11f479ac149ded064cb145f90aa150e75ef8972b935aa58cbbe0383
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 55524d918a6082e2db7f355c5eaa160632cec5c2faa1d943e2eafad5157c2c36
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 4bb9120e64b649062216828bd5466c467824ef3808e44588582cc682a085c0a0
+# solar|Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 d025e22bcf8d7b8b31932ed902585e1b9f0bf9746332abd4050b8b6e422d0221
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|REFERENCE c7b624f0a9e9b0904efe1be70cb1aee726e4b56c9d334a59b6baf7de1fccd2c5
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|DEEPGRADED 1dfc7ff0989a4746d350bbc01388dd770ca3f9441e0081db74e43ce4cd502268
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|REFERENCE 60314811732eb30b141e2ed876ab5639f073d0c07f3f9aa93665d3e3b2fc2d71
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|REFERENCE 10c753bea1e6375291f2975e9daad76e77790d72bd91c87612e70c0872bce539
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|REFERENCE 722d97779a80eca03bd38011d94a6cf7b84ce23bfa70f0475efc90e572865880
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|DEEPGRADED def7d4c63071101c322cf271a872aec8fe8615125b06896c2f02a62968d4f3b7
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE e5025c4c10fb3ad8e9b9e0c18e44a39ffdb97bf542657805bea7946671a05df2
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|REFERENCE 3d52e1b877ea2481762cdce353f747063edad8c635a7746bfec0aff156d86825
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|REFERENCE ab321e312a07b33bb4a4dd48b3895a5d73269a3cd25d3dc13672000ecd38fa12
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|REFERENCE 1e7b7358f6ca5eeac3d9682141936bcaa99ad6be2377bce55ee846b7fdc12f73
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE b8002937b1f9067ca138c6a2bb12b821859d751337096ab93808e0afebefbc63
+# solar|Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE 85851c511fb486d67f196ecfd0f6c660922a0d36c8fe5a41fe7121e9e6e5027e
+# solar|Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|SET-FE_AGSS21 f6d0ee6848de2cd0bb2bb76a3e3bcaf8ac389376847aff54e88f8f5201ec797c
+# solar|Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 7afbe0330a06f63c8d429d178f9ed427459fbc1011f458b0e0dc1242f7f159bd
+# solar|Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d|SYNTH|SET-FE_AGSS21 aafd79a6827f22f7fc24e45198ebbff150e44bf44d62114c2e2112d2c48612cd
+# solar|Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|SET-FE_AGSS21 74b562a6cf6817c29f65ee1fd08b77c72b0a147c0f1fba9ac5bb3178d11146b0
+# solar|Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|SET-FE_AGSS21 e10b66dea9980dc7dff64797b9d93f670974fc41dd3ac823772e97219f11c96f
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 695ff827b765c872ed46a0403ef09bfd495b63bb80c598c9faf2fa3e6beeb6e4
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 cf09c9d31924451630ef922e54df9a539ad87200cd0230af475138698d2e1472
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 2f3b79669cba45abf17f006249bdec7ded729ef975372427b50fcf29edeb7892
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 ebda14719bf3c5a6fc7a4ecb024c4f7138e360858bdcd99c73aa75e244162a67
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-FE_AGSS21 8e16e3f8f8af58c9f71fb5c4a623692a6b8522f3672537cbe54bafb0dd31d569
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|SET-FE_AGSS21 62f54c186d3e8619e15426cc93e3b6de27e7cf9769196eaacb40f94b3ffda6d4
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|SET-FE_AGSS21 42eb64fe427c7b1a20ab8f85c13633f66f0e638a6e795a291cb570c5245614c9
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|SET-FE_AGSS21 7f99e4995b02245dfb87b033dd9f987f6ae7449b183d2aa936379d12b919bc1c
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-FE_AGSS21 f72cb783daa5442766fae780380e0959e3c2b2d5db3df9d153c880c58bb7a03e
+# solar|Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-FE_AGSS21 12ecadd157bd17e5b3d450dc68bb85171d2091da1769d1d93ca9f85cff267ef8

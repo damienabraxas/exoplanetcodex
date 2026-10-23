@@ -23,6 +23,17 @@ import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
+
+@pytest.fixture(scope="module")
+def pre_feed():
+    return json.loads(PRE_RYA1232_FEED.read_text())
+
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -289,8 +300,9 @@ def test_a_reference_cell_is_never_both_live_and_NA(matrix):
 XI_RUN = ROOT / "data/results/rya1213/reference_xi_dadxi.json"
 
 
-def test_every_completed_reference_xi_pool_reaches_its_product(feed):
+def test_every_completed_reference_xi_pool_reaches_its_product(pre_feed):
     """A finished campaign row cannot remain NOT_IN_CAMPAIGN in the feed."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     import math
     keys = ("ion", "holding", "tier", "treatment", "band")
     measured = {tuple(p[k] for k in keys): p for p in json.loads(XI_RUN.read_text())["pools"]
@@ -352,10 +364,11 @@ def test_the_incomplete_bar_caveat_is_cleared_when_the_term_is_measured(feed):
             f"the state in both directions")
 
 
-def test_a_measured_xi_term_widens_the_bar_rather_than_narrowing_it(feed):
+def test_a_measured_xi_term_widens_the_bar_rather_than_narrowing_it(pre_feed):
     """Adding a term in quadrature cannot reduce a total. If a Reference bar ever came
     out NARROWER once its xi term was measured, the term is being subtracted or the
     baseline it is compared against is not the one it was built from."""
+    feed = pre_feed  # RYA-1232: this ticket's landed state (frozen feed)
     import math
     for p in feed["products"]:
         if p.get("tier") != "REFERENCE" or p.get("xi_state") != "MEASURED":

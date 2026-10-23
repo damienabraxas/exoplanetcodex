@@ -1,0 +1,9 @@
+# Per-element answers to the prepare cull protocol (check C: saturated graded lines that no
+# solar analysis used). `no_cull`: the candidates stay in the graded pool; prepare reports them
+# but does not block on them and `--prepare --apply` writes no culls.
+Fe:
+  decision: no_cull
+  by: Ryan
+  date: 2026-10-19
+  ticket: RYA-1232
+  basis: "We don't cull. Fe carries hundreds of graded lines; saturated lines stay in the pool."

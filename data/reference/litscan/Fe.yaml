@@ -23,6 +23,11 @@
 
 element: Fe
 ion: I
+#: RYA-1232: Fe II is measured too. Asplund+2021 Sect. 3 (Iron) recommends the AVERAGE of the
+#: two ions and finds them in "excellent agreement" -- 7.46 +/- 0.04 (Fe I) and 7.47 +/- 0.04
+#: (Fe II), unweighted means, statistical + systematic -- so one range covers both ions here,
+#: as Si's does. The Fe II determinations are listed below with `ion: II`.
+ions: [I, II]
 source_of_truth: RYA-714
 sweep_umbrella: RYA-709
 
@@ -40,6 +45,25 @@ scale_note: >-
 
 # ── § 2.2 VIS — the in-scale determinations the band is built from ───────────
 entries:
+  - source: Asplund, Amarsi & Grevesse 2021 (Fe II)
+    citation: A&A 653, A141, Sect. 3 (Iron) + Table A.2
+    ion: II
+    value: 7.47
+    sigma: 0.04
+    scale: 3D-NLTE
+    role: best external (Fe II)
+    method: full 3D-NLTE, 100 Fe I + 76 Fe II levels; unweighted mean of the Table A.2 Fe II lines
+    note: '"7.46 +/- 0.04 and 7.47 +/- 0.04 from Fe i and Fe ii respectively, based on unweighted means and including statistical and systematic uncertainties."'
+
+  - source: Scott et al. 2015a (Fe II)
+    citation: A&A 573, A26 (as quoted by Asplund+2021 Sect. 3)
+    ion: II
+    value: 7.51
+    sigma: 0.04
+    scale: 3D-LTE
+    role: corroborating
+    method: 3D analysis of Fe II lines
+
   - source: Amarsi, Asplund, Grevesse & Sauval 2021
     citation: A&A 653, A141
     value: 7.46

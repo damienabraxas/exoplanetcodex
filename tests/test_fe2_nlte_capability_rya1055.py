@@ -339,7 +339,10 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: bound-bound transitions), so every one of the new rows must carry the limit too,
     #: which is what the EQUALITY below is actually asserting; the literal only catches a
     #: row VANISHING.
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 30
+    #: 30 -> 54 (RYA-1232): the Asplund-set run adds 24 Fe II products (8 holdings x 1D-LTE,
+    #: Gerber 1D-LTE, mean-3D LTE); every one carries the limit, which the EQUALITY asserts.
+    #: 54 -> 56: + near-UV Fe II mean-3D LTE on the lab Reference pool (2 holdings)
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 56
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
     #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of
@@ -518,16 +521,29 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     #: its merits (Fe II 4303.170, a CH G-band blend recovering A = 10.0 -- RYA-1191).
     live_vis = {4233.162, 4303.170, 4583.829}
     curated_out = {4303.170}
+    #: RYA-1232: the republished products serve their whole graded Fe II pool (8 lines, not
+    #: the 2 the pre-RYA-1232 deck served), so the pool is the product's own -- what stays
+    #: pinned is that the curated line is out and every served line has its 1D-LTE partner.
     for key, pool in eng.items():
         got = {round(w, 3) for w in pool}
-        assert got == live_vis - curated_out, (key, sorted(got))
+        assert not (got & curated_out), (key, sorted(got))
+        assert {round(w, 3) for w in lte[key]} >= got, (key, sorted(got))
+        #: RYA-1232: the two readings must AGREE line by line -- the per-line difference
+        #: IS the band product's own recorded MPIA departure. The old [-0.0021, -0.0009]
+        #: bound was the range of the two lines then served; the strong multiplet-42 lines
+        #: now served (4923.921, 5169.028) carry MPIA's own +0.015.
+        own = {}
+        for f in sorted((ROOT / "data/results/rya1232_fe").glob(
+                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")):
+            d_ = pd.read_csv(f)
+            for w_, v_ in zip(d_.wavelength_air_A, d_.nlte_delta_dex):
+                if v_ == v_:
+                    own[round(float(w_), 3)] = float(v_)
         for w, a_eng in pool.items():
             a_lte = lte[key][w]
             d = a_eng - a_lte
-            #: the SAME bound the band products' own `nlte_delta_dex` is asserted on
-            #: above, and the same SIGN. The old literal was `+0.001` measured on the
-            #: retired pool; MPIA's Fe II departure at the solar node is negative.
-            assert -0.0021 <= d <= -0.0009, f"{key} {w}: ENGINE-A minus 1D-LTE = {d:+.6f}"
+            ref = own.get(round(w, 3), -0.0015)
+            assert abs(d - ref) <= 6e-4, f"{key} {w}: ENGINE-A minus 1D-LTE = {d:+.6f} vs own {ref:+.4f}"
 
 
 def test_the_rya1113_contradiction_is_resolved_by_the_per_line_artifacts():
@@ -592,7 +608,10 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: them unchanged: all report `none — LTE, no departure applied` with zero nonzero
     #: departures, because the Fe II limit is a property of the ATOM and no pool can
     #: change it.
-    assert len(per) == 36, len(per)
+    #: 36 -> 38 (RYA-1232): the near-UV Fe II <3D>-LTE leg on the lab Reference pool (both KP
+    #: holdings). New artifacts, swept in like every widening above; the per-row checks run on
+    #: them too (LTE, no departure applied).
+    assert len(per) == 38, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (

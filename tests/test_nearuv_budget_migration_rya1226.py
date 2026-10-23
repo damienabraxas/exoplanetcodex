@@ -16,6 +16,12 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+#: RYA-1232 republished Fe on full RYA-587 budgets (near-UV legacy rows withdrawn, the H arm
+#: moved to the corrected holding). Assertions about THIS ticket's landed state read the
+#: frozen pre-RYA-1232 feed; every other test in this file still reads the live one.
+PRE_RYA1232_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 if str(ROOT / "scripts") not in sys.path:
@@ -30,6 +36,12 @@ RYA1190 = ROOT / "data/results/rya1190/rya1190_frontier_opacity.json"
 KUR = "solar_kpno_kurucz2005_corrected"
 MOL = "solar_kpno_molecfit_corrected"
 DH19_DOI = "10.3847/1538-4365/ab322e"
+
+
+#: RYA-1232 republished the near-UV rows on the fixed near-UV line list (the six RYA-1226
+#: migrated rows were replaced or withdrawn). These tests assert RYA-1226's OWN publication,
+#: so they read the frozen feed it produced; the live feed is checked by the contract test.
+RYA1226_FEED = ROOT / "tests/fixtures/fe_feed_pre_rya1232.json"
 
 
 def _lines(ion, holding, tier, treat):
@@ -185,10 +197,12 @@ def test_the_bar_is_dominated_by_bounds_and_that_is_stated_not_hidden():
     assert pew["sigma_dex"] ** 2 / total > 0.40
 
 
-def test_stellar_xi_carries_real_perturbation_evidence_and_a_measured_asymmetry():
+def test_stellar_xi_carries_real_perturbation_evidence_and_a_measured_asymmetry(monkeypatch):
     """A derived response is not a perturbation -- the contract says so and it is right."""
     import rya1226_migrate_nearuv_budget as M
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads(RYA1226_FEED.read_text())
+    #: the builder's holding spread reads the feed it migrated (RYA-1232 withdrew those rows)
+    monkeypatch.setattr(M, "FEED_PRODUCTS", feed["products"])
     p = next(x for x in feed["products"] if x["band"] == "near-UV" and x["ion"] == "I"
              and x["tier"] == "DEEPGRADED" and x["treatment"] == "1D-LTE"
              and x["holding"] == KUR)
@@ -251,7 +265,7 @@ def test_blends_is_NOT_a_component_and_carries_no_bound():
 
 def test_published_A_is_untouched_by_the_migration_survey():
     """The survey is read-only: it prices uncertainty and never an abundance."""
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads(RYA1226_FEED.read_text())
     live = {(p["ion"], p["holding"], p["treatment"]): p["A"] for p in feed["products"]
             if p.get("band") == "near-UV" and p.get("tier") == "DEEPGRADED"}
     for r in json.loads(MIGRATION.read_text())["rows"]:
@@ -262,7 +276,7 @@ def test_published_A_is_untouched_by_the_migration_survey():
 
 def test_the_feed_actually_carries_the_migrated_budgets():
     """Part D: the rows publish. This is the smoke test the ticket asked for."""
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads(RYA1226_FEED.read_text())
     with_block = [p for p in feed["products"] if "uncertainty" in p]
     assert len(with_block) == 6, "six near-UV rows migrated; the rest stay legacy"
     for p in with_block:
@@ -273,7 +287,7 @@ def test_the_feed_actually_carries_the_migrated_budgets():
 
 def test_the_two_incomplete_rows_did_NOT_publish_a_budget():
     """The migration's whole point: an incomplete budget stays unpublishable."""
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads(RYA1226_FEED.read_text())
     held = [p for p in feed["products"]
             if p.get("band") == "near-UV" and p.get("ion") == "I"
             and p.get("tier") == "DEEPGRADED" and p["holding"] == MOL
@@ -297,7 +311,7 @@ def test_a_migrated_rows_total_is_the_contracts_not_the_legacy_quadrature():
     import math, importlib, sys as _s
     _s.path.insert(0, str(ROOT / "scripts"))
     emit = importlib.import_module("rya1178_emit_fe_schema")
-    feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    feed = json.loads(RYA1226_FEED.read_text())
     p = next(x for x in feed["products"] if "uncertainty" in x)
     before = p["sigma_reported"]
     legacy = math.sqrt(sum(t * t for t in (p.get("sigma_stat"), p.get("sigma_syst_complete")) if t))
