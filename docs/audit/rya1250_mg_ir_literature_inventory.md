@@ -48,3 +48,22 @@ No independent, production-ready Mg II IR reference set was found in the
 reviewed material. The current Mg II IR set remains the Asplund set; the
 non-Asplund IR expansion is therefore Mg I first, with Mg II kept separate
 until a cited line table and component treatment are verified.
+
+## Near-UV and K-band grade audit
+
+The orchestrator's active grade definitions were applied to the held Mg cells.
+Codex Grade requires a published per-line gf uncertainty, a laboratory gf, or a
+NIST accuracy class A--C. Deep Grade is a depth-selected subset of that same
+gf-graded pool. The 3000--3780 Å Mg I selection contains 11 lines and the
+CRIRES+ K selection contains 78 lines, but all are currently VALD3/Kurucz or
+other ungraded provenance. Consequently both pools correctly return zero
+eligible lines; the bands are data-present but grade-unresolved, not empty.
+
+Civiš et al. (2013) reports measured Mg I K-band transitions, including lines
+near 2386.6, 2385.0, 2384.3, 2281.8, and 2106.9 nm (their Table 3), and
+provides QDT oscillator strengths in its later transition tables. The paper
+does not provide the per-line gf uncertainty needed by the current Codex/Deep
+definition, so those transitions are recorded as literature candidates and are
+not emitted as a falsely graded product. A future admission requires recovering
+an uncertainty-bearing gf source (or an applicable NIST A--C class) for the
+same component identities.
