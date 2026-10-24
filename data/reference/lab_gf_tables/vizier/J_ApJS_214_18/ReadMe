@@ -1,0 +1,153 @@
+J/ApJS/214/18    VII log(gf) values, and V abundance in HD 84937    (Wood+ 2014)
+================================================================================
+Improved V II log(gf) values, hyperfine structure constants, and abundance
+determinations in the photospheres of the Sun and metal-poor star HD 84937.
+    Wood M.P., Lawler J.E., Den Hartog E.A., Sneden C., Cowan J.J.
+   <Astrophys. J. Suppl. Ser., 214, 18 (2014)>
+   =2014ApJS..214...18W
+================================================================================
+ADC_Keywords: Atomic physics ; Line Profiles ; Abundances
+Keywords: atomic data; methods: laboratory: atomic; stars: abundances;
+          stars: individual: HD 84937; Sun: abundances
+
+Abstract:
+    New experimental absolute atomic transition probabilities are reported
+    for 203 lines of V II. Branching fractions are measured from spectra
+    recorded using a Fourier transform spectrometer and an echelle
+    spectrometer. The branching fractions are normalized with radiative
+    lifetime measurements to determine the new transition probabilities.
+    Generally good agreement is found between this work and previously
+    reported V II transition probabilities. Two spectrometers, independent
+    radiometric calibration methods, and independent data analysis
+    routines enable a reduction in systematic uncertainties, in particular
+    those due to optical depth errors. In addition, new hyperfine
+    structure constants are measured for selected levels by least squares
+    fitting line profiles in the FTS spectra. The new V II data are
+    applied to high resolution visible and UV spectra of the Sun and
+    metal-poor star HD 84937 to determine new, more accurate V abundances.
+    Lines covering a range of wavelength and excitation potential are used
+    to search for non-LTE effects. Very good agreement is found between
+    our new solar photospheric V abundance, log{epsilon}(V)=3.95 from
+    15 V II lines, and the solar-system meteoritic value. In HD 84937, we
+    derive [V/H]=-2.08 from 68 lines, leading to a value of [V/Fe]=0.24.
+
+Description:
+    This V II transition probability study makes use of archived Fourier
+    transform spectrometer (FTS) data from the 1.0m FTS previously at the
+    National Solar Observatory (NSO) on Kitt Peak (13 FTS spectra were
+    recorded from 1979 Dec. 12 to 1986 July 30).
+
+    In addition to the 13 FTS spectra, 75 CCD frames of echelle
+    spectrometer spectra are also part of this V II transition probability
+    study. They were recorded from 2013 May 17 to 2014 May 14.
+
+Objects:
+    ------------------------------------------------------
+         RA   (ICRS)   DE        Designation(s)
+    ------------------------------------------------------
+     09 48 56.10   +13 44 39.3   HD 84937 = TYC 834-654-1
+    ------------------------------------------------------
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName  Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe        80        .   This file
+table3.dat    54      203   Experimental atomic transition probabilities for
+                             203 lines of VII from upper odd-parity levels
+                             organized by increasing wavelength in air
+table4.dat    53       21   New VII magnetic dipole hyperfine structure
+                             constants from FTS spectra
+table5.dat    54     1125   Hyperfine structure line component patterns for
+                             67 lines of VII (ionized Vanadium)
+table7.dat    29       68   Sixty-eight lines of ionized vanadium in HD 84937
+--------------------------------------------------------------------------------
+
+See also:
+ J/ApJS/211/20   : NiI transition probability measurements (Wood+, 2014)
+ J/ApJS/208/27   : Sun and HD 84937 TiII log(gf) and abundances (Wood+, 2013)
+ J/ApJS/207/20   : Parity-forbidden [Co II] and [VII] lines (Ruffoni+, 2013)
+ J/ApJS/207/13   : The spectrum and term analysis of VII (Thorne+, 2013)
+ J/ApJ/762/26    : Most metal-poor stars. II. Galactic halo stars (Yong+, 2013)
+ J/ApJS/194/35   : Atomic transition probabilities of Mn (Den Hartog+, 2011)
+ J/MNRAS/412/843 : SAGA extremely metal-poor stars (Suda+, 2011)
+ J/A+A/501/519   : Extremely metal-poor stars abundances (Bonifacio+, 2009)
+ J/AJ/137/272    : Space velocities orbits in the MW halo (Roederer+ 2009)
+ J/ApJS/182/80   : Rare earth abundances (Sneden+, 2009)
+ J/ApJ/681/1524  : Detailed abundances for 28 metal-poor stars (Lai+, 2008)
+ J/A+A/439/129   : HERES II. Spectroscopic analysis (Barklem+, 2005)
+ J/A+A/416/1117  : Abundances in the early Galaxy (Cayrel+, 2004)
+
+Byte-by-byte Description of file: table3.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label  Explanations
+--------------------------------------------------------------------------------
+   1-  9  F9.4  0.1nm    lambda [2123.3/4600.2] Wavelength in air ({AA}) (1)
+  11- 19  F9.3  cm-1     E1     Upper level (2)
+      21  I1    ---      J1     [0/6] Upper level J value (2)
+  23- 31  F9.3  cm-1     E0     Lower level (2)
+      33  I1    ---      J0     [0/6] Lower level J value (2)
+  35- 41  F7.3  10+6/s   A      Transition probability
+  43- 48  F6.3  10+6/s e_A      Total uncertainty in TranP
+  50- 54  F5.2  ---      log.gf [-2.9/0.6] log(gf) (degeneracy times oscillator
+                                 strength)
+--------------------------------------------------------------------------------
+Note (1): Computed from energy levels using the standard index of air
+          from Peck & Reeder (1972JOSA...62..958P).
+Note (2): From Thorne et al. (2013, Cat. J/ApJS/207/13).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label   Explanations
+--------------------------------------------------------------------------------
+   1- 13  A13   ---       Conf    Assigned configuration (1)
+  15- 19  A5    ---       Term    Term (1)
+      21  I1    ---       J       [1/6] J value (1)
+      23  A1    ---       P       [eo] Parity (even or odd) (1)
+  26- 34  F9.3  cm-1      E       [2605/47052] Level energy (1)
+  36- 40  F5.1 10-3/cm    Ahf     [-13.7/30.5] This work hyperfine structure
+                                    constant A
+  42- 44  F3.1 10-3/cm  e_Ahf     [1/3] Ahf uncertainty
+  46- 49  F4.1 10-3/cm    Ahf1    [11.1/31.3]? Hyperfine structure constant A
+                                               from Arvidsson (2)
+  51- 53  F3.1 10-3/cm  e_Ahf1    [0.2/5.7]? Ahf1 uncertainty (2)
+--------------------------------------------------------------------------------
+Note (1): Level energies and classifications are from Thorne et al. (2013,
+          Cat. J/ApJS/207/13).
+Note (2): Arvidsson, 2003, master's thesis at Lund University, Lund, Sweden.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table5.dat
+--------------------------------------------------------------------------------
+  Bytes Format Units  Label  Explanations
+--------------------------------------------------------------------------------
+  1-  9  F9.3  cm-1   sig    [21901/37415] Center-of-Gravity wavenumber {sigma}
+ 11- 19  F9.4  0.1nm  lambda [2672/4565] Center-of-Gravity air wavelength ({AA})
+ 21- 23  F3.1  ---    F1     [0.5/9.5] Upper level F total angular momentum
+ 25- 27  F3.1  ---    F0     [0.5/8.5] Lower level F total angular momentum
+ 29- 36  F8.5  cm-1   dsig   Component offset wavenumber {delta}{sigma} (1)
+ 38- 46  F9.6  0.1nm  dlam   Component offset wavelength {delta}{lambda} (1)
+ 48- 54  F7.5  ---    Str    [0/1] Component strength normalized to sum to one
+--------------------------------------------------------------------------------
+Note (1): With respect to center-of-gravity wavenumber or wavelength.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table7.dat
+--------------------------------------------------------------------------------
+  Bytes Format Units  Label    Explanations
+--------------------------------------------------------------------------------
+  1-  8  F8.3  0.1nm  lambda   [2677/40235] Air wavelength ({AA})
+ 10- 14  F5.3  eV     E0       [0.004/1.9] Lower level excitation energy
+ 16- 20  F5.2  ---    log(gf)  [-1.7/0.6] Log of degeneracy times oscillator
+                                strength
+ 22- 25  F4.2  ---    log(eps) [1.7/2.1] Log of abundance log{epsilon} (H=12)
+ 27- 29  A3    ---    HFS      [yes/no ] Hyperfine structure used in abundance
+                                calculation?
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)                 Greg Schwarz [AAS], Emmanuelle Perret [CDS]    13-Oct-2014

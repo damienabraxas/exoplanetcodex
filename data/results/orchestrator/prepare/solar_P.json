@@ -1,0 +1,515 @@
+{
+ "star": "solar",
+ "element": "P",
+ "generated": "2026-10-24",
+ "sets": [
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 9525.741,
+   "ep_eV": 6.985,
+   "solar_literature": true,
+   "authors_loggf": -0.1,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 9525.741,
+   "canonical_loggf": -0.1,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 9750.748,
+   "ep_eV": 6.954,
+   "solar_literature": true,
+   "authors_loggf": -0.18,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 9750.748,
+   "canonical_loggf": -0.18,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10511.588,
+   "ep_eV": 6.936,
+   "solar_literature": true,
+   "authors_loggf": -0.13,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10511.588,
+   "canonical_loggf": -0.13,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10529.524,
+   "ep_eV": 6.954,
+   "solar_literature": true,
+   "authors_loggf": 0.24,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10529.524,
+   "canonical_loggf": 0.24,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10581.577,
+   "ep_eV": 6.985,
+   "solar_literature": true,
+   "authors_loggf": 0.45,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10581.577,
+   "canonical_loggf": 0.45,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10596.903,
+   "ep_eV": 6.936,
+   "solar_literature": true,
+   "authors_loggf": -0.21,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10596.903,
+   "canonical_loggf": -0.21,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10681.406,
+   "ep_eV": 6.954,
+   "solar_literature": true,
+   "authors_loggf": -0.19,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10681.406,
+   "canonical_loggf": -0.19,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "P_AGSS21",
+   "species": "P I",
+   "wavelength_A": 10813.146,
+   "ep_eV": 6.985,
+   "solar_literature": true,
+   "authors_loggf": -0.41,
+   "authors_sigma_dex": null,
+   "authors_gf_source": "Berzinsh et al.\\ (ber)",
+   "canonical_wavelength_A": 10813.146,
+   "canonical_loggf": -0.41,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  }
+ ],
+ "adopt": [],
+ "missing_lines": [],
+ "gf_sources": [
+  {
+   "lab_source_tag": "NIST_ASD",
+   "n_graded_lines": 2,
+   "classified": true
+  }
+ ],
+ "scoped_readiness": true,
+ "route_requirements": [],
+ "cull_candidates": [],
+ "nlte_missing": [
+  {
+   "species": "P I",
+   "wavelength_A": 6034.04
+  },
+  {
+   "species": "P I",
+   "wavelength_A": 6043.12
+  }
+ ],
+ "holdings": [
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.69,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -0.05
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -0.06
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_harps_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3782.6,
+   "hi_A": 6910.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -0.03
+   ],
+   "frame_median_dv_kms": 0.88,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag_reiners2016",
+   "band": "VIS",
+   "lo_A": 4047.46,
+   "hi_A": 5001.1,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.51,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "VIS",
+   "lo_A": 5001.1,
+   "hi_A": 6910.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -0.11
+   ],
+   "frame_median_dv_kms": 0.53,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.58,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.48,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10010.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "band": "NIR",
+   "lo_A": 9800.0,
+   "hi_A": 10796.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_rya794",
+   "band": "NIR",
+   "lo_A": 10280.0,
+   "hi_A": 10680.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_j_rya1219",
+   "band": "NIR",
+   "lo_A": 11159.94,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.08,
+   "frame_n_lines": 8,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_k_rya1219",
+   "band": "K",
+   "lo_A": 19452.42,
+   "hi_A": 24845.62,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  }
+ ],
+ "literature": {
+  "litscan": true,
+  "set_bib_keys": [
+   "scott2015_light"
+  ],
+  "missing_bib_keys": []
+ },
+ "nlte_table": null,
+ "literature_needs": [
+  {
+   "species": "P I",
+   "band": "red-optical",
+   "n_lines": 239,
+   "holdings": [
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "239 P I lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "P I",
+   "band": "NIR",
+   "n_lines": 8,
+   "holdings": [
+    "solar_crires_plus_j_rya1219",
+    "solar_crires_plus_y_rya794",
+    "solar_crires_plus_y_wide_rya1054",
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "8 P I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "P I",
+   "band": "H",
+   "n_lines": 23,
+   "holdings": [
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "23 P I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  },
+  {
+   "species": "P I",
+   "band": "K",
+   "n_lines": 3,
+   "holdings": [
+    "solar_crires_plus_k_rya1219"
+   ],
+   "scientific_role": "lab_gf",
+   "why_needed": "3 P I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
+  }
+ ],
+ "blocking": {
+  "nlte_missing": 0,
+  "adopt": 0,
+  "cull_candidates": 0,
+  "missing_solar_literature_lines": 0,
+  "holdings_frame": 0,
+  "literature": 0
+ },
+ "ready": true
+}

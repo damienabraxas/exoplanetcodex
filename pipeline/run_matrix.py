@@ -268,7 +268,7 @@ def _publisher():
 # ═════════════════════════════════════════════════════════════════════════════
 
 def canonical_elements() -> list[str]:
-    """The 27 targets, from `elements_master.json`. Never a literal here."""
+    """The targets, from `elements_master.json`. Never a literal here."""
     doc = json.loads(ELEMENTS_MASTER.read_text(encoding="utf-8"))
     return [e["symbol"] for e in doc["elements"]]
 
