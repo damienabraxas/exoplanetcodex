@@ -82,6 +82,11 @@ DECKS = {
     "Mg": dict(Z=12, atom="atom.mg86d",
                aux="auxData_Mg_MARCS_Nov-13-2024.dat",
                grid="NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin"),
+    # RYA-1251. Staged by RYA-533 (Na_gerber2023.prov.json pins the three files' md5). The
+    # abundance-axis shape is read from this deck's own aux by `abundance_axis()`.
+    "Na": dict(Z=11, atom="atom.na_qmh",
+               aux="auxData_Na_MARCS_Jul-14-2023.dat",
+               grid="NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin"),
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),

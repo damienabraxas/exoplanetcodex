@@ -372,7 +372,7 @@ def main() -> None:
                 instruments=args.instrument, engines=args.engine,
                 methods=args.route, pools=args.pool,
                 dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None, jobs=args.jobs)
+                ispec_dir=ispec or None, jobs=args.jobs, prepare_first=True)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
         from pipeline.run_sweep import executed

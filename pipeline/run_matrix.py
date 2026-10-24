@@ -528,6 +528,8 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     # already keeps this category out of `blocking`; repeating it here would
     # reintroduce the stale hard gate at dispatch time.
     for kind in ('adopt', 'cull_candidates', 'missing_lines'):
+        if kind in _RULE_PLAN_ASSUMED:
+            continue        # a dry run's forecast: `run(prepare_first=True)` applies it first
         rows = report[kind]
         if kind == 'missing_lines':
             # An Asplund line whose gf uncertainty is unresolved is still a
@@ -540,6 +542,11 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     if any(not r.get('ok', False) and r.get('holding') == d.holding for r in report['holdings']):
         return 'PROCESS step 4: holding frame unresolved'
     return ''
+
+
+#: Plan kinds a DRY run treats as applied (RYA-1251): the real run applies them by rule
+#: before it dispatches, so holding on them would forecast work that will not be held.
+_RULE_PLAN_ASSUMED: set = set()
 
 
 def cell_process_hold(d: RunDescriptor) -> str:
@@ -1362,7 +1369,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int | None = None, report_dir: Path | None = None,
-        echo: bool = True, jobs: int = 1) -> dict:
+        echo: bool = True, jobs: int = 1, prepare_first: bool = False) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
@@ -1375,6 +1382,26 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     from config.constants import ISPEC_DIR, synth_interpreter
     interpreter = interpreter or synth_interpreter()
     ispec_dir = ispec_dir or (str(ISPEC_DIR) if ISPEC_DIR.is_dir() else "")
+
+    # RYA-1251: preparation is the run's own first step, not a separate hand loop. The rule
+    # plan (published gf, sigma-only, culls, missing Asplund lines) is applied before any
+    # cell is expanded -- an adoption can change which lines are graded. A dry run applies
+    # nothing and forecasts as if it had.
+    _RULE_PLAN_ASSUMED.clear()
+    prepared = None
+    if prepare_first:
+        from pipeline import element_prepare
+        if dry_run:
+            prepared = (element_prepare.prepare(star, symbol), {})
+            if not element_prepare.has_published_feed(star, symbol):
+                _RULE_PLAN_ASSUMED.update(element_prepare.RULE_KINDS)
+        else:
+            prepared = element_prepare.resolve(star, symbol)
+        if echo:
+            rep, done = prepared
+            print(element_prepare.render(rep))
+            if done:
+                print(f"prepare applied by rule: {done}")
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,
@@ -1649,6 +1676,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
 
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
                      process=steps,
+                     prepare=(None if prepared is None else
+                              {"ready": prepared[0].get("ready"),
+                               "blocking": prepared[0].get("blocking"),
+                               "applied_by_rule": prepared[1],
+                               "assumed_for_forecast": sorted(_RULE_PLAN_ASSUMED)}),
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
     # RYA-1234 (governing process steps 12-13): every element run ends with its literature
@@ -1715,7 +1747,7 @@ def _band_of(d: RunDescriptor, star: str) -> _Band:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
-            process: list[dict] | None = None,
+            process: list[dict] | None = None, prepare: dict | None = None,
             numpy_why: str, interpreter: str, ispec_dir: str, code_commit: str,
             report_dir: Path | None) -> dict:
     counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
@@ -1730,6 +1762,7 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
                         "ispec_dir": ispec_dir or None,
                         "numpy_ceiling_check": numpy_why},
         "process_steps": process or [],
+        "prepare": prepare,
         "cells_total": len(cells),
         "counts": counts,
         "cells": [{"band": c.band, "instrument": c.instrument, "holding": c.holding,
