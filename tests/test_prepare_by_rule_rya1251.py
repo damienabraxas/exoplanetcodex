@@ -1,8 +1,9 @@
 """RYA-1251: preparation is the run's own first step, applied by rule.
 
 Ryan 2026-10-24: the orchestrator runs A to Z with little agent work; culls are applied by
-rule (listed on the appendix); uncertainty is computed after the runs, so a missing sigma on
-an otherwise-correct gf must never hold a measurement.
+Ryan 2026-10-24: the orchestrator runs A to Z with little agent work; uncertainty is computed
+after the runs, so a missing sigma on an otherwise-correct gf must never hold a measurement;
+"I didnt say cull anything" -- cull candidates are measured and reported, never culled.
 """
 import csv
 
@@ -71,26 +72,30 @@ def test_an_adoption_never_rewrites_a_protected_row(sandbox, monkeypatch):
     assert row["log_gf"] == "0.364" and row["adjudication_status"] == "adjudicated_kr1968_rya466"
 
 
-def test_culls_are_recorded_for_the_appendix(sandbox, monkeypatch):
+def test_the_run_never_culls(sandbox, monkeypatch):
     monkeypatch.setattr(prep, "CANONICAL", _canon(sandbox, []))
-    prep.apply("solar", "Na", dict(
-        adopt=[], missing_lines=[], generated="2026-10-24",
-        cull_candidates=[dict(species="Na I", wavelength_A=5889.951, problem_class="SATURATION_COG",
-                              rew=-4.04, depth=0.95, holding="h")]))
+    plan = dict(adopt=[], missing_lines=[], generated="2026-10-24",
+                cull_candidates=[dict(species="Na I", wavelength_A=5889.951,
+                                      problem_class="SATURATION_COG", rew=-4.04, depth=0.95,
+                                      holding="h")])
+    assert prep.apply("solar", "Na", plan)["culled"] == 0
+    assert (sandbox / "problem_children.csv").read_bytes() == b"header\r\n"
+    assert "cull_candidates" not in prep.RULE_KINDS
+    # a human's --cull still records it, for the appendix
+    assert prep.apply("solar", "Na", plan, cull=True)["culled"] == 1
     culls = list(csv.DictReader((sandbox / "data/audit/orchestrator_prepare/solar_Na_culls.csv").open()))
     assert [(c["species"], float(c["wavelength_A"])) for c in culls] == [("Na I", 5889.951)]
-    assert b"applied by rule" in (sandbox / "problem_children.csv").read_bytes()
 
 
 def test_resolve_applies_the_plan_then_reprepares(monkeypatch):
     calls = []
-    reps = iter([{"pending_rule_plan": {"cull_candidates": 3}},
-                 {"pending_rule_plan": {"cull_candidates": 0}, "ready": True}])
+    reps = iter([{"pending_rule_plan": {"adopt": 3}},
+                 {"pending_rule_plan": {"adopt": 0}, "ready": True}])
     monkeypatch.setattr(prep, "prepare", lambda s, e: (calls.append("prepare"), next(reps))[1])
-    monkeypatch.setattr(prep, "apply", lambda s, e, r: (calls.append("apply"), {"culled": 3})[1])
+    monkeypatch.setattr(prep, "apply", lambda s, e, r: (calls.append("apply"), {"adopted": 3})[1])
     monkeypatch.setattr(prep, "has_published_feed", lambda s, e: False)
     rep, done = prep.resolve("solar", "Na")
-    assert calls == ["prepare", "apply", "prepare"] and done == {"culled": 3} and rep["ready"]
+    assert calls == ["prepare", "apply", "prepare"] and done == {"adopted": 3} and rep["ready"]
 
 
 def test_a_published_element_keeps_its_human_checkpoint(monkeypatch):
@@ -114,16 +119,20 @@ def _cell():
                             method="synthesis", pool="graded", star="solar")
 
 
-def test_an_unapplied_cull_still_holds_a_cell_that_bypasses_resolve():
-    rep = _report(cull_candidates=[{"species": "Na I", "wavelength_A": 5889.951}],
-                  blocking={"cull_candidates": 1})
+def test_a_cull_candidate_never_holds_a_cell():
+    rep = _report(cull_candidates=[{"species": "Na I", "wavelength_A": 5889.951}])
     rm._RULE_PLAN_ASSUMED.clear()
-    assert "cull_candidates" in rm.preparation_hold_for_cell(rep, _cell())
+    assert rm.preparation_hold_for_cell(rep, _cell()) == ""
+
+
+def test_an_unadopted_gf_still_holds_a_cell_that_bypasses_resolve():
+    rep = _report(adopt=[{"species": "Na I", "wavelength_A": 5889.951}], blocking={"adopt": 1})
+    rm._RULE_PLAN_ASSUMED.clear()
+    assert "adopt" in rm.preparation_hold_for_cell(rep, _cell())
 
 
 def test_a_dry_run_forecasts_the_plan_as_applied():
-    rep = _report(cull_candidates=[{"species": "Na I", "wavelength_A": 5889.951}],
-                  blocking={"cull_candidates": 1})
+    rep = _report(adopt=[{"species": "Na I", "wavelength_A": 5889.951}], blocking={"adopt": 1})
     rm._RULE_PLAN_ASSUMED.update(prep.RULE_KINDS)
     try:
         assert rm.preparation_hold_for_cell(rep, _cell()) == ""

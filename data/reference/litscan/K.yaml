@@ -1,6 +1,7 @@
 # LITSCAN -- K (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
 # Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
-# element's own literature sweep re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+# element's own literature sweep re-projects this file.
+# Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 unchanged from AGSS21; AGSS21 kept (RYA-1251).
 element: K
 ion: I
 ions: [I]
@@ -23,7 +24,7 @@ entries:
     citation: Solar chemical composition, arXiv 2608.23155, Table 3
     value: 5.07
     sigma: 0.03
-    role: corroborating (AGSS21 successor)
+    role: corroborating (AGSS21 successor; unchanged)
     method: 3N
 range:
   central: 5.07

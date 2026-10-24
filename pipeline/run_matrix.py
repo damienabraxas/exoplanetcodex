@@ -585,7 +585,8 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     # unavailable until the Bergemann/Amarsi grid is extended.  Preparation
     # already keeps this category out of `blocking`; repeating it here would
     # reintroduce the stale hard gate at dispatch time.
-    for kind in ('adopt', 'cull_candidates', 'missing_lines'):
+    # RYA-1251: cull candidates are measured and reported, never a hold (Ryan 2026-10-24)
+    for kind in ('adopt', 'missing_lines'):
         if kind in _RULE_PLAN_ASSUMED:
             continue        # a dry run's forecast: `run(prepare_first=True)` applies it first
         rows = report[kind]

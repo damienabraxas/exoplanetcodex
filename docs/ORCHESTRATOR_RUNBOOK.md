@@ -36,14 +36,20 @@ python run_pipeline.py --check-paths   # must print 'ok' for every line, rc 0
 Synthesis (iSpec/Turbospectrum) on Sirius uses `~/venv_rya1103/bin/python` (resolved
 automatically); `venv_ci` cannot run iSpec. PySME NLTE work is Sirius-only.
 
+**Literature anchor (Ryan 2026-10-24, RYA-1251).** The anchor is Amarsi & Grevesse 2026
+(arXiv 2608.23155, Table 3) where its value or sigma differs from AGSS21 -- Co Cr Eu Mn Ni P S
+Sc Sr Y Zr -- and AGSS21 everywhere else. Published elements (Fe Si Al C N O) are not
+re-anchored. Writer: `scripts/rya1268_write_litscans.py --force`.
+
 ## 2. Prepare -- what the element still needs (read-only)
 
 **RYA-1251: the run prepares itself.** `run_pipeline.py --element <El>` (and the production
 `--all-elements` sweep) runs prepare first and applies the RULE plan before any cell is
 dispatched: the published set's gf on an open row, the authors' sigma where the gf is already
 theirs (`sigma_only` -- uncertainty is a budget input, never a reason to hold a measurement),
-missing Asplund lines added from our VALD extract, and saturated non-literature lines culled
-(written to `data/audit/orchestrator_prepare/<star>_<El>_culls.csv` for the appendix). A row
+and missing Asplund lines added from our VALD extract. **The run never culls** (Ryan
+2026-10-24: "I didnt say cull anything"): saturated non-literature lines are measured and
+listed in the prepare report; culling one is a human act (`--prepare --apply --cull`). A row
 another ticket adjudicated is never rewritten (`adopt_conflicts`, reported, not blocking).
 An element that already has a published feed keeps the human checkpoint below. `--dry-run`
 applies nothing and forecasts as if the plan were applied. Use `--prepare` alone to read the
@@ -61,7 +67,7 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 | **A published sets: 0 lines** | No published solar line set is registered for the element. | Step 3. |
 | **F literature: litscan MISSING** | No literature anchor file. | Step 4. |
 | **D NLTE: N lines not in `<El>_Amarsi2020_PySME.csv`** | The NLTE table lacks graded lines. | Step 5 (Sirius). |
-| **C cull candidates** | Saturated lines not used by the solar literature. | Applied by rule by the run (Ryan 2026-10-24); listed for the appendix. Step 6 for a published element. |
+| **C cull candidates** | Saturated lines not used by the solar literature. | Reported, measured, never culled and never a hold. A human culls with `--apply --cull`. |
 | **B gf source ... unclassified** | A gf source has no correlation entry. | Add a row to `data/reference/gf_error_model.csv` (copy the nearest existing source; cite why). |
 | **F2 literature need** | Bands with no error-stated gf: no Codex/Deep pool there. | Not blocking. Record it in the ticket; do not invent gf errors. |
 | **E holdings not serving** | A spectrum does not cover a window at rest. | Report it; do not re-prepare spectra. |
@@ -146,7 +152,7 @@ NLTE-capable species.
 ## 6. Cull candidates
 
 Prepare lists saturated lines absent from registered solar-literature selections. Post the list to the ticket;
-Ryan says yes or no. Approved culls are written by `--prepare --apply`.
+Ryan says yes or no. Approved culls are written by `--prepare --apply --cull`.
 
 More precisely, the code checks membership in the **registered** solar-literature
 sets. Absence from those sets is not evidence of absence from all solar literature.

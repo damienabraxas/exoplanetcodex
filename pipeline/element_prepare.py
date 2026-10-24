@@ -22,18 +22,18 @@ the adoption plan (authors' gf + sigma into canonical_gf, the old value kept in 
 the proposed culls (problem_children, exclude/active, observed_in the star) and rebuilds the
 element's line sets.
 
-RYA-1251 (Ryan 2026-10-24: the orchestrator runs A to Z with little agent work; culls are
-applied by rule and listed on the appendix; uncertainty is computed AFTER the runs). The plan
-is a RULE, so `resolve()` applies it before a measurement run instead of waiting on a human:
+RYA-1251 (Ryan 2026-10-24: the orchestrator runs A to Z with little agent work; uncertainty
+is computed AFTER the runs; "I didnt say cull anything"). The plan is a RULE, so `resolve()`
+applies it before a measurement run instead of waiting on a human:
   adopt       the published set's gf + sigma on an open row (gf moves)
   sigma_only  the authors' gf already IS the canonical gf: attach their sigma, change nothing
               else -- a budget input, never a reason to hold a measurement
-  culls       saturated, not in any registered solar-literature set, no synthesis disposition
   add         an Asplund line missing from canonical_gf, from our VALD extract
 A row another ticket adjudicated is never rewritten: a gf conflict there is
 `adopt_conflicts`, reported and not blocking (the run measures with the canonical gf).
-An element that already has a published feed keeps the human checkpoint -- finished work is
-not re-planned by a run.
+Cull candidates (C) are REPORTED, never culled and never a hold: the lines are measured and the
+list goes on the appendix. Culling one is a human act (`--apply --cull`). An element that
+already has a published feed keeps the human checkpoint -- finished work is not re-planned.
 """
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ STAR_NAME = {"solar": "Sun"}
 OPEN_STATUS = {"", "nan", "single_source", "pending", "agreed"}
 SIGMA_ONLY_DEX = 0.0005      # |authors - canonical| below this: the gf is the authors' already
 #: the plan kinds `resolve()` applies by rule before a run
-RULE_KINDS = ("adopt", "sigma_only", "cull_candidates", "missing_lines")
+RULE_KINDS = ("adopt", "sigma_only", "missing_lines")
 
 
 def is_protected(status) -> bool:
@@ -398,8 +398,8 @@ def prepare(star: str, element: str) -> dict:
                         f"error-stated gf source is found (RYA-1237 register input)")}
         for v in need.values()]
 
-    # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
-    # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
+    # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, a
+    # solar-literature line missing from canonical_gf, a holding
     # whose frame is off, missing literature -- and on what would make it STALE the moment it
     # finished: an NLTE table missing graded lines. NLTE coverage is per-line, however, and
     # must not suppress the initial reference/LTE measurements for every other line. Missing
@@ -408,7 +408,9 @@ def prepare(star: str, element: str) -> dict:
     # (budget says UNREVIEWED) stay a NOTE.
     rep["blocking"] = {
         "nlte_missing": 0,
-        "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
+        "adopt": len(rep["adopt"]),
+        # RYA-1251: saturated non-literature lines are measured and reported, never a hold
+        "cull_candidates": 0,
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
         "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
@@ -417,7 +419,6 @@ def prepare(star: str, element: str) -> dict:
     # without resolving first is still held per cell (run_matrix.preparation_hold_for_cell).
     rep["pending_rule_plan"] = {
         "adopt": len(rep["adopt"]), "sigma_only": len(rep["sigma_only"]),
-        "cull_candidates": len(rep["cull_candidates"]),
         "add_lines": sum(1 for m in rep["missing_lines"]
                          if m.get("add_plan") and not m["add_plan"]["clashes"])}
     rep["ready"] = not any(rep["blocking"].values()) and not rep["sigma_only"]
@@ -467,7 +468,7 @@ def render(rep: dict) -> str:
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
     for n in rep.get("literature_needs", []):
         L.append(f"  F2 literature need: {n['why_needed']} [{', '.join(n['holdings'])}]")
-    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
+    L.append(f"  C saturated, not a solar-literature line (measured, reported, NOT culled): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
     L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
@@ -489,9 +490,10 @@ def adopted_reference(row: dict, cite: dict) -> str:
     return base + (f" (gf: {row['authors_gf_source']})" if row.get("authors_gf_source") else "")
 
 
-def apply(star: str, element: str, rep: dict) -> dict:
+def apply(star: str, element: str, rep: dict, *, cull: bool = False) -> dict:
     """Write the reviewed plan: adoptions into canonical_gf, missing published lines added
-    (synthesis list + canonical row, pipeline.published_line_add), culls into problem_children."""
+    (synthesis list + canonical row, pipeline.published_line_add). Culls into problem_children
+    ONLY with `cull=True` (a human's `--cull`); the run never culls (RYA-1251)."""
     from pipeline import line_sets as ls
     done = {"adopted": 0, "sigma_only": 0, "culled": 0, "added": 0}
     if rep["adopt"] or rep.get("sigma_only"):
@@ -553,7 +555,7 @@ def apply(star: str, element: str, rep: dict) -> dict:
         ad.parent.mkdir(parents=True, exist_ok=True)
         ad.write_text(json.dumps(written, indent=1, default=str) + "\n")
         done["added"] = len(written)
-    if rep["cull_candidates"]:
+    if cull and rep["cull_candidates"]:
         b = REGISTRY_PC.read_bytes()
         s = io.StringIO()
         w = csv.writer(s, lineterminator="\r\n")
@@ -564,11 +566,10 @@ def apply(star: str, element: str, rep: dict) -> dict:
                         f"Saturated: reduced EW log(W/lambda) = {c.get('rew')} > the RYA-458 ceiling "
                         f"{REW_CEILING} ({c.get('holding')}, depth {c.get('depth')}); not a line any "
                         f"declared solar-literature set measured the Sun on. Culled for this star by "
-                        f"the orchestrator's cull rule (Ryan 2026-10-24: applied by rule, listed on "
-                        f"the appendix); kept in every line list."])
+                        f"a human decision (element_prepare --apply --cull); kept in every line list."])
             done["culled"] += 1
         REGISTRY_PC.write_bytes(b + s.getvalue().encode())
-        # The appendix's list of culled lines (one row per line, per run that culled it).
+        # The appendix's list of lines a human culled (one row per line, per decision).
         cl = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_culls.csv"
         cl.parent.mkdir(parents=True, exist_ok=True)
         new = pd.DataFrame([{"species": c["species"], "wavelength_A": c["wavelength_A"],
