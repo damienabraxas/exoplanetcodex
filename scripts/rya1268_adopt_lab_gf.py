@@ -19,7 +19,7 @@ Guards (each refusal is counted in the summary):
     A-value (<= 0.05 dex, g_k from VALD's J_up): astroquery returned fik=16 for Zn I 11054.25
     (log gf +1.68; its A gives -0.36, VALD -0.30). A corrupt row is refused, never repaired.
   * no VALD counterpart -> the gf may not move more than NO_VALD_MAX_DEX.
-A row that is already graded is never touched. Every change is logged with the old values in
+A row that is already graded, or that another ticket adjudicated, is never touched. Every change is logged with the old values in
 data/audit/rya1268_line_coverage/canonical_adoption.csv. Culls are not this script's business.
 """
 from __future__ import annotations
@@ -47,6 +47,10 @@ NO_VALD_MAX_DEX = 0.5
 # than this is HELD -- not adopted -- and listed for review in held_large_gf_moves.csv. Blends
 # are the synthesis' job; a gross gf disagreement is not.
 HOLD_MOVE_DEX = 0.5
+# A row another ticket already adjudicated (nist / adjudicated_kr1968_rya466 / isotope_rya1075 /
+# adjudicated_rya468 / flagged_manual_pull_rya354 ...) is finished work: never overwritten here.
+# Only these workflow states are open to adoption.
+OPEN_STATUS = {"", "single_source", "pending", "agreed"}
 VALD_LAB = {"LHSNWC": ("lawler2019_sc", "Lawler et al. 2019 (ApJS 241, 21)", "10.3847/1538-4365/ab08ef"),
             "LGWSC": ("lawler2013", "Lawler et al. 2013 (ApJS 205, 11)", "10.1088/0067-0049/205/2/11"),
             "LWHS": ("lawler2001_eu2", "Lawler et al. 2001 (ApJ 563, 1075)", "10.1086/323407")}
@@ -85,7 +89,7 @@ def nist_upper(raw: str) -> float:
 def main() -> None:
     cg = pd.read_csv(CANON, low_memory=False)
     species = sorted(set(pd.read_csv(LAB).species) | set(nist().species))
-    graded0 = is_gf_graded(cg)
+    graded0 = is_gf_graded(cg) | ~cg.adjudication_status.fillna("").isin(OPEN_STATUS)
     by_sp = {sp: cg[(cg.species == sp) & ~graded0] for sp in species}
     log, taken = [], set()
     vall = pd.read_csv(AUD / "vald_solar_gf_refs.csv")
@@ -170,6 +174,32 @@ def main() -> None:
         write(i, r.loggf, round(nist_sigma_dex(g), 4), "LAB",
               f"{cite} via VALD ({r.gf_ref_code}); sigma: NIST ASD class {g} on the same gf",
               doi, bib, "adopted_rya1268_vald_lab_nist_sigma", grade=g)
+    # 2b. an Asplund-cited line whose adopting paper STATES its gf error (Gallagher+2020 Table 1,
+    #     Storm+2024 Eu II 12% / Y II 10%, Grevesse+2015 Zr II 5-10%, Scott+2015 [Ca II]): the
+    #     published gf at that sigma. Zr II (Ljung+2006) and Eu II (Lawler+2001) have no free
+    #     machine-readable table, so this is the only route that prices them.
+    ref = pd.read_csv(ROOT / "data" / "reference" / "agss21_cited_sets" / "agss21_reference_lines.csv")
+    ref = ref[ref.gf_sigma_basis.fillna("").str.startswith("stated") & ref.loggf_sigma_dex.notna()
+              & ref.canonical_line_id.notna()]
+    # a line two sets share takes the AGSS21 set's own route (Y II: Grevesse over Storm+2024)
+    claim = pd.read_csv(ROOT / "data" / "reference" / "agss21_cited_sets" / "agss21_reference_lines.csv")
+    claim = claim.groupby("canonical_line_id").set_name.nunique()
+    ref = ref[ref.canonical_line_id.map(claim).eq(1)]
+    lid = pd.Series(cg.index, index=cg.line_id)
+    for r in ref.itertuples():
+        i = lid.get(r.canonical_line_id)
+        if i is None or i in taken or graded0.iloc[i]:
+            continue
+        # the audit already joined this line on lambda + EP; the published table prints no upper
+        # level, so only the hold guard applies (e_up is VALD's own, the closest-gf component)
+        lv = vald_levels(i)
+        e_up = (float(lv.ep_upper_eV.iloc[(lv.loggf - r.published_loggf).abs().argmin()])
+                if lv is not None and len(lv) else np.nan)
+        if not ok(i, float(r.published_loggf), e_up, src=f"{r.set_name} stated sigma"):
+            continue
+        write(i, float(r.published_loggf), float(r.loggf_sigma_dex), "LAB",
+              f"{r.citation}; gf {r.gf_source_per_line}; sigma {r.gf_sigma_basis}", r.doi, r.paper,
+              "adopted_rya1268_published_stated_sigma")
     # 3. NIST A..C
     for r in n.itertuples():
         i = match(cg, by_sp, r.species, r.wavelength_A, r.ei_eV)

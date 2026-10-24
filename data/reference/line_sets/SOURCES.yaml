@@ -426,4 +426,6 @@ sets:
     doi: 10.1051/0004-6361/202348971
     citation: "Lodders 2025 -> Storm et al. 2024 (A&A 683, A200) Table 1: 4 Y II"
     gf_basis: "Palmeri+2017 uncorrected gf, ~10% as Storm+2024 states"
-    solar_literature: true
+    # Lodders' Y source, registered for comparison; AGSS21 keeps Grevesse's Y II set (Y_AGSS21),
+    # which shares 4900/5087/5200 -- only Y_AGSS21 adopts its gf (RYA-1268).
+    solar_literature: false

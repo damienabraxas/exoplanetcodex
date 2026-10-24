@@ -29,7 +29,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from config.constants import TARGET_ELEMENTS  # noqa: E402
-from pipeline.gf_grades import GRADED_NIST_CLASSES, nist_sigma_dex  # noqa: E402
+from pipeline.gf_grades import GRADED_NIST_CLASSES, is_gf_graded, nist_sigma_dex  # noqa: E402
 
 REF = ROOT / "data" / "reference"
 SETS = REF / "agss21_cited_sets"
@@ -224,28 +224,69 @@ def attach_sigma(s: pd.DataFrame, nist: pd.DataFrame) -> pd.DataFrame:
     return pd.concat([base, o], axis=1)
 
 
-def lab_pool(nist: pd.DataFrame) -> pd.DataFrame:
-    sol = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
-    sol["species"] = sol.element.astype(str) + " " + sol.ion.astype(str)
-    g = nist[nist.graded].copy()
-    keep = []
-    for sp, grp in g.groupby("species"):
-        ss = sol[sol.species == sp].sort_values("wavelength_air_A")
-        if ss.empty:
-            continue
-        w = ss.wavelength_air_A.to_numpy()
-        i = np.clip(np.searchsorted(w, grp.wavelength_A.to_numpy()), 1, len(w) - 1)
-        left, right = w[i - 1], w[i]
-        j = np.where(np.abs(grp.wavelength_A.to_numpy() - left)
-                     <= np.abs(grp.wavelength_A.to_numpy() - right), i - 1, i)
-        dist = np.abs(grp.wavelength_A.to_numpy() - w[j])
-        depth = ss.central_depth.to_numpy()[j]
-        grp = grp.assign(solar_depth=np.where(dist <= 0.05, depth, np.nan))
-        keep.append(grp)
-    p = pd.concat(keep, ignore_index=True)
-    p["measurable"] = p.solar_depth.between(*DEPTH)
-    p["band"] = p.wavelength_A.map(band_of)
-    p["element"] = p.species.str.split().str[0]
+# VALD gf codes resolved to lab measurements by author initials and checked against the lab
+# tables / Asplund-cited refs (README): a VALD line with one of these codes is lab-referenced.
+LAB_CODES = {"LWHS", "LHSNWC", "LGWSC", "WLSC", "LWDFSC", "WLDSC", "SLS", "LSNE", "DLSSC",
+             "WLSCow", "HLGBW", "BBEHL", "LNAJ", "BGHL", "BSB", "SR", "S", "SN", "Sh",
+             "MFW", "FMW"}  # MFW/FMW: the NBS critical compilations of lab data (Martin, Fuhr, Wiese)
+BLEND_A = 0.1
+
+
+def line_pools(elements: list[str]) -> pd.DataFrame:
+    """Every solar VALD line of the given elements, measurable in the Sun (VALD's own central
+    depth in DEPTH), classified by what canonical_gf now holds for it:
+      reference    -- canonical gf_tier contains LAB (the orchestrator's `reference` pool)
+      graded       -- any other graded row (NIST-C+, PUBLISHED-SET, stored sigma)
+      lab_unpriced -- a lab VALD gf code (LAB_CODES) but no sigma yet
+      vald         -- everything else: a Codex/Deep candidate
+    blend_ratio = summed depth of every OTHER VALD line within +/-BLEND_A / the line's depth.
+    Reported only -- blends are the synthesis' job, not a selection cut.
+    VALD lists every hyperfine/isotopic component (Co I 3015.68: 5 rows); one transition = one
+    (species, lower level, upper level, J_lo, J_up), gf summed, the strongest component's
+    wavelength -- otherwise Co I near-UV counts 1021 'lines' for 160, and a line's own
+    components count as its blends."""
+    v = pd.read_csv(VALD_REFS)
+    v["central_depth"] = pd.to_numeric(v.central_depth, errors="coerce")
+    v = v.drop_duplicates(["species", "wavelength_air_A", "loggf", "ep_eV"])  # overlapping extracts
+    v["gf"] = 10.0 ** v.loggf
+    v = v.assign(_lo=v.ep_eV.round(3), _up=v.ep_upper_eV.round(3)).sort_values("gf", ascending=False)
+    k = ["species", "_lo", "_up", "j_lower", "j_upper"]
+    agg = v.groupby(k, sort=False, dropna=False)
+    v = v.assign(loggf=np.round(np.log10(agg.gf.transform("sum")), 3), n_components=agg.gf.transform("size"),
+                 central_depth=agg.central_depth.transform("max"))
+    v = v.drop_duplicates(k).drop(columns=["_lo", "_up", "gf"])  # the strongest component's row
+    v = v.sort_values("wavelength_air_A").reset_index(drop=True)
+    w, dpt = v.wavelength_air_A.to_numpy(), v.central_depth.fillna(0).to_numpy()
+    cs = np.concatenate([[0], np.cumsum(dpt)])
+    lo, hi = np.searchsorted(w, w - BLEND_A), np.searchsorted(w, w + BLEND_A, side="right")
+    v["blend_ratio"] = np.round((cs[hi] - cs[lo] - dpt) / np.where(dpt > 0, dpt, np.nan), 2)
+    v["element"] = v.species.str.split().str[0]
+    v = v[v.element.isin(elements) & v.central_depth.between(*DEPTH)].copy()
+    canon = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    graded = is_gf_graded(canon)
+    canon = canon.assign(graded=graded.values)
+    canon = canon[canon.species.str.split().str[0].isin(elements)].sort_values("wavelength_air_A")
+    parts = []
+    for sp, g in v.groupby("species"):
+        c = canon[canon.species == sp][["wavelength_air_A", "excitation_potential_eV", "gf_tier",
+                                        "graded", "line_id", "lab_source_tag"]]
+        m = pd.merge_asof(g.sort_values("wavelength_air_A"), c.rename(columns={"wavelength_air_A": "cw"}),
+                          left_on="wavelength_air_A", right_on="cw", direction="nearest", tolerance=0.01)
+        m["graded"] = m.graded.astype(object)
+        bad = (m.excitation_potential_eV - m.ep_eV).abs() > 0.02
+        m.loc[bad, ["gf_tier", "graded", "line_id", "lab_source_tag"]] = np.nan
+        parts.append(m)
+    p = pd.concat(parts, ignore_index=True)
+    tier = p.gf_tier.astype(str)
+    p["pool"] = np.select(
+        [tier.str.contains("LAB"), p.graded.fillna(False).astype(bool), p.gf_ref_code.isin(LAB_CODES)],
+        ["reference", "graded", "lab_unpriced"], "vald")
+    # "super bad dex should not be included" (Ryan 2026-10-23): a line whose gf sources disagree by
+    # more than the hold threshold (held_large_gf_moves.csv) is flagged and counted in no pool
+    held = pd.read_csv(OUT / "held_large_gf_moves.csv")
+    p["gf_conflict_held"] = p.line_id.isin(set(held.line_id))
+    p.loc[p.gf_conflict_held, "pool"] = "held_gf_conflict"
+    p["band"] = p.wavelength_air_A.map(band_of)
     return p
 
 
@@ -291,36 +332,42 @@ def main() -> None:
     nist = load_nist()
     s = canonical_join(attach_sigma(asplund_set(), nist))
     s.to_csv(SETS / "agss21_reference_lines.csv", index=False)
-    pool = lab_pool(nist)
-    pool[pool.measurable & pool.element.isin(REMAINING)].to_csv(OUT / "nist_lab_pool_measurable.csv", index=False)
+    pool = line_pools(REMAINING)
     el = elgueta()
-    have_nist = set(nist.species)
     rows = []
     for e in REMAINING:
-        sps = sorted(set(s[s.element == e].species) | set(pool[pool.element == e].species)
-                     | set(el[el.element == e].species), key=lambda x: (len(x), x))
+        sps = sorted(set(s[s.element == e].species) | set(pool[pool.element == e].species),
+                     key=lambda x: (len(x), x))
         for sp in sps:
             for band, _, _ in BANDS:
                 a = s[(s.species == sp) & (s.band == band)]
-                p = pool[(pool.species == sp) & (pool.band == band) & pool.measurable]
+                p = pool[(pool.species == sp) & (pool.band == band)]
                 g = el[(el.species == sp) & (el.band == band)]
-                n_ref = len(a) + len(p[~p.wavelength_A.round(0).isin(a.wavelength_air_A.round(0))])
+                lab = p[p.pool == "reference"]
+                lab_new = lab[~lab.line_id.isin(set(a.canonical_line_id.dropna()))]
+                n_ref = len(a) + len(lab_new)
                 verdict = ("REFERENCE" if n_ref >= MIN_LINES else "THIN" if n_ref else "EMPTY")
-                # Elgueta's IR lines carry VALD3 lab gf but no per-line sigma: candidates that
-                # need a graded gf before they count, as SI_ELGUETA2026's did (RYA-1233)
-                n_ir = len(g[~g.wavelength_A.round(0).isin(a.wavelength_air_A.round(0))])
                 rows.append({"element": e, "species": sp, "band": band,
                              "asplund_lines": len(a), "asplund_with_sigma": int(a.loggf_sigma_dex.notna().sum()),
                              "asplund_gf_status": ";".join(sorted(set(a.agss21_gf_status))) if len(a) else "",
-                             "nist_lab_measurable": len(p),
-                             "nist_lab_measurable_AB": int(p.nist_grade.isin(["AAA", "AA", "A+", "A", "B+", "B"]).sum()),
-                             "elgueta_sun_robust": len(g),
-                             "elgueta_in_table5": int(g.in_table5.sum()),
+                             "lab_reference": len(lab_new),
+                             "nist_graded": int((p.pool == "graded").sum()),
+                             "lab_unpriced": int((p.pool == "lab_unpriced").sum()),
+                             "held_gf_conflict": int((p.pool == "held_gf_conflict").sum()),
+                             "vald_candidates": int((p.pool == "vald").sum()),
+                             "vald_candidates_clean": int(((p.pool == "vald") & (p.blend_ratio < 0.5)).sum()),
+                             "elgueta_sun_robust": len(g), "elgueta_in_table5": int(g.in_table5.sum()),
                              "reference_lines_total": n_ref, "verdict": verdict,
-                             "with_elgueta_candidates": n_ref + n_ir,
-                             "nist_pulled": sp in have_nist})
+                             "with_graded_pool": n_ref + int((p.pool == "graded").sum())})
     m = pd.DataFrame(rows)
     m.to_csv(OUT / "coverage_matrix.csv", index=False)
+    # the line lists themselves: every measurable line of every pool, plus the VALD (Codex/Deep)
+    # candidates only where Reference Grade is THIN/EMPTY -- that is where they are needed
+    thin = set(map(tuple, m[m.verdict != "REFERENCE"][["species", "band"]].values))
+    keep = (pool.pool != "vald") | np.array([(a, b) in thin for a, b in zip(pool.species, pool.band)])
+    cols = ["species", "wavelength_air_A", "ep_eV", "ep_upper_eV", "loggf", "central_depth",
+            "blend_ratio", "n_components", "gf_ref_code", "pool", "gf_conflict_held", "gf_tier", "lab_source_tag", "line_id", "band"]
+    pool[keep][cols].sort_values(["species", "wavelength_air_A"]).to_csv(OUT / "line_lists_by_band.csv", index=False)
     print(m.pivot_table(index=["element", "species"], columns="band", values="reference_lines_total",
                         aggfunc="sum").reindex(columns=[b[0] for b in BANDS]).fillna(0).astype(int).to_string())
 
