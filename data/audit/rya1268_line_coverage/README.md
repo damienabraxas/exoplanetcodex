@@ -127,10 +127,20 @@ See `data/results/orchestrator/prepare/solar_<El>.md`.
   [Ca II] 7323.89 and S I 8694.626 fall in iSpec's own GES synthesis list, which is outside the repo.
 - **Culls not applied**: every element lists saturated non-literature cull candidates (V 594,
   Ti 429, Co 405, Cr 261, Ni 202, ...). These are Ryan's yes/no.
-- **Zn is not one of the 27 orchestrator targets** (`data/config/elements_master.json`), so
-  prepare refuses it. Its set (5 Zn I lines) and litscan exist; adding the target is a decision.
-- **Eu now prepares** (18 Lawler+2001 graded lines) but is NOT READY: its one Storm/AGSS21 line
-  is the protected RYA-1075 row (sigma decision above), plus 9 saturated near-UV/blue cull candidates.
+- **Zn is now an orchestrator target** (28th, `elements_master.json`; Ryan 2026-10-23) but
+  prepare stops with a POOL finding: no Zn row is graded. Grevesse+2015 took Biemont &
+  Godefroid 1980 *theory* gf (two lines renormalised to Kerkhoff+1980 lifetimes) and states no
+  sigma; VALD cites Warner 1968 / Lambert+1969 (semi-empirical / solar); no free lab table found.
+  The literature spread on 4810.53 alone is -0.31..-0.14. Grading Zn needs a sigma decision.
+- **Eu (Ryan 2026-10-23).** AGSS21's Eu set is Lawler+2001 Table 6 (14 Eu II lines, weights 1-3),
+  now registered as `EU_AGSS21`; `EU_STORM2024` (6645 only) is comparison-only. The four
+  RYA-1075 isotope rows whose gf already IS Lawler's (6049.51, 6173.03, 6437.64, 6645.10) take
+  Lawler's sigma alone (`SIGMA_ONLY_APPROVED` in `scripts/rya1268_apply_sets.py`); their gf,
+  reference and status stay. Lawler says the wide Eu hfs makes every line "essentially
+  unsaturated in the solar spectrum", so the UV saturation-to-synthesis precedent (Mg/Sr/Ba in
+  `problem_children.csv`) does not apply. The 3 remaining cull candidates are lines **Lawler
+  rejected by name**: 3688.43 (masked by Ni I 3688.42 + Fe I 3688.48), 4522.58 (masked by
+  Fe I 4522.53), 3930.50 (Zr I/II blend in the Fe I 3930.31 and Ca II K wings). Cull = Ryan.
 
 ## Findings
 
@@ -179,3 +189,9 @@ See `data/results/orchestrator/prepare/solar_<El>.md`.
    0.01 Å. A canonical row at the centroid was then missed, which undercounted every strongly
    split species (Co I VIS 61 -> 165, V I VIS 187 -> 353, Eu II 1 -> 14 RG lines). Lines now sit
    at the gf-weighted centroid and join within their own component spread.
+8. **Amarsi & Grevesse 2026, "Solar chemical composition" (arXiv 2608.23155)** is AGSS21's
+   successor: new recommended values for every element (Table 3). It is added to every RYA-1268
+   litscan as a corroborating entry; the anchor stays AGSS21 until Ryan moves it. Largest moves
+   among these elements: P 5.41 -> 5.35, S 7.12 -> 7.06, Y 2.21 -> 2.29,
+   Eu 0.52 -> 0.49. Eu litscan also carries Lawler+2001 (0.52), Mucciarelli+2008 3D LTE
+   (0.52 +/- 0.02) and Storm+2024 3D NLTE (0.57, 6645 only).

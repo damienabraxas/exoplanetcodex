@@ -22,6 +22,23 @@ HOLD_MOVE_DEX = 0.5
 # finished work: a row another ticket adjudicated is held for review, never re-adopted
 # (rya1268_adopt_lab_gf.OPEN_STATUS; its own adoptions stay open to the published set)
 OPEN_STATUS = {"", "single_source", "pending", "agreed"}
+# A protected row whose gf already IS the authors' (|d| <= 0.0005) may take the set's sigma alone
+# when Ryan approves it: the gf, reference and adjudication_status stay as that ticket left them.
+SIGMA_ONLY_APPROVED = {
+    # RYA-1075's isotope row = Lawler+2001's gf; sigma from Lawler's A +/- dA (Ryan 2026-10-23)
+    ("Eu II", 6645.10): "Ryan 2026-10-23: attach Lawler+2001 sigma, gf unchanged",
+    # the same decision on the other RYA-1075 rows of Lawler's Table 6 (gf already Lawler's)
+    **{("Eu II", w): "Ryan 2026-10-23 (Eu): attach Lawler+2001 sigma, gf unchanged"
+       for w in (6049.51, 6173.03, 6437.64)},
+}
+
+
+def _sigma_only_approval(a: dict) -> str | None:
+    """The approval covering this adoption: same species, published wavelength within 0.06 A."""
+    return next((why for (sp, w), why in SIGMA_ONLY_APPROVED.items()
+                 if sp == a["species"] and abs(a["wavelength_A"] - w) <= 0.06), None)
+
+
 GEM = ROOT / "data" / "reference" / "gf_error_model.csv"
 REFLINES = ROOT / "data" / "reference" / "agss21_cited_sets" / "agss21_reference_lines.csv"
 WISC = ("Wisconsin A = BF x 1/tau: LIF lifetimes '+/-5% (+/-0.02 dex)' per upper level, independent "
@@ -32,12 +49,14 @@ LAB_ROWS = {  # lab_source_tag: (group, correlation, scale, basis, citation)
         ("wood2013_ti2", "Wood+2013 ApJS 208 27 Sect. 3"), ("lawler2014_v1", "Lawler+2014 ApJS 215 20"),
         ("wood2014_v2", "Wood+2014 ApJS 214 18 Sect. 3"), ("lawler2017_cr2", "Lawler+2017 ApJS 228 10"),
         ("lawler2015", "Lawler+2015 ApJS 220 13"), ("wood2014", "Wood+2014 ApJS 211 20 Sect. 3"),
-        ("denhartog2011", "Den Hartog+2011 ApJS 194 35"), ("sobeck2007", "Sobeck+2007 ApJ 667 1267")]},
+        ("denhartog2011", "Den Hartog+2011 ApJS 194 35"), ("sobeck2007", "Sobeck+2007 ApJ 667 1267"),
+        # Lawler+2001 Eu II: its own Table 3 A +/- dA now (VizieR J/ApJS/182/51 t6), same method
+        ("lawler2001_eu2", "Lawler+2001 ApJ 563 1075 Table 3"),
+        ("lawler2018_co2", "Lawler+2018 ApJS 238 7 Table 3")]},
     **{k: ("NIST_ASD", "scale_only", 0.0, "lab gf (via VALD code) priced by its NIST ASD class on the same gf: "
                                          "the NIST-C+ model", c) for k, c in [
         ("lawler2019_sc", "Lawler+2019 ApJS 241 21 via VALD LHSNWC + NIST ASD"),
-        ("lawler2013", "Lawler+2013 ApJS 205 11 via VALD LGWSC + NIST ASD"),
-        ("lawler2001_eu2", "Lawler+2001 ApJ 563 1075 via VALD LWHS + NIST ASD")]},
+        ("lawler2013", "Lawler+2013 ApJS 205 11 via VALD LGWSC + NIST ASD")]},
     # one stated percentage for every line of a paper is a shared-scale statement: charged fully
     # correlated across that paper's lines (the conservative reading, as MG_AGSS21 / AL_AGSS21)
     **{k: (k.upper(), "fully_correlated", "", b, c) for k, b, c in [
@@ -45,7 +64,18 @@ LAB_ROWS = {  # lab_source_tag: (group, correlation, scale, basis, citation)
          "Grevesse+2015 A&A 573 A27 Sect. Zr"),
         ("gallagher2020_ba", "per-line gf error printed in Table 1", "Gallagher+2020 A&A 634 A55 Table 1"),
         ("storm2024_y_eu", "Eu II Lawler+2001 'estimated at 12%'; Y II Palmeri+2017 '~10%'",
-         "Storm+2024 A&A 683 A200 Sect. 2")]},
+         "Storm+2024 A&A 683 A200 Sect. 2"),
+        # lab tables parsed from the papers' PDFs (rya1268_parse_lab_pdfs.py): BF x lifetime with
+        # a per-line uncertainty, but the papers state no split between per-line and scale
+        # terms, so they are charged fully correlated (conservative)
+        ("bw2006_ti1", "Imperial College FTS BFs x lifetimes; per-line log gf Unc. in Table 3, no "
+         "scale split stated", "Blackwell-Whitehead+2006 MNRAS 373 1603 Table 3"),
+        ("bw2011_mn1", "Lund/Imperial FTS BFs x lifetimes; per-line log gf Unc. in Table 1, no scale "
+         "split stated", "Blackwell-Whitehead+2011 A&A 525 A44 Table 1"),
+        *[(f"denhartog2021_ca1:{x}", f"Den Hartog+2021 Table 8 recommended gf from experiment {x} "
+           "with one stated % per source", "Den Hartog+2021 ApJS 255 27 Table 8")
+          for x in ("S&R81", "Smith88", "UW+M17+Ueda82", "UW+M17+Ueda83", "M17+UW", "Park76",
+                    "O&P61", "Vogt07")]]},
 }
 
 
@@ -95,7 +125,7 @@ def main() -> None:
             summary[el] = f"PREPARE FAILED: {type(exc).__name__}: {exc}"
             print(el, summary[el], flush=True)
             continue
-        keep = []
+        keep, sigma_only = [], []
         status = pd.read_csv(ep.CANONICAL, usecols=["line_id", "adjudication_status"], dtype=str,
                              keep_default_na=False).set_index("line_id").adjudication_status
         for a in rep["adopt"]:
@@ -104,11 +134,22 @@ def main() -> None:
             why = ("gf move > %.1f dex" % HOLD_MOVE_DEX if d is not None and abs(d) > HOLD_MOVE_DEX
                    else f"row already adjudicated ({st})"
                    if st not in OPEN_STATUS and not st.startswith("adopted_rya1268_") else None)
-            if why:
+            ok = _sigma_only_approval(a)
+            if why and why.startswith("row already") and abs(d or 0) <= 0.0005 and ok:
+                sigma_only.append({**a, "approval": ok})
+            elif why:
                 held.append({"element": el, "reason": why, **{k: a.get(k) for k in (
                     "set", "species", "wavelength_A", "canonical_loggf", "authors_loggf", "d_loggf")}})
             else:
                 keep.append(a)
+        if sigma_only:
+            cg = pd.read_csv(ep.CANONICAL, dtype=str, keep_default_na=False)
+            for a in sigma_only:
+                i = cg.index[cg.line_id == a["line_id"]][0]
+                cg.at[i, "gf_sigma_dex"] = str(a["authors_sigma_dex"])
+                print(f"  sigma-only {a['species']} {a['wavelength_A']}: {a['authors_sigma_dex']} "
+                      f"({a['approval']})")
+            cg.to_csv(ep.CANONICAL, index=False)
         rep["adopt"], rep["cull_candidates"] = keep, []
         done = ep.apply("solar", el, rep)
         summary[el] = done

@@ -1,6 +1,6 @@
-# LITSCAN -- P (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2 and
-# Lodders, Bergemann & Palme 2025 Table 2). Precursor: the element's own literature sweep
-# re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+# LITSCAN -- P (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
 element: P
 ion: I
 ions: [I]
@@ -19,6 +19,12 @@ entries:
     sigma: 0.12
     role: corroborating
     note: Lodders quality flag C+.
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 5.35
+    sigma: 0.04
+    role: corroborating (AGSS21 successor)
+    method: 3L+1N
 range:
   central: 5.41
   min: 5.38

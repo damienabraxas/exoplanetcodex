@@ -3,7 +3,7 @@ PREPARE solar Mn  -> NOT READY -- blocking: cull_candidates 101
   A published sets: 14 lines; adopt authors' gf on 0; missing from canonical_gf: 0
   B gf source NIST_ASD: 132 graded lines, classified
   B gf source denhartog2011: 44 graded lines, classified
-  B gf source bw2011_mn1: 12 graded lines, NOT in gf_error_model (UNREVIEWED)
+  B gf source bw2011_mn1: 12 graded lines, classified
   B gf source MN_AGSS21: 4 graded lines, classified
   F2 literature need: 1687 Mn I lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 1 Mn II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]

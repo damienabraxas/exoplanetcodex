@@ -400,6 +400,22 @@ sets:
     gf_basis: "Yan+1998 gf as Wang+2021 used; NIST ASD AAA"
     solar_literature: true
 
+  - name: EU_AGSS21
+    element: Eu
+    source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
+    where: {set_name: EU_AGSS21}
+    species: {column: species}
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
+              loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
+    match: {canonical_id_col: canonical_line_id}
+    bib: lawler2001_eu2
+    doi: 10.1086/323407
+    citation: "Asplund 2021 -> Grevesse et al. 2015 -> Lawler et al. 2001 (ApJ 563, 1075) Table 6: 14 Eu II"
+    gf_basis: "Lawler+2001 Table 3 A +/- dA (Wisconsin BF x LIF lifetime)"
+    # AGSS21's Eu 0.52 is Lawler+2001's HM synthesis of these 14 lines, 3D-corrected by Grevesse+2015
+    # (Amarsi & Grevesse 2026 Sect. Eu). Six are strong blue lines (3724-4205 A) a synthesis must fit.
+    solar_literature: true
+
   - name: EU_STORM2024
     element: Eu
     source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
@@ -412,7 +428,9 @@ sets:
     doi: 10.1051/0004-6361/202348971
     citation: "Lodders 2025 -> Storm et al. 2024 (A&A 683, A200) Table 1: Eu II 6645.104"
     gf_basis: "Lawler+2001 gf, 12% as Storm+2024 states"
-    solar_literature: true
+    # Lodders' Eu source, registered for comparison; AGSS21's set (EU_AGSS21, Lawler+2001 Table 6)
+    # holds the same line with Lawler's own A +/- dA -- only EU_AGSS21 adopts (RYA-1268).
+    solar_literature: false
 
   - name: Y_STORM2024
     element: Y

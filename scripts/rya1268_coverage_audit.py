@@ -82,7 +82,8 @@ AGSS21_NOTES = {
     "Y": ("AS_PRINTED", "Grevesse+2015 adopted"),
     "Zr": ("AS_PRINTED", "Grevesse+2015 adopted"),
     "Ba": ("AS_PRINTED", "Gallagher+2020 Table 1, 4 Ba II with per-line gf error (AGSS21's Ba source)"),
-    "Eu": ("AS_PRINTED", "AGSS21/Grevesse print no Eu table; Lodders 2025 -> Storm+2024: Eu II 6645.104"),
+    "Eu": ("AS_PRINTED", "AGSS21 -> Grevesse+2015 -> Lawler+2001 Table 6 (14 Eu II, extra_solar_sets.csv); "
+                         "Lodders 2025 -> Storm+2024: Eu II 6645.104"),
 }
 UPDATED_IONS = {"Cr": {"Cr II"}}
 

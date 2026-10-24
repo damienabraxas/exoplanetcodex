@@ -69,7 +69,7 @@
   "culled": 0,
   "added": 0
  },
- "Zn": "PREPARE FAILED: MatrixError: 'Zn' is not one of the 27 canonical targets in data/config/elements_master.json. Add it there before running it; do not fall through to a silent default. Known: Fe, Fe II, C, O, Mg, Si, Ca, Ti, Ni, Na, P, S, N, Co, Cr, Al, K, Ba, Y, V, Cu, Mn, Sc, Li, Eu, Zr, Sr",
+ "Zn": "PREPARE FAILED: MatrixError: the graded pool in canonical_gf.csv holds no line of 'Zn' at any ion, so there is no cell to build. This is a POOL finding, not a run failure -- grade some lines first (RYA-945).",
  "Sr": {
   "adopted": 3,
   "culled": 0,

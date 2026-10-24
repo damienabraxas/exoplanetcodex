@@ -3,13 +3,13 @@ PREPARE solar Ca  -> NOT READY -- blocking: cull_candidates 72, missing_solar_li
   A published sets: 14 lines; adopt authors' gf on 0; missing from canonical_gf: 2
       MISSING CA_AGSS21 Ca I 6169.3: MISSING in canonical_gf; CANNOT be added automatically: no solar hfs-on VALD extract covers 6169.300 A
       MISSING CA_AGSS21 Ca II 7323.89: MISSING in canonical_gf; CANNOT be added automatically: Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here
-  B gf source denhartog2021_ca1:S&R81: 32 graded lines, NOT in gf_error_model (UNREVIEWED)
+  B gf source denhartog2021_ca1:S&R81: 32 graded lines, classified
   B gf source NIST_ASD: 22 graded lines, classified
-  B gf source denhartog2021_ca1:UW+M17+Ueda82: 15 graded lines, NOT in gf_error_model (UNREVIEWED)
-  B gf source denhartog2021_ca1:Smith88: 7 graded lines, NOT in gf_error_model (UNREVIEWED)
-  B gf source denhartog2021_ca1:M17+UW: 6 graded lines, NOT in gf_error_model (UNREVIEWED)
-  B gf source denhartog2021_ca1:Vogt07: 1 graded lines, NOT in gf_error_model (UNREVIEWED)
-  B gf source denhartog2021_ca1:Park76: 1 graded lines, NOT in gf_error_model (UNREVIEWED)
+  B gf source denhartog2021_ca1:UW+M17+Ueda82: 15 graded lines, classified
+  B gf source denhartog2021_ca1:Smith88: 7 graded lines, classified
+  B gf source denhartog2021_ca1:M17+UW: 6 graded lines, classified
+  B gf source denhartog2021_ca1:Vogt07: 1 graded lines, classified
+  B gf source denhartog2021_ca1:Park76: 1 graded lines, classified
   B gf source CA_AGSS21: 1 graded lines, classified
   F2 literature need: 27 Ca I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 5 Ca II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]

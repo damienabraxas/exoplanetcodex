@@ -1,6 +1,6 @@
-# LITSCAN -- Sr (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2 and
-# Lodders, Bergemann & Palme 2025 Table 2). Precursor: the element's own literature sweep
-# re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+# LITSCAN -- Sr (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
 element: Sr
 ion: I
 ions: [I, II]
@@ -19,6 +19,12 @@ entries:
     sigma: 0.11
     role: corroborating
     note: Lodders quality flag B-.
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 2.84
+    sigma: 0.07
+    role: corroborating (AGSS21 successor)
+    method: 3L+1N
 range:
   central: 2.83
   min: 2.77

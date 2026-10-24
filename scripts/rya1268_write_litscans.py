@@ -4,10 +4,15 @@
 Values are transcribed from the papers' recommended-abundance tables, never from memory:
   AGSS21   Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table 2 (local aa40445-21.pdf)
   LBP25    Lodders, Bergemann & Palme 2025, Space Sci. Rev., Table 2 (local AbundancesLodders.pdf)
+  AG26     Amarsi & Grevesse 2026, "Solar chemical composition" (arXiv 2608.23155), Table 3
+           (local Amarsi_Grevesse_2026_solar_composition_2608.23155.pdf) -- the AGSS21 successor;
+           corroborating here, the anchor stays AGSS21 until Ryan moves it
 The band is AGSS21 +/- sigma, DEVIATE at 2 sigma -- the Si/Al rule. Each file is a precursor:
 the element's own dossier ticket re-projects it when its literature sweep runs.
-Existing files are never overwritten.
+Existing files are never overwritten, except with --force and only a file this script wrote
+(source_of_truth: RYA-1268).
 """
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,18 +40,45 @@ T = {
     "Ba": ("II", 2.27, 0.05, "Gallagher et al. 2020 (A&A 634, A55) 3D-NLTE", 2.27, 0.06, "A-"),
     "Eu": ("II", 0.52, 0.04, "Grevesse et al. 2015 update of Lawler et al. 2001 (HM synthesis)", 0.57, 0.06, "A-"),
 }
+# Amarsi & Grevesse 2026 Table 3: (value, sigma, modelling note as printed)
+AG26 = {"Li": (0.96, 0.06, "3N"), "Na": (6.22, 0.03, "3N"), "P": (5.35, 0.04, "3L+1N"),
+        "S": (7.06, 0.04, "3N"), "K": (5.07, 0.03, "3N"), "Ca": (6.30, 0.03, "3N"),
+        "Sc": (3.13, 0.04, "3L+1N"), "Ti": (4.97, 0.05, "3L, full weight to Ti II"),
+        "V": (3.90, 0.08, "3L+1N"), "Cr": (5.65, 0.04, "3L, full weight to Cr II"),
+        "Mn": (5.47, 0.08, "3N, mean of two studies"), "Co": (4.94, 0.07, "3L+1N"),
+        "Ni": (6.20, 0.05, "3L"), "Cu": (4.18, 0.05, "3L+1N"), "Zn": (4.56, 0.05, "3L+1N"),
+        "Sr": (2.84, 0.07, "3L+1N"), "Y": (2.29, 0.07, "3N"), "Zr": (2.59, 0.05, "3L, full weight to Zr II"),
+        "Ba": (2.27, 0.05, "3N"), "Eu": (0.49, 0.05, "3N")}
+# further per-element studies named by AG26 / Grevesse+2015 / Storm+2024 (transcribed from each paper)
+EXTRA = {"Eu": [
+    ("Lawler et al. 2001", "ApJ 563, 1075, Table 6 (doi:10.1086/323407)", 0.52, 0.04,
+     "1D LTE (HM74) synthesis of disc-centre intensity, 14 Eu II lines weighted 1-3; AGSS21's base value"),
+    ("Mucciarelli et al. 2008", "A&A 484, 841 (doi:10.1051/0004-6361:20079327)", 0.52, 0.02,
+     "3D LTE (CO5BOLD) EWs, 5 Eu II lines (4129.7, 6049.5, 6645.1, 7077.1, 7217.6), flux + intensity"),
+    ("Storm et al. 2024", "A&A 683, A200 (doi:10.1051/0004-6361/202348971)", 0.57, 0.06,
+     "3D NLTE, Eu II 6645.1 only (blended by weak unknown lines); Lodders 2025's Eu source")]}
 
 
 def main() -> None:
+    force = "--force" in sys.argv
     for el, (ions, v, s, basis, lv, ls, flag) in T.items():
         f = LIT / f"{el}.yaml"
-        if f.exists():
+        if f.exists() and not (force and "source_of_truth: RYA-1268" in f.read_text()):
             print(f"keep {f.name} (exists)")
             continue
+        av, asg, anote = AG26[el]
+        extra = "".join(f"""  - source: {src}
+    citation: {cite}
+    value: {xv:.2f}
+    sigma: {xs:.2f}
+    role: corroborating
+    method: {m}
+""" for src, cite, xv, xs, m in EXTRA.get(el, []))
         ion_list = [i.strip() for i in ions.split(",")]
-        f.write_text(f"""# LITSCAN -- {el} (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2 and
-# Lodders, Bergemann & Palme 2025 Table 2). Precursor: the element's own literature sweep
-# re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+        f.write_text(f"""# LITSCAN -- {el} (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file.
+# Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
 element: {el}
 ion: {ion_list[0]}
 ions: [{", ".join(ion_list)}]
@@ -65,7 +97,13 @@ entries:
     sigma: {ls:.2f}
     role: corroborating
     note: Lodders quality flag {flag}.
-range:
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: {av:.2f}
+    sigma: {asg:.2f}
+    role: corroborating (AGSS21 successor)
+    method: {anote}
+{extra}range:
   central: {v:.2f}
   min: {v - s:.2f}
   max: {v + s:.2f}
