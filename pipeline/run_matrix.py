@@ -912,6 +912,15 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _lst in synthesis_lists_for(lo, hi):
         rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+        # RYA-1250: the NLTE label sidecar is an input of the element's NLTE cells only;
+        # an LTE synthesis never reads a label, so its cells keep their identity.
+        if descriptor.engine_deck in ("gerber-nlte", "gerber-mean3d"):
+            from pipeline.nlte_label_sidecar import fingerprint_rows, sidecar_path
+            _fp = fingerprint_rows(_lst, descriptor.element, lo, hi)
+            if _fp is not None:
+                rows.append({"kind": "nlte_labels",
+                             "name": f"{sidecar_path(_lst).relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                             "digest": _fp})
     # The element's NLTE tables, scoped to the window too: a row added or withdrawn for a
     # red-optical line must not rebuild the VIS cells (RYA-1233 Si: 11 rows withdrawn).
     for _n in _nlte:

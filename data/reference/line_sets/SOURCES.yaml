@@ -92,7 +92,7 @@ sets:
     species: {column: species}
     columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
               loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
-    match: {canonical_id_col: canonical_line_id}
+    match: {canonical_id_col: canonical_line_id, window: resolver}   # feature rows: RYA-1250
     bib: asplund2021
     doi: 10.1051/0004-6361/202140445
     citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II)"
@@ -104,7 +104,7 @@ sets:
     element: Mg
     source: data/reference/mg_bergemann2017/mg_bergemann2017_lines.csv
     species: {column: species}
-    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05}
+    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05, window: resolver}   # feature rows: RYA-1250
     columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band,
               loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
     bib: bergemann2017_mg

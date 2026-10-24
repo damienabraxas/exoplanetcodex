@@ -74,6 +74,41 @@ Civis+2013 K lines carry no per-line gf error.
 * Census: the 31 other resolver-tolerance pairs in canonical_gf (Fe/Cr/Ti/Mn/Ce, mostly near-UV
   VALD) are distinct transitions, not add-path duplicates.
 
+## NLTE level labels for the VALD-built lists (Ryan 2026-10-23: "tag the lines")
+
+The 2026-10-23 run FAILED 11 Mg Gerber NLTE cells in NIR/H: no Mg line in the IR/H/K lists
+carried an NLTE level label (`nearuv_linelist` writes 'none'). Al had none there either,
+and Fe none in K; only RYA-1094's Fe IR/H labels existed. The VIS/red-optical GESv6 list
+ships its own labels (Mg 244/245, Al 84/84).
+
+`pipeline/nlte_label_sidecar.py` + `scripts/rya1250_nlte_label_sidecars.py` (Sirius) write
+`nlte_labels.tsv` beside each list for every element with a Gerber deck (Mg, Al, Fe). Two
+routes per level, unioned, both endpoints or neither: (energy, J) as RYA-1094, and VALD's
+own LS designation from the raw extract. The second is what Mg needs: `atom.mg86d` is
+term-resolved above 3p and its energies above 4d sit ~0.02 eV below VALD's, so (energy, J)
+alone labels 3 of 51 IR lines.
+
+| list | Mg I | Al I | Fe I |
+|---|---|---|---|
+| IR | 46 / 51 | 31 / 31 | (RYA-1094: 191 in list) |
+| H | 37 / 137 | 75 / 78 | (RYA-1094: 502 in list) |
+| K | 67 / 126 | 62 / 66 | 695 / 1369 |
+
+Checks: the routes reproduce RYA-1094's Fe labels (IR 191/191, H 498/502, zero
+disagreements); 12083.346 -> 4f3F*, 12083.649 -> 4f1F*. Unlabelled Mg H/K lines go to
+n >= 10 levels above the atom's ceiling (9l, 7.458 eV). Mg II: the atom holds only its
+ground level, nothing to label. LTE flux with and without the labels is identical
+(max |diff| 0.0 on Mg H, Fe K, Al K windows).
+
+Why a sidecar, not the list: `run_matrix` fingerprints list ROWS, so labelling in place would
+re-run every LTE cell of every element in those bands. The sidecar is merged at load
+(`_load_synth_resources`) and fingerprinted only for `gerber-nlte`/`gerber-mean3d` cells of
+an element that has rows there.
+
+Not done: Fe IR/H could gain 12 / 296 lines -- that changes published Fe products (Ryan's
+call). The near-UV list is regenerated per checkout and not built in the production clone,
+so it has no sidecar.
+
 ## Not changed, for Ryan
 
 Commits `5566b66d` (blocking.nlte_missing forced to 0) and `f5e723c0`/`cddfd84b` (gf-sigma-less
