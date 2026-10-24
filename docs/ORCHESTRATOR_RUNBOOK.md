@@ -38,6 +38,18 @@ automatically); `venv_ci` cannot run iSpec. PySME NLTE work is Sirius-only.
 
 ## 2. Prepare -- what the element still needs (read-only)
 
+**RYA-1251: the run prepares itself.** `run_pipeline.py --element <El>` (and the production
+`--all-elements` sweep) runs prepare first and applies the RULE plan before any cell is
+dispatched: the published set's gf on an open row, the authors' sigma where the gf is already
+theirs (`sigma_only` -- uncertainty is a budget input, never a reason to hold a measurement),
+missing Asplund lines added from our VALD extract, and saturated non-literature lines culled
+(written to `data/audit/orchestrator_prepare/<star>_<El>_culls.csv` for the appendix). A row
+another ticket adjudicated is never rewritten (`adopt_conflicts`, reported, not blocking).
+An element that already has a published feed keeps the human checkpoint below. `--dry-run`
+applies nothing and forecasts as if the plan were applied. Use `--prepare` alone to read the
+plan; what still blocks after the rule plan (a literature line with no add plan, a holding
+off its frame, missing literature) is a real hold.
+
 ```bash
 python run_pipeline.py --star solar --element <El> --prepare
 ```
@@ -49,7 +61,7 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 | **A published sets: 0 lines** | No published solar line set is registered for the element. | Step 3. |
 | **F literature: litscan MISSING** | No literature anchor file. | Step 4. |
 | **D NLTE: N lines not in `<El>_Amarsi2020_PySME.csv`** | The NLTE table lacks graded lines. | Step 5 (Sirius). |
-| **C cull candidates** | Saturated lines not used by the solar literature. | Step 6 (Ryan's yes/no). |
+| **C cull candidates** | Saturated lines not used by the solar literature. | Applied by rule by the run (Ryan 2026-10-24); listed for the appendix. Step 6 for a published element. |
 | **B gf source ... unclassified** | A gf source has no correlation entry. | Add a row to `data/reference/gf_error_model.csv` (copy the nearest existing source; cite why). |
 | **F2 literature need** | Bands with no error-stated gf: no Codex/Deep pool there. | Not blocking. Record it in the ticket; do not invent gf errors. |
 | **E holdings not serving** | A spectrum does not cover a window at rest. | Report it; do not re-prepare spectra. |
@@ -205,7 +217,9 @@ PR links. Orchestrator problems also go on RYA-1233 so the pipeline gets better.
 
 - Line-set transcription and litscan (steps 3-4) -- literature reading.
 - NLTE table extension is run by hand on Sirius (step 5).
-- Prepare and publish are two commands.
+- Gerber in-transfer NLTE needs NLTE level labels in the band list. The VALD-built NIR/H/K
+  lists are unlabelled; those cells are HELD before dispatch (not FAILED) until the list's
+  `nlte_labels.tsv` sidecar (RYA-1250 fix) labels the species.
 - One changed input re-runs every budget leg of the element.
 - No host-wide CPU budget: do not start a second heavy run on a busy host (check `uptime`).
 - Website per-element lists (step 9) are hand-edited.
