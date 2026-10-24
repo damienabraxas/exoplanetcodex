@@ -1,8 +1,8 @@
 PREPARE solar Sc  -> NOT READY -- blocking: cull_candidates 67
   F literature: litscan yes; set bibliography keys ['scott2015']
   A published sets: 14 lines; adopt authors' gf on 0; missing from canonical_gf: 0
-  B gf source NIST_ASD: 200 graded lines, classified
-  B gf source SC_AGSS21: 1 graded lines, classified
+  B gf source NIST_ASD: 196 graded lines, classified
+  B gf source SC_AGSS21: 5 graded lines, classified
   F2 literature need: 217 Sc II lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 1 Sc II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 4 Sc II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]

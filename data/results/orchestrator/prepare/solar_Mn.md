@@ -1,15 +1,15 @@
-PREPARE solar Mn  -> NOT READY -- blocking: cull_candidates 100
+PREPARE solar Mn  -> NOT READY -- blocking: cull_candidates 101
   F literature: litscan yes; set bibliography keys ['scott2015']
   A published sets: 14 lines; adopt authors' gf on 0; missing from canonical_gf: 0
-  B gf source NIST_ASD: 134 graded lines, classified
+  B gf source NIST_ASD: 132 graded lines, classified
   B gf source denhartog2011: 44 graded lines, classified
+  B gf source bw2011_mn1: 12 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source MN_AGSS21: 4 graded lines, classified
   F2 literature need: 1687 Mn I lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
-  F2 literature need: 6 Mn I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 1 Mn II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 79 Mn I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 115 Mn I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 100
+  C cull candidates (saturated, not a solar-literature line): 101
       Mn I 3790.209: rew -3.98 depth 0.815
       Mn I 3799.2541: rew -3.933 depth 0.631
       Mn I 3806.7143: rew -4.025 depth 0.926
@@ -110,5 +110,6 @@ PREPARE solar Mn  -> NOT READY -- blocking: cull_candidates 100
       Mn I 3701.726: rew -4.341 depth 0.398
       Mn I 3728.891: rew -4.24 depth 0.506
       Mn I 3776.531: rew -4.299 depth 0.649
-  D NLTE: 182 graded line(s) not in None
+      Mn I 12899.76: rew -4.72 depth 0.487
+  D NLTE: 184 graded line(s) not in None
   E holdings: 19 windows; 0 not serving / frame off rest

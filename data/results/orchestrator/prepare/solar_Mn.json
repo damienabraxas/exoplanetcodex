@@ -219,13 +219,18 @@
  "gf_sources": [
   {
    "lab_source_tag": "NIST_ASD",
-   "n_graded_lines": 134,
+   "n_graded_lines": 132,
    "classified": true
   },
   {
    "lab_source_tag": "denhartog2011",
    "n_graded_lines": 44,
    "classified": true
+  },
+  {
+   "lab_source_tag": "bw2011_mn1",
+   "n_graded_lines": 12,
+   "classified": false
   },
   {
    "lab_source_tag": "MN_AGSS21",
@@ -1335,6 +1340,17 @@
    "rew": -4.299,
    "saturated": true,
    "core_dv_kms": 1.21
+  },
+  {
+   "species": "Mn I",
+   "wavelength_A": 12899.76,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.487,
+   "ew_mA": 246.0,
+   "rew": -4.72,
+   "saturated": true,
+   "core_dv_kms": 1.38
   }
  ],
  "nlte_missing": [
@@ -2065,6 +2081,14 @@
   {
    "species": "Mn I",
    "wavelength_A": 3776.531
+  },
+  {
+   "species": "Mn I",
+   "wavelength_A": 12899.76
+  },
+  {
+   "species": "Mn I",
+   "wavelength_A": 12975.91
   }
  ],
  "holdings": [
@@ -2356,11 +2380,15 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 13000.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    1.38,
+    2.16
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 3,
    "frame_ok": true,
@@ -2401,11 +2429,15 @@
    "band": "NIR",
    "lo_A": 11159.94,
    "hi_A": 13000.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.41,
+    -0.3
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 0,
    "frame_ok": true,
@@ -2479,21 +2511,6 @@
    "why_needed": "1687 Mn I lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
   },
   {
-   "species": "Mn I",
-   "band": "NIR",
-   "n_lines": 6,
-   "holdings": [
-    "solar_crires_plus_j_rya1219",
-    "solar_crires_plus_y_rya794",
-    "solar_crires_plus_y_wide_rya1054",
-    "solar_iag",
-    "solar_kpno_kurucz2005_corrected",
-    "solar_kpno_molecfit_corrected"
-   ],
-   "scientific_role": "lab_gf",
-   "why_needed": "6 Mn I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
-  },
-  {
    "species": "Mn II",
    "band": "NIR",
    "n_lines": 1,
@@ -2533,7 +2550,7 @@
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 100,
+  "cull_candidates": 101,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0

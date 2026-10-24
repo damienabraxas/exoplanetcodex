@@ -209,8 +209,13 @@
   },
   {
    "lab_source_tag": "NIST_ASD",
-   "n_graded_lines": 172,
+   "n_graded_lines": 170,
    "classified": true
+  },
+  {
+   "lab_source_tag": "lawler2018_co2",
+   "n_graded_lines": 6,
+   "classified": false
   },
   {
    "lab_source_tag": "CO_AGSS21",
@@ -2989,6 +2994,17 @@
    "core_dv_kms": 0.06
   },
   {
+   "species": "Co II",
+   "wavelength_A": 3370.923,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.646,
+   "ew_mA": 388.7,
+   "rew": -3.938,
+   "saturated": true,
+   "core_dv_kms": 0.99
+  },
+  {
    "species": "Co I",
    "wavelength_A": 3373.969,
    "problem_class": "SATURATION_COG",
@@ -3031,6 +3047,17 @@
    "rew": -3.98,
    "saturated": true,
    "core_dv_kms": -0.93
+  },
+  {
+   "species": "Co II",
+   "wavelength_A": 3387.699,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.638,
+   "ew_mA": 430.4,
+   "rew": -3.896,
+   "saturated": true,
+   "core_dv_kms": 0.95
   },
   {
    "species": "Co I",
@@ -3176,6 +3203,17 @@
    "core_dv_kms": 1.11
   },
   {
+   "species": "Co II",
+   "wavelength_A": 3415.772,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.484,
+   "ew_mA": 313.0,
+   "rew": -4.038,
+   "saturated": true,
+   "core_dv_kms": -0.32
+  },
+  {
    "species": "Co I",
    "wavelength_A": 3417.157,
    "problem_class": "SATURATION_COG",
@@ -3240,6 +3278,17 @@
    "rew": -3.983,
    "saturated": true,
    "core_dv_kms": -1.08
+  },
+  {
+   "species": "Co II",
+   "wavelength_A": 3423.825,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.74,
+   "ew_mA": 390.6,
+   "rew": -3.943,
+   "saturated": true,
+   "core_dv_kms": -1.03
   },
   {
    "species": "Co I",
@@ -6853,6 +6902,10 @@
    "wavelength_A": 3370.324
   },
   {
+   "species": "Co II",
+   "wavelength_A": 3370.923
+  },
+  {
    "species": "Co I",
    "wavelength_A": 3373.969
   },
@@ -6875,6 +6928,10 @@
   {
    "species": "Co I",
    "wavelength_A": 3387.469
+  },
+  {
+   "species": "Co II",
+   "wavelength_A": 3387.699
   },
   {
    "species": "Co I",
@@ -6941,6 +6998,10 @@
    "wavelength_A": 3415.525
   },
   {
+   "species": "Co II",
+   "wavelength_A": 3415.772
+  },
+  {
    "species": "Co I",
    "wavelength_A": 3417.157
   },
@@ -6967,6 +7028,10 @@
   {
    "species": "Co I",
    "wavelength_A": 3422.895
+  },
+  {
+   "species": "Co II",
+   "wavelength_A": 3423.825
   },
   {
    "species": "Co I",
@@ -7543,7 +7608,7 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 312,
+   "graded_lines": 316,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -7574,7 +7639,7 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 312,
+   "graded_lines": 316,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -8046,7 +8111,7 @@
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 405,
+  "cull_candidates": 409,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0

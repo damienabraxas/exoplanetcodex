@@ -2,8 +2,9 @@ PREPARE solar Ti  -> NOT READY -- blocking: cull_candidates 429
   F literature: litscan yes; set bibliography keys ['scott2015']
   A published sets: 48 lines; adopt authors' gf on 0; missing from canonical_gf: 0
   B gf source wood2013_ti2: 305 graded lines, classified
-  B gf source NIST_ASD: 267 graded lines, classified
+  B gf source NIST_ASD: 244 graded lines, classified
   B gf source lawler2013: 52 graded lines, classified
+  B gf source bw2006_ti1: 32 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source TI_AGSS21: 7 graded lines, classified
   F2 literature need: 11 Ti II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 2 Ti II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
@@ -437,5 +438,5 @@ PREPARE solar Ti  -> NOT READY -- blocking: cull_candidates 429
       Ti I 3774.324: rew -4.201 depth 0.869
       Ti II 3774.647: rew -4.09 depth 0.727
       Ti II 3776.053: rew -4.217 depth 0.8
-  D NLTE: 629 graded line(s) not in None
+  D NLTE: 637 graded line(s) not in None
   E holdings: 19 windows; 0 not serving / frame off rest

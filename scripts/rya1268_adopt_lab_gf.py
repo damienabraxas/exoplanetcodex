@@ -57,7 +57,13 @@ VALD_LAB = {"LHSNWC": ("lawler2019_sc", "Lawler et al. 2019 (ApJS 241, 21)", "10
 CITE = {"wood2013_ti2": "Wood et al. 2013 (ApJS 208, 27)", "lawler2014_v1": "Lawler et al. 2014 (ApJS 215, 20)",
         "wood2014_v2": "Wood et al. 2014 (ApJS 214, 18)", "lawler2017_cr2": "Lawler et al. 2017 (ApJS 228, 10)",
         "lawler2015": "Lawler et al. 2015 (ApJS 220, 13)", "wood2014": "Wood et al. 2014 (ApJS 211, 20)",
-        "denhartog2011": "Den Hartog et al. 2011 (ApJS 194, 35)", "sobeck2007": "Sobeck et al. 2007 (ApJ 667, 1267)"}
+        "denhartog2011": "Den Hartog et al. 2011 (ApJS 194, 35)", "sobeck2007": "Sobeck et al. 2007 (ApJ 667, 1267)",
+        "lawler2001_eu2": "Lawler et al. 2001 (ApJ 563, 1075)",
+        # parsed from the paper's own PDF (rya1268_parse_lab_pdfs.py); Ca I keys carry ":<ExptRef>"
+        "bw2006_ti1": "Blackwell-Whitehead et al. 2006 (MNRAS 373, 1603)",
+        "bw2011_mn1": "Blackwell-Whitehead et al. 2011 (A&A 525, A44)",
+        "denhartog2021_ca1": "Den Hartog et al. 2021 (ApJS 255, 27)",
+        "lawler2018_co2": "Lawler et al. 2018 (ApJS 238, 7)"}
 
 
 def nist() -> pd.DataFrame:
@@ -150,12 +156,23 @@ def main() -> None:
         taken.add(i)
 
     # 1. lab tables
+    # Scott+2015's Ti I precedence is Lawler+2013 > Nitz+1998 > Blackwell-Whitehead+2006: BW2006
+    # yields wherever VALD carries one of the first two (LGWSC / NWL) -- at 5252.100 they differ
+    # by 0.27 dex and AGSS21 adopted Lawler's.
+    vr = pd.read_csv(AUD / "vald_solar_gf_refs.csv")
+    outranked = {"bw2006_ti1": vr[(vr.species == "Ti I") & vr.gf_ref_code.isin({"LGWSC", "NWL"})]}
     for r in pd.read_csv(LAB).itertuples():
+        if r.paper in outranked and (
+                (outranked[r.paper].wavelength_air_A - r.wavelength_air_A).abs() <= 0.06).any():
+            continue
         i = match(cg, by_sp, r.species, r.wavelength_air_A, r.ep_eV)
         if i is None or i in taken or not ok(i, r.loggf, r.ep_upper_eV, src=r.paper):
             continue
-        write(i, r.loggf, r.loggf_sigma_dex, "LAB",
-              f"{CITE[r.paper]}, machine-readable table {r.vizier} (A +/- dA)", r.doi, r.paper,
+        key, _, sub = r.paper.partition(":")
+        where = (f"machine-readable table {r.vizier}" if isinstance(r.vizier, str) and r.vizier
+                 else "table parsed from the paper's PDF") + (f", experiment {sub}" if sub else "")
+        write(i, r.loggf, r.loggf_sigma_dex, "LAB", f"{CITE[key]}, {where} (stated uncertainty)",
+              r.doi, r.paper,
               "adopted_rya1268_lab_table")
     n = nist()
     # 2. VALD lab code + NIST class on the same gf

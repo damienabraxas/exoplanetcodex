@@ -1,15 +1,16 @@
-PREPARE solar Co  -> NOT READY -- blocking: cull_candidates 405
+PREPARE solar Co  -> NOT READY -- blocking: cull_candidates 409
   F literature: litscan yes; set bibliography keys ['scott2015']
   A published sets: 13 lines; adopt authors' gf on 0; missing from canonical_gf: 0
   B gf source lawler2015: 537 graded lines, classified
-  B gf source NIST_ASD: 172 graded lines, classified
+  B gf source NIST_ASD: 170 graded lines, classified
+  B gf source lawler2018_co2: 6 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source CO_AGSS21: 4 graded lines, classified
   F2 literature need: 6 Co I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 1 Co II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 200 Co I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 7 Co II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 208 Co I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 405
+  C cull candidates (saturated, not a solar-literature line): 409
       Co I 3808.1016: rew -4.213 depth 0.65
       Co I 3811.0667: rew -4.114 depth 0.668
       Co I 3814.4588: rew -4.016 depth 0.635
@@ -261,10 +262,12 @@ PREPARE solar Co  -> NOT READY -- blocking: cull_candidates 405
       Co I 3362.059: rew -3.866 depth 0.369
       Co I 3367.11: rew -3.933 depth 0.901
       Co I 3370.324: rew -4.014 depth 0.784
+      Co II 3370.923: rew -3.938 depth 0.646
       Co I 3373.969: rew -4.02 depth 0.801
       Co I 3377.058: rew -4.361 depth 0.511
       Co I 3385.22: rew -4.101 depth 0.901
       Co I 3387.469: rew -3.98 depth 0.714
+      Co II 3387.699: rew -3.896 depth 0.638
       Co I 3388.168: rew -3.969 depth 0.909
       Co I 3388.695: rew -4.076 depth 0.542
       Co I 3390.398: rew -4.249 depth 0.41
@@ -278,12 +281,14 @@ PREPARE solar Co  -> NOT READY -- blocking: cull_candidates 405
       Co I 3413.515: rew -3.949 depth 0.937
       Co I 3414.721: rew -3.802 depth 0.944
       Co I 3415.525: rew -4.057 depth 0.9
+      Co II 3415.772: rew -4.038 depth 0.484
       Co I 3417.157: rew -4.018 depth 0.925
       Co I 3417.796: rew -4.118 depth 0.841
       Co I 3420.479: rew -4.178 depth 0.474
       Co I 3420.791: rew -4.238 depth 0.631
       Co I 3421.628: rew -4.292 depth 0.408
       Co I 3422.895: rew -3.983 depth 0.755
+      Co II 3423.825: rew -3.943 depth 0.74
       Co I 3424.504: rew -4.041 depth 0.652
       Co I 3431.581: rew -4.025 depth 0.925
       Co I 3432.319: rew -4.216 depth 0.585
@@ -415,5 +420,5 @@ PREPARE solar Co  -> NOT READY -- blocking: cull_candidates 405
       Co I 3760.402: rew -4.1 depth 0.31
       Co I 3774.591: rew -4.086 depth 0.45
       Co I 3777.537: rew -4.259 depth 0.311
-  D NLTE: 713 graded line(s) not in None
+  D NLTE: 717 graded line(s) not in None
   E holdings: 19 windows; 0 not serving / frame off rest

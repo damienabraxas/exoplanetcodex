@@ -24630,6 +24630,14 @@ artifacts:
     generator: pipeline/element_prepare.py
     invocation: python3 scripts/rya1268_apply_sets.py
     ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Eu.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Eu.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
   - artifact: orchestrator/prepare/solar_K.json
     generator: pipeline/element_prepare.py
     invocation: python3 scripts/rya1268_apply_sets.py

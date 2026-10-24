@@ -167,6 +167,14 @@ def attach_sigma(s: pd.DataFrame, nist: pd.DataFrame) -> pd.DataFrame:
     lab = pd.read_csv(LAB)
     vald = pd.read_csv(VALD_REFS)
     vald = vald[vald.gf_ref_code.isin(set(VALD_LAB_CODE.values()))]
+    # VALD lists every hyperfine component; the transition's gf is their SUM. Taking the nearest
+    # component put Sc II 5641.000 at -1.513 (one component) instead of the total -1.13.
+    vald = vald.assign(gf=10.0 ** vald.loggf, _up=vald.ep_upper_eV.round(3), _lo=vald.ep_eV.round(3))
+    k = ["species", "_lo", "_up", "j_lower", "j_upper", "gf_ref_code"]
+    g = vald.groupby(k, dropna=False)
+    vald = vald.assign(loggf=np.round(np.log10(g.gf.transform("sum")), 3),
+                       wavelength_air_A=g.wavelength_air_A.transform("median"))
+    vald = vald.drop_duplicates(k).drop(columns=["gf", "_up", "_lo"])
     out = []
     for _, r in s.iterrows():
         tol = 0.1 if r.paper == "agss21_tableA1" else JOIN_TOL_A
@@ -228,7 +236,12 @@ def attach_sigma(s: pd.DataFrame, nist: pd.DataFrame) -> pd.DataFrame:
 # tables / Asplund-cited refs (README): a VALD line with one of these codes is lab-referenced.
 LAB_CODES = {"LWHS", "LHSNWC", "LGWSC", "WLSC", "LWDFSC", "WLDSC", "SLS", "LSNE", "DLSSC",
              "WLSCow", "HLGBW", "BBEHL", "LNAJ", "BGHL", "BSB", "SR", "S", "SN", "Sh",
-             "MFW", "FMW"}  # MFW/FMW: the NBS critical compilations of lab data (Martin, Fuhr, Wiese)
+             "MFW", "FMW",  # MFW/FMW: the NBS critical compilations of lab data (Martin, Fuhr, Wiese)
+             # VALD files these under its lab ("exp. data") source lists: Blackwell-Whitehead+2006
+             # Ti I IR, +2011 Mn I IR, +2005 Mn I; Nitz+1998 Ti I; Zerne+1997 S I lifetimes
+             # (Scott+2015 "very accurate"). PTP (Pickering+2001 Ti II) is lab too but Scott+2015
+             # rejected it for its abundance scatter, so it stays out.
+             "BLNP", "B-WPNP", "BXPNL", "NWL", "ZCBS"}
 BLEND_A = 0.1
 
 
@@ -242,19 +255,30 @@ def line_pools(elements: list[str]) -> pd.DataFrame:
     blend_ratio = summed depth of every OTHER VALD line within +/-BLEND_A / the line's depth.
     Reported only -- blends are the synthesis' job, not a selection cut.
     VALD lists every hyperfine/isotopic component (Co I 3015.68: 5 rows); one transition = one
-    (species, lower level, upper level, J_lo, J_up), gf summed, the strongest component's
-    wavelength -- otherwise Co I near-UV counts 1021 'lines' for 160, and a line's own
-    components count as its blends."""
+    (species, lower level, upper level, J_lo, J_up), gf summed -- otherwise Co I near-UV
+    counts 1021 'lines' for 160, and a line's own components count as its blends. The merged
+    line sits at its gf-weighted centroid and joins canonical_gf within its components' spread."""
     v = pd.read_csv(VALD_REFS)
     v["central_depth"] = pd.to_numeric(v.central_depth, errors="coerce")
     v = v.drop_duplicates(["species", "wavelength_air_A", "loggf", "ep_eV"])  # overlapping extracts
     v["gf"] = 10.0 ** v.loggf
-    v = v.assign(_lo=v.ep_eV.round(3), _up=v.ep_upper_eV.round(3)).sort_values("gf", ascending=False)
-    k = ["species", "_lo", "_up", "j_lower", "j_upper"]
+    # components share both levels; group on level energies within 0.002 eV, not on rounded values
+    # (Eu II 4129.70's components carry upper 3.00145 +/- 1e-5 and rounding split them in two)
+    k = ["species", "j_lower", "j_upper"]
+    v = v.sort_values(k + ["ep_eV"])
+    v["_lo"] = (v.groupby(k, dropna=False).ep_eV.diff().abs().fillna(1) > 0.002).cumsum()
+    v = v.sort_values(k + ["_lo", "ep_upper_eV"])
+    v["_up"] = (v.groupby(k + ["_lo"], dropna=False).ep_upper_eV.diff().abs().fillna(1) > 0.002).cumsum()
+    k = k + ["_lo", "_up"]
+    v = v.sort_values("gf", ascending=False)
+    v["_wg"] = v.wavelength_air_A * v.gf
     agg = v.groupby(k, sort=False, dropna=False)
+    # the transition sits at its gf-weighted centroid; `span` = how far its components spread
     v = v.assign(loggf=np.round(np.log10(agg.gf.transform("sum")), 3), n_components=agg.gf.transform("size"),
-                 central_depth=agg.central_depth.transform("max"))
-    v = v.drop_duplicates(k).drop(columns=["_lo", "_up", "gf"])  # the strongest component's row
+                 central_depth=agg.central_depth.transform("max"),
+                 wavelength_air_A=np.round(agg._wg.transform("sum") / agg.gf.transform("sum"), 4),
+                 span_A=np.round(agg.wavelength_air_A.transform("max") - agg.wavelength_air_A.transform("min"), 4))
+    v = v.drop_duplicates(k).drop(columns=["_lo", "_up", "gf", "_wg"])  # the strongest component's levels
     v = v.sort_values("wavelength_air_A").reset_index(drop=True)
     w, dpt = v.wavelength_air_A.to_numpy(), v.central_depth.fillna(0).to_numpy()
     cs = np.concatenate([[0], np.cumsum(dpt)])
@@ -270,11 +294,19 @@ def line_pools(elements: list[str]) -> pd.DataFrame:
     for sp, g in v.groupby("species"):
         c = canon[canon.species == sp][["wavelength_air_A", "excitation_potential_eV", "gf_tier",
                                         "graded", "line_id", "lab_source_tag"]]
-        m = pd.merge_asof(g.sort_values("wavelength_air_A"), c.rename(columns={"wavelength_air_A": "cw"}),
-                          left_on="wavelength_air_A", right_on="cw", direction="nearest", tolerance=0.01)
-        m["graded"] = m.graded.astype(object)
-        bad = (m.excitation_potential_eV - m.ep_eV).abs() > 0.02
-        m.loc[bad, ["gf_tier", "graded", "line_id", "lab_source_tag"]] = np.nan
+        # nearest canonical row on the same lower level, within the components' own spread (a
+        # canonical row may sit on any component or on the centroid; 0.01 A floor for single lines)
+        cw, ce = c.wavelength_air_A.to_numpy(), c.excitation_potential_eV.to_numpy()
+        hit = []
+        for w0, e0, sp_A in zip(g.wavelength_air_A, g.ep_eV, g.span_A.fillna(0)):
+            ok_ = np.flatnonzero((np.abs(cw - w0) <= max(0.01, sp_A / 2 + 0.01)) & (np.abs(ce - e0) <= 0.02))
+            hit.append(ok_[np.argmin(np.abs(cw[ok_] - w0))] if ok_.size else -1)
+        hit = np.array(hit, dtype=int)
+        m = g.reset_index(drop=True).copy()
+        cc = c.reset_index(drop=True)
+        for col in ["gf_tier", "graded", "line_id", "lab_source_tag"]:
+            vals = cc[col].to_numpy(dtype=object)
+            m[col] = [vals[h] if h >= 0 else np.nan for h in hit]
         parts.append(m)
     p = pd.concat(parts, ignore_index=True)
     tier = p.gf_tier.astype(str)

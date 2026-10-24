@@ -1,0 +1,200 @@
+J/ApJS/182/51    Transition probabilities of rare earth elements (Lawler+, 2009)
+================================================================================
+Improved laboratory transition probabilities for Ce II, application to the
+cerium abundances of the Sun and five r-process-rich, metal-poor
+stars, and rare earth lab data summary.
+    Lawler J.E., Sneden C., Cowan J.J., Ivans I.I., Den Hartog E.A.
+   <Astrophys. J. Suppl. Ser., 182, 51-79 (2009)>
+   =2009ApJS..182...51L
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data - Galaxy: evolution - nuclear reactions, nucleosynthesis,
+          abundances - stars: abundances - stars: individual (BD+17 3248,
+          CS 22892-052, CS 31082-001, HD 115444, HD 221170)
+          stars: Population II - Sun: abundances
+
+Abstract:
+    Recent radiative lifetime measurements accurate to +/-5% using
+    laser-induced fluorescence (LIF) on 43 even-parity and 15 odd-parity
+    levels of CeII have been combined with new branching fractions
+    measured using a Fourier transform spectrometer (FTS) to determine
+    transition probabilities for 921 lines of CeII. This improved
+    laboratory data set has been used to determine a new solar
+    photospheric Ce abundance, log{epsilon}=1.61+/-0.01 ({sigma}=0.06 from
+    45 lines), a value in excellent agreement with the recommended
+    meteoritic abundance, log{epsilon}=1.61+/-0.02. Revised Ce abundances
+    have also been derived for the r-process-rich metal-poor giant stars
+    BD+17 3248, CS 22892-052, CS 31082-001, HD 115444, and HD 221170.
+    Between 26 and 40 lines were used for determining the Ce abundance in
+    these five stars, yielding a small statistical uncertainty of
+    {+/-}0.01dex similar to the solar result. The relative abundances in
+    the metal-poor stars of Ce and Eu, a nearly pure r-process element in
+    the Sun, matches r-process-only model predictions for solar system
+    material. This consistent match with small scatter over a wide range
+    of stellar metallicities lends support to these predictions of
+    elemental fractions. A companion paper includes an interpretation of
+    these new precision abundance results for Ce as well as new abundance
+    results and interpretation for Pr, Dy, and Tm.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName  Lrecl  Records  Explanations
+--------------------------------------------------------------------------------
+ReadMe        80        .  This file
+table2.dat    63      921  Atomic transition probabilities for CeII (Z=58)
+                           organized by increasing wavelength in air
+table5.dat    63       84  Experimental atomic transition probabilities for
+                           LaII (Z=57) arranged by Wavenumber from Lawler et al.
+                           (2001ApJ...556..452L)
+table6.dat    63       24  Experimental atomic transition probabilities for
+                           EuII (Z=63) arranged by wavenumber from Lawler et al.
+                           (2001ApJ...563.1075L)
+table7.dat    56     1735  Hyperfine structure line component patterns for
+                           ^159^TbII (Z=65).
+table8.dat    85      915  Experimental atomic transition probabilities for
+                           DyI (Z=66; levels have integral J) and DyII (levels
+                           have half integral J) from Wickliffe et al.
+                           (2000JQSRT..66..363W)
+table9.dat    63       22  Experimental atomic transition probabilities for
+                           HoII (Z=67) arranged by Wavenumber from Lawler et al.
+                           (2004ApJ...604..850L)
+table10.dat   56      473  Hyperfine structure line component patterns for
+                           HoII (Z=67).
+table11.dat   61      146  Experimental atomic transition probabilities for
+                           TmII (Z=69) from Wickliffe & Lawler
+                           (1997JOSAB..14..737W)
+table13.dat   63       19 *Experimental atomic transition probabilities for
+                           LuII (Z=71) from odd-parity upper levels organized by
+                           increasing wavelength in air.
+table14.dat   56      163  Hyperfine structure line component patterns for
+                           ^175^LuII (Z=71).
+--------------------------------------------------------------------------------
+Note on table13.dat: Updated energy i levels from Table 12 are used for
+   transitions if available both for the upper and lower levels, otherwise NIST
+   (Martin et al., 1978aelr.book.....M) energy levels are used. Wavelengths are
+   computed using the standard index of air (Edlen, 1953JOSA...43..339E).
+--------------------------------------------------------------------------------
+
+See also:
+   J/AZh/84/997  : Abundances of Sr, Y, Zr, Ce and Ba (Mashonkina+, 2007)
+   J/ApJS/182/80 : Rare earth abundances (Sneden+, 2009)
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label     Explanations
+--------------------------------------------------------------------------------
+   1-  9  F9.3  0.1nm    lamAir    Wavelength in air in Angstroms
+  11- 19  F9.3  cm-1     E1        Upper level energy
+  21- 22  A2    ---      p1        Upper level parity
+  24- 26  F3.1  ---      J1        Upper level J value
+  28- 36  F9.3  cm-1     E0        Lower level energy
+  38- 39  A2    ---      p0        Lower level parity
+  41- 43  F3.1  ---      J0        Lower level J value
+  45- 51  F7.3  10+6/s   Aij       Transition probability
+  53- 57  F5.3  10+6/s e_Aij       Total uncertainty in Aij
+  59- 63  F5.2  ---      log(gf)   Log of degeneracy times oscillator strength
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table[56].dat table13.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label     Explanations
+--------------------------------------------------------------------------------
+   1-  8  F8.2  cm-1     sigma     ? Transition Wavenumber (except for table13)
+  10- 18  F9.4  0.1nm    lamAir    Wavelength in air in Angstroms
+  20- 28  F9.3  cm-1     E1        Upper level energy
+      30  I1    ---      J1        Upper level J value
+  32- 40  F9.3  cm-1     E0        Lower level energy
+      42  I1    ---      J0        Lower level J value
+  44- 50  F7.3  10+6/s   Aij       Transition probability
+  52- 57  F6.3  10+6/s e_Aij       Total uncertainty in Aij, this experiment
+  59- 63  F5.2  [-]      log(gf)   Log of degeneracy times oscillator strength
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table8.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label    Explanations
+--------------------------------------------------------------------------------
+   1-  8  F8.2  cm-1     sigma    Transition Wavenumber
+  10- 17  F8.2  0.1nm    lamAir   Wavelength in air in Angstroms
+  19- 26  F8.2  cm-1     E1       Upper level energy
+  28- 29  A2    ---      p1       Upper level parity
+  31- 34  F4.1  ---      J1       Upper level J value
+  36- 43  F8.2  cm-1     E0       Lower level energy
+  45- 46  A2    ---      p0       Lower level parity
+  48- 51  F4.1  ---      J0       Lower level J value
+  53- 60  F8.4  10+6/s   AijW     ? Transition probability from Univ. Wisconsin
+  62- 63  I2    %      e_AijW     ? Percent total uncertainty in AijW
+  65- 69  F5.2  [-]      log(gf)W ? Log of degeneracy times oscillator strength
+                                    from Univ. Wisconsin
+  71- 76  F6.3  10+6/s   AijN     ? Transition probability from NIST
+  78- 79  I2    %      e_AijN     ? Percent total uncertainty in AijN
+  81- 85  F5.2  [-]      log(gf)N ? Log of degeneracy times oscillator strength
+                                    from NIST
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table9.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label     Explanations
+--------------------------------------------------------------------------------
+   1-  8  F8.2  cm-1     sigma     Transition Wavenumber
+  10- 16  F7.2  0.1nm    lamAir    Wavelength in air in Angstroms
+  18- 25  F8.2  cm-1     E1        Upper level energy
+      27  I1    ---      J1        Upper level J value
+  29- 35  F7.2  cm-1     E0        Lower level energy
+      37  I1    ---      J0        Lower level J value
+  39- 44  F6.2  10+6/s   Aij       Transition probability, this experiment
+  46- 49  F4.2  10+6/s e_Aij       Total uncertainty in Aij, this experiment
+  51- 55  F5.2  [-]      log(gf)   Log of degeneracy times oscillator strength,
+                                   this experiment
+  57- 61  F5.2  [-]      log(gf)O  ? Log of degeneracy times oscillator
+                                   strength, from another source
+      63  A1    ---    r_log(gf)O  Note on log(gf)O (1)
+--------------------------------------------------------------------------------
+Note (1): Notes as follows:
+    a = VALD (Vienna Atomic Line Database) as described in Kupka et al.
+        (1999POBeo..65..223K) value determined using the method of Magazzu &
+        Cowley (1986ApJ...308..254M)
+    b = VALD database as described in Kupka et al. (1999POBeo..65..223K) value
+        originally from Gorshkov & Komarovskii (1979)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table7.dat table1[04].dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  9  F9.3  cm-1    sigma     Center-of-Gravity Wavenumber
+  11- 19  F9.4  0.1nm   lamAir    Center-of-Gravity Air Wavelength in Angstroms
+  21- 24  F4.1  ---     F1        Component upper level F or total angular
+                                  momentum
+  26- 29  F4.1  ---     F0        Component lower level F or total angular
+                                  momentum
+  31- 38  F8.5  cm-1    dsigma    Component offset Wavenumber with respect to
+                                  Center-of-gravity Wavenumber
+  40- 48  F9.6  0.1nm   dlam      Component offset Wavelength with respect to
+                                  Center-of-gravity Wavelength
+  50- 56  F7.5  ---     Strength  Component strength (1)
+--------------------------------------------------------------------------------
+Note (1): Normalized to sum to one.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table11.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label     Explanations
+--------------------------------------------------------------------------------
+   1-  8  F8.2  cm-1     sigma     Transition Wavenumber
+  10- 16  F7.2  0.1nm    lamAir    Wavelength in air in Angstroms
+  18- 25  F8.2  cm-1     E1        Upper level energy
+  27- 28  A2    ---      p1        Upper level parity
+      30  I1    ---      J1        Upper level J value
+  32- 39  F8.2  cm-1     E0        Lower level energy
+  41- 42  A2    ---      p0        Lower level parity
+      44  I1    ---      J0        Lower level J value
+  46- 52  F7.3  10+6/s   Aij       Transition probability
+  54- 55  I2    %      e_Aij       Percent total uncertainty in Aij
+  57- 61  F5.2  [-]      log(gf)   Log of degeneracy times oscillator strength
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+================================================================================
+(End)                 Greg Schwarz [AAS], Emmanuelle Perret [CDS]    17-Nov-2009

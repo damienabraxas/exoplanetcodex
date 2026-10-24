@@ -1,0 +1,633 @@
+{
+ "star": "solar",
+ "element": "Eu",
+ "generated": "2026-10-23",
+ "sets": [
+  {
+   "set": "EU_STORM2024",
+   "species": "Eu II",
+   "wavelength_A": 6645.104,
+   "ep_eV": 1.38,
+   "solar_literature": true,
+   "authors_loggf": 0.12,
+   "authors_sigma_dex": 0.0492,
+   "authors_gf_source": "Lawler+2001 (12% as Storm+2024 states)",
+   "canonical_wavelength_A": 6645.0905,
+   "canonical_loggf": 0.1198,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  }
+ ],
+ "adopt": [
+  {
+   "set": "EU_STORM2024",
+   "species": "Eu II",
+   "wavelength_A": 6645.104,
+   "ep_eV": 1.38,
+   "solar_literature": true,
+   "authors_loggf": 0.12,
+   "authors_sigma_dex": 0.0492,
+   "authors_gf_source": "Lawler+2001 (12% as Storm+2024 states)",
+   "canonical_wavelength_A": 6645.0905,
+   "canonical_loggf": 0.1198,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": null,
+   "d_loggf": 0.0,
+   "line_id": "gf_051798"
+  }
+ ],
+ "missing_lines": [],
+ "gf_sources": [
+  {
+   "lab_source_tag": "lawler2001_eu2",
+   "n_graded_lines": 18,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "EU_STORM2024 (to be adopted)",
+   "n_graded_lines": 1,
+   "classified": true
+  }
+ ],
+ "scoped_readiness": true,
+ "route_requirements": [],
+ "cull_candidates": [
+  {
+   "species": "Eu II",
+   "wavelength_A": 3819.6725,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.688,
+   "ew_mA": 475.0,
+   "rew": -3.905,
+   "saturated": true,
+   "core_dv_kms": 1.11
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3907.1065,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.343,
+   "ew_mA": 250.2,
+   "rew": -4.193,
+   "saturated": true,
+   "core_dv_kms": 0.36
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3930.499,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.795,
+   "ew_mA": 603.6,
+   "rew": -3.814,
+   "saturated": true,
+   "core_dv_kms": -0.49
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3971.972,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.666,
+   "ew_mA": 513.7,
+   "rew": -3.888,
+   "saturated": true,
+   "core_dv_kms": 0.54
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4129.7076,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.397,
+   "ew_mA": 225.3,
+   "rew": -4.263,
+   "saturated": true,
+   "core_dv_kms": 0.56
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4205.04,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.533,
+   "ew_mA": 240.9,
+   "rew": -4.242,
+   "saturated": true,
+   "core_dv_kms": 1.95
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4522.58,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.711,
+   "ew_mA": 214.6,
+   "rew": -4.324,
+   "saturated": true,
+   "core_dv_kms": 2.08
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3688.433,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.911,
+   "ew_mA": 302.1,
+   "rew": -4.087,
+   "saturated": true,
+   "core_dv_kms": -0.65
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3724.931,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.322,
+   "ew_mA": 226.9,
+   "rew": -4.215,
+   "saturated": true,
+   "core_dv_kms": -1.3
+  }
+ ],
+ "nlte_missing": [
+  {
+   "species": "Eu II",
+   "wavelength_A": 3819.6725
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3907.1065
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3930.499
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3971.972
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4129.7076
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4205.04
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4522.58
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 5872.98
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 5966.06
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6303.42
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7077.09
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7194.83
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7217.56
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7301.19
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7370.22
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7426.57
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3688.433
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3724.931
+  }
+ ],
+ "holdings": [
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [
+    {
+     "wavelength_A": 3724.931,
+     "dv_kms": -4.1
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    -0.24,
+    -4.06
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [
+    {
+     "wavelength_A": 3724.931,
+     "dv_kms": -4.4
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    -0.65,
+    -4.44
+   ],
+   "frame_median_dv_kms": 0.69,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 10,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    1.06,
+    0.52,
+    -0.14,
+    0.32,
+    0.54
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 10,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    1.11,
+    0.36,
+    -0.49,
+    0.54,
+    0.56
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_harps_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3782.6,
+   "hi_A": 6910.0,
+   "graded_lines": 10,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -2.87,
+    1.51,
+    -0.22,
+    1.07,
+    1.37
+   ],
+   "frame_median_dv_kms": 0.88,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag_reiners2016",
+   "band": "VIS",
+   "lo_A": 4047.46,
+   "hi_A": 5001.1,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 4522.58,
+     "dv_kms": 3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    0.5,
+    2.16,
+    3.65
+   ],
+   "frame_median_dv_kms": 0.51,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "VIS",
+   "lo_A": 5001.1,
+   "hi_A": 6910.0,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 5872.98,
+     "dv_kms": 4.0
+    },
+    {
+     "wavelength_A": 5966.06,
+     "dv_kms": -3.8
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    4.0,
+    -3.83,
+    1.81
+   ],
+   "frame_median_dv_kms": 0.53,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    2.93,
+    -3.73
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7194.83,
+     "dv_kms": 3.2
+    },
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    3.2,
+    -3.68
+   ],
+   "frame_median_dv_kms": 0.58,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7194.83,
+     "dv_kms": 3.1
+    },
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.6
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    3.12,
+    -3.59
+   ],
+   "frame_median_dv_kms": 0.48,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10010.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "band": "NIR",
+   "lo_A": 9800.0,
+   "hi_A": 10796.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_rya794",
+   "band": "NIR",
+   "lo_A": 10280.0,
+   "hi_A": 10680.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_j_rya1219",
+   "band": "NIR",
+   "lo_A": 11159.94,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.08,
+   "frame_n_lines": 8,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_k_rya1219",
+   "band": "K",
+   "lo_A": 19452.42,
+   "hi_A": 24845.62,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  }
+ ],
+ "literature": {
+  "litscan": true,
+  "set_bib_keys": [
+   "storm2024_y_eu"
+  ],
+  "missing_bib_keys": []
+ },
+ "nlte_table": null,
+ "literature_needs": [],
+ "blocking": {
+  "nlte_missing": 0,
+  "adopt": 1,
+  "cull_candidates": 9,
+  "missing_solar_literature_lines": 0,
+  "holdings_frame": 0,
+  "literature": 0
+ },
+ "ready": false
+}

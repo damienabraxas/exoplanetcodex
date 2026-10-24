@@ -430,12 +430,12 @@
    "ep_eV": 0.826,
    "solar_literature": true,
    "authors_loggf": -1.197,
-   "authors_sigma_dex": 0.0414,
+   "authors_sigma_dex": 0.04,
    "authors_gf_source": "Blackwell2, as corrected by Grevesse89",
    "canonical_wavelength_A": 8426.507,
    "canonical_loggf": -1.197,
    "canonical_tier": "PUBLISHED-SET",
-   "canonical_sigma": 0.0414,
+   "canonical_sigma": 0.04,
    "d_loggf": 0.0
   },
   {
@@ -448,10 +448,10 @@
    "authors_sigma_dex": null,
    "authors_gf_source": "Blackwell2, as corrected by Grevesse89",
    "canonical_wavelength_A": 8435.653,
-   "canonical_loggf": -1.016,
-   "canonical_tier": "NIST-C+",
-   "canonical_sigma": 0.0414,
-   "d_loggf": 0.049
+   "canonical_loggf": -1.02,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.04,
+   "d_loggf": 0.053
   },
   {
    "set": "TI_AGSS21",
@@ -734,13 +734,18 @@
   },
   {
    "lab_source_tag": "NIST_ASD",
-   "n_graded_lines": 267,
+   "n_graded_lines": 244,
    "classified": true
   },
   {
    "lab_source_tag": "lawler2013",
    "n_graded_lines": 52,
    "classified": true
+  },
+  {
+   "lab_source_tag": "bw2006_ti1",
+   "n_graded_lines": 32,
+   "classified": false
   },
   {
    "lab_source_tag": "TI_AGSS21",
@@ -6338,7 +6343,15 @@
   },
   {
    "species": "Ti I",
+   "wavelength_A": 8307.421
+  },
+  {
+   "species": "Ti I",
    "wavelength_A": 8334.391
+  },
+  {
+   "species": "Ti I",
+   "wavelength_A": 8353.162
   },
   {
    "species": "Ti I",
@@ -7934,11 +7947,31 @@
   },
   {
    "species": "Ti I",
+   "wavelength_A": 15186.711400000002
+  },
+  {
+   "species": "Ti I",
    "wavelength_A": 15334.8465
   },
   {
    "species": "Ti I",
+   "wavelength_A": 15426.9686
+  },
+  {
+   "species": "Ti I",
    "wavelength_A": 15543.7583
+  },
+  {
+   "species": "Ti I",
+   "wavelength_A": 15698.9763
+  },
+  {
+   "species": "Ti I",
+   "wavelength_A": 15715.5727
+  },
+  {
+   "species": "Ti I",
+   "wavelength_A": 15836.7902
   },
   {
    "species": "Ti I",
@@ -7963,6 +7996,10 @@
   {
    "species": "Ti I",
    "wavelength_A": 22274.0067
+  },
+  {
+   "species": "Ti I",
+   "wavelength_A": 22443.8995
   },
   {
    "species": "Ti I",
@@ -8187,7 +8224,7 @@
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 38,
+   "graded_lines": 40,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -8209,7 +8246,7 @@
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 38,
+   "graded_lines": 40,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -8231,7 +8268,7 @@
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 38,
+   "graded_lines": 40,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -8375,12 +8412,13 @@
    "band": "H",
    "lo_A": 15007.11,
    "hi_A": 17493.69,
-   "graded_lines": 2,
-   "served": 2,
-   "tested": 2,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
+    -2.54,
     -0.38,
     -0.26
    ],
@@ -8394,9 +8432,9 @@
    "band": "H",
    "lo_A": 15007.11,
    "hi_A": 17493.69,
-   "graded_lines": 2,
-   "served": 2,
-   "tested": 2,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
@@ -8413,7 +8451,7 @@
    "band": "K",
    "lo_A": 19452.42,
    "hi_A": 24845.62,
-   "graded_lines": 12,
+   "graded_lines": 13,
    "served": 5,
    "tested": 5,
    "off_rest": [],
