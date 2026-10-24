@@ -482,6 +482,64 @@ def _deck_hold(d: RunDescriptor) -> str:
     return ""
 
 
+_LABEL_COUNTS: dict = {}
+
+
+def _nlte_label_hold(d: RunDescriptor) -> str:
+    """'' unless an in-transfer NLTE cell's band list labels NOT ONE line of its species in
+    its window (RYA-1251).
+
+    bsyn applies departures per labelled line, so such a cell can only fail inside derive
+    (`gerber_nlte.assert_linelist_supports_nlte`) -- 11 Mg IR/H cells FAILED that way in
+    RYA-1250. Known before dispatch, it is a HOLD with its reason, not a failure. The
+    VALD-built band lists are written unlabelled by design; labels arrive in the list's
+    `nlte_labels.tsv` sidecar (RYA-1250 fix), which this counts too, so the hold clears by
+    itself once a sidecar labels the species. The iSpec GES list is left to derive's own
+    per-window/per-pool guard (it labels most species, partially).
+    """
+    if d.engine_deck not in ("gerber-nlte", "gerber-mean3d"):
+        return ""
+    try:
+        import pandas as pd
+        from config import synth_bands as sb
+        from pipeline.species import parse_ion
+        mid = 0.5 * (d.lo_A + d.hi_A)
+        band = next((b for b in sb.SYNTH_BANDS.values() if b.lo_A <= mid <= b.hi_A), None)
+        if band is None or band.linelist_spec == sb.ISPEC_GES_V6:
+            return ""
+        path = band.linelist
+        species = f"{d.element} {parse_ion(d.ion)}"
+        key = (str(path), species, d.lo_A, d.hi_A)
+        if key not in _LABEL_COUNTS:
+            n_lines = n_lab = 0
+            for f, labelled in ((path, lambda t: (t.nlte_label_low.astype(str) != "none")
+                                 & (t.nlte_label_up.astype(str) != "none")),
+                                (path.parent / "nlte_labels.tsv",
+                                 lambda t: t["nlte"].astype(str) == "T")):
+                if not f.exists():
+                    continue
+                t = pd.read_csv(f, sep="\t", low_memory=False)
+                t = t[(t.element.astype(str).str.strip() == species)
+                      & (t.wave_A.astype(float) >= d.lo_A) & (t.wave_A.astype(float) <= d.hi_A)]
+                if f == path:
+                    n_lines = len(t)
+                try:
+                    n_lab += int(labelled(t).sum())
+                except (AttributeError, KeyError):
+                    pass
+            _LABEL_COUNTS[key] = (n_lines, n_lab)
+        n_lines, n_lab = _LABEL_COUNTS[key]
+    except Exception:                                          # noqa: BLE001
+        return ""          # cannot tell here: derive's own guard still refuses at run time
+    if n_lines and not n_lab:
+        return (f"ENGINE: {d.engine_deck} needs NLTE level labels, and none of the {n_lines} "
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A of "
+                f"{Path(path).parent.name} carries one (VALD-built lists are written "
+                f"unlabelled; labels come from that list's nlte_labels.tsv sidecar). The "
+                f"1D-LTE cells measure these lines.")
+    return ""
+
+
 def deck_host_ready(d: RunDescriptor) -> str:
     """'' when THIS host holds the deck's data; else NOT_READY's reason. The Gerber decks'
     model atom + aux tables are Sirius-only: on the Mac every gerber cell used to FAIL inside
@@ -562,7 +620,7 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 r['species'] == f'{d.element} {d.ion}' and d.lo_A <= r['wavelength_A'] <= d.hi_A
                 for r in report.get('route_requirements', [])):
             return 'PROCESS step 7: registered lines require synthesis'
-    deck_hold = _deck_hold(d)
+    deck_hold = _deck_hold(d) or _nlte_label_hold(d)
     if deck_hold:
         return deck_hold
     p = preflight()

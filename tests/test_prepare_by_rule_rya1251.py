@@ -135,3 +135,25 @@ def test_a_sigma_alone_never_holds_a_measurement():
     rep = _report(sigma_only=[{"species": "Na I", "wavelength_A": 5500.0}])
     rm._RULE_PLAN_ASSUMED.clear()
     assert rm.preparation_hold_for_cell(rep, _cell()) == ""
+
+
+def test_an_nlte_cell_with_no_labelled_line_is_held_not_failed(tmp_path, monkeypatch):
+    from dataclasses import replace
+    from config import synth_bands as sb
+    lst = tmp_path / "ispec_x" / "atomic_lines.tsv"
+    lst.parent.mkdir()
+    lst.write_text("element\twave_A\tnlte_label_low\tnlte_label_up\n"
+                   "Na 1\t10746.4\tnone\tnone\nFe 1\t10750.0\t3d6\t4p\n")
+    band = replace(next(iter(sb.SYNTH_BANDS.values())), lo_A=10000.0, hi_A=11000.0,
+                   linelist_spec=str(lst))
+    monkeypatch.setattr(sb, "SYNTH_BANDS", {"x": band})
+    rm._LABEL_COUNTS.clear()
+    d = rm.RunDescriptor(element="Na", ion="I", instrument="i", holding="h", lo_A=10000.0,
+                         hi_A=11000.0, engine_deck="gerber-nlte", method="synthesis",
+                         pool="graded", star="solar")
+    assert "none of the 1 Na I lines" in rm._nlte_label_hold(d)
+    assert rm._nlte_label_hold(replace(d, engine_deck="gerber-1d-lte")) == ""
+    # a sidecar that labels the line clears the hold by itself
+    (lst.parent / "nlte_labels.tsv").write_text("element\twave_A\tnlte\nNa 1\t10746.4\tT\n")
+    rm._LABEL_COUNTS.clear()
+    assert rm._nlte_label_hold(d) == ""
