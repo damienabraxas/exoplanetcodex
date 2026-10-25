@@ -158,6 +158,10 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                 "solar_iag": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                               ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
+                #: RYA-1251: the IAG Reiners 2016 blue-arm holding was missing here (KeyError
+                #: held every Reiners product); KP's two reductions are independent of it.
+                "solar_iag_reiners2016": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
+                                          ("kpno_solar_atlas", "solar_kpno_molecfit_corrected")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                    ("iag_fts_solar_atlas", "solar_iag")],
                 #: RYA-1233: the Elgueta CRIRES+ Y products (9800-10796 A). Independent
@@ -189,6 +193,13 @@ _OWN_SKY = {"solar_crires_plus_h_rya1232":
             "solar_crires_plus_k_rya1219":
             "data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv"}
 OWN_SKY_EDGE = 0.01
+#: RYA-1251 -- a holding no independent correction covers ANYWHERE (K) is bounded as the CN
+#: route bounds it (RYA-1232): its own molecfit sky absorption x the residual/absorption ratio
+#: MEASURED on the J arm (same instrument, night and RYA-1219 molecfit pipeline). The value is
+#: the one data/results/rya1232/cno_publish records ("BOUNDED by j_cn_crires's measured
+#: residual/absorption ratio 0.1632").
+_RATIO_FROM = {"solar_crires_plus_k_rya1219":
+               ("the J arm's measured residual/absorption ratio (RYA-1232 CN budget)", 0.1632)}
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -212,15 +223,16 @@ def _full_span(H, inst, hold):
     return _SPAN[(inst, hold)]
 
 
-def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
+def _telluric_own_sky(instrument, holding, w0, hw, sky_of=None, independent=None) -> dict:
     import measure_band_ew as H
-    if holding not in _OWN_SKY_CACHE:
-        _OWN_SKY_CACHE[holding] = pd.read_csv(ROOT / _OWN_SKY[holding])
-    d = _OWN_SKY_CACHE[holding]
+    sky_of = sky_of or holding
+    if sky_of not in _OWN_SKY_CACHE:
+        _OWN_SKY_CACHE[sky_of] = pd.read_csv(ROOT / _OWN_SKY[sky_of])
+    d = _OWN_SKY_CACHE[sky_of]
     g = np.linspace(w0 - hw, w0 + hw, 400)
     t = np.interp(g, d["wavelength_air_A"], d["min_mtrans"])
     P = (1.0 - t) > OWN_SKY_EDGE
-    ev = {"sky_pair": f"{holding} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
+    ev = {"sky_pair": f"{sky_of} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
           "clean_window_null": 0.0, "sky_baseline": 1.0, "n_px": int(g.size),
           "n_telluric_px": int(P.sum()), "max_depth": float(max(0.0, 1.0 - t.min()))}
     if not P.any():
@@ -228,8 +240,12 @@ def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
         ev["sky_absorption"] = 0.0
         return ev
     ev["sky_absorption"] = float(np.mean(np.clip(1.0 - t[P], 0, None)) * P.mean())
-    own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
-    for ind_inst, ind in _INDEPENDENT[holding]:
+    if sky_of == holding:
+        own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
+    else:
+        x = _full_span(H, instrument, holding)
+        own = np.interp(g, x.wave, x.flux)
+    for ind_inst, ind in (independent if independent is not None else _INDEPENDENT.get(holding, [])):
         try:
             x = H.load_window_ex(ind_inst, w0, hw + 0.5, holding=ind, allow_uncorrected=True)
         except LookupError:
@@ -253,7 +269,17 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
         # mtrans of our Vesta IDPs) and the independent correction is our molecfit.
         from pipeline.crires_h_sky import telluric_line as _h
-        return _h(w0, hw)
+        ev = _h(w0, hw)
+        if ev.get("residual_flux") is None and ev.get("sky_absorption") is None:
+            #: RYA-1251: past the Vesta IDP segments (Na I 17038), the sky is our full-arm H
+            #: molecfit model (rya1232, 14943-17585 A) and the same night's rya1232 reduction
+            #: is the independent correction -- the pairing rya1232 already uses the other way.
+            ev = _telluric_own_sky(instrument, holding, w0, hw,
+                                   sky_of="solar_crires_plus_h_rya1232",
+                                   independent=[("crires_plus", "solar_crires_plus_h_rya1232")])
+            ev["residual_basis"] = ev.get("residual_basis", "") + \
+                " (sky = rya1232 molecfit model: no Vesta IDP segment covers this line)"
+        return ev
     import measure_band_ew as H
     from pipeline import telluric_observability as T
     if holding in _OWN_SKY:
@@ -324,7 +350,7 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         return ev
     raw_f = flux(sky_inst, raw)
     ref = None
-    for ind_inst, ind in _INDEPENDENT[holding]:
+    for ind_inst, ind in _INDEPENDENT.get(holding, []):
         try:
             cand = flux(ind_inst, ind)
         except Exception:                                    # noqa: BLE001 -- not staged / no coverage
@@ -787,6 +813,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 #: on this product's covered lines. No covered ratio -> still unresolved.
                 ratios = [e["residual_flux"] / e["sky_absorption"] for _, _, e in evs
                           if e.get("residual_flux") is not None and (e.get("sky_absorption") or 0) > 0]
+                transferred = None
+                if not ratios and holding in _RATIO_FROM:
+                    transferred, r_ = _RATIO_FROM[holding]
+                    ratios = [r_]
                 for l, dadf, ev in evs:
                     if ev.get("residual_flux") is None:
                         if not ratios:
@@ -796,14 +826,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                             break
                         ev = dict(ev, residual_flux=ev["sky_absorption"] * max(ratios),
                                   residual_basis=(ev["residual_basis"] + "; BOUNDED: own sky "
-                                                  f"absorption x worst covered ratio {max(ratios):.3f} "
-                                                  f"(n={len(ratios)} covered lines)"))
+                                                  + (f"absorption x {transferred} {max(ratios):.4f}"
+                                                     if transferred else
+                                                     f"absorption x worst covered ratio {max(ratios):.3f} "
+                                                     f"(n={len(ratios)} covered lines)")))
                     s = abs(dadf) * ev["residual_flux"]
                     per.append({"wavelength_air_A": float(l.wavelength_air_A), "dA_df": dadf,
                                 "sigma_line_dex": s, **ev})
                     tot += (s / n) ** 2
             if per is not None:
-              comps.append(dict(name="telluric", sigma_dex=math.sqrt(tot), state="MEASURED",
+              #: a BOUNDED line (no independent correction) makes the term DEFINED, as the CN
+              #: route labels it (RYA-1232) -- the sigma is a bound, not a measurement
+              bounded = any("BOUNDED" in (e.get("residual_basis") or "") for e in per)
+              comps.append(dict(name="telluric", sigma_dex=math.sqrt(tot),
+                              state="DEFINED" if bounded else "MEASURED",
                               source=("per-line measured sky depth -> measured residual of this "
                                       "holding vs an independent correction on the telluric "
                                       "pixels -> dex via the line's own dA/df (+0.1% leg); "

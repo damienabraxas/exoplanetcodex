@@ -345,3 +345,17 @@ def test_a_deep_hfs_split_line_is_modelled_when_its_components_are_synthesised(t
     assert ev and ev["lines"]["5688.210"]["n_components_in_synthesis"] == 3
     assert ev["lines"]["5688.210"]["max_component_depth"] > 0.10
     assert cb._hfs_modelled_evidence(pd.DataFrame([row(5688.21, 2.104), row(6154.23, 2.102)])) is None
+
+
+def test_every_corrected_holding_has_a_telluric_route():
+    """RYA-1251: telluric correction is done for every holding; the budget must be able to
+    price it. Reiners 2016 was missing (KeyError), K had no route to the J arm's measured
+    ratio, and the H rya1094 lines past the Vesta IDP segments had no sky."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import rya1230_cno_budget as cb
+    assert [i for _, i in cb._INDEPENDENT["solar_iag_reiners2016"]] == [
+        "solar_kpno_kurucz2005_corrected", "solar_kpno_molecfit_corrected"]
+    assert cb._RATIO_FROM["solar_crires_plus_k_rya1219"][1] == 0.1632
+    assert "solar_crires_plus_h_rya1232" in cb._OWN_SKY

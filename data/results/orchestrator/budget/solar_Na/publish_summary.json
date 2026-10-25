@@ -427,8 +427,11 @@
   "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=6.206",
   "VIS solar_harps_molecfit_corrected DEEPGRADED 1D-LTE A=6.228",
   "VIS solar_harps_molecfit_corrected SET-NA_AGSS21 1D-LTE A=6.278",
+  "VIS solar_iag_reiners2016 GRADED synth-1D-LTE-gerber A=6.353",
   "VIS solar_iag_reiners2016 SET-NA_AGSS21 synth-1D-LTE-gerber A=6.401",
+  "VIS solar_iag_reiners2016 GRADED ENGINE-B-NLTE A=6.347",
   "VIS solar_iag_reiners2016 SET-NA_AGSS21 ENGINE-B-NLTE A=6.391",
+  "VIS solar_iag_reiners2016 GRADED 1D-LTE A=6.354",
   "VIS solar_iag_reiners2016 SET-NA_AGSS21 1D-LTE A=6.394",
   "VIS solar_iag GRADED synth-1D-LTE-gerber A=6.292",
   "VIS solar_iag DEEPGRADED synth-1D-LTE-gerber A=6.207",
@@ -455,21 +458,13 @@
   "NIR solar_crires_plus_y_wide_rya1054 GRADED synth-1D-LTE-gerber A=6.122",
   "NIR solar_crires_plus_y_wide_rya1054 GRADED 1D-LTE A=6.123",
   "NIR solar_crires_plus_j_rya1219 GRADED synth-1D-LTE-gerber A=6.215",
-  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=6.213"
+  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=6.213",
+  "H solar_crires_plus_h_rya1094 GRADED synth-1D-LTE-gerber A=5.803",
+  "H solar_crires_plus_h_rya1094 GRADED 1D-LTE A=5.796",
+  "K solar_crires_plus_k_rya1219 GRADED synth-1D-LTE-gerber A=5.899",
+  "K solar_crires_plus_k_rya1219 GRADED 1D-LTE A=5.898"
  ],
  "held": [
-  {
-   "product": "VIS solar_iag_reiners2016 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: telluric"
-  },
-  {
-   "product": "VIS solar_iag_reiners2016 GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: telluric"
-  },
-  {
-   "product": "VIS solar_iag_reiners2016 GRADED 1D-LTE",
-   "why": "unresolved components: telluric"
-  },
   {
    "product": "red-optical solar_iag GRADED ENGINE-B-NLTE",
    "why": "unresolved components: continuum, stellar.xi"
@@ -483,28 +478,12 @@
    "why": "unresolved components: continuum"
   },
   {
-   "product": "H solar_crires_plus_h_rya1094 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: telluric"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "unresolved components: telluric"
-  },
-  {
    "product": "H solar_crires_plus_h_rya1232 GRADED synth-1D-LTE-gerber",
    "why": "unresolved components: continuum, profile_ew"
   },
   {
    "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
    "why": "unresolved components: continuum, profile_ew"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: telluric"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "unresolved components: telluric"
   }
  ],
  "legs_incomplete": [],
@@ -514,19 +493,19 @@
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 63,
+  "n_products_judged": 70,
   "counts": {
    "IN_BAND": 16,
-   "OUT_OF_BAND": 47,
+   "OUT_OF_BAND": 54,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 63
+  "n_scale_mismatch": 70
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 63,
-   "HELD": 385,
+   "PUBLISHED": 70,
+   "HELD": 378,
    "NOT_RUN": 0,
    "STALE": 0
   },

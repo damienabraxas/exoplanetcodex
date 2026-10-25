@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Na",
- "feed_version": "1.65",
+ "feed_version": "1.74",
  "counts": {
-  "PUBLISHED": 63,
-  "HELD": 385,
+  "PUBLISHED": 70,
+  "HELD": 378,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -1655,11 +1655,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.353,
+   "sigma": 0.1285122358861358,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -1811,11 +1811,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.347,
+   "sigma": 0.1285082916478572,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -1863,11 +1863,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.354,
+   "sigma": 0.1372371661266841,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -5022,11 +5022,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.803,
+   "sigma": 0.9269368840639371,
+   "n_lines": 3
   },
   {
    "band": "H",
@@ -5178,11 +5178,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.796,
+   "sigma": 0.8812030652043236,
+   "n_lines": 3
   },
   {
    "band": "H",
@@ -5568,11 +5568,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.899,
+   "sigma": 0.1848876496220594,
+   "n_lines": 7
   },
   {
    "band": "K",
@@ -5724,11 +5724,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: telluric",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.898,
+   "sigma": 0.1882215378605571,
+   "n_lines": 7
   },
   {
    "band": "K",
