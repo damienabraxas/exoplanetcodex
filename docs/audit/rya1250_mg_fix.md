@@ -53,17 +53,32 @@ Ryan's definition (2026-10-21): Reference Grade = the AGSS21 set plus any lab-re
 | red-optical | IAG, KP x2 | 7657.6 7659.15 7659.90 8712 8717 8806 8923; Mg II 7877 7896 |
 | NIR | IAG (<10000), KP, CRIRES Y-wide/Y/J | 9255.8 9983 10312 10811 10965 11828 12083.66; Mg II 9218 9244 10092x2 10914 |
 | H | CRIRES H x2 | 15025 15040 15048 15765.6 15765.8 15879 15886 15889 (15748 culled) |
-| K | CRIRES K | none -- declared gap, see below |
+| K | CRIRES K | 24566.30 (PR17 exp, see below) |
 
 Coverage notes: 10811/10914/10965 fall between CRIRES Y-wide (to 10796 A) and J (from 11160 A),
 so only the KP atlas serves them. PR17's 14877-14878 lab lines lie between J and H, where no
 holding exists.
 
-**K, attempted.** PR17 Table 2 measures one K line, 4d 1D2 - 5f 1F3 at 24572.92 A vacuum
-(24566.2 A air), log gf -0.391 +/- 0.06. VALD carries three components on the same lower level and
-a single, near-degenerate 5f upper level (24565.585 +0.11, 24565.821 -0.87, 24566.296 -0.225),
-and PR17 measured only one of them. Its identity among them is ambiguous, so it is not adopted.
-Civis+2013 K lines carry no per-line gf error.
+**K.** PR17 Table 2 measures one K line, 4d 1D2 - 5f 1F3 at 24572.92 A vacuum, log gf
+-0.391 +/- 0.06 (experimental; no PR17 theory value). NIST ASD (T5539) identifies the same
+transition as 24566.30 A air, grade A, -0.225, which settles the identity among VALD's three
+components on that level pair. Adopted at PR17's value (Reference Grade = lab gf). The other
+two VALD rows are Kurucz intercombination lines to 5f 3F; the strongest, 24565.585 at +0.110,
+would dominate the feature, but the CRIRES+ K spectrum shows only a 9% shoulder there against
+22% at 24566.37 -- the 12083 pattern (PR17 refuted VALD's +0.45 at 12083.278). Kept at VALD,
+since no measured value exists; read the fit residual. Civis+2013 K lines carry no per-line gf
+error.
+
+**Literature (2026-10-24).** Amarsi & Grevesse 2026 (arXiv 2608.23155) recommend
+A(Mg) = 7.56 +/- 0.03: A21's Mg I lines plus only the three Mg II lines with the least severe
+departures from LTE. They add no IR line. Nandakumar+2023 (IGRINS I, A&A 675 A23) measure Mg
+from K 21059.76 / 21060.89 / 21458.87 and drop H 15740 / 15748 as saturated.
+
+**NIST grades for the IR (Codex / Deep pools).** The IR Mg rows were seeded from VALD and never
+matched to NIST, so K offered two gf-graded lines. `scripts/rya1250_mg_ir_nist_grades.py`
+writes NIST's accuracy class onto 49 Y/J/H/K rows whose gf already IS NIST's value (or whose
+dominant cluster component is, the 19723 precedent); gf unchanged; NIST rows frozen in
+`data/reference/nist/mg_ir_rya1250.csv`. gf-graded lines: Y/J 29, H 23, K 23 (was 2).
 
 ## Code guards (all elements)
 
@@ -108,6 +123,16 @@ an element that has rows there.
 Not done: Fe IR/H could gain 12 / 296 lines -- that changes published Fe products (Ryan's
 call). The near-UV list is regenerated per checkout and not built in the production clone,
 so it has no sidecar.
+
+## Parallel Gerber runs shared one departure file
+
+Run 2's budget assembly died on IAG red-optical `SET-MG_BERGEMANN2017` gerber-nlte (8806 only):
+its xi-0.1 leg reported "interpol_modeles_nlte produced no departure file"; re-run alone it gives
+7.496. `gerber_nlte.for_node` defaulted to a host-wide `/tmp/rya798_gerber`, where every process
+deletes, writes and reads `solar_<El>_coef.dat`; under `--jobs 4` a sibling deleted the file, and
+could as easily have been read at its own trial abundance with no error. Exposed: the
+abundance-axis 1D decks (Mg, Al). Fe 1D interpolates at one fixed A(X), so a sibling's file is
+identical; the <3D> decks read directly. Now one directory per process (`default_workdir`).
 
 ## Not changed, for Ryan
 

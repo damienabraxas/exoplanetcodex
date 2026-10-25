@@ -106,6 +106,12 @@ FEATURES = [
     ("gf_172829", "Mg I", [(15040.246, 0.113, 0.04)], "LAB", "PR2017_exp", PR17, "exp"),
     ("gf_172836", "Mg I", [(15047.714, -0.364, 0.04)], "LAB", "PR2017_exp", PR17, "exp (PR17 15047.705)"),
     ("gf_173518", "Mg I", [(15889.521, -1.876, 0.08)], "LAB", "PR2017_exp", PR17, "exp (PR17 15889.485)"),
+    # K: 4d1D2-5f1F3, PR17 24572.92 vac. NIST ASD (T5539) grades the same transition A at
+    # -0.225, 0.17 dex stronger. VALD's 24565.585 (+0.110, 4d1D2-5f3F3, Kurucz) would be the
+    # strongest line of the feature; the CRIRES+ K spectrum shows only a 9% shoulder there
+    # against 22% at 24566.37, the 12083 pattern. Kept at VALD; read the fit's residual.
+    ("gf_179143", "Mg I", [(24566.296, -0.391, 0.06)], "LAB", "PR2017_exp", PR17,
+     "exp (PR17 24572.92 vac); NIST A -0.225"),
 ]
 #: Features whose source lists only SOME of the cluster's transitions; every other feature is a
 #: complete published list (AGSS21 feature totals, Bergemann's full multiplets), so VALD-only
@@ -191,10 +197,19 @@ def main() -> int:
     new = []
     from pipeline.physical_line_id import physical_id
     for j, (w, g) in enumerate(MG2_10092):
-        r = list(r0) if j else r0
-        if j:
+        # A re-run finds the component row it added before (the docstring's idempotence:
+        # appending each time stacked duplicate 10092.217 rows, RYA-1250 2026-10-24).
+        prev = [x for x in body if x[0] != r0[0] and x[col["species"]] == "Mg II"
+                and abs(float(x[col["wavelength_air_A"]]) - w) < 1e-4]
+        if j and prev:
+            r = prev[0]
+            body = [x for x in body if x not in prev[1:]]
+        elif j:
+            r = list(r0)
             r[0] = f"gf_{nxt:06d}"
             new.append(r)
+        else:
+            r = r0
         put(r, wavelength_air_A=w, log_gf=round(g + shift, 3), hfs_n_components=1,
             physical_id=physical_id("Mg II", w, 11.6297), gf_sigma_dex=MG2_10092_SIGMA,
             gf_linelist_vald=g, adjudication_status="rya1250_fix_component_of_agss21_feature",
