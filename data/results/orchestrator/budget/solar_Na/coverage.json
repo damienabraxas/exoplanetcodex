@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Na",
- "feed_version": "1.74",
+ "feed_version": "1.108",
  "counts": {
-  "PUBLISHED": 70,
-  "HELD": 378,
+  "PUBLISHED": 94,
+  "HELD": 354,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -135,7 +135,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1:   LAB-tier lines in band : 2 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 2   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded pool -- use --lines-deep-graded, and say which selection the product used.",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -147,11 +147,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.671,
+   "sigma": 0.1630714257741066,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -161,7 +161,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 2 Na I lines in 3000-3780 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -408,7 +408,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1:   LAB-tier lines in band : 2 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 2   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded pool -- use --lines-deep-graded, and say which selection the product used.",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -420,11 +420,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.437,
+   "sigma": 0.1857538457636879,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -434,7 +434,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 10 Na I lines in 3000-3780 A of ispec_nearuv_3000_3780 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 2 Na I lines in 3000-3780 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -786,9 +786,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.207,
-   "sigma": 0.1223806755799045,
-   "n_lines": 2
+   "A": 6.248,
+   "sigma": 0.0591313066925908,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -797,11 +797,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.287,
+   "sigma": 0.0630266288539349,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -837,7 +837,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -901,11 +901,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.248,
+   "sigma": 0.0586726009536535,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -914,11 +914,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.287,
+   "sigma": 0.0599561918070185,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -1086,7 +1086,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.263,
-   "sigma": 0.0661428271239255,
+   "sigma": 0.0661711687968824,
    "n_lines": 16
   },
   {
@@ -1150,9 +1150,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.196,
-   "sigma": 0.1139512522414467,
-   "n_lines": 2
+   "A": 6.252,
+   "sigma": 0.0588716043763026,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -1161,11 +1161,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.291,
+   "sigma": 0.0622654548759894,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -1201,7 +1201,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1265,11 +1265,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.252,
+   "sigma": 0.0575666330785464,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -1278,11 +1278,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.291,
+   "sigma": 0.0589044119230469,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -1489,7 +1489,7 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.259,
-   "sigma": 0.1139511914052094,
+   "sigma": 0.1138985251119024,
    "n_lines": 4
   },
   {
@@ -1514,9 +1514,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.206,
-   "sigma": 0.1141108989334226,
-   "n_lines": 2
+   "A": 6.226,
+   "sigma": 0.0934398916381811,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -1525,11 +1525,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.264,
+   "sigma": 0.0938711779232137,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -1565,7 +1565,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1629,11 +1629,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.226,
+   "sigma": 0.1199196568651971,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -1642,11 +1642,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.264,
+   "sigma": 0.1186798702504625,
+   "n_lines": 4
   },
   {
    "band": "VIS",
@@ -1876,11 +1876,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.362,
+   "sigma": 0.0717362405613997,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -1889,11 +1889,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.386,
+   "sigma": 0.0727329925816545,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -1993,11 +1993,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.362,
+   "sigma": 0.0717362405613997,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -2006,11 +2006,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.386,
+   "sigma": 0.0727329925816545,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -2242,9 +2242,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.212,
-   "sigma": 0.1189886013674999,
-   "n_lines": 2
+   "A": 6.246,
+   "sigma": 0.0631498032845581,
+   "n_lines": 5
   },
   {
    "band": "VIS",
@@ -2253,11 +2253,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.281,
+   "sigma": 0.0691495609152881,
+   "n_lines": 5
   },
   {
    "band": "VIS",
@@ -2293,7 +2293,7 @@
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2357,11 +2357,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.246,
+   "sigma": 0.0558224474800834,
+   "n_lines": 3
   },
   {
    "band": "VIS",
@@ -2370,11 +2370,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.281,
+   "sigma": 0.0600995107985267,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2566,7 +2566,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2839,7 +2839,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3112,7 +3112,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: nlte",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3320,7 +3320,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded pool -- use --lines-deep-graded, and say which selection the product used.",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3333,7 +3333,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3346,7 +3346,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 1 Na I lines in 9199-10000 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3593,7 +3593,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10010 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded pool -- use --lines-deep-graded, and say which selection the product used.",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3606,7 +3606,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10010 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3619,7 +3619,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 1 Na I lines in 9199-10010 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 1 Na I lines in 9199-10010 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3904,11 +3904,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 30 Na I lines in 9199-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.232,
+   "sigma": 0.1608487638789064,
+   "n_lines": 3
   },
   {
    "band": "NIR",
@@ -3918,7 +3918,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 30 Na I lines in 9199-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3931,7 +3931,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 30 Na I lines in 9199-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 7 Na I lines in 9199-13000 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3943,11 +3943,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 30 Na I lines in 9199-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.266,
+   "sigma": 0.181595380641686,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -4086,11 +4086,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.295,
+   "sigma": 0.0489934403923783,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -4099,11 +4099,11 @@
    "grade": "Reference Grade",
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.328,
+   "sigma": 0.0516972649323108,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -4268,11 +4268,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 7 Na I lines in 9800-10796 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.108,
+   "sigma": 0.2274352750034488,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -4282,7 +4282,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 7 Na I lines in 9800-10796 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4295,7 +4295,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 7 Na I lines in 9800-10796 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 2 Na I lines in 9800-10796 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4308,7 +4308,7 @@
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 7 Na I lines in 9800-10796 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "budget: unresolved components: continuum",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4451,7 +4451,7 @@
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: continuum",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4464,7 +4464,7 @@
    "pool": "set:NA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: continuum",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4866,11 +4866,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 21 Na I lines in 11159.9-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.196,
+   "sigma": 0.3594902280785946,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -4880,7 +4880,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 21 Na I lines in 11159.9-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4893,7 +4893,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 21 Na I lines in 11159.9-13000 A of ispec_ir_9200_13000 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 4 Na I lines in 11159.9-13000 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5140,7 +5140,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "budget: unresolved components: profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5153,7 +5153,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5166,7 +5166,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 10 Na I lines in 15007.1-17493.7 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5413,7 +5413,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "budget: unresolved components: continuum, profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5426,7 +5426,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5439,7 +5439,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 48 Na I lines in 15007.1-17493.7 A of ispec_h_15007_17494 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 10 Na I lines in 15007.1-17493.7 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5686,7 +5686,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 141 Na I lines in 19452.4-24845.6 A of ispec_k_19452_24846 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "budget: unresolved components: profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5699,7 +5699,7 @@
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 141 Na I lines in 19452.4-24845.6 A of ispec_k_19452_24846 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "HELD: PROCESS step 7 (graded lines): pool empty or too small -- derive_products: exit 1: no graded line in this band sits above the EW depth gate",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5712,7 +5712,7 @@
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "ENGINE: gerber-nlte needs NLTE level labels, and none of the 141 Na I lines in 19452.4-24845.6 A of ispec_k_19452_24846 carries one (VALD-built lists are written unlabelled; labels come from that list's nlte_labels.tsv sidecar). The 1D-LTE cells measure these lines.",
+   "reason": "PROCESS step 7 (graded lines): none of the 20 Na I lines in 19452.4-24845.6 A carries a LAB-tier gf, so no reference pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
