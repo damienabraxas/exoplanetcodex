@@ -1,5 +1,12 @@
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-24 — RYA-1268 / RYA-1270 landed
+
+> **Current as of `main` 2667aa13** (2026-10-24, RYA-1270).
+
+- **RYA-1268** — `e12f8e1e` PR #591 (`8a4c162f`, `60d3b438`, `71bd3d38`). Reference Grade line lists for all 20 remaining elements: 21 Asplund sets registered (271 lines, 178 with a per-line gf sigma, 55 before); lab gf from CDS VizieR Lawler/Wood tables (3,172 lines); `canonical_gf` 3,961 rows with lab or NIST A..C gf + sigma; 199 lines with a > 0.5 dex gf conflict HELD (`held_large_gf_moves.csv`), 32 corrupt NIST rows refused. Orchestrator prepare: P and Zr READY, the rest blocked on cull yes/no. Later commits: IR + near-UV literature sweep, Sc HFS gf fix, HFS-aware band census; Eu AGSS21 set (Lawler 2001 Table 6) + sigma; Zn target; AG26 litscans. Restores FE_AGSS21 + Fe/NIST `gf_error_model` rows dropped by the RYA-1250 merge; `element_publish.py` reference-pool / supersede-scope code NOT restored (belongs on RYA-1232). Tests: 21 failed / 1213 passed on 86 related files, identical set to main.
+- **RYA-1270** — `2667aa13` PR #592 (`ac2763d6`; site #61). Roadmap counts elements: the generator derives the solar note from the store; the pinned test failed on main and passes. Full suite 36 failed vs main's 37, none new. Site: "N / 27 elements", Sun 7/27; Origin intro says two years, not a semester.
+
 ## 2026-10-18 — pending RYA-1250 branch
 
 - **RYA-1250** — Models and five Mg II gf updates applied; shared cited solar correction route and synthesis dispositions in use. Mg I + II run active; no new test failures; drafts science #585/site #55.
