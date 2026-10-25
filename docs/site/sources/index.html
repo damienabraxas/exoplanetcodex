@@ -28,6 +28,12 @@
     .src-stat { flex:1 1 140px; background:var(--deep); padding:1rem 1.2rem; }
     .src-stat b { display:block; font-family:var(--mono); font-size:1.5rem; color:var(--accent); font-weight:400; line-height:1.2; }
     .src-stat span { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dim); }
+    .src-search { margin:0 0 1.5rem; }
+    .src-meta, .src-link { overflow-wrap:anywhere; }
+    .src-search label { display:block; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent-warm); margin-bottom:0.5rem; }
+    .src-search input { width:100%; max-width:640px; box-sizing:border-box; background:var(--deep); color:var(--text-bright); border:1px solid var(--rim); padding:0.7rem 0.9rem; font-family:var(--mono); font-size:0.85rem; }
+    .src-search input:focus { outline:none; border-color:var(--accent); }
+    .src-q-count { font-family:var(--mono); font-size:0.7rem; color:var(--text-dim); margin:0.5rem 0 0; min-height:1em; }
     .src-toc { display:flex; flex-wrap:wrap; gap:0.5rem 1.2rem; margin:0 0 3rem; padding:1.2rem 0 0; border-top:1px solid var(--rim); }
     .src-toc a { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.05em; color:var(--text-dim); text-decoration:none; }
     .src-toc a:hover { color:var(--accent); }
@@ -66,8 +72,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : 8efa4ef9775aaa2155c709c5f5bd8558a20b73e9a680c0b578a1f4904d078a18
-     rows      : 131
+     sha256    : 411f2238b1be7d6708343b5f6ed869e74d53a49a4a6b20bfdc47efbb91d96472
+     rows      : 206
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,30 +104,75 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>131</b><span>references</span></div>
-    <div class="src-stat"><b>128</b><span>with verified link</span></div>
-    <div class="src-stat"><b>3</b><span>unconfirmed link</span></div>
-    <div class="src-stat"><b>69</b><span>held locally</span></div>
+    <div class="src-stat"><b>206</b><span>references</span></div>
+    <div class="src-stat"><b>201</b><span>with verified link</span></div>
+    <div class="src-stat"><b>5</b><span>unconfirmed link</span></div>
+    <div class="src-stat"><b>119</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
+  <div class="src-search">
+    <label for="src-q">Search the bibliography</label>
+    <input id="src-q" type="search" autocomplete="off" placeholder="Author, year, element, journal, topic...">
+    <p id="src-q-count" class="src-q-count" aria-live="polite"></p>
+  </div>
   <div class="src-toc">
-    <a href="#solar_reference">Solar reference scales &amp; atlases (12)</a>
-    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (55)</a>
-    <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
-    <a href="#nlte">Non-LTE departures (12)</a>
+    <a href="#solar_reference">Solar reference scales &amp; atlases (28)</a>
+    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (89)</a>
+    <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (2)</a>
+    <a href="#nlte">Non-LTE departures (20)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
-    <a href="#model_atmosphere">Model atmospheres (3)</a>
+    <a href="#model_atmosphere">Model atmospheres (4)</a>
     <a href="#benchmark_params">Benchmark stellar parameters (15)</a>
-    <a href="#instrument_line_selection">Instruments &amp; line selection (5)</a>
-    <a href="#cno">Carbon, nitrogen &amp; oxygen (8)</a>
+    <a href="#instrument_line_selection">Instruments &amp; line selection (8)</a>
+    <a href="#cno">Carbon, nitrogen &amp; oxygen (10)</a>
+    <a href="#nitrogen_method">Nitrogen &mdash; method literature (7)</a>
     <a href="#motivation">Why this project exists (7)</a>
-    <a href="#method_tool">Methods, codes &amp; tools (6)</a>
-    <a href="#project_doc">Exoplanet Codex documents (6)</a>
+    <a href="#method_tool">Methods, codes &amp; tools (11)</a>
+    <a href="#project_doc">Exoplanet Codex documents (4)</a>
   </div>
   <section class="src-section" id="solar_reference">
-    <h2>Solar reference scales &amp; atlases<span class="src-count">12</span></h2>
+    <h2>Solar reference scales &amp; atlases<span class="src-count">28</span></h2>
     <p class="src-blurb">The abundance scales every Codex measurement is referenced against, and the solar spectra used as the observational anchor.</p>
     <ul class="src-list">
+      <li class="src-entry" id="amarsi2017_si">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Asplund, M. (2017). <em>The solar silicon abundance based on 3D non-LTE calculations</em>. MNRAS 464, 264-273.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/stw2445" target="_blank" rel="noopener">10.1093/mnras/stw2445 &#8599;</a></div>
+        <p class="src-role">Solar Si anchor A(Si)=7.51+/-0.03 (3D-NLTE; Table 1 line set with Garz 1973 +0.097 dex gf). Litscan band for Si (data/reference/litscan/Si.yaml).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-725; RYA-1169; RYA-1218; RYA-1233</span> &middot; <span class="src-local">local copy: 1609.07283v1.pdf (per RYA-1218)</span> &middot; <span class="src-key">amarsi2017_si</span></div>
+      </li>
+      <li class="src-entry" id="amarsi_grevesse2026">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Grevesse, N. (2026). <em>Solar chemical composition</em>. arXiv 2608.23155.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2608.23155" target="_blank" rel="noopener">https://arxiv.org/abs/2608.23155 &#8599;</a></div>
+        <p class="src-role">AGSS21 successor: Table 3 recommended photospheric abundances (litscan corroborating entry for the RYA-1268 elements).</p>
+        <p class="src-note">arXiv preprint</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Amarsi_Grevesse_2026_solar_composition_2608.23155.pdf</span> &middot; <span class="src-key">amarsi_grevesse2026</span></div>
+      </li>
+      <li class="src-entry" id="amarsi2021_molecular_cno">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Grevesse, N.; Asplund, M.; Collet, R. (2021). <em>The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines</em>. A&amp;A 656, A113.</span>
+          <span class="src-verified src-v-source_table_verified" title="Metadata checked AND the specific table the Codex uses was inspected in the paper.">TABLE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202141384" target="_blank" rel="noopener">10.1051/0004-6361/202141384 &#8599;</a></div>
+        <p class="src-role">CN A-X (0-0) and infrared NH groups; coupled CNO equilibrium and atmospheric/group covariance; 1D comparison and full 3D benchmarks.</p>
+        <p class="src-note">User-supplied publisher PDF; title/authors/DOI and source tables inspected 2026-09-14. Original bytes preserved.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220; RYA-1214</span> &middot; <span class="src-local">local copy: Reference documents/Amarsi21.pdf</span> &middot; <span class="src-key">amarsi2021_molecular_cno</span></div>
+      </li>
+      <li class="src-entry" id="amarsi2020_solar_n">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Grevesse, N.; Grumer, J.; Asplund, M.; Barklem, P. S.; Collet, R. (2020). <em>The 3D non-LTE solar nitrogen abundance from atomic lines</em>. A&amp;A 636, A120.</span>
+          <span class="src-verified src-v-source_table_verified" title="Metadata checked AND the specific table the Codex uses was inspected in the paper.">TABLE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202037890" target="_blank" rel="noopener">10.1051/0004-6361/202037890 &#8599;</a></div>
+        <p class="src-role">Exact five N I indicators; disk-center EWs and empirical CN subtraction; matched 1D/3D LTE/NLTE comparison, Tables 1-3. Benchmark only.</p>
+        <p class="src-note">User-supplied publisher PDF; title/authors/DOI and source tables inspected 2026-09-14. Original bytes preserved.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220; RYA-1214</span> &middot; <span class="src-local">local copy: Reference documents/aa37890-20.pdf</span> &middot; <span class="src-key">amarsi2020_solar_n</span></div>
+      </li>
       <li class="src-entry" id="asplund2021">
         <div class="src-head">
           <span class="src-cite">Asplund, M.; Amarsi, A. M.; Grevesse, N. (2021). <em>The chemical make-up of the Sun: A 2020 vision</em>. A&amp;A 653, A141.</span>
@@ -131,7 +182,7 @@
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202140445" target="_blank" rel="noopener">10.1051/0004-6361/202140445 &#8599;</a></div>
         <p class="src-role">GOLD reference standard. The 3D non-LTE solar abundance scale every Codex element is compared against, and the per-element physics-regime authority.</p>
         <p class="src-note">Open access (A&amp;A).</p>
-        <div class="src-meta"><span class="src-tickets">RYA-400; RYA-553; RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Apslund 2021.pdf</span> &middot; <span class="src-key">asplund2021</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-400; RYA-553; RYA-853; RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/Apslund 2021.pdf</span> &middot; <span class="src-key">asplund2021</span></div>
       </li>
       <li class="src-entry" id="asplund2009">
         <div class="src-head">
@@ -171,6 +222,25 @@
         <p class="src-note">Crossref issue date is 2010 (online-first); the volume year is 2011.</p>
         <div class="src-meta"><span class="src-tickets">RYA-367; RYA-447</span> &middot; <span class="src-key">caffau2011</span></div>
       </li>
+      <li class="src-entry" id="deshmukh2022_si">
+        <div class="src-head">
+          <span class="src-cite">Deshmukh, S. A.; Ludwig, H.-G.; Kucinskas, A.; et al. (2022). <em>The solar photospheric silicon abundance according to CO5BOLD: Investigating line broadening, magnetic fields, and model effects</em>. A&amp;A 668, A48.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2212.07485" target="_blank" rel="noopener">10.1051/0004-6361/202142072 &#8599;</a></div>
+        <p class="src-role">Published solar Si line set incl. IR (Table 2 subsample, Pehlivan Rhodin gf); A(Si)=7.57+/-0.04. SI_DESHMUKH2022 line set (IR lines).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1233</span> &middot; <span class="src-local">local copy: Deshmukh2022_solar_Si_CO5BOLD_2212.07485.pdf</span> &middot; <span class="src-key">deshmukh2022_si</span></div>
+      </li>
+      <li class="src-entry" id="gallagher2020_ba">
+        <div class="src-head">
+          <span class="src-cite">Gallagher, A. J.; Bergemann, M.; Collet, R.; Plez, B.; Leenaarts, J.; Carlsson, M.; Yakovleva, S. A.; Belyaev, A. K. (2020). <em>Observational constraints on the origin of the elements. II. 3D non-LTE formation of Ba II lines in the solar atmosphere</em>. A&amp;A 634, A55.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201936104" target="_blank" rel="noopener">10.1051/0004-6361/201936104 &#8599;</a></div>
+        <p class="src-role">AGSS21&#x27;s Ba value (3D NLTE; Grevesse&#x27;s 3 Ba II lines + 614.17).</p>
+        <p class="src-note">arXiv 1910.03898; DOI from the arXiv record 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Gallagher_2020_AA_634_A55_Ba.pdf</span> &middot; <span class="src-key">gallagher2020_ba</span></div>
+      </li>
       <li class="src-entry" id="grevesse1998">
         <div class="src-head">
           <span class="src-cite">Grevesse, N.; Sauval, A. J. (1998). <em>Standard Solar Composition</em>. Space Sci. Rev. 85, 161.</span>
@@ -181,6 +251,16 @@
         <p class="src-note">Ticket text said &#x27;Grevesse &amp; Sauval 1999&#x27;; the record is 1998 (Space Sci. Rev. 85, 161). Year corrected against Crossref.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">grevesse1998</span></div>
       </li>
+      <li class="src-entry" id="grevesse2015_heavy">
+        <div class="src-head">
+          <span class="src-cite">Grevesse, N.; Scott, P.; Asplund, M.; Sauval, A. J. (2015). <em>The elemental composition of the Sun. III. The heavy elements Cu to Th</em>. A&amp;A 573, A27.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201424111" target="_blank" rel="noopener">10.1051/0004-6361/201424111 &#8599;</a></div>
+        <p class="src-role">Asplund (AGSS21) line set for Cu, Zn, Sr, Y, Zr, Ba (Table 1); transcribed from the arXiv LaTeX.</p>
+        <p class="src-note">arXiv 1405.0288 (open access); DOI/journal from the arXiv record 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Grevesse_2015_AA_573_A27_Heavies.pdf</span> &middot; <span class="src-key">grevesse2015_heavy</span></div>
+      </li>
       <li class="src-entry" id="hase2010">
         <div class="src-head">
           <span class="src-cite">Hase, F.; Wallace, L.; McLeod, S. D.; Harrison, J. J.; Bernath, P. F. (2010). <em>The ACE-FTS atlas of the infrared solar spectrum</em>. JQSRT 111, 521.</span>
@@ -189,6 +269,16 @@
         <div class="src-link"><a href="https://doi.org/10.1016/j.jqsrt.2009.10.020" target="_blank" rel="noopener">10.1016/j.jqsrt.2009.10.020 &#8599;</a></div>
         <p class="src-role">Space-borne IR solar atlas (700-4430 cm^-1) — the telluric-free IR solar comparison used when validating ground-based IR atlases.</p>
         <div class="src-meta"><span class="src-tickets">RYA-390; RYA-459</span> &middot; <span class="src-local">local copy: Reference documents/solar-spec.pdf</span> &middot; <span class="src-key">hase2010</span></div>
+      </li>
+      <li class="src-entry" id="kurucz2005_irradiance">
+        <div class="src-head">
+          <span class="src-cite">Kurucz, R. L. (2005). <em>Solar flux and irradiance atlases with telluric lines removed (irradiance2005)</em>. kurucz.harvard.edu, sun/irradiance2005.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="http://kurucz.harvard.edu/sun/irradiance2005/" target="_blank" rel="noopener">http://kurucz.harvard.edu/sun/irradiance2005/ &#8599;</a></div>
+        <p class="src-role">The independent telluric correction of the Kitt Peak solar atlas (irradthu.dat), used as its own holding.</p>
+        <p class="src-note">Data release on the author&#x27;s site; no DOI. The intake manifest pins the file bytes.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">kurucz2005_irradiance</span></div>
       </li>
       <li class="src-entry" id="lodders2025">
         <div class="src-head">
@@ -200,6 +290,45 @@
         <p class="src-role">GOLD reference standard. Canonical 28-element list and the analysis quality index; the meteoritic half of the solar scale.</p>
         <p class="src-note">On-disk copy is the accepted manuscript (accepted 2025-02-07); the DOI resolves to the published Space Sci. Rev. article.</p>
         <div class="src-meta"><span class="src-tickets">RYA-757; RYA-758</span> &middot; <span class="src-local">local copy: Reference documents/AbundancesLodders.pdf</span> &middot; <span class="src-key">lodders2025</span></div>
+      </li>
+      <li class="src-entry" id="magg2022_sun">
+        <div class="src-head">
+          <span class="src-cite">Magg, E.; Bergemann, M.; Serenelli, A.; et al. (2022). <em>Observational constraints on the origin of the elements. IV. Standard composition of the Sun</em>. A&amp;A 661, A140.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2203.02255" target="_blank" rel="noopener">10.1051/0004-6361/202142971 &#8599;</a></div>
+        <p class="src-role">Solar standard composition (Si on Pehlivan Rhodin gf); corroborating literature for Si.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1233</span> &middot; <span class="src-local">local copy: Magg2022_solar_standard_composition_2203.02255.pdf</span> &middot; <span class="src-key">magg2022_sun</span></div>
+      </li>
+      <li class="src-entry" id="mucciarelli2008_eu">
+        <div class="src-head">
+          <span class="src-cite">Mucciarelli, A.; Caffau, E.; Freytag, B.; Ludwig, H.-G.; Bonifacio, P. (2008). <em>The solar photospheric abundance of europium. Results from CO5BOLD 3D hydrodynamical model atmospheres</em>. A&amp;A 484, 841.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20079327" target="_blank" rel="noopener">10.1051/0004-6361:20079327 &#8599;</a></div>
+        <p class="src-role">3D LTE solar Eu from 5 Eu II lines (Eu litscan).</p>
+        <p class="src-note">arXiv 0803.0863</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Mucciarelli_2008_AA_484_841_Eu.pdf</span> &middot; <span class="src-key">mucciarelli2008_eu</span></div>
+      </li>
+      <li class="src-entry" id="pehlivanrhodin2021_si">
+        <div class="src-head">
+          <span class="src-cite">Pehlivan Rhodin, A.; Hartman, H.; Nilsson, H.; Jonsson, P. (2021). <em>[Theoretical Si gf and solar Si value cited in the Si literature scan]</em>. not yet identified.</span>
+          <span class="src-verified src-v-unconfirmed" title="No DOI or stable URL could be confirmed &mdash; nothing is guessed. See the note.">UNCONFIRMED</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">A Si literature comparison value (7.53).</p>
+        <p class="src-note">Cited in the Si literature scan as a 2021 A&amp;A paper; no matching record found yet.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">pehlivanrhodin2021_si</span></div>
+      </li>
+      <li class="src-entry" id="reggiani2019_k">
+        <div class="src-head">
+          <span class="src-cite">Reggiani, H.; Amarsi, A. M.; Lind, K.; Barklem, P. S.; Zatsarinny, O.; Bartschat, K.; Fursa, D. V.; Bray, I.; Spina, L.; Melendez, J. (2019). <em>Non-LTE analysis of K I in late-type stars</em>. A&amp;A 627, A177.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201935156" target="_blank" rel="noopener">10.1051/0004-6361/201935156 &#8599;</a></div>
+        <p class="src-role">K I model atom AGSS21 used for its 3D NLTE K analysis.</p>
+        <p class="src-note">arXiv 1906.08281; journal ref from the arXiv record 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Reggiani_2019_AA_627_A177_K.pdf</span> &middot; <span class="src-key">reggiani2019_k</span></div>
       </li>
       <li class="src-entry" id="reiners2016">
         <div class="src-head">
@@ -218,7 +347,17 @@
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201424110" target="_blank" rel="noopener">10.1051/0004-6361/201424110 &#8599;</a></div>
         <p class="src-role">Iron-group solar abundances and the 3D corrections the Codex uses for Ti and Cr.</p>
         <p class="src-note">Crossref issue date is 2014 (online-first); the volume year is 2015.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-399</span> &middot; <span class="src-key">scott2015</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-399</span> &middot; <span class="src-local">local copy: Reference documents/Scott_2015_AA_573_A26_FePeak.pdf</span> &middot; <span class="src-key">scott2015</span></div>
+      </li>
+      <li class="src-entry" id="scott2015_light">
+        <div class="src-head">
+          <span class="src-cite">Scott, P.; Grevesse, N.; Asplund, M.; Sauval, A. J.; Lind, K.; Takeda, Y.; Collet, R.; Trampedach, R.; Hayek, W. (2015). <em>The elemental composition of the Sun. I. The intermediate mass elements Na to Ca</em>. A&amp;A 573, A25.</span>
+          <span class="src-verified src-v-source_table_verified" title="Metadata checked AND the specific table the Codex uses was inspected in the paper.">TABLE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201424109" target="_blank" rel="noopener">10.1051/0004-6361/201424109 &#8599;</a></div>
+        <p class="src-role">Publishes the seven-line Solar Al selection, line weights, equivalent widths, transition data, and per-line 3D+NLTE abundances inherited by Nordlander &amp; Lind 2017 and AGSS21.</p>
+        <p class="src-note">Published local PDF aa24109-14.pdf and alternate arXiv 1405.0279v2.pdf identified from their first pages; one canonical record. DOI/title/authors/journal checked against the published PDF on 2026-09-13.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/aa24109-14.pdf</span> &middot; <span class="src-key">scott2015_light</span></div>
       </li>
       <li class="src-entry" id="senturk2024">
         <div class="src-head">
@@ -228,6 +367,36 @@
         <div class="src-link"><a href="https://doi.org/10.3847/1538-4357/ad85e4" target="_blank" rel="noopener">10.3847/1538-4357/ad85e4 &#8599;</a></div>
         <p class="src-role">Recent NIR solar Fe determination. NIR arm: Fe I 7.46+/-0.07 (74 lines), Fe II 7.50+/-0.02 (2 lines). Optical arm: Fe I 7.54, Fe II 7.51. Combined: Fe I 7.48, Fe II 7.47. EW+synth, 1D-LTE (MOOG/ATLAS9). FIREWALL (RYA-161 class): gf partly solar-tuned (selected to reproduce the observed solar abundance) -&gt; NOT independent of the zero point. RYA-714 IR litscan CONFIRMING point (inside modern band), not an independent validation.</p>
         <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">senturk2024</span></div>
+      </li>
+      <li class="src-entry" id="sneden2009_ree">
+        <div class="src-head">
+          <span class="src-cite">Sneden, C.; Lawler, J. E.; Cowan, J. J.; Ivans, I. I.; Den Hartog, E. A. (2009). <em>New Rare Earth Element Abundance Distributions for the Sun and Five r-Process-Rich Very Metal-Poor Stars</em>. ApJS 182, 80.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/182/1/80" target="_blank" rel="noopener">10.1088/0067-0049/182/1/80 &#8599;</a></div>
+        <p class="src-role">Rare-earth (incl. Eu II) solar line lists Grevesse+2015 updated with 3D corrections.</p>
+        <p class="src-note">arXiv 0903.1623.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Sneden_2009_ApJS_182_80_REE.pdf</span> &middot; <span class="src-key">sneden2009_ree</span></div>
+      </li>
+      <li class="src-entry" id="storm2024_y_eu">
+        <div class="src-head">
+          <span class="src-cite">Storm, N.; Barklem, P. S.; Yakovleva, S. A.; Belyaev, A. K.; Palmeri, P.; Quinet, P.; Lodders, K.; Bergemann, M.; Hoppe, R. (2024). <em>3D NLTE modelling of Y and Eu. Centre-to-limb variation and solar abundances</em>. A&amp;A 683, A200.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202348971" target="_blank" rel="noopener">10.1051/0004-6361/202348971 &#8599;</a></div>
+        <p class="src-role">Lodders 2025&#x27;s Y and Eu source: Eu II 6645.104 (Lawler+2001 gf, 12%) and 4 Y II (Palmeri+2017, ~10%).</p>
+        <p class="src-note">arXiv 2401.13450; DOI/volume checked on Crossref 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Storm_2024_AA_683_A200_Y_Eu.pdf</span> &middot; <span class="src-key">storm2024_y_eu</span></div>
+      </li>
+      <li class="src-entry" id="wang2021_li">
+        <div class="src-head">
+          <span class="src-cite">Wang, E. X.; Nordlander, T.; Asplund, M.; Amarsi, A. M.; Lind, K.; Zhou, Y. (2021). <em>3D NLTE spectral line formation of lithium in late-type stars</em>. MNRAS 500, 2159.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/staa3381" target="_blank" rel="noopener">10.1093/mnras/staa3381 &#8599;</a></div>
+        <p class="src-role">AGSS21&#x27;s Li source (Li I 670.8 nm).</p>
+        <p class="src-note">arXiv 2010.15248; DOI from the arXiv record 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Wang_2021_MNRAS_500_2159_Li.pdf</span> &middot; <span class="src-key">wang2021_li</span></div>
       </li>
       <li class="src-entry" id="zhao2023">
         <div class="src-head">
@@ -241,7 +410,7 @@
     </ul>
   </section>
   <section class="src-section" id="atomic_data_gf">
-    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">55</span></h2>
+    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">89</span></h2>
     <p class="src-blurb">Where each log gf comes from. The distinction that matters is PRIMARY LABORATORY (branching fractions from a Fourier-transform spectrometer times a measured radiative lifetime, with no reference to the solar spectrum) versus semi-empirical or solar-fitted values, which cannot referee a solar abundance without restating their own input.</p>
     <ul class="src-list">
       <li class="src-entry" id="bard1991">
@@ -264,6 +433,15 @@
         <p class="src-note">Pre-2000 A&amp;A volume; no DOI is registered. Link is the ADS scanned article, downloaded and confirmed to be a real PDF of the published length. Bibcode 1994A&amp;A...282.1014B verified two ways: the ADS scanned-article gateway returns 200 for it and 404 for a fabricated bibcode, and SIMBAD&#x27;s bibliographic record returns exactly these authors, this title and these pages. The title first drafted for this row from memory (&#x27;...for lines of astrophysical interest&#x27;) was WRONG — that is the 1991 paper&#x27;s title. SIMBAD corrected it.</p>
         <div class="src-meta"><span class="src-tickets">RYA-760; RYA-853</span> &middot; <span class="src-key">bard_kock1994</span></div>
       </li>
+      <li class="src-entry" id="becker1980_si">
+        <div class="src-head">
+          <span class="src-cite">Becker, U.; Kerkhoff, H.; Kwiatkowski, M.; Schmidt, M.; Teppner, U.; Zimmermann, P. (1980). <em>Lifetimes of the Si I 3p4s 1P1 and 3p3d 1P1 states</em>. Phys. Lett. A 76, 125.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1016/0375-9601(80)90589-7" target="_blank" rel="noopener">10.1016/0375-9601(80)90589-7 &#8599;</a></div>
+        <p class="src-role">Lifetime used to renormalise the Garz 1973 Si I gf.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">becker1980_si</span></div>
+      </li>
       <li class="src-entry" id="belmonte2017">
         <div class="src-head">
           <span class="src-cite">Belmonte, M. T.; Pickering, J. C.; Ruffoni, M. P.; Den Hartog, E. A.; Lawler, J. E.; Guzman, A.; Heiter, U. (2017). <em>Fe I Oscillator Strengths for Transitions from High-lying Odd-parity Levels</em>. ApJ 848, 125.</span>
@@ -274,6 +452,36 @@
         <p class="src-note">Ticket text said &#x27;aa8bd9&#x27;; the DOI in the PDF metadata is 10.3847/1538-4357/aa8cd3. Corrected from the PDF.</p>
         <div class="src-meta"><span class="src-tickets">RYA-799; RYA-824; RYA-836</span> &middot; <span class="src-local">local copy: Reference documents/Belmonte_2017_ApJ_848_125.pdf</span> &middot; <span class="src-key">belmonte2017</span></div>
       </li>
+      <li class="src-entry" id="bergemann2017_mg">
+        <div class="src-head">
+          <span class="src-cite">Bergemann, M.; Collet, R.; Amarsi, A. M.; Kovalev, M.; Ruchti, G.; Magic, Z. (2017). <em>Non-local Thermodynamic Equilibrium Stellar Spectroscopy with 1D and &lt;3D&gt; Models. I. Methods and Application to Magnesium Abundances in Standard Stars</em>. ApJ 847, 15.</span>
+          <span class="src-verified src-v-source_table_verified" title="Metadata checked AND the specific table the Codex uses was inspected in the paper.">TABLE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4357/aa88cb" target="_blank" rel="noopener">10.3847/1538-4357/aa88cb &#8599;</a></div>
+        <p class="src-role">Published Mg I optical/infrared diagnostic lines and solar abundance analysis; Table 2 line data used for the reference Mg I set.</p>
+        <p class="src-note">Local author/publisher PDF downloaded for research use.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1250; RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Bergemann_2017_Mg_NLTE_IR.pdf</span> &middot; <span class="src-key">bergemann2017_mg</span></div>
+      </li>
+      <li class="src-entry" id="bergemann2013_si_jband">
+        <div class="src-head">
+          <span class="src-cite">Bergemann, M.; Kudritzki, R.-P.; Würl, M.; Plez, B.; Davies, B.; Gazak, Z. (2013). <em>Red Supergiant Stars as Cosmic Abundance Probes: II. NLTE Effects in J-band Silicon Lines</em>. ApJ 764, 115.</span>
+          <span class="src-verified src-v-source_table_verified" title="Metadata checked AND the specific table the Codex uses was inspected in the paper.">TABLE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/764/2/115" target="_blank" rel="noopener">10.1088/0004-637X/764/2/115 &#8599;</a></div>
+        <p class="src-role">Published J-band Si I line identities and log gf values used for the RYA-1218 external Reference line set; its NLTE grid targets red supergiants and is not silently applied to the Solar route.</p>
+        <p class="src-note">Local arXiv v1 PDF; published metadata verified against DOI record.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1218</span> &middot; <span class="src-local">local copy: Reference documents/1212.2649v1.pdf</span> &middot; <span class="src-key">bergemann2013_si_jband</span></div>
+      </li>
+      <li class="src-entry" id="berzinsh1997_p">
+        <div class="src-head">
+          <span class="src-cite">Berzinsh, U.; et al. (1997). <em>[P I gf source cited by Scott et al. 2015 as the gf basis of the solar P lines]</em>. not yet identified.</span>
+          <span class="src-verified src-v-unconfirmed" title="No DOI or stable URL could be confirmed &mdash; nothing is guessed. See the note.">UNCONFIRMED</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">gf basis of the published solar P line set.</p>
+        <p class="src-note">Cited by name only in Scott et al. 2015a; the exact paper has not been identified, so no link is given.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">berzinsh1997_p</span></div>
+      </li>
       <li class="src-entry" id="biemont1998">
         <div class="src-head">
           <span class="src-cite">Biemont, E.; Dutrieux, J.-F.; Martin, I.; Quinet, P. (1998). <em>Lifetime calculations in Yb II</em>. J. Phys. B 31, 3321.</span>
@@ -283,15 +491,110 @@
         <p class="src-role">GES code BDMQ (1,040 canonical_gf rows).</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">biemont1998</span></div>
       </li>
+      <li class="src-entry" id="biemont1981_zr">
+        <div class="src-head">
+          <span class="src-cite">Biemont, E.; Grevesse, N.; Hannaford, P.; Lowe, R. M. (1981). <em>Oscillator strengths for Zr I and Zr II and a new determination of the solar abundance of zirconium</em>. ApJ 248, 867.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/159213" target="_blank" rel="noopener">10.1086/159213 &#8599;</a></div>
+        <p class="src-role">gf basis of the published solar Zr line set.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">biemont1981_zr</span></div>
+      </li>
+      <li class="src-entry" id="bw2006_ti1">
+        <div class="src-head">
+          <span class="src-cite">Blackwell-Whitehead, R. J.; Lundberg, H.; Nave, G.; Pickering, J. C.; et al. (2006). <em>Experimental Ti I oscillator strengths and their application to cool star analysis</em>. MNRAS 373, 1603.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1111/j.1365-2966.2006.11161.x" target="_blank" rel="noopener">10.1111/j.1365-2966.2006.11161.x &#8599;</a></div>
+        <p class="src-role">Ti I IR lab gf + sigma (Table 3, parsed); VALD BLNP.</p>
+        <p class="src-note">arXiv astro-ph/0612656</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: BlackwellWhitehead_2006_MNRAS_373_1603_TiI_IR.pdf</span> &middot; <span class="src-key">bw2006_ti1</span></div>
+      </li>
+      <li class="src-entry" id="bw2011_mn1">
+        <div class="src-head">
+          <span class="src-cite">Blackwell-Whitehead, R. J.; Pavlenko, Y. V.; Nave, G.; Pickering, J. C.; et al. (2011). <em>Infrared Mn I laboratory oscillator strengths for the study of late type stars and ultracool dwarfs</em>. A&amp;A 525, A44.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201015006" target="_blank" rel="noopener">10.1051/0004-6361/201015006 &#8599;</a></div>
+        <p class="src-role">Mn I IR lab gf + sigma (Table 1, parsed); VALD B-WPNP.</p>
+        <p class="src-note">free PDF</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: BlackwellWhitehead_2011_AA_525_A44_MnI_IR.pdf</span> &middot; <span class="src-key">bw2011_mn1</span></div>
+      </li>
+      <li class="src-entry" id="bwb2007_mn">
+        <div class="src-head">
+          <span class="src-cite">Blackwell-Whitehead, R.; Bergemann, M. (2007). <em>A revision of the solar manganese abundance using new and remeasured laboratory oscillator strengths</em>. A&amp;A 472, L43.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20078165" target="_blank" rel="noopener">10.1051/0004-6361:20078165 &#8599;</a></div>
+        <p class="src-role">gf basis (with Den Hartog 2011) of the published solar Mn line set.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">bwb2007_mn</span></div>
+      </li>
+      <li class="src-entry" id="bridges2010_n">
+        <div class="src-head">
+          <span class="src-cite">Bridges, J. M.; Wiese, W. L. (2010). <em>Transition probability measurements for some strong and weak lines of N I</em>. Phys. Rev. A 82, 024502.</span>
+          <span class="src-verified src-v-primary_source_lead" title="Abstract and metadata inspected; the line tables have not yet been obtained, so nothing is adopted from it.">LEAD</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1103/PhysRevA.82.024502" target="_blank" rel="noopener">10.1103/PhysRevA.82.024502 &#8599;</a></div>
+        <p class="src-role">Primary laboratory N I transition probabilities; strong-line agreement and weak-line discrepancies are explicitly reported</p>
+        <p class="src-note">Abstract and source metadata inspected; line tables still require direct acquisition before canonical use.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-key">bridges2010_n</span></div>
+      </li>
       <li class="src-entry" id="burheim2023">
         <div class="src-head">
           <span class="src-cite">Burheim, M.; Hartman, H.; Nilsson, H. (2023). <em>Experimental oscillator strengths of Al I lines for near-infrared astrophysical spectroscopy</em>. A&amp;A 672, A197.</span>
           <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202245394" target="_blank" rel="noopener">10.1051/0004-6361/202245394 &#8599;</a></div>
-        <p class="src-role">THE modern experimental Al I log gf source (FTS + hollow cathode lamp branching fractions x radiative lifetimes). Table 3 lists 12 lines at 2-11% accuracy, 670-4200 nm. RYA-1001 established that 8 of the 12 fall inside our reach and that linelist_solar&#x27;s summed HFS components already reproduce them to &lt;0.001 dex, while canonical_gf does not. Top of the RYA-1001 gf ladder.</p>
+        <p class="src-role">Al I branching-fraction and oscillator-strength source. Table 1 has eight transitions normalized by experimental lifetimes and four by Papoulia theoretical lifetimes; the latter are mixed laboratory/theory evidence. Table 2 has branching fractions only. Per-line adjudication: RYA-1134.</p>
         <p class="src-note">Wavelengths in Tables 1-3 are VACUUM and sit beside a cm^-1 wavenumber column of similar magnitude; RYA-835&#x27;s line list conflated the two columns. Table 2 gives branching fractions with NO log gf -- it does not grade a line. Metadata read from the held published PDF; this corrected the prior first initial J to M. Seven pages, 640346 bytes, sha256 8ac1ab522a916b4091db3c8ee012866684b24030c40ca1fadd129094c4d26955.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-838; RYA-839; RYA-1001; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/aa45394-22.pdf</span> &middot; <span class="src-key">burheim2023</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-838; RYA-839; RYA-1001; RYA-1132; RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/aa45394-22.pdf</span> &middot; <span class="src-key">burheim2023</span></div>
+      </li>
+      <li class="src-entry" id="buurman_donszelmann1990_al">
+        <div class="src-head">
+          <span class="src-cite">Buurman, E. P.; Dönszelmann, A. (1990). <em>New determination of the radiative properties of the 4p 2P1/2,3/2 levels in aluminum and the 5p 2P1/2,3/2 levels in gallium</em>. A&amp;A 227, 289-290.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://articles.adsabs.harvard.edu/pdf/1990A%26A...227..289B" target="_blank" rel="noopener">https://articles.adsabs.harvard.edu/pdf/1990A%26A...227..289B &#8599;</a></div>
+        <p class="src-role">Primary resolved Al 4p lifetimes and branching ratios used by Burheim 2023. Table 1 assigns 60.5(9) ns to J=3/2 and 65(2) ns to J=1/2; the Vujnovic CDS ReadMe transposes these J labels.</p>
+        <p class="src-note">Both pages visually read from ADS scan; title/authors/journal/pages/bibcode 1990A&amp;A...227..289B verified. DOI not established, left blank.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/Buurman1990_Al.pdf</span> &middot; <span class="src-key">buurman_donszelmann1990_al</span></div>
+      </li>
+      <li class="src-entry" id="buurman1986_al">
+        <div class="src-head">
+          <span class="src-cite">Buurman, E. P.; Dönszelmann, A.; Hansen, J. E.; Snoek, C. (1986). <em>Oscillator strengths of transitions between low-lying levels in the aluminum spectrum</em>. A&amp;A 164, 224-226.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://articles.adsabs.harvard.edu/pdf/1986A%26A...164..224B" target="_blank" rel="noopener">https://articles.adsabs.harvard.edu/pdf/1986A%26A...164..224B &#8599;</a></div>
+        <p class="src-role">Primary lifetime source used by Burheim 2023 and Vujnovic 2002; Table 1 gives 5p lifetime 275(8) ns. GF derived using theoretical branching fractions in this older paper are not independent laboratory BF measurements.</p>
+        <p class="src-note">Title, authors, journal, pages and bibcode 1986A&amp;A...164..224B visually verified from the ADS scan; DOI not established, left blank.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/Buurman1986_Al.pdf</span> &middot; <span class="src-key">buurman1986_al</span></div>
+      </li>
+      <li class="src-entry" id="chang_tang1990">
+        <div class="src-head">
+          <span class="src-cite">Chang, T. N.; Tang, X. (1990). <em>Oscillator strengths for the bound-bound transitions in beryllium and magnesium</em>. JQSRT 43, 207.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1016/0022-4073(90)90053-9" target="_blank" rel="noopener">10.1016/0022-4073(90)90053-9 &#8599;</a></div>
+        <p class="src-role">The NIST source behind one Mg I gf grade, recorded so it is not mistaken for Pehlivan Rhodin 2017.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">chang_tang1990</span></div>
+      </li>
+      <li class="src-entry" id="chen2026_ni2">
+        <div class="src-head">
+          <span class="src-cite">Chen, R.; Clear, C. P.; Nave, G.; Pickering, J. C. (2026). <em>Experimental Ni II Oscillator Strengths for Transitions from 3d8 4d to 3d8 4p Levels Measured Using High-resolution Fourier Transform Spectroscopy</em>. arXiv:2609.12726.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2609.12726" target="_blank" rel="noopener">https://arxiv.org/abs/2609.12726 &#8599;</a></div>
+        <p class="src-role">Laboratory Ni II gf candidate.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/NiII_2026_FTS_2609.12726.pdf</span> &middot; <span class="src-key">chen2026_ni2</span></div>
+      </li>
+      <li class="src-entry" id="civis2013_camg">
+        <div class="src-head">
+          <span class="src-cite">Civis, S.; Ferus, M.; Chernov, V. E.; Zanozina, E. M. (2013). <em>Infrared transitions and oscillator strengths of Ca and Mg</em>. A&amp;A 554, A24.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201321052" target="_blank" rel="noopener">10.1051/0004-6361/201321052 &#8599;</a></div>
+        <p class="src-role">Infrared Mg I / Ca I gf candidates.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/Civis_2013_Mg_IR.pdf</span> &middot; <span class="src-key">civis2013_camg</span></div>
       </li>
       <li class="src-entry" id="corliss_bozman1962">
         <div class="src-head">
@@ -319,6 +622,16 @@
         <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/ab322e" target="_blank" rel="noopener">10.3847/1538-4365/ab322e &#8599;</a></div>
         <p class="src-role">Pure laboratory Fe II gf in the UV/blue — the independent referee for the Fe II scale-offset investigation.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Den_Hartog_2019_ApJS_243_33.pdf</span> &middot; <span class="src-key">denhartog2019</span></div>
+      </li>
+      <li class="src-entry" id="denhartog2021_ca1">
+        <div class="src-head">
+          <span class="src-cite">Den Hartog, E. A.; Lawler, J. E.; Sneden, C.; Cowan, J. J.; Roederer, I. U.; Sobeck, J. (2021). <em>Atomic Transition Probabilities of Neutral Calcium</em>. ApJS 255, 27.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/ac04b1" target="_blank" rel="noopener">10.3847/1538-4365/ac04b1 &#8599;</a></div>
+        <p class="src-role">Ca I recommended gf (Table 8 MRT, experimental rows only).</p>
+        <p class="src-note">arXiv 2105.10534</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: DenHartog_2021_ApJS_255_27_CaI.pdf</span> &middot; <span class="src-key">denhartog2021_ca1</span></div>
       </li>
       <li class="src-entry" id="denhartog2023">
         <div class="src-head">
@@ -375,8 +688,8 @@
         </div>
         <div class="src-link"><a href="https://articles.adsabs.harvard.edu/pdf/1973A%26A....26..471G" target="_blank" rel="noopener">https://articles.adsabs.harvard.edu/pdf/1973A%26A....26..471G &#8599;</a></div>
         <p class="src-role">GES code GARZ (27 canonical_gf rows).</p>
-        <p class="src-note">Pre-2000 A&amp;A volume; no DOI is registered. Link is the ADS scanned article, downloaded and confirmed to be a real PDF of the published length. Bibcode 1973A&amp;A....26..471G verified two ways: the ADS scanned-article gateway returns 200 for it and 404 for a fabricated bibcode, and SIMBAD&#x27;s bibliographic record returns exactly these authors, this title and these pages.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">garz1973</span></div>
+        <p class="src-note">Pre-2000 A&amp;A volume; no DOI is registered. Link is the ADS scanned article, downloaded and confirmed to be a real PDF of the published length. Bibcode 1973A&amp;A....26..471G verified two ways: the ADS scanned-article gateway returns 200 for it and 404 for a fabricated bibcode, and SIMBAD&#x27;s bibliographic record returns exactly these authors, this title and these pages. RYA-1218: extensionless seven-page PDF identified by signature; title page visually verified. Scanned body needs visual transcription.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/1973A&amp;A....26..471G</span> &middot; <span class="src-key">garz1973</span></div>
       </li>
       <li class="src-entry" id="griesmann_kling2000">
         <div class="src-head">
@@ -387,6 +700,15 @@
         <p class="src-role">Precise laboratory wavelength evidence for Al II 1670.7886 A. It supports transition identity and wavelength calibration in RYA-1132; it does not provide an experimental oscillator strength for grading.</p>
         <p class="src-note">Local arXiv v1 PDF inspected: title/authors match; six pages, 95955 bytes, sha256 cee3ea26e43cdf8544772e617cc5ad5f0a8935860b0b702242662f9b8b5c67a9.</p>
         <div class="src-meta"><span class="src-tickets">RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/0004190v1.pdf</span> &middot; <span class="src-key">griesmann_kling2000</span></div>
+      </li>
+      <li class="src-entry" id="hannaford1982_y">
+        <div class="src-head">
+          <span class="src-cite">Hannaford, P.; Lowe, R. M.; Grevesse, N.; Biemont, E.; Whaling, W. (1982). <em>Oscillator strengths for Y I and Y II and the solar abundance of yttrium</em>. ApJ 261, 736.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/160384" target="_blank" rel="noopener">10.1086/160384 &#8599;</a></div>
+        <p class="src-role">gf basis of the published solar Y II line set.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">hannaford1982_y</span></div>
       </li>
       <li class="src-entry" id="heiter2021">
         <div class="src-head">
@@ -447,6 +769,15 @@
         <p class="src-note">PAGE CORRECTION: two canonical_gf rows cite &#x27;JPCRD 37 p1285 (Na/Mg)&#x27;. p1285 is the SILICON compilation (doi:10.1063/1.2734566); Na/Mg is p267. Flagged to RYA-853, not fixed here.</p>
         <div class="src-meta"><span class="src-tickets">RYA-592; RYA-853</span> &middot; <span class="src-key">kelleher2008_namg</span></div>
       </li>
+      <li class="src-entry" id="kelleher2008_si">
+        <div class="src-head">
+          <span class="src-cite">Kelleher, D. E.; Podobedova, L. I. (2008). <em>Atomic Transition Probabilities of Silicon. A Critical Compilation</em>. J. Phys. Chem. Ref. Data 37, 1285-1501.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1063/1.2734566" target="_blank" rel="noopener">10.1063/1.2734566 &#8599;</a></div>
+        <p class="src-role">Critically evaluated Si I/Si II transition probabilities with accuracy grades; the source of NIST ASD Si gf (data/linelists/primary_gf/nist_asd_Si*). Evaluated (NIST-graded) tier, not LAB.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1233</span> &middot; <span class="src-local">local copy: Reference documents/jpcrd3720081501p.pdf</span> &middot; <span class="src-key">kelleher2008_si</span></div>
+      </li>
       <li class="src-entry" id="kling2001">
         <div class="src-head">
           <span class="src-cite">Kling, R.; Schnabel, R.; Griesmann, U. (2001). <em>Accurate Lifetimes and Absolute Transition Rates for Ultraviolet Transitions from Low-lying Odd-parity Levels of Neutral Molybdenum</em>. ApJS 134, 173.</span>
@@ -455,6 +786,16 @@
         <div class="src-link"><a href="https://doi.org/10.1086/320366" target="_blank" rel="noopener">10.1086/320366 &#8599;</a></div>
         <p class="src-role">GES code KSG (6 canonical_gf rows) — the Schnabel-coauthored source the line list actually cites.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">kling2001</span></div>
+      </li>
+      <li class="src-entry" id="kock_richter1968_cu">
+        <div class="src-head">
+          <span class="src-cite">Kock, M.; Richter, J. (1968). <em>[Cu I gf source cited by Grevesse et al. 2015, renormalised]</em>. not yet identified.</span>
+          <span class="src-verified src-v-unconfirmed" title="No DOI or stable URL could be confirmed &mdash; nothing is guessed. See the note.">UNCONFIRMED</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">Part of the gf basis of the published solar Cu line set.</p>
+        <p class="src-note">Cited by name only in Grevesse et al. 2015; no DOI record found.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">kock_richter1968_cu</span></div>
       </li>
       <li class="src-entry" id="nist_asd">
         <div class="src-head">
@@ -486,6 +827,16 @@
         <p class="src-note">No DOI exists for this SAO Special Report; the link is the ADS scanned report. Bibcode 1975SAOSR.362.....K confirmed by SIMBAD (exact title and authors) and by CDS VizieR catalogue VI/10, the machine-readable table derived from it (https://cdsarc.cds.unistra.fr/viz-bin/cat/VI/10). CAVEAT, stated because it is a real gap: unlike the four A&amp;A scans this 64 MB PDF was NOT downloaded in full — the gateway resolves HTTP 200 but the transfer timed out, so the file itself is unread and the identification rests on SIMBAD and VizieR.</p>
         <div class="src-meta"><span class="src-tickets">RYA-161; RYA-853</span> &middot; <span class="src-key">kurucz_peytremann1975</span></div>
       </li>
+      <li class="src-entry" id="lawler2018_co2">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Feigenson, T.; Sneden, C.; Cowan, J. J.; Nave, G. (2018). <em>Transition Probabilities of Co II Weak Lines to the Ground and Low Metastable Levels</em>. ApJS 238, 7.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/aac773" target="_blank" rel="noopener">10.3847/1538-4365/aac773 &#8599;</a></div>
+        <p class="src-role">Co II near-UV lab gf A +/- dA (Table 3, parsed).</p>
+        <p class="src-note">arXiv 1806.00581</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Lawler_2018_CoII_1806.00581.pdf</span> &middot; <span class="src-key">lawler2018_co2</span></div>
+      </li>
       <li class="src-entry" id="lawler2013">
         <div class="src-head">
           <span class="src-cite">Lawler, J. E.; Guzman, A.; Wood, M. P.; Sneden, C.; Cowan, J. J. (2013). <em>Improved log(gf) Values for Lines of Ti I and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 205, 11.</span>
@@ -494,6 +845,16 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/205/2/11" target="_blank" rel="noopener">10.1088/0067-0049/205/2/11 &#8599;</a></div>
         <p class="src-role">GES code LGWSC (504 canonical_gf rows). Laboratory Ti I gf.</p>
         <div class="src-meta"><span class="src-tickets">RYA-545; RYA-853</span> &middot; <span class="src-key">lawler2013</span></div>
+      </li>
+      <li class="src-entry" id="lawler2019_sc">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Hala; Sneden, C.; Nave, G.; Wood, M. P.; Cowan, J. J. (2019). <em>Transition Probabilities of Sc I and Sc II and Scandium Abundances in the Sun, Arcturus, and HD 84937</em>. ApJS 241, 21.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/ab08ef" target="_blank" rel="noopener">10.3847/1538-4365/ab08ef &#8599;</a></div>
+        <p class="src-role">Sc I/II lab gf AGSS21 adopted for every Sc line. NOT HELD (paywalled, no arXiv copy).</p>
+        <p class="src-note">DOI checked on Crossref 2026-10-23; acquisition owed (RYA-1268).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-key">lawler2019_sc</span></div>
       </li>
       <li class="src-entry" id="lawler2015">
         <div class="src-head">
@@ -512,6 +873,54 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/182/1/51" target="_blank" rel="noopener">10.1088/0067-0049/182/1/51 &#8599;</a></div>
         <p class="src-role">GES code LSCI (519 canonical_gf rows). Laboratory Ce II gf.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">lawler2009</span></div>
+      </li>
+      <li class="src-entry" id="lawler2017_cr2">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Sneden, C.; Nave, G.; Den Hartog, E. A.; Emrahoglu, N.; Cowan, J. J. (2017). <em>Improved Cr II log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 228, 10.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/228/1/10" target="_blank" rel="noopener">10.3847/1538-4365/228/1/10 &#8599;</a></div>
+        <p class="src-role">Cr II lab gf AGSS21 adopted over Scott+2015&#x27;s. NOT HELD (paywalled, no arXiv copy).</p>
+        <p class="src-note">DOI checked on Crossref 2026-10-23; acquisition owed (RYA-1268).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-key">lawler2017_cr2</span></div>
+      </li>
+      <li class="src-entry" id="lawler2001_eu2">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Wickliffe, M. E.; Den Hartog, E. A.; Sneden, C. (2001). <em>Improved Laboratory Transition Parameters for Eu II and Application to the Solar Europium Elemental and Isotopic Composition</em>. ApJ 563, 1075.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/323407" target="_blank" rel="noopener">10.1086/323407 &#8599;</a></div>
+        <p class="src-role">Eu II lines + gf behind the AGSS21/Grevesse+2015 Eu value: Table 6 = EU_AGSS21 (14 solar lines), Table 3 A +/- dA = lab gf sigma.</p>
+        <p class="src-note">free from IOP (publisher PDF); Table 3 also VizieR J/ApJS/182/51 table 6</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Lawler_2001_ApJ_563_1075_EuII.pdf</span> &middot; <span class="src-key">lawler2001_eu2</span></div>
+      </li>
+      <li class="src-entry" id="lawler2014_v1">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Wood, M. P.; Den Hartog, E. A.; Feigenson, T.; Sneden, C.; Cowan, J. J. (2014). <em>Improved V I log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 215, 20.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/215/2/20" target="_blank" rel="noopener">10.1088/0067-0049/215/2/20 &#8599;</a></div>
+        <p class="src-role">V I lab gf AGSS21 adopted over Scott+2015&#x27;s. NOT HELD (paywalled, no arXiv copy).</p>
+        <p class="src-note">DOI checked on Crossref 2026-10-23; acquisition owed (RYA-1268).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-key">lawler2014_v1</span></div>
+      </li>
+      <li class="src-entry" id="li2021_c">
+        <div class="src-head">
+          <span class="src-cite">Li, W.; Amarsi, A. M.; Papoulia, A.; Ekman, J.; Jonsson, P. (2021). <em>Extended theoretical transition data in C I - IV</em>. MNRAS 502, 3780.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/stab214" target="_blank" rel="noopener">10.1093/mnras/stab214 &#8599;</a></div>
+        <p class="src-role">Theoretical C I gf for the carbon atomic-line indicators.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/2101.09114v1.pdf</span> &middot; <span class="src-key">li2021_c</span></div>
+      </li>
+      <li class="src-entry" id="ljung2006_zr2">
+        <div class="src-head">
+          <span class="src-cite">Ljung, G.; Nilsson, H.; Asplund, M.; Johansson, S. (2006). <em>New and improved experimental oscillator strengths in Zr II and the solar abundance of zirconium</em>. A&amp;A 456, 1181.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20065212" target="_blank" rel="noopener">10.1051/0004-6361:20065212 &#8599;</a></div>
+        <p class="src-role">gf basis of the published solar Zr II lines.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">ljung2006_zr2</span></div>
       </li>
       <li class="src-entry" id="martin1988">
         <div class="src-head">
@@ -553,6 +962,16 @@
         <p class="src-note">THEORY, NOT A LAB MEASUREMENT. Prior audits read the truncated bibcode as &#x27;1995 J.Phys.B (lab)&#x27; and built an experimental-vs-semi-empirical split on it (RYA-716 comment section 4). Refuted by RYA-1001.</p>
         <div class="src-meta"><span class="src-tickets">RYA-716; RYA-838; RYA-1001</span> &middot; <span class="src-key">mendoza1995_al</span></div>
       </li>
+      <li class="src-entry" id="musielok1995_n">
+        <div class="src-head">
+          <span class="src-cite">Musielok, J.; Wiese, W. L.; Veres, G. (1995). <em>Atomic transition probabilities and tests of the spectroscopic coupling scheme for N I</em>. Phys. Rev. A 51, 3588-3597.</span>
+          <span class="src-verified src-v-primary_source_lead" title="Abstract and metadata inspected; the line tables have not yet been obtained, so nothing is adopted from it.">LEAD</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1103/PhysRevA.51.3588" target="_blank" rel="noopener">10.1103/PhysRevA.51.3588 &#8599;</a></div>
+        <p class="src-role">Primary laboratory N I transition probabilities; experimental uncertainty reported as approximately 11-15 percent</p>
+        <p class="src-note">Abstract and source metadata inspected; line tables still require direct acquisition before canonical use.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-key">musielok1995_n</span></div>
+      </li>
       <li class="src-entry" id="obrian1991">
         <div class="src-head">
           <span class="src-cite">O&#x27;Brian, T. R.; Wickliffe, M. E.; Lawler, J. E.; Whaling, W.; Brault, J. W. (1991). <em>Lifetimes, transition probabilities, and level energies in Fe I</em>. JOSA B 8, 1185.</span>
@@ -562,6 +981,16 @@
         <p class="src-role">GES/VALD code BWL (258 canonical_gf rows). Laboratory Fe I lifetimes and transition probabilities.</p>
         <p class="src-note">CODE CORRECTION: the ticket listed &#x27;BWL/Blackwell-Whitehead-Lawler&#x27; and &#x27;O&#x27;Brian 1991&#x27; as two sources. The GES v5 line-list report decodes BWL as O&#x27;Brian et al. (1991) — they are ONE source, not two.</p>
         <div class="src-meta"><span class="src-tickets">RYA-780; RYA-853</span> &middot; <span class="src-key">obrian1991</span></div>
+      </li>
+      <li class="src-entry" id="palmeri2017_y2">
+        <div class="src-head">
+          <span class="src-cite">Palmeri, P.; et al. (2017). <em>[Y II gf source cited by Storm et al. 2024, ~10% accuracy]</em>. not yet identified.</span>
+          <span class="src-verified src-v-unconfirmed" title="No DOI or stable URL could be confirmed &mdash; nothing is guessed. See the note.">UNCONFIRMED</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">gf basis of the Y II lines in Storm et al. 2024.</p>
+        <p class="src-note">Cited by name only in Storm et al. 2024; the exact paper has not been identified.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">palmeri2017_y2</span></div>
       </li>
       <li class="src-entry" id="palmeri2000">
         <div class="src-head">
@@ -578,9 +1007,19 @@
           <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201833764" target="_blank" rel="noopener">10.1051/0004-6361/201833764 &#8599;</a></div>
-        <p class="src-role">Independent multiconfiguration theory for Al I/II -- rung 2 of the RYA-1001 gf ladder, and independent of NIST unlike Nordlander &amp; Lind 2017. Burheim 2023 agrees with it to -0.001 dex mean (sd 0.06) and supplies its lifetimes. It remains a theoretical comparator in RYA-1132, not primary-lab grading evidence.</p>
+        <p class="src-role">Independent multiconfiguration theory for Al I/II. Supplies the theoretical 4f lifetimes used by four Burheim 2023 transitions; remains theoretical provenance, not primary-laboratory evidence. Comparison gf are retained without Solar calibration.</p>
         <p class="src-note">Local arXiv v1 PDF inspected: title/authors match; 27 pages, 326159 bytes, sha256 a9f293cd6da156b796861dfbf189fb3e08a7d78ac5a8b1cd88d5cddd87014e6f.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-1001; RYA-1132</span> &middot; <span class="src-local">local copy: Reference documents/1808.09478v1.pdf</span> &middot; <span class="src-key">papoulia2019</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-1001; RYA-1132; RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/1808.09478v1.pdf</span> &middot; <span class="src-key">papoulia2019</span></div>
+      </li>
+      <li class="src-entry" id="pehlivanrhodin2024_si">
+        <div class="src-head">
+          <span class="src-cite">Pehlivan Rhodin, A.; Hartman, H.; Nilsson, H.; Joensson, P. (2024). <em>Accurate and experimentally validated transition data for Si I and Si II</em>. A&amp;A 682, A184.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202245686" target="_blank" rel="noopener">10.1051/0004-6361/202245686 &#8599;</a></div>
+        <p class="src-role">IR Si I gf (&gt;= 8000 A): Table B3 experimental (LAB) and B4 calculated-rescaled (PR2024-CALC, sigma = internal u (+) measured exp-calc rms). CDS J/A+A/682/A184 vendored in data/linelists/primary_gf/pehlivan_rhodin2024/.</p>
+        <p class="src-note">CC BY 4.0</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1233</span> &middot; <span class="src-local">local copy: aa45686-22.pdf</span> &middot; <span class="src-key">pehlivanrhodin2024_si</span></div>
       </li>
       <li class="src-entry" id="pehlivan_rhodin2017">
         <div class="src-head">
@@ -589,7 +1028,16 @@
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201629849" target="_blank" rel="noopener">10.1051/0004-6361/201629849 &#8599;</a></div>
         <p class="src-role">The independent Mg I gf cross-check quoted in two canonical_gf provenance strings during the RYA-592 re-verification.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-592; RYA-853</span> &middot; <span class="src-key">pehlivan_rhodin2017</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-592; RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Pehlivan_Rhodin_2017_MgI_IR.pdf</span> &middot; <span class="src-key">pehlivan_rhodin2017</span></div>
+      </li>
+      <li class="src-entry" id="pehlivan2015_sc">
+        <div class="src-head">
+          <span class="src-cite">Pehlivan, A.; Nilsson, H.; Hartman, H. (2015). <em>Laboratory oscillator strengths of Sc I in the near-infrared region for astrophysical applications</em>. A&amp;A 582, A98.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201526813" target="_blank" rel="noopener">10.1051/0004-6361/201526813 &#8599;</a></div>
+        <p class="src-role">Laboratory infrared Sc I gf.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/Pehlivan_2015_AA_582_A98_ScI_IR.pdf</span> &middot; <span class="src-key">pehlivan2015_sc</span></div>
       </li>
       <li class="src-entry" id="peterson2022">
         <div class="src-head">
@@ -665,7 +1113,7 @@
         </div>
         <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/779/1/17" target="_blank" rel="noopener">10.1088/0004-637X/779/1/17 &#8599;</a></div>
         <p class="src-role">EXPERIMENTAL Fe I log gf in the H band, 1.4-1.7 um: 28 transitions measured (FTS branching fractions + laser-induced-fluorescence lifetimes), plus upper limits on 7 more, produced for APOGEE because NO prior experimental data existed there. RYA-1048: this is the gap in our own lab pool -- canonical_gf tops out at 11316.1 A (Belmonte2017 reaches 1033 nm), so J (11796-13195 A) and H (15007-17494 A) have ZERO cited-lab lines and would grade rung 1. Ruffoni 2013 is LABORATORY, not solar-calibrated, so unlike melendez1999 it CAN referee a solar abundance (RYA-161). NOT the same paper as ruffoni2014, which is the optical Gaia-ESO list we already hold.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-1048;RYA-787</span> &middot; <span class="src-key">ruffoni2013</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-1048;RYA-787</span> &middot; <span class="src-local">local copy: Reference documents/Ruffoni_2013_ApJ_779_17.pdf</span> &middot; <span class="src-key">ruffoni2013</span></div>
       </li>
       <li class="src-entry" id="ryabchikova2015">
         <div class="src-head">
@@ -712,7 +1160,7 @@
         </div>
         <div class="src-link"><a href="https://doi.org/10.1086/519987" target="_blank" rel="noopener">10.1086/519987 &#8599;</a></div>
         <p class="src-role">GES code SLS (122 canonical_gf rows). Laboratory Cr I gf.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-818; RYA-853</span> &middot; <span class="src-key">sobeck2007</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-818; RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Sobeck_2007_ApJ_667_1267_CrI.pdf</span> &middot; <span class="src-key">sobeck2007</span></div>
       </li>
       <li class="src-entry" id="storey_zeippen2000">
         <div class="src-head">
@@ -722,6 +1170,25 @@
         <div class="src-link"><a href="https://doi.org/10.1046/j.1365-8711.2000.03184.x" target="_blank" rel="noopener">10.1046/j.1365-8711.2000.03184.x &#8599;</a></div>
         <p class="src-role">Cited verbatim in canonical_gf for a NIST-grade-A forbidden line.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">storey_zeippen2000</span></div>
+      </li>
+      <li class="src-entry" id="tachiev_ff2002">
+        <div class="src-head">
+          <span class="src-cite">Tachiev, G. I.; Froese Fischer, C. (2002). <em>Breit-Pauli energy levels and transition rates for nitrogen-like and oxygen-like sequences</em>. A&amp;A 385, 716.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20011816" target="_blank" rel="noopener">10.1051/0004-6361:20011816 &#8599;</a></div>
+        <p class="src-role">Theoretical N I / O I transition rates.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/aa1990.pdf</span> &middot; <span class="src-key">tachiev_ff2002</span></div>
+      </li>
+      <li class="src-entry" id="trabert1999_al">
+        <div class="src-head">
+          <span class="src-cite">Träbert, E.; Wolf, A.; Linkemann, J.; Tordoir, X. (1999). <em>Measurement of the B+ and Al+ intercombination and Sc12+ forbidden transition rates at a heavy-ion storage ring</em>. J. Phys. B 32, 537-552.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0953-4075/32/2/031" target="_blank" rel="noopener">10.1088/0953-4075/32/2/031 &#8599;</a></div>
+        <p class="src-role">Higher-precision Al II 2669 successor to Johnson 1986. Primary full text and uncertainty analysis still required before adoption; secondary NIST/Vujnovic references are not independent experiments.</p>
+        <p class="src-note">Publisher-deposited Crossref DOI metadata retrieved 2026-09-13. No local full-text copy found; requested from Ryan. The source-hierarchy adoption remains HOLD.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1134</span> &middot; <span class="src-key">trabert1999_al</span></div>
       </li>
       <li class="src-entry" id="vald3_tool">
         <div class="src-head">
@@ -762,6 +1229,26 @@
         <p class="src-note">Conference proceedings; no DOI is registered. The link is the NASA Technical Reports Server record, which is the DEFINITIVE identification: NTRS returns this exact title and these authors for document 20060052476, and the local filename is NTRS&#x27;s own download name for it. US Government work.</p>
         <div class="src-meta"><span class="src-tickets">RYA-760; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/20060052476.pdf</span> &middot; <span class="src-key">wiese_fuhr2006</span></div>
       </li>
+      <li class="src-entry" id="wood2014_v2">
+        <div class="src-head">
+          <span class="src-cite">Wood, M. P.; Lawler, J. E.; Den Hartog, E. A.; Sneden, C.; Cowan, J. J. (2014). <em>Improved V II log(gf) Values, Hyperfine Structure Constants, and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 214, 18.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/214/2/18" target="_blank" rel="noopener">10.1088/0067-0049/214/2/18 &#8599;</a></div>
+        <p class="src-role">V II lab gf AGSS21 adopted over Scott+2015&#x27;s.</p>
+        <p class="src-note">arXiv 1408.4175 (open access); DOI checked on Crossref 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Wood_2014_ApJS_214_18_VII.pdf</span> &middot; <span class="src-key">wood2014_v2</span></div>
+      </li>
+      <li class="src-entry" id="wood2013_ti2">
+        <div class="src-head">
+          <span class="src-cite">Wood, M. P.; Lawler, J. E.; Sneden, C.; Cowan, J. J. (2013). <em>Improved Ti II log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 208, 27.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/208/2/27" target="_blank" rel="noopener">10.1088/0067-0049/208/2/27 &#8599;</a></div>
+        <p class="src-role">Ti II lab gf with per-line uncertainty: the gf of AGSS21&#x27;s Ti II set.</p>
+        <p class="src-note">arXiv 1309.1440 (open access); DOI checked on Crossref 2026-10-23.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Wood_2013_ApJS_208_27_TiII.pdf</span> &middot; <span class="src-key">wood2013_ti2</span></div>
+      </li>
       <li class="src-entry" id="wood2014">
         <div class="src-head">
           <span class="src-cite">Wood, M. P.; Lawler, J. E.; Sneden, C.; Cowan, J. J. (2014). <em>Improved Ni I log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 211, 20.</span>
@@ -769,14 +1256,32 @@
         </div>
         <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/211/2/20" target="_blank" rel="noopener">10.1088/0067-0049/211/2/20 &#8599;</a></div>
         <p class="src-role">PRIMARY laboratory Ni I gf (Wisconsin FTS group). SUPERSEDES the Ni I half of fuhr1988. canonical_gf already cites it for 22 Ni I lines while 102 Ni I lines still sit on the 1988 compilation -- flagged to RYA-853.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-864</span> &middot; <span class="src-key">wood2014</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/Wood_2014_ApJS_211_20_NiI.pdf</span> &middot; <span class="src-key">wood2014</span></div>
+      </li>
+      <li class="src-entry" id="yan1998_li">
+        <div class="src-head">
+          <span class="src-cite">Yan, Z.-C.; Tambasco, M.; Drake, G. W. F. (1998). <em>Energies and oscillator strengths for lithiumlike ions</em>. Phys. Rev. A 57, 1652.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1103/physreva.57.1652" target="_blank" rel="noopener">10.1103/physreva.57.1652 &#8599;</a></div>
+        <p class="src-role">gf basis of the Li I 670.8 nm doublet as Wang et al. 2021 used it.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">yan1998_li</span></div>
       </li>
     </ul>
   </section>
   <section class="src-section" id="atomic_data_broadening">
-    <h2>Atomic data &mdash; line broadening<span class="src-count">1</span></h2>
+    <h2>Atomic data &mdash; line broadening<span class="src-count">2</span></h2>
     <p class="src-blurb">Collisional broadening theory behind the van der Waals damping the line lists carry.</p>
     <ul class="src-list">
+      <li class="src-entry" id="barklem2005_fe2">
+        <div class="src-head">
+          <span class="src-cite">Barklem, P. S.; Aspelund-Johansson, J. (2005). <em>The broadening of Fe II lines by neutral hydrogen collisions</em>. A&amp;A 435, 373.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:20042469" target="_blank" rel="noopener">10.1051/0004-6361:20042469 &#8599;</a></div>
+        <p class="src-role">Van der Waals damping for Fe II lines.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">barklem2005_fe2</span></div>
+      </li>
       <li class="src-entry" id="omara2003">
         <div class="src-head">
           <span class="src-cite">O&#x27;Mara, B. J.; Barklem, P. S. (2003). <em>Broadening of Spectral Lines by Collisions with H-atoms</em>. Proceedings of the 12th Cambridge Workshop on Cool Stars, Stellar Systems &amp; the Sun (2003, University of Colorado).</span>
@@ -790,7 +1295,7 @@
     </ul>
   </section>
   <section class="src-section" id="nlte">
-    <h2>Non-LTE departures<span class="src-count">12</span></h2>
+    <h2>Non-LTE departures<span class="src-count">20</span></h2>
     <p class="src-blurb">The model atoms and departure-coefficient grids that move an abundance off its LTE value &mdash; including the papers that define where a grid does NOT reach.</p>
     <ul class="src-list">
       <li class="src-entry" id="amarsi2016">
@@ -812,6 +1317,16 @@
         <p class="src-note">On-disk copy is arXiv v3 (arXiv:2209.13449); the DOI is the published A&amp;A version.</p>
         <div class="src-meta"><span class="src-tickets">RYA-817; RYA-819; RYA-831</span> &middot; <span class="src-local">local copy: Reference documents/2209.13449v3.pdf</span> &middot; <span class="src-key">amarsi2022</span></div>
       </li>
+      <li class="src-entry" id="amarsi2020_galah">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Lind, K.; Osorio, Y.; Nordlander, T.; Bergemann, M.; et al. (2020). <em>The GALAH Survey: non-LTE departure coefficients for large spectroscopic surveys</em>. A&amp;A 642, A62.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://www.aanda.org/articles/aa/abs/2020/10/aa38650-20/aa38650-20.html" target="_blank" rel="noopener">10.1051/0004-6361/202038650 &#8599;</a></div>
+        <p class="src-role">GALAH Al departure-grid source consumed by Al_Amarsi2020_PySME.csv; model atom Nordlander &amp; Lind 2017. The registered Al derived corrections are 1D-NLTE, not full-3D.</p>
+        <p class="src-note">Publisher title, authors, journal and DOI verified 2026-09-13. No local Reference Documents PDF; retained as a valid canonical model citation.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-402; RYA-773; RYA-1134</span> &middot; <span class="src-key">amarsi2020_galah</span></div>
+      </li>
       <li class="src-entry" id="amarsi2019">
         <div class="src-head">
           <span class="src-cite">Amarsi, A. M.; Nissen, P. E.; Skuladottir, A. (2019). <em>Carbon, oxygen, and iron abundances in disk and halo stars</em>. A&amp;A 630, A104.</span>
@@ -831,6 +1346,24 @@
         <p class="src-note">On-disk copy is the arXiv v1 preprint (arXiv:1709.08619).</p>
         <div class="src-meta"><span class="src-tickets">RYA-466; RYA-540</span> &middot; <span class="src-local">local copy: Reference documents/1709.08619v1.pdf</span> &middot; <span class="src-key">andrievsky2017</span></div>
       </li>
+      <li class="src-entry" id="barklem2018_feh">
+        <div class="src-head">
+          <span class="src-cite">Barklem, P. S. (2018). <em>Excitation and charge transfer in low-energy hydrogen atom collisions with neutral iron</em>. A&amp;A 612, A90.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201732365" target="_blank" rel="noopener">10.1051/0004-6361/201732365 &#8599;</a></div>
+        <p class="src-role">Fe + H collision data behind the 3D NLTE iron analyses.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">barklem2018_feh</span></div>
+      </li>
+      <li class="src-entry" id="bergemann_hoppe2025">
+        <div class="src-head">
+          <span class="src-cite">Bergemann, M.; Hoppe, R. (2025). <em>3D Non-LTE radiation transfer: theory and applications to stars, exoplanets, and kilonovae</em>. arXiv:2511.04254.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2511.04254" target="_blank" rel="noopener">https://arxiv.org/abs/2511.04254 &#8599;</a></div>
+        <p class="src-role">Review of 3D NLTE methods; background for the NLTE treatments.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/2511.04254v2.pdf</span> &middot; <span class="src-key">bergemann_hoppe2025</span></div>
+      </li>
       <li class="src-entry" id="bergemann2012">
         <div class="src-head">
           <span class="src-cite">Bergemann, M.; Lind, K.; Collet, R.; Magic, Z.; Asplund, M. (2012). <em>Non-LTE line formation of Fe in late-type stars. I. Standard stars with 1D and &lt;3D&gt; model atmospheres</em>. MNRAS 427, 27.</span>
@@ -839,6 +1372,24 @@
         <div class="src-link"><a href="https://doi.org/10.1111/j.1365-2966.2012.21687.x" target="_blank" rel="noopener">10.1111/j.1365-2966.2012.21687.x &#8599;</a></div>
         <p class="src-role">The 1D/&lt;3D&gt; NLTE Fe grid served by the MPIA web service — Engine A for Fe wherever the Amarsi MLP is out of domain.</p>
         <div class="src-meta"><span class="src-tickets">RYA-319; RYA-763; RYA-783</span> &middot; <span class="src-key">bergemann2012</span></div>
+      </li>
+      <li class="src-entry" id="canocchi2026_na">
+        <div class="src-head">
+          <span class="src-cite">Canocchi, G.; Wang, E. X.; Amarsi, A. M.; Lind, K.; Racca, M. (2026). <em>3D NLTE sodium abundances in late-type stars. Abundance corrections and synthetic spectra</em>. A&amp;A 709, A90.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202558382" target="_blank" rel="noopener">10.1051/0004-6361/202558382 &#8599;</a></div>
+        <p class="src-role">3D NLTE Na corrections for the sodium analysis.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/aa58382-25.pdf</span> &middot; <span class="src-key">canocchi2026_na</span></div>
+      </li>
+      <li class="src-entry" id="korotin2020_ir">
+        <div class="src-head">
+          <span class="src-cite">Korotin, S. A.; Andrievsky, S. M.; Caffau, E.; Bonifacio, P.; Oliva, E. (2020). <em>Study of the departures from LTE in the unevolved stars infrared spectra</em>. MNRAS 496, 2462.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/staa1707" target="_blank" rel="noopener">10.1093/mnras/staa1707 &#8599;</a></div>
+        <p class="src-role">Infrared Al NLTE comparison. Cited in the Al literature scan as &quot;Andrievsky et al. 2020&quot;; Andrievsky is the second author.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">korotin2020_ir</span></div>
       </li>
       <li class="src-entry" id="koutsouridou2025">
         <div class="src-head">
@@ -860,15 +1411,43 @@
         <p class="src-note">Ticket inventory listed no authors for this file; identified from PDF metadata as Lagae, Amarsi &amp; Lind (2025).</p>
         <div class="src-meta"><span class="src-tickets">RYA-561; RYA-663</span> &middot; <span class="src-local">local copy: Reference documents/Metal Poor.pdf</span> &middot; <span class="src-key">lagae2025</span></div>
       </li>
+      <li class="src-entry" id="mashonkina2016_alsi">
+        <div class="src-head">
+          <span class="src-cite">Mashonkina, L. I.; Belyaev, A. K.; Shi, J.-R. (2016). <em>Influence of inelastic collisions with hydrogen atoms on the formation of Al I and Si I lines in stellar spectra</em>. Astron. Lett. 42, 366.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1134/s1063773716050078" target="_blank" rel="noopener">10.1134/s1063773716050078 &#8599;</a></div>
+        <p class="src-role">Al I near-UV resonance-line NLTE comparison.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">mashonkina2016_alsi</span></div>
+      </li>
       <li class="src-entry" id="nordlander_lind2017">
         <div class="src-head">
           <span class="src-cite">Nordlander, T.; Lind, K. (2017). <em>Non-LTE aluminium abundances in late-type stars</em>. A&amp;A 607, A75.</span>
-          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201730427" target="_blank" rel="noopener">10.1051/0004-6361/201730427 &#8599;</a></div>
         <p class="src-role">The Al solar anchor A(Al) = 6.43 +/- 0.03 (3D-NLTE), adopted verbatim by Asplund 2021. Publishes abundances ON 7835/8772, so it is Al&#x27;s EXTERNAL VALIDATION leg for Phase 1 -- it validates a final value and never selects lines or gf (RYA-161).</p>
-        <p class="src-note">NOT an independent gf source: its Al uncertainties trace to NIST / Kelleher &amp; Podobedova 2008, so counting it as a second source double-counts the NIST rung. Deliberately absent from the RYA-1001 gf ladder.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-1001</span> &middot; <span class="src-key">nordlander_lind2017</span></div>
+        <p class="src-note">NOT an independent gf source: its Al uncertainties trace to NIST / Kelleher &amp; Podobedova 2008, so counting it as a second source double-counts the NIST rung. Deliberately absent from the RYA-1001 gf ladder. Published local PDF aa30427-17.pdf and alternate arXiv 1708.01949v1.pdf checked on 2026-09-13; one canonical record. Source uncertainties are inherited, not independent measurements.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-716; RYA-835; RYA-1001; RYA-1134</span> &middot; <span class="src-local">local copy: Reference documents/aa30427-17.pdf</span> &middot; <span class="src-key">nordlander_lind2017</span></div>
+      </li>
+      <li class="src-entry" id="osorio2015_mg">
+        <div class="src-head">
+          <span class="src-cite">Osorio, Y.; Barklem, P. S.; Lind, K.; Belyaev, A. K.; Spielfiedel, A.; Guitou, M.; Feautrier, N. (2015). <em>Mg line formation in late-type stellar atmospheres. I. The model atom</em>. A&amp;A 579, A53.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201525846" target="_blank" rel="noopener">10.1051/0004-6361/201525846 &#8599;</a></div>
+        <p class="src-role">Mg NLTE model atom; part of the Mg literature comparison.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">osorio2015_mg</span></div>
+      </li>
+      <li class="src-entry" id="peralta2022_mg_nuv_mir">
+        <div class="src-head">
+          <span class="src-cite">Peralta, J.; Gómez, M.; Fontenla, J. M.; et al. (2022). <em>Modeling the Mg I from the NUV to MIR - I. The solar case</em>. A&amp;A 657, A108.</span>
+          <span class="src-verified src-v-metadata_verified" title="Bibliographic metadata checked against the paper held in the local reference library.">META</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2110.02992" target="_blank" rel="noopener">10.1051/0004-6361/202141973 &#8599;</a></div>
+        <p class="src-role">Solar Mg I NLTE atomic model spanning NUV through MIR; candidate physics source for future non-reference line coverage.</p>
+        <p class="src-note">Local arXiv copy downloaded for research use.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1250; RYA-1268</span> &middot; <span class="src-local">local copy: Reference documents/Peralta_2022_MgI_NUV_MIR_NLTE.pdf</span> &middot; <span class="src-key">peralta2022_mg_nuv_mir</span></div>
       </li>
       <li class="src-entry" id="roederer_lawler2021">
         <div class="src-head">
@@ -927,9 +1506,19 @@
     </ul>
   </section>
   <section class="src-section" id="model_atmosphere">
-    <h2>Model atmospheres<span class="src-count">3</span></h2>
+    <h2>Model atmospheres<span class="src-count">4</span></h2>
     <p class="src-blurb">The 1D and 3D atmospheric structures the synthesis runs on top of.</p>
     <ul class="src-list">
+      <li class="src-entry" id="castelli_kurucz2003">
+        <div class="src-head">
+          <span class="src-cite">Castelli, F.; Kurucz, R. L. (2003). <em>New Grids of ATLAS9 Model Atmospheres</em>. IAU Symp. 210, Modelling of Stellar Atmospheres, poster A20.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/astro-ph/0405087" target="_blank" rel="noopener">https://arxiv.org/abs/astro-ph/0405087 &#8599;</a></div>
+        <p class="src-role">The ATLAS9 grid behind the 1D-LTE synthesis and the per-line correction routes.</p>
+        <p class="src-note">Conference poster; no DOI. Metadata from the arXiv record.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">castelli_kurucz2003</span></div>
+      </li>
       <li class="src-entry" id="gustafsson2008">
         <div class="src-head">
           <span class="src-cite">Gustafsson, B.; Edvardsson, B.; Eriksson, K.; Jorgensen, U. G.; Nordlund, A.; Plez, B. (2008). <em>A grid of MARCS model atmospheres for late-type stars. I. Methods and general properties</em>. A&amp;A 486, 951.</span>
@@ -1113,9 +1702,27 @@
     </ul>
   </section>
   <section class="src-section" id="instrument_line_selection">
-    <h2>Instruments &amp; line selection<span class="src-count">5</span></h2>
+    <h2>Instruments &amp; line selection<span class="src-count">8</span></h2>
     <p class="src-blurb">External line-selection catalogues and instrument-specific abundance work the Codex cross-checks its own pools against.</p>
     <ul class="src-list">
+      <li class="src-entry" id="abdurrouf2022_sdss">
+        <div class="src-head">
+          <span class="src-cite">Abdurro&#x27;uf; Accetta, K.; Aerts, C.; Silva Aguirre, V.; Ahumada, R.; Ajgaonkar, N.; et al. (2022). <em>The Seventeenth Data Release of the Sloan Digital Sky Surveys</em>. ApJS 259, 35.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/ac4414" target="_blank" rel="noopener">10.3847/1538-4365/ac4414 &#8599;</a></div>
+        <p class="src-role">APOGEE DR17 H-band practice, an iron literature comparison.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">abdurrouf2022_sdss</span></div>
+      </li>
+      <li class="src-entry" id="chiappino2026">
+        <div class="src-head">
+          <span class="src-cite">Chiappino, L.; Origlia, L.; Fanelli, C.; Bartolomei, A.; Ferraro, F. R.; Lanzoni, B.; Pallanca, C.; Cadelano, M.; et al. (2026). <em>CRIRES+ reveals the chemistry of the stellar sub-populations in the bulge fossil fragment Liller 1</em>. arXiv:2606.11329.</span>
+          <span class="src-verified src-v-arxiv" title="Metadata read from the arXiv record; the preprint is held in the local reference library.">ARXIV</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2606.11329" target="_blank" rel="noopener">https://arxiv.org/abs/2606.11329 &#8599;</a></div>
+        <p class="src-role">CRIRES+ infrared abundance practice, for comparison with our CRIRES+ line choices.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/2606.11329v1.pdf</span> &middot; <span class="src-key">chiappino2026</span></div>
+      </li>
       <li class="src-entry" id="elgueta2026">
         <div class="src-head">
           <span class="src-cite">Elgueta, S.; Jofre, P.; Aguilera-Gomez, C.; Slumstrup, D.; Rojas Arriagada, A.; Heiter, U.; Casamiquela, L.; Zoccali, M.; Worley, C.; Soubiran, C. (2026). <em>Gaia FGK benchmark stars: Selecting infrared lines for abundance determination</em>. A&amp;A 710, A111.</span>
@@ -1154,6 +1761,15 @@
         <p class="src-role">NIR Fe I/II astrophysical (solar-calibrated) gf line list. LINE-LIST SOURCE, not an abundance determination. FIREWALL: solar-tuned gf, cannot referee a solar abundance.</p>
         <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">melendez1999</span></div>
       </li>
+      <li class="src-entry" id="nandakumar2024_igrins3">
+        <div class="src-head">
+          <span class="src-cite">Nandakumar, G.; Ryde, N.; Forsberg, R.; Montelius, M.; Mace, G.; Jonsson, H.; Thorsbro, B. (2024). <em>M giants with IGRINS. III. Abundance trends for 21 elements in the solar neighborhood from high-resolution near-infrared spectra</em>. A&amp;A 684, A15.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202348462" target="_blank" rel="noopener">10.1051/0004-6361/202348462 &#8599;</a></div>
+        <p class="src-role">Near-infrared line selection and abundances from IGRINS, a comparison for our H- and K-band line choices.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/aa48462-23.pdf</span> &middot; <span class="src-key">nandakumar2024_igrins3</span></div>
+      </li>
       <li class="src-entry" id="nandakumar2024">
         <div class="src-head">
           <span class="src-cite">Nandakumar, G.; Ryde, N.; Mace, G.; Kaplan, K. F.; Nieuwmunster, N.; Jaffe, D. (2024). <em>Composition of Giants 1 Degree North of the Galactic Center: Detailed Abundance Trends for 21 Elements Observed with IGRINS</em>. ApJ 964, 96.</span>
@@ -1167,7 +1783,7 @@
     </ul>
   </section>
   <section class="src-section" id="cno">
-    <h2>Carbon, nitrogen &amp; oxygen<span class="src-count">8</span></h2>
+    <h2>Carbon, nitrogen &amp; oxygen<span class="src-count">10</span></h2>
     <p class="src-blurb">The C/N/O literature behind the C/O ratio &mdash; the flagship derived product and the hardest measurement in the project.</p>
     <ul class="src-list">
       <li class="src-entry" id="barbuy2009_iaus">
@@ -1208,6 +1824,15 @@
         <p class="src-role">The [O I] 6300 vs O I 6158 comparison — the external precedent for the Codex&#x27;s own two-indicator oxygen disagreement.</p>
         <div class="src-meta"><span class="src-tickets">RYA-447; RYA-485</span> &middot; <span class="src-local">local copy: Reference documents/Cand O HArps.pdf</span> &middot; <span class="src-key">bertrandelis2015</span></div>
       </li>
+      <li class="src-entry" id="brooke2014_cn">
+        <div class="src-head">
+          <span class="src-cite">Brooke, J. S. A.; Ram, R. S.; Western, C. M.; Li, G.; Schwenke, D. W.; Bernath, P. F. (2014). <em>Einstein A coefficients and oscillator strengths for the A-X (red) and B-X (violet) systems and rovibrational transitions in the X state of CN</em>. ApJS 210, 23.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/210/2/23" target="_blank" rel="noopener">10.1088/0067-0049/210/2/23 &#8599;</a></div>
+        <p class="src-role">CN line data for the molecular nitrogen indicators.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/Brooke_2014_ApJS_210_23.pdf</span> &middot; <span class="src-key">brooke2014_cn</span></div>
+      </li>
       <li class="src-entry" id="eistrup2018">
         <div class="src-head">
           <span class="src-cite">Eistrup, C.; Walsh, C.; van Dishoeck, E. F. (2018). <em>Molecular abundances and C/O ratios in chemically evolving planet-forming disk midplanes</em>. A&amp;A 613, A14.</span>
@@ -1227,6 +1852,15 @@
         <p class="src-note">Ticket inventory listed this only as &#x27;Carbon abundances&#x27;; identified from PDF metadata as Fabbian et al. 2006.</p>
         <div class="src-meta"><span class="src-tickets">RYA-237; RYA-359</span> &middot; <span class="src-local">local copy: Reference documents/Carbon.pdf</span> &middot; <span class="src-key">fabbian2006</span></div>
       </li>
+      <li class="src-entry" id="masseron2014_ch">
+        <div class="src-head">
+          <span class="src-cite">Masseron, T.; Plez, B.; Van Eck, S.; Colin, R.; Daoutidis, I.; Godefroid, M.; Coheur, P.-F.; Bernath, P.; et al. (2014). <em>CH in stellar atmospheres: an extensive linelist</em>. A&amp;A 571, A47.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201423956" target="_blank" rel="noopener">10.1051/0004-6361/201423956 &#8599;</a></div>
+        <p class="src-role">The CH line list for the G-band carbon indicator.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/Masseron_2014_AA_571_A47_CH.epub</span> &middot; <span class="src-key">masseron2014_ch</span></div>
+      </li>
       <li class="src-entry" id="ramirez2013">
         <div class="src-head">
           <span class="src-cite">Ramirez, I.; Allende Prieto, C.; Lambert, D. L. (2013). <em>Oxygen Abundances in Nearby FGK Stars and the Galactic Chemical Evolution of the Local Disk and Halo</em>. ApJ 764, 78.</span>
@@ -1245,6 +1879,82 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/778/2/132" target="_blank" rel="noopener">10.1088/0004-637X/778/2/132 &#8599;</a></div>
         <p class="src-role">The 55 Cnc C/O controversy in one paper, including the Ni I 6300.34 blend sensitivity the Codex inherits.</p>
         <div class="src-meta"><span class="src-tickets">RYA-365; RYA-447</span> &middot; <span class="src-local">local copy: Reference documents/Teske_2013_ApJ_778_132.pdf</span> &middot; <span class="src-key">teske2013</span></div>
+      </li>
+    </ul>
+  </section>
+  <section class="src-section" id="nitrogen_method">
+    <h2>Nitrogen &mdash; method literature<span class="src-count">7</span></h2>
+    <p class="src-blurb">How other teams measured nitrogen from N I, NH and CN, read for their practice rather than for a number the Codex adopts.</p>
+    <ul class="src-list">
+      <li class="src-entry" id="botelho2020">
+        <div class="src-head">
+          <span class="src-cite">Botelho, R. B.; Milone, A. de C.; Meléndez, J.; Alves-Brito, A.; Spina, L.; Bean, J. L. (2020). <em>Carbon, isotopic ratio 12C/13C, and nitrogen in solar twins: constraints for the chemical evolution of the local disc</em>. MNRAS 499, 2196-2213.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2009.09003" target="_blank" rel="noopener">10.1093/mnras/staa2917 &#8599;</a></div>
+        <p class="src-role">Five blue CN windows and differential practice; astrophysical gf firewall</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/botelho2020_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">botelho2020</span></div>
+      </li>
+      <li class="src-entry" id="li2023_n">
+        <div class="src-head">
+          <span class="src-cite">Li, M. C.; Li, W.; Jönsson, P.; Amarsi, A. M.; Grumer, J. (2023). <em>Extended MCDHF calculations of energy levels and transition data for N I</em>. ApJS 265, 26.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2302.00228" target="_blank" rel="noopener">10.3847/1538-4365/acb705 &#8599;</a></div>
+        <p class="src-role">New ab-initio N I gf candidate; Table 7 five-line comparison and laboratory-source leads</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/li2023_n_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">li2023_n</span></div>
+      </li>
+      <li class="src-entry" id="mashonkina2024">
+        <div class="src-head">
+          <span class="src-cite">Mashonkina, L. I.; Ryabchikova, T. A. (2024). <em>Non-LTE abundances of nitrogen in the Sun and reference A-F type stars</em>. arXiv:2406.11367.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2406.11367" target="_blank" rel="noopener">https://arxiv.org/abs/2406.11367 &#8599;</a></div>
+        <p class="src-role">Sun and A-F stars; NLTE atom and continuum/blend competing explanation</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/mashonkina2024_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">mashonkina2024</span></div>
+      </li>
+      <li class="src-entry" id="smith2013">
+        <div class="src-head">
+          <span class="src-cite">Smith, V. V.; Cunha, K.; Shetrone, M. D.; Meszaros, S.; Allende Prieto, C.; Bizyaev, D.; Garcia Perez, A.; Majewski, S. R.; Schiavon, R.; Holtzman, J.; Johnson, J. A. (2013). <em>Chemical Abundances in Field Red Giants from High-Resolution H-Band Spectra using the APOGEE Spectral Linelist</em>. ApJ; inspected arXiv:1212.4091.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/1212.4091" target="_blank" rel="noopener">https://arxiv.org/abs/1212.4091 &#8599;</a></div>
+        <p class="src-role">Iterated CO/OH/CN and stellar-parameter covariance in red giants</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/smith2013_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">smith2013</span></div>
+      </li>
+      <li class="src-entry" id="spite2005">
+        <div class="src-head">
+          <span class="src-cite">Spite, M.; Cayrel, R.; Plez, B.; Hill, V.; Spite, F.; et al. (2005). <em>First stars VI - Abundances of C, N, O, Li, and mixing in extremely metal-poor giants. Galactic evolution of the light elements</em>. A&amp;A 430, 655-668.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/astro-ph/0409536" target="_blank" rel="noopener">10.1051/0004-6361:20041274 &#8599;</a></div>
+        <p class="src-role">Historical NH/CN offset; photospheric mixing and low-metallicity diagnostic reach</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/spite2005_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">spite2005</span></div>
+      </li>
+      <li class="src-entry" id="spite2022">
+        <div class="src-head">
+          <span class="src-cite">Spite, M.; Spite, F.; Caffau, E.; Bonifacio, P.; François, P. (2022). <em>Detailed analysis of a sample of field metal-poor N-rich dwarfs</em>. A&amp;A 667, A139.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2209.10219" target="_blank" rel="noopener">10.1051/0004-6361/202243960 &#8599;</a></div>
+        <p class="src-role">Updated Fernando NH data; quantified 0.50 dex line-list effect</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/spite2022_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">spite2022</span></div>
+      </li>
+      <li class="src-entry" id="suarez2016">
+        <div class="src-head">
+          <span class="src-cite">Suárez-Andrés, L.; Israelian, G.; González Hernández, J. I.; Adibekyan, V. Zh.; Delgado Mena, E.; Santos, N. C.; Sousa, S. G. (2016). <em>CNO behaviour in planet-harbouring stars. I. Nitrogen abundances in stars with planets</em>. A&amp;A 591, A69.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/1605.03049" target="_blank" rel="noopener">10.1051/0004-6361/201628455 &#8599;</a></div>
+        <p class="src-role">NH in planet hosts: observational practice; solar-calibrated gf prohibited from canonical intake</p>
+        <p class="src-note">Author preprint downloaded and inspected; original source version preserved. No publisher redistribution claimed.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1220</span> &middot; <span class="src-local">local copy: Reference documents/suarez2016_nitrogen_rya1220.pdf</span> &middot; <span class="src-key">suarez2016</span></div>
       </li>
     </ul>
   </section>
@@ -1321,9 +2031,18 @@
     </ul>
   </section>
   <section class="src-section" id="method_tool">
-    <h2>Methods, codes &amp; tools<span class="src-count">6</span></h2>
+    <h2>Methods, codes &amp; tools<span class="src-count">11</span></h2>
     <p class="src-blurb">The software and methodological references the pipeline is built on.</p>
     <ul class="src-list">
+      <li class="src-entry" id="barklem_collet2016">
+        <div class="src-head">
+          <span class="src-cite">Barklem, P. S.; Collet, R. (2016). <em>Partition functions and equilibrium constants for diatomic molecules and atoms of astrophysical interest</em>. A&amp;A 588, A96.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201526961" target="_blank" rel="noopener">10.1051/0004-6361/201526961 &#8599;</a></div>
+        <p class="src-role">Molecular and atomic partition functions for the molecular-line synthesis.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/aa26961-15.pdf</span> &middot; <span class="src-key">barklem_collet2016</span></div>
+      </li>
       <li class="src-entry" id="blancocuaresma2014">
         <div class="src-head">
           <span class="src-cite">Blanco-Cuaresma, S.; Soubiran, C.; Heiter, U.; Jofre, P. (2014). <em>Determining stellar atmospheric parameters and chemical abundances of FGK stars with iSpec</em>. A&amp;A 569, A111.</span>
@@ -1332,6 +2051,15 @@
         <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201423945" target="_blank" rel="noopener">10.1051/0004-6361/201423945 &#8599;</a></div>
         <p class="src-role">iSpec — the framework every Codex EW and synthesis fit runs through.</p>
         <div class="src-meta"><span class="src-tickets">RYA-770; RYA-771</span> &middot; <span class="src-key">blancocuaresma2014</span></div>
+      </li>
+      <li class="src-entry" id="froesefischer1991_mchf">
+        <div class="src-head">
+          <span class="src-cite">Froese Fischer, C. (1991). <em>The MCHF atomic-structure package</em>. Comput. Phys. Commun. 64, 369.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1016/0010-4655(91)90133-6" target="_blank" rel="noopener">10.1016/0010-4655(91)90133-6 &#8599;</a></div>
+        <p class="src-role">Atomic-structure code behind several theoretical gf calculations we cite.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/p138.pdf</span> &middot; <span class="src-key">froesefischer1991_mchf</span></div>
       </li>
       <li class="src-entry" id="gray2005">
         <div class="src-head">
@@ -1351,6 +2079,25 @@
         <p class="src-role">Why the Codex derives xi from OBSERVED equivalent widths rather than expected line strength, and where each method breaks down with S/N.</p>
         <p class="src-note">LOCAL FILE IS MISNAMED: &#x27;Apslund2010.pdf&#x27; is Mucciarelli 2011 (A&amp;A 528, A44). Identified from PDF metadata. This is the &#x27;aa1581410.pdf&#x27; of the ticket inventory.</p>
         <div class="src-meta"><span class="src-tickets">RYA-309</span> &middot; <span class="src-local">local copy: Reference documents/Apslund2010.pdf</span> &middot; <span class="src-key">mucciarelli2011</span></div>
+      </li>
+      <li class="src-entry" id="plez2012">
+        <div class="src-head">
+          <span class="src-cite">Plez, B. (2012). <em>Turbospectrum: Code for spectral synthesis</em>. Astrophysics Source Code Library, ascl:1205.004.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://ascl.net/1205.004" target="_blank" rel="noopener">https://ascl.net/1205.004 &#8599;</a></div>
+        <p class="src-role">The radiative-transfer code behind every synthesis fit (run through iSpec).</p>
+        <p class="src-note">Software record; no DOI.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">plez2012</span></div>
+      </li>
+      <li class="src-entry" id="smette2015">
+        <div class="src-head">
+          <span class="src-cite">Smette, A.; Sana, H.; Noll, S.; Horst, H.; Kausch, W.; Kimeswenger, S.; Barden, M.; Szyszka, C.; et al. (2015). <em>Molecfit: A general tool for telluric absorption correction. I. Method and application to ESO instruments</em>. A&amp;A 576, A77.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201423932" target="_blank" rel="noopener">10.1051/0004-6361/201423932 &#8599;</a></div>
+        <p class="src-role">The telluric-correction code run on the HARPS, Kitt Peak and CRIRES+ solar holdings.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">smette2015</span></div>
       </li>
       <li class="src-entry" id="sneden1973">
         <div class="src-head">
@@ -1381,10 +2128,20 @@
         <p class="src-note">On-disk copy is the arXiv v3 preprint (arXiv:1603.05890).</p>
         <div class="src-meta"><span class="src-tickets">RYA-360; RYA-390</span> &middot; <span class="src-local">local copy: Reference documents/1603.05890v3.pdf</span> &middot; <span class="src-key">tennyson2016</span></div>
       </li>
+      <li class="src-entry" id="wehrhahn2023_pysme">
+        <div class="src-head">
+          <span class="src-cite">Wehrhahn, A.; Piskunov, N.; Ryabchikova, T. (2023). <em>PySME - Spectroscopy Made Easier</em>. A&amp;A 671, A171.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/abs/2210.04755" target="_blank" rel="noopener">10.1051/0004-6361/202244482 &#8599;</a></div>
+        <p class="src-role">PySME synthesis software used to derive the registered Al 1D-NLTE correction grid; software citation is distinct from the model atom and departure-grid source.</p>
+        <p class="src-note">Author-deposited arXiv record 2210.04755v2 verified title/authors/published journal and DOI on 2026-09-13. No local Reference Documents PDF.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-402; RYA-773; RYA-1134</span> &middot; <span class="src-key">wehrhahn2023_pysme</span></div>
+      </li>
     </ul>
   </section>
   <section class="src-section" id="project_doc">
-    <h2>Exoplanet Codex documents<span class="src-count">6</span></h2>
+    <h2>Exoplanet Codex documents<span class="src-count">4</span></h2>
     <p class="src-blurb">The project&rsquo;s own methodology, glossary and architecture documents.</p>
     <ul class="src-list">
       <li class="src-entry" id="schmitt2010_thesis">
@@ -1399,58 +2156,38 @@
       </li>
       <li class="src-entry" id="schmitt_glossary_v2">
         <div class="src-head">
-          <span class="src-cite">Schmitt, R. (2026). <em>The Exoplanet Codex Glossary, v2.0</em>. The Exoplanet Codex.</span>
+          <span class="src-cite">Schmitt, R. (2026). <em>The Exoplanet Codex Glossary, v3.2</em>. The Exoplanet Codex.</span>
           <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
         </div>
-        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-glossary-v2.0.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-glossary-v2.0.pdf &#8599;</a></div>
+        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-glossary-v3.2.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-glossary-v3.2.pdf &#8599;</a></div>
         <p class="src-role">The published glossary; the vocabulary the site and the SPP share.</p>
         <p class="src-note">Project document; no DOI. Published copy is served from exoplanetcodex.org.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-179</span> &middot; <span class="src-local">local copy: Archive docs/exoplanet-codex-glossary-v2.0.pdf</span> &middot; <span class="src-key">schmitt_glossary_v2</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-179;RYA-1271</span> &middot; <span class="src-key">schmitt_glossary_v2</span></div>
       </li>
       <li class="src-entry" id="schmitt_method_v2">
         <div class="src-head">
-          <span class="src-cite">Schmitt, R. (2026). <em>The Exoplanet Codex Method, v2.0</em>. The Exoplanet Codex.</span>
+          <span class="src-cite">Schmitt, R. (2026). <em>Spectral Analysis Methodology, v3.0</em>. The Exoplanet Codex.</span>
           <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
         </div>
-        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-method-v2.0.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-method-v2.0.pdf &#8599;</a></div>
-        <p class="src-role">The published methodology document the site links from every results page.</p>
+        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-method-v3.0.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-method-v3.0.pdf &#8599;</a></div>
+        <p class="src-role">The current methodology: how the Codex measures what a star is made of, step by step, starting with the Sun.</p>
         <p class="src-note">Project document; no DOI. Published copy is served from exoplanetcodex.org.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-179</span> &middot; <span class="src-local">local copy: Archive docs/exoplanet-codex-method-v2.0.pdf</span> &middot; <span class="src-key">schmitt_method_v2</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-179;RYA-1271</span> &middot; <span class="src-key">schmitt_method_v2</span></div>
       </li>
       <li class="src-entry" id="schmitt_science_architecture">
         <div class="src-head">
-          <span class="src-cite">Schmitt, R. (2026). <em>Science Architecture: How the Exoplanet Codex checks measurements, promotes results, freezes references, and preserves the scientific record</em>. The Exoplanet Codex, v3.0.</span>
+          <span class="src-cite">Schmitt, R. (2026). <em>Science Architecture: how the orchestrator takes an element from a published line list to a checked, published abundance</em>. The Exoplanet Codex, v4.0.</span>
           <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
-        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-science-architecture-v3.0.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-science-architecture-v3.0.pdf &#8599;</a></div>
-        <p class="src-role">The architecture document behind the two-engine floor, the three promotion gates, the freeze tiers, the honesty tripwire and the RYA-161 firewall — the reasoning every other row in this bibliography is serving.</p>
+        <div class="src-link"><a href="https://exoplanetcodex.org/assets/docs/exoplanet-codex-science-architecture-v4.0.pdf" target="_blank" rel="noopener">https://exoplanetcodex.org/assets/docs/exoplanet-codex-science-architecture-v4.0.pdf &#8599;</a></div>
+        <p class="src-role">The current architecture: prepare, the run matrix, error budgets, publication and the definition of done.</p>
         <p class="src-note">FOUND, after an earlier pass wrongly recorded it as missing. The RYA-854 inventory named &#x27;Exoplanet_Codex_Science_Architecture.docx&#x27;, which genuinely does not exist under that name — but the document does, published on the site as v3.0 (PDF) with v2.0 (.docx) archived beside it. Title and subtitle read from the PDF&#x27;s own first page; the live URL serves application/pdf. The lesson is that searching for the INVENTORY&#x27;S filename and concluding absence was the error: the absence was scoped to a name, not to the document.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-179</span> &middot; <span class="src-local">local copy: exoplanetcodex-site/assets/docs/exoplanet-codex-science-architecture-v3.0.pdf</span> &middot; <span class="src-key">schmitt_science_architecture</span></div>
-      </li>
-      <li class="src-entry" id="codex_note_harps_telluric_stop_2026_08_19">
-        <div class="src-head">
-          <span class="src-cite">Schmitt, R. D. (Exoplanet Codex) (2026). <em>STOP - every HARPS product from 2026-08-19 is SUSPECT (telluric)</em>. Exoplanet Codex internal note.</span>
-          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
-        </div>
-        <div class="src-link src-nolink">no verified link &mdash; see note</div>
-        <p class="src-role">Library context, NOT a pipeline input. A working note written when the Linear token expired before it could be posted to RYA-916; the finding it carries lives in the ticket journal, not here. Listed because an unlisted document is an uncited one (RYA-854).</p>
-        <p class="src-note">Own work</p>
-        <div class="src-meta"><span class="src-tickets">RYA-916;RYA-854;RYA-963</span> &middot; <span class="src-local">local copy: HARPS-telluric-STOP-2026-08-19.md</span> &middot; <span class="src-key">codex_note_harps_telluric_stop_2026_08_19</span></div>
-      </li>
-      <li class="src-entry" id="codex_note_kpno_telluric_line_selection_draft">
-        <div class="src-head">
-          <span class="src-cite">Schmitt, R. D. (Exoplanet Codex) (2026). <em>TICKET DRAFT - kpno declares telluric_basis = line_selection and does not execute it</em>. Exoplanet Codex internal note.</span>
-          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
-        </div>
-        <div class="src-link src-nolink">no verified link &mdash; see note</div>
-        <p class="src-role">Library context, NOT a pipeline input. A ticket draft parked in the library when the Linear token expired. Listed for completeness (RYA-854), not because it is a source.</p>
-        <p class="src-note">Own work</p>
-        <div class="src-meta"><span class="src-tickets">RYA-854;RYA-963</span> &middot; <span class="src-local">local copy: TICKET-DRAFT-kpno-telluric-line-selection.md</span> &middot; <span class="src-key">codex_note_kpno_telluric_line_selection_draft</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">schmitt_science_architecture</span></div>
       </li>
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 8efa4ef9775aaa2155c709c5f5bd8558a20b73e9a680c0b578a1f4904d078a18 &middot; 131 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 411f2238b1be7d6708343b5f6ed869e74d53a49a4a6b20bfdc47efbb91d96472 &middot; 206 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
@@ -1462,6 +2199,39 @@
     <p class="footer-copy">&copy; 2026 The Exoplanet Codex &middot; Open Science &middot; All data public</p>
   </footer>
 </div>
+<script>
+(function () {
+  var q = document.getElementById('src-q');
+  var out = document.getElementById('src-q-count');
+  if (!q) return;
+  var fold = function (s) {
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  };
+  var entries = Array.prototype.slice.call(document.querySelectorAll('.src-entry'));
+  entries.forEach(function (li) { li.dataset.text = fold(li.textContent); });
+  var sections = document.querySelectorAll('.src-section');
+  var toc = document.querySelector('.src-toc');
+  function run() {
+    var terms = fold(q.value).split(/\s+/).filter(Boolean);
+    var shown = 0;
+    entries.forEach(function (li) {
+      var hit = terms.every(function (t) { return li.dataset.text.indexOf(t) !== -1; });
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    sections.forEach(function (sec) {
+      sec.hidden = !sec.querySelector('.src-entry:not([hidden])');
+    });
+    if (toc) toc.hidden = terms.length > 0;
+    out.textContent = terms.length ? shown + ' of ' + entries.length + ' references match' : '';
+  }
+  q.addEventListener('input', run);
+  if (location.hash.indexOf('#q=') === 0) {
+    q.value = decodeURIComponent(location.hash.slice(3));
+    run();
+  }
+})();
+</script>
 <script src="/assets/js/starfield.js"></script>
 <script src="/assets/js/codex.js"></script>
 </body>
