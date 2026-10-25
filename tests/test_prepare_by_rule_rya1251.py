@@ -267,3 +267,59 @@ def test_a_leg_with_no_line_in_common_holds_the_component_not_the_element():
     leg = pd.DataFrame({"wavelength_air_A": [6160.747], "abundance": [6.31], "in_aggregate": [True]})
     p = cb._paired(leg, nom, 1)
     assert p["moved"] and p["n_paired"] == 0
+
+
+def test_an_abundance_dependent_nlte_fit_never_probes_off_its_deck(monkeypatch):
+    """RYA-1251: the A(sun) -3/+5 bracket put Brent's second probe at ~8.2 for Na, above the
+    deck's 7.29; one refused trial failed every Na I NLTE line (19/19 VIS products, n=0)."""
+    import sys
+    import numpy as np
+    from config.constants import ISPEC_DIR
+    sys.path.insert(0, str(ISPEC_DIR))
+    pytest.importorskip("ispec")
+    from pipeline import abundances_derive as ad
+    from pipeline import gerber_nlte as g
+    trials = []
+    monkeypatch.setattr(g, "assert_linelist_supports_nlte", lambda *a, **k: None)
+    monkeypatch.setattr(g, "has_abundance_axis", lambda el: True)
+    monkeypatch.setattr(g, "abundance_axis", lambda el: [4.29, 7.29])
+
+    def for_node(el, t, lg, fe, abundance=None):
+        if not 4.29 <= abundance <= 7.29:
+            raise g.GerberDeckError(f"A({el}) = {abundance:.3f} is outside this deck's axis")
+        return "dep"
+    monkeypatch.setattr(g, "for_node", for_node)
+    monkeypatch.setattr(g, "as_ispec_tuple", lambda dep, a: dep)
+
+    def synth(sw, trial_A, nlte_departures=None, **kw):
+        trials.append(trial_A)
+        return 1.0 - 0.5 * np.exp(-((sw - 615.42) / 0.01) ** 2) * (trial_A - 3.0) / 3.0
+    monkeypatch.setattr(ad, "_synth_flux_at_abund", synth)
+    w = np.linspace(615.3, 615.5, 201)
+    obs = synth(w, 6.25)
+    trials.clear()
+    r = ad._fit_synth_flux(w, obs, None, 5772.0, 4.44, 0.0, 1.0, None, None, None, "Na", 11,
+                           615.3, 615.5, 3.24, 11.24, 700000.0, 0.0, 0.0, nlte_deck="gerber")
+    assert r["status"] == "ok" and abs(r["A_X"] - 6.25) < 0.01
+    assert trials and min(trials) >= 4.29 and max(trials) <= 7.29
+
+
+def test_a_cell_whose_every_line_failed_synthesis_is_not_current(tmp_path, monkeypatch):
+    """RYA-1251: 17 Na NLTE cells failed every fit and were recorded as built -- current, so a
+    fixed engine never re-ran them. A cell with one real measurement stays current."""
+    monkeypatch.setattr(rm, "ARTIFACT_ROOT", tmp_path)
+    hdr = "wavelength_air_A,abundance,in_aggregate,excluded_reason\n"
+    dead = tmp_path / "dead_lines.csv"
+    dead.write_text(hdr + "6154.225,,False,SYNTHESIS: failed synthesis error: off axis\n"
+                          "6160.747,,False,SYNTHESIS: failed synthesis error: off axis\n")
+    live = tmp_path / "live_lines.csv"
+    live.write_text(hdr + "6154.225,6.30,True,\n6160.747,,False,SYNTHESIS: failed x\n")
+
+    def rec(p):
+        return {"inputs_hash": "h", "recorded_at": "t",
+                "artifacts": [{"path": p.name,
+                               "sha256": rm._file_fingerprint(p)}]}
+    assert rm.is_current([], "h", rec(live))[0]
+    ok, why = rm.is_current([], "h", rec(dead))
+    assert not ok and "failed SYNTHESIS" in why
+    assert rm._every_line_failed_synthesis([{"path": str(dead)}]) == str(dead)

@@ -241,6 +241,12 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         import shutil
         shutil.rmtree(legs, ignore_errors=True)
     prev.write_text(sig)
+    # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
+    # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
+    for done in legs.glob("unit*/*/DONE"):
+        arts = [{"path": str(p.resolve())} for p in done.parent.glob("*_lines.csv")]
+        if rm._every_line_failed_synthesis(arts):
+            done.unlink()
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
     # still missing is RECORDED, never silently assembled around.

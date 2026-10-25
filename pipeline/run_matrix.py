@@ -1227,6 +1227,26 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
             for f in sorted(hits)]
 
 
+def _every_line_failed_synthesis(arts: list[dict]) -> str:
+    """The first per-line artifact whose EVERY row is excluded as a failed synthesis, or "".
+
+    RYA-1251: the Na NLTE fit probed off its deck's abundance axis, every line came back
+    "SYNTHESIS: failed", and 19 cells were recorded as built -- and so current, never re-run
+    when the engine was fixed (a library module is not in `inputs_hash`). A synthesis that
+    raised measured nothing; it is not a build of anything.
+    """
+    for a in arts:
+        p = ARTIFACT_ROOT / a["path"]
+        if not p.name.endswith("_lines.csv") or not p.exists():
+            continue
+        with p.open(newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        if rows and all(str(r.get("excluded_reason") or "").startswith("SYNTHESIS: failed")
+                        for r in rows):
+            return a["path"]
+    return ""
+
+
 def is_current(products: list[dict], want_hash: str,
                recorded: dict | None) -> tuple[bool, str]:
     """(is this cell's work current, why-not).
@@ -1261,6 +1281,10 @@ def is_current(products: list[dict], want_hash: str,
             if _file_fingerprint(ARTIFACT_ROOT / a["path"]) != a.get("sha256")]
     if gone:
         return False, f"recorded artifact(s) missing or changed: {gone}"
+    failed = _every_line_failed_synthesis(arts)
+    if failed:
+        return False, (f"every line in {failed} failed SYNTHESIS -- an engine failure, not a "
+                       f"result; re-run (RYA-1251)")
     return True, (f"built {recorded.get('recorded_at')} at inputs_hash {want_hash[:12]}, "
                   f"inputs unchanged, {len(arts)} artifact(s) on disk; NOT YET PUBLISHED "
                   f"({arts[0]['path']})")

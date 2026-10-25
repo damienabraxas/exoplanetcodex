@@ -1383,6 +1383,14 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         _dep_per_abundance = _gn.has_abundance_axis(_deck_key)
         if not _dep_per_abundance:
             _dep = _gn.for_node(_deck_key, teff, logg, feh)
+        else:
+            # 🔴 RYA-1251 — THE SEARCH MUST STAY ON THE DECK. The bracket is A(sun) -3/+5;
+            # Brent's second probe (61.8% along) is ~8.2 for Na, above the deck's 7.29, and
+            # `for_node` rightly refuses to extrapolate departures -- so ONE out-of-axis
+            # trial failed every Na I line on every NLTE product (19/19 VIS, n=0). Clamped,
+            # a fit that wants the axis edge is `edge_pinned` below, never silent.
+            _ax = _gn.abundance_axis(_deck_key)
+            a_lo, a_hi = max(a_lo, _ax[0]), min(a_hi, _ax[-1])
 
     n_eval = [0]
     fail   = [None]
