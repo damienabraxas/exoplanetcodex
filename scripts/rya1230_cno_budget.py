@@ -33,7 +33,8 @@ CONTRACT holds it -- `validate()` issues the verdict, not this script.
   model_atmosphere    (+) on a 3D leg, half the pool's own 3D effect (Asplund+2021's
                       inhomogeneity term), in quadrature
   pseudo_continuum    N/A: the continuum is observed in these bands and placed per line
-  hfs_isotopes        N/A where every pool line has hfs_n_components == 1
+  hfs_isotopes        N/A where every pool line has hfs_n_components == 1; DEFINED 0 where every
+                      split line's components are in its band's synthesis list (RYA-1251)
   molecular_coupling  N/A: atomic selector
   holding_instrument  MEASURED 0: SynthesisHandler harness residual (RYA-869)
 """
@@ -375,35 +376,46 @@ def _features(acc: pd.DataFrame) -> list:
     return out
 
 
-#: Catalogued central depth below which a hyperfine-split line is optically thin enough that
-#: the splitting cannot move its EW (weak-line limit of the curve of growth).
-HFS_THIN_DEPTH = 0.10
+def _synthesis_list_for(w: float) -> Path | None:
+    """The line list the synthesis of a line at `w` reads: the band's own list in
+    config/synth_bands.yaml, else iSpec's GESv6 HFS/ISO list (VIS and red-optical)."""
+    import yaml
+    from config.constants import ISPEC_DIR
+    from config.synth_bands import ISPEC_GES_V6
+    ges = ISPEC_DIR / "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
+    for b in yaml.safe_load((ROOT / "config/synth_bands.yaml").read_text())["bands"].values():
+        if b.get("linelist") and float(b["lo_A"]) <= w <= float(b["hi_A"]):
+            return ges if b["linelist"] == ISPEC_GES_V6 else ROOT / b["linelist"]
+    return ges
 
 
-def _hfs_thin_evidence(rows: pd.DataFrame) -> dict | None:
-    """{wavelength: max component depth} when every split line is thin, else None."""
-    from pipeline.element_prepare import SYNTH_LISTS
-    out = {}
+def _hfs_modelled_evidence(rows: pd.DataFrame) -> dict | None:
+    """RYA-1251: {wavelength: components in the synthesis list} when EVERY hyperfine-split pool
+    line is synthesised component by component, else None. Then the splitting is modelled,
+    not an error source (RYA-466 Cu/V, RYA-473 Mn, RYA-1217 Al; Asplund+2021 carries no HFS
+    term), at any depth. A split line the synthesis sees as fewer components than
+    canonical_gf records is NOT modelled, and the component holds."""
+    out, lists = {}, {}
     for _, r in rows.iterrows():
         w = float(r.wavelength_air_A)
-        path = None
-        for lo, f in SYNTH_LISTS:
-            if w >= lo:
-                path = f
+        path = _synthesis_list_for(w)
         if path is None or not path.exists():
             return None
-        ll = pd.read_csv(path, sep="\t", usecols=["element", "wave_A", "lower_state_eV",
-                                                    "theoretical_depth"])
+        if path not in lists:
+            lists[path] = pd.read_csv(path, sep="\t", usecols=["element", "wave_A", "lower_state_eV",
+                                                               "theoretical_depth"], low_memory=False)
+        ll = lists[path]
         tag = f"{r.species.split()[0]} {1 if r.species.split()[1] == 'I' else 2}"
         c = ll[(ll.element == tag) & ((ll.wave_A - w).abs() <= 0.1)
                & ((ll.lower_state_eV - float(r.excitation_potential_eV)).abs() <= 0.01)]
-        if c.empty:
+        if len(c) < 2:
             return None
-        d = float(c.theoretical_depth.max())
-        if d > HFS_THIN_DEPTH:
-            return None
-        out[f"{w:.3f}"] = {"n_components": int(len(c)), "max_component_depth": d}
-    return {"lines": out, "threshold_depth": HFS_THIN_DEPTH} if out else None
+        out[f"{w:.3f}"] = {"n_components_canonical": int(r.hfs_n_components),
+                           "n_components_in_synthesis": int(len(c)),
+                           "max_component_depth": float(c.theoretical_depth.max()),
+                           "synthesis_list": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT)
+                           else path.name}
+    return {"lines": out} if out else None
 
 
 def _gf_covariance(sig, src, tags):
@@ -901,19 +913,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           source="every pool line has hfs_n_components == 1 (canonical_gf)",
                           evidence={"hfs_n_components": hfs}))
     else:
-        # RYA-1233 (Al): the hyperfine components ARE in the synthesis list, so HFS is modelled,
-        # not an error source -- except through saturation. An optically thin line's EW is the
-        # total gf however it is split, so where every multi-component pool line is weak
-        # (catalogued component depth <= HFS_THIN_DEPTH) the term is 0 by that limit. A
-        # stronger split line has no measured term yet: the component is left to HOLD.
-        thin = _hfs_thin_evidence(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
-        if thin is not None:
+        # RYA-1233 (Al) / RYA-1251: the hyperfine components ARE in the synthesis list, so
+        # HFS is modelled, not an error source, whatever the line's depth. Only a split line
+        # whose components the synthesis does not carry leaves the component to HOLD.
+        hm = _hfs_modelled_evidence(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
+        if hm is not None:
             comps.append(dict(name="hfs_isotopes", sigma_dex=0.0, state="DEFINED",
-                              source=(f"optically thin limit: every hyperfine-split pool line is "
-                                      f"<= {HFS_THIN_DEPTH} deep (catalogued), so its EW is the "
-                                      f"total gf regardless of the splitting; the components are "
-                                      f"in the synthesis list (VALD lab HFS)"),
-                              evidence=thin))
+                              source=("modelled: every hyperfine-split pool line is synthesised "
+                                      "component by component from the band's synthesis list (lab "
+                                      "HFS; as RYA-466/473 Cu, V, Mn and RYA-1217 Al); "
+                                      "Asplund+2021 carries no HFS term"),
+                              evidence=hm))
     comps.append(dict(name="molecular_coupling", sigma_dex=None, state="N/A",
                       source="atomic product; the selector is not a MOL- indicator set",
                       evidence={"selector": selector}))

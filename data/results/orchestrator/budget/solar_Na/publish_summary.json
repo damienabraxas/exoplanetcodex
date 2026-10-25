@@ -393,24 +393,37 @@
   }
  ],
  "published": [
+  "near-UV solar_kpno_kurucz2005_corrected DEEPGRADED synth-1D-LTE-gerber A=6.713",
+  "near-UV solar_kpno_kurucz2005_corrected DEEPGRADED 1D-LTE A=6.689",
+  "near-UV solar_kpno_molecfit_corrected DEEPGRADED synth-1D-LTE-gerber A=6.489",
+  "near-UV solar_kpno_molecfit_corrected DEEPGRADED 1D-LTE A=6.465",
+  "VIS solar_kpno_kurucz2005_corrected GRADED synth-1D-LTE-gerber A=6.305",
   "VIS solar_kpno_kurucz2005_corrected DEEPGRADED synth-1D-LTE-gerber A=6.263",
   "VIS solar_kpno_kurucz2005_corrected SET-NA_AGSS21 synth-1D-LTE-gerber A=6.305",
+  "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B-NLTE A=6.284",
   "VIS solar_kpno_kurucz2005_corrected DEEPGRADED ENGINE-B-NLTE A=6.236",
   "VIS solar_kpno_kurucz2005_corrected SET-NA_AGSS21 ENGINE-B-NLTE A=6.284",
+  "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=6.3",
   "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=6.207",
   "VIS solar_kpno_kurucz2005_corrected DEEPGRADED 1D-LTE A=6.25",
   "VIS solar_kpno_kurucz2005_corrected SET-NA_AGSS21 1D-LTE A=6.3",
+  "VIS solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber A=6.298",
   "VIS solar_kpno_molecfit_corrected DEEPGRADED synth-1D-LTE-gerber A=6.235",
   "VIS solar_kpno_molecfit_corrected SET-NA_AGSS21 synth-1D-LTE-gerber A=6.309",
+  "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B-NLTE A=6.263",
   "VIS solar_kpno_molecfit_corrected DEEPGRADED ENGINE-B-NLTE A=6.21",
   "VIS solar_kpno_molecfit_corrected SET-NA_AGSS21 ENGINE-B-NLTE A=6.278",
+  "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.294",
   "VIS solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.196",
   "VIS solar_kpno_molecfit_corrected DEEPGRADED 1D-LTE A=6.221",
   "VIS solar_kpno_molecfit_corrected SET-NA_AGSS21 1D-LTE A=6.304",
+  "VIS solar_harps_molecfit_corrected GRADED synth-1D-LTE-gerber A=6.38",
   "VIS solar_harps_molecfit_corrected DEEPGRADED synth-1D-LTE-gerber A=6.243",
   "VIS solar_harps_molecfit_corrected SET-NA_AGSS21 synth-1D-LTE-gerber A=6.282",
+  "VIS solar_harps_molecfit_corrected GRADED ENGINE-B-NLTE A=6.32",
   "VIS solar_harps_molecfit_corrected DEEPGRADED ENGINE-B-NLTE A=6.218",
   "VIS solar_harps_molecfit_corrected SET-NA_AGSS21 ENGINE-B-NLTE A=6.259",
+  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=6.37",
   "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=6.206",
   "VIS solar_harps_molecfit_corrected DEEPGRADED 1D-LTE A=6.228",
   "VIS solar_harps_molecfit_corrected SET-NA_AGSS21 1D-LTE A=6.278",
@@ -427,119 +440,39 @@
   "VIS solar_iag GRADED ENGINE-A A=6.212",
   "VIS solar_iag DEEPGRADED 1D-LTE A=6.191",
   "VIS solar_iag SET-NA_AGSS21 1D-LTE A=6.293",
+  "red-optical solar_iag GRADED synth-1D-LTE-gerber A=6.332",
+  "red-optical solar_iag GRADED 1D-LTE A=6.327",
+  "red-optical solar_kpno_kurucz2005_corrected GRADED synth-1D-LTE-gerber A=6.327",
+  "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B-NLTE A=6.271",
+  "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=6.322",
+  "red-optical solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber A=6.37",
+  "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B-NLTE A=6.338",
+  "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.364",
+  "NIR solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber A=6.251",
   "NIR solar_kpno_molecfit_corrected SET-NA_AGSS21 synth-1D-LTE-gerber A=6.303",
+  "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.252",
   "NIR solar_kpno_molecfit_corrected SET-NA_AGSS21 1D-LTE A=6.301",
   "NIR solar_crires_plus_y_wide_rya1054 GRADED synth-1D-LTE-gerber A=6.122",
-  "NIR solar_crires_plus_y_wide_rya1054 GRADED 1D-LTE A=6.123"
+  "NIR solar_crires_plus_y_wide_rya1054 GRADED 1D-LTE A=6.123",
+  "NIR solar_crires_plus_j_rya1219 GRADED synth-1D-LTE-gerber A=6.215",
+  "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE A=6.213"
  ],
  "held": [
   {
-   "product": "near-UV solar_kpno_kurucz2005_corrected DEEPGRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "near-UV solar_kpno_kurucz2005_corrected DEEPGRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "near-UV solar_kpno_molecfit_corrected DEEPGRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "near-UV solar_kpno_molecfit_corrected DEEPGRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_kurucz2005_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_kurucz2005_corrected GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_molecfit_corrected GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_kpno_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
    "product": "VIS solar_iag_reiners2016 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "VIS solar_iag_reiners2016 GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "VIS solar_iag_reiners2016 GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes, telluric"
-  },
-  {
-   "product": "red-optical solar_iag GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "red-optical solar_iag GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: continuum, hfs_isotopes, stellar.xi"
-  },
-  {
-   "product": "red-optical solar_iag GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B-NLTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "NIR solar_kpno_molecfit_corrected GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "NIR solar_kpno_molecfit_corrected GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
+   "why": "unresolved components: continuum, stellar.xi"
   },
   {
    "product": "NIR solar_crires_plus_y_wide_rya1054 SET-NA_AGSS21 synth-1D-LTE-gerber",
@@ -550,36 +483,28 @@
    "why": "unresolved components: continuum"
   },
   {
-   "product": "NIR solar_crires_plus_j_rya1219 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
-   "product": "NIR solar_crires_plus_j_rya1219 GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes"
-  },
-  {
    "product": "H solar_crires_plus_h_rya1094 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "H solar_crires_plus_h_rya1232 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: continuum, hfs_isotopes, profile_ew"
+   "why": "unresolved components: continuum, profile_ew"
   },
   {
    "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
-   "why": "unresolved components: continuum, hfs_isotopes, profile_ew"
+   "why": "unresolved components: continuum, profile_ew"
   },
   {
    "product": "K solar_crires_plus_k_rya1219 GRADED synth-1D-LTE-gerber",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   },
   {
    "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "unresolved components: hfs_isotopes, telluric"
+   "why": "unresolved components: telluric"
   }
  ],
  "legs_incomplete": [],
@@ -589,19 +514,19 @@
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 38,
+  "n_products_judged": 63,
   "counts": {
-   "IN_BAND": 14,
-   "OUT_OF_BAND": 24,
+   "IN_BAND": 16,
+   "OUT_OF_BAND": 47,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 38
+  "n_scale_mismatch": 63
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 38,
-   "HELD": 410,
+   "PUBLISHED": 63,
+   "HELD": 385,
    "NOT_RUN": 0,
    "STALE": 0
   },

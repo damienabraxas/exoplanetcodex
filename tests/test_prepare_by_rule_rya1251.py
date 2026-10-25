@@ -323,3 +323,25 @@ def test_a_cell_whose_every_line_failed_synthesis_is_not_current(tmp_path, monke
     ok, why = rm.is_current([], "h", rec(dead))
     assert not ok and "failed SYNTHESIS" in why
     assert rm._every_line_failed_synthesis([{"path": str(dead)}]) == str(dead)
+
+
+def test_a_deep_hfs_split_line_is_modelled_when_its_components_are_synthesised(tmp_path, monkeypatch):
+    """RYA-1251: HFS is part of the recipe. A split line synthesised component by component
+    is modelled at ANY depth (Na I 5688 is far from thin); one the synthesis sees as a single
+    line is not, and only that holds."""
+    import sys
+    from pathlib import Path
+    import pandas as pd
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import rya1230_cno_budget as cb
+    ll = tmp_path / "atomic_lines.tsv"
+    pd.DataFrame({"element": ["Na 1"] * 3 + ["Na 1"], "wave_A": [5688.20, 5688.21, 5688.22, 6154.23],
+                  "lower_state_eV": [2.104] * 3 + [2.102], "theoretical_depth": [0.55, 0.40, 0.20, 0.30]}
+                 ).to_csv(ll, sep="\t", index=False)
+    monkeypatch.setattr(cb, "_synthesis_list_for", lambda w: ll)
+    row = lambda w, ep: {"wavelength_air_A": w, "species": "Na I", "excitation_potential_eV": ep,
+                         "hfs_n_components": 3}
+    ev = cb._hfs_modelled_evidence(pd.DataFrame([row(5688.21, 2.104)]))
+    assert ev and ev["lines"]["5688.210"]["n_components_in_synthesis"] == 3
+    assert ev["lines"]["5688.210"]["max_component_depth"] > 0.10
+    assert cb._hfs_modelled_evidence(pd.DataFrame([row(5688.21, 2.104), row(6154.23, 2.102)])) is None

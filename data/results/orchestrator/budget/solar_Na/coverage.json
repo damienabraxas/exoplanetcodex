@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Na",
- "feed_version": "1.38",
+ "feed_version": "1.65",
  "counts": {
-  "PUBLISHED": 38,
-  "HELD": 410,
+  "PUBLISHED": 63,
+  "HELD": 385,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -30,11 +30,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.713,
+   "sigma": 0.1697326406322599,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -212,11 +212,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.689,
+   "sigma": 0.1775478326085675,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -303,11 +303,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.489,
+   "sigma": 0.1800506900181166,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -485,11 +485,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.465,
+   "sigma": 0.190936546276505,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -563,11 +563,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.305,
+   "sigma": 0.0761400529340518,
+   "n_lines": 18
   },
   {
    "band": "VIS",
@@ -719,11 +719,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.284,
+   "sigma": 0.0778557904155362,
+   "n_lines": 18
   },
   {
    "band": "VIS",
@@ -771,11 +771,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.3,
+   "sigma": 0.0779366092211601,
+   "n_lines": 18
   },
   {
    "band": "VIS",
@@ -927,11 +927,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.298,
+   "sigma": 0.0772980271070354,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -1083,11 +1083,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.263,
+   "sigma": 0.0661428271239255,
+   "n_lines": 16
   },
   {
    "band": "VIS",
@@ -1135,11 +1135,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.294,
+   "sigma": 0.0825524100895902,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -1291,11 +1291,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.38,
+   "sigma": 0.0989595649015192,
+   "n_lines": 22
   },
   {
    "band": "VIS",
@@ -1447,11 +1447,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.32,
+   "sigma": 0.0671353404805343,
+   "n_lines": 20
   },
   {
    "band": "VIS",
@@ -1499,11 +1499,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.37,
+   "sigma": 0.0770631509020647,
+   "n_lines": 22
   },
   {
    "band": "VIS",
@@ -1656,7 +1656,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1812,7 +1812,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -1864,7 +1864,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2383,11 +2383,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.332,
+   "sigma": 0.4493534674877362,
+   "n_lines": 4
   },
   {
    "band": "red-optical",
@@ -2501,7 +2501,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, hfs_isotopes, stellar.xi",
+   "reason": "budget: unresolved components: continuum, stellar.xi",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -2539,11 +2539,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.327,
+   "sigma": 0.4516798252057741,
+   "n_lines": 4
   },
   {
    "band": "red-optical",
@@ -2656,11 +2656,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.327,
+   "sigma": 0.3763515735047771,
+   "n_lines": 4
   },
   {
    "band": "red-optical",
@@ -2773,11 +2773,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.271,
+   "sigma": 0.4172900931556074,
+   "n_lines": 4
   },
   {
    "band": "red-optical",
@@ -2812,11 +2812,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.322,
+   "sigma": 0.3812074929914875,
+   "n_lines": 4
   },
   {
    "band": "red-optical",
@@ -2929,11 +2929,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.37,
+   "sigma": 0.2999426177191014,
+   "n_lines": 5
   },
   {
    "band": "red-optical",
@@ -3046,11 +3046,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.338,
+   "sigma": 0.3122360693221071,
+   "n_lines": 5
   },
   {
    "band": "red-optical",
@@ -3085,11 +3085,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.364,
+   "sigma": 0.3120269645685599,
+   "n_lines": 5
   },
   {
    "band": "red-optical",
@@ -3748,11 +3748,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.251,
+   "sigma": 0.1604513286648353,
+   "n_lines": 3
   },
   {
    "band": "NIR",
@@ -3956,11 +3956,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.252,
+   "sigma": 0.1627257381819663,
+   "n_lines": 3
   },
   {
    "band": "NIR",
@@ -4749,11 +4749,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.215,
+   "sigma": 0.3491531461894258,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -4905,11 +4905,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.213,
+   "sigma": 0.3554986123437955,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -5023,7 +5023,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5179,7 +5179,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5296,7 +5296,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, hfs_isotopes, profile_ew",
+   "reason": "budget: unresolved components: continuum, profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5452,7 +5452,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: continuum, hfs_isotopes, profile_ew",
+   "reason": "budget: unresolved components: continuum, profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5569,7 +5569,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5725,7 +5725,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "budget: unresolved components: hfs_isotopes, telluric",
+   "reason": "budget: unresolved components: telluric",
    "A": null,
    "sigma": null,
    "n_lines": null
