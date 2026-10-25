@@ -72,8 +72,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : 411f2238b1be7d6708343b5f6ed869e74d53a49a4a6b20bfdc47efbb91d96472
-     rows      : 206
+     sha256    : b50cfa4eab562d282fe3ae33eb51561d362952cc644d675e643ece07a9f0bf6c
+     rows      : 208
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -104,8 +104,8 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>206</b><span>references</span></div>
-    <div class="src-stat"><b>201</b><span>with verified link</span></div>
+    <div class="src-stat"><b>208</b><span>references</span></div>
+    <div class="src-stat"><b>203</b><span>with verified link</span></div>
     <div class="src-stat"><b>5</b><span>unconfirmed link</span></div>
     <div class="src-stat"><b>119</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
@@ -127,7 +127,7 @@
     <a href="#cno">Carbon, nitrogen &amp; oxygen (10)</a>
     <a href="#nitrogen_method">Nitrogen &mdash; method literature (7)</a>
     <a href="#motivation">Why this project exists (7)</a>
-    <a href="#method_tool">Methods, codes &amp; tools (11)</a>
+    <a href="#method_tool">Methods, codes &amp; tools (13)</a>
     <a href="#project_doc">Exoplanet Codex documents (4)</a>
   </div>
   <section class="src-section" id="solar_reference">
@@ -2031,9 +2031,19 @@
     </ul>
   </section>
   <section class="src-section" id="method_tool">
-    <h2>Methods, codes &amp; tools<span class="src-count">11</span></h2>
+    <h2>Methods, codes &amp; tools<span class="src-count">13</span></h2>
     <p class="src-blurb">The software and methodological references the pipeline is built on.</p>
     <ul class="src-list">
+      <li class="src-entry" id="amarsi2018_oxygen_collisions">
+        <div class="src-head">
+          <span class="src-cite">Amarsi, A. M.; Barklem, P. S.; Asplund, M.; Collet, R.; Zatsarinny, O. (2018). <em>Inelastic O+H collisions and the O I 777 nm solar centre-to-limb variation</em>. A&amp;A 616, A89.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/html/1803.10531v2" target="_blank" rel="noopener">10.1051/0004-6361/201832770 &#8599;</a></div>
+        <p class="src-role">Preferred O-first reference physics; atom artifact and matched independent numerical baseline remain HOLD, not adopted atomic data.</p>
+        <p class="src-note">Online primary full text sections 2.1-2.4 and figures 3-5 inspected 2026-10-25; no local PDF acquired or atomic-data reuse license inferred.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1278;RYA-1279</span> &middot; <span class="src-key">amarsi2018_oxygen_collisions</span></div>
+      </li>
       <li class="src-entry" id="barklem_collet2016">
         <div class="src-head">
           <span class="src-cite">Barklem, P. S.; Collet, R. (2016). <em>Partition functions and equilibrium constants for diatomic molecules and atoms of astrophysical interest</em>. A&amp;A 588, A96.</span>
@@ -2079,6 +2089,16 @@
         <p class="src-role">Why the Codex derives xi from OBSERVED equivalent widths rather than expected line strength, and where each method breaks down with S/N.</p>
         <p class="src-note">LOCAL FILE IS MISNAMED: &#x27;Apslund2010.pdf&#x27; is Mucciarelli 2011 (A&amp;A 528, A44). Identified from PDF metadata. This is the &#x27;aa1581410.pdf&#x27; of the ticket inventory.</p>
         <div class="src-meta"><span class="src-tickets">RYA-309</span> &middot; <span class="src-local">local copy: Reference documents/Apslund2010.pdf</span> &middot; <span class="src-key">mucciarelli2011</span></div>
+      </li>
+      <li class="src-entry" id="osborne_milic2021_lightweaver">
+        <div class="src-head">
+          <span class="src-cite">Osborne, C. M. J.; Milic, I. (2021). <em>The Lightweaver Framework for NLTE Radiative Transfer in Python</em>. ApJ.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/html/2107.00475v1" target="_blank" rel="noopener">10.3847/1538-4357/ac02be &#8599;</a></div>
+        <p class="src-role">Bride numerical framework and independent-validation planning; not solver certification.</p>
+        <p class="src-note">Online author primary text and metadata inspected 2026-10-25; no local PDF acquired. Code license is separate from scientific data rights.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1278</span> &middot; <span class="src-key">osborne_milic2021_lightweaver</span></div>
       </li>
       <li class="src-entry" id="plez2012">
         <div class="src-head">
@@ -2187,7 +2207,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 411f2238b1be7d6708343b5f6ed869e74d53a49a4a6b20bfdc47efbb91d96472 &middot; 206 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 b50cfa4eab562d282fe3ae33eb51561d362952cc644d675e643ece07a9f0bf6c &middot; 208 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">

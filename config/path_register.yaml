@@ -125,6 +125,16 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  engines.bride_eval:
+    root: home
+    rel: bride_rya1118
+    env: CODEX_BRIDE_EVAL
+    kind: dir
+    desc: >-
+      Existing isolated Lightweaver/STAGGER evaluation holding (RYA-1118).
+      Discovery is not compute authorization. Override on another host;
+      missing resources fail loudly. No production solver is registered here.
+
   refs.library:
     root: home
     rel: Documents/Exoplanet Codex/Reference documents
