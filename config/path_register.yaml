@@ -135,6 +135,7 @@ entries:
   grids.gerber_ts:
     root: grids
     rel: nlte/gerber_ts
+    env: CODEX_GERBER_TS   # RYA-1251: the Mac reads Sirius's decks over a read-only NFS mount
     kind: dir
     desc: >-
       Gerber+2023 Turbospectrum-native NLTE deck (Engine B), md5-pinned.
