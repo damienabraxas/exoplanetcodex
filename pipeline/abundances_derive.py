@@ -727,6 +727,14 @@ def _load_synth_resources(linelist_file: str = None,
         label = 'GES' if linelist_file is None else Path(str(path)).parent.name
         print(f"  [synth] Loading {label} linelist (first call — cached)...")
         ll = ispec.read_atomic_linelist(str(path))
+        if linelist_file is not None:
+            # RYA-1250: NLTE level labels live beside a VALD-built list, not in it, so an
+            # LTE cell's fingerprint does not move when an element is labelled. LTE ignores
+            # them; Gerber NLTE needs them (see pipeline/nlte_label_sidecar.py).
+            from pipeline.nlte_label_sidecar import apply_sidecar
+            ll, _n_lab = apply_sidecar(ll, path)
+            if _n_lab:
+                print(f"  [synth] NLTE level labels merged from the sidecar: {_n_lab} lines")
         if apply_canonical_gf:
             # RYA-353 single-source gf: overwrite GES loggf from canonical (the shared
             # ispec/ tsv is read-only, so we rescale after read — branching preserved).
@@ -1381,16 +1389,15 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         _gn.assert_linelist_supports_nlte(linelist, atom_code, element,
                                           wave_base * 10.0, wave_top * 10.0, ion=ion)
         _dep_per_abundance = _gn.has_abundance_axis(_deck_key)
+        if _dep_per_abundance:
+            # RYA-1250. The departures exist only on the deck's axis (Mg: 6.55-8.55), and
+            # ONE trial outside it fails the whole fit (Mg H: "A(Mg) = 6.485 is outside").
+            # Search the axis instead; a fit that runs to its end is then `edge_pinned`,
+            # i.e. reported as unconstrained by this deck, not as a synthesis error.
+            _ax = _gn.abundance_axis(_deck_key)
+            a_lo, a_hi = max(a_lo, _ax[0] + 1e-6), min(a_hi, _ax[-1] - 1e-6)
         if not _dep_per_abundance:
             _dep = _gn.for_node(_deck_key, teff, logg, feh)
-        else:
-            # 🔴 RYA-1251 — THE SEARCH MUST STAY ON THE DECK. The bracket is A(sun) -3/+5;
-            # Brent's second probe (61.8% along) is ~8.2 for Na, above the deck's 7.29, and
-            # `for_node` rightly refuses to extrapolate departures -- so ONE out-of-axis
-            # trial failed every Na I line on every NLTE product (19/19 VIS, n=0). Clamped,
-            # a fit that wants the axis edge is `edge_pinned` below, never silent.
-            _ax = _gn.abundance_axis(_deck_key)
-            a_lo, a_hi = max(a_lo, _ax[0]), min(a_hi, _ax[-1])
 
     n_eval = [0]
     fail   = [None]

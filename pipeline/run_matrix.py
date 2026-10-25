@@ -978,6 +978,15 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _lst in synthesis_lists_for(lo, hi):
         rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+        # RYA-1250: the NLTE label sidecar is an input of the element's NLTE cells only;
+        # an LTE synthesis never reads a label, so its cells keep their identity.
+        if descriptor.engine_deck in ("gerber-nlte", "gerber-mean3d"):
+            from pipeline.nlte_label_sidecar import fingerprint_rows, sidecar_path
+            _fp = fingerprint_rows(_lst, descriptor.element, lo, hi)
+            if _fp is not None:
+                rows.append({"kind": "nlte_labels",
+                             "name": f"{sidecar_path(_lst).relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                             "digest": _fp})
     # The element's NLTE tables, scoped to the window too: a row added or withdrawn for a
     # red-optical line must not rebuild the VIS cells (RYA-1233 Si: 11 rows withdrawn).
     for _n in _nlte:
@@ -1479,6 +1488,90 @@ def ensure_generated_linelists(*, dry_run: bool, echo: bool = True) -> dict:
     return out
 
 
+def ensure_nlte_labels(element: str, *, dry_run: bool, echo: bool = True) -> dict:
+    """RYA-1251: label `element`'s lines for Gerber NLTE in every VALD-built synthesis list
+    (near-UV, NIR, H, K) before dispatch, so a gerber-nlte cell is never held for labels the
+    run could have made. Same routes and lists as RYA-1250 (`scripts/rya1250_nlte_label_
+    sidecars.py`, `pipeline/nlte_label_sidecar.py`); writes only this element's rows of each
+    `nlte_labels.tsv`. A list the element already has sidecar rows in, or that RYA-1094
+    labelled in place (Fe IR/H), is left alone. Returns {list: 'present'|'labelled n/m'|why}."""
+    from pipeline.gerber_nlte import DECKS
+    import pandas as pd
+    from config.constants import codex_path
+    from pipeline import nlte_label_sidecar as nls
+    deck = next((v for k, v in DECKS.items() if k.split("@")[0] == element), None)
+    if deck is None:
+        return {}
+    spec = importlib.util.spec_from_file_location(
+        "_rya1250_sidecars", ROOT / "scripts" / "rya1250_nlte_label_sidecars.py")
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    out, levels = {}, None
+    for name, extracts in gen.LISTS.items():
+        lst = ROOT / "data" / "linelists" / name / "atomic_lines.tsv"
+        if (name, element) in gen.SKIP or not lst.exists():
+            continue
+        side = nls.sidecar_path(lst)
+        if side.exists() and (pd.read_csv(side, sep="\t", usecols=["element"]).element
+                              .str.split().str[0] == element).any():
+            out[name] = "present"
+        elif dry_run:
+            out[name] = "unlabelled -- a real run labels it first"
+        else:
+            try:
+                if levels is None:
+                    from pipeline.model_atom import read_gerber_atom
+                    levels = read_gerber_atom(Path(str(codex_path("grids.gerber_ts"))) / deck["atom"])
+                raw = Path(str(codex_path("data.vald_raw")))
+                rows, st = nls.label_list(lst, element, levels, [raw / e for e in extracts])
+                if len(rows):
+                    nls.write_sidecar(lst, [rows])
+                out[name] = ", ".join(f"{k} labelled {v['labelled']}/{v['lines']}" for k, v in st.items()) or "no lines"
+            except Exception as exc:                                  # noqa: BLE001
+                out[name] = f"LABEL FAILED: {type(exc).__name__}: {str(exc)[:200]}"
+        if echo:
+            print(f"NLTE labels {element} {name}: {out[name]}")
+    return out
+
+
+def ensure_nlte_table(star: str, element: str, *, dry_run: bool, echo: bool = True) -> dict:
+    """RYA-1251: extend the element's ENGINE-A table (Amarsi 2020 / PySME) to the lines the
+    prepare report's check D lists as `nlte_missing`, before dispatch -- the RYA-1233 method
+    (`scripts/extend_nlte_grid.py`) that covered every Si and Al line, run by the orchestrator
+    instead of by hand. PySME and the departure grids live on Sirius only: elsewhere the
+    lines are reported as owed there, never silently skipped. Returns {ion: outcome}."""
+    rep_path = ROOT / "data" / "results" / "orchestrator" / "prepare" / f"{star}_{element}.json"
+    if not rep_path.exists():
+        return {}
+    miss = json.loads(rep_path.read_text()).get("nlte_missing") or []
+    by_ion: dict = {}
+    for m in miss:
+        sp = m.get("species", "")
+        if sp.split()[0] == element:
+            by_ion.setdefault(sp.split()[1], []).append(m)
+    out = {}
+    try:
+        from config.constants import codex_path
+        py = Path(str(codex_path("engines.venv_pysme_python")))
+    except Exception:                                                   # noqa: BLE001
+        py = None
+    for ion, rows in sorted(by_ion.items()):
+        if py is None or not py.exists():
+            out[ion] = (f"{len(rows)} line(s) OWED: the ENGINE-A extension needs PySME "
+                        f"(engines.venv_pysme_python) -- run on Sirius")
+        elif dry_run:
+            out[ion] = f"{len(rows)} line(s) missing -- a real run extends the table first"
+        else:
+            r = subprocess.run([str(py), "scripts/extend_nlte_grid.py", "--element", element,
+                                "--ion", ion, "--star", star, "--write", "--jobs", "2"],
+                               cwd=ROOT, capture_output=True, text=True)
+            out[ion] = (f"extended ({len(rows)} line(s) asked)" if r.returncode == 0 else
+                        f"EXTEND FAILED rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+        if echo:
+            print(f"ENGINE-A table {element} {ion}: {out[ion]}")
+    return out
+
+
 def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
@@ -1521,6 +1614,8 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
 
     if prepare_first:
         ensure_generated_linelists(dry_run=dry_run, echo=echo)
+        ensure_nlte_labels(element, dry_run=dry_run, echo=echo)
+        ensure_nlte_table(star, element, dry_run=dry_run, echo=echo)
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,

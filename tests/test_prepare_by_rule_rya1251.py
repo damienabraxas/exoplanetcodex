@@ -359,3 +359,40 @@ def test_every_corrected_holding_has_a_telluric_route():
         "solar_kpno_kurucz2005_corrected", "solar_kpno_molecfit_corrected"]
     assert cb._RATIO_FROM["solar_crires_plus_k_rya1219"][1] == 0.1632
     assert "solar_crires_plus_h_rya1232" in cb._OWN_SKY
+
+
+def test_na_cited_solar_tables_cover_the_asplund_lines_and_refuse_a_double_cover(tmp_path, monkeypatch):
+    """RYA-1251: AGSS21 Table A.1 gives the five Asplund Na lines a cited 1D (MARCS NLTE -
+    MARCS LTE) and 3D (3D NLTE - MARCS LTE) correction; a second table may cite other lines
+    (or one leg only) but never the same line twice."""
+    import yaml
+    from pipeline import solar_nlte_tables as s
+    one = s.deltas("Na", "I", [6154.225, 6160.747, 10746.449], "1D", star="solar")
+    three = s.deltas("Na", "I", [6154.225, 6160.747, 10746.449], "3D", star="solar")
+    assert one == {6154.225: -0.047, 6160.747: -0.058, 10746.449: -0.006}
+    assert three == {6154.225: -0.012, 6160.747: -0.015, 10746.449: 0.027}
+    reg = yaml.safe_load(s.REGISTRY.read_text())
+    dup = dict(next(r for r in reg["tables"] if r["element"] == "Na"), legs={"3D": "A_3d_nlte"})
+    reg["tables"].append(dup)
+    p = tmp_path / "reg.yaml"
+    p.write_text(yaml.safe_dump(reg))
+    monkeypatch.setattr(s, "REGISTRY", p)
+    assert s.deltas("Na", "I", [6154.225], "1D", star="solar") == {6154.225: -0.047}
+    with pytest.raises(ValueError, match="Ambiguous"):
+        s.deltas("Na", "I", [6154.225], "3D", star="solar")
+
+
+def test_the_engine_a_extension_is_owed_where_pysme_is_absent(tmp_path, monkeypatch):
+    """RYA-1251: the run extends the ENGINE-A table itself; on a host without PySME the
+    missing lines are reported as owed on Sirius, never silently skipped."""
+    import json
+    rep = tmp_path / "data/results/orchestrator/prepare"
+    rep.mkdir(parents=True)
+    (rep / "solar_Na.json").write_text(json.dumps({"nlte_missing": [
+        {"species": "Na I", "wavelength_A": 8183.256}, {"species": "Na I", "wavelength_A": 8194.824}]}))
+    monkeypatch.setattr(rm, "ROOT", tmp_path)
+    import config.constants as C
+    monkeypatch.setattr(C, "codex_path", lambda k: tmp_path / "no_such_python")
+    out = rm.ensure_nlte_table("solar", "Na", dry_run=False, echo=False)
+    assert out == {"I": "2 line(s) OWED: the ENGINE-A extension needs PySME "
+                        "(engines.venv_pysme_python) -- run on Sirius"}
