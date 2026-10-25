@@ -1,0 +1,38 @@
+# LITSCAN -- Ba (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file. Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+element: Ba
+ion: II
+ions: [II]
+source_of_truth: RYA-1268
+scale: as adopted by AGSS21 (Gallagher et al. 2020 (A&A 634, A55) 3D-NLTE)
+entries:
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 2.27
+    sigma: 0.05
+    role: best external (anchor)
+    method: Gallagher et al. 2020 (A&A 634, A55) 3D-NLTE
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 2.27
+    sigma: 0.06
+    role: corroborating
+    note: Lodders quality flag A-.
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 2.27
+    sigma: 0.05
+    role: corroborating (AGSS21 successor)
+    method: 3N
+range:
+  central: 2.27
+  min: 2.22
+  max: 2.32
+  best_external: Asplund et al. 2021 (A&A 653, A141)
+  sigma_external: 0.05
+  deviate_beyond: 0.10
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.

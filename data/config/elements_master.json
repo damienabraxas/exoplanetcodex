@@ -1,8 +1,8 @@
 {
   "version": "2026-05-31",
-  "description": "Target elements for Exoplanet Codex abundance analysis — 27 targets (26 unique atomic symbols + Fe II as a separate entry). Fe I and Fe II use element='Fe' in the linelist; distinguished by the ion column. Priority 1 = science-critical (stellar characterisation + CHNOPS + alpha); Priority 2 = iron-peak/s-process/r-process tracers + bio-significant; Priority 3 = supplementary/age indicators.",
+  "description": "Target elements for Exoplanet Codex abundance analysis — 28 targets (27 unique atomic symbols + Fe II as a separate entry). Fe I and Fe II use element='Fe' in the linelist; distinguished by the ion column. Priority 1 = science-critical (stellar characterisation + CHNOPS + alpha); Priority 2 = iron-peak/s-process/r-process tracers + bio-significant; Priority 3 = supplementary/age indicators.",
   "solar_reference": "Asplund et al. 2021 (A&A 653, A141)",
-  "n_targets": 27,
+  "n_targets": 28,
   "note_fe": "Fe I and Fe II are listed as separate entries to reflect distinct scientific roles: Fe I constrains Teff via excitation equilibrium; Fe II constrains log g via ionization equilibrium. build_linelist.py assigns priority via the 'Fe' symbol entry — Fe II inherits priority=1 automatically.",
   "elements": [
     {
@@ -172,6 +172,14 @@
       "category": "iron-peak",
       "solar_A": 4.18,
       "science_notes": "Odd-Z iron-peak tracer; bio-essential trace metal. Cu I 5105.54, 5218.20 Å — only 2 clean lines in HARPS range. Hyperfine structure present."
+    },
+    {
+      "symbol": "Zn",
+      "atomic_number": 30,
+      "priority": 2,
+      "category": "iron-peak",
+      "solar_A": 4.56,
+      "science_notes": "Iron-peak / weak s-process boundary; [Zn/Fe] is a refractory, dust-free metallicity proxy. AGSS21 (Grevesse+2015): Zn I 4722.16, 4810.53, 6362.35 + NIR 11054.28, 13053.65 (Biemont & Godefroid 1980 gf). Added RYA-1268 (Ryan 2026-10-23)."
     },
     {
       "symbol": "Mn",

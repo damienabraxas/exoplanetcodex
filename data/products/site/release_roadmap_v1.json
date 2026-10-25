@@ -19,21 +19,25 @@
       "id": "alpha",
       "name": "Alpha Release \u2014 Full Solar Calibration",
       "status": "in_progress",
-      "summary": "Reviewed elemental products for the Sun across the strongest valid wavelength regions and available engines.",
+      "summary": "Reviewed elemental abundances for the Sun across the strongest valid wavelength regions and available engines.",
       "notes": [
-        "Fe is nearing full intended band and engine coverage, with remaining infrared due diligence.",
-        "Al is in active completion and audit."
+        "Published for the Sun: Fe (I and II), C, O, Si, N, Al."
       ],
       "targets": [
         {
           "target_id": "solar",
           "target_name": "Sun",
-          "complete_products": 2,
+          "complete_products": 7,
           "total_products": 27,
-          "progress_fraction": 0.074074,
+          "progress_fraction": 0.259259,
           "complete_product_ids": [
             "Fe",
-            "Fe-II"
+            "Fe-II",
+            "C",
+            "O",
+            "Si",
+            "N",
+            "Al"
           ],
           "gate": "current_publishable_product"
         }

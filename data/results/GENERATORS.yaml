@@ -24588,3 +24588,157 @@ artifacts:
   # enhancement (2.5; Na I 2.0). Turbospectrum DROPS an atomic line with fdamp 0.0.
   # RYA-1232: data/linelists/canonical_gf.csv +9 O I 926 nm rows (NIST grade A) and C I 16419.33
   # graded by level identity (NIST grade D) -- scripts/rya1232_canonical_gf_ir_cno.py --apply
+  # RYA-1268: orchestrator prepare reports for the remaining elements, written by
+  # pipeline.element_prepare.prepare() as scripts/rya1268_apply_sets.py drives it (Zn is not a target).
+  - artifact: orchestrator/prepare/solar_Ba.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ba.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ca.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ca.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Co.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Co.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Cr.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Cr.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Cu.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Cu.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Eu.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Eu.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_K.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_K.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Li.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Li.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Mn.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Mn.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Na.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Na.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ni.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ni.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_P.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_P.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_S.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_S.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Sc.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Sc.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Sr.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Sr.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ti.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Ti.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_V.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_V.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Y.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Y.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Zr.json
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
+  - artifact: orchestrator/prepare/solar_Zr.md
+    generator: pipeline/element_prepare.py
+    invocation: python3 scripts/rya1268_apply_sets.py
+    ticket: RYA-1268
