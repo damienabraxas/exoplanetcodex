@@ -1,0 +1,118 @@
+J/ApJS/220/13           Co I transition probabilities           (Lawler+, 2015)
+================================================================================
+Improved Co I log(gf) values and abundance determinations in the photospheres
+of the Sun and metal-poor star HD 84937.
+    Lawler J.E., Sneden C., Cowan J.J.
+   <Astrophys. J. Suppl. Ser., 220, 13 (2015)>
+   =2015ApJS..220...13L    (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data; stars: individual: HD 84937;
+          stars: Population II; Sun: abundances
+
+Abstract:
+    New emission branching fraction measurements for 898 lines of the
+    first spectrum of cobalt (Co I) are determined from hollow cathode
+    lamp spectra recorded with the National Solar Observatory 1m Fourier
+    transform spectrometer on Kitt Peak, AZ and a high-resolution echelle
+    spectrometer. Published radiative lifetimes from laser induced
+    fluorescence measurements are combined with the branching fractions to
+    determine accurate absolute atomic transition probabilities for the
+    898 lines. Hyperfine structure (hfs) constants for levels of neutral
+    Co in the literature are surveyed and selected values are used to
+    generate complete hfs component patterns for 195 transitions of Co I.
+    These new laboratory data are applied to determine the Co abundance in
+    the Sun and metal-poor star HD 84937, yielding
+    log{epsilon}(Co)=4.955+/-0.007 ({sigma}=0.059) based on 82 Co I lines
+    and log{epsilon}(Co)=2.785+/-0.008 ({sigma}=0.065) based on 66 Co I
+    lines, respectively. A Saha or ionization balance test on the
+    photosphere of HD 84937 is performed using 16 UV lines of Co II, and
+    good agreement is found with the Co I result in this metal-poor
+    ([FeI/H]=-2.32, [FeII/H]=-2.32) dwarf star. The resulting value of
+    [Co/Fe]=+0.14 supports a rise of Co/Fe at low metallicity that has
+    been suggested in other studies.
+
+Description:
+    Data from two complementary spectrometers are used in this work on CoI
+    including both the 1m Fourier transform spectrometer (FTS) at the
+    National Solar Observatory (NSO) - 17 spectra between 1978 Sep 11 and
+    1997 Dec 20 - and a 3m focal length echelle spectrometer (2014 Aug 8
+    to 2015 Jan 16).
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName   Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe         80        .   This file
+table3.dat     69      898   Experimental atomic transition probabilities for
+                              898 lines of Co I organized by increasing
+                              wavelength in air
+table7.dat     52     2915  *Hyperfine structure line component patterns for 195
+                              transitions of ^59^Co I
+--------------------------------------------------------------------------------
+Note on table7.dat:  computed from published hfs coefficients (see text),
+   energy levels of Pickering and Thorne et al. (1996ApJS..107..761P), and the
+   standard index of air (Peck and Reeder 1972JOSA...62..958P).
+--------------------------------------------------------------------------------
+
+See also:
+ J/ApJS/215/23  : FeI lifetime & branching fractions (Den Hartog+, 2014)
+ J/ApJS/215/20  : Vanadium log(gf) and transition probabilities (Lawler+, 2014)
+ J/ApJS/214/18  : VII log(gf) values, and V abundance in HD 84937 (Wood+ 2014)
+ J/MNRAS/441/3127 : FeI oscillator strengths for Gaia-ESO (Ruffoni+, 2014)
+ J/AJ/147/136   : Stars of very low metal abundance. VI. (Roederer+, 2014)
+ J/ApJS/211/20  : NiI transition probability measurements (Wood+, 2014)
+ J/ApJS/208/27  : Sun and HD 84937 TiII log(gf) and abundances (Wood+, 2013)
+ J/ApJS/194/35  : Atomic transition probabilities of Mn (Den Hartog+, 2011)
+ J/AJ/141/175   : Abundances in M15 RGB/RHB stars (Sobeck+, 2011)
+ J/ApJ/667/1267 : CrI transition probabilities (Sobeck+, 2007)
+ J/A+A/404/187  : Equivalent widths for metal-poor stars (Gratton+, 2003)
+ J/AJ/120/1841  : Abundances & Kinematics of Halo & Disk Stars (Fulbright 2000)
+ J/A+AS/130/541 : Co II oscillator strengths (Raassen+ 1998)
+ J/A+AS/129/147 : Co II radiative transition probabilities (Quinet 1998)
+
+Byte-by-byte Description of file: table3.dat
+--------------------------------------------------------------------------------
+  Bytes Format Units    Label   Explanations
+--------------------------------------------------------------------------------
+  1- 10 F10.4  0.1nm    lamAir  [2073.2/10382.4] Wavelength in air; in {AA} (1)
+ 12- 20 F9.3   cm-1     Lev1    [28345.8/53822] Upper level (2)
+ 22- 23 A2     ---      P1      Upper level parity (2)
+ 25- 27 F3.1   ---      J1      [0.5/7.5] Upper level J value (2)
+ 29- 37 F9.3   cm-1     Lev0    [0/28470.5] Lower level (2)
+ 39- 40 A2     ---      P0      Lower level parity (2)
+ 42- 44 F3.1   ---      J0      [0.5/6.5] Lower level J value (2)
+ 46- 54 F9.5   10+6/s   A       [0.001/494] Transition probability
+ 56- 63 F8.5   10+6/s e_A       [0.0001/49] Total uncertainty in A
+ 65- 69 F5.2   ---      log(gf) [-4.7/0.8] Log of degeneracy times oscillator
+                                 strength
+--------------------------------------------------------------------------------
+Note (1): Computed from energy levels using the standard index of air
+          from Peck & Reeder (1972JOSA...62..958P).
+Note (2): From Pickering & Thorne (1996ApJS..107..761P).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table7.dat
+--------------------------------------------------------------------------------
+  Bytes Format Units Label  Explanations
+--------------------------------------------------------------------------------
+  1-  9 F9.3   cm-1  sig    [9951/43555.2] Center-of-Gravity Wavenumber
+ 11- 20 F10.4  0.1nm lamAir [2295.2/10046.5] Center-of-Gravity Air Wavelength
+                             in Angstroms
+ 22- 23 I2     ---   F1     [0/10] Component upper level F or
+                             total angular momentum
+     25 I1     ---   F0     [0/9] Component lower level F or
+                             total angular momentum
+ 27- 34 F8.5   cm-1  dsig   [-0.5/0.5] Component offset Wavenumber (1)
+ 36- 44 F9.6   0.1nm dlam   [-0.15/0.2] Component offset Wavelength; in {AA} (1)
+ 46- 52 F7.5   ---   Str    [0/0.4] Component strength (2)
+--------------------------------------------------------------------------------
+Note (1): With respect to Center-of-gravity Wavenumber or Wavelength.
+Note (2): Normalized to sum to one.
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)                  Prepared by [AAS], Emmanuelle Perret [CDS]    06-Nov-2015

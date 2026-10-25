@@ -1,0 +1,777 @@
+{
+ "star": "solar",
+ "element": "Eu",
+ "generated": "2026-10-24",
+ "sets": [
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 3724.93,
+   "ep_eV": 0.0,
+   "solar_literature": true,
+   "authors_loggf": -0.09,
+   "authors_sigma_dex": 0.0253,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 3724.931,
+   "canonical_loggf": -0.09,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0253,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 3819.67,
+   "ep_eV": 0.0,
+   "solar_literature": true,
+   "authors_loggf": 0.51,
+   "authors_sigma_dex": 0.022,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 1)",
+   "canonical_wavelength_A": 3819.6725,
+   "canonical_loggf": 0.51,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.022,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 3907.11,
+   "ep_eV": 0.207,
+   "solar_literature": true,
+   "authors_loggf": 0.17,
+   "authors_sigma_dex": 0.0197,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 3907.1065,
+   "canonical_loggf": 0.17,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0197,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 3971.97,
+   "ep_eV": 0.207,
+   "solar_literature": true,
+   "authors_loggf": 0.27,
+   "authors_sigma_dex": 0.024,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 3971.972,
+   "canonical_loggf": 0.27,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.024,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 4129.72,
+   "ep_eV": 0.0,
+   "solar_literature": true,
+   "authors_loggf": 0.22,
+   "authors_sigma_dex": 0.0235,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 3)",
+   "canonical_wavelength_A": 4129.7076,
+   "canonical_loggf": 0.22,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0235,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 4205.04,
+   "ep_eV": 0.0,
+   "solar_literature": true,
+   "authors_loggf": 0.21,
+   "authors_sigma_dex": 0.0195,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 1)",
+   "canonical_wavelength_A": 4205.04,
+   "canonical_loggf": 0.21,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0195,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 6049.51,
+   "ep_eV": 1.278,
+   "solar_literature": true,
+   "authors_loggf": -0.8,
+   "authors_sigma_dex": 0.0512,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 6049.5033,
+   "canonical_loggf": -0.8002,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": 0.0512,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 6173.03,
+   "ep_eV": 1.319,
+   "solar_literature": true,
+   "authors_loggf": -0.86,
+   "authors_sigma_dex": 0.06,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 6173.0215,
+   "canonical_loggf": -0.86,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": 0.06,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 6437.64,
+   "ep_eV": 1.319,
+   "solar_literature": true,
+   "authors_loggf": -0.32,
+   "authors_sigma_dex": 0.047,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 1)",
+   "canonical_wavelength_A": 6437.6315,
+   "canonical_loggf": -0.3197,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": 0.047,
+   "d_loggf": -0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 6645.1,
+   "ep_eV": 1.379,
+   "solar_literature": true,
+   "authors_loggf": 0.12,
+   "authors_sigma_dex": 0.0482,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 3)",
+   "canonical_wavelength_A": 6645.0905,
+   "canonical_loggf": 0.1198,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": 0.0482,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 7077.09,
+   "ep_eV": 1.249,
+   "solar_literature": true,
+   "authors_loggf": -0.72,
+   "authors_sigma_dex": 0.058,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 7077.09,
+   "canonical_loggf": -0.72,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.058,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 7217.56,
+   "ep_eV": 1.229,
+   "solar_literature": true,
+   "authors_loggf": -0.35,
+   "authors_sigma_dex": 0.0458,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 3)",
+   "canonical_wavelength_A": 7217.56,
+   "canonical_loggf": -0.35,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0458,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 7301.19,
+   "ep_eV": 1.249,
+   "solar_literature": true,
+   "authors_loggf": -0.39,
+   "authors_sigma_dex": 0.0452,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 1)",
+   "canonical_wavelength_A": 7301.19,
+   "canonical_loggf": -0.39,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0452,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_AGSS21",
+   "species": "Eu II",
+   "wavelength_A": 7426.57,
+   "ep_eV": 1.278,
+   "solar_literature": true,
+   "authors_loggf": -0.67,
+   "authors_sigma_dex": 0.0446,
+   "authors_gf_source": "Lawler+2001 Table 3 A +/- dA (Table 6 weight 2)",
+   "canonical_wavelength_A": 7426.57,
+   "canonical_loggf": -0.67,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0446,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "EU_STORM2024",
+   "species": "Eu II",
+   "wavelength_A": 6645.104,
+   "ep_eV": 1.38,
+   "solar_literature": false,
+   "authors_loggf": 0.12,
+   "authors_sigma_dex": 0.0492,
+   "authors_gf_source": "Lawler+2001 (12% as Storm+2024 states)",
+   "canonical_wavelength_A": 6645.0905,
+   "canonical_loggf": 0.1198,
+   "canonical_tier": "OTHER",
+   "canonical_sigma": 0.0482,
+   "d_loggf": 0.0
+  }
+ ],
+ "adopt": [],
+ "missing_lines": [],
+ "gf_sources": [
+  {
+   "lab_source_tag": "lawler2001_eu2",
+   "n_graded_lines": 18,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "(none: NIST grade / stored sigma)",
+   "n_graded_lines": 4,
+   "classified": false
+  }
+ ],
+ "scoped_readiness": true,
+ "route_requirements": [],
+ "cull_candidates": [
+  {
+   "species": "Eu II",
+   "wavelength_A": 3930.499,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.795,
+   "ew_mA": 603.6,
+   "rew": -3.814,
+   "saturated": true,
+   "core_dv_kms": -0.49
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4522.58,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.711,
+   "ew_mA": 214.6,
+   "rew": -4.324,
+   "saturated": true,
+   "core_dv_kms": 2.08
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3688.433,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.911,
+   "ew_mA": 302.1,
+   "rew": -4.087,
+   "saturated": true,
+   "core_dv_kms": -0.65
+  }
+ ],
+ "nlte_missing": [
+  {
+   "species": "Eu II",
+   "wavelength_A": 3819.6725
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3907.1065
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3930.499
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3971.972
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4129.7076
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4205.04
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 4522.58
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 5872.98
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 5966.06
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6049.5033
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6173.0215
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6303.42
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6437.6315
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 6645.0905
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7077.09
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7194.83
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7217.56
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7301.19
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7370.22
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 7426.57
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3688.433
+  },
+  {
+   "species": "Eu II",
+   "wavelength_A": 3724.931
+  }
+ ],
+ "holdings": [
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [
+    {
+     "wavelength_A": 3724.931,
+     "dv_kms": -4.1
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    -0.24,
+    -4.06
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "near-UV",
+   "lo_A": 3000.0,
+   "hi_A": 3780.0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
+   "off_rest": [
+    {
+     "wavelength_A": 3724.931,
+     "dv_kms": -4.4
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    -0.65,
+    -4.44
+   ],
+   "frame_median_dv_kms": 0.69,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 14,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    1.06,
+    0.52,
+    -0.14,
+    0.32,
+    0.54
+   ],
+   "frame_median_dv_kms": 0.56,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3780.0,
+   "hi_A": 6910.0,
+   "graded_lines": 14,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    1.11,
+    0.36,
+    -0.49,
+    0.54,
+    0.56
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_harps_molecfit_corrected",
+   "band": "VIS",
+   "lo_A": 3782.6,
+   "hi_A": 6910.0,
+   "graded_lines": 14,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [],
+   "not_served": [],
+   "dv_kms": [
+    -2.87,
+    1.51,
+    -0.22,
+    1.07,
+    1.37
+   ],
+   "frame_median_dv_kms": 0.88,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag_reiners2016",
+   "band": "VIS",
+   "lo_A": 4047.46,
+   "hi_A": 5001.1,
+   "graded_lines": 3,
+   "served": 3,
+   "tested": 3,
+   "off_rest": [
+    {
+     "wavelength_A": 4522.58,
+     "dv_kms": 3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    0.5,
+    2.16,
+    3.65
+   ],
+   "frame_median_dv_kms": 0.51,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "VIS",
+   "lo_A": 5001.1,
+   "hi_A": 6910.0,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 5872.98,
+     "dv_kms": 4.0
+    },
+    {
+     "wavelength_A": 5966.06,
+     "dv_kms": -3.8
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    4.0,
+    -3.83,
+    1.81
+   ],
+   "frame_median_dv_kms": 0.53,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    2.93,
+    -3.73
+   ],
+   "frame_median_dv_kms": 0.59,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7194.83,
+     "dv_kms": 3.2
+    },
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.7
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    3.2,
+    -3.68
+   ],
+   "frame_median_dv_kms": 0.58,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "red-optical",
+   "lo_A": 6910.0,
+   "hi_A": 9199.0,
+   "graded_lines": 6,
+   "served": 5,
+   "tested": 5,
+   "off_rest": [
+    {
+     "wavelength_A": 7194.83,
+     "dv_kms": 3.1
+    },
+    {
+     "wavelength_A": 7370.22,
+     "dv_kms": -3.6
+    }
+   ],
+   "not_served": [],
+   "dv_kms": [
+    3.12,
+    -3.59
+   ],
+   "frame_median_dv_kms": 0.48,
+   "frame_n_lines": 20,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_iag",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_kurucz2005_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 10010.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_kpno_molecfit_corrected",
+   "band": "NIR",
+   "lo_A": 9199.0,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 3,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_wide_rya1054",
+   "band": "NIR",
+   "lo_A": 9800.0,
+   "hi_A": 10796.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 1,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_y_rya794",
+   "band": "NIR",
+   "lo_A": 10280.0,
+   "hi_A": 10680.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_j_rya1219",
+   "band": "NIR",
+   "lo_A": 11159.94,
+   "hi_A": 13000.0,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1094",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.08,
+   "frame_n_lines": 8,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_h_rya1232",
+   "band": "H",
+   "lo_A": 15007.11,
+   "hi_A": 17493.69,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": 0.3,
+   "frame_n_lines": 10,
+   "frame_ok": true,
+   "ok": true
+  },
+  {
+   "holding": "solar_crires_plus_k_rya1219",
+   "band": "K",
+   "lo_A": 19452.42,
+   "hi_A": 24845.62,
+   "graded_lines": 0,
+   "served": 0,
+   "tested": 0,
+   "off_rest": [],
+   "not_served": [],
+   "frame_median_dv_kms": null,
+   "frame_n_lines": 0,
+   "frame_ok": true,
+   "ok": true
+  }
+ ],
+ "literature": {
+  "litscan": true,
+  "set_bib_keys": [
+   "lawler2001_eu2",
+   "storm2024_y_eu"
+  ],
+  "missing_bib_keys": []
+ },
+ "nlte_table": null,
+ "literature_needs": [],
+ "blocking": {
+  "nlte_missing": 0,
+  "adopt": 0,
+  "cull_candidates": 3,
+  "missing_solar_literature_lines": 0,
+  "holdings_frame": 0,
+  "literature": 0
+ },
+ "ready": false
+}
