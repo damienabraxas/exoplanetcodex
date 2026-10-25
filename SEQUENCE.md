@@ -1,3 +1,7 @@
+## 2026-10-25 — review branch
+
+- **RYA-1274** — agent bootstrap and reference discovery validated; ORCH/literature gaps filed as RYA-1275/1276/1277; review pending.
+
 # Codex Ticket Sequence — chronological landing log
 
 ## 2026-10-24 — RYA-1268 / RYA-1270 landed
