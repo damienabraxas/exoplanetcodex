@@ -166,3 +166,17 @@ def test_an_nlte_cell_with_no_labelled_line_is_held_not_failed(tmp_path, monkeyp
     (lst.parent / "nlte_labels.tsv").write_text("element\twave_A\tnlte\nNa 1\t10746.4\tT\n")
     rm._LABEL_COUNTS.clear()
     assert rm._nlte_label_hold(d) == ""
+
+
+def test_gerber_departure_scratch_is_per_process(monkeypatch):
+    """RYA-1250/1251: one shared /tmp/rya798_gerber let parallel jobs clobber each other's
+    departure file; the default is now per process."""
+    import os
+    from pipeline import gerber_nlte as g
+    assert g.default_workdir() == f"/tmp/rya798_gerber_{os.getpid()}"
+    seen = {}
+    monkeypatch.setattr(g, "_interpolate", lambda *a: seen.setdefault("wd", a[-1]) and (_ for _ in ()).throw(RuntimeError("stop")))
+    g._CACHE.clear()
+    with pytest.raises(RuntimeError):
+        g.for_node("Fe", 5772.0, 4.44, 0.0)
+    assert seen["wd"] == g.default_workdir()

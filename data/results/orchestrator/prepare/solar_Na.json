@@ -45,7 +45,7 @@
    "canonical_wavelength_A": 6154.225,
    "canonical_loggf": -1.547,
    "canonical_tier": "NIST-C+",
-   "canonical_sigma": null,
+   "canonical_sigma": 0.0128,
    "d_loggf": 0.0
   },
   {
@@ -60,7 +60,7 @@
    "canonical_wavelength_A": 6160.747,
    "canonical_loggf": -1.246,
    "canonical_tier": "NIST-C+",
-   "canonical_sigma": null,
+   "canonical_sigma": 0.0128,
    "d_loggf": 0.0
   },
   {
@@ -79,40 +79,9 @@
    "d_loggf": 0.0
   }
  ],
- "adopt": [
-  {
-   "set": "NA_AGSS21",
-   "species": "Na I",
-   "wavelength_A": 6154.225,
-   "ep_eV": 2.1023,
-   "solar_literature": true,
-   "authors_loggf": -1.547,
-   "authors_sigma_dex": 0.0128,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical_wavelength_A": 6154.225,
-   "canonical_loggf": -1.547,
-   "canonical_tier": "NIST-C+",
-   "canonical_sigma": null,
-   "d_loggf": 0.0,
-   "line_id": "gf_097227"
-  },
-  {
-   "set": "NA_AGSS21",
-   "species": "Na I",
-   "wavelength_A": 6160.747,
-   "ep_eV": 2.1044,
-   "solar_literature": true,
-   "authors_loggf": -1.246,
-   "authors_sigma_dex": 0.0128,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical_wavelength_A": 6160.747,
-   "canonical_loggf": -1.246,
-   "canonical_tier": "NIST-C+",
-   "canonical_sigma": null,
-   "d_loggf": 0.0,
-   "line_id": "gf_097228"
-  }
- ],
+ "adopt": [],
+ "sigma_only": [],
+ "adopt_conflicts": [],
  "missing_lines": [],
  "gf_sources": [
   {
@@ -123,11 +92,6 @@
   {
    "lab_source_tag": "NA_AGSS21",
    "n_graded_lines": 1,
-   "classified": true
-  },
-  {
-   "lab_source_tag": "NA_AGSS21 (to be adopted)",
-   "n_graded_lines": 2,
    "classified": true
   }
  ],
@@ -1095,11 +1059,16 @@
  "literature_needs": [],
  "blocking": {
   "nlte_missing": 0,
-  "adopt": 2,
-  "cull_candidates": 16,
+  "adopt": 0,
+  "cull_candidates": 0,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
  },
- "ready": false
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
+ },
+ "ready": true
 }
