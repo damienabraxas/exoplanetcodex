@@ -87,6 +87,9 @@ CATEGORIES: tuple[tuple[str, str, str], ...] = (
     ("cno", "Carbon, nitrogen &amp; oxygen",
      "The C/N/O literature behind the C/O ratio &mdash; the flagship derived product "
      "and the hardest measurement in the project."),
+    ("nitrogen_method", "Nitrogen &mdash; method literature",
+     "How other teams measured nitrogen from N I, NH and CN, read for their practice "
+     "rather than for a number the Codex adopts."),
     ("motivation", "Why this project exists",
      "The results that make a host-star abundance worth measuring at all."),
     ("method_tool", "Methods, codes &amp; tools",
@@ -103,6 +106,18 @@ VERIFIED_LABELS: dict[str, tuple[str, str]] = {
     "crossref": ("DOI", "DOI record fetched from Crossref; title, authors and venue "
                         "matched against this row."),
     "publisher": ("SITE", "Publisher or database landing page resolved and matched."),
+    "arxiv": ("ARXIV", "Metadata read from the arXiv record; the preprint is held in "
+                       "the local reference library."),
+    "metadata_verified": ("META", "Bibliographic metadata checked against the paper "
+                                  "held in the local reference library."),
+    "source_table_verified": ("TABLE", "Metadata checked AND the specific table the "
+                                       "Codex uses was inspected in the paper."),
+    "primary_full_text_inspected": ("FULL TEXT", "The full text (author preprint) was "
+                                                 "read; the original version is "
+                                                 "preserved."),
+    "primary_source_lead": ("LEAD", "Abstract and metadata inspected; the line tables "
+                                    "have not yet been obtained, so nothing is adopted "
+                                    "from it."),
     "unconfirmed": ("UNCONFIRMED", "No DOI or stable URL could be confirmed &mdash; "
                                    "nothing is guessed. See the note."),
 }
@@ -274,6 +289,11 @@ STYLE = """    .src-intro { padding:3rem 0 1rem; }
     .src-stat { flex:1 1 140px; background:var(--deep); padding:1rem 1.2rem; }
     .src-stat b { display:block; font-family:var(--mono); font-size:1.5rem; color:var(--accent); font-weight:400; line-height:1.2; }
     .src-stat span { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dim); }
+    .src-search { margin:0 0 1.5rem; }
+    .src-search label { display:block; font-family:var(--mono); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent-warm); margin-bottom:0.5rem; }
+    .src-search input { width:100%; max-width:640px; box-sizing:border-box; background:var(--deep); color:var(--text-bright); border:1px solid var(--rim); padding:0.7rem 0.9rem; font-family:var(--mono); font-size:0.85rem; }
+    .src-search input:focus { outline:none; border-color:var(--accent); }
+    .src-q-count { font-family:var(--mono); font-size:0.7rem; color:var(--text-dim); margin:0.5rem 0 0; min-height:1em; }
     .src-toc { display:flex; flex-wrap:wrap; gap:0.5rem 1.2rem; margin:0 0 3rem; padding:1.2rem 0 0; border-top:1px solid var(--rim); }
     .src-toc a { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.05em; color:var(--text-dim); text-decoration:none; }
     .src-toc a:hover { color:var(--accent); }
@@ -398,6 +418,16 @@ def render(rows: list[dict[str, str]], digest: str) -> str:
         a(f'    <div class="src-stat"><b>{value}</b><span>{label}</span></div>')
     a("  </div>")
 
+    # RYA-1271: a client-side filter. Pure presentation -- every entry is still in the
+    # static HTML, so the page reads the same with scripts off and --check is unchanged
+    # in kind. It matches the visible text of each entry (citation, role, note, key).
+    a('  <div class="src-search">')
+    a('    <label for="src-q">Search the bibliography</label>')
+    a('    <input id="src-q" type="search" autocomplete="off" '
+      'placeholder="Author, year, element, journal, topic...">')
+    a('    <p id="src-q-count" class="src-q-count" aria-live="polite"></p>')
+    a("  </div>")
+
     a('  <div class="src-toc">')
     for cat, heading, _ in CATEGORIES:
         a(f'    <a href="#{cat}">{heading} ({len(counts[cat])})</a>')
@@ -445,11 +475,49 @@ def render(rows: list[dict[str, str]], digest: str) -> str:
       'Science &middot; All data public</p>')
     a("  </footer>")
     a("</div>")
+    a("<script>")
+    a(SEARCH_JS)
+    a("</script>")
     a('<script src="/assets/js/starfield.js"></script>')
     a('<script src="/assets/js/codex.js"></script>')
     a("</body>")
     a("</html>")
     return "\n".join(L) + "\n"
+
+
+#: RYA-1271 -- the bibliography filter. Every whitespace-separated term must appear
+#: in an entry (AND), case- and accent-insensitive; a section with no match is hidden.
+SEARCH_JS = """(function () {
+  var q = document.getElementById('src-q');
+  var out = document.getElementById('src-q-count');
+  if (!q) return;
+  var fold = function (s) {
+    return s.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();
+  };
+  var entries = Array.prototype.slice.call(document.querySelectorAll('.src-entry'));
+  entries.forEach(function (li) { li.dataset.text = fold(li.textContent); });
+  var sections = document.querySelectorAll('.src-section');
+  var toc = document.querySelector('.src-toc');
+  function run() {
+    var terms = fold(q.value).split(/\\s+/).filter(Boolean);
+    var shown = 0;
+    entries.forEach(function (li) {
+      var hit = terms.every(function (t) { return li.dataset.text.indexOf(t) !== -1; });
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    sections.forEach(function (sec) {
+      sec.hidden = !sec.querySelector('.src-entry:not([hidden])');
+    });
+    if (toc) toc.hidden = terms.length > 0;
+    out.textContent = terms.length ? shown + ' of ' + entries.length + ' references match' : '';
+  }
+  q.addEventListener('input', run);
+  if (location.hash.indexOf('#q=') === 0) {
+    q.value = decodeURIComponent(location.hash.slice(3));
+    run();
+  }
+})();"""
 
 
 # ─────────────────────────────────────────────────────────── library auditing ──
