@@ -1,11 +1,49 @@
 # Orchestrator Runbook -- one solar element, A to Z
 
 **Audience:** any agent (Claude, Codex, ...) or person taking a new element through the
-pipeline. **This file is the source of truth for the procedure; it lives in git and changes
-with the code.** If a step here disagrees with the code, the code wins -- fix this file in
-the same PR.
+pipeline. **This file owns the operating procedure and changes with the code.**
+Start at `LEDGERS.md`: code establishes executable behavior but cannot override
+ratified science. Report a conflict with both sources; stop the affected scientific
+action until the owning authority resolves it. Follow `DEV_CYCLE.md` for authorization
+and evidence handoff.
 
 Worked examples: Si and Al (RYA-1233, science PR #583, site PRs #53/#54). Copy what they did.
+
+---
+
+## Architecture and invocation boundaries
+
+The standalone front door is `run_pipeline.py`; no agent service is needed.
+Resolve host paths through `config/path_register.yaml` and the committed host profile.
+The source-level map below is a routing guide; inspect the current implementation and
+issue comments before assuming an example still describes the available behavior.
+
+| Layer | Owner | Contract |
+|---|---|---|
+| CLI | `run_pipeline.py` | `--element` selects the matrix; `--all-elements` selects the sweep; omitting both selects the announced legacy whole-star chain. |
+| Prepare | `pipeline/element_prepare.py` | Reviews literature/gf, lines, culls, ion-aware NLTE and holding frames. Writes reports; `--apply` changes inputs and needs approval. |
+| Sweep | `pipeline/run_sweep.py` | Derives the element axis, runs Fe first, records every element including Fe-gate omissions. It invokes the matrix, not the element publisher. |
+| Identity and routing | `pipeline/run_descriptor.py`, `pipeline/band_policy.py` | Resolve holding/window/species/deck/route/pool into preconditions and stage commands; keep per-deck outputs separate. |
+| Matrix execution | `pipeline/run_matrix.py` | Plans serially, dispatches permitted cells with bounded concurrency, records reasons, progress and fingerprints; unchanged recorded work can SKIP. |
+| Budget and admission | `pipeline/element_publish.py` | Derives units from built synthesis cells, runs paired legs and assembly, then calls publication gates. Preserves historical artifacts and withdraws superseded synthesis products. |
+| Numerical budget | `scripts/rya1230_cno_budget_legs.py`, `scripts/rya1230_cno_budget.py` | Reuse the scientific recipe; pair each response to its own pool and carry missing/invalid components as explicit holds. |
+| Evidence | `pipeline/element_verdict.py`, `pipeline/coverage_report.py` | Literature diagnostics and per-cell publication/hold/staleness/work-owed evidence. A coverage DONE can include HELD; it is not scientific sign-off. |
+| Human handoff | `scripts/post_run_report.py`, `DEV_CYCLE.md` | Preview reporting before an authorized Linear write; PR/review and website publication remain distinct actions. |
+
+`--dry-run` prevents stage dispatch, but still writes progress/reports; use an isolated
+fixture or the Python API's `report_dir` for a disposable destination. `--prepare`
+reads scientific inputs and writes a preparation report; it is not filesystem read-only.
+`--coverage` reports existing evidence. `--publish` is a mutating scientific action:
+never append it to a discovery command. In the current CLI, `--all-elements` does not
+forward `--publish` or `--jobs` to the sweep; use the reviewed single-element path for
+budget/publication. This limitation is not permission to hand-publish around gates.
+
+Inspect current RYA-1232/1233 and the relevant element test ticket (including RYA-1250
+for Mg) chronologically. A merged development PR, a successful measurement, a SKIP,
+a feed entry and a complete budget are different claims. Check the actual branch,
+artifacts and treatment provenance; do not infer in-transfer 3D physics from a cited
+solar correction table or a mean-3D label. The readiness audit at
+`docs/audit/rya1274_codex_readiness.md` records the inspected baseline and open gaps.
 
 ---
 
@@ -41,7 +79,7 @@ automatically); `venv_ci` cannot run iSpec. PySME NLTE work is Sirius-only.
 Sc Sr Y Zr -- and AGSS21 everywhere else. Published elements (Fe Si Al C N O) are not
 re-anchored. Writer: `scripts/rya1268_write_litscans.py --force`.
 
-## 2. Prepare -- what the element still needs (read-only)
+## 2. Prepare -- inspect inputs and write the readiness report
 
 **RYA-1251: the run prepares itself.** `run_pipeline.py --element <El>` (and the production
 `--all-elements` sweep) runs prepare first and applies the RULE plan before any cell is
@@ -68,7 +106,7 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 | **F literature: litscan MISSING** | No literature anchor file. | Step 4. |
 | **D NLTE: N lines not in `<El>_Amarsi2020_PySME.csv`** | The NLTE table lacks graded lines. | Step 5 (Sirius). |
 | **C cull candidates** | Saturated lines not used by the solar literature. | Reported, measured, never culled and never a hold. A human culls with `--apply --cull`. |
-| **B gf source ... unclassified** | A gf source has no correlation entry. | Add a row to `data/reference/gf_error_model.csv` (copy the nearest existing source; cite why). |
+| **B gf source ... unclassified** | A gf source has no correlation entry. | Resolve the source under `data/reference/gf_error_model.csv` and its owning procedure; add only a supported, cited classification, never a guessed correlation. |
 | **F2 literature need** | Bands with no error-stated gf: no Codex/Deep pool there. | Not blocking. Record it in the ticket; do not invent gf errors. |
 | **E holdings not serving** | A spectrum does not cover a window at rest. | Report it; do not re-prepare spectra. |
 
@@ -171,25 +209,28 @@ python run_pipeline.py --star solar --element <El> --jobs 8 --publish > publish_
 ```
 One command: measures every cell, builds the uncertainty budget legs, assembles, publishes
 to `data/products/solar/<El>.json`, withdraws superseded products, writes the verdict and
-coverage. Expect hours (Si: ~9 h of budget legs on the Mac). Run it in the background and
+coverage. Resolve permitted compute from current science authority and the ticket; historical
+Mac runs are not general authorization. Expect a long run. Run it in the background and
 watch the log; **do not edit code while it runs.** If it fails mid-run: stop, find the cause,
 report to Ryan, fix only after he agrees.
 
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
 
-## 8. Check before pushing (CI is not reliable; run it yourself)
+## 8. Check before pushing (local evidence and actual CI status)
 
 ```bash
 python -m pytest -q -p no:cacheprovider tests/ > branch.txt   # ~36 min on the Mac
 ```
-Run the same on `origin/main` and compare failure sets. **Only branch-only failures
-matter**; main has known failures. Coverage DONE is NOT proof the feed is clean -- the
+Run the same on `origin/main` when a baseline comparison is needed. Report both
+existing failures and regressions; a matching baseline is not a passing suite. Inspect
+the actual CI status rather than assuming a committed workflow is running or disabled. Coverage DONE is NOT proof the feed is clean -- the
 feed tests (rya1096, rya1080, rya1034) are. Some tests rewrite tracked files
 (`rya1080_guard.json`, a rya1169 csv): restore them before committing.
 
-Then bump `CODEX_STATE_REGISTER.md` (new v-next row; the pre-push hook enforces it) and a
-landing line in `SEQUENCE.md` for the ticket, push, open the PR.
+Apply the update triggers in `skills/codex-state-register/SKILL.md`; a state change
+needs its register evidence and SEQUENCE line. Run the freshness checks after committing,
+push and open the PR. Report any failing guard rather than bypassing it silently.
 
 ## 9. Website (separate repo: exoplanetcodex-site)
 
