@@ -253,3 +253,17 @@ def test_a_held_set_cell_is_not_budgeted_as_the_graded_cell_beside_it(monkeypatc
     assert ep.units_for("solar", "Na", report={"cells": [graded, held]}, interpreter="") == []
     # an old report that never named the set cell still reaches it through the alias
     assert len(ep.units_for("solar", "Na", report={"cells": [graded]}, interpreter="")) == 1
+
+
+def test_a_leg_with_no_line_in_common_holds_the_component_not_the_element():
+    """RYA-1251: one Na unit's legs shared no in-aggregate line; UnpairableProducts escaped
+    `_paired` and killed the whole element's budget assembly after 603 legs."""
+    import sys
+    from pathlib import Path
+    import pandas as pd
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import rya1230_cno_budget as cb
+    nom = pd.DataFrame({"wavelength_air_A": [6154.225], "abundance": [6.30], "in_aggregate": [True]})
+    leg = pd.DataFrame({"wavelength_air_A": [6160.747], "abundance": [6.31], "in_aggregate": [True]})
+    p = cb._paired(leg, nom, 1)
+    assert p["moved"] and p["n_paired"] == 0

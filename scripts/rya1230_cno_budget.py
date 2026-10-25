@@ -57,7 +57,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline.uncertainty_contract import (  # noqa: E402
     UncertaintyError, assemble, pool_digest, product_scope, transition_data, validate)
-from pipeline.paired_differential import paired_differential  # noqa: E402
+from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
 DELTA_XI = 0.2912
@@ -102,7 +102,14 @@ def _acc(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _paired(leg: pd.DataFrame, nom: pd.DataFrame, n_product: int, aggregation="median") -> dict:
-    r = paired_differential(leg, nom, aggregator=aggregation)
+    # RYA-1251: no line in-aggregate in both legs is a pool that moved ALL the way -- the
+    # component is not measured and the product holds, like any moved pool. Raised, it
+    # killed the whole element's budget assembly after 603 legs (Na, one unit).
+    try:
+        r = paired_differential(leg, nom, aggregator=aggregation)
+    except UnpairableProducts:
+        return {"median": float("nan"), "effect": float("nan"), "aggregation": aggregation,
+                "n_paired": 0, "moved": True}
     return {"median": float(r.median), "effect": float(getattr(r, aggregation)),
             "aggregation": aggregation, "n_paired": int(r.n_paired),
             "moved": int(r.n_paired) != n_product}
