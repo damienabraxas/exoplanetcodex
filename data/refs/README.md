@@ -16,6 +16,31 @@ fails on any difference, so a hand edit is a build break, not a silent divergenc
 Edit the CSV and regenerate. This is the RYA-775 pattern: hand-authored reference
 pages rot, and nothing reports that they have.
 
+## Locate the held library before reading or acquiring literature
+
+The canonical location is the path-register key `refs.library`, resolved by
+`config.constants.require_codex_path`. Its optional `CODEX_REFERENCE_LIBRARY`
+override supports another host without copying papers into a checkout. Inspect
+`config/path_register.yaml` and the applicable `config/hosts/` profile first;
+the default is a workstation holding, not a claim that Sirius has the library.
+
+```bash
+python3 -c 'from config.constants import require_codex_path; print(require_codex_path("refs.library"))'
+```
+
+Use the returned directory with the existing `--audit-library` command above.
+`local_file` entries retain their existing library-relative or documented parent-relative
+layout; the audit resolves that layout and checks both directions. Do not concatenate
+an assumed checkout path or download a second copy. If resolution or reading fails,
+record the logical key, host/profile, expected resource, exception and affected task;
+continue independent work, holding only the steps that need the missing evidence.
+
+Availability and metadata matching do not prove a scientific claim. Read the actual
+PDF/HTML/text (or extract a readable held format), match title/authors/year/DOI to the
+bibliography, and cite the printed page, section or table used. Distinguish PDF page
+index from printed page. Report unreadable/scanned formats explicitly; never invent a
+page or infer a result from the filename. Keep originals unchanged.
+
 ## Schema
 
 | column | meaning |
@@ -30,7 +55,7 @@ pages rot, and nothing reports that they have.
 | `category` | one of the twelve values below |
 | `role_in_codex` | what this source actually does for the project — the sentence that stops the row being decoration |
 | `tickets` | `RYA-…; RYA-…` — the tickets that touched or depend on it |
-| `local_file` | path inside `~/Documents/Exoplanet Codex/` for the copy on disk. Working papers, **not** redistributable repo assets |
+| `local_file` | path interpreted by the library audit for the held copy. Working papers, **not** redistributable repo assets |
 | `license_note` | licensing note, and the place every verification caveat and correction is recorded |
 | `verified` | how the row was confirmed — see below |
 

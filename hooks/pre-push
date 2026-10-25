@@ -2,10 +2,10 @@
 #
 # RYA-1184 pre-push ledger gate (root-cause fix for the recurring drift).
 #
-# WHY A HOOK AND NOT CI: CI is off (RYA-954), so the RYA-659 freshness check never
-# runs on a PR. That is exactly how RYA-1213 merged on 2026-09-16 with the State
-# Register still reading PENDING / "review branch only" -- caught only by the
-# RYA-1221 audit, days later. Until CI returns, this runs the same teeth locally.
+# WHY A LOCAL HOOK AS WELL AS CI: the RYA-954 CI outage allowed RYA-1213 to merge
+# on 2026-09-16 with the State Register still reading PENDING / "review branch only"
+# -- caught by RYA-1221 days later. This runs the same checks locally regardless
+# of current service/runner availability; inspect GitHub for actual CI status.
 #
 # BLOCKING, NEVER WARN-ONLY (RYA-1184 permanent rule: no silent fallbacks). A
 # warn-and-pass gate is the defect, not the fix.

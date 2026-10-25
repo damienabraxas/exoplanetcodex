@@ -6,7 +6,7 @@
 ## Authority and read routing
 
 This file is the canonical entry point for any agent working in this repository.
-Read the seven ledgers below in order, then resolve task-specific sources before acting.
+Read the ledgers below in table order, then resolve task-specific sources before acting.
 
 | Source | Owns | Does not own |
 |---|---|---|
@@ -47,7 +47,7 @@ them into a skill. Create a skill only for a reusable procedure, not as a second
 of a document.
 
 **If you are an agent, a Sirius-local model, or a collaborator opening this repo
-cold: these seven files are what you read first.** They are the mutable state of
+cold: the files in the ordered table are what you read first.** They are the mutable state of
 the project. Everything else in the repo is code, data, or history.
 
 Until RYA-659 this list lived only in Claude.ai memory and chat, which is why the
@@ -91,8 +91,8 @@ project state, and it carries no register-bump obligation. It is on this page be
 this page is what gets read first, and the check is worthless if nobody runs it. It
 already caught three documents added mid-session on 2026-08-17.
 
-**Read #7 BEFORE answering "why is element X still owed".** #2 tells you an
-element's status; #7 tells you what is *holding* it, gate by gate. RYA-672 had to
+**Read the element disposition report BEFORE answering "why is element X still owed".** #2 tells you an
+element's status; #8 tells you what is *holding* it, gate by gate. RYA-672 had to
 reconstruct that by hand across three tickets because nothing routed a reader
 here — which is precisely why it is now a read-set member (RYA-676).
 

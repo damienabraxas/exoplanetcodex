@@ -1,3 +1,13 @@
+## 2026-10-24 — bibliography integration reconciled by RYA-1274
+
+> **Current as of `main` 183310d8** (2026-10-25 audit) — verified from fetched Git and the merged diffs.
+
+- **RYA-1271** — PRs #593/#594 landed the bibliography/source-page refresh and removed internal-note citations; existing v171 records scope.
+
+## 2026-10-25 — review branch
+
+- **RYA-1274** — agent bootstrap and reference discovery validated; ORCH/literature gaps filed as RYA-1275/1276/1277; review pending.
+
 # Codex Ticket Sequence — chronological landing log
 
 ## 2026-10-24 — RYA-1268 / RYA-1270 landed
