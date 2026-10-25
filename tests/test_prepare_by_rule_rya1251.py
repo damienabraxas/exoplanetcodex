@@ -6,11 +6,14 @@ after the runs, so a missing sigma on an otherwise-correct gf must never hold a 
 "I didnt say cull anything" -- cull candidates are measured and reported, never culled.
 """
 import csv
+from pathlib import Path
 
 import pytest
 
 from pipeline import element_prepare as prep
 from pipeline import run_matrix as rm
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _canon(tmp_path, rows):
@@ -396,3 +399,38 @@ def test_the_engine_a_extension_is_owed_where_pysme_is_absent(tmp_path, monkeypa
     out = rm.ensure_nlte_table("solar", "Na", dry_run=False, echo=False)
     assert out == {"I": "2 line(s) OWED: the ENGINE-A extension needs PySME "
                         "(engines.venv_pysme_python) -- run on Sirius"}
+
+
+def test_every_na_grid_line_has_exactly_one_cited_3d_correction():
+    """RYA-1251: AGSS21 Table A.1 (five Asplund lines) and Canocchi+2026 (the seven only it
+    covers) together give every Na I line of the 3D grid one cited 3D-NLTE correction, and
+    the Canocchi table never repeats an AGSS21 line."""
+    import csv
+    from pipeline import solar_nlte_tables as s
+    can = list(csv.DictReader((ROOT / "data/reference/na_canocchi2026/na_canocchi2026_solar.csv").open()))
+    agss = list(csv.DictReader((ROOT / "data/reference/na_agss21/na_agss21_lines.csv").open()))
+    assert not {r["canonical_line_id"] for r in can} & {r["canonical_line_id"] for r in agss}
+    waves = [4751.822, 5148.838, 4982.813, 5682.633, 5688.205, 5889.951, 5895.924, 6154.225,
+             6160.747, 8183.256, 8194.824, 10746.449]
+    got = s.deltas("Na", "I", waves, "3D", star="solar")
+    assert sorted(got) == sorted(waves)
+    assert got[8183.256] == -0.2083 and got[6154.225] == -0.012     # Canocchi / AGSS21
+    assert all(abs(float(r["delta_3d_nlte_minus_1d_lte"])) < 0.25 for r in can)
+
+
+def test_the_canocchi_table_reproduces_from_the_grid():
+    """Regenerating from the registered grid gives the committed table (skipped where the
+    grid is not staged)."""
+    import importlib.util
+    from config.constants import codex_path
+    try:
+        grid = Path(str(codex_path("grids.canocchi2026_na")))
+    except Exception:                                                   # noqa: BLE001
+        pytest.skip("grids.canocchi2026_na not resolvable on this host")
+    if not (grid / "ffnn").is_dir():
+        pytest.skip("Canocchi+2026 grid not staged on this host")
+    spec = importlib.util.spec_from_file_location(
+        "canocchi", ROOT / "scripts/rya1251_na_canocchi2026_3d.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    mod.main(["--grid", str(grid), "--check"])

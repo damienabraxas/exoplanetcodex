@@ -147,6 +147,14 @@ entries:
     rel: nlte/amarsi_galah
     kind: dir
     desc: Amarsi GALAH DR3 PySME departure grids (+ Cu Caliskan-2024, Ti Mallinson-2024).
+  grids.canocchi2026_na:
+    root: grids
+    rel: nlte/canocchi2026_na
+    kind: dir
+    desc: >-
+      Canocchi et al. 2026 (arXiv 2603.22975) full 3D NLTE Na grid, Zenodo 10.5281/zenodo.19201830
+      (CC BY 4.0): ffnn/ (REW->A networks, 3D/1D, NLTE/LTE), rbf/, 3Dflux_all.fits. Read by
+      scripts/rya1251_na_canocchi2026_3d.py (RYA-1251).
   grids.model_atmospheres:
     root: grids
     rel: model_atmospheres
