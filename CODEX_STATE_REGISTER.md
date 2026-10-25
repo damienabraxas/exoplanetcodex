@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v171** · _Last updated: 2026-10-24 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v172** · _Last updated: 2026-10-25 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -305,6 +305,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v172** (2026-10-25) — **RYA-1251 Na through the orchestrator (unmerged).** Run prepares itself (sigma never holds), AG26 anchor only where changed. Mac run on 29d1e303: 38 Na products published (VIS 6.19-6.40; NIR KPNO Asplund set 6.301 +/- 0.039; CRIRES+ Y 6.12), 37 held -- 35 on the unresolved hfs_isotopes component, 2 on continuum. Verdict REVIEW (IN_BAND 14 / OUT_OF_BAND 24, all on a different scale from the 3D-NLTE reference). NLTE products had no value until the fit was clamped to the deck's abundance axis (same clamp as RYA-1250 `dc6e36f6`; keep one at merge). SEQUENCE.md records RYA-1271, stamp -> `183310d8`.
 - **v171** (2026-10-24) — **RYA-1271 bibliography + /sources (science PR #593).** `data/refs/bibliography.csv` 156 -> 208 rows: the RYA-1268 audit rows with labels normalised to the generator vocabulary (`lab_gf` -> `atomic_data_gf`, `arxiv_metadata` -> `arxiv`, ...); gf-origin and litscan papers the audit named but never registered (Crossref/arXiv verified; Al litscan "Andrievsky 2020" is Korotin, Andrievsky et al. 2020); 4 unidentified sources UNCONFIRMED with no link. `scripts/generate_sources_page.py` vocabulary extended (category `nitrogen_method`, five `verified` states) so /sources regenerates again (last since RYA-854), plus client-side search. Every litscan/SOURCES.yaml `bib:` key resolves. SEQUENCE.md records RYA-1268 / RYA-1270, stamp -> `2667aa13`.
 - **v170** (2026-10-18) — **RYA-1250 Mg I + II orchestration (unmerged).** Ryan authorized application and continued execution. Applied five AGSS21 Mg II gf values using independently verified NIST grades; extended the Mg I grid to 66 rows. Corrected the initial inventory: AGSS21 Table A.1 already supplies all model abundance columns, now served by a shared declared solar correction adapter. Six saturated lines are retained for synthesis, not excluded. Registered the validated Gerber Mg I deck and explicit Mg II atom-reach hold; scoped preparation to species/window. Full synthesis and existing uncertainty/publication stages running; published-set Mg I gf errors and two missing features remain source holds. Final suite: 4500 passed, 35 baseline failures, zero new failures. Draft science #585 and site #55 await production artifacts.
 
