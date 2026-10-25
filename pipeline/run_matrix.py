@@ -1422,6 +1422,39 @@ def _run_step(step: dict, star: str, *, timeout: int | None) -> tuple[bool, str]
     return True, f"{step['name']}: exit 0"
 
 
+#: Band synthesis lists that are GENERATED, git-ignored and fully regenerable from tracked
+#: inputs: list dir -> its canonical build command (argv after the interpreter). A fresh
+#: clone or worktree has none, and every cell in the band used to FAIL in derive with
+#: "line list missing" (RYA-1251: 12 near-UV Na cells on a new worktree). The run builds
+#: them itself before dispatch.
+GENERATED_LINELISTS = {
+    "ispec_nearuv_3000_3780": ["scripts/rya759_nearuv_synth.py", "--step", "linelist"],
+}
+
+
+def ensure_generated_linelists(*, dry_run: bool, echo: bool = True) -> dict:
+    """Build any missing GENERATED_LINELISTS entry; returns {list: 'present'|'built'|why}."""
+    import subprocess
+    import sys
+    root = Path(__file__).resolve().parents[1]
+    out = {}
+    for name, argv in GENERATED_LINELISTS.items():
+        path = root / "data" / "linelists" / name / "atomic_lines.tsv"
+        if path.exists():
+            out[name] = "present"
+            continue
+        if dry_run:
+            out[name] = "missing -- a real run builds it first"
+        else:
+            py = os.environ.get("CODEX_SYNTH_PYTHON") or sys.executable
+            r = subprocess.run([py, *argv], cwd=root, capture_output=True, text=True)
+            out[name] = ("built" if r.returncode == 0 and path.exists() else
+                         f"BUILD FAILED rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+        if echo:
+            print(f"line list {name}: {out[name]}")
+    return out
+
+
 def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
@@ -1461,6 +1494,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             print(element_prepare.render(rep))
             if done:
                 print(f"prepare applied by rule: {done}")
+
+    if prepare_first:
+        ensure_generated_linelists(dry_run=dry_run, echo=echo)
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,

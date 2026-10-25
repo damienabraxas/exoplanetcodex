@@ -180,3 +180,23 @@ def test_gerber_departure_scratch_is_per_process(monkeypatch):
     with pytest.raises(RuntimeError):
         g.for_node("Fe", 5772.0, 4.44, 0.0)
     assert seen["wd"] == g.default_workdir()
+
+
+def test_a_missing_generated_line_list_is_built_before_dispatch(tmp_path, monkeypatch):
+    import subprocess
+    calls = []
+    monkeypatch.setattr(rm, "GENERATED_LINELISTS", {"ispec_x": ["build.py"]})
+    monkeypatch.setattr(rm, "__file__", str(tmp_path / "pipeline" / "run_matrix.py"))
+
+    def fake(argv, **kw):
+        calls.append(argv[1:])
+        p = tmp_path / "data/linelists/ispec_x/atomic_lines.tsv"
+        p.parent.mkdir(parents=True)
+        p.write_text("x")
+        return subprocess.CompletedProcess(argv, 0, "", "")
+    monkeypatch.setattr(subprocess, "run", fake)
+    assert rm.ensure_generated_linelists(dry_run=True, echo=False)["ispec_x"].startswith("missing")
+    assert calls == []
+    assert rm.ensure_generated_linelists(dry_run=False, echo=False) == {"ispec_x": "built"}
+    assert calls == [["build.py"]]
+    assert rm.ensure_generated_linelists(dry_run=False, echo=False) == {"ispec_x": "present"}
