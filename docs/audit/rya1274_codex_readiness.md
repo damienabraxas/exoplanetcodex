@@ -37,7 +37,7 @@ Line numbers below refer to baseline code unless the finding names a changed doc
 | CRITICAL | `pipeline/coverage_report.py:95` | `stale()` catches any resolver/hash exception and returns the empty current-state reason. Synthetic dependency failure produced PUBLISHED=1, STALE=0, done=true. **RYA-1275**, preserve diagnostic and fail closed before claiming currency. No real feed was touched. |
 | WARNING | `pipeline/element_publish.py:53` | Budget unit expansion excludes the `reference` pool even though coverage enumerates it (`pipeline/coverage_report.py:104`). Mocked call confirmed set/codex/deep only. **RYA-1276**, verify complete routing with distinct fixture selectors. |
 | WARNING | `run_pipeline.py:338` | Sweep branch accepts but does not forward publish/jobs; matrix+publisher composition exists only in single-element branch. **RYA-1276**, honor supported options or refuse explicitly. |
-| WARNING | `scripts/generate_sources_page.py:531,583` | Actual held-library audit fails: 40 unindexed documents, 12 declared files absent locally. **RYA-1277**; missing paths captured in [resource report](rya1274/missing_references.json). Not every diagnostic is a new paper: duplicates/companions/internal notes require inspection. |
+| WARNING | `scripts/generate_sources_page.py:531,583` | Actual held-library audit fails: 40 unindexed documents, 12 declared local_file paths unresolved under the existing audit rule. **RYA-1277**; missing paths captured in [resource report](rya1274/missing_references.json). Not every diagnostic is a new paper: duplicates/companions/internal notes require inspection. |
 | WARNING | `tests/test_rya1235_post_run_report.py:21`, `data/catalog/linear_dossiers.csv:1` | Zn canonical target has no report dossier route. Fails identically on clean base. Existing RYA-1235 owns reporting; this PR does not invent a dossier assignment. |
 | WARNING | `tests/test_run_bug_ledger_rya926.py:41` | Existing RYA-587 row has empty science_impact. Baseline and branch fail identically; appended RYA-1274 rows populate required fields. Existing historical row is not silently rewritten. |
 | WARNING | `.github/workflows/ci.yml:69` | Committed CI still materialises LFS raw VALD files removed by RYA-1228. GitHub API reports workflow active; neither passing runner availability nor successful fresh checkout follows. No workflow/download triggered here. |
@@ -154,6 +154,10 @@ Existing home-root resolution is reused; another host must override or report mi
 access. `data/refs/README.md` explains availability, parent-relative bibliography paths,
 readable formats, missing-resource reporting and page/table provenance. It does not
 copy documents or add a competing citation index.
+
+The missing-path report also records filename candidates physically present in the
+library. These candidates have not all been citation-matched: an unresolved declaration
+is not proof that the paper is absent, and no download is warranted from this report.
 
 A separate cold Codex agent started with no conversation history at AGENTS.md. Its
 observed tool reads located the parameter owner, actual bibliography record and held

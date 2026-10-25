@@ -16,7 +16,7 @@ for the ORCH tests. No science engine dispatch occurred.
 | In BASE: `PY -m pytest -q -p no:cacheprovider tests/test_run_bug_ledger_rya926.py` | 1 | 1 passed, same malformed historical row failed. |
 | `PY -m pytest -q -p no:cacheprovider tests/test_reference_discovery_rya1274.py tests/test_ion_nlte_rya1250.py tests/test_solar_cited_nlte_rya1250.py` | 0 | 29 passed, 3.92 s. Includes new override/missing/unindexed synthetic controls and existing ion, applicability, recipe/provenance tests. |
 | `PY scripts/generate_sources_page.py --check` | 0 | Generated page matches bibliography, 206 rows. No page written. |
-| `PY scripts/generate_sources_page.py --audit-library <resolved refs.library>` | 1 | 165 documents, 125 accounted, 40 unindexed; 12 local_file paths absent. Actual output diagnostics retained below; no claims of whole-library readiness. |
+| `PY scripts/generate_sources_page.py --audit-library <resolved refs.library>` | 1 | 165 documents, 125 accounted, 40 unindexed; 12 local_file paths unresolved. Actual output diagnostics retained below; no claims of whole-library readiness. |
 | `PY -m pipeline.refinement_debt_join --report` | 0 | Informational: 10 not-fired ticket rows, 5 TBD; snapshot state caveat recorded in audit. |
 | `PY scripts/check_register_version_pointer.py` | 0 | One v172 pointer; 170 unique changelog rows. |
 | `PY scripts/gen_state_register_targets.py --check` | 0 | Generated targets mirror unchanged/in sync. |
