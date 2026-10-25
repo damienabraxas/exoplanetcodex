@@ -48,6 +48,11 @@ def units_for(star: str, element: str, *, report: dict,
     symbol, _ = rm.split_symbol(element)
     built = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
              for c in report.get("cells", []) if c.get("status") in BUILT}
+    # RYA-1251: the cells the report names at all, whatever their status. A SET cell the run
+    # HELD is not the GRADED cell beside it -- aliasing it budgeted 4 Na NIR cells with no
+    # product (36 legs, every one rc=1).
+    reported = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
+                for c in report.get("cells", [])}
     out = []
     for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
         identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
@@ -57,7 +62,8 @@ def units_for(star: str, element: str, *, report: dict,
         # SET-* selector so artifacts already built by the orchestrator reach the
         # budget/publication stage. Canonical and deep pools remain exact matches.
         if identity not in built and not (
-                d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
+                identity not in reported
+                and d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
                 and (*identity[:-1], "GRADED") in built):
             continue
         r = resolve(d, interpreter=interpreter or None, ispec_dir=None)

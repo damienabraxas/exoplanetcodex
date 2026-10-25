@@ -175,6 +175,9 @@ def test_gerber_departure_scratch_is_per_process(monkeypatch):
     from pipeline import gerber_nlte as g
     assert g.default_workdir() == f"/tmp/rya798_gerber_{os.getpid()}"
     seen = {}
+    # the deck's aux table lives on Sirius; the test is about the scratch dir, not the deck
+    monkeypatch.setattr(g, "abundance_axis", lambda el: [7.5])
+    monkeypatch.setattr(g, "has_abundance_axis", lambda el: False)
     monkeypatch.setattr(g, "_interpolate", lambda *a: seen.setdefault("wd", a[-1]) and (_ for _ in ()).throw(RuntimeError("stop")))
     g._CACHE.clear()
     with pytest.raises(RuntimeError):
@@ -200,3 +203,53 @@ def test_a_missing_generated_line_list_is_built_before_dispatch(tmp_path, monkey
     assert rm.ensure_generated_linelists(dry_run=False, echo=False) == {"ispec_x": "built"}
     assert calls == [["build.py"]]
     assert rm.ensure_generated_linelists(dry_run=False, echo=False) == {"ispec_x": "present"}
+
+
+def _hfs_list():
+    import numpy as np
+    rows = [("Na 1", 10746.439, -2.100), ("Na 1", 10746.440, -2.100), ("Na 1", 10746.440, -2.498),
+            ("Na 1", 10746.455, -1.653), ("Na 1", 10746.455, -2.100), ("Na 1", 10746.455, -2.799),
+            ("Fe 1", 10746.449, -1.0)]
+    dt = [("element", "U8"), ("wave_A", "f8"), ("loggf", "f8"), ("lower_state_eV", "f8"),
+          ("lower_state_cm1", "f8"), ("upper_state_cm1", "f8")]
+    return np.array([(e, w, g, 3.1914 if e == "Na 1" else 1.0,
+                      25740.377 if e == "Na 1" else 8000.0, 35043.175 if e == "Na 1" else 17300.0)
+                     for e, w, g in rows], dtype=dt)
+
+
+def test_a_set_line_is_found_as_the_centroid_of_its_hfs_components():
+    """RYA-1251: Asplund's Na I 10746.449 is the gf-weighted centroid of VALD's components at
+    .439/.440/.455; no single row is within the set's 5 mA, so the NIR set cells held empty."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import derive_band_products as dbp
+    ll = _hfs_list()
+    keep, missing = dbp._match_hfs_centroids([10746.449], [3.19135], ll, "Na 1", 0.005)
+    assert missing == [] and ll[keep[0]]["wave_A"] == 10746.455 and ll[keep[0]]["loggf"] == -1.653
+    # a different lower level is a different transition, never this line
+    assert dbp._match_hfs_centroids([10746.449], [2.10], ll, "Na 1", 0.005) == ([], [10746.449])
+    # a centroid outside the set's window stays missing
+    assert dbp._match_hfs_centroids([10746.470], [3.19135], ll, "Na 1", 0.005)[0] == []
+
+
+def test_a_held_set_cell_is_not_budgeted_as_the_graded_cell_beside_it(monkeypatch):
+    """RYA-1251: the old-report alias SET -> GRADED budgeted 4 HELD Na NIR set cells (36 legs,
+    all rc=1) because the GRADED cell with the same identity was built."""
+    from dataclasses import replace
+    from pipeline import element_publish as ep
+    d = replace(_cell(), pool=rm.SET_POOL_PREFIX + "NA_AGSS21")
+    band = type("B", (), {"name_declared": "VIS"})()
+    monkeypatch.setattr(rm, "expand", lambda *a, **k: [d])
+    monkeypatch.setattr(rm, "_band_of", lambda *a: band)
+    monkeypatch.setattr(rm, "pool_tier", lambda d: "SET-NA_AGSS21")
+    import pipeline.run_descriptor as rd
+    step = {"name": "derive_products", "args": ["--element", "Na"]}
+    monkeypatch.setattr(rd, "resolve", lambda *a, **k: type("R", (), {"steps": [step]})())
+    graded = dict(band="VIS", holding="h", ion="I", engine="ts-lte", pool="GRADED", status="DONE")
+    held = dict(graded, pool="SET-NA_AGSS21", status="HELD")
+    st = next(iter(ep.BUILT))
+    graded["status"] = st
+    assert ep.units_for("solar", "Na", report={"cells": [graded, held]}, interpreter="") == []
+    # an old report that never named the set cell still reaches it through the alias
+    assert len(ep.units_for("solar", "Na", report={"cells": [graded]}, interpreter="")) == 1
