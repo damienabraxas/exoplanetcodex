@@ -29,6 +29,7 @@ def main():
     p.add_argument('--maxiter',type=int,default=300)
     p.add_argument('--seconds',type=float,default=900.)
     p.add_argument('--initial',choices=['lte','tilted'],default='lte')
+    p.add_argument('--lambda-iterate',action='store_true',help='Diagnostic unaccelerated transfer/SE iteration')
     args=p.parse_args()
     from config.constants import assert_on_sirius,require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure
@@ -71,7 +72,7 @@ def main():
             'Held 41-level reduction not proven identical to cited 122-level published atom',
             'No Amarsi2018 atom or 3D solar abundance replication claimed'],
         controls=dict(rays=args.rays,qscale=args.qscale,rtol=args.rtol,maxiter=args.maxiter,
-            seconds=args.seconds,initial=args.initial,threads=1,formal_solver='piecewise_besser_1d',
+            seconds=args.seconds,initial=args.initial,lambda_iterate=args.lambda_iterate,threads=1,formal_solver='piecewise_besser_1d',
             row_equilibration='linear equations scaled by max absolute row coefficient; physical rates unchanged'),
         environment={name:version(name)for name in ('lightweaver','numpy','scipy','numba')},
         host_load=list(__import__('os').getloadavg()),status='PREPARING',science_executed=False,solver_started=False)
@@ -142,7 +143,7 @@ def main():
             for iteration in range(args.maxiter):
                 if time.perf_counter()-start_wall>args.seconds:raise TimeoutError('Bounded oxygen solver time budget exceeded')
                 old=atom.n.copy()
-                update=ctx.formal_sol_gamma_matrices()
+                update=ctx.formal_sol_gamma_matrices(lambdaIterate=args.lambda_iterate)
                 matrix=atom.Gamma
                 row_scale=np.max(np.abs(matrix),axis=1,keepdims=True)
                 if np.any(row_scale==0):raise ValueError('Disconnected oxygen SE equation')
