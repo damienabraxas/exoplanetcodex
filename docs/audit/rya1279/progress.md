@@ -127,3 +127,33 @@ intensities in W m^-2 sr^-1 Hz^-1, plus an isolated LTE comparator. It must labe
 background/EOS/model differences honestly; a converged experiment is not a passed
 paper replication or solar-abundance product. The user has authorized continuing
 these validation experiments; no new merge/publish permission is inferred.
+
+## First real-input attempt and resolved format difference
+
+At 85820b0b the prepared exact-node manifest passed source-hash checks but the
+first run failed during wavelength-grid construction, before RT/SE. Source
+continuum 4→41 has an energy-derived edge 82.7947 nm while its explicit table
+runs 94.3253–106.4179 nm. Standard LW ExplicitContinuum clipped all its points
+and raised IndexError. The original failed outputs/log remain intact under
+Sirius ticket root `benchmark-q1-rays3-v1`; no fabricated spectrum was emitted.
+
+The original MULTI2.3 source was located in the public pymulti distribution at
+commit `4d6aa3c39d634b38da772e469a5692435eba1354`,
+`pymulti/files/multi/mul23/source/mul23_sub.f`. ATOM 540–572 and FREQC 2325–2376
+explicitly consume the supplied absolute wavelength table for QMAX<0, without
+filtering it to the energy-derived threshold. The radiative Milne factor at
+1010–1019 uses the actual photon frequency and LTE population ratio. Thus a
+faithful legacy-model conversion must preserve the explicit table separately
+from energy normalization, not truncate/relabel/shift its source data.
+
+`MultiExplicitContinuum` implements that named convention, retains the energy
+lambda0 and exposes both energy/table edges for audit. All 22 source continua
+and 3778 base frequency points now construct. This is NOT a physical validation
+of the source atom or an explanation of the level/table discrepancy; that caveat
+remains. The converter does not manufacture cross-sections or alter level/rate
+values. A synthetic conflicting-edge fixture verifies retention and zero opacity
+outside the source table. Dry-run now checks native wavelength construction and
+cross-sections before PREPARED, and records solver_started separately from setup.
+
+Original-source permalink:
+https://github.com/MingjieJian/pymulti/blob/4d6aa3c39d634b38da772e469a5692435eba1354/pymulti/files/multi/mul23/source/mul23_sub.f

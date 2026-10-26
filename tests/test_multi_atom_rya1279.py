@@ -82,3 +82,33 @@ def test_explicit_source_core_spacing_is_preserved(tmp_path):
     assert native.lines[0].quadrature.qCore == 3.
     assert native.lines[0].quadrature.qWing == 100.
     assert native.lines[0].quadrature.Nlambda == 251
+
+
+def test_multi_explicit_continuum_keeps_table_points_beyond_energy_edge(tmp_path):
+    """Source MULTI FREQC does not clip the absolute table to energy-derived FRQ0."""
+    pytest.importorskip('lightweaver')
+    from pipeline.multi_continuum import MultiExplicitContinuum
+    from lightweaver.atomic_model import AtomicModel,AtomicLevel
+    from lightweaver.atomic_table import Element
+    c=MultiExplicitContinuum(j=1,i=0,wavelengthGrid=[100.,105.,110.],
+                             alphaGrid=[1e-22,2e-22,3e-22])
+    a=AtomicModel(element=Element(8),levels=[AtomicLevel(E=0.,g=1.,label='fixture',stage=0),
+        AtomicLevel(E=120000.,g=1.,label='fixtureIon',stage=1)],lines=[],continua=[c],collisions=[])
+    assert c.energy_edge_nm < 100.
+    assert c.lambda0 == c.energy_edge_nm  # energy normalization is retained
+    assert c.lambdaEdge == 110.
+    np.testing.assert_array_equal(c.wavelength(),[100.,105.,110.])
+    np.testing.assert_allclose(c.alpha(np.array([100.,105.,110.])),[1e-22,2e-22,3e-22],rtol=1e-15,atol=0)
+    # Interpolation support is the source table, not silently extended cross-sections.
+    np.testing.assert_array_equal(c.alpha(np.array([99.,111.])),[0.,0.])
+
+
+@pytest.mark.parametrize('qmax',[-1.,10.])
+def test_explicit_continuum_format_is_preserved_and_analytic_form_refused(tmp_path,qmax):
+    text=SOURCE.replace('3 1 0 0','3 1 1 0').replace('GENCOL',
+        f'3 1 1e-18 3 {qmax}\n1100 1e-18\n1050 2e-18\n1000 3e-18\nGENCOL')
+    if qmax>=0:
+        with pytest.raises(ValueError,match='analytic MULTI'):parse(tmp_path,text)
+        return
+    a=parse(tmp_path,text)
+    np.testing.assert_array_equal(a.continua[0].wavelength,[1100.,1050.,1000.])

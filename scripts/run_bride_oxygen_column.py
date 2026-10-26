@@ -54,6 +54,7 @@ def main():
         scientific_admission='HOLD: no solar abundance or full-3D claim',
         code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         generator=fingerprint(__file__),converter=fingerprint(ROOT/'pipeline/multi_atom.py'),
+        continuum_adapter=fingerprint(ROOT/'pipeline/multi_continuum.py'),
         reference_file=fingerprint(args.reference),reference_record_sha256=ref['reference']['record_sha256'],
         atom=fingerprint(source),atmosphere=fingerprint(atmosphere_path),
         atmosphere_key='grids.marcs_standard',atom_key='grids.gerber_ts',
@@ -73,19 +74,35 @@ def main():
             seconds=args.seconds,initial=args.initial,threads=1,formal_solver='piecewise_besser_1d',
             row_equilibration='linear equations scaled by max absolute row coefficient; physical rates unchanged'),
         environment={name:version(name)for name in ('lightweaver','numpy','scipy','numba')},
-        host_load=list(__import__('os').getloadavg()),status='PREPARED',science_executed=False)
+        host_load=list(__import__('os').getloadavg()),status='PREPARING',science_executed=False,solver_started=False)
     args.output.mkdir(parents=True,exist_ok=False)
     def save():
         (args.output/'manifest.json').write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n')
     save()
+    import lightweaver as lw
+    try:
+        preview=to_lightweaver(source_atom)
+        preview_set=lw.RadiativeSet([preview]);preview_set.set_active('O')
+        preview_spect=preview_set.compute_wavelength_grid()
+        for continuum in preview.continua:
+            alpha=continuum.alpha(continuum.wavelength())
+            if not np.isfinite(alpha).all()or np.any(alpha<0):
+                raise ValueError('Invalid tabulated continuum cross-sections')
+        manifest.update(status='PREPARED',base_frequency_points=len(preview_spect.wavelength),
+            continuum_semantics='MULTI explicit absolute wavelength tables retained; energy normalization unchanged',
+            continuum_edges=[dict(lower=c.i+1,upper=c.j+1,energy_edge_nm=c.energy_edge_nm,
+                table_edge_nm=c.lambdaEdge,points=len(c.wavelength()))for c in preview.continua])
+        save()
+    except Exception as error:
+        manifest.update(status='INPUT_REJECTED',error=f'{type(error).__name__}: {error}')
+        save();raise
     if not args.run:
         print('Prepared only:',args.output/'manifest.json');return
-    import lightweaver as lw
     import lightweaver.constants as constants
     from lightweaver.atomic_table import PeriodicTable
     from lightweaver import rh_atoms
     start_wall=time.perf_counter();start_cpu=time.process_time()
-    manifest.update(status='RUNNING',science_executed=True);save()
+    manifest.update(status='SETTING_UP');save()
     with (args.output/'history.jsonl').open('x')as log:
         try:
             ne=structure['electron_pressure_Pa']/(constants.KBoltzmann*structure['temperature_K'])
@@ -120,6 +137,7 @@ def main():
                 atom.n[:]*=np.geomspace(.5,2.,atom.n.shape[0])[:,None]
                 atom.n[:]*=atom.nTotal[None,:]/atom.n.sum(axis=0)[None,:]
             save()
+            manifest.update(status='RUNNING',science_executed=True,solver_started=True);save()
             converged=False
             for iteration in range(args.maxiter):
                 if time.perf_counter()-start_wall>args.seconds:raise TimeoutError('Bounded oxygen solver time budget exceeded')
@@ -165,7 +183,7 @@ def main():
                 if u.dJMax<args.rtol:lte_converged=True;break
             if not lte_converged:raise RuntimeError('LTE comparator radiation did not converge')
             intensity_lte=lte_ctx.compute_rays(wavelengths=wave_nm,mus=[1.])
-            if not(np.isfinite(intensity).all()and np.isfinite(intensity_lte).all()and np.all(intensity_lte>0)):
+            if not(np.isfinite(intensity).all()and np.isfinite(intensity_lte).all()and np.all(intensity_lte>0)and np.all(intensity>0)):
                 raise ValueError('Invalid emergent intensity')
             np.savetxt(args.output/'triplet_profiles.csv',np.column_stack((wave_air,wave_nm,intensity,intensity_lte,intensity/intensity_lte)),
                 delimiter=',',header='wavelength_air_A,wavelength_vacuum_nm,I_nlte_W_m2_sr_Hz,I_lte_W_m2_sr_Hz,I_nlte_over_I_lte',comments='')

@@ -184,8 +184,15 @@ def read_multi_atom(path) -> MultiAtom:
     for _ in range(ncont):
         t = rows[i].split()
         j_, i_, alpha0, nlamb = int(t[0]), int(t[1]), float(t[2]), int(t[3])
+        if float(t[4]) >= 0:
+            raise ValueError(f"{path}: analytic MULTI continuum not supported; explicit QMAX<0 required")
+        if nlamb < 2:
+            raise ValueError(f"{path}: continuum needs at least two tabulated points")
         pairs = np.array([[float(x) for x in rows[i + 1 + k].split()[:2]]
                           for k in range(nlamb)], dtype=float)
+        if (not np.isfinite(pairs).all() or np.any(pairs[:,0] <= 0)
+                or np.any(pairs[:,1] < 0) or np.any(np.diff(pairs[:,0]) >= 0)):
+            raise ValueError(f"{path}: expected finite decreasing continuum wavelengths and nonnegative cross-sections")
         continua.append(MultiContinuum(j_, i_, alpha0, nlamb, pairs[:, 0], pairs[:, 1]))
         i += 1 + nlamb
 
@@ -323,12 +330,13 @@ def restrict(atom: MultiAtom, keep: list[int], *, keep_ion_ground: bool = True):
 
 def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     """Build a Lightweaver `AtomicModel`. Import is local so parsing needs no Lightweaver."""
-    from lightweaver.atomic_model import (AtomicLevel, AtomicModel, ExplicitContinuum,
+    from lightweaver.atomic_model import (AtomicLevel, AtomicModel,
                                           LineType, VoigtLine)
     from lightweaver.atomic_table import Element, PeriodicTable
     from lightweaver.broadening import (LineBroadening, RadiativeBroadening,
                                         VdwUnsold, VdwBarklem)
     from lightweaver.collisional_rates import CE, CH, CI, ChargeExchangeNeutralH
+    from pipeline.multi_continuum import MultiExplicitContinuum
 
     if remap is None:
         remap = {l.index: n for n, l in enumerate(atom.levels)}
@@ -383,7 +391,7 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     continua = []
     for c in atom.continua:
         order = np.argsort(c.wavelength)
-        continua.append(ExplicitContinuum(
+        continua.append(MultiExplicitContinuum(
             j=remap[c.j], i=remap[c.i],
             wavelengthGrid=list(c.wavelength[order] * 0.1),
             alphaGrid=list(c.alpha[order] * CM2_TO_M2)))
