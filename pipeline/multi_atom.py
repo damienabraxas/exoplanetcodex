@@ -70,6 +70,8 @@ class MultiLine:
     gVdw: float
     gStark: float
     profile: str
+    q0: float = 0.0
+    iw: int = 0
 
 
 @dataclass
@@ -170,7 +172,7 @@ def read_multi_atom(path) -> MultiAtom:
         t = line.split()
         lines.append(MultiLine(int(t[0]), int(t[1]), float(t[2]), int(t[3]), float(t[4]),
                                float(t[7]), float(t[8]), float(t[9]),
-                               t[10] if len(t) > 10 else "VOIGT"))
+                               t[10] if len(t) > 10 else "VOIGT", float(t[5]), int(t[6])))
     if len(lines) != nlin:
         raise ValueError(f"{path}: header declares {nlin} lines, parsed {len(lines)}")
 
@@ -417,5 +419,11 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
 
 def _quadrature(L: MultiLine):
     from lightweaver.atomic_model import LinearCoreExpWings
-    return LinearCoreExpWings(qCore=max(L.qmax / 4.0, 1.0), qWing=max(L.qmax, 10.0),
+    if L.iw != 0:
+        raise ValueError("Unsupported MULTI IW quadrature convention")
+    # Preserve an explicit source core parameter (O777 Q0=3). Q0=0 requests
+    # automatic spacing: retain the legacy numerical prescription, which must
+    # undergo resolution convergence rather than claiming native-grid identity.
+    core = L.q0 if L.q0 > 0 else max(L.qmax / 4.0, 1.0)
+    return LinearCoreExpWings(qCore=core, qWing=max(L.qmax, 10.0),
                               Nlambda=max(L.nq, 5))

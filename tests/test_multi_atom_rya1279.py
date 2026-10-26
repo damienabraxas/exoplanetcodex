@@ -73,3 +73,12 @@ def test_unmapped_rate_cannot_disappear_during_conversion(tmp_path):
 def test_fixed_radiative_rates_are_not_skipped(tmp_path):
     with pytest.raises(ValueError,match='fixed radiative'):
         parse(tmp_path,SOURCE.replace('3 1 0 0','3 1 0 1'))
+
+
+def test_explicit_source_core_spacing_is_preserved(tmp_path):
+    pytest.importorskip('lightweaver')
+    a=parse(tmp_path,SOURCE.replace('0.4 9 5.0 0.0','0.4 251 100.0 3.0'))
+    native=to_lightweaver(a)
+    assert native.lines[0].quadrature.qCore == 3.
+    assert native.lines[0].quadrature.qWing == 100.
+    assert native.lines[0].quadrature.Nlambda == 251

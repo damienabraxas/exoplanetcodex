@@ -96,3 +96,13 @@ LW0.16.1/numpy2.5.2/scipy1.18.1/numba0.67.0. No pre-existing environment modifie
 Host load was 10.51/11.82/10.09 with 21 users; no heavy science job started. Future
 jobs must be bounded, low priority, single-threaded initially, and separately logged.
 Original FITS, frozen gold, Fe/Al products and published values remain untouched.
+
+
+Further checkpoint: the explicit source Q0=3 for the triplet is now preserved
+instead of guessing qCore=qmax/4. Q0=0 retains a documented automatic numerical
+prescription; native frequency-grid equivalence is not asserted. The O grid has
+an abundance axis; reference intake requests the full atom's stored abundance
+exactly and refuses nearest-node/nearest-abundance substitution. The new reader
+checks binary record identity/dimensions, uses (level,depth) ordering and checks
+MARCS row identities and SI conversions on independent non-square synthetic data.
+Source values are never adjusted to improve a comparison.
