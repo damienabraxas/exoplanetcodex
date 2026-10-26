@@ -157,3 +157,29 @@ cross-sections before PREPARED, and records solver_started separately from setup
 
 Original-source permalink:
 https://github.com/MingjieJian/pymulti/blob/4d6aa3c39d634b38da772e469a5692435eba1354/pymulti/files/multi/mul23/source/mul23_sub.f
+
+## Real-input numerical controls after continuum conversion
+
+At 33d95777 Sirius ran all three new test modules: 105 passed, 228 upstream
+deprecation warnings, 13.33 seconds (`numerical-validation-v3.log`). The real
+`benchmark-q1-rays3-v2` experiment then reached 300 iterations in 88.75 seconds.
+Population and J changes were ~1e-13, but physical R+C residual stayed at
+0.00531601279942. It correctly FAILED; no accepted spectrum was emitted.
+Increasing iteration count or loosening the threshold is not a resolution.
+
+At d7ee36cf the independent 100-iteration repeat preserved failed-population,
+collision, radiative-rate and scaled-MALI matrices in
+`benchmark-q1-rays3-v3-diagnostic/unconverged_diagnostics.npz`. The largest
+physical imbalance is zero-based level40/depth54; scaled-MALI residual is
+7.99e-16 while the physical residual remains 0.005316. Physical matrix column
+conservation is 5.20e-16. This isolates a difference between the accelerated
+operator fixed point and physical balance for this real model, without yet
+assigning its cause to library, atom, or converter. No upstream defect is claimed.
+
+Commit 14b79b90 adds an explicit `--lambda-iterate` control using LW's native
+unaccelerated iteration. The otherwise identical bounded experiment is running
+under `benchmark-q1-rays3-v4-lambda`. At iteration22 its physical residual is
+1.81e-14; population/J changes still require convergence. All source arrays and
+the original failed artifacts remain unchanged. Exact command: same reference,
+one thread/nice19/timeout1000s, --run --lambda-iterate, default 300 iterations,
+900-second internal budget, joint numerical threshold1e-6.
