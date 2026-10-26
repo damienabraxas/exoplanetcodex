@@ -106,3 +106,24 @@ exactly and refuses nearest-node/nearest-abundance substitution. The new reader
 checks binary record identity/dimensions, uses (level,depth) ordering and checks
 MARCS row identities and SI conversions on independent non-square synthetic data.
 Source values are never adjusted to improve a comparison.
+
+Sirius checkpoint: isolated environment installed successfully; pinned LW0.16.1
+synthetic tests at 4b3da23f passed 95/95 in 38.34s, with the same 228 deprecation
+warnings. Exact MULTI reference intake at 00814f76 succeeded: model 5750/4.5,
+A(O)=8.70, 56 depths, 41 levels; max logtau500 mismatch to printed MARCS structure
+1.89e-8 (Rosseland differs by 0.226 dex, so those axes are not interchangeable).
+No solver had run at this checkpoint. Existing STAGGER prov.json was located;
+its acquisition identity is useful, but its raw-EOS/byte-count claims are older
+than the corrected reader/header audit and cannot override that evidence.
+
+The bounded MARCS model-under-test runner now prepares a manifest by default.
+It validates all source hashes, uses all MARCS header abundances with the exact
+reference trace O abundance, explicit source gravity/units/boundaries, native
+passive atoms, fixed ne, no molecular opacity, one thread, physical R+C diagnostics,
+a 900-second budget, population/J/rate convergence 1e-6 and particle conservation
+1e-10. These are declared numerical experiment controls, not abundance-admission
+thresholds. It saves independent-reference departures and absolute triplet
+intensities in W m^-2 sr^-1 Hz^-1, plus an isolated LTE comparator. It must label
+background/EOS/model differences honestly; a converged experiment is not a passed
+paper replication or solar-abundance product. The user has authorized continuing
+these validation experiments; no new merge/publish permission is inferred.

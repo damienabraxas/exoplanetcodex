@@ -31,6 +31,10 @@ def read_marcs_structure(path):
         raise ValueError('MARCS structure row identities differ')
     if not np.array_equal(a[:,1],b[:,1]):
         raise ValueError('MARCS optical-depth identities differ across tables')
+    abundance_start=next(i for i,l in enumerate(lines)if 'Logarithmic chemical number abundances' in l)
+    abundances=[float(v)for line in lines[abundance_start+1:count_line]for v in line.split()]
+    if len(abundances)!=92 or not np.isfinite(abundances).all()or abundances[0]!=12.:
+        raise ValueError('Expected 92 finite MARCS elemental abundances with H=12')
     X=float(next(l for l in lines if 'are X, Y' in l).split()[0])
     gravity=float(next(l for l in lines if 'Surface gravity' in l).split()[0])
     vturb=float(next(l for l in lines if 'Microturbulence parameter' in l).split()[0])*1000.
@@ -41,7 +45,7 @@ def read_marcs_structure(path):
     return dict(model_id=model,ndep=n,height_m=-a[:,3]*.01,
         temperature_K=a[:,4].copy(),electron_pressure_Pa=a[:,5]*.1,
         rho_kg_m3=b[:,3]*1000.,hydrogen_mass_fraction=X,
-        logg_cgs=float(np.log10(gravity)),vturb_m_s=vturb,
+        abundances_dex=abundances,logg_cgs=float(np.log10(gravity)),vturb_m_s=vturb,
         logtau_ross=a[:,1].copy(),logtau_500=a[:,2].copy())
 
 

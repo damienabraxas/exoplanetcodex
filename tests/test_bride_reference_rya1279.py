@@ -38,6 +38,10 @@ k lgTauR KappaRoss Density Mu Vconv Fconv/F RHOX
 3 0 .3 3e-9 1 0 0 .3
 '''
 
+MARCS=MARCS.replace('3 Number of depth points',
+    'Logarithmic chemical number abundances, H always 12.00\n'+
+    ' '.join(['12.00']+['-99.00']*91)+'\n3 Number of depth points')
+
 
 def test_marcs_rows_units_and_source_identity(tmp_path):
     p=tmp_path/'fixture.mod';p.write_text(MARCS)

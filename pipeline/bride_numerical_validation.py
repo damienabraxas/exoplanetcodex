@@ -92,6 +92,18 @@ def homogeneous_error_bound(*, tau_vertical, mu, depths, source,
     return n * (truncation + rounding)
 
 
+def physical_rate_matrix(atom):
+    """Reconstruct physical R+C from accumulated rates, never the MALI operator."""
+    matrix = atom.C.copy()
+    for level in range(len(matrix)): matrix[level,level,:] = 0.
+    for transition in atom.trans:
+        matrix[transition.j,transition.i,:] += transition.Rij
+        matrix[transition.i,transition.j,:] += transition.Rji
+    for level in range(len(matrix)):
+        matrix[level,level,:] = -matrix[:,level,:].sum(axis=0)
+    return matrix
+
+
 def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiative=False):
     """Actual CE/CI and compiled SE kernel vs independent Saha-Boltzmann law.
 
@@ -167,13 +179,7 @@ def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiat
         if radiative:
             # Gamma is a MALI iteration operator, NOT the physical rate matrix.
             # Reconstruct actual R+C from separately accumulated transition rates.
-            physical = atom.C.copy()
-            for level in range(physical.shape[0]): physical[level,level,:] = 0.
-            for transition in atom.trans:
-                physical[transition.j,transition.i,:] += transition.Rij
-                physical[transition.i,transition.j,:] += transition.Rji
-            for level in range(physical.shape[0]):
-                physical[level,level,:] = -np.sum(physical[:,level,:],axis=0)
+            physical = physical_rate_matrix(atom)
         else:
             physical = matrix
         balance = np.einsum('ijd,jd->id',physical,actual)
