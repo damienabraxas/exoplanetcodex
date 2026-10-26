@@ -1,3 +1,7 @@
+## 2026-10-26 — Bride oxygen validation experiments
+
+- **RYA-1281** — three converged O reference-node spectra; sampling/initialization controls stable; MULTI mismatch keeps admission open.
+
 ## 2026-10-24 — bibliography integration reconciled by RYA-1274
 
 > **Current as of `main` 183310d8** (2026-10-25 audit) — verified from fetched Git and the merged diffs.
@@ -6,7 +10,6 @@
 
 ## 2026-10-25 — merged bootstrap and Bride review branches
 
-- **RYA-1281** — exact-node O experiment runs; stable accelerated solution fails physical balance; pure-lambda control under validation.
 - **RYA-1279/1280** — mixed collision grids and ABO conversion fixed; synthetic transfer/SE controls pass; O reference gate open.
 
 - **RYA-1278** — O-first foundation controls tested; atom/reference and RT/SE gates HOLD; RYA-1279–1282 filed; review pending.

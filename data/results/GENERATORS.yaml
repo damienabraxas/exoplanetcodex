@@ -24742,3 +24742,73 @@ artifacts:
     generator: pipeline/element_prepare.py
     invocation: python3 scripts/rya1268_apply_sets.py
     ticket: RYA-1268
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/comparison.json
+    generator: scripts/compare_bride_oxygen_experiments.py
+    invocation: python scripts/compare_bride_oxygen_experiments.py --runs /mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v6-lambda-ng
+      /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng /mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v8-tilted
+      --output /mnt/codex-data/codex/rya1281/reproduce-comparison.json
+    ticket: RYA-1281
+    note: Derived diagnostics only; original populations.npz stay on Sirius and are hash-recorded.

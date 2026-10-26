@@ -183,3 +183,35 @@ under `benchmark-q1-rays3-v4-lambda`. At iteration22 its physical residual is
 the original failed artifacts remain unchanged. Exact command: same reference,
 one thread/nice19/timeout1000s, --run --lambda-iterate, default 300 iterations,
 900-second internal budget, joint numerical threshold1e-6.
+
+## Converged experimental oxygen outputs
+
+See [oxygen_result_review.md](oxygen_result_review.md) for the final reviewable
+results and links. Native pure-lambda+Ng runs v6/v7/v8 converged (453/832/1001
+iterations;136.19/639.46/276.47s). The different initial populations and tightened
+grid/tolerance controls change emergent intensity by4.20e-7 and1.91e-5 relative
+to v6. Independent MULTI departures still differ by~0.18 in a diagnostic window;
+no solar abundance or physical admission is claimed. Source model input8.70 was
+not fitted. The unextrapolated v5 control failed its3000-iteration cap at2.06e-6
+population/J change after816.47s; all failed evidence remains intact.
+
+Ng options are explicit: order3, period5, delay10, threshold0.05, lower threshold0.
+The same options and unaccelerated/accelerated transfer controls recover an
+independent synthetic thermal solution from three initializations. Initial
+pure-lambda synthetic controls failed the old80-iteration cap while still
+approaching the exact solution; cap200, unchanged1e-11 iteration and1e-9 population
+accuracy thresholds, passes. No physical parameter was tuned. Current focused
+suite111passed on Sirius(12.52s),144passed across all five local LW modules,
+and38passed8skipped without LW.666 known upstream deprecation warnings.
+
+Original numeric arrays/rate matrices remain on Sirius; review copies include
+CSV profiles, complete histories, immutable manifests and generated comparison.
+Every committed result is registered to its actual producer/invocation. All
+experiments have finished; no owned O solver is left running. State registerv176
+records these experimental outputs and the open scientific gates.
+
+Final result-generator guard:2436 existing violations, the same against main's
+manifest/tracked tree; zero added violations. This is not a global green claim.
+All nine copied experiment files are hash-identical to the comparison receipt;
+all ten new outputs are registered to their actual producers. Register freshness,
+source-page reproducibility and whitespace checks pass.
