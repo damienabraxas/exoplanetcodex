@@ -53,7 +53,7 @@ Ryan's definition (2026-10-21): Reference Grade = the AGSS21 set plus any lab-re
 | red-optical | IAG, KP x2 | 7657.6 7659.15 7659.90 8712 8717 8806 8923; Mg II 7877 7896 |
 | NIR | IAG (<10000), KP, CRIRES Y-wide/Y/J | 9255.8 9983 10312 10811 10965 11828 12083.66; Mg II 9218 9244 10092x2 10914 |
 | H | CRIRES H x2 | 15025 15040 15048 15765.6 15765.8 15879 15886 15889 (15748 culled) |
-| K | CRIRES K | 24566.30 (PR17 exp, see below) |
+| K | CRIRES K | none -- declared gap (24566.30 adopted but unusable, see below) |
 
 Coverage notes: 10811/10914/10965 fall between CRIRES Y-wide (to 10796 A) and J (from 11160 A),
 so only the KP atlas serves them. PR17's 14877-14878 lab lines lie between J and H, where no
@@ -68,6 +68,25 @@ would dominate the feature, but the CRIRES+ K spectrum shows only a 9% shoulder 
 22% at 24566.37 -- the 12083 pattern (PR17 refuted VALD's +0.45 at 12083.278). Kept at VALD,
 since no measured value exists; read the fit residual. Civis+2013 K lines carry no per-line gf
 error.
+
+**K result, run 3 (2026-10-25): Reference Grade K is a declared gap.** 24566.30 fits at
+A = 6.79 (red chi2 27 LTE, 145 NLTE), 0.7 dex below every other K line. Too much Mg opacity
+in the window: the VALD 24565.585 +0.110 neighbour scales with A(Mg) too, and NIST's -0.225
+for 24566 would push it lower still, so the main line's gf is not the cause. One line with
+an unmeasured blend partner cannot carry a product; tuning the partner's gf to the Sun would
+be circular. Ryan 2026-10-25: "We try as hard as we can; if nothing is there or it is garbage
+we don't report it." 24566.30 is culled for the Sun in every pool (problem_children,
+ATOMIC_BLEND exclude). The K band is reported through the Codex Grade product (run 3, with
+24566: 12 lines, A = 7.50, stat 0.08 / syst 0.17 dex; 21458.86 alone 7.515, red chi2 0.26).
+Deep Grade K is held: no graded K line passes its depth gate.
+
+**Culling one line no longer re-runs the element.** The cull registry was hashed whole into
+every cell's identity and budget legs were kept or wiped per element, so this one cull meant
+re-running all 815 Mg cells and 1548 legs (~64 h). The registry is now scoped to the cell's
+window (`run_matrix.registry_fingerprint`) and legs are kept per unit
+(`element_publish.reuse_legs`). `scripts/rya1250_rescope_registry_fingerprint.py` re-stamps
+the ledger once, BEFORE the registry is edited. On a copy of run 3's ledger: 214/214 Mg cells
+stay current; the 24566 row flips exactly the 5 K Codex cells.
 
 **Literature (2026-10-24).** Amarsi & Grevesse 2026 (arXiv 2608.23155) recommend
 A(Mg) = 7.56 +/- 0.03: A21's Mg I lines plus only the three Mg II lines with the least severe

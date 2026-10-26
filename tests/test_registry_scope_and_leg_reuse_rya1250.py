@@ -95,3 +95,9 @@ def test_migration_reproduces_the_scoped_identity():
     stale = {"inputs": [dict(r, digest="old") if r["kind"] == "ledger" else r for r in rows]}
     stale["inputs_hash"] = hashlib.sha256(json.dumps(stale["inputs"], sort_keys=True).encode()).hexdigest()
     assert m.rescope(stale, whole)[0] is None
+
+
+def test_mg_k_24566_is_culled_for_the_sun():
+    from pipeline import problem_children as pc
+    d = pc.disposition_for_line("Mg", "I", 24566.296, table=pc.line_dispositions())
+    assert pc.aggregate_action(d) == "exclude"
