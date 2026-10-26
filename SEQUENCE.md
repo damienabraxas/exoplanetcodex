@@ -4,7 +4,9 @@
 
 - **RYA-1271** — PRs #593/#594 landed the bibliography/source-page refresh and removed internal-note citations; existing v171 records scope.
 
-## 2026-10-25 — merged bootstrap and Bride review branch
+## 2026-10-25 — merged bootstrap and Bride review branches
+
+- **RYA-1279/1280** — mixed collision grids and ABO conversion fixed; synthetic transfer/SE controls pass; O reference gate open.
 
 - **RYA-1278** — O-first foundation controls tested; atom/reference and RT/SE gates HOLD; RYA-1279–1282 filed; review pending.
 - **RYA-1274** — bootstrap/reference discovery merged in PR #596 (`0ade2170`); RYA-1275/1276/1277 remain open.

@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v173** · _Last updated: 2026-10-25 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v174** · _Last updated: 2026-10-25 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Engineering controls implemented; physical first-light HOLD | Resolved-triplet atom/reference and independent RT/SE benchmarks required; canonical cgs gravity converted to LW SI; no O solve or runtime measurement | RYA-1278; docs/decisions/bride_oxygen_foundation_rya1278.md; RYA-1279/1280/1281/1282 | PENDING | Ryan reviews branch; atom/numerical gates then explicit approval of a concrete one-column manifest |
+| Bride O-first foundation | Input/conversion and synthetic numerical controls implemented; real-atom reference gate open | Held 41-level triplet candidate audited; mixed TEMP/ABO conversion fixed; synthetic transfer and thermal SE controls pass; exact real-atom baseline/lineage open; no O solve yet | RYA-1278; docs/decisions/bride_oxygen_foundation_rya1278.md; RYA-1279/1280/1281/1282 | PENDING | Ryan reviews branch; atom/numerical gates then explicit approval of a concrete one-column manifest |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -306,6 +306,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v174** (2026-10-25) — **RYA-1279/1280 continuation, review branch.** Corrected mixed collision TEMP grids and ABO preservation with fail-closed unsupported physics; independent synthetic transfer, CE/CI and coupled line/SE thermal controls pass. Full held 41-level O candidate is hashed; exact reference lineage/baseline remain open. No oxygen science result or publication gate signed off. Ryan authorized continuing toward O results without waiting for CI.
 
 - **v173** (2026-10-25) — **RYA-1278 Bride foundation, review branch.** Audited earlier proofs; implemented synthetic/read-only input controls including canonical cgs-to-SI gravity. Bundled atoms fail resolved-triplet/reference parity. First-light HOLD; RYA-1279/1280 gate RYA-1281, then RYA-1282. Model 8 metadata reconciled to LW/STAGGER, full-3D still unvalidated and no token. RYA-1274 merged as PR #596 / `0ade2170`; its open ORCH/literature defects remain. No science result or production gate changed.
 

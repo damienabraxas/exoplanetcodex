@@ -72,8 +72,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : b50cfa4eab562d282fe3ae33eb51561d362952cc644d675e643ece07a9f0bf6c
-     rows      : 208
+     sha256    : 6bb38ec16dd66709dc5206413f25bd55ffba837bb9c144ed80a525ae7a1e29fd
+     rows      : 210
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -104,8 +104,8 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>208</b><span>references</span></div>
-    <div class="src-stat"><b>203</b><span>with verified link</span></div>
+    <div class="src-stat"><b>210</b><span>references</span></div>
+    <div class="src-stat"><b>205</b><span>with verified link</span></div>
     <div class="src-stat"><b>5</b><span>unconfirmed link</span></div>
     <div class="src-stat"><b>119</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
@@ -119,7 +119,7 @@
     <a href="#solar_reference">Solar reference scales &amp; atlases (28)</a>
     <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (89)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (2)</a>
-    <a href="#nlte">Non-LTE departures (20)</a>
+    <a href="#nlte">Non-LTE departures (22)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
     <a href="#model_atmosphere">Model atmospheres (4)</a>
     <a href="#benchmark_params">Benchmark stellar parameters (15)</a>
@@ -1295,7 +1295,7 @@
     </ul>
   </section>
   <section class="src-section" id="nlte">
-    <h2>Non-LTE departures<span class="src-count">20</span></h2>
+    <h2>Non-LTE departures<span class="src-count">22</span></h2>
     <p class="src-blurb">The model atoms and departure-coefficient grids that move an abundance off its LTE value &mdash; including the papers that define where a grid does NOT reach.</p>
     <ul class="src-list">
       <li class="src-entry" id="amarsi2016">
@@ -1364,6 +1364,16 @@
         <p class="src-role">Review of 3D NLTE methods; background for the NLTE treatments.</p>
         <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-local">local copy: Reference documents/2511.04254v2.pdf</span> &middot; <span class="src-key">bergemann_hoppe2025</span></div>
       </li>
+      <li class="src-entry" id="bergemann2021_solar_oxygen">
+        <div class="src-head">
+          <span class="src-cite">Bergemann, M.; Hoppe, R.; Semenova, E.; et al. (2021). <em>Solar oxygen abundance</em>. MNRAS 508, 2236.</span>
+          <span class="src-verified src-v-primary_full_text_inspected" title="The full text (author preprint) was read; the original version is preserved.">FULL TEXT</span>
+        </div>
+        <div class="src-link"><a href="https://arxiv.org/html/2109.01143v1" target="_blank" rel="noopener">10.1093/mnras/stab2160 &#8599;</a></div>
+        <p class="src-role">Audits discrepancy between the published 122-level atom and held Gerber 41-level artifact; Table 1 broadening/gf provenance, no equivalence or atomic data adoption inferred.</p>
+        <p class="src-note">Primary online version sections 3.1 and Table 1 inspected 2026-10-25; no duplicate PDF acquired. Paper CC BY 4.0 does not establish rights of a separate vendor atom.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1279</span> &middot; <span class="src-key">bergemann2021_solar_oxygen</span></div>
+      </li>
       <li class="src-entry" id="bergemann2012">
         <div class="src-head">
           <span class="src-cite">Bergemann, M.; Lind, K.; Collet, R.; Magic, Z.; Asplund, M. (2012). <em>Non-LTE line formation of Fe in late-type stars. I. Standard stars with 1D and &lt;3D&gt; model atmospheres</em>. MNRAS 427, 27.</span>
@@ -1419,6 +1429,16 @@
         <div class="src-link"><a href="https://doi.org/10.1134/s1063773716050078" target="_blank" rel="noopener">10.1134/s1063773716050078 &#8599;</a></div>
         <p class="src-role">Al I near-UV resonance-line NLTE comparison.</p>
         <div class="src-meta"><span class="src-tickets">RYA-1271</span> &middot; <span class="src-key">mashonkina2016_alsi</span></div>
+      </li>
+      <li class="src-entry" id="nahar2022_oxygen_verification">
+        <div class="src-head">
+          <span class="src-cite">Nahar, S. N. (2022). <em>Verification of atomic data for solar oxygen abundance models</em>. MNRAS Letters 512, L39-L43.</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnrasl/slac015" target="_blank" rel="noopener">10.1093/mnrasl/slac015 &#8599;</a></div>
+        <p class="src-role">Primary methodological warning about photoionization data depicted in Bergemann2021; not proof that the distinct held 41-level artifact contains disputed cross-sections.</p>
+        <p class="src-note">Publisher metadata, abstract and introduction inspected 2026-10-25; no source-table adoption and no duplicate download.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-1279</span> &middot; <span class="src-key">nahar2022_oxygen_verification</span></div>
       </li>
       <li class="src-entry" id="nordlander_lind2017">
         <div class="src-head">
@@ -2207,7 +2227,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 b50cfa4eab562d282fe3ae33eb51561d362952cc644d675e643ece07a9f0bf6c &middot; 208 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 6bb38ec16dd66709dc5206413f25bd55ffba837bb9c144ed80a525ae7a1e29fd &middot; 210 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
