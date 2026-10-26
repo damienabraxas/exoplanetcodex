@@ -104,7 +104,8 @@ def physical_rate_matrix(atom):
     return matrix
 
 
-def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiative=False):
+def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiative=False,
+                          lambda_iterate=False, ng=False):
     """Actual CE/CI and compiled SE kernel vs independent Saha-Boltzmann law.
 
     Three artificial levels/rates form a numerical fixture, NOT an oxygen atom.
@@ -150,7 +151,8 @@ def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiat
     radset.set_active('O')
     eq = radset.compute_eq_pops(atmosphere)
     spect = radset.compute_wavelength_grid(extraWavelengths=np.array([500.,600.]))
-    ctx = lw.Context(atmosphere, spect, eq, Nthreads=1,formalSolver='piecewise_linear_1d')
+    ng_options=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if ng else None
+    ctx = lw.Context(atmosphere, spect, eq, Nthreads=1,formalSolver='piecewise_linear_1d',ngOptions=ng_options)
     atom = ctx.activeAtoms[0]
     atom.compute_collisions(fillDiagonal=True)
     matrix = atom.C.copy()
@@ -166,10 +168,10 @@ def collision_lte_control(*, temperature, initial_weights, rate_scale=1., radiat
         raise ValueError('Three positive initial weights required')
     atom.n[:] = atom.nTotal[None, :] * (start/start.sum())[:, None]
     history = []
-    for iteration in range(80 if radiative else 20):
+    for iteration in range((200 if lambda_iterate else 80) if radiative else 20):
         previous = atom.n.copy()
         if radiative:
-            radiation_update = ctx.formal_sol_gamma_matrices()
+            radiation_update = ctx.formal_sol_gamma_matrices(lambdaIterate=lambda_iterate)
             matrix = atom.Gamma.copy()  # MALI iteration operator, not physical R+C
             row_norm = np.max(np.abs(matrix),axis=1,keepdims=True)
             atom.Gamma[:] = matrix/row_norm

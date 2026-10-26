@@ -80,11 +80,13 @@ def test_directional_rate_defect_is_detected_by_independent_lte_control(monkeypa
 
 
 @pytest.mark.parametrize('initial_weights',[[1.,1.,1.],[100.,1.,.01],[.01,1.,100.]])
-def test_coupled_line_transfer_and_se_recover_thermal_equilibrium(initial_weights):
+@pytest.mark.parametrize('lambda_iterate,ng',[(False,False),(True,False),(True,True)])
+def test_coupled_line_transfer_and_se_recover_thermal_equilibrium(initial_weights,lambda_iterate,ng):
     from pipeline.bride_numerical_validation import collision_lte_control
     # A 1e-9 population accuracy target is fixed for this iterative control;
     # iteration change/J thresholds are stricter (1e-11), not abundance targets.
-    d=collision_lte_control(temperature=6000.,initial_weights=initial_weights,radiative=True)
+    d=collision_lte_control(temperature=6000.,initial_weights=initial_weights,radiative=True,
+                            lambda_iterate=lambda_iterate,ng=ng)
     np.testing.assert_allclose(d['actual_fraction'],np.broadcast_to(
         d['expected_fraction'][:,None],d['actual_fraction'].shape),rtol=1e-9,atol=0)
     assert np.max(d['normalized_rate_residual']) < 1e-9
