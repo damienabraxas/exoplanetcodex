@@ -163,7 +163,14 @@ def main():
                 if conservation>1e-10:raise ValueError('Particle conservation failed')
                 if iteration>=2 and max(delta,residual,update.dJMax)<args.rtol:
                     converged=True;break
-            if not converged:raise RuntimeError('Oxygen did not meet joint population/J/physical-rate convergence')
+            if not converged:
+                np.savez_compressed(args.output/'unconverged_diagnostics.npz',
+                    populations=actual,nstar=atom.nStar,physical_rate_matrix=rates,
+                    scaled_mali_matrix=matrix,collisions=atom.C,
+                    radiative_up=np.asarray([t.Rij for t in atom.trans]),
+                    radiative_down=np.asarray([t.Rji for t in atom.trans]),
+                    transition_indices=np.asarray([(t.i,t.j) for t in atom.trans]))
+                raise RuntimeError('Oxygen did not meet joint population/J/physical-rate convergence')
             b=atom.n/atom.nStar
             reference_b=np.asarray(ref['reference']['departures'])
             if b.shape!=reference_b.shape:raise ValueError('Reference population layout mismatch')
