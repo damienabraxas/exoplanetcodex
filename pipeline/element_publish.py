@@ -64,7 +64,7 @@ def units_for(star: str, element: str, *, report: dict,
         step = next(s for s in r.steps if s["name"] == "derive_products")
         out.append((f"{d.ion} {d.band} {d.holding} {d.engine_deck} {d.pool}",
                     "python3 scripts/derive_band_products.py " + shlex.join(step["args"]),
-                    d.engine_deck))
+                    d.engine_deck, rm.ledger_key(star, d, identity[0])))
     return out
 
 
@@ -204,6 +204,41 @@ def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) 
     return done
 
 
+def unit_signature(command: str, inputs_hash: str | None) -> str:
+    """What a unit's legs were built from: its derive command line and its cell's inputs hash."""
+    return f"{command}\n# {inputs_hash}"
+
+
+def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
+    """Keep each unit's legs while its signature is unchanged, renumbered to the unit's new
+    index; remove every other unit's legs. Returns the new indices whose legs were kept.
+
+    No per-unit record (a first run, or the pre-RYA-1250 whole-element `units.prev.txt`)
+    proves nothing current, so every leg goes. A signature listed twice is ambiguous and
+    is never reused."""
+    import shutil
+    prev = json.loads(prev_file.read_text()) if prev_file.exists() else None
+    kept: list[int] = []
+    if prev is None:
+        shutil.rmtree(legs, ignore_errors=True)
+    else:
+        old = {s: j for j, s in enumerate(prev) if prev.count(s) == 1}
+        hold = legs.parent / "legs.reuse"
+        shutil.rmtree(hold, ignore_errors=True)
+        hold.mkdir(parents=True)
+        for i, s in enumerate(sigs):
+            j = old.get(s) if sigs.count(s) == 1 else None
+            src = legs / f"unit{j:02d}" if j is not None else None
+            if src is not None and src.is_dir():
+                src.rename(hold / f"unit{i:02d}")
+                kept.append(i)
+        shutil.rmtree(legs, ignore_errors=True)
+        hold.rename(legs)
+    prev_file.parent.mkdir(parents=True, exist_ok=True)
+    prev_file.write_text(json.dumps(sigs, indent=0) + "\n")
+    return kept
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
@@ -222,19 +257,13 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     ufile = work / "units.txt"
     ufile.write_text("\n".join(u[1] for u in units) + "\n")
     # Leg directories are keyed by unit index and the legs runner skips a leg whose DONE
-    # exists, so legs are reused across invocations -- ONLY while both the unit list and every
-    # built cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
+    # exists, so legs are reused across invocations -- ONLY while the unit's command line and
+    # its own cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
     # or synthesis-list change re-built the cells and then priced them from stale legs.
-    symbol, _ = rm.split_symbol(element)
+    # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
-    sig = ufile.read_text() + "".join(
-        f"# {k} {v.get('inputs_hash')}\n" for k, v in sorted(ledger.items())
-        if k.startswith(f"{star}|{symbol}|"))
-    prev = work / "units.prev.txt"
-    if prev.exists() and prev.read_text() != sig:
-        import shutil
-        shutil.rmtree(legs, ignore_errors=True)
-    prev.write_text(sig)
+    reuse_legs(legs, work / "units.prev.json",
+               [unit_signature(u[1], (ledger.get(u[3]) or {}).get("inputs_hash")) for u in units])
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
     # still missing is RECORDED, never silently assembled around.

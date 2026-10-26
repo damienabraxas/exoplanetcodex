@@ -927,11 +927,35 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
         rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
     for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv",
-                   ROOT / "data" / "registry" / "problem_children.csv"):
+                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
+    # RYA-1250: the cull registry, SCOPED like canonical_gf. Hashed whole, culling one Mg K
+    # line (24566.30) re-ran every cell of every element.
+    rows.append({"kind": "registry_scoped", "name": f"{PROBLEM_CHILDREN.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                 "digest": registry_fingerprint(round(lo), round(hi))})
     return rows
+
+
+PROBLEM_CHILDREN = ROOT / "data" / "registry" / "problem_children.csv"
+
+
+def registry_fingerprint(lo: float, hi: float, path: Path = PROBLEM_CHILDREN) -> str:
+    """sha256 of the cull-registry rows a window can see: every row whose `lambda_or_scope`
+    starts with a wavelength in [lo, hi], plus every row with no leading wavelength (a scope
+    such as "gf pool" or "bands" may apply anywhere, so it stays in every cell's identity)."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        return f"ABSENT:{type(exc).__name__}"
+    keep = []
+    for r in csv.reader(text.splitlines()[1:]):
+        if len(r) < 2:
+            continue
+        m = re.match(r"\s*([0-9]+\.?[0-9]*)", r[1])
+        if m is None or lo <= float(m.group(1)) <= hi:
+            keep.append(",".join(r))
+    return hashlib.sha256("\n".join(sorted(keep)).encode()).hexdigest()
 
 
 def holding_source_files(holding_id: str) -> tuple[list[Path], str]:
