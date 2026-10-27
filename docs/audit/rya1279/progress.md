@@ -215,3 +215,22 @@ manifest/tracked tree; zero added violations. This is not a global green claim.
 All nine copied experiment files are hash-identical to the comparison receipt;
 all ten new outputs are registered to their actual producers. Register freshness,
 source-page reproducibility and whitespace checks pass.
+
+## First Kitt Peak observational diagnostic (Ryan-directed)
+
+At9ddae7bd the shared solve/replay constructor and lightweight canonical Kitt
+reader support fixed-population disk-flux/continuum calculation.158focused local
+tests pass;20targeted Sirius tests pass. Original source histories remain intact.
+The run completed in43.15s under `kitt-peak-fixed-v1` with no SE/abundance fit.
+Disk-centre replay differs3.33e-15 from the original output;5/10-ray normalized
+flux differs8.27e-6. Model±0.5Å window areas61.31/53.08/41.84mÅ vs corrected
+Kitt Peak2005 areas77.56/67.20/53.79mÅ. Interpretation and limitations are in
+[kitt_peak_result_review.md](kitt_peak_result_review.md); no canonical O value moved.
+
+Extended project route tests:13passed20skipped, one pre-existing failure of the
+old six-band1984 coverage assumption. Executing the original4542033b loader under
+the same fixture setup reproduces its5000Å return (thus the old test's failure).
+Updated the now-brittle inline-conversion test to exercise shared-reader behavior;
+the data/measurement route itself retains identical conversion and normalization.
+No new physics bug was identified; no fake bug-ledger row added. Registerv177 and
+SEQUENCE record the new observation diagnostic and open scientific controls.

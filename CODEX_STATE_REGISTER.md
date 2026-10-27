@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v176** · _Last updated: 2026-10-26 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v177** · _Last updated: 2026-10-26 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Three converged real-atom experimental spectra; reference/model admission open | Full held41-level atom, exact MARCS5750/4.5/A8.70 input; pure-lambda+Ng converges, refinement changes intensity by1.91e-5 and tilted/tighter control by4.20e-7; independent MULTI departures differ by~0.18; MALI fixed point fails physical balance; 111 Sirius tests pass | RYA-1278/1279/1280/1281; docs/audit/rya1279/oxygen_result_review.md; data/results/rya1281/oxygen_validation_v1/comparison.json; PR #598 | PENDING | Ryan reviews experimental outputs; matched physics/reference and atom lineage before production; no solar abundance/full-3D admission |
+| Bride O-first foundation | Three converged reference spectra and first Kitt Peak flux diagnostic; physical admission open | Fixed MARCS5750/4.5/A8.70; model window absorption21–22% below corrected Kitt Peak2005; disk-centre replay matches3.33e-15 and5/10 flux-ray sensitivity8.27e-6; intrinsic profiles omit macro/rotation/LSF/blends; independent MULTI disagreement remains | RYA-1278/1281; docs/audit/rya1279/kitt_peak_result_review.md; data/results/rya1281/kitt_peak_fixed_v1/manifest.json; PR #598 | PENDING | Resolve solar atmosphere/broadening/frame/blend and matched physics/reference controls before abundance fitting or production; no solar abundance/full-3D admission |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -306,6 +306,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v177** (2026-10-26) — **RYA-1281 first Kitt Peak comparison.** Fixed-population replay produces disk-integrated flux and a separate line-free continuum; corrected2005 atlas retains its published normalization. Three±0.5Å absorption areas fall21–22% below observation; intrinsic broadening/benchmark-atmosphere and MULTI caveats remain. Replay identity and angular checks pass; no abundance/RV/width/continuum fit.158focused local and20targeted Sirius tests pass; extra route checks retain one reproduced pre-existing failure. No adopted result, production or full3D gate changes.
 
 - **v176** (2026-10-26) — **RYA-1281 first experimental O spectra.** Three native pure-lambda+Ng experiments converge with independent physical balance, refinement and different initial populations. Profiles/manifests/histories and registered comparison generator preserved. Independent MULTI departure disagreement remains; 8.70 is an unchanged input, no solar abundance measured/admitted. 144 local regression tests and111 Sirius numerical tests pass. No merge, production or full-3D certification.
 

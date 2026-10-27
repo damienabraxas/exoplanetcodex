@@ -24812,3 +24812,19 @@ artifacts:
       --output /mnt/codex-data/codex/rya1281/reproduce-comparison.json
     ticket: RYA-1281
     note: Derived diagnostics only; original populations.npz stay on Sirius and are hash-recorded.
+  - artifact: rya1281/kitt_peak_fixed_v1/manifest.json
+    generator: scripts/compare_bride_kitt_peak.py
+    invocation: python scripts/compare_bride_kitt_peak.py --experiment /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng
+      --comparison /mnt/codex-data/codex/rya1281/comparison-v6-v7-v8.json --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-kitt-peak-fixed-v1
+    ticket: RYA-1281
+    note: Fixed A8.70 benchmark diagnostic, no abundance fit/admission; use new output directory. Companion plot copied
+      to data/output/rya1281/kitt_peak_fixed_v1/.
+  - artifact: rya1281/kitt_peak_fixed_v1/profiles.csv
+    generator: scripts/compare_bride_kitt_peak.py
+    invocation: python scripts/compare_bride_kitt_peak.py --experiment /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng
+      --comparison /mnt/codex-data/codex/rya1281/comparison-v6-v7-v8.json --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-kitt-peak-fixed-v1
+    ticket: RYA-1281
+    note: Fixed A8.70 benchmark diagnostic, no abundance fit/admission; use new output directory. Companion plot copied
+      to data/output/rya1281/kitt_peak_fixed_v1/.
