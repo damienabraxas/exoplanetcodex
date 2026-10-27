@@ -125,6 +125,11 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_oxygen_atom:
+    root: work
+    rel: bride_inputs/rya1281/atom.o41f
+    kind: file
+    desc: Hash-pinned O41f staging copy for Ryan-authorized Mac sensitivity experiments; no production admission.
   engines.bride_eval:
     root: home
     rel: bride_rya1118

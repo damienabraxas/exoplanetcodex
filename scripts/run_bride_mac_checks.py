@@ -1,0 +1,110 @@
+"""Mac-only serial oxygen parameter experiment authorized by Ryan; no fitting."""
+from __future__ import annotations
+import argparse
+from dataclasses import replace
+from importlib.metadata import version
+import json
+from pathlib import Path
+import platform
+import subprocess
+import sys
+import time
+import numpy as np
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--plan',type=Path,required=True)
+    p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--cases',nargs='+',help='Explicit named subset; no silent case substitution')
+    args=p.parse_args()
+    if platform.system()!='Darwin':raise RuntimeError('This experimental Mac authorization does not enable other hosts')
+    if version('lightweaver')!='0.16.1':raise ValueError('Pinned LW0.16.1 required')
+    from config.constants import require_codex_path
+    from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
+    from pipeline.multi_atom import read_multi_atom
+    from pipeline.bride_numerical_validation import physical_rate_matrix
+    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage
+    from pipeline.bride_observables import flux_quadrature,integrate_flux
+    from pipeline.wavelength_util import air_to_vac
+    plan=json.loads(args.plan.read_text());controls=plan['controls']
+    cases=plan['cases']
+    if args.cases:
+        if set(args.cases)-{c['name']for c in cases}:raise ValueError('Unknown requested case')
+        cases=[c for c in cases if c['name']in args.cases]
+    args.output.mkdir(parents=True,exist_ok=False)
+    source_path=require_codex_path('experiments.bride_oxygen_atom')
+    source=read_multi_atom(source_path)
+    if fingerprint(source_path)['sha256']!='d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57':
+        raise ValueError('Changed held oxygen atom')
+    lo,hi=plan['window_air_A'];wave=np.arange(lo,hi+plan['step_A']/2,plan['step_A']);vac=air_to_vac(wave)*.1
+    summary=dict(schema='codex.bride_mac_parameter_results/1',status='RUNNING',
+        scientific_admission='HOLD: diagnostic input responses, not a solar fit or uncertainty budget',
+        host=dict(system=platform.system(),machine=platform.machine()),
+        code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        generator=fingerprint(__file__),context_builder=fingerprint(ROOT/'pipeline/bride_reference.py'),
+        plan=fingerprint(args.plan),atom=fingerprint(source_path),cases=[])
+    def save():(args.output/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
+    save()
+    for case in cases:
+        name=case['name'];out=args.output/name;out.mkdir();start=time.perf_counter()
+        m=dict(case=case,status='PREPARING',controls=controls,threads=1,
+            interpretation='xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files')
+        def save_case():(out/'manifest.json').write_text(json.dumps(m,indent=2,allow_nan=False)+'\n')
+        save_case()
+        try:
+            file=f"p{case['teff']}_g+{case['logg']:.1f}_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod"
+            path=require_codex_path('grids.marcs_standard')/file
+            original=read_marcs_structure(path)
+            structure=controlled_structure(original,xi=case['xi'],drop_bottom=case['drop_bottom'])
+            atom=replace(source,abundance=case['abundance'])
+            assert_collision_coverage(atom,structure['temperature_K'])
+            m.update(atmosphere=fingerprint(path),original_depths=original['ndep'],retained_depths=structure['ndep'],
+                temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
+                bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
+            save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=True)
+            active=ctx.activeAtoms[0]
+            with (out/'history.jsonl').open('x')as history:
+                for iteration in range(controls['maxiter']):
+                    if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Case budget exceeded')
+                    old=active.n.copy();update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+                    matrix=active.Gamma;scale=np.max(abs(matrix),axis=1,keepdims=True)
+                    if np.any(scale==0):raise ValueError('Disconnected SE equation')
+                    matrix[:]/=scale;ctx.stat_equil();n=active.n.copy()
+                    if not np.isfinite(n).all()or np.any(n<=0):raise ValueError('Invalid populations')
+                    rates=physical_rate_matrix(active)
+                    balance=np.einsum('ijd,jd->id',rates,n);flow=np.einsum('ijd,jd->id',abs(rates),n)
+                    rate=float(np.max(abs(balance)/np.maximum(flow,np.finfo(float).tiny)))
+                    delta=float(np.max(abs(n-old)/n));conservation=float(np.max(abs(n.sum(axis=0)/active.nTotal-1)))
+                    entry=dict(iteration=iteration+1,population_change=delta,J_change=float(update.dJMax),
+                        physical_rate_residual=rate,particle_conservation_error=conservation)
+                    history.write(json.dumps(entry,allow_nan=False)+'\n');history.flush()
+                    if conservation>1e-10:raise ValueError('Particle conservation failed')
+                    if iteration>=2 and max(delta,rate,update.dJMax)<controls['rtol']:break
+                else:raise RuntimeError('Joint convergence not reached')
+            m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
+            continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
+                fixed_populations=n,continuum_only=True)
+            for j in range(1000):
+                if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
+                u=continuum.formal_sol_gamma_matrices()
+                if u.dJMax<1e-8:break
+            else:raise RuntimeError('Continuum J convergence failed')
+            mu,w=flux_quadrature(controls['flux_rays'])
+            line=integrate_flux(ctx.compute_rays(wavelengths=vac,mus=mu),mu,w)
+            cont=integrate_flux(continuum.compute_rays(wavelengths=vac,mus=mu),mu,w)
+            np.savetxt(out/'flux.csv',np.column_stack((wave,line,cont,line/cont)),delimiter=',',
+                header='wavelength_air_A,Fnu_W_m2_Hz,continuum_Fnu_W_m2_Hz,normalized_flux',comments='')
+            np.savez_compressed(out/'populations.npz',populations=n,nstar=active.nStar,temperature_K=structure['temperature_K'])
+            m.update(status='CONVERGED_EXPERIMENT',elapsed_seconds=time.perf_counter()-start,
+                flux=fingerprint(out/'flux.csv'),continuum_iterations=j+1);save_case()
+        except Exception as error:
+            m.update(status='FAILED',error=f'{type(error).__name__}: {error}',elapsed_seconds=time.perf_counter()-start);save_case()
+        summary['cases'].append(dict(name=name,status=m['status'],manifest=fingerprint(out/'manifest.json')));save()
+        print(name,m['status'],m.get('elapsed_seconds'),m.get('error',''),flush=True)
+    summary['status']='EXPERIMENTS_FINISHED';save()
+    if any(c['status']!='CONVERGED_EXPERIMENT' for c in summary['cases']):raise SystemExit(1)
+
+
+if __name__=='__main__':main()
