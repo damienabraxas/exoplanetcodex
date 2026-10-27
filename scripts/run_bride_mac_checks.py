@@ -77,7 +77,7 @@ def main():
             m.update(atmosphere=provenance,original_depths=original['ndep'],retained_depths=structure['ndep'],
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
-            save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=True)
+            save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True))
             convention=case.get('experimental_collision_convention')
             if convention:
                 if convention not in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
