@@ -13,8 +13,11 @@ def lte_line_coefficients(wavelength_nm, temperature, n_ion_over_partition,
     from scipy.special import wofz
     import lightweaver.constants as c
     w=np.asarray(wavelength_nm);T=np.asarray(temperature)
-    if (np.any(w<=0) or np.any(T<=0) or np.any(n_ion_over_partition<0)
-            or gamma_s_inv<0 or mass_amu<=0 or not np.isfinite(loggf)):
+    arrays=(w,T,np.asarray(n_ion_over_partition),np.asarray(vturb_m_s))
+    scalars=(lambda0_nm,mass_amu,excitation_eV,loggf,gamma_s_inv)
+    if (not all(np.isfinite(a).all() for a in arrays) or not np.isfinite(scalars).all()
+            or np.any(w<=0) or np.any(T<=0) or np.any(n_ion_over_partition<0)
+            or np.any(np.asarray(vturb_m_s)<0) or lambda0_nm<=0 or gamma_s_inv<0 or mass_amu<=0):
         raise ValueError('Invalid LTE line inputs')
     nu=c.CLight/(w[:,None]*1e-9);nu0=c.CLight/(lambda0_nm*1e-9)
     doppler=nu0/c.CLight*np.sqrt(2*c.KBoltzmann*T/(mass_amu*c.Amu)+np.asarray(vturb_m_s)**2)
