@@ -160,3 +160,24 @@ def require_parseable(reports) -> None:
                   "https://nispdata.nso.edu/ftp/pub/atlas/fluxatl/) and verify it, or "
                   "register the gap explicitly. Do not leave it silent."]
     raise KpAtlasCorrupt("\n".join(lines))
+
+
+def read_kurucz2005_residual(path: Path, lo: float, hi: float):
+    """(air_A, residual_flux) from irradrelwl.dat. Vacuum nm in, air Angstrom out."""
+    from pipeline.wavelength_util import vac_to_air
+    w, f = [], []
+    with Path(path).open(errors="replace") as fh:
+        for line in fh:
+            q = line.split()
+            if len(q) < 2:
+                continue
+            try:
+                x, y = float(q[0]) * 10.0, float(q[1])
+            except ValueError:
+                continue                      # header lines
+            if lo - 5.0 <= x <= hi + 5.0:
+                w.append(x); f.append(y)
+    w, f = np.asarray(w), np.asarray(f)
+    if not w.size:
+        return w, f
+    return np.asarray(vac_to_air(w)), f

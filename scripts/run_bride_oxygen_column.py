@@ -102,39 +102,16 @@ def main():
         save();raise
     if not args.run:
         print('Prepared only:',args.output/'manifest.json');return
-    import lightweaver.constants as constants
-    from lightweaver.atomic_table import PeriodicTable
-    from lightweaver import rh_atoms
+    from pipeline.bride_reference import make_reference_context,marcs_number_densities,PASSIVE_ATOM_FACTORIES
     start_wall=time.perf_counter();start_cpu=time.process_time()
     manifest.update(status='SETTING_UP');save()
     with (args.output/'history.jsonl').open('x')as log:
         try:
-            ne=structure['electron_pressure_Pa']/(constants.KBoltzmann*structure['temperature_K'])
-            nH=structure['rho_kg_m3']*structure['hydrogen_mass_fraction']/(constants.Amu*PeriodicTable['H'].mass)
-            abundance_data={PeriodicTable[i+1]:a for i,a in enumerate(structure['abundances_dex'])}
-            abundance_data[PeriodicTable['O']]=source_atom.abundance
-            abund=lw.AtomicAbundance(abundance_data)
-            passive_names=['H_6_atom','He_9_atom','C_atom','N_atom','MgI_66_atom',
-                'Si_atom','Al_atom','Fe_atom','CaII_atom','Na_atom','S_atom']
+            ne,nH=marcs_number_densities(structure)
+            passive_names=list(PASSIVE_ATOM_FACTORIES)
             def setup(lte):
-                n=structure['ndep']
-                atmosphere=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,
-                    depthScale=structure['height_m'].copy(),temperature=structure['temperature_K'].copy(),
-                    ne=ne.copy(),nHTot=nH.copy(),vturb=np.full(n,structure['vturb_m_s']),
-                    vlos=np.zeros(n),logG=structure['logg_cgs']-np.log10(100.),
-                    lowerBc=lw.ThermalisedRadiation(),upperBc=lw.ZeroRadiation())
-                atmosphere.quadrature(args.rays)
-                model=to_lightweaver(source_atom)
-                if args.qscale!=1:
-                    for line in model.lines:line.quadrature.Nlambda=args.qscale*(line.quadrature.Nlambda-1)+1
-                radset=lw.RadiativeSet([getattr(rh_atoms,name)()for name in passive_names]+[model],abundance=abund)
-                if lte:radset.set_detailed_static('O')
-                else:radset.set_active('O')
-                eq=radset.compute_eq_pops(atmosphere)
-                spect=radset.compute_wavelength_grid()
-                ng=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if args.ng and not lte else None
-                ctx=lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',conserveCharge=False,ngOptions=ng)
-                return ctx
+                return make_reference_context(structure,source_atom,rays=args.rays,
+                    qscale=args.qscale,lte=lte,ng=args.ng)
             ctx=setup(False);atom=ctx.activeAtoms[0]
             manifest.update(passive_atoms=passive_names,wavelength_points=len(ctx.spect.wavelength),
                 setup_seconds=time.perf_counter()-start_wall)

@@ -1373,24 +1373,8 @@ def load_kp1984_composite_window(centre: float, pad: float, segs=None):
 
 
 def _read_kurucz2005_residual(path: Path, lo: float, hi: float):
-    """(air_A, residual_flux) from irradrelwl.dat. Vacuum nm in, air Angstrom out."""
-    from pipeline.uv_conditioning import vac_to_air
-    w, f = [], []
-    with Path(path).open(errors="replace") as fh:
-        for line in fh:
-            q = line.split()
-            if len(q) < 2:
-                continue
-            try:
-                x, y = float(q[0]) * 10.0, float(q[1])
-            except ValueError:
-                continue                      # header lines
-            if lo - 5.0 <= x <= hi + 5.0:
-                w.append(x); f.append(y)
-    w, f = np.asarray(w), np.asarray(f)
-    if not w.size:
-        return w, f
-    return np.asarray(vac_to_air(w)), f
+    """Shared lightweight reader; preserves the existing measurement interface."""
+    return kp_integrity.read_kurucz2005_residual(path,lo,hi)
 
 
 def load_kurucz2005_window(centre: float, pad: float):

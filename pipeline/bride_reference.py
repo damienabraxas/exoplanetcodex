@@ -3,6 +3,62 @@ from pathlib import Path
 import hashlib
 import numpy as np
 
+PASSIVE_ATOM_FACTORIES=('H_6_atom','He_9_atom','C_atom','N_atom','MgI_66_atom',
+                      'Si_atom','Al_atom','Fe_atom','CaII_atom','Na_atom','S_atom')
+
+
+def marcs_number_densities(structure):
+    """Pinned-engine unit/constants boundary, shared by solve and replay."""
+    import lightweaver.constants as constants
+    from lightweaver.atomic_table import PeriodicTable
+    ne=structure['electron_pressure_Pa']/(constants.KBoltzmann*structure['temperature_K'])
+    nH=structure['rho_kg_m3']*structure['hydrogen_mass_fraction']/(constants.Amu*PeriodicTable['H'].mass)
+    return ne,nH
+
+
+def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
+                           fixed_populations=None,continuum_only=False):
+    """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
+
+    A fixed population replay is detailed-static, including its original NLTE
+    bound-free opacity. continuum_only removes bound-bound transitions only;
+    it never substitutes an LTE line profile for the continuum.
+    """
+    import lightweaver as lw
+    from lightweaver import rh_atoms
+    from lightweaver.atomic_table import PeriodicTable
+    from pipeline.multi_atom import to_lightweaver
+    ne,nH=marcs_number_densities(structure)
+    n=structure['ndep']
+    atmosphere=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,
+        depthScale=structure['height_m'].copy(),temperature=structure['temperature_K'].copy(),
+        ne=ne.copy(),nHTot=nH.copy(),vturb=np.full(n,structure['vturb_m_s']),
+        vlos=np.zeros(n),logG=structure['logg_cgs']-np.log10(100.),
+        lowerBc=lw.ThermalisedRadiation(),upperBc=lw.ZeroRadiation())
+    atmosphere.quadrature(rays)
+    model=to_lightweaver(source_atom)
+    if continuum_only:model.lines=[]
+    if qscale!=1:
+        for line in model.lines:line.quadrature.Nlambda=qscale*(line.quadrature.Nlambda-1)+1
+    abundance_data={PeriodicTable[i+1]:a for i,a in enumerate(structure['abundances_dex'])}
+    abundance_data[PeriodicTable['O']]=source_atom.abundance
+    radset=lw.RadiativeSet([getattr(rh_atoms,name)() for name in PASSIVE_ATOM_FACTORIES]+[model],
+                           abundance=lw.AtomicAbundance(abundance_data))
+    if lte or fixed_populations is not None:radset.set_detailed_static('O')
+    else:radset.set_active('O')
+    eq=radset.compute_eq_pops(atmosphere)
+    if fixed_populations is not None:
+        actual=eq.atomicPops[model.element].n
+        if fixed_populations.shape!=actual.shape or not np.isfinite(fixed_populations).all() or np.any(fixed_populations<=0):
+            raise ValueError('Invalid fixed population replay')
+        if not np.allclose(fixed_populations.sum(axis=0),actual.sum(axis=0),rtol=1e-10,atol=0):
+            raise ValueError('Replay population totals differ from source atmosphere/abundance')
+        actual[:]=fixed_populations
+    spect=radset.compute_wavelength_grid()
+    options=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if ng and not lte else None
+    return lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',
+                      conserveCharge=False,ngOptions=options)
+
 
 def fingerprint(path):
     path=Path(path)
