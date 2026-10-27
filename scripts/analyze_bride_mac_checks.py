@@ -1,0 +1,164 @@
+"""Canonical Kitt Peak policy plus fixed iSpec broadening/input-response diagnostics.
+
+Run in the project Python on the Mac (pandas/iSpec); RT/SE remains in the isolated
+LW environment. No corrected observation is re-normalized or telluric-corrected.
+"""
+from __future__ import annotations
+import argparse
+from dataclasses import asdict
+import inspect
+import json
+from pathlib import Path
+import platform
+import subprocess
+import sys
+import numpy as np
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--runs',type=Path,required=True)
+    p.add_argument('--output',type=Path,required=True)
+    args=p.parse_args()
+    if platform.system()!='Darwin':raise RuntimeError('Mac-only analysis request')
+    from config.constants import require_codex_path,get_star_params
+    from pipeline.bride_reference import fingerprint
+    from pipeline.bride_observables import window_integral
+    from pipeline.kp_atlas_integrity import read_kurucz2005_residual
+    from pipeline.telluric_policy import gate_holding,holding_basis,applied_state
+    from pipeline.band_policy import check_intake
+    from pipeline.prenormalised_guard import assert_data_matches_declaration
+    from pipeline.reflected_solar_rv import SOLAR_GRAVITATIONAL_REDSHIFT
+    run=json.loads((args.runs/'summary.json').read_text())
+    if run['status']!='EXPERIMENTS_FINISHED':raise ValueError('Experiments not finished')
+    for entry in run['cases']:
+        if fingerprint(args.runs/entry['name']/'manifest.json')!=entry['manifest']:
+            raise ValueError('Changed case manifest')
+    holding='solar_kpno_kurucz2005_corrected';instrument='kpno_solar_atlas'
+    permitted,reason=gate_holding(holding,instrument)
+    if not permitted:raise ValueError(reason)
+    band=check_intake(7774.166,'synthesis',instrument=instrument)
+    observed_path=require_codex_path('data.kurucz2005_residual')
+    prior=json.loads((ROOT/'data/results/rya1281/kitt_peak_fixed_v1/manifest.json').read_text())
+    if fingerprint(observed_path)!=prior['observed']:raise ValueError('Corrected Kitt Peak product changed since baseline')
+    with observed_path.open()as f:header=''.join(next(f)for _ in range(5))
+    if 'vacuum wavelength including gravitational red shift'not in header:
+        raise ValueError('Wrong source wavelength medium: expected delivered vacuum nm')
+    wobs,fobs=read_kurucz2005_residual(observed_path,7768,7780)
+    evidence=assert_data_matches_declaration(holding,wobs,fobs,declared=True,where='Bride Mac experiment')
+    ispec_dir=require_codex_path('engines.ispec');sys.path.insert(0,str(ispec_dir))
+    import ispec
+    effects=Path(inspect.getsourcefile(ispec.apply_post_fundamental_effects))
+    stars=get_star_params('solar')
+    import csv
+    with (ROOT/'data/catalog/instrument_catalog.csv').open()as f:
+        inst=next(r for r in csv.DictReader(f)if r['instrument_id']==instrument)
+    rlow=float(inst['resolving_power_min']);rhigh=float(inst['resolving_power_max'])
+    macro=float(stars['vmac']);rotation=float(stars['vsini'])
+    broad={
+        'intrinsic':(0.,0.,0.,0.),
+        'instrument_only':(0.,0.,rhigh,0.),
+        'solar_broadening':(macro,rotation,rhigh,0.),
+        'macro_minus1':(max(0.,macro-1),rotation,rhigh,0.),
+        'macro_plus1':(macro+1,rotation,rhigh,0.),
+        'rotation_minus1':(macro,max(0.,rotation-1),rhigh,0.),
+        'rotation_plus1':(macro,rotation+1,rhigh,0.),
+        'resolution_low':(macro,rotation,rlow,0.),
+        'solar_gravitational_shift':(macro,rotation,rhigh,SOLAR_GRAVITATIONAL_REDSHIFT),
+        'rv_minus_half':(macro,rotation,rhigh,-.5),
+        'rv_plus_half':(macro,rotation,rhigh,.5)}
+    args.output.mkdir(parents=True,exist_ok=False)
+    result=dict(schema='codex.bride_mac_sensitivity_analysis/1',
+        scientific_admission='HOLD: no best-fit selection, no calibrated solar abundance or full uncertainty budget',
+        generator=fingerprint(__file__),code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        input_summary=fingerprint(args.runs/'summary.json'),host=run['host'],
+        observation=fingerprint(observed_path),holding=holding,
+        frame_contract=dict(observation_native='vacuum nm including solar gravitational redshift',
+            comparison_and_plots='air Angstrom',engine_internal='vacuum nm',
+            boundary='One canonical vac_to_air conversion on observed input; one air_to_vac conversion for the RT call',
+            no_observed_velocity_shift_or_second_telluric_correction=True),
+        orchestrator_policy=dict(gate_permitted=permitted,gate_reason=reason,holding_basis=holding_basis(holding,instrument),
+            applied_state=applied_state(holding),band=asdict(band),normalization_evidence=asdict(evidence),
+            action='Serve corrected pre-normalized product unchanged; no second correction or continuum placement'),
+        ispec_effects=fingerprint(effects),ispec_signature=str(inspect.signature(ispec.apply_post_fundamental_effects)),
+        solar_parameters=stars,instrument_resolution_interval=[rlow,rhigh],
+        broadening_controls={k:dict(vmac_km_s=v[0],vsini_km_s=v[1],R=v[2],rv_km_s=v[3],limb_darkening=.6)for k,v in broad.items()},
+        interpretation=['No observational continuum or parameter optimizer; all responses reported, not ranked as a best star model',
+          'True Teff changes use independent MARCS structures; xi changes line/SE microturbulence at fixed t01 atmosphere',
+          '5500/6000 K controls use common one-layer bottom cut, with separate 5750 K depth controls',
+          'R interval is catalog capability, not a measured local FTS sinc LSF; iSpec Gaussian resolution is an approximation',
+          'Solar broadening/rotation use canonical inputs; +/-1 km/s and RV +/-0.5 are diagnostic probes, not inferred uncertainties',
+          'Published Kitt Peak continuum and corrected telluric product remain frozen; no local pixel telluric covariance is manufactured'],
+        cases=[],failed_cases=[])
+    science_python=require_codex_path('engines.bride_eval')/'.venv/bin/python'
+    query="import json,platform;from importlib.metadata import version;print(json.dumps(dict(python=platform.python_version(),packages={n:version(n) for n in ['lightweaver','numpy','scipy','numba','matplotlib']})))"
+    result['science_environment']=json.loads(subprocess.check_output([str(science_python),'-c',query],text=True))
+    centres=(7771.944,7774.166,7775.388)
+    plotdata={};basewave=None
+    def metrics(wave,flux):
+        values=[]
+        for c in centres:
+            lo,hi=c-.5,c+.5;mask=(wave>=lo)&(wave<=hi)
+            ongrid=np.interp(wave[mask],wobs,fobs)
+            values.append(dict(centre_air_A=c,
+                model_area_mA=1000*window_integral(wave,flux,lo,hi),
+                observed_area_mA=1000*window_integral(wobs,fobs,lo,hi),
+                min_flux=float(flux[mask].min()),minimum_at_air_A=float(wave[mask][flux[mask].argmin()]),
+                unweighted_RMS=float(np.sqrt(np.mean((flux[mask]-ongrid)**2)))))
+        return values
+    for case in run['cases']:
+        path=args.runs/case['name'];m=json.loads((path/'manifest.json').read_text())
+        if m['status']!='CONVERGED_EXPERIMENT':
+            result['failed_cases'].append(dict(name=case['name'],reason=m.get('error','unknown')));continue
+        if fingerprint(path/'flux.csv')!=m['flux']:raise ValueError('Changed case spectrum')
+        d=np.genfromtxt(path/'flux.csv',delimiter=',',names=True)
+        wave=d['wavelength_air_A'];native=d['normalized_flux'];segments=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)])
+        variants=broad if case['name']=='baseline' else {'solar_broadening':broad['solar_broadening'],'intrinsic':broad['intrinsic']}
+        arrays=[];names=[];records={}
+        for name,(vmac,vsini,R,rv)in variants.items():
+            flux=native.copy()if name=='intrinsic'else ispec.apply_post_fundamental_effects(wave/10,native.copy(),segments,
+                macroturbulence=vmac,vsini=vsini,limb_darkening_coeff=.6,R=R,vrad=(rv,))
+            mask=(wave>=7770.5)&(wave<=7776.8)
+            if not np.isfinite(flux[mask]).all()or np.any(flux[mask]<=0):raise ValueError('Invalid broadened analysis window')
+            records[name]=metrics(wave,flux);arrays.append(flux);names.append(name)
+            if name=='solar_broadening':plotdata[case['name']]=(wave.copy(),flux.copy())
+        np.savetxt(args.output/(case['name']+'_profiles.csv'),np.column_stack([wave,native,np.interp(wave,wobs,fobs)]+arrays),
+            delimiter=',',header=','.join(['wavelength_air_A','native_normalized_flux','observed_flux']+names),comments='')
+        result['cases'].append(dict(name=case['name'],inputs=m['case'],source_manifest=fingerprint(path/'manifest.json'),
+            final_diagnostics=m['final_diagnostics'],elapsed_seconds=m['elapsed_seconds'],variants=records))
+    if 'baseline'not in plotdata:raise ValueError('Missing converged baseline')
+    basewave,base=plotdata['baseline']
+    # Broadening cannot create missing total absorption: also report a common wide
+    # analysis-span integral, separate from the narrower per-component apertures.
+    result['broad_solar_analysis_span_mA']=1000*window_integral(basewave,base,7770.5,7776.8)
+    result['observed_analysis_span_mA']=1000*window_integral(wobs,fobs,7770.5,7776.8)
+    import matplotlib;matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    groups=[('Depth controls',['baseline','depth_cut1','depth_cut2']),
+        ('Microturbulence (fixed atmosphere)',['baseline','xi_minus','xi_plus','xi_low','xi_high']),
+        ('Teff (common bottom cut)',['depth_cut1','teff_low_cut1','teff_high_cut1']),
+        ('Gravity',['baseline','logg_low','logg_high']),
+        ('Abundance probes (not fits)',['baseline','abundance_minus','abundance_plus'])]
+    fig,axes=plt.subplots(len(groups),1,figsize=(11,14),sharex=True)
+    for ax,(title,names)in zip(axes,groups):
+        ax.plot(wobs,fobs,color='black',lw=1,label='Kitt Peak corrected2005')
+        minima=[float(fobs[(wobs>=7770.5)&(wobs<=7776.8)].min())]
+        for name in names:
+            if name in plotdata:
+                w,f=plotdata[name];ax.plot(w,f,lw=1,label=name)
+                minima.append(float(f[(w>=7770.5)&(w<=7776.8)].min()))
+        ax.set_xlim(7770.5,7776.8);ax.set_ylim(max(0,min(minima)-.03),1.015);ax.set_title(title,fontsize=10);ax.legend(fontsize=7,ncol=3)
+    axes[-1].set_xlabel('Air wavelength (Angstrom)');fig.tight_layout();fig.savefig(args.output/'parameter_responses.png',dpi=160);plt.close(fig)
+    d=np.genfromtxt(args.output/'baseline_profiles.csv',delimiter=',',names=True)
+    fig,ax=plt.subplots(figsize=(11,4));ax.plot(wobs,fobs,color='black',label='Kitt Peak corrected2005')
+    for name in ('intrinsic','solar_broadening','solar_gravitational_shift'):
+        ax.plot(d['wavelength_air_A'],d[name],label=name)
+    ax.set_xlim(7770.5,7776.8);ax.set_ylim(.65,1.015);ax.legend(fontsize=8);ax.set_xlabel('Air wavelength (Angstrom)')
+    ax.set_title('Canonical broadening and known gravitational-shift control; no fit')
+    fig.tight_layout();fig.savefig(args.output/'broadening_alignment.png',dpi=160);plt.close(fig)
+    with (args.output/'analysis.json').open('x')as f:json.dump(result,f,indent=2,allow_nan=False);f.write('\n')
+    print(json.dumps(dict(successful_cases=len(result['cases']),failed_cases=result['failed_cases'],policy=result['orchestrator_policy']),indent=2))
+
+
+if __name__=='__main__':main()
