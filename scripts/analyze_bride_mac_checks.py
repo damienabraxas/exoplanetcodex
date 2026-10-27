@@ -36,7 +36,7 @@ def main():
     for directory in [args.runs]+args.additional_runs:
         run=json.loads((directory/'summary.json').read_text())
         if run['status']!='EXPERIMENTS_FINISHED':raise ValueError('Experiments not finished')
-        summaries.append(fingerprint(directory/'summary.json'))
+        summaries.append(dict(directory_id=directory.name,summary=fingerprint(directory/'summary.json')))
         for entry in run['cases']:
             if entry['name']in seen:raise ValueError('Duplicate case identity across runs')
             seen.add(entry['name'])
@@ -104,7 +104,7 @@ def main():
     result['science_environment']=json.loads(subprocess.check_output([str(science_python),'-c',query],text=True))
     result['analysis_environment']={n:version(n)for n in ('numpy','scipy','pandas','matplotlib')}
     centres=(7771.944,7774.166,7775.388)
-    plotdata={};basewave=None
+    plotdata={};native_data={};basewave=None
     def metrics(wave,flux):
         values=[]
         for c in centres:
@@ -123,6 +123,7 @@ def main():
         if fingerprint(path/'flux.csv')!=m['flux']:raise ValueError('Changed case spectrum')
         d=np.genfromtxt(path/'flux.csv',delimiter=',',names=True)
         wave=d['wavelength_air_A'];native=d['normalized_flux'];segments=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)])
+        native_data[case['name']]=(wave.copy(),native.copy())
         variants=broad if case['name']=='baseline' else {'solar_broadening':broad['solar_broadening'],'intrinsic':broad['intrinsic']}
         arrays=[];names=[];records={}
         for name,(vmac,vsini,R,rv)in variants.items():
@@ -135,9 +136,18 @@ def main():
         np.savetxt(args.output/(case['name']+'_profiles.csv'),np.column_stack([wave,native,np.interp(wave,wobs,fobs)]+arrays),
             delimiter=',',header=','.join(['wavelength_air_A','native_normalized_flux','observed_flux']+names),comments='')
         result['cases'].append(dict(name=case['name'],inputs=m['case'],source_manifest=fingerprint(path/'manifest.json'),
+            source_directory_id=directory.name,atmosphere=m['atmosphere'],
+            original_population_file=fingerprint(path/'populations.npz'),original_history=fingerprint(path/'history.jsonl'),
             final_diagnostics=m['final_diagnostics'],elapsed_seconds=m['elapsed_seconds'],variants=records))
     if 'baseline'not in plotdata:raise ValueError('Missing converged baseline')
     basewave,base=plotdata['baseline']
+    case_names=list(plotdata)
+    for name in case_names:
+        if not np.array_equal(plotdata[name][0],basewave):raise ValueError('Case grid identity mismatch')
+    np.savez_compressed(args.output/'profile_grid.npz',wavelength_air_A=basewave,
+        case_names=np.asarray(case_names),native_normalized_flux=np.stack([native_data[n][1]for n in case_names]),
+        solar_broadened_normalized_flux=np.stack([plotdata[n][1]for n in case_names]),
+        observed_residual_flux=np.interp(basewave,wobs,fobs))
     # Broadening cannot create missing total absorption: also report a common wide
     # analysis-span integral, separate from the narrower per-component apertures.
     result['broad_solar_analysis_span_mA']=1000*window_integral(basewave,base,7770.5,7776.8)
