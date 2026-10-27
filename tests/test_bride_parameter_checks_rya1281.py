@@ -57,3 +57,17 @@ def test_log_pressure_density_interpolation_recovers_multiplicative_laws():
     out,_=interpolate_marcs_structure(nodes,(5772,4.438),thermodynamic_scale='log_positive')
     np.testing.assert_allclose(out['electron_pressure_Pa'],np.exp(5.772+4.438),rtol=1e-13)
     np.testing.assert_allclose(out['rho_kg_m3'],np.exp(2.886-4.438),rtol=1e-13)
+
+
+def test_log_layer_coordinates_recover_gravity_scale_without_inverting_mesh():
+    from pipeline.bride_parameter_checks import interpolate_marcs_structure
+    nodes=[]
+    for t in (5750,6000):
+        for g in (4.,5.):
+            nodes.append(((t,g),dict(ndep=4,abundances_dex=[12.],hydrogen_mass_fraction=.74,
+                model_id='fixture',vturb_m_s=1000.,logg_cgs=g,height_m=np.array([2.,1.,0.,-1.])*10**(5-g),
+                temperature_K=np.full(4,t),electron_pressure_Pa=np.full(4,10**g),
+                rho_kg_m3=np.full(4,10**g),logtau_ross=np.array([-2.,-1.,0.,1.]),logtau_500=np.arange(4.))))
+    out,_=interpolate_marcs_structure(nodes,(5772,4.5),thermodynamic_scale='log_positive_layers')
+    np.testing.assert_allclose(out['height_m'],np.array([2.,1.,0.,-1.])*10**.5,rtol=1e-13,atol=1e-13)
+    assert np.all(np.diff(out['height_m'])<0)

@@ -28,13 +28,22 @@ def interpolate_marcs_structure(nodes,target,*,thermodynamic_scale='linear'):
     target=np.asarray(target,dtype=float);tri=Delaunay(points)
     simplex=int(tri.find_simplex(target))
     if simplex<0:raise ValueError('Target outside atmosphere interpolation hull; no nearest fallback')
-    if thermodynamic_scale not in ('linear','log_positive'):raise ValueError('Unknown thermodynamic interpolation convention')
+    if thermodynamic_scale not in ('linear','log_positive','log_positive_layers'):raise ValueError('Unknown thermodynamic interpolation convention')
     values=np.stack([np.column_stack([s[k]for k in names])for p,s in nodes])
-    if thermodynamic_scale=='log_positive':
+    if thermodynamic_scale.startswith('log_positive'):
         if np.any(values[:,:,[2,3]]<=0):raise ValueError('Nonpositive pressure/density input')
         values[:,:,[2,3]]=np.log(values[:,:,[2,3]])
     actual=LinearNDInterpolator(tri,values)([target])[0]
-    if thermodynamic_scale=='log_positive':actual[:,[2,3]]=np.exp(actual[:,[2,3]])
+    if thermodynamic_scale.startswith('log_positive'):actual[:,[2,3]]=np.exp(actual[:,[2,3]])
+    if thermodynamic_scale=='log_positive_layers':
+        thickness=np.stack([-np.diff(s['height_m'])for p,s in nodes])
+        if np.any(thickness<=0):raise ValueError('Nonpositive layer thickness')
+        dz=np.exp(LinearNDInterpolator(tri,np.log(thickness))([target])[0])
+        anchor=int(np.argmin(abs(reference['logtau_ross'])))
+        height=np.empty(reference['ndep']);height[anchor]=actual[anchor,0]
+        for i in range(anchor,len(height)-1):height[i+1]=height[i]-dz[i]
+        for i in range(anchor-1,-1,-1):height[i]=height[i+1]+dz[i]
+        actual[:,0]=height
     if not np.isfinite(actual).all():raise ValueError('Nonfinite interpolated structure')
     result=copy.deepcopy(reference)
     for i,name in enumerate(names):result[name]=actual[:,i].copy()
