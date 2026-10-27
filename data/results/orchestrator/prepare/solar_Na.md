@@ -1,12 +1,9 @@
-PREPARE solar Na  -> NOT READY -- blocking: adopt 2, cull_candidates 16
+PREPARE solar Na  -> READY to measure
   F literature: litscan yes; set bibliography keys ['asplund2021']
-  A published sets: 5 lines; adopt authors' gf on 2; missing from canonical_gf: 0
-      adopt NA_AGSS21 Na I 6154.225: canonical -1.547 -> authors -1.547 +/- 0.0128  (d +0.000)
-      adopt NA_AGSS21 Na I 6160.747: canonical -1.246 -> authors -1.246 +/- 0.0128  (d +0.000)
+  A published sets: 5 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
   B gf source NIST_ASD: 78 graded lines, classified
   B gf source NA_AGSS21: 1 graded lines, classified
-  B gf source NA_AGSS21 (to be adopted): 2 graded lines, classified
-  C cull candidates (saturated, not a solar-literature line): 16
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 16
       Na I 4291.005: rew -4.125 depth 0.738
       Na I 4341.489: rew -4.112 depth 0.412
       Na I 4390.029: rew -4.255 depth 0.719
@@ -23,5 +20,5 @@ PREPARE solar Na  -> NOT READY -- blocking: adopt 2, cull_candidates 16
       Na I 3302.369: rew -4.002 depth 0.95
       Na I 3302.978: rew -4.092 depth 0.926
       Na I 11403.766: rew -4.587 depth 0.636
-  D NLTE: 70 graded line(s) not in data/nlte_grids/Na_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Na --write
+  D NLTE: 0 graded line(s) not in data/nlte_grids/Na_Amarsi2020_PySME.csv
   E holdings: 19 windows; 0 not serving / frame off rest

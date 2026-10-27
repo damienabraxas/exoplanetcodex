@@ -13,3 +13,29 @@ tables:
     model: amarsi
     bibliography_key: asplund2021
     citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline"
+  - element: Na
+    ions: [I]
+    star: solar
+    source: data/reference/na_agss21/na_agss21_lines.csv
+    species_column: species
+    wavelength_column: wavelength_air_A
+    canonical_id_column: canonical_line_id
+    match_tol_A: 0.01
+    baseline: A_marcs_lte
+    legs: {1D: A_marcs_nlte, 3D: A_3d_nlte}
+    model: amarsi
+    bibliography_key: asplund2021
+    citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline"
+  - element: Na
+    ions: [I]
+    star: solar
+    source: data/reference/na_canocchi2026/na_canocchi2026_solar.csv
+    species_column: species
+    wavelength_column: wavelength_air_A
+    canonical_id_column: canonical_line_id
+    match_tol_A: 0.01
+    baseline: A_1d_lte
+    legs: {3D: A_3d_nlte}
+    model: amarsi
+    bibliography_key: canocchi2026
+    citation: "Canocchi et al. 2026, arXiv 2603.22975, Zenodo 10.5281/zenodo.19201830; authors' 3D NLTE FFNN at the Sun, MARCS 1D LTE baseline (scripts/rya1251_na_canocchi2026_3d.py)"

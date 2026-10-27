@@ -33,7 +33,8 @@ CONTRACT holds it -- `validate()` issues the verdict, not this script.
   model_atmosphere    (+) on a 3D leg, half the pool's own 3D effect (Asplund+2021's
                       inhomogeneity term), in quadrature
   pseudo_continuum    N/A: the continuum is observed in these bands and placed per line
-  hfs_isotopes        N/A where every pool line has hfs_n_components == 1
+  hfs_isotopes        N/A where every pool line has hfs_n_components == 1; DEFINED 0 where every
+                      split line's components are in its band's synthesis list (RYA-1251)
   molecular_coupling  N/A: atomic selector
   holding_instrument  MEASURED 0: SynthesisHandler harness residual (RYA-869)
 """
@@ -57,7 +58,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline.uncertainty_contract import (  # noqa: E402
     UncertaintyError, assemble, pool_digest, product_scope, transition_data, validate)
-from pipeline.paired_differential import paired_differential  # noqa: E402
+from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
 DELTA_XI = 0.2912
@@ -102,7 +103,14 @@ def _acc(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _paired(leg: pd.DataFrame, nom: pd.DataFrame, n_product: int, aggregation="median") -> dict:
-    r = paired_differential(leg, nom, aggregator=aggregation)
+    # RYA-1251: no line in-aggregate in both legs is a pool that moved ALL the way -- the
+    # component is not measured and the product holds, like any moved pool. Raised, it
+    # killed the whole element's budget assembly after 603 legs (Na, one unit).
+    try:
+        r = paired_differential(leg, nom, aggregator=aggregation)
+    except UnpairableProducts:
+        return {"median": float("nan"), "effect": float("nan"), "aggregation": aggregation,
+                "n_paired": 0, "moved": True}
     return {"median": float(r.median), "effect": float(getattr(r, aggregation)),
             "aggregation": aggregation, "n_paired": int(r.n_paired),
             "moved": int(r.n_paired) != n_product}
@@ -150,6 +158,10 @@ _INDEPENDENT = {"solar_kpno_molecfit_corrected": [("kpno_solar_atlas", "solar_kp
                 "solar_iag": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                               ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
                               ("crires_plus", "solar_crires_plus_j_rya1219")],
+                #: RYA-1251: the IAG Reiners 2016 blue-arm holding was missing here (KeyError
+                #: held every Reiners product); KP's two reductions are independent of it.
+                "solar_iag_reiners2016": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
+                                          ("kpno_solar_atlas", "solar_kpno_molecfit_corrected")],
                 "solar_harps_molecfit_corrected": [("kpno_solar_atlas", "solar_kpno_kurucz2005_corrected"),
                                                    ("iag_fts_solar_atlas", "solar_iag")],
                 #: RYA-1233: the Elgueta CRIRES+ Y products (9800-10796 A). Independent
@@ -181,6 +193,13 @@ _OWN_SKY = {"solar_crires_plus_h_rya1232":
             "solar_crires_plus_k_rya1219":
             "data/results/rya1214_crires_jk/solar_crires_plus_k_rya1219_rest.csv"}
 OWN_SKY_EDGE = 0.01
+#: RYA-1251 -- a holding no independent correction covers ANYWHERE (K) is bounded as the CN
+#: route bounds it (RYA-1232): its own molecfit sky absorption x the residual/absorption ratio
+#: MEASURED on the J arm (same instrument, night and RYA-1219 molecfit pipeline). The value is
+#: the one data/results/rya1232/cno_publish records ("BOUNDED by j_cn_crires's measured
+#: residual/absorption ratio 0.1632").
+_RATIO_FROM = {"solar_crires_plus_k_rya1219":
+               ("the J arm's measured residual/absorption ratio (RYA-1232 CN budget)", 0.1632)}
 _EDGE: dict = {}
 _SPAN: dict = {}
 
@@ -204,15 +223,16 @@ def _full_span(H, inst, hold):
     return _SPAN[(inst, hold)]
 
 
-def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
+def _telluric_own_sky(instrument, holding, w0, hw, sky_of=None, independent=None) -> dict:
     import measure_band_ew as H
-    if holding not in _OWN_SKY_CACHE:
-        _OWN_SKY_CACHE[holding] = pd.read_csv(ROOT / _OWN_SKY[holding])
-    d = _OWN_SKY_CACHE[holding]
+    sky_of = sky_of or holding
+    if sky_of not in _OWN_SKY_CACHE:
+        _OWN_SKY_CACHE[sky_of] = pd.read_csv(ROOT / _OWN_SKY[sky_of])
+    d = _OWN_SKY_CACHE[sky_of]
     g = np.linspace(w0 - hw, w0 + hw, 400)
     t = np.interp(g, d["wavelength_air_A"], d["min_mtrans"])
     P = (1.0 - t) > OWN_SKY_EDGE
-    ev = {"sky_pair": f"{holding} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
+    ev = {"sky_pair": f"{sky_of} min_mtrans (molecfit model)", "clean_edge": OWN_SKY_EDGE,
           "clean_window_null": 0.0, "sky_baseline": 1.0, "n_px": int(g.size),
           "n_telluric_px": int(P.sum()), "max_depth": float(max(0.0, 1.0 - t.min()))}
     if not P.any():
@@ -220,8 +240,12 @@ def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
         ev["sky_absorption"] = 0.0
         return ev
     ev["sky_absorption"] = float(np.mean(np.clip(1.0 - t[P], 0, None)) * P.mean())
-    own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
-    for ind_inst, ind in _INDEPENDENT[holding]:
+    if sky_of == holding:
+        own = np.interp(g, d["wavelength_air_A"], d["flux_normalized"])
+    else:
+        x = _full_span(H, instrument, holding)
+        own = np.interp(g, x.wave, x.flux)
+    for ind_inst, ind in (independent if independent is not None else _INDEPENDENT.get(holding, [])):
         try:
             x = H.load_window_ex(ind_inst, w0, hw + 0.5, holding=ind, allow_uncorrected=True)
         except LookupError:
@@ -245,7 +269,17 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
         # mtrans of our Vesta IDPs) and the independent correction is our molecfit.
         from pipeline.crires_h_sky import telluric_line as _h
-        return _h(w0, hw)
+        ev = _h(w0, hw)
+        if ev.get("residual_flux") is None and ev.get("sky_absorption") is None:
+            #: RYA-1251: past the Vesta IDP segments (Na I 17038), the sky is our full-arm H
+            #: molecfit model (rya1232, 14943-17585 A) and the same night's rya1232 reduction
+            #: is the independent correction -- the pairing rya1232 already uses the other way.
+            ev = _telluric_own_sky(instrument, holding, w0, hw,
+                                   sky_of="solar_crires_plus_h_rya1232",
+                                   independent=[("crires_plus", "solar_crires_plus_h_rya1232")])
+            ev["residual_basis"] = ev.get("residual_basis", "") + \
+                " (sky = rya1232 molecfit model: no Vesta IDP segment covers this line)"
+        return ev
     import measure_band_ew as H
     from pipeline import telluric_observability as T
     if holding in _OWN_SKY:
@@ -316,7 +350,7 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         return ev
     raw_f = flux(sky_inst, raw)
     ref = None
-    for ind_inst, ind in _INDEPENDENT[holding]:
+    for ind_inst, ind in _INDEPENDENT.get(holding, []):
         try:
             cand = flux(ind_inst, ind)
         except Exception:                                    # noqa: BLE001 -- not staged / no coverage
@@ -368,35 +402,46 @@ def _features(acc: pd.DataFrame) -> list:
     return out
 
 
-#: Catalogued central depth below which a hyperfine-split line is optically thin enough that
-#: the splitting cannot move its EW (weak-line limit of the curve of growth).
-HFS_THIN_DEPTH = 0.10
+def _synthesis_list_for(w: float) -> Path | None:
+    """The line list the synthesis of a line at `w` reads: the band's own list in
+    config/synth_bands.yaml, else iSpec's GESv6 HFS/ISO list (VIS and red-optical)."""
+    import yaml
+    from config.constants import ISPEC_DIR
+    from config.synth_bands import ISPEC_GES_V6
+    ges = ISPEC_DIR / "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
+    for b in yaml.safe_load((ROOT / "config/synth_bands.yaml").read_text())["bands"].values():
+        if b.get("linelist") and float(b["lo_A"]) <= w <= float(b["hi_A"]):
+            return ges if b["linelist"] == ISPEC_GES_V6 else ROOT / b["linelist"]
+    return ges
 
 
-def _hfs_thin_evidence(rows: pd.DataFrame) -> dict | None:
-    """{wavelength: max component depth} when every split line is thin, else None."""
-    from pipeline.element_prepare import SYNTH_LISTS
-    out = {}
+def _hfs_modelled_evidence(rows: pd.DataFrame) -> dict | None:
+    """RYA-1251: {wavelength: components in the synthesis list} when EVERY hyperfine-split pool
+    line is synthesised component by component, else None. Then the splitting is modelled,
+    not an error source (RYA-466 Cu/V, RYA-473 Mn, RYA-1217 Al; Asplund+2021 carries no HFS
+    term), at any depth. A split line the synthesis sees as fewer components than
+    canonical_gf records is NOT modelled, and the component holds."""
+    out, lists = {}, {}
     for _, r in rows.iterrows():
         w = float(r.wavelength_air_A)
-        path = None
-        for lo, f in SYNTH_LISTS:
-            if w >= lo:
-                path = f
+        path = _synthesis_list_for(w)
         if path is None or not path.exists():
             return None
-        ll = pd.read_csv(path, sep="\t", usecols=["element", "wave_A", "lower_state_eV",
-                                                    "theoretical_depth"])
+        if path not in lists:
+            lists[path] = pd.read_csv(path, sep="\t", usecols=["element", "wave_A", "lower_state_eV",
+                                                               "theoretical_depth"], low_memory=False)
+        ll = lists[path]
         tag = f"{r.species.split()[0]} {1 if r.species.split()[1] == 'I' else 2}"
         c = ll[(ll.element == tag) & ((ll.wave_A - w).abs() <= 0.1)
                & ((ll.lower_state_eV - float(r.excitation_potential_eV)).abs() <= 0.01)]
-        if c.empty:
+        if len(c) < 2:
             return None
-        d = float(c.theoretical_depth.max())
-        if d > HFS_THIN_DEPTH:
-            return None
-        out[f"{w:.3f}"] = {"n_components": int(len(c)), "max_component_depth": d}
-    return {"lines": out, "threshold_depth": HFS_THIN_DEPTH} if out else None
+        out[f"{w:.3f}"] = {"n_components_canonical": int(r.hfs_n_components),
+                           "n_components_in_synthesis": int(len(c)),
+                           "max_component_depth": float(c.theoretical_depth.max()),
+                           "synthesis_list": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT)
+                           else path.name}
+    return {"lines": out} if out else None
 
 
 def _gf_covariance(sig, src, tags):
@@ -768,6 +813,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 #: on this product's covered lines. No covered ratio -> still unresolved.
                 ratios = [e["residual_flux"] / e["sky_absorption"] for _, _, e in evs
                           if e.get("residual_flux") is not None and (e.get("sky_absorption") or 0) > 0]
+                transferred = None
+                if not ratios and holding in _RATIO_FROM:
+                    transferred, r_ = _RATIO_FROM[holding]
+                    ratios = [r_]
                 for l, dadf, ev in evs:
                     if ev.get("residual_flux") is None:
                         if not ratios:
@@ -777,14 +826,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                             break
                         ev = dict(ev, residual_flux=ev["sky_absorption"] * max(ratios),
                                   residual_basis=(ev["residual_basis"] + "; BOUNDED: own sky "
-                                                  f"absorption x worst covered ratio {max(ratios):.3f} "
-                                                  f"(n={len(ratios)} covered lines)"))
+                                                  + (f"absorption x {transferred} {max(ratios):.4f}"
+                                                     if transferred else
+                                                     f"absorption x worst covered ratio {max(ratios):.3f} "
+                                                     f"(n={len(ratios)} covered lines)")))
                     s = abs(dadf) * ev["residual_flux"]
                     per.append({"wavelength_air_A": float(l.wavelength_air_A), "dA_df": dadf,
                                 "sigma_line_dex": s, **ev})
                     tot += (s / n) ** 2
             if per is not None:
-              comps.append(dict(name="telluric", sigma_dex=math.sqrt(tot), state="MEASURED",
+              #: a BOUNDED line (no independent correction) makes the term DEFINED, as the CN
+              #: route labels it (RYA-1232) -- the sigma is a bound, not a measurement
+              bounded = any("BOUNDED" in (e.get("residual_basis") or "") for e in per)
+              comps.append(dict(name="telluric", sigma_dex=math.sqrt(tot),
+                              state="DEFINED" if bounded else "MEASURED",
                               source=("per-line measured sky depth -> measured residual of this "
                                       "holding vs an independent correction on the telluric "
                                       "pixels -> dex via the line's own dA/df (+0.1% leg); "
@@ -894,19 +949,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                           source="every pool line has hfs_n_components == 1 (canonical_gf)",
                           evidence={"hfs_n_components": hfs}))
     else:
-        # RYA-1233 (Al): the hyperfine components ARE in the synthesis list, so HFS is modelled,
-        # not an error source -- except through saturation. An optically thin line's EW is the
-        # total gf however it is split, so where every multi-component pool line is weak
-        # (catalogued component depth <= HFS_THIN_DEPTH) the term is 0 by that limit. A
-        # stronger split line has no measured term yet: the component is left to HOLD.
-        thin = _hfs_thin_evidence(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
-        if thin is not None:
+        # RYA-1233 (Al) / RYA-1251: the hyperfine components ARE in the synthesis list, so
+        # HFS is modelled, not an error source, whatever the line's depth. Only a split line
+        # whose components the synthesis does not carry leaves the component to HOLD.
+        hm = _hfs_modelled_evidence(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
+        if hm is not None:
             comps.append(dict(name="hfs_isotopes", sigma_dex=0.0, state="DEFINED",
-                              source=(f"optically thin limit: every hyperfine-split pool line is "
-                                      f"<= {HFS_THIN_DEPTH} deep (catalogued), so its EW is the "
-                                      f"total gf regardless of the splitting; the components are "
-                                      f"in the synthesis list (VALD lab HFS)"),
-                              evidence=thin))
+                              source=("modelled: every hyperfine-split pool line is synthesised "
+                                      "component by component from the band's synthesis list (lab "
+                                      "HFS; as RYA-466/473 Cu, V, Mn and RYA-1217 Al); "
+                                      "Asplund+2021 carries no HFS term"),
+                              evidence=hm))
     comps.append(dict(name="molecular_coupling", sigma_dex=None, state="N/A",
                       source="atomic product; the selector is not a MOL- indicator set",
                       evidence={"selector": selector}))

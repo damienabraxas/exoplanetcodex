@@ -10,6 +10,13 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-24 — RYA-1271 landed; pending RYA-1251 branch
+
+> **Current as of `main` 183310d8** (2026-10-24, RYA-1271).
+
+- **RYA-1271** — `591ad81e` PR #593 (`58550725`, `257cf11d`, `8d5fccc1`) and `183310d8` PR #594 (`05804945`). Bibliography 156 -> 206 rows; /sources regenerates again (vocabulary extended, client-side search, phone-width wrapping); the two internal notes dropped; Codex documents link the current versions.
+- **RYA-1251** (pending, branch `ryandamienschmitt/rya-1251-na`) — Na through the orchestrator on the Mac (grid over NFS from Sirius): 38 published / 37 held across 360 cells, 0 failed cells, 0 failed legs. Fixes: hfs-centroid set-line match, SET cell not aliased to GRADED in the budget, unpairable legs hold the component not the element, NLTE fit clamped to the deck's abundance axis, all-lines-failed-SYNTHESIS cells are not current. Full suite 41 failed = main's 41, identical set.
+
 ## 2026-10-24 — RYA-1268 / RYA-1270 landed
 
 > **Current as of `main` 2667aa13** (2026-10-24, RYA-1270).

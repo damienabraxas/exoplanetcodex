@@ -290,7 +290,10 @@ def main() -> None:
                         'sets + authors\' gf, gf-source classification, cull candidates, NLTE '
                         'coverage, holdings at rest, literature -- one report to review.')
     m.add_argument('--apply', action='store_true',
-                   help='with --prepare: write the reviewed plan (gf adoptions + culls).')
+                   help='with --prepare: write the reviewed plan (gf adoptions, added lines).')
+    m.add_argument('--cull', action='store_true',
+                   help='with --prepare --apply: ALSO cull the cull candidates (a human decision; '
+                        'the run itself never culls -- RYA-1251).')
     parser.add_argument('--check-paths', action='store_true',
                         help='RYA-1233: resolve every path the orchestrator needs on THIS host '
                              '(path register + config/hosts/<host>.env) and exit 1 if any is missing.')
@@ -351,7 +354,8 @@ def main() -> None:
         rep = element_prepare.prepare(star_id, args.element)
         print(element_prepare.render(rep))
         if args.apply:
-            done = element_prepare.apply(star_id, args.element, rep)
+            done = element_prepare.apply(star_id, args.element, rep,
+                                         cull=getattr(args, 'cull', False))
             print(f"applied: {done}")
             rep = element_prepare.prepare(star_id, args.element)
             print(element_prepare.render(rep))
@@ -372,7 +376,7 @@ def main() -> None:
                 instruments=args.instrument, engines=args.engine,
                 methods=args.route, pools=args.pool,
                 dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None, jobs=args.jobs)
+                ispec_dir=ispec or None, jobs=args.jobs, prepare_first=True)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
         from pipeline.run_sweep import executed

@@ -24742,3 +24742,7 @@ artifacts:
     generator: pipeline/element_prepare.py
     invocation: python3 scripts/rya1268_apply_sets.py
     ticket: RYA-1268
+  - artifact: rya1251/na_canocchi2026_validation.json
+    generator: scripts/rya1251_na_canocchi2026_3d.py
+    invocation: python scripts/rya1251_na_canocchi2026_3d.py --grid <grids.canocchi2026_na>
+    ticket: RYA-1251

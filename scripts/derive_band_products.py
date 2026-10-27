@@ -263,6 +263,49 @@ def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
     return keep, missing
 
 
+#: RYA-1251. How far either side of a set line its hyperfine components are looked for. Na I
+#: 10746 spans 0.016 A, Mn I lines up to ~0.3 A; the centroid test below, not this, decides.
+_HFS_SEARCH_A = 0.5
+
+
+def _match_hfs_centroids(want, eps, linelist, species: str, tol_A: float) -> tuple[list, list]:
+    """A set line the nearest-row match missed, found as the CENTROID of its hfs components.
+
+    🔴 RYA-1251 — VALD WRITES A HYPERFINE LINE AS ITS COMPONENTS, A PUBLISHED SET AS ONE LINE.
+    Asplund's Na I 10746.44 is canonical_gf's 10746.449, the gf-weighted centroid of the
+    NIR list's rows at 10746.439/.440/.455 -- and no single row is within the set's 5 mA, so
+    the run held all four NIR set cells as "pool empty" on a line it holds.
+
+    The rows of one transition share their lower AND upper level energies; their gf-weighted
+    centroid must sit inside the set's own window and their lower level within
+    `_GRADED_MASK_EP_TOL_EV` of the set's EP (the RYA-1036 guard against a neighbouring
+    transition). Exactly one such group, or the line stays missing. The group is represented
+    by its strongest component; every component is still in the synthesis list.
+    """
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    lo_cm = np.asarray(linelist["lower_state_cm1"], dtype=float)
+    up_cm = np.asarray(linelist["upper_state_cm1"], dtype=float)
+    ep = np.asarray(linelist["lower_state_eV"], dtype=float)
+    gf = 10.0 ** np.asarray(linelist["loggf"], dtype=float)
+    keep, missing = [], []
+    for w, e in zip(want, eps):
+        near = np.flatnonzero((el == species) & (np.abs(w_A - w) <= _HFS_SEARCH_A))
+        hits = []
+        for key in {(round(lo_cm[i], 1), round(up_cm[i], 1)) for i in near}:
+            g = near[(np.round(lo_cm[near], 1) == key[0]) & (np.round(up_cm[near], 1) == key[1])]
+            c = float(np.sum(w_A[g] * gf[g]) / np.sum(gf[g]))
+            if abs(c - w) <= tol_A and abs(float(ep[g[0]]) - float(e)) <= _GRADED_MASK_EP_TOL_EV:
+                hits.append((abs(c - w), int(g[np.argmax(gf[g])])))
+        if len(hits) == 1:
+            keep.append(hits[0][1])
+        else:
+            missing.append(float(w))
+    return keep, missing
+
+
 def _feature_depth(waves: np.ndarray, species: str = "Fe") -> np.ndarray:
     """Each line's FEATURE depth, grouped exactly as `line_accounting_rya709.features()`.
 
@@ -733,6 +776,16 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     w_sorted = w_A[idx_sorted]
 
     keep, missing = _match_into_list(want.values, w_sorted, idx_sorted, tol_A=tol)
+    if (missing and "ep_eV" in ew.columns and source_label.startswith("lines-from-set")
+            and {"lower_state_cm1", "upper_state_cm1"} <= set(linelist.dtype.names)):
+        miss_w = [w for w, _ in missing]
+        eps = [float(ew.loc[want.index[list(want.values).index(w)], "ep_eV"]) for w in miss_w]
+        hfs_keep, still = _match_hfs_centroids(miss_w, eps, linelist, species, tol)
+        if hfs_keep:
+            print(f"  [{source_label}] {len(hfs_keep)} line(s) matched as the gf-weighted "
+                  f"centroid of their hfs components (RYA-1251)")
+        keep += hfs_keep
+        missing = [(w, d) for w, d in missing if w in still]
     # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.

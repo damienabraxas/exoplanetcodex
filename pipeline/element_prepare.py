@@ -20,7 +20,20 @@ each time -- run up front, into one report Ryan reviews once:
 Written to data/results/orchestrator/prepare/<star>_<El>.json (+ .md). `--apply` writes ONLY
 the adoption plan (authors' gf + sigma into canonical_gf, the old value kept in the audit) and
 the proposed culls (problem_children, exclude/active, observed_in the star) and rebuilds the
-element's line sets -- the one human checkpoint is reading the report before passing --apply.
+element's line sets.
+
+RYA-1251 (Ryan 2026-10-24: the orchestrator runs A to Z with little agent work; uncertainty
+is computed AFTER the runs; "I didnt say cull anything"). The plan is a RULE, so `resolve()`
+applies it before a measurement run instead of waiting on a human:
+  adopt       the published set's gf + sigma on an open row (gf moves)
+  sigma_only  the authors' gf already IS the canonical gf: attach their sigma, change nothing
+              else -- a budget input, never a reason to hold a measurement
+  add         an Asplund line missing from canonical_gf, from our VALD extract
+A row another ticket adjudicated is never rewritten: a gf conflict there is
+`adopt_conflicts`, reported and not blocking (the run measures with the canonical gf).
+Cull candidates (C) are REPORTED, never culled and never a hold: the lines are measured and the
+list goes on the appendix. Culling one is a human act (`--apply --cull`). An element that
+already has a published feed keeps the human checkpoint -- finished work is not re-planned.
 """
 from __future__ import annotations
 
@@ -44,6 +57,18 @@ SAT_MIN_DEPTH = 0.30         # below this a line is on the linear part of the cu
 REST_TOL_KMS = 3.0
 ADOPT_TIER = "PUBLISHED-SET"  # graded through its stated sigma (pipeline.gf_grades.is_gf_graded)
 STAR_NAME = {"solar": "Sun"}
+#: adjudication_status values a published-set adoption may overwrite; any other value is a
+#: prior ticket's decision (nist, isotope_rya1075, adjudicated_kr1968_rya466, ...)
+OPEN_STATUS = {"", "nan", "single_source", "pending", "agreed"}
+SIGMA_ONLY_DEX = 0.0005      # |authors - canonical| below this: the gf is the authors' already
+#: the plan kinds `resolve()` applies by rule before a run
+RULE_KINDS = ("adopt", "sigma_only", "missing_lines")
+
+
+def is_protected(status) -> bool:
+    """A row whose adjudication another ticket owns (never rewritten by an adoption)."""
+    s = "" if status is None else str(status).strip()
+    return s not in OPEN_STATUS and not s.startswith("adopted_")
 
 
 def nlte_has_line(table, provenance, species: str, w: float) -> bool:
@@ -172,7 +197,8 @@ def prepare(star: str, element: str) -> dict:
     def is_culled(sp: str, w: float) -> bool:
         return any(s == sp and abs(cw - w) < 0.01 for (s, cw) in _cull)
     rep: dict = {"star": star, "element": element, "generated": str(date.today()),
-                 "sets": [], "adopt": [], "missing_lines": [], "gf_sources": [],
+                 "sets": [], "adopt": [], "sigma_only": [], "adopt_conflicts": [],
+                 "missing_lines": [], "gf_sources": [],
                  "scoped_readiness": True, "route_requirements": [],
                  "cull_candidates": [], "nlte_missing": [], "holdings": [], "literature": {}}
 
@@ -222,9 +248,13 @@ def prepare(star: str, element: str) -> dict:
                        canonical_loggf=float(h.log_gf), canonical_tier=str(h.gf_tier),
                        canonical_sigma=(None if pd.isna(h.gf_sigma_dex) else float(h.gf_sigma_dex)),
                        d_loggf=(None if a_gf is None else round(a_gf - float(h.log_gf), 3)))
+            status = "" if pd.isna(h.get("adjudication_status")) else str(h.adjudication_status)
+            moves = a_gf is not None and abs(a_gf - float(h.log_gf)) > SIGMA_ONLY_DEX
             if (spec.get("solar_literature") and a_gf is not None and a_sig is not None
-                    and (abs(a_gf - float(h.log_gf)) > 0.0005 or row["canonical_sigma"] != a_sig)):
-                rep["adopt"].append({**row, "line_id": str(h.line_id)})
+                    and (moves or row["canonical_sigma"] != a_sig)):
+                entry = {**row, "line_id": str(h.line_id), "adjudication_status": status}
+                rep["adopt" if moves and not is_protected(status) else
+                    "adopt_conflicts" if moves else "sigma_only"].append(entry)
         rep["sets"].append(row)
 
     for spec, r in _spec_rows(element, whole_selection=True):
@@ -368,8 +398,8 @@ def prepare(star: str, element: str) -> dict:
                         f"error-stated gf source is found (RYA-1237 register input)")}
         for v in need.values()]
 
-    # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, an
-    # un-culled saturated line, a solar-literature line missing from canonical_gf, a holding
+    # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, a
+    # solar-literature line missing from canonical_gf, a holding
     # whose frame is off, missing literature -- and on what would make it STALE the moment it
     # finished: an NLTE table missing graded lines. NLTE coverage is per-line, however, and
     # must not suppress the initial reference/LTE measurements for every other line. Missing
@@ -378,11 +408,20 @@ def prepare(star: str, element: str) -> dict:
     # (budget says UNREVIEWED) stay a NOTE.
     rep["blocking"] = {
         "nlte_missing": 0,
-        "adopt": len(rep["adopt"]), "cull_candidates": len(rep["cull_candidates"]),
+        "adopt": len(rep["adopt"]),
+        # RYA-1251: saturated non-literature lines are measured and reported, never a hold
+        "cull_candidates": 0,
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
         "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
-    rep["ready"] = not any(rep["blocking"].values())
+    # The rule-applied plan (RULE_KINDS) is pending work for `resolve()`, not a human
+    # decision; `ready` stays strict -- nothing pending at all -- so a caller that measures
+    # without resolving first is still held per cell (run_matrix.preparation_hold_for_cell).
+    rep["pending_rule_plan"] = {
+        "adopt": len(rep["adopt"]), "sigma_only": len(rep["sigma_only"]),
+        "add_lines": sum(1 for m in rep["missing_lines"]
+                         if m.get("add_plan") and not m["add_plan"]["clashes"])}
+    rep["ready"] = not any(rep["blocking"].values()) and not rep["sigma_only"]
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / f"{star}_{element}.json").write_text(json.dumps(rep, indent=1, default=str) + "\n")
     (OUT / f"{star}_{element}.md").write_text(render(rep) + "\n")
@@ -398,11 +437,20 @@ def render(rep: dict) -> str:
              f"set bibliography keys {lit['set_bib_keys']}"
              + (f"; MISSING {lit['missing_bib_keys']}" if lit["missing_bib_keys"] else ""))
     L.append(f"  A published sets: {len(rep['sets'])} lines; adopt authors' gf on "
-             f"{len(rep['adopt'])}; missing from canonical_gf: {len(rep['missing_lines'])}")
+             f"{len(rep['adopt'])}; sigma only {len(rep.get('sigma_only', []))}; prior-adjudication "
+             f"conflicts {len(rep.get('adopt_conflicts', []))}; missing from canonical_gf: "
+             f"{len(rep['missing_lines'])}")
     for a in rep["adopt"]:
         L.append(f"      adopt {a['set']} {a['species']} {a['wavelength_A']}: canonical "
                  f"{a['canonical_loggf']} -> authors {a['authors_loggf']} +/- {a['authors_sigma_dex']}"
                  f"  (d {a['d_loggf']:+.3f})")
+    for a in rep["sigma_only"]:
+        L.append(f"      sigma {a['set']} {a['species']} {a['wavelength_A']}: gf {a['canonical_loggf']} "
+                 f"is the authors'; attach their +/- {a['authors_sigma_dex']} (sigma only)")
+    for a in rep["adopt_conflicts"]:
+        L.append(f"      CONFLICT {a['set']} {a['species']} {a['wavelength_A']}: canonical "
+                 f"{a['canonical_loggf']} ({a['adjudication_status']}) vs authors {a['authors_loggf']} "
+                 f"(d {a['d_loggf']:+.3f}) -- prior adjudication kept; review item, not blocking")
     for m in rep["missing_lines"]:
         pl = m.get("add_plan")
         L.append(f"      MISSING {m['set']} {m['species']} {m['wavelength_A']}: {m['canonical']} in "
@@ -420,7 +468,7 @@ def render(rep: dict) -> str:
                  f"{'classified' if s['classified'] else 'NOT in gf_error_model (UNREVIEWED)'}")
     for n in rep.get("literature_needs", []):
         L.append(f"  F2 literature need: {n['why_needed']} [{', '.join(n['holdings'])}]")
-    L.append(f"  C cull candidates (saturated, not a solar-literature line): {len(rep['cull_candidates'])}")
+    L.append(f"  C saturated, not a solar-literature line (measured, reported, NOT culled): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
     L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
@@ -442,18 +490,19 @@ def adopted_reference(row: dict, cite: dict) -> str:
     return base + (f" (gf: {row['authors_gf_source']})" if row.get("authors_gf_source") else "")
 
 
-def apply(star: str, element: str, rep: dict) -> dict:
+def apply(star: str, element: str, rep: dict, *, cull: bool = False) -> dict:
     """Write the reviewed plan: adoptions into canonical_gf, missing published lines added
-    (synthesis list + canonical row, pipeline.published_line_add), culls into problem_children."""
+    (synthesis list + canonical row, pipeline.published_line_add). Culls into problem_children
+    ONLY with `cull=True` (a human's `--cull`); the run never culls (RYA-1251)."""
     from pipeline import line_sets as ls
-    done = {"adopted": 0, "culled": 0, "added": 0}
-    if rep["adopt"]:
+    done = {"adopted": 0, "sigma_only": 0, "culled": 0, "added": 0}
+    if rep["adopt"] or rep.get("sigma_only"):
         # Preserve untouched atomic inputs byte-for-byte at field level. Numeric
         # inference rounds unrelated high-precision wavelengths on a full rewrite.
         cg = pd.read_csv(CANONICAL, dtype=str, keep_default_na=False)
         audit = []
         cite = {s["name"]: s for s in ls.load_sources()}
-        for a in rep["adopt"]:
+        for a in rep.get("sigma_only", []):
             i = cg.index[cg.line_id.astype(str) == a["line_id"]]
             if len(i) != 1:
                 continue
@@ -461,8 +510,24 @@ def apply(star: str, element: str, rep: dict) -> dict:
             audit.append({"line_id": a["line_id"], "species": a["species"],
                           "wavelength_A": a["canonical_wavelength_A"], "old_loggf": cg.at[i, "log_gf"],
                           "old_tier": cg.at[i, "gf_tier"],
+                          "old_reference": cg.at[i, "loggf_reference"], "new_loggf": cg.at[i, "log_gf"],
+                          "new_sigma_dex": a["authors_sigma_dex"], "set": a["set"],
+                          "action": "sigma_only"})
+            # gf, tier, reference and adjudication_status stay exactly as they are
+            cg.at[i, "gf_sigma_dex"] = str(a["authors_sigma_dex"])
+            done["sigma_only"] += 1
+        for a in rep["adopt"]:
+            i = cg.index[cg.line_id.astype(str) == a["line_id"]]
+            if len(i) != 1 or is_protected(cg.at[i[0], "adjudication_status"]
+                                           if "adjudication_status" in cg else ""):
+                continue
+            i = i[0]
+            audit.append({"line_id": a["line_id"], "species": a["species"],
+                          "wavelength_A": a["canonical_wavelength_A"], "old_loggf": cg.at[i, "log_gf"],
+                          "old_tier": cg.at[i, "gf_tier"],
                           "old_reference": cg.at[i, "loggf_reference"], "new_loggf": a["authors_loggf"],
-                          "new_sigma_dex": a["authors_sigma_dex"], "set": a["set"]})
+                          "new_sigma_dex": a["authors_sigma_dex"], "set": a["set"],
+                          "action": "adopt"})
             cg.at[i, "log_gf"] = str(a["authors_loggf"])
             cg.at[i, "gf_sigma_dex"] = str(a["authors_sigma_dex"])
             # The row now carries the AUTHORS' gf: its reference must say so (the old
@@ -476,7 +541,8 @@ def apply(star: str, element: str, rep: dict) -> dict:
         cg.to_csv(CANONICAL, index=False)
         ad = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_adoption.csv"
         ad.parent.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(audit).to_csv(ad, index=False)
+        old = pd.read_csv(ad, dtype=str) if ad.exists() else pd.DataFrame()
+        pd.concat([old, pd.DataFrame(audit).astype(str)]).to_csv(ad, index=False)
     plans = [m for m in rep["missing_lines"] if m.get("add_plan") and not m["add_plan"]["clashes"]]
     if plans:
         from pipeline import published_line_add as pla
@@ -489,7 +555,7 @@ def apply(star: str, element: str, rep: dict) -> dict:
         ad.parent.mkdir(parents=True, exist_ok=True)
         ad.write_text(json.dumps(written, indent=1, default=str) + "\n")
         done["added"] = len(written)
-    if rep["cull_candidates"]:
+    if cull and rep["cull_candidates"]:
         b = REGISTRY_PC.read_bytes()
         s = io.StringIO()
         w = csv.writer(s, lineterminator="\r\n")
@@ -500,8 +566,38 @@ def apply(star: str, element: str, rep: dict) -> dict:
                         f"Saturated: reduced EW log(W/lambda) = {c.get('rew')} > the RYA-458 ceiling "
                         f"{REW_CEILING} ({c.get('holding')}, depth {c.get('depth')}); not a line any "
                         f"declared solar-literature set measured the Sun on. Culled for this star by "
-                        f"orchestrator --prepare --apply (reviewed); kept in every line list."])
+                        f"a human decision (element_prepare --apply --cull); kept in every line list."])
             done["culled"] += 1
         REGISTRY_PC.write_bytes(b + s.getvalue().encode())
+        # The appendix's list of lines a human culled (one row per line, per decision).
+        cl = ROOT / "data" / "audit" / "orchestrator_prepare" / f"{star}_{element}_culls.csv"
+        cl.parent.mkdir(parents=True, exist_ok=True)
+        new = pd.DataFrame([{"species": c["species"], "wavelength_A": c["wavelength_A"],
+                             "rew": c.get("rew"), "depth": c.get("depth"),
+                             "holding": c.get("holding"), "reason": "saturated, not a solar-literature line",
+                             "culled_on": rep.get("generated")} for c in rep["cull_candidates"]])
+        old = pd.read_csv(cl) if cl.exists() else pd.DataFrame()
+        pd.concat([old, new]).to_csv(cl, index=False)
     ls.build(element, quiet=True)
     return done
+
+
+def has_published_feed(star: str, element: str) -> bool:
+    """True once the element has a published feed: its plan is then a human decision."""
+    return (ROOT / "data" / "products" / star / f"{element}.json").exists()
+
+
+def resolve(star: str, element: str, *, apply_plan: bool = True) -> tuple[dict, dict]:
+    """Prepare, apply the rule plan when anything is pending, prepare again.
+
+    The run's front step (RYA-1251): it replaces the `--prepare` -> read -> `--apply` hand
+    loop for an element that has not been published. Returns (report, what was applied).
+    What still blocks afterwards (a literature line with no add plan, a holding off its
+    frame, missing literature) is a real hold and stays one.
+    """
+    rep = prepare(star, element)
+    pending = any(rep.get("pending_rule_plan", {}).values())
+    if not (apply_plan and pending) or has_published_feed(star, element):
+        return rep, {}
+    done = apply(star, element, rep)
+    return prepare(star, element), done

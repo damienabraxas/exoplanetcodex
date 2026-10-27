@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v172** · _Last updated: 2026-10-25 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v173** · _Last updated: 2026-10-25 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -306,6 +306,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v173** (2026-10-25) — **RYA-1251 Na through the orchestrator (unmerged).** Run prepares itself (sigma never holds, never culls), AG26 anchor only where changed. HFS modelled in-synthesis and telluric wired for every corrected holding. Orchestrator now labels NLTE levels outside VIS (RYA-1250 sidecar), applies cited solar corrections from AGSS21 Table A.1 (5 Na lines, 1D+3D) and Canocchi+2026 3D NLTE (7 more lines; arXiv 2603.22975, Zenodo 19201830), and reports the ENGINE-A extension owed on Sirius (65 lines; check vs Lind+2022). Mac run: 94 Na products published, 0 failed; holds = mean-3D (no deck), no-graded-line REFERENCE pools, ENGINE-A owed, 3D on lines no grid covers, non-convergent fits. Suite = main's 41 failures, 0 new.
 - **v172** (2026-10-25) — **RYA-1274 agent readiness, review branch.** Added a thin bootstrap, agent-neutral development cycle and held-literature resolver. Cold probe verified source routing and honest missing/unsupported dispositions. Synthetic audit found unresolved coverage-currency and Reference budget-routing defects (RYA-1275/1276); library discrepancies are RYA-1277. SEQUENCE also reconciles already-merged RYA-1271 PRs #593/#594 against fetched main. No science run, product or gate changed; not a claim of merged/production readiness.
 
 - **v171** (2026-10-24) — **RYA-1271 bibliography + /sources (science PR #593).** `data/refs/bibliography.csv` 156 -> 208 rows: the RYA-1268 audit rows with labels normalised to the generator vocabulary (`lab_gf` -> `atomic_data_gf`, `arxiv_metadata` -> `arxiv`, ...); gf-origin and litscan papers the audit named but never registered (Crossref/arXiv verified; Al litscan "Andrievsky 2020" is Korotin, Andrievsky et al. 2020); 4 unidentified sources UNCONFIRMED with no link. `scripts/generate_sources_page.py` vocabulary extended (category `nitrogen_method`, five `verified` states) so /sources regenerates again (last since RYA-854), plus client-side search. Every litscan/SOURCES.yaml `bib:` key resolves. SEQUENCE.md records RYA-1268 / RYA-1270, stamp -> `2667aa13`.
