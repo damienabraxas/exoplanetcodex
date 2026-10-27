@@ -101,3 +101,28 @@ def test_mg_k_24566_is_culled_for_the_sun():
     from pipeline import problem_children as pc
     d = pc.disposition_for_line("Mg", "I", 24566.296, table=pc.line_dispositions())
     assert pc.aggregate_action(d) == "exclude"
+
+
+def test_an_unpairable_product_is_held_not_fatal(tmp_path, monkeypatch):
+    """Mg run 3 died in assembly on Mg II K Codex (no accepted line shared by core and
+    nominal) after all 1548 legs had run; that one product is held, the rest assemble."""
+    import sys
+    from pipeline.paired_differential import UnpairableProducts
+    spec = importlib.util.spec_from_file_location("budget", ROOT / "scripts/rya1230_cno_budget.py")
+    b = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(b)
+    legs = tmp_path / "legs"
+    (legs / "unit00" / "nominal").mkdir(parents=True)
+    (legs / "unit00" / "nominal" / "MgII_1_2_x_lines.csv").write_text("a\n")
+    (legs / "units.txt").write_text("python3 scripts/derive_band_products.py --element Mg\n")
+
+    def boom(*a, **k):
+        raise UnpairableProducts("no line is in-aggregate in BOTH products")
+    monkeypatch.setattr(b, "build", boom)
+    monkeypatch.setattr(b, "GF", ROOT / "data/registry/problem_children.csv")   # any small csv
+    rep = tmp_path / "report.json"
+    monkeypatch.setattr(sys, "argv", ["x", "--legs", str(legs), "--stage", str(tmp_path / "stage"),
+                                      "--report", str(rep)])
+    b.main()
+    (o,) = json.loads(rep.read_text())["products"]
+    assert o["skip"].startswith("UNPAIRABLE")

@@ -57,7 +57,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline.uncertainty_contract import (  # noqa: E402
     UncertaintyError, assemble, pool_digest, product_scope, transition_data, validate)
-from pipeline.paired_differential import paired_differential  # noqa: E402
+from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
 DELTA_XI = 0.2912
@@ -964,7 +964,14 @@ def main() -> int:
             if nd is None:
                 out.append({"unit": i, "stem": stem, "skip": "no nominal artifact"})
                 continue
-            r = build(args, stem, nd, udir, gf)
+            try:
+                r = build(args, stem, nd, udir, gf)
+            except UnpairableProducts as exc:
+                # RYA-1250: a lever leg sharing no accepted line with the nominal (Mg II K Codex:
+                # one accepted line, a different two under the +/-0.25 A core window) has no
+                # budget. HOLD that product, recorded; never abort the element's other units.
+                out.append({"unit": i, "stem": stem, "skip": f"UNPAIRABLE: {exc}"})
+                continue
             rec = {"unit": i, "stem": stem, "A": r["row"]["A"], "key_treatment": r["row"]["treatment"],
                    "holding": r["row"]["holding"], "selector": r["row"]["selector"],
                    "element": r["row"]["element"], "band": r["row"]["band"]}
