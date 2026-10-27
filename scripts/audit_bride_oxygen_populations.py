@@ -34,6 +34,7 @@ def conserve_departure_replay(departures, nstar):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reference', required=True, type=Path)
+    parser.add_argument('--collision-runs', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
     if platform.system() != 'Darwin' or version('lightweaver') != '0.16.1':
@@ -210,6 +211,40 @@ def main():
         ax.legend(fontsize=6); fig.tight_layout(); fig.savefig(args.output/f'{name}_departures.png', dpi=150); plt.close(fig)
         report['cases'].append(result); save()
     report['status'] = 'DIAGNOSTIC_COMPLETE'
+    collision_summary = json.loads((args.collision_runs/'summary.json').read_text())
+    if collision_summary['status'] != 'EXPERIMENTS_FINISHED' or collision_summary['atom'] != ref['atom']:
+        raise ValueError('Collision control set incomplete or atom changed')
+    if collision_summary['context_builder'] != report['context_builder']:
+        raise ValueError('Collision controls use different context physics')
+    report['collision_summary'] = fingerprint(args.collision_runs/'summary.json')
+    report['collision_cases'] = []
+    fig, ax = plt.subplots(figsize=(10, 4))
+    for mode in ('local_lte', 'local_nlte', 'external_b_local_lte'):
+        curve = np.genfromtxt(args.output/f'native5750_{mode}_triplet.csv', delimiter=',', names=True)
+        ax.plot(curve['air_A'], curve['normalized_flux'], label=mode)
+    for entry in collision_summary['cases']:
+        directory = args.collision_runs/entry['name']
+        if fingerprint(directory/'manifest.json') != entry['manifest']:
+            raise ValueError('Changed collision manifest')
+        manifest = json.loads((directory/'manifest.json').read_text())
+        if manifest['status'] != 'CONVERGED_EXPERIMENT' or manifest['case']['teff'] != 5750 or manifest['case']['logg'] != 4.5:
+            raise ValueError('Collision experiment failed or wrong reference node')
+        if fingerprint(directory/'flux.csv') != manifest['flux']:
+            raise ValueError('Changed collision spectrum')
+        curve = np.genfromtxt(directory/'flux.csv', delimiter=',', names=True)
+        rows = [dict(centre_air_A=c, model_area_mA=1000*window_integral(curve['wavelength_air_A'], curve['normalized_flux'], c-.5, c+.5))
+                for c in (7771.944, 7774.166, 7775.388)]
+        report['collision_cases'].append(dict(name=entry['name'], manifest=entry['manifest'],
+            source_directory=directory.name, source_run=args.collision_runs.name,
+            flux=manifest['flux'], populations=fingerprint(directory/'populations.npz'),
+            diagnostics=manifest['final_diagnostics'], scales=manifest['diagnostic_collision_scales'], lines=rows))
+        np.savetxt(args.output/f'{entry["name"]}_triplet.csv',
+            np.column_stack((curve['wavelength_air_A'], curve['normalized_flux'])), delimiter=',',
+            header='air_A,normalized_flux', comments='')
+        ax.plot(curve['wavelength_air_A'], curve['normalized_flux'], label=entry['name'], alpha=.8)
+    ax.set(xlabel='Air wavelength (Angstrom)', ylabel='Intrinsic normalized flux',
+           title='Native 5750/4.5/O8.70: causal collision controls, no rate adoption')
+    ax.legend(fontsize=7); fig.tight_layout(); fig.savefig(args.output/'collision_controls.png', dpi=150); plt.close(fig)
     save()
 
 
