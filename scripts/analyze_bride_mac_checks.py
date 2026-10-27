@@ -99,6 +99,11 @@ def main():
           'Solar broadening/rotation use canonical inputs; +/-1 km/s and RV +/-0.5 are diagnostic probes, not inferred uncertainties',
           'Published Kitt Peak continuum and corrected telluric product remain frozen; no local pixel telluric covariance is manufactured'],
         cases=[],failed_cases=[])
+    result['capability_contract']=dict(geometry='1D plane-parallel',horizontal_radiative_transfer=False,
+        full_3D=False,full_spectrum_validated=False,output_air_A=[7768.,7780.],
+        observational_comparison='O I777nm triplet, normalized disk-integrated flux',
+        raw_model_flux='Stellar surface Fnu; not absolute Earth irradiance. Distance dilution cancels only in normalized comparison.',
+        physics_admission='HOLD: experimental native/interpolated atmospheres and full41-level atom; original MULTI discrepancy open')
     science_python=require_codex_path('engines.bride_eval')/'.venv/bin/python'
     query="import json,platform;from importlib.metadata import version;print(json.dumps(dict(python=platform.python_version(),packages={n:version(n) for n in ['lightweaver','numpy','scipy','numba','matplotlib']})))"
     result['science_environment']=json.loads(subprocess.check_output([str(science_python),'-c',query],text=True))
@@ -239,6 +244,13 @@ def main():
         ax.set_title('Near-solar10K sequence, logg4.438, fixed O8.70; no fitting');ax.set_xlabel('Air wavelength (Angstrom)')
         fig.tight_layout();fig.savefig(args.output/'fine_solar_profiles.png',dpi=160);plt.close(fig)
     with (args.output/'analysis.json').open('x')as f:json.dump(result,f,indent=2,allow_nan=False);f.write('\n')
+    grid=dict(schema='codex.bride_experimental_grid_index/1',capabilities=result['capability_contract'],
+        atom=run['atom'],data_store_key='experiments.bride_mac_grid',host=run['host'],nodes=[])
+    for c in result['cases']:
+        grid['nodes'].append(dict(name=c['name'],coordinates=c['inputs'],atmosphere=c['atmosphere'],
+            population_relative_path=f"{c['source_directory_id']}/{c['name']}/populations.npz",
+            populations=c['original_population_file'],diagnostics=c['final_diagnostics']))
+    with (args.output/'grid_index.json').open('x')as f:json.dump(grid,f,indent=2,allow_nan=False);f.write('\n')
     print(json.dumps(dict(successful_cases=len(result['cases']),failed_cases=result['failed_cases'],policy=result['orchestrator_policy']),indent=2))
 
 
