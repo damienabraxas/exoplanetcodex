@@ -86,6 +86,9 @@ def main():
     windows = [('triplet', 7768., 7780., [7771.944, 7774.166, 7775.388], .5),
                ('forbidden6300', 6299., 6302., [6300.304], .3),
                ('permitted6158', 6155., 6161., [6158.19], .5)]
+    reviewed_path = ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
+    reviewed = json.loads(reviewed_path.read_text())
+    report['reviewed_population_receipt'] = fingerprint(reviewed_path)
     canonical_path = ROOT/'data/linelists/canonical_gf.csv'
     with canonical_path.open() as stream:
         canonical = list(csv.DictReader(stream))
@@ -112,6 +115,9 @@ def main():
             raise ValueError('Source manifest differs from reviewed archive')
         if fingerprint(origin/'flux.csv') != manifest['flux']:
             raise ValueError('Changed source flux')
+        receipt = next(c for c in reviewed['cases'] if c['name'] == manifest['case']['name'])
+        if fingerprint(origin/'populations.npz') != receipt['original_population_file']:
+            raise ValueError('Changed source populations')
         case = manifest['case']
         if name == 'native5750':
             path = store/marcs_filename(5750, 4.5, 0., 0.)
