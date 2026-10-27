@@ -20,5 +20,5 @@ PREPARE solar Na  -> READY to measure
       Na I 3302.369: rew -4.002 depth 0.95
       Na I 3302.978: rew -4.092 depth 0.926
       Na I 11403.766: rew -4.587 depth 0.636
-  D NLTE: 65 graded line(s) not in data/nlte_grids/Na_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Na --write
+  D NLTE: 0 graded line(s) not in data/nlte_grids/Na_Amarsi2020_PySME.csv
   E holdings: 19 windows; 0 not serving / frame off rest

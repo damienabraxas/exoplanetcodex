@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Na",
- "feed_version": "1.108",
+ "feed_version": "1.131",
  "counts": {
-  "PUBLISHED": 94,
-  "HELD": 354,
+  "PUBLISHED": 112,
+  "HELD": 336,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -225,11 +225,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.574,
+   "sigma": 0.1859085190611394,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -498,11 +498,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.35,
+   "sigma": 0.1986470722147851,
+   "n_lines": 2
   },
   {
    "band": "near-UV",
@@ -787,8 +787,8 @@
    "outcome": "PUBLISHED",
    "reason": "",
    "A": 6.248,
-   "sigma": 0.0591313066925908,
-   "n_lines": 6
+   "sigma": 0.0845605568592317,
+   "n_lines": 18
   },
   {
    "band": "VIS",
@@ -823,11 +823,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.104,
+   "sigma": 0.1819678949608966,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -836,11 +836,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: nlte",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.26,
+   "sigma": 0.3399025072174287,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -1150,9 +1150,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.252,
-   "sigma": 0.0588716043763026,
-   "n_lines": 6
+   "A": 6.247,
+   "sigma": 0.0889003016609139,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -1187,11 +1187,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.095,
+   "sigma": 0.1782394180855601,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -1200,11 +1200,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: nlte",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.232,
+   "sigma": 0.2893778056670798,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -1514,9 +1514,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.226,
-   "sigma": 0.0934398916381811,
-   "n_lines": 6
+   "A": 6.295,
+   "sigma": 0.0846177581714296,
+   "n_lines": 22
   },
   {
    "band": "VIS",
@@ -1551,11 +1551,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.102,
+   "sigma": 0.1762063774056715,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -1564,11 +1564,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: nlte",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.239,
+   "sigma": 0.3090099540026084,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -1878,9 +1878,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.362,
-   "sigma": 0.0717362405613997,
-   "n_lines": 1
+   "A": 6.318,
+   "sigma": 0.1416934850482172,
+   "n_lines": 10
   },
   {
    "band": "VIS",
@@ -2242,9 +2242,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.246,
-   "sigma": 0.0631498032845581,
-   "n_lines": 5
+   "A": 6.238,
+   "sigma": 0.0597377051654886,
+   "n_lines": 6
   },
   {
    "band": "VIS",
@@ -2279,11 +2279,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.066,
+   "sigma": 0.1594892248526427,
+   "n_lines": 1
   },
   {
    "band": "VIS",
@@ -2292,11 +2292,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "budget: unresolved components: nlte",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.202,
+   "sigma": 0.2665373368079868,
+   "n_lines": 2
   },
   {
    "band": "VIS",
@@ -2552,11 +2552,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.99,
+   "sigma": 1.902224022158873,
+   "n_lines": 2
   },
   {
    "band": "red-optical",
@@ -2825,11 +2825,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.231,
+   "sigma": 0.6996279528120644,
+   "n_lines": 2
   },
   {
    "band": "red-optical",
@@ -3098,11 +3098,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.262,
+   "sigma": 0.6239839600008545,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -3969,11 +3969,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.067,
+   "sigma": 0.1758026380338975,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -4333,11 +4333,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.105,
+   "sigma": 0.2188086700040678,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -4918,11 +4918,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.901,
+   "sigma": 0.0922311357010754,
+   "n_lines": 1
   },
   {
    "band": "NIR",
@@ -5191,11 +5191,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.779,
+   "sigma": 0.881973376510412,
+   "n_lines": 3
   },
   {
    "band": "H",
@@ -5465,7 +5465,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
+   "reason": "budget: unresolved components: continuum, profile_ew",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5737,11 +5737,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 5.903,
+   "sigma": 0.1823114746565955,
+   "n_lines": 7
   },
   {
    "band": "K",
