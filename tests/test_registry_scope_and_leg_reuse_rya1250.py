@@ -159,3 +159,14 @@ def test_a_strong_split_line_takes_its_measured_collapse_bound(tmp_path, monkeyp
     rows = pd.DataFrame({"physical_id": ["p1", "p2"], "wavelength_air_A": [1.0, 2.0]})
     assert b._hfs_collapse_bound(rows)["sigma_dex"] == 0.012
     assert b._hfs_collapse_bound(rows.assign(physical_id=["p1", "p3"])) is None   # unmeasured: HOLD
+
+
+def test_a_unit_missing_from_one_run_is_filed_not_deleted(tmp_path):
+    """RYA-1250: publish on a one-band report deleted 132 of 172 Mg units' legs."""
+    legs, prev = tmp_path / "legs", tmp_path / "units.prev.json"
+    _legs(legs, 3)
+    prev.write_text(json.dumps(["a", "b", "c"]))
+    assert ep.reuse_legs(legs, prev, ["b"]) == [0]                    # a, c absent this run
+    assert (legs / "unit00/nominal/DONE").read_text() == "u1"
+    assert ep.reuse_legs(legs, prev, ["c", "b", "a"]) == [0, 1, 2]    # all back
+    assert [(legs / f"unit{i:02d}/nominal/DONE").read_text() for i in range(3)] == ["u2", "u1", "u0"]

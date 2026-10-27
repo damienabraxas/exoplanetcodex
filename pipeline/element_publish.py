@@ -211,13 +211,23 @@ def unit_signature(command: str, inputs_hash: str | None) -> str:
 
 def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
     """Keep each unit's legs while its signature is unchanged, renumbered to the unit's new
-    index; remove every other unit's legs. Returns the new indices whose legs were kept.
+    index. Returns the new indices whose legs were kept.
+
+    A previous unit absent from this run is FILED under its signature (`legs.store/`), never
+    deleted, and comes back when its signature does: RYA-1250 ran publish on a one-band run
+    report and lost 132 of 172 Mg units' legs (~30 h). Only a unit whose inputs changed is
+    stale, and it stays filed under its OLD signature, where nothing current matches it.
 
     No per-unit record (a first run, or the pre-RYA-1250 whole-element `units.prev.txt`)
-    proves nothing current, so every leg goes. A signature listed twice is ambiguous and
-    is never reused."""
+    proves nothing current, so those legs go. A signature listed twice is ambiguous and is
+    never reused."""
+    import hashlib
     import shutil
+
+    def _file(s: str) -> str:
+        return hashlib.sha256(s.encode()).hexdigest()[:32]
     prev = json.loads(prev_file.read_text()) if prev_file.exists() else None
+    store = legs.parent / "legs.store"
     kept: list[int] = []
     if prev is None:
         shutil.rmtree(legs, ignore_errors=True)
@@ -227,11 +237,19 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
         shutil.rmtree(hold, ignore_errors=True)
         hold.mkdir(parents=True)
         for i, s in enumerate(sigs):
-            j = old.get(s) if sigs.count(s) == 1 else None
-            src = legs / f"unit{j:02d}" if j is not None else None
-            if src is not None and src.is_dir():
+            if sigs.count(s) != 1:
+                continue
+            j = old.pop(s, None)
+            src = legs / f"unit{j:02d}" if j is not None else store / _file(s)
+            if src.is_dir():
                 src.rename(hold / f"unit{i:02d}")
                 kept.append(i)
+        store.mkdir(parents=True, exist_ok=True)
+        for s, j in old.items():                       # not in this run: file, never delete
+            src, dst = legs / f"unit{j:02d}", store / _file(s)
+            if src.is_dir():
+                shutil.rmtree(dst, ignore_errors=True)
+                src.rename(dst)
         shutil.rmtree(legs, ignore_errors=True)
         hold.rename(legs)
     prev_file.parent.mkdir(parents=True, exist_ok=True)
