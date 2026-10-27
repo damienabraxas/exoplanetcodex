@@ -157,8 +157,6 @@ def main():
     groups=[('Depth controls',['baseline','depth_cut1','depth_cut2']),
         ('Microturbulence (fixed atmosphere)',['baseline','xi_minus','xi_plus','xi_low','xi_high']),
         ('Teff (common bottom cut)',['depth_cut1','teff_low_cut1','teff_high_cut1']),
-        ('10 K sampling at solar logg (interpolated structures)',['fine_T5752','fine_T5762','fine_T5772','fine_T5782','fine_T5792']),
-        ('Held-out interpolation control',['depth_cut1','holdout_interp_5750']),
         ('Gravity',['baseline','logg_low','logg_high']),
         ('Metal mixture (common bottom cut; native alpha pattern)',['depth_cut1','metal_low_cut1','metal_high_cut1']),
         ('Abundance probes (not fits)',['baseline','abundance_minus','abundance_plus'])]
@@ -180,24 +178,66 @@ def main():
     ax.set_title('Canonical broadening and known gravitational-shift control; no fit')
     fig.tight_layout();fig.savefig(args.output/'broadening_alignment.png',dpi=160);plt.close(fig)
     by_name={c['name']:c for c in result['cases']}
-    fine=sorted([c for c in result['cases']if c['name'].startswith('fine_T')],key=lambda c:c['inputs']['teff'])
-    if fine:
-        central=by_name['fine_T5772'];response=[]
-        fig,ax=plt.subplots(figsize=(8,4))
+    families=[('fine_T','Linear thermodynamic fields'),('logfine_T','Log pressure/density'),
+              ('meshfine_T','Log pressure/density and positive layer thickness')]
+    fig,axes=plt.subplots(3,1,figsize=(9,10),sharex=True)
+    result['fine_temperature_responses']={}
+    for ax,(prefix,title)in zip(axes,families):
+        fine=sorted([c for c in result['cases']if c['name'].startswith(prefix)],key=lambda c:c['inputs']['teff'])
+        if not fine:continue
+        central=by_name[prefix+'5772'];table=[]
+        for c in fine:
+            table.append(dict(teff=c['inputs']['teff'],window_areas_mA=[r['model_area_mA']for r in c['variants']['solar_broadening']]))
+        result['fine_temperature_responses'][prefix]=table
         for i,centre in enumerate(centres):
             baseline_area=central['variants']['solar_broadening'][i]['model_area_mA']
             ys=[c['variants']['solar_broadening'][i]['model_area_mA']-baseline_area for c in fine]
-            ax.plot([c['inputs']['teff'] for c in fine],ys,marker='o',label=f'{centre:.3f} A')
+            ax.plot([c['inputs']['teff']for c in fine],ys,marker='o',label=f'{centre:.3f} A')
         ax.axhline(0,color='grey',lw=.5);ax.axvline(stars['teff'],color='grey',lw=.5)
-        ax.set_xlabel('Interpolated Teff (K)');ax.set_ylabel('Window area change from5772K (mA)')
-        ax.set_title('10K sampling, not a claim of10K atmosphere accuracy');ax.legend();fig.tight_layout()
-        fig.savefig(args.output/'fine_temperature_response.png',dpi=160);plt.close(fig)
-    if 'holdout_interp_5750'in by_name:
-        native=by_name['depth_cut1']['variants']['solar_broadening']
-        held=by_name['holdout_interp_5750']['variants']['solar_broadening']
-        result['interpolation_holdout']=dict(target='5750/4.5 omitted from5500/6000 native-node interpolation',
+        ax.set_ylabel('Area change (mA)');ax.set_title(title,fontsize=10);ax.legend(fontsize=8)
+    axes[-1].set_xlabel('Interpolated Teff (K);10K sampling, interpolation error assessed separately')
+    fig.tight_layout();fig.savefig(args.output/'fine_temperature_response.png',dpi=160);plt.close(fig)
+    native=by_name['depth_cut1']['variants']['solar_broadening']
+    definitions=[('temperature','linear','holdout_interp_5750'),('temperature','log_positive','holdout_log_5750'),
+        ('temperature','log_positive_layers','holdout_mesh_5750'),('gravity','linear','holdout_logg_linear'),
+        ('gravity','log_positive','holdout_logg_log'),('gravity','log_positive_layers','holdout_logg_mesh')]
+    result['interpolation_holdouts']=[]
+    from pipeline.bride_reference import read_marcs_structure
+    from pipeline.bride_parameter_checks import interpolate_marcs_structure,marcs_filename
+    store=require_codex_path('grids.marcs_standard');native_structure=read_marcs_structure(store/marcs_filename(5750,4.5))
+    fieldmask=(native_structure['logtau_500']>=-3)&(native_structure['logtau_500']<=0)
+    for axis,method,name in definitions:
+        if name not in by_name:continue
+        c=by_name[name];held=c['variants']['solar_broadening'];inputs=c['inputs']
+        nodes=[]
+        for t in inputs['bracket_teff']:
+            for g in inputs['bracket_logg']:nodes.append(((t,g),read_marcs_structure(store/marcs_filename(t,g))))
+        reconstructed,_=interpolate_marcs_structure(nodes,(5750,4.5),thermodynamic_scale=method)
+        item=dict(axis=axis,method=method,name=name,
             area_difference_mA=[h['model_area_mA']-n['model_area_mA']for h,n in zip(held,native)],
-            interpretation='Independent native atmosphere interpolation error; do not confuse10K output sampling with physical accuracy')
+            area_relative_error_percent=[100*(h['model_area_mA']/n['model_area_mA']-1)for h,n in zip(held,native)],
+            structure_diagnostics_over_native_logtau500_minus3_to0=dict(
+                max_temperature_error_K=float(np.max(abs(reconstructed['temperature_K'][fieldmask]-native_structure['temperature_K'][fieldmask]))),
+                max_pressure_relative_error=float(np.max(abs(reconstructed['electron_pressure_Pa'][fieldmask]/native_structure['electron_pressure_Pa'][fieldmask]-1))),
+                max_density_relative_error=float(np.max(abs(reconstructed['rho_kg_m3'][fieldmask]/native_structure['rho_kg_m3'][fieldmask]-1))),
+                max_layer_thickness_relative_error=float(np.max(abs(np.diff(reconstructed['height_m'])[fieldmask[:-1]]/np.diff(native_structure['height_m'])[fieldmask[:-1]]-1)))))
+        result['interpolation_holdouts'].append(item)
+    fig,axes=plt.subplots(1,2,figsize=(10,4))
+    for ax,axis in zip(axes,('temperature','gravity')):
+        records=[r for r in result['interpolation_holdouts']if r['axis']==axis]
+        for i,centre in enumerate(centres):
+            ax.plot(range(len(records)),[abs(r['area_relative_error_percent'][i])for r in records],marker='o',label=f'{centre:.3f} A')
+        ax.set_xticks(range(len(records)),[r['method'].replace('log_positive_layers','log P/rho/layers').replace('log_positive','log P/rho')for r in records],rotation=15)
+        ax.set_yscale('log');ax.set_title(axis+' held-out native node');ax.set_ylabel('Absolute area error (%)');ax.legend(fontsize=7)
+    fig.tight_layout();fig.savefig(args.output/'interpolation_holdouts.png',dpi=160);plt.close(fig)
+    selected=[c for c in result['cases']if c['name'].startswith('meshfine_T')]
+    if selected:
+        fig,ax=plt.subplots(figsize=(11,4));ax.plot(wobs,fobs,color='black',label='Kitt Peak corrected2005')
+        for c in selected:
+            w,f=plotdata[c['name']];ax.plot(w,f,label=f"{c['inputs']['teff']}K")
+        ax.set_xlim(7770.5,7776.8);ax.set_ylim(.65,1.015);ax.legend(ncol=3,fontsize=8)
+        ax.set_title('Near-solar10K sequence, logg4.438, fixed O8.70; no fitting');ax.set_xlabel('Air wavelength (Angstrom)')
+        fig.tight_layout();fig.savefig(args.output/'fine_solar_profiles.png',dpi=160);plt.close(fig)
     with (args.output/'analysis.json').open('x')as f:json.dump(result,f,indent=2,allow_nan=False);f.write('\n')
     print(json.dumps(dict(successful_cases=len(result['cases']),failed_cases=result['failed_cases'],policy=result['orchestrator_policy']),indent=2))
 
