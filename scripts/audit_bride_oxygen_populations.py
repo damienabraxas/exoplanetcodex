@@ -195,6 +195,7 @@ def main():
                     np.testing.assert_allclose(wave, old['wavelength_air_A'], atol=1e-8, rtol=0)
                     mode_result['triplet_replay_max_absolute_difference'] = float(np.max(abs(norm-old['normalized_flux'])))
                 axes[wi].set(title=window, xlabel='Air wavelength (Angstrom)', ylabel='Normalized flux')
+                axes[wi].set_xlim(lo, hi)
             mode_result['elapsed_seconds'] = time.perf_counter()-mode_start
             result['modes'].append(mode_result)
             print(name, mode, mode_result['windows'], flush=True)
