@@ -32,10 +32,13 @@ def main():
     from pipeline.band_policy import check_intake
     from pipeline.prenormalised_guard import assert_data_matches_declaration
     from pipeline.reflected_solar_rv import SOLAR_GRAVITATIONAL_REDSHIFT
-    combined=[];summaries=[];seen=set()
+    combined=[];summaries=[];seen=set();common_physics=None
     for directory in [args.runs]+args.additional_runs:
         run=json.loads((directory/'summary.json').read_text())
         if run['status']!='EXPERIMENTS_FINISHED':raise ValueError('Experiments not finished')
+        identity=(run['atom'],run['context_builder'])
+        if common_physics is None:common_physics=identity
+        elif identity!=common_physics:raise ValueError('Cannot combine different atoms or context physics into one grid')
         summaries.append(dict(directory_id=directory.name,summary=fingerprint(directory/'summary.json')))
         for entry in run['cases']:
             if entry['name']in seen:raise ValueError('Duplicate case identity across runs')
