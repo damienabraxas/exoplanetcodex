@@ -25,7 +25,7 @@ def main():
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
     from pipeline.multi_atom import read_multi_atom
     from pipeline.bride_numerical_validation import physical_rate_matrix
-    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage
+    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage,marcs_filename,interpolate_marcs_structure
     from pipeline.bride_observables import flux_quadrature,integrate_flux
     from pipeline.wavelength_util import air_to_vac
     plan=json.loads(args.plan.read_text());controls=plan['controls']
@@ -54,14 +54,22 @@ def main():
         def save_case():(out/'manifest.json').write_text(json.dumps(m,indent=2,allow_nan=False)+'\n')
         save_case()
         try:
-            z=case.get('feh',0.);alpha=case.get('alpha',0.)
-            file=f"p{case['teff']}_g+{case['logg']:.1f}_m0.0_t01_st_z{z:+.2f}_a{alpha:+.2f}_c+0.00_n+0.00_o{alpha:+.2f}_r+0.00_s+0.00.mod"
-            path=require_codex_path('grids.marcs_standard')/file
-            original=read_marcs_structure(path)
+            z=case.get('feh',0.);alpha=case.get('alpha',0.);store=require_codex_path('grids.marcs_standard')
+            if case.get('interpolate',False):
+                nodes=[];sources=[]
+                for teff in case['bracket_teff']:
+                    for logg in case['bracket_logg']:
+                        path=store/marcs_filename(teff,logg,z,alpha)
+                        nodes.append(((teff,logg),read_marcs_structure(path)));sources.append(fingerprint(path))
+                original,interpolation=interpolate_marcs_structure(nodes,(case['teff'],case['logg']))
+                provenance=dict(kind='EXPERIMENTAL_INTERPOLATED_MARCS',sources=sources,interpolation=interpolation)
+            else:
+                path=store/marcs_filename(case['teff'],case['logg'],z,alpha)
+                original=read_marcs_structure(path);provenance=fingerprint(path)
             structure=controlled_structure(original,xi=case['xi'],drop_bottom=case['drop_bottom'])
             atom=replace(source,abundance=case['abundance'])
             assert_collision_coverage(atom,structure['temperature_K'])
-            m.update(atmosphere=fingerprint(path),original_depths=original['ndep'],retained_depths=structure['ndep'],
+            m.update(atmosphere=provenance,original_depths=original['ndep'],retained_depths=structure['ndep'],
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=True)
