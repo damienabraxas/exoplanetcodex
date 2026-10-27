@@ -2,6 +2,27 @@ import numpy as np
 import pytest
 
 
+def test_invalid_acceleration_retries_same_equation_once_without_clipping():
+    from types import SimpleNamespace as S
+    from pipeline.bride_parameter_checks import positive_stat_equil
+    active=S(n=np.array([[1.],[2.]]));before=active.n.copy()
+    class Context:
+        count=0
+        cleared=False
+        def stat_equil(self):
+            self.count+=1
+            active.n[:]=np.array([[-1.],[4.]]) if not self.cleared else np.array([[.5],[2.5]])
+        def clear_ng(self):
+            np.testing.assert_array_equal(active.n,before)
+            self.cleared=True
+    ctx=Context()
+    assert positive_stat_equil(ctx,active,before,reject_invalid_ng=True)
+    assert ctx.count==2
+    np.testing.assert_array_equal(active.n,[[.5],[2.5]])
+    ctx=Context();ctx.clear_ng=lambda:None
+    with pytest.raises(ValueError):positive_stat_equil(ctx,active,before,reject_invalid_ng=True)
+
+
 def test_directed_charge_exchange_preserves_source_order_and_log_interpolation():
     pytest.importorskip('lightweaver')
     from types import SimpleNamespace as S

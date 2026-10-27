@@ -25,7 +25,7 @@ def main():
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
     from pipeline.multi_atom import read_multi_atom
     from pipeline.bride_numerical_validation import physical_rate_matrix
-    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage,marcs_filename,interpolate_marcs_structure,diagnostic_collision_scaling
+    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage,marcs_filename,interpolate_marcs_structure,diagnostic_collision_scaling,positive_stat_equil
     from pipeline.bride_observables import flux_quadrature,integrate_flux
     from pipeline.wavelength_util import air_to_vac
     plan=json.loads(args.plan.read_text());controls=plan['controls']
@@ -93,14 +93,16 @@ def main():
                     old=active.n.copy();update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
                     matrix=active.Gamma;scale=np.max(abs(matrix),axis=1,keepdims=True)
                     if np.any(scale==0):raise ValueError('Disconnected SE equation')
-                    matrix[:]/=scale;ctx.stat_equil();n=active.n.copy()
+                    matrix[:]/=scale
+                    rejected=positive_stat_equil(ctx,active,old,reject_invalid_ng=controls.get('reject_invalid_ng',False))
+                    n=active.n.copy()
                     if not np.isfinite(n).all()or np.any(n<=0):raise ValueError('Invalid populations')
                     rates=physical_rate_matrix(active)
                     balance=np.einsum('ijd,jd->id',rates,n);flow=np.einsum('ijd,jd->id',abs(rates),n)
                     rate=float(np.max(abs(balance)/np.maximum(flow,np.finfo(float).tiny)))
                     delta=float(np.max(abs(n-old)/n));conservation=float(np.max(abs(n.sum(axis=0)/active.nTotal-1)))
                     entry=dict(iteration=iteration+1,population_change=delta,J_change=float(update.dJMax),
-                        physical_rate_residual=rate,particle_conservation_error=conservation)
+                        physical_rate_residual=rate,particle_conservation_error=conservation,rejected_invalid_ng=bool(rejected))
                     history.write(json.dumps(entry,allow_nan=False)+'\n');history.flush()
                     if conservation>1e-10:raise ValueError('Particle conservation failed')
                     if iteration>=2 and max(delta,rate,update.dJMax)<controls['rtol']:break

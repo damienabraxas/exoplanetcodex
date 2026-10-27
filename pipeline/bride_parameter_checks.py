@@ -3,6 +3,23 @@ import copy
 import numpy as np
 
 
+def positive_stat_equil(ctx, active, previous, *, reject_invalid_ng):
+    """Retry an invalid accelerated update once with cleared Ng history.
+
+    Same physical equation/operator. A bad unaccelerated retry still fails;
+    no clipping, population floor or changed convergence tolerance is allowed.
+    """
+    ctx.stat_equil()
+    valid=lambda:np.isfinite(active.n).all() and np.all(active.n>0)
+    rejected=not valid()
+    if rejected and reject_invalid_ng:
+        active.n[:]=previous
+        ctx.clear_ng()
+        ctx.stat_equil()
+    if not valid():raise ValueError('Invalid populations')
+    return rejected
+
+
 def diagnostic_collision_scaling(atom, scales):
     """Copy and scale named collision classes for causal controls, never adoption."""
     allowed = {c.kind for c in atom.collisions}
