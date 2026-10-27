@@ -19,6 +19,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--runs',type=Path,required=True)
+    p.add_argument('--additional-runs',type=Path,nargs='*',default=[])
     p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
     if platform.system()!='Darwin':raise RuntimeError('Mac-only analysis request')
@@ -30,11 +31,17 @@ def main():
     from pipeline.band_policy import check_intake
     from pipeline.prenormalised_guard import assert_data_matches_declaration
     from pipeline.reflected_solar_rv import SOLAR_GRAVITATIONAL_REDSHIFT
-    run=json.loads((args.runs/'summary.json').read_text())
-    if run['status']!='EXPERIMENTS_FINISHED':raise ValueError('Experiments not finished')
-    for entry in run['cases']:
-        if fingerprint(args.runs/entry['name']/'manifest.json')!=entry['manifest']:
-            raise ValueError('Changed case manifest')
+    combined=[];summaries=[];seen=set()
+    for directory in [args.runs]+args.additional_runs:
+        run=json.loads((directory/'summary.json').read_text())
+        if run['status']!='EXPERIMENTS_FINISHED':raise ValueError('Experiments not finished')
+        summaries.append(fingerprint(directory/'summary.json'))
+        for entry in run['cases']:
+            if entry['name']in seen:raise ValueError('Duplicate case identity across runs')
+            seen.add(entry['name'])
+            if fingerprint(directory/entry['name']/'manifest.json')!=entry['manifest']:
+                raise ValueError('Changed case manifest')
+            combined.append((directory,entry))
     holding='solar_kpno_kurucz2005_corrected';instrument='kpno_solar_atlas'
     permitted,reason=gate_holding(holding,instrument)
     if not permitted:raise ValueError(reason)
@@ -72,7 +79,7 @@ def main():
     result=dict(schema='codex.bride_mac_sensitivity_analysis/1',
         scientific_admission='HOLD: no best-fit selection, no calibrated solar abundance or full uncertainty budget',
         generator=fingerprint(__file__),code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-        input_summary=fingerprint(args.runs/'summary.json'),host=run['host'],
+        input_summaries=summaries,host=run['host'],
         observation=fingerprint(observed_path),holding=holding,
         frame_contract=dict(observation_native='vacuum nm including solar gravitational redshift',
             comparison_and_plots='air Angstrom',engine_internal='vacuum nm',
@@ -107,8 +114,8 @@ def main():
                 min_flux=float(flux[mask].min()),minimum_at_air_A=float(wave[mask][flux[mask].argmin()]),
                 unweighted_RMS=float(np.sqrt(np.mean((flux[mask]-ongrid)**2)))))
         return values
-    for case in run['cases']:
-        path=args.runs/case['name'];m=json.loads((path/'manifest.json').read_text())
+    for directory,case in combined:
+        path=directory/case['name'];m=json.loads((path/'manifest.json').read_text())
         if m['status']!='CONVERGED_EXPERIMENT':
             result['failed_cases'].append(dict(name=case['name'],reason=m.get('error','unknown')));continue
         if fingerprint(path/'flux.csv')!=m['flux']:raise ValueError('Changed case spectrum')
@@ -139,6 +146,7 @@ def main():
         ('Microturbulence (fixed atmosphere)',['baseline','xi_minus','xi_plus','xi_low','xi_high']),
         ('Teff (common bottom cut)',['depth_cut1','teff_low_cut1','teff_high_cut1']),
         ('Gravity',['baseline','logg_low','logg_high']),
+        ('Metal mixture (common bottom cut; native alpha pattern)',['depth_cut1','metal_low_cut1','metal_high_cut1']),
         ('Abundance probes (not fits)',['baseline','abundance_minus','abundance_plus'])]
     fig,axes=plt.subplots(len(groups),1,figsize=(11,14),sharex=True)
     for ax,(title,names)in zip(axes,groups):

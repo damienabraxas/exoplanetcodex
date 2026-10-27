@@ -54,7 +54,8 @@ def main():
         def save_case():(out/'manifest.json').write_text(json.dumps(m,indent=2,allow_nan=False)+'\n')
         save_case()
         try:
-            file=f"p{case['teff']}_g+{case['logg']:.1f}_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod"
+            z=case.get('feh',0.);alpha=case.get('alpha',0.)
+            file=f"p{case['teff']}_g+{case['logg']:.1f}_m0.0_t01_st_z{z:+.2f}_a{alpha:+.2f}_c+0.00_n+0.00_o{alpha:+.2f}_r+0.00_s+0.00.mod"
             path=require_codex_path('grids.marcs_standard')/file
             original=read_marcs_structure(path)
             structure=controlled_structure(original,xi=case['xi'],drop_bottom=case['drop_bottom'])
