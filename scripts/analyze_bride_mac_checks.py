@@ -130,7 +130,7 @@ def main():
         return values
     for directory,case in combined:
         path=directory/case['name'];m=json.loads((path/'manifest.json').read_text())
-        if m.get('diagnostic_collision_scales'):
+        if m.get('diagnostic_collision_scales') or m.get('experimental_collision_convention'):
             raise ValueError('Diagnostic rate changes belong to the population audit, not the fixed-atom parameter grid')
         if m['status']!='CONVERGED_EXPERIMENT':
             result['failed_cases'].append(dict(name=case['name'],reason=m.get('error','unknown')));continue

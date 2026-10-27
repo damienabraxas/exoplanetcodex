@@ -78,6 +78,14 @@ def main():
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=True)
+            convention=case.get('experimental_collision_convention')
+            if convention:
+                if convention not in ('directed_CH0_logT','gencol_CH_down_directed_CH0_logT'):
+                    raise ValueError('Unknown experimental collision convention')
+                from pipeline.bride_gencol_controls import install_gencol_control
+                install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))
+                m['experimental_collision_convention']=convention
+                m['interpretation']+='; non-adopted GENCOL convention experiment, exact reference-build parity unproven'
             active=ctx.activeAtoms[0]
             with (out/'history.jsonl').open('x')as history:
                 for iteration in range(controls['maxiter']):
