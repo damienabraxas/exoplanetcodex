@@ -25,7 +25,7 @@ def main():
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
     from pipeline.multi_atom import read_multi_atom
     from pipeline.bride_numerical_validation import physical_rate_matrix
-    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage,marcs_filename,interpolate_marcs_structure
+    from pipeline.bride_parameter_checks import controlled_structure,assert_collision_coverage,marcs_filename,interpolate_marcs_structure,diagnostic_collision_scaling
     from pipeline.bride_observables import flux_quadrature,integrate_flux
     from pipeline.wavelength_util import air_to_vac
     plan=json.loads(args.plan.read_text());controls=plan['controls']
@@ -69,7 +69,10 @@ def main():
                 path=store/marcs_filename(case['teff'],case['logg'],z,alpha)
                 original=read_marcs_structure(path);provenance=fingerprint(path)
             structure=controlled_structure(original,xi=case['xi'],drop_bottom=case['drop_bottom'])
-            atom=replace(source,abundance=case['abundance'])
+            scales=case.get('diagnostic_collision_scales',{})
+            atom=replace(diagnostic_collision_scaling(source,scales),abundance=case['abundance'])
+            m['diagnostic_collision_scales']=scales
+            if scales:m['interpretation']+='; explicit collision-class scaling is a causal sensitivity control, not adopted atomic data'
             assert_collision_coverage(atom,structure['temperature_K'])
             m.update(atmosphere=provenance,original_depths=original['ndep'],retained_depths=structure['ndep'],
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],

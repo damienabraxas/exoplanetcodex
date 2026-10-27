@@ -3,6 +3,19 @@ import copy
 import numpy as np
 
 
+def diagnostic_collision_scaling(atom, scales):
+    """Copy and scale named collision classes for causal controls, never adoption."""
+    allowed = {c.kind for c in atom.collisions}
+    if set(scales)-allowed:
+        raise ValueError('Unknown collision class in diagnostic scaling')
+    if any(not np.isfinite(v) or v <= 0 for v in scales.values()):
+        raise ValueError('Collision scales must be positive and finite')
+    result = copy.deepcopy(atom)
+    for collision in result.collisions:
+        collision.rates *= scales.get(collision.kind, 1.)
+    return result
+
+
 def marcs_filename(teff,logg,feh=0.,alpha=0.):
     return f'p{teff}_g+{logg:.1f}_m0.0_t01_st_z{feh:+.2f}_a{alpha:+.2f}_c+0.00_n+0.00_o{alpha:+.2f}_r+0.00_s+0.00.mod'
 
