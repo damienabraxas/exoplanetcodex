@@ -34,15 +34,15 @@ def test_full_structure_interpolation_recovers_affine_fields_endpoints_and_rejec
                 electron_pressure_Pa=np.full(4,teff/100+logg),rho_kg_m3=np.full(4,teff/10000+logg/10),
                 logtau_ross=np.arange(4.),logtau_500=np.arange(4.)+.01*logg)
             nodes.append(((teff,logg),s))
-    result,metadata=interpolate_marcs_structure(nodes,(5772,4.438))
+    result,metadata=interpolate_marcs_structure(nodes,(5772,4.438),thermodynamic_scale='linear')
     np.testing.assert_allclose(result['temperature_K'],np.arange(4.)+5772+44.38)
     np.testing.assert_allclose(result['rho_kg_m3'],5772/10000+4.438/10)
     assert sum(metadata['weights'])==pytest.approx(1)
-    endpoint,_=interpolate_marcs_structure(nodes,(5750,4.))
+    endpoint,_=interpolate_marcs_structure(nodes,(5750,4.),thermodynamic_scale='linear')
     np.testing.assert_array_equal(endpoint['temperature_K'],nodes[0][1]['temperature_K'])
-    with pytest.raises(ValueError,match='outside'):interpolate_marcs_structure(nodes,(5700,4.438))
+    with pytest.raises(ValueError,match='outside'):interpolate_marcs_structure(nodes,(5700,4.438),thermodynamic_scale='linear')
     nodes[0][1]['logtau_ross'][0]=-.2
-    with pytest.raises(ValueError,match='layer grid'):interpolate_marcs_structure(nodes,(5772,4.438))
+    with pytest.raises(ValueError,match='layer grid'):interpolate_marcs_structure(nodes,(5772,4.438),thermodynamic_scale='linear')
 
 
 def test_log_pressure_density_interpolation_recovers_multiplicative_laws():

@@ -234,3 +234,38 @@ Updated the now-brittle inline-conversion test to exercise shared-reader behavio
 the data/measurement route itself retains identical conversion and normalization.
 No new physics bug was identified; no fake bug-ledger row added. Registerv177 and
 SEQUENCE record the new observation diagnostic and open scientific controls.
+
+## Ryan-directed Mac controls and10K resolution
+
+Ryan moved science compute to the Mac to avoid Sirius contention, requested
+temperature/xi/other parameter responses and10K sampling, and reiterated the
+adaptive/full3D/all-band/own-grid objective. All36 new1D solves ran serially on
+Darwin arm64/one thread/nice15, with no new Sirius science job or dependencies.
+Native Teff/logg/mixture controls, xi pairs/wide probes, abundance probes and depth
+controls are completed; canonical iSpec broadening and frame controls are separate.
+
+See [mac_controls_review.md](mac_controls_review.md) for the full case/evidence
+matrix. Native held-out atmosphere tests uncovered large error in linear pressure/
+height interpolation. Density-retaining, positive-layer coordinates reduced tested
+temperature/gravity area error to~0.2–0.4% without using Kitt Peak as the target.
+Five fresh NLTE solves at5752/5762/5772/5782/5792K resolve the requested10K sequence
+with that prototype; this is not universal10K physical accuracy. The experimental
+5772/4.438/O8.70 profile remains18–19% below observed window absorption.
+
+All comparisons use air Angstrom; delivered Kitt Peak2005 vacuum nm is converted
+once, engine frequencies remain vacuum, and solar gravitational redshift is a
+separate control. Canonical ORCH policy serves the corrected pre-normalized atlas
+unchanged. No continuum/RV/abundance/width optimizer or second telluric correction.
+
+46 registered artifacts archive five source summaries,36 manifests, compact full
+profile vectors and an experimental grid index with population hashes/relative
+paths at experiments.bride_mac_grid. Full raw experiment outputs remain on Mac.
+Generator/plan/atom/atmosphere identities are preserved.163LW/regression tests and
+14project-side policy/effects checks pass. Source environment and analysis iSpec
+hash/versions are stamped. All owned science jobs have finished.
+
+The [adaptive roadmap](../../decisions/bride_adaptive_direction_rya1281.md) keeps
+typed grid/atom/backend capabilities, independent held-out error controls, own
+NLTE/atmosphere/3D grid-generation levels and a later qualified Gaia-identified
+stellar benchmark explicit. Current capability remains experimental1D O777,
+not a solved universal atmosphere/full3D/all-band model. State registerv178.

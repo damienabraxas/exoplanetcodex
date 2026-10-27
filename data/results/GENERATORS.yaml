@@ -24828,3 +24828,335 @@ artifacts:
     ticket: RYA-1281
     note: Fixed A8.70 benchmark diagnostic, no abundance fit/admission; use new output directory. Companion plot copied
       to data/output/rya1281/kitt_peak_fixed_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/baseline/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/depth_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/depth_cut2/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_minus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_plus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_low/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_high/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/teff_low_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/teff_high_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/logg_low/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/logg_high/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/abundance_minus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/abundance_plus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/metal_low_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/metal_high_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/holdout_interp_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_log_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_logg_linear/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_logg_log/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/holdout_mesh_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/holdout_logg_mesh/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/analysis.json
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/grid_index.json
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/profile_grid.npz
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/baseline_profiles.csv
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/meshfine_T5772_profiles.csv
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.

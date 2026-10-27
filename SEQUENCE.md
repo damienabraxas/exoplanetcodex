@@ -1,5 +1,6 @@
 ## 2026-10-26 — Bride oxygen validation experiments
 
+- **RYA-1281** —36 Mac NLTE controls,10K grid and positive-layer holdouts; solar O777 remains18–19% weak; adaptive/full3D roadmap open.
 - **RYA-1281** — first corrected Kitt Peak flux comparison at fixed O8.70; window absorption21–22% low; no abundance fit/admission.
 - **RYA-1281** — three converged O reference-node spectra; sampling/initialization controls stable; MULTI mismatch keeps admission open.
 

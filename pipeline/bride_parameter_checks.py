@@ -7,7 +7,7 @@ def marcs_filename(teff,logg,feh=0.,alpha=0.):
     return f'p{teff}_g+{logg:.1f}_m0.0_t01_st_z{feh:+.2f}_a{alpha:+.2f}_c+0.00_n+0.00_o{alpha:+.2f}_r+0.00_s+0.00.mod'
 
 
-def interpolate_marcs_structure(nodes,target,*,thermodynamic_scale='linear'):
+def interpolate_marcs_structure(nodes,target,*,thermodynamic_scale):
     """Experimental linear-simplex interpolation on native common tauRoss layers.
 
     Uses the SciPy primitive used by iSpec, retaining density as well as T/Pe/

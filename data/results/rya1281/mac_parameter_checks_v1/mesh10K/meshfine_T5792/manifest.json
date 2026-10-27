@@ -1,0 +1,96 @@
+{
+  "case": {
+    "name": "meshfine_T5792",
+    "teff": 5792,
+    "logg": 4.438,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 1,
+    "interpolate": true,
+    "bracket_teff": [
+      5750,
+      6000
+    ],
+    "bracket_logg": [
+      4.0,
+      4.5
+    ],
+    "thermodynamic_scale": "log_positive_layers"
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "threads": 1,
+  "interpretation": "Full thermodynamic-field interpolation on common native tauRoss layers; not a fresh atmosphere-equilibrium solution",
+  "atmosphere": {
+    "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+    "sources": [
+      {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      },
+      {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    ],
+    "interpolation": {
+      "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+      "thermodynamic_scale": "log_positive_layers",
+      "target": [
+        5792.0,
+        4.438
+      ],
+      "simplex_source_indices": [
+        3,
+        1,
+        0
+      ],
+      "weights": [
+        0.168,
+        0.7079999999999994,
+        0.12400000000000055
+      ]
+    }
+  },
+  "original_depths": 56,
+  "retained_depths": 55,
+  "temperature_range_K": [
+    4077.8132,
+    9693.398799999999
+  ],
+  "bottom_logtau500": 1.5767339999999999,
+  "iterations": 767,
+  "final_diagnostics": {
+    "iteration": 767,
+    "population_change": 3.375439594556849e-07,
+    "J_change": 3.5706661094536685e-07,
+    "physical_rate_residual": 1.687540853503997e-14,
+    "particle_conservation_error": 8.881784197001252e-16
+  },
+  "elapsed_seconds": 52.81350854225457,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "62fbde346e3ea4454a27d96b3015cdf937b3e2a6fe525352c18e074df7edb323"
+  },
+  "continuum_iterations": 36
+}
