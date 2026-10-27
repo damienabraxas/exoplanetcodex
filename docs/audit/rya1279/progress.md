@@ -269,3 +269,14 @@ typed grid/atom/backend capabilities, independent held-out error controls, own
 NLTE/atmosphere/3D grid-generation levels and a later qualified Gaia-identified
 stellar benchmark explicit. Current capability remains experimental1D O777,
 not a solved universal atmosphere/full3D/all-band model. State registerv178.
+
+## 2026-10-27 population-audit checkpoint
+
+Continued at d82e30e1, refreshed main remains 0ade2170. Four serial one-thread
+Mac collision controls converged under the unchanged joint gate; matched
+LTE/NLTE/external-departure replay and O6300/O6158 diagnostics completed.
+See population_audit_review.md for exact commands, measurements, preserved
+development runs, scope, failures and next work. No source data, adopted
+abundance, production gate, merge or publication changed. Full outputs remain
+in registered bride_mac_grid; compact review copies and plots are committed.
+Register v179 records the population finding and blend work still owed.

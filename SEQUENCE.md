@@ -1,3 +1,7 @@
+## 2026-10-27 — Bride oxygen population audit
+
+- **RYA-1281** — matched LTE/NLTE, independent departures and CE/CH controls isolate population mismatch; O6300/O6158 blends remain owed.
+
 ## 2026-10-26 — Bride oxygen validation experiments
 
 - **RYA-1281** —36 Mac NLTE controls,10K grid and positive-layer holdouts; solar O777 remains18–19% weak; adaptive/full3D roadmap open.

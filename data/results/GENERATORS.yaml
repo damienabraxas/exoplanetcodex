@@ -25160,3 +25160,138 @@ artifacts:
     ticket: RYA-1281
     note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
       in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/population_audit_v1/CE_x0.1_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CE_x10_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CH_x0.1_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CH_x10_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CE_x0.1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CE_x10/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CH_x0.1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CH_x10/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_departures.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/report.json
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_departures.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.

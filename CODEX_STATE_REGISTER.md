@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v178** · _Last updated: 2026-10-26 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v179** · _Last updated: 2026-10-27 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation |36 new Mac1D NLTE controls and experimental10K grid; adaptive/full3D roadmap recorded, physical admission open | Teff/xi/logg/abundance/mixture/broadening/RV controls; positive-layer interpolation reduces native holdout area errors to~0.2–0.4%; interpolated solar5772/4.438/O8.70 remains18–19% below Kitt Peak; air comparison and frozen holding policy verified; MULTI discrepancy remains | RYA-1278/1281; docs/audit/rya1279/mac_controls_review.md; docs/decisions/bride_adaptive_direction_rya1281.md; data/results/rya1281/mac_parameter_checks_v1/grid_index.json; PR #598 | PENDING | Matched atom/opacity/EOS reference and independent stellar benchmark before abundance/production; horizontal3D/all-band capability remains a separate gate |
+| Bride O-first foundation | Matched LTE/NLTE and independent-departure replay; four Mac collision controls and O6300/O6158 diagnostics completed; admission open | Native triplet local NLTE enhancement only ~1%; external departure replay adds 11–13%. CE/CH controls do not close the population mismatch. Additional O windows require mixed-opacity blends; no abundance fit | RYA-1278/1281; docs/audit/rya1279/population_audit_review.md; data/results/rya1281/population_audit_v1/report.json; PR #598 | PENDING | Matched per-process rates/radiation/opacity/EOS and qualified blends before solar-element expansion, then independent stellar benchmark; horizontal3D/all-band remain separate gates |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -307,6 +307,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v179** (2026-10-27) — **RYA-1281 population audit.** Mac matched LTE/NLTE and normalized independent-departure replay isolate a substantial population-pattern effect; four predeclared CE/CH controls converge but do not close it. O6300/O6158 oxygen-only flux diagnostics and canonical candidate blends recorded. Source rates, raw spectra, gold and adopted abundance unchanged; no production/full3D admission. See docs/audit/rya1279/population_audit_review.md.
 - **v178** (2026-10-26) — **RYA-1281 Mac controlled checks.** Ryan-authorized Mac exception:36 serial1D NLTE cases,10K near-solar sequence, canonical observation policy and air/vacuum canary. Native holdouts expose naive interpolation error; log pressure/density/positive-layer prototype reduces tested area errors to~0.2–0.4%. Solar parameter case still18–19% weak. Experimental grid index46 registered artifacts;163LW/regression and14project checks pass. No new Sirius science jobs, adopted abundance, full3D token, merge or publication. Adaptive own-grid/all-band roadmap is a proposal, not completed capability.
 
 - **v177** (2026-10-26) — **RYA-1281 first Kitt Peak comparison.** Fixed-population replay produces disk-integrated flux and a separate line-free continuum; corrected2005 atlas retains its published normalization. Three±0.5Å absorption areas fall21–22% below observation; intrinsic broadening/benchmark-atmosphere and MULTI caveats remain. Replay identity and angular checks pass; no abundance/RV/width/continuum fit.158focused local and20targeted Sirius tests pass; extra route checks retain one reproduced pre-existing failure. No adopted result, production or full3D gate changes.
