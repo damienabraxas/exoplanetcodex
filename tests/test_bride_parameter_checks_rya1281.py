@@ -43,3 +43,17 @@ def test_full_structure_interpolation_recovers_affine_fields_endpoints_and_rejec
     with pytest.raises(ValueError,match='outside'):interpolate_marcs_structure(nodes,(5700,4.438))
     nodes[0][1]['logtau_ross'][0]=-.2
     with pytest.raises(ValueError,match='layer grid'):interpolate_marcs_structure(nodes,(5772,4.438))
+
+
+def test_log_pressure_density_interpolation_recovers_multiplicative_laws():
+    from pipeline.bride_parameter_checks import interpolate_marcs_structure
+    nodes=[]
+    for t in (5750,6000):
+        for g in (4.,4.5):
+            nodes.append(((t,g),dict(ndep=4,abundances_dex=[12.],hydrogen_mass_fraction=.74,
+                model_id='fixture',vturb_m_s=1000.,logg_cgs=g,height_m=np.array([3.,2.,1.,0.]),
+                temperature_K=np.full(4,t),electron_pressure_Pa=np.full(4,np.exp(t/1000+g)),
+                rho_kg_m3=np.full(4,np.exp(t/2000-g)),logtau_ross=np.arange(4.),logtau_500=np.arange(4.))))
+    out,_=interpolate_marcs_structure(nodes,(5772,4.438),thermodynamic_scale='log_positive')
+    np.testing.assert_allclose(out['electron_pressure_Pa'],np.exp(5.772+4.438),rtol=1e-13)
+    np.testing.assert_allclose(out['rho_kg_m3'],np.exp(2.886-4.438),rtol=1e-13)

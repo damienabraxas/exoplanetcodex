@@ -61,8 +61,10 @@ def main():
                     for logg in case['bracket_logg']:
                         path=store/marcs_filename(teff,logg,z,alpha)
                         nodes.append(((teff,logg),read_marcs_structure(path)));sources.append(fingerprint(path))
-                original,interpolation=interpolate_marcs_structure(nodes,(case['teff'],case['logg']))
+                original,interpolation=interpolate_marcs_structure(nodes,(case['teff'],case['logg']),
+                    thermodynamic_scale=case.get('thermodynamic_scale','linear'))
                 provenance=dict(kind='EXPERIMENTAL_INTERPOLATED_MARCS',sources=sources,interpolation=interpolation)
+                m['interpretation']='Full thermodynamic-field interpolation on common native tauRoss layers; not a fresh atmosphere-equilibrium solution'
             else:
                 path=store/marcs_filename(case['teff'],case['logg'],z,alpha)
                 original=read_marcs_structure(path);provenance=fingerprint(path)

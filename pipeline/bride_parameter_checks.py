@@ -7,7 +7,7 @@ def marcs_filename(teff,logg,feh=0.,alpha=0.):
     return f'p{teff}_g+{logg:.1f}_m0.0_t01_st_z{feh:+.2f}_a{alpha:+.2f}_c+0.00_n+0.00_o{alpha:+.2f}_r+0.00_s+0.00.mod'
 
 
-def interpolate_marcs_structure(nodes,target):
+def interpolate_marcs_structure(nodes,target,*,thermodynamic_scale='linear'):
     """Experimental linear-simplex interpolation on native common tauRoss layers.
 
     Uses the SciPy primitive used by iSpec, retaining density as well as T/Pe/
@@ -28,8 +28,13 @@ def interpolate_marcs_structure(nodes,target):
     target=np.asarray(target,dtype=float);tri=Delaunay(points)
     simplex=int(tri.find_simplex(target))
     if simplex<0:raise ValueError('Target outside atmosphere interpolation hull; no nearest fallback')
+    if thermodynamic_scale not in ('linear','log_positive'):raise ValueError('Unknown thermodynamic interpolation convention')
     values=np.stack([np.column_stack([s[k]for k in names])for p,s in nodes])
+    if thermodynamic_scale=='log_positive':
+        if np.any(values[:,:,[2,3]]<=0):raise ValueError('Nonpositive pressure/density input')
+        values[:,:,[2,3]]=np.log(values[:,:,[2,3]])
     actual=LinearNDInterpolator(tri,values)([target])[0]
+    if thermodynamic_scale=='log_positive':actual[:,[2,3]]=np.exp(actual[:,[2,3]])
     if not np.isfinite(actual).all():raise ValueError('Nonfinite interpolated structure')
     result=copy.deepcopy(reference)
     for i,name in enumerate(names):result[name]=actual[:,i].copy()
@@ -40,6 +45,7 @@ def interpolate_marcs_structure(nodes,target):
     partial=tri.transform[simplex,:2].dot(target-tri.transform[simplex,2])
     weights=np.r_[partial,1-partial.sum()]
     return result,dict(method='SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve',
+                       thermodynamic_scale=thermodynamic_scale,
                        target=target.tolist(),simplex_source_indices=tri.simplices[simplex].tolist(),weights=weights.tolist())
 
 

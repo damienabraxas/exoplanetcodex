@@ -1,0 +1,164 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Predeclared log-Pe/log-rho experimental interpolation: native MARCS interpolator uses log-pressure; density extension is separately tested. Held-out temperature and gravity native nodes judge interpolation, not observed spectra.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized Mac experiment",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "logfine_T5752",
+      "teff": 5752,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "name": "logfine_T5762",
+      "teff": 5762,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "name": "logfine_T5772",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "name": "logfine_T5782",
+      "teff": 5782,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "name": "logfine_T5792",
+      "teff": 5792,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "name": "holdout_log_5750",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5500,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        5.0
+      ],
+      "name": "holdout_logg_linear",
+      "thermodynamic_scale": "linear"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 1,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        5.0
+      ],
+      "name": "holdout_logg_log",
+      "thermodynamic_scale": "log_positive"
+    }
+  ]
+}
