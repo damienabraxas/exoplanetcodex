@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 from dataclasses import replace
 from importlib.metadata import version
 import json
@@ -63,6 +64,8 @@ def main():
         raise ValueError('Changed corrected Kitt Peak holding')
     args.output.mkdir(parents=True, exist_ok=False)
     report = dict(schema='codex.bride_population_audit/1', scientific_admission='HOLD',
+        status='RUNNING', host=dict(system=platform.system(), machine=platform.machine()),
+        environment={k: version(k) for k in ('lightweaver', 'numpy', 'scipy', 'numba')},
         code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         generator=fingerprint(__file__), context_builder=fingerprint(ROOT/'pipeline/bride_reference.py'),
         reference=fingerprint(args.reference), atom=fingerprint(atom_path), observation=fingerprint(observed),
@@ -82,6 +85,21 @@ def main():
     windows = [('triplet', 7768., 7780., [7771.944, 7774.166, 7775.388], .5),
                ('forbidden6300', 6299., 6302., [6300.304], .3),
                ('permitted6158', 6155., 6161., [6158.19], .5)]
+    canonical_path = ROOT/'data/linelists/canonical_gf.csv'
+    with canonical_path.open() as stream:
+        canonical = list(csv.DictReader(stream))
+    report['canonical_atomic_inventory_source'] = fingerprint(canonical_path)
+    report['canonical_atomic_inventory_scope'] = 'Candidate rows by wavelength only; not strengths, blend completeness or admitted transitions. No molecular inventory.'
+    report['canonical_atomic_inventory'] = {
+        name: [row for row in canonical if any(abs(float(row['wavelength_air_A'])-c) <= half for c in centres)]
+        for name, _, _, centres, half in windows}
+    for line in report['oxygen_transitions']:
+        candidates = [r for r in canonical if r['species'] == 'O I' and abs(float(r['wavelength_air_A'])-line['wavelength_air_A']) < .1]
+        line['nearby_canonical_O_rows'] = [dict(line_id=r['line_id'], wavelength_air_A=float(r['wavelength_air_A']),
+            loggf=float(r['log_gf']), atom_minus_canonical_loggf=line['loggf']-float(r['log_gf'])) for r in candidates]
+    from lightweaver import rh_atoms
+    report['native_passive_atom_source'] = fingerprint(rh_atoms.__file__)
+    report['blend_handling'] = 'Only O is detailed static. Passive species supply native LW background; neighbouring atomic bound-bound blends and molecules are absent. Never multiply independent normalized spectra to simulate mixed opacity.'
     for name, relative in [('native5750', 'rya1281-v1/baseline'),
                            ('solar5772', 'rya1281-mesh-v1/meshfine_T5772')]:
         origin = grid/relative
