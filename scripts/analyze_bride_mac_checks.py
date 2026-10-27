@@ -105,6 +105,10 @@ def main():
     result['capability_contract']=dict(geometry='1D plane-parallel',horizontal_radiative_transfer=False,
         full_3D=False,full_spectrum_validated=False,output_air_A=[7768.,7780.],
         observational_comparison='O I777nm triplet, normalized disk-integrated flux',
+        microturbulence_scope='Line/SE microturbulence at fixed native MARCS t01 atmospheric structure',
+        abundance_scope='Trace oxygen offsets; source background composition retained apart from explicit O override',
+        background_scope='Native LW passive atoms/default continuum, no complete weak-blend/molecular spectrum',
+        interpolation_scope='Native nodes and explicitly labeled experimental full-field interpolants; no fresh atmosphere/EOS equilibrium solve',
         raw_model_flux='Stellar surface Fnu; not absolute Earth irradiance. Distance dilution cancels only in normalized comparison.',
         physics_admission='HOLD: experimental native/interpolated atmospheres and full41-level atom; original MULTI discrepancy open')
     science_python=require_codex_path('engines.bride_eval')/'.venv/bin/python'
