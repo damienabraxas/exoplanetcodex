@@ -239,13 +239,41 @@ def _telluric_own_sky(instrument, holding, w0, hw) -> dict:
 
 _OWN_SKY_CACHE: dict = {}
 
+#: RYA-1250: holdings with NO independent telluric correction anywhere, bounded by a ratio
+#: measured on the same instrument's J arm, as already PUBLISHED for CO K (RYA-1232).
+RATIO_FROM_PUBLISHED = {"solar_crires_plus_k_rya1219":
+                        "data/results/rya1232/products/CI_MOL_CO_K_crires_plus_solar_crires_plus_k_rya1219_SYNTH_MOL-CO_K_products.csv"}
+
+
+def _published_ratio(rel: str) -> float | None:
+    """The J-arm residual/absorption ratio recorded in a published product's budget."""
+    p = ROOT / rel
+    if not p.exists():
+        return None
+    m = re.findall(r"residual_to_absorption_ratio[^0-9]*([0-9.]+(?:e-?[0-9]+)?)", p.read_text())
+    vals = {round(float(x), 6) for x in m}
+    return vals.pop() if len(vals) == 1 else None
+
 
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     if holding == "solar_crires_plus_h_rya1094":
         # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
         # mtrans of our Vesta IDPs) and the independent correction is our molecfit.
         from pipeline.crires_h_sky import telluric_line as _h
-        return _h(w0, hw)
+        ev = _h(w0, hw)
+        if ev.get("residual_flux") is None and ev.get("sky_absorption") is None:
+            # RYA-1250: outside every Vesta segment there is no independent correction, but the
+            # sky is still measured: our full-arm molecfit of the same night (rya1232's
+            # min_mtrans). The caller bounds the residual from a measured ratio.
+            own = _telluric_own_sky(instrument, "solar_crires_plus_h_rya1232", w0, hw)
+            own["residual_basis"] = (ev["residual_basis"] + "; sky = solar_crires_plus_h_rya1232 "
+                                     "min_mtrans (same night)")
+            if own.get("sky_absorption") == 0.0:
+                own["residual_flux"] = 0.0
+            else:
+                own["residual_flux"] = None
+            return own
+        return ev
     import measure_band_ew as H
     from pipeline import telluric_observability as T
     if holding in _OWN_SKY:
@@ -397,6 +425,25 @@ def _hfs_thin_evidence(rows: pd.DataFrame) -> dict | None:
             return None
         out[f"{w:.3f}"] = {"n_components": int(len(c)), "max_component_depth": d}
     return {"lines": out, "threshold_depth": HFS_THIN_DEPTH} if out else None
+
+
+HFS_COLLAPSE = ROOT / "data/results/rya1250/mg_hfs_collapse.csv"
+
+
+def _hfs_collapse_bound(rows: pd.DataFrame) -> dict | None:
+    """{sigma_dex, lines} when every split line has a measured collapse bound, else None."""
+    if rows.empty or not HFS_COLLAPSE.exists():
+        return None
+    m = pd.read_csv(HFS_COLLAPSE).set_index("physical_id")["dA_collapse_dex"]
+    out = {}
+    for pid, w in zip(rows.physical_id, rows.wavelength_air_A):
+        d = m.get(pid)
+        if d is None and _hfs_thin_evidence(rows[rows.physical_id == pid]) is not None:
+            d = 0.0                                  # this line alone is thin: 0 by that limit
+        if d is None or not np.isfinite(d):
+            return None
+        out[f"{float(w):.3f}"] = float(d)
+    return {"sigma_dex": max(abs(v) for v in out.values()), "lines": out}
 
 
 def _gf_covariance(sig, src, tags):
@@ -574,13 +621,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
     g = gf[gf["species"] == species]
     ids, sig, src, tags = [], [], [], []
+    from pipeline.gf_resolver import EPTOL, WTOL
     for _, l in acc.iterrows():
-        m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
-              & ((g.excitation_potential_eV - l.ep_eV).abs() < 0.005)]
-        if len(m) != 1:
-            return {"row": row, "skip": f"{l.wavelength_air_A}: {len(m)} canonical_gf rows "
+        # RYA-1250: the row the SYNTHESIS used -- gf_resolver.resolve's own window and
+        # nearest-wavelength pick. A tighter join (0.01 A / 0.005 eV) refused 4 Mg lines whose
+        # row sits 0.012-0.018 A from the list position, though the synthesis priced them.
+        m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= WTOL)
+              & ((g.excitation_potential_eV - l.ep_eV).abs() <= EPTOL)]
+        if m.empty:
+            return {"row": row, "skip": f"{l.wavelength_air_A}: 0 canonical_gf rows "
                                         f"on lambda+EP -- refusing a lambda-only join (RYA-1037)"}
-        m = m.iloc[0]
+        m = m.loc[(m.wavelength_air_A - l.wavelength_air_A).abs().idxmin()]
         ids.append(str(m.physical_id))
         s = float(m.gf_sigma_dex)
         ref = str(m.gf_source_doi if pd.notna(m.gf_source_doi) and str(m.gf_source_doi).strip()
@@ -768,6 +819,14 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                 #: on this product's covered lines. No covered ratio -> still unresolved.
                 ratios = [e["residual_flux"] / e["sky_absorption"] for _, _, e in evs
                           if e.get("residual_flux") is not None and (e.get("sky_absorption") or 0) > 0]
+                transferred = None
+                if not ratios and holding in RATIO_FROM_PUBLISHED:
+                    # RYA-1250: no covered line in this product. As the published CO K product
+                    # (RYA-1232): the residual/absorption ratio MEASURED on the J arm -- same
+                    # instrument, night and molecfit pipeline -- read from that artifact.
+                    transferred = _published_ratio(RATIO_FROM_PUBLISHED[holding])
+                    if transferred is not None:
+                        ratios = [transferred]
                 for l, dadf, ev in evs:
                     if ev.get("residual_flux") is None:
                         if not ratios:
@@ -777,8 +836,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                             break
                         ev = dict(ev, residual_flux=ev["sky_absorption"] * max(ratios),
                                   residual_basis=(ev["residual_basis"] + "; BOUNDED: own sky "
-                                                  f"absorption x worst covered ratio {max(ratios):.3f} "
-                                                  f"(n={len(ratios)} covered lines)"))
+                                                  + (f"absorption x the J arm's measured ratio "
+                                                     f"{transferred:.4f} (published CO K precedent)"
+                                                     if transferred is not None else
+                                                     f"absorption x worst covered ratio {max(ratios):.3f} "
+                                                     f"(n={len(ratios)} covered lines)")))
                     s = abs(dadf) * ev["residual_flux"]
                     per.append({"wavelength_air_A": float(l.wavelength_air_A), "dA_df": dadf,
                                 "sigma_line_dex": s, **ev})
@@ -907,6 +969,19 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                       f"total gf regardless of the splitting; the components are "
                                       f"in the synthesis list (VALD lab HFS)"),
                               evidence=thin))
+        else:
+            # RYA-1250: a strong split line's term MEASURED as a bound -- the synthesis as run
+            # against the line collapsed to one component (total gf, gf-weighted centroid),
+            # matched in synthetic EW (scripts/rya1250_mg_hfs_term.py). Collapse is the
+            # extreme of every splitting error; the product takes its largest line's bound.
+            bound = _hfs_collapse_bound(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
+            if bound is not None:
+                comps.append(dict(name="hfs_isotopes", sigma_dex=bound["sigma_dex"],
+                                  state="MEASURED",
+                                  source=("bound: split vs collapsed synthesis, matched in "
+                                          "synthetic EW at A=7.56; the largest |dA| over the "
+                                          "pool's split lines (scripts/rya1250_mg_hfs_term.py)"),
+                                  evidence=bound))
     comps.append(dict(name="molecular_coupling", sigma_dex=None, state="N/A",
                       source="atomic product; the selector is not a MOL- indicator set",
                       evidence={"selector": selector}))

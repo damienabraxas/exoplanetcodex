@@ -126,3 +126,36 @@ def test_an_unpairable_product_is_held_not_fatal(tmp_path, monkeypatch):
     b.main()
     (o,) = json.loads(rep.read_text())["products"]
     assert o["skip"].startswith("UNPAIRABLE")
+
+
+def _budget_module():
+    spec = importlib.util.spec_from_file_location("budget", ROOT / "scripts/rya1230_cno_budget.py")
+    b = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(b)
+    return b
+
+
+def test_the_budget_gf_join_is_the_synthesis_join():
+    """15765.839 (list) sits 0.014 A from its canonical row 15765.825; the synthesis resolves
+    it (gf_resolver, 0.02 A) so the budget must too -- it HELD 21 Mg products."""
+    import pandas as pd
+    from pipeline import gf_resolver as gfr
+    g = pd.read_csv(ROOT / "data/linelists/canonical_gf.csv", low_memory=False)
+    g = g[g.species == "Mg I"]
+    for w, ep in ((15765.839, 5.9328), (15886.188, 5.9459), (9983.188, 5.9315), (10811.122, 5.9459)):
+        m = g[((g.wavelength_air_A - w).abs() <= gfr.WTOL) & ((g.excitation_potential_eV - ep).abs() <= gfr.EPTOL)]
+        assert len(m) >= 1, w
+    src = (ROOT / "scripts/rya1230_cno_budget.py").read_text()
+    assert "<= WTOL" in src and "< 0.01)" not in src
+
+
+def test_a_strong_split_line_takes_its_measured_collapse_bound(tmp_path, monkeypatch):
+    import pandas as pd
+    b = _budget_module()
+    f = tmp_path / "c.csv"
+    pd.DataFrame({"physical_id": ["p1", "p2"], "dA_collapse_dex": [0.004, -0.012]}).to_csv(f, index=False)
+    monkeypatch.setattr(b, "HFS_COLLAPSE", f)
+    monkeypatch.setattr(b, "_hfs_thin_evidence", lambda rows: None)
+    rows = pd.DataFrame({"physical_id": ["p1", "p2"], "wavelength_air_A": [1.0, 2.0]})
+    assert b._hfs_collapse_bound(rows)["sigma_dex"] == 0.012
+    assert b._hfs_collapse_bound(rows.assign(physical_id=["p1", "p3"])) is None   # unmeasured: HOLD

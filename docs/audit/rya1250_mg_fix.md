@@ -157,3 +157,22 @@ identical; the <3D> decks read directly. Now one directory per process (`default
 
 Commits `5566b66d` (blocking.nlte_missing forced to 0) and `f5e723c0`/`cddfd84b` (gf-sigma-less
 lines admitted) changed the orchestrator gate for every element. Left as is.
+
+## Run 4 holds and the three fixes (2026-10-27)
+
+Run 4 published VIS, red-optical and NIR, but held all H and K and 83 products in all:
+
+* **gf join (21 products).** The budget joined a line to its gf row within 0.01 A / 0.005 eV
+  and demanded one row; the synthesis (`gf_resolver.resolve`) uses 0.02 A / 0.02 eV and the
+  nearest row. 15765.84, 15886.19, 10811.12 (rows merged by this fix onto the VALD cluster
+  position) and 9983.19 (AGSS21 row stored as 9983.2, already on main) sat 0.012-0.018 A
+  off. The budget now joins exactly as the synthesis resolves.
+* **hfs_isotopes (58 products).** Zeroed only in the thin limit. Now MEASURED as a bound for
+  the 12 strong split Mg lines (`scripts/rya1250_mg_hfs_term.py`): split vs collapsed to one
+  component at the total gf, matched in synthetic EW at A = 7.56, plus the solve's residual.
+  |dA| <= 0.018 dex for 11 lines; 10811.11 (7 components) 0.078. A product takes its largest
+  line's bound (`data/results/rya1250/mg_hfs_collapse.csv`).
+* **telluric, CRIRES+ H/K.** H lines outside every Vesta molecfit segment take their sky from
+  our full-arm molecfit of the same night (rya1232 min_mtrans) and are bounded by the
+  product's covered ratio. K has no independent correction anywhere: bounded by the J arm's
+  measured residual/absorption ratio (0.1632), as the published CO K product already is.
