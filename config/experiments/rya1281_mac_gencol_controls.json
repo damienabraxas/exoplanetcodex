@@ -17,22 +17,22 @@
   "step_A": 0.005,
   "cases": [
     {
-      "name": "directed_CH0_logT",
+      "name": "directed_CH0_lograte",
       "teff": 5750,
       "logg": 4.5,
       "xi": 1.0,
       "abundance": 8.7,
       "drop_bottom": 0,
-      "experimental_collision_convention": "directed_CH0_logT"
+      "experimental_collision_convention": "directed_CH0_lograte"
     },
     {
-      "name": "gencol_CH_down_directed_CH0_logT",
+      "name": "gencol_CH_down_directed_CH0_lograte",
       "teff": 5750,
       "logg": 4.5,
       "xi": 1.0,
       "abundance": 8.7,
       "drop_bottom": 0,
-      "experimental_collision_convention": "gencol_CH_down_directed_CH0_logT"
+      "experimental_collision_convention": "gencol_CH_down_directed_CH0_lograte"
     }
   ]
 }

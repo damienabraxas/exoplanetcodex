@@ -80,7 +80,7 @@ def main():
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=True)
             convention=case.get('experimental_collision_convention')
             if convention:
-                if convention not in ('directed_CH0_logT','gencol_CH_down_directed_CH0_logT'):
+                if convention not in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
                     raise ValueError('Unknown experimental collision convention')
                 from pipeline.bride_gencol_controls import install_gencol_control
                 install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))
