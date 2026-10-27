@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 from dataclasses import asdict
 import inspect
+from importlib.metadata import version
 import json
 from pathlib import Path
 import platform
@@ -101,6 +102,7 @@ def main():
     science_python=require_codex_path('engines.bride_eval')/'.venv/bin/python'
     query="import json,platform;from importlib.metadata import version;print(json.dumps(dict(python=platform.python_version(),packages={n:version(n) for n in ['lightweaver','numpy','scipy','numba','matplotlib']})))"
     result['science_environment']=json.loads(subprocess.check_output([str(science_python),'-c',query],text=True))
+    result['analysis_environment']={n:version(n)for n in ('numpy','scipy','pandas','matplotlib')}
     centres=(7771.944,7774.166,7775.388)
     plotdata={};basewave=None
     def metrics(wave,flux):
@@ -145,6 +147,8 @@ def main():
     groups=[('Depth controls',['baseline','depth_cut1','depth_cut2']),
         ('Microturbulence (fixed atmosphere)',['baseline','xi_minus','xi_plus','xi_low','xi_high']),
         ('Teff (common bottom cut)',['depth_cut1','teff_low_cut1','teff_high_cut1']),
+        ('10 K sampling at solar logg (interpolated structures)',['fine_T5752','fine_T5762','fine_T5772','fine_T5782','fine_T5792']),
+        ('Held-out interpolation control',['depth_cut1','holdout_interp_5750']),
         ('Gravity',['baseline','logg_low','logg_high']),
         ('Metal mixture (common bottom cut; native alpha pattern)',['depth_cut1','metal_low_cut1','metal_high_cut1']),
         ('Abundance probes (not fits)',['baseline','abundance_minus','abundance_plus'])]
@@ -165,6 +169,25 @@ def main():
     ax.set_xlim(7770.5,7776.8);ax.set_ylim(.65,1.015);ax.legend(fontsize=8);ax.set_xlabel('Air wavelength (Angstrom)')
     ax.set_title('Canonical broadening and known gravitational-shift control; no fit')
     fig.tight_layout();fig.savefig(args.output/'broadening_alignment.png',dpi=160);plt.close(fig)
+    by_name={c['name']:c for c in result['cases']}
+    fine=sorted([c for c in result['cases']if c['name'].startswith('fine_T')],key=lambda c:c['inputs']['teff'])
+    if fine:
+        central=by_name['fine_T5772'];response=[]
+        fig,ax=plt.subplots(figsize=(8,4))
+        for i,centre in enumerate(centres):
+            baseline_area=central['variants']['solar_broadening'][i]['model_area_mA']
+            ys=[c['variants']['solar_broadening'][i]['model_area_mA']-baseline_area for c in fine]
+            ax.plot([c['inputs']['teff'] for c in fine],ys,marker='o',label=f'{centre:.3f} A')
+        ax.axhline(0,color='grey',lw=.5);ax.axvline(stars['teff'],color='grey',lw=.5)
+        ax.set_xlabel('Interpolated Teff (K)');ax.set_ylabel('Window area change from5772K (mA)')
+        ax.set_title('10K sampling, not a claim of10K atmosphere accuracy');ax.legend();fig.tight_layout()
+        fig.savefig(args.output/'fine_temperature_response.png',dpi=160);plt.close(fig)
+    if 'holdout_interp_5750'in by_name:
+        native=by_name['depth_cut1']['variants']['solar_broadening']
+        held=by_name['holdout_interp_5750']['variants']['solar_broadening']
+        result['interpolation_holdout']=dict(target='5750/4.5 omitted from5500/6000 native-node interpolation',
+            area_difference_mA=[h['model_area_mA']-n['model_area_mA']for h,n in zip(held,native)],
+            interpretation='Independent native atmosphere interpolation error; do not confuse10K output sampling with physical accuracy')
     with (args.output/'analysis.json').open('x')as f:json.dump(result,f,indent=2,allow_nan=False);f.write('\n')
     print(json.dumps(dict(successful_cases=len(result['cases']),failed_cases=result['failed_cases'],policy=result['orchestrator_policy']),indent=2))
 
