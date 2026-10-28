@@ -190,7 +190,7 @@ ASPLUND_NLTE_FLOOR = 0.03
 _NUMERIC = {"MEASURED", "DEFINED"}
 
 
-def asplund_terms(document):
+def asplund_terms(document, molecule=None):
     """(statistical, systematic) in the Asplund/Amarsi convention, or None.
 
     statistical = the measurement term (uncorrelated between lines/groups); systematic =
@@ -198,6 +198,8 @@ def asplund_terms(document):
     Amarsi+2021's compositional term (our `molecular_coupling`) in place of NLTE. Amarsi
     Eq. 3 treats the systematic part as perfectly correlated between groups, so a combiner
     averages it instead of shrinking it. Amarsi's "trend" term is not priced here.
+    For a named molecule the 3D term is at least half Amarsi+2021 Table 2's 3D - MARCS shift
+    (Asplund's "half the 3D effect"); a larger measured term is kept.
     None when the measurement is not numeric or any term used is on HOLD.
     """
     terms = {c["name"]: c for c in (document or {}).get("components", [])}
@@ -211,12 +213,26 @@ def asplund_terms(document):
         c = terms.get(name, {})
         return c["sigma_dex"] if c.get("state") in _NUMERIC else 0.0
     third = value("molecular_coupling") if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
-    return value("measurement"), math.sqrt(value("model_atmosphere") ** 2 + third ** 2)
+    atmosphere = value("model_atmosphere")
+    if molecular and molecule:
+        from pipeline import molecular_model_form
+        try:
+            shift = float(molecular_model_form._row(molecule).model_form_3D_minus_MARCS)
+            atmosphere = max(atmosphere, abs(shift) / 2.0)
+        except molecular_model_form.ModelFormError:
+            pass
+    return value("measurement"), math.sqrt(atmosphere ** 2 + third ** 2)
 
 
-def asplund_sigma(document):
+def molecule_of(product):
+    """The molecule a product measures, from its first indicator id (e.g. 'CH_Gband:...')."""
+    ids = product.get("uncertainty_indicator_ids") or [""]
+    return str(ids[0]).split(":")[0].split("_")[0] or None
+
+
+def asplund_sigma(document, molecule=None):
     """The Asplund-convention sigma: statistical (+) systematic from `asplund_terms`, or None."""
-    got = asplund_terms(document)
+    got = asplund_terms(document, molecule)
     return None if got is None else math.hypot(*got)
 
 

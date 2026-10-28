@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from pipeline.uncertainty_contract import ASPLUND_NLTE_FLOOR, asplund_sigma
+from pipeline.uncertainty_contract import ASPLUND_NLTE_FLOOR, asplund_sigma, molecule_of
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -43,7 +43,16 @@ def test_every_budgeted_product_is_stamped_with_its_own_recompute(element):
     budgeted = [p for p in products if "uncertainty" in p]
     assert budgeted
     for p in budgeted:
-        assert p["sigma_asplund"] == pytest.approx(asplund_sigma(p["uncertainty"]), abs=1e-12)
+        assert p["sigma_asplund"] == pytest.approx(asplund_sigma(p["uncertainty"], molecule_of(p)), abs=1e-12)
         assert p["sigma_asplund"] == pytest.approx(math.hypot(p["sigma_asplund_stat"],
                                                               p["sigma_asplund_syst"]), abs=1e-12)
         assert p["sigma_asplund_basis"].startswith("Asplund, Amarsi & Grevesse 2021")
+
+
+def test_a_molecules_3d_term_is_at_least_half_amarsis_shift():
+    from pipeline import molecular_model_form
+    shift = abs(float(molecular_model_form._row("CH").model_form_3D_minus_MARCS))
+    d = doc(measurement=("MEASURED", 0.0), model_atmosphere=("MEASURED", 0.001),
+            nlte=("N/A", None), molecular_coupling=("MEASURED", 0.0))
+    assert asplund_sigma(d, "CH") == pytest.approx(shift / 2)
+    assert asplund_sigma(d) == pytest.approx(0.001)

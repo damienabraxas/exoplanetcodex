@@ -78,10 +78,10 @@ def write_feed(out: Path, doc: dict) -> None:
     """
     from pipeline import plot_grid
     from pipeline.uncertainty_contract import (ASPLUND_BASIS, asplund_terms,
-                                               assert_publication_feed)
+                                               assert_publication_feed, molecule_of)
     for product in doc.get("products") or []:
         if "uncertainty" in product:          # legacy rows stay byte-identical
-            terms = asplund_terms(product["uncertainty"])
+            terms = asplund_terms(product["uncertainty"], molecule_of(product))
             product["sigma_asplund"] = None if terms is None else math.hypot(*terms)
             product["sigma_asplund_stat"] = None if terms is None else terms[0]
             product["sigma_asplund_syst"] = None if terms is None else terms[1]
