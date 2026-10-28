@@ -77,11 +77,14 @@ def write_feed(out: Path, doc: dict) -> None:
     real change and that the next publish immediately reverts.
     """
     from pipeline import plot_grid
-    from pipeline.uncertainty_contract import (ASPLUND_BASIS, asplund_sigma,
+    from pipeline.uncertainty_contract import (ASPLUND_BASIS, asplund_terms,
                                                assert_publication_feed)
     for product in doc.get("products") or []:
         if "uncertainty" in product:          # legacy rows stay byte-identical
-            product["sigma_asplund"] = asplund_sigma(product["uncertainty"])
+            terms = asplund_terms(product["uncertainty"])
+            product["sigma_asplund"] = None if terms is None else math.hypot(*terms)
+            product["sigma_asplund_stat"] = None if terms is None else terms[0]
+            product["sigma_asplund_syst"] = None if terms is None else terms[1]
             product["sigma_asplund_basis"] = ASPLUND_BASIS
     try:
         previous = json.loads(out.read_text()) if out.exists() else None

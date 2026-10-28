@@ -26,10 +26,10 @@ def test_nlte_floor_applies_to_every_atomic_product():
     assert asplund_sigma(d) == pytest.approx(ASPLUND_NLTE_FLOOR)
 
 
-def test_molecules_carry_no_nlte_term():
+def test_molecules_take_the_compositional_term_not_nlte():
     d = doc(measurement=("MEASURED", 0.02), model_atmosphere=("MEASURED", 0.0),
-            nlte=("N/A", None), molecular_coupling=("MEASURED", 0.08))
-    assert asplund_sigma(d) == pytest.approx(0.02)
+            nlte=("MEASURED", 0.2), molecular_coupling=("MEASURED", 0.08))
+    assert asplund_sigma(d) == pytest.approx(math.hypot(0.02, 0.08))
 
 
 def test_hold_or_missing_measurement_gives_none():
@@ -44,4 +44,6 @@ def test_every_budgeted_product_is_stamped_with_its_own_recompute(element):
     assert budgeted
     for p in budgeted:
         assert p["sigma_asplund"] == pytest.approx(asplund_sigma(p["uncertainty"]), abs=1e-12)
+        assert p["sigma_asplund"] == pytest.approx(math.hypot(p["sigma_asplund_stat"],
+                                                              p["sigma_asplund_syst"]), abs=1e-12)
         assert p["sigma_asplund_basis"].startswith("Asplund, Amarsi & Grevesse 2021")

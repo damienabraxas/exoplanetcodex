@@ -179,7 +179,8 @@ def paired_response(nominal, minus, plus, *, delta, source, parameter_source):
 #: components stay on the document as evidence; they no longer widen the headline bar.
 ASPLUND_COMPONENTS = ("measurement", "model_atmosphere", "nlte")
 ASPLUND_BASIS = ("Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D "
-                 "effect (+) NLTE (half the correction, floor 0.03); atomic data and "
+                 "effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 "
+                 "compositional term instead of NLTE, trend term not priced; atomic data and "
                  "observational terms not included")
 
 
@@ -189,24 +190,34 @@ ASPLUND_NLTE_FLOOR = 0.03
 _NUMERIC = {"MEASURED", "DEFINED"}
 
 
-def asplund_sigma(document):
-    """The Asplund-convention sigma from a budget document's own components, or None.
+def asplund_terms(document):
+    """(statistical, systematic) in the Asplund/Amarsi convention, or None.
 
-    None when the measurement term is not numeric or any of the three is on HOLD -- never a
-    partial sum passed off as the total. A molecular product (a priced `molecular_coupling`
-    term) carries no NLTE term, as Amarsi+2021.
+    statistical = the measurement term (uncorrelated between lines/groups); systematic =
+    half the 3D effect (+) NLTE (half the correction, floor 0.03), and for a molecule
+    Amarsi+2021's compositional term (our `molecular_coupling`) in place of NLTE. Amarsi
+    Eq. 3 treats the systematic part as perfectly correlated between groups, so a combiner
+    averages it instead of shrinking it. Amarsi's "trend" term is not priced here.
+    None when the measurement is not numeric or any term used is on HOLD.
     """
     terms = {c["name"]: c for c in (document or {}).get("components", [])}
     if terms.get("measurement", {}).get("state") not in _NUMERIC:
         return None
-    if any(terms.get(n, {}).get("state") == "HOLD" for n in ASPLUND_COMPONENTS):
+    molecular = terms.get("molecular_coupling", {}).get("state") in _NUMERIC
+    used = ASPLUND_COMPONENTS + (("molecular_coupling",) if molecular else ())
+    if any(terms.get(n, {}).get("state") == "HOLD" for n in used):
         return None
     def value(name):
         c = terms.get(name, {})
         return c["sigma_dex"] if c.get("state") in _NUMERIC else 0.0
-    molecular = terms.get("molecular_coupling", {}).get("state") in _NUMERIC
-    nlte = 0.0 if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
-    return math.sqrt(value("measurement") ** 2 + value("model_atmosphere") ** 2 + nlte ** 2)
+    third = value("molecular_coupling") if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
+    return value("measurement"), math.sqrt(value("model_atmosphere") ** 2 + third ** 2)
+
+
+def asplund_sigma(document):
+    """The Asplund-convention sigma: statistical (+) systematic from `asplund_terms`, or None."""
+    got = asplund_terms(document)
+    return None if got is None else math.hypot(*got)
 
 
 def assemble(scope, components, *, covariance, covariance_source, assumptions,

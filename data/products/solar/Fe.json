@@ -612,7 +612,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07479884134574995,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06825589107664387,
+      "sigma_asplund_syst": 0.03059411708155671
     },
     {
       "element": "Fe",
@@ -1222,7 +1224,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07745565039283953,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07140992772561656,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1833,8 +1837,10 @@
       },
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.07662622121557201,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.07662622121557203,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07050941623483901,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -3307,8 +3313,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.07846359995757342,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.07846359995757343,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0725019759613634,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -4096,7 +4104,9 @@
         }
       },
       "sigma_asplund": 0.08056177753748983,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07474088573197404,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -5570,7 +5580,9 @@
         }
       },
       "sigma_asplund": 0.0791331852451668,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07322609512356838,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -6249,7 +6261,9 @@
         }
       },
       "sigma_asplund": 0.13040400820965162,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.12684323142029647,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -6763,8 +6777,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.05746303159423489,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05746303159423488,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04900000000000037,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -7443,7 +7459,9 @@
         }
       },
       "sigma_asplund": 0.13151490274055308,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.12804752884322734,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -7987,7 +8005,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.06914417304926473,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06184388948527306,
+      "sigma_asplund_syst": 0.030923292192132454
     },
     {
       "element": "Fe",
@@ -8532,7 +8552,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.06965495316199699,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06286145480340075,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -9079,7 +9101,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.06857416909206183,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06166171151262904,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -9567,7 +9591,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07150174823037546,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0625,
+      "sigma_asplund_syst": 0.03473110997362451
     },
     {
       "element": "Fe",
@@ -10056,7 +10082,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07618398781896349,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06999999999999984,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -10547,7 +10575,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.0822268204419947,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07650000000000023,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -11156,7 +11186,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07826908712895538,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07152482086660551,
+      "sigma_asplund_syst": 0.03178443015062564
     },
     {
       "element": "Fe",
@@ -11766,7 +11798,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.077187722109442,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07111746933380322,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -12378,7 +12412,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.07788624183170395,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07187674635559592,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -13852,7 +13888,9 @@
         }
       },
       "sigma_asplund": 0.05754486881076229,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04894294562496052,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -14640,7 +14678,9 @@
         }
       },
       "sigma_asplund": 0.07153883172406746,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06475186826991512,
+      "sigma_asplund_syst": 0.0304138126514911
     },
     {
       "element": "Fe",
@@ -16113,8 +16153,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.05752685065377687,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05752685065377688,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04908501345769347,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -16793,7 +16835,9 @@
         }
       },
       "sigma_asplund": 0.10414190181807569,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0997273067634222,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -17307,8 +17351,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.14668759320406113,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.1466875932040611,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.1435000000000004,
+      "sigma_asplund_syst": 0.0304138126514911
     },
     {
       "element": "Fe",
@@ -17987,7 +18033,9 @@
         }
       },
       "sigma_asplund": 0.10509672415718495,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.10072398636159821,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -18596,7 +18644,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.07289680681925952,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06560254906971558,
+      "sigma_asplund_syst": 0.03178443015062564
     },
     {
       "element": "Fe",
@@ -19205,8 +19255,10 @@
         }
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.07182880882889382,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.07182880882889381,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06526390869215369,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -19818,7 +19870,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.07231466733043243,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06579636092605055,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -20497,7 +20551,9 @@
         }
       },
       "sigma_asplund": 0.08429937086699654,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07842278959952538,
+      "sigma_asplund_syst": 0.030923292192132454
     },
     {
       "element": "Fe",
@@ -21012,7 +21068,9 @@
         }
       },
       "sigma_asplund": 0.13910427743243578,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.13500000000000023,
+      "sigma_asplund_syst": 0.03354101966249685
     },
     {
       "element": "Fe",
@@ -21691,7 +21749,9 @@
         }
       },
       "sigma_asplund": 0.08620768889722075,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0792197300235238,
+      "sigma_asplund_syst": 0.033999999999999996
     },
     {
       "element": "Fe",
@@ -22370,7 +22430,9 @@
         }
       },
       "sigma_asplund": 0.08429937086699654,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07842278959952538,
+      "sigma_asplund_syst": 0.030923292192132454
     },
     {
       "element": "Fe",
@@ -22885,7 +22947,9 @@
         }
       },
       "sigma_asplund": 0.13910427743243578,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.13500000000000023,
+      "sigma_asplund_syst": 0.03354101966249685
     },
     {
       "element": "Fe",
@@ -23564,7 +23628,9 @@
         }
       },
       "sigma_asplund": 0.08620768889722075,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0792197300235238,
+      "sigma_asplund_syst": 0.033999999999999996
     },
     {
       "element": "Fe",
@@ -25185,8 +25251,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.053383174985083416,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05338317498508341,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04397457642192856,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -26010,7 +26078,9 @@
         }
       },
       "sigma_asplund": 0.06876348352626327,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.061417966969500706,
+      "sigma_asplund_syst": 0.030923292192132454
     },
     {
       "element": "Fe",
@@ -27631,8 +27701,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.053675836799458414,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05367583679945842,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04450949849326652,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -28285,7 +28357,9 @@
         }
       },
       "sigma_asplund": 0.061659172353783154,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.053680569439542435,
+      "sigma_asplund_syst": 0.030335622624235024
     },
     {
       "element": "Fe",
@@ -28808,8 +28882,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.11204654290864026,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.11204654290864027,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.10789892389536498,
+      "sigma_asplund_syst": 0.03020347662107791
     },
     {
       "element": "Fe",
@@ -29461,8 +29537,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.06198217302359828,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.06198217302359827,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05423826852626541,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -30116,8 +30194,10 @@
         }
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.062405620659512634,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.06240562065951264,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.054721672944994935,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -30815,7 +30895,9 @@
         "sigma_measured_partial": 0.23811028904692483
       },
       "sigma_asplund": 0.056043723911772564,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04716883494320151,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -31638,8 +31720,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.08087443327982789,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.0808744332798279,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0748643704196685,
+      "sigma_asplund_syst": 0.03059411708155671
     },
     {
       "element": "Fe",
@@ -33124,8 +33208,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.05937744514557954,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.059377445145579535,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05124139920041516,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -33747,7 +33833,9 @@
         }
       },
       "sigma_asplund": 0.06976151819941707,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0626950510127203,
+      "sigma_asplund_syst": 0.03059411708155671
     },
     {
       "element": "Fe",
@@ -34252,7 +34340,9 @@
         }
       },
       "sigma_asplund": 0.12449273071147571,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.12078675424068654,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -34905,7 +34995,9 @@
         }
       },
       "sigma_asplund": 0.06491005820799775,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05756140770139014,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -35560,7 +35652,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.06069113725589711,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05275807181289079,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -36020,7 +36114,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.039797639161858134,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0124439576846542,
+      "sigma_asplund_syst": 0.037802116342871596
     },
     {
       "element": "Fe",
@@ -36481,7 +36577,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03234858528382463,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0121008664923168,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -36944,7 +37042,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03195803749407314,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0110143615553778,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -37403,8 +37503,10 @@
         }
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.040902741531625354,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04090274153162535,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01403688942761,
+      "sigma_asplund_syst": 0.03841874542459709
     },
     {
       "element": "Fe",
@@ -37865,7 +37967,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03298045983792252,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0137007565893574,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -38327,8 +38431,10 @@
       },
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.03257963748564627,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03257963748564626,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0127056199650441,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -38788,7 +38894,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.041796091433401045,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0164594428553709,
+      "sigma_asplund_syst": 0.03841874542459709
     },
     {
       "element": "Fe",
@@ -39249,7 +39357,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03407386234960342,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0161563639294156,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -39712,7 +39822,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03382753619998009,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0156301697163199,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -40919,7 +41031,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.04600479721262045,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03482012875585514,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -41587,7 +41701,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.04171715988141362,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.028988298131684555,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -42794,7 +42910,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.04638025484402533,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03537128834799116,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -44001,7 +44119,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.04600479721262045,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03482012875585514,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -44669,7 +44789,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.04171715988141362,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.028988298131684555,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -45876,7 +45998,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.04638025484402533,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03537128834799116,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -46463,8 +46587,10 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.09280915903077669,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.09280915903077668,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08780398624208355,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -46992,8 +47118,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.2347945910790962,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.23479459107909623,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.1915,
+      "sigma_asplund_syst": 0.13585378169193527
     },
     {
       "element": "Fe",
@@ -47581,7 +47709,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.09243916918709313,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08738420909981408,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -48168,8 +48298,10 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.09280915903077669,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.09280915903077668,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08780398624208355,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -48697,8 +48829,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.2347945910790962,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.23479459107909623,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.1915,
+      "sigma_asplund_syst": 0.13585378169193527
     },
     {
       "element": "Fe",
@@ -49286,7 +49420,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.09645828113749483,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09167442391419753,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -49874,7 +50010,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.08462883669293822,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07913305251284072,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -50464,7 +50602,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.0801894007958658,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.07436625578849591,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -51054,7 +51194,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.09384700314874202,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08892277548524896,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -51512,7 +51654,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03516784340294094,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0179102543146036,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -51970,7 +52114,9 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "sigma_asplund": 0.03489198189511907,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0178171378332581,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -52427,8 +52573,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "sigma_asplund": 0.034865028487733055,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03486502848773305,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0177642959739596,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -52888,7 +53036,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03594351725837121,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0197973844965144,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -53348,7 +53498,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.036021282285476526,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0199382240304894,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -54925,7 +55077,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.07530237305878895,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06892167575070288,
+      "sigma_asplund_syst": 0.030335622624235024
     },
     {
       "element": "Fe",
@@ -55615,7 +55769,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.06917280933300603,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.061813247374817686,
+      "sigma_asplund_syst": 0.031048349392520047
     },
     {
       "element": "Fe",
@@ -57122,7 +57278,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.07792547036167195,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0719192528540711,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -58251,7 +58409,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.09918553923718733,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09449217530447496,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -58839,7 +58999,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.11216867878333948,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.10592243624464079,
+      "sigma_asplund_syst": 0.03690867106792115
     },
     {
       "element": "Fe",
@@ -59968,7 +60130,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.09920979962967648,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09456523855286654,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -61096,8 +61260,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.09856864890376046,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.09856864890376045,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09389237746863585,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -62228,7 +62394,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.09789174914247373,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09318151399377994,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -63359,7 +63527,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.0982829841971588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.09359244084165647,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -63817,7 +63987,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.034451424235077535,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0166703518806679,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -64275,7 +64447,9 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "sigma_asplund": 0.034249206475107326,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0165229580939532,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -64733,7 +64907,9 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "sigma_asplund": 0.034227217081155156,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0164773295506438,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -65193,7 +65369,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03468061662141124,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017399573823554,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -65653,7 +65831,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03475046696351497,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0175383851646138,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -67025,7 +67205,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.05494216088837335,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04549330767358978,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -67644,7 +67826,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.09346229186147757,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08851666509759626,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -69016,7 +69200,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.05526436977740201,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.046412827611485005,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -70388,7 +70574,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.05494216088837335,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04549330767358978,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -71007,7 +71195,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.09346229186147757,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.08851666509759626,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -72254,7 +72444,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.05514567852755733,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04627143676464669,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -73626,7 +73818,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.05493868773852211,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04602455225671229,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -75066,7 +75260,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.05470491482150125,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04574524790213413,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -76376,8 +76572,10 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.05399170988996462,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05399170988996463,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04488991798658251,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -76835,7 +77033,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04276124523588421,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0252888136163686,
+      "sigma_asplund_syst": 0.034481879299133336
     },
     {
       "element": "Fe",
@@ -77293,7 +77493,9 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "sigma_asplund": 0.04112260204443701,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0249412990621005,
+      "sigma_asplund_syst": 0.03269556544854363
     },
     {
       "element": "Fe",
@@ -77750,8 +77952,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "sigma_asplund": 0.041407260835329314,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04140726083532932,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024870891618215,
+      "sigma_asplund_syst": 0.0331058907144937
     },
     {
       "element": "Fe",
@@ -78211,7 +78415,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04085527292835364,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0244980269828055,
+      "sigma_asplund_syst": 0.03269556544854363
     },
     {
       "element": "Fe",
@@ -78671,7 +78877,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04124262673140341,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024595817931223,
+      "sigma_asplund_syst": 0.0331058907144937
     },
     {
       "element": "Fe",
@@ -79853,8 +80061,10 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.046873710100867716,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04687371010086772,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03579308171449042,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -80471,8 +80681,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.06772857594841335,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.06772857594841336,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06064783590533133,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -81776,8 +81988,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.04482994035944705,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04482994035944704,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0333125134541298,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -82959,8 +83173,10 @@
         "model_grid": "atlas9",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.046873710100867716,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04687371010086772,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03579308171449042,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -83577,8 +83793,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.06772857594841335,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.06772857594841336,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06064783590533133,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -84883,7 +85101,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.060194355173361906,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05218582561133666,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -86188,7 +86408,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.059089143183035445,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05090704118395867,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -87495,7 +87717,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.05929389779555288,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05114456291522561,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -88801,8 +89025,10 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.05990023613871389,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05990023613871388,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05184629484807651,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -90263,7 +90489,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.039715041654871386,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.025539861660709307,
+      "sigma_asplund_syst": 0.0304138126514911
     },
     {
       "element": "Fe",
@@ -91443,7 +91671,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.0422080321012033,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02941968684157275,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -92844,7 +93074,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03932883397981343,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02543142115989053,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -94245,7 +94477,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03940395643539735,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.025547441804663965,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -95648,7 +95882,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04063391336540998,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.027406475792915143,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -97051,7 +97287,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.040336299047606355,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02696325315791715,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -111645,7 +111883,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03932963065893485,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02414166207551228,
+      "sigma_asplund_syst": 0.031048349392520047
     },
     {
       "element": "Fe",
@@ -125212,7 +125452,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03969208665295216,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0247277524831001,
+      "sigma_asplund_syst": 0.031048349392520047
     },
     {
       "element": "Fe",
@@ -158832,7 +159074,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.033465066835648385,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013961042164337642,
+      "sigma_asplund_syst": 0.0304138126514911
     },
     {
       "element": "Fe",
@@ -183257,8 +183501,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.034345286474896576,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03434528647489657,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015790779051165063,
+      "sigma_asplund_syst": 0.0305
     },
     {
       "element": "Fe",
@@ -216698,7 +216944,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.033164550906930726,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.014138155355575912,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -250138,7 +250386,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03301011663183081,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013771993321486658,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -282136,7 +282386,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.0355407060036751,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017724045340713483,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -310763,7 +311015,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.035854932912351395,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01834601357650264,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -342761,7 +343015,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03464627519250008,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01733102376417639,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -374759,7 +375015,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03481864211682402,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017673082324808867,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -375237,7 +375495,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03333541660156659,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.009500000000000064,
+      "sigma_asplund_syst": 0.03195309061734092
     },
     {
       "element": "Fe",
@@ -375743,8 +376003,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.03619392214170788,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.036193922141707885,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017000000000000348,
+      "sigma_asplund_syst": 0.03195309061734092
     },
     {
       "element": "Fe",
@@ -376222,8 +376484,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.032699388373484864,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03269938837348487,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.012999999999999899,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -376702,7 +376966,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.032897568299191805,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013499999999999622,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -377182,8 +377448,10 @@
       },
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.03448187929913328,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03448187929913329,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0169999999999999,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -377663,8 +377931,10 @@
       },
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.03041792234851024,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.030417922348510245,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.004999999999999893,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -378997,7 +379267,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03466147375917381,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017004933494662502,
+      "sigma_asplund_syst": 0.03020347662107791
     },
     {
       "element": "Fe",
@@ -380065,7 +380337,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.0362406166016345,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02010925885423593,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -381338,7 +381612,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03593187267154623,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.019776235073547515,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -382611,7 +382887,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.034704760404544524,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01744764725505538,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -383886,7 +384164,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03599447325997642,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.019889748748115388,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -385161,7 +385441,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03721391045803905,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02201988037158576,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -388175,7 +388457,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.039522067796999495,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02501986896349828,
+      "sigma_asplund_syst": 0.03059411708155671
     },
     {
       "element": "Fe",
@@ -390818,7 +391102,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.04104775497464787,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.027366369661661897,
+      "sigma_asplund_syst": 0.03059411708155671
     },
     {
       "element": "Fe",
@@ -411416,7 +411702,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.033365615488889035,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.014045080880948748,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -424811,7 +425099,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03451884048578765,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01680923402428714,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -445289,7 +445579,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.032926437618908844,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013570198755799252,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -465767,7 +466059,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.0328684104948423,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013428790282726862,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -474541,7 +474835,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03565534676929725,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018849502731871623,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -481664,7 +481960,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03624615520842302,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.020119238737911806,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -490438,7 +490736,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.035148047164511684,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018313525588447954,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -499211,8 +499511,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.035129932738495934,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03512993273849593,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01827873557473952,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -500673,7 +500975,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03401687487800662,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015391483894217541,
+      "sigma_asplund_syst": 0.030335622624235024
     },
     {
       "element": "Fe",
@@ -501853,7 +502157,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.0352530354281593,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018076960665417592,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -503254,7 +503560,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03489808769818428,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01782909209663132,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -504655,7 +504963,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03393255719251031,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015856179792843643,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -506058,7 +506368,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03495610898388422,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017942395472544656,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -507461,7 +507773,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.035930829356265126,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0197743393879301,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -521934,7 +522248,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03587786746294037,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017978358481471963,
+      "sigma_asplund_syst": 0.031048349392520047
     },
     {
       "element": "Fe",
@@ -535270,7 +535586,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.0362194673445655,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018650732283855418,
+      "sigma_asplund_syst": 0.031048349392520047
     },
     {
       "element": "Fe",
@@ -541844,7 +542162,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.040309896354156514,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02662494589821434,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -547427,7 +547747,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.04101458026618143,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02768024195000903,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -579326,7 +579648,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.034205511246764,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015484411504881234,
+      "sigma_asplund_syst": 0.0305
     },
     {
       "element": "Fe",
@@ -607616,7 +607940,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.0343416686160718,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01594836052188721,
+      "sigma_asplund_syst": 0.0304138126514911
     },
     {
       "element": "Fe",
@@ -639613,7 +639939,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03363803130966613,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015182791258200155,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -671610,7 +671938,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.033718816501389436,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015393459203647904,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -673070,8 +673400,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.03421002710242542,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03421002710242541,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015813790005836097,
+      "sigma_asplund_syst": 0.030335622624235024
     },
     {
       "element": "Fe",
@@ -674250,8 +674582,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.035555517258966295,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03555551725896629,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018659978766136093,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -675652,7 +675986,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.034991104733465034,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018010480572941946,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -677053,7 +677389,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.034138915693652204,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016293114028272587,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -678456,7 +678794,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03523746954782375,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.018484568161950828,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -679859,7 +680199,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.03612720894684313,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0201289648588511,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -694332,7 +694674,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.036286357558560314,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01779605981299476,
+      "sigma_asplund_syst": 0.03162277660168379
     },
     {
       "element": "Fe",
@@ -707897,8 +708241,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier DEEPGRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.03660445056294689,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03660445056294688,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01843599199976021,
+      "sigma_asplund_syst": 0.03162277660168379
     },
     {
       "element": "Fe",
@@ -714412,7 +714758,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.039136296552436285,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024812289451806666,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -719995,7 +720343,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03979562435865626,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.025839731385896327,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -726389,7 +726739,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03848182498647824,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024100847584471813,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -732783,7 +733135,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03845447406276397,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024057152272116227,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -739179,7 +739533,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.038378310912815204,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0239352198343928,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -745575,7 +745931,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.038469643328736966,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024081392356760368,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -780484,7 +780842,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03427511433676172,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015026092732247089,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -811862,7 +812222,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03447591752452165,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.015478659152446606,
+      "sigma_asplund_syst": 0.030805843601498725
     },
     {
       "element": "Fe",
@@ -846771,7 +847133,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03348980252255224,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.014885122538949622,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -881308,7 +881672,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03351251063780773,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.014936143051309341,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -885179,7 +885545,9 @@
         "sigma_measured_partial": 0.24456359353837548
       },
       "sigma_asplund": 0.06793542217100366,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06082122643906892,
+      "sigma_asplund_syst": 0.03026549190084311
     },
     {
       "element": "Fe",
@@ -888271,7 +888639,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.06669011770326999,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.056103224499809326,
+      "sigma_asplund_syst": 0.03605551275463989
     },
     {
       "element": "Fe",
@@ -891390,7 +891760,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.06666529302385804,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.056073713038792564,
+      "sigma_asplund_syst": 0.03605551275463989
     },
     {
       "element": "Fe",
@@ -894803,7 +895175,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.057783190738071546,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.049385191422858306,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -898216,7 +898590,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.057760729999082536,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.049358909327768916,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -901742,7 +902118,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.06166601052714086,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.053876681916516046,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -905381,7 +905759,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.06009227815089667,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.05206805060077373,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -908269,7 +908649,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.07062986024451733,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06073365753978637,
+      "sigma_asplund_syst": 0.03605551275463989
     },
     {
       "element": "Fe",
@@ -911184,7 +911566,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.07062030444359428,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.06072254441067124,
+      "sigma_asplund_syst": 0.03605551275463989
     },
     {
       "element": "Fe",
@@ -914597,7 +914981,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.055865808214769684,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04712736495380818,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -917901,7 +918287,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.056491058060690685,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04786689504047997,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -921316,7 +921704,9 @@
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.05827787642348171,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04996309518465209,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -924730,8 +925120,10 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.052612341713486784,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.05261234171348678,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04322104233561126,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -925525,8 +925917,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.04431662934343765,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04431662934343764,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0325570827373037,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -926091,7 +926485,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04968379179034818,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.039525044802842024,
+      "sigma_asplund_syst": 0.030103986446980736
     },
     {
       "element": "Fe",
@@ -926887,7 +927283,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.040562470950211815,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.027300440465069013,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -927683,7 +928081,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04446021529189501,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.032813270848875385,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -928480,8 +928880,10 @@
       },
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.045470160954081566,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04547016095408156,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03416921914808829,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -929279,7 +929681,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04194116303853282,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.029309745086315432,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -941071,7 +941475,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03586921676838121,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.01956018178793642,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -944673,8 +945079,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.045375960003858774,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04537596000385877,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03398496353200619,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -956252,7 +956660,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03614378184897697,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02015869455957993,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -968044,7 +968454,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.035941620282490074,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.019793940197209394,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -974465,7 +974877,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.0392205941718033,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02524391029910562,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -976751,7 +977165,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.05234907632433469,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.04288852751040794,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -983016,7 +983432,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03929878309333611,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02538492372683203,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -989281,7 +989699,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03934556919239846,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.025457293946407875,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -990076,7 +990496,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04358481804064761,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.031553706020630304,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -990641,7 +991063,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04554576453048804,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03397302851773245,
+      "sigma_asplund_syst": 0.030335622624235024
     },
     {
       "element": "Fe",
@@ -991437,7 +991861,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.03993345704713702,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.026356801621887613,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -992233,7 +992659,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04367365830511642,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.031739382945357726,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -993031,7 +993459,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.044787247299439545,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03325503752307543,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -993829,7 +994259,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.041397428753945795,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02852625295123806,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1005837,7 +1006269,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03288730245181453,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013325714335716719,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -1009440,7 +1009874,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03437704163229238,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016778885284439,
+      "sigma_asplund_syst": 0.030004166377354997
     },
     {
       "element": "Fe",
@@ -1021447,8 +1021883,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.03307123553102695,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03307123553102694,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013917852548028346,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1033456,7 +1033894,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03284264947806016,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.013365613518979419,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1040035,7 +1040475,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03430640956333832,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016520585253782964,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -1042411,7 +1042853,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.034855437758909424,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017745465374714997,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1048990,7 +1049434,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.034268919799138146,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.0165637816998342,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1055254,8 +1055700,10 @@
         "model_grid": "marcs-ges / gerber",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.034453911598542865,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.03445391159854286,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016943199946887432,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1056050,7 +1056498,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04276197816822208,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.030324689229396927,
+      "sigma_asplund_syst": 0.030149626863362672
     },
     {
       "element": "Fe",
@@ -1056614,8 +1057064,10 @@
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
       "line_set": "asplund",
-      "sigma_asplund": 0.04793050524804969,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund": 0.04793050524804968,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03721670771754695,
+      "sigma_asplund_syst": 0.03020347662107791
     },
     {
       "element": "Fe",
@@ -1057411,7 +1057863,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.0390079881626298,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.024932371337196682,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1058207,7 +1058661,9 @@
       },
       "line_set": "asplund",
       "sigma_asplund": 0.04287764641376053,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03063482596626707,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1059005,7 +1059461,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04407531120538161,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.03228982901551568,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1059803,7 +1060261,9 @@
       "line_set": "asplund",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
       "sigma_asplund": 0.04050774846804514,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.027219068425469922,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1066224,7 +1066684,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03439710829440087,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016797650401670493,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -1068600,7 +1069062,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.036190626148610176,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02014352057184808,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -1074865,7 +1075329,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.03455485969299205,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017147545841967204,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1081286,7 +1081752,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
       "sigma_asplund": 0.034249846604217496,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016524284928928965,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1087707,7 +1088175,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03439710829440087,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016797650401670493,
+      "sigma_asplund_syst": 0.03001666203960727
     },
     {
       "element": "Fe",
@@ -1090083,7 +1090553,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.036190626148610176,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.02014352057184808,
+      "sigma_asplund_syst": 0.030066592756745815
     },
     {
       "element": "Fe",
@@ -1096348,7 +1096820,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.03455485969299205,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.017147545841967204,
+      "sigma_asplund_syst": 0.03
     },
     {
       "element": "Fe",
@@ -1102769,7 +1103243,9 @@
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
       "sigma_asplund": 0.034249846604217496,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_stat": 0.016524284928928965,
+      "sigma_asplund_syst": 0.03
     }
   ],
   "superseded": [
