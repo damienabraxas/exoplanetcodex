@@ -172,6 +172,43 @@ def paired_response(nominal, minus, plus, *, delta, source, parameter_source):
             "parameter_source": parameter_source}
 
 
+#: RYA-1251 (Ryan 2026-10-28): the PUBLISHED sigma is Asplund, Amarsi & Grevesse 2021's
+#: (Sect. 2.1): line-to-line statistics (+) half the 3D effect (+) the NLTE term (half the
+#: correction, floor 0.03; none for molecules, as Amarsi+2021). Atomic data and the
+#: observational terms are NOT in it -- Asplund: "in general ... not attempted". The other
+#: components stay on the document as evidence; they no longer widen the headline bar.
+ASPLUND_COMPONENTS = ("measurement", "model_atmosphere", "nlte")
+ASPLUND_BASIS = ("Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D "
+                 "effect (+) NLTE (half the correction, floor 0.03); atomic data and "
+                 "observational terms not included")
+
+
+#: Asplund's NLTE floor. It applies to every atomic result, including one whose NLTE is inside
+#: the synthesis (ENGINE-B) or not applied at all (an LTE product has no smaller NLTE error).
+ASPLUND_NLTE_FLOOR = 0.03
+_NUMERIC = {"MEASURED", "DEFINED"}
+
+
+def asplund_sigma(document):
+    """The Asplund-convention sigma from a budget document's own components, or None.
+
+    None when the measurement term is not numeric or any of the three is on HOLD -- never a
+    partial sum passed off as the total. A molecular product (a priced `molecular_coupling`
+    term) carries no NLTE term, as Amarsi+2021.
+    """
+    terms = {c["name"]: c for c in (document or {}).get("components", [])}
+    if terms.get("measurement", {}).get("state") not in _NUMERIC:
+        return None
+    if any(terms.get(n, {}).get("state") == "HOLD" for n in ASPLUND_COMPONENTS):
+        return None
+    def value(name):
+        c = terms.get(name, {})
+        return c["sigma_dex"] if c.get("state") in _NUMERIC else 0.0
+    molecular = terms.get("molecular_coupling", {}).get("state") in _NUMERIC
+    nlte = 0.0 if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
+    return math.sqrt(value("measurement") ** 2 + value("model_atmosphere") ** 2 + nlte ** 2)
+
+
 def assemble(scope, components, *, covariance, covariance_source, assumptions,
              required_extra=()):
     """One authoritative total. A required HOLD makes sigma_reported null.
