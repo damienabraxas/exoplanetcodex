@@ -50,3 +50,24 @@ def test_native_collision_units_direction_and_lte_balance(oracle):
     paired=np.zeros((2,2,2));model.collisions[-1].compute_rates(atmosphere,Populations(),paired)
     np.testing.assert_allclose(paired[1,0],matrices[-1][1,0])
     np.testing.assert_allclose(paired[0,1]*lte[1],paired[1,0]*lte[0])
+
+
+def test_h_background_control_keeps_populations_lte_and_oxygen_identity():
+    pytest.importorskip('lightweaver')
+    from pipeline.multi_atom import MultiAtom,MultiLevel,MultiLine
+    from pipeline.bride_reference import make_reference_context
+    from lightweaver.atomic_table import PeriodicTable
+    atom=MultiAtom(symbol='O',abundance=8.7,weight=16.,
+        levels=[MultiLevel(0.,5.,'synthetic lower',1,1),MultiLevel(12000.,7.,'synthetic upper',1,2),MultiLevel(110000.,4.,'synthetic ion',2,3)],
+        lines=[MultiLine(2,1,.4,9,5.,3.89e7,0.,0.,'VOIGT')],continua=[],temperature=np.array([3000.,10000.]),collisions=[])
+    abundances=[12.]+[-99.]*91;abundances[1]=10.93
+    structure=dict(ndep=5,height_m=np.linspace(1000.,0.,5),temperature_K=np.full(5,6000.),
+        electron_pressure_Pa=np.full(5,.01),rho_kg_m3=np.full(5,1e-5),hydrogen_mass_fraction=.7,
+        abundances_dex=abundances,logg_cgs=4.5,vturb_m_s=1000.)
+    plain=make_reference_context(structure,atom,rays=2,qscale=1)
+    with_h=make_reference_context(structure,atom,rays=2,qscale=1,lte_h_background_lines=True)
+    assert len(plain.detailedAtoms)==0 and len(with_h.detailedAtoms)==1
+    np.testing.assert_array_equal(plain.activeAtoms[0].nStar,with_h.activeAtoms[0].nStar)
+    hydrogen=with_h.kwargs['eqPops'].atomicPops[PeriodicTable['H']]
+    np.testing.assert_array_equal(hydrogen.n,hydrogen.nStar)
+    assert len(with_h.spect.wavelength)>len(plain.spect.wavelength)
