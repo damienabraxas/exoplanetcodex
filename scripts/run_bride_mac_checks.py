@@ -77,7 +77,13 @@ def main():
             m.update(atmosphere=provenance,original_depths=original['ndep'],retained_depths=structure['ndep'],
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
-            save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True))
+            hydrogen_lines=case.get('lte_h_background_lines',False)
+            save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True),
+                lte_h_background_lines=hydrogen_lines)
+            if hydrogen_lines:
+                from lightweaver import rh_atoms
+                m['lte_h_background_lines']=dict(source=fingerprint(rh_atoms.__file__),
+                    interpretation='Native H_6_atom fixed LTE populations, CRD lines; not an H NLTE/PRD model')
             convention=case.get('experimental_collision_convention')
             if convention:
                 if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
@@ -116,7 +122,7 @@ def main():
                 else:raise RuntimeError('Joint convergence not reached')
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
-                fixed_populations=n,continuum_only=True)
+                fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines)
             for j in range(1000):
                 if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
                 u=continuum.formal_sol_gamma_matrices()

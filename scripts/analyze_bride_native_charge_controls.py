@@ -80,6 +80,7 @@ def main():
             history=[json.loads(line) for line in (root/'history.jsonl').read_text().splitlines()]
             where=np.unravel_index(np.argmax(abs(b-ref)),b.shape)
             result['cases'].append(dict(name=entry['name'],source_run=directory.name,
+                source_inputs=m['case'],lte_h_background_lines=m.get('lte_h_background_lines'),
                 source_manifest=entry['manifest'],source_summary=fingerprint(directory/'summary.json'),
                 populations=fingerprint(root/'populations.npz'),flux=m['flux'],history=fingerprint(root/'history.jsonl'),
                 controls=m['controls'],native_spline_control=m['native_spline_control'],

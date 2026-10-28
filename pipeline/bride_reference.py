@@ -17,7 +17,7 @@ def marcs_number_densities(structure):
 
 
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
-                           fixed_populations=None,continuum_only=False):
+                           fixed_populations=None,continuum_only=False,lte_h_background_lines=False):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -46,6 +46,12 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
                            abundance=lw.AtomicAbundance(abundance_data))
     if lte or fixed_populations is not None:radset.set_detailed_static('O')
     else:radset.set_active('O')
+    if lte_h_background_lines:
+        # Explicit LTE/CRD opacity control, not an H NLTE or PRD solution.
+        from lightweaver.atomic_model import LineType
+        hydrogen=radset.atoms[PeriodicTable['H']]
+        for line in hydrogen.lines:line.type=LineType.CRD
+        radset.set_detailed_static('H')
     eq=radset.compute_eq_pops(atmosphere)
     if fixed_populations is not None:
         actual=eq.atomicPops[model.element].n
