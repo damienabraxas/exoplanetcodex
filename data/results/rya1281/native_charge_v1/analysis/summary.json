@@ -1,0 +1,447 @@
+{
+  "schema": "codex.bride_native_charge_diagnostics/1",
+  "scientific_admission": "HOLD",
+  "code_commit": "9cc5a5f1caa49e79625f0543282824a7882faaf0",
+  "generator": {
+    "name": "analyze_bride_native_charge_controls.py",
+    "bytes": 9389,
+    "sha256": "b793345dab049ae608f2f25cea4670fd84c7148f754ea1abfac98d8f7337a7ac"
+  },
+  "native_adapter": {
+    "name": "bride_native_spline.py",
+    "bytes": 7015,
+    "sha256": "0e80507d2eda6d8f16c9eed1ddbebfea1323ece01260f4e11123094c46e53b1c"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 8265,
+    "sha256": "630c1e1a6d75a57a4f0bbd30014cff8bfc400a08b8fde01145c6c77c3a613f5c"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "oracle": {
+    "name": "manifest.json",
+    "bytes": 1897,
+    "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+  },
+  "source_atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "source_atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "interpretation": "Native coefficients do not establish producer identity. Reverse CH0 is an explicit LTE-reservoir hypothesis, not an adopted rate change.",
+  "population_comparison_scope": "All levels/depths reported; logtau[-3,0] is a declared diagnostic subset, not a contribution function",
+  "thermal_controls": [
+    {
+      "name": "original_rh",
+      "max_relative_LTE_imbalance": 0.9999999998210335,
+      "collider": "Native passive LTE H at fixed ne/nH; no radiation included"
+    },
+    {
+      "name": "native_rh",
+      "max_relative_LTE_imbalance": 0.9999999998209013,
+      "collider": "Native passive LTE H at fixed ne/nH; no radiation included"
+    },
+    {
+      "name": "native_source",
+      "max_relative_LTE_imbalance": 0.9640292429387053,
+      "collider": "Native passive LTE H at fixed ne/nH; no radiation included"
+    },
+    {
+      "name": "native_source_reversible_CH0",
+      "max_relative_LTE_imbalance": 8.000862786979834e-16,
+      "collider": "Native passive LTE H at fixed ne/nH; no radiation included"
+    }
+  ],
+  "cases": [
+    {
+      "name": "native_tautsp_rh_directions",
+      "source_run": "rya1281-native-spline-v1",
+      "source_inputs": {
+        "name": "native_tautsp_rh_directions",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "experimental_collision_convention": "native_tautsp_rh_directions"
+      },
+      "lte_h_background_lines": null,
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 1996,
+        "sha256": "656dad45fc731d7b5f446a3266801d10c5ac9b33638cc2e072311ef289a1f71c"
+      },
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1511,
+        "sha256": "5c470bfd275d99a29d9f26ec21225fa3e68cca5b6335ade2d38bb851297fc5ea"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36607,
+        "sha256": "a674a058dc194b91a5323d7b79d1a2301affb4d1df9789ea27b003ac80de1ea0"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "1a7dea796a8a5dacef1bf5183578853bf95761cbc1ba26710b6627926ffd06df"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 100461,
+        "sha256": "86ff75e843ebd2e08136b211cde48939dfec75a83880b74b29ec70cfe6ba00cf"
+      },
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-06,
+        "maxiter": 1500,
+        "seconds_per_case": 600,
+        "flux_rays": 5,
+        "ng": true,
+        "reject_invalid_ng": true
+      },
+      "native_spline_control": {
+        "oracle": {
+          "name": "manifest.json",
+          "bytes": 1897,
+          "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+        },
+        "source_directions": false,
+        "temperature_unchanged_required": true,
+        "CH_negative_spline_values_clipped_as_native": 0
+      },
+      "iterations": 433,
+      "elapsed_seconds": 29.754574458580464,
+      "final_diagnostics": {
+        "iteration": 433,
+        "population_change": 9.664553884610779e-07,
+        "J_change": 9.671355840623619e-07,
+        "physical_rate_residual": 1.7922793127802475e-14,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false
+      },
+      "rejected_invalid_ng_count": 0,
+      "window_area_mA": [
+        61.31456833972651,
+        53.0807367068986,
+        41.84158912362798
+      ],
+      "selected_logtau500": -1.2621,
+      "b_lower": 1.0088388335373988,
+      "b_upper": 0.9928269081771146,
+      "b_OII_ground": 2.9311990701064648e-08,
+      "ref_b_lower": 1.030175805091858,
+      "ref_b_upper": 0.845592737197876,
+      "ref_b_OII_ground": 0.8715606927871704,
+      "upper_max_absolute_difference_all_depths": 1.2716958557232534,
+      "upper_max_absolute_difference_logtau_minus3_to0": 0.17858762114198778,
+      "all_level_depth_max_absolute_difference": 8.168057435047265,
+      "largest_difference_location": {
+        "level_0based": 39,
+        "depth_index": 0,
+        "logtau500": -4.9177
+      }
+    },
+    {
+      "name": "native_tautsp_source_directions",
+      "source_run": "rya1281-native-spline-v1",
+      "source_inputs": {
+        "name": "native_tautsp_source_directions",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "experimental_collision_convention": "native_tautsp_source_directions"
+      },
+      "lte_h_background_lines": null,
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2005,
+        "sha256": "289050e106588a4e1305c9b24d5659caa1bd5c94d4f5bce8a4a06a9a65e8781e"
+      },
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1511,
+        "sha256": "5c470bfd275d99a29d9f26ec21225fa3e68cca5b6335ade2d38bb851297fc5ea"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36601,
+        "sha256": "b146494ec6458e8d0f128ab14a03bec48b42e7ea528719d69cd28dc9aa4f862f"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "0cf95b493dd9a7e3e69d589870a77c7469eda01275025afd787ef6aeabea2293"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 153163,
+        "sha256": "eec3a01e5a98a9d0c6576099312ad06c1454ab645dca88804c31e0cafd812cc2"
+      },
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-06,
+        "maxiter": 1500,
+        "seconds_per_case": 600,
+        "flux_rays": 5,
+        "ng": true,
+        "reject_invalid_ng": true
+      },
+      "native_spline_control": {
+        "oracle": {
+          "name": "manifest.json",
+          "bytes": 1897,
+          "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+        },
+        "source_directions": true,
+        "temperature_unchanged_required": true,
+        "CH_negative_spline_values_clipped_as_native": 0
+      },
+      "iterations": 661,
+      "elapsed_seconds": 43.91598454210907,
+      "final_diagnostics": {
+        "iteration": 661,
+        "population_change": 9.823733109217246e-07,
+        "J_change": 9.929374160666526e-07,
+        "physical_rate_residual": 2.496507869233549e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false
+      },
+      "rejected_invalid_ng_count": 1,
+      "window_area_mA": [
+        71.87853889776011,
+        62.31535053676985,
+        49.283680183478424
+      ],
+      "selected_logtau500": -1.2621,
+      "b_lower": 0.9613573360061358,
+      "b_upper": 0.7754017265152001,
+      "b_OII_ground": 10.17052255573103,
+      "ref_b_lower": 1.030175805091858,
+      "ref_b_upper": 0.845592737197876,
+      "ref_b_OII_ground": 0.8715606927871704,
+      "upper_max_absolute_difference_all_depths": 1.2498968037442952,
+      "upper_max_absolute_difference_logtau_minus3_to0": 0.13247467295074555,
+      "all_level_depth_max_absolute_difference": 12.599156171374249,
+      "largest_difference_location": {
+        "level_0based": 39,
+        "depth_index": 35,
+        "logtau500": -0.5902
+      }
+    },
+    {
+      "name": "native_tautsp_lte_balanced_CH0",
+      "source_run": "rya1281-native-reverse-v1",
+      "source_inputs": {
+        "name": "native_tautsp_lte_balanced_CH0",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "experimental_collision_convention": "native_tautsp_lte_balanced_CH0"
+      },
+      "lte_h_background_lines": null,
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2056,
+        "sha256": "34f3a7582a54200375526b1a8e594ecdaa8ab1e140bc6328a41cd27d04335adf"
+      },
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1242,
+        "sha256": "c67193165de4fc674da3ed06c4421b19786297999cd85220017fd232793f4abd"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36618,
+        "sha256": "713fa9d3a4e65e310db1c431e651386272501d34591f620abe61ef0906a14a69"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "ae5a50a0c3357dbeba06d6a123dc617a6f9e1e684553ac7cd95173247fcab181"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 101198,
+        "sha256": "d7c2e0f0438553e27b433373dba9770bf90f35ce38ac01a24543d57ff23ae6f6"
+      },
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-06,
+        "maxiter": 1500,
+        "seconds_per_case": 600,
+        "flux_rays": 5,
+        "ng": true,
+        "reject_invalid_ng": true
+      },
+      "native_spline_control": {
+        "oracle": {
+          "name": "manifest.json",
+          "bytes": 1897,
+          "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+        },
+        "source_directions": true,
+        "reversible_ch0_LTE_reservoir_hypothesis": true,
+        "temperature_unchanged_required": true,
+        "CH_negative_spline_values_clipped_as_native": 0
+      },
+      "iterations": 437,
+      "elapsed_seconds": 32.46694849990308,
+      "final_diagnostics": {
+        "iteration": 437,
+        "population_change": 9.382412066146293e-07,
+        "J_change": 9.389416817384699e-07,
+        "physical_rate_residual": 2.3952905446727815e-15,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false
+      },
+      "rejected_invalid_ng_count": 0,
+      "window_area_mA": [
+        68.77840350439918,
+        59.22948082680712,
+        46.278853951739414
+      ],
+      "selected_logtau500": -1.2621,
+      "b_lower": 1.0269312751827226,
+      "b_upper": 0.8490561856362814,
+      "b_OII_ground": 0.940495005686824,
+      "ref_b_lower": 1.030175805091858,
+      "ref_b_upper": 0.845592737197876,
+      "ref_b_OII_ground": 0.8715606927871704,
+      "upper_max_absolute_difference_all_depths": 1.249532799032759,
+      "upper_max_absolute_difference_logtau_minus3_to0": 0.0053908546118418554,
+      "all_level_depth_max_absolute_difference": 7.862426054225377,
+      "largest_difference_location": {
+        "level_0based": 39,
+        "depth_index": 1,
+        "logtau500": -4.7205
+      }
+    },
+    {
+      "name": "paired_CH0_with_LTE_H_lines",
+      "source_run": "rya1281-native-h-lines-v1",
+      "source_inputs": {
+        "name": "paired_CH0_with_LTE_H_lines",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "experimental_collision_convention": "native_tautsp_lte_balanced_CH0",
+        "lte_h_background_lines": true
+      },
+      "lte_h_background_lines": {
+        "source": {
+          "name": "rh_atoms.py",
+          "bytes": 4432071,
+          "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+        },
+        "interpretation": "Native H_6_atom fixed LTE populations, CRD lines; not an H NLTE/PRD model"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2382,
+        "sha256": "510771e75cff1c93a1eb2dc5e0d23bee0ff3e98d98570a04a50e81215a06ec78"
+      },
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1237,
+        "sha256": "494dd74f06869d96746f37b05742a03bc7ba0ac292907ce7841337f72cce910e"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36592,
+        "sha256": "becd617887f4f5fb6e9a04fd92a14d50a1b561fc32f1f3f9e3839fc81539a886"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "d79fbda5aeef9eeeb58d092c4e4060e76fbfa2f58c39626ead29f03db2e579ba"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 262528,
+        "sha256": "0208b39e3c92b25c4fd70fbd699fc2a4de3ce9d38d705a61756d46c6c677e379"
+      },
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-06,
+        "maxiter": 1500,
+        "seconds_per_case": 600,
+        "flux_rays": 5,
+        "ng": true,
+        "reject_invalid_ng": true
+      },
+      "native_spline_control": {
+        "oracle": {
+          "name": "manifest.json",
+          "bytes": 1897,
+          "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+        },
+        "source_directions": true,
+        "reversible_ch0_LTE_reservoir_hypothesis": true,
+        "temperature_unchanged_required": true,
+        "CH_negative_spline_values_clipped_as_native": 0
+      },
+      "iterations": 1131,
+      "elapsed_seconds": 91.22906979219988,
+      "final_diagnostics": {
+        "iteration": 1131,
+        "population_change": 3.550952830681705e-07,
+        "J_change": 4.959849033703279e-07,
+        "physical_rate_residual": 4.158215271491395e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false
+      },
+      "rejected_invalid_ng_count": 0,
+      "window_area_mA": [
+        69.13147360142189,
+        59.532357992985936,
+        46.51255812873669
+      ],
+      "selected_logtau500": -1.2621,
+      "b_lower": 1.071328574212682,
+      "b_upper": 0.8891928570743747,
+      "b_OII_ground": 0.9930427181434717,
+      "ref_b_lower": 1.030175805091858,
+      "ref_b_upper": 0.845592737197876,
+      "ref_b_OII_ground": 0.8715606927871704,
+      "upper_max_absolute_difference_all_depths": 1.215520614228641,
+      "upper_max_absolute_difference_logtau_minus3_to0": 0.055287834829062965,
+      "all_level_depth_max_absolute_difference": 7.344404559155989,
+      "largest_difference_location": {
+        "level_0based": 39,
+        "depth_index": 0,
+        "logtau500": -4.9177
+      }
+    }
+  ],
+  "independent_shape_flux_receipt": {
+    "name": "native5750_external_b_local_lte_triplet.csv",
+    "bytes": 300191,
+    "sha256": "c75d1caeaa72cd6049318caa0421c93f4113878e4ffc73a9f3c0e70c5649ef2b"
+  },
+  "baseline_populations": {
+    "name": "populations.npz",
+    "bytes": 36607,
+    "sha256": "fc33ac0f17524d290584fc849d80fae2a97987e4e69fe7373d80c270e201ef3d"
+  },
+  "status": "DIAGNOSTIC_COMPLETE"
+}

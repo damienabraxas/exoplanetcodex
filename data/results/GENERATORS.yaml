@@ -25430,3 +25430,143 @@ artifacts:
     invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
     ticket: RYA-1281
     note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/native_charge_v1/oracle/manifest.json
+    generator: scripts/build_bride_multi_spline_oracle.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/build_bride_multi_spline_oracle.py --source-root /private/tmp/rya1279-pymulti-source --output "$CODEX_WORK_ROOT/bride_inputs/rya1281/native-spline-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_rh_directions_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/summary.json
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_source_directions_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_lte_balanced_CH0_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/thermal_closure.npz
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/paired_CH0_with_LTE_H_lines_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/paired_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --case-directory "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0" --case-receipt "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v1/summary.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-paired-rates-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/paired_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --case-directory "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0" --case-receipt "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v1/summary.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-paired-rates-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.

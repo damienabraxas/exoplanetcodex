@@ -128,6 +128,7 @@ entries:
   experiments.bride_multi_spline_oracle:
     root: work
     rel: bride_inputs/rya1281/native-spline-v2
+    env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
     kind: dir
     desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
   experiments.bride_oxygen_atom:

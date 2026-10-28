@@ -1,5 +1,7 @@
 ## 2026-10-28 — Bride oxygen rate conventions
 
+- **RYA-1281** — native spline oracle isolates reverse-charge closure; photospheric b error0.0054, outer/reference gates remain open.
+
 - **RYA-1281** — collision-convention defect traced; safeguarded controls and mixed O+Ni opacity prototype; native MULTI parity remains open.
 
 ## 2026-10-27 — Bride oxygen population audit

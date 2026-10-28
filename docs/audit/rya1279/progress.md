@@ -293,3 +293,16 @@ rate_conventions_review.md, rate_conventions_v1 artifacts and open
 collision_convention bug-ledger row. Registerv180 records these findings.
 Next priority is producer-build/rate-dump parity, then qualified blends and
 additional solar elements before another star. No science admission or merge.
+
+## 2026-10-28 native interpolation and reverse-charge checkpoint
+
+Continued from ae5e65c3; refreshed main5d517cbc includes Na PR595 and is
+not merged into this stacked branch. Found previously missed lowercase
+RCOLL/GENCL in held source4d6aa3c; built a direct DP TAUTSP/PPVALU oracle
+with existing Mac gfortran, no source/dependency changes. Four native/paired/
+LTE-H controls converged; reverse-charge hypothesis improves photospheric
+reference populations and full-atom LTE closure, but outer layers still differ.
+See native_charge_review.md for exact controls, bounds, original outputs,
+verified rate replay, unavailable native opacity inputs and next steps.
+Registerv181 and existing open collision_convention bug record the finding.
+No production/default converter/gold/adopted value/merge or publication changed.

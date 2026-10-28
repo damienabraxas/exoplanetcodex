@@ -42,7 +42,7 @@ def main():
     origin=require_codex_path('experiments.bride_mac_grid')/'rya1281-v1/baseline'
     archive=ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
-    convention=None
+    convention=None;hydrogen_lines=False
     if args.case_directory is not None:
         if args.case_receipt is None:raise ValueError('Native control replay requires an independent population receipt')
         origin=args.case_directory
@@ -56,6 +56,9 @@ def main():
         case=manifest['case']
         if (case['teff'],case['logg'],case['xi'],case['abundance'],case['drop_bottom'])!=(5750,4.5,1.,8.7,0):
             raise ValueError('Rate comparison requires the exact native node and controls')
+        if manifest['controls']['rays']!=3 or manifest['controls']['qscale']!=1 or manifest.get('diagnostic_collision_scales'):
+            raise ValueError('Rate replay requires pinned rays/qscale and unscaled source coefficients')
+        hydrogen_lines=case.get('lte_h_background_lines',False)
         convention=manifest.get('experimental_collision_convention')
         if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
             raise ValueError('Unsupported native control interpretation')
@@ -80,16 +83,19 @@ def main():
         populations=fingerprint(origin/'populations.npz'),threads=1,
         source_manifest=fingerprint(origin/'manifest.json'),experimental_collision_convention=convention,
         case_receipt=fingerprint(args.case_receipt) if args.case_receipt is not None else None,
+        lte_h_background_lines=hydrogen_lines,
         controls=dict(rays=3,qscale=1,J_rtol=1e-8,maxiter=1000,seconds_per_mode=180,SE_updates=False),
         caveat='External b on local LTE is a shape intervention, not native MULTI radiation/rates. No native MULTI rate dump is held here.',modes=[])
     def save():(args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     save();rows=[]
     for mode,pop in [('local_nlte',native),('local_lte',nstar),('external_b_local_lte',external)]:
-        start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1)
+        start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1,lte_h_background_lines=hydrogen_lines)
         atom=ctx.activeAtoms[0];np.testing.assert_allclose(atom.nStar,nstar,rtol=64*np.finfo(float).eps,atol=0)
         if convention is not None:
             from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
             oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
+            if oracle.receipt!=manifest['native_spline_control']['oracle']:
+                raise ValueError('Replay oracle differs from the verified source control')
             install_native_collision_control(ctx,source,oracle,source_directions=convention!='native_tautsp_rh_directions',
                 reversible_ch0=convention=='native_tautsp_lte_balanced_CH0')
         atom.n[:]=pop

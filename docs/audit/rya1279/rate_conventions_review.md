@@ -1,5 +1,7 @@
 # Oxygen rate conventions and first mixed-opacity Ni test
 
+> 2026-10-28 follow-up: the [native charge audit](native_charge_review.md) finds the held lowercase RCOLL/GENCL implementation missed by the earlier search, tests its compiled spline and a reversible-charge hypothesis, and preserves the unresolved outer-layer/producer gates.
+
 Continuation of RYA-1281 at e75e2b94, on the existing stacked draft PR #598.
 Ryan authorized continuing the oxygen investigation on the Mac. Refreshed main
 remains 0ade2170. All scientific admission gates remain **HOLD**.
