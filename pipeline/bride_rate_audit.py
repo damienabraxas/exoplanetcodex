@@ -24,7 +24,7 @@ def collision_classes(atom, atmosphere, eqpops):
     groups = {}
     shape = (len(atom.levels), len(atom.levels), atmosphere.Nspace)
     for collision in atom.collisions:
-        key = type(collision).__name__
+        key = getattr(collision,'source_kind',type(collision).__name__)
         matrix = groups.setdefault(key, np.zeros(shape))
         collision.compute_rates(atmosphere, eqpops, matrix)
     return groups

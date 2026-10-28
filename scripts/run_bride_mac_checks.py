@@ -80,10 +80,16 @@ def main():
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True))
             convention=case.get('experimental_collision_convention')
             if convention:
-                if convention not in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
+                if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions'):
+                    from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
+                    oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
+                    m['native_spline_control']=install_native_collision_control(ctx,atom,oracle,
+                        source_directions=convention=='native_tautsp_source_directions')
+                elif convention in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
+                    from pipeline.bride_gencol_controls import install_gencol_control
+                    install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))
+                else:
                     raise ValueError('Unknown experimental collision convention')
-                from pipeline.bride_gencol_controls import install_gencol_control
-                install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))
                 m['experimental_collision_convention']=convention
                 m['interpretation']+='; non-adopted GENCOL convention experiment, exact reference-build parity unproven'
             active=ctx.activeAtoms[0]

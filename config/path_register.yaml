@@ -125,6 +125,11 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_multi_spline_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-spline-v2
+    kind: dir
+    desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
   experiments.bride_oxygen_atom:
     root: work
     rel: bride_inputs/rya1281/atom.o41f
