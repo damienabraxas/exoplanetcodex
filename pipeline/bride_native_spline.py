@@ -62,6 +62,10 @@ def install_native_collision_control(ctx, source, oracle, *, source_directions, 
     import lightweaver.constants as c
     if len(ctx.activeAtoms)!=1:raise ValueError('One active atom required')
     if reversible_ch0 and not source_directions:raise ValueError('Reverse CH0 hypothesis requires explicit source direction')
+    if reversible_ch0:
+        hydrogen=ctx.kwargs['eqPops'].atomicPops['H']
+        if not np.array_equal(hydrogen.n,hydrogen.nStar):
+            raise ValueError('Reverse CH0 LTE-reservoir hypothesis requires LTE hydrogen')
     atom=ctx.activeAtoms[0].atomicModel
     T=ctx.atmos.pyAtmos.temperature.copy()
     report=dict(oracle=oracle.receipt,source_directions=source_directions,reversible_ch0_LTE_reservoir_hypothesis=reversible_ch0,

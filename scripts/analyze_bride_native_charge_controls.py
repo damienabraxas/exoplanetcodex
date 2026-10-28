@@ -42,6 +42,11 @@ def main():
         population_comparison_scope='All levels/depths reported; logtau[-3,0] is a declared diagnostic subset, not a contribution function',
         thermal_controls=[],cases=[])
     fig,axes=plt.subplots(1,3,figsize=(15,4))
+    fluxfig,fluxaxes=plt.subplots(1,2,figsize=(13,4))
+    reference_curve=ROOT/'data/results/rya1281/population_audit_v1/native5750_external_b_local_lte_triplet.csv'
+    external=np.genfromtxt(reference_curve,delimiter=',',names=True)
+    result['independent_shape_flux_receipt']=fingerprint(reference_curve)
+    for ax in fluxaxes:ax.plot(external['air_A'],external['normalized_flux'],color='black',ls='--',label='Independent b on local LTE')
     for ax,level,label in zip(axes,(5,9,39),('Triplet lower','Triplet upper','O II ground')):
         ax.plot(tau,ref[level],color='black',label='Independent reference');ax.set(xlabel='log tau500',ylabel='Departure b',title=label)
         ax.axvspan(-3,0,alpha=.06,color='grey')
@@ -77,6 +82,7 @@ def main():
             np.testing.assert_allclose(a['nstar'],base['nstar'],rtol=64*np.finfo(float).eps,atol=0)
             if fingerprint(root/'flux.csv')!=m['flux']:raise ValueError('Changed flux')
             curve=np.genfromtxt(root/'flux.csv',delimiter=',',names=True)
+            for ax in fluxaxes:ax.plot(curve['wavelength_air_A'],curve['normalized_flux'],label=entry['name'])
             history=[json.loads(line) for line in (root/'history.jsonl').read_text().splitlines()]
             where=np.unravel_index(np.argmax(abs(b-ref)),b.shape)
             result['cases'].append(dict(name=entry['name'],source_run=directory.name,
@@ -101,6 +107,11 @@ def main():
     for ax in axes:ax.legend(fontsize=5)
     fig.suptitle('Native coefficient / direction / reverse-path controls; no abundance tuning')
     fig.tight_layout();fig.savefig(args.output/'departures_all_depths.png',dpi=150);plt.close(fig)
+    for ax,limits in zip(fluxaxes,((7771.4,7772.5),(7770.8,7776.2))):
+        ax.set(xlim=limits,xlabel='Air wavelength (Angstrom)',ylabel='Intrinsic normalized flux')
+        ax.legend(fontsize=5)
+    fluxfig.suptitle('Spectral similarity does not establish population parity')
+    fluxfig.tight_layout();fluxfig.savefig(args.output/'flux_controls.png',dpi=150);plt.close(fluxfig)
     result['status']='DIAGNOSTIC_COMPLETE'
     (args.output/'summary.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(thermal_controls=result['thermal_controls'],cases=result['cases']),indent=2))

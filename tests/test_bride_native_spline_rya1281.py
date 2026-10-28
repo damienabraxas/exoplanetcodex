@@ -31,7 +31,9 @@ def test_native_collision_units_direction_and_lte_balance(oracle):
     raw=[MultiCollision(kind,2,1,np.full(4,q),grid) for kind,q in [('CE',1e-9),('CI',1e-10),('CH',1e-12)]]
     raw.append(MultiCollision('CH0',1,2,np.full(4,1e-12),grid))
     model=S(levels=[S(E=0.,g=2.,stage=0),S(E=1e4,g=4.,stage=1)],element='O')
-    atmosphere=S(temperature=T,ne=ne);ctx=S(activeAtoms=[S(atomicModel=model)],atmos=S(pyAtmos=atmosphere))
+    atmosphere=S(temperature=T,ne=ne)
+    hydrogen=S(n=H[None,:].copy(),nStar=H[None,:].copy())
+    ctx=S(activeAtoms=[S(atomicModel=model)],atmos=S(pyAtmos=atmosphere),kwargs={'eqPops':S(atomicPops={'H':hydrogen})})
     install_native_collision_control(ctx,S(collisions=raw),oracle,source_directions=True)
     lte=np.array([[10.,20.],[2.,4.]])
     class Populations:
@@ -50,6 +52,9 @@ def test_native_collision_units_direction_and_lte_balance(oracle):
     paired=np.zeros((2,2,2));model.collisions[-1].compute_rates(atmosphere,Populations(),paired)
     np.testing.assert_allclose(paired[1,0],matrices[-1][1,0])
     np.testing.assert_allclose(paired[0,1]*lte[1],paired[1,0]*lte[0])
+    hydrogen.n*=2
+    with pytest.raises(ValueError,match='requires LTE hydrogen'):
+        install_native_collision_control(ctx,S(collisions=raw),oracle,source_directions=True,reversible_ch0=True)
 
 
 def test_h_background_control_keeps_populations_lte_and_oxygen_identity():
