@@ -80,11 +80,12 @@ def main():
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True))
             convention=case.get('experimental_collision_convention')
             if convention:
-                if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions'):
+                if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
                     from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
                     oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
                     m['native_spline_control']=install_native_collision_control(ctx,atom,oracle,
-                        source_directions=convention=='native_tautsp_source_directions')
+                        source_directions=convention!='native_tautsp_rh_directions',
+                        reversible_ch0=convention=='native_tautsp_lte_balanced_CH0')
                 elif convention in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
                     from pipeline.bride_gencol_controls import install_gencol_control
                     install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))

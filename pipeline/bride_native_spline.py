@@ -52,7 +52,7 @@ class NativeTautsp:
         return output
 
 
-def install_native_collision_control(ctx, source, oracle, *, source_directions):
+def install_native_collision_control(ctx, source, oracle, *, source_directions, reversible_ch0=False):
     """Precompute exact held TAUTSP coefficients, retaining local LW LTE/H fields.
 
     Source semantics follow mul23_opacu.f GENCL; alternate directions isolate
@@ -61,9 +61,10 @@ def install_native_collision_control(ctx, source, oracle, *, source_directions):
     from lightweaver.collisional_rates import CollisionalRates
     import lightweaver.constants as c
     if len(ctx.activeAtoms)!=1:raise ValueError('One active atom required')
+    if reversible_ch0 and not source_directions:raise ValueError('Reverse CH0 hypothesis requires explicit source direction')
     atom=ctx.activeAtoms[0].atomicModel
     T=ctx.atmos.pyAtmos.temperature.copy()
-    report=dict(oracle=oracle.receipt,source_directions=source_directions,
+    report=dict(oracle=oracle.receipt,source_directions=source_directions,reversible_ch0_LTE_reservoir_hypothesis=reversible_ch0,
         temperature_unchanged_required=True,CH_negative_spline_values_clipped_as_native=0)
     replacement=[]
     for raw in source.collisions:
@@ -96,6 +97,8 @@ def install_native_collision_control(ctx, source, oracle, *, source_directions):
                 else:
                     if source_directions:
                         matrix[self.raw_destination,self.raw_source]+=q*eqpops['H'][0]
+                        if reversible_ch0:
+                            matrix[self.raw_source,self.raw_destination]+=q*eqpops['H'][0]*nstar[self.raw_source]/nstar[self.raw_destination]
                     else:matrix[lower,upper]+=q*eqpops['H'][0]
                     return
                 matrix[lower,upper]+=down;matrix[upper,lower]+=up
@@ -103,6 +106,9 @@ def install_native_collision_control(ctx, source, oracle, *, source_directions):
         rate=NativeRate(i=min(raw.i,raw.j)-1,j=max(raw.i,raw.j)-1)
         rate.source_kind=raw.kind;rate.coefficient=coefficient
         rate.raw_source=raw.j-1;rate.raw_destination=raw.i-1;rate.setup(atom)
+        if raw.kind=='CH0' and reversible_ch0:
+            if atom.levels[rate.raw_destination].stage!=atom.levels[rate.raw_source].stage+1:
+                raise ValueError('Reverse CH0 hypothesis requires explicit adjacent-ion-stage forward process')
         replacement.append(rate)
     atom.collisions=replacement
     return report
