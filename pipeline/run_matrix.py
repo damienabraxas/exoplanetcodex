@@ -1213,12 +1213,17 @@ def ledger_key(star: str, descriptor: RunDescriptor, band: str) -> str:
 #: RYA-1250: cells whose graded pool was EMPTY, keyed like the ledger, with the inputs hash
 #: they were tried at. A refused pool records no build, so every run re-tried all of them --
 #: ~600 Mg cells, most of run 4's 4.5 h. Same inputs, same empty pool: not re-tried.
-EMPTY_POOLS = REPORT_DIR / "empty_pools.json"
+#: None = beside the ledger, so whatever relocates LEDGER (a test) relocates this too
+EMPTY_POOLS: Path | None = None
+
+
+def _empty_pools_path() -> Path:
+    return EMPTY_POOLS or LEDGER.with_name("empty_pools.json")
 
 
 def load_empty_pools() -> dict:
     try:
-        return json.loads(EMPTY_POOLS.read_text(encoding="utf-8"))
+        return json.loads(_empty_pools_path().read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
@@ -1226,7 +1231,7 @@ def load_empty_pools() -> dict:
 def record_empty_pool(key: str, want_hash: str, why: str) -> None:
     d = load_empty_pools()
     d[key] = {"inputs_hash": want_hash, "why": why[:300], "at": _utc()}
-    EMPTY_POOLS.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _empty_pools_path().write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def load_ledger() -> dict:

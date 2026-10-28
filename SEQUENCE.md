@@ -10,6 +10,10 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-28 — pending RYA-1250 branch
+
+- **RYA-1250** (pending, branch `ryandamienschmitt/rya-1250-mg-fix`) — Mg through the orchestrator on Sirius: 1548 budget legs, 0 failed; 219 published / 24 quarantined / 9 held. First CRIRES+ K Mg products (7.507). Leg filing, partial-report refusal and empty-pool memo stop a narrowed run from deleting legs or re-trying dead cells.
+
 ## 2026-10-24 — RYA-1271 landed; pending RYA-1251 branch
 
 > **Current as of `main` 183310d8** (2026-10-24, RYA-1271).

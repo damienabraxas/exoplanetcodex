@@ -24746,3 +24746,7 @@ artifacts:
     generator: scripts/rya1251_na_canocchi2026_3d.py
     invocation: python scripts/rya1251_na_canocchi2026_3d.py --grid <grids.canocchi2026_na>
     ticket: RYA-1251
+  - artifact: rya1250/mg_hfs_collapse.csv
+    generator: scripts/rya1250_mg_hfs_term.py
+    invocation: ~/venv_rya1103/bin/python scripts/rya1250_mg_hfs_term.py
+    ticket: RYA-1250

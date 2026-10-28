@@ -907,6 +907,7 @@ def test_a_set_pool_reads_its_own_ions_file():
 
 def test_an_empty_pool_refusal_is_held_not_failed(rm, monkeypatch, tmp_path):
     reaches_the_executor(rm, monkeypatch)
+    monkeypatch.setattr(rm, "LEDGER", tmp_path / "inputs_hashes.json")   # RYA-1250: empty-pool memo
     monkeypatch.setattr(rm, "_run_step", lambda *a, **k: (
         False, "derive_products: exit 1: no graded line in this band sits above the EW depth gate"))
     doc = rm.run("solar", "Si", ions=["I"], engines=["ts-lte"], bands=["VIS"],
