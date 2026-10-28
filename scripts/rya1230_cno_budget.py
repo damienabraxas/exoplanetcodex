@@ -262,16 +262,12 @@ def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
         from pipeline.crires_h_sky import telluric_line as _h
         ev = _h(w0, hw)
         if ev.get("residual_flux") is None and ev.get("sky_absorption") is None:
-            # RYA-1250: outside every Vesta segment there is no independent correction, but the
-            # sky is still measured: our full-arm molecfit of the same night (rya1232's
-            # min_mtrans). The caller bounds the residual from a measured ratio.
+            # RYA-1250: outside every Vesta segment the independent correction is our full-arm
+            # molecfit of the same night (rya1232): sky = its min_mtrans, residual = the two
+            # reductions' difference on the telluric pixels (the pair is symmetric).
             own = _telluric_own_sky(instrument, "solar_crires_plus_h_rya1232", w0, hw)
             own["residual_basis"] = (ev["residual_basis"] + "; sky = solar_crires_plus_h_rya1232 "
-                                     "min_mtrans (same night)")
-            if own.get("sky_absorption") == 0.0:
-                own["residual_flux"] = 0.0
-            else:
-                own["residual_flux"] = None
+                                     "min_mtrans (same night); " + own.get("residual_basis", ""))
             return own
         return ev
     import measure_band_ew as H
