@@ -18,6 +18,7 @@ def main():
     p.add_argument('--reference',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--case-directory',type=Path,help='Explicit native-node control from a verified run summary; default reviewed RH baseline')
+    p.add_argument('--case-receipt',type=Path,help='Independent control-analysis receipt required with --case-directory')
     args=p.parse_args()
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':
         raise RuntimeError('Requires authorized Mac and LW0.16.1')
@@ -43,6 +44,7 @@ def main():
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
     convention=None
     if args.case_directory is not None:
+        if args.case_receipt is None:raise ValueError('Native control replay requires an independent population receipt')
         origin=args.case_directory
         summary=json.loads((origin.parent/'summary.json').read_text())
         entry=next(e for e in summary['cases'] if e['name']==origin.name)
@@ -57,6 +59,12 @@ def main():
         convention=manifest.get('experimental_collision_convention')
         if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
             raise ValueError('Unsupported native control interpretation')
+        control_receipt=json.loads(args.case_receipt.read_text())
+        hit=next(c for c in control_receipt['cases'] if c['name']==origin.name and c['source_run']==origin.parent.name)
+        if (fingerprint(origin/'populations.npz')!=hit['populations']
+                or fingerprint(origin/'manifest.json')!=hit['source_manifest']
+                or fingerprint(origin.parent/'summary.json')!=hit['source_summary']):
+            raise ValueError('Native control differs from independent population receipt')
     elif fingerprint(origin/'populations.npz')!=receipt['original_population_file']:
         raise ValueError('Changed cached populations')
     data=np.load(origin/'populations.npz');nstar=data['nstar'];native=data['populations']
@@ -71,6 +79,7 @@ def main():
         atom=ref['atom'],atmosphere=ref['atmosphere_file'],population_receipt=fingerprint(archive),
         populations=fingerprint(origin/'populations.npz'),threads=1,
         source_manifest=fingerprint(origin/'manifest.json'),experimental_collision_convention=convention,
+        case_receipt=fingerprint(args.case_receipt) if args.case_receipt is not None else None,
         controls=dict(rays=3,qscale=1,J_rtol=1e-8,maxiter=1000,seconds_per_mode=180,SE_updates=False),
         caveat='External b on local LTE is a shape intervention, not native MULTI radiation/rates. No native MULTI rate dump is held here.',modes=[])
     def save():(args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
