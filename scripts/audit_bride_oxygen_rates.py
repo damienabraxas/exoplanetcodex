@@ -17,6 +17,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--reference',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--case-directory',type=Path,help='Explicit native-node control from a verified run summary; default reviewed RH baseline')
     args=p.parse_args()
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':
         raise RuntimeError('Requires authorized Mac and LW0.16.1')
@@ -40,7 +41,23 @@ def main():
     origin=require_codex_path('experiments.bride_mac_grid')/'rya1281-v1/baseline'
     archive=ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
-    if fingerprint(origin/'populations.npz')!=receipt['original_population_file']:
+    convention=None
+    if args.case_directory is not None:
+        origin=args.case_directory
+        summary=json.loads((origin.parent/'summary.json').read_text())
+        entry=next(e for e in summary['cases'] if e['name']==origin.name)
+        if fingerprint(origin/'manifest.json')!=entry['manifest'] or summary['atom']!=ref['atom']:
+            raise ValueError('Changed native control identity')
+        manifest=json.loads((origin/'manifest.json').read_text())
+        if manifest['status']!='CONVERGED_EXPERIMENT' or manifest['atmosphere']!=ref['atmosphere_file']:
+            raise ValueError('Unconverged control or wrong native atmosphere')
+        case=manifest['case']
+        if (case['teff'],case['logg'],case['xi'],case['abundance'],case['drop_bottom'])!=(5750,4.5,1.,8.7,0):
+            raise ValueError('Rate comparison requires the exact native node and controls')
+        convention=manifest.get('experimental_collision_convention')
+        if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
+            raise ValueError('Unsupported native control interpretation')
+    elif fingerprint(origin/'populations.npz')!=receipt['original_population_file']:
         raise ValueError('Changed cached populations')
     data=np.load(origin/'populations.npz');nstar=data['nstar'];native=data['populations']
     external,factors=conserve_departure_replay(np.array(ref['reference']['departures']),nstar)
@@ -53,6 +70,7 @@ def main():
         accounting=fingerprint(ROOT/'pipeline/bride_rate_audit.py'),reference=fingerprint(args.reference),
         atom=ref['atom'],atmosphere=ref['atmosphere_file'],population_receipt=fingerprint(archive),
         populations=fingerprint(origin/'populations.npz'),threads=1,
+        source_manifest=fingerprint(origin/'manifest.json'),experimental_collision_convention=convention,
         controls=dict(rays=3,qscale=1,J_rtol=1e-8,maxiter=1000,seconds_per_mode=180,SE_updates=False),
         caveat='External b on local LTE is a shape intervention, not native MULTI radiation/rates. No native MULTI rate dump is held here.',modes=[])
     def save():(args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
@@ -60,6 +78,11 @@ def main():
     for mode,pop in [('local_nlte',native),('local_lte',nstar),('external_b_local_lte',external)]:
         start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1)
         atom=ctx.activeAtoms[0];np.testing.assert_allclose(atom.nStar,nstar,rtol=64*np.finfo(float).eps,atol=0)
+        if convention is not None:
+            from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
+            oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
+            install_native_collision_control(ctx,source,oracle,source_directions=convention!='native_tautsp_rh_directions',
+                reversible_ch0=convention=='native_tautsp_lte_balanced_CH0')
         atom.n[:]=pop
         for iteration in range(1000):
             if time.perf_counter()-start>180:raise TimeoutError('Rate replay budget exceeded')
@@ -93,7 +116,7 @@ def main():
         np.testing.assert_allclose(sum(net_groups.values()),net,
             atol=512*np.finfo(float).eps*float(gross.max()),rtol=0)
         selected=[]
-        for tau in (-3.,-2.,-1.,0.):
+        for tau in (-4.9,-4.,-3.,-2.,-1.,0.):
             d=int(np.argmin(abs(structure['logtau_500']-tau)))
             for level in (5,7,8,9,35):
                 rank=sorted(net_groups,key=lambda k:abs(net_groups[k][level,d]),reverse=True)
