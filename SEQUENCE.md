@@ -1,3 +1,9 @@
+## 2026-10-28 — merged-main reconciliation
+
+> **Current as of `main` 5d517cbc** (2026-10-28 audit).
+
+- **RYA-1251** — `5d517cbc` PR #595 landed. Latest ticket report: 112 Na products across six bands, 72/360 cells run, zero failed; ENGINE-A table extended by 660 rows. Mean-3D/no-grid and non-convergent-fit holds remain. Sourced from ticket comment 18f57859 and merged diff; this records another branch, not a Bride result.
+
 ## 2026-10-28 — Bride oxygen rate conventions
 
 - **RYA-1281** — native spline oracle isolates reverse-charge closure; photospheric b error0.0054, outer/reference gates remain open.

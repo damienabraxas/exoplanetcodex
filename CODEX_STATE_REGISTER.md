@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v181** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v182** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -306,6 +306,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v182** (2026-10-28) — **Merged-main reconciliation.** Recorded RYA-1251 PR #595 at 5d517cbc in SEQUENCE from its final ticket report and merged diff: 112 Na products and retained scientific holds. Bride v181 evidence unchanged; no main merge or regeneration performed.
 
 - **v181** (2026-10-28) — **RYA-1281 native charge investigation.** Corrected incomplete uppercase source search; held lowercase RCOLL/GENCL supports a compiled TAUTSP/PPVALU oracle. Four fresh Mac controls converge without abundance/rate tuning. Reverse CH0 LTE-reservoir hypothesis materially improves photospheric reference populations and closes collision-only LTE balance; outer atmosphere and exact producer remain open. H-line control demonstrates spectral/population degeneracy. No default convention, adopted abundance or scientific admission changed. See docs/audit/rya1279/native_charge_review.md.
 - **v180** (2026-10-28) — **RYA-1281 rate conventions and mixed opacity.** Per-process physical rates expose CH/CH0 intake ambiguity; directed/log-rate CH0 and CH-down controls preserved separately. Four failed attempts plus two safeguarded converged cases, none admitted as native MULTI parity. Trace LTE Ni opacity is added within oxygen transfer, not multiplied profiles; pressure/isotope/other blends remain owed. Open collision_convention bug ledger row; source rates/default converter/gold/adopted products unchanged. See docs/audit/rya1279/rate_conventions_review.md.
