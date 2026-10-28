@@ -157,9 +157,11 @@ def test_resume_is_exactly_the_cells_whose_work_does_not_exist(dry, rm):
 def test_the_report_is_written_and_reloadable(rm, tmp_path):
     doc = rm.run("solar", "Si", dry_run=True, engines=["ts-lte"], bands=["VIS"],
                  echo=False, report_dir=tmp_path)
-    latest = tmp_path / "solar_Si_latest.json"
-    assert latest.exists()
+    # RYA-1250: a narrowed run is the element's report only in its own `_latest_partial`
+    latest = tmp_path / "solar_Si_latest_partial.json"
+    assert latest.exists() and not (tmp_path / "solar_Si_latest.json").exists()
     assert json.loads(latest.read_text())["cells_total"] == doc["cells_total"]
+    assert doc["scope"] == {"bands": ["VIS"], "engines": ["ts-lte"]}
     assert len(list(tmp_path.glob("solar_Si_2*.json"))) == 1, "no timestamped copy"
 
 

@@ -260,6 +260,14 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
+    # RYA-1250: publish prices, files and withdraws per UNIT, so it must see the whole element.
+    # A one-band report once made it treat 132 of 172 Mg units as gone.
+    if report.get("scope"):
+        raise ValueError(f"publish refuses a narrowed run report (scope {report['scope']}); "
+                         f"run the whole element")
+    if report.get("star") not in (None, star) or report.get("element") not in (None, element):
+        raise ValueError(f"publish: report is for {report.get('star')} {report.get('element')}, "
+                         f"not {star} {element}")
     import datetime as _dt
     started = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     work = budget_dir(star, element)

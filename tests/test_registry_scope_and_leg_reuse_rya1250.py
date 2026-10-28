@@ -170,3 +170,23 @@ def test_a_unit_missing_from_one_run_is_filed_not_deleted(tmp_path):
     assert (legs / "unit00/nominal/DONE").read_text() == "u1"
     assert ep.reuse_legs(legs, prev, ["c", "b", "a"]) == [0, 1, 2]    # all back
     assert [(legs / f"unit{i:02d}/nominal/DONE").read_text() for i in range(3)] == ["u2", "u1", "u0"]
+
+
+def test_publish_refuses_a_narrowed_run_report():
+    """RYA-1250: publish on a one-band dry-run report deleted most of Mg's budget legs."""
+    import pytest
+    rep = {"star": "solar", "element": "Mg", "scope": {"bands": ["red-optical"]}, "cells": []}
+    with pytest.raises(ValueError, match="narrowed"):
+        ep.publish("solar", "Mg", report=rep)
+    with pytest.raises(ValueError, match="not solar Mg"):
+        ep.publish("solar", "Mg", report={"star": "solar", "element": "Si", "cells": []})
+
+
+def test_an_empty_pool_is_not_retried_at_unchanged_inputs(tmp_path, monkeypatch):
+    """~600 Mg cells re-failed 'pool empty' on every run: the outcome is now recorded."""
+    monkeypatch.setattr(rm, "EMPTY_POOLS", tmp_path / "empty_pools.json")
+    assert rm.load_empty_pools() == {}
+    rm.record_empty_pool("k", "h1", "no graded lines")
+    assert rm.load_empty_pools()["k"]["inputs_hash"] == "h1"
+    src = (ROOT / "pipeline/run_matrix.py").read_text()
+    assert 'empty_pools.get(lkey)' in src and '_empty.get("inputs_hash") == want' in src
