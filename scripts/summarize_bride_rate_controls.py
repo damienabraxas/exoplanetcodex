@@ -35,7 +35,13 @@ def main():
     for mode in ('local_lte','local_nlte','external_b_local_lte'):
         path=prior/f'native5750_{mode}_triplet.csv';d=np.genfromtxt(path,delimiter=',',names=True)
         ax.plot(d['air_A'],d['normalized_flux'],label=mode,lw=1)
-    ref=np.array(json.loads((ROOT/'data/results/rya1281/population_audit_v1/report.json').read_text())['oxygen_transitions'])
+    reference_file=args.rate_audit/'external_b_local_lte_rates.npz'
+    expected=next(m['array'] for m in rate['modes'] if m['name']=='external_b_local_lte')
+    if fingerprint(reference_file)!=expected:raise ValueError('Changed external population-shape receipt')
+    reference_arrays=np.load(reference_file)
+    reference_b=reference_arrays['populations']/reference_arrays['nstar']
+    tau=reference_arrays['logtau500'];photosphere=(tau>=-3)&(tau<=0)
+    selected=int(np.argmin(abs(tau+1.2621)))
     for directory in args.runs:
         summary=json.loads((directory/'summary.json').read_text())
         if summary['status']!='EXPERIMENTS_FINISHED':raise ValueError('Run set not finished')
@@ -55,6 +61,13 @@ def main():
                 d=np.genfromtxt(path/'flux.csv',delimiter=',',names=True)
                 result['flux']=m['flux'];result['populations']=fingerprint(path/'populations.npz')
                 result['window_area_mA']=[1000*window_integral(d['wavelength_air_A'],d['normalized_flux'],c-.5,c+.5) for c in (7771.944,7774.166,7775.388)]
+                arrays=np.load(path/'populations.npz');b=arrays['populations']/arrays['nstar']
+                result['population_shape_checks']=dict(reference='External b renormalized on local LTE in fixed rate replay',
+                    selected_logtau500=float(tau[selected]),b_lower=float(b[5,selected]),b_upper=float(b[9,selected]),
+                    reference_b_lower=float(reference_b[5,selected]),reference_b_upper=float(reference_b[9,selected]),
+                    upper_max_absolute_difference_all_depths=float(np.max(abs(b[9]-reference_b[9]))),
+                    upper_max_absolute_difference_logtau_minus3_to0=float(np.max(abs(b[9,photosphere]-reference_b[9,photosphere]))),
+                    all_level_depth_max_absolute_difference=float(np.max(abs(b-reference_b))))
                 stem=directory.name+'_'+entry['name']
                 np.savetxt(args.output/f'{stem}_profiles.csv',np.column_stack((d['wavelength_air_A'],d['normalized_flux'])),
                     delimiter=',',header='air_A,normalized_flux',comments='')
