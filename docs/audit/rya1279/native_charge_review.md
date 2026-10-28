@@ -158,6 +158,10 @@ The holdings registry contains no corresponding input receipt. No substitute
 ABSDAT/EOS/opacity data were fabricated, and no full native transfer comparison
 is claimed. The wrapper also expects atom-specific run/restart inputs, which
 would need a verified setup for this exact atmosphere, composition and grid.
+The historical author's folk.uio.no/matsc/mul23/index.html endpoint returned
+HTTP 404; browser access to the checked author-page variants also failed.
+The advertised Linear get_agent_context endpoint remained unavailable; source,
+issue journal and committed holdings supplied the context instead.
 
 The distribution provenance pins the current O41 file and May-2021 grid bytes;
 it does not contain the producer executable hash, complete atomic-data snapshot,
@@ -203,6 +207,15 @@ oracle tests exercise actual compiled routines. The fixed-physics grid assembler
 also rejects diagnostic background/rate variants. Prior bibliography audit remains
 red (186 documents, 125 accounted for), and prior stale-six-band/generated-surface
 aging issues remain documented. No green CI claim; final push skips Sirius CI.
+All 28 new result files have generator/CLI entries, exact source copies and five
+figures. Source/run/population/oracle receipts and all four convergence histories
+were checked. A live fixed-physics assembler invocation rejects the native/H
+interventions with the expected exit 1. Register v181 and whitespace checks pass.
+The branch generator guard remains at 2436 violations with **zero added or removed
+diagnostic lines** relative to its preceding checkpoint. A clean refreshed-main
+5d517cbc worktree reports 2717; its Na merge changes the artifact set, so these
+counts must not be subtracted as if they were the same tree. No unrelated main
+products or guards were altered.
 
 Next: obtain the exact producer implementation and native opacity/atmosphere/rate
 receipts, then isolate the remaining 135/277 nm radiative/background differences
