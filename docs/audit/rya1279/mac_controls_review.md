@@ -1,5 +1,7 @@
 # Mac controlled checks: input sensitivity,10K sampling and adaptive-grid prototype
 
+> 2026-10-27 correction: these are RH-convention experimental controls. The later [rate-convention audit](rate_conventions_review.md) identifies unresolved CH/CH0 source semantics; native MULTI physics parity is not established. Original results remain preserved.
+
 Ryan authorized moving this validation work to the Mac, exploring temperature,
 microturbulence and other inputs, checking the air-wavelength convention, and
 keeping the broader adaptive/full3D/all-band goal explicit. **All36 new RT/SE

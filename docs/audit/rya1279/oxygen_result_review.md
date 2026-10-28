@@ -1,5 +1,7 @@
 # First Bride oxygen spectra: numerical experiment, scientific admission HOLD
 
+> 2026-10-27 correction: these are RH-convention experimental controls. The later [rate-convention audit](rate_conventions_review.md) identifies unresolved CH/CH0 source semantics; native MULTI physics parity is not established. Original results remain preserved.
+
 Three real-atom experiments converged on Sirius. They use the full unchanged held
 41-level O atom and the exact MARCS 5750 K / cgs logg4.5 / A(O)=8.70 reference
 node. **8.70 is an input, not a fitted solar abundance.** These are static 1D

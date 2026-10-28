@@ -280,3 +280,16 @@ development runs, scope, failures and next work. No source data, adopted
 abundance, production gate, merge or publication changed. Full outputs remain
 in registered bride_mac_grid; compact review copies and plots are committed.
 Register v179 records the population finding and blend work still owed.
+
+## 2026-10-27 rate-convention and mixed-opacity checkpoint
+
+Continuation at e75e2b94, refreshed main0ade2170. Physical process budgets
+exposed CH/CH0 source-convention ambiguity; exact native grid producer remains
+unknown. New explicit adapters and safeguarded Ng controls preserve all four
+failed attempts and two converged controls without changing default converter.
+Trace LTE Ni is added as actual shared opacity with fixed oxygen populations;
+pressure/isotope/other blends remain outside prototype. See
+rate_conventions_review.md, rate_conventions_v1 artifacts and open
+collision_convention bug-ledger row. Registerv180 records these findings.
+Next priority is producer-build/rate-dump parity, then qualified blends and
+additional solar elements before another star. No science admission or merge.

@@ -25295,3 +25295,138 @@ artifacts:
     invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
     ticket: RYA-1281
     note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/rate_conventions_v1/rate_audit/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/rate_audit/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1"
+    ticket: RYA-1281
+    note: Native CSV CRLF normalized to LF for review; every parsed row verified equal. Source commit/plan hash pins original generator.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/rya1281-gencol-v3-safe-ng_directed_CH0_lograte_profiles.csv
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/summary.json
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/rya1281-gencol-v3-safe-ng_gencol_CH_down_directed_CH0_lograte_profiles.csv
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/report.json
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/solar5772_profiles.csv
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/native5750_profiles.csv
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.

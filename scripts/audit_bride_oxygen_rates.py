@@ -129,7 +129,7 @@ def main():
         fig.savefig(args.output/f'{mode}_budgets.png',dpi=150);plt.close(fig)
         print(mode,diagnostic,flush=True)
     with (args.output/'selected_flows.csv').open('w') as stream:
-        writer=csv.DictWriter(stream,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
+        writer=csv.DictWriter(stream,fieldnames=list(rows[0]),lineterminator='\n');writer.writeheader();writer.writerows(rows)
     report['status']='DIAGNOSTIC_COMPLETE';save()
 
 

@@ -1,3 +1,7 @@
+## 2026-10-28 — Bride oxygen rate conventions
+
+- **RYA-1281** — collision-convention defect traced; safeguarded controls and mixed O+Ni opacity prototype; native MULTI parity remains open.
+
 ## 2026-10-27 — Bride oxygen population audit
 
 - **RYA-1281** — matched LTE/NLTE, independent departures and CE/CH controls isolate population mismatch; O6300/O6158 blends remain owed.

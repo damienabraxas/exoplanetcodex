@@ -1,5 +1,7 @@
 # Oxygen population audit and additional solar diagnostics
 
+> 2026-10-27 correction: these are RH-convention experimental controls. The later [rate-convention audit](rate_conventions_review.md) identifies unresolved CH/CH0 source semantics; native MULTI physics parity is not established. Original results remain preserved.
+
 Ryan authorized the matched LTE/NLTE audit, collision/background investigation,
 blend checks and further oxygen diagnostics before testing other solar elements
 and only then moving to another star. This phase is a Mac-only, fixed-input
