@@ -1,0 +1,88 @@
+J/ApJS/228/10  Transition probabilities for 183 lines of Cr II  (Lawler+, 2017)
+================================================================================
+Improved Cr II log(gf) values and abundance determinations in the photospheres
+of the Sun and metal-poor star HD 84937.
+    Lawler J.E., Sneden C., Nave G., Den Hartog E.A., Emrahoglu N., Cowan J.J.
+   <Astrophys. J. Suppl. Ser., 228, 10-10 (2017)>
+   =2017ApJS..228...10L    (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Atomic physics
+Keywords: atomic data; stars: abundances;
+          stars: individual: HD 84937; stars: Population II; Sun: abundances
+
+Abstract:
+    New emission branching fraction (BF) measurements for 183 lines of the
+    second spectrum of chromium (Cr II) and new radiative lifetime
+    measurements from laser-induced fluorescence for 8 levels of Cr^+^ are
+    reported. The goals of this study are to improve transition
+    probability measurements in Cr II and reconcile solar and stellar Cr
+    abundance values based on Cr I and Cr II lines. Eighteen spectra from
+    three Fourier Transform Spectrometers supplemented with ultraviolet
+    spectra from a high-resolution echelle spectrometer are used in the BF
+    measurements. Radiative lifetimes from this study and earlier
+    publications are used to convert the BFs into absolute transition
+    probabilities. These new laboratory data are applied to determine the
+    Cr abundance log{epsilon} in the Sun and metal-poor star HD 84937. The
+    mean result in the Sun is <log{epsilon}(CrII)>=5.624+/-0.009 compared
+    to <log{epsilon}(CrI)>=5.644+/-0.006 on a scale with the hydrogen
+    abundance log{epsilon}(H)=12 and with the uncertainty representing
+    only line-to-line scatter. A Saha (ionization balance) test on the
+    photosphere of HD 84937 is also performed, yielding
+    <log{epsilon}(CrII)>=3.417+/-0.006 and <log{epsilon}(CrI, lower level
+    excitation potential E.P.>0eV)>=3.374+/-0.011 for this dwarf star. We
+    find a correlation of Cr with the iron-peak element Ti, suggesting an
+    associated nucleosynthetic production. Four iron-peak elements (Cr
+    along with Ti, V, and Sc) appear to have a similar (or correlated)
+    production history-other iron-peak elements appear not to be
+    associated with Cr.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table4.dat        58      183   Experimental atomic transition probabilities for
+                                 183 lines of Cr II organized by increasing
+                                 wavelength in air
+--------------------------------------------------------------------------------
+
+See also:
+ J/ApJ/817/53   : Fe-group elemental analysis in HD84937 (Sneden+, 2016)
+ J/ApJS/220/13  : Co I transition probabilities (Lawler+, 2015)
+ J/ApJS/215/20  : Vanadium log(gf) and transition probabilities (Lawler+, 2014)
+ J/ApJS/214/18  : VII log(gf) values, and V abundance in HD 84937 (Wood+ 2014)
+ J/ApJS/213/28  : Spectrum analysis of CrII (Sansonetti+, 2014)
+ J/ApJS/211/20  : NiI transition probability measurements (Wood+, 2014)
+ J/AJ/147/136   : Stars of very low metal abundance. VI. (Roederer+, 2014)
+ J/ApJS/208/27  : Sun and HD 84937 TiII log(gf) and abundances (Wood+, 2013)
+ J/ApJ/762/26   : Most metal-poor stars. II. Galactic halo stars (Yong+, 2013)
+ J/A+A/554/A96  : Spectra of LiI(670.8nm) line in metal-poor stars (Lind+, 2013)
+ J/A+A/511/A68  : Transitions of CrII (Gurell+, 2010)
+ J/ApJ/681/1524 : Detailed abundances for 28 metal-poor stars (Lai+, 2008)
+ J/ApJ/667/1267 : CrI transition probabilities (Sobeck+, 2007)
+ J/A+A/439/129  : HERES II. Spectroscopic analysis (Barklem+, 2005)
+
+Byte-by-byte Description of file: table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units    Label    Explanations
+--------------------------------------------------------------------------------
+   1-  9  F9.5  nm       lamAir   [253.4/642.2] Wavelength in air (1)
+  11- 19  F9.3  cm-1     UpLev    [46823.3/54784.5] Upper level Value (2)
+  21- 23  F3.1  ---      UpJ      [0.5/5.5] Upper level J value (2)
+  25- 33  F9.3  cm-1     LowLev   [11961.7/38269.6] Lower level Value (2)
+  35- 37  F3.1  ---      LowJ     [0.5/5.5] Lower level J value (2)
+  39- 45  F7.3  10+6/s   A        [0.05/250] Transition probability
+  47- 52  F6.3  10+6/s e_A        [0.01/11] Total uncertainty in A
+  54- 58  F5.2  ---      log(gf)  [-3/0.6] Log of degeneracy times oscillator
+                                   strength
+--------------------------------------------------------------------------------
+Note (1): Computed from energy levels using the standard index of air
+          from Peck & Reeder (1972JOSA...62..958P).
+Note (2): From Sansonetti and Nave (2014, J/ApJS/213/28).
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+================================================================================
+(End)                  Prepared by [AAS], Emmanuelle Perret [CDS]    08-Mar-2017

@@ -17,7 +17,6 @@ Run on Sirius (iSpec venv); writes data/results/rya1250/mg_hfs_collapse.csv, whi
 from __future__ import annotations
 
 import glob
-import importlib.util
 import sys
 import tempfile
 from pathlib import Path
@@ -34,13 +33,6 @@ OUT = ROOT / "data/results/rya1250/mg_hfs_collapse.csv"
 A0 = 7.56            # Amarsi & Grevesse 2026; the bound is evaluated at the solar value
 HALF_WIDTH_A = 0.3   # fit half-width handed to synth_ew (integration is >= 1 A either side)
 SLICE_A = 6.0        # list rows kept around the line; integration reaches 1 A
-
-
-def _budget():
-    spec = importlib.util.spec_from_file_location("budget", ROOT / "scripts/rya1230_cno_budget.py")
-    b = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(b)
-    return b
 
 
 def pool_lines() -> pd.DataFrame:
@@ -130,13 +122,9 @@ def measure(r) -> dict:
 
 
 def main() -> int:
-    b = _budget()
     lines = pool_lines()
     rows = []
     for _, r in lines.sort_values("wavelength_air_A").iterrows():
-        thin = b._hfs_thin_evidence(pd.DataFrame([r]))
-        if thin is not None:
-            continue
         m = measure(r)
         print(f"{m['species']} {m['wavelength_air_A']:.3f} n={m['n_components_in_synthesis']} "
               f"EW {m['ew_split_mA']} mA  dA(collapse) {m['dA_collapse_dex']}", flush=True)

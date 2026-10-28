@@ -1,0 +1,39 @@
+# LITSCAN -- Ni (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file.
+# Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 changed this element (AGSS21 6.20 +/- 0.04 -> AG26 6.20 +/- 0.05) (RYA-1251).
+element: Ni
+ion: I
+ions: [I]
+source_of_truth: RYA-1268
+scale: as adopted by AG26 (3L)
+entries:
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 6.20
+    sigma: 0.05
+    role: best external (anchor)
+    method: 3L
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 6.24
+    sigma: 0.06
+    role: corroborating
+    note: Lodders quality flag A-.
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 6.20
+    sigma: 0.04
+    role: corroborating (superseded by AG26)
+    method: Scott et al. 2015 (A&A 573, A26) 3D-LTE
+range:
+  central: 6.20
+  min: 6.15
+  max: 6.25
+  best_external: Amarsi & Grevesse 2026 (arXiv 2608.23155)
+  sigma_external: 0.05
+  deviate_beyond: 0.10
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.

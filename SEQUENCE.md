@@ -1,4 +1,28 @@
+## 2026-10-24 — bibliography integration reconciled by RYA-1274
+
+> **Current as of `main` 183310d8** (2026-10-25 audit) — verified from fetched Git and the merged diffs.
+
+- **RYA-1271** — PRs #593/#594 landed the bibliography/source-page refresh and removed internal-note citations; existing v171 records scope.
+
+## 2026-10-25 — review branch
+
+- **RYA-1274** — agent bootstrap and reference discovery validated; ORCH/literature gaps filed as RYA-1275/1276/1277; review pending.
+
 # Codex Ticket Sequence — chronological landing log
+
+## 2026-10-24 — RYA-1271 landed; pending RYA-1251 branch
+
+> **Current as of `main` 183310d8** (2026-10-24, RYA-1271).
+
+- **RYA-1271** — `591ad81e` PR #593 (`58550725`, `257cf11d`, `8d5fccc1`) and `183310d8` PR #594 (`05804945`). Bibliography 156 -> 206 rows; /sources regenerates again (vocabulary extended, client-side search, phone-width wrapping); the two internal notes dropped; Codex documents link the current versions.
+- **RYA-1251** (pending, branch `ryandamienschmitt/rya-1251-na`) — Na through the orchestrator on the Mac (grid over NFS from Sirius): 38 published / 37 held across 360 cells, 0 failed cells, 0 failed legs. Fixes: hfs-centroid set-line match, SET cell not aliased to GRADED in the budget, unpairable legs hold the component not the element, NLTE fit clamped to the deck's abundance axis, all-lines-failed-SYNTHESIS cells are not current. Full suite 41 failed = main's 41, identical set.
+
+## 2026-10-24 — RYA-1268 / RYA-1270 landed
+
+> **Current as of `main` 2667aa13** (2026-10-24, RYA-1270).
+
+- **RYA-1268** — `e12f8e1e` PR #591 (`8a4c162f`, `60d3b438`, `71bd3d38`). Reference Grade line lists for all 20 remaining elements: 21 Asplund sets registered (271 lines, 178 with a per-line gf sigma, 55 before); lab gf from CDS VizieR Lawler/Wood tables (3,172 lines); `canonical_gf` 3,961 rows with lab or NIST A..C gf + sigma; 199 lines with a > 0.5 dex gf conflict HELD (`held_large_gf_moves.csv`), 32 corrupt NIST rows refused. Orchestrator prepare: P and Zr READY, the rest blocked on cull yes/no. Later commits: IR + near-UV literature sweep, Sc HFS gf fix, HFS-aware band census; Eu AGSS21 set (Lawler 2001 Table 6) + sigma; Zn target; AG26 litscans. Restores FE_AGSS21 + Fe/NIST `gf_error_model` rows dropped by the RYA-1250 merge; `element_publish.py` reference-pool / supersede-scope code NOT restored (belongs on RYA-1232). Tests: 21 failed / 1213 passed on 86 related files, identical set to main.
+- **RYA-1270** — `2667aa13` PR #592 (`ac2763d6`; site #61). Roadmap counts elements: the generator derives the solar note from the store; the pinned test failed on main and passes. Full suite 36 failed vs main's 37, none new. Site: "N / 27 elements", Sun 7/27; Origin intro says two years, not a semester.
 
 ## 2026-10-18 — pending RYA-1250 branch
 

@@ -125,6 +125,17 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  refs.library:
+    root: home
+    rel: Documents/Exoplanet Codex/Reference documents
+    env: CODEX_REFERENCE_LIBRARY
+    kind: dir
+    desc: >-
+      Workstation literature holding indexed by data/refs/bibliography.csv.
+      This is evidence, not a compute input or scientific authority. Override
+      CODEX_REFERENCE_LIBRARY on another host; require_codex_path must fail if
+      absent. Never create an empty replacement or reacquire held documents.
+
   data.vald_raw:
     root: data
     rel: linelists/vald_raw
@@ -135,6 +146,7 @@ entries:
   grids.gerber_ts:
     root: grids
     rel: nlte/gerber_ts
+    env: CODEX_GERBER_TS   # RYA-1251: the Mac reads Sirius's decks over a read-only NFS mount
     kind: dir
     desc: >-
       Gerber+2023 Turbospectrum-native NLTE deck (Engine B), md5-pinned.
@@ -146,6 +158,14 @@ entries:
     rel: nlte/amarsi_galah
     kind: dir
     desc: Amarsi GALAH DR3 PySME departure grids (+ Cu Caliskan-2024, Ti Mallinson-2024).
+  grids.canocchi2026_na:
+    root: grids
+    rel: nlte/canocchi2026_na
+    kind: dir
+    desc: >-
+      Canocchi et al. 2026 (arXiv 2603.22975) full 3D NLTE Na grid, Zenodo 10.5281/zenodo.19201830
+      (CC BY 4.0): ffnn/ (REW->A networks, 3D/1D, NLTE/LTE), rbf/, 3Dflux_all.fits. Read by
+      scripts/rya1251_na_canocchi2026_3d.py (RYA-1251).
   grids.model_atmospheres:
     root: grids
     rel: model_atmospheres

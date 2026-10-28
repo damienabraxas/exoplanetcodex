@@ -1,0 +1,39 @@
+# LITSCAN -- Cr (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file.
+# Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 changed this element (AGSS21 5.62 +/- 0.04 -> AG26 5.65 +/- 0.04) (RYA-1251).
+element: Cr
+ion: I
+ions: [I, II]
+source_of_truth: RYA-1268
+scale: as adopted by AG26 (3L, full weight to Cr II)
+entries:
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 5.65
+    sigma: 0.04
+    role: best external (anchor)
+    method: 3L, full weight to Cr II
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 5.74
+    sigma: 0.11
+    role: corroborating
+    note: Lodders quality flag B-.
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 5.62
+    sigma: 0.04
+    role: corroborating (superseded by AG26)
+    method: Scott et al. 2015 (A&A 573, A26) + Lawler et al. 2017 Cr II gf
+range:
+  central: 5.65
+  min: 5.61
+  max: 5.69
+  best_external: Amarsi & Grevesse 2026 (arXiv 2608.23155)
+  sigma_external: 0.04
+  deviate_beyond: 0.08
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.

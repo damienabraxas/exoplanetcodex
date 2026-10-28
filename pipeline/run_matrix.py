@@ -268,7 +268,7 @@ def _publisher():
 # ═════════════════════════════════════════════════════════════════════════════
 
 def canonical_elements() -> list[str]:
-    """The 27 targets, from `elements_master.json`. Never a literal here."""
+    """The targets, from `elements_master.json`. Never a literal here."""
     doc = json.loads(ELEMENTS_MASTER.read_text(encoding="utf-8"))
     return [e["symbol"] for e in doc["elements"]]
 
@@ -482,6 +482,64 @@ def _deck_hold(d: RunDescriptor) -> str:
     return ""
 
 
+_LABEL_COUNTS: dict = {}
+
+
+def _nlte_label_hold(d: RunDescriptor) -> str:
+    """'' unless an in-transfer NLTE cell's band list labels NOT ONE line of its species in
+    its window (RYA-1251).
+
+    bsyn applies departures per labelled line, so such a cell can only fail inside derive
+    (`gerber_nlte.assert_linelist_supports_nlte`) -- 11 Mg IR/H cells FAILED that way in
+    RYA-1250. Known before dispatch, it is a HOLD with its reason, not a failure. The
+    VALD-built band lists are written unlabelled by design; labels arrive in the list's
+    `nlte_labels.tsv` sidecar (RYA-1250 fix), which this counts too, so the hold clears by
+    itself once a sidecar labels the species. The iSpec GES list is left to derive's own
+    per-window/per-pool guard (it labels most species, partially).
+    """
+    if d.engine_deck not in ("gerber-nlte", "gerber-mean3d"):
+        return ""
+    try:
+        import pandas as pd
+        from config import synth_bands as sb
+        from pipeline.species import parse_ion
+        mid = 0.5 * (d.lo_A + d.hi_A)
+        band = next((b for b in sb.SYNTH_BANDS.values() if b.lo_A <= mid <= b.hi_A), None)
+        if band is None or band.linelist_spec == sb.ISPEC_GES_V6:
+            return ""
+        path = band.linelist
+        species = f"{d.element} {parse_ion(d.ion)}"
+        key = (str(path), species, d.lo_A, d.hi_A)
+        if key not in _LABEL_COUNTS:
+            n_lines = n_lab = 0
+            for f, labelled in ((path, lambda t: (t.nlte_label_low.astype(str) != "none")
+                                 & (t.nlte_label_up.astype(str) != "none")),
+                                (path.parent / "nlte_labels.tsv",
+                                 lambda t: t["nlte"].astype(str) == "T")):
+                if not f.exists():
+                    continue
+                t = pd.read_csv(f, sep="\t", low_memory=False)
+                t = t[(t.element.astype(str).str.strip() == species)
+                      & (t.wave_A.astype(float) >= d.lo_A) & (t.wave_A.astype(float) <= d.hi_A)]
+                if f == path:
+                    n_lines = len(t)
+                try:
+                    n_lab += int(labelled(t).sum())
+                except (AttributeError, KeyError):
+                    pass
+            _LABEL_COUNTS[key] = (n_lines, n_lab)
+        n_lines, n_lab = _LABEL_COUNTS[key]
+    except Exception:                                          # noqa: BLE001
+        return ""          # cannot tell here: derive's own guard still refuses at run time
+    if n_lines and not n_lab:
+        return (f"ENGINE: {d.engine_deck} needs NLTE level labels, and none of the {n_lines} "
+                f"{d.element} {d.ion} lines in {d.lo_A:g}-{d.hi_A:g} A of "
+                f"{Path(path).parent.name} carries one (VALD-built lists are written "
+                f"unlabelled; labels come from that list's nlte_labels.tsv sidecar). The "
+                f"1D-LTE cells measure these lines.")
+    return ""
+
+
 def deck_host_ready(d: RunDescriptor) -> str:
     """'' when THIS host holds the deck's data; else NOT_READY's reason. The Gerber decks'
     model atom + aux tables are Sirius-only: on the Mac every gerber cell used to FAIL inside
@@ -527,7 +585,10 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     # unavailable until the Bergemann/Amarsi grid is extended.  Preparation
     # already keeps this category out of `blocking`; repeating it here would
     # reintroduce the stale hard gate at dispatch time.
-    for kind in ('adopt', 'cull_candidates', 'missing_lines'):
+    # RYA-1251: cull candidates are measured and reported, never a hold (Ryan 2026-10-24)
+    for kind in ('adopt', 'missing_lines'):
+        if kind in _RULE_PLAN_ASSUMED:
+            continue        # a dry run's forecast: `run(prepare_first=True)` applies it first
         rows = report[kind]
         if kind == 'missing_lines':
             # An Asplund line whose gf uncertainty is unresolved is still a
@@ -540,6 +601,11 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     if any(not r.get('ok', False) and r.get('holding') == d.holding for r in report['holdings']):
         return 'PROCESS step 4: holding frame unresolved'
     return ''
+
+
+#: Plan kinds a DRY run treats as applied (RYA-1251): the real run applies them by rule
+#: before it dispatches, so holding on them would forecast work that will not be held.
+_RULE_PLAN_ASSUMED: set = set()
 
 
 def cell_process_hold(d: RunDescriptor) -> str:
@@ -555,7 +621,7 @@ def cell_process_hold(d: RunDescriptor) -> str:
                 r['species'] == f'{d.element} {d.ion}' and d.lo_A <= r['wavelength_A'] <= d.hi_A
                 for r in report.get('route_requirements', [])):
             return 'PROCESS step 7: registered lines require synthesis'
-    deck_hold = _deck_hold(d)
+    deck_hold = _deck_hold(d) or _nlte_label_hold(d)
     if deck_hold:
         return deck_hold
     p = preflight()
@@ -1213,6 +1279,26 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
             for f in sorted(hits)]
 
 
+def _every_line_failed_synthesis(arts: list[dict]) -> str:
+    """The first per-line artifact whose EVERY row is excluded as a failed synthesis, or "".
+
+    RYA-1251: the Na NLTE fit probed off its deck's abundance axis, every line came back
+    "SYNTHESIS: failed", and 19 cells were recorded as built -- and so current, never re-run
+    when the engine was fixed (a library module is not in `inputs_hash`). A synthesis that
+    raised measured nothing; it is not a build of anything.
+    """
+    for a in arts:
+        p = ARTIFACT_ROOT / a["path"]
+        if not p.name.endswith("_lines.csv") or not p.exists():
+            continue
+        with p.open(newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        if rows and all(str(r.get("excluded_reason") or "").startswith("SYNTHESIS: failed")
+                        for r in rows):
+            return a["path"]
+    return ""
+
+
 def is_current(products: list[dict], want_hash: str,
                recorded: dict | None) -> tuple[bool, str]:
     """(is this cell's work current, why-not).
@@ -1247,6 +1333,10 @@ def is_current(products: list[dict], want_hash: str,
             if _file_fingerprint(ARTIFACT_ROOT / a["path"]) != a.get("sha256")]
     if gone:
         return False, f"recorded artifact(s) missing or changed: {gone}"
+    failed = _every_line_failed_synthesis(arts)
+    if failed:
+        return False, (f"every line in {failed} failed SYNTHESIS -- an engine failure, not a "
+                       f"result; re-run (RYA-1251)")
     return True, (f"built {recorded.get('recorded_at')} at inputs_hash {want_hash[:12]}, "
                   f"inputs unchanged, {len(arts)} artifact(s) on disk; NOT YET PUBLISHED "
                   f"({arts[0]['path']})")
@@ -1408,13 +1498,130 @@ def _run_step(step: dict, star: str, *, timeout: int | None) -> tuple[bool, str]
     return True, f"{step['name']}: exit 0"
 
 
+#: Band synthesis lists that are GENERATED, git-ignored and fully regenerable from tracked
+#: inputs: list dir -> its canonical build command (argv after the interpreter). A fresh
+#: clone or worktree has none, and every cell in the band used to FAIL in derive with
+#: "line list missing" (RYA-1251: 12 near-UV Na cells on a new worktree). The run builds
+#: them itself before dispatch.
+GENERATED_LINELISTS = {
+    "ispec_nearuv_3000_3780": ["scripts/rya759_nearuv_synth.py", "--step", "linelist"],
+}
+
+
+def ensure_generated_linelists(*, dry_run: bool, echo: bool = True) -> dict:
+    """Build any missing GENERATED_LINELISTS entry; returns {list: 'present'|'built'|why}."""
+    import subprocess
+    import sys
+    root = Path(__file__).resolve().parents[1]
+    out = {}
+    for name, argv in GENERATED_LINELISTS.items():
+        path = root / "data" / "linelists" / name / "atomic_lines.tsv"
+        if path.exists():
+            out[name] = "present"
+            continue
+        if dry_run:
+            out[name] = "missing -- a real run builds it first"
+        else:
+            py = os.environ.get("CODEX_SYNTH_PYTHON") or sys.executable
+            r = subprocess.run([py, *argv], cwd=root, capture_output=True, text=True)
+            out[name] = ("built" if r.returncode == 0 and path.exists() else
+                         f"BUILD FAILED rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+        if echo:
+            print(f"line list {name}: {out[name]}")
+    return out
+
+
+def ensure_nlte_labels(element: str, *, dry_run: bool, echo: bool = True) -> dict:
+    """RYA-1251: label `element`'s lines for Gerber NLTE in every VALD-built synthesis list
+    (near-UV, NIR, H, K) before dispatch, so a gerber-nlte cell is never held for labels the
+    run could have made. Same routes and lists as RYA-1250 (`scripts/rya1250_nlte_label_
+    sidecars.py`, `pipeline/nlte_label_sidecar.py`); writes only this element's rows of each
+    `nlte_labels.tsv`. A list the element already has sidecar rows in, or that RYA-1094
+    labelled in place (Fe IR/H), is left alone. Returns {list: 'present'|'labelled n/m'|why}."""
+    from pipeline.gerber_nlte import DECKS
+    import pandas as pd
+    from config.constants import codex_path
+    from pipeline import nlte_label_sidecar as nls
+    deck = next((v for k, v in DECKS.items() if k.split("@")[0] == element), None)
+    if deck is None:
+        return {}
+    spec = importlib.util.spec_from_file_location(
+        "_rya1250_sidecars", ROOT / "scripts" / "rya1250_nlte_label_sidecars.py")
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    out, levels = {}, None
+    for name, extracts in gen.LISTS.items():
+        lst = ROOT / "data" / "linelists" / name / "atomic_lines.tsv"
+        if (name, element) in gen.SKIP or not lst.exists():
+            continue
+        side = nls.sidecar_path(lst)
+        if side.exists() and (pd.read_csv(side, sep="\t", usecols=["element"]).element
+                              .str.split().str[0] == element).any():
+            out[name] = "present"
+        elif dry_run:
+            out[name] = "unlabelled -- a real run labels it first"
+        else:
+            try:
+                if levels is None:
+                    from pipeline.model_atom import read_gerber_atom
+                    levels = read_gerber_atom(Path(str(codex_path("grids.gerber_ts"))) / deck["atom"])
+                raw = Path(str(codex_path("data.vald_raw")))
+                rows, st = nls.label_list(lst, element, levels, [raw / e for e in extracts])
+                if len(rows):
+                    nls.write_sidecar(lst, [rows])
+                out[name] = ", ".join(f"{k} labelled {v['labelled']}/{v['lines']}" for k, v in st.items()) or "no lines"
+            except Exception as exc:                                  # noqa: BLE001
+                out[name] = f"LABEL FAILED: {type(exc).__name__}: {str(exc)[:200]}"
+        if echo:
+            print(f"NLTE labels {element} {name}: {out[name]}")
+    return out
+
+
+def ensure_nlte_table(star: str, element: str, *, dry_run: bool, echo: bool = True) -> dict:
+    """RYA-1251: extend the element's ENGINE-A table (Amarsi 2020 / PySME) to the lines the
+    prepare report's check D lists as `nlte_missing`, before dispatch -- the RYA-1233 method
+    (`scripts/extend_nlte_grid.py`) that covered every Si and Al line, run by the orchestrator
+    instead of by hand. PySME and the departure grids live on Sirius only: elsewhere the
+    lines are reported as owed there, never silently skipped. Returns {ion: outcome}."""
+    rep_path = ROOT / "data" / "results" / "orchestrator" / "prepare" / f"{star}_{element}.json"
+    if not rep_path.exists():
+        return {}
+    miss = json.loads(rep_path.read_text()).get("nlte_missing") or []
+    by_ion: dict = {}
+    for m in miss:
+        sp = m.get("species", "")
+        if sp.split()[0] == element:
+            by_ion.setdefault(sp.split()[1], []).append(m)
+    out = {}
+    try:
+        from config.constants import codex_path
+        py = Path(str(codex_path("engines.venv_pysme_python")))
+    except Exception:                                                   # noqa: BLE001
+        py = None
+    for ion, rows in sorted(by_ion.items()):
+        if py is None or not py.exists():
+            out[ion] = (f"{len(rows)} line(s) OWED: the ENGINE-A extension needs PySME "
+                        f"(engines.venv_pysme_python) -- run on Sirius")
+        elif dry_run:
+            out[ion] = f"{len(rows)} line(s) missing -- a real run extends the table first"
+        else:
+            r = subprocess.run([str(py), "scripts/extend_nlte_grid.py", "--element", element,
+                                "--ion", ion, "--star", star, "--write", "--jobs", "2"],
+                               cwd=ROOT, capture_output=True, text=True)
+            out[ion] = (f"extended ({len(rows)} line(s) asked)" if r.returncode == 0 else
+                        f"EXTEND FAILED rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+        if echo:
+            print(f"ENGINE-A table {element} {ion}: {out[ion]}")
+    return out
+
+
 def run(star: str, element: str, *, ions: list[str] | None = None,
         bands: list[str] | None = None, instruments: list[str] | None = None,
         engines: list[str] | None = None, dry_run: bool = False,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int | None = None, report_dir: Path | None = None,
-        echo: bool = True, jobs: int = 1) -> dict:
+        echo: bool = True, jobs: int = 1, prepare_first: bool = False) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
@@ -1427,6 +1634,31 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     from config.constants import ISPEC_DIR, synth_interpreter
     interpreter = interpreter or synth_interpreter()
     ispec_dir = ispec_dir or (str(ISPEC_DIR) if ISPEC_DIR.is_dir() else "")
+
+    # RYA-1251: preparation is the run's own first step, not a separate hand loop. The rule
+    # plan (published gf, sigma-only, culls, missing Asplund lines) is applied before any
+    # cell is expanded -- an adoption can change which lines are graded. A dry run applies
+    # nothing and forecasts as if it had.
+    _RULE_PLAN_ASSUMED.clear()
+    prepared = None
+    if prepare_first:
+        from pipeline import element_prepare
+        if dry_run:
+            prepared = (element_prepare.prepare(star, symbol), {})
+            if not element_prepare.has_published_feed(star, symbol):
+                _RULE_PLAN_ASSUMED.update(element_prepare.RULE_KINDS)
+        else:
+            prepared = element_prepare.resolve(star, symbol)
+        if echo:
+            rep, done = prepared
+            print(element_prepare.render(rep))
+            if done:
+                print(f"prepare applied by rule: {done}")
+
+    if prepare_first:
+        ensure_generated_linelists(dry_run=dry_run, echo=echo)
+        ensure_nlte_labels(element, dry_run=dry_run, echo=echo)
+        ensure_nlte_table(star, element, dry_run=dry_run, echo=echo)
 
     descriptors = expand(star, element, ions=ions, bands=bands,
                          instruments=instruments, engines=engines, methods=methods,
@@ -1714,6 +1946,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                                         ("methods", methods)) if v}
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
                      process=steps, scope=scope,
+                     prepare=(None if prepared is None else
+                              {"ready": prepared[0].get("ready"),
+                               "blocking": prepared[0].get("blocking"),
+                               "applied_by_rule": prepared[1],
+                               "assumed_for_forecast": sorted(_RULE_PLAN_ASSUMED)}),
                      interpreter=interpreter, ispec_dir=ispec_dir,
                      code_commit=commit, report_dir=report_dir)
     # RYA-1234 (governing process steps 12-13): every element run ends with its literature
@@ -1782,7 +2019,8 @@ def _band_of(d: RunDescriptor, star: str) -> _Band:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
-            process: list[dict] | None = None, scope: dict | None = None,
+             process: list[dict] | None = None, prepare: dict | None = None,
+             scope: dict | None = None,
             numpy_why: str, interpreter: str, ispec_dir: str, code_commit: str,
             report_dir: Path | None) -> dict:
     counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
@@ -1801,6 +2039,7 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
                         "ispec_dir": ispec_dir or None,
                         "numpy_ceiling_check": numpy_why},
         "process_steps": process or [],
+        "prepare": prepare,
         "cells_total": len(cells),
         "counts": counts,
         "cells": [{"band": c.band, "instrument": c.instrument, "holding": c.holding,

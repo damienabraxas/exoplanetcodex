@@ -1,0 +1,39 @@
+# LITSCAN -- Na (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
+# Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
+# element's own literature sweep re-projects this file.
+# Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 unchanged from AGSS21; AGSS21 kept (RYA-1251).
+element: Na
+ion: I
+ions: [I]
+source_of_truth: RYA-1268
+scale: as adopted by AGSS21 (AGSS21 3D-NLTE, Table A.1 (5 Na I))
+entries:
+  - source: Asplund, Amarsi & Grevesse 2021
+    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
+    value: 6.22
+    sigma: 0.03
+    role: best external (anchor)
+    method: AGSS21 3D-NLTE, Table A.1 (5 Na I)
+  - source: Lodders, Bergemann & Palme 2025
+    citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
+    value: 6.29
+    sigma: 0.05
+    role: corroborating
+    note: Lodders quality flag A.
+  - source: Amarsi & Grevesse 2026
+    citation: Solar chemical composition, arXiv 2608.23155, Table 3
+    value: 6.22
+    sigma: 0.03
+    role: corroborating (AGSS21 successor; unchanged)
+    method: 3N
+range:
+  central: 6.22
+  min: 6.19
+  max: 6.25
+  best_external: Asplund et al. 2021 (A&A 653, A141)
+  sigma_external: 0.03
+  deviate_beyond: 0.06
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+verification_owed:
+  - Minimum anchor only; the element's literature sweep adds per-band references.

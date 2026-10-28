@@ -155,7 +155,6 @@ def test_a_strong_split_line_takes_its_measured_collapse_bound(tmp_path, monkeyp
     f = tmp_path / "c.csv"
     pd.DataFrame({"physical_id": ["p1", "p2"], "dA_collapse_dex": [0.004, -0.012]}).to_csv(f, index=False)
     monkeypatch.setattr(b, "HFS_COLLAPSE", f)
-    monkeypatch.setattr(b, "_hfs_thin_evidence", lambda rows: None)
     rows = pd.DataFrame({"physical_id": ["p1", "p2"], "wavelength_air_A": [1.0, 2.0]})
     assert b._hfs_collapse_bound(rows)["sigma_dex"] == 0.012
     assert b._hfs_collapse_bound(rows.assign(physical_id=["p1", "p3"])) is None   # unmeasured: HOLD

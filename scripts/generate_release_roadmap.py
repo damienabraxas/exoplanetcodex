@@ -79,6 +79,20 @@ def target_progress(star: str, name: str, canonical: list[dict[str, str]]) -> di
     }
 
 
+def published_note(progress: dict, canonical: list[dict[str, str]]) -> str:
+    """'Published for the Sun: Fe (I and II), C, ...' in registry order, from the store."""
+    done = set(progress["complete_product_ids"])
+    names = []
+    for t in canonical:
+        if t["id"] not in done or t["id"] == "Fe-II":
+            continue
+        names.append("Fe (I and II)" if t["id"] == "Fe" and "Fe-II" in done else t["id"])
+    if "Fe-II" in done and "Fe" not in done:
+        names.insert(0, "Fe II")
+    return (f'Published for the {progress["target_name"]}: {", ".join(names)}.' if names
+            else f'No element is published for the {progress["target_name"]} yet.')
+
+
 def generate() -> dict:
     canonical = canonical_targets()
     progress = {star: target_progress(star, name, canonical) for star, name in TARGETS}
@@ -103,8 +117,10 @@ def generate() -> dict:
                 "id": "alpha",
                 "name": "Alpha Release — Full Solar Calibration",
                 "status": "in_progress",
-                "summary": "Reviewed elemental products for the Sun across the strongest valid wavelength regions and available engines.",
-                "notes": ["Fe is nearing full intended band and engine coverage, with remaining infrared due diligence.", "Al is in active completion and audit."],
+                "summary": "Reviewed elemental abundances for the Sun across the strongest valid wavelength regions and available engines.",
+                # RYA-1270: derived from the store. The hardcoded notes ("Fe is nearing...",
+                # "Al is in active completion") outlived both and the page kept saying them.
+                "notes": [published_note(progress["solar"], canonical)],
                 "targets": [progress["solar"]],
             },
             {

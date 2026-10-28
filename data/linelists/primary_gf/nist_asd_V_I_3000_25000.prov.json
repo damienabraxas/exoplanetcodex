@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-1268",
+  "source": "NIST Atomic Spectra Database (ASD), lines",
+  "compilation": "NIST ASD; per-line TP/Line reference codes retained (tp_ref)",
+  "access": "astroquery.nist 0.4.11 (Nist.query)",
+  "reused_from": "scripts/rya1160_pull_nist_cno.py safe_pull + scripts/rya822_pull_nist_nearuv.py tidy",
+  "species": "V I",
+  "band_A": [
+    3000.0,
+    25000.0
+  ],
+  "chunk_A": 2000.0,
+  "wavelength_type": "vac+air (air above 2000 A)",
+  "pulled_at_utc": "2026-10-23T21:23:42Z",
+  "n_rows": 3349,
+  "n_with_log_gf": 1120,
+  "n_graded": 1120,
+  "grade_counts": {
+    "B+": 310,
+    "C+": 265,
+    "C": 198,
+    "D+": 166,
+    "B": 160,
+    "E": 17,
+    "D": 4
+  }
+}

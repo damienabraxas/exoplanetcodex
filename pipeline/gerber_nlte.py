@@ -82,6 +82,11 @@ DECKS = {
     "Mg": dict(Z=12, atom="atom.mg86d",
                aux="auxData_Mg_MARCS_Nov-13-2024.dat",
                grid="NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin"),
+    # RYA-1251. Staged by RYA-533 (Na_gerber2023.prov.json pins the three files' md5). The
+    # abundance-axis shape is read from this deck's own aux by `abundance_axis()`.
+    "Na": dict(Z=11, atom="atom.na_qmh",
+               aux="auxData_Na_MARCS_Jul-14-2023.dat",
+               grid="NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin"),
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),
@@ -933,6 +938,13 @@ def departures_at_abundance(element: str, teff: float, logg: float, feh: float,
                          f"{hi:.2f}, w={w:.4f} (RYA-821)"])
 
 
+def default_workdir() -> str:
+    """Per-PROCESS scratch for the departure interpolation (RYA-1250/1251). One shared
+    /tmp/rya798_gerber let parallel jobs, or two sessions, overwrite or read each other's
+    `{node}_{element}_coef.dat` mid-synthesis."""
+    return f"/tmp/rya798_gerber_{os.getpid()}"
+
+
 def for_node(element: str, teff: float, logg: float, feh: float,
              node: str = "solar", workdir: str | None = None,
              abundance: float | None = None) -> dict:
@@ -1038,8 +1050,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
         _CACHE[key] = parsed
         return parsed
 
-    dep_path = _interpolate(element, node, teff, logg, feh, a_deck,
-                            workdir or default_workdir())
+    dep_path = _interpolate(element, node, teff, logg, feh, a_deck, workdir or default_workdir())
     parsed = read_departure_file(dep_path)
 
     # Verify against the file's OWN footer, not against our intent.

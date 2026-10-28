@@ -57,8 +57,11 @@ def test_grid_loads_and_matches_provenance_solar_anchor(el):
     c = N._load_mpia_element_grid(el)
     assert len(c['waves']) >= 2 and c['ion'] == REG[el]['ion']
     # interpolate at the anchor's own stellar point
+    # the anchor is the median of the REGISTERED lines; rows added later by
+    # extend_nlte_grid.py are listed under 'extensions' and validated there
+    added = {round(float(w), 3) for e in prov.get('extensions', []) for w in e['added_waves']}
     ds = [N._mpia_element_delta(el, float(w), anchor['teff_K'], anchor['logg'], anchor['feh'])
-          for w in c['waves']]
+          for w in c['waves'] if round(float(w), 3) not in added]
     ds = [d for d in ds if np.isfinite(d)]
     assert ds, f"{el}: no finite solar delta"
     if 'line_A' in anchor:                                # single-line anchor (Ba)
