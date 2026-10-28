@@ -993,11 +993,35 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
         rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
     for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv",
-                   ROOT / "data" / "registry" / "problem_children.csv"):
+                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
+    # RYA-1250: the cull registry, SCOPED like canonical_gf. Hashed whole, culling one Mg K
+    # line (24566.30) re-ran every cell of every element.
+    rows.append({"kind": "registry_scoped", "name": f"{PROBLEM_CHILDREN.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                 "digest": registry_fingerprint(round(lo), round(hi))})
     return rows
+
+
+PROBLEM_CHILDREN = ROOT / "data" / "registry" / "problem_children.csv"
+
+
+def registry_fingerprint(lo: float, hi: float, path: Path = PROBLEM_CHILDREN) -> str:
+    """sha256 of the cull-registry rows a window can see: every row whose `lambda_or_scope`
+    starts with a wavelength in [lo, hi], plus every row with no leading wavelength (a scope
+    such as "gf pool" or "bands" may apply anywhere, so it stays in every cell's identity)."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        return f"ABSENT:{type(exc).__name__}"
+    keep = []
+    for r in csv.reader(text.splitlines()[1:]):
+        if len(r) < 2:
+            continue
+        m = re.match(r"\s*([0-9]+\.?[0-9]*)", r[1])
+        if m is None or lo <= float(m.group(1)) <= hi:
+            keep.append(",".join(r))
+    return hashlib.sha256("\n".join(sorted(keep)).encode()).hexdigest()
 
 
 def holding_source_files(holding_id: str) -> tuple[list[Path], str]:
@@ -1184,6 +1208,30 @@ def ledger_key(star: str, descriptor: RunDescriptor, band: str) -> str:
     return "|".join((star, descriptor.element, descriptor.ion, band,
                      descriptor.instrument, descriptor.holding, descriptor.engine_deck,
                      route_of(descriptor), pool_tier(descriptor)))
+
+
+#: RYA-1250: cells whose graded pool was EMPTY, keyed like the ledger, with the inputs hash
+#: they were tried at. A refused pool records no build, so every run re-tried all of them --
+#: ~600 Mg cells, most of run 4's 4.5 h. Same inputs, same empty pool: not re-tried.
+#: None = beside the ledger, so whatever relocates LEDGER (a test) relocates this too
+EMPTY_POOLS: Path | None = None
+
+
+def _empty_pools_path() -> Path:
+    return EMPTY_POOLS or LEDGER.with_name("empty_pools.json")
+
+
+def load_empty_pools() -> dict:
+    try:
+        return json.loads(_empty_pools_path().read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def record_empty_pool(key: str, want_hash: str, why: str) -> None:
+    d = load_empty_pools()
+    d[key] = {"inputs_hash": want_hash, "why": why[:300], "at": _utc()}
+    _empty_pools_path().write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def load_ledger() -> dict:
@@ -1631,6 +1679,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     ready_ix, ready_why = _readiness_index(star, symbol, pinned_ion or (ions[0] if ions else None))
     manifests = _manifest_paths(star)
     ledger = load_ledger()
+    empty_pools = load_empty_pools()
     commit = _code_commit()
     #: Artifacts this invocation has already built successfully, by the resolver's own
     #: `produces` path. Scoped to the process on purpose -- see the reuse check below.
@@ -1700,6 +1749,8 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
                 cell.status = HELD
                 cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+                with _lock:
+                    record_empty_pool(lkey, want, detail or "")
             else:
                 cell.status, cell.reason = FAILED, detail
             with _lock:
@@ -1858,6 +1909,13 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         if current:
             cell.status, cell.reason = SKIP, why
             continue
+        _empty = empty_pools.get(lkey)
+        if _empty and _empty.get("inputs_hash") == want:
+            cell.status = HELD
+            cell.reason = (f"PROCESS step 7 (graded lines): pool empty at these exact inputs "
+                           f"(tried {_empty.get('at')}, {want[:12]}); not re-tried until an "
+                           f"input changes -- {_empty.get('why')}")
+            continue
 
         # ── 4. execute, loud per cell, never aborting the matrix ─────────────
         if not numpy_ok:
@@ -1888,8 +1946,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                     pending=_pending, started_at=progress_started,
                     state="COMPLETE")
 
+    scope = {k: sorted(v) for k, v in (("ions", ions), ("bands", bands),
+                                        ("instruments", instruments), ("engines", engines),
+                                        ("methods", methods)) if v}
     report = _report(star, element, cells, dry_run=dry_run, numpy_why=numpy_why,
-                     process=steps,
+                     process=steps, scope=scope,
                      prepare=(None if prepared is None else
                               {"ready": prepared[0].get("ready"),
                                "blocking": prepared[0].get("blocking"),
@@ -1902,6 +1963,8 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     # single-element path gets it too. Loud on failure; it never undoes the run above.
     try:
         from pipeline import element_verdict
+        if scope:       # RYA-1250: the verdict reads and rewrites the WHOLE element's report
+            raise RuntimeError(f"narrowed run {scope}: no element verdict")
         ev = element_verdict.verdict(star, element, report_dir=report_dir)
         report["verdict"], report["problem_lines"] = ev["verdict"], ev["problem_lines"]
     except Exception as exc:                                   # noqa: BLE001
@@ -1961,7 +2024,8 @@ def _band_of(d: RunDescriptor, star: str) -> _Band:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
-            process: list[dict] | None = None, prepare: dict | None = None,
+             process: list[dict] | None = None, prepare: dict | None = None,
+             scope: dict | None = None,
             numpy_why: str, interpreter: str, ispec_dir: str, code_commit: str,
             report_dir: Path | None) -> dict:
     counts = {s: sum(c.status == s for c in cells) for s in STATUSES}
@@ -1972,6 +2036,10 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         "generated_at": _utc(),
         "code_commit": code_commit,
         "dry_run": bool(dry_run),
+        # RYA-1250: what this run was narrowed to ({} = the whole element). Only a whole-element
+        # run is the element's report: publish reads it, and acting on a one-band dry run
+        # deleted 132 of 172 Mg units' budget legs.
+        "scope": scope or {},
         "environment": {"interpreter": interpreter or None,
                         "ispec_dir": ispec_dir or None,
                         "numpy_ceiling_check": numpy_why},
@@ -2002,9 +2070,10 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
     safe = element.replace(" ", "")
     (dest / f"{star}_{safe}_{stamp}.json").write_text(
         json.dumps(doc, indent=2) + "\n", encoding="utf-8")
-    (dest / f"{star}_{safe}_latest.json").write_text(
-        json.dumps(doc, indent=2) + "\n", encoding="utf-8")
-    latest = dest / f"{star}_{safe}_latest.json"
+    # A narrowed run never replaces the element's report: it gets its own `_latest_partial`.
+    latest = dest / (f"{star}_{safe}_latest.json" if not doc["scope"]
+                     else f"{star}_{safe}_latest_partial.json")
+    latest.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     # Repo-relative where it is inside the repo, absolute where a caller redirected it
     # (a test's tmpdir). RYA-1096: an absolute path is a MACHINE fact, so the committed
     # shape stays relative -- but refusing to report a path at all would be worse.

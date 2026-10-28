@@ -839,6 +839,19 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
                             if hit["feh_from_name"] else "")])
 
 
+def default_workdir() -> str:
+    """Scratch directory for the vendor interpolator, ONE PER PROCESS.
+
+    🔴 RYA-1250 -- it was the fixed `/tmp/rya798_gerber`, shared by every process on the
+    host. `_interpolate` deletes `{node}_{element}_coef.dat`, runs the binary, then reads the
+    file back, so under `--jobs 4` one process deleted a sibling's file before it was read
+    (Mg IAG red-optical xi- leg: "produced no departure file", the budget assembly died) or
+    read a sibling's departures for a DIFFERENT trial abundance with no error at all. An
+    abundance-axis deck (Mg, Al 1D) is exposed to the silent case; Fe 1D interpolates at
+    one fixed A(X), so a sibling's file is byte-identical; a <3D> deck never runs this."""
+    return f"/tmp/rya798_gerber_{os.getpid()}"
+
+
 def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
                  abundance: float, workdir: str) -> str:
     cfg = DECKS[element]

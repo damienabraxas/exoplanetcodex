@@ -135,6 +135,13 @@ def plan(row: dict, *, allow_ungraded: bool = False) -> dict:
     comps, src = components(sp, w, ep)
     gf = np.array([float(r["log_gf"]) for r in comps])
     wl = np.array([float(r["wavelength"]) for r in comps])
+    # RYA-1250: one canonical row is ONE synthesis cluster (gf_resolver.HFS_GAP). Mg II 10092.20
+    # is two components 0.122 A apart: one row would scale one of them to the feature total and
+    # leave the other unresolved -- ~0.25 dex too much opacity. Register the components instead.
+    from pipeline.gf_resolver import HFS_GAP
+    if len(wl) > 1 and np.max(np.diff(np.sort(wl))) > HFS_GAP:
+        raise LineAddError(f"{sp} {w:.3f}: components span more than one synthesis cluster "
+                           f"(gap > {HFS_GAP} A) -- register each component, not the feature")
     centroid = float(np.sum(wl * 10 ** gf) / np.sum(10 ** gf))
     lst = None
     for lo, f in SYNTH_LISTS:

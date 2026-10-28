@@ -263,7 +263,6 @@ def _telluric_own_sky(instrument, holding, w0, hw, sky_of=None, independent=None
 
 _OWN_SKY_CACHE: dict = {}
 
-
 def telluric_line(instrument, holding, w0, hw, band_lo, band_hi) -> dict:
     if holding == "solar_crires_plus_h_rya1094":
         # RYA-1233: Kitt Peak stops at 13000 A; the H-arm sky is CRIRES+'s own (molecfit
@@ -444,6 +443,23 @@ def _hfs_modelled_evidence(rows: pd.DataFrame) -> dict | None:
     return {"lines": out} if out else None
 
 
+HFS_COLLAPSE = ROOT / "data/results/rya1250/mg_hfs_collapse.csv"
+
+
+def _hfs_collapse_bound(rows: pd.DataFrame) -> dict | None:
+    """{sigma_dex, lines} when every split line has a measured collapse bound, else None."""
+    if rows.empty or not HFS_COLLAPSE.exists():
+        return None
+    m = pd.read_csv(HFS_COLLAPSE).set_index("physical_id")["dA_collapse_dex"]
+    out = {}
+    for pid, w in zip(rows.physical_id, rows.wavelength_air_A):
+        d = m.get(pid)
+        if d is None or not np.isfinite(d):
+            return None
+        out[f"{float(w):.3f}"] = float(d)
+    return {"sigma_dex": max(abs(v) for v in out.values()), "lines": out}
+
+
 def _gf_covariance(sig, src, tags):
     """RYA-1233: the registry-driven gf covariance (pipeline.gf_error_model)."""
     from pipeline.gf_error_model import covariance
@@ -619,13 +635,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     species = SPECIES.get(element) if not _ion else f"{element} {_ion}"
     g = gf[gf["species"] == species]
     ids, sig, src, tags = [], [], [], []
+    from pipeline.gf_resolver import EPTOL, WTOL
     for _, l in acc.iterrows():
-        m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() < 0.01)
-              & ((g.excitation_potential_eV - l.ep_eV).abs() < 0.005)]
-        if len(m) != 1:
-            return {"row": row, "skip": f"{l.wavelength_air_A}: {len(m)} canonical_gf rows "
+        # RYA-1250: the row the SYNTHESIS used -- gf_resolver.resolve's own window and
+        # nearest-wavelength pick. A tighter join (0.01 A / 0.005 eV) refused 4 Mg lines whose
+        # row sits 0.012-0.018 A from the list position, though the synthesis priced them.
+        m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= WTOL)
+              & ((g.excitation_potential_eV - l.ep_eV).abs() <= EPTOL)]
+        if m.empty:
+            return {"row": row, "skip": f"{l.wavelength_air_A}: 0 canonical_gf rows "
                                         f"on lambda+EP -- refusing a lambda-only join (RYA-1037)"}
-        m = m.iloc[0]
+        m = m.loc[(m.wavelength_air_A - l.wavelength_air_A).abs().idxmin()]
         ids.append(str(m.physical_id))
         s = float(m.gf_sigma_dex)
         ref = str(m.gf_source_doi if pd.notna(m.gf_source_doi) and str(m.gf_source_doi).strip()
@@ -960,6 +980,18 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                                       "HFS; as RYA-466/473 Cu, V, Mn and RYA-1217 Al); "
                                       "Asplund+2021 carries no HFS term"),
                               evidence=hm))
+        else:
+            # RYA-1250: a split line the synthesis does NOT carry component by component is
+            # bounded by measurement: split vs collapsed synthesis matched in synthetic EW
+            # (scripts/rya1250_mg_hfs_term.py); collapse is the extreme of every splitting error.
+            bound = _hfs_collapse_bound(g[g.physical_id.isin(ids) & (g.hfs_n_components > 1)])
+            if bound is not None:
+                comps.append(dict(name="hfs_isotopes", sigma_dex=bound["sigma_dex"],
+                                  state="MEASURED",
+                                  source=("bound: split vs collapsed synthesis, matched in "
+                                          "synthetic EW at A=7.56; the largest |dA| over the "
+                                          "pool's split lines (scripts/rya1250_mg_hfs_term.py)"),
+                                  evidence=bound))
     comps.append(dict(name="molecular_coupling", sigma_dex=None, state="N/A",
                       source="atomic product; the selector is not a MOL- indicator set",
                       evidence={"selector": selector}))
@@ -1017,7 +1049,14 @@ def main() -> int:
             if nd is None:
                 out.append({"unit": i, "stem": stem, "skip": "no nominal artifact"})
                 continue
-            r = build(args, stem, nd, udir, gf)
+            try:
+                r = build(args, stem, nd, udir, gf)
+            except UnpairableProducts as exc:
+                # RYA-1250: a lever leg sharing no accepted line with the nominal (Mg II K Codex:
+                # one accepted line, a different two under the +/-0.25 A core window) has no
+                # budget. HOLD that product, recorded; never abort the element's other units.
+                out.append({"unit": i, "stem": stem, "skip": f"UNPAIRABLE: {exc}"})
+                continue
             rec = {"unit": i, "stem": stem, "A": r["row"]["A"], "key_treatment": r["row"]["treatment"],
                    "holding": r["row"]["holding"], "selector": r["row"]["selector"],
                    "element": r["row"]["element"], "band": r["row"]["band"]}

@@ -70,7 +70,7 @@ def units_for(star: str, element: str, *, report: dict,
         step = next(s for s in r.steps if s["name"] == "derive_products")
         out.append((f"{d.ion} {d.band} {d.holding} {d.engine_deck} {d.pool}",
                     "python3 scripts/derive_band_products.py " + shlex.join(step["args"]),
-                    d.engine_deck))
+                    d.engine_deck, rm.ledger_key(star, d, identity[0])))
     return out
 
 
@@ -210,9 +210,70 @@ def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) 
     return done
 
 
+def unit_signature(command: str, inputs_hash: str | None) -> str:
+    """What a unit's legs were built from: its derive command line and its cell's inputs hash."""
+    return f"{command}\n# {inputs_hash}"
+
+
+def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
+    """Keep each unit's legs while its signature is unchanged, renumbered to the unit's new
+    index. Returns the new indices whose legs were kept.
+
+    A previous unit absent from this run is FILED under its signature (`legs.store/`), never
+    deleted, and comes back when its signature does: RYA-1250 ran publish on a one-band run
+    report and lost 132 of 172 Mg units' legs (~30 h). Only a unit whose inputs changed is
+    stale, and it stays filed under its OLD signature, where nothing current matches it.
+
+    No per-unit record (a first run, or the pre-RYA-1250 whole-element `units.prev.txt`)
+    proves nothing current, so those legs go. A signature listed twice is ambiguous and is
+    never reused."""
+    import hashlib
+    import shutil
+
+    def _file(s: str) -> str:
+        return hashlib.sha256(s.encode()).hexdigest()[:32]
+    prev = json.loads(prev_file.read_text()) if prev_file.exists() else None
+    store = legs.parent / "legs.store"
+    kept: list[int] = []
+    if prev is None:
+        shutil.rmtree(legs, ignore_errors=True)
+    else:
+        old = {s: j for j, s in enumerate(prev) if prev.count(s) == 1}
+        hold = legs.parent / "legs.reuse"
+        shutil.rmtree(hold, ignore_errors=True)
+        hold.mkdir(parents=True)
+        for i, s in enumerate(sigs):
+            if sigs.count(s) != 1:
+                continue
+            j = old.pop(s, None)
+            src = legs / f"unit{j:02d}" if j is not None else store / _file(s)
+            if src.is_dir():
+                src.rename(hold / f"unit{i:02d}")
+                kept.append(i)
+        store.mkdir(parents=True, exist_ok=True)
+        for s, j in old.items():                       # not in this run: file, never delete
+            src, dst = legs / f"unit{j:02d}", store / _file(s)
+            if src.is_dir():
+                shutil.rmtree(dst, ignore_errors=True)
+                src.rename(dst)
+        shutil.rmtree(legs, ignore_errors=True)
+        hold.rename(legs)
+    prev_file.parent.mkdir(parents=True, exist_ok=True)
+    prev_file.write_text(json.dumps(sigs, indent=0) + "\n")
+    return kept
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
+    # RYA-1250: publish prices, files and withdraws per UNIT, so it must see the whole element.
+    # A one-band report once made it treat 132 of 172 Mg units as gone.
+    if report.get("scope"):
+        raise ValueError(f"publish refuses a narrowed run report (scope {report['scope']}); "
+                         f"run the whole element")
+    if report.get("star") not in (None, star) or report.get("element") not in (None, element):
+        raise ValueError(f"publish: report is for {report.get('star')} {report.get('element')}, "
+                         f"not {star} {element}")
     import datetime as _dt
     started = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     work = budget_dir(star, element)
@@ -228,19 +289,13 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     ufile = work / "units.txt"
     ufile.write_text("\n".join(u[1] for u in units) + "\n")
     # Leg directories are keyed by unit index and the legs runner skips a leg whose DONE
-    # exists, so legs are reused across invocations -- ONLY while both the unit list and every
-    # built cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
+    # exists, so legs are reused across invocations -- ONLY while the unit's command line and
+    # its own cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
     # or synthesis-list change re-built the cells and then priced them from stale legs.
-    symbol, _ = rm.split_symbol(element)
+    # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
-    sig = ufile.read_text() + "".join(
-        f"# {k} {v.get('inputs_hash')}\n" for k, v in sorted(ledger.items())
-        if k.startswith(f"{star}|{symbol}|"))
-    prev = work / "units.prev.txt"
-    if prev.exists() and prev.read_text() != sig:
-        import shutil
-        shutil.rmtree(legs, ignore_errors=True)
-    prev.write_text(sig)
+    reuse_legs(legs, work / "units.prev.json",
+               [unit_signature(u[1], (ledger.get(u[3]) or {}).get("inputs_hash")) for u in units])
     # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
     # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
     for done in legs.glob("unit*/*/DONE"):

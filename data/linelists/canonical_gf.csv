@@ -79554,26 +79554,26 @@ gf_087236,pk_a1bbfcf36ce3,12,1.0,Mg I,4392.149,4.346,1,-5.0,GUES,,synth(GES),sin
 gf_087237,pk_25fde73f3b3f,12,1.0,Mg I,4409.923,7.194,1,-1.951,NIST10,,synth(GES),single_source,-1.951,,-1.951,True,False,True,,,,,False,OTHER,False
 gf_087238,pk_57d6b746cd54,12,1.0,Mg I,4561.393,4.346,1,-3.02,KP,,synth(GES),single_source,-3.02,,-3.02,True,False,True,,,,,False,OTHER,False
 gf_087239,pk_95ea42b3fb71,12,1.0,Mg I,4562.602,0.0,1,-10.207,NIST10,,synth(GES),single_source,-10.207,,,True,False,False,,,,,False,OTHER,False
-gf_087240,pk_319f6a7b4073,12,1.0,Mg I,4571.096,0.0,1,-5.623,NIST ASD v5.11 grade A,A,NIST,nist,-5.623,,-5.623,True,False,True,,,,,False,NIST-C+,False
+gf_087240,pk_319f6a7b4073,12,1.0,Mg I,4571.096,0.0,1,-5.397,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo) | prior: NIST ASD v5.11 grade A",A,NIST,rya1250_fix_feature_total,-5.623,,-5.623,True,False,True,,MG_BERGEMANN2017,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
 gf_087241,pk_640a443ec620,12,1.0,Mg I,4575.292,0.0,1,-11.74,NIST10,,synth(GES),single_source,-11.74,,,True,False,False,,,,,False,OTHER,False
 gf_087242,pk_a01bb67df976,12,1.0,Mg I,4621.301,2.712,1,-5.0,GUES,,synth(GES),single_source,-5.0,,-5.0,True,False,True,,,,,False,OTHER,False
-gf_087243,pk_e4d91c4cdf2d,12,1.0,Mg I,4702.991,4.346,1,-0.44,NIST10,,synth(GES),single_source,-0.44,,-0.44,True,False,True,,,,,False,OTHER,False
+gf_087243,pk_e4d91c4cdf2d,12,1.0,Mg I,4702.991,4.346,1,-0.456,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo) | prior: NIST10",,synth(GES),rya1250_fix_feature_total,-0.44,,-0.44,True,False,True,,MG_BERGEMANN2017,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
 gf_087244,pk_41fb90a9d88c,12,1.0,Mg I,4730.029,4.346,1,-2.347,NIST10,,synth(GES),single_source,-2.347,,-2.347,True,False,True,,,,,False,OTHER,False
-gf_087245,pk_a4cea3ace5e5,12,1.0,Mg I,5167.322,2.709,1,-1.031,NIST ASD v5.11 grade A,A,NIST,nist,-0.931,-0.931,-0.931,True,True,True,0.0,,,,False,NIST-C+,False
-gf_087246,pk_86e88ac86338,12,1.0,Mg I,5172.684,2.712,1,-0.45,NIST ASD v5.11 grade A,A,NIST,nist,-0.45,-0.45,-0.45,True,True,True,0.0,,,,False,NIST-C+,False
-gf_087247,pk_a73f561520e9,12,1.0,Mg I,5183.604,2.717,1,0.18,NIST ASD v5.11 grade A,A,NIST,nist,-0.239,-0.239,-0.239,True,True,True,0.0,,,,False,NIST-C+,False
+gf_087245,pk_a4cea3ace5e5,12,1.0,Mg I,5167.322,2.709,1,-0.854,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST ASD v5.11 grade A",A,NIST,rya1250_fix_feature_total,-0.931,-0.931,-0.931,True,True,True,0.0,PR2017_exp,0.05,10.1051/0004-6361/201629849,False,LAB,False
+gf_087246,pk_86e88ac86338,12,1.0,Mg I,5172.684,2.712,1,-0.363,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST ASD v5.11 grade A",A,NIST,rya1250_fix_feature_total,-0.45,-0.45,-0.45,True,True,True,0.0,PR2017_exp,0.04,10.1051/0004-6361/201629849,False,LAB,False
+gf_087247,pk_a73f561520e9,12,1.0,Mg I,5183.604,2.717,1,-0.168,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp; replaces +0.18 (NIST -0.180 with its sign dropped; every line list has -0.24)) | prior: NIST ASD v5.11 grade A",A,NIST,rya1250_fix_feature_total,-0.239,-0.239,-0.239,True,True,True,0.0,PR2017_exp,0.04,10.1051/0004-6361/201629849,False,LAB,False
 gf_087248,pk_3e137fadffd7,12,1.0,Mg I,5222.925,4.346,1,-3.51,KP,,synth(GES),single_source,-3.51,,-3.51,True,False,True,,,,,False,OTHER,False
 gf_087249,pk_d8761029cf64,12,1.0,Mg I,5345.976,5.108,3,-2.3631,KP,,synth(GES),single_source,-2.3631,,-2.3631,True,False,True,,,,,False,OTHER,False
 gf_087250,pk_d5c01c958f4c,12,1.0,Mg I,5509.597,5.108,3,-2.39,VALD3,,regions(VALD3),pending,-2.1342,-2.39,-2.1342,True,True,True,0.2558,,,,False,VALD3,False
-gf_087251,pk_3aa0cc5973ad,12,1.0,Mg I,5528.405,4.346,1,-0.498,NIST ASD v5.12 grade B+ (RYA-592 re-verified 2026-07-26; fik 1.06e-01 x g_i 3; cf. Pehlivan Rhodin+2017 A&A 598 A102 exp -0.547+/-0.02 / theo -0.513),B+,NIST,nist,-0.498,-0.498,-0.498,True,True,True,0.0,,,,False,NIST-C+,False
-gf_087252,pk_b22076acf84b,12,1.0,Mg I,5711.088,4.346,1,-1.724,NIST ASD v5.12 grade B (RYA-592 re-verified 2026-07-26; fik 6.30e-03 x g_i 3; cf. Pehlivan Rhodin+2017 A&A 598 A102 exp -1.842+/-0.05 / theo -1.742),B,NIST,nist,-1.724,-1.724,-1.724,True,True,True,0.0,,,,False,NIST-C+,False
+gf_087251,pk_3aa0cc5973ad,12,1.0,Mg I,5528.405,4.346,1,-0.547,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST ASD v5.12 grade B+ (RYA-592 re-verified 2026-07-26; fik 1.06e-01 x g_i 3; cf. Pehlivan Rhodin+2017 A&A 598 A102 exp -0.547+/-0.02 / theo -0.513)",B+,NIST,rya1250_fix_feature_total,-0.498,-0.498,-0.498,True,True,True,0.0,PR2017_exp,0.02,10.1051/0004-6361/201629849,False,LAB,False
+gf_087252,pk_b22076acf84b,12,1.0,Mg I,5711.088,4.346,1,-1.742,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo, as Bergemann+2017 and Magg+2022 adopt; PR17 exp is -1.842+/-0.05) | prior: NIST ASD v5.12 grade B (RYA-592 re-verified 2026-07-26; fik 6.30e-03 x g_i 3; cf. Pehlivan Rhodin+2017 A&A 598 A102 exp -1.842+/-0.05 / theo -1.742)",B,NIST,rya1250_fix_feature_total,-1.724,-1.724,-1.724,True,True,True,0.0,MG_BERGEMANN2017,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
 gf_087253,pk_849444e7f9fc,12,1.0,Mg I,5785.313,5.108,1,-2.11,VALD3,,regions(VALD3),agreed,-2.11,-2.11,-2.11,True,True,True,0.0,,,,False,VALD3,False
 gf_087254,pk_744f945f7839,12,1.0,Mg I,5785.561,5.108,1,-2.5,KP,,synth(GES),single_source,-2.5,,-2.5,True,False,True,,,,,False,OTHER,False
 gf_087255,pk_991ac4e1056f,12,1.0,Mg I,5785.672,5.108,1,-2.81,KP,,synth(GES),single_source,-2.81,,-2.81,True,False,True,,,,,False,OTHER,False
 gf_087256,pk_0efdc59fb640,12,1.0,Mg I,6083.522,5.394,1,-3.27,KP,,synth(GES),flagged_uncitable_rya354,-3.27,,-3.27,True,False,True,,,,,False,OTHER,False
 gf_087257,pk_73f11b3ddfbe,12,1.0,Mg I,6287.63,5.394,1,-2.98,KP,,synth(GES),single_source,-2.98,,-2.98,True,False,True,,,,,False,OTHER,False
-gf_087258,pk_36070b121466,12,1.0,Mg I,6318.717,5.108,1,-2.103,VALD3,,regions(VALD3),agreed,-2.103,-2.103,-2.103,True,True,True,0.0,,,,False,VALD3,False
-gf_087259,pk_04e2655fd6e6,12,1.0,Mg I,6319.237,5.108,1,-2.324,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade D L6095,D,regions(VALD3),adjudicated_rya354,-2.324,-2.324,-2.324,True,True,True,0.0,,,,False,OTHER,False
+gf_087258,pk_36070b121466,12,1.0,Mg I,6318.717,5.108,1,-2.02,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo) | prior: VALD3",,regions(VALD3),rya1250_fix_feature_total,-2.103,-2.103,-2.103,True,True,True,0.0,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
+gf_087259,pk_04e2655fd6e6,12,1.0,Mg I,6319.237,5.108,1,-2.242,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo) | prior: NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade D L6095",D,regions(VALD3),rya1250_fix_feature_total,-2.324,-2.324,-2.324,True,True,True,0.0,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_087260,pk_b3727d887b72,12,1.0,Mg I,6319.493,5.108,1,-2.803,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade E L6095,E,synth(GES),adjudicated_rya354,-2.803,,-2.803,True,False,True,,,,,False,OTHER,False
 gf_087261,pk_d31c36e4f879,12,1.0,Mg I,6630.833,5.394,1,-2.62,KP,,synth(GES),flagged_uncitable_rya354,-2.62,,-2.62,True,False,True,,,,,False,OTHER,False
 gf_087262,pk_9f551899829c,12,1.0,Mg I,6765.45,5.753,3,-1.4704,KP,,synth(GES),single_source,-1.4704,,-1.4704,True,False,True,,,,,False,OTHER,False
@@ -79602,9 +79602,9 @@ gf_087284,pk_b204ebe0c01a,12,1.0,Mg I,7602.4647,5.946,8,-1.1204,KP,,synth(GES),s
 gf_087285,pk_96caa92fe81d,12,1.0,Mg I,7623.4,5.932,1,-2.48,KP,,synth(GES),single_source,-2.48,,,True,False,False,,,,,False,OTHER,False
 gf_087286,pk_86d15a8b314b,12,1.0,Mg I,7627.325,5.933,1,-2.96,KP,,synth(GES),single_source,-2.96,,,True,False,False,,,,,False,OTHER,False
 gf_087287,pk_6dc62a32723f,12,1.0,Mg I,7655.1198,5.946,8,-1.1641,KP,,synth(GES),single_source,-1.1641,,,True,False,False,,,,,False,OTHER,False
-gf_087288,pk_51bc7c9796f0,12,1.0,Mg I,7657.603,5.108,1,-1.268,NIST10,,synth(GES),single_source,-1.268,,,True,False,False,,,,,False,OTHER,False
-gf_087289,pk_267a14459bc6,12,1.0,Mg I,7659.152,5.108,1,-1.489,NIST10,,synth(GES),single_source,-1.489,,,True,False,False,,,,,False,OTHER,False
-gf_087290,pk_c5744f2a784d,12,1.0,Mg I,7659.901,5.108,1,-1.965,NIST10,,synth(GES),single_source,-1.965,,,True,False,False,,,,,False,OTHER,False
+gf_087288,pk_51bc7c9796f0,12,1.0,Mg I,7657.603,5.108,1,-1.292,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST10",,synth(GES),rya1250_fix_feature_total,-1.268,,,True,False,False,,PR2017_exp,0.05,10.1051/0004-6361/201629849,False,LAB,False
+gf_087289,pk_267a14459bc6,12,1.0,Mg I,7659.152,5.108,1,-1.425,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST10",,synth(GES),rya1250_fix_feature_total,-1.489,,,True,False,False,,PR2017_exp,0.05,10.1051/0004-6361/201629849,False,LAB,False
+gf_087290,pk_c5744f2a784d,12,1.0,Mg I,7659.901,5.108,1,-1.948,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: NIST10",,synth(GES),rya1250_fix_feature_total,-1.965,,,True,False,False,,PR2017_exp,0.05,10.1051/0004-6361/201629849,False,LAB,False
 gf_087291,pk_6ee853856359,12,1.0,Mg I,7663.245,5.932,1,-2.37,KP,,synth(GES),single_source,-2.37,,,True,False,False,,,,,False,OTHER,False
 gf_087292,pk_f263fc72b76a,12,1.0,Mg I,7665.181,5.932,2,-2.0169,KP,,synth(GES),single_source,-2.0169,,,True,False,False,,,,,False,OTHER,False
 gf_087293,pk_0b48245cf8fa,12,1.0,Mg I,7669.149,5.933,3,-1.6962,KP,,synth(GES),single_source,-1.6962,,,True,False,False,,,,,False,OTHER,False
@@ -79663,15 +79663,15 @@ gf_087345,pk_fbc717f3a90f,12,1.0,Mg I,8609.727,6.118,1,-2.81,KP,,synth(GES),sing
 gf_087346,pk_c446af6aacd6,12,1.0,Mg I,8663.056,6.118,1,-3.04,KP,,synth(GES),single_source,-3.04,,,True,False,False,,,,,False,OTHER,False
 gf_087347,pk_fc368f095096,12,1.0,Mg I,8707.135,6.118,1,-2.76,KP,,synth(GES),single_source,-2.76,,,True,False,False,,,,,False,OTHER,False
 gf_087348,pk_a4263fed45f7,12,1.0,Mg I,8710.175,5.932,1,-1.565,NIST10,,synth(GES),single_source,-1.565,,,True,False,False,,,,,False,OTHER,False
-gf_087349,pk_273185ea59f7,12,1.0,Mg I,8712.6857,5.932,2,-1.088,NIST10,,synth(GES),single_source,-1.088,,,True,False,False,,,,,False,OTHER,False
-gf_087350,pk_5a605fd43f0d,12,1.0,Mg I,8717.825,5.933,1,-0.866,1993JPhB..,,synth(GES),single_source,-0.866,,,True,False,False,,,,,False,OTHER,False
+gf_087349,pk_273185ea59f7,12,1.0,Mg I,8712.6857,5.932,2,-1.152,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo, feature total) | prior: NIST10",,synth(GES),rya1250_fix_feature_total,-1.088,,,True,False,False,,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
+gf_087350,pk_5a605fd43f0d,12,1.0,Mg I,8717.825,5.933,1,-0.93,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo, feature total) | prior: 1993JPhB..",,synth(GES),rya1250_fix_feature_total,-0.866,,,True,False,False,,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_087351,pk_011359b26822,12,1.0,Mg I,8734.161,5.946,1,-4.04,KP,,synth(GES),single_source,-4.04,,,True,False,False,,,,,False,OTHER,False
 gf_087352,pk_4cdcba9691e6,12,1.0,Mg I,8736.019,5.946,1,-0.356,1993JPhB..,,synth(GES),single_source,-0.356,,,True,False,False,,,,,False,OTHER,False
 gf_087353,pk_eb244bbc94b4,12,1.0,Mg I,8778.261,6.118,1,-2.96,KP,,synth(GES),single_source,-2.96,,,True,False,False,,,,,False,OTHER,False
 gf_087354,pk_6bee776ec5f7,12,1.0,Mg I,8780.7157,5.946,6,-2.6383,KP,,synth(GES),single_source,-2.6383,,,True,False,False,,,,,False,OTHER,False
-gf_087355,pk_ad9fe265f469,12,1.0,Mg I,8806.757,4.346,1,-0.144,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,synth(GES),adopted_rya1233_mg_bergemann2017_ir,-0.134,,,True,False,False,,MG_BERGEMANN2017_IR,0.03,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
+gf_087355,pk_ad9fe265f469,12,1.0,Mg I,8806.757,4.346,1,-0.144,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,synth(GES),rya1250_fix_feature_total,-0.134,,,True,False,False,,PR2017_exp,0.03,10.1051/0004-6361/201629849,False,LAB,False
 gf_087356,pk_a786d34981c8,12,1.0,Mg I,8836.992,6.118,1,-2.66,KP,,synth(GES),single_source,-2.66,,,True,False,False,,,,,False,OTHER,False
-gf_087357,pk_069e07d03f2f,12,1.0,Mg I,8923.569,5.394,1,-1.678,1990JQSRT.,,synth(GES),single_source,-1.678,,,True,False,False,,,,,False,OTHER,False
+gf_087357,pk_069e07d03f2f,12,1.0,Mg I,8923.569,5.394,1,-1.679,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo) | prior: 1990JQSRT.",,synth(GES),rya1250_fix_feature_total,-1.678,,,True,False,False,,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_087358,pk_8f9bee58c6a6,12,1.0,Mg I,8928.827,5.932,1,-1.69,KP,,synth(GES),single_source,-1.69,,,True,False,False,,,,,False,OTHER,False
 gf_087359,pk_c72a712a1259,12,1.0,Mg I,8934.212,5.933,1,-2.17,KP,,synth(GES),single_source,-2.17,,,True,False,False,,,,,False,OTHER,False
 gf_087360,pk_e7c0ab12adf9,12,1.0,Mg I,8935.207,6.118,1,-2.88,KP,,synth(GES),single_source,-2.88,,,True,False,False,,,,,False,OTHER,False
@@ -139771,7 +139771,7 @@ gf_148745,pk_1ab65e81737d,27,1.0,Co I,3092.889,2.28,12,-3.577943618667468,VALD3,
 gf_148746,pk_82e816b952a0,25,2.0,Mn II,3092.932,6.3918,1,-1.858,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.858,False,False,True,,,,,False,VALD3,False
 gf_148747,pk_ecf7f1f6e666,23,1.0,V I,3092.937,0.3006,21,-3.1459602424776096,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.1459602424776096,False,False,True,,,,,False,VALD3,False
 gf_148748,pk_bf8778a1c7a1,60,2.0,Nd II,3092.939,0.1823,1,-0.35,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.35,False,False,True,,,,,False,VALD3,False
-gf_148749,pk_3c9c56a8c89c,12,1.0,Mg I,3092.985,2.7116,2,-0.572,NIST ASD (accuracy C),C,nearuv_vald(RYA-759),adopted_rya1250_nist_asd,,,-0.4470309465378022,False,False,True,,,,,False,NIST-C+,False
+gf_148749,pk_3c9c56a8c89c,12,1.0,Mg I,3092.985,2.7116,2,-0.447,"NIST ASD (grade of the dominant component; line total = VALD components, RYA-1250 fix)",C,nearuv_vald(RYA-759),adopted_rya1250_nist_asd,,,-0.4470309465378022,False,False,True,,,,,False,NIST-C+,False
 gf_148750,pk_3d3dbe7cc9c1,90,2.0,Th II,3093.052,0.1887,1,-1.587,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.587,False,False,True,,,,,False,VALD3,False
 gf_148751,pk_b96bc8ef06bb,24,2.0,Cr II,3093.055,4.0423,1,-3.986,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.986,False,False,True,,,,,False,VALD3,False
 gf_148752,pk_1f587dafbbcf,26,1.0,Fe I,3093.098,3.5732,1,-2.691,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.691,False,False,True,,,,,False,VALD3,False
@@ -139918,7 +139918,7 @@ gf_148892,pk_5f2ab95f0dae,58,2.0,Ce II,3096.862,0.2323,1,-1.72,VALD3,,nearuv_val
 gf_148893,pk_f11b8b603cb5,26,1.0,Fe I,3096.877,2.7586,1,-1.456,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.456,False,False,True,,,,,False,VALD3,False
 gf_148894,pk_96d587583113,22,2.0,Ti II,3096.881,4.054,1,-2.477,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.477,False,False,True,,,,,False,VALD3,False
 gf_148895,pk_d9eab6569e69,26,1.0,Fe I,3096.884,2.998,1,-2.529,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.529,False,False,True,,,,,False,VALD3,False
-gf_148896,pk_e9e89ec94c3d,12,1.0,Mg I,3096.89,2.7166,3,-0.301,NIST ASD (accuracy C+),C+,nearuv_vald(RYA-759),adopted_rya1250_nist_asd,,,-0.2250980820959695,False,False,True,,,,,False,NIST-C+,False
+gf_148896,pk_e9e89ec94c3d,12,1.0,Mg I,3096.89,2.7166,3,-0.225,"NIST ASD (grade of the dominant component; line total = VALD components, RYA-1250 fix)",C+,nearuv_vald(RYA-759),adopted_rya1250_nist_asd,,,-0.2250980820959695,False,False,True,,,,,False,NIST-C+,False
 gf_148897,pk_c71017043335,58,2.0,Ce II,3096.9,1.0916,1,-1.11,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.11,False,False,True,,,,,False,VALD3,False
 gf_148898,pk_8e2d89883153,22,2.0,Ti II,3096.942,5.6379,1,-1.487,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.487,False,False,True,,,,,False,VALD3,False
 gf_148899,pk_ebb023893333,69,2.0,Tm II,3096.968,2.6791,1,0.2399999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,0.2399999999999999,False,False,True,,,,,False,VALD3,False
@@ -158202,11 +158202,11 @@ gf_167176,pk_3cf163838e91,26,1.0,Fe I,9233.19,5.3204,1,-1.293,VALD3,,ir_vald_920
 gf_167177,pk_aa6961f2e16f,16,1.0,S I,9237.538,6.5245,1,0.0099999999999999,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.0099999999999999,False,False,True,,,,,False,VALD3,False
 gf_167178,pk_ce076166f1ae,26,1.0,Fe I,9242.367,4.988,1,-1.564,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.564,False,False,True,,,,,False,VALD3,False
 gf_167179,pk_52ed75e9e490,12,2.0,Mg II,9244.265,8.6547,1,-0.034,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II) (gf: AGSS21 Table A.1; NIST ASD transition c31,T6870,c23)",,ir_vald_9200_13000(RYA-762),adopted_rya1233_mg_agss21,,,-0.03,False,False,True,,MG_AGSS21,0.00860017,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
-gf_167180,pk_86fd6d1ee841,12,1.0,Mg I,9246.499,5.7532,1,-1.939,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.939,False,False,True,,,,,False,VALD3,False
+gf_167180,pk_86fd6d1ee841,12,1.0,Mg I,9246.499,5.7532,1,-1.939,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.939,False,False,True,,,,,False,NIST-C+,False
 gf_167181,pk_c484d3a40ac2,26,1.0,Fe I,9246.557,2.5881,1,-2.938,VALD3,B,ir_vald_9200_13000(RYA-762),single_source,,,-2.938,False,False,True,,"NIST-C+ (recorded, not adopted: RYA-834)",0.0414,https://physics.nist.gov/asd,False,VALD3,False
 gf_167182,pk_1b5cbfc5a131,22,2.0,Ti II,9252.533,2.5977,1,-2.086,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-2.086,False,False,True,,,,,False,VALD3,False
 gf_167183,pk_047b2eb14211,14,1.0,Si I,9253.683,6.2612,1,-0.866,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.838,False,False,True,,PR2024_calc,0.0532,10.1051/0004-6361/202245686,False,PR2024-CALC,False
-gf_167184,pk_1187f4a8e041,12,1.0,Mg I,9255.775,5.7532,2,-0.1258773968609943,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.1258773968609943,False,False,True,,,,,False,VALD3,False
+gf_167184,pk_1187f4a8e041,12,1.0,Mg I,9255.775,5.7532,2,-0.165,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp 1F component; VALD 9255.722 3F intercombination (5% of the cluster) kept) | prior: VALD3",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,-0.1258773968609943,False,False,True,,PR2017_exp,0.038,10.1051/0004-6361/201629849,False,LAB,False
 gf_167185,pk_f004fa9558b9,26,1.0,Fe I,9258.267,4.6076,1,-0.68,PRIMARY LAB Ruffoni2014,,ir_vald_9200_13000(RYA-762),lab_rya834,,,-0.725,False,False,True,,RU14,0.03,10.1093/mnras/stu780,True,LAB,False
 gf_167186,pk_46c090e178b2,26,1.0,Fe I,9259.005,4.913,1,-0.71,PRIMARY LAB DenHartog2014,D+,ir_vald_9200_13000(RYA-762),lab_rya834,,,-0.749,False,False,True,,DH14,0.03,10.1088/0067-0049/215/2/23,True,LAB,False
 gf_167187,pk_0a1b93cfe89b,24,1.0,Cr I,9264.02,3.1128,1,-1.425,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.425,False,False,True,,,,,False,VALD3,False
@@ -158250,13 +158250,13 @@ gf_167224,pk_39b6d4c359ed,20,1.0,Ca I,9416.971,4.1308,1,-0.891,VALD3,,ir_vald_92
 gf_167225,pk_80d1fdb41e18,16,1.0,S I,9421.765,8.4093,1,0.2399999999999999,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.2399999999999999,False,False,True,,,,,False,VALD3,False
 gf_167226,pk_10500a14a133,14,1.0,Si I,9421.786,6.1248,1,-1.249,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.133,False,False,True,,PR2024_calc,0.0713,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167227,pk_2e02bcaec0b8,16,1.0,S I,9421.933,8.4093,1,0.399,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.399,False,False,True,,,,,False,VALD3,False
-gf_167228,pk_6316249dcd6e,12,1.0,Mg I,9429.814,5.9315,1,-1.271,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.271,False,False,True,,,,,False,VALD3,False
+gf_167228,pk_6316249dcd6e,12,1.0,Mg I,9429.814,5.9315,1,-1.271,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.271,False,False,True,,,,,False,NIST-C+,False
 gf_167229,pk_4def960fc8d7,22,2.0,Ti II,9432.151,2.5903,1,-2.05,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,ir_vald_9200_13000(RYA-762),adopted_rya1268_lab_table,,,-2.05,False,False,True,,wood2013_ti2,0.0669,10.1088/0067-0049/208/2/27,False,LAB,False
-gf_167230,pk_69dffd9bd1e5,12,1.0,Mg I,9432.758,5.932,2,-0.7940309465378024,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.7940309465378024,False,False,True,,,,,False,VALD3,False
+gf_167230,pk_69dffd9bd1e5,12,1.0,Mg I,9432.758,5.932,2,-0.7940309465378024,"NIST ASD T6298c72,LS (grade of the dominant component (75% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.7940309465378024,False,False,True,,,,,False,NIST-C+,False
 gf_167231,pk_3c76e64e083d,16,1.0,S I,9436.967,8.4082,1,0.19,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.19,False,False,True,,,,,False,VALD3,False
 gf_167232,pk_609c098c9c81,16,1.0,S I,9437.13,8.4082,1,0.19,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.19,False,False,True,,,,,False,VALD3,False
 gf_167233,pk_fcefd16fea79,26,1.0,Fe I,9437.793,4.6076,1,-1.46,PRIMARY LAB DenHartog2014,,ir_vald_9200_13000(RYA-762),lab_rya834,,,-1.405,False,False,True,,DH14,0.04,10.1088/0067-0049/215/2/23,True,LAB,False
-gf_167234,pk_d4a197781075,12,1.0,Mg I,9438.783,5.9328,2,-0.5766155972907663,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.5766155972907663,False,False,True,,,,,False,VALD3,False
+gf_167234,pk_d4a197781075,12,1.0,Mg I,9438.783,5.9328,2,-0.5766155972907663,"NIST ASD T6298c72,LS (grade of the dominant component (85% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.5766155972907663,False,False,True,,,,,False,NIST-C+,False
 gf_167235,pk_e5d06023a873,26,1.0,Fe I,9443.801,5.0856,1,-0.2229999999999999,VALD3,C,ir_vald_9200_13000(RYA-762),single_source,,,-0.2229999999999999,False,False,True,,"NIST-C+ (recorded, not adopted: RYA-834)",0.0969,https://physics.nist.gov/asd,False,VALD3,False
 gf_167236,pk_1ff0b0429cd3,24,1.0,Cr I,9447.045,2.5446,1,-1.46,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,ir_vald_9200_13000(RYA-762),adopted_rya1268_lab_table,,,-1.46,False,False,True,,sobeck2007,0.0561,10.1086/519987,False,LAB,False
 gf_167237,pk_6a7ff61c409b,26,1.0,Fe I,9452.336,5.0095,1,-1.54,PRIMARY LAB DenHartog2014,,ir_vald_9200_13000(RYA-762),lab_rya834,,,-1.515,False,False,True,,DH14,0.06,10.1088/0067-0049/215/2/23,True,LAB,False
@@ -158298,7 +158298,7 @@ gf_167272,pk_da6a0c6f46fa,26,1.0,Fe I,9657.233,5.0856,1,-0.78,VALD3,,ir_vald_920
 gf_167273,pk_716742958202,6,1.0,C I,9658.44,7.4878,1,-0.279841,"NIST ASD v5.11 grade B (T6070n,T4828n,u24)",B,ir_vald_9200_13000(RYA-762),nist_rya1214,,,-0.28,False,False,True,,,0.041393,,False,NIST-C+,False
 gf_167274,pk_d4cd9053f608,26,1.0,Fe I,9659.075,5.0638,1,-1.106,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.106,False,False,True,,,,,False,VALD3,False
 gf_167275,pk_5498c2ffbfc6,20,1.0,Ca I,9659.343,4.7386,1,-0.446,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.446,False,False,True,,,,,False,VALD3,False
-gf_167276,pk_c63de230b9cf,12,1.0,Mg I,9665.479,6.1182,1,-1.767,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.767,False,False,True,,,,,False,VALD3,False
+gf_167276,pk_c63de230b9cf,12,1.0,Mg I,9665.479,6.1182,1,-1.767,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.767,False,False,True,,,,,False,NIST-C+,False
 gf_167277,pk_4cec70878e06,24,1.0,Cr I,9670.54,2.5443,1,-1.79,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.79,False,False,True,,,,,False,VALD3,False
 gf_167278,pk_2b1045616736,22,1.0,Ti I,9675.544,0.836,1,-0.804,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.804,False,False,True,,,,,False,VALD3,False
 gf_167279,pk_c1d5422297ce,20,1.0,Ca I,9676.294,4.7353,1,-0.522,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.522,False,False,True,,,,,False,VALD3,False
@@ -158399,7 +158399,7 @@ gf_167373,pk_055e081e69a4,20,1.0,Ca I,10273.684,4.5347,1,-0.636,VALD3,,ir_vald_9
 gf_167374,pk_e9a9e4454114,14,1.0,Si I,10288.944,4.9201,1,-1.619,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",C+,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.511,False,False,True,,PR2024_calc,0.0472,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167375,pk_2e1dcb9c4cae,28,1.0,Ni I,10302.611,4.2661,1,-0.881,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.881,False,False,True,,,,,False,VALD3,False
 gf_167376,pk_c28f7f2082de,26,1.0,Fe I,10307.453,4.5931,1,-2.067,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-2.067,False,False,True,,,,,False,VALD3,False
-gf_167377,pk_9b65323427f2,12,1.0,Mg I,10312.531,6.1182,1,-1.73,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.73,False,False,True,,,,,False,VALD3,False
+gf_167377,pk_9b65323427f2,12,1.0,Mg I,10312.531,6.1182,1,-1.718,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo) | prior: VALD3",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,-1.73,False,False,True,,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_167378,pk_b72b10bfe59e,14,1.0,Si I,10313.197,6.3991,1,-1.21,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.886,False,False,True,,PR2024_calc,0.0927,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167379,pk_860f773df5c6,38,2.0,Sr II,10327.311,1.8395,1,-0.248,"Asplund 2021 -> Grevesse et al. 2015 (A&A 573, A27) Table 1: 2 Sr I + 3 Sr II (gf: relative data of Gallagher (Gallagher), normalised with the mean of (equal uncertainty) lifetimes from Kuske et al.\ (Kuske) and Pinnington et al.\ (Pinnington95))",C+,ir_vald_9200_13000(RYA-762),adopted_rya1233_sr_agss21,,,-0.247,False,False,True,,SR_AGSS21,0.0719,10.1051/0004-6361/201424111,False,PUBLISHED-SET,False
 gf_167380,pk_9a3d1facd0d1,28,1.0,Ni I,10330.234,4.1054,2,-1.007400253872902,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.007400253872902,False,False,True,,,,,False,VALD3,False
@@ -158482,7 +158482,7 @@ gf_167456,pk_3fc7ecdab93b,14,1.0,Si I,10784.562,5.9639,1,-0.746,"Pehlivan Rhodin
 gf_167457,pk_3f515a5c3da7,14,1.0,Si I,10786.849,4.9296,1,-0.376,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.303,False,False,True,,PR2024_calc,0.0469,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167458,pk_b90e567fe502,14,1.0,Si I,10796.106,6.1807,1,-1.454,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.266,False,False,True,,PR2024_calc,0.0538,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167459,pk_9e49f268f947,24,1.0,Cr I,10801.361,3.0111,1,-1.567,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.567,False,False,True,,,,,False,VALD3,False
-gf_167460,pk_3fe106e1a60c,12,1.0,Mg I,10811.112,5.9459,7,0.5001715717101073,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.5001715717101073,False,False,True,,,,,False,VALD3,False
+gf_167460,pk_3fe106e1a60c,12,1.0,Mg I,10811.112,5.9459,7,0.401,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 exp (.053,.158) + Butler 1993 (10/18/50 % -> dex)) | prior: VALD3",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,0.5001715717101073,False,False,True,,MG_BERGEMANN2017,0.0234,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
 gf_167461,pk_934ad61d14ce,26,1.0,Fe I,10818.274,3.9597,1,-1.948,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.948,False,False,True,,,,,False,VALD3,False
 gf_167462,pk_c77dce2327a2,24,1.0,Cr I,10821.66,3.0133,1,-1.524,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.524,False,False,True,,,,,False,VALD3,False
 gf_167463,pk_f34a4b52b480,20,1.0,Ca I,10827.013,4.877,1,-0.3,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.3,False,False,True,,,,,False,VALD3,False
@@ -158512,11 +158512,11 @@ gf_167486,pk_75c68cdc68cc,26,1.0,Fe I,10896.299,3.0713,1,-2.694,VALD3,,ir_vald_9
 gf_167487,pk_3abb2b24d0b0,24,1.0,Cr I,10905.713,3.4379,1,-0.561,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.561,False,False,True,,,,,False,VALD3,False
 gf_167488,pk_ce630cccf4b8,12,2.0,Mg II,10914.244,8.8637,1,0.036,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II) (gf: AGSS21 Table A.1; NIST ASD transition c31,T6870,c23)",,ir_vald_9200_13000(RYA-762),adopted_rya1233_mg_agss21,,,0.02,False,False,True,,MG_AGSS21,0.01283722,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_167489,pk_2fbfbac1a416,38,2.0,Sr II,10914.887,1.8047,1,-0.574,NIST ASD (accuracy A+; TP ref T9615),A+,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-0.526,False,False,True,,NIST_ASD,0.0086,,False,NIST-C+,False
-gf_167490,pk_cebfc2ef697b,12,2.0,Mg II,10951.778,8.8638,1,-0.23,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.23,False,False,True,,,,,False,VALD3,False
-gf_167491,pk_af8b72464f1b,12,1.0,Mg I,10953.32,5.9315,1,-0.863,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.863,False,False,True,,,,,False,VALD3,False
+gf_167490,pk_cebfc2ef697b,12,2.0,Mg II,10951.778,8.8638,1,-0.23,"NIST ASD c31,T6870,c23 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",A,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.23,False,False,True,,,,,False,NIST-C+,False
+gf_167491,pk_af8b72464f1b,12,1.0,Mg I,10953.32,5.9315,1,-0.863,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.863,False,False,True,,,,,False,NIST-C+,False
 gf_167492,pk_e31e61a08890,24,1.0,Cr I,10957.172,3.0128,1,-1.687,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.687,False,False,True,,,,,False,VALD3,False
-gf_167493,pk_8a5779a04c44,12,1.0,Mg I,10957.297,5.932,2,-0.3855301883177868,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.3855301883177868,False,False,True,,,,,False,VALD3,False
-gf_167494,pk_0d2a018e3b86,12,1.0,Mg I,10965.445,5.9328,2,-0.26,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,ir_vald_9200_13000(RYA-762),adopted_rya1233_mg_bergemann2017_ir,,,-0.1687670201360491,False,False,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
+gf_167493,pk_8a5779a04c44,12,1.0,Mg I,10957.297,5.932,2,-0.3855301883177868,"NIST ASD T6298c72,LS (grade of the dominant component (75% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.3855301883177868,False,False,True,,,,,False,NIST-C+,False
+gf_167494,pk_0d2a018e3b86,12,1.0,Mg I,10965.445,5.9328,2,-0.184,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,-0.1687670201360491,False,False,True,,MG_BERGEMANN2017,0.0427,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
 gf_167495,pk_57ce4eb33e34,14,1.0,Si I,10979.308,4.9538,1,-0.673,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B3 (experimental)",C+,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.524,False,False,True,,PR2024_exp,0.02,10.1051/0004-6361/202245686,False,LAB,False
 gf_167496,pk_4145cdfbd895,28,1.0,Ni I,10979.828,4.1536,2,-0.6934002538729019,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.6934002538729019,False,False,True,,,,,False,VALD3,False
 gf_167497,pk_2fa3e47dba12,14,1.0,Si I,10982.058,6.191,1,-0.184,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,0.1039999999999999,False,False,True,,PR2024_calc,0.0463,10.1051/0004-6361/202245686,False,PR2024-CALC,False
@@ -158527,7 +158527,7 @@ gf_167501,pk_3da380662835,14,1.0,Si I,11013.703,6.206,1,-1.142,"Pehlivan Rhodin 
 gf_167502,pk_04d6692a02fd,24,1.0,Cr I,11015.528,3.4493,1,-0.427,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.427,False,False,True,,,,,False,VALD3,False
 gf_167503,pk_4847b2918aae,14,1.0,Si I,11017.966,6.206,1,0.543,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,0.76,False,False,True,,PR2024_calc,0.0463,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167504,pk_9bd12538a002,26,1.0,Fe I,11026.788,3.9433,1,-2.805,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-2.805,False,False,True,,,,,False,VALD3,False
-gf_167505,pk_ed9af639f068,12,1.0,Mg I,11032.103,5.9459,1,-1.801,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.801,False,False,True,,,,,False,VALD3,False
+gf_167505,pk_ed9af639f068,12,1.0,Mg I,11032.103,5.9459,1,-1.801,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.801,False,False,True,,,,,False,NIST-C+,False
 gf_167506,pk_befa3b9e37a5,12,1.0,Mg I,11033.662,5.9459,1,-2.073,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-2.073,False,False,True,,,,,False,VALD3,False
 gf_167507,pk_b97f3890ddee,14,1.0,Si I,11040.405,6.206,1,-1.74,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.449,False,False,True,,PR2024_calc,0.08,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167508,pk_9fefb95d9abe,26,1.0,Fe I,11045.599,5.5869,1,-0.624,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.624,False,False,True,,,,,False,VALD3,False
@@ -158590,9 +158590,9 @@ gf_167564,pk_4d98c05294a6,14,1.0,Si I,11502.697,6.2612,1,-0.796,"Pehlivan Rhodin
 gf_167565,pk_f6fc7c4123da,26,1.0,Fe I,11511.768,6.3207,1,-0.533,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.533,False,False,True,,,,,False,VALD3,False
 gf_167566,pk_3702d0ef2a25,14,1.0,Si I,11518.608,6.7271,1,-0.907,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.907,False,False,True,,,,,False,VALD3,False
 gf_167567,pk_25867014f2ea,26,1.0,Fe I,11522.213,3.2367,1,-3.263,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-3.263,False,False,True,,,,,False,VALD3,False
-gf_167568,pk_4557d847fe7c,12,1.0,Mg I,11522.24,6.1182,1,-1.91,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.91,False,False,True,,,,,False,VALD3,False
+gf_167568,pk_4557d847fe7c,12,1.0,Mg I,11522.24,6.1182,1,-1.91,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.91,False,False,True,,,,,False,NIST-C+,False
 gf_167569,pk_11fe8852faeb,26,1.0,Fe I,11522.926,5.6531,1,-1.176,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.176,False,False,True,,,,,False,VALD3,False
-gf_167570,pk_bc4e9cbd7064,12,1.0,Mg I,11540.672,6.1182,1,-1.717,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.717,False,False,True,,,,,False,VALD3,False
+gf_167570,pk_bc4e9cbd7064,12,1.0,Mg I,11540.672,6.1182,1,-1.717,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.717,False,False,True,,,,,False,NIST-C+,False
 gf_167571,pk_c06bb990d0e0,26,1.0,Fe I,11572.523,6.28,1,0.322,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.322,False,False,True,,,,,False,VALD3,False
 gf_167572,pk_ef9583914187,26,1.0,Fe I,11585.208,5.6531,1,-1.31,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.31,False,False,True,,,,,False,VALD3,False
 gf_167573,pk_e8c3bda34bf5,28,1.0,Ni I,11588.712,4.2357,1,-1.373,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.373,False,False,True,,,,,False,VALD3,False
@@ -158637,7 +158637,7 @@ gf_167611,pk_108a112ea22c,6,1.0,C I,11801.08,8.6472,1,-0.739929,"NIST ASD v5.11 
 gf_167612,pk_e8dbd99cc5d8,12,1.0,Mg I,11811.558,5.932,1,-1.04,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.04,False,False,True,,,,,False,VALD3,False
 gf_167613,pk_c45df168f500,12,1.0,Mg I,11820.982,5.9328,1,-1.52,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.52,False,False,True,,,,,False,VALD3,False
 gf_167614,pk_e4fc5fc4837a,26,1.0,Fe I,11827.142,4.5844,1,-1.762,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.762,False,False,True,,,,,False,VALD3,False
-gf_167615,pk_ea6a770eb5fd,12,1.0,Mg I,11828.171,4.3458,1,-0.333,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.333,False,False,True,,,,,False,VALD3,False
+gf_167615,pk_ea6a770eb5fd,12,1.0,Mg I,11828.171,4.3458,1,-0.35,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp (PR17 11828.185)) | prior: VALD3",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,-0.333,False,False,True,,PR2017_exp,0.03,10.1051/0004-6361/201629849,False,LAB,False
 gf_167616,pk_9d689a212d88,26,1.0,Fe I,11829.856,5.6207,1,-1.332,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.332,False,False,True,,,,,False,VALD3,False
 gf_167617,pk_e9ffa6d180fb,20,2.0,Ca II,11838.997,6.4679,1,0.312,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.312,False,False,True,,,,,False,VALD3,False
 gf_167618,pk_d0c3928ac624,6,1.0,C I,11848.71,8.643,1,-0.69897,"NIST ASD v5.11 grade B (T6070n,T4828n)",B,ir_vald_9200_13000(RYA-762),nist_rya1214,,,-0.697,False,False,True,,,0.041393,,False,NIST-C+,False
@@ -158669,12 +158669,12 @@ gf_167643,pk_25bc9c55c420,26,1.0,Fe I,12005.397,5.5869,1,-0.533,VALD3,,ir_vald_9
 gf_167644,pk_efda560900a7,26,1.0,Fe I,12005.547,5.6207,1,-0.918,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.918,False,False,True,,,,,False,VALD3,False
 gf_167645,pk_6f5c91838958,26,1.0,Fe I,12010.578,5.6925,1,-1.166,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.166,False,False,True,,,,,False,VALD3,False
 gf_167646,pk_e6c0b604739e,14,1.0,Si I,12031.504,4.9538,1,0.409,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,0.477,False,False,True,,PR2024_calc,0.0477,10.1051/0004-6361/202245686,False,PR2024-CALC,False
-gf_167647,pk_1539d3c236fd,12,1.0,Mg I,12039.822,5.7532,1,-1.53,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.53,False,False,True,,,,,False,VALD3,False
+gf_167647,pk_1539d3c236fd,12,1.0,Mg I,12039.822,5.7532,1,-1.53,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.53,False,False,True,,,,,False,NIST-C+,False
 gf_167648,pk_7cc86be0cfa7,26,1.0,Fe I,12053.082,4.5585,1,-1.543,VALD3,D+,ir_vald_9200_13000(RYA-762),single_source,,,-1.543,False,False,True,,,,,False,VALD3,False
 gf_167649,pk_bbd34a255009,14,1.0,Si I,12080.391,6.2612,1,-1.597,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.635,False,False,True,,PR2024_calc,0.0463,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167650,pk_5b7bfcf7a5e5,14,1.0,Si I,12081.972,6.2612,1,-0.468,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.518,False,False,True,,PR2024_calc,0.0464,10.1051/0004-6361/202245686,False,PR2024-CALC,False
-gf_167651,pk_47d58e3a7833,12,1.0,Mg I,12083.282,5.7532,2,-1.347,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,ir_vald_9200_13000(RYA-762),adopted_rya1233_mg_bergemann2017_ir,,,0.4742984430337245,False,False,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
-gf_167652,pk_6612ef9824db,12,1.0,Mg I,12083.649,5.7532,1,0.4099999999999999,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.4099999999999999,False,False,True,,,,,False,VALD3,False
+gf_167651,pk_47d58e3a7833,12,1.0,Mg I,12083.282,5.7532,2,-1.116,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (3d1D2-4f3F intercombination pair: PR17 exp .278 + Bergemann+2015 .346 (no sigma). VALD's +0.45 at .278 is refuted by PR17) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,0.4742984430337245,False,False,True,,MG_BERGEMANN2017,,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,False
+gf_167652,pk_6612ef9824db,12,1.0,Mg I,12083.649,5.7532,1,0.377,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp (PR17 12083.662)) | prior: VALD3",,ir_vald_9200_13000(RYA-762),rya1250_fix_feature_total,,,0.4099999999999999,False,False,True,,PR2017_exp,0.04,10.1051/0004-6361/201629849,False,LAB,False
 gf_167653,pk_68aadb4b16dd,14,1.0,Si I,12100.181,6.7271,1,-1.127,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.127,False,False,True,,,,,False,VALD3,False
 gf_167654,pk_463bbb5de956,14,1.0,Si I,12102.433,6.6192,1,-0.779,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.694,False,False,True,,PR2024_calc,0.0495,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167655,pk_00263af4e78b,14,1.0,Si I,12103.534,4.9296,1,-0.465,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B3 (experimental)",C+,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-0.35,False,False,True,,PR2024_exp,0.02,10.1051/0004-6361/202245686,False,LAB,False
@@ -158702,13 +158702,13 @@ gf_167676,pk_1126a2013b84,26,1.0,Fe I,12333.026,6.3327,1,-0.531,VALD3,,ir_vald_9
 gf_167677,pk_a6e0cf3a7c5c,26,1.0,Fe I,12342.916,4.6382,1,-1.463,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.463,False,False,True,,,,,False,VALD3,False
 gf_167678,pk_52e47d2a64f8,14,1.0,Si I,12390.154,5.0823,1,-1.789,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B3 (experimental)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.767,False,False,True,,PR2024_exp,0.11,10.1051/0004-6361/202245686,False,LAB,False
 gf_167679,pk_3e9cfc32f91d,14,1.0,Si I,12395.832,4.9538,1,-1.727,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B3 (experimental)",C+,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-1.644,False,False,True,,PR2024_exp,0.06,10.1051/0004-6361/202245686,False,LAB,False
-gf_167680,pk_1ef334a30a06,12,1.0,Mg I,12417.937,5.9315,1,-1.664,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.664,False,False,True,,,,,False,VALD3,False
-gf_167681,pk_ed7412d707a0,12,1.0,Mg I,12423.029,5.932,1,-1.188,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.188,False,False,True,,,,,False,VALD3,False
+gf_167680,pk_1ef334a30a06,12,1.0,Mg I,12417.937,5.9315,1,-1.664,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.664,False,False,True,,,,,False,NIST-C+,False
+gf_167681,pk_ed7412d707a0,12,1.0,Mg I,12423.029,5.932,1,-1.188,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.188,False,False,True,,,,,False,NIST-C+,False
 gf_167682,pk_9274935d7497,28,1.0,Ni I,12423.672,6.0949,1,0.1669999999999999,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.1669999999999999,False,False,True,,,,,False,VALD3,False
 gf_167683,pk_9e31b573aafe,12,1.0,Mg I,12426.174,6.5879,1,-1.39,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.39,False,False,True,,,,,False,VALD3,False
 gf_167684,pk_95547799abb4,19,1.0,K I,12432.273,1.61,4,-0.433,NIST ASD (accuracy AA; TP ref T9168),AA,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-0.4388518963483989,False,False,True,,NIST_ASD,0.0043,,False,NIST-C+,False
 gf_167685,pk_721685cd571f,26,1.0,Fe I,12432.81,5.6826,1,-1.239,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.239,False,False,True,,,,,False,VALD3,False
-gf_167686,pk_7713ec2c72a7,12,1.0,Mg I,12433.452,5.9328,1,-0.967,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.967,False,False,True,,,,,False,VALD3,False
+gf_167686,pk_7713ec2c72a7,12,1.0,Mg I,12433.452,5.9328,1,-0.967,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-0.967,False,False,True,,,,,False,NIST-C+,False
 gf_167687,pk_d7825a04ea67,20,1.0,Ca I,12433.748,5.0261,1,-0.066,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.066,False,False,True,,,,,False,VALD3,False
 gf_167688,pk_b240c8e497aa,28,1.0,Ni I,12436.107,6.0969,1,0.077,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,0.077,False,False,True,,,,,False,VALD3,False
 gf_167689,pk_afe91f941f34,14,1.0,Si I,12439.963,5.0823,1,-2.849,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-2.732,False,False,True,,PR2024_calc,0.0546,10.1051/0004-6361/202245686,False,PR2024-CALC,False
@@ -163267,7 +163267,7 @@ gf_172812,pk_f4a80b8b3298,25,1.0,Mn I,15015.819406796452,4.6656,2,-2.92588313947
 gf_172813,pk_0a7551e3120e,22,1.0,Ti I,15016.1455,2.2363,1,-2.55,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.55,False,False,True,,,,,False,KURUCZ,
 gf_172814,pk_4db472a09166,26,1.0,Fe I,15018.178000000002,5.9307,1,-3.131,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.131,False,False,True,,,,,False,KURUCZ,
 gf_172815,pk_5ee75673ccbf,26,1.0,Fe I,15022.6689,5.8388,1,-2.513,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.513,False,False,True,,,,,False,KURUCZ,
-gf_172816,pk_bfc96507cb5a,12,1.0,Mg I,15024.997,5.1078,1,0.334,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),adopted_rya1233_mg_bergemann2017_ir,,,0.357,False,False,True,,MG_BERGEMANN2017_IR,0.03,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
+gf_172816,pk_bfc96507cb5a,12,1.0,Mg I,15024.997,5.1078,1,0.334,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,0.357,False,False,True,,PR2017_exp,0.03,10.1051/0004-6361/201629849,False,LAB,
 gf_172817,pk_10c87ca79ebf,26,1.0,Fe I,15026.2478,6.4013,1,-2.112,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.112,False,False,True,,,,,False,KURUCZ,
 gf_172818,pk_fc76ad2ca92b,26,1.0,Fe I,15026.3155,5.861,1,-2.886,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.886,False,False,True,,,,,False,KURUCZ,
 gf_172819,pk_f3676712bb79,22,1.0,Ti I,15027.8402,4.6897,1,-0.39,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.39,False,False,True,,,,,False,KURUCZ,
@@ -163280,14 +163280,14 @@ gf_172825,pk_2939c4eda169,6,1.0,C I,15036.42,10.0557,1,-1.545155,NIST ASD v5.11 
 gf_172826,pk_dea5611a32d7,27,1.0,Co I,15038.946713758012,5.8385,8,-0.0965639728131518,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0965639728131518,False,False,True,,,,,False,KURUCZ,
 gf_172827,pk_e2e935dbdd5c,1,1.0,H I,15039.047,12.7485,1,-1.684,CDROM18,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.684,False,False,True,,,,,False,OTHER,
 gf_172828,pk_ce288c7dfa79,27,1.0,Co I,15039.28226087412,5.8385,4,-0.0042767942313963,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0042767942313963,False,False,True,,,,,False,KURUCZ,
-gf_172829,pk_2636738200a3,12,1.0,Mg I,15040.246,5.1078,1,0.1349999999999999,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.1349999999999999,False,False,True,,,,,False,VALD3,
+gf_172829,pk_2636738200a3,12,1.0,Mg I,15040.246,5.1078,1,0.113,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,0.1349999999999999,False,False,True,,PR2017_exp,0.04,10.1051/0004-6361/201629849,False,LAB,
 gf_172830,pk_ba2d2b77a448,26,1.0,Fe I,15040.249999999998,6.4433,1,-2.06,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.06,False,False,True,,,,,False,KURUCZ,
 gf_172831,pk_3a1c9950e757,26,1.0,Fe I,15040.811199999998,6.1751,1,-2.23,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.23,False,False,True,,,,,False,KURUCZ,
 gf_172832,pk_d6067cc1e07e,24,1.0,Cr I,15042.8322,5.953,1,-0.453,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.453,False,False,True,,,,,False,KURUCZ,
 gf_172833,pk_757df321f765,26,1.0,Fe I,15046.9189,6.427,1,-2.152,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.152,False,False,True,,,,,False,KURUCZ,
 gf_172834,pk_9157c6502f6b,26,1.0,Fe I,15046.9529,6.6155,1,-2.068,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.068,False,False,True,,,,,False,KURUCZ,
 gf_172835,pk_3e441f434db0,26,1.0,Fe I,15047.1816,6.5911,1,-2.6,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.6,False,False,True,,,,,False,KURUCZ,
-gf_172836,pk_772ecb5b45d1,12,1.0,Mg I,15047.714,5.1078,1,-0.341,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.341,False,False,True,,,,,False,VALD3,
+gf_172836,pk_772ecb5b45d1,12,1.0,Mg I,15047.714,5.1078,1,-0.364,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp (PR17 15047.705)) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-0.341,False,False,True,,PR2017_exp,0.04,10.1051/0004-6361/201629849,False,LAB,
 gf_172837,pk_0f37923a1be3,28,1.0,Ni I,15048.8623,6.1159,1,-1.253,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.253,False,False,True,,,,,False,KURUCZ,
 gf_172838,pk_294b874443bc,6,1.0,C I,15049.94,9.7089,1,-2.30103,NIST ASD grade D (T5520LS); level-identity match at air 15049.860 A,D,solar_ir_vald_hfson(RYA-1053),nist_rya1232_level_identity,,,-2.323,False,False,True,,,0.176091,,False,NIST-C+,
 gf_172839,pk_b87c89d79e57,7,1.0,N I,15050.868,10.9294,1,-1.175224,NIST ASD v5.11 grade B (T7370),B,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,-1.175,False,False,True,,,0.041393,,False,NIST-C+,
@@ -163790,7 +163790,7 @@ gf_173335,pk_6e11e94dbfaf,22,1.0,Ti I,15692.0151,5.1914,1,-0.4680000000000001,K1
 gf_173336,pk_a7b7cac90b24,22,1.0,Ti I,15692.0372,5.2097,1,0.417,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.417,False,False,True,,,,,False,KURUCZ,
 gf_173337,pk_d839b8f855e1,26,1.0,Fe I,15692.7836,3.3965,1,-5.51,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-5.51,False,False,True,,,,,False,KURUCZ,
 gf_173338,pk_f3904002915f,25,1.0,Mn I,15693.05903351858,5.133415384615385,13,-0.7066829825556142,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.7066829825556142,False,False,True,,,,,False,KURUCZ,
-gf_173339,pk_f0d96823adce,12,1.0,Mg I,15693.372799228046,6.718999999999999,5,-0.7474402766118364,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.7474402766118364,False,False,True,,,,,False,VALD3,
+gf_173339,pk_f0d96823adce,12,1.0,Mg I,15693.372799228046,6.718999999999999,5,-0.7474402766118364,"NIST ASD T6298c72,LS (grade of the dominant component (54% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.7474402766118364,False,False,True,,,,,False,NIST-C+,
 gf_173340,pk_a833df6749a9,25,1.0,Mn I,15693.4713,5.1334,1,-3.054,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.054,False,False,True,,,,,False,KURUCZ,
 gf_173341,pk_afa68b8363f0,12,1.0,Mg I,15693.555,6.719,1,-1.35,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.35,False,False,True,,,,,False,VALD3,
 gf_173342,pk_5a20074fbbd6,25,1.0,Mn I,15693.593,5.1335,1,-3.406,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.406,False,False,True,,,,,False,KURUCZ,
@@ -163820,7 +163820,7 @@ gf_173365,pk_dc8dab91dabe,26,1.0,Fe I,15736.203499999998,6.3292,1,-2.859,K14,,so
 gf_173366,pk_41b2077b89fe,16,1.0,S I,15736.3942,9.9336,1,-0.9,K04,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.9,False,False,True,,,,,False,KURUCZ,
 gf_173367,pk_98e171a4abd8,26,1.0,Fe I,15738.3141,6.5232,1,-1.971,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.971,False,False,True,,,,,False,KURUCZ,
 gf_173368,pk_d767abe72777,26,2.0,Fe II,15739.2928,6.7291,1,-3.461,RU,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.461,False,False,True,,,,,False,OTHER,
-gf_173369,pk_338cef9a293a,12,1.0,Mg I,15740.706,5.9315,1,-0.212,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.212,False,False,True,,,,,False,VALD3,
+gf_173369,pk_338cef9a293a,12,1.0,Mg I,15740.706,5.9315,1,-0.212,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.212,False,False,True,,,,,False,NIST-C+,
 gf_173370,pk_7a480d978446,14,1.0,Si I,15743.5734,7.0399,1,-1.737,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.737,False,False,True,,,,,False,KURUCZ,
 gf_173371,pk_89a4f06f4aa7,25,1.0,Mn I,15743.919549140544,5.133407142857143,14,-0.4533343933407944,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.4533343933407944,False,False,True,,,,,False,KURUCZ,
 gf_173372,pk_2e5444d16734,25,1.0,Mn I,15744.2821,5.1335,1,-1.794,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.794,False,False,True,,,,,False,KURUCZ,
@@ -163828,8 +163828,8 @@ gf_173373,pk_8f1641825938,26,1.0,Fe I,15745.1777,5.6066,1,-3.445,K14,,solar_ir_v
 gf_173374,pk_27b32626db57,26,1.0,Fe I,15746.1572,5.9279,1,-2.792,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.792,False,False,True,,,,,False,KURUCZ,
 gf_173375,pk_0da7b0cacfdd,26,2.0,Fe II,15748.3946,10.6001,1,-0.499,RU,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.499,False,False,True,,,,,False,OTHER,
 gf_173376,pk_43ee3480e3c6,26,1.0,Fe I,15748.4442,6.6638,1,-2.398,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.398,False,False,True,,,,,False,KURUCZ,
-gf_173377,pk_f9947aad97d0,12,1.0,Mg I,15748.886,5.932,1,-0.338,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.338,False,False,True,,,,,False,VALD3,
-gf_173378,pk_f3c805a83930,12,1.0,Mg I,15748.988,5.932,1,0.129,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),adopted_rya1233_mg_bergemann2017_ir,,,0.1399999999999999,False,False,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
+gf_173377,pk_f9947aad97d0,12,1.0,Mg I,15748.886,5.932,1,-0.338,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.338,False,False,True,,,,,False,NIST-C+,
+gf_173378,pk_f3c805a83930,12,1.0,Mg I,15748.988,5.932,1,0.129,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo; Bergemann excludes it from the solar mean (blends ~half the EW)) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,0.1399999999999999,False,False,True,,MG_BERGEMANN2017,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
 gf_173379,pk_bb1ed11a300e,25,1.0,Mn I,15749.5433,6.1486,1,0.238,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.238,False,False,True,,,,,False,KURUCZ,
 gf_173380,pk_bfedef29e218,22,1.0,Ti I,15751.0867,5.2139,1,-0.4680000000000001,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.4680000000000001,False,False,True,,,,,False,KURUCZ,
 gf_173381,pk_43f2138a4f97,28,1.0,Ni I,15753.606,5.4692,1,-0.602,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.602,False,False,True,,,,,False,KURUCZ,
@@ -163844,8 +163844,8 @@ gf_173389,pk_d8fc6a2c80ac,14,1.0,Si I,15760.3313,7.2297,1,-2.985,K07,,solar_ir_v
 gf_173390,pk_fcf71451e141,22,1.0,Ti I,15762.667199999998,5.1773,1,-0.242,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.242,False,False,True,,,,,False,KURUCZ,
 gf_173391,pk_31097cd00689,26,1.0,Fe I,15764.4245,6.4399,1,-2.719,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.719,False,False,True,,,,,False,KURUCZ,
 gf_173392,pk_eec1421b25a5,26,1.0,Fe I,15764.508999999998,6.2517,1,-2.332,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.332,False,False,True,,,,,False,KURUCZ,
-gf_173393,pk_7d74ee7dacdb,12,1.0,Mg I,15765.645,5.9328,1,-1.524,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),adopted_rya1233_mg_bergemann2017_ir,,,-1.514,False,False,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_173394,pk_e0e32af2e27e,12,1.0,Mg I,15765.825055484653,5.9328,2,0.4823844027092336,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.4823844027092336,False,False,True,,,,,False,VALD3,
+gf_173393,pk_7d74ee7dacdb,12,1.0,Mg I,15765.645,5.9328,1,-1.524,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo) | prior: Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-1.514,False,False,True,,MG_BERGEMANN2017,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
+gf_173394,pk_e0e32af2e27e,12,1.0,Mg I,15765.825055484653,5.9328,2,0.471,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,0.4823844027092336,False,False,True,,MG_BERGEMANN2017,0.0431,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
 gf_173395,pk_9a0d402d8988,22,1.0,Ti I,15767.2812,5.1773,1,-0.135,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.135,False,False,True,,,,,False,KURUCZ,
 gf_173396,pk_6272b9fcd1e4,26,1.0,Fe I,15770.1316,6.5472,1,-2.044,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.044,False,False,True,,,,,False,KURUCZ,
 gf_173397,pk_a2c16992cb53,14,1.0,Si I,15771.6865,7.0693,1,-2.446,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.446,False,False,True,,,,,False,KURUCZ,
@@ -163955,7 +163955,7 @@ gf_173500,pk_9ef1ef205601,22,1.0,Ti I,15875.360199999996,5.2206,1,0.423999999999
 gf_173501,pk_c4aedd6f9150,26,1.0,Fe I,15876.5981,6.5535,1,-2.405,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.405,False,False,True,,,,,False,KURUCZ,
 gf_173502,pk_c59356ca4ce3,22,1.0,Ti I,15877.770699999995,4.4893,1,-0.489,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.489,False,False,True,,,,,False,KURUCZ,
 gf_173503,pk_0a397b99cb84,22,1.0,Ti I,15878.328,5.1719,1,-0.31,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.31,False,False,True,,,,,False,KURUCZ,
-gf_173504,pk_b5a5c8964e36,12,1.0,Mg I,15879.557896921768,5.945899999999999,3,-1.174258277575308,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.174258277575308,False,False,True,,,,,False,VALD3,
+gf_173504,pk_b5a5c8964e36,12,1.0,Mg I,15879.557896921768,5.945899999999999,3,-1.226,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (AGSS21 feature total; sigma = PR17 exp error of the dominant 15879.567 component) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-1.174258277575308,False,False,True,,MG_AGSS21_PR17calc,0.06,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
 gf_173505,pk_672696062304,14,1.0,Si I,15880.2322,7.0288,1,-2.652,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.652,False,False,True,,,,,False,KURUCZ,
 gf_173506,pk_052c06c847f6,20,1.0,Ca I,15880.5425,5.0486,1,-1.389,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.389,False,False,True,,,,,False,KURUCZ,
 gf_173507,pk_fc23ea15dabe,1,1.0,H I,15880.559,12.7485,1,-0.966,KCN,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.966,False,False,True,,,,,False,OTHER,
@@ -163963,13 +163963,13 @@ gf_173508,pk_2ee3888ede62,26,1.0,Fe I,15881.8317,5.8834,1,-3.305,K14,,solar_ir_v
 gf_173509,pk_cd2104eeae88,26,1.0,Fe I,15884.451,6.62,1,-2.707,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.707,False,False,True,,,,,False,KURUCZ,
 gf_173510,pk_728f20a83d10,14,1.0,Si I,15884.4535,5.9537,1,-0.883,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,solar_ir_vald_hfson(RYA-1053),adjudicated_rya1233_pr2024,,,-0.826,False,False,True,,PR2024_calc,0.0516,10.1051/0004-6361/202245686,False,PR2024-CALC,
 gf_173511,pk_34dfebe512c5,26,1.0,Fe I,15884.852300000002,6.4149,1,-2.629,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.629,False,False,True,,,,,False,KURUCZ,
-gf_173512,pk_85dbc580cae6,12,1.0,Mg I,15886.206253821809,5.9459,2,-1.3960309465378022,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.3960309465378022,False,False,True,,,,,False,VALD3,
+gf_173512,pk_85dbc580cae6,12,1.0,Mg I,15886.206253821809,5.9459,2,-1.34,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (PR17 theo as Bergemann adopts; PR17 exp -1.896+/-0.10 / -1.760+/-0.14 (total -1.52, 0.18 weaker)) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-1.3960309465378022,False,False,True,,MG_BERGEMANN2017,0.0395,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
 gf_173513,pk_aa8bef0ac98e,26,1.0,Fe I,15886.4779,6.306,1,-2.274,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.274,False,False,True,,,,,False,KURUCZ,
 gf_173514,pk_6f9609b8a19b,8,1.0,O I,15887.692142970882,12.286,3,-0.4370246655941778,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.4370246655941778,False,False,True,,,,,False,VALD3,
 gf_173515,pk_67c0677191e3,14,1.0,Si I,15888.4094,5.0823,1,0.004,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,solar_ir_vald_hfson(RYA-1053),adjudicated_rya1233_pr2024,,,0.063,False,False,True,,PR2024_calc,0.0483,10.1051/0004-6361/202245686,False,PR2024-CALC,
 gf_173516,pk_f3e282148c0f,14,1.0,Si I,15888.8538,7.1252,1,-1.895,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.895,False,False,True,,,,,False,KURUCZ,
 gf_173517,pk_5a722063f1ba,8,1.0,O I,15889.492225537912,12.286,2,-0.254925,NIST ASD v5.11 grade C+ (T5713LS),C+,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,-0.25510048358687,False,False,True,,,0.071882,,False,NIST-C+,
-gf_173518,pk_deff013a2e39,12,1.0,Mg I,15889.521,5.9459,1,-1.873,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.873,False,False,True,,,,,False,VALD3,
+gf_173518,pk_deff013a2e39,12,1.0,Mg I,15889.521,5.9459,1,-1.876,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp (PR17 15889.485)) | prior: VALD3",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-1.873,False,False,True,,PR2017_exp,0.08,10.1051/0004-6361/201629849,False,LAB,
 gf_173519,pk_e9862d12259b,14,1.0,Si I,15890.704999999998,6.7206,1,-2.282,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,solar_ir_vald_hfson(RYA-1053),adjudicated_rya1233_pr2024,,,-2.057,False,False,True,,PR2024_calc,0.1667,10.1051/0004-6361/202245686,False,PR2024-CALC,
 gf_173520,pk_5bc3c2775902,22,1.0,Ti I,15891.3188,3.727,1,-1.554,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.554,False,False,True,,,,,False,KURUCZ,
 gf_173521,pk_e8f7c1e5496c,26,1.0,Fe I,15892.0716,6.3666,1,-2.965,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.965,False,False,True,,,,,False,KURUCZ,
@@ -164039,7 +164039,7 @@ gf_173584,pk_845c6ac67328,23,1.0,V I,15940.809188856463,4.663666666666667,6,0.13
 gf_173585,pk_94a8a22e6e1e,26,1.0,Fe I,15940.9559,6.3666,1,-2.916,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.916,False,False,True,,,,,False,KURUCZ,
 gf_173586,pk_f8b239e3f0f1,23,1.0,V I,15941.306991473024,4.702893333333333,15,0.723,NIST ASD (accuracy C; TP ref u38),C,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,0.7047882722990807,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,
 gf_173587,pk_cb6d44b14aaf,28,1.0,Ni I,15946.224300000002,5.5254,1,-2.676,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.676,False,False,True,,,,,False,KURUCZ,
-gf_173588,pk_53a289a41da7,12,1.0,Mg I,15948.379,6.5879,1,-2.0,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.0,False,False,True,,,,,False,VALD3,
+gf_173588,pk_53a289a41da7,12,1.0,Mg I,15948.379,6.5879,1,-2.0,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-2.0,False,False,True,,,,,False,NIST-C+,
 gf_173589,pk_dacfc5de3444,23,1.0,V I,15948.600277684976,4.681404761904761,21,0.602,NIST ASD (accuracy C; TP ref u38),C,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,0.3910397575223905,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,
 gf_173590,pk_7b90b60b2d1b,25,1.0,Mn I,15948.6181,5.7908,3,0.0486909824742524,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.0486909824742524,False,False,True,,,,,False,KURUCZ,
 gf_173591,pk_b462ec5d924f,22,1.0,Ti I,15950.6843,5.2227,1,0.268,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.268,False,False,True,,,,,False,KURUCZ,
@@ -164050,7 +164050,7 @@ gf_173595,pk_298c82b2ebfa,26,1.0,Fe I,15952.4711,6.3416,1,-2.35,K14,,solar_ir_va
 gf_173596,pk_b498b2eda360,22,1.0,Ti I,15953.9985,5.2227,1,0.586,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.586,False,False,True,,,,,False,KURUCZ,
 gf_173597,pk_e9e5e14c407f,22,1.0,Ti I,15954.0622,5.27,1,-0.375,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.375,False,False,True,,,,,False,KURUCZ,
 gf_173598,pk_5b9b964e5c42,25,1.0,Mn I,15954.248,5.7911,3,0.34991529268898,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.34991529268898,False,False,True,,,,,False,KURUCZ,
-gf_173599,pk_3af36c4bb8eb,12,1.0,Mg I,15954.477000000004,6.5879,2,-0.7209715516922149,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.7209715516922149,False,False,True,,,,,False,OTHER,
+gf_173599,pk_3af36c4bb8eb,12,1.0,Mg I,15954.477000000004,6.5879,2,-0.7209715516922149,"NIST ASD T5539 (grade of the dominant component (92% of the line); gf unchanged, RYA-1250 IR sweep) | prior: KP",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.7209715516922149,False,False,True,,,,,False,NIST-C+,
 gf_173600,pk_eca80e790519,24,1.0,Cr I,15955.9032,5.2436,1,-1.417,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.417,False,False,True,,,,,False,KURUCZ,
 gf_173601,pk_7f229c6c1b07,13,1.0,Al I,15956.675,4.8266,1,-1.397,K75,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.397,False,False,True,,,,,False,KURUCZ,
 gf_173602,pk_0ca099f51a39,58,3.0,Ce III,15956.7995,0.0,1,-1.112,KCN,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.112,False,False,True,,,,,False,OTHER,
@@ -164449,8 +164449,8 @@ gf_173994,pk_7395957920c0,28,1.0,Ni I,16363.1034,5.2825,1,0.588,K08,,solar_ir_va
 gf_173995,pk_2a0126371bcc,22,1.0,Ti I,16363.162300000002,5.2227,1,0.475,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.475,False,False,True,,,,,False,KURUCZ,
 gf_173996,pk_4e64b52d1cf2,22,1.0,Ti I,16364.2659,5.1951,1,-0.0709999999999999,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0709999999999999,False,False,True,,,,,False,KURUCZ,
 gf_173997,pk_4e36ca928392,15,1.0,P I,16364.405,8.2864,1,-1.0,GUES,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.0,False,False,True,,,,,False,OTHER,
-gf_173998,pk_e3f74c8abb99,12,1.0,Mg I,16364.748,6.719,3,-0.8018345133000018,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.8018345133000018,False,False,True,,,,,False,VALD3,
-gf_173999,pk_17cfdbdc8655,12,1.0,Mg I,16364.85,6.719,2,-0.9467262327057766,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.9467262327057766,False,False,True,,,,,False,VALD3,
+gf_173998,pk_e3f74c8abb99,12,1.0,Mg I,16364.748,6.719,3,-0.8018345133000018,"NIST ASD T6298c72,LS (grade of the dominant component (92% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.8018345133000018,False,False,True,,,,,False,NIST-C+,
+gf_173999,pk_17cfdbdc8655,12,1.0,Mg I,16364.85,6.719,2,-0.9467262327057766,"NIST ASD T6298c72,LS (grade of the dominant component (89% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.9467262327057766,False,False,True,,,,,False,NIST-C+,
 gf_174000,pk_e0792eb80831,12,1.0,Mg I,16364.959999999995,6.719,1,-1.169,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.169,False,False,True,,,,,False,VALD3,
 gf_174001,pk_146b4614e8f8,26,1.0,Fe I,16366.6636,6.6468,1,-2.214,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.214,False,False,True,,,,,False,KURUCZ,
 gf_174002,pk_db68c653c80e,26,1.0,Fe I,16367.6282,6.3292,1,-2.981,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.981,False,False,True,,,,,False,KURUCZ,
@@ -164681,7 +164681,7 @@ gf_174226,pk_2a306b0a4898,26,1.0,Fe I,16591.5455,6.3417,1,-3.01,K14,,solar_ir_va
 gf_174227,pk_8573d77c212b,28,1.0,Ni I,16593.11799186748,5.6141,3,-0.9729588859931816,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.9729588859931816,False,False,True,,,,,False,KURUCZ,
 gf_174228,pk_79ad7d635610,16,1.0,S I,16593.22,8.4173,1,-0.56,BQZ,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.56,False,False,True,,,,,False,OTHER,
 gf_174229,pk_f28bcfd1c09b,16,1.0,S I,16593.8037,9.845,1,-0.838,K04,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.838,False,False,True,,,,,False,KURUCZ,
-gf_174230,pk_356e2a3eb06a,12,1.0,Mg I,16595.583,6.5161,1,-2.092,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.092,False,False,True,,,,,False,VALD3,
+gf_174230,pk_356e2a3eb06a,12,1.0,Mg I,16595.583,6.5161,1,-2.092,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-2.092,False,False,True,,,,,False,NIST-C+,
 gf_174231,pk_595536c8b721,16,1.0,S I,16597.236,8.417,1,-0.98,BQZ,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.98,False,False,True,,,,,False,OTHER,
 gf_174232,pk_3c68969c6cc9,20,1.0,Ca I,16599.0992,5.2712,1,-2.315,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.315,False,False,True,,,,,False,KURUCZ,
 gf_174233,pk_2c4057731da5,16,1.0,S I,16601.4366,9.2956,1,-2.043,K04,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.043,False,False,True,,,,,False,KURUCZ,
@@ -164865,7 +164865,7 @@ gf_174410,pk_a74363f86e01,24,1.0,Cr I,16756.7319,6.7966,1,-0.48,K16,,solar_ir_va
 gf_174411,pk_c00c036b42b5,27,1.0,Co I,16757.3463,3.4092,1,-2.268,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.268,False,False,True,,,,,False,KURUCZ,
 gf_174412,pk_027a70946285,27,1.0,Co I,16757.655935487328,3.4092,15,-0.9429740787021472,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.9429740787021472,False,False,True,,,,,False,KURUCZ,
 gf_174413,pk_b895857de980,32,1.0,Ge I,16759.763,4.9619,1,-0.3,GUES,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.3,False,False,True,,,,,False,OTHER,
-gf_174414,pk_4611fe4c2ecc,12,2.0,Mg II,16760.218,12.0829,1,0.48,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.48,False,False,True,,,,,False,OTHER,
+gf_174414,pk_4611fe4c2ecc,12,2.0,Mg II,16760.218,12.0829,1,0.48,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.48,False,False,True,,,,,False,NIST-C+,
 gf_174415,pk_138f044ec9aa,28,1.0,Ni I,16761.2326,6.0424,1,-0.307,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.307,False,False,True,,,,,False,KURUCZ,
 gf_174416,pk_1248f9e4b55e,22,1.0,Ti I,16762.5001,5.1957,1,-0.463,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.463,False,False,True,,,,,False,KURUCZ,
 gf_174417,pk_5488e3fa6f0c,13,1.0,Al I,16763.36001225027,4.087200000000001,10,-0.5499563523620887,WSM,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.5499563523620887,False,False,True,,,,,False,OTHER,
@@ -164893,9 +164893,9 @@ gf_174438,pk_c737df4cb902,26,1.0,Fe I,16794.7798,6.7118,1,-2.469,K14,,solar_ir_v
 gf_174439,pk_65b7aeb08b0e,14,1.0,Si I,16795.5896,7.166,1,-2.634,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.634,False,False,True,,,,,False,KURUCZ,
 gf_174440,pk_8fac92689e9c,26,1.0,Fe I,16795.6122,6.6671,1,-2.69,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.69,False,False,True,,,,,False,KURUCZ,
 gf_174441,pk_5e469a01f8e4,28,1.0,Ni I,16795.663,6.04,1,-1.04,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.04,False,False,True,,,,,False,KURUCZ,
-gf_174442,pk_097ec2571d9a,12,2.0,Mg II,16799.084,12.0846,1,-0.2199999999999999,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.2199999999999999,False,False,True,,,,,False,OTHER,
+gf_174442,pk_097ec2571d9a,12,2.0,Mg II,16799.084,12.0846,1,-0.2199999999999999,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.2199999999999999,False,False,True,,,,,False,NIST-C+,
 gf_174443,pk_627dd3f6d106,22,1.0,Ti I,16799.2276,5.2056,1,-0.354,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.354,False,False,True,,,,,False,KURUCZ,
-gf_174444,pk_76945b5961ca,12,2.0,Mg II,16799.931,12.0846,1,0.73,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.73,False,False,True,,,,,False,OTHER,
+gf_174444,pk_76945b5961ca,12,2.0,Mg II,16799.931,12.0846,1,0.73,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.73,False,False,True,,,,,False,NIST-C+,
 gf_174445,pk_e4f8d7eca561,26,1.0,Fe I,16803.1552,6.4534,1,-2.09,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.09,False,False,True,,,,,False,KURUCZ,
 gf_174446,pk_f626c76416a8,22,1.0,Ti I,16803.2681,5.2139,1,-0.566,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.566,False,False,True,,,,,False,KURUCZ,
 gf_174447,pk_1b6d70f00c8d,15,1.0,P I,16803.367,8.2504,1,0.5,GUES,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.5,False,False,True,,,,,False,OTHER,
@@ -165181,7 +165181,7 @@ gf_174726,pk_d254e483b678,26,1.0,Fe I,17102.0368,6.3939,1,-2.111,K14,,solar_ir_v
 gf_174727,pk_80c7a81062eb,14,1.0,Si I,17104.4069,7.0299,1,-2.201,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.201,False,False,True,,,,,False,KURUCZ,
 gf_174728,pk_d61d575366cb,28,1.0,Ni I,17106.4234,5.447,1,-2.048,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.048,False,False,True,,,,,False,KURUCZ,
 gf_174729,pk_44d6178f34b9,14,1.0,Si I,17107.7787,7.166,1,-1.116,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.116,False,False,True,,,,,False,KURUCZ,
-gf_174730,pk_a1ee132f8a00,12,1.0,Mg I,17108.631,5.3937,1,0.0639999999999999,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.0639999999999999,False,False,True,,,,,False,VALD3,
+gf_174730,pk_a1ee132f8a00,12,1.0,Mg I,17108.631,5.3937,1,0.0639999999999999,"NIST ASD c45 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.0639999999999999,False,False,True,,,,,False,NIST-C+,
 gf_174731,pk_9466e863764a,14,1.0,Si I,17110.5926,6.0787,1,-2.344,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,solar_ir_vald_hfson(RYA-1053),adjudicated_rya1233_pr2024,,,-1.934,False,False,True,,PR2024_calc,0.0465,10.1051/0004-6361/202245686,False,PR2024-CALC,
 gf_174732,pk_17beea6c799e,15,1.0,P I,17112.447,8.2504,1,0.5,GUES,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.5,False,False,True,,,,,False,OTHER,
 gf_174733,pk_0a9f3a68de31,28,1.0,Ni I,17114.3044,6.0527,1,-1.764,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.764,False,False,True,,,,,False,KURUCZ,
@@ -165457,7 +165457,7 @@ gf_175002,pk_d11a664c5489,12,1.0,Mg I,17407.53004374862,6.718999999999999,5,-0.2
 gf_175003,pk_fd7e08f02dac,6,1.0,C I,17408.35,9.7072,1,-0.653647,NIST ASD grade C (T6070); level-identity match at air 17408.295 A,C,solar_ir_vald_hfson(RYA-1053),nist_rya1232_level_identity,,,-0.653,False,False,True,,,0.09691,,False,NIST-C+,
 gf_175004,pk_aab5a795e1c1,26,2.0,Fe II,17409.4937,7.4726,1,-2.473,RU,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.473,False,False,True,,,,,False,OTHER,
 gf_175005,pk_7e57877d29fb,12,1.0,Mg I,17410.222,6.7827,1,-2.34,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.34,False,False,True,,,,,False,OTHER,
-gf_175006,pk_8e7b59de41bc,12,2.0,Mg II,17411.901,12.0829,1,-0.11,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.11,False,False,True,,,,,False,OTHER,
+gf_175006,pk_8e7b59de41bc,12,2.0,Mg II,17411.901,12.0829,1,-0.11,"NIST ASD c31 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.11,False,False,True,,,,,False,NIST-C+,
 gf_175007,pk_14e88de05e76,26,1.0,Fe I,17412.7079,6.0152,1,-2.639,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.639,False,False,True,,,,,False,KURUCZ,
 gf_175008,pk_ecd3d9da8276,26,2.0,Fe II,17414.0637,5.5107,1,-4.382,RU,,solar_ir_vald_hfson(RYA-1053),single_source,,,-4.382,False,False,True,,,,,False,OTHER,
 gf_175009,pk_1f1440c2d62f,22,1.0,Ti I,17414.2032,4.507,1,-0.475,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.475,False,False,True,,,,,False,KURUCZ,
@@ -165498,7 +165498,7 @@ gf_175043,pk_d3ec2608a212,12,1.0,Mg I,17451.618,6.7827,1,-3.12,KP,,solar_ir_vald
 gf_175044,pk_98a800ee13da,20,1.0,Ca I,17452.581,5.3213,1,-0.451,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.451,False,False,True,,,,,False,KURUCZ,
 gf_175045,pk_e78d61746c51,8,1.0,O I,17453.212,12.3589,1,-0.569119,NIST ASD v5.11 grade C+ (T5713LS),C+,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,-0.694,False,False,True,,,0.071882,,False,NIST-C+,
 gf_175046,pk_767838738d15,8,1.0,O I,17453.459,12.3589,1,-0.347275,NIST ASD v5.11 grade C+ (T5713LS),C+,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,-0.423,False,False,True,,,0.071882,,False,NIST-C+,
-gf_175047,pk_ea3b056eeae7,12,2.0,Mg II,17453.852,12.0846,1,0.19,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.19,False,False,True,,,,,False,OTHER,
+gf_175047,pk_ea3b056eeae7,12,2.0,Mg II,17453.852,12.0846,1,0.19,"NIST ASD c31 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.19,False,False,True,,,,,False,NIST-C+,
 gf_175048,pk_c0f0be6c0d42,26,1.0,Fe I,17454.2325,6.3207,1,-2.652,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.652,False,False,True,,,,,False,KURUCZ,
 gf_175049,pk_c234f9917dc2,8,1.0,O I,17454.251,12.3589,1,-1.04624,NIST ASD v5.11 grade C+ (T5713LS),C+,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,-1.046,False,False,True,,,0.071882,,False,NIST-C+,
 gf_175050,pk_37d656eb267e,6,1.0,C I,17455.99,9.6954,1,0.278754,NIST ASD v5.11 grade C (T6070),C,solar_ir_vald_hfson(RYA-1053),nist_rya1214,,,0.28,False,False,True,,,0.09691,,False,NIST-C+,
@@ -167299,7 +167299,7 @@ gf_176844,pk_84202d68782c,28,1.0,Ni I,19721.2596,6.3047,1,-1.199,K08,,solar_ir_v
 gf_176845,pk_5bc4c2c5bcb2,23,1.0,V I,19721.39969217793,2.6378090909090908,22,-1.1830417067971135,K09,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.1830417067971135,False,False,True,,,,,False,KURUCZ,
 gf_176846,pk_0eb709634604,14,1.0,Si I,19722.0611,7.123,1,-2.975,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.975,False,False,True,,,,,False,KURUCZ,
 gf_176847,pk_f72e97f274bb,14,1.0,Si I,19722.5085,6.0986,1,0.359,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,solar_ir_vald_hfson(RYA-1053),adjudicated_rya1233_pr2024,,,0.441,False,False,True,,PR2024_calc,0.0528,10.1051/0004-6361/202245686,False,PR2024-CALC,
-gf_176848,pk_55d026c4f1a7,12,1.0,Mg I,19723.532498429395,6.7262,2,-0.864,NIST ASD (accuracy C),C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_asd,,,-0.7390309465378023,False,False,True,,,,,False,NIST-C+,
+gf_176848,pk_55d026c4f1a7,12,1.0,Mg I,19723.532498429395,6.7262,2,-0.739,"NIST ASD (grade of the dominant component; line total = VALD components, RYA-1250 fix)",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_asd,,,-0.7390309465378023,False,False,True,,,,,False,NIST-C+,
 gf_176849,pk_ff2dec6f50d4,26,1.0,Fe I,19723.9872,6.675,1,-1.931,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.931,False,False,True,,,,,False,KURUCZ,
 gf_176850,pk_7f2c0ca5428c,22,1.0,Ti I,19727.1125,5.3722,1,0.45,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.45,False,False,True,,,,,False,KURUCZ,
 gf_176851,pk_38c1f638d08f,13,1.0,Al I,19727.331,4.9938,1,-1.939,K75,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.939,False,False,True,,,,,False,KURUCZ,
@@ -167309,7 +167309,7 @@ gf_176854,pk_bd35ad6ae168,13,1.0,Al I,19732.914,4.9938,1,-2.893,K75,,solar_ir_va
 gf_176855,pk_6626b252da14,28,1.0,Ni I,19733.34,6.0982,1,-1.121,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.121,False,False,True,,,,,False,KURUCZ,
 gf_176856,pk_584baad61672,28,1.0,Ni I,19733.4685,6.0982,1,-1.535,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.535,False,False,True,,,,,False,KURUCZ,
 gf_176857,pk_43691a11d57a,26,1.0,Fe I,19733.7322,5.6925,1,-2.709,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.709,False,False,True,,,,,False,KURUCZ,
-gf_176858,pk_dcf068a8fe0f,12,1.0,Mg I,19733.8677034468,6.726499999999999,3,-0.593,NIST ASD (accuracy C),C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_asd,,,-0.5174081885151229,False,False,True,,,,,False,NIST-C+,
+gf_176858,pk_dcf068a8fe0f,12,1.0,Mg I,19733.8677034468,6.726499999999999,3,-0.517,"NIST ASD (grade of the dominant component; line total = VALD components, RYA-1250 fix)",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_asd,,,-0.5174081885151229,False,False,True,,,,,False,NIST-C+,
 gf_176859,pk_2e672d62c1f1,28,1.0,Ni I,19735.750499999995,5.4809,1,-2.789,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.789,False,False,True,,,,,False,KURUCZ,
 gf_176860,pk_f33fab934fb6,28,1.0,Ni I,19735.8398,5.4879,1,-0.921,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.921,False,False,True,,,,,False,KURUCZ,
 gf_176861,pk_14fe16fce5b2,28,1.0,Ni I,19736.0478,5.4809,1,-1.931,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.931,False,False,True,,,,,False,KURUCZ,
@@ -167935,9 +167935,9 @@ gf_177480,pk_bb7b9a47e427,28,1.0,Ni I,21052.4291,5.5254,1,-2.015,K08,,solar_ir_v
 gf_177481,pk_831f1c4e5bf2,14,1.0,Si I,21056.2531,7.3197,2,-0.350227070347848,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.350227070347848,False,False,True,,,,,False,KURUCZ,
 gf_177482,pk_5e443bf6e70c,28,1.0,Ni I,21060.0234,6.3611,1,-1.428,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.428,False,False,True,,,,,False,KURUCZ,
 gf_177483,pk_14c8b73c6506,12,1.0,Mg I,21060.2512,6.779066666666666,3,-1.2366731115336016,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.2366731115336016,False,False,True,,,,,False,VALD3,
-gf_177484,pk_f8b4696f2859,12,1.0,Mg I,21060.711,6.779,1,-0.483,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.483,False,False,True,,,,,False,VALD3,
-gf_177485,pk_94988e679c66,12,1.0,Mg I,21060.891,6.779,1,-0.366,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.366,False,False,True,,,,,False,VALD3,
-gf_177486,pk_439e29676d54,12,1.0,Mg I,21061.0909,6.7791,1,-0.251,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.251,False,False,True,,,,,False,VALD3,
+gf_177484,pk_f8b4696f2859,12,1.0,Mg I,21060.711,6.779,1,-0.483,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.483,False,False,True,,,,,False,NIST-C+,
+gf_177485,pk_94988e679c66,12,1.0,Mg I,21060.891,6.779,1,-0.366,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.366,False,False,True,,,,,False,NIST-C+,
+gf_177486,pk_439e29676d54,12,1.0,Mg I,21061.0909,6.7791,1,-0.251,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.251,False,False,True,,,,,False,NIST-C+,
 gf_177487,pk_10bb4c70d168,23,1.0,V I,21065.412081755385,2.3792,3,-2.028580505155982,K09,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.028580505155982,False,False,True,,,,,False,KURUCZ,
 gf_177488,pk_c207694d631d,23,1.0,V I,21065.63310578451,2.3792,9,-1.7479373857407683,K09,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.7479373857407683,False,False,True,,,,,False,KURUCZ,
 gf_177489,pk_6634b4fc0ef8,24,1.0,Cr I,21071.9021,3.5558,1,-3.141,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.141,False,False,True,,,,,False,KURUCZ,
@@ -168065,7 +168065,7 @@ gf_177610,pk_183e2a1d384a,29,1.0,Cu I,21357.3961,6.8676,1,-0.383,K12,,solar_ir_v
 gf_177611,pk_3688e545460d,6,1.0,C I,21364.4683,10.1382,1,-1.119186,NIST ASD grade B (T5520); level-identity match at air 21364.720 A,B,solar_ir_vald_hfson(RYA-1053),nist_rya1232_level_identity,,,-1.118,False,False,True,,,0.041393,,False,NIST-C+,
 gf_177612,pk_99e21dca0038,13,1.0,Al I,21367.978,5.2363,1,-2.01,K75,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.01,False,False,True,,,,,False,KURUCZ,
 gf_177613,pk_f2cbb7860ff8,14,1.0,Si I,21368.3521,7.3287,2,-0.4784243665252455,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.4784243665252455,False,False,True,,,,,False,KURUCZ,
-gf_177614,pk_3911aed8d89d,12,2.0,Mg II,21368.951,11.5046,1,0.39,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.39,False,False,True,,,,,False,OTHER,
+gf_177614,pk_3911aed8d89d,12,2.0,Mg II,21368.951,11.5046,1,0.39,"NIST ASD c31 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.39,False,False,True,,,,,False,NIST-C+,
 gf_177615,pk_8e419e2fcb7c,26,1.0,Fe I,21370.837,6.2224,1,-2.922,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.922,False,False,True,,,,,False,KURUCZ,
 gf_177616,pk_f2581d6a729b,26,1.0,Fe I,21372.2761,5.6424,1,-3.162,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.162,False,False,True,,,,,False,KURUCZ,
 gf_177617,pk_05b8d0b17b29,14,1.0,Si I,21372.6142,7.3288,1,-0.627,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.627,False,False,True,,,,,False,KURUCZ,
@@ -168089,7 +168089,7 @@ gf_177634,pk_121248176fdc,26,1.0,Fe I,21427.7502,6.6149,1,-0.375,K14,,solar_ir_v
 gf_177635,pk_dca20f4cbd48,20,2.0,Ca II,21428.9077,8.438,1,0.021,K10,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.021,False,False,True,,,,,False,KURUCZ,
 gf_177636,pk_0619bbe54bf7,14,1.0,Si I,21429.0914,7.3297,1,-1.703,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.703,False,False,True,,,,,False,KURUCZ,
 gf_177637,pk_c99e6e051e29,22,1.0,Ti I,21430.9656,4.8539,1,-0.367,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.367,False,False,True,,,,,False,KURUCZ,
-gf_177638,pk_ddebac47555b,12,2.0,Mg II,21432.17,11.5046,1,0.08,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.08,False,False,True,,,,,False,OTHER,
+gf_177638,pk_ddebac47555b,12,2.0,Mg II,21432.17,11.5046,1,0.08,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.08,False,False,True,,,,,False,NIST-C+,
 gf_177639,pk_40adb3c404c0,26,1.0,Fe I,21435.2712,6.7325,1,-1.998,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.998,False,False,True,,,,,False,KURUCZ,
 gf_177640,pk_a0a3acd0f654,14,1.0,Si I,21440.2498,6.7606,1,-2.475,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.475,False,False,True,,,,,False,KURUCZ,
 gf_177641,pk_a9349f3d0281,14,1.0,Si I,21441.9236,7.3314,1,-0.303,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.303,False,False,True,,,,,False,KURUCZ,
@@ -168102,7 +168102,7 @@ gf_177647,pk_83b8e85c0994,11,1.0,Na I,21452.3744,4.2835,1,-0.533,NIST ASD (accur
 gf_177648,pk_3a0755b7446d,14,1.0,Si I,21452.9112,7.331,1,-2.781,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.781,False,False,True,,,,,False,KURUCZ,
 gf_177649,pk_7a5b875eba70,28,1.0,Ni I,21457.3776,6.7245,1,-1.242,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.242,False,False,True,,,,,False,KURUCZ,
 gf_177650,pk_97361ff35837,24,1.0,Cr I,21458.7501,3.5558,1,-3.192,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.192,False,False,True,,,,,False,KURUCZ,
-gf_177651,pk_b4972002fc28,12,1.0,Mg I,21458.8626,6.5161,1,-1.319,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.319,False,False,True,,,,,False,VALD3,
+gf_177651,pk_b4972002fc28,12,1.0,Mg I,21458.8626,6.5161,1,-1.319,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-1.319,False,False,True,,,,,False,NIST-C+,
 gf_177652,pk_955efffd0fbb,26,1.0,Fe I,21464.5092,7.0071,1,-2.109,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.109,False,False,True,,,,,False,KURUCZ,
 gf_177653,pk_aaff82e5503b,14,1.0,Si I,21469.091,7.3314,1,-2.917,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.917,False,False,True,,,,,False,KURUCZ,
 gf_177654,pk_7c3b4e940f33,14,1.0,Si I,21469.3584,7.331,1,-1.416,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.416,False,False,True,,,,,False,KURUCZ,
@@ -168804,10 +168804,10 @@ gf_178349,pk_7104114f976c,26,1.0,Fe I,22796.1539,6.7118,1,-2.162,K14,,solar_ir_v
 gf_178350,pk_0148d362a155,14,1.0,Si I,22798.3165,7.5006,1,-1.564,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.564,False,False,True,,,,,False,KURUCZ,
 gf_178351,pk_201e24e7c8b8,26,1.0,Fe I,22798.3633,5.7421,1,-2.234,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.234,False,False,True,,,,,False,KURUCZ,
 gf_178352,pk_e7bec2ada335,26,1.0,Fe I,22800.0999,6.6638,1,-2.175,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.175,False,False,True,,,,,False,KURUCZ,
-gf_178353,pk_d5d380769945,12,1.0,Mg I,22807.749777465524,6.719,4,0.0881974555368842,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.0881974555368842,False,False,True,,,,,False,VALD3,
+gf_178353,pk_d5d380769945,12,1.0,Mg I,22807.749777465524,6.719,4,0.0881974555368842,"NIST ASD T6298c72,LS (grade of the dominant component (85% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.0881974555368842,False,False,True,,,,,False,NIST-C+,
 gf_178354,pk_f37a7bedec7f,24,1.0,Cr I,22807.8191,5.2388,1,-1.287,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.287,False,False,True,,,,,False,KURUCZ,
-gf_178355,pk_697b19a83a02,12,1.0,Mg I,22808.025790104555,6.719,2,-0.1088343641228288,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.1088343641228288,False,False,True,,,,,False,VALD3,
-gf_178356,pk_bebfa78bb14f,12,1.0,Mg I,22808.2652,6.719,1,-0.313,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.313,False,False,True,,,,,False,VALD3,
+gf_178355,pk_697b19a83a02,12,1.0,Mg I,22808.025790104555,6.719,2,-0.1088343641228288,"NIST ASD T6298c72,LS (grade of the dominant component (92% of the line); gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.1088343641228288,False,False,True,,,,,False,NIST-C+,
+gf_178356,pk_bebfa78bb14f,12,1.0,Mg I,22808.2652,6.719,1,-0.313,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.313,False,False,True,,,,,False,NIST-C+,
 gf_178357,pk_c5caa3894e3d,26,1.0,Fe I,22812.5864,5.7926,1,-0.901,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.901,False,False,True,,,,,False,KURUCZ,
 gf_178358,pk_8e16f1881387,24,1.0,Cr I,22815.9966,5.4709,1,-1.162,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.162,False,False,True,,,,,False,KURUCZ,
 gf_178359,pk_3f1a95a7cfa8,20,1.0,Ca I,22821.0643,4.6244,1,-0.396,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.396,False,False,True,,,,,False,KURUCZ,
@@ -168919,7 +168919,7 @@ gf_178464,pk_46dcba73ce29,26,1.0,Fe I,22991.5517,5.4781,1,-3.515,K14,,solar_ir_v
 gf_178465,pk_be01c296765d,24,1.0,Cr I,22994.2381,6.0535,1,-0.564,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.564,False,False,True,,,,,False,KURUCZ,
 gf_178466,pk_361f68c9d840,26,1.0,Fe I,22994.8569,6.7417,1,-2.196,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.196,False,False,True,,,,,False,KURUCZ,
 gf_178467,pk_72543abd7b64,26,1.0,Fe I,22995.9148,6.7952,1,-1.679,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.679,False,False,True,,,,,False,KURUCZ,
-gf_178468,pk_bf2c609fe113,12,1.0,Mg I,22998.3334,6.7827,1,-1.564,KCO,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.564,False,False,True,,,,,False,OTHER,
+gf_178468,pk_bf2c609fe113,12,1.0,Mg I,22998.3334,6.7827,1,-1.564,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KCO",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-1.564,False,False,True,,,,,False,NIST-C+,
 gf_178469,pk_3b61c6f5ee97,6,1.0,C I,23010.72,10.3834,1,-1.782516,NIST ASD grade C (T5520LS); level-identity match at air 23010.970 A,C,solar_ir_vald_hfson(RYA-1053),nist_rya1232_level_identity,,,-1.78,False,False,True,,,0.09691,,False,NIST-C+,
 gf_178470,pk_7bdda47c09d2,26,1.0,Fe I,23014.4803,6.7422,1,-2.266,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.266,False,False,True,,,,,False,KURUCZ,
 gf_178471,pk_65ed18e82b76,26,1.0,Fe I,23020.1135,6.7271,1,-2.183,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.183,False,False,True,,,,,False,KURUCZ,
@@ -169276,15 +169276,15 @@ gf_178821,pk_57f281467a66,26,1.0,Fe I,23830.3933,6.5232,1,-1.415,K14,,solar_ir_v
 gf_178822,pk_7472d7affcb2,26,1.0,Fe I,23831.3931,6.857,1,-2.258,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.258,False,False,True,,,,,False,KURUCZ,
 gf_178823,pk_1f3ef3811fb7,26,1.0,Fe I,23833.9157,6.7546,1,-0.547,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.547,False,False,True,,,,,False,KURUCZ,
 gf_178824,pk_a0f638456bb4,16,1.0,S I,23834.1259,9.7216,1,-1.315,K04,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.315,False,False,True,,,,,False,KURUCZ,
-gf_178825,pk_97d82a722b20,12,1.0,Mg I,23836.6751,6.726,1,-0.833,KCO,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.833,False,False,True,,,,,False,OTHER,
+gf_178825,pk_97d82a722b20,12,1.0,Mg I,23836.6751,6.726,1,-0.833,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KCO",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.833,False,False,True,,,,,False,NIST-C+,
 gf_178826,pk_9e849db5e5c9,26,1.0,Fe I,23839.1216,6.2222,1,-2.304,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.304,False,False,True,,,,,False,KURUCZ,
 gf_178827,pk_b74c320eb06d,14,1.0,Si I,23841.0034,7.3191,1,-2.713,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.713,False,False,True,,,,,False,KURUCZ,
 gf_178828,pk_7112c6744a4e,26,1.0,Fe I,23841.6515,6.6957,1,-1.35,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.35,False,False,True,,,,,False,KURUCZ,
 gf_178829,pk_d6e5fe574164,26,1.0,Fe I,23843.2721,5.8492,1,-2.374,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.374,False,False,True,,,,,False,KURUCZ,
 gf_178830,pk_1450a7649312,12,1.0,Mg I,23843.4932,6.7262,1,-0.957,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.957,False,False,True,,,,,False,VALD3,
 gf_178831,pk_5d2a406f8111,26,1.0,Fe I,23843.7839,6.731,1,-2.317,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.317,False,False,True,,,,,False,KURUCZ,
-gf_178832,pk_f293e75888f3,12,1.0,Mg I,23843.972,6.7262,1,-0.95,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.95,False,False,True,,,,,False,OTHER,
-gf_178833,pk_efd2317651d6,12,1.0,Mg I,23844.133,6.7262,1,-0.481,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.481,False,False,True,,,,,False,VALD3,
+gf_178832,pk_f293e75888f3,12,1.0,Mg I,23843.972,6.7262,1,-0.95,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",C+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.95,False,False,True,,,,,False,NIST-C+,
+gf_178833,pk_efd2317651d6,12,1.0,Mg I,23844.133,6.7262,1,-0.481,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.481,False,False,True,,,,,False,NIST-C+,
 gf_178834,pk_c7a195d55852,15,1.0,P I,23844.916,8.1566,1,-1.0,GUES,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.0,False,False,True,,,,,False,OTHER,
 gf_178835,pk_b6fa957660f6,26,1.0,Fe I,23849.386700000003,6.2681,1,-0.365,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.365,False,False,True,,,,,False,KURUCZ,
 gf_178836,pk_8b6366d47cc4,26,1.0,Fe I,23851.0994,7.2521,1,-1.605,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.605,False,False,True,,,,,False,KURUCZ,
@@ -169292,9 +169292,9 @@ gf_178837,pk_0bdbdb9a7922,14,1.0,Si I,23851.7993,7.5006,1,-1.826,K07,,solar_ir_v
 gf_178838,pk_b647b73fe782,26,1.0,Fe I,23854.7417,6.7325,1,-2.093,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.093,False,False,True,,,,,False,KURUCZ,
 gf_178839,pk_360eacbb2760,12,1.0,Mg I,23858.489100000003,6.7265,2,-0.9309029923171114,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.9309029923171114,False,False,True,,,,,False,VALD3,
 gf_178840,pk_625fd41dde7a,14,1.0,Si I,23858.8123,7.1133,1,-0.816,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.816,False,False,True,,,,,False,KURUCZ,
-gf_178841,pk_73419740db5d,12,1.0,Mg I,23858.995,6.7265,1,-2.12,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.12,False,False,True,,,,,False,OTHER,
+gf_178841,pk_73419740db5d,12,1.0,Mg I,23858.995,6.7265,1,-2.12,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",C,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-2.12,False,False,True,,,,,False,NIST-C+,
 gf_178842,pk_61cbee1b6696,12,1.0,Mg I,23859.114,6.7265,1,-1.12,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.12,False,False,True,,,,,False,OTHER,
-gf_178843,pk_4801b1b87d3e,12,1.0,Mg I,23859.2189,6.7265,1,-0.211,KCO,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.211,False,False,True,,,,,False,OTHER,
+gf_178843,pk_4801b1b87d3e,12,1.0,Mg I,23859.2189,6.7265,1,-0.211,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KCO",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.211,False,False,True,,,,,False,NIST-C+,
 gf_178844,pk_7e6c017e908b,14,1.0,Si I,23862.7418,7.2886,1,-1.771,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.771,False,False,True,,,,,False,KURUCZ,
 gf_178845,pk_02c20e6b7154,26,1.0,Fe I,23864.1259,5.9209,1,-1.579,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.579,False,False,True,,,,,False,KURUCZ,
 gf_178846,pk_9e30eb70e6ce,14,1.0,Si I,23874.2529,7.2889,1,-1.666,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.666,False,False,True,,,,,False,KURUCZ,
@@ -169363,7 +169363,7 @@ gf_178908,pk_b31e968ce8fb,14,1.0,Si I,24039.9245,7.5006,1,-2.529,K07,,solar_ir_v
 gf_178909,pk_3b958bdf7013,12,2.0,Mg II,24041.555,11.569,1,0.33,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.33,False,False,True,,,,,False,OTHER,
 gf_178910,pk_c633caac91dd,11,1.0,Na I,24042.998868728107,4.344800000000001,18,-0.644,NIST ASD (accuracy A; TP ref c30),A,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-0.5982176547582945,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,
 gf_178911,pk_5d784d5c1ad6,30,1.0,Zn I,24044.168000000005,7.5971,1,-0.0889999999999999,Wa,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0889999999999999,False,False,True,,,,,False,OTHER,
-gf_178912,pk_8457dd0710da,12,2.0,Mg II,24044.562,11.5691,1,-0.62,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.62,False,False,True,,,,,False,OTHER,
+gf_178912,pk_8457dd0710da,12,2.0,Mg II,24044.562,11.5691,1,-0.62,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.62,False,False,True,,,,,False,NIST-C+,
 gf_178913,pk_87f1a87fdfd0,26,1.0,Fe I,24048.6219,6.7288,1,-1.968,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.968,False,False,True,,,,,False,KURUCZ,
 gf_178914,pk_19584aee34ed,25,1.0,Mn I,24049.1183,5.7034,1,-1.315,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.315,False,False,True,,,,,False,KURUCZ,
 gf_178915,pk_794a5d6f87c6,25,1.0,Mn I,24049.325,5.7034,1,-1.133,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.133,False,False,True,,,,,False,KURUCZ,
@@ -169408,7 +169408,7 @@ gf_178953,pk_1e85d2098b13,20,1.0,Ca I,24115.659000000003,5.4896,1,-1.039,K07,,so
 gf_178954,pk_09dab4e2afa5,26,1.0,Fe I,24116.4502,6.764,1,-1.208,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.208,False,False,True,,,,,False,KURUCZ,
 gf_178955,pk_c34442c3b7eb,26,1.0,Fe I,24117.590499999995,6.8346,1,-1.017,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.017,False,False,True,,,,,False,KURUCZ,
 gf_178956,pk_1357ad853d53,26,1.0,Fe I,24122.7931,6.7417,1,-2.322,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.322,False,False,True,,,,,False,KURUCZ,
-gf_178957,pk_48e3a08c0592,12,2.0,Mg II,24124.633,11.5691,1,0.0699999999999999,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.0699999999999999,False,False,True,,,,,False,OTHER,
+gf_178957,pk_48e3a08c0592,12,2.0,Mg II,24124.633,11.5691,1,0.0699999999999999,"NIST ASD c31,T6870 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KP",A,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,0.0699999999999999,False,False,True,,,,,False,NIST-C+,
 gf_178958,pk_953a16669fd9,26,1.0,Fe I,24128.487,3.4149,1,-4.068,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-4.068,False,False,True,,,,,False,KURUCZ,
 gf_178959,pk_f895607df115,26,1.0,Fe I,24135.9259,6.8358,1,-2.006,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.006,False,False,True,,,,,False,KURUCZ,
 gf_178960,pk_10b07d05ea06,16,1.0,S I,24140.0113,9.7282,1,-1.231,K04,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.231,False,False,True,,,,,False,KURUCZ,
@@ -169567,7 +169567,7 @@ gf_179112,pk_36e9af8f6f16,26,1.0,Fe I,24487.4467,6.6817,1,-1.972,K14,,solar_ir_v
 gf_179113,pk_b2d47433631c,26,1.0,Fe I,24487.6686,5.0331,1,-1.301,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.301,False,False,True,,,,,False,KURUCZ,
 gf_179114,pk_c316100a2447,26,1.0,Fe I,24489.2342,6.8042,1,-1.122,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.122,False,False,True,,,,,False,KURUCZ,
 gf_179115,pk_fa4a4055c8ad,14,1.0,Si I,24497.6836,6.6192,1,-2.659,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.659,False,False,True,,,,,False,KURUCZ,
-gf_179116,pk_ad64177f2918,12,1.0,Mg I,24500.8742,6.5879,1,-1.187,KCO,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.187,False,False,True,,,,,False,OTHER,
+gf_179116,pk_ad64177f2918,12,1.0,Mg I,24500.8742,6.5879,1,-1.187,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: KCO",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-1.187,False,False,True,,,,,False,NIST-C+,
 gf_179117,pk_174fb36dbe34,12,1.0,Mg I,24501.965,7.0692,1,-0.92,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.92,False,False,True,,,,,False,OTHER,
 gf_179118,pk_0779c176f98f,12,1.0,Mg I,24505.845,7.0693,2,-0.5635651375635147,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.5635651375635147,False,False,True,,,,,False,OTHER,
 gf_179119,pk_f393ad8f299e,26,1.0,Fe I,24508.0431,5.8151,1,-3.098,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.098,False,False,True,,,,,False,KURUCZ,
@@ -169594,7 +169594,7 @@ gf_179139,pk_18e31e12e310,26,1.0,Fe I,24558.4885,7.0676,1,-1.886,K14,,solar_ir_v
 gf_179140,pk_0a0cc4c808a4,26,1.0,Fe I,24559.3633,6.7509,1,-2.19,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.19,False,False,True,,,,,False,KURUCZ,
 gf_179141,pk_390b3bafa519,12,1.0,Mg I,24565.585,6.5879,1,0.11,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.11,False,False,True,,,,,False,OTHER,
 gf_179142,pk_f4f1f3ab1df0,12,1.0,Mg I,24565.821,6.5879,1,-0.87,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.87,False,False,True,,,,,False,OTHER,
-gf_179143,pk_416ce0114db7,12,1.0,Mg I,24566.2964,6.5879,1,-0.2249999999999999,KCO,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.2249999999999999,False,False,True,,,,,False,OTHER,
+gf_179143,pk_416ce0114db7,12,1.0,Mg I,24566.2964,6.5879,1,-0.391,"Pehlivan Rhodin et al. 2017, A&A 598 A102 (exp (PR17 24572.92 vac); NIST A -0.225) | prior: KCO",,solar_ir_vald_hfson(RYA-1053),rya1250_fix_feature_total,,,-0.2249999999999999,False,False,True,,PR2017_exp,0.06,10.1051/0004-6361/201629849,False,LAB,
 gf_179144,pk_575c4d69fba2,14,1.0,Si I,24574.2322,6.2227,1,-1.352,"NIST ASD (Kelleher & Podobedova 2008, JPCRD 37, 1285)",C+,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.002,False,False,True,,,0.0719,10.1063/1.2734566,False,NIST-C+,
 gf_179145,pk_f168a7d9b757,26,1.0,Fe I,24576.020400000005,6.7282,1,-0.994,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.994,False,False,True,,,,,False,KURUCZ,
 gf_179146,pk_a1ac42db285a,26,1.0,Fe I,24576.4251,6.6608,1,-2.237,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.237,False,False,True,,,,,False,KURUCZ,
@@ -169656,10 +169656,10 @@ gf_179201,pk_4d82cfa97802,26,1.0,Fe I,24771.9786,6.7799,1,-0.44,K14,,solar_ir_va
 gf_179202,pk_3586ff3815d1,14,1.0,Si I,24785.5207,7.1395,1,-1.809,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.809,False,False,True,,,,,False,KURUCZ,
 gf_179203,pk_116a41a4e4a7,28,1.0,Ni I,24790.0866,5.6141,1,-2.11,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.11,False,False,True,,,,,False,KURUCZ,
 gf_179204,pk_86c2578ca69f,28,1.0,Ni I,24790.5402,5.6141,1,-1.696,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.696,False,False,True,,,,,False,KURUCZ,
-gf_179205,pk_f6cd0f71273a,12,1.0,Mg I,24798.5931,5.9315,1,-0.556,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.556,False,False,True,,,,,False,VALD3,
+gf_179205,pk_f6cd0f71273a,12,1.0,Mg I,24798.5931,5.9315,1,-0.556,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.556,False,False,True,,,,,False,NIST-C+,
 gf_179206,pk_35c8d275631f,26,1.0,Fe I,24798.966900000003,6.7799,1,-0.375,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.375,False,False,True,,,,,False,KURUCZ,
 gf_179207,pk_6f702d969a41,14,1.0,Si I,24802.7384,7.1395,1,-0.0359999999999999,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0359999999999999,False,False,True,,,,,False,KURUCZ,
-gf_179208,pk_98305a34fbe3,12,1.0,Mg I,24818.9175,5.932,1,-0.0789999999999999,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.0789999999999999,False,False,True,,,,,False,VALD3,
+gf_179208,pk_98305a34fbe3,12,1.0,Mg I,24818.9175,5.932,1,-0.0789999999999999,"NIST ASD T6298c72,LS (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",B+,solar_ir_vald_hfson(RYA-1053),adopted_rya1250_nist_ir_grade,,,-0.0789999999999999,False,False,True,,,,,False,NIST-C+,
 gf_179209,pk_7d013430ad62,26,1.0,Fe I,24819.906,6.7799,1,-0.466,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.466,False,False,True,,,,,False,KURUCZ,
 gf_179210,pk_e6c65dc44939,26,1.0,Fe I,24821.7301,6.6658,1,-0.305,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.305,False,False,True,,,,,False,KURUCZ,
 gf_179211,pk_cb514ec44475,26,1.0,Fe I,24829.1031,6.8042,1,-1.252,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.252,False,False,True,,,,,False,KURUCZ,
@@ -169712,26 +169712,13 @@ gf_179257,pk_0d25a4205505,8,1.0,O I,9262.776,10.7404756,1,0.427324,"NIST ASD gra
 gf_179258,pk_de49d980db43,8,1.0,O I,9265.826,10.7409314,1,-0.718739,"NIST ASD grade A (T5803,LS)",A,nist_asd_OI (RYA-1160 pull),nist_rya1232_oi926,,,,False,False,True,,,0.012837,,True,NIST-C+,False
 gf_179259,pk_45d37b07e37c,8,1.0,O I,9265.932,10.7409314,1,0.126131,"NIST ASD grade A (T5803,LS)",A,nist_asd_OI (RYA-1160 pull),nist_rya1232_oi926,,,,False,False,True,,,0.012837,,True,NIST-C+,False
 gf_179260,pk_b1da70b0b885,8,1.0,O I,9266.006,10.7409314,1,0.712566,"NIST ASD grade A (T5803,LS)",A,nist_asd_OI (RYA-1160 pull),nist_rya1232_oi926,,,,False,False,True,,,0.012837,,True,NIST-C+,False
-gf_179261,pk_394ad9141fa3,12,1.0,Mg I,9983.2,5.9315,1,-2.177,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II) (gf: Pehlivan Rhodin et al. 2017; AGSS21 Table A.1)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_agss21,,,-2.153,True,,True,,MG_AGSS21,,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
-gf_179262,pk_a1f439dae034,12,2.0,Mg II,10092.2,11.6297,1,1.283,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II) (gf: NIST (Kramida 2019); AGSS21 Sect. 2.4 and Table A.1)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_agss21,,,1.02,True,,True,,MG_AGSS21,,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
-gf_179263,pk_dfd5a0b64381,12,1.0,Mg I,10965.386,5.93,3,-2.184,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,-0.164,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179264,pk_e484d981ac5d,12,1.0,Mg I,10811.053,5.95,5,0.052,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.295,True,,True,,MG_BERGEMANN2017_IR,0.04,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179265,pk_e8f6211336e9,12,1.0,Mg I,10811.076,5.95,6,-0.137,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Butler et al. 1993)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.392,True,,True,,MG_BERGEMANN2017_IR,,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179266,pk_e9eaaf7beedb,12,1.0,Mg I,10811.097,5.95,6,-1.038,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Butler et al. 1993)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.392,True,,True,,MG_BERGEMANN2017_IR,,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179267,pk_a2cb5a8b6780,12,1.0,Mg I,10811.143,5.95,8,-2.587,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Butler et al. 1993)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.501,True,,True,,MG_BERGEMANN2017_IR,,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179268,pk_79d1f3dc092a,12,1.0,Mg I,10811.158,5.95,7,-0.321,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.324,True,,True,,MG_BERGEMANN2017_IR,0.04,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179269,pk_f7cb01091e6f,12,1.0,Mg I,10965.414,5.93,3,-1.008,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,-0.164,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179270,pk_27e94640b8d4,12,1.0,Mg I,11828.185,4.35,1,-0.35,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,-0.333,True,,True,,MG_BERGEMANN2017_IR,0.03,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179271,pk_d2b251f5bb1b,12,1.0,Mg I,12083.346,5.75,2,-1.5,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Bergemann et al. 2015)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.474,True,,True,,MG_BERGEMANN2017_IR,,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179272,pk_07341796752d,12,1.0,Mg I,12083.662,5.75,1,0.377,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.41,True,,True,,MG_BERGEMANN2017_IR,0.04,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179273,pk_71a40cfbb22b,12,1.0,Mg I,15765.747,5.93,2,-0.348,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.482,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179274,pk_a4ec22651260,12,1.0,Mg I,15765.842,5.93,2,0.4,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,0.482,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179275,pk_a8872028448a,12,1.0,Mg I,15886.183,5.95,2,-1.465,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,-1.396,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179276,pk_a3b9789c7d3d,12,1.0,Mg I,15886.261,5.95,2,-1.942,"Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics) (gf: Pehlivan Rhodin et al. 2017)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_mg_bergemann2017_ir,,,-1.396,True,,True,,MG_BERGEMANN2017_IR,0.05,10.3847/1538-4357/aa88cb,False,PUBLISHED-SET,
-gf_179277,pk_fb5da66e2194,15,1.0,P I,9525.741,6.985,1,-0.1,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.1,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
+gf_179261,pk_394ad9141fa3,12,1.0,Mg I,9983.2,5.9315,1,-2.177,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (PR17 theo) | prior: Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II) (gf: Pehlivan Rhodin et al. 2017; AGSS21 Table A.1)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",rya1250_fix_feature_total,,,-2.153,True,,True,,MG_AGSS21_PR17calc,0.05,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
+gf_179262,pk_5e220117ad92,12,2.0,Mg II,10092.095,11.6297,1,0.923,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (10092.20 feature 1.283 split over the two NIST/VALD components in VALD ratio; sigma = AGSS21 Sect. 2.4 Mg II bound)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",rya1250_fix_component_of_agss21_feature,,,0.91,True,,True,,MG_AGSS21,0.01,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
 gf_179278,pk_9b2046d08a02,15,1.0,P I,9750.748,6.954,1,-0.18,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.18,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179279,pk_6d5605d2e714,15,1.0,P I,10511.588,6.936,1,-0.13,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.13,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179280,pk_b9fac5eef5aa,15,1.0,P I,10529.524,6.954,1,0.24,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,0.24,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179281,pk_f6b4a9615a4e,15,1.0,P I,10596.903,6.936,1,-0.21,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.21,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179282,pk_266dcade97ca,15,1.0,P I,10681.406,6.954,1,-0.19,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.19,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179283,pk_436bfe163d61,15,1.0,P I,10813.146,6.985,1,-0.41,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.41,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
+gf_179277,pk_fb5da66e2194,15,1.0,P I,9525.741,6.985,1,-0.1,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.1,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
+gf_179284,pk_767f07abfccc,12,2.0,Mg II,10092.217,11.6297,1,1.033,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (10092.20 feature 1.283 split over the two NIST/VALD components in VALD ratio; sigma = AGSS21 Sect. 2.4 Mg II bound)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",rya1250_fix_component_of_agss21_feature,,,1.02,True,,True,,MG_AGSS21,0.01,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
