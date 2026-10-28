@@ -117,3 +117,11 @@ The immediate next steps remain a matched solar-atmosphere/interpolation check,
 resolution of the O model/MULTI background/EOS discrepancy, then a qualified
 stellar benchmark. Full3D and own-grid generation remain explicit subsequent
 engineering/science gates, with no merge or publication implied by this roadmap.
+
+## Solar element sequence (Ryan, 2026-10-28)
+
+Finish oxygen, then carbon and nitrogen: CNO is the first multi-element milestone.
+Iron follows after shared reaction/rate provenance, population benchmarks and
+solar observation checks are established across CNO. Another-star validation
+follows the solar element work. This order does not imply C/N/Fe models are
+already ingested or scientifically admitted.

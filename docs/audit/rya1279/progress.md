@@ -306,3 +306,13 @@ See native_charge_review.md for exact controls, bounds, original outputs,
 verified rate replay, unavailable native opacity inputs and next steps.
 Registerv181 and existing open collision_convention bug record the finding.
 No production/default converter/gold/adopted value/merge or publication changed.
+
+## 2026-10-28 reverse-reservoir contract start
+
+Both tickets have consolidated findings and the five-step next-work list. Ryan
+sets O, then C/N, then Fe before another star. The first bounded Mac reservoir
+probe is complete; see charge_reservoir_review.md and the committed CLI.
+Original reports remain in bride_mac_checks/rya1281-charge-reservoir-v1/v2.
+No RT/SE solve, source/rate change or admission. Next: coefficient provenance and
+matched reverse-channel/statistical-weight prescription, then outer UV controls.
+Linear get_agent_context remains advertised but returns Tool not found.
