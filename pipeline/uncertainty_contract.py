@@ -214,6 +214,11 @@ def asplund_terms(document, molecule=None):
         return c["sigma_dex"] if c.get("state") in _NUMERIC else 0.0
     third = value("molecular_coupling") if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
     atmosphere = value("model_atmosphere")
+    evidence = terms.get("model_atmosphere", {}).get("evidence") or {}
+    if molecular and evidence.get("bound"):
+        # A RYA-587 bound charges the FULL published 1D->3D shift; Asplund charges half of
+        # the 3D effect, so the measured grid leg stands and the half-shift floor follows.
+        atmosphere = abs(float(evidence.get("measured_leg_dex") or 0.0))
     if molecular and molecule:
         from pipeline import molecular_model_form
         try:
