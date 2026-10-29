@@ -88,3 +88,21 @@ def test_legacy_stamp_route_refuses_a_wrong_stamp_and_any_other_change():
         assert_publication_feed({"products": [dict(p, sigma_asplund=0.01)]}, previous=previous)
     with pytest.raises(UncertaintyError):
         assert_publication_feed({"products": [dict(p, A=p["A"] + 0.001)]}, previous=previous)
+
+
+def test_molecular_3d_term_is_half_the_shift_not_the_full_bound():
+    """CO/CN bands carried a RYA-587 bound equal to the FULL 1D->3D shift; Asplund charges half."""
+    from pipeline.uncertainty_contract import asplund_terms
+    for element, selector, shift in (("C", "MOL-CO_K", 0.140), ("N", "MOL-CN_AX_IR", 0.061)):
+        doc = json.loads((ROOT / f"data/products/solar/{element}.json").read_text())
+        for p in doc["products"]:
+            if p.get("selector") != selector:
+                continue
+            terms = {c["name"]: c for c in p["uncertainty"]["components"]}
+            atm = terms["model_atmosphere"]
+            assert atm["evidence"]["bound"] and atm["sigma_dex"] == pytest.approx(shift)
+            stat, syst = asplund_terms(p["uncertainty"], molecule_of(p))
+            third = terms["molecular_coupling"]["sigma_dex"]
+            want = max(abs(atm["evidence"]["measured_leg_dex"]), shift / 2)
+            assert syst == pytest.approx(math.hypot(want, third))
+            assert p["sigma_asplund"] == pytest.approx(math.hypot(stat, syst))
