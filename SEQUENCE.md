@@ -1,3 +1,7 @@
+## 2026-10-29 — conditional continuum budgets
+
+- **RYA-1281** — UV background differences survive frame/composition controls; local Si/Mg budget traced; producer/opacity gates stay open.
+
 ## 2026-10-28 — native LTE normalization and continuum reference
 
 - **RYA-1281** — native LTE formula agrees within0.0614%; exact MARCS opacity acquired, medium still unverified; producer gate open.

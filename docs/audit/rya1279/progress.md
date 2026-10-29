@@ -456,3 +456,35 @@ unprofiled path inventory is not an admission check. Register mirrors, pointer,
 freshness, SEQUENCE reconciler and whitespace checks pass. No full-suite or CI
 green claim. Existing collision_convention/boundary_contract run-bug rows remain
 open; this checkpoint adds no verified science defect or new bug row.
+
+## 2026-10-29 conditional continuum checkpoint
+
+Four final Mac LTE captures (one thread,1.40s combined) at822 exact source samples
+x56depths; both OPA coordinate hypotheses and matched O8.66 versus benchmark8.70.
+No SE/population update or solver-opacity substitution. Local/MARCS absorption
+at2769.76A top0.267519; frame effect0.067649%, O effect0.0000931%. Si/Mg contribute
+40.976%/20.108% of local absorption there. FUV scattering is H resonant Rayleigh
+dominated; independent TS source moves H-wing opacity between absorption and
+scattering around1400A, so no missing-opacity or producer-error claim follows.
+OPA frame remains UNVERIFIED. Detailed evidence:marcs_continuum_review.md.
+
+Final external audit rya1281-marcs-continuum-v4 and analysis-v2 are immutable;
+prior versions retained. Four review artifacts plus inspected figure archived;
+full arrays remain external with hashes. Backend binary/passive factories and
+inspected backend/TS source receipts included.120 focused tests pass,666 known
+printUpdate deprecations. Statev187/SEQUENCE updated; defaults/gold/adopted values
+unchanged; no new verified run bug, collision/boundary rows remain open. Main
+dbda7faa fetched unchanged. Exact resume:component-resolved independent continuum
+on the Mac at matched T/Pe/composition, prioritizing Si/Mg/Fe/H- and hydrogen-wing
+partition, before a source-supported UV-background control and fresh OII/rate
+checks. Continue O then C/N, Fe, another star. Final HEAD must retain[skip ci].
+
+Continuum checkpoint guards: new artifact/invocation entries pass; generator
+diagnostic set exactly matches prior2436 (0added/0removed). Source page212rows
+regenerates/checks. Library gained Lawler2013 TiI PDF; first-page title/authors/DOI
+verified against existing lawler2013 row, local_file linked and metadata_verified
+set. Initial free-text verified label was rejected by schema and corrected before
+regeneration. Library now189documents/126accounted,63pre-existing unindexed remain.
+Pre-existing results-ledger Ba/Sc documented-owed failures remain unchanged.
+Held Mac babsma_lu is present and ARM64 under engines.ispec; per-component DETABS
+printout exists in inspected source, but no new TS computation was started here.

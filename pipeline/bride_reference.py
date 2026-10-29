@@ -18,7 +18,8 @@ def marcs_number_densities(structure):
 
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
                            fixed_populations=None,continuum_only=False,lte_h_background_lines=False,
-                           lte_uv_background_lines=False,finite_column_top_cap=False):
+                           lte_uv_background_lines=False,finite_column_top_cap=False,
+                           extra_wavelengths_vac_nm=None):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -79,7 +80,13 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
         if not np.allclose(fixed_populations.sum(axis=0),actual.sum(axis=0),rtol=1e-10,atol=0):
             raise ValueError('Replay population totals differ from source atmosphere/abundance')
         actual[:]=fixed_populations
-    spect=radset.compute_wavelength_grid()
+    if extra_wavelengths_vac_nm is not None:
+        extra_wavelengths_vac_nm=np.asarray(extra_wavelengths_vac_nm,dtype=float)
+        if (extra_wavelengths_vac_nm.ndim!=1 or not extra_wavelengths_vac_nm.size
+                or not np.isfinite(extra_wavelengths_vac_nm).all()
+                or np.any(extra_wavelengths_vac_nm<=0)):
+            raise ValueError('Extra continuum diagnostic wavelengths must be finite positive vacuum nm')
+    spect=radset.compute_wavelength_grid(extraWavelengths=extra_wavelengths_vac_nm)
     options=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if ng and not lte else None
     ctx=lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',
                    conserveCharge=False,ngOptions=options)

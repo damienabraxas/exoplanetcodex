@@ -25822,3 +25822,23 @@ artifacts:
     invocation: python scripts/stage_bride_marcs_opacity.py --archive <held-official-single-model-tar> --reader <held-official-readopa.f> --download-response <successful-official-response> --output <new-immutable-stage>
     ticket: RYA-1281
     note: Byte-identical Mac diagnostic receipt; admission HOLD; no native producer parity claim.
+  - artifact: rya1281/marcs_continuum_v1/report.json
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/selected_coefficients.csv
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/selected_budgets.csv
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/analysis_summary.json
+    generator: scripts/analyze_bride_marcs_continuum.py
+    invocation: python scripts/analyze_bride_marcs_continuum.py --audit <verified-audit-with-external-arrays>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
