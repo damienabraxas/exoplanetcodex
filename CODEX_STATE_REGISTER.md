@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v185** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v186** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Finite-column cap resolves triplet surface collapse in matched controls; complete population/producer admission open | Two nested Mac controls converge after two retained failed single-refresh attempts. All-depth upper b error1.249 ->0.026/0.037; fresh-rate residuals below4.65e-7. O II departures remain discrepant; visible triplet areas nearly unchanged | RYA-1278/1281; docs/audit/rya1279/top_cap_review.md; data/results/rya1281/top_cap_v1; open collision_convention and boundary_contract bugs; PR #598 | PENDING | Verify producer depth-boundary/opacity/Ne/LTE contracts and native-column interpolation before adoption or matched solar parameter reruns; CNO then Fe then another star; full3D/all-band gates open |
+| Bride O-first foundation | Finite-cap surface improvement retained; matched-input native LTE agrees within0.0614%; producer admission open | Actual held LTEPOP at41 levels/56 depths agrees with cached local LTE; top O II difference0.0497%. Exact MARCS continuum companion acquired; T/Pe/rho/abundances/xi match printed structure; OPA wavelength medium unverified | RYA-1278/1281; docs/audit/rya1279/native_lte_opacity_review.md; data/results/rya1281/native_lte_v1 and marcs_opacity_v1; PR #598 | PENDING | Establish native producer ne/nstar/opacity and OPA wavelength contract before spectral comparisons; validate column interpolation before capped solar reruns; CNO then Fe then another star; full3D/all-band gates open |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -537,3 +537,5 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 ---
 
 _Rows tagged `[confirm]` are reconstructed from working memory and carry citation debt — a row is not truly settled until its authoritative source is attached (per the value-provenance rule). Maintenance procedure: `skills/codex-state-register/SKILL.md`._
+
+- **v186** (2026-10-28) — **RYA-1281 native LTE/opacity controls.** Pinned native LTEPOP oracle and independent Saha-Boltzmann checks isolate matched-input formula differences below0.0614%; actual producer normalization remains unknown. Individual exact MARCS opacity companion matches structure at printed precision; wavelength medium remains UNVERIFIED.44 focused tests pass. No SE/RT rerun, adoption or verdict change.

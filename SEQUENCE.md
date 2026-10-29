@@ -1,3 +1,9 @@
+## 2026-10-28 — native LTE normalization and continuum reference
+
+- **RYA-1281** — native LTE formula agrees within0.0614%; exact MARCS opacity acquired, medium still unverified; producer gate open.
+
+> **Current as of `main` dbda7faa** — PR #605 (Fe forest deep-grade display and refreshed product payloads). Scope checked from merged diff; not merged here.
+
 ## 2026-10-28 — finite-column boundary checkpoint
 
 - **RYA-1281** — two converged cap controls resolve triplet surface collapse; two failures retained; O II/producer gates remain open.

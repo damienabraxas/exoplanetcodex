@@ -125,6 +125,17 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_marcs_opacity:
+    root: work
+    rel: bride_inputs/rya1281/marcs-opacity-v2
+    kind: dir
+    desc: Exact 5750/4.5 MARCS continuum-opacity companion and official format reader; wavelength medium unverified, not native MULTI producer opacity.
+  experiments.bride_multi_lte_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-lte-v1
+    env: CODEX_BRIDE_MULTI_LTE_ORACLE
+    kind: dir
+    desc: Pinned O-only native MULTI LTEPOP normalization oracle; no native EOS, opacity or RT solution.
   experiments.bride_barklem_oxygen:
     root: work
     rel: bride_inputs/rya1281/barklem-oxygen-cd2f54ed

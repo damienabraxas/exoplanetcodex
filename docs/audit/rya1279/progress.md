@@ -1,5 +1,32 @@
 # Bride continuation: RYA-1279 / RYA-1280
 
+## 2026-10-28 native LTE / opacity continuation
+
+Actual pinned LTEPOP/GETWRD plus BLOCK DATA compiled on the Mac; normalized
+fractions compared across all41 levels/56 depths at identical T/ne. Maximum
+relative fraction difference0.061374%; top O II0.049668%. This excludes a large
+matched-input formula discrepancy, not producer ne/EOS/normalization differences.
+Final immutable audit bride_mac_checks/rya1281-native-lte-v2; v1 retained.
+
+Exact independent MARCS opacity companion acquired through the official model
+search/download form after holdings checks and bounded read-only Sirius metadata
+queries. No new Sirius science. T/Pe/rho,92 abundances and xi match printed .mod
+exactly; max logtau difference5.44513e-5 retained. Source/official reader held at
+experiments.bride_marcs_opacity (marcs-opacity-v2). Wavelength medium UNVERIFIED;
+no wavelength-aligned opacity comparison, coefficient replacement or SE/RT rerun.
+Native MULTI ABSDAT and producer ne/nstar/J/rates still missing.44 focused tests
+pass; initial analytic-literal test failure and mistyped test command are explained
+in native_lte_opacity_review.md. Four review artifacts registered. Registerv186
+and SEQUENCE preserve HOLD; no new verified run bug, existing collision/boundary
+rows remain OPEN. Main dbda7faa/PR605 scoped by diff, not merged into this branch.
+
+Standing bibliography audit:188documents/125accounted,63 unindexed; unchanged
+pre-existing library debt, not a clean-library claim. Resume with the OPA wavelength
+source contract, then independent continuum absorption/scattering comparison with
+active O counted explicitly. Verify native producer inputs before attributing the
+O II mismatch. Validate column interpolation before capped solar reruns; O then
+C/N, Fe, another star. PR598 remains draft; final checkpoint requires[skip ci].
+
 Base: 4635c7421a7dee8671ffefe05d771c68da1cd24e (unmerged parent PR #597).
 Worktree: codex/rya1279. Branch: ryandamienschmitt/rya-1279-1280-bride-oxygen-gates.
 Ryan authorized continuing through the physics gates toward oxygen results and
@@ -419,3 +446,13 @@ generator diagnostic set is exactly the preceding branch's2436 (0added/0removed)
 Whitespace and registerv185 freshness pass; only one new boundary_contract ledger
 row was appended, preserving historical mixed line endings. No owned scientific
 process remains running. Final checkpoint retains[skip ci] for the Sirius runner.
+
+Native-LTE checkpoint validation:44 focused tests pass. New registered receipts
+pass generator/invocation accounting; global generator guard remains exactly2436
+diagnostics (0added/0removed versus prior branch). Results-ledger guard retains
+3documented-owed Ba/Sc failures,0undocumented. Profiled path inventory has35present
+and15unrelated absent holdings; both new experiment paths resolve. The initial
+unprofiled path inventory is not an admission check. Register mirrors, pointer,
+freshness, SEQUENCE reconciler and whitespace checks pass. No full-suite or CI
+green claim. Existing collision_convention/boundary_contract run-bug rows remain
+open; this checkpoint adds no verified science defect or new bug row.
