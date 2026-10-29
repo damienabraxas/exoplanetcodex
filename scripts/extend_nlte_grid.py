@@ -37,6 +37,9 @@ from pipeline.element_prepare import (SYNTH_LISTS, OUT, engine_a_table,  # noqa:
 
 GES = Path(os.environ.get("ISPEC_DIR", "/mnt/codex-data/engines/ispec_src")) / \
     "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
+#: The near-UV band's list (RYA-759; generated, not tracked). GES starts at 4200 A, so without
+#: this every near-UV line looked unidentified and was held (RYA-1315: 211 Ti II lines).
+NEARUV = (3000.0, 3780.0, ROOT / "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv")
 #: The node set the Si extension used (solar, Teff/logg/[Fe/H] steps, the benchmark stars).
 NODES = [(5772, 4.44, 0.0), (5100, 4.44, 0.0), (6200, 4.44, 0.0), (5772, 4.0, 0.0),
          (5772, 4.7, 0.0), (5772, 4.44, -0.3), (5172, 4.43, 0.31), (5100, 4.5, 0.5),
@@ -48,7 +51,7 @@ ION = 1
 
 
 def _synth_rows(wl: float) -> pd.DataFrame:
-    path = GES
+    path = NEARUV[2] if NEARUV[0] <= wl < NEARUV[1] else GES
     for lo, f in SYNTH_LISTS:
         if wl >= lo:
             path = f

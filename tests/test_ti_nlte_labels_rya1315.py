@@ -51,3 +51,16 @@ def test_an_unlabelled_line_is_held_not_fatal(monkeypatch):
     out = ext.build_lines([5000.0, 5100.0])
     assert [l[0] for l in out] == [5100.0]
     assert "no LS-allowed" in ext.UNLABELLED[5000.0]
+
+
+def test_a_near_uv_line_reads_the_near_uv_list(monkeypatch, tmp_path):
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import extend_nlte_grid as ext
+    nuv = tmp_path / "atomic_lines.tsv"
+    nuv.write_text("element\twave_A\tlower_state_eV\twaals\trad\tstark\tupper_state_eV\tlower_j\tupper_j\n"
+                   "Ti 2\t3008.311\t1.5718\t-7.85\t8.32\t-6.44\t5.69\t4.5\t5.5\n")
+    monkeypatch.setattr(ext, "NEARUV", (3000.0, 3780.0, nuv))
+    monkeypatch.setattr(ext, "ELEMENT", "Ti")
+    monkeypatch.setattr(ext, "ION", 2)
+    monkeypatch.setattr(ext, "_LL", {})
+    assert list(ext._synth_rows(3008.311).wave_A) == [3008.311]
