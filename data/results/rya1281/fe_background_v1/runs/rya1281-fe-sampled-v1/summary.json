@@ -1,0 +1,41 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "609a7d273b3740741081fd1b7d508f8f5f824896",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 15953,
+    "sha256": "b43403d53df83b8dd3ea99b00083a700e963b79fa90cdcfd655be5b701985445"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10053,
+    "sha256": "313797a33d608131c71f49682500520c68eda0bbd6634eee2aae7798e4351f70"
+  },
+  "plan": {
+    "name": "rya1281_mac_fe_background_controls.json",
+    "bytes": 2032,
+    "sha256": "dc4564c04e2a0862fe0fcd2324166ba6c6b2349295e1c3605436f0e320428cc8"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "author_MN_cap_Fe_neutral_sampled",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 4489,
+        "sha256": "1d4778aad98d2fee69963cad2337ee7b5c8e8c5b802ca07d38b9f858558c9d97"
+      }
+    }
+  ]
+}

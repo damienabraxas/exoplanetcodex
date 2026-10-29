@@ -1,0 +1,125 @@
+{
+  "case": {
+    "name": "author_MN_cap_Fe_neutral",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 0,
+    "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+    "finite_column_top_cap": true,
+    "fe_background_normalization": "local_neutral"
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files; non-adopted GENCOL convention experiment, exact reference-build parity unproven",
+  "diagnostic_collision_scales": {},
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "experimental_fe_background": {
+    "normalization": "local_neutral",
+    "packet": {
+      "name": "manifest.json",
+      "bytes": 1449,
+      "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+    },
+    "adapter": {
+      "name": "bride_fe_background.py",
+      "bytes": 4126,
+      "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+    },
+    "support_vac_nm": [
+      200.06481832193217,
+      360.1027162074426
+    ],
+    "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+  },
+  "finite_column_top_cap": {
+    "adapter": {
+      "name": "bride_top_cap.py",
+      "bytes": 7676,
+      "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+    },
+    "column_mass_top_kg_m2": 0.09156734,
+    "density_top_kg_m3": 1.0854e-06,
+    "effective_length_m": 84362.76027271051,
+    "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+  },
+  "native_spline_control": {
+    "oracle": {
+      "name": "manifest.json",
+      "bytes": 1897,
+      "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+    },
+    "source_directions": true,
+    "reversible_ch0_LTE_reservoir_hypothesis": false,
+    "temperature_unchanged_required": true,
+    "CH_negative_spline_values_clipped_as_native": 0
+  },
+  "author_charge_control": {
+    "author_data": {
+      "name": "receipt.json",
+      "bytes": 2847,
+      "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+    },
+    "adapter": {
+      "name": "bride_charge_contract.py",
+      "bytes": 5734,
+      "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+    },
+    "CH0_replaced": 24,
+    "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+    "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+    "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+    "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+  },
+  "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+  "iterations": 358,
+  "final_diagnostics": {
+    "iteration": 358,
+    "population_change": 9.135613397975974e-07,
+    "J_change": 9.141964197095985e-07,
+    "physical_rate_residual": 2.360974966788853e-15,
+    "particle_conservation_error": 7.771561172376096e-16,
+    "rejected_invalid_ng": false,
+    "cap_boundary_change": 4.5436714850827296e-07,
+    "fixed_population_radiation": {
+      "iterations": 4,
+      "final_J_change": 6.957475595648077e-09,
+      "final_boundary_change": 8.467212167009993e-10,
+      "outer_J_change": 9.141964197095985e-07,
+      "outer_boundary_change": 4.5436714850827296e-07
+    }
+  },
+  "flux_boundary": "Outer cap face; separate gridpoint flux retained",
+  "elapsed_seconds": 197.3831718750298,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "6ac78f3988691aa63271394bd2079c5c473cac55210f8b6769441e69f331a2a7"
+  },
+  "continuum_iterations": 35
+}

@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v188** · _Last updated: 2026-10-29 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v189** · _Last updated: 2026-10-29 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Independent near277nm budget identifies weak passive Fe I background; O admission open | TS/MARCS top absorption1.00119; native FeI84.37x local versus neutral Fe/kg1.0384x. Reporting derivative preserves serialized opacities exactly. T/Pe native quantization checked; EOS density change0.0666% retained | RYA-1278/1281; docs/audit/rya1279/ts_fe_continuum_review.md; data/results/rya1281/ts_budget_v1; background_contract open; PR #598 | PENDING | Validate source-derived FeI background controls over O photoionization supports, with no double count/fitted multiplier and fresh UV J/OII/rate checks; native producer and full3D/all-band gates open; O then C/N, Fe, another star |
+| Bride O-first foundation | Source-derived FeI NUV controls explain much of OII mismatch; visible solar fit and admission remain open | Three Mac cases converge; top OII b16.252 ->9.914-10.059 vs reference8.168. Fresh own rate residuals below4.83e-7; lower-triplet photo rate about halved. 1601point sampling changes OII0.94%; visible areas increase only0.10-0.15mA and Kitt gap remains | RYA-1278/1281; docs/audit/rya1279/fe_background_control_review.md; data/results/rya1281/fe_background_v1; PR #598 | PENDING | Further numerical/passive-background/producer checks; canonical-Sun column interpolation and regenerated opacity packets before10K solar tests; resolve blends/LSF/velocity without observed renormalization; O then C/N, Fe, another star; full3D/all-band open |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -543,3 +543,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v187** (2026-10-29) — **RYA-1281 conditional continuum budgets.** Four Mac LTE coefficient captures retain both OPA coordinate hypotheses and O8.66/8.70. UV absorption differences survive those controls; Si/Mg dominate the local277nm bound-free budget. H Rayleigh/wing partition differs in inspected independent source, so large FUV scattering ratios are not missing-opacity proof.120 focused tests pass; no SE update, solver substitution, adoption or verdict change.
 
 - **v188** (2026-10-29) — **RYA-1281 independent Fe I continuum diagnosis.** Protected-source Mac TS baseline/reporting builds give byte-identical opacity files. Independent Fe I contribution near277nm exceeds local by84x while neutral Fe differs only3.8%; post-DETABS H/NH additions retained.128 targeted tests pass. Native debug format-capacity defect characterized; background_contract remains open. No O NLTE rerun, opacity substitution or adoption.
+
+- **v189** (2026-10-29) — **RYA-1281 FeI NUV intervention evidence.** Three bounded source-derived background controls converge at unchanged thresholds; fresh-rate and independent photoionization replays support a real UV-opacity effect. OII discrepancy falls substantially, while upper-triplet agreement slightly worsens and the visible Kitt area gap persists.47 artifacts/4 figures retained;131+3 targeted tests pass. Background/collision/boundary/producer gates remain open; no default/adoption/production change.

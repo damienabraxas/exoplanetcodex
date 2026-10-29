@@ -529,3 +529,50 @@ Fe packet identity; fixed-physics grid refuses this intervention. Predeclared
 plan rya1281_mac_fe_background_controls.json keeps1500iterations/600s per case,
 outer1e-6 and inner radiation1e-8, source-MN collisions/native cap unchanged.
 No new O solve at this implementation checkpoint; scientific HOLD remains.
+
+## Completed FeI source-packet oxygen controls
+
+Native NUV packet1601samples covers200.0648-360.1027nm; only FeI bf replaced,
+old FeI subtracted, scattering unchanged and LTE emission preserved. Three Mac
+runs (neutral/raw/neutral+packet-grid) converge in358/296/362outer steps and
+197.38/174.39/239.96s at unchanged1500step/600s,1e-6outer,1e-8inner limits.
+Top OII b16.252baseline becomes10.0588/9.9145/9.9645 vs reference8.1681.
+All-level max b discrepancy8.084 ->1.891/1.746/1.796; upper-triplet discrepancy
+slightly worsens, retained honestly. Grid effect on OII0.94%, area<=0.00184mA.
+Fresh own rate imbalances4.54e-7/3.56e-7/4.82e-7; external-b/local-LTE remains
+non-equilibrium0.0931/0.0857/0.0883. Independent lower-triplet top photo rate
+16249 ->8241/8066/8111s^-1; J/B64.62 ->about32. Source-supported physical effect,
+not a fitted multiplier or complete native producer match.
+
+Dedicated Kitt Peak audit preserves corrected/pre-normalized observation and
+AIR comparison; model internal frequency remains vacuum. Fixed canonical
+broadening and separate deterministic gravitational-shift variant, no optimizer.
+Sampled model areas68.893/59.336/46.368mA versus77.557/67.200/53.794observed.
+Fe changes only0.10-0.15mA. Remaining native5750/4.5-vs-Sun, blends/continuum,
+velocity and approximate LSF limitations are not solved by the UV correction.
+Initial plot autoscale included off-view convolution edges; finalv2 plot is
+readable and every metric/profile hash is unchanged.
+
+Daemon restart lost the PTY handle of the sampled run, but fresh history writes
+proved it continued; no duplicate solve started. All final cases/replays finished.
+Nice19 was denied and first solver continued ordinary priority; all compute
+one-thread Mac, no Sirius science. Initial iSpec tests used wrong isolated venv
+(no pandas);3checks pass in project venv without workaround.131science tests pass.
+Implementation commits85346551/06d31eb2/609a7d27; final source runs neutral-v1,
+raw-v1,sampled-v1; comparison-v3,three rate/photo-v1, Kitt-v2 immutable externally.
+47registered artifacts and4inspected figures in fe_background_v1. Registerv189
+records qualified findings; existing background_contract annotated but remains
+OPEN alongside boundary/collision contracts. No new run bug in this source-packet
+phase, no source atom/default/gold/adopted/product change. Exact next: refine
+numerical/background/producer contracts, validate native-column interpolation
+and regenerate source opacities before canonical-Sun/10K controls; resolve visible
+blends/LSF/velocity under frozen observed continuum/tellurics. O then C/N,Fe,star.
+
+Final Fe-control handoff checks:131science tests and3project-iSpec checks pass
+on final code, with666/4known deprecations. Fixed-physics CLI actually rejects the
+Fe experiment with its diagnostic-physics message. Source page212rows checks;
+library189documents/126accounted,63pre-existing unindexed. Result-generator
+diagnostic set matches prior2436 exactly (0added/0removed); new47artifact and
+invocation entries pass. Register mirrors/pointer/freshness and SEQUENCE checks
+pass. Global results-ledger Ba/Sc documented debt remains; no full-suite, library
+or CI-green claim. Final checkpoint must include[skip ci] for Sirius runners.

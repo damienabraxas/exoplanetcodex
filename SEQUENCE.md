@@ -1,3 +1,7 @@
+## 2026-10-29 — Fe I NUV oxygen controls
+
+- **RYA-1281** — three FeI-background controls converge; UV photoionization halves, OII mismatch shrinks; visible Kitt gap and gates remain.
+
 ## 2026-10-29 — merged-main reconciliation
 
 > **Current as of `main` f8c723a8** (fetched during TS budget checkpoint).

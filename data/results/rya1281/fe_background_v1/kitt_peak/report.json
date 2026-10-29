@@ -1,0 +1,393 @@
+{
+  "schema": "codex.bride_fe_kitt_peak_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "compare_bride_fe_kitt_peak.py",
+    "bytes": 6867,
+    "sha256": "2a2edd0f14604336b3ca39302fc8ce455660b3b218d2b1d0015406c6fc6c5b8c"
+  },
+  "receipt": {
+    "name": "summary.json",
+    "bytes": 28039,
+    "sha256": "e8372f1e91c23fa8f2c18bb439d5a5b87bef271e1bfc0c10fd5d9e93ffa59487"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "holding": "solar_kpno_kurucz2005_corrected",
+  "policy": {
+    "reason": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+    "basis": "corrected",
+    "applied_state": "applied",
+    "normalization": {
+      "value": "normalised",
+      "median_p95": 0.9963525,
+      "slope_across_band": -0.0010163636363634653,
+      "n_windows": 10,
+      "n_dropped": 0,
+      "n_telluric_windows": 0,
+      "n_blue_windows": 0,
+      "max_flux": 0.9979,
+      "span_A": [
+        7760.864190418934,
+        7782.858252471642
+      ],
+      "reason": ""
+    },
+    "action": "Serve corrected pre-normalized observation unchanged"
+  },
+  "frame": "Observed delivered vacuum nm -> canonical AIR Angstrom; no extra observed shift/correction/continuum",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "caveats": "Native5750/4.5/A8.70 differs from canonical Sun; incomplete blends/background, approximate Gaussian catalog R instead of measured FTS LSF, no local error vector or chi-square/adoption. No optimizer or best-case ranking.",
+  "cases": [
+    {
+      "name": "author_MN_finite_column_cap",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3774,
+        "sha256": "7b1a2664e3d388c85cce7dc4129ffee6a97b7a712f5775ae183296a8e41fc3ef"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "aebe30b5dc70461aa102eb26ebc0d1dcf161f37b32ec2e8d3917e4c837a53a4a"
+      },
+      "experimental_fe_background": null,
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.746098458433,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.01841381077400467
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.209451648861474,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.014782239821851399
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.26959887217508,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.012385571782432154
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.7414087517989,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.010441473305498083
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.20248335389454,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.009635848720214965
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.28110863556457,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.008774145600069533
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "author_MN_finite_column_cap_profiles.csv",
+        "bytes": 300209,
+        "sha256": "00233144226d61e60670b059fc0d08418c5e5684b3da0faa0caaf3ea9e9c96df"
+      }
+    },
+    {
+      "name": "author_MN_cap_Fe_neutral",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4421,
+        "sha256": "90b090af79176fbc7b121a7dc09d9364c853d6e85ae706fc9f02fd4336cdf3af"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "6ac78f3988691aa63271394bd2079c5c473cac55210f8b6769441e69f331a2a7"
+      },
+      "experimental_fe_background": {
+        "normalization": "local_neutral",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.89113169369222,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.018309391286983515
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.334915479529755,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.014666273157520542
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.36656279893427,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.012288112879472306
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.88643671993749,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.010227690498706516
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.32793918510032,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.009440057296821139
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.378085394333816,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.00862487541351599
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "author_MN_cap_Fe_neutral_profiles.csv",
+        "bytes": 300209,
+        "sha256": "006236144d7697dbabce3225cc4d169d33f3134e1c25b0026445a629b89913b5"
+      }
+    },
+    {
+      "name": "author_MN_cap_Fe_raw",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4414,
+        "sha256": "d6c26716fa5e777bc33dce6190918827d73e24c6391c1e5d058936763a36700f"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "9fb9d982fa552ac95ed691ee574f55c57c602d9d1b00fbb094c9fdd1cf596cbe"
+      },
+      "experimental_fe_background": {
+        "normalization": "raw_specific",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.89611332970938,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.018305888523244482
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.339321146560124,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.014662295966859976
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.37009142800308,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.012284639754564251
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.89141809304155,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.01022055733864074
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.33234445536416,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.009433344110254278
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.38161466486335,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.00861955671867746
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "author_MN_cap_Fe_raw_profiles.csv",
+        "bytes": 300209,
+        "sha256": "08120111a868d4d890e436b391c2e1504aedca15417cbd0296af21227c3ab92c"
+      }
+    },
+    {
+      "name": "author_MN_cap_Fe_neutral_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4489,
+        "sha256": "1d4778aad98d2fee69963cad2337ee7b5c8e8c5b802ca07d38b9f858558c9d97"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "920ef27c5d7765beef16e9ba6a380075603d92aed573b8fabee76ea66e932e0c"
+      },
+      "experimental_fe_background": {
+        "normalization": "local_neutral",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "packet_sampling": true,
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.89296892050578,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.01830808241524146
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.336489078298136,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.014664826664621931
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.36775949551103,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.01228691468628513
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.8882738924529,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.010224966560928962
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.329512700992254,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.009437587672924398
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.37928222303202,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.00862302492994257
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "author_MN_cap_Fe_neutral_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "d8a080d58e826f3e45f6e0f53163d1117478a1e0eaa9cf129f06144cdb597b6a"
+      }
+    }
+  ],
+  "figure": {
+    "name": "kitt_peak_fe_controls.png",
+    "bytes": 196230,
+    "sha256": "9c7d4e69fb4d610121f022be73a5fc085c7e2aa599ca3dc017cddb5fb135429f"
+  }
+}

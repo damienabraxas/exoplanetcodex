@@ -25867,3 +25867,238 @@ artifacts:
     invocation: python scripts/build_bride_ts_budget.py --output <new-immutable-build>
     ticket: RYA-1281
     note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_neutral_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_neutral_sampled_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_raw_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/raw_pair_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/summary.json
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_neutral_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_neutral_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_raw_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_finite_column_cap_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/report.json
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/manifest.json
+    generator: scripts/prepare_bride_fe_packet.py
+    invocation: python scripts/prepare_bride_fe_packet.py --run <verified-native-NUV-run>/report.json --output <new-immutable-packet>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/native_run_report.json
+    generator: scripts/run_bride_ts_budget.py
+    invocation: python scripts/run_bride_ts_budget.py --support nuv200_350 --output <new-immutable-native-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/packet.npz
+    generator: scripts/prepare_bride_fe_packet.py
+    invocation: python scripts/prepare_bride_fe_packet.py --run <verified-native-NUV-run>/report.json --output <new-immutable-packet>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
