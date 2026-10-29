@@ -51,6 +51,7 @@ def test_marcs_rows_units_and_source_identity(tmp_path):
     np.testing.assert_array_equal(d['temperature_K'],[4000.,5000.,6000.])
     np.testing.assert_allclose(d['rho_kg_m3'],[1e-6,2e-6,3e-6],rtol=1e-15,atol=0)
     np.testing.assert_array_equal(d['electron_pressure_Pa'],[1.,2.,3.])
+    np.testing.assert_allclose(d['column_mass_kg_m2'],[1.,2.,3.],rtol=1e-15,atol=0)
     assert d['hydrogen_mass_fraction']==.7
     assert d['logg_cgs']==4. and d['vturb_m_s']==1500.
 

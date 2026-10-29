@@ -76,6 +76,8 @@ def interpolate_marcs_structure(nodes,target,*,thermodynamic_scale):
         actual[:,0]=height
     if not np.isfinite(actual).all():raise ValueError('Nonfinite interpolated structure')
     result=copy.deepcopy(reference)
+    # This interpolation contract has not validated a column-mass interpolation.
+    result.pop('column_mass_kg_m2',None)
     for i,name in enumerate(names):result[name]=actual[:,i].copy()
     if any(np.any(result[k]<=0)for k in ('temperature_K','electron_pressure_Pa','rho_kg_m3')):
         raise ValueError('Unphysical interpolated field')
@@ -95,6 +97,8 @@ def controlled_structure(original,*,xi,drop_bottom):
     result=copy.deepcopy(original);n=original['ndep']-drop_bottom
     for name in ('height_m','temperature_K','electron_pressure_Pa','rho_kg_m3','logtau_ross','logtau_500'):
         result[name]=result[name][:n].copy()
+    if 'column_mass_kg_m2' in result:
+        result['column_mass_kg_m2']=result['column_mass_kg_m2'][:n].copy()
     result['ndep']=n;result['vturb_m_s']=xi*1000
     return result
 

@@ -18,7 +18,7 @@ def marcs_number_densities(structure):
 
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
                            fixed_populations=None,continuum_only=False,lte_h_background_lines=False,
-                           lte_uv_background_lines=False):
+                           lte_uv_background_lines=False,finite_column_top_cap=False):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -31,11 +31,15 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
     from pipeline.multi_atom import to_lightweaver
     ne,nH=marcs_number_densities(structure)
     n=structure['ndep']
+    cap=None
+    if finite_column_top_cap:
+        from pipeline.bride_top_cap import cap_from_structure
+        cap=cap_from_structure(structure)
     atmosphere=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,
         depthScale=structure['height_m'].copy(),temperature=structure['temperature_K'].copy(),
         ne=ne.copy(),nHTot=nH.copy(),vturb=np.full(n,structure['vturb_m_s']),
         vlos=np.zeros(n),logG=structure['logg_cgs']-np.log10(100.),
-        lowerBc=lw.ThermalisedRadiation(),upperBc=lw.ZeroRadiation())
+        lowerBc=lw.ThermalisedRadiation(),upperBc=cap if cap is not None else lw.ZeroRadiation())
     atmosphere.quadrature(rays)
     model=to_lightweaver(source_atom)
     if continuum_only:model.lines=[]
@@ -77,8 +81,10 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
         actual[:]=fixed_populations
     spect=radset.compute_wavelength_grid()
     options=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if ng and not lte else None
-    return lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',
-                      conserveCharge=False,ngOptions=options)
+    ctx=lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',
+                   conserveCharge=False,ngOptions=options)
+    if cap is not None:ctx.depthData.fill=True
+    return ctx
 
 
 def fingerprint(path):
@@ -119,11 +125,14 @@ def read_marcs_structure(path):
         raise ValueError('Invalid MARCS physical fields')
     if not np.all(np.diff(a[:,3])>0):
         raise ValueError('MARCS depth must increase inward')
+    if np.any(b[:,7]<=0) or not np.all(np.diff(b[:,7])>0):
+        raise ValueError('MARCS RHOX column mass must be positive and increase inward')
     return dict(model_id=model,ndep=n,height_m=-a[:,3]*.01,
         temperature_K=a[:,4].copy(),electron_pressure_Pa=a[:,5]*.1,
         rho_kg_m3=b[:,3]*1000.,hydrogen_mass_fraction=X,
         abundances_dex=abundances,logg_cgs=float(np.log10(gravity)),vturb_m_s=vturb,
-        logtau_ross=a[:,1].copy(),logtau_500=a[:,2].copy())
+        logtau_ross=a[:,1].copy(),logtau_500=a[:,2].copy(),
+        column_mass_kg_m2=b[:,7].copy()*10.)
 
 
 def read_exact_departure_record(binary,aux_text,*,model_id,abundance,nlevels,ndep):

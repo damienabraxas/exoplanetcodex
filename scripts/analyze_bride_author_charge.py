@@ -58,7 +58,7 @@ def main():
             manifest=json.loads(manifest_path.read_text());case=manifest['case']
             if (manifest['status']!='CONVERGED_EXPERIMENT' or manifest['atmosphere']!=reference['atmosphere_file']
                     or (case['xi'],case['abundance'],case['drop_bottom'])!=(1.,8.7,0)
-                    or manifest['experimental_collision_convention']!='barklem2018_MN_LTE_pair'
+                    or manifest['experimental_collision_convention'] not in ('barklem2018_MN_LTE_pair','native_tautsp_lte_balanced_CH0')
                     or manifest['diagnostic_collision_scales']):
                 raise ValueError('Unexpected native-node physics')
             data=np.load(casepath/'populations.npz')
@@ -86,7 +86,9 @@ def main():
                 sample_logtau500=float(tau[sampled]),sample_lower_upper_ion_b=b[[5,9,39],sampled].tolist(),
                 triplet_fixed_window_mA=[float(window_integral(flux['wavelength_air_A'],flux['normalized_flux'],w-.5,w+.5)*1000)
                                           for w in (7771.94,7774.166,7775.388)],
-                author_charge_control=manifest['author_charge_control'],
+                experimental_collision_convention=manifest['experimental_collision_convention'],
+                author_charge_control=manifest.get('author_charge_control'),
+                finite_column_top_cap=manifest.get('finite_column_top_cap'),
                 lte_uv_background_lines=manifest.get('lte_uv_background_lines')))
             for ax,level in zip(axes,(5,9,39)):ax.plot(tau,b[level],label=entry['name'])
             fluxax.plot(flux['wavelength_air_A'],flux['normalized_flux'],label=entry['name'])

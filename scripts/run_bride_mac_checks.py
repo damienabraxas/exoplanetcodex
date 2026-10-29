@@ -79,8 +79,19 @@ def main():
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
             hydrogen_lines=case.get('lte_h_background_lines',False)
             uv_lines=case.get('lte_uv_background_lines',False)
+            top_cap=case.get('finite_column_top_cap',False)
+            if top_cap and case.get('interpolate',False):
+                raise ValueError('Finite-column cap requires a native atmosphere column, not interpolated metadata')
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True),
-                lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines)
+                lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines,
+                finite_column_top_cap=top_cap)
+            if top_cap:
+                from pipeline import bride_top_cap
+                m['finite_column_top_cap']=dict(adapter=fingerprint(bride_top_cap.__file__),
+                    column_mass_top_kg_m2=float(structure['column_mass_kg_m2'][0]),
+                    density_top_kg_m3=float(structure['rho_kg_m3'][0]),
+                    effective_length_m=ctx.atmos.pyAtmos.zUpperBc.length_m,
+                    interpretation='Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof')
             if uv_lines:
                 from lightweaver import rh_atoms
                 m['lte_uv_background_lines']=dict(source=fingerprint(rh_atoms.__file__),
@@ -114,7 +125,10 @@ def main():
             with (out/'history.jsonl').open('x')as history:
                 for iteration in range(controls['maxiter']):
                     if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Case budget exceeded')
-                    old=active.n.copy();update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+                    old=active.n.copy()
+                    old_J_top=np.array(ctx.spect.J)[:,0].copy() if top_cap else None
+                    update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+                    cap_change=ctx.atmos.pyAtmos.zUpperBc.update_from_context(ctx,old_J_top) if top_cap else 0.
                     matrix=active.Gamma;scale=np.max(abs(matrix),axis=1,keepdims=True)
                     if np.any(scale==0):raise ValueError('Disconnected SE equation')
                     matrix[:]/=scale
@@ -127,22 +141,37 @@ def main():
                     delta=float(np.max(abs(n-old)/n));conservation=float(np.max(abs(n.sum(axis=0)/active.nTotal-1)))
                     entry=dict(iteration=iteration+1,population_change=delta,J_change=float(update.dJMax),
                         physical_rate_residual=rate,particle_conservation_error=conservation,rejected_invalid_ng=bool(rejected))
+                    if top_cap:entry['cap_boundary_change']=cap_change
                     history.write(json.dumps(entry,allow_nan=False)+'\n');history.flush()
                     if conservation>1e-10:raise ValueError('Particle conservation failed')
-                    if iteration>=2 and max(delta,rate,update.dJMax)<controls['rtol']:break
+                    if iteration>=2 and max(delta,rate,update.dJMax,cap_change)<controls['rtol']:break
                 else:raise RuntimeError('Joint convergence not reached')
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
                 fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines,
-                lte_uv_background_lines=uv_lines)
+                lte_uv_background_lines=uv_lines,finite_column_top_cap=top_cap)
             for j in range(1000):
                 if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
+                old_J_top=np.array(continuum.spect.J)[:,0].copy() if top_cap else None
                 u=continuum.formal_sol_gamma_matrices()
-                if u.dJMax<1e-8:break
+                cap_change=continuum.atmos.pyAtmos.zUpperBc.update_from_context(continuum,old_J_top) if top_cap else 0.
+                if max(u.dJMax,cap_change)<1e-8:break
             else:raise RuntimeError('Continuum J convergence failed')
             mu,w=flux_quadrature(controls['flux_rays'])
-            line=integrate_flux(ctx.compute_rays(wavelengths=vac,mus=mu),mu,w)
-            cont=integrate_flux(continuum.compute_rays(wavelengths=vac,mus=mu),mu,w)
+            if top_cap:
+                from pipeline.bride_top_cap import emergent_rays
+                line_grid,line_out=emergent_rays(ctx,vac,mu)
+                cont_grid,cont_out=emergent_rays(continuum,vac,mu)
+                line=integrate_flux(line_out,mu,w);cont=integrate_flux(cont_out,mu,w)
+                np.savetxt(out/'gridpoint_flux.csv',np.column_stack((wave,integrate_flux(line_grid,mu,w),integrate_flux(cont_grid,mu,w))),
+                    delimiter=',',header='wavelength_air_A,gridpoint_Fnu,gridpoint_continuum_Fnu',comments='')
+                cap=ctx.atmos.pyAtmos.zUpperBc
+                np.savez_compressed(out/'top_cap.npz',wavelength_vac_nm=cap.wave,chi_m_inv=cap.chi,
+                    eta_including_scattering=cap.eta,effective_length_m=cap.length_m)
+                m['flux_boundary']='Outer cap face; separate gridpoint flux retained'
+            else:
+                line=integrate_flux(ctx.compute_rays(wavelengths=vac,mus=mu),mu,w)
+                cont=integrate_flux(continuum.compute_rays(wavelengths=vac,mus=mu),mu,w)
             np.savetxt(out/'flux.csv',np.column_stack((wave,line,cont,line/cont)),delimiter=',',
                 header='wavelength_air_A,Fnu_W_m2_Hz,continuum_Fnu_W_m2_Hz,normalized_flux',comments='')
             np.savez_compressed(out/'populations.npz',populations=n,nstar=active.nStar,temperature_K=structure['temperature_K'])
