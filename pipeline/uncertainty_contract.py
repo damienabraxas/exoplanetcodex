@@ -172,6 +172,129 @@ def paired_response(nominal, minus, plus, *, delta, source, parameter_source):
             "parameter_source": parameter_source}
 
 
+#: RYA-1251 (Ryan 2026-10-28): the PUBLISHED sigma is Asplund, Amarsi & Grevesse 2021's
+#: (Sect. 2.1): line-to-line statistics (+) half the 3D effect (+) the NLTE term (half the
+#: correction, floor 0.03; none for molecules, as Amarsi+2021). Atomic data and the
+#: observational terms are NOT in it -- Asplund: "in general ... not attempted". The other
+#: components stay on the document as evidence; they no longer widen the headline bar.
+ASPLUND_COMPONENTS = ("measurement", "model_atmosphere", "nlte")
+ASPLUND_BASIS = ("Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D "
+                 "effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 "
+                 "compositional term instead of NLTE, trend term not priced; atomic data and "
+                 "observational terms not included")
+
+
+#: Asplund's NLTE floor. It applies to every atomic result, including one whose NLTE is inside
+#: the synthesis (ENGINE-B) or not applied at all (an LTE product has no smaller NLTE error).
+ASPLUND_NLTE_FLOOR = 0.03
+_NUMERIC = {"MEASURED", "DEFINED"}
+
+
+def asplund_terms(document, molecule=None):
+    """(statistical, systematic) in the Asplund/Amarsi convention, or None.
+
+    statistical = the measurement term (uncorrelated between lines/groups); systematic =
+    half the 3D effect (+) NLTE (half the correction, floor 0.03), and for a molecule
+    Amarsi+2021's compositional term (our `molecular_coupling`) in place of NLTE. Amarsi
+    Eq. 3 treats the systematic part as perfectly correlated between groups, so a combiner
+    averages it instead of shrinking it. Amarsi's "trend" term is not priced here.
+    For a named molecule the 3D term is at least half Amarsi+2021 Table 2's 3D - MARCS shift
+    (Asplund's "half the 3D effect"); a larger measured term is kept.
+    None when the measurement is not numeric or any term used is on HOLD.
+    """
+    terms = {c["name"]: c for c in (document or {}).get("components", [])}
+    if terms.get("measurement", {}).get("state") not in _NUMERIC:
+        return None
+    molecular = terms.get("molecular_coupling", {}).get("state") in _NUMERIC
+    used = ASPLUND_COMPONENTS + (("molecular_coupling",) if molecular else ())
+    if any(terms.get(n, {}).get("state") == "HOLD" for n in used):
+        return None
+    def value(name):
+        c = terms.get(name, {})
+        return c["sigma_dex"] if c.get("state") in _NUMERIC else 0.0
+    third = value("molecular_coupling") if molecular else max(value("nlte"), ASPLUND_NLTE_FLOOR)
+    atmosphere = value("model_atmosphere")
+    if molecular and molecule:
+        from pipeline import molecular_model_form
+        try:
+            shift = float(molecular_model_form._row(molecule).model_form_3D_minus_MARCS)
+            atmosphere = max(atmosphere, abs(shift) / 2.0)
+        except molecular_model_form.ModelFormError:
+            pass
+    return value("measurement"), math.sqrt(atmosphere ** 2 + third ** 2)
+
+
+def molecule_of(product):
+    """The molecule a product measures, from its first indicator id (e.g. 'CH_Gband:...')."""
+    ids = product.get("uncertainty_indicator_ids") or [""]
+    return str(ids[0]).split(":")[0].split("_")[0] or None
+
+
+ASPLUND_STAMPS = ("sigma_asplund", "sigma_asplund_stat", "sigma_asplund_syst",
+                  "sigma_asplund_basis")
+ASPLUND_LEGACY_3DNLTE_BASIS = (
+    "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term "
+    "budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE "
+    "correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and "
+    "observational terms not included")
+
+
+def legacy_3dnlte_asplund_terms(product, root=None):
+    """(stat, syst) for a legacy 3D-NLTE row, from the row and its own per-line file.
+
+    Legacy rows carry no component budget, but a 3D-NLTE row's artifact records each
+    line's 3D-NLTE correction (`aberr`). The engine returns 3D and NLTE as ONE correction,
+    so half of its mean stands for the model term and the NLTE term takes the 0.03 floor,
+    the same split the budgeted ENGINE-A rows carry. None when anything is missing.
+    """
+    import csv
+    from pathlib import Path
+    if "uncertainty" in product or product.get("treatment") != "ENGINE-A-3DNLTE":
+        return None
+    stat = product.get("sigma_stat")
+    path = (product.get("provenance") or {}).get("copied_to") or ""
+    if stat is None or not path.endswith("_products.csv"):
+        return None
+    per_line = Path(root or Path(__file__).resolve().parents[1]) / path.replace(
+        "_products.csv", "_per_line.csv")
+    try:
+        rows = list(csv.DictReader(per_line.open()))
+    except OSError:
+        return None
+    corrections = [float(r["aberr"]) for r in rows
+                   if r.get("in_domain") == "True" and r.get("status", "ok") == "ok"
+                   and r.get("a_3dnlte") not in ("", None) and r.get("aberr") not in ("", None)]
+    if not corrections:
+        return None
+    half = abs(sum(corrections) / len(corrections)) / 2.0
+    return float(stat), math.hypot(half, ASPLUND_NLTE_FLOOR)
+
+
+def legacy_asplund_stamp_problems(product, legacy_row, *, root=None):
+    """None unless the row differs from its predecessor ONLY in the Asplund stamps.
+
+    Then [] when every stamp equals the recompute from the row's own artifacts, else the
+    mismatches. The stamps are derived, never asserted, so a recompute is their evidence.
+    """
+    changed = {k for k in set(product) | set(legacy_row)
+               if k not in LEGACY_RIDE_ALONG_STAMPS and product.get(k) != legacy_row.get(k)}
+    if not changed or not changed <= set(ASPLUND_STAMPS):
+        return None
+    terms = legacy_3dnlte_asplund_terms(product, root)
+    if terms is None:
+        return ["no per-line 3D-NLTE artifact to recompute the Asplund stamps from"]
+    want = {"sigma_asplund": math.hypot(*terms), "sigma_asplund_stat": terms[0],
+            "sigma_asplund_syst": terms[1], "sigma_asplund_basis": ASPLUND_LEGACY_3DNLTE_BASIS}
+    return [f"{k} {product.get(k)!r} != recomputed {v!r}"
+            for k, v in want.items() if product.get(k) != v]
+
+
+def asplund_sigma(document, molecule=None):
+    """The Asplund-convention sigma: statistical (+) systematic from `asplund_terms`, or None."""
+    got = asplund_terms(document, molecule)
+    return None if got is None else math.hypot(*got)
+
+
 def assemble(scope, components, *, covariance, covariance_source, assumptions,
              required_extra=()):
     """One authoritative total. A required HOLD makes sigma_reported null.
@@ -549,6 +672,13 @@ def assert_publication_feed(document, *, previous=None):
         #: contract decides, exactly as before.
         predecessor = legacy_by_key.get(key_of(product))
         if "uncertainty" not in product and predecessor is not None:
+            stamped = legacy_asplund_stamp_problems(product, predecessor)
+            if stamped == []:
+                continue
+            if stamped:
+                failures.append(f"{key_of(product)}: Asplund stamp refused: "
+                                f"{'; '.join(stamped)}")
+                continue
             verdict = xi_layer_correction_problems(product, predecessor)
             if verdict == []:
                 continue

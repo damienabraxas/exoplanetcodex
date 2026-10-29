@@ -77,7 +77,22 @@ def write_feed(out: Path, doc: dict) -> None:
     real change and that the next publish immediately reverts.
     """
     from pipeline import plot_grid
-    from pipeline.uncertainty_contract import assert_publication_feed
+    from pipeline.uncertainty_contract import (ASPLUND_BASIS, ASPLUND_LEGACY_3DNLTE_BASIS,
+                                               asplund_terms, assert_publication_feed,
+                                               legacy_3dnlte_asplund_terms, molecule_of)
+    for product in doc.get("products") or []:
+        if "uncertainty" in product:
+            terms = asplund_terms(product["uncertainty"], molecule_of(product))
+            basis = ASPLUND_BASIS
+        else:                                 # legacy: only a 3D-NLTE row with its per-line file
+            terms = legacy_3dnlte_asplund_terms(product)
+            basis = ASPLUND_LEGACY_3DNLTE_BASIS
+            if terms is None:
+                continue                      # other legacy rows stay byte-identical
+        product["sigma_asplund"] = None if terms is None else math.hypot(*terms)
+        product["sigma_asplund_stat"] = None if terms is None else terms[0]
+        product["sigma_asplund_syst"] = None if terms is None else terms[1]
+        product["sigma_asplund_basis"] = basis
     try:
         previous = json.loads(out.read_text()) if out.exists() else None
     except (ValueError, OSError):
