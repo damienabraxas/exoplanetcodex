@@ -42,7 +42,7 @@ def main():
     origin=require_codex_path('experiments.bride_mac_grid')/'rya1281-v1/baseline'
     archive=ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
-    convention=None;hydrogen_lines=False;uv_lines=False;top_cap=False;fe_provider=None;fe_receipt=None
+    convention=None;hydrogen_lines=False;uv_lines=False;top_cap=False;fe_provider=None;fe_receipt=None;fe_samples=None
     if args.case_directory is not None:
         if args.case_receipt is None:raise ValueError('Native control replay requires an independent population receipt')
         origin=args.case_directory
@@ -71,6 +71,9 @@ def main():
                     or fe_receipt['adapter']!=fingerprint(bride_fe_background.__file__)):
                 raise ValueError('Changed Fe background packet/adapter')
             fe_provider=bride_fe_background.fe_factory(packet_path,fe_mode)
+            if case.get('fe_packet_sampling',False):
+                if not fe_receipt.get('packet_sampling'):raise ValueError('Changed Fe packet sampling')
+                fe_samples=bride_fe_background.load_packet(packet_path)['wavelength_vac_nm']
         convention=manifest.get('experimental_collision_convention')
         if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0','barklem2018_MN_LTE_pair'):
             raise ValueError('Unsupported native control interpretation')
@@ -106,7 +109,7 @@ def main():
     for mode,pop in [('local_nlte',native),('local_lte',nstar),('external_b_local_lte',external)]:
         start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1,
             lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines,
-            finite_column_top_cap=top_cap,fe_background=fe_provider)
+            finite_column_top_cap=top_cap,fe_background=fe_provider,extra_wavelengths_vac_nm=fe_samples)
         if top_cap:
             from pipeline import bride_top_cap
             if (fingerprint(bride_top_cap.__file__)!=manifest['finite_column_top_cap']['adapter']
