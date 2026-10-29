@@ -76,13 +76,14 @@ def write_feed(out: Path, doc: dict) -> None:
     it literally reformats every line carrying one -- a whole-file diff that hides the
     real change and that the next publish immediately reverts.
     """
-    from pipeline import plot_grid
+    from pipeline import molecular_model_form, plot_grid
     from pipeline.uncertainty_contract import (ASPLUND_BASIS, ASPLUND_LEGACY_3DNLTE_BASIS,
                                                asplund_terms, assert_publication_feed,
                                                legacy_3dnlte_asplund_terms, molecule_of)
     for product in doc.get("products") or []:
         if "uncertainty" in product:
-            terms = asplund_terms(product["uncertainty"], molecule_of(product))
+            terms = asplund_terms(product["uncertainty"], molecule_of(product),
+                                  molecular_model_form.indicator_key(product))
             basis = ASPLUND_BASIS
         else:                                 # legacy: only a 3D-NLTE row with its per-line file
             terms = legacy_3dnlte_asplund_terms(product)
@@ -93,6 +94,16 @@ def write_feed(out: Path, doc: dict) -> None:
         product["sigma_asplund_stat"] = None if terms is None else terms[0]
         product["sigma_asplund_syst"] = None if terms is None else terms[1]
         product["sigma_asplund_basis"] = basis
+        # RYA-1317: a 1D-LTE CNO result is combined on Asplund's 3D scale. The shift is
+        # stamped beside A, never applied to it; the family combiner adds it.
+        group = (molecular_model_form.group_terms(molecular_model_form.indicator_key(product))
+                 if product.get("treatment") == "1D-LTE" else None)
+        product.pop("asplund_3d_shift", None)
+        product.pop("asplund_3d_shift_basis", None)
+        if group is not None:
+            product["asplund_3d_shift"] = group["shift_3d_dex"]
+            product["asplund_3d_shift_basis"] = (
+                f"{group['source']}: {group['table3_row']} 3D minus 1D MARCS LTE")
     try:
         previous = json.loads(out.read_text()) if out.exists() else None
     except (ValueError, OSError):

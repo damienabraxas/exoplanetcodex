@@ -190,7 +190,7 @@ ASPLUND_NLTE_FLOOR = 0.03
 _NUMERIC = {"MEASURED", "DEFINED"}
 
 
-def asplund_terms(document, molecule=None):
+def asplund_terms(document, molecule=None, indicator=None):
     """(statistical, systematic) in the Asplund/Amarsi convention, or None.
 
     statistical = the measurement term (uncorrelated between lines/groups); systematic =
@@ -200,6 +200,9 @@ def asplund_terms(document, molecule=None):
     averages it instead of shrinking it. Amarsi's "trend" term is not priced here.
     For a named molecule the 3D term is at least half Amarsi+2021 Table 2's 3D - MARCS shift
     (Asplund's "half the 3D effect"); a larger measured term is kept.
+    RYA-1317: when `indicator` sits on one of Amarsi's groups (CH A-X for the G band, not the
+    CH species row) the group's own shift is used, and the term is also at least Amarsi Eq.
+    1's atmosphere term (the standard error over 3D, <3D>, ATMO, HM74) for that group.
     None when the measurement is not numeric or any term used is on HOLD.
     """
     terms = {c["name"]: c for c in (document or {}).get("components", [])}
@@ -219,7 +222,13 @@ def asplund_terms(document, molecule=None):
         # A RYA-587 bound charges the FULL published 1D->3D shift; Asplund charges half of
         # the 3D effect, so the measured grid leg stands and the half-shift floor follows.
         atmosphere = abs(float(evidence.get("measured_leg_dex") or 0.0))
-    if molecular and molecule:
+    group = None
+    if molecular and indicator:
+        from pipeline import molecular_model_form
+        group = molecular_model_form.group_terms(indicator)
+    if group is not None and group["atmos_sem_dex"] is not None:
+        atmosphere = max(atmosphere, abs(group["shift_3d_dex"]) / 2.0, group["atmos_sem_dex"])
+    elif molecular and molecule:
         from pipeline import molecular_model_form
         try:
             shift = float(molecular_model_form._row(molecule).model_form_3D_minus_MARCS)
@@ -294,9 +303,9 @@ def legacy_asplund_stamp_problems(product, legacy_row, *, root=None):
             for k, v in want.items() if product.get(k) != v]
 
 
-def asplund_sigma(document, molecule=None):
+def asplund_sigma(document, molecule=None, indicator=None):
     """The Asplund-convention sigma: statistical (+) systematic from `asplund_terms`, or None."""
-    got = asplund_terms(document, molecule)
+    got = asplund_terms(document, molecule, indicator)
     return None if got is None else math.hypot(*got)
 
 

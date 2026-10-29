@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from pipeline.molecular_model_form import indicator_key
 from pipeline.uncertainty_contract import ASPLUND_NLTE_FLOOR, asplund_sigma, molecule_of
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,7 +44,8 @@ def test_every_budgeted_product_is_stamped_with_its_own_recompute(element):
     budgeted = [p for p in products if "uncertainty" in p]
     assert budgeted
     for p in budgeted:
-        assert p["sigma_asplund"] == pytest.approx(asplund_sigma(p["uncertainty"], molecule_of(p)), abs=1e-12)
+        assert p["sigma_asplund"] == pytest.approx(asplund_sigma(p["uncertainty"], molecule_of(p),
+                                                               indicator_key(p)), abs=1e-12)
         assert p["sigma_asplund"] == pytest.approx(math.hypot(p["sigma_asplund_stat"],
                                                               p["sigma_asplund_syst"]), abs=1e-12)
         assert p["sigma_asplund_basis"].startswith("Asplund, Amarsi & Grevesse 2021")
@@ -92,6 +94,7 @@ def test_legacy_stamp_route_refuses_a_wrong_stamp_and_any_other_change():
 
 def test_molecular_3d_term_is_half_the_shift_not_the_full_bound():
     """CO/CN bands carried a RYA-587 bound equal to the FULL 1D->3D shift; Asplund charges half."""
+    from pipeline import molecular_model_form
     from pipeline.uncertainty_contract import asplund_terms
     for element, selector, shift in (("C", "MOL-CO_K", 0.140), ("N", "MOL-CN_AX_IR", 0.061)):
         doc = json.loads((ROOT / f"data/products/solar/{element}.json").read_text())
@@ -101,8 +104,11 @@ def test_molecular_3d_term_is_half_the_shift_not_the_full_bound():
             terms = {c["name"]: c for c in p["uncertainty"]["components"]}
             atm = terms["model_atmosphere"]
             assert atm["evidence"]["bound"] and atm["sigma_dex"] == pytest.approx(shift)
-            stat, syst = asplund_terms(p["uncertainty"], molecule_of(p))
+            group = molecular_model_form.group_terms(molecular_model_form.indicator_key(p))
+            stat, syst = asplund_terms(p["uncertainty"], molecule_of(p), group["indicator"])
             third = terms["molecular_coupling"]["sigma_dex"]
-            want = max(abs(atm["evidence"]["measured_leg_dex"]), shift / 2)
+            # RYA-1317: the indicator's own Amarsi group, and at least its atmosphere term
+            want = max(abs(atm["evidence"]["measured_leg_dex"]),
+                       abs(group["shift_3d_dex"]) / 2, group["atmos_sem_dex"])
             assert syst == pytest.approx(math.hypot(want, third))
             assert p["sigma_asplund"] == pytest.approx(math.hypot(stat, syst))
