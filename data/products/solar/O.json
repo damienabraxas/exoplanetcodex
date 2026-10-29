@@ -4923,7 +4923,9 @@
       "sigma_asplund": 0.31230914171698515,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.309,
-      "sigma_asplund_syst": 0.04534313619501773
+      "sigma_asplund_syst": 0.04534313619501773,
+      "asplund_3d_shift": 0.039,
+      "asplund_3d_shift_basis": "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table 3: [O I] 3D minus 1D MARCS LTE"
     },
     {
       "element": "O",

@@ -10,6 +10,10 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-29 — pending RYA-1317 branch
+
+- **RYA-1317** (pending, branch `ryandamienschmitt/rya-1317-cno-asplund`) — CNO Asplund sigma per Amarsi group: the G band uses CH A-X (+0.066), not the CH species row (+0.035); each molecular 3D term is also at least Amarsi Eq. 1's atmosphere term. 1D-LTE CNO products are stamped `asplund_3d_shift` (A21 Table 3, 3D minus 1D MARCS) for the site's family combiner; no A moves. CH Gband sigma_asplund 0.019 -> 0.034.
+
 ## 2026-10-28 — RYA-1310 landed
 
 > **Current as of `main` 42987358** (2026-10-28, RYA-1310).

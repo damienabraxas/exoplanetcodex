@@ -1579,10 +1579,12 @@
         "ingested_at": "2026-10-10T22:00:32Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.12582963720840967,
+      "sigma_asplund": 0.12638867670800258,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.071,
-      "sigma_asplund_syst": 0.10388502105693581
+      "sigma_asplund_syst": 0.10456145370068262,
+      "asplund_3d_shift": -0.142,
+      "asplund_3d_shift_basis": "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table 3; Amarsi et al. 2021 CDS J/A+A/656/A113 (52 lines): CO (dv=2) 3D minus 1D MARCS LTE"
     },
     {
       "element": "C",
@@ -13780,7 +13782,9 @@
       "sigma_asplund": 0.07842236941714902,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.01,
-      "sigma_asplund_syst": 0.07778218321055143
+      "sigma_asplund_syst": 0.07778218321055143,
+      "asplund_3d_shift": 0.022,
+      "asplund_3d_shift_basis": "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table 3; Amarsi et al. 2021 CDS J/A+A/656/A113 (39 lines): C2 Swan 3D minus 1D MARCS LTE"
     },
     {
       "element": "C",
@@ -14231,10 +14235,12 @@
         "ingested_at": "2026-10-09T08:06:36Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.018777279488786623,
+      "sigma_asplund": 0.033694750703930236,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.006,
-      "sigma_asplund_syst": 0.017792870060785775
+      "sigma_asplund_syst": 0.033156239608858044,
+      "asplund_3d_shift": 0.066,
+      "asplund_3d_shift_basis": "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table 3; Amarsi et al. 2021 CDS J/A+A/656/A113 (6 lines): CH (A-X) 3D minus 1D MARCS LTE"
     },
     {
       "element": "C",
