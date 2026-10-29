@@ -316,3 +316,52 @@ Original reports remain in bride_mac_checks/rya1281-charge-reservoir-v1/v2.
 No RT/SE solve, source/rate change or admission. Next: coefficient provenance and
 matched reverse-channel/statistical-weight prescription, then outer UV controls.
 Linear get_agent_context remains advertised but returns Tool not found.
+
+## 2026-10-28 sourced MN / UV checkpoint
+
+New report: author_charge_uv_review.md. All240 raw CH0 entries follow the
+published MN reverse/Boltzmann candidate within0.48%; source/producer identity
+is still not equivalent. Two predeclared Mac O41 solves converge: author MN
+568iterations/43.0445s and47-line native LTE UV background396/250.2854s.
+The surface mismatch remains; the held MULTI TRANSP/TRANF code explicitly uses
+finite top optical depth, unlike our first-point ZeroRadiation condition.
+No finite-depth cap has yet been implemented. No adopted abundance/default
+mapping, source atom or complete author matrix changed or redistributed.
+
+Original source/code/run receipts and diagnostics remain immutable under
+CODEX_WORK_ROOT/bride_inputs/rya1281/barklem-oxygen-cd2f54ed and
+CODEX_WORK_ROOT/bride_mac_checks/{rya1281-author-charge-v1,
+rya1281-uv-background-v1,rya1281-charge-contract-v3,
+rya1281-author-analysis-v2,rya1281-photoionization-v2}. Earlier versions preserved.
+18 registered review artifacts and3 inspected figures archived in author_charge_v1.
+All owned science jobs finished; no Sirius science jobs. Missing source ABSDAT
+and exact producer run files remain a parallel prerequisite, not substituted.
+
+Validation:167 selected LW/parser/numerical/reference/observable/control tests
+pass (666 upstream deprecation warnings);3 installed iSpec checks pass (4 warnings).
+After the final held-resource fixture addition, the2 new tests were rerun and
+pass. Full fixed-physics grid CLI refuses the experimental UV run as expected;
+the first canary invocation lacked the Mac host profile and failed before that
+check, then the correctly profiled canary reached the intended rejection.
+Sources page212 rows matches the bibliography. Standing library audit remains
+186documents/125accounted, with pre-existing unindexed papers. Generator guard
+remains2436diagnostics, exact same set as the preceding branch checkpoint:
+0added/0removed.18new artifact entries and their invocation flags are admitted
+once staged; no global-green claim. State Register v184/freshness/whitespace pass.
+
+Current main fetched at9d3ebbea (PRs599/600/601 now merged); SEQUENCE records those
+landings from merged diffs and ticket reports. No rebase/merge of main performed;
+branch is still the existing stack on parent4635c742/PR597. Do not transfer older
+main failure counts to this new tree. No full-suite or CI-green claim; final
+checkpoint uses[skip ci] to avoid Sirius runner work. The existing open
+collision_convention bug row was amended, preserving unrelated mixed line endings.
+
+Linear get_agent_context and record_agent_learning are advertised but both return
+Tool not found; verified findings are retained in the repo and issue comments.
+
+Exact resume: verify MARCS RHOX/top optical-depth units, retain those native fields
+at the atmosphere boundary, and predeclare a finite-depth top-cap diagnostic
+using actual top opacity/source values. Test zero-depth, thick and angular limits
+before a matched O41 run. Do not tune thickness/temperature or inject arbitrary
+UV radiation. Then compare full-depth populations and fixed spectra, not only
+photospheric agreement. Solar CNO milestone precedes Fe and another star.

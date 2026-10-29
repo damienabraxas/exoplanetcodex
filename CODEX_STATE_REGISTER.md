@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v183** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v184** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Native MULTI spline oracle and reverse-charge hypothesis isolate major photospheric discrepancy; global/reference admission open | Four new Mac O41 controls converge. Native interpolation alone negligible; paired CH0 restores LTE collision closure to8e-16 and upper b mismatch to0.0054 over logtau[-3,0]. Outer layers still disagree; H LTE background can match spectra without population parity | RYA-1278/1281; docs/audit/rya1279/native_charge_review.md; docs/audit/rya1279/charge_reservoir_review.md; data/results/rya1281/native_charge_v1; open collision_convention bug; PR #598 | PENDING | Exact producer/reverse-process/opacity receipts and native reference inputs before convention adoption; outer UV/radiative mismatch and full3D/all-band gates remain open |
+| Bride O-first foundation | Sourced MN control corroborates photospheric result; coefficient encoding and finite-top boundary identified as open contracts | All240 CH0 entries match reverse/Boltzmann candidate within0.48%; two Mac solves converge. Sourced MN upper b error0.00552 over logtau[-3,0], surface still wrong.47-line LTE UV control does not solve it; independent photoionization integral agrees within0.03% at sampled lower-triplet depths | RYA-1278/1281; docs/audit/rya1279/author_charge_uv_review.md; data/results/rya1281/author_charge_v1; open collision_convention bug; PR #598 | PENDING | Verify finite-top optical-depth boundary and exact producer opacity/rate contract before adoption; CNO milestone then Fe then another star; full3D/all-band gates remain open |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -306,6 +306,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v184** (2026-10-28) — **RYA-1281 sourced charge and UV controls.** Author-pinned MN tables numerically identify a transformed CH0 contract; sourced statistical-J/LTE-reservoir pair and47-line UV-background cases converge without abundance tuning. Surface mismatch remains; native held source has a finite-top-depth boundary unlike local ZeroRadiation.18 artifacts/3 figures archived; no default/adopted physics changed. SEQUENCE records main PRs599/600/601 from merged diffs and ticket reports, without merging main into this branch.
 
 - **v183** (2026-10-28) — **RYA-1281 reverse-reservoir audit started.** Held atom has 24 forward CH0 tables and no explicit reverse table; conditional microscopic H-minus reverse coefficient distinguished from effective LTE-restoring rate. Two H-minus reservoir calculations agree at sampled layers; no new RT/SE or rate adoption. Ryan sets CNO first, then Fe, then another star. See docs/audit/rya1279/charge_reservoir_review.md.
 

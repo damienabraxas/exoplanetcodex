@@ -25570,3 +25570,94 @@ artifacts:
     invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --case-directory "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0" --case-receipt "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v1/summary.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-paired-rates-v2"
     ticket: RYA-1281
     note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/report.json
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/coefficient_comparison.csv
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/author_input_receipt.json
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/summary.json
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/barklem2018_MN_LTE_pair_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/author_MN_with_native_LTE_UV_background_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/photoionization/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-paired-report> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/photoionization/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-paired-report> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.

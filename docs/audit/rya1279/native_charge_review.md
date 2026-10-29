@@ -1,5 +1,7 @@
 # Native MULTI interpolation and reverse charge-transfer investigation
 
+> Follow-up: [author coefficient and UV audit](author_charge_uv_review.md) traces all240 CH0 entries to a reverse/Boltzmann relationship, tests sourced MN and identifies a finite-top-depth boundary difference. Earlier controls remain non-adopted.
+
 Continuation of RYA-1281 from ae5e65c3. Worktree codex/rya1279, existing stacked
 draft PR #598. Refreshed main is now 5d517cbc (Na PR #595 merged); the experimental
 branch is not merged/rebased into that new scientific state. All new calculations

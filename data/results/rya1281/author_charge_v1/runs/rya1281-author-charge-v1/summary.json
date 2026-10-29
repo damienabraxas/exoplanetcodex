@@ -1,0 +1,41 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "809c870a3d73875a1d4e224b7281de8ffe896f01",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 11129,
+    "sha256": "14673b68ca9ea3e834b661639cf6975a151b9d0c2ad10eceb48340055fa88fb9"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 8265,
+    "sha256": "630c1e1a6d75a57a4f0bbd30014cff8bfc400a08b8fde01145c6c77c3a613f5c"
+  },
+  "plan": {
+    "name": "rya1281_mac_author_charge_control.json",
+    "bytes": 857,
+    "sha256": "f438b317e6c1547fc665730bb72ff1627ca18069003983f7dd4cb16ad1f4f9f5"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "barklem2018_MN_LTE_pair",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2776,
+        "sha256": "b6d7119b7633b07f8ab952a005878af4c0f3fd8d707fcd1ff9dbfb06f25c7dd0"
+      }
+    }
+  ]
+}

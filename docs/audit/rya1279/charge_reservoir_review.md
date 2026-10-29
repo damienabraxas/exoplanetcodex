@@ -1,5 +1,7 @@
 # Reverse charge-transfer contract: first verification step
 
+> Follow-up: [author coefficient and UV audit](author_charge_uv_review.md) traces all240 CH0 entries to a reverse/Boltzmann relationship, tests sourced MN and identifies a finite-top-depth boundary difference. Earlier controls remain non-adopted.
+
 Continuation of the native-charge review at f3aa992c. This is a Mac LTE-reservoir
 inspection, not a new RT/SE solve, rate adoption or producer identification.
 Ryan's sequence is oxygen, then carbon and nitrogen (CNO milestone), then Fe,

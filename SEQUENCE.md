@@ -1,3 +1,12 @@
+## 2026-10-28 — source contracts and current-main reconciliation
+
+- **RYA-1281** — sourced CH0/MN audit and two Mac controls; finite-top boundary is next; no admission or adopted rate change.
+
+> **Current as of `main` 9d3ebbea** (2026-10-28 audit; fetched Git, merged diffs and ticket reports).
+
+- **RYA-1250** — `e1e0790a` PR #600 landed Mg orchestrator work:219 live,24 quarantined,9 held;172 units x9 budget legs. Source: ticket close c36f5495 and merged69569fe3 diff. Recorded only; no Bride rerun or main merge.
+- **RYA-1251** — `d72492a0` PR #599 adds the Canocchi bibliography row (ticket169e4ff0 confirms science599 merged); `9d3ebbea` PR #601 lands published-sigma accounting from Asplund2021. Scope verified in merge diffs; no new abundance calculations here.
+
 ## 2026-10-28 — merged-main reconciliation
 
 - **RYA-1281** — reverse-reservoir contract probe; no adopted rates; Ryan sets CNO milestone before Fe and another star.
