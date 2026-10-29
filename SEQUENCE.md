@@ -10,6 +10,12 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-10-28 — RYA-1310 landed
+
+> **Current as of `main` 42987358** (2026-10-28, RYA-1310).
+
+- **RYA-1310** — `a1130fc6` PR #603. IAG is not used in the solar VIS band (Ryan 2026-10-28): `run_matrix.EXCLUDED_HOLDING_BANDS` skips (iag_fts_solar_atlas, VIS) and the run report names it; 97 live IAG VIS products archived (Fe 33, Mg 26, Na 25, Si 6, Al 4, C 3), no headline moved; `Fe_perline.csv` and the rya935 tracker regenerated on Sirius. Site #75 (pages), #76 (Deep Grade yellow), #77 (CSS stamp). Follow-up branch `ryandamienschmitt/fe-forest-shows-deep-grade`: the forest draws Deep Grade in every band; the local-continuum Deep pool gets its own section.
+
 ## 2026-10-28 — pending RYA-1250 branch
 
 - **RYA-1250** (pending, branch `ryandamienschmitt/rya-1250-mg-fix`) — Mg through the orchestrator on Sirius: 1548 budget legs, 0 failed; 219 published / 24 quarantined / 9 held. First CRIRES+ K Mg products (7.507). Leg filing, partial-report refusal and empty-pool memo stop a narrowed run from deleting legs or re-trying dead cells.
