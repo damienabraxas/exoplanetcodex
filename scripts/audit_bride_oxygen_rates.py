@@ -42,7 +42,7 @@ def main():
     origin=require_codex_path('experiments.bride_mac_grid')/'rya1281-v1/baseline'
     archive=ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
-    convention=None;hydrogen_lines=False
+    convention=None;hydrogen_lines=False;uv_lines=False
     if args.case_directory is not None:
         if args.case_receipt is None:raise ValueError('Native control replay requires an independent population receipt')
         origin=args.case_directory
@@ -59,8 +59,9 @@ def main():
         if manifest['controls']['rays']!=3 or manifest['controls']['qscale']!=1 or manifest.get('diagnostic_collision_scales'):
             raise ValueError('Rate replay requires pinned rays/qscale and unscaled source coefficients')
         hydrogen_lines=case.get('lte_h_background_lines',False)
+        uv_lines=case.get('lte_uv_background_lines',False)
         convention=manifest.get('experimental_collision_convention')
-        if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
+        if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0','barklem2018_MN_LTE_pair'):
             raise ValueError('Unsupported native control interpretation')
         control_receipt=json.loads(args.case_receipt.read_text())
         hit=next(c for c in control_receipt['cases'] if c['name']==origin.name and c['source_run']==origin.parent.name)
@@ -84,12 +85,14 @@ def main():
         source_manifest=fingerprint(origin/'manifest.json'),experimental_collision_convention=convention,
         case_receipt=fingerprint(args.case_receipt) if args.case_receipt is not None else None,
         lte_h_background_lines=hydrogen_lines,
+        lte_uv_background_lines=uv_lines,
         controls=dict(rays=3,qscale=1,J_rtol=1e-8,maxiter=1000,seconds_per_mode=180,SE_updates=False),
         caveat='External b on local LTE is a shape intervention, not native MULTI radiation/rates. No native MULTI rate dump is held here.',modes=[])
     def save():(args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     save();rows=[]
     for mode,pop in [('local_nlte',native),('local_lte',nstar),('external_b_local_lte',external)]:
-        start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1,lte_h_background_lines=hydrogen_lines)
+        start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1,
+            lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines)
         atom=ctx.activeAtoms[0];np.testing.assert_allclose(atom.nStar,nstar,rtol=64*np.finfo(float).eps,atol=0)
         if convention is not None:
             from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
@@ -98,6 +101,13 @@ def main():
                 raise ValueError('Replay oracle differs from the verified source control')
             install_native_collision_control(ctx,source,oracle,source_directions=convention!='native_tautsp_rh_directions',
                 reversible_ch0=convention=='native_tautsp_lte_balanced_CH0')
+            if convention=='barklem2018_MN_LTE_pair':
+                from pipeline.bride_charge_contract import install_author_mn_pair
+                author_receipt=install_author_mn_pair(ctx,source,
+                    require_codex_path('experiments.bride_barklem_oxygen'),oracle)
+                if author_receipt!=manifest['author_charge_control']:
+                    raise ValueError('Changed author collision contract')
+                report['author_charge_control']=author_receipt
         atom.n[:]=pop
         for iteration in range(1000):
             if time.perf_counter()-start>180:raise TimeoutError('Rate replay budget exceeded')

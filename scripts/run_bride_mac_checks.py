@@ -78,8 +78,15 @@ def main():
                 temperature_range_K=[float(structure['temperature_K'].min()),float(structure['temperature_K'].max())],
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
             hydrogen_lines=case.get('lte_h_background_lines',False)
+            uv_lines=case.get('lte_uv_background_lines',False)
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True),
-                lte_h_background_lines=hydrogen_lines)
+                lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines)
+            if uv_lines:
+                from lightweaver import rh_atoms
+                m['lte_uv_background_lines']=dict(source=fingerprint(rh_atoms.__file__),
+                    species=[dict(element=str(a.atomicModel.element),lines=len(a.atomicModel.lines),
+                                  continua=len(a.atomicModel.continua))for a in ctx.detailedAtoms],
+                    interpretation='Native passive atoms with 100-300 nm line centers moved to fixed LTE/CRD; native continua and spectral sampling also change; incomplete line blanketing')
             if hydrogen_lines:
                 from lightweaver import rh_atoms
                 m['lte_h_background_lines']=dict(source=fingerprint(rh_atoms.__file__),
@@ -126,7 +133,8 @@ def main():
                 else:raise RuntimeError('Joint convergence not reached')
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
-                fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines)
+                fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines,
+                lte_uv_background_lines=uv_lines)
             for j in range(1000):
                 if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
                 u=continuum.formal_sol_gamma_matrices()

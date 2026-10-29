@@ -35,8 +35,28 @@ def test_sourced_pair_full_atom_balance_and_complete_branching():
     np.testing.assert_array_equal(net[gross==0],0.)
     assert np.max(abs(net[gross>0])/gross[gross>0])<1024*np.finfo(float).eps
     # Conditional inverse requires the declared reservoir, even after installation.
-    h=ctx.kwargs['eqPops'].atomicPops['H'];saved=h.n.copy();h.n[:]*=1.01
+    h=ctx.kwargs['eqPops'].atomicPops['H'];saved=h.pops;h.n=h.nStar.copy()*1.01
     try:
         with pytest.raises(ValueError,match='requires LTE hydrogen'):
             atom.compute_collisions(fillDiagonal=False)
-    finally:h.n[:]=saved
+    finally:h.pops=saved
+
+
+def test_uv_background_retains_lte_and_oxygen_lte_identity():
+    pytest.importorskip('lightweaver')
+    import json
+    from config.constants import require_codex_path
+    from pipeline.bride_reference import read_marcs_structure,make_reference_context
+    from pipeline.multi_atom import read_multi_atom
+    atom_path=require_codex_path('experiments.bride_oxygen_atom')
+    ref=json.loads((atom_path.parent/'reference-5750-4.5-A8.70-v1.json').read_text())
+    source=read_multi_atom(atom_path)
+    structure=read_marcs_structure(require_codex_path('grids.marcs_standard')/ref['atmosphere_file']['name'])
+    baseline=make_reference_context(structure,source,rays=3,qscale=1)
+    control=make_reference_context(structure,source,rays=3,qscale=1,lte_uv_background_lines=True)
+    np.testing.assert_array_equal(baseline.activeAtoms[0].nStar,control.activeAtoms[0].nStar)
+    assert sum(len(a.atomicModel.lines)for a in control.detailedAtoms)==47
+    for background in control.detailedAtoms:
+        h=control.kwargs['eqPops'].atomicPops[background.atomicModel.element]
+        np.testing.assert_array_equal(h.n,h.nStar)
+        assert all(100<=line.lambda0<=300 for line in background.atomicModel.lines)

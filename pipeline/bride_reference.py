@@ -17,7 +17,8 @@ def marcs_number_densities(structure):
 
 
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
-                           fixed_populations=None,continuum_only=False,lte_h_background_lines=False):
+                           fixed_populations=None,continuum_only=False,lte_h_background_lines=False,
+                           lte_uv_background_lines=False):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -52,6 +53,20 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
         hydrogen=radset.atoms[PeriodicTable['H']]
         for line in hydrogen.lines:line.type=LineType.CRD
         radset.set_detailed_static('H')
+    if lte_uv_background_lines:
+        # Bounded native-atom UV opacity diagnostic, not complete line blanketing.
+        # Detailed-static species also contribute their native continua/sampling.
+        from lightweaver.atomic_model import LineType
+        for background in radset.atoms.values():
+            if background.element == model.element:
+                continue
+            selected=[line for line in background.lines if 100. <= line.lambda0 <= 300.]
+            if not selected:
+                continue
+            background.lines=selected
+            for line in selected:
+                line.type=LineType.CRD
+            radset.set_detailed_static(background.element)
     eq=radset.compute_eq_pops(atmosphere)
     if fixed_populations is not None:
         actual=eq.atomicPops[model.element].n
