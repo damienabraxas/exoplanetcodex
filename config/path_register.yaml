@@ -125,6 +125,11 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_barklem_oxygen:
+    root: work
+    rel: bride_inputs/rya1281/barklem-oxygen-cd2f54ed
+    kind: dir
+    desc: Hash-pinned author O+H rate matrices for non-adopted reverse-channel diagnostics; not a production atomic bundle.
   experiments.bride_multi_spline_oracle:
     root: work
     rel: bride_inputs/rya1281/native-spline-v2

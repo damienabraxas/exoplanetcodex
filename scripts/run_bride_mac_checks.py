@@ -86,12 +86,16 @@ def main():
                     interpretation='Native H_6_atom fixed LTE populations, CRD lines; not an H NLTE/PRD model')
             convention=case.get('experimental_collision_convention')
             if convention:
-                if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0'):
+                if convention in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0','barklem2018_MN_LTE_pair'):
                     from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
                     oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
                     m['native_spline_control']=install_native_collision_control(ctx,atom,oracle,
                         source_directions=convention!='native_tautsp_rh_directions',
                         reversible_ch0=convention=='native_tautsp_lte_balanced_CH0')
+                    if convention=='barklem2018_MN_LTE_pair':
+                        from pipeline.bride_charge_contract import install_author_mn_pair
+                        m['author_charge_control']=install_author_mn_pair(ctx,atom,
+                            require_codex_path('experiments.bride_barklem_oxygen'),oracle)
                 elif convention in ('directed_CH0_lograte','gencol_CH_down_directed_CH0_lograte'):
                     from pipeline.bride_gencol_controls import install_gencol_control
                     install_gencol_control(ctx,atom,change_ch=convention.startswith('gencol_CH_down'))
