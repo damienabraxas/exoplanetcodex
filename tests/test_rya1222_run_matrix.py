@@ -106,13 +106,14 @@ def test_harps_vis_is_on_the_matrix(rm):
 
 
 def test_the_window_is_clipped_to_what_the_holding_serves(rm):
-    """IAG serves 5001.1 A upward, so its VIS cell starts there -- as RYA-1218's own
-    artifact stem (`SiI_5002_6910_iag_...`) independently says it did."""
-    iag = [d for d in rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], methods=["profile-fit"])
-           if d.holding == "solar_iag" and d.band == "VIS"]
-    assert len(iag) == 1
-    assert iag[0].lo_A == pytest.approx(5001.1)
-    assert iag[0].hi_A == pytest.approx(6910.0)
+    """The IAG Reiners blue arm declares 4047.4-5001.1 A, so the red-optical band clips to
+    nothing on it and it owns no cell there, while the Baker atlas (5001.1 A upward) does.
+    (RYA-1310: IAG VIS, where this was first checked, is no longer built.)"""
+    cells = rm.expand("solar", "Si", ions=["I"], engines=["ts-lte"], methods=["profile-fit"])
+    red = {d.holding: (d.lo_A, d.hi_A) for d in cells if d.band == "red-optical"
+           and d.instrument == "iag_fts_solar_atlas"}
+    assert "solar_iag_reiners2016" not in red
+    assert red["solar_iag"] == (pytest.approx(6910.0), pytest.approx(9199.0))
 
 
 def test_a_holding_that_inventories_its_own_coverage_is_not_clipped(rm):

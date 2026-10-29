@@ -232,8 +232,7 @@ def test_the_four_RYA1106_products_PUBLISH_without_colliding(doc):
     res = ROOT / "data" / "results" / "rya1106"
     hold_by_dir = {"kpno_kurucz2005": "solar_kpno_kurucz2005_corrected",
                    "kpno_molecfit": "solar_kpno_molecfit_corrected",
-                   "harps_molecfit": "solar_harps_molecfit_corrected",
-                   "iag": "solar_iag"}
+                   "harps_molecfit": "solar_harps_molecfit_corrected"}   # IAG VIS withdrawn, RYA-1310
     live = {p["holding"]: p for p in doc["products"]
             if p.get("treatment") == "ENGINE-A-3DNLTE"}
 
@@ -255,9 +254,9 @@ def test_the_four_RYA1106_products_PUBLISH_without_colliding(doc):
 
     # 1. no identity is duplicated once line_set separates them
     assert pe.duplicate_live_cells(merged) == {}
-    # 2. and the count of identities grew by exactly the four we added
+    # 2. and the count of identities grew by exactly the ones we added (3 since RYA-1310)
     assert len({pe.key_of(p) for p in merged["products"]}) == \
-           len({pe.key_of(p) for p in doc["products"]}) + 4
+           len({pe.key_of(p) for p in doc["products"]}) + len(staged)
     # 3. every staged product clears the eligibility gate
     bad = {k: [f"{r.code}: {r.detail}" for r in v]
            for k, v in pe.evaluate_feed(merged).items() if v}

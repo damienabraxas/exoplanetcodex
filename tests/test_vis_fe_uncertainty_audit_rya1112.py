@@ -242,8 +242,9 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     #: ENGINE-A-3DNLTE product, so the exemption reaches them BY THE RULE rather than by
     #: anyone deciding it does. That is the property worth having: the tier is new and
     #: the rule needed no edit to cover it. The COUNT moves; the rule above does not.
+    #: RYA-1310 — 12 → 9. IAG is no longer used in VIS, so its three Amarsi legs left the feed.
     na = [r for r in doc["products"] if r["xi_applicability"].startswith("NOT APPLICABLE")]
-    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 12
+    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 9
     assert {r["treatment"] for r in na} == {"ENGINE-A-3DNLTE"}
     #: and the exemption is reached on EVERY pool the engine ran on, not just the old ones
     assert {r["tier"] for r in na} == {"GRADED", "ALL", "REFERENCE"}
@@ -252,7 +253,8 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     mean3d = [r for r in doc["products"] if "mean3D" in r["treatment"]]
     #: 4 -> 19 (RYA-1232): + 15 Asplund-set VIS mean-3D products (5 holdings x Fe I LTE,
     #: Fe I NLTE, Fe II LTE); the rule below must hold on every one of them.
-    assert len(mean3d) == 19
+    #: RYA-1310: 19 -> 13, the 6 IAG VIS mean-3D products were withdrawn (IAG is not used in VIS)
+    assert len(mean3d) == 13
     for r in mean3d:
         assert r["xi_applicability"].startswith("APPLIES"), (
             "the <3D> mean was exempted again — RYA-1099 measured it as xi-SENSITIVE")
