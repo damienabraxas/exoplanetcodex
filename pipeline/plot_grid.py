@@ -78,9 +78,14 @@ def display_section_of(p: dict) -> tuple:
     the row name, so the pool has to be part of what separates two sections or one of
     them is dropped without a word. Resolved through `reference_lineset`, never stored
     twice, so this cannot drift from the identity key the renderer joins on.
+
+    RYA-1310: + the continuum VARIANT. Once Deep Grade is drawn, HARPS Fe I carries two Deep
+    pools that agree on every other axis -- the plain one and the local-continuum rerun
+    (selector DEEPGRADED-LOCALRENORM) -- and one bucket would silently keep only one of them.
     """
     from pipeline.reference_lineset import line_set_for_product
-    return section_of(p) + (line_set_for_product(p),)
+    variant = "local continuum" if str(p.get("selector") or "").endswith("-LOCALRENORM") else ""
+    return section_of(p) + (line_set_for_product(p), variant)
 
 
 #: 🔴 THE SHOWCASE RULE IS ON `grade`, NOT ON `tier`, AND THAT DISTINCTION IS THE BUG IT
@@ -96,11 +101,14 @@ def display_section_of(p: dict) -> tuple:
 #: tier for every product that was already displayable (Codex Grade 59 <-> GRADED, Deep
 #: Grade 29 <-> DEEPGRADED), so moving the rule to grade admits exactly those four and
 #: changes nothing else. Ryan ruled them IN, 2026-09-25.
-SHOWCASE_GRADES = ("Codex Grade", "Reference Grade")
+#: RYA-1310 (Ryan 2026-10-28): Deep Grade is drawn too, in every band, and the site tints it
+#: yellow -- strong lines, kept but less certain. It used to be secondary ("documented in its
+#: own section, not showcased", drawn only where a band had nothing else), which hid 8 of the
+#: 9 Fe I Deep products from the forest while the Mg/Na pages drew theirs.
+SHOWCASE_GRADES = ("Codex Grade", "Reference Grade", "Deep Grade")
 
-#: Secondary by policy: "DEEPGRADED is a secondary product -- documented in its own
-#: section, not showcased", with the deep-only exception below.
-SECONDARY_GRADES = ("Deep Grade",)
+#: No grade is secondary any more; kept so `_why_not_displayed` still names the rule.
+SECONDARY_GRADES: tuple = ()
 
 
 def _why_not_displayed(p: dict) -> str:
@@ -177,7 +185,7 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
             not_displayed.append({
                 "product_key": _pe.key_of(p),
                 "tier": p.get("tier"), "grade": p.get("grade"),
-                "selector": p.get("selector"), "line_set": display_section_of(p)[-1],
+                "selector": p.get("selector"), "line_set": display_section_of(p)[4],
                 "reason": _why_not_displayed(p),
             })
 
@@ -199,6 +207,7 @@ def build(products: list[dict], *, include_pending: bool = False) -> dict:
             # sections now differ only here, and an unlabelled pair would read as a
             # duplicate rather than as two grades of one cell.
             "line_set": key[4],
+            "variant": key[5],
             # ⚠️ THE FLAG IS ABOUT THIS SECTION, NOT ABOUT THE BAND. The renderer prints
             # "DEEPGRADED (no graded product in this band)" from it, and a Reference
             # section in a band that happens to have no Codex product would otherwise

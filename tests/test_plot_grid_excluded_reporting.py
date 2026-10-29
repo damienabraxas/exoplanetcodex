@@ -29,6 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from pipeline import plot_grid as pg          # noqa: E402
+from pipeline import product_eligibility as pe  # noqa: E402
 
 FEED = ROOT / "data" / "products" / "solar" / "Fe.json"
 
@@ -57,12 +58,12 @@ def test_the_accounting_closes_on_every_product(grid, products):
         f"{len(products)} products — some product is leaving the grid uncounted")
 
 
-def test_something_is_actually_being_held_back(grid):
-    """The precondition. If the display policy ever draws everything this file is vacuous,
-    and a reader deserves to be told that rather than shown a green tick."""
-    assert grid["not_displayed"], (
-        "no product is held back, so the reporting path is untested — delete this file or "
-        "fix the fixture, do not leave it passing on nothing")
+def test_nothing_is_held_back_now_that_every_grade_is_drawn(grid):
+    """RYA-1310 (Ryan 2026-10-28): Deep Grade is drawn too (in yellow on the site), so every
+    recognised grade is shown and `not_displayed` is empty. The reporting path is still
+    exercised by `test_removing_the_report_breaks_the_accounting` below, which refuses
+    everything and checks every refusal is recorded."""
+    assert grid["not_displayed"] == [], grid["not_displayed"][:3]
 
 
 def test_every_held_product_says_why_and_can_be_identified(grid):
@@ -100,14 +101,12 @@ def test_a_reference_GRADE_product_outside_the_reference_TIER_is_never_silent(gr
                 "next reader re-discovers it: " + reason)
 
 
-def test_the_deep_tier_is_held_back_for_the_reason_ryan_stated(grid):
-    """Ryan's rule: "GRADED only. DEEPGRADED is a secondary product -- documented in its own
-    section, not showcased", with the near-UV exception where nothing else exists. So a Deep
-    product in `not_displayed` must be one whose section HAS a Codex product."""
-    deep = [r for r in grid["not_displayed"] if r["tier"] == "DEEPGRADED"]
-    assert deep, "no Deep product held back — the showcase rule is not being exercised"
-    for r in deep:
-        assert "secondary" in r["reason"] and "showcase product" in r["reason"], r["reason"]
+def test_the_deep_tier_is_drawn(grid, products):
+    """RYA-1310: Deep Grade was secondary ("documented in its own section, not showcased");
+    Ryan now wants it drawn in every band, so every Deep product is placed in the grid."""
+    placed = {c["product_key"] for s in grid["sections"] for c in s["cells"] if c["product_key"]}
+    deep = [p for p in products if p.get("grade") == "Deep Grade"]
+    assert deep and all(pe.key_of(p) in placed for p in deep)
 
 
 def test_removing_the_report_breaks_the_accounting(products, monkeypatch):
