@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Ca",
- "generated": "2026-10-24",
+ "generated": "2026-10-28",
  "sets": [
   {
    "set": "CA_AGSS21",
@@ -81,15 +81,32 @@
   {
    "set": "CA_AGSS21",
    "species": "Ca I",
-   "wavelength_A": 6169.3,
-   "ep_eV": 2.5243,
+   "wavelength_A": 6169.042,
+   "ep_eV": 2.523,
    "solar_literature": true,
-   "authors_loggf": -0.308,
-   "authors_sigma_dex": null,
+   "authors_loggf": -0.797,
+   "authors_sigma_dex": 0.0212,
    "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "no solar hfs-on VALD extract covers 6169.300 A"
+   "canonical_wavelength_A": 6169.042,
+   "canonical_loggf": -0.797,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0212,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CA_AGSS21",
+   "species": "Ca I",
+   "wavelength_A": 6169.563,
+   "ep_eV": 2.5257,
+   "solar_literature": true,
+   "authors_loggf": -0.478,
+   "authors_sigma_dex": 0.0212,
+   "authors_gf_source": "AGSS21 Table A.1",
+   "canonical_wavelength_A": 6169.563,
+   "canonical_loggf": -0.478,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0212,
+   "d_loggf": 0.0
   },
   {
    "set": "CA_AGSS21",
@@ -169,19 +186,6 @@
   {
    "set": "CA_AGSS21",
    "species": "Ca II",
-   "wavelength_A": 7323.89,
-   "ep_eV": 0.0,
-   "solar_literature": true,
-   "authors_loggf": -7.536,
-   "authors_sigma_dex": 0.03,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here"
-  },
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca II",
    "wavelength_A": 8248.796,
    "ep_eV": 7.5148,
    "solar_literature": true,
@@ -211,34 +215,9 @@
   }
  ],
  "adopt": [],
- "missing_lines": [
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca I",
-   "wavelength_A": 6169.3,
-   "ep_eV": 2.5243,
-   "solar_literature": true,
-   "authors_loggf": -0.308,
-   "authors_sigma_dex": null,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "no solar hfs-on VALD extract covers 6169.300 A"
-  },
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca II",
-   "wavelength_A": 7323.89,
-   "ep_eV": 0.0,
-   "solar_literature": true,
-   "authors_loggf": -7.536,
-   "authors_sigma_dex": 0.03,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here"
-  }
- ],
+ "sigma_only": [],
+ "adopt_conflicts": [],
+ "missing_lines": [],
  "gf_sources": [
   {
    "lab_source_tag": "denhartog2021_ca1:S&R81",
@@ -756,28 +735,6 @@
    "rew": -4.381,
    "saturated": true,
    "core_dv_kms": 0.41
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.042,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.616,
-   "ew_mA": 149.0,
-   "rew": -4.617,
-   "saturated": true,
-   "core_dv_kms": 0.02
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.563,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.675,
-   "ew_mA": 168.3,
-   "rew": -4.564,
-   "saturated": true,
-   "core_dv_kms": 0.24
   },
   {
    "species": "Ca I",
@@ -1541,50 +1498,6 @@
    "ok": true
   },
   {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 21,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.16,
-    0.33,
-    0.2,
-    0.34,
-    0.11
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 36,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.2,
-    0.33,
-    0.09,
-    0.41,
-    -0.23
-   ],
-   "frame_median_dv_kms": 0.53,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
    "holding": "solar_iag",
    "band": "red-optical",
    "lo_A": 6910.0,
@@ -1871,10 +1784,15 @@
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 72,
-  "missing_solar_literature_lines": 2,
+  "cull_candidates": 0,
+  "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
  },
- "ready": false
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
+ },
+ "ready": true
 }

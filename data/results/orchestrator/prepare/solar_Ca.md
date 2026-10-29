@@ -1,8 +1,6 @@
-PREPARE solar Ca  -> NOT READY -- blocking: cull_candidates 72, missing_solar_literature_lines 2
+PREPARE solar Ca  -> READY to measure
   F literature: litscan yes; set bibliography keys ['asplund2021']
-  A published sets: 14 lines; adopt authors' gf on 0; missing from canonical_gf: 2
-      MISSING CA_AGSS21 Ca I 6169.3: MISSING in canonical_gf; CANNOT be added automatically: no solar hfs-on VALD extract covers 6169.300 A
-      MISSING CA_AGSS21 Ca II 7323.89: MISSING in canonical_gf; CANNOT be added automatically: Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here
+  A published sets: 14 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
   B gf source denhartog2021_ca1:S&R81: 32 graded lines, classified
   B gf source NIST_ASD: 22 graded lines, classified
   B gf source denhartog2021_ca1:UW+M17+Ueda82: 15 graded lines, classified
@@ -17,7 +15,7 @@ PREPARE solar Ca  -> NOT READY -- blocking: cull_candidates 72, missing_solar_li
   F2 literature need: 10 Ca II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 112 Ca I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
   F2 literature need: 5 Ca II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 72
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 70
       Ca I 3948.9004: rew -3.973 depth 0.698
       Ca I 3957.0537: rew -4.082 depth 0.883
       Ca I 3973.7075: rew -3.923 depth 0.856
@@ -61,8 +59,6 @@ PREPARE solar Ca  -> NOT READY -- blocking: cull_candidates 72, missing_solar_li
       Ca I 6122.217: rew -4.442 depth 0.81
       Ca I 6161.297: rew -4.775 depth 0.474
       Ca I 6162.173: rew -4.381 depth 0.831
-      Ca I 6169.042: rew -4.617 depth 0.616
-      Ca I 6169.563: rew -4.564 depth 0.675
       Ca I 6439.075: rew -4.536 depth 0.805
       Ca I 6449.808: rew -4.607 depth 0.661
       Ca I 6462.567: rew -4.454 depth 0.781
@@ -91,4 +87,4 @@ PREPARE solar Ca  -> NOT READY -- blocking: cull_candidates 72, missing_solar_li
       Ca II 3706.024: rew -3.864 depth 0.947
       Ca II 3736.902: rew -3.787 depth 0.955
   D NLTE: 85 graded line(s) not in None
-  E holdings: 19 windows; 0 not serving / frame off rest
+  E holdings: 17 windows; 0 not serving / frame off rest

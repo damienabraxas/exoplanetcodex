@@ -142,7 +142,11 @@ def main(argv=None) -> int:
     rep = json.loads((OUT / f"{a.star}_{ELEMENT}.json").read_text())
     from config.constants import SOLAR_ASPLUND2021
     pn._A_SUN.setdefault(ELEMENT, SOLAR_ASPLUND2021[ELEMENT])
-    old = pd.read_csv(csv_path)
+    # RYA-1311: an element with no ENGINE-A table yet (Ca) starts one; the non-regression
+    # check then has nothing banked, so verify the solar node against the literature instead.
+    created = not csv_path.exists()
+    old = (pd.DataFrame(columns=["element", "ion", "wave_A", "teff_K", "logg", "feh", "delta_nlte"])
+           if created else pd.read_csv(csv_path))
     banked = sorted(old.loc[old.ion.map(parse_ion) == ION, "wave_A"].unique())
     new = sorted({round(m["wavelength_A"], 3) for m in rep["nlte_missing"]
                   if m["species"] == f"{ELEMENT} {_INT2ROMAN[ION]}"})
@@ -187,6 +191,10 @@ def main(argv=None) -> int:
     out.to_csv(csv_path, index=False)
     print(f"wrote {csv_path.name}: {len(old)} kept + {len(rows)} new = {len(out)} rows")
     prov = json.loads(prov_path.read_text()) if prov_path.exists() else {}
+    if created:
+        prov.setdefault("created", {"ticket": "RYA-1311", "date": str(date.today()),
+                                    "grid": "Amarsi 2020 GALAH PySME departure grid (pysme_nlte)",
+                                    "note": "new table; no banked rows to regress against"})
     prov.setdefault("extensions", []).append({
         "ticket": "RYA-1233", "date": str(date.today()),
         "ion": ION, "added_waves": sorted({r["wave_A"] for r in rows}),

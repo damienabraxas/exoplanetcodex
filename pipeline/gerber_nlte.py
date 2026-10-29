@@ -87,6 +87,11 @@ DECKS = {
     "Na": dict(Z=11, atom="atom.na_qmh",
                aux="auxData_Na_MARCS_Jul-14-2023.dat",
                grid="NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin"),
+    # RYA-1311. Staged and gated in RYA-534 (Ca_gerber2023.prov.json: md5-pinned, gate PASS on
+    # Ca I 6122/6162). The abundance-axis shape is read from this deck's own aux.
+    "Ca": dict(Z=20, atom="atom.ca105b",
+               aux="auxData_Ca_MARCS_Jun-02-2021.dat",
+               grid="NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin"),
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),
