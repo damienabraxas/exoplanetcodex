@@ -125,6 +125,20 @@ DECKS = {
                       # RYA-821: no vendor binary can read a <3D> deck -- see
                       # `read_deck_node` for the traced reason and the verified layout.
                       read_via="direct"),
+    # RYA-1311 -- Ca's <3D> deck, the Al@mean3D pattern: the `_marcs_names` aux keeps the
+    # metallicity in each STAGGER name (the solar member is p5777_g+4.4_m0.0_..._z+0.00, one
+    # name per [Fe/H]), so the Fe trap below does not arise, and like Al it carries an
+    # abundance axis (5.20, 5.30, ... at one atmosphere). Listed in TSFitPy's
+    # nlte_grids_links.cfg [Ca] since 2021 but never fetched; staged 2026-10-29, md5 in
+    # Ca_gerber2023.prov.json.
+    "Ca@mean3D": dict(Z=20, atom="atom.ca105b",
+                      aux="auxData_Ca_STAGGERmean3D_May-18-2021_marcs_names.txt",
+                      grid="NLTEgrid4TS_Ca_STAGGERmean3D_May-18-2021.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
     # RYA-710 (route found + staged under RYA-1035). Fe's <3D> deck -- the second element
     # to take the RYA-821 direct-read route, and the SIMPLER of the two.
     #
