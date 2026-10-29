@@ -15,6 +15,8 @@ def main():
     parser.add_argument('--reference',type=Path,required=True)
     parser.add_argument('--runs',nargs='+',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--record-failed-controls',action='store_true',
+                        help='Retain failed manifests/histories as failure receipts, without population curves')
     args=parser.parse_args()
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure
@@ -31,7 +33,7 @@ def main():
     target=np.array(reference['reference']['departures']);subset=(tau>=-3)&(tau<=0)
     args.output.mkdir(parents=True,exist_ok=False)
     result=dict(schema='codex.bride_author_charge_comparison/1',scientific_admission='HOLD',
-        generator=fingerprint(__file__),reference=fingerprint(args.reference),cases=[],
+        generator=fingerprint(__file__),reference=fingerprint(args.reference),cases=[],failed_controls=[],
         scope='logtau[-3,0] is a declared diagnostic subset, not a contribution function; no abundance fit')
     fig,axes=plt.subplots(1,3,figsize=(14,4));fluxfig,fluxax=plt.subplots(figsize=(10,4))
     for ax,level,label in zip(axes,(5,9,39),('Lower triplet','Upper triplet','O II ground')):
@@ -56,6 +58,12 @@ def main():
             casepath=directory/entry['name'];manifest_path=casepath/'manifest.json'
             if fingerprint(manifest_path)!=entry['manifest']:raise ValueError('Changed manifest')
             manifest=json.loads(manifest_path.read_text());case=manifest['case']
+            if manifest['status']=='FAILED' and args.record_failed_controls:
+                result['failed_controls'].append(dict(name=entry['name'],source_run=directory.name,
+                    source_summary=fingerprint(directory/'summary.json'),source_manifest=fingerprint(manifest_path),
+                    history=fingerprint(casepath/'history.jsonl'),error=manifest['error'],
+                    elapsed_seconds=manifest['elapsed_seconds']))
+                continue
             if (manifest['status']!='CONVERGED_EXPERIMENT' or manifest['atmosphere']!=reference['atmosphere_file']
                     or (case['xi'],case['abundance'],case['drop_bottom'])!=(1.,8.7,0)
                     or manifest['experimental_collision_convention'] not in ('barklem2018_MN_LTE_pair','native_tautsp_lte_balanced_CH0')
@@ -72,6 +80,19 @@ def main():
             curvepath=args.output/(entry['name']+'_departures.csv')
             np.savetxt(curvepath,curve,delimiter=',',header='logtau500,lower_b,upper_b,OII_b,reference_lower_b,reference_upper_b,reference_OII_b',comments='')
             sampled=int(np.argmin(abs(tau+1.2621)))
+            cap_diagnostic=None
+            if manifest.get('finite_column_top_cap'):
+                cap_path=casepath/'top_cap.npz';cap=np.load(cap_path)
+                length=float(cap['effective_length_m'])
+                if length!=manifest['finite_column_top_cap']['effective_length_m']:
+                    raise ValueError('Changed cap column metadata')
+                selected=[]
+                for wavelength in (121.57,130.20,135.56,277.2477,500.,777.4):
+                    k=int(np.argmin(abs(cap['wavelength_vac_nm']-wavelength)))
+                    selected.append(dict(wavelength_vac_nm=float(cap['wavelength_vac_nm'][k]),
+                        vertical_optical_depth=float(cap['chi_m_inv'][k]*length)))
+                cap_diagnostic=dict(snapshot=fingerprint(cap_path),selected_optical_depths=selected,
+                                    gridpoint_flux=fingerprint(casepath/'gridpoint_flux.csv'))
             result['cases'].append(dict(name=entry['name'],source_run=directory.name,
                 source_summary=fingerprint(directory/'summary.json'),source_manifest=fingerprint(manifest_path),
                 populations=fingerprint(casepath/'populations.npz'),flux=fingerprint(fluxpath),
@@ -89,6 +110,7 @@ def main():
                 experimental_collision_convention=manifest['experimental_collision_convention'],
                 author_charge_control=manifest.get('author_charge_control'),
                 finite_column_top_cap=manifest.get('finite_column_top_cap'),
+                top_cap_diagnostic=cap_diagnostic,
                 lte_uv_background_lines=manifest.get('lte_uv_background_lines')))
             for ax,level in zip(axes,(5,9,39)):ax.plot(tau,b[level],label=entry['name'])
             fluxax.plot(flux['wavelength_air_A'],flux['normalized_flux'],label=entry['name'])

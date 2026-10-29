@@ -40,6 +40,7 @@ def main():
         generator=fingerprint(__file__),source_report=fingerprint(args.rate_report),
         experimental_collision_convention=report.get('experimental_collision_convention'),
         lte_uv_background_lines=report.get('lte_uv_background_lines',False),
+        finite_column_top_cap=report.get('finite_column_top_cap',False),
         atom=report['atom'],arrays=[],
         method='4*pi/h integral sigma(lambda)*Jnu(lambda)/lambda d(lambda), raw linear sigma; backend WENO/grid-weight differences retained',
         interpretation='J/B indicates nonlocal radiation, not proof of opacity error. No rate, cross-section, boundary or abundance change.')
