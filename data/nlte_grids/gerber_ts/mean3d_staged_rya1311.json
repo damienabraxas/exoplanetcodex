@@ -1,0 +1,50 @@
+{
+  "ticket": "RYA-1311",
+  "staged": "2026-10-29",
+  "store": "/mnt/codex-ext/codex-grids/nlte/gerber_ts (Sirius)",
+  "source": "TSFitPy utilities/nlte_grids_links.cfg 3d_bin/3d_aux links (MPG Keeper, no DOI, md5-pinned here)",
+  "status": "STAGED ONLY -- not in gerber_nlte.DECKS; no product uses these. Registering one is that element's own ticket.",
+  "not_staged": {
+    "Mg": "our cfg's Nov-2024 links are dead (Keeper returned an HTML page). Upstream TSFitPy replaced Mg on 2026-10-26: new atom atom.mg86g_nq_qmax and new 1D + <3D> grids. Mg is finished on mg86d / Nov-13-2024; adopting the new set is Ryan's call."
+  },
+  "files_md5": {
+    "Ti": {
+      "NLTEgrid4TS_Ti_STAGGERmean3D_Aug-07-2023.bin": "95c43dd79331c7f9245b8968e06974e2",
+      "auxData_Ti_STAGGERmean3D_Aug-07-2023_marcs_names.txt": "b39d35143aceb3948d3720fe0b067ff2"
+    },
+    "Na": {
+      "NLTEgrid4TS_Na_STAGGERmean3D_Aug-04-2023.bin": "6575fa7c5f5da7fe4db6e0cc4a382e3d",
+      "auxData_Na_STAGGERmean3D_Aug-04-2023_marcs_names.txt": "042519491c200cbbfa6b897549239d0a"
+    },
+    "Si": {
+      "NLTEgrid4TS_Si_STAGGERmean3D_Aug-05-2023.bin": "b61445bf5389a39b8653f9c3edacecae",
+      "auxData_Si_STAGGERmean3D_Aug-05-2023_marcs_names.txt": "c90950adcc4e28d6d9aa63a429a9be76"
+    },
+    "Ba": {
+      "NLTEgrid4TS_Ba_STAGGERmean3D_Aug-11-2023.bin": "853ebfc69d875e510a3f3b13a8609c97",
+      "auxData_Ba_STAGGERmean3D_Aug-11-2023_marcs_names.txt": "a2daf5e07dfa761214b92d85955a8372"
+    },
+    "Co": {
+      "NLTEgrid4TS_Co_STAGGERmean3D_Nov-20-2024.bin": "8cbf5277cf7b481fb9cd9be453060b25",
+      "auxData_Co_STAGGERmean3D_Nov-20-2024_marcs_names.txt": "436770c87c0be9d074ad1b21ed98d3ff"
+    },
+    "H": {
+      "_source_zips/NLTEgrid4TS_H_STAGGERmean3D_Jun-17-2021.bin.zip": "dd9f311a81e20e639cb15a05c420442d",
+      "NLTEgrid4TS_H_STAGGERmean3D_Jun-17-2021.bin": "8c07b2439c72f8ce98a8a145f3ee4f62",
+      "auxData_H_STAGGERmean3D_Jun-17-2021_marcs_names.txt": "d0293909d3e57afd936275b59df7382d"
+    },
+    "Mn": {
+      "_source_zips/NLTEgrid4TS_Mn_STAGGERmean3D_May-17-2021.bin.zip": "63260748753a45fa1c234df7df8f4e1e",
+      "NLTEgrid4TS_Mn_STAGGERmean3D_May-17-2021.bin": "17af18b30b08393084bc372252fcebf6",
+      "auxData_Mn_STAGGERmean3D_May-17-2021_marcs_names.txt": "2bee651c0cf10257a9e19e77338ddd58"
+    },
+    "Ni": {
+      "NLTEgrid4TS_NI_STAGGERmean3D_Aug-12-2023.bin": "fb8b5f307ccd45f1a3f1c4165300dfaa",
+      "auxData_NI_STAGGERmean3D_Aug-12-2023_marcs_names.txt": "75c48cca6ccfec74a41cc91ff94774d5"
+    },
+    "Sr": {
+      "NLTEgrid_Sr_STAGGERmean3D_Jul-17-2023.bin": "619c30124e26aaf5d9735eea7b5a5ce9",
+      "auxData_Sr_STAGGEmean3D_Jul-17-2023_marcs_names.dat": "ae34df6b2071b11c919232e0f5f778f1"
+    }
+  }
+}
