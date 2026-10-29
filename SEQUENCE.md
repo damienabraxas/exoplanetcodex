@@ -1,3 +1,13 @@
+## 2026-10-29 — merged-main reconciliation
+
+> **Current as of `main` f8c723a8** (fetched during TS budget checkpoint).
+
+- **RYA-1317** — PR606 landed CNO per-group Asplund shifts/sigma stamps; merged diff and ticket00c7a562 checked. No Bride inputs or science state imported.
+
+## 2026-10-29 — independent Fe I continuum diagnosis
+
+- **RYA-1281** — independent near277nm budget traces weak local FeI background; EOS population difference too small; source control next.
+
 ## 2026-10-29 — conditional continuum budgets
 
 - **RYA-1281** — UV background differences survive frame/composition controls; local Si/Mg budget traced; producer/opacity gates stay open.

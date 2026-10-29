@@ -125,6 +125,12 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_ts_budget_build:
+    root: work
+    rel: bride_inputs/rya1281/ts-budget-build-v4
+    env: CODEX_BRIDE_TS_BUDGET_BUILD
+    kind: dir
+    desc: Pinned isolated Mac TS baseline and reporting-only derivative; diagnostic, not native MULTI producer.
   experiments.bride_marcs_opacity:
     root: work
     rel: bride_inputs/rya1281/marcs-opacity-v2

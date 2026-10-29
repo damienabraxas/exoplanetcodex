@@ -488,3 +488,29 @@ regeneration. Library now189documents/126accounted,63pre-existing unindexed rema
 Pre-existing results-ledger Ba/Sc documented-owed failures remain unchanged.
 Held Mac babsma_lu is present and ARM64 under engines.ispec; per-component DETABS
 printout exists in inspected source, but no new TS computation was started here.
+
+## 2026-10-29 native Fe I budget checkpoint
+
+Protected-source TS source21269948 baseline/reporting derivatives built on Mac.
+Original source/DATA/binaries untouched. Final build-v4, run-v8, analysis-v3;
+all prior attempts retained. Exact native REAL32+E14.7 T/Pe conversion checked;
+max density change0.0666% retained, no Pe recovery. Four cases0.83s total, one
+thread. Reporting preserves byte-identical serialized opacity at both OPA frame
+hypotheses. FeI84.37x local at277nm top while neutral Fe/kg1.0384x; netopacity
+perneutral81.25x includes level weighting/cross-sections, not a single-level
+cross-section measurement. TS absorption matches MARCS within0.12% there.
+Post-DETABS H/NH additions explicitly accounted. Full evidence in
+ts_fe_continuum_review.md and5review artifacts under ts_budget_v1.128tests pass,
+666known deprecations. Report-format-capacity bug characterized; distinct
+background_contract row OPEN. No opacity replacement/O NLTE run/adoption yet.
+
+SEQUENCE pre-push reconciliation initially caught newly merged RYA-1317/PR606
+(f8c723a8). Read merged diff and ticket00c7a562; recorded its CNO per-group
+Asplund/sigma-stamp scope only. No main merge or import of product state here.
+Registerv188 reflects only this experimental Fe background diagnosis.
+Generator guard remains2436diagnostics,0added/removed against prior branch;
+library189documents/126accounted,63pre-existing unindexed. No global green
+claim. Next: source-derived FeI packet over the O lower/upper triplet NUV
+photoionization supports; validate subtraction/Kirchhoff and EOS normalization
+controls, then bounded Mac O UV J/population/rate comparisons. No fitted opacity
+multiplier. Source frame/producer/full3D/all-band gates remain open.

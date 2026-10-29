@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v187** · _Last updated: 2026-10-29 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v188** · _Last updated: 2026-10-29 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Conditional continuum controls isolate UV background differences; producer admission remains open | Four LTE captures at822 samples x56 depths bracket OPA frame and O8.66/8.70. At2769.76A top local/MARCS absorption0.2675; frame effect0.0676%, O effect0.0000931%. Local Si/Mg dominate that bound-free budget; FUV scattering partition differs | RYA-1278/1281; docs/audit/rya1279/marcs_continuum_review.md; data/results/rya1281/marcs_continuum_v1; PR #598 | PENDING | Obtain component-resolved independent background and resolve H-wing absorption/scattering plus producer ne/nstar/J/rates before substitution/admission; OPA frame stays UNVERIFIED; column interpolation before capped solar reruns; CNO then Fe then another star; full3D/all-band open |
+| Bride O-first foundation | Independent near277nm budget identifies weak passive Fe I background; O admission open | TS/MARCS top absorption1.00119; native FeI84.37x local versus neutral Fe/kg1.0384x. Reporting derivative preserves serialized opacities exactly. T/Pe native quantization checked; EOS density change0.0666% retained | RYA-1278/1281; docs/audit/rya1279/ts_fe_continuum_review.md; data/results/rya1281/ts_budget_v1; background_contract open; PR #598 | PENDING | Validate source-derived FeI background controls over O photoionization supports, with no double count/fitted multiplier and fresh UV J/OII/rate checks; native producer and full3D/all-band gates open; O then C/N, Fe, another star |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -541,3 +541,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v186** (2026-10-28) — **RYA-1281 native LTE/opacity controls.** Pinned native LTEPOP oracle and independent Saha-Boltzmann checks isolate matched-input formula differences below0.0614%; actual producer normalization remains unknown. Individual exact MARCS opacity companion matches structure at printed precision; wavelength medium remains UNVERIFIED.44 focused tests pass. No SE/RT rerun, adoption or verdict change.
 
 - **v187** (2026-10-29) — **RYA-1281 conditional continuum budgets.** Four Mac LTE coefficient captures retain both OPA coordinate hypotheses and O8.66/8.70. UV absorption differences survive those controls; Si/Mg dominate the local277nm bound-free budget. H Rayleigh/wing partition differs in inspected independent source, so large FUV scattering ratios are not missing-opacity proof.120 focused tests pass; no SE update, solver substitution, adoption or verdict change.
+
+- **v188** (2026-10-29) — **RYA-1281 independent Fe I continuum diagnosis.** Protected-source Mac TS baseline/reporting builds give byte-identical opacity files. Independent Fe I contribution near277nm exceeds local by84x while neutral Fe differs only3.8%; post-DETABS H/NH additions retained.128 targeted tests pass. Native debug format-capacity defect characterized; background_contract remains open. No O NLTE rerun, opacity substitution or adoption.

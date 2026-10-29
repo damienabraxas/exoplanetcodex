@@ -25842,3 +25842,28 @@ artifacts:
     invocation: python scripts/analyze_bride_marcs_continuum.py --audit <verified-audit-with-external-arrays>/report.json --output <new-immutable-analysis>
     ticket: RYA-1281
     note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/ts_budget_v1/report.json
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/comparison.csv
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/native_components.csv
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/run_report.json
+    generator: scripts/run_bride_ts_budget.py
+    invocation: python scripts/run_bride_ts_budget.py --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/build_manifest.json
+    generator: scripts/build_bride_ts_budget.py
+    invocation: python scripts/build_bride_ts_budget.py --output <new-immutable-build>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
