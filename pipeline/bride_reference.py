@@ -19,7 +19,7 @@ def marcs_number_densities(structure):
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
                            fixed_populations=None,continuum_only=False,lte_h_background_lines=False,
                            lte_uv_background_lines=False,finite_column_top_cap=False,
-                           extra_wavelengths_vac_nm=None):
+                           extra_wavelengths_vac_nm=None,fe_background=None):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -89,7 +89,7 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
     spect=radset.compute_wavelength_grid(extraWavelengths=extra_wavelengths_vac_nm)
     options=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.) if ng and not lte else None
     ctx=lw.Context(atmosphere,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',
-                   conserveCharge=False,ngOptions=options)
+                   conserveCharge=False,ngOptions=options,backgroundProvider=fe_background)
     if cap is not None:ctx.depthData.fill=True
     return ctx
 

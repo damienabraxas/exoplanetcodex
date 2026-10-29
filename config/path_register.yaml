@@ -125,6 +125,12 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_fe_packet:
+    root: work
+    rel: bride_inputs/rya1281/fe-nuv-packet-v1
+    env: CODEX_BRIDE_FE_PACKET
+    kind: dir
+    desc: Source-derived TS FeI LTE background packet at the exact5750/4.5 node; bounded NUV intervention only, not production opacity.
   experiments.bride_ts_budget_build:
     root: work
     rel: bride_inputs/rya1281/ts-budget-build-v4

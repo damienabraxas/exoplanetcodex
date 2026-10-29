@@ -80,11 +80,20 @@ def main():
             hydrogen_lines=case.get('lte_h_background_lines',False)
             uv_lines=case.get('lte_uv_background_lines',False)
             top_cap=case.get('finite_column_top_cap',False)
+            fe_mode=case.get('fe_background_normalization');fe_provider=None
+            if fe_mode:
+                from pipeline import bride_fe_background
+                packet_path=require_codex_path('experiments.bride_fe_packet')
+                fe_provider=bride_fe_background.fe_factory(packet_path,fe_mode)
+                packet=json.loads((packet_path/'manifest.json').read_text())
+                m['experimental_fe_background']=dict(normalization=fe_mode,
+                    packet=fingerprint(packet_path/'manifest.json'),adapter=fingerprint(bride_fe_background.__file__),
+                    support_vac_nm=packet['support_vac_nm'],interpretation='Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor')
             if top_cap and case.get('interpolate',False):
                 raise ValueError('Finite-column cap requires a native atmosphere column, not interpolated metadata')
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True),
                 lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines,
-                finite_column_top_cap=top_cap)
+                finite_column_top_cap=top_cap,fe_background=fe_provider)
             if top_cap:
                 from pipeline import bride_top_cap
                 m['finite_column_top_cap']=dict(adapter=fingerprint(bride_top_cap.__file__),
@@ -158,7 +167,7 @@ def main():
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
                 fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines,
-                lte_uv_background_lines=uv_lines,finite_column_top_cap=top_cap)
+                lte_uv_background_lines=uv_lines,finite_column_top_cap=top_cap,fe_background=fe_provider)
             for j in range(1000):
                 if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
                 old_J_top=np.array(continuum.spect.J)[:,0].copy() if top_cap else None

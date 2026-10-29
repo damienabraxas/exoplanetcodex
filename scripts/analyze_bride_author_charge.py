@@ -110,6 +110,7 @@ def main():
                 experimental_collision_convention=manifest['experimental_collision_convention'],
                 author_charge_control=manifest.get('author_charge_control'),
                 finite_column_top_cap=manifest.get('finite_column_top_cap'),
+                experimental_fe_background=manifest.get('experimental_fe_background'),
                 top_cap_diagnostic=cap_diagnostic,
                 lte_uv_background_lines=manifest.get('lte_uv_background_lines')))
             for ax,level in zip(axes,(5,9,39)):ax.plot(tau,b[level],label=entry['name'])

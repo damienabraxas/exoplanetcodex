@@ -1,0 +1,47 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Predeclared source-derived FeI NUV replacement at native5750/4.5/O8.70, fixed sourced-MN collision contract and finite-column cap; compare raw native specific opacity versus per-neutral-Fe EOS normalization. Existing FeI bf is subtracted; scattering/active O unchanged; no fitted opacity factor. Bounded source support is not full producer replication.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "author_MN_cap_Fe_raw",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "finite_column_top_cap": true,
+      "fe_background_normalization": "raw_specific"
+    },
+    {
+      "name": "author_MN_cap_Fe_neutral",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "finite_column_top_cap": true,
+      "fe_background_normalization": "local_neutral"
+    }
+  ]
+}

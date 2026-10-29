@@ -514,3 +514,18 @@ claim. Next: source-derived FeI packet over the O lower/upper triplet NUV
 photoionization supports; validate subtraction/Kirchhoff and EOS normalization
 controls, then bounded Mac O UV J/population/rate comparisons. No fitted opacity
 multiplier. Source frame/producer/full3D/all-band gates remain open.
+
+## Source-derived FeI NUV control setup (continuing)
+
+Native TS NUV baseline/reporting packet run rya1281-ts-nuv-v1 completed at
+1601samples,200.0648-360.1027nm (native100sample extension retained). FeI-only
+packet staged at experiments.bride_fe_packet/fe-nuv-packet-v1; source native
+detail/opacities/build are hash-bound. Opt-in provider replaces old FeI bf,
+preserves scattering and LTE emissivity, refuses changed T/ne/nH/depth, and
+exposes raw_specific versus local_neutral controls. Actual-backend replacement,
+identity/no-double-count, emission, scattering, repeated recomputation, deepcopy
+and10K-node-refusal tests pass. Runner/rate/photoionization receipts preserve
+Fe packet identity; fixed-physics grid refuses this intervention. Predeclared
+plan rya1281_mac_fe_background_controls.json keeps1500iterations/600s per case,
+outer1e-6 and inner radiation1e-8, source-MN collisions/native cap unchanged.
+No new O solve at this implementation checkpoint; scientific HOLD remains.

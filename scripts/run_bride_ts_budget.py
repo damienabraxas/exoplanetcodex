@@ -20,6 +20,8 @@ sys.path.insert(0,str(ROOT))
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--support',choices=('node277','nuv200_350'),default='node277',
+        help='Predeclared diagnostic support; native output appends100 samples')
     args=parser.parse_args()
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure
@@ -46,15 +48,18 @@ def main():
     report=dict(schema='codex.bride_ts_budget_run/1',scientific_admission='HOLD',
         generator=fingerprint(__file__),parser=fingerprint(ROOT/'pipeline/bride_ts_budget.py'),
         build=fingerprint(build/'manifest.json'),atmosphere=intake['atmosphere'],
-        input_data=data_receipts,source_coordinate_A=2769.76,controls=dict(
+        input_data=data_receipts,support=args.support,
+        source_coordinate_A=2769.76 if args.support=='node277'else None,controls=dict(
             seconds_per_case=60,threads=1,NLTE=False,spectrum_synthesis=False,
             global_abundance_scaling_dex=0.,explicit_abundances=structure['abundances_dex']),cases=[])
-    for hypothesis,target in [('OPA_is_vacuum',float(vac_to_air(np.array([2769.76]))[0])),
-                              ('OPA_is_air',2769.76)]:
+    target=float(vac_to_air(np.array([2769.76]))[0])
+    windows=([('OPA_is_vacuum',target-1,target+1),('OPA_is_air',2768.76,2770.76)]
+             if args.support=='node277'else [('NUV_source_air',2000.,3500.)])
+    for hypothesis,lower,upper in windows:
         outputs=[]
         for kind in ('baseline','reporting'):
             directory=args.output/(hypothesis+'_'+kind);directory.mkdir();(directory/'DATA').symlink_to(staged,target_is_directory=True)
-            text=(f"'LAMBDA_MIN:' '{target-1:.9f}'\n'LAMBDA_MAX:' '{target+1:.9f}'\n"
+            text=(f"'LAMBDA_MIN:' '{lower:.9f}'\n'LAMBDA_MAX:' '{upper:.9f}'\n"
                   "'LAMBDA_STEP:' '1.0'\n"
                   f"'MODELINPUT:' '{model}'\n'MARCS-FILE:' '.true.'\n"
                   "'MODELOPAC:' 'continuum.opa'\n'LOGFILE:' 'detail.txt'\n"

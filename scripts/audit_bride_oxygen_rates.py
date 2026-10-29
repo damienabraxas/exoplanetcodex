@@ -42,7 +42,7 @@ def main():
     origin=require_codex_path('experiments.bride_mac_grid')/'rya1281-v1/baseline'
     archive=ROOT/'data/results/rya1281/mac_parameter_checks_v1/analysis.json'
     receipt=next(c for c in json.loads(archive.read_text())['cases'] if c['name']=='baseline')
-    convention=None;hydrogen_lines=False;uv_lines=False;top_cap=False
+    convention=None;hydrogen_lines=False;uv_lines=False;top_cap=False;fe_provider=None;fe_receipt=None
     if args.case_directory is not None:
         if args.case_receipt is None:raise ValueError('Native control replay requires an independent population receipt')
         origin=args.case_directory
@@ -61,6 +61,16 @@ def main():
         hydrogen_lines=case.get('lte_h_background_lines',False)
         uv_lines=case.get('lte_uv_background_lines',False)
         top_cap=case.get('finite_column_top_cap',False)
+        fe_mode=case.get('fe_background_normalization')
+        if fe_mode:
+            from pipeline import bride_fe_background
+            packet_path=require_codex_path('experiments.bride_fe_packet')
+            fe_receipt=manifest['experimental_fe_background']
+            if (fe_receipt['normalization']!=fe_mode
+                    or fe_receipt['packet']!=fingerprint(packet_path/'manifest.json')
+                    or fe_receipt['adapter']!=fingerprint(bride_fe_background.__file__)):
+                raise ValueError('Changed Fe background packet/adapter')
+            fe_provider=bride_fe_background.fe_factory(packet_path,fe_mode)
         convention=manifest.get('experimental_collision_convention')
         if convention not in ('native_tautsp_rh_directions','native_tautsp_source_directions','native_tautsp_lte_balanced_CH0','barklem2018_MN_LTE_pair'):
             raise ValueError('Unsupported native control interpretation')
@@ -88,6 +98,7 @@ def main():
         lte_h_background_lines=hydrogen_lines,
         lte_uv_background_lines=uv_lines,
         finite_column_top_cap=top_cap,
+        experimental_fe_background=fe_receipt,
         controls=dict(rays=3,qscale=1,J_rtol=1e-8,maxiter=1000,seconds_per_mode=180,SE_updates=False),
         caveat='External b on local LTE is a shape intervention, not native MULTI radiation/rates. No native MULTI rate dump is held here.',modes=[])
     def save():(args.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
@@ -95,7 +106,7 @@ def main():
     for mode,pop in [('local_nlte',native),('local_lte',nstar),('external_b_local_lte',external)]:
         start=time.perf_counter();ctx=make_reference_context(structure,source,rays=3,qscale=1,
             lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines,
-            finite_column_top_cap=top_cap)
+            finite_column_top_cap=top_cap,fe_background=fe_provider)
         if top_cap:
             from pipeline import bride_top_cap
             if (fingerprint(bride_top_cap.__file__)!=manifest['finite_column_top_cap']['adapter']
