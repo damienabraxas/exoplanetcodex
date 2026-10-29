@@ -83,14 +83,26 @@ def atomic(wl: float):
     return loggf, ep, ep + 12398.42 / wl, (vw if vw > 0 else 0.0)
 
 
+#: wavelength -> why its levels could not be resolved (RYA-1315). One unlabelled line used
+#: to abort every other line in the batch; it is now held, printed, and written to provenance.
+UNLABELLED: dict = {}
+
+
 def build_lines(waves):
     out = []
     for wl in waves:
-        data = atomic(wl)
-        loggf, ep, eup, vw = data[:4]
-        tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup, ion=ION)
+        try:
+            data = atomic(wl)
+            loggf, ep, eup, vw = data[:4]
+            tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup, ion=ION)
+        except ValueError as exc:
+            UNLABELLED[round(wl, 3)] = str(exc)
+            print(f"  {wl:10.3f} HELD: {exc}", flush=True)
+            continue
         if ION != 1 and (jl != data[5] or ju != data[6]):
-            raise ValueError(f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component")
+            UNLABELLED[round(wl, 3)] = f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component"
+            print(f"  {wl:10.3f} HELD: {UNLABELLED[round(wl, 3)]}", flush=True)
+            continue
         line = (wl, loggf, ep, jl, eup, ju, tl, tu, vw)
         out.append(line + (None, data[4]) if ION != 1 else line)
         print(f"  {wl:10.3f} loggf={loggf:+.3f} EP={ep:.3f} {tl} -> {tu} "
@@ -189,7 +201,7 @@ def main(argv=None) -> int:
     print(f"wrote {csv_path.name}: {len(old)} kept + {len(rows)} new = {len(out)} rows")
     prov = json.loads(prov_path.read_text()) if prov_path.exists() else {}
     prov.setdefault("extensions", []).append({
-        "ticket": "RYA-1233", "date": str(date.today()),
+        "ticket": os.environ.get("CODEX_TICKET", "RYA-1233"), "date": str(date.today()),
         "ion": ION, "added_waves": sorted({r["wave_A"] for r in rows}),
         "why": f"prepare check D: {len(new)} gf-graded {ELEMENT} {_INT2ROMAN[ION]} lines had no ENGINE-A row",
         "atomic_data": ("log gf + EP from canonical_gf (the values the measurement used); vdW "
@@ -204,6 +216,7 @@ def main(argv=None) -> int:
             bucket[f"{w:.3f}"] = (
                 "identically 0 at every node despite confirmed departure application; "
                 "held under the no-placeholder-zero admission policy; cause unestablished" if w in {round(z, 3) for z in zero} else
+                UNLABELLED[w] if w in UNLABELLED else
                 "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)")
     prov_path.write_text(json.dumps(prov, indent=2) + "\n")
     return 0
