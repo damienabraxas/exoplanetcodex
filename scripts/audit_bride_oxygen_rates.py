@@ -71,6 +71,8 @@ def main():
                     or fe_receipt['adapter']!=fingerprint(bride_fe_background.__file__)):
                 raise ValueError('Changed Fe background packet/adapter')
             fe_provider=bride_fe_background.fe_factory(packet_path,fe_mode)
+            if bool(fe_receipt.get('packet_sampling',False))!=bool(case.get('fe_packet_sampling',False)):
+                raise ValueError('Changed Fe packet sampling identity')
             if case.get('fe_packet_sampling',False):
                 if not fe_receipt.get('packet_sampling'):raise ValueError('Changed Fe packet sampling')
                 fe_samples=bride_fe_background.load_packet(packet_path)['wavelength_vac_nm']

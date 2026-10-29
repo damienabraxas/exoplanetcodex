@@ -136,3 +136,21 @@ columns are refused. A departure bundle must also identify its native LTE
 normalization, electron-density/EOS convention and level alignment; replaying b
 on another engine's LTE populations is a shape intervention until those match.
 See docs/audit/rya1279/top_cap_review.md for the measured evidence and limits.
+
+## Passive-background contracts learned from the O controls
+
+The near277nm independent component audit shows why a complete active O atom is
+not evidence of complete passive UV opacity. The held32level Fe model has15
+explicit continua; the independent native OP-based background gives much stronger
+FeI absorption at similar neutral Fe populations. See ts_fe_continuum_review.md.
+This is experimental input evidence, not a new adopted opacity prescription.
+
+Adaptive interfaces therefore need separate identities for the active NLTE atom
+and passive continuum/line background, including composition/EOS/level weighting,
+units and wavelength frame, opacity versus emissivity/scattering, temperature/
+density/depth support and overlap accounting. Source-derived net opacity per
+neutral atom still embeds the source's LTE level weighting; it is not a universal
+single-level cross-section. The current Fe packet deliberately refuses changed
+T/ne/nH and depth interpolation. Any extension to solar10K sampling or other
+stars needs newly evaluated or validated interpolated background data as well as
+atmospheres, with explicit subtraction to avoid double counting existing opacity.
