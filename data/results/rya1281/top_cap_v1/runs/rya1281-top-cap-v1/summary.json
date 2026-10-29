@@ -1,0 +1,50 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "5ddb7571d5bb0df86d5b41695bd929ce55674803",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 14126,
+    "sha256": "bde7e60d4c7ef40e8c8add33bda6d630dcd25db6e1e0c383822f0f29c7c00d69"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 9464,
+    "sha256": "73160d297c045a7dc31c8ed118201c6a6b0a18b905c45781c0281f08b4454e82"
+  },
+  "plan": {
+    "name": "rya1281_mac_top_cap_controls.json",
+    "bytes": 1162,
+    "sha256": "7841a9f126e322305eb05090d77d36ee30799be122ad14c5f13df2ea2cb9d960"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "author_MN_finite_column_cap",
+      "status": "FAILED",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2851,
+        "sha256": "319962ad9d8435b93a8dc96209a61b63f73bae4665d967ebd8bf6fe466957663"
+      }
+    },
+    {
+      "name": "raw_pair_finite_column_cap",
+      "status": "FAILED",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2121,
+        "sha256": "e4b71cb6a9421f6d02284b10cd98f932b421e9d08526f568bf98a337cf518c14"
+      }
+    }
+  ]
+}

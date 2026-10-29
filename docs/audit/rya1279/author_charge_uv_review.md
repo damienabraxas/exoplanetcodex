@@ -1,5 +1,7 @@
 # Sourced charge coefficients, UV controls and the surface boundary
 
+> Follow-up: [finite-column cap controls](top_cap_review.md) remove the triplet surface collapse under both tested collision contracts; full population/producer admission remains open.
+
 RYA-1281 / parent RYA-1278, continuing from 4f01ebde. Same stacked draft PR #598;
 all calculations below are bounded serial Mac diagnostics. Scientific admission
 remains **HOLD**. Ryan's element order remains O, then C/N (CNO milestone), then

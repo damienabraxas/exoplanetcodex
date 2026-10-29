@@ -125,3 +125,14 @@ Iron follows after shared reaction/rate provenance, population benchmarks and
 solar observation checks are established across CNO. Another-star validation
 follows the solar element work. This order does not imply C/N/Fe models are
 already ingested or scientifically admitted.
+
+## Boundary and departure-reference payloads learned from the O controls
+
+Atmosphere adapters must retain native top column mass, reference optical-depth
+coordinates and the boundary prescription, rather than silently equating the first
+finite-depth point with vacuum. The current opt-in mass-column cap is a static1D
+diagnostic, not a3D atmosphere extension. Missing or unvalidated interpolated
+columns are refused. A departure bundle must also identify its native LTE
+normalization, electron-density/EOS convention and level alignment; replaying b
+on another engine's LTE populations is a shape intervention until those match.
+See docs/audit/rya1279/top_cap_review.md for the measured evidence and limits.

@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v184** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v185** · _Last updated: 2026-10-28 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -91,7 +91,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 
 | Component | Verdict | Value | Established by | Status | Reopen only if |
 |---|---|---|---|---|---|
-| Bride O-first foundation | Sourced MN control corroborates photospheric result; coefficient encoding and finite-top boundary identified as open contracts | All240 CH0 entries match reverse/Boltzmann candidate within0.48%; two Mac solves converge. Sourced MN upper b error0.00552 over logtau[-3,0], surface still wrong.47-line LTE UV control does not solve it; independent photoionization integral agrees within0.03% at sampled lower-triplet depths | RYA-1278/1281; docs/audit/rya1279/author_charge_uv_review.md; data/results/rya1281/author_charge_v1; open collision_convention bug; PR #598 | PENDING | Verify finite-top optical-depth boundary and exact producer opacity/rate contract before adoption; CNO milestone then Fe then another star; full3D/all-band gates remain open |
+| Bride O-first foundation | Finite-column cap resolves triplet surface collapse in matched controls; complete population/producer admission open | Two nested Mac controls converge after two retained failed single-refresh attempts. All-depth upper b error1.249 ->0.026/0.037; fresh-rate residuals below4.65e-7. O II departures remain discrepant; visible triplet areas nearly unchanged | RYA-1278/1281; docs/audit/rya1279/top_cap_review.md; data/results/rya1281/top_cap_v1; open collision_convention and boundary_contract bugs; PR #598 | PENDING | Verify producer depth-boundary/opacity/Ne/LTE contracts and native-column interpolation before adoption or matched solar parameter reruns; CNO then Fe then another star; full3D/all-band gates open |
 | Agent readiness and ORCH completion evidence | Bootstrap/resolver validated on review branch; ORCH completion has open defects | See `docs/audit/rya1274_codex_readiness.md`; coverage error can report DONE, Reference budget routing and held-library indexing need follow-up | RYA-1274; RYA-1275/1276/1277 | OPEN | Follow-up fixes and independent evidence; no scientific gate signed off |
 | theo-EW spawn/fork bug | root-caused + fixed | force-fork + all-zero guard + tmp makedirs | RYA-506 (MERGED `3425995`) | SETTLED | — |
 | fork coverage | all entry points + both machines | centralized `pipeline/_runtime.py` force-fork + BLAS pins, imported by every entry point | RYA-514 (MERGED #129) | SETTLED — fork confirmed on Sirius py3.12 | — |
@@ -306,6 +306,8 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 | Reference Fe xi campaign | completed outputs integrated on review branch | 64 applicable pools: 60 measured; four two-line pools held by existing rule; four full-3D products N/A; zero NOT_IN_CAMPAIGN. Exactly 13 recovered VIS stamps updated, all 160 abundances and line counts unchanged | RYA-587; data/audit/rya1213_reference_matrix/xi_integration_rya587.json | PENDING | Ryan reviews PR #543; remaining four small-N classifications need methodological disposition, not another identical run |
 
 ## Changelog
+
+- **v185** (2026-10-28) — **RYA-1281 finite-column boundary controls.** Native RHOX retained with verified SI conversion; opt-in uniform-source cap uses actual top opacity/emission/scattering. Two single-refresh runs fail honestly; two nested radiation/SE runs converge at unchanged outer tolerances. Surface triplet collapse largely disappears under both collision contracts; O II/global reference admission remains open. Fresh-rate audits and171+3 targeted tests pass.28 artifacts/3 figures retained; defaults/gold/adopted values unchanged. Current-main PRs602/603/604 recorded without merging their science state.
 
 - **v184** (2026-10-28) — **RYA-1281 sourced charge and UV controls.** Author-pinned MN tables numerically identify a transformed CH0 contract; sourced statistical-J/LTE-reservoir pair and47-line UV-background cases converge without abundance tuning. Surface mismatch remains; native held source has a finite-top-depth boundary unlike local ZeroRadiation.18 artifacts/3 figures archived; no default/adopted physics changed. SEQUENCE records main PRs599/600/601 from merged diffs and ticket reports, without merging main into this branch.
 

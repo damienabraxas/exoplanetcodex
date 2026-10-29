@@ -365,3 +365,57 @@ using actual top opacity/source values. Test zero-depth, thick and angular limit
 before a matched O41 run. Do not tune thickness/temperature or inject arbitrary
 UV radiation. Then compare full-depth populations and fixed spectra, not only
 photospheric agreement. Solar CNO milestone precedes Fe and another star.
+
+## 2026-10-28 finite-column cap checkpoint
+
+See top_cap_review.md. Native RHOX is retained as kg/m2; native column/density
+sets effective84362.76027m cap with actual opacity/emission/scattering. Defaults
+remain ZeroRadiation; unsupported/interpolated columns cannot borrow a native
+anchor. Atmosphere interpolation now withholds unvalidated column metadata.
+No mesh/temperature/opacity multiplier is fitted.
+
+Original single-refresh plan (code5ddb7571) has2failed1500-step attempts, preserved
+in bride_mac_checks/rya1281-top-cap-v1. Separate predeclared nested J/cap solve
+(code3aca3092) converges both controls in291/836outer steps,199.8076/487.5533s:
+source top upper b1.27969 vs reference1.28139, all-depth upper errors0.02620/0.03675.
+Fresh radiation/R+C replays give4.646e-7/2.008e-7 physical imbalance. O II still
+fails reference population parity. Visible triplet window areas nearly unchanged.
+No new solar abundance, all-band validation or other-star claim.
+
+Original stores: bride_mac_checks/rya1281-top-cap-nested-v1,
+rya1281-top-cap-analysis-v2, rya1281-top-cap-author-rates-v1,
+rya1281-top-cap-raw-rates-v1, rya1281-top-cap-photoionization-v1. Earlier analysis
+and failed cases retained.28registered review artifacts and3figures archived in
+top_cap_v1; full rate arrays external. All owned science jobs finished; no new
+Sirius science jobs or dependency installs. Source constructor/adapter receipts
+preserve exact code identities. Existing collision_convention row remains open;
+a distinct boundary_contract row records this newly controlled geometry issue.
+
+Validation:171focused science tests pass (666 upstream deprecation warnings),
+3installed iSpec checks pass (4 warnings). Actual fixed-physics grid rejection,
+source-page consistency, generator diagnostic comparison and register freshness
+are checked at handoff. Standing library audit is now188documents/125accounted;
+new unindexed Beichman2025/Sanghi2025 papers are unrelated to this experiment.
+No global library-green, current-main suite-green or CI-green claim.
+
+Main fetched42987358: PR602 uncertainty follow-up, PR603 withdraws97IAG VIS
+products, PR604 runbook lessons. SEQUENCE sources those merged changes and the
+RYA-1310 close; none merged/rebased into this stacked Bride branch. Kitt Peak
+source/policy and other frozen experiment inputs unchanged. State Registerv185
+preserves scientific HOLD and exact source/producer/normalization gates.
+
+Exact resume: establish native producer depth mode and actual LTE populations,
+electron density and opacity/radiation references before interpreting the O II
+b discrepancy as an absolute ion-fraction error. Held LTEPOP includes the usual
+0.5 electron phase-space factor; no factor-of-two defect was established. Then
+check boundary normalization/background sensitivity without fitting factors;
+validate native-column interpolation before capped solar-parameter reruns.
+Continue O then C/N (CNO milestone), then Fe, then another star.
+
+Handoff checks completed: fixed-physics grid CLI rejects the cap run with the
+intended diagnostic-physics message; source page212 rows matches bibliography;
+28new registered artifacts and invocation flags validate once staged. Global
+generator diagnostic set is exactly the preceding branch's2436 (0added/0removed).
+Whitespace and registerv185 freshness pass; only one new boundary_contract ledger
+row was appended, preserving historical mixed line endings. No owned scientific
+process remains running. Final checkpoint retains[skip ci] for the Sirius runner.

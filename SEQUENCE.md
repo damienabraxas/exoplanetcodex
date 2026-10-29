@@ -1,3 +1,12 @@
+## 2026-10-28 — finite-column boundary checkpoint
+
+- **RYA-1281** — two converged cap controls resolve triplet surface collapse; two failures retained; O II/producer gates remain open.
+
+> **Current as of `main` 42987358** (fetched during the boundary audit).
+
+- **RYA-1310** — `a1130fc6` PR #603 landed:97 IAG VIS products withdrawn; other IAG bands retained. Verified from f252ed62 ticket close and merged diff. Kitt Peak Bride inputs unchanged; no main merge here.
+- **RYA-1251** — `4ce679b4` PR #602 lands molecular half-3D uncertainty follow-up; `42987358` PR #604 adds orchestrator runbook lessons. Scope from merged diffs, not a new Bride production result.
+
 ## 2026-10-28 — source contracts and current-main reconciliation
 
 - **RYA-1281** — sourced CH0/MN audit and two Mac controls; finite-top boundary is next; no admission or adopted rate change.
