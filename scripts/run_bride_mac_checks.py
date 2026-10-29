@@ -126,9 +126,17 @@ def main():
                 for iteration in range(controls['maxiter']):
                     if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Case budget exceeded')
                     old=active.n.copy()
-                    old_J_top=np.array(ctx.spect.J)[:,0].copy() if top_cap else None
-                    update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
-                    cap_change=ctx.atmos.pyAtmos.zUpperBc.update_from_context(ctx,old_J_top) if top_cap else 0.
+                    radiation=None
+                    if top_cap and controls.get('converge_cap_radiation',False):
+                        from pipeline.bride_top_cap import converge_cap_radiation
+                        radiation=converge_cap_radiation(ctx,rtol=controls['cap_radiation_rtol'],
+                            maxiter=controls['cap_radiation_maxiter'],deadline=start+controls['seconds_per_case'])
+                        J_change=radiation['outer_J_change'];cap_change=radiation['outer_boundary_change']
+                    else:
+                        old_J_top=np.array(ctx.spect.J)[:,0].copy() if top_cap else None
+                        update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+                        J_change=float(update.dJMax)
+                        cap_change=ctx.atmos.pyAtmos.zUpperBc.update_from_context(ctx,old_J_top) if top_cap else 0.
                     matrix=active.Gamma;scale=np.max(abs(matrix),axis=1,keepdims=True)
                     if np.any(scale==0):raise ValueError('Disconnected SE equation')
                     matrix[:]/=scale
@@ -139,12 +147,13 @@ def main():
                     balance=np.einsum('ijd,jd->id',rates,n);flow=np.einsum('ijd,jd->id',abs(rates),n)
                     rate=float(np.max(abs(balance)/np.maximum(flow,np.finfo(float).tiny)))
                     delta=float(np.max(abs(n-old)/n));conservation=float(np.max(abs(n.sum(axis=0)/active.nTotal-1)))
-                    entry=dict(iteration=iteration+1,population_change=delta,J_change=float(update.dJMax),
+                    entry=dict(iteration=iteration+1,population_change=delta,J_change=J_change,
                         physical_rate_residual=rate,particle_conservation_error=conservation,rejected_invalid_ng=bool(rejected))
                     if top_cap:entry['cap_boundary_change']=cap_change
+                    if radiation is not None:entry['fixed_population_radiation']=radiation
                     history.write(json.dumps(entry,allow_nan=False)+'\n');history.flush()
                     if conservation>1e-10:raise ValueError('Particle conservation failed')
-                    if iteration>=2 and max(delta,rate,update.dJMax,cap_change)<controls['rtol']:break
+                    if iteration>=2 and max(delta,rate,J_change,cap_change)<controls['rtol']:break
                 else:raise RuntimeError('Joint convergence not reached')
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
@@ -160,8 +169,8 @@ def main():
             mu,w=flux_quadrature(controls['flux_rays'])
             if top_cap:
                 from pipeline.bride_top_cap import emergent_rays
-                line_grid,line_out=emergent_rays(ctx,vac,mu)
-                cont_grid,cont_out=emergent_rays(continuum,vac,mu)
+                line_grid,line_out=emergent_rays(ctx,vac,mu,w)
+                cont_grid,cont_out=emergent_rays(continuum,vac,mu,w)
                 line=integrate_flux(line_out,mu,w);cont=integrate_flux(cont_out,mu,w)
                 np.savetxt(out/'gridpoint_flux.csv',np.column_stack((wave,integrate_flux(line_grid,mu,w),integrate_flux(cont_grid,mu,w))),
                     delimiter=',',header='wavelength_air_A,gridpoint_Fnu,gridpoint_continuum_Fnu',comments='')

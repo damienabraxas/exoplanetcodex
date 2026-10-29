@@ -4,6 +4,7 @@ This is a static 1D source-family diagnostic, not an atmosphere extension or an
 adopted reconstruction of the unknown grid producer. No free thickness factor.
 """
 import numpy as np
+import time
 from lightweaver import BoundaryCondition
 
 
@@ -82,18 +83,27 @@ def cap_from_structure(structure):
     return FiniteColumnCap(column[0]/rho[0])
 
 
-def emergent_rays(ctx, wavelengths, mus):
+def emergent_rays(ctx, wavelengths, mus, weights):
     """Retain grid-point rays and transfer through the same cap to its outer face.
 
     Capture coefficients on the actual diagnostic wavelength/ray grid, avoiding
     interpolation of sharp line opacity for the emergent cap correction.
     """
     _, rayctx=ctx.compute_rays(wavelengths=wavelengths,mus=mus,returnCtx=True,upOnly=False)
+    weights=np.asarray(weights,dtype=float)
+    if (weights.shape!=np.asarray(mus).shape or not np.isfinite(weights).all()
+            or np.any(weights<=0) or not np.isclose(weights.sum(),1.,rtol=1e-14,atol=0)):
+        raise ValueError('Explicit normalized angular quadrature weights required')
+    # Atmosphere.rays is for ray tracing and leaves J-quadrature weights unset.
+    # Full coefficient capture also updates J, so supply the actual flux quadrature.
+    rayctx.atmos.pyAtmos.wmu[:]=weights
     rayctx.depthData.fill=True
     previous_J_top=np.array(rayctx.spect.J)[:,0].copy()
     # simple formal_sol intentionally disables StoreDepthData in LW0.16.1.
     # This full formal solve updates rates/J, but never updates populations.
     rayctx.formal_sol_gamma_matrices(lambdaIterate=True)
+    if not np.isfinite(np.asarray(rayctx.spect.J)).all():
+        raise ValueError('Nonfinite diagnostic-ray radiation field')
     grid=np.array(rayctx.spect.I)
     cap=rayctx.atmos.pyAtmos.zUpperBc
     chi=np.asarray(rayctx.depthData.chi)[:,0,1,0]
@@ -101,3 +111,35 @@ def emergent_rays(ctx, wavelengths, mus):
     outgoing=grid*np.exp(-chi[:,None]*cap.length_m/np.asarray(mus)[None,:])
     outgoing+=cap_intensity(chi,eta,cap.length_m,mus)
     return grid,outgoing
+
+
+def converge_cap_radiation(ctx, *, rtol, maxiter, deadline):
+    """Solve J and the cap at fixed populations before a population-map step.
+
+    The one-refresh-per-SE-step control is retained separately. This nested
+    iteration changes no physical coefficient or boundary equation.
+    """
+    cap=ctx.atmos.pyAtmos.zUpperBc
+    original_J=np.array(ctx.spect.J).copy()
+    mu=abs(np.asarray(ctx.atmos.pyAtmos.muz))
+    original_boundary=(np.zeros((len(ctx.spect.wavelength),len(mu))) if cap.wave is None
+                       else cap_intensity(cap.chi,cap.eta,cap.length_m,mu))
+    for index in range(maxiter):
+        if time.perf_counter()>deadline:
+            raise TimeoutError('Fixed-population cap radiation budget exceeded')
+        previous_J_top=np.array(ctx.spect.J)[:,0].copy()
+        update=ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+        if not np.isfinite(update.dJMax):
+            raise ValueError('Nonfinite cap radiation update; verify angular quadrature')
+        boundary_change=cap.update_from_context(ctx,previous_J_top)
+        if max(update.dJMax,boundary_change)<rtol:
+            break
+    else:
+        raise RuntimeError(f'Fixed-population cap radiation did not converge: J={update.dJMax}, cap={boundary_change}')
+    final_J=np.array(ctx.spect.J)
+    final_boundary=cap_intensity(cap.chi,cap.eta,cap.length_m,mu)
+    relative=lambda new,old:float(np.max(abs(new-old)/np.maximum(abs(new),np.finfo(float).tiny)))
+    return dict(iterations=index+1,final_J_change=float(update.dJMax),
+                final_boundary_change=boundary_change,
+                outer_J_change=relative(final_J,original_J),
+                outer_boundary_change=relative(final_boundary,original_boundary))

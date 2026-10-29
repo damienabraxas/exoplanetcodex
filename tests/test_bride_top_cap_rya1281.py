@@ -60,7 +60,7 @@ def test_actual_backend_isothermal_cap_matches_independent_slab():
         depthScale=np.linspace(1.,0.,7),temperature=np.full(7,6000.),ne=np.full(7,1e16),
         nHTot=np.full(7,1e20),vturb=np.zeros(7),vlos=np.zeros(7),logG=2.,
         lowerBc=Bottom(),upperBc=cap)
-    mus=np.array([.2,.7]);atmos.rays(muz=mus,upOnly=False)
+    atmos.quadrature(2);mus=np.asarray(atmos.muz)
     spect=S(wavelength=np.array([500.,600.]),radSet=S(activeAtoms=[],detailedAtoms=[]))
     ctx=lw.Context(atmos,spect,{},backgroundProvider=Coefficients,Nthreads=1,
                    formalSolver='piecewise_besser_1d')
@@ -76,6 +76,10 @@ def test_actual_backend_isothermal_cap_matches_independent_slab():
     # Outward grid-top ray crossed internal slab length1 with independent bottom9.
     expected_out=7+2*np.exp(-2/mus)
     np.testing.assert_allclose(intensity[:, :, 1, 0],np.broadcast_to(expected_out,(2,2)),rtol=2e-14)
+    from pipeline.bride_top_cap import converge_cap_radiation
+    import time
+    result=converge_cap_radiation(ctx,rtol=1e-12,maxiter=10,deadline=time.perf_counter()+10)
+    assert max(result['final_J_change'],result['final_boundary_change'])<1e-12
 
 
 def test_native_cap_constructor_and_diagnostic_ray_grid():
@@ -98,7 +102,10 @@ def test_native_cap_constructor_and_diagnostic_ray_grid():
         old=np.array(ctx.spect.J)[:,0].copy();ctx.formal_sol_gamma_matrices(lambdaIterate=True)
         cap.update_from_context(ctx,old)
     before=cap.chi.copy()
-    grid,outer=emergent_rays(ctx,np.linspace(777.2,777.3,7),np.array([.2,.7,1.]))
+    from pipeline.bride_observables import flux_quadrature
+    mu,weight=flux_quadrature(3)
+    grid,outer=emergent_rays(ctx,np.linspace(777.2,777.3,7),mu,weight)
     assert grid.shape==outer.shape==(7,3)
     assert np.isfinite(outer).all() and np.all(outer>0)
+    assert np.any(outer!=grid)
     np.testing.assert_array_equal(cap.chi,before)
