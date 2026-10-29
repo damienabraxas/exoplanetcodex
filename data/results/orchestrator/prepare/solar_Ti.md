@@ -438,5 +438,5 @@ PREPARE solar Ti  -> READY to measure
       Ti I 3774.324: rew -4.201 depth 0.869
       Ti II 3774.647: rew -4.09 depth 0.727
       Ti II 3776.053: rew -4.217 depth 0.8
-  D NLTE: 635 graded line(s) not in data/nlte_grids/Ti_Mallinson2024_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Ti --write
+  D NLTE: 0 graded line(s) not in data/nlte_grids/Ti_Mallinson2024_PySME.csv
   E holdings: 17 windows; 0 not serving / frame off rest
