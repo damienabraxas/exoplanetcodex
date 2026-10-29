@@ -217,6 +217,33 @@ report to Ryan, fix only after he agrees.
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
 
+### 7a. The published uncertainty is Asplund's (Ryan, 2026-10-28)
+
+The error bar every page shows is `sigma_asplund`, which `publish_product.write_feed` stamps
+on every product each time a feed is written. It follows Asplund, Amarsi & Grevesse 2021
+Sect. 2.1 and nothing else:
+
+- statistical term (line-to-line SEM; one line: the profile-fit curvature sigma)
+  (+) half the 3D effect (`model_atmosphere`)
+  (+) NLTE = half the NLTE correction, **floor 0.03 dex on every atomic product**.
+- Molecules (Amarsi et al. 2021): the compositional term (`molecular_coupling`) replaces
+  NLTE; the 3D term is the measured grid leg floored at **half** the Amarsi Table 2
+  1D->3D shift -- never a RYA-587 bound equal to the full shift (fixed in #602).
+- Atomic data (gf), continuum, telluric, instrument, profile, xi: NOT in the bar, as in
+  Asplund. The 16-term RYA-587 budget stays on each product as evidence only.
+- Combining products into a top number (site `cno_selection._wmean`): weights 1/sigma^2,
+  statistical parts as independent, systematic parts as shared (Amarsi 2021 Eq. 3).
+  Shrinking shared systematics put Al/Na below Asplund's own 0.03.
+- Legacy rows with no budget: a 3D-NLTE row gets the sigma from its own `*_per_line.csv`
+  (`aberr`): stat (+) half the mean correction (+) 0.03. The feed gate admits a legacy row
+  changed ONLY in the four `sigma_asplund*` stamps, and only when they equal the recompute.
+  Other legacy rows stay byte-identical and unstamped (16 old Fe Codex/Deep rows today).
+- Never hand-edit a stamp; re-stamp by loading the feed and calling `write_feed`.
+  Audit: every product's stamp must equal `asplund_terms` recomputed (776/776 on 10-28).
+- A big IR bar is almost always the statistical term: 1-3 lines that disagree (Na H CRIRES+
+  lines at 4.90 / 5.80 / 7.34) or one poorly constrained line (Al NIR CRIRES+ 0.70). That is
+  line quality, not a stale input -- report it, never cull it.
+
 ## 8. Check before pushing (local evidence and actual CI status)
 
 ```bash
@@ -247,6 +274,22 @@ push and open the PR. Report any failing guard rather than bypassing it silently
    then `python scripts/generate_solar_report.py --science-root <science>`.
 5. Read the generated page: top value present, matches the Sun table, compares to
    Asplund, no internal IDs. Run `pytest tests/` (compare with main), open the PR.
+6. The top number is measured Asplund's way (`literature_headline`): his line set or his
+   combination of indicator families. A single best product (HARPS Reference Grade first)
+   is only the fallback when Asplund gives no recipe. No per-element exceptions.
+7. **Sun table: splice, never regenerate whole.** The live `solar-report.generated.js`
+   can be built from another session's branch. Generate to a temporary file INSIDE the
+   site repo (`--output` outside it fails), copy only the changed element rows into the
+   live file, never the Fe I `products` list (a 2 MB bloat), then
+   `generate_solar_report.stamp_cache_bust()`.
+8. Before committing: `git checkout -- scripts/__pycache__ tests/__pycache__; git clean -fq
+   scripts/__pycache__ tests/__pycache__`. A regen that changes only `source_commit`,
+   `generated_at` and hashes is churn -- discard it.
+9. Generated pages conflict when two element sessions merge on the same day: take the
+   other side's TEXT edits into the generator by hand (never `--theirs` on a whole
+   generator file), then regenerate the outputs.
+10. After merge, wait for the Pages run (`gh run list -L 1`) and check the live page with
+    a cache-buster query; the site is done when live equals site main.
 
 ## 10. Report (end of session)
 
@@ -270,3 +313,13 @@ PR links. Orchestrator problems also go on RYA-1233 so the pipeline gets better.
 - One changed input re-runs every budget leg of the element.
 - No host-wide CPU budget: do not start a second heavy run on a busy host (check `uptime`).
 - Website per-element lists (step 9) are hand-edited.
+- A HFS line whose published wavelength is the gf-weighted centroid of VALD components
+  (Na I 10746.449) matches no single row; `_match_hfs_centroids` handles it (same levels,
+  EP within 0.05 eV, one group). Check new elements for the same pattern.
+- Stage-script bytes are in `inputs_hash`: editing a stage script re-budgets every cell
+  (~1 day for Na). Land script fixes before the run, not during it.
+- Not priced in the published bar: Amarsi 2021's trend term (molecules).
+- Sun-table Fe II row is an old n=3 diagnostic outside the feed (7.517 +/- 0.19); replacing
+  it with a feed product moves its value -- Ryan's call.
+- IR line quality (Na H/K ~0.4 dex low, single-line CRIRES+ fits) is open; measure why,
+  do not cull.
