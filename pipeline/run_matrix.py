@@ -688,6 +688,23 @@ def raw_holdings(star: str) -> list[str]:
     return sorted(h["holding_id"] for h in holdings_for(star) if is_raw(h))
 
 
+#: RYA-1310 (Ryan 2026-10-28): (instrument, band) pairs the matrix never builds. IAG is the
+#: near-IR arm; VIS is served by HARPS and Kitt Peak, and the IAG VIS products were not
+#: trusted ("I don't trust the VIS IAG at all"). Its red-optical and NIR cells are kept.
+EXCLUDED_HOLDING_BANDS = {
+    ("iag_fts_solar_atlas", "VIS"): "IAG is the near-IR arm; VIS is HARPS + Kitt Peak "
+                                    "(Ryan 2026-10-28, RYA-1310)",
+}
+
+
+def excluded_holding_bands(star: str) -> list[dict]:
+    """The star's (holding, band) cells excluded by EXCLUDED_HOLDING_BANDS, named in the report."""
+    return [{"holding": h["holding_id"], "band": band, "reason": why}
+            for h in holdings_for(star)
+            for (inst, band), why in sorted(EXCLUDED_HOLDING_BANDS.items())
+            if h["instrument_id"] == inst and not is_raw(h)]
+
+
 def unwired_holdings(star: str) -> list[str]:
     """Holdings with NO wired spectrum reader -- e.g. a published line table such as
     `elgueta2026_vizier`. RYA-1233: they own no cell (nothing can be measured from them)
@@ -801,6 +818,8 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
         for band, lo, hi in _bands_for(inst):
             if bands and band not in bands:
                 continue
+            if (inst, band) in EXCLUDED_HOLDING_BANDS:
+                continue                      # listed in the report's `excluded_holding_bands`
             lo, hi = _clip_to_holding(spec, lo, hi)
             if hi <= lo:
                 continue                      # declared out of span -- rule 2's one exit
@@ -2059,6 +2078,7 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
         # named here so their absence from `cells` is a declaration, not a gap.
         "excluded_raw_holdings": raw_holdings(star),
         "excluded_unwired_holdings": unwired_holdings(star),
+        "excluded_holding_bands": excluded_holding_bands(star),
     }
     # Rule 2, checked rather than trusted: the counts must account for every cell
     # and every cell must carry one of the five statuses. A cell that fell through
