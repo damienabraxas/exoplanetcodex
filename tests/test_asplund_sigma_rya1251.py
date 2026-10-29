@@ -37,7 +37,7 @@ def test_hold_or_missing_measurement_gives_none():
     assert asplund_sigma(doc(measurement=("MEASURED", 0.01), nlte=("HOLD", None))) is None
 
 
-@pytest.mark.parametrize("element", ["Fe", "C", "N", "O", "Si", "Al", "Na"])
+@pytest.mark.parametrize("element", ["Fe", "C", "N", "O", "Si", "Al", "Na", "Mg"])
 def test_every_budgeted_product_is_stamped_with_its_own_recompute(element):
     products = json.loads((ROOT / f"data/products/solar/{element}.json").read_text())["products"]
     budgeted = [p for p in products if "uncertainty" in p]
