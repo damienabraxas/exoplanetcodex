@@ -1352278,72 +1352278,7 @@
       "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf"
     ],
-    "not_displayed": [
-      {
-        "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED-LOCALRENORM|SYNTH|1D-LTE|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED-LOCALRENORM",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED-LOCALRENORM|SYNTH|ENGINE-A|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED-LOCALRENORM",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      },
-      {
-        "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
-        "tier": "DEEPGRADED",
-        "grade": "Deep Grade",
-        "selector": "DEEPGRADED",
-        "line_set": "our-deep-graded",
-        "reason": "grade 'Deep Grade' is secondary and this section has a showcase product, so the graded-only rule holds it back (tier 'DEEPGRADED')"
-      }
-    ],
+    "not_displayed": [],
     "key_fields": [
       "element",
       "ion",
@@ -1352363,6 +1352298,7 @@
         "holding": "solar_crires_plus_h_rya1232",
         "band": "H",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352428,6 +1352364,7 @@
         "holding": "solar_crires_plus_h_rya1232",
         "band": "H",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352493,6 +1352430,7 @@
         "holding": "solar_crires_plus_y_wide_rya1054",
         "band": "NIR",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352558,6 +1352496,7 @@
         "holding": "solar_crires_plus_y_wide_rya1054",
         "band": "NIR",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352623,6 +1352562,7 @@
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352687,7 +1352627,140 @@
         "instrument": "harps",
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
+        "line_set": "our-deep-graded",
+        "variant": "",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "band": "VIS",
+        "line_set": "our-deep-graded",
+        "variant": "local continuum",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED-LOCALRENORM|SYNTH|1D-LTE|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED-LOCALRENORM|SYNTH|ENGINE-A|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "band": "VIS",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352753,6 +1352826,7 @@
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352818,6 +1352892,7 @@
         "holding": "solar_iag",
         "band": "NIR",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352883,6 +1352958,7 @@
         "holding": "solar_iag",
         "band": "NIR",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1352948,6 +1353024,7 @@
         "holding": "solar_iag",
         "band": "NIR",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353013,6 +1353090,7 @@
         "holding": "solar_iag",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353078,6 +1353156,7 @@
         "holding": "solar_iag",
         "band": "red-optical",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353143,6 +1353222,7 @@
         "holding": "solar_iag",
         "band": "red-optical",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353208,6 +1353288,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "NIR",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353273,6 +1353354,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "NIR",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353338,6 +1353420,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "NIR",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353403,6 +1353486,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353467,7 +1353551,74 @@
         "instrument": "kpno_solar_atlas",
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
+        "line_set": "our-deep-graded",
+        "variant": "",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "VIS",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353533,6 +1353684,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353598,6 +1353750,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "near-UV",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1353663,6 +1353816,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "near-UV",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353728,6 +1353882,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353793,6 +1353948,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "red-optical",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353858,6 +1354014,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "red-optical",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353923,6 +1354080,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "NIR",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1353988,6 +1354146,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "NIR",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354053,6 +1354212,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "NIR",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354118,6 +1354278,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354182,7 +1354343,74 @@
         "instrument": "kpno_solar_atlas",
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
+        "line_set": "our-deep-graded",
+        "variant": "",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "VIS",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354248,6 +1354476,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354313,6 +1354542,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "near-UV",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354378,6 +1354608,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354443,6 +1354674,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "red-optical",
         "line_set": "our-graded",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354508,6 +1354740,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "red-optical",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354573,6 +1354806,7 @@
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354638,6 +1354872,7 @@
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1354703,6 +1354938,7 @@
         "holding": "solar_harps_molecfit_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354768,6 +1355004,7 @@
         "holding": "solar_iag",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354833,6 +1355070,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1354898,6 +1355136,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1354963,6 +1355202,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355028,6 +1355268,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "near-UV",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1355093,6 +1355334,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "near-UV",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355158,6 +1355400,7 @@
         "holding": "solar_kpno_kurucz2005_corrected",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355223,6 +1355466,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355288,6 +1355532,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1355353,6 +1355598,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "VIS",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355418,6 +1355664,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "near-UV",
         "line_set": "our-deep-graded",
+        "variant": "",
         "only_deepgraded": true,
         "cells": [
           {
@@ -1355483,6 +1355730,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "near-UV",
         "line_set": "reference",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
@@ -1355548,6 +1355796,7 @@
         "holding": "solar_kpno_molecfit_corrected",
         "band": "red-optical",
         "line_set": "asplund",
+        "variant": "",
         "only_deepgraded": false,
         "cells": [
           {
