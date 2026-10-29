@@ -13,6 +13,7 @@ Sect. 2.4-2.6. This folder holds those sets, transcribed exactly.
 | `agss21_cited_lines.csv` | Table 1 of all three papers, 363 lines | `scripts/rya1268_transcribe_agss21_cited.py` |
 | `agss21_cited_gf_refs.csv` | each paper's numbered gf reference list (`gf_ref` key) | same |
 | `agss21_tableA1_NaKCa.csv` | AGSS21 Table A.1, Na / K / Ca rows (Mg is RYA-1250's) | `scripts/rya1268_transcribe_agss21_tableA1.py` on local `aa40445-21.pdf` |
+| `agss21_table3_cno.csv` | AGSS21 Table 3: C/N/O per indicator group under 3D / <3D> / MARCS / HM, NLTE and LTE, with the final error | hand-transcribed from local `aa40445-21.pdf` (RYA-1317); `tests/test_cno_3d_scale_rya1317.py` checks every molecular row against Amarsi+2021's per-line CDS table to 0.003 dex |
 | `agss21_reference_lines.csv` | the Asplund set per element, AGSS21's changes applied, NIST-matched | `scripts/rya1268_coverage_audit.py` |
 
 Note the naming: AGSS21 calls the Sc-Ni paper "Scott et al. (2015a)" and the Na-Ca paper
