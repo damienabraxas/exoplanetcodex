@@ -70,6 +70,10 @@ def main():
         source='https://github.com/barklem/public-data/tree/cd2f54ed46687659017b343763e95478ed93653e/inelastic-O%2BH',
         assumptions='Manual LS/J term mapping explicit in TERM_MAP; source tables rounded. No best-fit factor, energy offset or abundance fit.')
     args.output.mkdir(parents=True,exist_ok=False)
+    # Archive the verified input receipt, without claiming to be its acquisition tool.
+    receipt_copy=args.output/'author_input_receipt.json'
+    receipt_copy.write_bytes((directory/'receipt.json').read_bytes())
+    report['author_input_receipt_snapshot']=fingerprint(receipt_copy)
     with (args.output/'coefficient_comparison.csv').open('x') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(rows[0]),lineterminator='\n')
         writer.writeheader();writer.writerows(rows)

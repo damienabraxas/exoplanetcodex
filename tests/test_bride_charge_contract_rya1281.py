@@ -3,6 +3,16 @@ import numpy as np
 import pytest
 
 
+@pytest.fixture(autouse=True)
+def held_experiment_resources():
+    pytest.importorskip('lightweaver')
+    from config.constants import codex_path
+    for key in ('experiments.bride_oxygen_atom','experiments.bride_barklem_oxygen',
+                'experiments.bride_multi_spline_oracle','grids.marcs_standard'):
+        if not codex_path(key).exists():
+            pytest.skip('Held experimental resource unavailable: '+key)
+
+
 def test_sourced_pair_full_atom_balance_and_complete_branching():
     pytest.importorskip('lightweaver')
     from config.constants import require_codex_path
