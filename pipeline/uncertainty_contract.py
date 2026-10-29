@@ -230,6 +230,65 @@ def molecule_of(product):
     return str(ids[0]).split(":")[0].split("_")[0] or None
 
 
+ASPLUND_STAMPS = ("sigma_asplund", "sigma_asplund_stat", "sigma_asplund_syst",
+                  "sigma_asplund_basis")
+ASPLUND_LEGACY_3DNLTE_BASIS = (
+    "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term "
+    "budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE "
+    "correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and "
+    "observational terms not included")
+
+
+def legacy_3dnlte_asplund_terms(product, root=None):
+    """(stat, syst) for a legacy 3D-NLTE row, from the row and its own per-line file.
+
+    Legacy rows carry no component budget, but a 3D-NLTE row's artifact records each
+    line's 3D-NLTE correction (`aberr`). The engine returns 3D and NLTE as ONE correction,
+    so half of its mean stands for the model term and the NLTE term takes the 0.03 floor,
+    the same split the budgeted ENGINE-A rows carry. None when anything is missing.
+    """
+    import csv
+    from pathlib import Path
+    if "uncertainty" in product or product.get("treatment") != "ENGINE-A-3DNLTE":
+        return None
+    stat = product.get("sigma_stat")
+    path = (product.get("provenance") or {}).get("copied_to") or ""
+    if stat is None or not path.endswith("_products.csv"):
+        return None
+    per_line = Path(root or Path(__file__).resolve().parents[1]) / path.replace(
+        "_products.csv", "_per_line.csv")
+    try:
+        rows = list(csv.DictReader(per_line.open()))
+    except OSError:
+        return None
+    corrections = [float(r["aberr"]) for r in rows
+                   if r.get("in_domain") == "True" and r.get("status", "ok") == "ok"
+                   and r.get("a_3dnlte") not in ("", None) and r.get("aberr") not in ("", None)]
+    if not corrections:
+        return None
+    half = abs(sum(corrections) / len(corrections)) / 2.0
+    return float(stat), math.hypot(half, ASPLUND_NLTE_FLOOR)
+
+
+def legacy_asplund_stamp_problems(product, legacy_row, *, root=None):
+    """None unless the row differs from its predecessor ONLY in the Asplund stamps.
+
+    Then [] when every stamp equals the recompute from the row's own artifacts, else the
+    mismatches. The stamps are derived, never asserted, so a recompute is their evidence.
+    """
+    changed = {k for k in set(product) | set(legacy_row)
+               if k not in LEGACY_RIDE_ALONG_STAMPS and product.get(k) != legacy_row.get(k)}
+    if not changed or not changed <= set(ASPLUND_STAMPS):
+        return None
+    terms = legacy_3dnlte_asplund_terms(product, root)
+    if terms is None:
+        return ["no per-line 3D-NLTE artifact to recompute the Asplund stamps from"]
+    want = {"sigma_asplund": math.hypot(*terms), "sigma_asplund_stat": terms[0],
+            "sigma_asplund_syst": terms[1], "sigma_asplund_basis": ASPLUND_LEGACY_3DNLTE_BASIS}
+    return [f"{k} {product.get(k)!r} != recomputed {v!r}"
+            for k, v in want.items() if product.get(k) != v]
+
+
 def asplund_sigma(document, molecule=None):
     """The Asplund-convention sigma: statistical (+) systematic from `asplund_terms`, or None."""
     got = asplund_terms(document, molecule)
@@ -613,6 +672,13 @@ def assert_publication_feed(document, *, previous=None):
         #: contract decides, exactly as before.
         predecessor = legacy_by_key.get(key_of(product))
         if "uncertainty" not in product and predecessor is not None:
+            stamped = legacy_asplund_stamp_problems(product, predecessor)
+            if stamped == []:
+                continue
+            if stamped:
+                failures.append(f"{key_of(product)}: Asplund stamp refused: "
+                                f"{'; '.join(stamped)}")
+                continue
             verdict = xi_layer_correction_problems(product, predecessor)
             if verdict == []:
                 continue

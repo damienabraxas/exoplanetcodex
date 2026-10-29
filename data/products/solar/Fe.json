@@ -89089,7 +89089,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)"
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
+      "sigma_asplund": 0.03678767448338869,
+      "sigma_asplund_stat": 0.0202,
+      "sigma_asplund_syst": 0.03074561747462177,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -159136,7 +159140,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "sigma_asplund": 0.04331228557503131,
+      "sigma_asplund_stat": 0.0236,
+      "sigma_asplund_syst": 0.03631795811624142,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -282448,7 +282456,11 @@
         "atlas_citation": "RYA-931 telluric-corrected sibling of solar_harps; solar_harps itself is UNMODIFIED. Built by correcting each of the ten Phase-3 direct-Sun exposures (1102.D-0954(A), 2023-08-02) with ESO Molecfit 4.4.4 against the observation-night La Silla NOAA GDAS column, then re-stacking and renormalising through pipeline.spectra_normalize -- the same functions that built solar_harps. LINEAGE IS PROVEN, NOT A",
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
-      }
+      },
+      "sigma_asplund": 0.04163429942334109,
+      "sigma_asplund_stat": 0.0174,
+      "sigma_asplund_syst": 0.03782399884296239,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -377995,7 +378007,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)"
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
+      "sigma_asplund": 0.0341404101796823,
+      "sigma_asplund_stat": 0.0147,
+      "sigma_asplund_syst": 0.030813594519902326,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -411764,7 +411780,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "sigma_asplund": 0.04407894223199961,
+      "sigma_asplund_stat": 0.025,
+      "sigma_asplund_syst": 0.036303624451175104,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -474897,7 +474917,11 @@
         "atlas_citation": "Sirius only; second arm, corroborates Kitt Peak depths to 1-2% RYA-806: RYA-783/786 MEASURED: the IAG FTS atlas IS telluric-corrected - 0.1% below 0.5 in the O2 A-band core and 0.0% in H2O 9280-9600, while showing the SAME solar line depths as Kitt Peak in clean regions, so the correction removed tellurics without erasing solar structure. Matches telluric_basis=corrected RYA-1030 INTAKE (through t",
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
-      }
+      },
+      "sigma_asplund": 0.042436339220421185,
+      "sigma_asplund_stat": 0.0186,
+      "sigma_asplund_syst": 0.03814292708262775,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -499575,7 +499599,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)"
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
+      "sigma_asplund": 0.033099748404168586,
+      "sigma_asplund_stat": 0.0123,
+      "sigma_asplund_syst": 0.030729519104913776,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -542224,7 +542252,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "sigma_asplund": 0.04272287539168058,
+      "sigma_asplund_stat": 0.0225,
+      "sigma_asplund_syst": 0.03631795811624142,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -579710,7 +579742,11 @@
         "atlas_citation": "Kurucz R.L. 2005 high-resolution irradiance product; source header identifies the original irradiance2005/irradthu.dat distribution, revised 02jan2010, 300-1000 nm, W/m2/nm; exact bytes and SHA-256 are pinned in the intake manifest and the file is staged at /mnt/codex-data/spectra/KITTS/irradthu.dat.txt on Sirius. Registered as a provenance-distinct corrected reference; independent line/window com",
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
-      }
+      },
+      "sigma_asplund": 0.0410923798728605,
+      "sigma_asplund_stat": 0.0162,
+      "sigma_asplund_syst": 0.037764317597640644,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -672001,7 +672037,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Asplund, Amarsi & Grevesse 2021 Table A.2 via RYA-1109 / RYA-1111"
       },
-      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)"
+      "grade_variant": "Asplund AGSS21 replication \u2014 AGSS21 Table A.2's own Fe line list, on AGSS21's own gf, measured in our spectra (RYA-1109/1111)",
+      "sigma_asplund": 0.0336411594217107,
+      "sigma_asplund_stat": 0.0135,
+      "sigma_asplund_syst": 0.030813594519902326,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -714820,7 +714860,11 @@
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate"
+      "grade_variant": "laboratory gf, at or below the 0.60 feature-depth gate",
+      "sigma_asplund": 0.04256564438291832,
+      "sigma_asplund_stat": 0.0222,
+      "sigma_asplund_syst": 0.03631795811624142,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
@@ -780904,7 +780948,11 @@
         "atlas_citation": "RYA-940 telluric-corrected sibling of solar_kpno; the 1984 atlas itself is UNMODIFIED. Six registered telluric bands corrected per band with ESO molecfit 4.4.4 on Sirius. NO OBSERVATION METADATA EXISTS for this atlas -- no airmass, no date, no site -- so the RYA-380/927 observation-night-GDAS rule is unsatisfiable and the columns are fitted freely against the MIPAS std atmosphere. Ryan ratified th",
         "model_grid": "atlas9 / amarsi",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
-      }
+      },
+      "sigma_asplund": 0.04100323900385947,
+      "sigma_asplund_stat": 0.0159,
+      "sigma_asplund_syst": 0.037794915118407435,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and observational terms not included"
     },
     {
       "element": "Fe",
