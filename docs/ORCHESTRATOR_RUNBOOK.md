@@ -227,13 +227,24 @@ Sect. 2.1 and nothing else:
   (+) half the 3D effect (`model_atmosphere`)
   (+) NLTE = half the NLTE correction, **floor 0.03 dex on every atomic product**.
 - Molecules (Amarsi et al. 2021): the compositional term (`molecular_coupling`) replaces
-  NLTE; the 3D term is the measured grid leg floored at **half** the Amarsi Table 2
-  1D->3D shift -- never a RYA-587 bound equal to the full shift (fixed in #602).
+  NLTE; the 3D term is the measured grid leg floored at **half** the 1D->3D shift -- never a
+  RYA-587 bound equal to the full shift (fixed in #602). RYA-1317: the shift is the
+  indicator's OWN Amarsi group (`molecular_model_form.group_terms`: CH G band = CH A-X
+  +0.066, not the CH species row +0.035; CO K = dv=2; CN = 0-0), and the term is also at
+  least Amarsi Eq. 1's atmosphere term (standard error over 3D, <3D>, ATMO, HM74). An
+  indicator with no group falls back to the species row. Amarsi's trend term is NOT priced
+  (our molecular fits give one A per band, no per-line abundances).
 - Atomic data (gf), continuum, telluric, instrument, profile, xi: NOT in the bar, as in
   Asplund. The 16-term RYA-587 budget stays on each product as evidence only.
 - Combining products into a top number (site `cno_selection._wmean`): weights 1/sigma^2,
   statistical parts as independent, systematic parts as shared (Amarsi 2021 Eq. 3).
   Shrinking shared systematics put Al/Na below Asplund's own 0.03.
+- C/N/O families are combined on Asplund's 3D scale (RYA-1317). A 1D-LTE CNO product is
+  stamped `asplund_3d_shift` (A21 Table 3, `agss21_cited_sets/agss21_table3_cno.csv`: 3D
+  minus 1D MARCS for its group, e.g. [O I] +0.039); the site adds it before combining and
+  shows "1D x.xxx +shift to 3D". The product's own A never moves. N (Asplund Sect. 2.3):
+  unweighted mean of atomic and molecular, sigma = the LARGER of half their range and the
+  propagated error -- half the range alone gave 0.019 against 0.049 propagated.
 - Legacy rows with no budget: a 3D-NLTE row gets the sigma from its own `*_per_line.csv`
   (`aberr`): stat (+) half the mean correction (+) 0.03. The feed gate admits a legacy row
   changed ONLY in the four `sigma_asplund*` stamps, and only when they equal the recompute.
