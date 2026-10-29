@@ -4,7 +4,7 @@
 # Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 unchanged from AGSS21; AGSS21 kept (RYA-1251).
 element: Ti
 ion: II
-ions: [II]
+ions: [I, II]
 source_of_truth: RYA-1268
 scale: as adopted by AGSS21 (Scott et al. 2015 (A&A 573, A26), Ti II only)
 entries:
@@ -26,6 +26,20 @@ entries:
     sigma: 0.05
     role: corroborating (AGSS21 successor; unchanged)
     method: 3L, full weight to Ti II
+  - source: Scott et al. 2015
+    bib: scott2015
+    citation: A&A 573, A26, Sect. 7.2 and Table 1 (local Scott_2015_AA_573_A26_FePeak.pdf)
+    ion: I
+    value: 4.88
+    sigma: 0.05
+    scale: 3D+NLTE (NLTE from the Bergemann 2011 atom, S_H = 1, disk-centre intensity)
+    role: Ti I validation (RYA-1315); NOT the anchor
+    method: 34 Ti I lines, 24 with Lawler 2013 gf; +-0.01 stat +-0.05 sys
+    note: >-
+      Ti I sits 0.09 dex below Ti II (4.97 +- 0.04) in the same analysis; the authors
+      attribute it to NLTE underestimated in <3D> or to S_H = 1. AGSS21 and AG26 therefore
+      take the abundance from Ti II alone. A Ti I product near 4.88 reproduces the
+      literature; it does not contradict the anchor.
 range:
   central: 4.97
   min: 4.92

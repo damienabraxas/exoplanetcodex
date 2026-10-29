@@ -113272,20 +113272,20 @@ gf_122246,pk_bdbfe872161a,22,1.0,Ti I,3939.2577,1.0666,1,-3.711,VALD3,,linelist(
 gf_122247,pk_37d5df948ac4,22,1.0,Ti I,3939.6629,2.3054,1,-1.876,VALD3,,linelist(VALD3),single_source,,,-1.876,False,False,True,,,,,False,VALD3,False
 gf_122248,pk_dc05cf64efb6,22,1.0,Ti I,3940.1203,2.4953,1,-2.553,VALD3,,linelist(VALD3),single_source,,,-2.553,False,False,True,,,,,False,VALD3,False
 gf_122249,pk_e78f1a9f5269,22,1.0,Ti I,3944.4411,2.3179,1,-2.1,VALD3,,linelist(VALD3),single_source,,,-2.1,False,False,True,,,,,False,VALD3,False
-gf_122250,pk_23845fa8673c,22,1.0,Ti I,3947.7683,0.0211,1,-0.951,"NIST ASD (accuracy C; TP ref T3499n,T3430)",C,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.89,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
-gf_122251,pk_4882fb65ace1,22,1.0,Ti I,3948.6705,0.0,1,-0.406,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.3997,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122250,pk_23845fa8673c,22,1.0,Ti I,3947.7683,0.0211,1,-0.890,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.951 (class C), RYA-1315",C,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.89,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
+gf_122251,pk_4882fb65ace1,22,1.0,Ti I,3948.6705,0.0,1,-0.400,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.406 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.3997,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122252,pk_05357c04e82d,22,1.0,Ti I,3949.0005,2.0922,1,-2.711,VALD3,,linelist(VALD3),single_source,,,-2.711,False,False,True,,,,,False,VALD3,False
 gf_122253,pk_376ef4b37b85,22,1.0,Ti I,3949.1252,2.1344,1,-2.441,VALD3,,linelist(VALD3),single_source,,,-2.441,False,False,True,,,,,False,VALD3,False
 gf_122254,pk_88d93362a1ea,22,1.0,Ti I,3955.1383,2.3179,1,-2.729,VALD3,,linelist(VALD3),single_source,,,-2.729,False,False,True,,,,,False,VALD3,False
-gf_122255,pk_36d8c131cb29,22,1.0,Ti I,3956.3338,0.0211,1,-0.391,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.3797,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
-gf_122256,pk_2dd51060972a,22,1.0,Ti I,3958.2055,0.048,1,-0.095,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.1097,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122255,pk_36d8c131cb29,22,1.0,Ti I,3956.3338,0.0211,1,-0.380,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.391 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.3797,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
+gf_122256,pk_2dd51060972a,22,1.0,Ti I,3958.2055,0.048,1,-0.110,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.095 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.1097,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122257,pk_ab764aad96d5,22,1.0,Ti I,3958.6518,2.3341,1,-2.185,VALD3,,linelist(VALD3),single_source,,,-2.185,False,False,True,,,,,False,VALD3,False
 gf_122258,pk_9f3d82a2baa9,22,1.0,Ti I,3958.754,2.103,1,-2.514,VALD3,,linelist(VALD3),single_source,,,-2.514,False,False,True,,,,,False,VALD3,False
 gf_122259,pk_9f2b8920ddda,22,1.0,Ti I,3960.185,2.3447,1,-2.455,VALD3,,linelist(VALD3),single_source,,,-2.455,False,False,True,,,,,False,VALD3,False
-gf_122260,pk_4e0728a36f0c,22,1.0,Ti I,3962.8507,0.0,1,-1.111,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-1.0997,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122260,pk_4e0728a36f0c,22,1.0,Ti I,3962.8507,0.0,1,-1.100,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.111 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-1.0997,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122261,pk_9273c4b26403,22,1.0,Ti I,3963.3515,1.046,1,-2.56,VALD3,,linelist(VALD3),single_source,,,-2.56,False,False,True,,,,,False,VALD3,False
 gf_122262,pk_750a0e7d3c06,22,1.0,Ti I,3963.485,2.103,1,-1.677,VALD3,,linelist(VALD3),single_source,,,-1.677,False,False,True,,,,,False,VALD3,False
-gf_122263,pk_be6c98940f43,22,1.0,Ti I,3964.2688,0.0211,1,-1.114,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-1.1098,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122263,pk_be6c98940f43,22,1.0,Ti I,3964.2688,0.0211,1,-1.110,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.114 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-1.1098,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122264,pk_a6f3fe6781ff,22,1.0,Ti I,3966.0309,0.8181,1,-4.069,VALD3,,linelist(VALD3),single_source,,,-4.069,False,False,True,,,,,False,VALD3,False
 gf_122265,pk_24af62f7e220,22,1.0,Ti I,3970.1391,2.6619,1,-2.027,VALD3,,linelist(VALD3),single_source,,,-2.027,False,False,True,,,,,False,VALD3,False
 gf_122266,pk_335edb72ed42,22,1.0,Ti I,3970.6535,2.0922,1,-1.351,VALD3,,linelist(VALD3),single_source,,,-1.351,False,False,True,,,,,False,VALD3,False
@@ -113304,7 +113304,7 @@ gf_122278,pk_706db8c689d3,22,1.0,Ti I,3978.3419,0.8129,1,-3.919,VALD3,,linelist(
 gf_122279,pk_f44acd286544,22,1.0,Ti I,3978.6826,0.8181,1,-3.674,VALD3,,linelist(VALD3),single_source,,,-3.674,False,False,True,,,,,False,VALD3,False
 gf_122280,pk_6dd695302d5b,22,1.0,Ti I,3980.5456,2.4875,1,-2.54,VALD3,,linelist(VALD3),single_source,,,-2.54,False,False,True,,,,,False,VALD3,False
 gf_122281,pk_32370599d2c8,22,1.0,Ti I,3981.4512,2.1171,1,-0.936,VALD3,,linelist(VALD3),single_source,,,-0.936,False,False,True,,,,,False,VALD3,False
-gf_122282,pk_cb56d169b5f0,22,1.0,Ti I,3981.7616,0.0,1,-0.28,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.2698,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122282,pk_cb56d169b5f0,22,1.0,Ti I,3981.7616,0.0,1,-0.270,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.28 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.2698,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122283,pk_c2adfa276828,22,1.0,Ti I,3982.4811,0.0,1,-1.26,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: NIST ASD class C on the same gf",C,linelist(VALD3),adopted_rya1268_vald_lab_nist_sigma,,,-1.26,False,False,True,,lawler2013,0.0969,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122284,pk_f9809da99205,22,1.0,Ti I,3983.8273,2.1171,1,-1.419,VALD3,,linelist(VALD3),single_source,,,-1.419,False,False,True,,,,,False,VALD3,False
 gf_122285,pk_796930e7e5a9,22,1.0,Ti I,3984.3135,2.103,1,-0.853,VALD3,,linelist(VALD3),single_source,,,-0.853,False,False,True,,,,,False,VALD3,False
@@ -113313,7 +113313,7 @@ gf_122287,pk_93cc846e845a,22,1.0,Ti I,3985.4433,2.0851,1,-0.845,VALD3,,linelist(
 gf_122288,pk_414fda232380,22,1.0,Ti I,3985.5796,2.0922,1,-0.733,VALD3,,linelist(VALD3),single_source,,,-0.733,False,False,True,,,,,False,VALD3,False
 gf_122289,pk_8b78980166e6,22,1.0,Ti I,3988.9918,2.6766,1,-2.1,VALD3,,linelist(VALD3),single_source,,,-2.1,False,False,True,,,,,False,VALD3,False
 gf_122290,pk_0c768af68679,22,1.0,Ti I,3989.5642,1.0666,1,-2.02,VALD3,,linelist(VALD3),single_source,,,-2.02,False,False,True,,,,,False,VALD3,False
-gf_122291,pk_3f84256bec56,22,1.0,Ti I,3989.7583,0.0211,1,-0.126,NIST ASD (accuracy A; TP ref T7574),A,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.1297,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_122291,pk_3f84256bec56,22,1.0,Ti I,3989.7583,0.0211,1,-0.130,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.126 (class A), RYA-1315",A,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.1297,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122292,pk_1b8cd222e01a,22,1.0,Ti I,3990.199,2.0851,1,-0.7629,VALD3,,linelist(VALD3),single_source,,,-0.7629,False,False,True,,,,,False,VALD3,False
 gf_122293,pk_30268e68c3ba,22,1.0,Ti I,3993.7895,2.1171,1,-1.425,VALD3,,linelist(VALD3),single_source,,,-1.425,False,False,True,,,,,False,VALD3,False
 gf_122294,pk_f958e9b5b211,22,1.0,Ti I,3994.4556,2.4875,1,-1.888,VALD3,,linelist(VALD3),single_source,,,-1.888,False,False,True,,,,,False,VALD3,False
@@ -113514,7 +113514,7 @@ gf_122488,pk_ecdf28aa2219,22,1.0,Ti I,4180.4915,2.1603,1,-1.202,VALD3,,linelist(
 gf_122489,pk_3d2aa365e944,22,1.0,Ti I,4183.288,2.2393,1,-0.635,VALD3,,linelist(VALD3),single_source,,,-0.635,False,False,True,,,,,False,VALD3,False
 gf_122490,pk_fc65e46228a0,22,1.0,Ti I,4185.7241,2.2916,1,-2.3,VALD3,,linelist(VALD3),single_source,,,-2.3,False,False,True,,,,,False,VALD3,False
 gf_122491,pk_325f7a5898b8,22,1.0,Ti I,4185.9871,2.2393,1,-1.227,VALD3,,linelist(VALD3),single_source,,,-1.227,False,False,True,,,,,False,VALD3,False
-gf_122492,pk_f235e4e1f109,22,1.0,Ti I,4186.1173,1.5025,1,-0.304,NIST ASD (accuracy C+; TP ref T4922),C+,linelist(VALD3),adopted_rya1268_nist_asd,,,-0.24,False,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_122492,pk_f235e4e1f109,22,1.0,Ti I,4186.1173,1.5025,1,-0.240,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.304 (class C+), RYA-1315",C+,linelist(VALD3),adopted_rya1315_lawler2013_over_nist,,,-0.24,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122493,pk_a4bcf57cf4b4,22,1.0,Ti I,4187.1108,1.4601,1,-2.958,VALD3,,linelist(VALD3),single_source,,,-2.958,False,False,True,,,,,False,VALD3,False
 gf_122494,pk_096d5771bff6,22,1.0,Ti I,4188.1736,1.7335,1,-3.36,VALD3,,linelist(VALD3),single_source,,,-3.36,False,False,True,,,,,False,VALD3,False
 gf_122495,pk_fb0995d1ede1,22,1.0,Ti I,4188.6808,2.2393,1,-0.642,VALD3,,linelist(VALD3),single_source,,,-0.642,False,False,True,,,,,False,VALD3,False
@@ -113675,7 +113675,7 @@ gf_122649,pk_201b49f4282a,22,1.0,Ti I,4279.548,3.104,1,-2.161,K10,,synth(GES),si
 gf_122650,pk_619cea5720ce,22,1.0,Ti I,4279.923,2.345,1,-2.014,K10,,synth(GES),single_source,-2.014,,-2.014,True,False,True,,,,,False,KURUCZ,False
 gf_122651,pk_8ad6beea2cd0,22,1.0,Ti I,4280.051,2.318,1,-0.762,K10,,synth(GES),single_source,-0.762,,-0.762,True,False,True,,,,,False,KURUCZ,False
 gf_122652,pk_81c2de075f62,22,1.0,Ti I,4281.342,3.113,1,-3.017,K10,,synth(GES),single_source,-3.017,,,True,False,False,,,,,False,KURUCZ,False
-gf_122653,pk_7c51a184cce9,22,1.0,Ti I,4281.367,0.813,1,-1.359,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-1.26,,-1.26,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_122653,pk_7c51a184cce9,22,1.0,Ti I,4281.367,0.813,1,-1.260,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.359 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.26,,-1.26,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122654,pk_c354ae55ddf6,22,1.0,Ti I,4281.709,2.408,1,-1.069,K10,,synth(GES),single_source,-1.069,,-1.069,True,False,True,,,,,False,KURUCZ,False
 gf_122655,pk_1334e2a84f22,22,1.0,Ti I,4282.036,2.297,1,-1.133,K10,,synth(GES),single_source,-1.133,,-1.133,True,False,True,,,,,False,KURUCZ,False
 gf_122656,pk_ab836a4732b1,22,1.0,Ti I,4282.189,3.161,1,-1.518,K10,,synth(GES),single_source,-1.518,,-1.518,True,False,True,,,,,False,KURUCZ,False
@@ -113699,7 +113699,7 @@ gf_122673,pk_55386cb8d0ec,22,1.0,Ti I,4286.152,3.186,1,-1.465,K10,,synth(GES),si
 gf_122674,pk_c689f1f04433,22,1.0,Ti I,4286.362,2.305,1,-2.723,K10,,synth(GES),single_source,-2.723,,-2.723,True,False,True,,,,,False,KURUCZ,False
 gf_122675,pk_cfa6c5fc5b14,22,1.0,Ti I,4286.436,2.318,1,-3.209,K10,,synth(GES),single_source,-3.209,,,True,False,False,,,,,False,KURUCZ,False
 gf_122676,pk_de2ae3a9fe9c,22,1.0,Ti I,4286.854,2.334,1,-1.84,LGWSC,,synth(GES),single_source,-1.84,,-1.84,True,False,True,,,,,False,OTHER,False
-gf_122677,pk_1e5c436c321a,22,1.0,Ti I,4287.403,0.836,1,-0.44,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.37,,-0.37,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_122677,pk_1e5c436c321a,22,1.0,Ti I,4287.403,0.836,1,-0.370,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.44 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.37,,-0.37,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_122678,pk_174c128ace7c,22,1.0,Ti I,4287.489,2.778,1,-1.283,K10,,synth(GES),single_source,-1.283,,-1.283,True,False,True,,,,,False,KURUCZ,False
 gf_122679,pk_8721147e9c00,22,1.0,Ti I,4287.699,0.818,1,-5.029,K10,,synth(GES),single_source,-5.029,,,True,False,False,,,,,False,KURUCZ,False
 gf_122680,pk_c8466fa0d82a,22,1.0,Ti I,4288.15,0.818,1,-1.91,LGWSC,,synth(GES),single_source,-1.91,,-1.91,True,False,True,,,,,False,OTHER,False
@@ -114073,7 +114073,7 @@ gf_123047,pk_fef749ae6672,22,1.0,Ti I,4463.586,2.408,1,-2.471,K10,,synth(GES),si
 gf_123048,pk_1e51ebd94dbc,22,1.0,Ti I,4464.171,3.108,1,0.327,K10,,synth(GES),single_source,0.327,,0.327,True,False,True,,,,,False,KURUCZ,False
 gf_123049,pk_f318ec4cf8fb,22,1.0,Ti I,4464.742,2.396,1,-2.33,K10,,synth(GES),single_source,-2.33,,-2.33,True,False,True,,,,,False,KURUCZ,False
 gf_123050,pk_314559fc2396,22,1.0,Ti I,4465.224,2.231,1,-1.789,K10,,synth(GES),single_source,-1.789,,-1.789,True,False,True,,,,,False,KURUCZ,False
-gf_123051,pk_3058c42d0e81,22,1.0,Ti I,4465.805,1.739,1,-0.164,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.13,,-0.13,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123051,pk_3058c42d0e81,22,1.0,Ti I,4465.805,1.739,1,-0.130,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.164 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.13,,-0.13,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123052,pk_d70458d61ff1,22,1.0,Ti I,4468.911,1.997,1,-4.149,K10,,synth(GES),single_source,-4.149,,,True,False,False,,,,,False,KURUCZ,False
 gf_123053,pk_6797618a32f2,22,1.0,Ti I,4470.872,2.48,1,-0.736,K10,,synth(GES),single_source,-0.736,,-0.736,True,False,True,,,,,False,KURUCZ,False
 gf_123054,pk_de2874ed1c08,22,1.0,Ti I,4471.237,1.734,1,-0.15,LGWSC,,synth(GES),single_source,-0.15,,-0.15,True,False,True,,,,,False,OTHER,False
@@ -114145,7 +114145,7 @@ gf_123119,pk_271ec93ec353,22,1.0,Ti I,4509.935,2.506,1,-2.223,K10,,synth(GES),si
 gf_123120,pk_c822cb3e81f8,22,1.0,Ti I,4511.39,3.294,1,-2.926,K10,,synth(GES),single_source,-2.926,,,True,False,False,,,,,False,KURUCZ,False
 gf_123121,pk_23689c3031ae,22,1.0,Ti I,4511.844,2.25,1,-1.94,LGWSC,,synth(GES),single_source,-1.94,,-1.94,True,False,True,,,,,False,OTHER,False
 gf_123122,pk_3e968eb485d4,22,1.0,Ti I,4512.661,3.399,1,-1.736,K10,,synth(GES),single_source,-1.736,,,True,False,False,,,,,False,KURUCZ,False
-gf_123123,pk_0a9fbbfd524e,22,1.0,Ti I,4512.734,0.836,1,-0.48,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.4,,-0.4,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123123,pk_0a9fbbfd524e,22,1.0,Ti I,4512.734,0.836,1,-0.400,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.48 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.4,,-0.4,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123124,pk_7b6d1caf9d08,22,1.0,Ti I,4513.715,1.43,1,-2.25,LGWSC,,synth(GES),single_source,-2.25,,-2.25,True,False,True,,,,,False,OTHER,False
 gf_123125,pk_6d152ead48d1,22,1.0,Ti I,4514.268,2.175,1,-3.863,K10,,synth(GES),single_source,-3.863,,,True,False,False,,,,,False,KURUCZ,False
 gf_123126,pk_eb1e66b22cfe,22,1.0,Ti I,4514.657,2.488,1,-2.088,K10,,synth(GES),single_source,-2.088,,-2.088,True,False,True,,,,,False,KURUCZ,False
@@ -114153,7 +114153,7 @@ gf_123127,pk_099f3b81dfc4,22,1.0,Ti I,4515.516,3.407,1,-1.53,K10,,synth(GES),sin
 gf_123128,pk_6f796f396b53,22,1.0,Ti I,4515.628,2.117,1,-1.531,K10,,synth(GES),single_source,-1.531,,-1.531,True,False,True,,,,,False,KURUCZ,False
 gf_123129,pk_8b52649531bc,22,1.0,Ti I,4517.268,2.488,1,-3.425,K10,,synth(GES),single_source,-3.425,,,True,False,False,,,,,False,KURUCZ,False
 gf_123130,pk_fb6d0b39a5df,22,1.0,Ti I,4517.71,1.43,1,-4.116,K10,,synth(GES),single_source,-4.116,,,True,False,False,,,,,False,KURUCZ,False
-gf_123131,pk_e4f0e971cc5f,22,1.0,Ti I,4518.022,0.826,1,-0.324,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.25,,-0.25,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123131,pk_e4f0e971cc5f,22,1.0,Ti I,4518.022,0.826,1,-0.250,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.324 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.25,,-0.25,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123132,pk_8842a9a80445,22,1.0,Ti I,4518.051,2.256,1,-2.146,K10,,synth(GES),single_source,-2.146,,-2.146,True,False,True,,,,,False,KURUCZ,False
 gf_123133,pk_e95f4c1fed9c,22,1.0,Ti I,4518.689,1.43,1,-1.04,LGWSC,,synth(GES),single_source,-1.04,,-1.04,True,False,True,,,,,False,OTHER,False
 gf_123134,pk_1a9f4c176efc,22,1.0,Ti I,4519.8,3.108,1,-0.951,K10,,synth(GES),single_source,-0.951,,-0.951,True,False,True,,,,,False,KURUCZ,False
@@ -114174,10 +114174,10 @@ gf_123148,pk_78d5096f0c1c,22,1.0,Ti I,4531.763,2.506,1,-2.819,K10,,synth(GES),si
 gf_123149,pk_dfb8017fb01e,22,1.0,Ti I,4531.898,2.408,1,-1.538,K10,,synth(GES),single_source,-1.538,,-1.538,True,False,True,,,,,False,KURUCZ,False
 gf_123150,pk_bd077c2306f8,22,1.0,Ti I,4532.116,2.495,1,-0.909,K10,,synth(GES),single_source,-0.909,,-0.909,True,False,True,,,,,False,KURUCZ,False
 gf_123151,pk_63fba194f5fd,22,1.0,Ti I,4532.657,3.323,1,-2.634,K10,,synth(GES),single_source,-2.634,,,True,False,False,,,,,False,KURUCZ,False
-gf_123152,pk_7566a6237575,22,1.0,Ti I,4533.2399,0.848,2,0.476,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,0.8102,,0.54,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123152,pk_7566a6237575,22,1.0,Ti I,4533.2399,0.848,2,0.540,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.476 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.8102,,0.54,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123153,pk_5cba1c536c48,22,1.0,Ti I,4534.55,2.48,1,-1.034,K10,,synth(GES),single_source,-1.034,,-1.034,True,False,True,,,,,False,KURUCZ,False
 gf_123154,pk_91e4b780d767,22,1.0,Ti I,4534.696,2.396,1,-1.626,K10,,synth(GES),single_source,-1.626,,-1.626,True,False,True,,,,,False,KURUCZ,False
-gf_123155,pk_7d8728e0451a,22,1.0,Ti I,4534.776,0.836,1,0.281,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,0.35,,0.35,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123155,pk_7d8728e0451a,22,1.0,Ti I,4534.776,0.836,1,0.350,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.281 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.35,,0.35,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123156,pk_0f9a80c997e2,22,1.0,Ti I,4535.569,0.826,1,0.14,LGWSC,,synth(GES),single_source,0.14,,0.14,True,False,True,,,,,False,OTHER,False
 gf_123157,pk_592b32387cee,22,1.0,Ti I,4535.843,1.443,1,-1.11,LGWSC,,synth(GES),single_source,-1.11,,-1.11,True,False,True,,,,,False,OTHER,False
 gf_123158,pk_86bf45e54cb7,22,1.0,Ti I,4535.918,0.818,1,-0.07,LGWSC,,synth(GES),single_source,-0.07,,-0.07,True,False,True,,,,,False,OTHER,False
@@ -114201,7 +114201,7 @@ gf_123175,pk_8dca2caf5ef8,22,1.0,Ti I,4544.737,2.506,1,-2.629,K10,,synth(GES),si
 gf_123176,pk_1e5850171350,22,1.0,Ti I,4547.296,3.104,1,0.448,K10,,synth(GES),single_source,0.448,,0.448,True,False,True,,,,,False,KURUCZ,False
 gf_123177,pk_48f2775c93c1,22,1.0,Ti I,4547.801,2.48,1,-0.555,K10,,synth(GES),single_source,-0.555,,-0.555,True,False,True,,,,,False,KURUCZ,False
 gf_123178,pk_148d61cc340d,22,1.0,Ti I,4548.109,2.495,1,-0.63,MFW,,synth(GES),pending,-0.63,,-0.395,True,False,True,,,,,False,OTHER,False
-gf_123179,pk_43fac3e3fc33,22,1.0,Ti I,4548.764,0.826,1,-0.354,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.28,,-0.28,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123179,pk_43fac3e3fc33,22,1.0,Ti I,4548.764,0.826,1,-0.280,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.354 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.28,,-0.28,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123180,pk_231157f49a89,22,1.0,Ti I,4551.697,3.285,1,-1.726,K10,,synth(GES),single_source,-1.726,,-1.726,True,False,True,,,,,False,KURUCZ,False
 gf_123181,pk_952d8cc23ed8,22,1.0,Ti I,4551.729,2.472,1,-2.77,K10,,synth(GES),single_source,-2.77,,,True,False,False,,,,,False,KURUCZ,False
 gf_123182,pk_31c34b66c885,22,1.0,Ti I,4552.414,1.503,1,-2.286,K10,,synth(GES),single_source,-2.286,,-2.286,True,False,True,,,,,False,KURUCZ,False
@@ -114211,7 +114211,7 @@ gf_123185,pk_a47a288593b1,22,1.0,Ti I,4554.026,2.48,1,-2.281,K10,,synth(GES),sin
 gf_123186,pk_fa9dedd5445a,22,1.0,Ti I,4555.068,2.408,1,-0.637,K10,,synth(GES),single_source,-0.637,,-0.637,True,False,True,,,,,False,KURUCZ,False
 gf_123187,pk_3e9af1b09cc7,22,1.0,Ti I,4555.202,3.334,1,-2.289,K10,,synth(GES),single_source,-2.289,,,True,False,False,,,,,False,KURUCZ,False
 gf_123188,pk_daab8c8e3c7d,22,1.0,Ti I,4555.457,3.294,1,-1.585,K10,,synth(GES),single_source,-1.585,,-1.585,True,False,True,,,,,False,KURUCZ,False
-gf_123189,pk_89678469cf65,22,1.0,Ti I,4555.483,0.848,1,-0.489,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.4,,-0.4,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123189,pk_89678469cf65,22,1.0,Ti I,4555.483,0.848,1,-0.400,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.489 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.4,,-0.4,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123190,pk_bb6cdaa24627,22,1.0,Ti I,4556.282,2.662,1,-2.806,K10,,synth(GES),single_source,-2.806,,,True,False,False,,,,,False,KURUCZ,False
 gf_123191,pk_6d626babb176,22,1.0,Ti I,4557.251,2.506,1,-3.934,K10,,synth(GES),single_source,-3.934,,,True,False,False,,,,,False,KURUCZ,False
 gf_123192,pk_6a495df75bf6,22,1.0,Ti I,4557.852,2.472,1,-0.673,K10,,synth(GES),single_source,-0.673,,-0.673,True,False,True,,,,,False,KURUCZ,False
@@ -114281,7 +114281,7 @@ gf_123255,pk_d7e919bc131e,22,1.0,Ti I,4614.515,3.46,1,-2.371,K10,,synth(GES),sin
 gf_123256,pk_a6e89e4cbc60,22,1.0,Ti I,4615.133,1.969,1,-3.685,K10,,synth(GES),single_source,-3.685,,,True,False,False,,,,,False,KURUCZ,False
 gf_123257,pk_40a122c41ecd,22,1.0,Ti I,4616.247,3.108,1,0.117,K10,,synth(GES),single_source,0.117,,0.117,True,False,True,,,,,False,KURUCZ,False
 gf_123258,pk_49941fcc974a,22,1.0,Ti I,4616.814,2.16,1,-2.572,K10,,synth(GES),single_source,-2.572,,-2.572,True,False,True,,,,,False,KURUCZ,False
-gf_123259,pk_cfaa903e952d,22,1.0,Ti I,4617.269,1.749,1,0.389,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.44,,0.44,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123259,pk_cfaa903e952d,22,1.0,Ti I,4617.269,1.749,1,0.440,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.389 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.44,,0.44,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123260,pk_e4d56e98e5b8,22,1.0,Ti I,4618.792,2.345,1,-4.027,K10,,synth(GES),single_source,-4.027,,,True,False,False,,,,,False,KURUCZ,False
 gf_123261,pk_dd8dc7df83e4,22,1.0,Ti I,4618.819,3.294,1,-1.658,K10,,synth(GES),single_source,-1.658,,-1.658,True,False,True,,,,,False,KURUCZ,False
 gf_123262,pk_e9decb7c1f1a,22,1.0,Ti I,4619.52,2.334,1,-0.919,K10,,synth(GES),single_source,-0.919,,-0.919,True,False,True,,,,,False,KURUCZ,False
@@ -114289,7 +114289,7 @@ gf_123263,pk_c461bab89e68,22,1.0,Ti I,4621.393,3.111,1,-1.073,K10,,synth(GES),si
 gf_123264,pk_90201b3b9964,22,1.0,Ti I,4621.599,2.495,1,-3.631,K10,,synth(GES),single_source,-3.631,,,True,False,False,,,,,False,KURUCZ,False
 gf_123265,pk_3bad9dda06bb,22,1.0,Ti I,4622.748,3.139,1,-2.908,K10,,synth(GES),single_source,-2.908,,,True,False,False,,,,,False,KURUCZ,False
 gf_123266,pk_d36af538e36f,22,1.0,Ti I,4623.073,2.239,1,-1.024,K10,,synth(GES),single_source,-1.024,,-1.024,True,False,True,,,,,False,KURUCZ,False
-gf_123267,pk_2bcb2f5e9043,22,1.0,Ti I,4623.097,1.739,1,0.111,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.16,,0.16,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123267,pk_2bcb2f5e9043,22,1.0,Ti I,4623.097,1.739,1,0.160,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.111 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.16,,0.16,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123268,pk_ff448e5ab97e,22,1.0,Ti I,4625.527,3.285,1,-1.805,K10,,synth(GES),single_source,-1.805,,-1.805,True,False,True,,,,,False,KURUCZ,False
 gf_123269,pk_5abb4e88bc03,22,1.0,Ti I,4626.908,2.092,1,-4.136,K10,,synth(GES),single_source,-4.136,,,True,False,False,,,,,False,KURUCZ,False
 gf_123270,pk_029e8b9c3914,22,1.0,Ti I,4628.184,2.239,1,-1.287,K10,,synth(GES),single_source,-1.287,,-1.287,True,False,True,,,,,False,KURUCZ,False
@@ -114314,13 +114314,13 @@ gf_123288,pk_ddcd6045f291,22,1.0,Ti I,4638.755,3.305,1,-0.908,K10,,synth(GES),si
 gf_123289,pk_872ddd5140be,22,1.0,Ti I,4638.803,3.337,1,-0.711,K10,,synth(GES),single_source,-0.711,,-0.711,True,False,True,,,,,False,KURUCZ,False
 gf_123290,pk_1d8a65139512,22,1.0,Ti I,4639.363,1.739,1,-0.05,LGWSC,,synth(GES),single_source,-0.05,,-0.05,True,False,True,,,,,False,OTHER,False
 gf_123291,pk_3a2a457ec7c3,22,1.0,Ti I,4639.661,1.749,1,-0.14,LGWSC,,synth(GES),single_source,-0.14,,-0.14,True,False,True,,,,,False,OTHER,False
-gf_123292,pk_e52b4995baef,22,1.0,Ti I,4639.939,1.734,1,-0.192,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.16,,-0.16,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123292,pk_e52b4995baef,22,1.0,Ti I,4639.939,1.734,1,-0.160,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.192 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.16,,-0.16,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123293,pk_68013a7d7005,22,1.0,Ti I,4640.417,2.334,1,-0.79,MFW,,synth(GES),pending,-0.79,,-0.913,True,False,True,,,,,False,OTHER,False
 gf_123294,pk_6d43747fe323,22,1.0,Ti I,4640.572,3.294,1,-1.048,K10,,synth(GES),single_source,-1.048,,-1.048,True,False,True,,,,,False,KURUCZ,False
 gf_123295,pk_98a98710f70d,22,1.0,Ti I,4640.582,3.113,1,-2.438,K10,,synth(GES),single_source,-2.438,,,True,False,False,,,,,False,KURUCZ,False
 gf_123296,pk_3257c2302ac1,22,1.0,Ti I,4641.08,2.25,1,-2.01,LGWSC,,synth(GES),single_source,-2.01,,-2.01,True,False,True,,,,,False,OTHER,False
 gf_123297,pk_efd9fd30739c,22,1.0,Ti I,4641.225,2.662,1,-4.046,K10,,synth(GES),single_source,-4.046,,,True,False,False,,,,,False,KURUCZ,False
-gf_123298,pk_c9c1ee104fbf,22,1.0,Ti I,4645.188,1.734,1,-0.557,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.51,,-0.51,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123298,pk_c9c1ee104fbf,22,1.0,Ti I,4645.188,1.734,1,-0.510,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.557 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.51,,-0.51,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123299,pk_1bd87580fe31,22,1.0,Ti I,4646.231,2.25,1,-2.676,K10,,synth(GES),single_source,-2.676,,-2.676,True,False,True,,,,,False,KURUCZ,False
 gf_123300,pk_ae4a6e33a72e,22,1.0,Ti I,4646.581,2.103,1,-4.623,K10,,synth(GES),single_source,-4.623,,,True,False,False,,,,,False,KURUCZ,False
 gf_123301,pk_b0aeae86d214,22,1.0,Ti I,4646.697,2.103,1,-3.716,K10,,synth(GES),single_source,-3.716,,,True,False,False,,,,,False,KURUCZ,False
@@ -114350,7 +114350,7 @@ gf_123324,pk_cd3506c875e7,22,1.0,Ti I,4670.395,3.323,1,-5.26,K10,,synth(GES),sin
 gf_123325,pk_135435b70b92,22,1.0,Ti I,4671.293,2.117,1,-3.57,K10,,synth(GES),single_source,-3.57,,,True,False,False,,,,,False,KURUCZ,False
 gf_123326,pk_3f60b48e81a4,22,1.0,Ti I,4673.432,2.345,1,-2.11,LGWSC,,synth(GES),single_source,-2.11,,-2.11,True,False,True,,,,,False,OTHER,False
 gf_123327,pk_f96c36c63329,22,1.0,Ti I,4673.931,2.662,1,-3.055,K10,,synth(GES),single_source,-3.055,,,True,False,False,,,,,False,KURUCZ,False
-gf_123328,pk_e059ce86d6f7,22,1.0,Ti I,4675.117,1.067,1,-1.372,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-1.29,,-1.29,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123328,pk_e059ce86d6f7,22,1.0,Ti I,4675.117,1.067,1,-1.290,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.372 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.29,,-1.29,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123329,pk_8169ff2d73fc,22,1.0,Ti I,4676.524,2.677,1,-1.617,K10,,synth(GES),single_source,-1.617,,-1.617,True,False,True,,,,,False,KURUCZ,False
 gf_123330,pk_29a741b4302c,22,1.0,Ti I,4676.802,3.285,1,-2.948,K10,,synth(GES),single_source,-2.948,,,True,False,False,,,,,False,KURUCZ,False
 gf_123331,pk_3fa85cd5714b,22,1.0,Ti I,4676.953,2.506,1,-1.37,LGWSC,,synth(GES),single_source,-1.37,,-1.37,True,False,True,,,,,False,OTHER,False
@@ -114456,11 +114456,11 @@ gf_123430,pk_ec415a361500,22,1.0,Ti I,4754.358,2.16,1,-1.647,K10,,synth(GES),sin
 gf_123431,pk_4020772f2bd6,22,1.0,Ti I,4754.468,3.062,1,-1.823,K10,,synth(GES),single_source,-1.823,,-1.823,True,False,True,,,,,False,KURUCZ,False
 gf_123432,pk_a778e707c347,22,1.0,Ti I,4755.71,3.441,1,-2.575,K10,,synth(GES),single_source,-2.575,,,True,False,False,,,,,False,KURUCZ,False
 gf_123433,pk_e14fc281e4f0,22,1.0,Ti I,4756.867,2.239,1,-3.371,K10,,synth(GES),single_source,-3.371,,,True,False,False,,,,,False,KURUCZ,False
-gf_123434,pk_08a92f5192a9,22,1.0,Ti I,4758.118,2.249,1,0.425,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.51,,0.51,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123434,pk_08a92f5192a9,22,1.0,Ti I,4758.118,2.249,1,0.510,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.425 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.51,,0.51,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123435,pk_c894c9bb5eb8,22,1.0,Ti I,4758.901,0.836,1,-2.17,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: NIST ASD class C on the same gf",C,synth(GES),adopted_rya1268_vald_lab_nist_sigma,-2.17,,-2.17,True,False,True,,lawler2013,0.0969,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123436,pk_1dc0ff5ef3db,22,1.0,Ti I,4759.055,3.179,1,-3.027,K10,,synth(GES),single_source,-3.027,,,True,False,False,,,,,False,KURUCZ,False
 gf_123437,pk_9cb1e38187f8,22,1.0,Ti I,4759.142,2.778,1,-3.002,K10,,synth(GES),single_source,-3.002,,,True,False,False,,,,,False,KURUCZ,False
-gf_123438,pk_024e84154709,22,1.0,Ti I,4759.27,2.256,1,0.514,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.59,,0.59,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123438,pk_024e84154709,22,1.0,Ti I,4759.27,2.256,1,0.590,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.514 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.59,,0.59,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123439,pk_de5a03828e54,22,1.0,Ti I,4759.638,2.175,1,-1.669,K10,,synth(GES),single_source,-1.669,,-1.669,True,False,True,,,,,False,KURUCZ,False
 gf_123440,pk_1d168c968700,22,1.0,Ti I,4760.154,2.297,1,-3.95,K10,,synth(GES),single_source,-3.95,,,True,False,False,,,,,False,KURUCZ,False
 gf_123441,pk_d8547741c1c1,22,1.0,Ti I,4760.625,2.738,1,-4.9,K10,,synth(GES),single_source,-4.9,,,True,False,False,,,,,False,KURUCZ,False
@@ -114483,12 +114483,12 @@ gf_123457,pk_1b0fb729f125,22,1.0,Ti I,4779.973,3.409,1,-6.113,K10,,synth(GES),si
 gf_123458,pk_136db10c632d,22,1.0,Ti I,4780.375,3.186,1,-4.6,K10,,synth(GES),single_source,-4.6,,,True,False,False,,,,,False,KURUCZ,False
 gf_123459,pk_a60fc770fe04,22,1.0,Ti I,4780.808,2.175,1,-3.483,K10,,synth(GES),single_source,-3.483,,,True,False,False,,,,,False,KURUCZ,False
 gf_123460,pk_6eb46dd1ee82,22,1.0,Ti I,4781.711,0.848,1,-1.95,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: NIST ASD class C on the same gf",C,synth(GES),adopted_rya1268_vald_lab_nist_sigma,-1.95,,-1.95,True,False,True,,lawler2013,0.0969,10.1088/0067-0049/205/2/11,False,LAB,False
-gf_123461,pk_4460298452f3,22,1.0,Ti I,4783.302,0.818,1,-2.824,"NIST ASD (accuracy C; TP ref T3297,T3928)",C,synth(GES),adopted_rya1268_nist_asd,-2.95,,-2.95,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_123461,pk_4460298452f3,22,1.0,Ti I,4783.302,0.818,1,-2.950,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.824 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.95,,-2.95,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123462,pk_bf0571e97d0b,22,1.0,Ti I,4785.175,1.873,1,-2.1,LGWSC,,synth(GES),single_source,-2.1,,-2.1,True,False,True,,,,,False,OTHER,False
 gf_123463,pk_57259ca3548c,22,1.0,Ti I,4786.85,2.738,1,-0.856,K10,,synth(GES),single_source,-0.856,,-0.856,True,False,True,,,,,False,KURUCZ,False
 gf_123464,pk_e18514ce808e,22,1.0,Ti I,4787.635,0.818,1,-3.28,LGWSC,,synth(GES),single_source,-3.28,,-3.28,True,False,True,,,,,False,OTHER,False
 gf_123465,pk_fc82cb867043,22,1.0,Ti I,4788.873,2.738,1,-3.627,K10,,synth(GES),single_source,-3.627,,,True,False,False,,,,,False,KURUCZ,False
-gf_123466,pk_26531446bbba,22,1.0,Ti I,4789.786,0.836,1,-2.87,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.75,,-2.75,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_123466,pk_26531446bbba,22,1.0,Ti I,4789.786,0.836,1,-2.750,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.87 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.75,,-2.75,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123467,pk_0ef7bc1698e5,22,1.0,Ti I,4790.477,3.559,1,-3.492,K10,,synth(GES),single_source,-3.492,,,True,False,False,,,,,False,KURUCZ,False
 gf_123468,pk_c5d426a60fe7,22,1.0,Ti I,4790.973,3.409,1,-0.62,K10,,synth(GES),single_source,-0.62,,-0.62,True,False,True,,,,,False,KURUCZ,False
 gf_123469,pk_e5a32f008bf4,22,1.0,Ti I,4791.479,2.267,1,-1.59,LGWSC,,synth(GES),single_source,-1.59,,-1.59,True,False,True,,,,,False,OTHER,False
@@ -114537,7 +114537,7 @@ gf_123511,pk_33b4ada833c3,22,1.0,Ti I,4819.816,3.409,1,-4.068,K10,,synth(GES),si
 gf_123512,pk_22ff86167dae,22,1.0,Ti I,4819.861,3.709,1,-5.803,K10,,synth(GES),single_source,-5.803,,,True,False,False,,,,,False,KURUCZ,False
 gf_123513,pk_8643f8ce057e,22,1.0,Ti I,4820.046,3.409,1,-6.717,K10,,synth(GES),single_source,-6.717,,,True,False,False,,,,,False,KURUCZ,False
 gf_123514,pk_3155044c9001,22,1.0,Ti I,4820.249,3.709,1,-5.449,K10,,synth(GES),single_source,-5.449,,,True,False,False,,,,,False,KURUCZ,False
-gf_123515,pk_adbf00e70adc,22,1.0,Ti I,4820.409,1.503,1,-0.439,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.38,,-0.38,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123515,pk_adbf00e70adc,22,1.0,Ti I,4820.409,1.503,1,-0.380,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.439 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.38,,-0.38,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123516,pk_311185ac5b33,22,1.0,Ti I,4820.431,3.709,1,-6.467,K10,,synth(GES),single_source,-6.467,,,True,False,False,,,,,False,KURUCZ,False
 gf_123517,pk_b79357861c70,22,1.0,Ti I,4820.69,3.409,1,-4.798,K10,,synth(GES),single_source,-4.798,,,True,False,False,,,,,False,KURUCZ,False
 gf_123518,pk_564c5fc1e566,22,1.0,Ti I,4820.879,0.836,1,-6.737,K10,,synth(GES),single_source,-6.737,,,True,False,False,,,,,False,KURUCZ,False
@@ -114569,7 +114569,7 @@ gf_123543,pk_496317c416d6,22,1.0,Ti I,4837.522,3.128,1,-1.821,K10,,synth(GES),si
 gf_123544,pk_f7e3dd25dbc0,22,1.0,Ti I,4838.043,2.092,1,-3.543,K10,,synth(GES),single_source,-3.543,,,True,False,False,,,,,False,KURUCZ,False
 gf_123545,pk_3e77c78730a0,22,1.0,Ti I,4839.251,2.231,1,-1.38,LGWSC,,synth(GES),single_source,-1.38,,-1.38,True,False,True,,,,,False,OTHER,False
 gf_123546,pk_50d7ebc84e83,22,1.0,Ti I,4839.586,3.113,1,-8.67,K10,,synth(GES),single_source,-8.67,,,True,False,False,,,,,False,KURUCZ,False
-gf_123547,pk_e53a30b09c7b,22,1.0,Ti I,4840.874,0.9,1,-0.509,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.43,,-0.43,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123547,pk_e53a30b09c7b,22,1.0,Ti I,4840.874,0.9,1,-0.430,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.509 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.43,,-0.43,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123548,pk_32621d135200,22,1.0,Ti I,4841.43,1.873,1,-4.356,K10,,synth(GES),single_source,-4.356,,,True,False,False,,,,,False,KURUCZ,False
 gf_123549,pk_228f268c9478,22,1.0,Ti I,4842.59,2.289,1,-1.754,K10,,synth(GES),single_source,-1.754,,-1.754,True,False,True,,,,,False,KURUCZ,False
 gf_123550,pk_88269cd58581,22,1.0,Ti I,4843.979,2.239,1,-1.15,LGWSC,,synth(GES),single_source,-1.15,,-1.15,True,False,True,,,,,False,OTHER,False
@@ -114644,7 +114644,7 @@ gf_123618,pk_dc7c692054d6,22,1.0,Ti I,4882.626,2.695,1,-3.01,K10,,synth(GES),sin
 gf_123619,pk_3250c8beaa79,22,1.0,Ti I,4882.741,3.581,1,-2.824,K10,,synth(GES),single_source,-2.824,,,True,False,False,,,,,False,KURUCZ,False
 gf_123620,pk_679b5c728e9b,22,1.0,Ti I,4882.89,3.407,1,-3.114,K10,,synth(GES),single_source,-3.114,,,True,False,False,,,,,False,KURUCZ,False
 gf_123621,pk_4762cbd44e5b,22,1.0,Ti I,4884.83,3.294,1,-0.212,K10,,synth(GES),single_source,-0.212,,-0.212,True,False,True,,,,,False,KURUCZ,False
-gf_123622,pk_8c3417489e42,22,1.0,Ti I,4885.079,1.887,1,0.357,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.41,,0.41,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123622,pk_8c3417489e42,22,1.0,Ti I,4885.079,1.887,1,0.410,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.357 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.41,,0.41,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123623,pk_8ee5838c4860,22,1.0,Ti I,4885.201,2.677,1,-1.264,K10,,synth(GES),single_source,-1.264,,-1.264,True,False,True,,,,,False,KURUCZ,False
 gf_123624,pk_d48b0a669af0,22,1.0,Ti I,4885.967,2.506,1,-1.3,LGWSC,,synth(GES),single_source,-1.3,,-1.3,True,False,True,,,,,False,OTHER,False
 gf_123625,pk_02ff0e345cca,22,1.0,Ti I,4886.251,2.578,1,-3.349,K10,,synth(GES),single_source,-3.349,,,True,False,False,,,,,False,KURUCZ,False
@@ -114711,10 +114711,10 @@ gf_123685,pk_a1bb83ad608d,22,1.0,Ti I,4911.735,2.662,1,-0.905,K10,,synth(GES),si
 gf_123686,pk_4889ac2cd193,22,1.0,Ti I,4911.882,3.581,1,-1.846,K10,,synth(GES),single_source,-1.846,,,True,False,False,,,,,False,KURUCZ,False
 gf_123687,pk_189e1067464a,22,1.0,Ti I,4912.797,2.662,1,-2.526,K10,,synth(GES),single_source,-2.526,,-2.526,True,False,True,,,,,False,KURUCZ,False
 gf_123688,pk_f19ffcbe1c0f,22,1.0,Ti I,4913.462,2.506,1,-3.034,K10,,synth(GES),single_source,-3.034,,,True,False,False,,,,,False,KURUCZ,False
-gf_123689,pk_a4d8096c4e3e,22,1.0,Ti I,4913.613,1.873,1,0.161,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,0.22,,0.22,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123689,pk_a4d8096c4e3e,22,1.0,Ti I,4913.613,1.873,1,0.220,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.161 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.22,,0.22,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123690,pk_19e29da7535f,22,1.0,Ti I,4914.088,3.161,1,-1.102,K10,,synth(GES),single_source,-1.102,,-1.102,True,False,True,,,,,False,KURUCZ,False
 gf_123691,pk_53d63ba5411a,22,1.0,Ti I,4914.494,3.57,1,-1.694,K10,,synth(GES),single_source,-1.694,,,True,False,False,,,,,False,KURUCZ,False
-gf_123692,pk_f481a189a493,22,1.0,Ti I,4915.229,1.887,1,-1.019,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.91,,-0.91,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123692,pk_f481a189a493,22,1.0,Ti I,4915.229,1.887,1,-0.910,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.019 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.91,,-0.91,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123693,pk_efaa890fa316,22,1.0,Ti I,4915.443,3.154,1,-3.55,K10,,synth(GES),single_source,-3.55,,,True,False,False,,,,,False,KURUCZ,False
 gf_123694,pk_f73c7c828d96,22,1.0,Ti I,4916.263,3.57,1,-1.418,K10,,synth(GES),single_source,-1.418,,-1.418,True,False,True,,,,,False,KURUCZ,False
 gf_123695,pk_139fe066c728,22,1.0,Ti I,4916.593,3.559,1,-3.219,K10,,synth(GES),single_source,-3.219,,,True,False,False,,,,,False,KURUCZ,False
@@ -114742,7 +114742,7 @@ gf_123716,pk_1bd6c9e58cef,22,1.0,Ti I,4925.203,3.574,1,-2.433,K10,,synth(GES),si
 gf_123717,pk_59db476ede2f,22,1.0,Ti I,4925.378,3.574,1,-2.048,K10,,synth(GES),single_source,-2.048,,,True,False,False,,,,,False,KURUCZ,False
 gf_123718,pk_5699d6a44bc2,22,1.0,Ti I,4925.401,1.879,1,-0.95,LGWSC,,synth(GES),single_source,-0.95,,-0.95,True,False,True,,,,,False,OTHER,False
 gf_123719,pk_36a84974d8c2,22,1.0,Ti I,4925.668,3.113,1,-0.76,K10,,synth(GES),single_source,-0.76,,-0.76,True,False,True,,,,,False,KURUCZ,False
-gf_123720,pk_65a34556cb99,22,1.0,Ti I,4926.148,0.818,1,-2.171,NIST ASD (accuracy C+; TP ref T4498),C+,synth(GES),adopted_rya1268_nist_asd,-2.09,,-2.09,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123720,pk_65a34556cb99,22,1.0,Ti I,4926.148,0.818,1,-2.090,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.171 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.09,,-2.09,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123721,pk_4b884ee66dcf,22,1.0,Ti I,4926.685,3.59,1,-1.401,K10,,synth(GES),single_source,-1.401,,-1.401,True,False,True,,,,,False,KURUCZ,False
 gf_123722,pk_365247d6453e,22,1.0,Ti I,4926.835,3.59,1,-1.467,K10,,synth(GES),single_source,-1.467,,-1.467,True,False,True,,,,,False,KURUCZ,False
 gf_123723,pk_7044c61cd8bb,22,1.0,Ti I,4927.284,3.59,1,-2.766,K10,,synth(GES),single_source,-2.766,,,True,False,False,,,,,False,KURUCZ,False
@@ -114882,7 +114882,7 @@ gf_123856,pk_4df60847243e,22,1.0,Ti I,4978.913,2.695,1,-3.007,K10,,synth(GES),si
 gf_123857,pk_34ed7a8e1842,22,1.0,Ti I,4979.147,3.179,1,-3.509,K10,,synth(GES),single_source,-3.509,,,True,False,False,,,,,False,KURUCZ,False
 gf_123858,pk_59ae1d97055e,22,1.0,Ti I,4979.259,2.175,1,-1.59,LGWSC,,synth(GES),single_source,-1.59,,-1.59,True,False,True,,,,,False,OTHER,False
 gf_123859,pk_e4cc28b14f4c,22,1.0,Ti I,4979.363,3.186,1,-0.616,K10,,synth(GES),single_source,-0.616,,-0.616,True,False,True,,,,,False,KURUCZ,False
-gf_123860,pk_75da17b336b9,22,1.0,Ti I,4981.73,0.848,1,0.504,NIST ASD (accuracy C+; TP ref T4294),C+,regions(VALD3),adopted_rya1268_nist_asd,0.57,0.57,0.57,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123860,pk_75da17b336b9,22,1.0,Ti I,4981.73,0.848,1,0.570,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.504 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,0.57,0.57,0.57,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123861,pk_ad96a1ed7405,22,1.0,Ti I,4981.904,2.427,1,-3.045,K10,,synth(GES),single_source,-3.045,,,True,False,False,,,,,False,KURUCZ,False
 gf_123862,pk_38cd3366ea09,22,1.0,Ti I,4983.578,3.104,1,-1.303,K10,,synth(GES),single_source,-1.303,,-1.303,True,False,True,,,,,False,KURUCZ,False
 gf_123863,pk_41649759d788,22,1.0,Ti I,4985.355,1.46,1,-3.515,K10,,synth(GES),single_source,-3.515,,-3.515,True,False,True,,,,,False,KURUCZ,False
@@ -114891,7 +114891,7 @@ gf_123865,pk_358bfed6c7dc,22,1.0,Ti I,4988.599,3.199,1,-0.229,K10,,synth(GES),si
 gf_123866,pk_0378bb44e3ab,22,1.0,Ti I,4988.8,0.021,2,-10.7801,K10,,synth(GES),single_source,-10.7801,,,True,False,False,,,,,False,KURUCZ,False
 gf_123867,pk_8f67756cba08,22,1.0,Ti I,4989.13,1.981,1,-0.161,NIST ASD (accuracy B+; TP ref T6897),B+,synth(GES),adopted_rya1268_nist_asd,-0.16,,-0.16,True,False,True,,NIST_ASD,0.0294,,False,NIST-C+,False
 gf_123868,pk_ea0f4ffb44f2,22,1.0,Ti I,4989.5,1.067,1,-5.002,K10,,synth(GES),single_source,-5.002,,,True,False,False,,,,,False,KURUCZ,False
-gf_123869,pk_a394549004ac,22,1.0,Ti I,4991.066,0.836,1,0.381,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,0.45,,0.45,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123869,pk_a394549004ac,22,1.0,Ti I,4991.066,0.836,1,0.450,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.381 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.45,,0.45,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123870,pk_8998375bc985,22,1.0,Ti I,4991.399,3.108,1,-3.615,K10,,synth(GES),single_source,-3.615,,,True,False,False,,,,,False,KURUCZ,False
 gf_123871,pk_1e9f10240b00,22,1.0,Ti I,4992.064,1.997,1,-3.943,K10,,synth(GES),single_source,-3.943,,,True,False,False,,,,,False,KURUCZ,False
 gf_123872,pk_d8ecafd22701,22,1.0,Ti I,4993.232,3.559,1,-2.58,K10,,synth(GES),single_source,-2.58,,,True,False,False,,,,,False,KURUCZ,False
@@ -114905,7 +114905,7 @@ gf_123879,pk_5f351bf66393,22,1.0,Ti I,4998.729,3.112,1,-0.76,K10,,synth(GES),sin
 gf_123880,pk_c3488b9d1833,22,1.0,Ti I,4998.855,2.292,1,-5.025,K10,,synth(GES),single_source,-5.025,,,True,False,False,,,,,False,KURUCZ,False
 gf_123881,pk_5bf421b6a061,22,1.0,Ti I,4998.885,1.734,1,-5.815,K10,,synth(GES),single_source,-5.815,,,True,False,False,,,,,False,KURUCZ,False
 gf_123882,pk_1346f09d92d1,22,1.0,Ti I,4999.218,3.111,1,-4.466,K10,,synth(GES),single_source,-4.466,,,True,False,False,,,,,False,KURUCZ,False
-gf_123883,pk_9cca5cef9e6b,22,1.0,Ti I,4999.503,0.826,1,0.25,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,0.32,,0.32,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123883,pk_9cca5cef9e6b,22,1.0,Ti I,4999.503,0.826,1,0.320,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.25 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.32,,0.32,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123884,pk_a0347da6f44e,22,1.0,Ti I,4999.831,3.108,1,-2.451,K10,,synth(GES),single_source,-2.451,,,True,False,False,,,,,False,KURUCZ,False
 gf_123885,pk_2f6ff23e32c9,22,1.0,Ti I,4999.863,3.113,1,-3.528,K10,,synth(GES),single_source,-3.528,,,True,False,False,,,,,False,KURUCZ,False
 gf_123886,pk_dfaadb81e29f,22,1.0,Ti I,4999.994,3.112,1,-1.568,K10,,synth(GES),single_source,-1.568,,-1.568,True,False,True,,,,,False,KURUCZ,False
@@ -114922,7 +114922,7 @@ gf_123896,pk_df92e748e9f0,22,1.0,Ti I,5005.585,3.108,1,-1.7,K10,,synth(GES),sing
 gf_123897,pk_862cdce10256,22,1.0,Ti I,5005.719,2.738,1,-3.189,K10,,synth(GES),single_source,-3.189,,,True,False,False,,,,,False,KURUCZ,False
 gf_123898,pk_e2c54f6786d1,22,1.0,Ti I,5005.868,3.111,1,-3.225,K10,,synth(GES),single_source,-3.225,,,True,False,False,,,,,False,KURUCZ,False
 gf_123899,pk_fa5ef2f9de49,22,1.0,Ti I,5007.012,3.215,1,-1.748,K10,,synth(GES),pending,-1.748,,-1.694,True,False,True,,,,,False,KURUCZ,False
-gf_123900,pk_d698089dc187,22,1.0,Ti I,5007.209,0.818,1,0.112,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,0.17,,0.17,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123900,pk_d698089dc187,22,1.0,Ti I,5007.209,0.818,1,0.170,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.112 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,0.17,,0.17,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123901,pk_e82bc2e58973,22,1.0,Ti I,5007.552,3.104,1,-3.146,K10,,synth(GES),single_source,-3.146,,,True,False,False,,,,,False,KURUCZ,False
 gf_123902,pk_22d765ec2e3f,22,1.0,Ti I,5008.114,2.778,1,-2.818,K10,,synth(GES),single_source,-2.818,,,True,False,False,,,,,False,KURUCZ,False
 gf_123903,pk_14a945446811,22,1.0,Ti I,5008.776,1.997,1,-4.416,K10,,synth(GES),single_source,-4.416,,,True,False,False,,,,,False,KURUCZ,False
@@ -114934,24 +114934,24 @@ gf_123908,pk_90d33913f6b9,22,1.0,Ti I,5010.576,1.739,1,-5.838,K10,,synth(GES),si
 gf_123909,pk_a3f6238b8fe9,22,1.0,Ti I,5010.743,2.297,1,-4.156,K10,,synth(GES),single_source,-4.156,,,True,False,False,,,,,False,KURUCZ,False
 gf_123910,pk_4f50e0c9b864,22,1.0,Ti I,5010.877,2.297,1,-4.598,K10,,synth(GES),single_source,-4.598,,,True,False,False,,,,,False,KURUCZ,False
 gf_123911,pk_e0b94746b8eb,22,1.0,Ti I,5013.28,2.017,1,0.117,NIST ASD (accuracy B+; TP ref T6897),B+,synth(GES),adopted_rya1268_nist_asd,0.12,,0.12,True,False,True,,NIST_ASD,0.0294,,False,NIST-C+,False
-gf_123912,pk_7fa566e98206,22,1.0,Ti I,5014.186,0.0,1,-1.24,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-1.22,,-1.2198,True,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
-gf_123913,pk_bde5bc087504,22,1.0,Ti I,5014.276,0.813,1,0.111,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,0.04,,0.04,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_123912,pk_7fa566e98206,22,1.0,Ti I,5014.186,0.0,1,-1.220,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.24 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.22,,-1.2198,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
+gf_123913,pk_bde5bc087504,22,1.0,Ti I,5014.276,0.813,1,0.040,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.111 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,0.04,,0.04,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123914,pk_e8fdc962f320,22,1.0,Ti I,5014.817,2.16,1,-3.762,K10,,synth(GES),single_source,-3.762,,,True,False,False,,,,,False,KURUCZ,False
 gf_123915,pk_059a423933b6,22,1.0,Ti I,5015.344,2.017,1,-4.659,K10,,synth(GES),single_source,-4.659,,,True,False,False,,,,,False,KURUCZ,False
 gf_123916,pk_20c080460a71,22,1.0,Ti I,5015.448,3.108,1,-1.846,K10,,synth(GES),single_source,-1.846,,-1.846,True,False,True,,,,,False,KURUCZ,False
-gf_123917,pk_aecdac6fd54f,22,1.0,Ti I,5016.161,0.848,1,-0.573,NIST ASD (accuracy C+; TP ref T4294),C+,regions(VALD3),adopted_rya1268_nist_asd,-0.48,-0.48,-0.48,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123917,pk_aecdac6fd54f,22,1.0,Ti I,5016.161,0.848,1,-0.480,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.573 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-0.48,-0.48,-0.48,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123918,pk_adcd840a59ce,22,1.0,Ti I,5016.91,1.873,1,-4.795,K10,,synth(GES),single_source,-4.795,,,True,False,False,,,,,False,KURUCZ,False
 gf_123919,pk_f1045a81c564,22,1.0,Ti I,5019.89,2.239,1,-1.34,LGWSC,,synth(GES),single_source,-1.34,,-1.34,True,False,True,,,,,False,OTHER,False
-gf_123920,pk_e9e964137902,22,1.0,Ti I,5020.026,0.836,1,-0.415,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.33,,-0.33,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123920,pk_e9e964137902,22,1.0,Ti I,5020.026,0.836,1,-0.330,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.415 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.33,,-0.33,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123921,pk_747bf644c375,22,1.0,Ti I,5020.286,3.546,1,-3.455,K10,,synth(GES),single_source,-3.455,,,True,False,False,,,,,False,KURUCZ,False
 gf_123922,pk_4e50440f43e8,22,1.0,Ti I,5021.09,3.678,1,-2.026,K10,,synth(GES),single_source,-2.026,,,True,False,False,,,,,False,KURUCZ,False
 gf_123923,pk_3181b0c5afc9,22,1.0,Ti I,5021.524,3.111,1,-2.728,K10,,synth(GES),single_source,-2.728,,,True,False,False,,,,,False,KURUCZ,False
 gf_123924,pk_307c00aa5925,22,1.0,Ti I,5021.872,2.738,1,-2.959,K10,,synth(GES),single_source,-2.959,,,True,False,False,,,,,False,KURUCZ,False
 gf_123925,pk_b5f1ed87c089,22,1.0,Ti I,5022.266,3.215,1,-2.622,K10,,synth(GES),single_source,-2.622,,,True,False,False,,,,,False,KURUCZ,False
-gf_123926,pk_27339a440460,22,1.0,Ti I,5022.868,0.826,1,-0.434,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.33,,-0.33,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123926,pk_27339a440460,22,1.0,Ti I,5022.868,0.826,1,-0.330,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.434 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.33,,-0.33,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123927,pk_ce79cc2628af,22,1.0,Ti I,5023.332,2.16,1,-1.51,LGWSC,,synth(GES),single_source,-1.51,,-1.51,True,False,True,,,,,False,OTHER,False
 gf_123928,pk_026577a729df,22,1.0,Ti I,5023.848,2.662,1,-1.954,K10,,synth(GES),single_source,-1.954,,-1.954,True,False,True,,,,,False,KURUCZ,False
-gf_123929,pk_d6a656f4f7e1,22,1.0,Ti I,5024.844,0.818,1,-0.602,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-0.53,,-0.53,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123929,pk_d6a656f4f7e1,22,1.0,Ti I,5024.844,0.818,1,-0.530,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.602 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.53,,-0.53,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123930,pk_05d3d493488d,22,1.0,Ti I,5025.565,2.677,1,-1.728,K10,,synth(GES),single_source,-1.728,,-1.728,True,False,True,,,,,False,KURUCZ,False
 gf_123931,pk_2d28d1c88d32,22,1.0,Ti I,5025.57,2.041,1,0.251,NIST ASD (accuracy B+; TP ref T6897),B+,synth(GES),adopted_rya1268_nist_asd,0.25,,0.25,True,False,True,,NIST_ASD,0.0294,,False,NIST-C+,False
 gf_123932,pk_fb551183c60c,22,1.0,Ti I,5025.903,2.396,1,-3.89,K10,,synth(GES),single_source,-3.89,,,True,False,False,,,,,False,KURUCZ,False
@@ -114979,16 +114979,16 @@ gf_123953,pk_9195617ccfc9,22,1.0,Ti I,5038.35,3.869,1,-3.871,K10,,synth(GES),sin
 gf_123954,pk_80bbfede9040,22,1.0,Ti I,5038.398,1.43,1,0.02,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: NIST ASD class C+ on the same gf",C+,synth(GES),adopted_rya1268_vald_lab_nist_sigma,0.02,,0.02,True,False,True,,lawler2013,0.0719,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123955,pk_e453b6f7aa8b,22,1.0,Ti I,5039.204,2.427,1,-3.086,K10,,synth(GES),single_source,-3.086,,,True,False,False,,,,,False,KURUCZ,False
 gf_123956,pk_79eeafbdb153,22,1.0,Ti I,5039.942,2.333,1,-2.427,K10,,synth(GES),single_source,-2.427,,-2.427,True,False,True,,,,,False,KURUCZ,False
-gf_123957,pk_33f62f682a1c,22,1.0,Ti I,5039.957,0.021,1,-1.069,NIST ASD (accuracy A; TP ref T7574),A,regions(VALD3),adopted_rya1268_nist_asd,-1.08,-1.08,-1.0798,True,True,True,0.0,NIST_ASD,0.0128,,False,NIST-C+,False
-gf_123958,pk_5d538edbfa7f,22,1.0,Ti I,5040.614,0.826,1,-1.788,NIST ASD (accuracy C+; TP ref T4498),C+,synth(GES),adopted_rya1268_nist_asd,-1.67,,-1.67,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123957,pk_33f62f682a1c,22,1.0,Ti I,5039.957,0.021,1,-1.080,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.069 (class A), RYA-1315",A,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-1.08,-1.08,-1.0798,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
+gf_123958,pk_5d538edbfa7f,22,1.0,Ti I,5040.614,0.826,1,-1.670,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.788 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.67,,-1.67,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123959,pk_efd235a506de,22,1.0,Ti I,5040.893,2.318,1,-4.821,K10,,synth(GES),single_source,-4.821,,,True,False,False,,,,,False,KURUCZ,False
 gf_123960,pk_64db11f01bad,22,1.0,Ti I,5041.127,2.25,1,-4.112,K10,,synth(GES),single_source,-4.112,,,True,False,False,,,,,False,KURUCZ,False
 gf_123961,pk_35528126110d,22,1.0,Ti I,5041.453,3.111,1,-1.81,K10,,synth(GES),single_source,-1.81,,-1.81,True,False,True,,,,,False,KURUCZ,False
 gf_123962,pk_7961966dc8cb,22,1.0,Ti I,5041.894,2.334,1,-2.219,K10,,synth(GES),single_source,-2.219,,-2.219,True,False,True,,,,,False,KURUCZ,False
-gf_123963,pk_04462feed564,22,1.0,Ti I,5043.584,0.836,1,-1.732,NIST ASD (accuracy C+; TP ref T4498),C+,regions(VALD3),adopted_rya1268_nist_asd,-1.59,-1.59,-1.59,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123963,pk_04462feed564,22,1.0,Ti I,5043.584,0.836,1,-1.590,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.732 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-1.59,-1.59,-1.59,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123964,pk_4285fc5c946a,22,1.0,Ti I,5044.253,2.175,1,-1.17,LGWSC,,synth(GES),single_source,-1.17,,-1.17,True,False,True,,,,,False,OTHER,False
 gf_123965,pk_b54c374142e1,22,1.0,Ti I,5045.218,2.236,1,-2.5,LGWSC,,synth(GES),single_source,-2.5,,-2.5,True,False,True,,,,,False,OTHER,False
-gf_123966,pk_f98db11050cb,22,1.0,Ti I,5045.414,0.848,1,-1.999,NIST ASD (accuracy C+; TP ref T4498),C+,regions(VALD3),adopted_rya1268_nist_asd,-1.84,-1.84,-1.84,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123966,pk_f98db11050cb,22,1.0,Ti I,5045.414,0.848,1,-1.840,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.999 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-1.84,-1.84,-1.84,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123967,pk_4f83fa0bf88e,22,1.0,Ti I,5046.541,2.778,1,-2.297,K10,,synth(GES),single_source,-2.297,,-2.297,True,False,True,,,,,False,KURUCZ,False
 gf_123968,pk_b9d684abedcd,22,1.0,Ti I,5048.215,2.154,1,-1.15,LGWSC,,synth(GES),single_source,-1.15,,-1.15,True,False,True,,,,,False,OTHER,False
 gf_123969,pk_96fc4fcff390,22,1.0,Ti I,5048.328,3.691,1,-1.158,K10,,synth(GES),single_source,-1.158,,-1.158,True,False,True,,,,,False,KURUCZ,False
@@ -115010,7 +115010,7 @@ gf_123984,pk_fdacb0d1e99e,22,1.0,Ti I,5055.375,3.139,1,-2.381,K10,,synth(GES),si
 gf_123985,pk_87f13ef3ddab,22,1.0,Ti I,5057.833,3.108,1,-2.16,K10,,synth(GES),single_source,-2.16,,,True,False,False,,,,,False,KURUCZ,False
 gf_123986,pk_240124e12d8e,22,1.0,Ti I,5059.355,3.179,1,-4.84,K10,,synth(GES),single_source,-4.84,,,True,False,False,,,,,False,KURUCZ,False
 gf_123987,pk_2a77714581c9,22,1.0,Ti I,5059.968,3.334,1,-2.286,K10,,synth(GES),single_source,-2.286,,,True,False,False,,,,,False,KURUCZ,False
-gf_123988,pk_88e531e4e55b,22,1.0,Ti I,5062.102,2.16,1,-0.464,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.39,,-0.39,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_123988,pk_88e531e4e55b,22,1.0,Ti I,5062.102,2.16,1,-0.390,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.464 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.39,,-0.39,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_123989,pk_da6d09d7cde1,22,1.0,Ti I,5063.758,2.345,1,-3.032,K10,,synth(GES),single_source,-3.032,,,True,False,False,,,,,False,KURUCZ,False
 gf_123990,pk_70929a56f963,22,1.0,Ti I,5063.916,2.041,1,-2.989,K10,,synth(GES),single_source,-2.989,,-2.989,True,False,True,,,,,False,KURUCZ,False
 gf_123991,pk_23f5da320a59,22,1.0,Ti I,5064.011,3.111,1,-1.103,K10,,synth(GES),single_source,-1.103,,-1.103,True,False,True,,,,,False,KURUCZ,False
@@ -115023,7 +115023,7 @@ gf_123997,pk_9653005b5255,22,1.0,Ti I,5069.354,2.154,1,-0.665,K10,,synth(GES),si
 gf_123998,pk_d86471d528e3,22,1.0,Ti I,5069.565,3.334,1,-3.394,K10,,synth(GES),single_source,-3.394,,,True,False,False,,,,,False,KURUCZ,False
 gf_123999,pk_ddfa997b3785,22,1.0,Ti I,5070.497,3.702,1,-2.667,K10,,synth(GES),single_source,-2.667,,,True,False,False,,,,,False,KURUCZ,False
 gf_124000,pk_17ec6cc41089,22,1.0,Ti I,5071.11,3.148,1,-0.582,K10,,synth(GES),single_source,-0.582,,-0.582,True,False,True,,,,,False,KURUCZ,False
-gf_124001,pk_442771aa9866,22,1.0,Ti I,5071.467,1.46,1,-1.063,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.99,,-0.99,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124001,pk_442771aa9866,22,1.0,Ti I,5071.467,1.46,1,-0.990,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.063 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.99,,-0.99,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124002,pk_8f62c0c646f4,22,1.0,Ti I,5071.748,1.503,1,-3.607,K10,,synth(GES),single_source,-3.607,,-3.607,True,False,True,,,,,False,KURUCZ,False
 gf_124003,pk_752b02ced5be,22,1.0,Ti I,5072.812,3.709,1,-0.982,K10,,synth(GES),single_source,-0.982,,-0.982,True,False,True,,,,,False,KURUCZ,False
 gf_124004,pk_21945fb842db,22,1.0,Ti I,5073.049,2.25,1,-4.14,K10,,synth(GES),single_source,-4.14,,,True,False,False,,,,,False,KURUCZ,False
@@ -115087,7 +115087,7 @@ gf_124061,pk_6e7603b7058d,22,1.0,Ti I,5111.041,3.166,1,-0.675,K10,,synth(GES),si
 gf_124062,pk_b546e4b67b23,22,1.0,Ti I,5111.212,3.727,1,-2.356,K10,,synth(GES),single_source,-2.356,,,True,False,False,,,,,False,KURUCZ,False
 gf_124063,pk_7d36fcd59e09,22,1.0,Ti I,5112.111,3.166,1,-1.42,K10,,synth(GES),single_source,-1.42,,-1.42,True,False,True,,,,,False,KURUCZ,False
 gf_124064,pk_ada47436f5fe,22,1.0,Ti I,5112.687,2.778,1,-3.868,K10,,synth(GES),single_source,-3.868,,,True,False,False,,,,,False,KURUCZ,False
-gf_124065,pk_9694272e835c,22,1.0,Ti I,5113.44,1.443,1,-0.782,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.7,,-0.7,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124065,pk_9694272e835c,22,1.0,Ti I,5113.44,1.443,1,-0.700,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.782 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.7,,-0.7,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124066,pk_2261dd048117,22,1.0,Ti I,5113.91,2.249,1,-2.0,LGWSC,,synth(GES),single_source,-2.0,,-2.0,True,False,True,,,,,False,OTHER,False
 gf_124067,pk_49f10168a52f,22,1.0,Ti I,5114.069,3.112,1,-1.917,K10,,synth(GES),single_source,-1.917,,-1.917,True,False,True,,,,,False,KURUCZ,False
 gf_124068,pk_b2fa6e361759,22,1.0,Ti I,5114.17,0.9,1,-4.008,K10,,synth(GES),single_source,-4.008,,-4.008,True,False,True,,,,,False,KURUCZ,False
@@ -115141,7 +115141,7 @@ gf_124115,pk_df5eca0fe731,22,1.0,Ti I,5141.82,3.59,1,-2.922,K10,,synth(GES),sing
 gf_124116,pk_a22794d1a4c8,22,1.0,Ti I,5142.64,3.104,1,-1.64,K10,,synth(GES),single_source,-1.64,,-1.64,True,False,True,,,,,False,KURUCZ,False
 gf_124117,pk_d859bb55d967,22,1.0,Ti I,5143.674,3.104,1,-2.466,K10,,synth(GES),single_source,-2.466,,,True,False,False,,,,,False,KURUCZ,False
 gf_124118,pk_141ff45340a2,22,1.0,Ti I,5144.534,3.583,1,-1.193,K10,,synth(GES),single_source,-1.193,,-1.193,True,False,True,,,,,False,KURUCZ,False
-gf_124119,pk_728cf40dff18,22,1.0,Ti I,5145.46,1.46,1,-0.573,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.54,,-0.54,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124119,pk_728cf40dff18,22,1.0,Ti I,5145.46,1.46,1,-0.540,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.573 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.54,,-0.54,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124120,pk_7e64e433a8f6,22,1.0,Ti I,5146.807,3.128,1,-1.58,K10,,synth(GES),single_source,-1.58,,-1.58,True,False,True,,,,,False,KURUCZ,False
 gf_124121,pk_31a9137eb473,22,1.0,Ti I,5147.478,0.0,1,-1.94,2013ApJS..,,synth(GES),single_source,-1.94,,-1.94,True,False,True,,,,,False,OTHER,False
 gf_124122,pk_dadb2700e4b3,22,1.0,Ti I,5147.76,3.569,1,-1.055,K10,,synth(GES),single_source,-1.055,,-1.055,True,False,True,,,,,False,KURUCZ,False
@@ -115164,7 +115164,7 @@ gf_124138,pk_17758dddd0c2,22,1.0,Ti I,5150.681,3.551,1,-1.253,K10,,synth(GES),si
 gf_124139,pk_fbf69cb6b0cc,22,1.0,Ti I,5151.153,3.574,1,-4.118,K10,,synth(GES),single_source,-4.118,,,True,False,False,,,,,False,KURUCZ,False
 gf_124140,pk_3d00b286a5ef,22,1.0,Ti I,5151.967,3.559,1,-1.075,K10,,synth(GES),single_source,-1.075,,-1.075,True,False,True,,,,,False,KURUCZ,False
 gf_124141,pk_7df183404e1d,22,1.0,Ti I,5152.007,3.108,1,-3.358,K10,,synth(GES),single_source,-3.358,,,True,False,False,,,,,False,KURUCZ,False
-gf_124142,pk_794a0916c7dc,22,1.0,Ti I,5152.184,0.021,1,-1.9,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-1.95,,-1.95,True,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_124142,pk_794a0916c7dc,22,1.0,Ti I,5152.184,0.021,1,-1.950,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.9 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.95,,-1.95,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124143,pk_fedf62311246,22,1.0,Ti I,5152.468,2.267,1,-3.589,K10,,synth(GES),single_source,-3.589,,,True,False,False,,,,,False,KURUCZ,False
 gf_124144,pk_11c74df04ba9,22,1.0,Ti I,5153.912,3.186,1,-1.677,K10,,synth(GES),single_source,-1.677,,-1.677,True,False,True,,,,,False,KURUCZ,False
 gf_124145,pk_c5e8fbdf7562,22,1.0,Ti I,5154.999,3.186,1,-3.011,K10,,synth(GES),single_source,-3.011,,,True,False,False,,,,,False,KURUCZ,False
@@ -115268,7 +115268,7 @@ gf_124242,pk_71c95f8216a7,22,1.0,Ti I,5219.489,2.396,1,-3.481,K10,,synth(GES),si
 gf_124243,pk_5eba18f74cc3,22,1.0,Ti I,5219.502,3.108,1,-2.167,K10,,synth(GES),single_source,-2.167,,,True,False,False,,,,,False,KURUCZ,False
 gf_124244,pk_a04239397773,22,1.0,Ti I,5219.604,3.59,1,-4.199,K10,,synth(GES),single_source,-4.199,,,True,False,False,,,,,False,KURUCZ,False
 gf_124245,pk_7901702432a2,22,1.0,Ti I,5219.634,2.396,1,-1.846,K10,,synth(GES),single_source,-1.846,,-1.846,True,False,True,,,,,False,KURUCZ,False
-gf_124246,pk_ec2558aa381c,22,1.0,Ti I,5219.702,0.021,1,-2.257,NIST ASD (accuracy C+; TP ref T8000),C+,regions(VALD3),adopted_rya1268_nist_asd,-2.22,-2.22,-2.22,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124246,pk_ec2558aa381c,22,1.0,Ti I,5219.702,0.021,1,-2.220,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.257 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-2.22,-2.22,-2.22,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124247,pk_fff6fbc61ecf,22,1.0,Ti I,5219.788,3.59,1,-6.433,K10,,synth(GES),single_source,-6.433,,,True,False,False,,,,,False,KURUCZ,False
 gf_124248,pk_2ff93d255d34,22,1.0,Ti I,5220.093,3.409,1,-3.536,K10,,synth(GES),single_source,-3.536,,,True,False,False,,,,,False,KURUCZ,False
 gf_124249,pk_b5b715c8725d,22,1.0,Ti I,5220.259,2.334,1,-1.52,LGWSC,,synth(GES),single_source,-1.52,,-1.52,True,False,True,,,,,False,OTHER,False
@@ -115422,14 +115422,14 @@ gf_124396,pk_c0966499328e,22,1.0,Ti I,5286.952,3.285,1,-2.984,K10,,synth(GES),si
 gf_124397,pk_d2f76c37abea,22,1.0,Ti I,5288.034,3.351,1,-0.922,K10,,synth(GES),single_source,-0.922,,-0.922,True,False,True,,,,,False,KURUCZ,False
 gf_124398,pk_377c4bf9ab18,22,1.0,Ti I,5288.616,3.104,1,-4.974,K10,,synth(GES),single_source,-4.974,,,True,False,False,,,,,False,KURUCZ,False
 gf_124399,pk_6a08d73383a9,22,1.0,Ti I,5288.794,2.427,1,-0.739,K10,,synth(GES),single_source,-0.739,,-0.739,True,False,True,,,,,False,KURUCZ,False
-gf_124400,pk_0301733df009,22,1.0,Ti I,5289.269,0.836,1,-2.842,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.73,,-2.73,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_124400,pk_0301733df009,22,1.0,Ti I,5289.269,0.836,1,-2.730,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.842 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.73,,-2.73,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124401,pk_c74877dde630,22,1.0,Ti I,5290.474,1.067,1,-4.139,K10,,synth(GES),single_source,-4.139,,,True,False,False,,,,,False,KURUCZ,False
 gf_124402,pk_9e785fce3d8a,22,1.0,Ti I,5290.699,3.698,1,-3.167,K10,,synth(GES),single_source,-3.167,,,True,False,False,,,,,False,KURUCZ,False
 gf_124403,pk_370da457a447,22,1.0,Ti I,5290.941,0.818,1,-4.216,K10,,synth(GES),single_source,-4.216,,-4.216,True,False,True,,,,,False,KURUCZ,False
 gf_124404,pk_8c926ab418dc,22,1.0,Ti I,5294.191,3.128,1,-3.369,K10,,synth(GES),single_source,-3.369,,,True,False,False,,,,,False,KURUCZ,False
 gf_124405,pk_a929699534ce,22,1.0,Ti I,5294.363,3.111,1,-1.53,K10,,synth(GES),single_source,-1.53,,-1.53,True,False,True,,,,,False,KURUCZ,False
 gf_124406,pk_5297f383c70c,22,1.0,Ti I,5294.555,0.813,1,-4.835,K10,,synth(GES),single_source,-4.835,,,True,False,False,,,,,False,KURUCZ,False
-gf_124407,pk_6ea0aebecdc0,22,1.0,Ti I,5295.776,1.067,1,-1.633,NIST ASD (accuracy C+; TP ref T4498),C+,synth(GES),adopted_rya1268_nist_asd,-1.59,,-1.59,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124407,pk_6ea0aebecdc0,22,1.0,Ti I,5295.776,1.067,1,-1.590,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.633 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.59,,-1.59,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124408,pk_7a61d0cd3a90,22,1.0,Ti I,5295.839,3.112,1,-2.453,K10,,synth(GES),single_source,-2.453,,,True,False,False,,,,,False,KURUCZ,False
 gf_124409,pk_6e39e95ffc9c,22,1.0,Ti I,5296.659,2.16,1,-2.99,K10,,synth(GES),single_source,-2.99,,,True,False,False,,,,,False,KURUCZ,False
 gf_124410,pk_70f23745de0b,22,1.0,Ti I,5296.724,2.175,1,-3.821,K10,,synth(GES),single_source,-3.821,,,True,False,False,,,,,False,KURUCZ,False
@@ -115471,7 +115471,7 @@ gf_124445,pk_32463bad0c33,22,1.0,Ti I,5317.532,2.175,1,-2.58,K10,,synth(GES),sin
 gf_124446,pk_fb91ab41cc31,22,1.0,Ti I,5317.836,3.108,1,-4.622,K10,,synth(GES),single_source,-4.622,,,True,False,False,,,,,False,KURUCZ,False
 gf_124447,pk_a521e91fad08,22,1.0,Ti I,5318.588,3.678,1,-3.613,K10,,synth(GES),single_source,-3.613,,,True,False,False,,,,,False,KURUCZ,False
 gf_124448,pk_0b9be62490a2,22,1.0,Ti I,5320.603,2.778,1,-3.425,K10,,synth(GES),single_source,-3.425,,,True,False,False,,,,,False,KURUCZ,False
-gf_124449,pk_49861555b7c0,22,1.0,Ti I,5323.927,0.826,1,-3.114,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.82,,-2.82,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_124449,pk_49861555b7c0,22,1.0,Ti I,5323.927,0.826,1,-2.820,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -3.114 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.82,,-2.82,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124450,pk_171c5647e0dc,22,1.0,Ti I,5326.707,3.113,1,-2.699,K10,,synth(GES),single_source,-2.699,,,True,False,False,,,,,False,KURUCZ,False
 gf_124451,pk_6f3861bc83a6,22,1.0,Ti I,5328.27,3.458,1,-3.507,K10,,synth(GES),single_source,-3.507,,,True,False,False,,,,,False,KURUCZ,False
 gf_124452,pk_c69f70c3fb12,22,1.0,Ti I,5328.729,0.813,1,-2.004,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.0,,-3.562,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
@@ -115491,7 +115491,7 @@ gf_124465,pk_87394aad592e,22,1.0,Ti I,5338.913,3.458,1,-2.546,K10,,synth(GES),si
 gf_124466,pk_123e764ce6ba,22,1.0,Ti I,5339.75,3.148,1,-2.797,K10,,synth(GES),single_source,-2.797,,,True,False,False,,,,,False,KURUCZ,False
 gf_124467,pk_9d0f124aa623,22,1.0,Ti I,5340.055,3.111,1,-4.212,K10,,synth(GES),single_source,-4.212,,,True,False,False,,,,,False,KURUCZ,False
 gf_124468,pk_c99c4bb2ecc0,22,1.0,Ti I,5340.546,3.337,1,-3.392,K10,,synth(GES),single_source,-3.392,,,True,False,False,,,,,False,KURUCZ,False
-gf_124469,pk_0eaccf0decfc,22,1.0,Ti I,5340.666,0.818,1,-3.187,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-3.09,,-3.09,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_124469,pk_0eaccf0decfc,22,1.0,Ti I,5340.666,0.818,1,-3.090,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -3.187 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.09,,-3.09,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124470,pk_06c0441c6fa6,22,1.0,Ti I,5341.489,3.062,1,-1.197,K10,,synth(GES),single_source,-1.197,,-1.196,True,False,True,,,,,False,KURUCZ,False
 gf_124471,pk_d2c7c7753104,22,1.0,Ti I,5342.912,2.345,1,-1.587,K10,,synth(GES),single_source,-1.587,,-1.587,True,False,True,,,,,False,KURUCZ,False
 gf_124472,pk_1a25ece432bc,22,1.0,Ti I,5343.996,3.104,1,-3.535,K10,,synth(GES),single_source,-3.535,,,True,False,False,,,,,False,KURUCZ,False
@@ -115623,7 +115623,7 @@ gf_124597,pk_116606a4ef76,22,1.0,Ti I,5434.337,3.179,1,-3.235,K10,,synth(GES),si
 gf_124598,pk_c0152738c6bb,22,1.0,Ti I,5435.191,3.148,1,-2.55,K10,,synth(GES),single_source,-2.55,,,True,False,False,,,,,False,KURUCZ,False
 gf_124599,pk_9766af22f4c5,22,1.0,Ti I,5435.82,3.551,1,-0.487,NIST ASD (accuracy C+; TP ref T6897),C+,synth(GES),adopted_rya1268_nist_asd,-0.49,,-0.49,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
 gf_124600,pk_c77542ee3086,22,1.0,Ti I,5436.693,2.488,1,-3.624,K10,,synth(GES),single_source,-3.624,,,True,False,False,,,,,False,KURUCZ,False
-gf_124601,pk_f196a0bdee31,22,1.0,Ti I,5436.716,0.9,1,-2.509,"NIST ASD (accuracy C; TP ref T3430,T3297)",C,synth(GES),adopted_rya1268_nist_asd,-2.44,,-2.44,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_124601,pk_f196a0bdee31,22,1.0,Ti I,5436.716,0.9,1,-2.440,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.509 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.44,,-2.44,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124602,pk_95ff83ee50ad,22,1.0,Ti I,5437.844,3.583,1,-0.818,K10,,synth(GES),single_source,-0.818,,-0.818,True,False,True,,,,,False,KURUCZ,False
 gf_124603,pk_c9f5c3da44b9,22,1.0,Ti I,5437.968,2.103,1,-7.202,K10,,synth(GES),single_source,-7.202,,,True,False,False,,,,,False,KURUCZ,False
 gf_124604,pk_d5d5a6685238,22,1.0,Ti I,5438.304,1.43,1,-2.2,LGWSC,,synth(GES),single_source,-2.2,,-2.2,True,False,True,,,,,False,OTHER,False
@@ -115733,7 +115733,7 @@ gf_124707,pk_194a9a80f6dd,22,1.0,Ti I,5489.04,2.103,1,-4.74,K10,,synth(GES),sing
 gf_124708,pk_a2abb7f9a750,22,1.0,Ti I,5489.548,3.062,1,-1.633,K10,,synth(GES),single_source,-1.633,,-1.633,True,False,True,,,,,False,KURUCZ,False
 gf_124709,pk_35183721c75b,22,1.0,Ti I,5489.873,3.441,1,-0.647,K10,,synth(GES),single_source,-0.647,,-0.647,True,False,True,,,,,False,KURUCZ,False
 gf_124710,pk_db906f743ddf,22,1.0,Ti I,5490.13,3.334,1,-1.001,K10,,synth(GES),single_source,-1.001,,-1.001,True,False,True,,,,,False,KURUCZ,False
-gf_124711,pk_617e22ca4a6a,22,1.0,Ti I,5490.148,1.46,1,-0.932,NIST ASD (accuracy C+; TP ref T4922),C+,regions(VALD3),adopted_rya1268_nist_asd,-0.84,-0.84,-0.84,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_124711,pk_617e22ca4a6a,22,1.0,Ti I,5490.148,1.46,1,-0.840,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.932 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-0.84,-0.84,-0.84,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124712,pk_7ffd9849f274,22,1.0,Ti I,5490.194,3.678,1,-2.504,K10,,synth(GES),single_source,-2.504,,,True,False,False,,,,,False,KURUCZ,False
 gf_124713,pk_cf96af12bf85,22,1.0,Ti I,5490.697,2.154,1,-5.508,K10,,synth(GES),single_source,-5.508,,,True,False,False,,,,,False,KURUCZ,False
 gf_124714,pk_3e7acd0402d7,22,1.0,Ti I,5490.846,0.048,1,-3.356,NIST ASD (accuracy C; TP ref T3499n),C,synth(GES),adopted_rya1268_nist_asd,-3.35,,-3.194,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
@@ -115748,7 +115748,7 @@ gf_124722,pk_4b0b426ab108,22,1.0,Ti I,5495.765,3.439,1,-0.6,K10,,synth(GES),sing
 gf_124723,pk_2049860abeb4,22,1.0,Ti I,5497.557,2.134,1,-5.9,K10,,synth(GES),single_source,-5.9,,,True,False,False,,,,,False,KURUCZ,False
 gf_124724,pk_df6e09d5e47e,22,1.0,Ti I,5497.862,3.128,1,-0.847,K10,,synth(GES),single_source,-0.847,,-0.847,True,False,True,,,,,False,KURUCZ,False
 gf_124725,pk_ff03af6a106d,22,1.0,Ti I,5497.865,3.215,1,-1.113,K10,,synth(GES),single_source,-1.113,,-1.113,True,False,True,,,,,False,KURUCZ,False
-gf_124726,pk_ecb68c41825a,22,1.0,Ti I,5497.948,0.9,1,-2.854,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-3.03,,-3.03,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_124726,pk_ecb68c41825a,22,1.0,Ti I,5497.948,0.9,1,-3.030,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.854 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.03,,-3.03,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_124727,pk_e983817b3e3d,22,1.0,Ti I,5498.182,3.199,1,-1.415,K10,,synth(GES),single_source,-1.415,,-1.415,True,False,True,,,,,False,KURUCZ,False
 gf_124728,pk_9f439a832831,22,1.0,Ti I,5498.985,3.458,1,-5.32,K10,,synth(GES),single_source,-5.32,,,True,False,False,,,,,False,KURUCZ,False
 gf_124729,pk_2ee42b7935e1,22,1.0,Ti I,5500.375,3.186,1,-2.686,K10,,synth(GES),single_source,-2.686,,,True,False,False,,,,,False,KURUCZ,False
@@ -116288,7 +116288,7 @@ gf_125262,pk_648b1a019e2f,22,1.0,Ti I,5877.743,3.334,1,-2.348,K10,,synth(GES),si
 gf_125263,pk_bbe98985fd2c,22,1.0,Ti I,5878.258,2.662,1,-4.441,K10,,synth(GES),single_source,-4.441,,,True,False,False,,,,,False,KURUCZ,False
 gf_125264,pk_39f047956e38,22,1.0,Ti I,5878.443,2.662,1,-3.576,K10,,synth(GES),single_source,-3.576,,,True,False,False,,,,,False,KURUCZ,False
 gf_125265,pk_515dc97d238a,22,1.0,Ti I,5879.726,3.869,1,-3.208,K10,,synth(GES),single_source,-3.208,,,True,False,False,,,,,False,KURUCZ,False
-gf_125266,pk_7d80874409dd,22,1.0,Ti I,5880.27,1.053,1,-2.044,NIST ASD (accuracy C+; TP ref T4498),C+,synth(GES),adopted_rya1268_nist_asd,-2.0,,-1.9997,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_125266,pk_7d80874409dd,22,1.0,Ti I,5880.27,1.053,1,-2.000,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.044 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.0,,-1.9997,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125267,pk_28db872db32d,22,1.0,Ti I,5880.949,3.934,1,-2.76,K10,,synth(GES),single_source,-2.76,,,True,False,False,,,,,False,KURUCZ,False
 gf_125268,pk_d910a691d6e9,22,1.0,Ti I,5881.047,3.176,1,-1.835,K10,,synth(GES),single_source,-1.835,,-1.835,True,False,True,,,,,False,KURUCZ,False
 gf_125269,pk_cc40065a6adf,22,1.0,Ti I,5881.059,1.443,1,-4.376,K10,,synth(GES),single_source,-4.376,,,True,False,False,,,,,False,KURUCZ,False
@@ -116318,7 +116318,7 @@ gf_125292,pk_7a724eff76fd,22,1.0,Ti I,5897.81,3.09,1,-4.624,K10,,synth(GES),sing
 gf_125293,pk_a8cb705feaca,22,1.0,Ti I,5897.982,3.09,1,-4.845,K10,,synth(GES),single_source,-4.845,,,True,False,False,,,,,False,KURUCZ,False
 gf_125294,pk_2935f4a639f3,22,1.0,Ti I,5898.108,3.112,1,-3.182,K10,,synth(GES),single_source,-3.182,,,True,False,False,,,,,False,KURUCZ,False
 gf_125295,pk_743c980258c8,22,1.0,Ti I,5898.662,3.104,1,-5.59,K10,,synth(GES),single_source,-5.59,,,True,False,False,,,,,False,KURUCZ,False
-gf_125296,pk_ab750aaec6be,22,1.0,Ti I,5899.294,1.053,1,-1.154,NIST ASD (accuracy C+; TP ref T4294),C+,synth(GES),adopted_rya1268_nist_asd,-1.1,,-1.0997,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_125296,pk_ab750aaec6be,22,1.0,Ti I,5899.294,1.053,1,-1.100,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.154 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.1,,-1.0997,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125297,pk_dcaa8b039f82,22,1.0,Ti I,5899.5,3.351,1,-2.707,K10,,synth(GES),single_source,-2.707,,,True,False,False,,,,,False,KURUCZ,False
 gf_125298,pk_70fc8c788dd1,22,1.0,Ti I,5899.687,3.113,1,-2.498,K10,,synth(GES),single_source,-2.498,,,True,False,False,,,,,False,KURUCZ,False
 gf_125299,pk_67c84787eb72,22,1.0,Ti I,5900.165,3.351,1,-5.076,K10,,synth(GES),single_source,-5.076,,,True,False,False,,,,,False,KURUCZ,False
@@ -116340,14 +116340,14 @@ gf_125314,pk_8eecb386c32a,22,1.0,Ti I,5911.641,3.439,1,-3.959,K10,,synth(GES),si
 gf_125315,pk_adc3de56e8a2,22,1.0,Ti I,5913.727,0.021,1,-4.039,K10,,synth(GES),single_source,-4.039,,-4.039,True,False,True,,,,,False,KURUCZ,False
 gf_125316,pk_91f4429f562c,22,1.0,Ti I,5917.369,2.578,1,-3.436,K10,,synth(GES),single_source,-3.436,,,True,False,False,,,,,False,KURUCZ,False
 gf_125317,pk_078c9193062d,22,1.0,Ti I,5918.059,3.111,1,-6.137,K10,,synth(GES),single_source,-6.137,,,True,False,False,,,,,False,KURUCZ,False
-gf_125318,pk_72119dceb9b0,22,1.0,Ti I,5918.536,1.067,1,-1.469,NIST ASD (accuracy C; TP ref T3430),C,synth(GES),adopted_rya1268_nist_asd,-1.64,,-1.6398,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_125318,pk_72119dceb9b0,22,1.0,Ti I,5918.536,1.067,1,-1.640,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.469 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.64,,-1.6398,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125319,pk_812492ac683b,22,1.0,Ti I,5918.621,3.409,1,-5.604,K10,,synth(GES),single_source,-5.604,,,True,False,False,,,,,False,KURUCZ,False
 gf_125320,pk_8d89e89d8703,22,1.0,Ti I,5919.075,2.25,1,-1.99,LGWSC,,synth(GES),single_source,-1.99,,-1.99,True,False,True,,,,,False,OTHER,False
 gf_125321,pk_81e0033994bd,22,1.0,Ti I,5919.681,2.677,1,-3.28,K10,,synth(GES),single_source,-3.28,,,True,False,False,,,,,False,KURUCZ,False
 gf_125322,pk_a076562b1ca8,22,1.0,Ti I,5920.521,2.239,1,-3.456,K10,,synth(GES),single_source,-3.456,,,True,False,False,,,,,False,KURUCZ,False
 gf_125323,pk_1aa452dc5af1,22,1.0,Ti I,5920.547,3.112,1,-3.517,K10,,synth(GES),single_source,-3.517,,,True,False,False,,,,,False,KURUCZ,False
 gf_125324,pk_babd2986ed52,22,1.0,Ti I,5921.925,3.691,1,-2.337,K10,,synth(GES),single_source,-2.337,,,True,False,False,,,,,False,KURUCZ,False
-gf_125325,pk_7e72b5b0cae1,22,1.0,Ti I,5922.11,1.046,1,-1.466,"NIST ASD (accuracy C+; TP ref T4294,T4498)",C+,regions(VALD3),adopted_rya1268_nist_asd,-1.38,-1.38,-1.3798,True,True,True,0.0,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_125325,pk_7e72b5b0cae1,22,1.0,Ti I,5922.11,1.046,1,-1.380,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.466 (class C+), RYA-1315",C+,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-1.38,-1.38,-1.3798,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125326,pk_fdc29e643c83,22,1.0,Ti I,5922.138,3.113,1,-3.069,K10,,synth(GES),single_source,-3.069,,,True,False,False,,,,,False,KURUCZ,False
 gf_125327,pk_17130d4fa147,22,1.0,Ti I,5922.587,3.128,1,-2.185,K10,,synth(GES),single_source,-2.185,,,True,False,False,,,,,False,KURUCZ,False
 gf_125328,pk_adf49636cddd,22,1.0,Ti I,5923.969,3.351,1,-2.829,K10,,synth(GES),single_source,-2.829,,,True,False,False,,,,,False,KURUCZ,False
@@ -116362,7 +116362,7 @@ gf_125336,pk_1a7ef20f47f8,22,1.0,Ti I,5931.102,3.112,1,-4.425,K10,,synth(GES),si
 gf_125337,pk_170fd98045cf,22,1.0,Ti I,5931.582,4.031,1,-4.687,K10,,synth(GES),single_source,-4.687,,,True,False,False,,,,,False,KURUCZ,False
 gf_125338,pk_a7ea23394387,22,1.0,Ti I,5932.698,3.113,1,-1.7,K10,,synth(GES),single_source,-1.7,,-1.701,True,False,True,,,,,False,KURUCZ,False
 gf_125339,pk_1182e68ad63f,22,1.0,Ti I,5935.074,3.691,1,-2.294,K10,,synth(GES),single_source,-2.294,,,True,False,False,,,,,False,KURUCZ,False
-gf_125340,pk_38e7555f2296,22,1.0,Ti I,5937.809,1.067,1,-1.886,"NIST ASD (accuracy C; TP ref T3430,T3297)",C,synth(GES),adopted_rya1268_nist_asd,-1.94,,-1.9398,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_125340,pk_38e7555f2296,22,1.0,Ti I,5937.809,1.067,1,-1.940,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.886 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.94,,-1.9398,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125341,pk_6489bc967d7b,22,1.0,Ti I,5938.159,3.111,1,-6.141,K10,,synth(GES),single_source,-6.141,,,True,False,False,,,,,False,KURUCZ,False
 gf_125342,pk_f3dca7487ca1,22,1.0,Ti I,5938.331,3.89,1,-3.405,K10,,synth(GES),single_source,-3.405,,,True,False,False,,,,,False,KURUCZ,False
 gf_125343,pk_353f17e40f0c,22,1.0,Ti I,5938.968,3.921,1,-3.663,K10,,synth(GES),single_source,-3.663,,,True,False,False,,,,,False,KURUCZ,False
@@ -116372,7 +116372,7 @@ gf_125346,pk_7449d7f7c9e9,22,1.0,Ti I,5940.649,0.048,1,-3.655,K10,,synth(GES),si
 gf_125347,pk_20794fc46eb4,22,1.0,Ti I,5941.382,3.148,1,-3.394,K10,,synth(GES),single_source,-3.394,,,True,False,False,,,,,False,KURUCZ,False
 gf_125348,pk_385e7538866c,22,1.0,Ti I,5941.607,3.583,1,-4.72,K10,,synth(GES),single_source,-4.72,,,True,False,False,,,,,False,KURUCZ,False
 gf_125349,pk_68533080dae1,22,1.0,Ti I,5941.698,3.128,1,-1.288,K10,,synth(GES),single_source,-1.288,,-1.288,True,False,True,,,,,False,KURUCZ,False
-gf_125350,pk_3d44f2e00a0a,22,1.0,Ti I,5941.752,1.053,1,-1.523,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-1.51,,-1.5097,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_125350,pk_3d44f2e00a0a,22,1.0,Ti I,5941.752,1.053,1,-1.510,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.523 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.51,,-1.5097,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125351,pk_e407005acc8f,22,1.0,Ti I,5942.847,2.578,1,-2.751,K10,,synth(GES),single_source,-2.751,,,True,False,False,,,,,False,KURUCZ,False
 gf_125352,pk_7a05be2744bb,22,1.0,Ti I,5944.66,0.0,1,-3.845,K10,,synth(GES),single_source,-3.845,,-3.845,True,False,True,,,,,False,KURUCZ,False
 gf_125353,pk_d31c49a500a8,22,1.0,Ti I,5948.579,3.334,1,-2.317,K10,,synth(GES),single_source,-2.317,,,True,False,False,,,,,False,KURUCZ,False
@@ -116856,15 +116856,15 @@ gf_125830,pk_375f4bb941fc,22,1.0,Ti I,6255.13,3.702,1,-2.679,K10,,synth(GES),sin
 gf_125831,pk_b2e9c276d638,22,1.0,Ti I,6255.831,3.148,1,-1.375,K10,,synth(GES),single_source,-1.375,,-1.375,True,False,True,,,,,False,KURUCZ,False
 gf_125832,pk_de33b9049dea,22,1.0,Ti I,6256.094,3.113,1,-2.601,K10,,synth(GES),single_source,-2.601,,,True,False,False,,,,,False,KURUCZ,False
 gf_125833,pk_5aa85247eacf,22,1.0,Ti I,6257.803,0.0,1,-4.061,K10,,synth(GES),single_source,-4.061,,-4.061,True,False,True,,,,,False,KURUCZ,False
-gf_125834,pk_0ba0d5668412,22,1.0,Ti I,6258.102,1.443,1,-0.355,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.39,,-0.39,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
-gf_125835,pk_57f2382b6449,22,1.0,Ti I,6258.707,1.46,1,-0.24,"NIST ASD (accuracy C; TP ref T3297,T3928)",C,regions(VALD3),adopted_rya1268_nist_asd,-0.28,-0.28,-0.2798,True,True,True,0.0,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_125834,pk_0ba0d5668412,22,1.0,Ti I,6258.102,1.443,1,-0.390,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.355 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.39,,-0.39,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
+gf_125835,pk_57f2382b6449,22,1.0,Ti I,6258.707,1.46,1,-0.280,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.24 (class C), RYA-1315",C,regions(VALD3),adopted_rya1315_lawler2013_over_nist,-0.28,-0.28,-0.2798,True,True,True,0.0,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125836,pk_836b515a96a7,22,1.0,Ti I,6259.334,2.297,1,-7.371,K10,,synth(GES),single_source,-7.371,,,True,False,False,,,,,False,KURUCZ,False
 gf_125837,pk_991e992dab94,22,1.0,Ti I,6259.389,3.186,1,-4.655,K10,,synth(GES),single_source,-4.655,,,True,False,False,,,,,False,KURUCZ,False
 gf_125838,pk_670936d4af52,22,1.0,Ti I,6259.614,3.59,1,-5.132,K10,,synth(GES),single_source,-5.132,,,True,False,False,,,,,False,KURUCZ,False
 gf_125839,pk_987bfd51e3d0,22,1.0,Ti I,6259.821,2.495,1,-3.972,K10,,synth(GES),single_source,-3.972,,,True,False,False,,,,,False,KURUCZ,False
 gf_125840,pk_8fd978e901f8,22,1.0,Ti I,6260.257,3.409,1,-4.825,K10,,synth(GES),single_source,-4.825,,,True,False,False,,,,,False,KURUCZ,False
 gf_125841,pk_81c000ae71ba,22,1.0,Ti I,6260.596,3.46,1,-7.105,K10,,synth(GES),single_source,-7.105,,,True,False,False,,,,,False,KURUCZ,False
-gf_125842,pk_ee478cd48ae9,22,1.0,Ti I,6261.099,1.43,1,-0.479,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-0.53,,-0.53,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_125842,pk_ee478cd48ae9,22,1.0,Ti I,6261.099,1.43,1,-0.530,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.479 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.53,,-0.53,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125843,pk_4344172dd238,22,1.0,Ti I,6261.125,3.128,1,-1.571,K10,,synth(GES),single_source,-1.571,,-1.571,True,False,True,,,,,False,KURUCZ,False
 gf_125844,pk_07ba698a17f2,22,1.0,Ti I,6261.284,3.323,1,-4.565,K10,,synth(GES),single_source,-4.565,,,True,False,False,,,,,False,KURUCZ,False
 gf_125845,pk_076e10f5b25e,22,1.0,Ti I,6261.644,3.334,1,-2.203,K10,,synth(GES),single_source,-2.203,,,True,False,False,,,,,False,KURUCZ,False
@@ -116971,7 +116971,7 @@ gf_125945,pk_2685754409a2,22,1.0,Ti I,6330.017,3.724,1,-2.446,K10,,synth(GES),si
 gf_125946,pk_e1f7912ce1f7,22,1.0,Ti I,6330.926,3.904,1,-4.672,K10,,synth(GES),single_source,-4.672,,,True,False,False,,,,,False,KURUCZ,False
 gf_125947,pk_b39bdcbaaf1c,22,1.0,Ti I,6330.95,2.267,1,-3.648,K10,,synth(GES),single_source,-3.648,,,True,False,False,,,,,False,KURUCZ,False
 gf_125948,pk_c4216a2288cd,22,1.0,Ti I,6332.614,1.734,1,-4.509,K10,,synth(GES),single_source,-4.509,,,True,False,False,,,,,False,KURUCZ,False
-gf_125949,pk_9bd4bf9c908b,22,1.0,Ti I,6336.099,1.443,1,-1.742,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-1.69,,-1.69,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_125949,pk_9bd4bf9c908b,22,1.0,Ti I,6336.099,1.443,1,-1.690,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.742 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.69,,-1.69,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125950,pk_cb470ba1ff30,22,1.0,Ti I,6337.265,3.108,1,-2.802,K10,,synth(GES),single_source,-2.802,,,True,False,False,,,,,False,KURUCZ,False
 gf_125951,pk_a720998d2c3d,22,1.0,Ti I,6338.514,3.727,1,-3.976,K10,,synth(GES),single_source,-3.976,,,True,False,False,,,,,False,KURUCZ,False
 gf_125952,pk_29bd257a58b5,22,1.0,Ti I,6338.766,2.427,1,-4.151,K10,,synth(GES),single_source,-4.151,,,True,False,False,,,,,False,KURUCZ,False
@@ -116994,7 +116994,7 @@ gf_125968,pk_8ef7006a5c1a,22,1.0,Ti I,6357.423,3.179,1,-1.707,K10,,synth(GES),si
 gf_125969,pk_ec0d0a7ea8bc,22,1.0,Ti I,6357.427,4.106,1,-1.674,K10,,synth(GES),single_source,-1.674,,,True,False,False,,,,,False,KURUCZ,False
 gf_125970,pk_5782d86b2a03,22,1.0,Ti I,6357.746,4.031,1,-2.098,K10,,synth(GES),single_source,-2.098,,,True,False,False,,,,,False,KURUCZ,False
 gf_125971,pk_f1da38850a9a,22,1.0,Ti I,6358.455,2.085,1,-5.154,K10,,synth(GES),single_source,-5.154,,,True,False,False,,,,,False,KURUCZ,False
-gf_125972,pk_a8bc83d40612,22,1.0,Ti I,6358.687,1.46,1,-2.541,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.89,,-2.89,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_125972,pk_a8bc83d40612,22,1.0,Ti I,6358.687,1.46,1,-2.890,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.541 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.89,,-2.89,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_125973,pk_b72567513a1f,22,1.0,Ti I,6358.867,4.031,1,-2.374,K10,,synth(GES),single_source,-2.374,,,True,False,False,,,,,False,KURUCZ,False
 gf_125974,pk_fbc9eceb8cfb,22,1.0,Ti I,6359.173,2.154,1,-2.23,LGWSC,,synth(GES),single_source,-2.23,,-2.23,True,False,True,,,,,False,OTHER,False
 gf_125975,pk_9be4dc1f2648,22,1.0,Ti I,6359.888,0.048,1,-4.07,K10,,synth(GES),single_source,-4.07,,-4.07,True,False,True,,,,,False,KURUCZ,False
@@ -117039,7 +117039,7 @@ gf_126013,pk_d1f532a56f46,22,1.0,Ti I,6392.177,4.102,1,-2.317,K10,,synth(GES),si
 gf_126014,pk_26b47244930a,22,1.0,Ti I,6392.322,2.092,1,-5.398,K10,,synth(GES),single_source,-5.398,,,True,False,False,,,,,False,KURUCZ,False
 gf_126015,pk_3ae899ea48fd,22,1.0,Ti I,6392.476,4.213,1,-3.224,K10,,synth(GES),single_source,-3.224,,,True,False,False,,,,,False,KURUCZ,False
 gf_126016,pk_c8966d38bd87,22,1.0,Ti I,6394.627,4.103,1,-2.255,K10,,synth(GES),single_source,-2.255,,,True,False,False,,,,,False,KURUCZ,False
-gf_126017,pk_06e9f456fd5b,22,1.0,Ti I,6395.472,1.503,1,-2.648,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.54,,-2.54,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_126017,pk_06e9f456fd5b,22,1.0,Ti I,6395.472,1.503,1,-2.540,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.648 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.54,,-2.54,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_126018,pk_9480281b2fa1,22,1.0,Ti I,6397.947,3.59,1,-1.459,K10,,synth(GES),single_source,-1.459,,,True,False,False,,,,,False,KURUCZ,False
 gf_126019,pk_f52c5422b31a,22,1.0,Ti I,6400.188,3.294,1,-3.631,K10,,synth(GES),single_source,-3.631,,,True,False,False,,,,,False,KURUCZ,False
 gf_126020,pk_9bd92a9c15c9,22,1.0,Ti I,6400.453,3.337,1,-3.651,K10,,synth(GES),single_source,-3.651,,,True,False,False,,,,,False,KURUCZ,False
@@ -117254,7 +117254,7 @@ gf_126228,pk_307bda99d3d5,22,1.0,Ti I,6552.819,3.392,1,-4.25,K10,,synth(GES),sin
 gf_126229,pk_8d2c3f889f85,22,1.0,Ti I,6553.309,2.778,1,-2.848,K10,,synth(GES),single_source,-2.848,,,True,False,False,,,,,False,KURUCZ,False
 gf_126230,pk_8feb0bbafc03,22,1.0,Ti I,6553.671,3.294,1,-2.048,K10,,synth(GES),single_source,-2.048,,,True,False,False,,,,,False,KURUCZ,False
 gf_126231,pk_7f86afef9fb9,22,1.0,Ti I,6553.687,4.173,1,-2.915,K10,,synth(GES),single_source,-2.915,,,True,False,False,,,,,False,KURUCZ,False
-gf_126232,pk_6be835779c94,22,1.0,Ti I,6554.223,1.443,1,-1.219,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-1.15,,-1.15,True,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_126232,pk_6be835779c94,22,1.0,Ti I,6554.223,1.443,1,-1.150,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.219 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.15,,-1.15,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_126233,pk_56eb0b840cc6,22,1.0,Ti I,6554.828,3.569,1,0.253,K10,,synth(GES),single_source,0.253,,0.253,True,False,True,,,,,False,KURUCZ,False
 gf_126234,pk_c809209f3ab6,22,1.0,Ti I,6556.062,1.46,1,-1.06,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: NIST ASD class C+ on the same gf",C+,synth(GES),adopted_rya1268_vald_lab_nist_sigma,-1.06,,-1.06,True,False,True,,lawler2013,0.0719,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_126235,pk_f575084382be,22,1.0,Ti I,6557.213,3.319,1,-1.605,K10,,synth(GES),single_source,-1.605,,-1.605,True,False,True,,,,,False,KURUCZ,False
@@ -117382,7 +117382,7 @@ gf_126356,pk_1308f685f115,22,1.0,Ti I,6643.5253,4.463,2,-5.9356,K10,,synth(GES),
 gf_126357,pk_d3e88024ed9d,22,1.0,Ti I,6643.888,4.463,1,-5.754,K10,,synth(GES),single_source,-5.754,,,True,False,False,,,,,False,KURUCZ,False
 gf_126358,pk_22fa84e020d4,22,1.0,Ti I,6644.521,3.319,1,-3.039,K10,,synth(GES),single_source,-3.039,,,True,False,False,,,,,False,KURUCZ,False
 gf_126359,pk_cf9b8838151f,22,1.0,Ti I,6645.309,4.176,1,-2.089,K10,,synth(GES),single_source,-2.089,,,True,False,False,,,,,False,KURUCZ,False
-gf_126360,pk_5bbe24b2d302,22,1.0,Ti I,6650.355,1.43,1,-2.81,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-3.26,,-3.26,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_126360,pk_5bbe24b2d302,22,1.0,Ti I,6650.355,1.43,1,-3.260,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.81 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.26,,-3.26,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_126361,pk_e17c7d6860e4,22,1.0,Ti I,6651.555,3.439,1,-3.466,K10,,synth(GES),single_source,-3.466,,,True,False,False,,,,,False,KURUCZ,False
 gf_126362,pk_b00721916615,22,1.0,Ti I,6651.917,2.239,1,-2.48,LGWSC,,synth(GES),single_source,-2.48,,-2.48,True,False,True,,,,,False,OTHER,False
 gf_126363,pk_c652cc559b43,22,1.0,Ti I,6652.804,3.351,1,-2.285,K10,,synth(GES),single_source,-2.285,,,True,False,False,,,,,False,KURUCZ,False
@@ -117390,7 +117390,7 @@ gf_126364,pk_4cb9db0ffc48,22,1.0,Ti I,6654.065,3.334,1,-1.476,K10,,synth(GES),si
 gf_126365,pk_1c2acfb9911b,22,1.0,Ti I,6654.284,2.239,1,-2.07,LGWSC,,synth(GES),single_source,-2.07,,-2.07,True,False,True,,,,,False,OTHER,False
 gf_126366,pk_5b17e1c7ef65,22,1.0,Ti I,6656.045,3.323,1,-1.104,K10,,synth(GES),single_source,-1.104,,-1.104,True,False,True,,,,,False,KURUCZ,False
 gf_126367,pk_779944e5dd76,22,1.0,Ti I,6656.63,3.458,1,-2.959,K10,,synth(GES),single_source,-2.959,,,True,False,False,,,,,False,KURUCZ,False
-gf_126368,pk_6757c210e115,22,1.0,Ti I,6657.013,1.443,1,-2.511,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-3.0,,-3.0,True,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_126368,pk_6757c210e115,22,1.0,Ti I,6657.013,1.443,1,-3.000,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.511 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.0,,-3.0,True,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_126369,pk_2ef8d943b7ab,22,1.0,Ti I,6659.16,4.074,1,-4.946,K10,,synth(GES),single_source,-4.946,,,True,False,False,,,,,False,KURUCZ,False
 gf_126370,pk_c1f43e1b3c31,22,1.0,Ti I,6659.627,3.392,1,-5.136,K10,,synth(GES),single_source,-5.136,,,True,False,False,,,,,False,KURUCZ,False
 gf_126371,pk_688c51e90f23,22,1.0,Ti I,6661.297,3.57,1,-6.138,K10,,synth(GES),single_source,-6.138,,,True,False,False,,,,,False,KURUCZ,False
@@ -118023,7 +118023,7 @@ gf_126997,pk_8cb0325f4bab,22,1.0,Ti I,7187.452,3.727,1,-1.942,K10,,synth(GES),si
 gf_126998,pk_49e362f42fa4,22,1.0,Ti I,7187.496,3.866,1,-1.645,K10,,synth(GES),single_source,-1.645,,,True,False,False,,,,,False,KURUCZ,False
 gf_126999,pk_e8c24d54fc4b,22,1.0,Ti I,7188.057,4.37,1,-1.667,K10,,synth(GES),single_source,-1.667,,,True,False,False,,,,,False,KURUCZ,False
 gf_127000,pk_0422337c95df,22,1.0,Ti I,7188.148,4.398,1,-1.7,K10,,synth(GES),single_source,-1.7,,,True,False,False,,,,,False,KURUCZ,False
-gf_127001,pk_2caae93d44d2,22,1.0,Ti I,7188.566,1.43,1,-1.757,"NIST ASD (accuracy C; TP ref T3430,T3297)",C,synth(GES),adopted_rya1268_nist_asd,-1.71,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_127001,pk_2caae93d44d2,22,1.0,Ti I,7188.566,1.43,1,-1.710,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.757 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.71,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127002,pk_b44d69367b24,22,1.0,Ti I,7188.822,3.867,1,-1.184,K10,,synth(GES),single_source,-1.184,,,True,False,False,,,,,False,KURUCZ,False
 gf_127003,pk_6ffeeb1972bf,22,1.0,Ti I,7189.877,2.578,1,-0.3,LGWSC,,synth(GES),single_source,-0.3,,,True,False,False,,,,,False,OTHER,False
 gf_127004,pk_1be140edd887,22,1.0,Ti I,7190.037,4.398,1,-0.832,K10,,synth(GES),single_source,-0.832,,,True,False,False,,,,,False,KURUCZ,False
@@ -118060,7 +118060,7 @@ gf_127034,pk_79d4fd835c8a,22,1.0,Ti I,7205.004,4.225,1,-4.065,K10,,synth(GES),si
 gf_127035,pk_757ca05b6a24,22,1.0,Ti I,7207.752,3.921,1,-1.84,K10,,synth(GES),single_source,-1.84,,,True,False,False,,,,,False,KURUCZ,False
 gf_127036,pk_e97817b0c6de,22,1.0,Ti I,7207.812,3.409,1,-1.416,K10,,synth(GES),single_source,-1.416,,,True,False,False,,,,,False,KURUCZ,False
 gf_127037,pk_f145afe2d0ba,22,1.0,Ti I,7208.929,3.691,1,-2.602,K10,,synth(GES),single_source,-2.602,,,True,False,False,,,,,False,KURUCZ,False
-gf_127038,pk_2d21a09fd53c,22,1.0,Ti I,7209.436,1.46,1,-0.502,"NIST ASD (accuracy C; TP ref T3430,T3297)",C,synth(GES),adopted_rya1268_nist_asd,-0.43,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_127038,pk_2d21a09fd53c,22,1.0,Ti I,7209.436,1.46,1,-0.430,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.502 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.43,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127039,pk_d4aa97500b85,22,1.0,Ti I,7209.624,3.424,1,-1.387,K10,,synth(GES),single_source,-1.387,,,True,False,False,,,,,False,KURUCZ,False
 gf_127040,pk_36252d094eb4,22,1.0,Ti I,7210.512,4.282,1,-7.76,K10,,synth(GES),single_source,-7.76,,,True,False,False,,,,,False,KURUCZ,False
 gf_127041,pk_e1a371a929b0,22,1.0,Ti I,7211.777,3.724,1,-6.853,K10,,synth(GES),single_source,-6.853,,,True,False,False,,,,,False,KURUCZ,False
@@ -118111,7 +118111,7 @@ gf_127085,pk_677443390e77,22,1.0,Ti I,7242.792,4.037,1,-5.176,K10,,synth(GES),si
 gf_127086,pk_757c5ab83f20,22,1.0,Ti I,7243.122,1.067,1,-3.158,K10,,synth(GES),single_source,-3.158,,,True,False,False,,,,,False,KURUCZ,False
 gf_127087,pk_118ea54f65a0,22,1.0,Ti I,7243.658,1.749,1,-7.406,K10,,synth(GES),single_source,-7.406,,,True,False,False,,,,,False,KURUCZ,False
 gf_127088,pk_fc353f072c35,22,1.0,Ti I,7244.268,3.946,1,-7.609,K10,,synth(GES),single_source,-7.609,,,True,False,False,,,,,False,KURUCZ,False
-gf_127089,pk_90609ef63db9,22,1.0,Ti I,7244.855,1.443,1,-0.812,"NIST ASD (accuracy C; TP ref T3430,T3297)",C,synth(GES),adopted_rya1268_nist_asd,-0.7,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_127089,pk_90609ef63db9,22,1.0,Ti I,7244.855,1.443,1,-0.700,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.812 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-0.7,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127090,pk_a5777813ce60,22,1.0,Ti I,7248.186,2.236,1,-2.177,K10,,synth(GES),single_source,-2.177,,,True,False,False,,,,,False,KURUCZ,False
 gf_127091,pk_98cacc8e45a5,22,1.0,Ti I,7248.225,4.074,1,-1.598,K10,,synth(GES),single_source,-1.598,,,True,False,False,,,,,False,KURUCZ,False
 gf_127092,pk_aa0168750cc6,22,1.0,Ti I,7248.511,4.382,1,-1.338,K10,,synth(GES),single_source,-1.338,,,True,False,False,,,,,False,KURUCZ,False
@@ -118269,7 +118269,7 @@ gf_127243,pk_60d3d9a49b0b,22,1.0,Ti I,7354.71,2.488,1,-3.996,K10,,synth(GES),sin
 gf_127244,pk_686e1cf2f93c,22,1.0,Ti I,7355.528,2.236,1,-4.287,K10,,synth(GES),single_source,-4.287,,,True,False,False,,,,,False,KURUCZ,False
 gf_127245,pk_48b19eac1296,22,1.0,Ti I,7356.993,1.053,1,-3.534,K10,,synth(GES),single_source,-3.534,,,True,False,False,,,,,False,KURUCZ,False
 gf_127246,pk_19286a5505b6,22,1.0,Ti I,7357.18,3.409,1,-2.478,K10,,synth(GES),single_source,-2.478,,,True,False,False,,,,,False,KURUCZ,False
-gf_127247,pk_2b0214987617,22,1.0,Ti I,7357.727,1.443,1,-1.121,NIST ASD (accuracy C+; TP ref T4922),C+,synth(GES),adopted_rya1268_nist_asd,-1.02,,,True,False,False,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_127247,pk_2b0214987617,22,1.0,Ti I,7357.727,1.443,1,-1.020,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.121 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.02,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127248,pk_02a5a793881e,22,1.0,Ti I,7358.487,2.677,1,-2.945,K10,,synth(GES),single_source,-2.945,,,True,False,False,,,,,False,KURUCZ,False
 gf_127249,pk_f53a15a7c526,22,1.0,Ti I,7360.474,4.396,1,-5.025,K10,,synth(GES),single_source,-5.025,,,True,False,False,,,,,False,KURUCZ,False
 gf_127250,pk_d70c2e5f3220,22,1.0,Ti I,7361.57,2.25,1,-1.32,K10,,synth(GES),single_source,-1.32,,,True,False,False,,,,,False,KURUCZ,False
@@ -118796,7 +118796,7 @@ gf_127770,pk_904fbe796805,22,1.0,Ti I,7765.035,4.396,1,-4.723,K10,,synth(GES),si
 gf_127771,pk_19f42798701f,22,1.0,Ti I,7765.111,4.355,1,-4.226,K10,,synth(GES),single_source,-4.226,,,True,False,False,,,,,False,KURUCZ,False
 gf_127772,pk_7af0e09718ab,22,1.0,Ti I,7765.15,3.581,1,-4.795,K10,,synth(GES),single_source,-4.795,,,True,False,False,,,,,False,KURUCZ,False
 gf_127773,pk_25b072663c8a,22,1.0,Ti I,7766.32,3.718,1,-1.003,K10,,synth(GES),single_source,-1.003,,,True,False,False,,,,,False,KURUCZ,False
-gf_127774,pk_ba8acff13cfa,22,1.0,Ti I,7767.444,0.9,1,-3.053,NIST ASD (accuracy C+; TP ref T8000),C+,synth(GES),adopted_rya1268_nist_asd,-3.18,,,True,False,False,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_127774,pk_ba8acff13cfa,22,1.0,Ti I,7767.444,0.9,1,-3.180,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -3.053 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.18,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127775,pk_2f2ecc6f0339,22,1.0,Ti I,7768.241,3.176,1,-3.064,K10,,synth(GES),single_source,-3.064,,,True,False,False,,,,,False,KURUCZ,False
 gf_127776,pk_0bbff1f2c62c,22,1.0,Ti I,7768.632,3.702,1,-1.414,K10,,synth(GES),single_source,-1.414,,,True,False,False,,,,,False,KURUCZ,False
 gf_127777,pk_dfa1461b7650,22,1.0,Ti I,7769.594,1.067,1,-4.937,K10,,synth(GES),single_source,-4.937,,,True,False,False,,,,,False,KURUCZ,False
@@ -118883,7 +118883,7 @@ gf_127857,pk_a3c81da28a60,22,1.0,Ti I,7836.782,4.398,1,-3.886,K10,,synth(GES),si
 gf_127858,pk_4a0dbe4ebf57,22,1.0,Ti I,7836.999,3.574,1,-6.335,K10,,synth(GES),single_source,-6.335,,,True,False,False,,,,,False,KURUCZ,False
 gf_127859,pk_0c2bd0f3d330,22,1.0,Ti I,7837.171,3.702,1,-0.916,K10,,synth(GES),single_source,-0.916,,,True,False,False,,,,,False,KURUCZ,False
 gf_127860,pk_63415cb0643d,22,1.0,Ti I,7837.642,3.305,1,-2.06,K10,,synth(GES),single_source,-2.06,,,True,False,False,,,,,False,KURUCZ,False
-gf_127861,pk_507ab48fd76a,22,1.0,Ti I,7840.559,0.9,1,-3.297,NIST ASD (accuracy C+; TP ref T8000),C+,synth(GES),adopted_rya1268_nist_asd,-3.34,,,True,False,False,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_127861,pk_507ab48fd76a,22,1.0,Ti I,7840.559,0.9,1,-3.340,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -3.297 (class C+), RYA-1315",C+,synth(GES),adopted_rya1315_lawler2013_over_nist,-3.34,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127862,pk_48e01b0883ff,22,1.0,Ti I,7842.158,3.334,1,-0.773,K10,,synth(GES),single_source,-0.773,,,True,False,False,,,,,False,KURUCZ,False
 gf_127863,pk_982bb0f2454f,22,1.0,Ti I,7842.692,4.103,1,-3.897,K10,,synth(GES),single_source,-3.897,,,True,False,False,,,,,False,KURUCZ,False
 gf_127864,pk_e2e6383ef6a0,22,1.0,Ti I,7842.77,3.708,1,-2.842,K10,,synth(GES),single_source,-2.842,,,True,False,False,,,,,False,KURUCZ,False
@@ -118980,7 +118980,7 @@ gf_127954,pk_ad3f02585e45,22,1.0,Ti I,7935.524,3.691,1,-1.523,K10,,synth(GES),si
 gf_127955,pk_204987c33395,22,1.0,Ti I,7935.546,3.546,1,-3.215,K10,,synth(GES),single_source,-3.215,,,True,False,False,,,,,False,KURUCZ,False
 gf_127956,pk_31e57c02e764,22,1.0,Ti I,7935.876,3.128,1,-1.787,K10,,synth(GES),single_source,-1.787,,,True,False,False,,,,,False,KURUCZ,False
 gf_127957,pk_62d86f5a67a5,22,1.0,Ti I,7936.95,3.89,1,-5.124,K10,,synth(GES),single_source,-5.124,,,True,False,False,,,,,False,KURUCZ,False
-gf_127958,pk_a33267f42c15,22,1.0,Ti I,7938.526,1.879,1,-2.402,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.33,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_127958,pk_a33267f42c15,22,1.0,Ti I,7938.526,1.879,1,-2.330,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.402 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.33,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_127959,pk_3d3972c5e608,22,1.0,Ti I,7941.818,4.463,1,-5.335,K10,,synth(GES),single_source,-5.335,,,True,False,False,,,,,False,KURUCZ,False
 gf_127960,pk_2e372020feab,22,1.0,Ti I,7942.016,4.475,1,-5.115,K10,,synth(GES),single_source,-5.115,,,True,False,False,,,,,False,KURUCZ,False
 gf_127961,pk_437ccb9c6ca0,22,1.0,Ti I,7943.247,3.108,1,-4.879,K10,,synth(GES),single_source,-4.879,,,True,False,False,,,,,False,KURUCZ,False
@@ -119076,7 +119076,7 @@ gf_128050,pk_bbe7ded9d873,22,1.0,Ti I,8023.797,4.396,1,-3.323,K10,,synth(GES),si
 gf_128051,pk_f2b20865a092,22,1.0,Ti I,8023.808,3.708,1,-1.757,K10,,synth(GES),single_source,-1.757,,,True,False,False,,,,,False,KURUCZ,False
 gf_128052,pk_77a2343b7a9b,22,1.0,Ti I,8024.271,1.749,1,-6.385,K10,,synth(GES),single_source,-6.385,,,True,False,False,,,,,False,KURUCZ,False
 gf_128053,pk_5d03d2ead324,22,1.0,Ti I,8024.478,4.409,1,-2.471,K10,,synth(GES),single_source,-2.471,,,True,False,False,,,,,False,KURUCZ,False
-gf_128054,pk_c3d671100253,22,1.0,Ti I,8024.843,1.879,1,-1.143,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-1.08,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_128054,pk_c3d671100253,22,1.0,Ti I,8024.843,1.879,1,-1.080,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.143 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.08,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128055,pk_836a23bae370,22,1.0,Ti I,8025.516,4.178,1,-6.12,K10,,synth(GES),single_source,-6.12,,,True,False,False,,,,,False,KURUCZ,False
 gf_128056,pk_16f62a9fba3a,22,1.0,Ti I,8026.452,3.581,1,-6.998,K10,,synth(GES),single_source,-6.998,,,True,False,False,,,,,False,KURUCZ,False
 gf_128057,pk_3102d83bc89f,22,1.0,Ti I,8026.997,4.42,1,-2.56,K10,,synth(GES),single_source,-2.56,,,True,False,False,,,,,False,KURUCZ,False
@@ -119120,9 +119120,9 @@ gf_128094,pk_cf7fddbe0385,22,1.0,Ti I,8064.245,3.716,1,-0.182,K10,,synth(GES),si
 gf_128095,pk_7b62c12148a5,22,1.0,Ti I,8065.476,4.472,1,-1.836,K10,,synth(GES),single_source,-1.836,,,True,False,False,,,,,False,KURUCZ,False
 gf_128096,pk_cdb91c2cab1a,22,1.0,Ti I,8065.897,4.465,1,-6.298,K10,,synth(GES),single_source,-6.298,,,True,False,False,,,,,False,KURUCZ,False
 gf_128097,pk_644b33c6b922,22,1.0,Ti I,8065.957,4.409,1,-2.545,K10,,synth(GES),single_source,-2.545,,,True,False,False,,,,,False,KURUCZ,False
-gf_128098,pk_948395ef7ee8,22,1.0,Ti I,8066.016,1.887,1,-2.527,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.39,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_128098,pk_948395ef7ee8,22,1.0,Ti I,8066.016,1.887,1,-2.390,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.527 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.39,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128099,pk_6448ce31c352,22,1.0,Ti I,8066.132,4.465,1,-5.835,K10,,synth(GES),single_source,-5.835,,,True,False,False,,,,,False,KURUCZ,False
-gf_128100,pk_9e49ebed59ce,22,1.0,Ti I,8068.239,1.873,1,-1.28,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-1.18,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_128100,pk_9e49ebed59ce,22,1.0,Ti I,8068.239,1.873,1,-1.180,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.28 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.18,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128101,pk_b164db955b66,22,1.0,Ti I,8069.779,2.495,1,-1.287,K10,,synth(GES),single_source,-1.287,,,True,False,False,,,,,False,KURUCZ,False
 gf_128102,pk_cbfc7a83aae7,22,1.0,Ti I,8070.638,3.351,1,-2.712,K10,,synth(GES),single_source,-2.712,,,True,False,False,,,,,False,KURUCZ,False
 gf_128103,pk_6c0d18c9b9c6,22,1.0,Ti I,8072.307,3.559,1,-4.684,K10,,synth(GES),single_source,-4.684,,,True,False,False,,,,,False,KURUCZ,False
@@ -119155,7 +119155,7 @@ gf_128129,pk_b6d8548bc354,22,1.0,Ti I,8094.07,4.465,1,-7.384,K10,,synth(GES),sin
 gf_128130,pk_c521852a3f45,22,1.0,Ti I,8096.595,4.472,1,-5.196,K10,,synth(GES),single_source,-5.196,,,True,False,False,,,,,False,KURUCZ,False
 gf_128131,pk_ba1910ea980f,22,1.0,Ti I,8097.656,3.323,1,-4.553,K10,,synth(GES),single_source,-4.553,,,True,False,False,,,,,False,KURUCZ,False
 gf_128132,pk_4de3c0556b4d,22,1.0,Ti I,8098.337,2.16,1,-2.23,LGWSC,,synth(GES),single_source,-2.23,,,True,False,False,,,,,False,OTHER,False
-gf_128133,pk_a6b323975e05,22,1.0,Ti I,8100.069,1.879,1,-2.514,NIST ASD (accuracy C; TP ref T3297),C,synth(GES),adopted_rya1268_nist_asd,-2.43,,,True,False,False,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_128133,pk_a6b323975e05,22,1.0,Ti I,8100.069,1.879,1,-2.430,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.514 (class C), RYA-1315",C,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.43,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128134,pk_380cd5cbc756,22,1.0,Ti I,8104.413,3.702,1,-2.362,K10,,synth(GES),single_source,-2.362,,,True,False,False,,,,,False,KURUCZ,False
 gf_128135,pk_ab9e4a3d1b50,22,1.0,Ti I,8105.217,4.472,1,-4.322,K10,,synth(GES),single_source,-4.322,,,True,False,False,,,,,False,KURUCZ,False
 gf_128136,pk_3fd0859a7615,22,1.0,Ti I,8105.847,4.489,1,-5.479,K10,,synth(GES),single_source,-5.479,,,True,False,False,,,,,False,KURUCZ,False
@@ -119781,7 +119781,7 @@ gf_128755,pk_4ec044a3e417,22,1.0,Ti I,8668.295,3.678,1,-0.748,K10,,synth(GES),si
 gf_128756,pk_9b60bf5baecb,22,1.0,Ti I,8668.794,3.89,1,-4.064,K10,,synth(GES),single_source,-4.064,,,True,False,False,,,,,False,KURUCZ,False
 gf_128757,pk_181b4343746b,22,1.0,Ti I,8668.999,4.69,1,-4.016,K10,,synth(GES),single_source,-4.016,,,True,False,False,,,,,False,KURUCZ,False
 gf_128758,pk_bf63c0c8dd66,22,1.0,Ti I,8669.323,0.0,2,-7.55,K10,,synth(GES),single_source,-7.55,,,True,False,False,,,,,False,KURUCZ,False
-gf_128759,pk_f01a96cae6f6,22,1.0,Ti I,8675.372,1.067,1,-1.438,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-1.5,,,True,False,False,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_128759,pk_f01a96cae6f6,22,1.0,Ti I,8675.372,1.067,1,-1.500,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.438 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.5,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128760,pk_cae4f8cedb16,22,1.0,Ti I,8675.767,4.433,1,-5.179,K10,,synth(GES),single_source,-5.179,,,True,False,False,,,,,False,KURUCZ,False
 gf_128761,pk_8fc5368f5ecf,22,1.0,Ti I,8676.259,1.981,1,-7.666,K10,,synth(GES),single_source,-7.666,,,True,False,False,,,,,False,KURUCZ,False
 gf_128762,pk_33ccb0bd9134,22,1.0,Ti I,8676.408,4.037,1,-4.676,K10,,synth(GES),single_source,-4.676,,,True,False,False,,,,,False,KURUCZ,False
@@ -119791,7 +119791,7 @@ gf_128765,pk_19c4353478bd,22,1.0,Ti I,8678.161,3.904,1,-2.531,K10,,synth(GES),si
 gf_128766,pk_ec119aa734e5,22,1.0,Ti I,8679.691,3.869,1,-4.053,K10,,synth(GES),single_source,-4.053,,,True,False,False,,,,,False,KURUCZ,False
 gf_128767,pk_2db20fa9c7ca,22,1.0,Ti I,8681.066,2.506,1,-3.973,K10,,synth(GES),single_source,-3.973,,,True,False,False,,,,,False,KURUCZ,False
 gf_128768,pk_b5f7cc51c7d4,22,1.0,Ti I,8681.214,2.25,1,-3.049,K10,,synth(GES),single_source,-3.049,,,True,False,False,,,,,False,KURUCZ,False
-gf_128769,pk_4d710947b7bf,22,1.0,Ti I,8682.983,1.053,1,-1.692,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-1.79,,,True,False,False,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_128769,pk_4d710947b7bf,22,1.0,Ti I,8682.983,1.053,1,-1.790,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.692 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-1.79,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128770,pk_b04caf5bb1e4,22,1.0,Ti I,8684.233,1.734,1,-2.69,LGWSC,,synth(GES),single_source,-2.69,,,True,False,False,,,,,False,OTHER,False
 gf_128771,pk_1248265116b2,22,1.0,Ti I,8685.621,3.716,1,-2.014,K10,,synth(GES),single_source,-2.014,,,True,False,False,,,,,False,KURUCZ,False
 gf_128772,pk_ea027cd5f9b2,22,1.0,Ti I,8686.58,1.739,1,-3.771,K10,,synth(GES),single_source,-3.771,,,True,False,False,,,,,False,KURUCZ,False
@@ -119799,7 +119799,7 @@ gf_128773,pk_2544f2ed526c,22,1.0,Ti I,8688.852,3.062,1,-1.977,K10,,synth(GES),si
 gf_128774,pk_58256b1beeca,22,1.0,Ti I,8689.743,4.394,1,-5.281,K10,,synth(GES),single_source,-5.281,,,True,False,False,,,,,False,KURUCZ,False
 gf_128775,pk_5777f7fee441,22,1.0,Ti I,8689.824,0.813,2,-11.0524,K10,,synth(GES),single_source,-11.0524,,,True,False,False,,,,,False,KURUCZ,False
 gf_128776,pk_842775a3f0b8,22,1.0,Ti I,8691.979,3.351,1,-2.633,K10,,synth(GES),single_source,-2.633,,,True,False,False,,,,,False,KURUCZ,False
-gf_128777,pk_bd43623491de,22,1.0,Ti I,8692.329,1.046,1,-1.991,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-2.13,,,True,False,False,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_128777,pk_bd43623491de,22,1.0,Ti I,8692.329,1.046,1,-2.130,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.991 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.13,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128778,pk_a5cf9e96e364,22,1.0,Ti I,8697.04,3.718,1,-0.717,K10,,synth(GES),single_source,-0.717,,,True,False,False,,,,,False,KURUCZ,False
 gf_128779,pk_4978f5da45cb,22,1.0,Ti I,8698.991,4.382,1,-3.437,K10,,synth(GES),single_source,-3.437,,,True,False,False,,,,,False,KURUCZ,False
 gf_128780,pk_5064e160d435,22,1.0,Ti I,8704.65,3.89,1,-3.196,K10,,synth(GES),single_source,-3.196,,,True,False,False,,,,,False,KURUCZ,False
@@ -119829,7 +119829,7 @@ gf_128803,pk_f7f4f37d183f,22,1.0,Ti I,8726.92,4.86,1,-5.749,K10,,synth(GES),sing
 gf_128804,pk_25b399062ae1,22,1.0,Ti I,8727.979,3.709,1,-2.075,K10,,synth(GES),single_source,-2.075,,,True,False,False,,,,,False,KURUCZ,False
 gf_128805,pk_106cda18ca1f,22,1.0,Ti I,8728.839,4.411,1,-5.579,K10,,synth(GES),single_source,-5.579,,,True,False,False,,,,,False,KURUCZ,False
 gf_128806,pk_fd455369707f,22,1.0,Ti I,8730.497,3.351,1,-1.574,K10,,synth(GES),single_source,-1.574,,,True,False,False,,,,,False,KURUCZ,False
-gf_128807,pk_3f07e14f2988,22,1.0,Ti I,8734.71,1.053,1,-2.103,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-2.24,,,True,False,False,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_128807,pk_3f07e14f2988,22,1.0,Ti I,8734.71,1.053,1,-2.240,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.103 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.24,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128808,pk_d475b4ccb945,22,1.0,Ti I,8735.354,0.848,2,-13.446,K10,,synth(GES),single_source,-13.446,,,True,False,False,,,,,False,KURUCZ,False
 gf_128809,pk_5e877da60ebe,22,1.0,Ti I,8737.304,3.724,1,-0.827,K10,,synth(GES),single_source,-0.827,,,True,False,False,,,,,False,KURUCZ,False
 gf_128810,pk_dd02ee230936,22,1.0,Ti I,8737.591,3.43,1,-5.551,K10,,synth(GES),single_source,-5.551,,,True,False,False,,,,,False,KURUCZ,False
@@ -119864,7 +119864,7 @@ gf_128838,pk_e1542223b628,22,1.0,Ti I,8760.121,4.731,1,-3.043,K10,,synth(GES),si
 gf_128839,pk_04074a444742,22,1.0,Ti I,8761.473,1.739,1,-2.59,LGWSC,,synth(GES),single_source,-2.59,,,True,False,False,,,,,False,OTHER,False
 gf_128840,pk_e1ee29933b25,22,1.0,Ti I,8763.681,1.879,1,-2.86,LGWSC,,synth(GES),single_source,-2.86,,,True,False,False,,,,,False,OTHER,False
 gf_128841,pk_1b1ea003efd9,22,1.0,Ti I,8766.219,4.669,1,-2.685,K10,,synth(GES),single_source,-2.685,,,True,False,False,,,,,False,KURUCZ,False
-gf_128842,pk_a9f939962d9f,22,1.0,Ti I,8766.68,1.067,1,-2.161,NIST ASD (accuracy B; TP ref T8000),B,synth(GES),adopted_rya1268_nist_asd,-2.27,,,True,False,False,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_128842,pk_a9f939962d9f,22,1.0,Ti I,8766.68,1.067,1,-2.270,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.161 (class B), RYA-1315",B,synth(GES),adopted_rya1315_lawler2013_over_nist,-2.27,,,True,False,False,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_128843,pk_f629af39844a,22,1.0,Ti I,8767.576,0.836,1,-11.385,K10,,synth(GES),single_source,-11.385,,,True,False,False,,,,,False,KURUCZ,False
 gf_128844,pk_9eaff0511bc2,22,1.0,Ti I,8767.967,3.946,1,-5.82,K10,,synth(GES),single_source,-5.82,,,True,False,False,,,,,False,KURUCZ,False
 gf_128845,pk_c8d17b92506c,22,1.0,Ti I,8768.138,4.665,1,-3.673,K10,,synth(GES),single_source,-3.673,,,True,False,False,,,,,False,KURUCZ,False
@@ -142584,7 +142584,7 @@ gf_151558,pk_8bb5b764d4bc,27,1.0,Co I,3186.348,0.1744,16,-2.81,"Lawler et al. 20
 gf_151559,pk_5378ae2bd645,58,2.0,Ce II,3186.365,0.5874,1,-3.06,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.06,False,False,True,,,,,False,VALD3,False
 gf_151560,pk_27da1d236354,66,2.0,Dy II,3186.377,1.5715,1,0.562,VALD3,,nearuv_vald(RYA-759),single_source,,,0.562,False,False,True,,,,,False,VALD3,False
 gf_151561,pk_c01b5a194b23,20,1.0,Ca I,3186.417,2.5213,1,-1.506,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.506,False,False,True,,,,,False,VALD3,False
-gf_151562,pk_73ad6165dc0e,22,1.0,Ti I,3186.451,0.0,1,-0.071,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.0099999999999999,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_151562,pk_73ad6165dc0e,22,1.0,Ti I,3186.451,0.0,1,0.010,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.071 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,0.0099999999999999,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_151563,pk_f4edeecd40e2,28,1.0,Ni I,3186.472,3.3061,1,-1.853,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.853,False,False,True,,,,,False,VALD3,False
 gf_151564,pk_910f1ab11211,25,1.0,Mn I,3186.525,3.7634,1,-2.111,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.111,False,False,True,,,,,False,VALD3,False
 gf_151565,pk_9bfcc7d7040b,41,1.0,Nb I,3186.545,0.6197,1,-0.99,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.99,False,False,True,,,,,False,VALD3,False
@@ -142738,7 +142738,7 @@ gf_151712,pk_6669d19541c9,92,2.0,U II,3191.742,0.5782,1,-0.967,VALD3,,nearuv_val
 gf_151713,pk_7235a55dc53d,24,1.0,Cr I,3191.792,3.079,1,-2.887,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.887,False,False,True,,,,,False,VALD3,False
 gf_151714,pk_f8e7029e5781,28,1.0,Ni I,3191.874,3.5388,1,-1.026,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.026,False,False,True,,,,,False,VALD3,False
 gf_151715,pk_a99b71c10c02,40,2.0,Zr II,3191.905,0.8019,1,-0.52,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.52,False,False,True,,,,,False,VALD3,False
-gf_151716,pk_9cc6c51e255c,22,1.0,Ti I,3191.992,0.0211,1,0.076,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.1599999999999999,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_151716,pk_9cc6c51e255c,22,1.0,Ti I,3191.992,0.0211,1,0.160,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.076 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,0.1599999999999999,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_151717,pk_39065fa890ea,26,1.0,Fe I,3192.044,3.2112,1,-2.65,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.65,False,False,True,,,,,False,VALD3,False
 gf_151718,pk_22f6240e0dc8,26,2.0,Fe II,3192.063,3.8143,1,-2.103,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.103,False,False,True,,,,,False,VALD3,False
 gf_151719,pk_af8d21d1c3d0,42,2.0,Mo II,3192.105,1.9701,1,-1.0,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.0,False,False,True,,,,,False,VALD3,False
@@ -142956,7 +142956,7 @@ gf_151930,pk_b3a75ee723e4,26,1.0,Fe I,3199.656,3.332,1,-1.978,VALD3,,nearuv_vald
 gf_151931,pk_2e407e54f23e,23,1.0,V I,3199.813,1.8599,1,-0.116,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.116,False,False,True,,,,,False,VALD3,False
 gf_151932,pk_d1f88a4016ec,24,2.0,Cr II,3199.845,4.476,1,-2.892,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.892,False,False,True,,,,,False,VALD3,False
 gf_151933,pk_b1a23d09d751,24,2.0,Cr II,3199.853,4.7605,1,-1.297,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.297,False,False,True,,,,,False,VALD3,False
-gf_151934,pk_e600af784fbc,22,1.0,Ti I,3199.914,0.048,1,0.21,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.3099999999999999,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_151934,pk_e600af784fbc,22,1.0,Ti I,3199.914,0.048,1,0.310,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.21 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,0.3099999999999999,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_151935,pk_de3a53bee96d,26,1.0,Fe I,3199.934,2.4496,1,-2.567,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.567,False,False,True,,,,,False,VALD3,False
 gf_151936,pk_00b5a5923a28,72,2.0,Hf II,3199.991,1.8913,1,-0.629,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.629,False,False,True,,,,,False,VALD3,False
 gf_151937,pk_f9043e11f146,24,1.0,Cr I,3199.997,3.1044,1,-3.22,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.22,False,False,True,,,,,False,VALD3,False
@@ -143062,7 +143062,7 @@ gf_152036,pk_b04ddc4040d0,26,2.0,Fe II,3203.755,5.9561,1,-2.42,VALD3,,nearuv_val
 gf_152037,pk_7aecd562866e,26,1.0,Fe I,3203.765,3.274,1,-4.733,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.733,False,False,True,,,,,False,VALD3,False
 gf_152038,pk_f5a46b99065b,26,1.0,Fe I,3203.771,2.8316,1,-3.825,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.825,False,False,True,,,,,False,VALD3,False
 gf_152039,pk_edbbbe5e088e,39,2.0,Y II,3203.824,3.4116,1,-0.479,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.479,False,False,True,,,,,False,VALD3,False
-gf_152040,pk_839a0d7a4326,22,1.0,Ti I,3203.825,0.0211,1,-1.114,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.01,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_152040,pk_839a0d7a4326,22,1.0,Ti I,3203.825,0.0211,1,-1.010,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.114 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.01,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_152041,pk_d7e13317d135,26,2.0,Fe II,3203.825,9.1257,1,-1.255,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.255,False,False,True,,,,,False,VALD3,False
 gf_152042,pk_65a47b9ff463,26,1.0,Fe I,3203.831,3.2918,1,-2.079,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.079,False,False,True,,,,,False,VALD3,False
 gf_152043,pk_42f5c3077c22,22,2.0,Ti II,3203.848,3.8692,1,-2.11,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.11,False,False,True,,,,,False,VALD3,False
@@ -143339,7 +143339,7 @@ gf_152313,pk_ac7521939a00,62,2.0,Sm II,3214.106,0.2484,1,-1.154,VALD3,,nearuv_va
 gf_152314,pk_aa4b115cfbf3,22,2.0,Ti II,3214.108,1.5718,1,-1.68,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.68,False,False,True,,wood2013_ti2,0.028,10.1088/0067-0049/208/2/27,False,LAB,False
 gf_152315,pk_56ad38546ff0,24,1.0,Cr I,3214.149,3.1128,1,-3.089,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.089,False,False,True,,,,,False,VALD3,False
 gf_152316,pk_5335be00dd23,40,2.0,Zr II,3214.189,0.0947,1,-0.4,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.4,False,False,True,,,,,False,VALD3,False
-gf_152317,pk_1c775fef9f6e,22,1.0,Ti I,3214.237,0.048,1,-1.046,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.01,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_152317,pk_1c775fef9f6e,22,1.0,Ti I,3214.237,0.048,1,-1.010,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.046 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.01,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_152318,pk_cd73190587b1,58,2.0,Ce II,3214.251,0.8793,1,-1.09,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.09,False,False,True,,,,,False,VALD3,False
 gf_152319,pk_7800dd5cb9d5,58,2.0,Ce II,3214.28,0.8121,1,-1.17,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.17,False,False,True,,,,,False,VALD3,False
 gf_152320,pk_6f412dba9489,45,1.0,Rh I,3214.325,0.0,1,-2.16,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.16,False,False,True,,,,,False,VALD3,False
@@ -146964,7 +146964,7 @@ gf_155938,pk_f41bb5af08e2,68,2.0,Er II,3341.839,0.8921,1,-0.159,VALD3,,nearuv_va
 gf_155939,pk_3860f73395bd,27,1.0,Co I,3341.846,2.7865,21,-1.5329602424776094,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.5329602424776094,False,False,True,,,,,False,VALD3,False
 gf_155940,pk_36aeb97baad0,58,2.0,Ce II,3341.865,0.655,1,-2.59,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.59,False,False,True,,,,,False,VALD3,False
 gf_155941,pk_9ac69872e63a,58,2.0,Ce II,3341.868,0.5593,1,-0.206,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.206,False,False,True,,,,,False,VALD3,False
-gf_155942,pk_45f97c15b0c5,22,1.0,Ti I,3341.873,0.0,5,-0.125,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-0.0297501824644845,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_155942,pk_45f97c15b0c5,22,1.0,Ti I,3341.873,0.0,5,-0.030,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.125 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-0.0297501824644845,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_155943,pk_a970718c23b9,22,2.0,Ti II,3341.875,0.5739,1,0.34,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,0.3399999999999999,False,False,True,,wood2013_ti2,0.0206,10.1088/0067-0049/208/2/27,False,LAB,False
 gf_155944,pk_b5596a3591d6,66,2.0,Dy II,3341.89,0.5382,1,-0.86,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.86,False,False,True,,,,,False,VALD3,False
 gf_155945,pk_7b55b2e0cd0c,26,1.0,Fe I,3341.891,3.6398,1,-4.192,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.192,False,False,True,,,,,False,VALD3,False
@@ -147253,7 +147253,7 @@ gf_156227,pk_558b719cba6e,27,2.0,Co II,3352.801,2.2356,9,-1.829999641575864,VALD
 gf_156228,pk_a20e56619558,22,1.0,Ti I,3352.834,2.2674,1,-2.571,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.571,False,False,True,,,,,False,VALD3,False
 gf_156229,pk_45bd258b222e,26,1.0,Fe I,3352.92,2.4534,1,-2.538,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.538,False,False,True,,,,,False,VALD3,False
 gf_156230,pk_13e599f07cad,24,1.0,Cr I,3352.931,3.8904,1,-2.444,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.444,False,False,True,,,,,False,VALD3,False
-gf_156231,pk_d53ccd682759,22,1.0,Ti I,3352.933,0.0211,1,-1.951,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.74,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_156231,pk_d53ccd682759,22,1.0,Ti I,3352.933,0.0211,1,-1.740,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.951 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.74,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_156232,pk_6f1bb3defe26,58,2.0,Ce II,3352.939,0.4456,1,-1.51,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.51,False,False,True,,,,,False,VALD3,False
 gf_156233,pk_18b7082e872a,58,2.0,Ce II,3352.97,0.2954,1,-2.92,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.92,False,False,True,,,,,False,VALD3,False
 gf_156234,pk_dfaf25f3a1ce,58,2.0,Ce II,3352.983,0.6347,1,-0.8800000000000001,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8800000000000001,False,False,True,,,,,False,VALD3,False
@@ -147304,7 +147304,7 @@ gf_156278,pk_8030cfcfaf12,25,1.0,Mn I,3354.58,4.2465,1,-2.083,VALD3,,nearuv_vald
 gf_156279,pk_3db1b8c6ba26,26,1.0,Fe I,3354.598,3.2367,1,-2.704,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.704,False,False,True,,,,,False,VALD3,False
 gf_156280,pk_0d364feec481,90,2.0,Th II,3354.618,1.0388,1,-0.578,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.578,False,False,True,,,,,False,VALD3,False
 gf_156281,pk_6d38dc0e5a93,60,2.0,Nd II,3354.62,0.2046,1,-1.52,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.52,False,False,True,,,,,False,VALD3,False
-gf_156282,pk_4eed298f65fb,22,1.0,Ti I,3354.633,0.0211,1,0.021,"NIST ASD (accuracy C; TP ref T3499n,T2664)",C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.11,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_156282,pk_4eed298f65fb,22,1.0,Ti I,3354.633,0.0211,1,0.110,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.021 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,0.11,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_156283,pk_b05a44584e1d,24,1.0,Cr I,3354.668,3.8923,1,-1.51,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.51,False,False,True,,,,,False,VALD3,False
 gf_156284,pk_f8bda51eeef6,62,2.0,Sm II,3354.72,0.3785,1,-1.16,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.16,False,False,True,,,,,False,VALD3,False
 gf_156285,pk_b4f27e1fb5c4,41,1.0,Nb I,3354.737,0.3478,1,-0.74,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.74,False,False,True,,,,,False,VALD3,False
@@ -147388,7 +147388,7 @@ gf_156362,pk_2c6a2470f1e2,42,1.0,Mo I,3358.118,1.4202,1,-0.0459999999999999,VALD
 gf_156363,pk_bcd8467f361b,68,2.0,Er II,3358.153,0.6364,1,-0.8800000000000001,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8800000000000001,False,False,True,,,,,False,VALD3,False
 gf_156364,pk_7bc805feb8c0,26,1.0,Fe I,3358.201,3.2671,1,-6.455,VALD3,,nearuv_vald(RYA-759),single_source,,,-6.455,False,False,True,,,,,False,VALD3,False
 gf_156365,pk_41ec39a1dc5b,26,2.0,Fe II,3358.251,3.8916,1,-2.752,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.752,False,False,True,,,,,False,VALD3,False
-gf_156366,pk_484a5292b00f,22,1.0,Ti I,3358.271,0.0,1,-1.187,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.26,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_156366,pk_484a5292b00f,22,1.0,Ti I,3358.271,0.0,1,-1.260,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.187 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.26,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_156367,pk_6cfb889d5bb4,26,1.0,Fe I,3358.288,3.6025,1,-3.023,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.023,False,False,True,,,,,False,VALD3,False
 gf_156368,pk_2d6436b3f364,72,2.0,Hf II,3358.29,2.156,1,-0.85,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.85,False,False,True,,,,,False,VALD3,False
 gf_156369,pk_5f9a1147f159,66,2.0,Dy II,3358.3,0.5896,1,-1.49,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.49,False,False,True,,,,,False,VALD3,False
@@ -147834,7 +147834,7 @@ gf_156808,pk_12c8f4114a99,26,2.0,Fe II,3371.286,3.8916,1,-3.175,VALD3,,nearuv_va
 gf_156809,pk_e1676f180525,26,1.0,Fe I,3371.289,3.6025,1,-1.587,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.587,False,False,True,,,,,False,VALD3,False
 gf_156810,pk_1ca859819ca2,41,1.0,Nb I,3371.322,0.2671,1,-1.13,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.13,False,False,True,,,,,False,VALD3,False
 gf_156811,pk_a78495effa0f,74,1.0,W I,3371.35,0.2071,1,-2.14,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.14,False,False,True,,,,,False,VALD3,False
-gf_156812,pk_d9e76fae98d9,22,1.0,Ti I,3371.452,0.048,1,0.13,"NIST ASD (accuracy C; TP ref T3499n,T2664)",C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.23,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_156812,pk_d9e76fae98d9,22,1.0,Ti I,3371.452,0.048,1,0.230,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD 0.13 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,0.23,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_156813,pk_58d837821263,28,1.0,Ni I,3371.467,3.606,1,-3.782,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.782,False,False,True,,,,,False,VALD3,False
 gf_156814,pk_4e82cad988f0,73,1.0,Ta I,3371.534,0.4915,21,-0.7699602424776094,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.7699602424776094,False,False,True,,,,,False,VALD3,False
 gf_156815,pk_362676310a77,66,2.0,Dy II,3371.691,1.8468,1,0.382,VALD3,,nearuv_vald(RYA-759),single_source,,,0.382,False,False,True,,,,,False,VALD3,False
@@ -148263,7 +148263,7 @@ gf_157237,pk_55358c7373db,60,2.0,Nd II,3385.47,0.2046,1,-2.17,VALD3,,nearuv_vald
 gf_157238,pk_337fb6541ce7,26,1.0,Fe I,3385.499,3.2515,1,-3.024,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.024,False,False,True,,,,,False,VALD3,False
 gf_157239,pk_8f3ded6cdc2c,90,2.0,Th II,3385.531,0.5567,1,-0.8859999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8859999999999999,False,False,True,,,,,False,VALD3,False
 gf_157240,pk_b59db0d9d5b7,27,1.0,Co I,3385.547,3.1913,18,-0.2948878507483915,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.2948878507483915,False,False,True,,,,,False,VALD3,False
-gf_157241,pk_2d1af706366d,22,1.0,Ti I,3385.66,0.048,1,-1.201,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.25,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_157241,pk_2d1af706366d,22,1.0,Ti I,3385.66,0.048,1,-1.250,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.201 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.25,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_157242,pk_087ac6b8be0b,26,1.0,Fe I,3385.686,3.5465,1,-3.154,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.154,False,False,True,,,,,False,VALD3,False
 gf_157243,pk_c8631325c104,58,2.0,Ce II,3385.739,0.7215,1,-1.35,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.35,False,False,True,,,,,False,VALD3,False
 gf_157244,pk_0b5635af3bd8,75,1.0,Re I,3385.76,1.8128,1,-0.51,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.51,False,False,True,,,,,False,VALD3,False
@@ -148273,7 +148273,7 @@ gf_157247,pk_06ebdbf73593,21,1.0,Sc I,3385.837,2.0099,21,-0.9297536124848812,VAL
 gf_157248,pk_e1e6510b11ed,24,1.0,Cr I,3385.895,3.5505,1,-2.93,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.93,False,False,True,,,,,False,VALD3,False
 gf_157249,pk_7b3cf2aa351a,24,1.0,Cr I,3385.933,2.9151,1,-3.067,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.067,False,False,True,,,,,False,VALD3,False
 gf_157250,pk_915f153c6b00,76,1.0,Os I,3385.936,1.5838,1,-0.8,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8,False,False,True,,,,,False,VALD3,False
-gf_157251,pk_0b5d57748d2c,22,1.0,Ti I,3385.941,0.048,1,-0.22,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-0.18,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_157251,pk_0b5d57748d2c,22,1.0,Ti I,3385.941,0.048,1,-0.180,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.22 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-0.18,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_157252,pk_21bfb832d46f,26,1.0,Fe I,3386.023,3.417,1,-4.596,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.596,False,False,True,,,,,False,VALD3,False
 gf_157253,pk_ee801c9a6ee2,24,2.0,Cr II,3386.034,5.8712,1,-2.644,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.644,False,False,True,,,,,False,VALD3,False
 gf_157254,pk_34a3d84079d2,22,1.0,Ti I,3386.091,1.9969,1,-3.082,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.082,False,False,True,,,,,False,VALD3,False
@@ -151046,7 +151046,7 @@ gf_160020,pk_dece90991e3f,26,1.0,Fe I,3493.137,2.4688,1,-5.496,VALD3,,nearuv_val
 gf_160021,pk_2c84e8c7fef9,25,1.0,Mn I,3493.149,4.6788,1,-1.885,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.885,False,False,True,,,,,False,VALD3,False
 gf_160022,pk_3f01de1d5caf,23,2.0,V II,3493.162,1.0713,1,-1.42,"Wood et al. 2014 (ApJS 214, 18), machine-readable table J/ApJS/214/18 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.42,False,False,True,,wood2014_v2,0.047,10.1088/0067-0049/214/2/18,False,LAB,False
 gf_160023,pk_277fb893a9b9,27,1.0,Co I,3493.169,2.8744,22,-2.518041706797114,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.518041706797114,False,False,True,,,,,False,VALD3,False
-gf_160024,pk_d9ed61cce32a,22,1.0,Ti I,3493.274,0.0211,1,-2.225,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-2.38,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_160024,pk_d9ed61cce32a,22,1.0,Ti I,3493.274,0.0211,1,-2.380,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.225 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-2.38,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_160025,pk_38b4534ef5b0,26,1.0,Fe I,3493.28,1.4849,1,-2.815308569182401,NIST ASD (astroquery) T2578n,E,nearuv_vald(RYA-759),nist_rya822,,,-2.89,False,False,True,,,,,False,OTHER,False
 gf_160026,pk_0ba10834138d,25,1.0,Mn I,3493.31,4.2729,1,-2.382,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.382,False,False,True,,,,,False,VALD3,False
 gf_160027,pk_9c2cec3c754e,42,1.0,Mo I,3493.334,1.5307,1,-1.386,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.386,False,False,True,,,,,False,VALD3,False
@@ -151492,7 +151492,7 @@ gf_160466,pk_f36b378ce874,58,2.0,Ce II,3511.589,1.2058,1,-0.67,VALD3,,nearuv_val
 gf_160467,pk_dc36827e87d6,62,2.0,Sm II,3511.59,0.3785,1,-1.81,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.81,False,False,True,,,,,False,VALD3,False
 gf_160468,pk_1de53876e32d,28,1.0,Ni I,3511.617,3.6353,1,-0.908,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.908,False,False,True,,,,,False,VALD3,False
 gf_160469,pk_f6692afcbfa2,28,1.0,Ni I,3511.622,3.5972,1,-3.239,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.239,False,False,True,,,,,False,VALD3,False
-gf_160470,pk_a90a2cfe7ff8,22,1.0,Ti I,3511.624,0.0211,1,-2.415,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-2.75,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_160470,pk_a90a2cfe7ff8,22,1.0,Ti I,3511.624,0.0211,1,-2.750,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.415 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-2.75,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_160471,pk_be2ab40767ea,21,1.0,Sc I,3511.648,1.4478,22,-1.8020417067971133,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.8020417067971133,False,False,True,,,,,False,VALD3,False
 gf_160472,pk_d4c91362f1a5,66,2.0,Dy II,3511.67,2.6204,1,1.313,VALD3,,nearuv_vald(RYA-759),single_source,,,1.313,False,False,True,,,,,False,VALD3,False
 gf_160473,pk_c3ea3aada68e,26,1.0,Fe I,3511.738,2.5592,1,-2.382999658879101,NIST ASD (astroquery) T2578n,E,nearuv_vald(RYA-759),nist_rya822,,,-2.43,False,False,True,,,,,False,OTHER,False
@@ -154691,7 +154691,7 @@ gf_163665,pk_da195ae90c0b,26,1.0,Fe I,3637.84,3.6864,1,-4.22,VALD3,,nearuv_vald(
 gf_163666,pk_d518442f5b62,51,1.0,Sb I,3637.854,2.2893,1,-0.66,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.66,False,False,True,,,,,False,VALD3,False
 gf_163667,pk_c75646461129,26,1.0,Fe I,3637.865,2.9398,1,-0.9665762445130504,NIST ASD (astroquery) T2578n,D,nearuv_vald(RYA-759),nist_rya822,,,-1.01,False,False,True,,,,,False,OTHER,False
 gf_163668,pk_e25c7b84753a,26,1.0,Fe I,3637.894,3.2367,1,-3.328,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.328,False,False,True,,,,,False,VALD3,False
-gf_163669,pk_89c4c072d1c8,22,1.0,Ti I,3637.965,0.0,1,-1.886,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-2.0,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_163669,pk_89c4c072d1c8,22,1.0,Ti I,3637.965,0.0,1,-2.000,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.886 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-2.0,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_163670,pk_8231c39f2576,44,1.0,Ru I,3638.008,1.8665,1,-0.92,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.92,False,False,True,,,,,False,VALD3,False
 gf_163671,pk_5ef911522f1a,25,1.0,Mn I,3638.039,4.7944,1,-1.875,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.875,False,False,True,,,,,False,VALD3,False
 gf_163672,pk_f4f5d207e726,58,2.0,Ce II,3638.043,0.9604,1,-1.1,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.1,False,False,True,,,,,False,VALD3,False
@@ -154890,7 +154890,7 @@ gf_163864,pk_ff3f4e4da346,44,1.0,Ru I,3646.107,1.5891,1,-0.6,VALD3,,nearuv_vald(
 gf_163865,pk_30e93901fb48,24,1.0,Cr I,3646.16,2.5446,1,-2.603,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.603,False,False,True,,,,,False,VALD3,False
 gf_163866,pk_1ecdf586a72b,62,2.0,Sm II,3646.19,0.1039,1,-2.52,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.52,False,False,True,,,,,False,VALD3,False
 gf_163867,pk_7fdb32b64ea4,64,2.0,Gd II,3646.195,0.2399,1,0.32,VALD3,,nearuv_vald(RYA-759),single_source,,,0.32,False,False,True,,,,,False,VALD3,False
-gf_163868,pk_26b96e8d1d46,22,1.0,Ti I,3646.196,0.0,1,-1.585,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.62,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_163868,pk_26b96e8d1d46,22,1.0,Ti I,3646.196,0.0,1,-1.620,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.585 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.62,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_163869,pk_51af54ee3b8e,24,1.0,Cr I,3646.35,3.4348,1,-1.63,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.63,False,False,True,,,,,False,VALD3,False
 gf_163870,pk_666a3b69e579,24,1.0,Cr I,3646.363,3.8875,1,-1.656,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.656,False,False,True,,,,,False,VALD3,False
 gf_163871,pk_59f685cd2705,74,2.0,W II,3646.587,1.8144,1,-1.61,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.61,False,False,True,,,,,False,VALD3,False
@@ -155122,7 +155122,7 @@ gf_164096,pk_05890b0e5069,27,1.0,Co I,3654.441,1.9557,6,-1.28,"Lawler et al. 201
 gf_164097,pk_b8ca96d8bca6,27,1.0,Co I,3654.488,2.6304,4,-2.1849960460336417,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.1849960460336417,False,False,True,,,,,False,VALD3,False
 gf_164098,pk_a0841f09162c,76,1.0,Os I,3654.489,1.9082,1,-0.61,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.61,False,False,True,,,,,False,VALD3,False
 gf_164099,pk_be0a7208e6e2,58,2.0,Ce II,3654.579,0.655,1,-1.78,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.78,False,False,True,,,,,False,VALD3,False
-gf_164100,pk_a3de72382714,22,1.0,Ti I,3654.59,0.0,1,-1.301,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.26,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_164100,pk_a3de72382714,22,1.0,Ti I,3654.59,0.0,1,-1.260,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.301 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.26,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_164101,pk_b0e38442f7a6,58,2.0,Ce II,3654.592,0.8085,1,-2.19,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.19,False,False,True,,,,,False,VALD3,False
 gf_164102,pk_43fac616d874,22,1.0,Ti I,3654.608,2.2916,1,-2.74,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.74,False,False,True,,,,,False,VALD3,False
 gf_164103,pk_ae048b29d74f,64,2.0,Gd II,3654.624,0.0785,1,-0.08,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.08,False,False,True,,,,,False,VALD3,False
@@ -155916,7 +155916,7 @@ gf_164890,pk_87f3261c1bd9,24,1.0,Cr I,3687.234,3.4488,1,-0.2209999999999999,VALD
 gf_164891,pk_fb436c599154,24,1.0,Cr I,3687.271,2.5442,2,-0.719114744460168,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.719114744460168,False,False,True,,,,,False,VALD3,False
 gf_164892,pk_b9822d0bf653,60,2.0,Nd II,3687.284,0.1823,1,-0.49,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.49,False,False,True,,,,,False,VALD3,False
 gf_164893,pk_713a98625226,22,2.0,Ti II,3687.287,4.0017,1,-1.65,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.65,False,False,True,,,,,False,VALD3,False
-gf_164894,pk_8590c1044602,22,1.0,Ti I,3687.339,0.048,1,-2.279,NIST ASD (accuracy C+; TP ref T7574),C+,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-2.36,False,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_164894,pk_8590c1044602,22,1.0,Ti I,3687.339,0.048,1,-2.360,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.279 (class C+), RYA-1315",C+,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-2.36,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_164895,pk_0f096f26e06a,24,2.0,Cr II,3687.426,5.8734,1,-2.467,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.467,False,False,True,,,,,False,VALD3,False
 gf_164896,pk_1cdba4280777,27,1.0,Co I,3687.43,2.5418,10,-2.15,"Lawler et al. 2015 (ApJS 220, 13), machine-readable table J/ApJS/220/13 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.3309456098583783,False,False,True,,lawler2015,0.0605,10.1088/0067-0049/220/1/13,False,LAB,False
 gf_164897,pk_65b15661ab92,29,1.0,Cu I,3687.436,3.8167,18,-0.7569345791312814,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.7569345791312814,False,False,True,,,,,False,VALD3,False
@@ -156638,7 +156638,7 @@ gf_165612,pk_af7e7f302954,68,2.0,Er II,3717.247,1.7706,1,-0.54,VALD3,,nearuv_val
 gf_165613,pk_654ac52e4c71,22,1.0,Ti I,3717.256,1.4601,1,-1.32,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.32,False,False,True,,,,,False,VALD3,False
 gf_165614,pk_c3b73f050c17,75,1.0,Re I,3717.277,2.1487,1,-0.12,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.12,False,False,True,,,,,False,VALD3,False
 gf_165615,pk_b3f139ff5da1,27,1.0,Co I,3717.352,2.5418,12,-3.275943618667468,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.275943618667468,False,False,True,,,,,False,VALD3,False
-gf_165616,pk_bcdff55da915,22,1.0,Ti I,3717.391,0.0,1,-1.222,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.19,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_165616,pk_bcdff55da915,22,1.0,Ti I,3717.391,0.0,1,-1.190,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.222 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.19,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_165617,pk_583296cd0f16,58,2.0,Ce II,3717.482,0.8081,1,-2.18,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.18,False,False,True,,,,,False,VALD3,False
 gf_165618,pk_c68c2322c426,64,1.0,Gd I,3717.483,0.0661,1,0.21,VALD3,,nearuv_vald(RYA-759),single_source,,,0.21,False,False,True,,,,,False,VALD3,False
 gf_165619,pk_22d514318976,25,2.0,Mn II,3717.514,5.3734,13,-2.216084246758595,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.216084246758595,False,False,True,,,,,False,VALD3,False
@@ -157492,7 +157492,7 @@ gf_166466,pk_14c885e35458,20,1.0,Ca I,3753.336,2.5257,3,-1.0032312526438538,VALD
 gf_166467,pk_f22fbe16e1ae,66,2.0,Dy II,3753.5,0.0,1,-0.8200000000000001,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8200000000000001,False,False,True,,,,,False,VALD3,False
 gf_166468,pk_b7853bed4f80,44,1.0,Ru I,3753.537,1.5891,1,-0.01,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.01,False,False,True,,,,,False,VALD3,False
 gf_166469,pk_3bfb83a5e0f3,26,1.0,Fe I,3753.61,2.1759,1,-0.8900841369762067,NIST ASD (astroquery) T5720,C,nearuv_vald(RYA-759),nist_rya822,,,-0.89,False,False,True,,NIST-C+,0.0969,https://physics.nist.gov/asd,True,NIST-C+,False
-gf_166470,pk_daf1ef196c50,22,1.0,Ti I,3753.633,0.0211,1,-1.076,NIST ASD (accuracy C; TP ref T3499n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.02,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
+gf_166470,pk_daf1ef196c50,22,1.0,Ti I,3753.633,0.0211,1,-1.020,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.076 (class C), RYA-1315",C,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-1.02,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_166471,pk_8a9964d4c8bb,24,2.0,Cr II,3753.653,4.7605,1,-3.067,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.067,False,False,True,,,,,False,VALD3,False
 gf_166472,pk_3c9e4db93540,66,2.0,Dy II,3753.692,0.5382,1,-0.1989999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.1989999999999999,False,False,True,,,,,False,VALD3,False
 gf_166473,pk_d125a0d19d95,58,2.0,Ce II,3753.765,1.5824,1,-0.25,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.25,False,False,True,,,,,False,VALD3,False
@@ -157974,7 +157974,7 @@ gf_166948,pk_82f6d76551fb,26,1.0,Fe I,3771.491,3.2367,1,-1.8068754016455384,NIST
 gf_166949,pk_148460000bc2,24,1.0,Cr I,3771.537,2.9151,1,-2.65,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.65,False,False,True,,,,,False,VALD3,False
 gf_166950,pk_2f71bb4ded8d,26,1.0,Fe I,3771.56,3.8816,1,-3.506,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.506,False,False,True,,,,,False,VALD3,False
 gf_166951,pk_54d9c9cdb9b4,58,2.0,Ce II,3771.6,0.5359,1,-0.55,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.55,False,False,True,,,,,False,VALD3,False
-gf_166952,pk_ee8df5a8cd4a,22,1.0,Ti I,3771.65,0.048,1,-0.985,NIST ASD (accuracy A; TP ref T7574),A,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-0.95,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_166952,pk_ee8df5a8cd4a,22,1.0,Ti I,3771.65,0.048,1,-0.950,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -0.985 (class A), RYA-1315",A,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-0.95,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_166953,pk_90086a143f60,23,1.0,V I,3771.669,0.0,12,-3.123943618667467,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.123943618667467,False,False,True,,,,,False,VALD3,False
 gf_166954,pk_8d58707b10d5,23,2.0,V II,3771.682,2.5444,1,-3.125,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.125,False,False,True,,,,,False,VALD3,False
 gf_166955,pk_c185e9b62cde,27,1.0,Co I,3771.702,3.5679,18,-2.2578878507483915,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.2578878507483915,False,False,True,,,,,False,VALD3,False
@@ -158044,7 +158044,7 @@ gf_167018,pk_1b36d733e62e,90,2.0,Th II,3774.204,2.4648,1,-0.0239999999999999,VAL
 gf_167019,pk_93f401511013,24,1.0,Cr I,3774.213,3.3223,1,-1.663,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.663,False,False,True,,,,,False,VALD3,False
 gf_167020,pk_77efc392f6c2,64,2.0,Gd II,3774.293,1.4064,1,-0.17,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.17,False,False,True,,,,,False,VALD3,False
 gf_167021,pk_c6190e82d218,62,2.0,Sm II,3774.31,0.4338,1,-1.17,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.17,False,False,True,,,,,False,VALD3,False
-gf_167022,pk_96c451873530,22,1.0,Ti I,3774.324,0.0211,1,-3.146,NIST ASD (accuracy A; TP ref T7574),A,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-3.11,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
+gf_167022,pk_96c451873530,22,1.0,Ti I,3774.324,0.0211,1,-3.110,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -3.146 (class A), RYA-1315",A,nearuv_vald(RYA-759),adopted_rya1315_lawler2013_over_nist,,,-3.11,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_167023,pk_e375d1f2bc61,23,1.0,V I,3774.329,1.8535,1,-2.159,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.159,False,False,True,,,,,False,VALD3,False
 gf_167024,pk_15a812694bee,39,2.0,Y II,3774.33,0.1296,3,0.215,NIST ASD (accuracy B+; TP ref T4373),B+,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.2099996924615125,False,False,True,,NIST_ASD,0.0294,,False,NIST-C+,False
 gf_167025,pk_b5e6a0c7026f,76,1.0,Os I,3774.4,2.3435,1,-0.51,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.51,False,False,True,,,,,False,VALD3,False
@@ -158648,7 +158648,7 @@ gf_167622,pk_e1a137c948c9,26,1.0,Fe I,11882.844,2.1979,1,-1.668,VALD3,B,ir_vald_
 gf_167623,pk_3d855b2cc57a,26,1.0,Fe I,11884.083,2.2227,1,-2.083,VALD3,C+,ir_vald_9200_13000(RYA-762),single_source,,,-2.083,False,False,True,,"NIST-C+ (recorded, not adopted: RYA-834)",0.0719,https://physics.nist.gov/asd,False,VALD3,False
 gf_167624,pk_c2ee7cb97467,14,1.0,Si I,11890.483,5.0823,1,-2.285,"Pehlivan Rhodin et al. 2024, A&A 682, A184 Table B4 (calculated, rescaled)",,ir_vald_9200_13000(RYA-762),adjudicated_rya1233_pr2024,,,-2.222,False,False,True,,PR2024_calc,0.0507,10.1051/0004-6361/202245686,False,PR2024-CALC,False
 gf_167625,pk_e0956e2686cd,26,1.0,Fe I,11890.487,5.5392,1,-0.544,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.544,False,False,True,,,,,False,VALD3,False
-gf_167626,pk_1de193e269c7,22,1.0,Ti I,11892.877,1.4298,1,-1.65,NIST ASD (accuracy B; TP ref T8000),B,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-1.73,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_167626,pk_1de193e269c7,22,1.0,Ti I,11892.877,1.4298,1,-1.730,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.65 (class B), RYA-1315",B,ir_vald_9200_13000(RYA-762),adopted_rya1315_lawler2013_over_nist,,,-1.73,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_167627,pk_1bb855cca90d,6,1.0,C I,11892.91,8.643,1,-0.275724,"NIST ASD v5.11 grade B (T6070n,T4828n)",B,ir_vald_9200_13000(RYA-762),nist_rya1214,,,-0.2769999999999999,False,False,True,,,0.041393,,False,NIST-C+,False
 gf_167628,pk_87e2781836b2,27,1.0,Co I,11894.631,3.5299,1,-1.906,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.906,False,False,True,,,,,False,VALD3,False
 gf_167629,pk_9763403de582,27,1.0,Co I,11894.852,3.5299,6,-1.118869452541803,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.118869452541803,False,False,True,,,,,False,VALD3,False
@@ -158740,13 +158740,13 @@ gf_167714,pk_54d6b55f99ff,26,1.0,Fe I,12789.45,5.0095,1,-1.514,VALD3,,ir_vald_92
 gf_167715,pk_52192461e812,26,1.0,Fe I,12807.152,3.6398,1,-2.452,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-2.452,False,False,True,,,,,False,VALD3,False
 gf_167716,pk_9b346ae3458d,26,1.0,Fe I,12808.243,4.988,1,-1.362,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.362,False,False,True,,,,,False,VALD3,False
 gf_167717,pk_8aa910f5efaf,20,1.0,Ca I,12816.045,3.9104,1,-0.765,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.765,False,False,True,,,,,False,VALD3,False
-gf_167718,pk_20b075f587cd,22,1.0,Ti I,12821.672,1.4601,1,-1.029,NIST ASD (accuracy B; TP ref T8000),B,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-1.19,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_167718,pk_20b075f587cd,22,1.0,Ti I,12821.672,1.4601,1,-1.190,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.029 (class B), RYA-1315",B,ir_vald_9200_13000(RYA-762),adopted_rya1315_lawler2013_over_nist,,,-1.19,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_167719,pk_aa3996af3620,20,1.0,Ca I,12823.867,3.9104,1,-0.997,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.997,False,False,True,,,,,False,VALD3,False
 gf_167720,pk_93e53965c0e1,26,1.0,Fe I,12824.859,3.0176,1,-3.835,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-3.835,False,False,True,,,,,False,VALD3,False
 gf_167721,pk_66e899f74867,20,1.0,Ca I,12827.059,3.9104,1,-1.478,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.478,False,False,True,,,,,False,VALD3,False
-gf_167722,pk_41073dffa81a,22,1.0,Ti I,12831.445,1.4298,1,-1.395,NIST ASD (accuracy B; TP ref T8000),B,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-1.49,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_167722,pk_41073dffa81a,22,1.0,Ti I,12831.445,1.4298,1,-1.490,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.395 (class B), RYA-1315",B,ir_vald_9200_13000(RYA-762),adopted_rya1315_lawler2013_over_nist,,,-1.49,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_167723,pk_ef089fd83202,26,1.0,Fe I,12840.574,4.9556,1,-1.329,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.329,False,False,True,,,,,False,VALD3,False
-gf_167724,pk_378158519014,22,1.0,Ti I,12847.034,1.4432,1,-1.244,NIST ASD (accuracy B; TP ref T8000),B,ir_vald_9200_13000(RYA-762),adopted_rya1268_nist_asd,,,-1.33,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
+gf_167724,pk_378158519014,22,1.0,Ti I,12847.034,1.4432,1,-1.330,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.244 (class B), RYA-1315",B,ir_vald_9200_13000(RYA-762),adopted_rya1315_lawler2013_over_nist,,,-1.33,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,False
 gf_167725,pk_a2fe2d47f7a6,14,1.0,Si I,12853.369,7.0693,1,-0.933,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.933,False,False,True,,,,,False,VALD3,False
 gf_167726,pk_844e550ee91f,14,1.0,Si I,12861.473,7.0399,1,-1.069,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.069,False,False,True,,,,,False,VALD3,False
 gf_167727,pk_ddb950c46946,12,1.0,Mg I,12870.041,6.5879,1,-1.53,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.53,False,False,True,,,,,False,VALD3,False
@@ -161585,7 +161585,7 @@ gf_171130,pk_ce97d18ef3e2,26,1.0,Fe I,13007.4019,6.3327,1,-2.203,K14,,solar_ir_v
 gf_171131,pk_2e213030dfcc,22,1.0,Ti I,13011.2501,2.1603,1,-2.18,VALD3,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.18,False,False,True,,,,,False,VALD3,
 gf_171132,pk_b96c67200395,14,1.0,Si I,13011.4734,7.0917,1,-2.082,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.082,False,False,True,,,,,False,KURUCZ,
 gf_171133,pk_71eb3a8b4e1d,26,1.0,Fe I,13011.5445,6.4496,1,-1.843,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.843,False,False,True,,,,,False,KURUCZ,
-gf_171134,pk_77dbc411ec57,22,1.0,Ti I,13011.896800000002,1.4432,1,-2.18,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-2.27,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_171134,pk_77dbc411ec57,22,1.0,Ti I,13011.896800000002,1.4432,1,-2.270,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.18 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-2.27,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_171135,pk_4cbf63e0e5ae,26,1.0,Fe I,13012.4811,6.3999,1,-1.948,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.948,False,False,True,,,,,False,KURUCZ,
 gf_171136,pk_dd12e71216ef,24,1.0,Cr I,13014.0717,3.8496,1,-2.629,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.629,False,False,True,,,,,False,KURUCZ,
 gf_171137,pk_c055d3335536,24,1.0,Cr I,13015.6135,3.4493,1,-2.645,K16,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.645,False,False,True,,,,,False,KURUCZ,
@@ -161643,7 +161643,7 @@ gf_171188,pk_8b480da97849,26,1.0,Fe I,13074.412,6.731,1,-1.844,K14,,solar_ir_val
 gf_171189,pk_6548faab70c8,26,1.0,Fe I,13074.8224,6.7106,1,-2.04,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.04,False,False,True,,,,,False,KURUCZ,
 gf_171190,pk_97e7ea9d4337,26,1.0,Fe I,13075.0447,6.4403,1,-2.344,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.344,False,False,True,,,,,False,KURUCZ,
 gf_171191,pk_4500e76f7a2c,26,1.0,Fe I,13076.8114,6.4405,1,-2.081,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.081,False,False,True,,,,,False,KURUCZ,
-gf_171192,pk_a7de89ad6f90,22,1.0,Ti I,13077.265,1.4601,1,-2.083,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-2.22,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_171192,pk_a7de89ad6f90,22,1.0,Ti I,13077.265,1.4601,1,-2.220,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.083 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-2.22,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_171193,pk_bec8c1d85202,14,1.0,Si I,13077.6479,7.0693,1,-1.501,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.501,False,False,True,,,,,False,KURUCZ,
 gf_171194,pk_3425ab8c70f5,21,1.0,Sc I,13078.119248041605,2.1093000000000006,6,-1.608975402484598,K09,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.608975402484598,False,False,True,,,,,False,KURUCZ,
 gf_171195,pk_4caa24e7f9ba,21,1.0,Sc I,13078.29854408864,2.1093,3,-1.8308879597235084,K09,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.8308879597235084,False,False,True,,,,,False,KURUCZ,
@@ -168731,7 +168731,7 @@ gf_178276,pk_cf65ea979b78,28,1.0,Ni I,22627.6753,5.3053,1,-1.689,K08,,solar_ir_v
 gf_178277,pk_10d72b91cc6f,28,1.0,Ni I,22627.9647,5.3053,1,-2.103,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.103,False,False,True,,,,,False,KURUCZ,
 gf_178278,pk_bf4ce137a382,14,1.0,Si I,22628.3468,7.2886,1,-1.994,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.994,False,False,True,,,,,False,KURUCZ,
 gf_178279,pk_c61b4fcc89d9,26,1.0,Fe I,22630.8004,5.8793,1,-2.936,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.936,False,False,True,,,,,False,KURUCZ,
-gf_178280,pk_912f94f1cc04,22,1.0,Ti I,22632.7426,1.8792,1,-2.559,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-2.76,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_178280,pk_912f94f1cc04,22,1.0,Ti I,22632.7426,1.8792,1,-2.760,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -2.559 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-2.76,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_178281,pk_0fc1cc2e9e11,26,1.0,Fe I,22638.5489,6.8661,1,-2.214,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.214,False,False,True,,,,,False,KURUCZ,
 gf_178282,pk_7cfb1bf355f2,26,1.0,Fe I,22641.6816,6.6439,1,-2.262,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.262,False,False,True,,,,,False,KURUCZ,
 gf_178283,pk_2dd848f6a001,16,1.0,S I,22644.056,7.8699,1,-0.34,BQZ,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.34,False,False,True,,,,,False,OTHER,
@@ -168887,7 +168887,7 @@ gf_178432,pk_5ea70d0282db,27,1.0,Co I,22962.5903,5.4364,1,-2.266,K08,,solar_ir_v
 gf_178433,pk_7f66d5474351,27,1.0,Co I,22962.823422178542,5.436422222222222,9,-1.1410610896504745,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.1410610896504745,False,False,True,,,,,False,KURUCZ,
 gf_178434,pk_2bf985188cd0,27,1.0,Co I,22963.2024,5.4364,1,-2.684,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.684,False,False,True,,,,,False,KURUCZ,
 gf_178435,pk_94cac518205c,27,1.0,Co I,22963.3294,5.4364,1,-2.404,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.404,False,False,True,,,,,False,KURUCZ,
-gf_178436,pk_02154d737b26,22,1.0,Ti I,22963.3301,1.8871,1,-1.267,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-1.53,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_178436,pk_02154d737b26,22,1.0,Ti I,22963.3301,1.8871,1,-1.530,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.267 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-1.53,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_178437,pk_5fede3c3852f,27,1.0,Co I,22963.4458,5.4364,1,-2.266,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.266,False,False,True,,,,,False,KURUCZ,
 gf_178438,pk_498f9deac774,27,1.0,Co I,22963.65993566709,5.43645,4,-1.6636627465230127,K08,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.6636627465230127,False,False,True,,,,,False,KURUCZ,
 gf_178439,pk_7b3b8b8d0cc1,25,1.0,Mn I,22979.4739,5.1334,1,-3.538,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-3.538,False,False,True,,,,,False,KURUCZ,
@@ -169116,7 +169116,7 @@ gf_178661,pk_6a15ae789949,26,1.0,Fe I,23423.2642,6.7034,1,-1.164,K14,,solar_ir_v
 gf_178662,pk_c2c30956a86a,14,1.0,Si I,23431.2465,7.1079,1,-1.706,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.706,False,False,True,,,,,False,KURUCZ,
 gf_178663,pk_b2951da1657c,20,1.0,Ca I,23438.5198,5.3213,1,-2.133,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.133,False,False,True,,,,,False,KURUCZ,
 gf_178664,pk_0eda19487665,26,1.0,Fe I,23439.1737,6.5654,1,-0.975,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.975,False,False,True,,,,,False,KURUCZ,
-gf_178665,pk_cb44e184ba84,22,1.0,Ti I,23441.482499999995,1.8792,1,-1.46,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-1.63,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_178665,pk_cb44e184ba84,22,1.0,Ti I,23441.482499999995,1.8792,1,-1.630,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.46 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-1.63,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_178666,pk_3a846b9ed147,26,1.0,Fe I,23442.8618,6.6665,1,-1.94,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.94,False,False,True,,,,,False,KURUCZ,
 gf_178667,pk_2895a8bdb0dd,20,1.0,Ca I,23450.2028,5.2995,1,-0.919,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-0.919,False,False,True,,,,,False,KURUCZ,
 gf_178668,pk_63cd0f641b35,26,1.0,Fe I,23455.0388,6.7116,1,-2.286,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.286,False,False,True,,,,,False,KURUCZ,
@@ -169215,7 +169215,7 @@ gf_178760,pk_d1f5fc29076e,14,1.0,Si I,23708.0715,7.2871,1,-1.741,K07,,solar_ir_v
 gf_178761,pk_98b587ce50c4,14,1.0,Si I,23711.9796,7.4994,1,-2.416,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.416,False,False,True,,,,,False,KURUCZ,
 gf_178762,pk_800ade664c97,26,1.0,Fe I,23713.0989,6.1807,1,-2.829,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-2.829,False,False,True,,,,,False,KURUCZ,
 gf_178763,pk_9817d62b933c,14,1.0,Si I,23714.162,7.2872,1,-1.902,K07,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.902,False,False,True,,,,,False,KURUCZ,
-gf_178764,pk_6d009b58f9d2,22,1.0,Ti I,23719.0348,1.8732,1,-1.603,NIST ASD (accuracy B; TP ref T8000),B,solar_ir_vald_hfson(RYA-1053),adopted_rya1268_nist_asd,,,-1.77,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,
+gf_178764,pk_6d009b58f9d2,22,1.0,Ti I,23719.0348,1.8732,1,-1.770,"Lawler et al. 2013 (ApJS 205, 11) via VALD (LGWSC); sigma: Lawler's stated upper bound 0.1 dex (per-line errors in the MRT only); supersedes NIST ASD -1.603 (class B), RYA-1315",B,solar_ir_vald_hfson(RYA-1053),adopted_rya1315_lawler2013_over_nist,,,-1.77,False,False,True,,lawler2013,0.1,10.1088/0067-0049/205/2/11,False,LAB,
 gf_178765,pk_5d425b099241,26,1.0,Fe I,23720.6552,6.7282,1,-1.944,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.944,False,False,True,,,,,False,KURUCZ,
 gf_178766,pk_f4e54643bf94,26,1.0,Fe I,23723.6723,5.8135,1,-1.574,K14,,solar_ir_vald_hfson(RYA-1053),single_source,,,-1.574,False,False,True,,,,,False,KURUCZ,
 gf_178767,pk_be259c8248d4,12,1.0,Mg I,23736.611,7.0632,4,0.0166482813437455,KP,,solar_ir_vald_hfson(RYA-1053),single_source,,,0.0166482813437455,False,False,True,,,,,False,OTHER,

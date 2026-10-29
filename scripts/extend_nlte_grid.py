@@ -32,7 +32,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from pipeline.species import parse_ion, _INT2ROMAN
 from pipeline import pysme_nlte as pn                     # noqa: E402
-from pipeline.element_prepare import SYNTH_LISTS, OUT     # noqa: E402
+from pipeline.element_prepare import (SYNTH_LISTS, OUT, engine_a_table,  # noqa: E402
+                                      engine_a_provenance)
 
 GES = Path(os.environ.get("ISPEC_DIR", "/mnt/codex-data/engines/ispec_src")) / \
     "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
@@ -137,8 +138,8 @@ def main(argv=None) -> int:
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args(argv)
     ELEMENT, ION = a.element, a.ion
-    csv_path = ROOT / "data" / "nlte_grids" / f"{ELEMENT}_Amarsi2020_PySME.csv"
-    prov_path = csv_path.with_suffix(".prov.json")
+    csv_path = engine_a_table(ELEMENT, root=ROOT)
+    prov_path = engine_a_provenance(csv_path)
     rep = json.loads((OUT / f"{a.star}_{ELEMENT}.json").read_text())
     from config.constants import SOLAR_ASPLUND2021
     pn._A_SUN.setdefault(ELEMENT, SOLAR_ASPLUND2021[ELEMENT])
