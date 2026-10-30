@@ -1,3 +1,7 @@
+## 2026-10-30 — held-out column interpolation
+
+- **RYA-1281** — native column closure checked; log-layer geometry helps held-out consistency; interpolated caps remain withheld.
+
 ## 2026-10-29 — Fe I NUV oxygen controls
 
 - **RYA-1281** — three FeI-background controls converge; UV photoionization halves, OII mismatch shrinks; visible Kitt gap and gates remain.

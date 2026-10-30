@@ -26102,3 +26102,18 @@ artifacts:
     invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
     ticket: RYA-1281
     note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/column_interpolation_v1/report.json
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/column_interpolation_v1/summary.csv
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/column_interpolation_v1/columns.csv
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.

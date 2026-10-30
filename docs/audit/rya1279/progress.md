@@ -576,3 +576,31 @@ diagnostic set matches prior2436 exactly (0added/0removed); new47artifact and
 invocation entries pass. Register mirrors/pointer/freshness and SEQUENCE checks
 pass. Global results-ledger Ba/Sc documented debt remains; no full-suite, library
 or CI-green claim. Final checkpoint must include[skip ci] for Sirius runners.
+
+## 2026-10-30 column/interpolation checkpoint
+
+Pure Mac input audit, no RT/SE. Nine native5500/5750/6000,g4/4.5/5models;
+fouroutercorners and five held-out edge/central targets.45candidates retain
+all existing thermo modes and linear/log/integrated-log-top column options.
+Native rho*dz closure0.067-0.307%; central native0.07196%. Central linear-field
+linear-column closure70.83%; log-layer/log-column0.5447%, held-out column
+error0.7163%, T-profile error19.8K and Pe5.00%. Integrated-log-top column
+closes by construction, so independent native error is required:0.67-3.52%
+across5targets. No best-case selection or interpolation/EOS accuracy claim.
+Current production interpolator still withholds columns, Fe packet still
+refuses changed T/ne/nH/depth. Final external audit column-interpolation-v2
+retained with v1;3byte-identical registered artifacts in column_interpolation_v1.
+11focused tests pass. New characterized model_domain limitation ledger row;
+no new software crash/adopted-product defect. Statev190 and SEQUENCE updated.
+Next structured-cell/simplex comparison and additional independent native cells,
+then joint thermodynamic/column validation before canonical-Sun/10K background
+regeneration/capped runs. Current O controls and all prior gates remain HOLD.
+
+Checkpoint verification: 11 focused tests pass; register pointer/mirror and
+history/PR freshness checks pass (existing tracker/gold provenance notice).
+SEQUENCE reconciles against fetched main f8c723a8. Archived three artifacts
+are byte-identical to external v2. Generator diagnostics remain exactly2436,
+zero added/removed against previous checkpoint. Standing library audit now
+finds190 documents/126 accounted for (64 unindexed; one newly present unrelated
+PDF since prior63); no literature acquisition or science citation from it.
+No global-clean or CI-green claim.
