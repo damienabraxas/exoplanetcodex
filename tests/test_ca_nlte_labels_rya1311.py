@@ -67,3 +67,12 @@ def test_ca_mean3d_deck_is_registered_with_pinned_files():
 def test_ca105b_reach_is_measured_for_both_stages():
     r = json.loads((ROOT / "data/reference/nlte_atom_reach/atom.ca105b.json").read_text())
     assert {s["ion_stage"]: s["nlte_capable"] for s in r["stages"]} == {1: True, 2: True, 3: False}
+
+
+def test_every_deck_probe_in_derive_band_products_passes_an_abundance():
+    # The synthesis route's <3D> probe called for_node with no abundance, so every
+    # Ca@mean3D cell (22-node axis) FAILED with GerberDeckError (34/34, RYA-1311 pass 2).
+    import re
+    src = (ROOT / "scripts/derive_band_products.py").read_text()
+    calls = re.findall(r"= gnlte\.for_node\((.*?)\)\n", src, flags=re.S)
+    assert calls and all("abundance=" in c for c in calls), calls
