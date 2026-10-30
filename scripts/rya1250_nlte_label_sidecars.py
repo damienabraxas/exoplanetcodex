@@ -4,6 +4,7 @@ element with a Gerber deck (`gerber_nlte.DECKS`). See `pipeline/nlte_label_sidec
 
     python scripts/rya1250_nlte_label_sidecars.py            # report only
     python scripts/rya1250_nlte_label_sidecars.py --apply    # write the sidecars
+    python scripts/rya1250_nlte_label_sidecars.py --apply --element Ti   # one element's rows
 
 RUNS ON SIRIUS (model atoms and raw VALD extracts are on the data volumes).
 """
@@ -37,10 +38,14 @@ SKIP = {("ispec_ir_9200_13000", "Fe"), ("ispec_h_15007_17494", "Fe")}
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--element", action="append",
+                    help="label only these elements (others' rows are kept as they are)")
     a = ap.parse_args()
     raw = Path(str(codex_path("data.vald_raw")))
     atoms = Path(str(codex_path("grids.gerber_ts")))
     els = sorted({k.split("@")[0]: v["atom"] for k, v in DECKS.items()}.items())
+    if a.element:
+        els = [(el, atom) for el, atom in els if el in a.element]
     report = {}
     for name, extracts in LISTS.items():
         lst = ROOT / "data" / "linelists" / name / "atomic_lines.tsv"
@@ -59,7 +64,8 @@ def main() -> int:
             print(name, el, st, rows.route.value_counts().to_dict())
         if a.apply:
             print("  wrote", nls.write_sidecar(lst, frames).relative_to(ROOT))
-    out = ROOT / "data" / "audit" / "rya1250" / "nlte_label_sidecars.json"
+    out = ROOT / "data" / "audit" / "rya1250" / (
+        "nlte_label_sidecars.json" if not a.element else f"nlte_label_sidecars_{'_'.join(a.element)}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=1, sort_keys=True))
     return 0

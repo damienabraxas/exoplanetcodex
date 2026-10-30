@@ -148,6 +148,22 @@ DECKS = {
                       atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
                       node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
                       read_via="direct"),
+    # RYA-1315 -- Ti, 1D MARCS (staged + gated RYA-534) and <3D> STAGGER (staged RYA-1311), the
+    # Ca/Al pattern. ⚠️ `atom.ti503b` is Bergemann 2011 (scaled-Drawin H collisions, Gerber 2023
+    # Table 1): its solar NLTE delta runs ~2x the ab-initio Mallinson 2024 value (RYA-534 gate
+    # +0.221 vs +0.05; RYA-546/548). Ti's production NLTE stays ENGINE-A (Mallinson); these
+    # decks give the <3D> LTE leg and a labelled Gerber NLTE comparison, never the headline.
+    "Ti": dict(Z=22, atom="atom.ti503b",
+               aux="auxData_TI_MARCS_Feb-21-2022.dat",
+               grid="NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin"),
+    "Ti@mean3D": dict(Z=22, atom="atom.ti503b",
+                      aux="auxData_Ti_STAGGERmean3D_Aug-07-2023_marcs_names.txt",
+                      grid="NLTEgrid4TS_Ti_STAGGERmean3D_Aug-07-2023.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
 }
 
 

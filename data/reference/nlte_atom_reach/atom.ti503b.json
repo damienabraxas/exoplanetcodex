@@ -1,0 +1,48 @@
+{
+  "atom": "atom.ti503b",
+  "element": "Ti",
+  "md5": "cee1098f27711c83a8c6f11f95da6566",
+  "sha256": "31dbf28102edb76dd6e0f472f21bd0abce690b82e656e1608ef6b2d0a529fb02",
+  "n_levels_declared": 503,
+  "n_bb_declared": 10763,
+  "n_bb_parsed": 10763,
+  "n_continua_declared": 502,
+  "n_cross_stage_bb": 0,
+  "highest_level_index_in_any_bb": 502,
+  "stages": [
+    {
+      "ion_stage": 1,
+      "n_levels": 360,
+      "level_index_lo": 1,
+      "level_index_hi": 360,
+      "energy_eV_lo": 0.0,
+      "energy_eV_hi": 6.3293,
+      "n_bb_both": 8791,
+      "n_bb_any": 8791,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 2,
+      "n_levels": 142,
+      "level_index_lo": 361,
+      "level_index_hi": 502,
+      "energy_eV_lo": 6.8281,
+      "energy_eV_hi": 17.3194,
+      "n_bb_both": 1972,
+      "n_bb_any": 1972,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 3,
+      "n_levels": 1,
+      "level_index_lo": 503,
+      "level_index_hi": 503,
+      "energy_eV_lo": 20.4036,
+      "energy_eV_hi": 20.4036,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    }
+  ],
+  "measured_at": "2026-10-30T01:31:14Z"
+}
