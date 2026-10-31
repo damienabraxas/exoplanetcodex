@@ -101,8 +101,27 @@ def _identity(row: dict) -> tuple:
                  ("ion", "band", "instrument", "holding", "selector", "treatment"))
 
 
+def _built_from(rec: dict | None) -> str | None:
+    """A unit's legs are keyed on what its cell was built from: the inputs hash, plus the
+    forced-rebuild stamp where `--force` rebuilt it at an unchanged hash (RYA-1315)."""
+    rec = rec or {}
+    h = rec.get("inputs_hash")
+    return f"{h} forced {rec['forced_at']}" if rec.get("forced_at") else h
+
+
+def _scope_cells(report: dict) -> dict[tuple, set]:
+    """(ion, band, holding, selector) -> treatments, for every cell a narrowed run BUILT."""
+    out: dict[tuple, set] = {}
+    for c in report.get("cells", []):
+        if c.get("status") in BUILT:
+            out.setdefault((c["ion"], c["band"], c["holding"], c.get("pool") or ""), set()).update(
+                rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ()))
+    return out
+
+
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str) -> list[str]:
+                         held: list, why: str, started: str,
+                         scope: dict[tuple, set] | None = None) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -133,6 +152,16 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
+    if scope is not None:
+        # RYA-1315: a narrowed run withdraws only what it re-measured and could not stand
+        # behind -- a product in its scope that it HELD or quarantined. One it did not
+        # re-emit at all is left live; out-of-scope products are never considered.
+        def _held(p):
+            return (f"{p.get('band')} {p.get('holding')} {p.get('selector')} {p.get('treatment')}"
+                    in why_held or pp.key_of(p) in quarantined_now)
+        gone = [p for p in gone if str(p.get("treatment")) in scope.get(
+                    (str(p.get("ion")), str(p.get("band")), str(p.get("holding")),
+                     str(p.get("selector") or "")), ()) and _held(p)]
     if not gone:
         return []
     now = pp._now()
@@ -266,11 +295,13 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
-    # RYA-1250: publish prices, files and withdraws per UNIT, so it must see the whole element.
-    # A one-band report once made it treat 132 of 172 Mg units as gone.
-    if report.get("scope"):
-        raise ValueError(f"publish refuses a narrowed run report (scope {report['scope']}); "
-                         f"run the whole element")
+    # RYA-1250: a one-band report once made publish treat 132 of 172 Mg units as gone.
+    # RYA-1315: a NARROWED report publishes its own cells only -- legs are filed by signature
+    # (never deleted), the stage is written into rather than rebuilt (every live product's
+    # `copied_to` points there), and only products INSIDE the scope can be withdrawn.
+    scoped = bool(report.get("scope"))
+    if report.get("dry_run"):
+        raise ValueError("publish refuses a dry-run report: it built nothing to price")
     if report.get("star") not in (None, star) or report.get("element") not in (None, element):
         raise ValueError(f"publish: report is for {report.get('star')} {report.get('element')}, "
                          f"not {star} {element}")
@@ -295,7 +326,7 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
     reuse_legs(legs, work / "units.prev.json",
-               [unit_signature(u[1], (ledger.get(u[3]) or {}).get("inputs_hash")) for u in units])
+               [unit_signature(u[1], _built_from(ledger.get(u[3]))) for u in units])
     # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
     # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
     for done in legs.glob("unit*/*/DONE"):
@@ -316,7 +347,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     import shutil
     prev_stage = work / "stage.prev"
     shutil.rmtree(prev_stage, ignore_errors=True)
-    if stage.exists():
+    if scoped:
+        stage.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(stage, prev_stage)  # the out-of-scope files stay where the feed points
+    elif stage.exists():
         stage.rename(prev_stage)        # kept until superseded records are preserved
     rep = work / "report.json"
     subprocess.run([py, "scripts/rya1230_cno_budget.py", "--legs", str(legs), "--stage", str(stage),
@@ -369,8 +403,11 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
-    summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started)
+    summary["withdrawn"] = _withdraw_superseded(
+        star, element, stage=stage, keep=keep, held=summary["held"], why=why, started=started,
+        scope=_scope_cells(report) if scoped else None)
+    if scoped:
+        summary["scope"] = report["scope"]
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict

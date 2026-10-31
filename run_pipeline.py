@@ -281,6 +281,11 @@ def main() -> None:
                         'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
+    m.add_argument('--force', action='store_true',
+                   help='RYA-1315: re-run the selected cells even where the ledger calls them '
+                        'current -- the one-off for a change inputs_hash cannot see (a library '
+                        'module). Needs a narrowing filter; with --publish, only those cells '
+                        'are priced, published and (if held) withdrawn.')
     m.add_argument('--publish', action='store_true',
                    help='RYA-1233: after the run, governing-process steps 11-16 -- RYA-587 '
                         'budget legs, assemble, publish through publish_product, literature '
@@ -376,7 +381,8 @@ def main() -> None:
                 instruments=args.instrument, engines=args.engine,
                 methods=args.route, pools=args.pool,
                 dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None, jobs=args.jobs, prepare_first=True)
+                ispec_dir=ispec or None, jobs=args.jobs, prepare_first=True,
+                force=args.force)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
         from pipeline.run_sweep import executed

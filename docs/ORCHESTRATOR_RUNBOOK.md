@@ -217,6 +217,23 @@ report to Ryan, fix only after he agrees.
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
 
+### 7b. One-off re-runs (RYA-1315): never the whole element again
+
+The full run is the FIRST time only. After that, select the cells:
+```bash
+python run_pipeline.py --star solar --element Fe --band VIS \
+    --instrument solar_harps_molecfit_corrected [--engine ts-lte] [--pool reference] \
+    --force --publish
+```
+- Without `--force`, a narrowed run re-runs only cells whose `inputs_hash` moved.
+- `--force` re-runs the selected cells anyway. Use it for a change the hash cannot see, such
+  as a library module like `pipeline/local_continuum.py`. It is refused without a filter.
+- `--publish` on a narrowed run prices, publishes and withdraws **inside the scope only**:
+  - Budget legs of every other unit are filed by signature, never deleted.
+  - The stage is written into, not rebuilt.
+  - Only an in-scope product the re-run HELD or quarantined is withdrawn.
+  - A narrowed DRY run can never publish.
+
 ### 7a. The published uncertainty is Asplund's (Ryan, 2026-10-28)
 
 The error bar every page shows is `sigma_asplund`, which `publish_product.write_feed` stamps

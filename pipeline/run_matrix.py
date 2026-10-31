@@ -1268,7 +1268,7 @@ def load_ledger() -> dict:
 
 def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
                        code_commit: str, inputs: list[dict] | None = None,
-                       artifacts: list[dict] | None = None) -> None:
+                       artifacts: list[dict] | None = None, forced: bool = False) -> None:
     """Record what this cell was built from, after it was built -- published or not.
 
     RYA-1233 (Ryan, 2026-10-02): unchanged work is not redone. `inputs` names every
@@ -1280,6 +1280,10 @@ def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
     led[key] = {"inputs_hash": want_hash, "recorded_at": _utc(),
                 "code_commit": code_commit, "products": sorted(product_keys),
                 "inputs": inputs or [], "artifacts": artifacts or []}
+    if forced:
+        # RYA-1315: a forced rebuild at an UNCHANGED hash; publish keys a unit's legs on this
+        # too, or it would price the rebuilt product from the legs of the build it replaced.
+        led[key]["forced_at"] = led[key]["recorded_at"]
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     LEDGER.write_text(json.dumps(led, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -1645,8 +1649,13 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         interpreter: str | None = None, ispec_dir: str | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int | None = None, report_dir: Path | None = None,
-        echo: bool = True, jobs: int = 1, prepare_first: bool = False) -> dict:
+        echo: bool = True, jobs: int = 1, prepare_first: bool = False,
+        force: bool = False) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
+
+    `force` (RYA-1315) re-runs every selected cell whatever the ledger says: the one-off for a
+    change `inputs_hash` cannot see (a library module such as `local_continuum`). Refused on a
+    whole-element run -- narrow it with ions/bands/instruments/engines/pools.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
     breaks is recorded with its reason and the next cell is attempted. The only
@@ -1655,6 +1664,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     """
     element = validate_element(element)
     symbol, pinned_ion = split_symbol(element)
+    if force and not any((ions, bands, instruments, engines, methods, pools)):
+        raise MatrixError("--force re-runs work the ledger calls current; narrow it "
+                          "(--band/--instrument/--engine/--ion/--pool), never the whole element")
     from config.constants import ISPEC_DIR, synth_interpreter
     interpreter = interpreter or synth_interpreter()
     ispec_dir = ispec_dir or (str(ISPEC_DIR) if ISPEC_DIR.is_dir() else "")
@@ -1791,7 +1803,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         with _lock:
           record_inputs_hash(lkey, want, code_commit=commit,
                            product_keys=[_product_key(p) for p in published],
-                           inputs=rows, artifacts=arts)
+                           inputs=rows, artifacts=arts, forced=force)
           ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
         if not published:
             cell.status = UNPUBLISHED
@@ -1894,7 +1906,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         lkey = ledger_key(star, d, cell.band)
         current, why = is_current(published, want, ledger.get(lkey))
         _rec = ledger.get(lkey) or {}
-        if (not current and (not _rec or _rec.get("adopted")) and published
+        if force:
+            current, why = False, ("FORCED (--force, RYA-1315): re-run on request; the ledger "
+                                   "said: " + why)
+        elif (not current and (not _rec or _rec.get("adopted")) and published
                 and all(isinstance(p.get("uncertainty"), dict) for p in published)
                 # every treatment the deck emits is published: a PARTIAL cell (ENGINE-A lost
                 # to an MPIA outage, 2026-10-20) is re-run, not adopted
@@ -1929,7 +1944,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             cell.status, cell.reason = SKIP, why
             continue
         _empty = empty_pools.get(lkey)
-        if _empty and _empty.get("inputs_hash") == want:
+        if _empty and _empty.get("inputs_hash") == want and not force:
             cell.status = HELD
             cell.reason = (f"PROCESS step 7 (graded lines): pool empty at these exact inputs "
                            f"(tried {_empty.get('at')}, {want[:12]}); not re-tried until an "
