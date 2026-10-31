@@ -255,6 +255,35 @@ Sect. 2.1 and nothing else:
   lines at 4.90 / 5.80 / 7.34) or one poorly constrained line (Al NIR CRIRES+ 0.70). That is
   line quality, not a stale input -- report it, never cull it.
 
+### 7b. Comparing with Asplund: flux vs disk-centre intensity (RYA-1311, 2026-10-31)
+
+Asplund, Amarsi & Grevesse 2021 (and Amarsi's per-line work) fit the **disk-centre
+intensity** (Liege/Jungfraujoch atlas, mu=1). Every spectrum we fit (HARPS, Kitt Peak, IAG)
+is **disk-integrated flux**, and so is every future star. Flux includes the limb, which
+forms higher up, where 1D models are worst. So a per-line gap against A21 that **grows with
+line strength** may be geometry, not a bug. Ca I 1D LTE (HARPS, A21 set): +0.02 on the weak
+lines 5260/5867, rising to +0.22 on the strong ones. The EW route agrees with synthesis on
+the weak lines but quarantines every strong one, so it cannot settle them.
+
+- The Sun is the only star where this can be tested. The test is a 1D LTE fit of the same
+  set on `solar_delbouille_liege` at mu=1, against the flux fit:
+  `scripts/diag_flux_vs_mu1.py flux|mu1` (Sirius; usage in its docstring). It runs the
+  production cell via `run_descriptor.resolve`, wrapped in RYA-441's
+  `ace_co_mu1_bracket.turbospectrum_intensity_at_mu(1.0)`, with vsini=0. The flux leg is the
+  control and must reproduce the published lines.
+- How to read the result:
+  - mu=1 lands on A21: the strong-line excess is the 1D model in flux. For stars, rank 3D or
+    <3D> products and weak lines above 1D-LTE strong lines.
+  - The excess persists at mu=1: it comes from our fitting (damping or line data). Fix that
+    for every star.
+- **`pipeline/synth_cache` keys ignore flux vs intensity.** Run any mu=1 synthesis with
+  `CODEX_SYNTH_CACHE=0`. Otherwise it reads cached flux spectra and writes intensity into the
+  shared cache.
+- Liege has no production HoldingSpec reader (RYA-1030). It is in air, with a +0.37 km/s
+  residual velocity. Never publish it as a product; it is a diagnostic leg.
+- A pool is `set:<NAME>`. `SET-<NAME>` is only the display form, and passing it silently
+  selects lines "by theoretical depth" instead.
+
 ## 8. Check before pushing (local evidence and actual CI status)
 
 ```bash
