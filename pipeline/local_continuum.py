@@ -27,7 +27,8 @@ bounded against both:
   * UPPER ENVELOPE, not a free fit: the p95 of each 1 A bin (the RYA-1000 /
     verify_feature estimator, reused rather than invented), with the bins that sit below
     the envelope -- the ones a line or telluric band owns -- clipped before the fit.
-  * BOUNDED OUTPUT: a local level more than MAX_SHIFT from unity is NOT applied. A 3%
+  * BOUNDED OUTPUT: a local level more than MAX_SHIFT from unity is NOT applied (the
+    model-guided fit, which divides by the synthesis, has its own MAX_SHIFT_MODEL; RYA-1315). A 3%
     "continuum" inside +/-5 A of a solar line is a telluric band or a line forest, not a
     normalisation error, and dividing by it is the RYA-940 failure. The line keeps the
     shipped continuum and the record says why (CONTINUUM_UNPLACEABLE).
@@ -84,6 +85,18 @@ CLIP_MAD = 2.0
 MIN_BINS = 5
 #: Refuse to apply a local level further than this from unity (see module docstring).
 MAX_SHIFT = 0.03
+#: RYA-1315 -- the bound for the MODEL-GUIDED fit. MAX_SHIFT was set for the upper
+#: envelope, where a level 3% low means a line forest or telluric band pulled the p95 down.
+#: The model-guided fit divides by the SYNTHESIS on its own continuum pixels, so the lines
+#: are already in the reference and the level IS the normalisation error. Holding the 3%
+#: bound there kept every line of a real instrumental sag on a continuum we had measured
+#: to be wrong: HARPS (solar_harps_molecfit_corrected) shipped normalisation sags to a
+#: median 0.92 over 4300-4700 A (its own p99 0.933 vs Kitt Peak 0.98-1.00 there), 187
+#: aggregate lines were left unapplied, and Ti II / Ti I / Fe I read +0.2-0.3 dex high
+#: below 4800 A while agreeing with Kitt Peak to +-0.04 above it. Measured HARPS VIS levels
+#: run 0.857-1.017 (smooth in wavelength); a detector-gap line reads 0.000. 15% admits
+#: the sag and still refuses a gap or a broken fit.
+MAX_SHIFT_MODEL = 0.15
 
 
 @dataclass
@@ -200,10 +213,10 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
         x, y = x[keep], y[keep]
     level = float(np.polyval(c, 0.0))
     slope = float(c[0]) if DEGREE >= 1 else 0.0
-    if abs(level - 1.0) > MAX_SHIFT:
+    if abs(level - 1.0) > MAX_SHIFT_MODEL:
         return LocalContinuum(level, slope, int(sel.sum()), False,
                               f"CONTINUUM_UNPLACEABLE: local level {level:.4f} is more than "
-                              f"{MAX_SHIFT:.0%} from unity; shipped continuum kept", method), None
+                              f"{MAX_SHIFT_MODEL:.0%} from unity; shipped continuum kept", method), None
     if not apply:
         return LocalContinuum(level, slope, int(sel.sum()), False,
                               "MEASURED, NOT APPLIED: pseudo-continuum regime", method), None
