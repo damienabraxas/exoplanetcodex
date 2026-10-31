@@ -219,6 +219,24 @@ reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
 
 ### 7b. One-off re-runs (RYA-1315): never the whole element again
 
+Two modes, one entry point (`pipeline/run_request.py`). The CLI and any later front end
+both build a `RunRequest`:
+- **full** runs every cell of the element. This is the first run.
+- **select** runs only the chosen ions, bands, instruments, engines, routes and pools.
+
+To see every value a selection can take:
+```bash
+python run_pipeline.py --star solar --element Fe --options
+```
+To run a saved request, for example
+`{"star":"solar","element":"Fe","mode":"select","bands":["VIS"],"force":true,"publish":true}`:
+```bash
+python run_pipeline.py --request req.json
+```
+Not yet supported: a spectrum the user supplies. It must first be registered and prepared
+as a holding.
+
+
 The full run is the FIRST time only. After that, select the cells:
 ```bash
 python run_pipeline.py --star solar --element Fe --band VIS \

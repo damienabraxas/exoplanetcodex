@@ -59,6 +59,8 @@ Naming convention — pipeline scripts use the subject_action pattern:
 from __future__ import annotations
 
 import argparse
+import json
+from pathlib import Path
 import sys
 
 from config.constants import get_star_params
@@ -281,6 +283,12 @@ def main() -> None:
                         'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
+    m.add_argument('--options', action='store_true',
+                   help='RYA-1315: with --element, print every value --ion/--band/--instrument/'
+                        '--engine/--route/--pool can take (JSON) and exit.')
+    m.add_argument('--request', metavar='JSON',
+                   help='RYA-1315: run a saved RunRequest (pipeline/run_request.py): mode '
+                        '"full" or "select" plus the chosen axes -- what a front end submits.')
     m.add_argument('--force', action='store_true',
                    help='RYA-1315: re-run the selected cells even where the ledger calls them '
                         'current -- the one-off for a change inputs_hash cannot see (a library '
@@ -334,6 +342,17 @@ def main() -> None:
         print()
         sys.exit(0)
 
+    if args.request:
+        # RYA-1315: a saved request carries its own star, element and selection; flags on
+        # top of it would be a second, silent selection.
+        _req = json.loads(Path(args.request).read_text())
+        mixed = [f for f in ('ion', 'band', 'instrument', 'engine', 'route', 'pool', 'force',
+                             'publish', 'dry_run') if getattr(args, f, None)]
+        if mixed or args.element or args.star:
+            parser.error(f"--request carries the whole run; drop "
+                         f"{['--' + f.replace('_', '-') for f in mixed] or '--star/--element'}")
+        args.star, args.element = _req.get('star'), _req.get('element')
+
     _refuse_matrix_flags_without_element(parser, args)
 
     if not args.star:
@@ -372,29 +391,42 @@ def main() -> None:
         print(coverage_report.render(cov))
         sys.exit(0 if cov["done"] else 3)
 
-    if args.element:
-        from pipeline import run_matrix
+    if args.element and args.options:
+        from pipeline import run_request
+        print(json.dumps(run_request.options(star_id, args.element), indent=1))
+        sys.exit(0)
+
+    if args.element or args.request:
+        # RYA-1315: the CLI builds the same RunRequest a front end would -- mode 'full' (every
+        # cell) or 'select' (the chosen axes) -- and runs it through run_request.execute.
+        from pipeline import run_matrix, run_request
         interp, ispec = _resolve_engine_env(args)
+        if args.request:
+            req = run_request.RunRequest.from_json(args.request)
+        else:
+            sel = dict(ions=args.ion, bands=args.band, instruments=args.instrument,
+                       engines=args.engine, routes=args.route, pools=args.pool)
+            req = run_request.RunRequest.from_dict(dict(
+                star=star_id, element=args.element,
+                mode="select" if any(sel.values()) else "full", **sel,
+                force=args.force, publish=args.publish and not args.dry_run,
+                dry_run=args.dry_run, jobs=args.jobs))
         try:
-            report = run_matrix.run(
-                star_id, args.element, ions=args.ion, bands=args.band,
-                instruments=args.instrument, engines=args.engine,
-                methods=args.route, pools=args.pool,
-                dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None, jobs=args.jobs, prepare_first=True,
-                force=args.force)
+            out = run_request.execute(req, interpreter=interp or None,
+                                      ispec_dir=ispec or None)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
+        except ValueError as exc:
+            raise SystemExit(f"\nSTOP: {exc}") from exc
+        report, s = out["report"], out["publish"]
         from pipeline.run_sweep import executed
         print(f"executed: {executed(report)} stage dispatch(es)"
-              f"{' (dry-run)' if args.dry_run else ''}")
-        if args.publish and not args.dry_run:
+              f"{' (dry-run)' if req.dry_run else ''}")
+        if s is not None:
             from pipeline import element_publish
-            s = element_publish.publish(star_id, args.element, report=report,
-                                        jobs=max(args.jobs, 1), interpreter=interp or None)
             print(f"publish: {len(s['published'])} published, {len(s['held'])} held, "
                   f"{len(s['dropped'])} dropped -- "
-                  f"{element_publish.budget_dir(star_id, args.element)}/publish_summary.json")
+                  f"{element_publish.budget_dir(req.star, req.element)}/publish_summary.json")
         # A cell that FAILED is a real failure and the exit code must say so, or a
         # CI job reads a green run off a report full of broken cells. BLOCKED and
         # NOT_READY are honest empties and do NOT fail the run -- they are the
