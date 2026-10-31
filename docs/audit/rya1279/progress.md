@@ -629,3 +629,30 @@ Verification: archive byte identity checked; all45 earlier simplex cases match
 exactly, including every reported field/column/closure metric. Register pointer
 and mirror checks pass; SEQUENCE reconciles. Generator/invocation diagnostics
 remain exactly2436, zero added/removed. Whitespace check passes.
+
+## 2026-10-31 actual solar/10K input sensitivity
+
+Base c8f75032, refreshed main unchanged f8c723a8. Mac only; no RT/SE. Existing
+fine-temperature plan already used nearest5750-6000/g4-4.5 cell.90 candidates
+across nearest/widerT/widerT+g cells and two methods/three field conventions.
+Nearest-cell solar method spread0.141856K all-depth T,0.017459K in declared
+logtau[-3,0] subset; Pe0.04352%,rho0.02336%,ne0.04374%.10K Teff inputs change
+max kinetic T profile by12.856/12.92048K (simplex/bilinear), not an error estimate.
+Wider-cell effects are larger; no native truth exists at these targets.
+Initial immutable audit v1 caught floating-coordinate boundary mask exclusion
+in six of90 candidates (30 vs31 rows). Final v2 fixes native source row masks;
+six subset comparisons change, max rho correction0.10254 percentage point; no
+all-depth metric or input-field change. Fixed diagnostic bug ledger row appended.
+Twenty-two focused tests pass. Four final review files archived/registered under
+solar_input_sensitivity_v1; initial externalv1 retained. Registerv192/SEQUENCE
+record sensitivity and open joint-input gate, no cap/packet/production admission.
+Report solar_input_sensitivity_review.md. Next qualify pressure/EOS/geometry and
+exact-structure background generation, keeping native-node UV/O and Kitt residual
+work separate. O then C/N, Fe, another star. Child In Progress, parent In Review.
+Standing library190 documents/126 accounted,64 unindexed unchanged; no new source.
+Verification: four review copies byte-identical; all90 candidates share fixed
+56/31 source-row diagnostic scopes. Generator diagnostics exactly2436, zero
+added/removed. Register pointer/mirror and SEQUENCE checks pass. Pinned native
+TS ABSKO T/Pe point interface inspected and hash-verified as next opacity adapter
+route; not implemented/validated here. See review for exact source hash and
+initialization/native-replay/normalization prerequisites.

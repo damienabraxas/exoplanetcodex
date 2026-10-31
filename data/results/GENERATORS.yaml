@@ -26132,3 +26132,23 @@ artifacts:
     invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
     ticket: RYA-1281
     note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/report.json
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/profiles.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/column_checks.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/comparisons.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.

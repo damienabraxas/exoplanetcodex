@@ -1,5 +1,6 @@
 ## 2026-10-31 — interpolation method tradeoff
 
+- **RYA-1281** — solar10K nearest-cell sensitivity is small across methods; fixed subset row selection; joint-input admission still open.
 - **RYA-1281** — bilinear improves held-out T but worsens central columns; neither method admitted; joint input checks continue.
 
 ## 2026-10-30 — held-out column interpolation
