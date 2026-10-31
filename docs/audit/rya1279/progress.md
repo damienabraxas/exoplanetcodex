@@ -604,3 +604,28 @@ zero added/removed against previous checkpoint. Standing library audit now
 finds190 documents/126 accounted for (64 unindexed; one newly present unrelated
 PDF since prior63); no literature acquisition or science citation from it.
 No global-clean or CI-green claim.
+
+## 2026-10-31 rectangular versus simplex checks
+
+Base ae6601fb, fetched main remains f8c723a8; branch/worktree/parent unchanged.
+Mac only: fifteen native models, three overlapping cells, fifteen cell-target
+comparisons (eleven distinct held-out identities), 270 candidates. No RT/SE.
+Central bilinear T errors improve from22.45/19.80/20.35K to9.975/7.875/13.35K,
+but log-column errors worsen from2.174/0.716/0.940% to5.164/3.117/2.664%.
+Mass closure also worsens at these centers. No single-field winner is promoted.
+Report: rectangular_interpolation_review.md; immutable external run
+experiments.bride_mac_grid/rya1281-rectangular-interpolation-v1; three archived
+review copies and generator entries.16 focused tests pass. No new verified
+software defect; existing characterized model-domain ledger row extended.
+Register v191 updates interpolation readiness; SEQUENCE records the finding.
+Production interpolation/column withholding, native Fe packet, source models,
+O solves and observations unchanged; HOLD remains.
+Next compare actual solar/10K nearest-cell sensitivity and depth-resolved errors
+without calling method spread independent truth, then qualify joint fields and
+exact-node background support before enabling capped interpolation.
+Standing library audit190 documents/126 accounted,64 unindexed unchanged from
+prior checkpoint. No source acquired/cited; library is not globally clean.
+Verification: archive byte identity checked; all45 earlier simplex cases match
+exactly, including every reported field/column/closure metric. Register pointer
+and mirror checks pass; SEQUENCE reconciles. Generator/invocation diagnostics
+remain exactly2436, zero added/removed. Whitespace check passes.

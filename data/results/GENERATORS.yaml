@@ -26117,3 +26117,18 @@ artifacts:
     invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
     ticket: RYA-1281
     note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/report.json
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/summary.csv
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/profiles.csv
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
