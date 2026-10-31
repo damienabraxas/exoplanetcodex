@@ -758,7 +758,15 @@ NLTE_CORRECTION_ELEMENTS = {
                   'PySME/MARCS-derived per-line deltas (Ti I 5689/5648/5662, solar median +0.0506, '
                   'reproduces the published +0.052); corroboration-certified (two-instrument, RYA-545). '
                   'Supersedes Ti_Bergemann2011_MPIA.csv (Bergemann-2011 scaled-Drawin, inflated ~2x, RYA-546).',
-           'flag': 'NLTE_Mallinson2024_PySME_1D'},
+           'flag': 'NLTE_Mallinson2024_PySME_1D',
+           # RYA-1315: `ion` stays the ratified reported-ion lock read by the legacy disposition
+           # scripts; `nlte_ions` is which stages the table CORRECTS. The table carries Ti II
+           # rows (280 lines, solar median -0.005) since RYA-1315, and Ti II is the literature's
+           # headline ion (Scott 2015, AGSS21), so it must not stay 1D-LTE beside an NLTE Ti I.
+           'nlte_ions': (1, 2),
+           # RYA-906 model axis, stated: Mallinson 2024 is the Amarsi-group PySME grid family
+           # (amarsi_galah). Inferred from `ref` it read "bergemann" off the word "Supersedes".
+           'model_axis': 'amarsi'},
     'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
            'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '24.01'},

@@ -123,12 +123,12 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                  teff_K=int(round(float(p["teff"]))),
                  logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
-        from pipeline.nlte_corrections import _mpia_element_delta
+        from pipeline.nlte_corrections import _mpia_element_delta, nlte_ions
         from pipeline.species import parse_ion
         from config.constants import NLTE_CORRECTION_ELEMENTS
 
         spec = NLTE_CORRECTION_ELEMENTS.get(element)
-        if spec is None or parse_ion(ion) != int(spec["ion"]):
+        if spec is None or parse_ion(ion) not in nlte_ions(element):
             return cited
         out = dict(cited)
         for wave in waves:
@@ -136,7 +136,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                 continue
             delta = _mpia_element_delta(
                 element, float(wave), float(p["teff"]), float(p["logg"]), feh,
-                tol=0.06)
+                tol=0.06, ion=ion)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
         return out
@@ -2676,6 +2676,8 @@ def engine_a_model(element: str) -> str:
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    if spec.get("model_axis"):
+        return spec["model_axis"]
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
     if "amarsi" in source or "nordlander" in source:
         return "amarsi"

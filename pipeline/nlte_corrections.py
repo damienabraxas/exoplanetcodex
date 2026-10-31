@@ -601,6 +601,14 @@ _MPIA_ELEMENT_DIR = committed_grid_artifact('nlte_grids')   # RYA-567 (committed
 _mpia_element_cache: dict = {}
 
 
+def nlte_ions(element: str) -> tuple:
+    """The ion stages the element's registered table corrects: `nlte_ions` when the entry
+    states it (RYA-1315, Ti I + Ti II), else the single registry `ion`."""
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    spec = NLTE_CORRECTION_ELEMENTS[element]
+    return tuple(int(i) for i in spec.get('nlte_ions', (spec['ion'],)))
+
+
 def detect_placeholder_zero_lines(df: pd.DataFrame, eps: float = 1e-9) -> list:
     """Lines that are IDENTICALLY ~0 across ALL their (teff,logg,feh) nodes — almost
     certainly a failed build or an MPIA-served-but-unmodelled line written as 0, NOT a
@@ -615,13 +623,16 @@ def detect_placeholder_zero_lines(df: pd.DataFrame, eps: float = 1e-9) -> list:
     return sorted(bad)
 
 
-def _load_mpia_element_grid(element: str) -> dict:
+def _load_mpia_element_grid(element: str, ion=None) -> dict:
     """Per-(wave) LinearNDInterpolator over (teff_K, logg, feh) for a registry
     element (Ca/Ti/Cr). Cached per element; loud-fails if the element is not in the
     registry or its grid file is missing (no silent skip of a configured element).
     RYA-413: REFUSES to register a grid carrying a placeholder-zero line (raises loud)."""
-    if element in _mpia_element_cache:
-        return _mpia_element_cache[element]
+    stage = None if ion is None else int(parse_ion(ion))
+    # the registry ion keeps the bare element key (callers clear the cache by element)
+    ckey = element if ion is None else (element, stage)
+    if ckey in _mpia_element_cache:
+        return _mpia_element_cache[ckey]
     from scipy.interpolate import LinearNDInterpolator
     from config.constants import NLTE_CORRECTION_ELEMENTS
     if element not in NLTE_CORRECTION_ELEMENTS:
@@ -635,8 +646,12 @@ def _load_mpia_element_grid(element: str) -> dict:
     # A shared element CSV may contain several ions; never interpolate across stages.
     # Historical single-ion MPIA extracts omit the column; their stage is the
     # registry's explicit ion. Only multi-ion-capable tables carry per-row stages.
+    stage = int(spec['ion']) if stage is None else stage
+    if stage not in nlte_ions(element):
+        raise KeyError(f"{element} ion {stage} is not a stage its NLTE table corrects "
+                       f"({nlte_ions(element)})")
     if 'ion' in df.columns:
-        df = df[df['ion'].map(parse_ion) == int(spec['ion'])]
+        df = df[df['ion'].map(parse_ion) == stage]
     placeholders = detect_placeholder_zero_lines(df)
     if placeholders:
         raise ValueError(
@@ -660,19 +675,19 @@ def _load_mpia_element_grid(element: str) -> dict:
         'interp': interp,
         'waves': np.array(sorted(waves)),
         'ref': spec['ref'],
-        'ion': int(spec['ion']),
+        'ion': stage,
         'bounds': {
             'teff': (float(df.teff_K.min()), float(df.teff_K.max())),
             'logg': (float(df.logg.min()),  float(df.logg.max())),
             'feh':  (float(df.feh.min()),   float(df.feh.max())),
         },
     }
-    _mpia_element_cache[element] = cache
+    _mpia_element_cache[ckey] = cache
     return cache
 
 
 def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
-                        feh: float, tol: float = 0.15) -> float:
+                        feh: float, tol: float = 0.15, ion=None) -> float:
     """delta_nlte for one line of `element`, interpolated from its MPIA grid over
     (teff,logg,feh) at the line wavelength. NaN if no wave match within `tol` or the
     star sits outside the (teff,logg,feh) convex hull.
@@ -684,7 +699,7 @@ def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
     calls record the miss on the intake timeline instead; they are no-ops unless a
     trace is active and they change nothing this function returns.
     """
-    c = _load_mpia_element_grid(element)
+    c = _load_mpia_element_grid(element, ion)
     w = c['waves']
     if len(w) == 0:
         dbg.trace_fallback('nlte_lte_fallback',
@@ -722,9 +737,10 @@ def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
     return d
 
 
-def element_grid_in_bounds(element: str, teff: float, logg: float, feh: float) -> bool:
+def element_grid_in_bounds(element: str, teff: float, logg: float, feh: float,
+                           ion=None) -> bool:
     """Preflight: is (teff,logg,feh) inside the element's MPIA grid box?"""
-    b = _load_mpia_element_grid(element)['bounds']
+    b = _load_mpia_element_grid(element, ion)['bounds']
     return (b['teff'][0] <= teff <= b['teff'][1] and
             b['logg'][0] <= logg <= b['logg'][1] and
             b['feh'][0]  <= feh  <= b['feh'][1])
@@ -778,12 +794,13 @@ def apply_element_nlte_corrections(
         element = str(row['element'])
         if element not in reg or element not in want:
             continue
-        if parse_ion(row.get('ion', 1)) != int(reg[element]['ion']):
-            continue                          # registry ion only (Cr II excluded; Ba II included)
+        stage = int(parse_ion(row.get('ion', 1)))
+        if stage not in nlte_ions(element):
+            continue                          # registered stages only (Cr II excluded; Ba II included)
 
         a_1dlte   = float(row['A_X'])
         ref       = reg[element]['ref']
-        ion_label = 'II' if int(reg[element]['ion']) == 2 else 'I'
+        ion_label = 'II' if stage == 2 else 'I'
 
         if per_line_df is None or per_line_df.empty:
             print(f"  {element} {ion_label}: no per-line table — element NLTE skipped (1D LTE retained)")
@@ -797,7 +814,7 @@ def apply_element_nlte_corrections(
 
         lines = per_line_df[
             (per_line_df['element'] == element)
-            & (per_line_df['ion'].apply(parse_ion) == int(reg[element]['ion']))
+            & (per_line_df['ion'].apply(parse_ion) == stage)
         ].copy().reset_index(drop=True)
         if lines.empty:
             dbg.trace_fallback('nlte_lte_fallback',
@@ -817,8 +834,8 @@ def apply_element_nlte_corrections(
         # 3D_unavailable / the RestFrameError gate: flag it LOUD + distinct (NLTE_OUT_OF_HULL),
         # name the element + (Teff,logg,[Fe/H]) + the hull it missed, retain LTE only WITH that
         # explicit flag — never a silent substitution. `strict=True` raises instead.
-        if not element_grid_in_bounds(element, teff, logg, feh):
-            b = _load_mpia_element_grid(element)['bounds']
+        if not element_grid_in_bounds(element, teff, logg, feh, stage):
+            b = _load_mpia_element_grid(element, stage)['bounds']
             msg = (f"{element} {ion_label}: (Teff={teff:.0f}, logg={logg:.2f}, [Fe/H]={feh:+.2f}) is "
                    f"OUTSIDE the NLTE grid hull (Teff {b['teff'][0]:.0f}–{b['teff'][1]:.0f}, logg "
                    f"{b['logg'][0]:.2f}–{b['logg'][1]:.2f}, [Fe/H] {b['feh'][0]:+.2f}..{b['feh'][1]:+.2f}). "
@@ -844,7 +861,7 @@ def apply_element_nlte_corrections(
         lines['a_nlte'] = lines['a_1dlte']
         for i, lrow in lines.iterrows():
             ab = _mpia_element_delta(element, float(lrow['wavelength_air_A']),
-                                     teff, logg, feh, tol=wave_tol)
+                                     teff, logg, feh, tol=wave_tol, ion=stage)
             if np.isfinite(ab):
                 lines.at[i, 'aberr']  = ab
                 lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab

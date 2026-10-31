@@ -15,7 +15,7 @@ def test_al_engine_a_uses_the_registered_per_line_resolver(monkeypatch):
 
     seen = []
 
-    def fake_delta(element, wave, teff, logg, feh, tol):
+    def fake_delta(element, wave, teff, logg, feh, tol, ion=None):
         seen.append((element, wave, teff, logg, feh, tol))
         return -0.025 if abs(wave - 7836.134) < 0.01 else np.nan
 
