@@ -1,10 +1,87 @@
+## 2026-10-31 — interpolation method tradeoff
+
+- **RYA-1281** — solar10K nearest-cell sensitivity is small across methods; fixed subset row selection; joint-input admission still open.
+- **RYA-1281** — bilinear improves held-out T but worsens central columns; neither method admitted; joint input checks continue.
+
+## 2026-10-30 — held-out column interpolation
+
+- **RYA-1281** — native column closure checked; log-layer geometry helps held-out consistency; interpolated caps remain withheld.
+
+## 2026-10-29 — Fe I NUV oxygen controls
+
+- **RYA-1281** — three FeI-background controls converge; UV photoionization halves, OII mismatch shrinks; visible Kitt gap and gates remain.
+
+## 2026-10-29 — merged-main reconciliation
+
+> **Current as of `main` f8c723a8** (fetched during TS budget checkpoint).
+
+- **RYA-1317** — PR606 landed CNO per-group Asplund shifts/sigma stamps; merged diff and ticket00c7a562 checked. No Bride inputs or science state imported.
+
+## 2026-10-29 — independent Fe I continuum diagnosis
+
+- **RYA-1281** — independent near277nm budget traces weak local FeI background; EOS population difference too small; source control next.
+
+## 2026-10-29 — conditional continuum budgets
+
+- **RYA-1281** — UV background differences survive frame/composition controls; local Si/Mg budget traced; producer/opacity gates stay open.
+
+## 2026-10-28 — native LTE normalization and continuum reference
+
+- **RYA-1281** — native LTE formula agrees within0.0614%; exact MARCS opacity acquired, medium still unverified; producer gate open.
+
+> **Current as of `main` dbda7faa** — PR #605 (Fe forest deep-grade display and refreshed product payloads). Scope checked from merged diff; not merged here.
+
+## 2026-10-28 — finite-column boundary checkpoint
+
+- **RYA-1281** — two converged cap controls resolve triplet surface collapse; two failures retained; O II/producer gates remain open.
+
+> **Current as of `main` 42987358** (fetched during the boundary audit).
+
+- **RYA-1310** — `a1130fc6` PR #603 landed:97 IAG VIS products withdrawn; other IAG bands retained. Verified from f252ed62 ticket close and merged diff. Kitt Peak Bride inputs unchanged; no main merge here.
+- **RYA-1251** — `4ce679b4` PR #602 lands molecular half-3D uncertainty follow-up; `42987358` PR #604 adds orchestrator runbook lessons. Scope from merged diffs, not a new Bride production result.
+
+## 2026-10-28 — source contracts and current-main reconciliation
+
+- **RYA-1281** — sourced CH0/MN audit and two Mac controls; finite-top boundary is next; no admission or adopted rate change.
+
+> **Current as of `main` 9d3ebbea** (2026-10-28 audit; fetched Git, merged diffs and ticket reports).
+
+- **RYA-1250** — `e1e0790a` PR #600 landed Mg orchestrator work:219 live,24 quarantined,9 held;172 units x9 budget legs. Source: ticket close c36f5495 and merged69569fe3 diff. Recorded only; no Bride rerun or main merge.
+- **RYA-1251** — `d72492a0` PR #599 adds the Canocchi bibliography row (ticket169e4ff0 confirms science599 merged); `9d3ebbea` PR #601 lands published-sigma accounting from Asplund2021. Scope verified in merge diffs; no new abundance calculations here.
+
+## 2026-10-28 — merged-main reconciliation
+
+- **RYA-1281** — reverse-reservoir contract probe; no adopted rates; Ryan sets CNO milestone before Fe and another star.
+
+> **Current as of `main` 5d517cbc** (2026-10-28 audit).
+
+- **RYA-1251** — `5d517cbc` PR #595 landed. Latest ticket report: 112 Na products across six bands, 72/360 cells run, zero failed; ENGINE-A table extended by 660 rows. Mean-3D/no-grid and non-convergent-fit holds remain. Sourced from ticket comment 18f57859 and merged diff; this records another branch, not a Bride result.
+
+## 2026-10-28 — Bride oxygen rate conventions
+
+- **RYA-1281** — native spline oracle isolates reverse-charge closure; photospheric b error0.0054, outer/reference gates remain open.
+
+- **RYA-1281** — collision-convention defect traced; safeguarded controls and mixed O+Ni opacity prototype; native MULTI parity remains open.
+
+## 2026-10-27 — Bride oxygen population audit
+
+- **RYA-1281** — matched LTE/NLTE, independent departures and CE/CH controls isolate population mismatch; O6300/O6158 blends remain owed.
+
+## 2026-10-26 — Bride oxygen validation experiments
+
+- **RYA-1281** —36 Mac NLTE controls,10K grid and positive-layer holdouts; solar O777 remains18–19% weak; adaptive/full3D roadmap open.
+- **RYA-1281** — first corrected Kitt Peak flux comparison at fixed O8.70; window absorption21–22% low; no abundance fit/admission.
+- **RYA-1281** — three converged O reference-node spectra; sampling/initialization controls stable; MULTI mismatch keeps admission open.
+
 ## 2026-10-24 — bibliography integration reconciled by RYA-1274
 
 > **Current as of `main` 183310d8** (2026-10-25 audit) — verified from fetched Git and the merged diffs.
 
 - **RYA-1271** — PRs #593/#594 landed the bibliography/source-page refresh and removed internal-note citations; existing v171 records scope.
 
-## 2026-10-25 — merged bootstrap and Bride review branch
+## 2026-10-25 — merged bootstrap and Bride review branches
+
+- **RYA-1279/1280** — mixed collision grids and ABO conversion fixed; synthetic transfer/SE controls pass; O reference gate open.
 
 - **RYA-1278** — O-first foundation controls tested; atom/reference and RT/SE gates HOLD; RYA-1279–1282 filed; review pending.
 - **RYA-1274** — bootstrap/reference discovery merged in PR #596 (`0ade2170`); RYA-1275/1276/1277 remain open.

@@ -1,0 +1,76 @@
+{
+  "schema": "codex.bride_oxygen_candidate/1",
+  "science_executed": false,
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57",
+    "md5": "9e378e792103919079903c313db52167"
+  },
+  "source": "https://keeper.mpdl.mpg.de/f/71b6565adcc2498181ac/?dl=1",
+  "source_distribution": "MPG Keeper (Seafile) share https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/ (subfolders 'dep-grids' + 'model_atoms')",
+  "levels": 41,
+  "lines": 256,
+  "continua": 22,
+  "collisions": 1106,
+  "collision_grids": [
+    {
+      "kind": "CE",
+      "temperatures": 7,
+      "count": 130
+    },
+    {
+      "kind": "CE",
+      "temperatures": 10,
+      "count": 611
+    },
+    {
+      "kind": "CI",
+      "temperatures": 10,
+      "count": 39
+    },
+    {
+      "kind": "CH",
+      "temperatures": 10,
+      "count": 302
+    },
+    {
+      "kind": "CH0",
+      "temperatures": 10,
+      "count": 24
+    }
+  ],
+  "triplet": [
+    {
+      "lower": 5,
+      "upper": 9,
+      "vacuum_nm": 777.4082669906074,
+      "f": 0.4678,
+      "natural": "[RadiativeBroadening(gamma=3.89e+07)]",
+      "elastic": "[VdwBarklem(vals=[453.0, 0.23399999999998045])]"
+    },
+    {
+      "lower": 5,
+      "upper": 8,
+      "vacuum_nm": 777.6304945621068,
+      "f": 0.3342,
+      "natural": "[RadiativeBroadening(gamma=3.89e+07)]",
+      "elastic": "[VdwBarklem(vals=[453.0, 0.23399999999998045])]"
+    },
+    {
+      "lower": 5,
+      "upper": 7,
+      "vacuum_nm": 777.7527254983193,
+      "f": 0.2009,
+      "natural": "[RadiativeBroadening(gamma=3.89e+07)]",
+      "elastic": "[VdwBarklem(vals=[453.0, 0.23399999999998045])]"
+    }
+  ],
+  "status": "Reference candidate: full held atom converted without restriction; exact published lineage, independent matching baseline and data-reuse receipt remain under audit",
+  "provenance_caveats": [
+    "Gerber distribution cites Bergemann2021; paper describes 122 levels, held artifact has 41; reduction equivalence not established",
+    "Publicly distributed numeric input already held; no raw atom redistribution in this branch; TSFitPy GPL is not an atomic-data license",
+    "41-level candidate is not the preferred Amarsi2018 50-level atom",
+    "Historical gateway anchor is not independent identical-input solver certification"
+  ]
+}

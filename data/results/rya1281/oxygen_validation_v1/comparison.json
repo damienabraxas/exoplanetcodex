@@ -1,0 +1,378 @@
+{
+  "schema": "codex.bride_oxygen_numerical_comparison/1",
+  "scientific_admission": "HOLD: numerical experiments, no solar abundance or full-3D result",
+  "diagnostic_depth_window": "-3 <= reference log10(tau500) <= 0; not a calculated contribution function",
+  "interpretation": "Differences are reported, not fitted acceptance budgets. Simultaneous control changes do not isolate individual errors.",
+  "experiments": [
+    {
+      "name": "benchmark-q1-rays3-v6-lambda-ng",
+      "source_directory": "/mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v6-lambda-ng",
+      "inputs": {
+        "manifest.json": {
+          "name": "manifest.json",
+          "bytes": 8311,
+          "sha256": "6f438514619accf4f012da0e2c106aed7833a35bf1ff380a17260ac3b828a9ea"
+        },
+        "history.jsonl": {
+          "name": "history.jsonl",
+          "bytes": 108780,
+          "sha256": "8702ef8feb7e79ab861989a7a75dee6612027610baab13e9061bbb5ab185933d"
+        },
+        "populations.npz": {
+          "name": "populations.npz",
+          "bytes": 716200,
+          "sha256": "01c71b57b65222ca8c4a693461c1ce033b55f41da1e16eaee21b7ad3cd905694"
+        },
+        "triplet_profiles.csv": {
+          "name": "triplet_profiles.csv",
+          "bytes": 157716,
+          "sha256": "62d7014121e8d3bdfdd746c9ee9dd0ba25c66e668a5bc903785c5651d8097e8c"
+        }
+      },
+      "atom": {
+        "name": "atom.o41f",
+        "bytes": 187797,
+        "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "fixed_abundance": 8.7,
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-06,
+        "maxiter": 1000,
+        "seconds": 900.0,
+        "initial": "lte",
+        "lambda_iterate": true,
+        "ng": {
+          "order": 3,
+          "period": 5,
+          "delay": 10,
+          "threshold": 0.05,
+          "lower_threshold": 0.0
+        },
+        "threads": 1,
+        "formal_solver": "piecewise_besser_1d",
+        "row_equilibration": "linear equations scaled by max absolute row coefficient; physical rates unchanged"
+      },
+      "iterations": 453,
+      "final_diagnostics": {
+        "iteration": 453,
+        "population_change": 9.93466411664706e-07,
+        "J_change": 9.94169877532869e-07,
+        "physical_rate_residual": 1.8110068948466533e-14,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "elapsed_seconds": 125.72778128832579
+      },
+      "total_wall_seconds": 136.19121854379773,
+      "nlte_over_lte_intensity_range": [
+        0.9946179688014943,
+        1.0000342477045012
+      ],
+      "triplet_departures_in_diagnostic_window": {
+        "6": {
+          "calculated_b_range": [
+            1.0065043897534673,
+            1.009293336523311
+          ],
+          "reference_b_range": [
+            1.0012154579162598,
+            1.030363917350769
+          ],
+          "max_absolute_reference_difference": 0.021459425504553264
+        },
+        "8": {
+          "calculated_b_range": [
+            0.9901533396546174,
+            1.0073658937621954
+          ],
+          "reference_b_range": [
+            0.8264321088790894,
+            0.9985471963882446
+          ],
+          "max_absolute_reference_difference": 0.1671042114581841
+        },
+        "9": {
+          "calculated_b_range": [
+            0.978445024103518,
+            1.0074580955179098
+          ],
+          "reference_b_range": [
+            0.8128460645675659,
+            0.9986804723739624
+          ],
+          "max_absolute_reference_difference": 0.1718681662859325
+        },
+        "10": {
+          "calculated_b_range": [
+            0.9686823781916384,
+            1.0075540936960532
+          ],
+          "reference_b_range": [
+            0.7984768152236938,
+            0.9987552762031555
+          ],
+          "max_absolute_reference_difference": 0.17859313705237478
+        }
+      }
+    },
+    {
+      "name": "benchmark-q2-rays5-v7-lambda-ng",
+      "source_directory": "/mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng",
+      "inputs": {
+        "manifest.json": {
+          "name": "manifest.json",
+          "bytes": 8306,
+          "sha256": "32ea64045babd5f412466b31b6f910c8a15ab6abe492efd4afc979124ac905c5"
+        },
+        "history.jsonl": {
+          "name": "history.jsonl",
+          "bytes": 199767,
+          "sha256": "c9e421e2eca31a477d11000835d3689ea28cb2ab72be21b2021b8eb9fdb2a11e"
+        },
+        "populations.npz": {
+          "name": "populations.npz",
+          "bytes": 716206,
+          "sha256": "5405676d38a3b686a433a1a33fbe857a3b64f111c7342f3185c26962e0d52021"
+        },
+        "triplet_profiles.csv": {
+          "name": "triplet_profiles.csv",
+          "bytes": 157716,
+          "sha256": "f69a1ae328044a2e8786fd9651ef6b615363d70f594b6e00de5fd828315006b8"
+        }
+      },
+      "atom": {
+        "name": "atom.o41f",
+        "bytes": 187797,
+        "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "fixed_abundance": 8.7,
+      "controls": {
+        "rays": 5,
+        "qscale": 2,
+        "rtol": 1e-07,
+        "maxiter": 1000,
+        "seconds": 900.0,
+        "initial": "lte",
+        "lambda_iterate": true,
+        "ng": {
+          "order": 3,
+          "period": 5,
+          "delay": 10,
+          "threshold": 0.05,
+          "lower_threshold": 0.0
+        },
+        "threads": 1,
+        "formal_solver": "piecewise_besser_1d",
+        "row_equilibration": "linear equations scaled by max absolute row coefficient; physical rates unchanged"
+      },
+      "iterations": 832,
+      "final_diagnostics": {
+        "iteration": 832,
+        "population_change": 9.848984353799561e-08,
+        "J_change": 9.85633865635549e-08,
+        "physical_rate_residual": 5.54256986762701e-14,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "elapsed_seconds": 607.9449763251469
+      },
+      "total_wall_seconds": 639.4557109754533,
+      "nlte_over_lte_intensity_range": [
+        0.9946367801567751,
+        1.0000345326724138
+      ],
+      "triplet_departures_in_diagnostic_window": {
+        "6": {
+          "calculated_b_range": [
+            1.0065029651810313,
+            1.0089822276752731
+          ],
+          "reference_b_range": [
+            1.0012154579162598,
+            1.030363917350769
+          ],
+          "max_absolute_reference_difference": 0.021732648935755883
+        },
+        "8": {
+          "calculated_b_range": [
+            0.990009132217181,
+            1.0073455825129924
+          ],
+          "reference_b_range": [
+            0.8264321088790894,
+            0.9985471963882446
+          ],
+          "max_absolute_reference_difference": 0.16718985979857426
+        },
+        "9": {
+          "calculated_b_range": [
+            0.9783518178440614,
+            1.0074367483018651
+          ],
+          "reference_b_range": [
+            0.8128460645675659,
+            0.9986804723739624
+          ],
+          "max_absolute_reference_difference": 0.1721451776871551
+        },
+        "10": {
+          "calculated_b_range": [
+            0.968605374400133,
+            1.0075330298485539
+          ],
+          "reference_b_range": [
+            0.7984768152236938,
+            0.9987552762031555
+          ],
+          "max_absolute_reference_difference": 0.1789837786522157
+        }
+      }
+    },
+    {
+      "name": "benchmark-q1-rays3-v8-tilted",
+      "source_directory": "/mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v8-tilted",
+      "inputs": {
+        "manifest.json": {
+          "name": "manifest.json",
+          "bytes": 8316,
+          "sha256": "d37e44fe86bf2ddb467c239a36acfcc572686582994c33a8f4bae414f6e820fa"
+        },
+        "history.jsonl": {
+          "name": "history.jsonl",
+          "bytes": 240634,
+          "sha256": "c4e32e17b4074dbdd2ca52ad71f0a013ab20c0b2f8e4d3883f9705656af047b3"
+        },
+        "populations.npz": {
+          "name": "populations.npz",
+          "bytes": 716212,
+          "sha256": "c0e05bb8d0b55ba1a3afc0b5e21fafeb5c9ef93f17e2bda4328437933a5b58e0"
+        },
+        "triplet_profiles.csv": {
+          "name": "triplet_profiles.csv",
+          "bytes": 157716,
+          "sha256": "da5f58cde284b09ce49f049867ed9ec747cde0a5c6f82c1b98b5f8832803c80e"
+        }
+      },
+      "atom": {
+        "name": "atom.o41f",
+        "bytes": 187797,
+        "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "fixed_abundance": 8.7,
+      "controls": {
+        "rays": 3,
+        "qscale": 1,
+        "rtol": 1e-07,
+        "maxiter": 1500,
+        "seconds": 900.0,
+        "initial": "tilted",
+        "lambda_iterate": true,
+        "ng": {
+          "order": 3,
+          "period": 5,
+          "delay": 10,
+          "threshold": 0.05,
+          "lower_threshold": 0.0
+        },
+        "threads": 1,
+        "formal_solver": "piecewise_besser_1d",
+        "row_equilibration": "linear equations scaled by max absolute row coefficient; physical rates unchanged"
+      },
+      "iterations": 1001,
+      "final_diagnostics": {
+        "iteration": 1001,
+        "population_change": 8.734321114227902e-08,
+        "J_change": 8.740035806198421e-08,
+        "physical_rate_residual": 1.8581990432142254e-14,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "elapsed_seconds": 264.73894053231925
+      },
+      "total_wall_seconds": 276.46901630051434,
+      "nlte_over_lte_intensity_range": [
+        0.9946175509089809,
+        1.0000342473721162
+      ],
+      "triplet_departures_in_diagnostic_window": {
+        "6": {
+          "calculated_b_range": [
+            1.0065043897518868,
+            1.009324207574536
+          ],
+          "reference_b_range": [
+            1.0012154579162598,
+            1.030363917350769
+          ],
+          "max_absolute_reference_difference": 0.02145909906561072
+        },
+        "8": {
+          "calculated_b_range": [
+            0.9902260374132211,
+            1.0073658938101575
+          ],
+          "reference_b_range": [
+            0.8264321088790894,
+            0.9985471963882446
+          ],
+          "max_absolute_reference_difference": 0.1671131840786677
+        },
+        "9": {
+          "calculated_b_range": [
+            0.9785346581854766,
+            1.0074580955664754
+          ],
+          "reference_b_range": [
+            0.8128460645675659,
+            0.9986804723739624
+          ],
+          "max_absolute_reference_difference": 0.17187709641863635
+        },
+        "10": {
+          "calculated_b_range": [
+            0.9687899977367757,
+            1.0075540937395648
+          ],
+          "reference_b_range": [
+            0.7984768152236938,
+            0.9987552762031555
+          ],
+          "max_absolute_reference_difference": 0.17860718083471472
+        }
+      }
+    }
+  ],
+  "differences_from_first": [
+    {
+      "compared": "benchmark-q2-rays5-v7-lambda-ng",
+      "baseline": "benchmark-q1-rays3-v6-lambda-ng",
+      "max_absolute_departure_difference": 0.005762957251082668,
+      "max_relative_intensity_difference": {
+        "I_nlte_W_m2_sr_Hz": 1.9079196615479077e-05,
+        "I_lte_W_m2_sr_Hz": 1.8753401809235015e-07,
+        "I_nlte_over_I_lte": 1.8913146424992533e-05
+      }
+    },
+    {
+      "compared": "benchmark-q1-rays3-v8-tilted",
+      "baseline": "benchmark-q1-rays3-v6-lambda-ng",
+      "max_absolute_departure_difference": 0.0020940640350990414,
+      "max_relative_intensity_difference": {
+        "I_nlte_W_m2_sr_Hz": 4.2015379431159516e-07,
+        "I_lte_W_m2_sr_Hz": 0.0,
+        "I_nlte_over_I_lte": 4.2015379431159516e-07
+      }
+    }
+  ]
+}

@@ -125,6 +125,50 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_fe_packet:
+    root: work
+    rel: bride_inputs/rya1281/fe-nuv-packet-v1
+    env: CODEX_BRIDE_FE_PACKET
+    kind: dir
+    desc: Source-derived TS FeI LTE background packet at the exact5750/4.5 node; bounded NUV intervention only, not production opacity.
+  experiments.bride_ts_budget_build:
+    root: work
+    rel: bride_inputs/rya1281/ts-budget-build-v4
+    env: CODEX_BRIDE_TS_BUDGET_BUILD
+    kind: dir
+    desc: Pinned isolated Mac TS baseline and reporting-only derivative; diagnostic, not native MULTI producer.
+  experiments.bride_marcs_opacity:
+    root: work
+    rel: bride_inputs/rya1281/marcs-opacity-v2
+    kind: dir
+    desc: Exact 5750/4.5 MARCS continuum-opacity companion and official format reader; wavelength medium unverified, not native MULTI producer opacity.
+  experiments.bride_multi_lte_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-lte-v1
+    env: CODEX_BRIDE_MULTI_LTE_ORACLE
+    kind: dir
+    desc: Pinned O-only native MULTI LTEPOP normalization oracle; no native EOS, opacity or RT solution.
+  experiments.bride_barklem_oxygen:
+    root: work
+    rel: bride_inputs/rya1281/barklem-oxygen-cd2f54ed
+    kind: dir
+    desc: Hash-pinned author O+H rate matrices for non-adopted reverse-channel diagnostics; not a production atomic bundle.
+  experiments.bride_multi_spline_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-spline-v2
+    env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
+    kind: dir
+    desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  experiments.bride_oxygen_atom:
+    root: work
+    rel: bride_inputs/rya1281/atom.o41f
+    kind: file
+    desc: Hash-pinned O41f staging copy for Ryan-authorized Mac sensitivity experiments; no production admission.
+  experiments.bride_mac_grid:
+    root: work
+    rel: bride_mac_checks
+    kind: dir
+    desc: Original immutable Mac O41f solved-grid experiments and populations; experimental1D only, no production token.
   engines.bride_eval:
     root: home
     rel: bride_rya1118

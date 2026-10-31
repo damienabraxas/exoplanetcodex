@@ -1,0 +1,404 @@
+{
+  "schema": "codex.bride_author_charge_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_author_charge.py",
+    "bytes": 8750,
+    "sha256": "68375ecc1f0ea90772223aa13d3821f8377568d81f431fdfbb671a2f8e297d09"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "cases": [
+    {
+      "name": "barklem2018_MN_LTE_pair",
+      "source_run": "rya1281-author-charge-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1234,
+        "sha256": "61ff879565d18b3c4b082d06ac469d0d66b111e054eb373ec82863107a549530"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2776,
+        "sha256": "b6d7119b7633b07f8ab952a005878af4c0f3fd8d707fcd1ff9dbfb06f25c7dd0"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36613,
+        "sha256": "08af49886633d99d4d9430803635f72bf9505ecbb4668b3d8dd281ee0f80e14b"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "2ec667ad9eb9d2719b6ba31a4e715001aa8ca251cf223e5a7418efc6f1265a92"
+      },
+      "departure_curve": {
+        "name": "barklem2018_MN_LTE_pair_departures.csv",
+        "bytes": 9926,
+        "sha256": "f38833b9c63437065b63e61abf8220a3643cd80523775f5a4a85eaafc7f4736a"
+      },
+      "iterations": 568,
+      "elapsed_seconds": 43.044471540953964,
+      "final_diagnostics": {
+        "iteration": 568,
+        "population_change": 9.979467985145898e-07,
+        "J_change": 9.986627973468387e-07,
+        "physical_rate_residual": 2.542430180239391e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.005522975204848457,
+      "upper_max_abs_b_difference_all_depths": 1.2494755567700027,
+      "upper_max_abs_b_difference_excluding_top_point": 0.06343985322452128,
+      "lower_max_abs_b_difference_excluding_top_point": 0.06336622326610564,
+      "all_levels_depths_max_abs_b_difference": 7.774907519224586,
+      "top_lower_upper_ion_b": [
+        0.025152269352368185,
+        0.031915825447404615,
+        0.39314992248683955
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.027096379738932,
+        0.8492854149237846,
+        0.9104020876507605
+      ],
+      "triplet_fixed_window_mA": [
+        68.77757304951118,
+        59.230425081485514,
+        46.280367308104196
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": null,
+      "top_cap_diagnostic": null,
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "author_MN_finite_column_cap",
+      "source_run": "rya1281-top-cap-nested-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1507,
+        "sha256": "b0f3881a6be18725e2a4e8767112dfd79137f02633f8e7ba4851200608650b4c"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3774,
+        "sha256": "7b1a2664e3d388c85cce7dc4129ffee6a97b7a712f5775ae183296a8e41fc3ef"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36601,
+        "sha256": "6855548ca5b50b07848e92e48d8168cdd64ae0e452b46291355e6b18b65bb69a"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "aebe30b5dc70461aa102eb26ebc0d1dcf161f37b32ec2e8d3917e4c837a53a4a"
+      },
+      "departure_curve": {
+        "name": "author_MN_finite_column_cap_departures.csv",
+        "bytes": 9926,
+        "sha256": "8b670fa2f093d305f5dee4bcb5ee34d59bb36008f4e77d2787d9cbb79edf0748"
+      },
+      "iterations": 291,
+      "elapsed_seconds": 199.8075789581053,
+      "final_diagnostics": {
+        "iteration": 291,
+        "population_change": 9.344628521517178e-07,
+        "J_change": 9.35121301771001e-07,
+        "physical_rate_residual": 2.6143623298709306e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 2.481170021003679e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 8.345671931309084e-09,
+          "final_boundary_change": 8.957952723050483e-09,
+          "outer_J_change": 9.35121301771001e-07,
+          "outer_boundary_change": 2.481170021003679e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.005559675475932502,
+      "upper_max_abs_b_difference_all_depths": 0.026197070800402678,
+      "upper_max_abs_b_difference_excluding_top_point": 0.026197070800402678,
+      "lower_max_abs_b_difference_excluding_top_point": 0.03391778530598144,
+      "all_levels_depths_max_abs_b_difference": 8.083964888945257,
+      "top_lower_upper_ion_b": [
+        0.9738139489045905,
+        1.2796897392471211,
+        16.252022330656683
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.027094413451489,
+        0.8492951955746335,
+        0.9104243309058625
+      ],
+      "triplet_fixed_window_mA": [
+        68.77763297026027,
+        59.230434438467,
+        46.280339800310294
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74558,
+          "sha256": "22053c493d13de8a63c83f375420bcbc7ab55e290510a9c3f41ad9cbed860733"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.426018680107467
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.7655128626393473
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.432832277267412
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 9.341119742875786e-05
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.184555846687436e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.4661015340749667e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "283846d8c0a7c7af9b68c347d9983ea5987ca1d0e8fedcc772c981db4b629bf1"
+        }
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "raw_pair_finite_column_cap",
+      "source_run": "rya1281-top-cap-nested-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1507,
+        "sha256": "b0f3881a6be18725e2a4e8767112dfd79137f02633f8e7ba4851200608650b4c"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3047,
+        "sha256": "ed9ca42fca260038dcabe6fdbd35b0b2e42d60b152e2f72017fe21dbeab08319"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36609,
+        "sha256": "311b3e1fa9bb24bfcd0854b6b6302deaae1c45f76bc3bc6fe23b0bc3f94befb6"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "fb8a2414fb6f7ad00c113fceeae8ca676a80489df2687cabf16db591616d21c5"
+      },
+      "departure_curve": {
+        "name": "raw_pair_finite_column_cap_departures.csv",
+        "bytes": 9926,
+        "sha256": "2aa403ecf709e426960fc879237658d14d54334ce695856ab7d280bc2eb8894c"
+      },
+      "iterations": 836,
+      "elapsed_seconds": 487.5533441249281,
+      "final_diagnostics": {
+        "iteration": 836,
+        "population_change": 4.039438968987491e-07,
+        "J_change": 4.0423064677944186e-07,
+        "physical_rate_residual": 2.644842264653526e-15,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 2.80106375077573e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 8.443737042895805e-09,
+          "final_boundary_change": 8.498513267240676e-09,
+          "outer_J_change": 4.0423064677944186e-07,
+          "outer_boundary_change": 2.80106375077573e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.0053956097827907445,
+      "upper_max_abs_b_difference_all_depths": 0.03675477429220697,
+      "upper_max_abs_b_difference_excluding_top_point": 0.03675477429220697,
+      "lower_max_abs_b_difference_excluding_top_point": 0.04159875802713542,
+      "all_levels_depths_max_abs_b_difference": 10.378703409584425,
+      "top_lower_upper_ion_b": [
+        0.9664487667920962,
+        1.2691858778117169,
+        18.54676085129585
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.0269292849669416,
+        0.8490659030951928,
+        0.9405200003707693
+      ],
+      "triplet_fixed_window_mA": [
+        68.77789735432333,
+        59.22948403018073,
+        46.27882259000386
+      ],
+      "experimental_collision_convention": "native_tautsp_lte_balanced_CH0",
+      "author_charge_control": null,
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74603,
+          "sha256": "112fea068e145f449835fde267df2b86ec79bd461a5290a4e18f11e2e61a0fd0"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.4260186801065275
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.7655126006063493
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.4328318554125525
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 9.341119571868344e-05
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.18455584658104e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.464941994015782e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "35e2c022e6ea219ef689be4ce975f998ee50011d06dd267fd3ba92294a37a460"
+        }
+      },
+      "lte_uv_background_lines": null
+    }
+  ],
+  "failed_controls": [
+    {
+      "name": "author_MN_finite_column_cap",
+      "source_run": "rya1281-top-cap-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1472,
+        "sha256": "9e4f30a6e1cb96e470650fcb89a0d28a17fb62d2116fded55f1ad87fb1429ead"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2851,
+        "sha256": "319962ad9d8435b93a8dc96209a61b63f73bae4665d967ebd8bf6fe466957663"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 417721,
+        "sha256": "338c224448ec37a52416c5b5a3c9abd17fff5aa840f61280e0d867cc5363619e"
+      },
+      "error": "RuntimeError: Joint convergence not reached",
+      "elapsed_seconds": 110.6825818750076
+    },
+    {
+      "name": "raw_pair_finite_column_cap",
+      "source_run": "rya1281-top-cap-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1472,
+        "sha256": "9e4f30a6e1cb96e470650fcb89a0d28a17fb62d2116fded55f1ad87fb1429ead"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2121,
+        "sha256": "e4b71cb6a9421f6d02284b10cd98f932b421e9d08526f568bf98a337cf518c14"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 418148,
+        "sha256": "205610c560264c6b14780f8f2c1146d32608e545a494df102593da8a9105f419"
+      },
+      "error": "RuntimeError: Joint convergence not reached",
+      "elapsed_seconds": 121.36848645797
+    }
+  ],
+  "scope": "logtau[-3,0] is a declared diagnostic subset, not a contribution function; no abundance fit",
+  "prior_receipt": {
+    "name": "summary.json",
+    "bytes": 15407,
+    "sha256": "b47a36f3e9401569d28aa4524cdb301d3e00220856c31bb8d6e7a0ff4db74ca0"
+  },
+  "status": "DIAGNOSTIC_COMPLETE"
+}

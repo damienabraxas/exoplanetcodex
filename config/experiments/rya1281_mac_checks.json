@@ -1,0 +1,23 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Predeclared diagnostic responses, not a fit or adopted uncertainty grid",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {"rays": 3, "qscale": 1, "rtol": 1e-6, "maxiter": 1500, "seconds_per_case": 600, "flux_rays": 5},
+  "window_air_A": [7768.0, 7780.0],
+  "step_A": 0.005,
+  "cases": [
+    {"name": "baseline", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "depth_cut1", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1},
+    {"name": "depth_cut2", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 2},
+    {"name": "xi_minus", "teff": 5750, "logg": 4.5, "xi": 0.9, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "xi_plus", "teff": 5750, "logg": 4.5, "xi": 1.1, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "xi_low", "teff": 5750, "logg": 4.5, "xi": 0.5, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "xi_high", "teff": 5750, "logg": 4.5, "xi": 1.5, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "teff_low_cut1", "teff": 5500, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1},
+    {"name": "teff_high_cut1", "teff": 6000, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1},
+    {"name": "logg_low", "teff": 5750, "logg": 4.0, "xi": 1.0, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "logg_high", "teff": 5750, "logg": 5.0, "xi": 1.0, "abundance": 8.7, "drop_bottom": 0},
+    {"name": "abundance_minus", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.6, "drop_bottom": 0},
+    {"name": "abundance_plus", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.8, "drop_bottom": 0}
+  ]
+}

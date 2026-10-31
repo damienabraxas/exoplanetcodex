@@ -8,24 +8,13 @@ trip (`from_lightweaver` / `to_lightweaver`). So the front half of MULTI -> Ligh
 the one missing hop, and this module is that hop. It targets `AtomicModel` directly rather
 than going via CRTAF, because CRTAF buys nothing here and adds a dependency.
 
-RYA-1137 established the two facts that make this worth doing:
+Historical Fe experiments motivated this converter, but neither parsing nor a
+restricted atom's convergence certifies its populations or spectra. RYA-1278 audits
+what was actually demonstrated. RestrictionReport records dropped coupling; do not
+choose a restriction or rates to reproduce a literature abundance.
 
-  * every rate type `atom.fe607a` actually uses has a Lightweaver counterpart --
-    CE (14,001), CH (15,090), CI (548), CH0 (344) -> `CE`, `CH`, `CI`,
-    `ChargeExchangeNeutralH`. No missing physics, so this is parsing, not research.
-  * the FULL atom is not runnable (607 levels / 12,635 lines -> hours-to-days per column),
-    but the ASSIGNED line set is: the 40 AGSS21 Fe I lines touch only **58 levels / 298
-    transitions**, and a measured proxy of that size (`MgI_66_atom`, 66 levels / 315 lines)
-    converges in 32.15 s/column -- ~57 core-hours for a 6400-column cube.
-
-🔴 RESTRICTION IS NOT FREE, AND THIS MODULE DOES NOT PRETEND OTHERWISE. Dropping 490 levels
-changes the statistical-equilibrium solution: the omitted levels carry population and
-collisional/radiative coupling. Selecting from a vetted atom is not building one, but the
-RESULT is not vetted either. `restrict()` records what it dropped in `RestrictionReport` so
-the eventual validation -- reproduce fe607a's own departures on the 40 AGSS21 lines, and
-land A(Fe) on 7.46 -- is checkable rather than assumed. A restricted atom that converges to
-a different departure pattern is a wrong atom that runs (RYA-1118's striding lesson: every
-value/range/finite check passed on a transposed cube; only STRUCTURE caught it).
+RYA-1279 preserves each collision's active TEMP block and packed ABO coefficients.
+Unsupported rate/profile/broadening conventions fail rather than substitute physics.
 
 FORMAT, read off the file rather than from documentation:
 
@@ -81,6 +70,8 @@ class MultiLine:
     gVdw: float
     gStark: float
     profile: str
+    q0: float = 0.0
+    iw: int = 0
 
 
 @dataclass
@@ -99,6 +90,7 @@ class MultiCollision:
     j: int
     i: int
     rates: np.ndarray
+    temperature: np.ndarray | None = None  # active TEMP block for this rate
 
 
 @dataclass
@@ -153,7 +145,7 @@ class RestrictionReport:
 
 def _strip(path) -> list[str]:
     with open(path, errors="replace") as fh:
-        return [l for l in fh.read().splitlines() if not l.lstrip().startswith("*")]
+        return [l for l in fh.read().splitlines() if l.strip() and not l.lstrip().startswith("*")]
 
 
 def read_multi_atom(path) -> MultiAtom:
@@ -161,7 +153,9 @@ def read_multi_atom(path) -> MultiAtom:
     rows = _strip(path)
     symbol = rows[0].split()[0]
     abundance, weight = (float(x) for x in rows[1].split()[:2])
-    nlev, nlin, ncont, _nfix = (int(x) for x in rows[2].split()[:4])
+    nlev, nlin, ncont, nfix = (int(x) for x in rows[2].split()[:4])
+    if nfix != 0:
+        raise ValueError(f"{path}: fixed radiative rates are not supported")
 
     levels = []
     for k, line in enumerate(rows[3:3 + nlev], start=1):
@@ -178,7 +172,7 @@ def read_multi_atom(path) -> MultiAtom:
         t = line.split()
         lines.append(MultiLine(int(t[0]), int(t[1]), float(t[2]), int(t[3]), float(t[4]),
                                float(t[7]), float(t[8]), float(t[9]),
-                               t[10] if len(t) > 10 else "VOIGT"))
+                               t[10] if len(t) > 10 else "VOIGT", float(t[5]), int(t[6])))
     if len(lines) != nlin:
         raise ValueError(f"{path}: header declares {nlin} lines, parsed {len(lines)}")
 
@@ -190,8 +184,15 @@ def read_multi_atom(path) -> MultiAtom:
     for _ in range(ncont):
         t = rows[i].split()
         j_, i_, alpha0, nlamb = int(t[0]), int(t[1]), float(t[2]), int(t[3])
+        if float(t[4]) >= 0:
+            raise ValueError(f"{path}: analytic MULTI continuum not supported; explicit QMAX<0 required")
+        if nlamb < 2:
+            raise ValueError(f"{path}: continuum needs at least two tabulated points")
         pairs = np.array([[float(x) for x in rows[i + 1 + k].split()[:2]]
                           for k in range(nlamb)], dtype=float)
+        if (not np.isfinite(pairs).all() or np.any(pairs[:,0] <= 0)
+                or np.any(pairs[:,1] < 0) or np.any(np.diff(pairs[:,0]) >= 0)):
+            raise ValueError(f"{path}: expected finite decreasing continuum wavelengths and nonnegative cross-sections")
         continua.append(MultiContinuum(j_, i_, alpha0, nlamb, pairs[:, 0], pairs[:, 1]))
         i += 1 + nlamb
 
@@ -200,37 +201,54 @@ def read_multi_atom(path) -> MultiAtom:
     if i >= len(rows):
         raise ValueError(f"{path}: no GENCOL block — collisional rates are missing")
     i += 1
-    if rows[i].split()[0].upper() != "TEMP":
-        raise ValueError(f"{path}: GENCOL is not followed by TEMP, got {rows[i]!r}")
-    t = rows[i + 1].split()
-    ntemp = int(t[0])
-    temps = [float(x) for x in t[1:]]
-    i += 2
-    while len(temps) < ntemp:                     # the grid may wrap onto further rows
-        temps += [float(x) for x in rows[i].split()]
-        i += 1
-    temperature = np.array(temps[:ntemp], dtype=float)
-
+    temperature = None
+    active_temperature = None
     collisions = []
+    ended = False
     while i < len(rows):
-        w = rows[i].split()
-        if not w:
-            i += 1
-            continue
-        kind = w[0].upper()
+        kind = rows[i].split()[0].upper()
         if kind == "END":
-            break
-        if i + 1 >= len(rows):
-            break
-        vals = rows[i + 1].split()
-        try:
-            j_, i_ = int(vals[0]), int(vals[1])
-        except (ValueError, IndexError):
+            ended = True
             i += 1
+            break
+        if kind == "TEMP":
+            i += 1
+            tokens = rows[i].split()
+            ntemp = int(tokens[0])
+            temps = [float(x) for x in tokens[1:]]
+            i += 1
+            while len(temps) < ntemp and i < len(rows):
+                temps.extend(float(x) for x in rows[i].split())
+                i += 1
+            active_temperature = np.asarray(temps, dtype=float)
+            if (ntemp < 2 or len(temps) != ntemp
+                    or not np.isfinite(active_temperature).all()
+                    or np.any(active_temperature <= 0)
+                    or np.any(np.diff(active_temperature) <= 0)):
+                raise ValueError(f"{path}: invalid TEMP grid")
+            if temperature is None:
+                temperature = active_temperature.copy()  # legacy first-grid view
             continue
-        rates = np.array([float(x) for x in vals[2:2 + ntemp]], dtype=float)
-        collisions.append(MultiCollision(kind, j_, i_, rates))
+        if active_temperature is None:
+            raise ValueError(f"{path}: GENCOL must begin with TEMP")
+        if kind not in _KNOWN_COLLISIONS:
+            raise ValueError(f"{path}: unsupported collision keyword {kind}")
+        if i + 1 >= len(rows):
+            raise ValueError(f"{path}: missing collision data for {kind}")
+        vals = rows[i + 1].split()
+        if len(vals) != 2 + len(active_temperature):
+            raise ValueError(f"{path}: {kind} rate count does not match active TEMP grid")
+        j_, i_ = int(vals[0]), int(vals[1])
+        rates = np.asarray([float(x) for x in vals[2:]], dtype=float)
+        if not (1 <= j_ <= nlev and 1 <= i_ <= nlev and j_ != i_):
+            raise ValueError(f"{path}: invalid collision level index")
+        if not np.isfinite(rates).all() or np.any(rates < 0):
+            raise ValueError(f"{path}: invalid collision coefficients")
+        collisions.append(MultiCollision(kind, j_, i_, rates,
+                                         active_temperature.copy()))
         i += 2
+    if not ended or i != len(rows) or temperature is None:
+        raise ValueError(f"{path}: missing END or unexpected trailing collision data")
 
     return MultiAtom(symbol, abundance, weight, levels, lines, continua,
                      temperature, collisions)
@@ -312,12 +330,13 @@ def restrict(atom: MultiAtom, keep: list[int], *, keep_ion_ground: bool = True):
 
 def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     """Build a Lightweaver `AtomicModel`. Import is local so parsing needs no Lightweaver."""
-    from lightweaver.atomic_model import (AtomicLevel, AtomicModel, ExplicitContinuum,
+    from lightweaver.atomic_model import (AtomicLevel, AtomicModel,
                                           LineType, VoigtLine)
     from lightweaver.atomic_table import Element, PeriodicTable
     from lightweaver.broadening import (LineBroadening, RadiativeBroadening,
-                                        VdwUnsold, QuadraticStarkBroadening)
+                                        VdwUnsold, VdwBarklem)
     from lightweaver.collisional_rates import CE, CH, CI, ChargeExchangeNeutralH
+    from pipeline.multi_continuum import MultiExplicitContinuum
 
     if remap is None:
         remap = {l.index: n for n, l in enumerate(atom.levels)}
@@ -329,10 +348,27 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
 
     lines = []
     for L in atom.lines:
+        if L.profile.upper() != "VOIGT":
+            raise ValueError(f"Unsupported MULTI line profile: {L.profile}")
+        # This supported subset is explicit: Unsold enhancement or packed ABO
+        # sigma.alpha, as used by the held o41f. Other encodings fail, never guess.
+        if L.gVdw == 0:
+            elastic = []
+        elif L.gVdw == 1:
+            elastic = [VdwUnsold(vals=[L.gVdw, L.gVdw])]
+        elif L.gVdw >= 20:
+            sigma = float(np.floor(L.gVdw))
+            alpha = L.gVdw - sigma
+            if not 0 < alpha < 1:
+                raise ValueError("Packed ABO coefficient requires 0 < alpha < 1")
+            elastic = [VdwBarklem(vals=[sigma, alpha])]
+        else:
+            raise ValueError("Unsupported MULTI van der Waals encoding")
+        if L.gStark != 0:
+            raise ValueError("MULTI Stark coefficient convention not validated; refusing conversion")
         broad = LineBroadening(
             natural=[RadiativeBroadening(L.gRad)] if L.gRad > 0 else [],
-            elastic=([VdwUnsold(vals=[1.0, 1.0])] if L.gVdw != 0 else [])
-                    + ([QuadraticStarkBroadening(1.0)] if L.gStark != 0 else []))
+            elastic=elastic)
         lines.append(VoigtLine(j=remap[L.j], i=remap[L.i], f=L.f, type=LineType.CRD,
                                quadrature=_quadrature(L), broadening=broad))
 
@@ -355,7 +391,7 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     continua = []
     for c in atom.continua:
         order = np.argsort(c.wavelength)
-        continua.append(ExplicitContinuum(
+        continua.append(MultiExplicitContinuum(
             j=remap[c.j], i=remap[c.i],
             wavelengthGrid=list(c.wavelength[order] * 0.1),
             alphaGrid=list(c.alpha[order] * CM2_TO_M2)))
@@ -376,9 +412,12 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     for c in atom.collisions:
         cls = kind_map.get(c.kind)
         if cls is None:
-            continue
+            raise ValueError(f"Unsupported MULTI collision conversion: {c.kind}")
+        grid = atom.temperature if c.temperature is None else c.temperature
+        if len(c.rates) != len(grid):
+            raise ValueError("Collision coefficients do not match their temperature grid")
         collisions.append(cls(j=remap[c.j], i=remap[c.i],
-                              temperature=list(atom.temperature),
+                              temperature=list(grid),
                               rates=list(c.rates * CM3_TO_M3)))
 
     Z = PeriodicTable[atom.symbol.capitalize()].Z
@@ -388,5 +427,11 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
 
 def _quadrature(L: MultiLine):
     from lightweaver.atomic_model import LinearCoreExpWings
-    return LinearCoreExpWings(qCore=max(L.qmax / 4.0, 1.0), qWing=max(L.qmax, 10.0),
+    if L.iw != 0:
+        raise ValueError("Unsupported MULTI IW quadrature convention")
+    # Preserve an explicit source core parameter (O777 Q0=3). Q0=0 requests
+    # automatic spacing: retain the legacy numerical prescription, which must
+    # undergo resolution convergence rather than claiming native-grid identity.
+    core = L.q0 if L.q0 > 0 else max(L.qmax / 4.0, 1.0)
+    return LinearCoreExpWings(qCore=core, qWing=max(L.qmax, 10.0),
                               Nlambda=max(L.nq, 5))

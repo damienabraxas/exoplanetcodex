@@ -1,0 +1,31 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Sourced Barklem2018 mutual-neutralization term coefficients with explicit statistical J branching and local LTE H-minus inverse. Conditional diagnostic, not producer reconstruction or adoption.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "barklem2018_MN_LTE_pair",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair"
+    }
+  ]
+}

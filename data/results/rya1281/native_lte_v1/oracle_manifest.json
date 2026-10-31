@@ -1,0 +1,105 @@
+{
+  "schema": "codex.bride_multi_lte_oracle/1",
+  "source_commit": "4d6aa3c39d634b38da772e469a5692435eba1354",
+  "generator": {
+    "name": "build_bride_multi_lte_oracle.py",
+    "bytes": 4955,
+    "sha256": "a926b71586e581830d0181f7c0cb9b6a0928111dbedf09f084659ae88b075db9"
+  },
+  "sources": [
+    {
+      "name": "mul23_sub.f",
+      "bytes": 232334,
+      "sha256": "2cbfae6420d362ee4561d3c455a8d32f404b49f4b2b0f8f30ca797931eb9f3bd"
+    },
+    {
+      "name": "CATOM",
+      "bytes": 674,
+      "sha256": "e705cccab786433ac446842d9ec30957a3f787a2d90ef7e612b7274ed4c62034"
+    },
+    {
+      "name": "CATMOS",
+      "bytes": 270,
+      "sha256": "9971db7ad384e442b2892c72eb88a37d177ac5268da1d5d8199b112f1b10bfb2"
+    },
+    {
+      "name": "CCONST",
+      "bytes": 59,
+      "sha256": "b0ffcb577ca46311ddf8072edb0c356c104acc4358a99714e423c06ac381d4d2"
+    },
+    {
+      "name": "CLU",
+      "bytes": 168,
+      "sha256": "1eb4f06b4db286a6b0511ba594d1ebc1be5cdfa1722d91a4ffcbbad54abe1d92"
+    },
+    {
+      "name": "CTRAN",
+      "bytes": 134,
+      "sha256": "01db559147600152256b88869d9184c271a9238176c4cefef0fa67be22c03c8d"
+    },
+    {
+      "name": "CSLINE",
+      "bytes": 475,
+      "sha256": "77165c427526914d1b301fb0ae5f723ec4c12603e61c3e0bd978fed5d4dd7373"
+    },
+    {
+      "name": "CBCNST",
+      "bytes": 88,
+      "sha256": "4b673d526aef1ae1504e2e12bfac698933f624a5d04e8404dfeef10f53ed2cb4"
+    },
+    {
+      "name": "C3D",
+      "bytes": 435,
+      "sha256": "c0e8e401d7fe178fabe0131e83d60c827ccbeeb104f0fce44aaac67e0a603038"
+    },
+    {
+      "name": "PREC.dp",
+      "bytes": 33,
+      "sha256": "dd292d38b942229483393353391790de98e975092f3fb656de2dd6e7b0b814f7"
+    },
+    {
+      "name": "PARAM",
+      "bytes": 101,
+      "sha256": "5b9f501701bbeb0156dd1b8ff885dc9b9ee65e1c71637f204ad53c74695ffe6e"
+    },
+    {
+      "name": "mul23_bconst.f",
+      "bytes": 1018,
+      "sha256": "c33bcb3655be323c3f95a9224cd130729bb0feaf2003dbf46671fc2ba623d546"
+    }
+  ],
+  "routines": [
+    {
+      "name": "LTEPOP",
+      "sha256": "fefde4ffeff639e232966fae44707400134104838b76fbdefa7240ba8e88095b"
+    },
+    {
+      "name": "GETWRD",
+      "sha256": "7a2de7b2ed4da1a349b8956d66cd32e915a4a6de9cd24c8d9e49fe83aef3f34f"
+    }
+  ],
+  "compiler": "/opt/homebrew/bin/gfortran",
+  "compiler_version": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "command": [
+    "/opt/homebrew/bin/gfortran",
+    "-std=legacy",
+    "-O2",
+    "-fcheck=bounds",
+    "-fPIC",
+    "-dynamiclib",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/native-lte-v1/multi_lte_dp.f",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/native-lte-v1/libmulti_lte.dylib"
+  ],
+  "generated": {
+    "name": "multi_lte_dp.f",
+    "bytes": 5734,
+    "sha256": "26a36fc94307f770ed8f7222892a9c1dcb2b70f8a2a6cbf572e3029bb7ed52c2"
+  },
+  "library": {
+    "name": "libmulti_lte.dylib",
+    "bytes": 51280,
+    "sha256": "a7aae68dd09f2bff30c3c4864a9539cdbd19722389a81fd3a3ae6b514ba68cbe"
+  },
+  "interpretation": "Actual atomic LTEPOP plus GETWRD and BCONST; native DP includes; MK30->64 capacity only; O-only unreachable molecular guard. No full MULTI RT/EOS or exact grid producer identity."
+}

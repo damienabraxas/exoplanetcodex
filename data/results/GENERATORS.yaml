@@ -24742,3 +24742,1413 @@ artifacts:
     generator: pipeline/element_prepare.py
     invocation: python3 scripts/rya1268_apply_sets.py
     ticket: RYA-1268
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3 --run --lambda-iterate --ng --rays 3 --qscale 1 --rtol
+      1e-06 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q2_rays5/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q2_rays5 --run --lambda-iterate --ng --rays 5 --qscale 2 --rtol
+      1e-07 --maxiter 1000 --initial lte
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/manifest.json
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/history.jsonl
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/q1_rays3_tilted/triplet_profiles.csv
+    generator: scripts/run_bride_oxygen_column.py
+    invocation: python scripts/run_bride_oxygen_column.py --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-q1_rays3_tilted --run --lambda-iterate --ng --rays 3 --qscale
+      1 --rtol 1e-07 --maxiter 1500 --initial tilted
+    ticket: RYA-1281
+    note: Experimental exact MARCS node; HOLD, no solar abundance/full-3D admission. Use a fresh output directory.
+  - artifact: rya1281/oxygen_validation_v1/comparison.json
+    generator: scripts/compare_bride_oxygen_experiments.py
+    invocation: python scripts/compare_bride_oxygen_experiments.py --runs /mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v6-lambda-ng
+      /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng /mnt/codex-data/codex/rya1281/benchmark-q1-rays3-v8-tilted
+      --output /mnt/codex-data/codex/rya1281/reproduce-comparison.json
+    ticket: RYA-1281
+    note: Derived diagnostics only; original populations.npz stay on Sirius and are hash-recorded.
+  - artifact: rya1281/kitt_peak_fixed_v1/manifest.json
+    generator: scripts/compare_bride_kitt_peak.py
+    invocation: python scripts/compare_bride_kitt_peak.py --experiment /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng
+      --comparison /mnt/codex-data/codex/rya1281/comparison-v6-v7-v8.json --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-kitt-peak-fixed-v1
+    ticket: RYA-1281
+    note: Fixed A8.70 benchmark diagnostic, no abundance fit/admission; use new output directory. Companion plot copied
+      to data/output/rya1281/kitt_peak_fixed_v1/.
+  - artifact: rya1281/kitt_peak_fixed_v1/profiles.csv
+    generator: scripts/compare_bride_kitt_peak.py
+    invocation: python scripts/compare_bride_kitt_peak.py --experiment /mnt/codex-data/codex/rya1281/benchmark-q2-rays5-v7-lambda-ng
+      --comparison /mnt/codex-data/codex/rya1281/comparison-v6-v7-v8.json --reference /mnt/codex-data/codex/rya1281/reference-5750-4.5-A8.70-v1.json
+      --output /mnt/codex-data/codex/rya1281/reproduce-kitt-peak-fixed-v1
+    ticket: RYA-1281
+    note: Fixed A8.70 benchmark diagnostic, no abundance fit/admission; use new output directory. Companion plot copied
+      to data/output/rya1281/kitt_peak_fixed_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/baseline/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/depth_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/depth_cut2/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_minus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_plus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_low/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/xi_high/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/teff_low_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/teff_high_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/logg_low/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/logg_high/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/abundance_minus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/coarse/abundance_plus/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-coarse"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/metal_low_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/metal/metal_high_cut1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_metal_checks.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-metal"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/fine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/linear10K/holdout_interp_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fine_temperature.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-linear10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/logfine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_log_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_logg_linear/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/log10K/holdout_logg_log/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_log_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-log10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/holdout_mesh_5750/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/holdout_logg_mesh/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5752/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5762/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5772/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5782/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/mesh10K/meshfine_T5792/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_mesh_interpolation.json
+      --output "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-mesh10K"
+    ticket: RYA-1281
+    note: Experimental Mac-only output. Fresh destination required; original full histories/populations/absolute flux
+      remain at registered experiments.bride_mac_grid store, hash-referenced by analysis/index.
+  - artifact: rya1281/mac_parameter_checks_v1/analysis.json
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/grid_index.json
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/profile_grid.npz
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/baseline_profiles.csv
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/mac_parameter_checks_v1/meshfine_T5772_profiles.csv
+    generator: scripts/analyze_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_SYNTH_PYTHON" scripts/analyze_bride_mac_checks.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-v1"
+      --additional-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-metal-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-fine-v1"
+      "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-log-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-mesh-v1" --output
+      "$CODEX_WORK_ROOT/bride_mac_checks/reproduce-analysis"
+    ticket: RYA-1281
+    note: Derived observation/response diagnostic; no fit, adopted uncertainty or full3D admission. Companion PNGs
+      in data/output/rya1281/mac_parameter_checks_v1/.
+  - artifact: rya1281/population_audit_v1/CE_x0.1_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CE_x10_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CH_x0.1_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/CH_x10_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CE_x0.1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CE_x10/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CH_x0.1/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/CH_x10/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/collisions/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_collision_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_departures.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_external_b_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/native5750_local_nlte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/report.json
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_departures.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_lte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_forbidden6300.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_permitted6158.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/population_audit_v1/solar5772_local_nlte_triplet.csv
+    generator: scripts/audit_bride_oxygen_populations.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_populations.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --collision-runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-collisions-v1" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-population-audit-v3"
+    ticket: RYA-1281
+    note: Exact Mac review copy; choose new output directories to reproduce.
+  - artifact: rya1281/rate_conventions_v1/rate_audit/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/rate_audit/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1"
+    ticket: RYA-1281
+    note: Native CSV CRLF normalized to LF for review; every parsed row verified equal. Source commit/plan hash pins original generator.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/rya1281-gencol-v3-safe-ng_directed_CH0_lograte_profiles.csv
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/summary.json
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/controls_summary/rya1281-gencol-v3-safe-ng_gencol_CH_down_directed_CH0_lograte_profiles.csv
+    generator: scripts/summarize_bride_rate_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/summarize_bride_rate_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng" --rate-audit "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-rate-audit-v1" --gencol-source /private/tmp/rya1281-gencol.f --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-convention-summary-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v1/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v2-no-ng/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v2-no-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/directed_CH0_lograte/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/runs/rya1281-gencol-v3-safe-ng/gencol_CH_down_directed_CH0_lograte/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_gencol_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-gencol-v3-safe-ng"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/report.json
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/solar5772_profiles.csv
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/rate_conventions_v1/ni6300/native5750_profiles.csv
+    generator: scripts/check_bride_ni6300_blend.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/check_bride_ni6300_blend.py --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-ni6300-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit/plan hash pin historical variants. New directories required for reproduction.
+  - artifact: rya1281/native_charge_v1/oracle/manifest.json
+    generator: scripts/build_bride_multi_spline_oracle.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/build_bride_multi_spline_oracle.py --source-root /private/tmp/rya1279-pymulti-source --output "$CODEX_WORK_ROOT/bride_inputs/rya1281/native-spline-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_rh_directions/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-spline-v1/native_tautsp_source_directions/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_native_spline_controls.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_reverse_charge_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/runs/rya1281-native-h-lines-v1/paired_CH0_with_LTE_H_lines/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_h_background_control.json --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_rh_directions_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/summary.json
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_source_directions_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/native_tautsp_lte_balanced_CH0_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/thermal_closure.npz
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/analysis/paired_CH0_with_LTE_H_lines_departures.csv
+    generator: scripts/analyze_bride_native_charge_controls.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/analyze_bride_native_charge_controls.py --runs "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-spline-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1" "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-h-lines-v1" --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v3"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/paired_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --case-directory "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0" --case-receipt "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v1/summary.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-paired-rates-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+  - artifact: rya1281/native_charge_v1/paired_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: source config/hosts/mac.env && "$CODEX_BRIDE_EVAL/.venv/bin/python" scripts/audit_bride_oxygen_rates.py --reference "$CODEX_WORK_ROOT/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json" --case-directory "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-reverse-v1/native_tautsp_lte_balanced_CH0" --case-receipt "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-charge-analysis-v1/summary.json" --output "$CODEX_WORK_ROOT/bride_mac_checks/rya1281-native-paired-rates-v2"
+    ticket: RYA-1281
+    note: Exact original Mac output; source commit and hashes pin historical controls. Reproduction requires new output directories.
+
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-author-charge-v1/barklem2018_MN_LTE_pair/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_author_charge_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/runs/rya1281-uv-background-v1/author_MN_with_native_LTE_UV_background/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_uv_background_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/report.json
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/coefficient_comparison.csv
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/contract/author_input_receipt.json
+    generator: scripts/audit_bride_charge_contract.py
+    invocation: python scripts/audit_bride_charge_contract.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/summary.json
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/barklem2018_MN_LTE_pair_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/analysis/author_MN_with_native_LTE_UV_background_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <author-run> <uv-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/photoionization/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-paired-report> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+  - artifact: rya1281/author_charge_v1/photoionization/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-paired-report> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical review copy of original immutable Mac output; no raw atom or complete author matrix redistributed.
+
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-v1/author_MN_finite_column_cap/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-v1/author_MN_finite_column_cap/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-v1/raw_pair_finite_column_cap/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-v1/raw_pair_finite_column_cap/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/raw_pair_finite_column_cap/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_top_cap_nested_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/analysis/summary.json
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <prior-author-run> <single-refresh-run> <nested-run> --record-failed-controls --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/analysis/barklem2018_MN_LTE_pair_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <prior-author-run> <single-refresh-run> <nested-run> --record-failed-controls --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/analysis/author_MN_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <prior-author-run> <single-refresh-run> <nested-run> --record-failed-controls --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/analysis/raw_pair_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <prior-author-run> <single-refresh-run> <nested-run> --record-failed-controls --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/rates_author/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-author-case> --case-receipt <analysis-receipt> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/rates_author/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-author-case> --case-receipt <analysis-receipt> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/rates_raw/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-raw-case> --case-receipt <analysis-receipt> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/rates_raw/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-raw-case> --case-receipt <analysis-receipt> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/photoionization/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-author-cap-rate-report> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/top_cap_v1/photoionization/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-author-cap-rate-report> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; reproduce with recorded source commit and new output directory.
+  - artifact: rya1281/native_lte_v1/report.json
+    generator: scripts/audit_bride_native_lte.py
+    invocation: python scripts/audit_bride_native_lte.py --reference <held-reference> --comparison data/results/rya1281/top_cap_v1/analysis/summary.json --case data/results/rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic receipt; admission HOLD; no native producer parity claim.
+  - artifact: rya1281/native_lte_v1/fractions.csv
+    generator: scripts/audit_bride_native_lte.py
+    invocation: python scripts/audit_bride_native_lte.py --reference <held-reference> --comparison data/results/rya1281/top_cap_v1/analysis/summary.json --case data/results/rya1281/top_cap_v1/runs/rya1281-top-cap-nested-v1/author_MN_finite_column_cap --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic receipt; admission HOLD; no native producer parity claim.
+  - artifact: rya1281/native_lte_v1/oracle_manifest.json
+    generator: scripts/build_bride_multi_lte_oracle.py
+    invocation: python scripts/build_bride_multi_lte_oracle.py --source-root <pinned-pymulti-checkout> --output <new-immutable-oracle>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic receipt; admission HOLD; no native producer parity claim.
+  - artifact: rya1281/marcs_opacity_v1/manifest.json
+    generator: scripts/stage_bride_marcs_opacity.py
+    invocation: python scripts/stage_bride_marcs_opacity.py --archive <held-official-single-model-tar> --reader <held-official-readopa.f> --download-response <successful-official-response> --output <new-immutable-stage>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic receipt; admission HOLD; no native producer parity claim.
+  - artifact: rya1281/marcs_continuum_v1/report.json
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/selected_coefficients.csv
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/selected_budgets.csv
+    generator: scripts/audit_bride_marcs_continuum.py
+    invocation: python scripts/audit_bride_marcs_continuum.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/marcs_continuum_v1/analysis_summary.json
+    generator: scripts/analyze_bride_marcs_continuum.py
+    invocation: python scripts/analyze_bride_marcs_continuum.py --audit <verified-audit-with-external-arrays>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac conditional diagnostic; full receipted arrays remain external. Reproduce audit first, then analysis, with new output directories.
+  - artifact: rya1281/ts_budget_v1/report.json
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/comparison.csv
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/native_components.csv
+    generator: scripts/analyze_bride_ts_budget.py
+    invocation: python scripts/analyze_bride_ts_budget.py --run <verified-native-run>/report.json --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/run_report.json
+    generator: scripts/run_bride_ts_budget.py
+    invocation: python scripts/run_bride_ts_budget.py --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/ts_budget_v1/build_manifest.json
+    generator: scripts/build_bride_ts_budget.py
+    invocation: python scripts/build_bride_ts_budget.py --output <new-immutable-build>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic review copy; full native logs and sources remain external and receipted. No native MULTI producer admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_neutral_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_neutral_sampled_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_cap_Fe_raw_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/author_MN_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/raw_pair_finite_column_cap_departures.csv
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/analysis/summary.json
+    generator: scripts/analyze_bride_author_charge.py
+    invocation: python scripts/analyze_bride_author_charge.py --reference <held-reference> --runs <old-cap-run> <Fe-neutral-run> <Fe-raw-run> <Fe-sampled-run> --output <new-immutable-analysis>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_neutral_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_neutral_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_cap_Fe_raw_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/author_MN_finite_column_cap_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/kitt_peak/report.json
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <verified-Fe-analysis>/summary.json --output <new-immutable-Kitt-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/neutral_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/manifest.json
+    generator: scripts/prepare_bride_fe_packet.py
+    invocation: python scripts/prepare_bride_fe_packet.py --run <verified-native-NUV-run>/report.json --output <new-immutable-packet>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/native_run_report.json
+    generator: scripts/run_bride_ts_budget.py
+    invocation: python scripts/run_bride_ts_budget.py --support nuv200_350 --output <new-immutable-native-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/packet/packet.npz
+    generator: scripts/prepare_bride_fe_packet.py
+    invocation: python scripts/prepare_bride_fe_packet.py --run <verified-native-NUV-run>/report.json --output <new-immutable-packet>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/raw_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/author_MN_cap_Fe_neutral/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-neutral-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/author_MN_cap_Fe_raw/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-raw-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_raw --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/author_MN_cap_Fe_neutral_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/runs/rya1281-fe-sampled-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_fe_background_controls.json --cases author_MN_cap_Fe_neutral_sampled --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_photo/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_photo/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <verified-Fe-replay>/report.json --output <new-immutable-photo-audit>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_rates/report.json
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/fe_background_v1/sampled_rates/selected_flows.csv
+    generator: scripts/audit_bride_oxygen_rates.py
+    invocation: python scripts/audit_bride_oxygen_rates.py --reference <held-reference> --case-directory <verified-Fe-case> --case-receipt <verified-analysis>/summary.json --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac review copy; original code commits85346551/609a7d27 and source receipts retained. No production admission.
+  - artifact: rya1281/column_interpolation_v1/report.json
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/column_interpolation_v1/summary.csv
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/column_interpolation_v1/columns.csv
+    generator: scripts/audit_bride_column_interpolation.py
+    invocation: python scripts/audit_bride_column_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac held-out input audit; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/report.json
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/summary.csv
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/rectangular_interpolation_v1/profiles.csv
+    generator: scripts/audit_bride_rectangular_interpolation.py
+    invocation: python scripts/audit_bride_rectangular_interpolation.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical Mac diagnostic comparison; no production interpolation or cap admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/report.json
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/profiles.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/column_checks.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/solar_input_sensitivity_v1/comparisons.csv
+    generator: scripts/audit_bride_solar_input_sensitivity.py
+    invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.

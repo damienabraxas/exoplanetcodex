@@ -1,0 +1,2076 @@
+{
+  "schema": "codex.bride_experimental_grid_index/1",
+  "capabilities": {
+    "geometry": "1D plane-parallel",
+    "horizontal_radiative_transfer": false,
+    "full_3D": false,
+    "full_spectrum_validated": false,
+    "output_air_A": [
+      7768.0,
+      7780.0
+    ],
+    "observational_comparison": "O I777nm triplet, normalized disk-integrated flux",
+    "microturbulence_scope": "Line/SE microturbulence at fixed native MARCS t01 atmospheric structure",
+    "abundance_scope": "Trace oxygen offsets; source background composition retained apart from explicit O override",
+    "background_scope": "Native LW passive atoms/default continuum, no complete weak-blend/molecular spectrum",
+    "interpolation_scope": "Native nodes and explicitly labeled experimental full-field interpolants; no fresh atmosphere/EOS equilibrium solve",
+    "raw_model_flux": "Stellar surface Fnu; not absolute Earth irradiance. Distance dilution cancels only in normalized comparison.",
+    "physics_admission": "HOLD: experimental native/interpolated atmospheres and full41-level atom; original MULTI discrepancy open"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "data_store_key": "experiments.bride_mac_grid",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "nodes": [
+    {
+      "name": "baseline",
+      "coordinates": {
+        "name": "baseline",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/baseline/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36607,
+        "sha256": "fc33ac0f17524d290584fc849d80fae2a97987e4e69fe7373d80c270e201ef3d"
+      },
+      "diagnostics": {
+        "iteration": 443,
+        "population_change": 9.649500700943396e-07,
+        "J_change": 9.65628453641898e-07,
+        "physical_rate_residual": 1.8197554780507824e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "depth_cut1",
+      "coordinates": {
+        "name": "depth_cut1",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/depth_cut1/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35966,
+        "sha256": "c91234446d564a55eedc270ea68d530029772023b7c8c6e6ff70017be59e392c"
+      },
+      "diagnostics": {
+        "iteration": 418,
+        "population_change": 9.919482510539767e-07,
+        "J_change": 9.92646430164612e-07,
+        "physical_rate_residual": 1.816164245433692e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "depth_cut2",
+      "coordinates": {
+        "name": "depth_cut2",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 2
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/depth_cut2/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35303,
+        "sha256": "fce7af2891e2fbb01a593b2848c6c9e1ae0d310991ee8a94e1ec74e5fadf8ffd"
+      },
+      "diagnostics": {
+        "iteration": 608,
+        "population_change": 7.655283309533723e-07,
+        "J_change": 9.922114793115e-07,
+        "physical_rate_residual": 1.832468261165707e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "xi_minus",
+      "coordinates": {
+        "name": "xi_minus",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 0.9,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/xi_minus/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36604,
+        "sha256": "70ea2349b5fc82ce51913be43f743b02f14ab02b25a68dc60c33d4fe217f00a3"
+      },
+      "diagnostics": {
+        "iteration": 433,
+        "population_change": 9.853114574312646e-07,
+        "J_change": 9.86004804248708e-07,
+        "physical_rate_residual": 1.7795564361263516e-14,
+        "particle_conservation_error": 1.1102230246251565e-15
+      }
+    },
+    {
+      "name": "xi_plus",
+      "coordinates": {
+        "name": "xi_plus",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.1,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/xi_plus/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36597,
+        "sha256": "5e6391f5a303e00261919e4f193622a4eba76b605017434f6618738f5c9fe770"
+      },
+      "diagnostics": {
+        "iteration": 677,
+        "population_change": 8.520626756122427e-07,
+        "J_change": 9.662670925614236e-07,
+        "physical_rate_residual": 1.8533596803572303e-14,
+        "particle_conservation_error": 1.3322676295501878e-15
+      }
+    },
+    {
+      "name": "xi_low",
+      "coordinates": {
+        "name": "xi_low",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 0.5,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/xi_low/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36586,
+        "sha256": "5699240cb5ff1d1280983b9580f3aab15fde7f55adab2654439aab0b94f85bae"
+      },
+      "diagnostics": {
+        "iteration": 443,
+        "population_change": 9.38500867158248e-07,
+        "J_change": 9.391610835685071e-07,
+        "physical_rate_residual": 1.8451089192896026e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "xi_high",
+      "coordinates": {
+        "name": "xi_high",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.5,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/xi_high/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36594,
+        "sha256": "9ed7cc163486085194376293a4ef771aff7ab58121c90749e51a619a284ca62f"
+      },
+      "diagnostics": {
+        "iteration": 463,
+        "population_change": 9.551356502794253e-07,
+        "J_change": 9.557877738153309e-07,
+        "physical_rate_residual": 1.8723456622582586e-14,
+        "particle_conservation_error": 9.992007221626409e-16
+      }
+    },
+    {
+      "name": "teff_low_cut1",
+      "coordinates": {
+        "name": "teff_low_cut1",
+        "teff": 5500,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1
+      },
+      "atmosphere": {
+        "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+      },
+      "population_relative_path": "rya1281-v1/teff_low_cut1/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35993,
+        "sha256": "b3c295fc8feb0cfe920f25b1cae8c2d179c996dc387c9fd2481f87166854afe3"
+      },
+      "diagnostics": {
+        "iteration": 252,
+        "population_change": 9.733016612052408e-07,
+        "J_change": 9.741935083074083e-07,
+        "physical_rate_residual": 1.7553619134481413e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "teff_high_cut1",
+      "coordinates": {
+        "name": "teff_high_cut1",
+        "teff": 6000,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1
+      },
+      "atmosphere": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      },
+      "population_relative_path": "rya1281-v1/teff_high_cut1/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35928,
+        "sha256": "e5c06a10e7deefb00a53d9dac9dfb3c4a903fd946f899bc9a6d0d62eb78bf1c8"
+      },
+      "diagnostics": {
+        "iteration": 746,
+        "population_change": 7.434503941861492e-07,
+        "J_change": 7.979313663142307e-07,
+        "physical_rate_residual": 1.6842431234380033e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "logg_low",
+      "coordinates": {
+        "name": "logg_low",
+        "teff": 5750,
+        "logg": 4.0,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      "population_relative_path": "rya1281-v1/logg_low/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36604,
+        "sha256": "8a1ef442bddeb8a420dc6bf9b9cd561004b2b3620de3efb1a8f49d6c7403345b"
+      },
+      "diagnostics": {
+        "iteration": 457,
+        "population_change": 9.503106357384805e-07,
+        "J_change": 9.508328666640864e-07,
+        "physical_rate_residual": 1.765292144337823e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "logg_high",
+      "coordinates": {
+        "name": "logg_high",
+        "teff": 5750,
+        "logg": 5.0,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+      },
+      "population_relative_path": "rya1281-v1/logg_high/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36617,
+        "sha256": "b21b7744a3acb5676b457ae7b654773c21799f488d439c9dee700ae5853f5111"
+      },
+      "diagnostics": {
+        "iteration": 442,
+        "population_change": 9.910831280725398e-07,
+        "J_change": 9.91942800343537e-07,
+        "physical_rate_residual": 1.656396670798028e-14,
+        "particle_conservation_error": 7.771561172376096e-16
+      }
+    },
+    {
+      "name": "abundance_minus",
+      "coordinates": {
+        "name": "abundance_minus",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.6,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/abundance_minus/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36635,
+        "sha256": "a0241e8d95d046532e33b67a62d3e31e26be6df0cbd4220c568f0a0410546cd5"
+      },
+      "diagnostics": {
+        "iteration": 393,
+        "population_change": 9.835025022716292e-07,
+        "J_change": 9.843017325650294e-07,
+        "physical_rate_residual": 1.8421386966747602e-14,
+        "particle_conservation_error": 5.551115123125783e-16
+      }
+    },
+    {
+      "name": "abundance_plus",
+      "coordinates": {
+        "name": "abundance_plus",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.8,
+        "drop_bottom": 0
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "population_relative_path": "rya1281-v1/abundance_plus/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36605,
+        "sha256": "1d2140a5a5b981aa63878718f1c113d0a15e6a95facdeb400f93c4cf51a41ff8"
+      },
+      "diagnostics": {
+        "iteration": 632,
+        "population_change": 7.280156474795685e-07,
+        "J_change": 9.52336266513143e-07,
+        "physical_rate_residual": 1.83938625218104e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "metal_low_cut1",
+      "coordinates": {
+        "name": "metal_low_cut1",
+        "teff": 5750,
+        "logg": 4.5,
+        "feh": -0.25,
+        "alpha": 0.1,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z-0.25_a+0.10_c+0.00_n+0.00_o+0.10_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f39693b259299259331ce8098ad4833a693866d513d4441c773797df36969e13"
+      },
+      "population_relative_path": "rya1281-metal-v1/metal_low_cut1/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35948,
+        "sha256": "49d12ec8712906d6778542e7c4ae70cb786c9568a831d0a0392124a2807e1399"
+      },
+      "diagnostics": {
+        "iteration": 693,
+        "population_change": 9.752467358699954e-07,
+        "J_change": 9.757395973419847e-07,
+        "physical_rate_residual": 1.6955197540417122e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "metal_high_cut1",
+      "coordinates": {
+        "name": "metal_high_cut1",
+        "teff": 5750,
+        "logg": 4.5,
+        "feh": 0.25,
+        "alpha": 0.0,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1
+      },
+      "atmosphere": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.25_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "d6364923710aa4868ddb2a07e1a454bd5865774959a374128dac4f65cc70bb54"
+      },
+      "population_relative_path": "rya1281-metal-v1/metal_high_cut1/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35975,
+        "sha256": "8bf0a0e5af3975486f9d9449be74e87e58cef3592a74215bfc72bf7c73fab4fa"
+      },
+      "diagnostics": {
+        "iteration": 323,
+        "population_change": 7.889100215457478e-07,
+        "J_change": 9.293001814736357e-07,
+        "physical_rate_residual": 1.3243073895367333e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "fine_T5752",
+      "coordinates": {
+        "name": "fine_T5752",
+        "teff": 5752,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5752.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.008,
+            0.8679999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/fine_T5752/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36176,
+        "sha256": "10e183452bebe1efdf372b5258b8a26e1e6c237282efe0fc785a1b99670f0578"
+      },
+      "diagnostics": {
+        "iteration": 422,
+        "population_change": 8.366106061741186e-07,
+        "J_change": 8.371882906921257e-07,
+        "physical_rate_residual": 1.707089771091795e-14,
+        "particle_conservation_error": 7.771561172376096e-16
+      }
+    },
+    {
+      "name": "fine_T5762",
+      "coordinates": {
+        "name": "fine_T5762",
+        "teff": 5762,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5762.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.048,
+            0.8279999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/fine_T5762/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36191,
+        "sha256": "eec529c59c551ba2e3a2f4112588403ec766177f3a63303cc8b2baabad1da3a5"
+      },
+      "diagnostics": {
+        "iteration": 422,
+        "population_change": 9.497181552024276e-07,
+        "J_change": 9.503638458419061e-07,
+        "physical_rate_residual": 1.7200774627647812e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "fine_T5772",
+      "coordinates": {
+        "name": "fine_T5772",
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5772.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.088,
+            0.7879999999999995,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/fine_T5772/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36168,
+        "sha256": "2c64f96114ae2522e8fd13c655ae7c95e87d6b101f422affdffd992489c563cb"
+      },
+      "diagnostics": {
+        "iteration": 428,
+        "population_change": 9.57250605235726e-07,
+        "J_change": 9.863547612010137e-07,
+        "physical_rate_residual": 1.8399479936221007e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "fine_T5782",
+      "coordinates": {
+        "name": "fine_T5782",
+        "teff": 5782,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5782.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.128,
+            0.7479999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/fine_T5782/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36199,
+        "sha256": "c13a41b9c0391b4f7d84681bcc2b6e214e2dd6070f4d2f6f26896d691621c57b"
+      },
+      "diagnostics": {
+        "iteration": 443,
+        "population_change": 9.797600534301254e-07,
+        "J_change": 9.804094531773444e-07,
+        "physical_rate_residual": 1.7006818483641335e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "fine_T5792",
+      "coordinates": {
+        "name": "fine_T5792",
+        "teff": 5792,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5792.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.168,
+            0.7079999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/fine_T5792/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36186,
+        "sha256": "aba8a8cad567135e4e1b5cb0fc88e9cdcd5dbcb932abdab9954665fe667b30b3"
+      },
+      "diagnostics": {
+        "iteration": 473,
+        "population_change": 9.580563725188804e-07,
+        "J_change": 9.586832501184972e-07,
+        "physical_rate_residual": 1.6865498693236465e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "holdout_interp_5750",
+      "coordinates": {
+        "name": "holdout_interp_5750",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5500,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ]
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+          },
+          {
+            "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.5,
+            0.5,
+            0.0
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-fine-v1/holdout_interp_5750/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35988,
+        "sha256": "40f8fb96a2314becb677a486b67ff5b86266135ecc0669e6a4af700b6c71142d"
+      },
+      "diagnostics": {
+        "iteration": 467,
+        "population_change": 9.531773421527189e-07,
+        "J_change": 9.538469527559101e-07,
+        "physical_rate_residual": 1.7489805064151687e-14,
+        "particle_conservation_error": 1.1102230246251565e-15
+      }
+    },
+    {
+      "name": "logfine_T5752",
+      "coordinates": {
+        "name": "logfine_T5752",
+        "teff": 5752,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5752.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.008,
+            0.8679999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/logfine_T5752/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36189,
+        "sha256": "8e36ab65129db7d7880f568725cab3193cb3a8e4afd94d16982282310af457c2"
+      },
+      "diagnostics": {
+        "iteration": 412,
+        "population_change": 9.490752254576708e-07,
+        "J_change": 9.794645676741709e-07,
+        "physical_rate_residual": 1.7766214185915462e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "logfine_T5762",
+      "coordinates": {
+        "name": "logfine_T5762",
+        "teff": 5762,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5762.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.048,
+            0.8279999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/logfine_T5762/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36179,
+        "sha256": "854fc5e8b1be0347cfe822b05cedb578f077319a941e2a9c3d171dc614ca6ad8"
+      },
+      "diagnostics": {
+        "iteration": 743,
+        "population_change": 8.666313552811978e-07,
+        "J_change": 9.90349558360748e-07,
+        "physical_rate_residual": 1.8279714010176473e-14,
+        "particle_conservation_error": 1.1102230246251565e-15
+      }
+    },
+    {
+      "name": "logfine_T5772",
+      "coordinates": {
+        "name": "logfine_T5772",
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5772.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.088,
+            0.7879999999999995,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/logfine_T5772/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36190,
+        "sha256": "1872ef16d83cb39be4008e41df99f448f8b8acbf51e9975d8314bd1594e8c1de"
+      },
+      "diagnostics": {
+        "iteration": 443,
+        "population_change": 9.309166722913137e-07,
+        "J_change": 9.315364952744432e-07,
+        "physical_rate_residual": 1.8121923647999564e-14,
+        "particle_conservation_error": 1.5543122344752192e-15
+      }
+    },
+    {
+      "name": "logfine_T5782",
+      "coordinates": {
+        "name": "logfine_T5782",
+        "teff": 5782,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5782.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.128,
+            0.7479999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/logfine_T5782/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36188,
+        "sha256": "3a430686e0468467c5c028c9791081c3e5140d5816baf0a8817c1a13b6d58eec"
+      },
+      "diagnostics": {
+        "iteration": 468,
+        "population_change": 9.177177614878398e-07,
+        "J_change": 9.322294844960055e-07,
+        "physical_rate_residual": 1.7373168762151735e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "logfine_T5792",
+      "coordinates": {
+        "name": "logfine_T5792",
+        "teff": 5792,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5792.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.168,
+            0.7079999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/logfine_T5792/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36182,
+        "sha256": "fa254762ecff50cbd946010d32ec8aa32be1d4712262eccad3860161e0b8dd46"
+      },
+      "diagnostics": {
+        "iteration": 483,
+        "population_change": 9.58222981779372e-07,
+        "J_change": 9.98662765150371e-07,
+        "physical_rate_residual": 1.7112497324595633e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "holdout_log_5750",
+      "coordinates": {
+        "name": "holdout_log_5750",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5500,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+          },
+          {
+            "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.5,
+            0.5,
+            0.0
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/holdout_log_5750/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35995,
+        "sha256": "42f7480e87b699199235e3faeb7451e0972a4b1298b80de0c775db4faca491dc"
+      },
+      "diagnostics": {
+        "iteration": 642,
+        "population_change": 7.740052936839964e-07,
+        "J_change": 9.842930992487453e-07,
+        "physical_rate_residual": 1.871756763762254e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "holdout_logg_linear",
+      "coordinates": {
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          5.0
+        ],
+        "name": "holdout_logg_linear",
+        "thermodynamic_scale": "linear"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "linear",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.0,
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/holdout_logg_linear/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36016,
+        "sha256": "0d10e4fd2347b6f76224ceb7d29e09a5739844263701dd2b4349b09c98a0ecbc"
+      },
+      "diagnostics": {
+        "iteration": 188,
+        "population_change": 8.637762760220691e-07,
+        "J_change": 8.645445144228603e-07,
+        "physical_rate_residual": 1.7769129772266956e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "holdout_logg_log",
+      "coordinates": {
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          5.0
+        ],
+        "name": "holdout_logg_log",
+        "thermodynamic_scale": "log_positive"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.0,
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-log-v1/holdout_logg_log/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36013,
+        "sha256": "f22b7d9e0ab91dedd09c6b92da610fe217232cb15a30299fce21c74eadf41dad"
+      },
+      "diagnostics": {
+        "iteration": 248,
+        "population_change": 9.866767671361446e-07,
+        "J_change": 9.873481638944526e-07,
+        "physical_rate_residual": 1.830605163717655e-14,
+        "particle_conservation_error": 9.992007221626409e-16
+      }
+    },
+    {
+      "name": "holdout_mesh_5750",
+      "coordinates": {
+        "name": "holdout_mesh_5750",
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5500,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+          },
+          {
+            "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.5,
+            0.5,
+            0.0
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/holdout_mesh_5750/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35971,
+        "sha256": "578c6c49a11164519c0f03743072e8eda13b3febe41d4eccca8736ac21c426cc"
+      },
+      "diagnostics": {
+        "iteration": 458,
+        "population_change": 9.150355650932677e-07,
+        "J_change": 9.963401139678751e-07,
+        "physical_rate_residual": 1.844146853108347e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "holdout_logg_mesh",
+      "coordinates": {
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          5.0
+        ],
+        "name": "holdout_logg_mesh",
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5750.0,
+            4.5
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.0,
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/holdout_logg_mesh/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 35990,
+        "sha256": "b2948712ee0d02907b37735f128c9cdf8e0762172f530c970a2791d9d8d14ec0"
+      },
+      "diagnostics": {
+        "iteration": 403,
+        "population_change": 9.95216993072796e-07,
+        "J_change": 9.95902445399821e-07,
+        "physical_rate_residual": 1.7625074145965574e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "meshfine_T5752",
+      "coordinates": {
+        "name": "meshfine_T5752",
+        "teff": 5752,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5752.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.008,
+            0.8679999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/meshfine_T5752/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36186,
+        "sha256": "2df6f39784dcfc7225e061b8ff6e4f052d250a365aa8d268b9a172e2a723e5ba"
+      },
+      "diagnostics": {
+        "iteration": 452,
+        "population_change": 9.186582338908908e-07,
+        "J_change": 9.19266187837664e-07,
+        "physical_rate_residual": 1.799649506914257e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "meshfine_T5762",
+      "coordinates": {
+        "name": "meshfine_T5762",
+        "teff": 5762,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5762.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.048,
+            0.8279999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/meshfine_T5762/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36171,
+        "sha256": "72ca5ae294b56c04ff8b4f99339a7ebdac0dafe554daaa643d27780331596ac3"
+      },
+      "diagnostics": {
+        "iteration": 448,
+        "population_change": 9.814607931979031e-07,
+        "J_change": 9.821246145236273e-07,
+        "physical_rate_residual": 1.8017728055559083e-14,
+        "particle_conservation_error": 6.661338147750939e-16
+      }
+    },
+    {
+      "name": "meshfine_T5772",
+      "coordinates": {
+        "name": "meshfine_T5772",
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5772.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.088,
+            0.7879999999999995,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/meshfine_T5772/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36180,
+        "sha256": "a698d4ba1bb49d41ee7b2a61afcc0e99a1e7d819223058e116615ea3cfd941e0"
+      },
+      "diagnostics": {
+        "iteration": 488,
+        "population_change": 8.601493035427702e-07,
+        "J_change": 9.254378775525041e-07,
+        "physical_rate_residual": 1.8291340117109442e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "meshfine_T5782",
+      "coordinates": {
+        "name": "meshfine_T5782",
+        "teff": 5782,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5782.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.128,
+            0.7479999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/meshfine_T5782/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36177,
+        "sha256": "ba58d56942aded9002811f26840520d621d9f7ae5410beb50385092b7b05abb5"
+      },
+      "diagnostics": {
+        "iteration": 747,
+        "population_change": 7.8908260445283e-07,
+        "J_change": 8.938388029733346e-07,
+        "physical_rate_residual": 1.764708298874983e-14,
+        "particle_conservation_error": 7.771561172376096e-16
+      }
+    },
+    {
+      "name": "meshfine_T5792",
+      "coordinates": {
+        "name": "meshfine_T5792",
+        "teff": 5792,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 1,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4.0,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers"
+      },
+      "atmosphere": {
+        "kind": "EXPERIMENTAL_INTERPOLATED_MARCS",
+        "sources": [
+          {
+            "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+          },
+          {
+            "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+          },
+          {
+            "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+          },
+          {
+            "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+            "bytes": 24227,
+            "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+          }
+        ],
+        "interpolation": {
+          "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+          "thermodynamic_scale": "log_positive_layers",
+          "target": [
+            5792.0,
+            4.438
+          ],
+          "simplex_source_indices": [
+            3,
+            1,
+            0
+          ],
+          "weights": [
+            0.168,
+            0.7079999999999994,
+            0.12400000000000055
+          ]
+        }
+      },
+      "population_relative_path": "rya1281-mesh-v1/meshfine_T5792/populations.npz",
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36182,
+        "sha256": "dde534ad2dcd4c7c2133f96684931132841de31b8bd916b53f57d95351c79a13"
+      },
+      "diagnostics": {
+        "iteration": 767,
+        "population_change": 3.375439594556849e-07,
+        "J_change": 3.5706661094536685e-07,
+        "physical_rate_residual": 1.687540853503997e-14,
+        "particle_conservation_error": 8.881784197001252e-16
+      }
+    }
+  ]
+}

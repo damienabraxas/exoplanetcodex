@@ -1,0 +1,64 @@
+{
+  "case": {
+    "name": "native_tautsp_source_directions",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 0,
+    "experimental_collision_convention": "native_tautsp_source_directions"
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files; non-adopted GENCOL convention experiment, exact reference-build parity unproven",
+  "diagnostic_collision_scales": {},
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "native_spline_control": {
+    "oracle": {
+      "name": "manifest.json",
+      "bytes": 1897,
+      "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+    },
+    "source_directions": true,
+    "temperature_unchanged_required": true,
+    "CH_negative_spline_values_clipped_as_native": 0
+  },
+  "experimental_collision_convention": "native_tautsp_source_directions",
+  "iterations": 661,
+  "final_diagnostics": {
+    "iteration": 661,
+    "population_change": 9.823733109217246e-07,
+    "J_change": 9.929374160666526e-07,
+    "physical_rate_residual": 2.496507869233549e-15,
+    "particle_conservation_error": 6.661338147750939e-16,
+    "rejected_invalid_ng": false
+  },
+  "elapsed_seconds": 43.91598454210907,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "0cf95b493dd9a7e3e69d589870a77c7469eda01275025afd787ef6aeabea2293"
+  },
+  "continuum_iterations": 35
+}
