@@ -44,9 +44,23 @@ def test_the_fitted_line_does_not_set_the_level():
 def test_a_level_beyond_the_bound_is_refused_not_divided():
     w = _grid()
     model = np.ones_like(w)
-    rec, cont = lc.fit_model_guided(w, 0.92 * model, 5006.0, w, model, exclude_half_width_A=0.6)
+    rec, cont = lc.fit_model_guided(w, 0.80 * model, 5006.0, w, model, exclude_half_width_A=0.6)
     assert not rec.applied and cont is None
     assert rec.reason.startswith("CONTINUUM_UNPLACEABLE")
+
+
+def test_an_instrumental_sag_is_divided_out():
+    # RYA-1315: HARPS' shipped normalisation sits at ~0.92 over 4300-4700 A. The model-guided
+    # level IS that error (lines are in the synthesis), so it is applied, not refused.
+    w = _grid()
+    model = np.ones_like(w)
+    rec, cont = lc.fit_model_guided(w, 0.92 * model, 5006.0, w, model, exclude_half_width_A=0.6)
+    assert rec.applied and rec.level_at_centre == pytest.approx(0.92, abs=1e-6)
+    assert np.allclose(0.92 * model / cont, 1.0)
+
+
+def test_the_envelope_keeps_its_three_percent_bound():
+    assert lc.MAX_SHIFT == 0.03 and lc.MAX_SHIFT_MODEL == 0.15
 
 
 def test_record_only_band_measures_but_never_divides():
