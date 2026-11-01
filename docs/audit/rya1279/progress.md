@@ -685,3 +685,29 @@ hash matches committed-to-be script. Register pointer/mirror and SEQUENCE pass.
 Generator/invocation diagnostics exactly2436, zero added/removed against prior
 checkpoint; no global-clean claim. Whitespace passes. No merge/publication or
 new scientific admission. Final commit must use[skip ci] to avoid Sirius CI load.
+
+## 2026-11-01 complete local-input certificates
+
+Base3fcc5def, fetched main unchangedf8c723a8. No new RT/SE/opacity generation.
+Six previous coefficient sets bound to complete static local fields, model/depth
+identity, composition, hydrogen mass fraction, xi/gravity, active diagnostic O,
+derived ne/nH, explicit zero velocity and present/absent column metadata.
+Producer report/array hashes and requested T/Pe/localrho cross-checks retained.
+94 controlled refusals pass, including one-float-step changes, neighboring10K
+inputs, changed columns/depth/abundance and legacy provider schema rejection.
+46 focused tests and3 native-provider actual backend tests pass. Three pre-existing
+LW import/config warnings retained; no benchmark/config/dependency change.
+File append/source report/digest/admission flag tamper tests discriminate.
+Final immutable audit experiments.bride_mac_grid/rya1281-bound-point-coefficients-v3;
+v1/v2 retained development checkpoints. Eight compact artifacts mirrored/registered
+under opacity_binding_v1, full arrays/source reports externally hash-referenced.
+Report opacity_binding_review.md; registerv194/SEQUENCE updated. No new verified
+run defect; no fabricated ledger row. Existing native provider and cap/interpolator
+unchanged. All five solar certificates explicitly lack columns; adding one invalidates
+binding. Joint pressure/EOS/geometry/column check next before explicit experimental
+provider/capped O controls. Scientific HOLD; no merge/publication/adopted change.
+Library190 documents/126 accounted,64 unindexed unchanged; no new source.
+Checkpoint validation: eight archive copies byte-identical, final generator and
+binding code hashes match. Register pointer/mirror and SEQUENCE pass; whitespace
+clean. Generator diagnostics remain2436, zero added/removed from previous
+checkpoint. No global-clean claim; persistent library debt unchanged.

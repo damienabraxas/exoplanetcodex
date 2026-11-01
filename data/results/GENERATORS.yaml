@@ -26182,3 +26182,43 @@ artifacts:
     invocation: python scripts/check_bride_ts_point_refusals.py --run <verified-point-run>/report.json --build <verified-point-build> --output <new-immutable-refusals>
     ticket: RYA-1281
     note: Byte-identical immutable Mac refusal report; failed artifacts retained externally.
+  - artifact: rya1281/opacity_binding_v1/checks.csv
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/fine_T5752/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/fine_T5762/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/fine_T5772/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/fine_T5782/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/fine_T5792/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/native_identity/manifest.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
+  - artifact: rya1281/opacity_binding_v1/report.json
+    generator: scripts/bind_bride_ts_point_coefficients.py
+    invocation: python scripts/bind_bride_ts_point_coefficients.py --run <verified-point-run>/report.json --output <new-immutable-bindings>
+    ticket: RYA-1281
+    note: Byte-identical final Mac binding audit v3; complete arrays remain hash-referenced externally; no provider/cap admission.
