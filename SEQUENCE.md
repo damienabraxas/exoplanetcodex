@@ -1,3 +1,7 @@
+## 2026-11-01 — exact-input opacity replay
+
+- **RYA-1281** — TS point adapter reproduces native opacity exactly; five solar tables evaluated; local-input/capped-O gate stays open.
+
 ## 2026-10-31 — interpolation method tradeoff
 
 - **RYA-1281** — solar10K nearest-cell sensitivity is small across methods; fixed subset row selection; joint-input admission still open.

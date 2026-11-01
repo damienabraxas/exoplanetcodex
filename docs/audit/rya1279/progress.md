@@ -656,3 +656,32 @@ added/removed. Register pointer/mirror and SEQUENCE checks pass. Pinned native
 TS ABSKO T/Pe point interface inspected and hash-verified as next opacity adapter
 route; not implemented/validated here. See review for exact source hash and
 initialization/native-replay/normalization prerequisites.
+
+## 2026-11-01 exact-input opacity adapter
+
+Base468bf9c5; fetched main unchangedf8c723a8. Isolated Mac TS input-only
+derivatives preserve all opacity/EOS formulas and native files. Native T/Pe
+override yields byte-identical .opa vs original native baseline and matching
+component/post states. FeI mass opacity, neutralFe/kg and per-neutral coefficients
+array-identical to original packet. Five solar nearest-cell T/Pe controls, both
+builds, all56 depths/1601 wavelengths complete; baseline/reporting byte identity
+for allsix cases.31.57s summed including parsing/checks, no O RT/SE.
+Source guard regression initially failed on reapplication; fixed marker check,
+final buildv2 used, initialv1 retained.29 focused tests pass. Actual malformed
+count/truncated/extra-row tables fail with exact native codes72/73/76.
+At selected276.98178nm, effective coefficient perneutral Fe responds2.01-2.03%
+per10K at top,1.519-1.533% at row29; not an isolated atomic cross-section.
+Producer/local density max discrepancy solar0.5812%, highestT0.9011%; retained
+separately, not overwritten. No production packet/schema/provider change.
+Originals: experiments.bride_mac_grid/rya1281-ts-point-build-v2,ts-points-v1,
+ts-points-review-v1,ts-point-refusals-v1 (all prefixed rya1281-). Six compact
+review artifacts mirrored in ts_points_v1 with generators. Report
+ts_point_opacity_review.md; registerv193/SEQUENCE and fixed build-guard ledger
+row updated. Next immutable complete local T/ne/nH/depth binding and joint
+column support before capped interpolated O; native packet refusal/HOLD remain.
+Standing library190 documents/126 accounted,64 unindexed; no new reference.
+Checkpoint checks: allsix review copies byte-identical; each stored generator
+hash matches committed-to-be script. Register pointer/mirror and SEQUENCE pass.
+Generator/invocation diagnostics exactly2436, zero added/removed against prior
+checkpoint; no global-clean claim. Whitespace passes. No merge/publication or
+new scientific admission. Final commit must use[skip ci] to avoid Sirius CI load.

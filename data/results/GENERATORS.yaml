@@ -26152,3 +26152,33 @@ artifacts:
     invocation: python scripts/audit_bride_solar_input_sensitivity.py --output <new-immutable-audit>
     ticket: RYA-1281
     note: Byte-identical final Mac input diagnostic v2; fixed native-row subset, no physical accuracy or production admission.
+  - artifact: rya1281/ts_points_v1/report.json
+    generator: scripts/analyze_bride_ts_points.py
+    invocation: python scripts/analyze_bride_ts_points.py --run <verified-point-run>/report.json --build-manifest <verified-point-build>/manifest.json --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical compact Mac review; full arrays/binaries hash-referenced in registered experiment store; no provider/production admission.
+  - artifact: rya1281/ts_points_v1/summary.csv
+    generator: scripts/analyze_bride_ts_points.py
+    invocation: python scripts/analyze_bride_ts_points.py --run <verified-point-run>/report.json --build-manifest <verified-point-build>/manifest.json --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical compact Mac review; full arrays/binaries hash-referenced in registered experiment store; no provider/production admission.
+  - artifact: rya1281/ts_points_v1/selected_points.csv
+    generator: scripts/analyze_bride_ts_points.py
+    invocation: python scripts/analyze_bride_ts_points.py --run <verified-point-run>/report.json --build-manifest <verified-point-build>/manifest.json --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical compact Mac review; full arrays/binaries hash-referenced in registered experiment store; no provider/production admission.
+  - artifact: rya1281/ts_points_v1/run_report.json
+    generator: scripts/analyze_bride_ts_points.py
+    invocation: python scripts/analyze_bride_ts_points.py --run <verified-point-run>/report.json --build-manifest <verified-point-build>/manifest.json --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical compact Mac review; full arrays/binaries hash-referenced in registered experiment store; no provider/production admission.
+  - artifact: rya1281/ts_points_v1/build_manifest.json
+    generator: scripts/analyze_bride_ts_points.py
+    invocation: python scripts/analyze_bride_ts_points.py --run <verified-point-run>/report.json --build-manifest <verified-point-build>/manifest.json --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical compact Mac review; full arrays/binaries hash-referenced in registered experiment store; no provider/production admission.
+  - artifact: rya1281/ts_points_v1/refusal_report.json
+    generator: scripts/check_bride_ts_point_refusals.py
+    invocation: python scripts/check_bride_ts_point_refusals.py --run <verified-point-run>/report.json --build <verified-point-build> --output <new-immutable-refusals>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac refusal report; failed artifacts retained externally.
