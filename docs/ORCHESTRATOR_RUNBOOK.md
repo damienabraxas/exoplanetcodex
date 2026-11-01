@@ -271,6 +271,13 @@ the weak lines but quarantines every strong one, so it cannot settle them.
   production cell via `run_descriptor.resolve`, wrapped in RYA-441's
   `ace_co_mu1_bracket.turbospectrum_intensity_at_mu(1.0)`, with vsini=0. The flux leg is the
   control and must reproduce the published lines.
+- **Result, Ca I (2026-11-01):** the flux control reproduced the published lines exactly. At
+  mu=1, every strong line dropped by 0.04-0.21 and the strength trend vanished. Mean: flux
+  6.363, mu=1 6.295 / 6.262 / 6.228 at vmac 3.8 / 3 / 2 km/s, against A21 1D MARCS 6.24. The
+  residual is flat across line strength; reduced chi2 (45-120) does not move with vmac, so it
+  is not the broadening (likely Liege's low noise plus its +0.37 km/s offset). **Verdict:
+  geometry.** 1D LTE in flux reads strong lines high by up to about 0.2 dex; weak lines are
+  fine.
 - How to read the result:
   - mu=1 lands on A21: the strong-line excess is the 1D model in flux. For stars, rank 3D or
     <3D> products and weak lines above 1D-LTE strong lines.
