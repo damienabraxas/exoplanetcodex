@@ -743,3 +743,39 @@ hashes match source originals. New path resource resolves on Mac. Register
 pointer/mirror, SEQUENCE and213-row source-page checks pass. Generator/invocation
 diagnostics exactly2436, zero added/removed. Whitespace clean; no global-green
 or CI-green claim. Final push uses[skip ci]; no Sirius runner work requested.
+
+## 2026-11-01 official column kernel and source-history correction
+
+Basea29c894f; fetched main f8c723a8 unchanged. Unchanged isolated official
+calcrhox/rinteg/parcoe compiled in Mac diagnostic with bounds checks; full utility/
+upstream shell unexecuted.6 constant/linear inverse-opacity analytic cases max
+fractional error2.45e-7, separate declared REAL engineering budget, not physics
+admission.152 cases=19 structures x4 integrators x2 anchors. Kernel original
+top tau/kappa misses native40.3-45.7%; restored top leaves4.12-4.16% native
+column errors. Native5750/4.5:4.1344->3.5990->3.5368% under1x/2x/4x numerical
+refinement of same log-opacity interpolant, independent integral3.5285%.
+Official April2018 news clarifies native RHOX replaced pressure/gravity proxy
+with direct density integration. This corrects prior pressure-contract
+interpretation: numerical discrepancy retained, no pressure-forced repair or
+verified producer bug. Existing ledger anomaly now characterized, old report
+explicitly amended. Source-format note https://marcs.oreme.org/news/ inspected.
+Actual cap uses only mTop/rhoTop, not deeper mass profile; actual constructor
+regression verifies same-top profiles yield same length. Five held-out
+source-log-top length errors max0.248%, limited controls not universalaccuracy.
+Actualsolar effective length97762.94m; source-derived anchor remains a declared
+interpolation. Source/holder metadata distinguishes isolated-kernel execution
+from historical unexecuted intake/full interpolator.
+Final immutable audit experiments.bride_mac_grid/rya1281-rosseland-columns-v4;
+v1-v3 retained.3 byte-identical compact review artifacts under rosseland_columns_v1.
+62 focused tests pass,3 known LW warnings. Registerv196/SEQUENCE updated.
+No O RT/SE/opacity generation/source or certificate change/provider admission.
+Next explicit experimental density-integral column+log-native top, fresh
+complete bindings, separate bound provider/native identity/refusal tests, one
+fixed solarO8.70 control with existing budgets/conventions/sampling. Physical
+accuracy/adoption remain HOLD, not another pressure-forced construction.
+Library191docs/127accounted,64unindexed unchanged; no new acquisition.
+Checkpoint verification: three archived outputs byte-identical to finalv4;
+generator/boundary hashes match. Register pointer/mirror, SEQUENCE and213-row
+source-page checks pass. Generator/invocation diagnostics exactly2436, zero
+added/removed; whitespace clean. No global/CI-green claim. Existing tracker
+aging notice is retained; final push[skip ci] avoids Sirius runner load.

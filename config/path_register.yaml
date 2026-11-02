@@ -147,7 +147,7 @@ entries:
     rel: bride_mac_checks/rya1281-masseron-intake-v1
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
-    desc: Hash-receipted official Masseron MARCS interpolation utility and manual; inspected source only, no upstream execution or physical admission.
+    desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
   experiments.bride_multi_lte_oracle:
     root: work
     rel: bride_inputs/rya1281/native-lte-v1

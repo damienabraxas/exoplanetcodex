@@ -3,6 +3,14 @@
 RYA-1281 / parent RYA-1278, 2026-11-01. Mac-only input diagnostics.
 Base506d53315a9d36dddc6f57bd886daadfd0a90b3b; refreshed main f8c723a8 unchanged.
 
+**Follow-up interpretation:** the official April2018 format note explicitly says
+native RHOX was recalculated by density integration, replacing a pressure/gravity
+proxy. Thus the pressure comparisons below are diagnostic baselines, not a
+criterion for repairing native columns. See [kernel and boundary follow-up](rosseland_column_review.md).
+The isolated mass kernel has since been executed as a diagnostic; the full
+utility remains unexecuted. The numerical findings below are unchanged; the source-contract interpretation
+is updated in registerv196 and the same anomaly ledger row.
+
 ## Reference and method
 
 Read held Gustafsson2008, printed pp953-954 (PDF3-4), Eqs1-5 and the discussion

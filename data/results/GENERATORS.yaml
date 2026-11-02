@@ -26242,3 +26242,18 @@ artifacts:
     invocation: python scripts/intake_bride_marcs_interpolator.py --archive <official-pinned-archive> --output <new-immutable-intake>
     ticket: RYA-1281
     note: Byte-identical official utility source receipt; upstream files held externally, not executed or vendored.
+  - artifact: rya1281/rosseland_columns_v1/report.json
+    generator: scripts/audit_bride_rosseland_columns.py
+    invocation: python scripts/audit_bride_rosseland_columns.py --bindings <verified-bindings> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac kernel/anchor audit v4; no original source or provider/cap admission change.
+  - artifact: rya1281/rosseland_columns_v1/summary.csv
+    generator: scripts/audit_bride_rosseland_columns.py
+    invocation: python scripts/audit_bride_rosseland_columns.py --bindings <verified-bindings> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac kernel/anchor audit v4; no original source or provider/cap admission change.
+  - artifact: rya1281/rosseland_columns_v1/profiles.csv
+    generator: scripts/audit_bride_rosseland_columns.py
+    invocation: python scripts/audit_bride_rosseland_columns.py --bindings <verified-bindings> --output <new-immutable-audit>
+    ticket: RYA-1281
+    note: Byte-identical final Mac kernel/anchor audit v4; no original source or provider/cap admission change.
