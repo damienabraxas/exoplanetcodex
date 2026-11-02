@@ -148,6 +148,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_bound_point_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-bound-point-coefficients-v3
+    env: CODEX_BRIDE_BOUND_POINT_COEFFICIENTS
+    kind: dir
+    desc: Immutable exact-input TS point coefficient certificates; no automatic provider or interpolated-cap admission.
   experiments.bride_multi_lte_oracle:
     root: work
     rel: bride_inputs/rya1281/native-lte-v1

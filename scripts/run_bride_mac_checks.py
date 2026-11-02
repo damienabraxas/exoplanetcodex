@@ -69,6 +69,13 @@ def main():
                 path=store/marcs_filename(case['teff'],case['logg'],z,alpha)
                 original=read_marcs_structure(path);provenance=fingerprint(path)
             structure=controlled_structure(original,xi=case['xi'],drop_bottom=case['drop_bottom'])
+            experimental_column=case.get('experimental_column_contract')
+            column_contract=None
+            if experimental_column:
+                if experimental_column!='density_integral_log_native_top' or not case.get('interpolate',False) or case['drop_bottom']!=0:
+                    raise ValueError('Unknown experimental column route or depth cut')
+                from pipeline.bride_solar_control import density_column_structure
+                structure,column_contract=density_column_structure(structure,nodes,interpolation)
             scales=case.get('diagnostic_collision_scales',{})
             atom=replace(diagnostic_collision_scaling(source,scales),abundance=case['abundance'])
             m['diagnostic_collision_scales']=scales
@@ -79,7 +86,10 @@ def main():
                 bottom_logtau500=float(structure['logtau_500'][-1]),status='SOLVING')
             hydrogen_lines=case.get('lte_h_background_lines',False)
             uv_lines=case.get('lte_uv_background_lines',False)
-            top_cap=case.get('finite_column_top_cap',False)
+            native_cap=case.get('finite_column_top_cap',False)
+            if native_cap and experimental_column:
+                raise ValueError('Cannot label an experimental interpolated cap as native')
+            top_cap=native_cap or bool(experimental_column)
             fe_mode=case.get('fe_background_normalization');fe_provider=None;fe_samples=None
             if fe_mode:
                 from pipeline import bride_fe_background
@@ -92,18 +102,39 @@ def main():
                     packet=fingerprint(packet_path/'manifest.json'),adapter=fingerprint(bride_fe_background.__file__),
                     support_vac_nm=packet['support_vac_nm'],packet_sampling=case.get('fe_packet_sampling',False),
                     interpretation='Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor')
-            if top_cap and case.get('interpolate',False):
+            if case.get('bound_point_coefficients'):
+                if fe_mode or not experimental_column:
+                    raise ValueError('Bound solar coefficients require explicit experimental column and no legacy packet')
+                from pipeline import bride_solar_control
+                certificate=require_codex_path('experiments.bride_bound_point_coefficients')/case['bound_point_coefficients']
+                fe_provider,bound_input=bride_solar_control.bound_fe_factory(certificate,original,structure,atom.abundance,column_contract=column_contract)
+                (out/'experimental_input.json').write_text(json.dumps(bound_input,indent=2,allow_nan=False)+'\n')
+                from pipeline.bride_opacity_binding import load_bound_coefficients
+                coefficient_data,_=load_bound_coefficients(certificate,original,atom.abundance)
+                fe_samples=coefficient_data['wavelength_vac_nm']
+                m['experimental_bound_input']=dict(receipt=fingerprint(out/'experimental_input.json'),
+                    adapter=fingerprint(bride_solar_control.__file__),source_certificate=fingerprint(certificate/'manifest.json'),
+                    normalization='local_neutral',packet_sampling=True,support_vac_nm=[float(fe_samples[0]),float(fe_samples[-1])])
+            if experimental_column and not case.get('bound_point_coefficients'):
+                raise ValueError('Experimental solar column requires its exact-input coefficient certificate')
+            if native_cap and case.get('interpolate',False):
                 raise ValueError('Finite-column cap requires a native atmosphere column, not interpolated metadata')
+            def experimental_cap():
+                if not experimental_column:return None
+                from pipeline.bride_top_cap import FiniteColumnCap
+                return FiniteColumnCap(structure['column_mass_kg_m2'][0]/structure['rho_kg_m3'][0])
             save_case();ctx=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],ng=controls.get('ng',True),
                 lte_h_background_lines=hydrogen_lines,lte_uv_background_lines=uv_lines,
-                finite_column_top_cap=top_cap,fe_background=fe_provider,extra_wavelengths_vac_nm=fe_samples)
+                finite_column_top_cap=native_cap,fe_background=fe_provider,extra_wavelengths_vac_nm=fe_samples,
+                experimental_column_cap=experimental_cap())
             if top_cap:
                 from pipeline import bride_top_cap
                 m['finite_column_top_cap']=dict(adapter=fingerprint(bride_top_cap.__file__),
                     column_mass_top_kg_m2=float(structure['column_mass_kg_m2'][0]),
                     density_top_kg_m3=float(structure['rho_kg_m3'][0]),
                     effective_length_m=ctx.atmos.pyAtmos.zUpperBc.length_m,
-                    interpretation='Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof')
+                    column_contract=column_contract,
+                    interpretation=('Experimental density integral with source-log-native top anchor' if experimental_column else 'Native top mass column')+'; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof')
             if uv_lines:
                 from lightweaver import rh_atoms
                 m['lte_uv_background_lines']=dict(source=fingerprint(rh_atoms.__file__),
@@ -170,8 +201,8 @@ def main():
             m.update(status='FORMING_FLUX',iterations=iteration+1,final_diagnostics=entry);save_case()
             continuum=make_reference_context(structure,atom,rays=controls['rays'],qscale=controls['qscale'],
                 fixed_populations=n,continuum_only=True,lte_h_background_lines=hydrogen_lines,
-                lte_uv_background_lines=uv_lines,finite_column_top_cap=top_cap,fe_background=fe_provider,
-                extra_wavelengths_vac_nm=fe_samples)
+                lte_uv_background_lines=uv_lines,finite_column_top_cap=native_cap,fe_background=fe_provider,
+                extra_wavelengths_vac_nm=fe_samples,experimental_column_cap=experimental_cap())
             for j in range(1000):
                 if time.perf_counter()-start>controls['seconds_per_case']:raise TimeoutError('Continuum budget exceeded')
                 old_J_top=np.array(continuum.spect.J)[:,0].copy() if top_cap else None

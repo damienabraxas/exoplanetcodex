@@ -19,7 +19,7 @@ def marcs_number_densities(structure):
 def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=False,
                            fixed_populations=None,continuum_only=False,lte_h_background_lines=False,
                            lte_uv_background_lines=False,finite_column_top_cap=False,
-                           extra_wavelengths_vac_nm=None,fe_background=None):
+                           extra_wavelengths_vac_nm=None,fe_background=None,experimental_column_cap=None):
     """Exact benchmark physics for solve/replay; no RT, SE or abundance fitting.
 
     A fixed population replay is detailed-static, including its original NLTE
@@ -36,6 +36,11 @@ def make_reference_context(structure,source_atom,*,rays,qscale,lte=False,ng=Fals
     if finite_column_top_cap:
         from pipeline.bride_top_cap import cap_from_structure
         cap=cap_from_structure(structure)
+    if experimental_column_cap is not None:
+        from pipeline.bride_top_cap import FiniteColumnCap
+        if cap is not None or not isinstance(experimental_column_cap, FiniteColumnCap):
+            raise ValueError('Experimental cap must be explicit and cannot replace a native cap')
+        cap=experimental_column_cap
     atmosphere=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,
         depthScale=structure['height_m'].copy(),temperature=structure['temperature_K'].copy(),
         ne=ne.copy(),nHTot=nH.copy(),vturb=np.full(n,structure['vturb_m_s']),
