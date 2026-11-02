@@ -1,0 +1,912 @@
+{
+  "schema": "codex.bride_pressure_column_audit/1",
+  "scientific_admission": "HOLD",
+  "provider_admission": false,
+  "generator": {
+    "name": "audit_bride_pressure_columns.py",
+    "bytes": 9110,
+    "sha256": "16d9fd9a694939bc04d7c8bcde559810ecc5ba966f445dcb112cdd422678e4ae"
+  },
+  "pressure_checks": {
+    "name": "bride_pressure_checks.py",
+    "bytes": 2820,
+    "sha256": "50ffedc109977982131692c32af32fb305ba374ea105f6e4164068ddd476ff93"
+  },
+  "model_sources": [
+    {
+      "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+    },
+    {
+      "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+    },
+    {
+      "name": "p5500_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "567be42d5a52a88092519e0ccfda939daa920eaa8be0eb05d3e7c1e145921536"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    },
+    {
+      "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+    }
+  ],
+  "source_point_run": {
+    "name": "report.json",
+    "bytes": 19997,
+    "sha256": "e7be946be2eb5d5fb651c4be8a7b6ce5fc683ff86f9ba25aa3135008ffccefd3"
+  },
+  "source_binding_report": {
+    "name": "report.json",
+    "bytes": 22575,
+    "sha256": "19c2db0c2a4b9e2643823ab352af05c7f1704ef8a3f469aa67c40e8128e7eda9"
+  },
+  "primary_reference": {
+    "name": "MARCS Stellar Model.pdf",
+    "bytes": 479379,
+    "sha256": "c79d8bf6ee086557169bd98d28a2d66afe60b07a33087fee0d3de287e95f6623"
+  },
+  "method": "Gustafsson2008 p953 Eqs1-4, plane-parallel pressure differences; native printed Pg/Prad/Pturb. Interpolated Pg logarithmic, Prad/Pturb linear. Density-integrated and pressure-derived columns enforce separate identities by construction; top column always an explicit log-native anchor. Additional beta1 rho*xi^2 is a declared nonfitted control only, NOT identification of spectral microturbulence with support velocity (paper p954 sets grid support vt=0). No native truth at actual solar targets, threshold, EOS repair, force/flux solve or boundary admission.",
+  "interpolation": [
+    {
+      "label": "heldout_5500_4.5",
+      "target": [
+        5500,
+        4.5
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5500.0,
+          4.5
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.0,
+          0.5,
+          0.5
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "heldout_5750_4.0",
+      "target": [
+        5750,
+        4.0
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5750.0,
+          4.0
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.5,
+          0.0,
+          0.5
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "heldout_5750_4.5",
+      "target": [
+        5750,
+        4.5
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5750.0,
+          4.5
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.5,
+          0.0,
+          0.5
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "heldout_5750_5.0",
+      "target": [
+        5750,
+        5.0
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5750.0,
+          5.0
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.5,
+          0.5,
+          0.0
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "heldout_6000_4.5",
+      "target": [
+        6000,
+        4.5
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          6000.0,
+          4.5
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.5,
+          0.5,
+          0.0
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "fine_T5752",
+      "target": [
+        5752,
+        4.438
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.008,
+          0.8679999999999994,
+          0.12400000000000055
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "fine_T5762",
+      "target": [
+        5762,
+        4.438
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.048,
+          0.8279999999999994,
+          0.12400000000000055
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "fine_T5772",
+      "target": [
+        5772,
+        4.438
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "fine_T5782",
+      "target": [
+        5782,
+        4.438
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.128,
+          0.7479999999999994,
+          0.12400000000000055
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    },
+    {
+      "label": "fine_T5792",
+      "target": [
+        5792,
+        4.438
+      ],
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.168,
+          0.7079999999999994,
+          0.12400000000000055
+        ]
+      },
+      "pressure_convention": "log gas pressure; linear radiation/turbulent pressure; same simplex weights, no EOS solve"
+    }
+  ],
+  "cases": [
+    {
+      "label": "native_5500_4.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.040676156754755,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03936861817673731,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03965927872704689,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.019224598385410685,
+      "max_fractional_mass_closure": 0.002217393305507631,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_5500_4.5",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.04142056420097395,
+      "max_abs_top_anchored_hydrostatic_difference": 0.04013040062009654,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.027955065007059687,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.019203236656158085,
+      "max_fractional_mass_closure": 0.0007625362365425437,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_5500_5.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.04221953455871763,
+      "max_abs_top_anchored_hydrostatic_difference": 0.04102962177197389,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.02402201965365003,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01921895083699776,
+      "max_fractional_mass_closure": 0.0016820416982824549,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_5750_4.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.03838716988046509,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03818108104884066,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.04517293407054923,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017909382637312676,
+      "max_fractional_mass_closure": 0.00132396755585229,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_5750_4.5",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.038675402073648946,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03810302414259392,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03206641776620456,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017919991688159165,
+      "max_fractional_mass_closure": 0.0007196028738948312,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_5750_5.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.03952144364928167,
+      "max_abs_top_anchored_hydrostatic_difference": 0.038369340539506136,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.02281544066697694,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017944400473691502,
+      "max_fractional_mass_closure": 0.0030733129680037274,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_6000_4.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.038455884016013187,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03814527343680785,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.052286278962199506,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.0165802802477939,
+      "max_fractional_mass_closure": 0.0018703806234454667,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_6000_4.5",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.038392208225895064,
+      "max_abs_top_anchored_hydrostatic_difference": 0.037990675024968,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.035392333942894316,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.016669918771222925,
+      "max_fractional_mass_closure": 0.0006690084502322113,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_6000_5.0",
+      "group": "native",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.03814467650442366,
+      "max_abs_top_anchored_hydrostatic_difference": 0.0379219837673187,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.02532805856356246,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.016742226463392962,
+      "max_fractional_mass_closure": 0.0019276588242671533,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5500_4.5",
+      "group": "heldout",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.041440974604275205,
+      "max_abs_top_anchored_hydrostatic_difference": 0.040085663977714514,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.026922152599190285,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.019215363754365722,
+      "max_fractional_mass_closure": 0.009522090022610397,
+      "max_fractional_native_column_error": 0.006462472266992814,
+      "max_fractional_native_gas_pressure_error": 0.006428367907202803,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5500_4.5",
+      "group": "heldout",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.0446440024770991,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03995803025648792,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.028387020299715182,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01924150386797896,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": 0.006680958832177675,
+      "max_fractional_native_gas_pressure_error": 0.006428367907202803,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5500_4.5",
+      "group": "heldout",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 4.107825191113079e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 4.440892098500626e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03800095752158872,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03800095752158872,
+      "max_fractional_mass_closure": 0.03647301383945423,
+      "max_fractional_native_column_error": 0.029664014548043793,
+      "max_fractional_native_gas_pressure_error": 0.006428367907202803,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.0",
+      "group": "heldout",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.039176541230700135,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03833591995577357,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.042902657531502575,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017874807496094824,
+      "max_fractional_mass_closure": 0.008260393327139237,
+      "max_fractional_native_column_error": 0.0227050688233974,
+      "max_fractional_native_gas_pressure_error": 0.02207803638131156,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.0",
+      "group": "heldout",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.042229338643188674,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03900788451455173,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.030881358738440223,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01814926494970215,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": 0.022783379911844315,
+      "max_fractional_native_gas_pressure_error": 0.02207803638131156,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.0",
+      "group": "heldout",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 3.774758283725532e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.036289200455890125,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.036289200455890125,
+      "max_fractional_mass_closure": 0.036266081981909615,
+      "max_fractional_native_column_error": 0.03067390200978093,
+      "max_fractional_native_gas_pressure_error": 0.02207803638131156,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.5",
+      "group": "heldout",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.03908575524320801,
+      "max_abs_top_anchored_hydrostatic_difference": 0.038201675424737624,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.029040663564290248,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017957105069103863,
+      "max_fractional_mass_closure": 0.005446989393582458,
+      "max_fractional_native_column_error": 0.007162982041191368,
+      "max_fractional_native_gas_pressure_error": 0.006857129988128152,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.5",
+      "group": "heldout",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.04392118668293854,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03858371985578868,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03105262465326164,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017975157476651127,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": 0.0067697797143655425,
+      "max_fractional_native_gas_pressure_error": 0.006857129988128152,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_4.5",
+      "group": "heldout",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 2.886579864025407e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03628393301408073,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03628393301408073,
+      "max_fractional_mass_closure": 0.03618589396729299,
+      "max_fractional_native_column_error": 0.03343896282778147,
+      "max_fractional_native_gas_pressure_error": 0.006857129988128152,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_5.0",
+      "group": "heldout",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.039905602021696795,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03876439295439371,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.022624226585312934,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017946754562500944,
+      "max_fractional_mass_closure": 0.006313190432511662,
+      "max_fractional_native_column_error": 0.03523147218551137,
+      "max_fractional_native_gas_pressure_error": 0.03500296520774193,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_5.0",
+      "group": "heldout",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.0454722137606528,
+      "max_abs_top_anchored_hydrostatic_difference": 0.04006893575757875,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03715365246965541,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017864966631822687,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": 0.035157264928632914,
+      "max_fractional_native_gas_pressure_error": 0.03500296520774193,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_5750_5.0",
+      "group": "heldout",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 5.551115123125783e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.036266386139481854,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.036266386139481854,
+      "max_fractional_mass_closure": 0.037090161334010885,
+      "max_fractional_native_column_error": 0.03376526010042191,
+      "max_fractional_native_gas_pressure_error": 0.03500296520774193,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_6000_4.5",
+      "group": "heldout",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.03827104417272331,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03803078050640696,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03412286260656805,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01665965380371892,
+      "max_fractional_mass_closure": 0.0097700439602465,
+      "max_fractional_native_column_error": 0.006121274231198015,
+      "max_fractional_native_gas_pressure_error": 0.006151447451930192,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_6000_4.5",
+      "group": "heldout",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.043571878087859894,
+      "max_abs_top_anchored_hydrostatic_difference": 0.038786101307941134,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.0404797893492812,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01667157879709369,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": 0.007670365121293821,
+      "max_fractional_native_gas_pressure_error": 0.006151447451930192,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "heldout_6000_4.5",
+      "group": "heldout",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 4.440892098500626e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03463592092846257,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03463592092846257,
+      "max_fractional_mass_closure": 0.03649486513104683,
+      "max_fractional_native_column_error": 0.03418239302967063,
+      "max_fractional_native_gas_pressure_error": 0.006151447451930192,
+      "max_fractional_producer_gas_pressure_difference": null,
+      "max_fractional_producer_rho_difference": null
+    },
+    {
+      "label": "native_identity",
+      "group": "native_producer",
+      "column": "native_RHOX",
+      "max_abs_adjacent_hydrostatic_difference": 0.038675402073648946,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03810302414259392,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03206641776620456,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017919991688159165,
+      "max_fractional_mass_closure": 0.0007196028738948312,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0005309019288237682,
+      "max_fractional_producer_rho_difference": 0.0006660030309334486
+    },
+    {
+      "label": "fine_T5752",
+      "group": "solar",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.03856504299268593,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03809623808132556,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03350898712358141,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017914660209509936,
+      "max_fractional_mass_closure": 0.001232979420084379,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0019456480901081097,
+      "max_fractional_producer_rho_difference": 0.001882184014941335
+    },
+    {
+      "label": "fine_T5752",
+      "group": "solar",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.041196054079487676,
+      "max_abs_top_anchored_hydrostatic_difference": 0.038549007617447284,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.032212215822010726,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01812152973583414,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0019456480901081097,
+      "max_fractional_producer_rho_difference": 0.001882184014941335
+    },
+    {
+      "label": "fine_T5752",
+      "group": "solar",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 4.6629367034256575e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 3.3306690738754696e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03621698812058227,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03621698812058227,
+      "max_fractional_mass_closure": 0.03660028587302544,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0019456480901081097,
+      "max_fractional_producer_rho_difference": 0.001882184014941335
+    },
+    {
+      "label": "fine_T5762",
+      "group": "solar",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.03851605762135257,
+      "max_abs_top_anchored_hydrostatic_difference": 0.038092154824400315,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03363571837096224,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01786368710589681,
+      "max_fractional_mass_closure": 0.0013935829433312508,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0040960266782821275,
+      "max_fractional_producer_rho_difference": 0.003897865904924691
+    },
+    {
+      "label": "fine_T5762",
+      "group": "solar",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.04117326673389199,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03853083200466245,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.031880914431649976,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.018053459719376663,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0040960266782821275,
+      "max_fractional_producer_rho_difference": 0.003897865904924691
+    },
+    {
+      "label": "fine_T5762",
+      "group": "solar",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 2.886579864025407e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03615145126498209,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03615145126498209,
+      "max_fractional_mass_closure": 0.03658578639758803,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.0040960266782821275,
+      "max_fractional_producer_rho_difference": 0.003897865904924691
+    },
+    {
+      "label": "fine_T5772",
+      "group": "solar",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.0384670120927999,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03808806842235546,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.033763769908594976,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01781279841956529,
+      "max_fractional_mass_closure": 0.001536045620135651,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.006038516997102672,
+      "max_fractional_producer_rho_difference": 0.0058124257432417
+    },
+    {
+      "label": "fine_T5772",
+      "group": "solar",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.041150514928676496,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03851275252429298,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.031599160860888875,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.0179853346811234,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.006038516997102672,
+      "max_fractional_producer_rho_difference": 0.0058124257432417
+    },
+    {
+      "label": "fine_T5772",
+      "group": "solar",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 4.440892098500626e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 2.220446049250313e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03608603587984316,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03608603587984316,
+      "max_fractional_mass_closure": 0.03657136941435524,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.006038516997102672,
+      "max_fractional_producer_rho_difference": 0.0058124257432417
+    },
+    {
+      "label": "fine_T5782",
+      "group": "solar",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.038417906278833014,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03808397886938153,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03389317064054964,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017761994011602944,
+      "max_fractional_mass_closure": 0.001660353141508697,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.007768989052389763,
+      "max_fractional_producer_rho_difference": 0.007517672144850662
+    },
+    {
+      "label": "fine_T5782",
+      "group": "solar",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.041127798680328564,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03849476925756401,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03136771805608396,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.017917154440164618,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.007768989052389763,
+      "max_fractional_producer_rho_difference": 0.007517672144850662
+    },
+    {
+      "label": "fine_T5782",
+      "group": "solar",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 4.551914400963142e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 4.440892098500626e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03602074174372549,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03602074174372549,
+      "max_fractional_mass_closure": 0.036557034967839686,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.007768989052389763,
+      "max_fractional_producer_rho_difference": 0.007517672144850662
+    },
+    {
+      "label": "fine_T5792",
+      "group": "solar",
+      "column": "log_native_column",
+      "max_abs_adjacent_hydrostatic_difference": 0.03836874005089741,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03807988615965607,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.034023950301910744,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01771127374334336,
+      "max_fractional_mass_closure": 0.0017664906167598193,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.009285418638844911,
+      "max_fractional_producer_rho_difference": 0.009011394326708722
+    },
+    {
+      "label": "fine_T5792",
+      "group": "solar",
+      "column": "density_integrated_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 0.04110511800532457,
+      "max_abs_top_anchored_hydrostatic_difference": 0.03847688228576662,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.031187357629351098,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.01784891881579509,
+      "max_fractional_mass_closure": 0.0,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.009285418638844911,
+      "max_fractional_producer_rho_difference": 0.009011394326708722
+    },
+    {
+      "label": "fine_T5792",
+      "group": "solar",
+      "column": "pressure_difference_log_top",
+      "max_abs_adjacent_hydrostatic_difference": 5.10702591327572e-15,
+      "max_abs_top_anchored_hydrostatic_difference": 5.551115123125783e-16,
+      "rho_xi2_control_max_abs_adjacent_difference": 0.03595556863560545,
+      "rho_xi2_control_max_abs_top_anchored_difference": 0.03595556863560545,
+      "max_fractional_mass_closure": 0.03654278310259973,
+      "max_fractional_native_column_error": null,
+      "max_fractional_native_gas_pressure_error": null,
+      "max_fractional_producer_gas_pressure_difference": 0.009285418638844911,
+      "max_fractional_producer_rho_difference": 0.009011394326708722
+    }
+  ],
+  "summary.csv": {
+    "name": "summary.csv",
+    "bytes": 7451,
+    "sha256": "012f001bfa5c3f8ed69b0e218ffcc9344dc737fcced479c436cebd28d82a8aa1"
+  },
+  "profiles.csv": {
+    "name": "profiles.csv",
+    "bytes": 343457,
+    "sha256": "ecdef13512a7b36d45c3cd4a8f921960658d4fadaaf401add5ef39760d38dcfe"
+  }
+}

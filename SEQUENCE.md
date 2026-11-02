@@ -1,5 +1,6 @@
 ## 2026-11-01 — exact-input opacity replay
 
+- **RYA-1281** — native pressure/column gap retained; pressure forcing worsens holdout; official tau/kappa utility sourced for next check.
 - **RYA-1281** — six exact coefficient bindings and94 mismatch refusals pass; provider/cap admission remains withheld.
 - **RYA-1281** — TS point adapter reproduces native opacity exactly; five solar tables evaluated; local-input/capped-O gate stays open.
 

@@ -711,3 +711,35 @@ Checkpoint validation: eight archive copies byte-identical, final generator and
 binding code hashes match. Register pointer/mirror and SEQUENCE pass; whitespace
 clean. Generator diagnostics remain2436, zero added/removed from previous
 checkpoint. No global-clean claim; persistent library debt unchanged.
+
+## 2026-11-01 pressure/geometry/column reference audit
+
+Base506d5331, fetched main f8c723a8 unchanged. Held Gustafsson2008 pp953-954
+read; official pressure/RHOX units checked.40 Mac input cases across9 native
+models,5 heldouts and6 producer-point cases. Native adjacent pressure/column
+discrepancy3.814-4.222% is already present despite rho*dz closure0.0669-0.3073%.
+No claim MARCS violates equilibrium; printed-force/discretization contract remains
+unassigned, open model-domain anomaly ledgered. At central heldout, forcing
+pressure closure raises native column error0.7163%->3.3439%. At actualsolar
+producer Pg/rho differ0.6039/0.5812%, with separate EOS fields retained.
+No fitted correction or source edit; beta1 rho*xi2 hypothesis not a universal fix.
+Official utility holdings search found no copy; official567kB archive retrieved
+and hash-checked, safe intake at experiments.bride_marcs_interpolator. Upstream
+code/scripts not executed. Manual text garbled; renderedPDF2 title/author/date
+andPDF3 intro/limitations inspected. Source calcrhox reconstructs mass via
+Rosseland tau/kappa with parabolic quadrature, not pressure. Next isolate that
+kernel and test analytic/native replay and independent holdout before admission.
+Initial archive inspection during curl hitEOF; completed archive then passed
+intake, no partial source accepted. Source license unverified, no upstream
+vendoring. Library manual copy verified/indexed, bibliography now213 rows and
+source page regenerated; library191docs/127accounted,64unindexed debt remains.
+51 focused tests pass,3 known LW warnings. Final pressure auditv2, initialv1
+retained. Four compact artifacts registered under pressure_columns_v1; path/
+holdings source pointers registered. Registerv195/SEQUENCE updated. Current
+bindings/native-only provider and scientific HOLD unchanged; no O RT/SE/fit,
+column/density replacement, adoption, merge or publication.
+Checkpoint verification: four review files, library manual copy and generator
+hashes match source originals. New path resource resolves on Mac. Register
+pointer/mirror, SEQUENCE and213-row source-page checks pass. Generator/invocation
+diagnostics exactly2436, zero added/removed. Whitespace clean; no global-green
+or CI-green claim. Final push uses[skip ci]; no Sirius runner work requested.

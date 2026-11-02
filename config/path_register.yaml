@@ -142,6 +142,12 @@ entries:
     rel: bride_inputs/rya1281/marcs-opacity-v2
     kind: dir
     desc: Exact 5750/4.5 MARCS continuum-opacity companion and official format reader; wavelength medium unverified, not native MULTI producer opacity.
+  experiments.bride_marcs_interpolator:
+    root: work
+    rel: bride_mac_checks/rya1281-masseron-intake-v1
+    env: CODEX_BRIDE_MARCS_INTERPOLATOR
+    kind: dir
+    desc: Hash-receipted official Masseron MARCS interpolation utility and manual; inspected source only, no upstream execution or physical admission.
   experiments.bride_multi_lte_oracle:
     root: work
     rel: bride_inputs/rya1281/native-lte-v1
