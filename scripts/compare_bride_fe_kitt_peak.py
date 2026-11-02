@@ -54,7 +54,7 @@ def main():
         broadening=dict(vmac_km_s=solar['vmac'],vsini_km_s=solar['vsini'],R=R,limb_darkening=.6,
             variants=['canonical_solar_broadening','plus_canonical_solar_gravitational_shift']),
         ispec_effects=fingerprint(inspect.getsourcefile(ispec.apply_post_fundamental_effects)),
-        caveats='Native5750/4.5/A8.70 differs from canonical Sun; incomplete blends/background, approximate Gaussian catalog R instead of measured FTS LSF, no local error vector or chi-square/adoption. No optimizer or best-case ranking.',cases=[])
+        caveats='Atmospheric parameters and experimental input routes are reported per case; no certified atmosphere implied. Incomplete blends/background, approximate Gaussian catalog R instead of measured FTS LSF, no local error vector or chi-square/adoption. No optimizer or best-case ranking.',cases=[])
     args.output.mkdir(parents=True,exist_ok=False);fig,axes=plt.subplots(2,1,figsize=(12,7),sharex=True)
     view_obs=(wave_obs>=7770.5)&(wave_obs<=7776.8)
     axes[0].plot(wave_obs[view_obs],flux_obs[view_obs],color='black',lw=1,label='Kitt Peak corrected2005 unchanged')
@@ -68,7 +68,10 @@ def main():
         data=np.genfromtxt(path/'flux.csv',delimiter=',',names=True);wave=data['wavelength_air_A'];native=data['normalized_flux']
         segments=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)])
         case=dict(name=entry['name'],source_manifest=entry['source_manifest'],flux=entry['flux'],
-            experimental_fe_background=manifest.get('experimental_fe_background'),variants=[])
+            parameters={k:manifest['case'][k] for k in ('teff','logg','xi','abundance','drop_bottom')},
+            experimental_fe_background=manifest.get('experimental_fe_background'),
+            experimental_bound_input=manifest.get('experimental_bound_input'),
+            finite_column_top_cap=manifest.get('finite_column_top_cap'),variants=[])
         columns=[wave,native,np.interp(wave,wave_obs,flux_obs)]
         for label,rv in [('canonical_solar_broadening',0.),('plus_canonical_solar_gravitational_shift',SOLAR_GRAVITATIONAL_REDSHIFT)]:
             flux=ispec.apply_post_fundamental_effects(wave/10,native.copy(),segments,
@@ -90,7 +93,7 @@ def main():
     axes[0].set_ylabel('Normalized disk flux');axes[1].set_ylabel('Model - observed')
     axes[1].set_xlabel('AIR wavelength (Angstrom)');axes[1].axhline(0,color='black',lw=.5)
     for ax in axes:ax.set_xlim(7770.5,7776.8);ax.legend(fontsize=7);ax.grid(alpha=.2)
-    fig.suptitle('Fixed O8.70 / native5750,4.5 — Fe background diagnostics, no fit\nPlotted model RV=0; canonical gravitational-shift variant reported separately')
+    fig.suptitle('Fixed O8.70 Fe background diagnostics — parameters reported per case, no fit\nPlotted model RV=0; canonical gravitational-shift variant reported separately')
     fig.tight_layout();figure=args.output/'kitt_peak_fe_controls.png';fig.savefig(figure,dpi=160);plt.close(fig)
     result['figure']=fingerprint(figure)
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
