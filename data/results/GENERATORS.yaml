@@ -26597,3 +26597,7 @@ artifacts:
     invocation: python scripts/summarize_bride_solar_diagnostics.py --analysis <solar-review>/report.json --rate-reports <five-exact-rate-reports> --photo-reports <five-exact-photo-reports> --output <new-immutable-summary>
     ticket: RYA-1281
     note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/kitt_residuals_v1/report.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --output <new-immutable-directory>
+    ticket: RYA-1281

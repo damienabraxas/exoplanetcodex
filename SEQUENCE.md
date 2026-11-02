@@ -1,3 +1,7 @@
+## 2026-11-02 — oxygen local-continuum audit
+
+- **RYA-1281** — Separate bounded ORCH continuum controls from shipped Kitt baseline; expose coverage and one-sided-anchor limits.
+
 ## 2026-11-02 — solar bound-input oxygen controls
 
 - **RYA-1281** — five fresh solar10K O controls and rate replays pass; fixedO8.70 Kitt gap7-9%; physical/adoption gates remain open.

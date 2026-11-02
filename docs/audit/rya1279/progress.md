@@ -823,3 +823,15 @@ Library191docs/127accounted,64unindexed unchanged, no new acquisition.
 
 Final archive guard: generator/invocation diagnostics exactly match the prior
 2436-entry baseline (zero added/removed). Staged whitespace check passes.
+
+2026-11-02 local-continuum follow-up: new kitt_residual_control_review.md and
+registered residual audit separate frozen shipped baseline from allowed ORCH
+bounded local control. Corrects prior blanket no-renormalization wording.
+p95 levels0.99595-0.99630 reduce areas3.45-3.85mA; model gaps2.3-2.9% remain.
+Nominal model-guided middle estimate refuses+3.447% with one-sided90 anchors;
+outer lines coverage-withheld. No refused continuum applied. Wider mixed-opacity
+synthesis needed before interpreting nominal estimator. Registerv198/SEQUENCE;
+HOLD, no new SE/opacity/abundance/source change or verified run defect.
+Verification:6 existing local-continuum tests pass; exact archive/generator hash,
+refusal and residual arithmetic checks pass. Generator/invocation guard matches
+prior2436 diagnostics exactly (zero added/removed); whitespace/mirror/pointer pass.
