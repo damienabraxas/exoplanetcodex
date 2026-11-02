@@ -56,8 +56,10 @@ def main():
         ispec_effects=fingerprint(inspect.getsourcefile(ispec.apply_post_fundamental_effects)),
         caveats='Atmospheric parameters and experimental input routes are reported per case; no certified atmosphere implied. Incomplete blends/background, approximate Gaussian catalog R instead of measured FTS LSF, no local error vector or chi-square/adoption. No optimizer or best-case ranking.',cases=[])
     args.output.mkdir(parents=True,exist_ok=False);fig,axes=plt.subplots(2,1,figsize=(12,7),sharex=True)
+    gravity_fig,gravity_axes=plt.subplots(2,1,figsize=(12,7),sharex=True)
     view_obs=(wave_obs>=7770.5)&(wave_obs<=7776.8)
     axes[0].plot(wave_obs[view_obs],flux_obs[view_obs],color='black',lw=1,label='Kitt Peak corrected2005 unchanged')
+    gravity_axes[0].plot(wave_obs[view_obs],flux_obs[view_obs],color='black',lw=1,label='Kitt Peak corrected2005 unchanged')
     for entry in receipt['cases']:
         if entry['name']=='raw_pair_finite_column_cap':continue
         path=store/entry['source_run']/entry['name']
@@ -65,6 +67,7 @@ def main():
             raise ValueError('Changed control input')
         manifest=json.loads((path/'manifest.json').read_text())
         if manifest['status']!='CONVERGED_EXPERIMENT':raise ValueError('Unconverged control')
+        if manifest['case']['abundance']!=8.7:raise ValueError('This declared comparison fixes O8.70')
         data=np.genfromtxt(path/'flux.csv',delimiter=',',names=True);wave=data['wavelength_air_A'];native=data['normalized_flux']
         segments=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)])
         case=dict(name=entry['name'],source_manifest=entry['source_manifest'],flux=entry['flux'],
@@ -83,10 +86,10 @@ def main():
                     observed_area_mA=1000*window_integral(wave_obs,flux_obs,centre-.5,centre+.5),
                     unweighted_RMS=float(np.sqrt(np.mean((flux[mask]-np.interp(wave[mask],wave_obs,flux_obs))**2)))))
             case['variants'].append(dict(name=label,rv_km_s=rv,metrics=sample));columns.append(flux)
-            if rv==0.:
-                view=(wave>=7770.5)&(wave<=7776.8)
-                axes[0].plot(wave[view],flux[view],lw=.9,label=entry['name'])
-                axes[1].plot(wave[view],flux[view]-np.interp(wave[view],wave_obs,flux_obs),lw=.9,label=entry['name'])
+            view=(wave>=7770.5)&(wave<=7776.8)
+            selected_axes=axes if rv==0. else gravity_axes
+            selected_axes[0].plot(wave[view],flux[view],lw=.9,label=entry.get('display_label',entry['name']))
+            selected_axes[1].plot(wave[view],flux[view]-np.interp(wave[view],wave_obs,flux_obs),lw=.9,label=entry.get('display_label',entry['name']))
         output=args.output/(entry['name']+'_profiles.csv')
         np.savetxt(output,np.column_stack(columns),delimiter=',',header='wavelength_air_A,intrinsic,observation,canonical_broadened,plus_gravitational_shift',comments='')
         case['profiles']=fingerprint(output);result['cases'].append(case)
@@ -96,6 +99,12 @@ def main():
     fig.suptitle('Fixed O8.70 Fe background diagnostics — parameters reported per case, no fit\nPlotted model RV=0; canonical gravitational-shift variant reported separately')
     fig.tight_layout();figure=args.output/'kitt_peak_fe_controls.png';fig.savefig(figure,dpi=160);plt.close(fig)
     result['figure']=fingerprint(figure)
+    gravity_axes[0].set_ylabel('Normalized disk flux');gravity_axes[1].set_ylabel('Model - observed')
+    gravity_axes[1].set_xlabel('AIR wavelength (Angstrom)');gravity_axes[1].axhline(0,color='black',lw=.5)
+    for panel in gravity_axes:panel.set_xlim(7770.5,7776.8);panel.legend(fontsize=7);panel.grid(alpha=.2)
+    gravity_fig.suptitle('Fixed O8.70: separately declared canonical solar gravitational shift, no fit\nObserved continuum/telluric product unchanged; parameters reported per case')
+    gravity_fig.tight_layout();figure=args.output/'kitt_peak_fe_controls_gravity.png';gravity_fig.savefig(figure,dpi=160);plt.close(gravity_fig)
+    result['gravity_figure']=fingerprint(figure)
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print('Wrote unchanged-observation comparison:',args.output)
 

@@ -1,3 +1,7 @@
+## 2026-11-02 — solar bound-input oxygen controls
+
+- **RYA-1281** — five fresh solar10K O controls and rate replays pass; fixedO8.70 Kitt gap7-9%; physical/adoption gates remain open.
+
 ## 2026-11-01 — exact-input opacity replay
 
 - **RYA-1281** — kernel/anchor controls clarify2018 native mass definition; held-out cap lengths within0.25%; bounded solar control next.

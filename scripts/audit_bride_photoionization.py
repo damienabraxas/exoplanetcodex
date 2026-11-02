@@ -42,6 +42,8 @@ def main():
         lte_uv_background_lines=report.get('lte_uv_background_lines',False),
         finite_column_top_cap=report.get('finite_column_top_cap',False),
         experimental_fe_background=report.get('experimental_fe_background'),
+        experimental_bound_input=report.get('experimental_bound_input'),
+        experimental_column_contract=report.get('experimental_column_contract'),
         atom=report['atom'],arrays=[],
         method='4*pi/h integral sigma(lambda)*Jnu(lambda)/lambda d(lambda), raw linear sigma; backend WENO/grid-weight differences retained',
         interpretation='J/B indicates nonlocal radiation, not proof of opacity error. No rate, cross-section, boundary or abundance change.')

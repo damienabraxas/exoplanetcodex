@@ -779,3 +779,47 @@ generator/boundary hashes match. Register pointer/mirror, SEQUENCE and213-row
 source-page checks pass. Generator/invocation diagnostics exactly2436, zero
 added/removed; whitespace clean. No global/CI-green claim. Existing tracker
 aging notice is retained; final push[skip ci] avoids Sirius runner load.
+
+## 2026-11-02 bound-input solar oxygen and matched temperature controls
+
+Base1565ce15, refreshed main f8c723a8 unchanged. Implementationfdce0366
+precedes nominal5772 solve; eb481a7c precedes4 neighboring solves. Separate
+experimental density-integral/log-native-top cap and full bound Fe provider
+leave native-only loader/refusal unchanged. Fresh sidecar bindings record all
+inputs/columns; old certificate flags remainfalse. Actual backend native
+coefficient identity/deepcopy and changed T/ne/nH/geometry/velocity/cap/active-O
+refusals pass. Full56-depth O41 atom, sourcedMN, all1601Fe samples, unchanged
+1500iteration/600s/1e-6 outer and1e-8 radiation budgets.
+All5 Mac one-thread serial solves5752/5762/5772/5782/5792 atg4.438/O8.70
+converged326/402/256/266/341 iterations;227.84/258.34/179.95/190.31/217.77s,
+1074.20s total. No failed case or Ng retry, max history conservation1.965e-12.
+Window response per10K0.743-0.751/0.668-0.677/0.557-0.565mA. Nominal intrinsic
+72.00382/62.17442/48.78412 vs oldnative68.92510/59.35750/46.37851. First
+window now consistently7771.944 (old intrinsic report used7771.94); raw unchanged.
+All5 fresh radiation/rate replays preserve populations and meet original outer
+criterion:1.710e-7..4.914e-7; nominal4.285e-7 vs in-iteration2.15e-15. Both
+reported, not a machine-exact fresh equilibrium claim. Independent raw-sigma
+photoionization audits: nominal lower-triplet top8401.10s^-1,J/B31.644,
+independent/backend difference0.04891%. All reports joined by exact manifest/
+array identity, no missing/best-case selection.
+Unchanged corrected2005 Kitt Peak AIR with existing policy gates/broadening;
+no observed re-normalization/telluric/RV fit. Nominal broadened71.97199/62.15361/
+48.77347 vs observed77.55651/67.20039/53.79430:7.20/7.51/9.33% low. Separate
+canonical gravitational-shift variant RMS0.00644/0.00557/0.00543, not chi-square
+or adoption. Warmer cores can overshoot while weak residual features persist.
+Final combined reviewv3 and Kittv3, earlier reviews retained; raw baselinev1/
+temperaturev1, nominal rates/photo-v1 and4 temperature-tagged rates/photo roots.
+68 byte-identical review artifacts including histories/populations/flux/cap
+snapshots at solar_bound_v1,5 figures.78 tests pass, no new verified run bug or
+silent fallback; no fabricated ledger row. Scratch status typo corrected only.
+Report solar_bound_control_review.md. Registerv197/SEQUENCE updated. No
+source observation/abundance/adopted/gold/production or merge/publication change;
+Scientific HOLD, child In Progress/parent In Review. Peak RSS/load not captured,
+only wall time; instrument next compute envelope, no full3D scaling claim.
+Next controlled weak-blend/continuum/velocity/LSF and matched microturbulence
+checks, independent1D producer/background/cap-source-family checks, then C/N/Fe
+and another star. Physical grid accuracy not implied by10K sampling.
+Library191docs/127accounted,64unindexed unchanged, no new acquisition.
+
+Final archive guard: generator/invocation diagnostics exactly match the prior
+2436-entry baseline (zero added/removed). Staged whitespace check passes.

@@ -26257,3 +26257,343 @@ artifacts:
     invocation: python scripts/audit_bride_rosseland_columns.py --bindings <verified-bindings> --output <new-immutable-audit>
     ticket: RYA-1281
     note: Byte-identical final Mac kernel/anchor audit v4; no original source or provider/cap admission change.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/experimental_input.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_control.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/summary.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/experimental_input.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5752_bound_Fe_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/experimental_input.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5762_bound_Fe_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/experimental_input.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5782_bound_Fe_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/manifest.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/experimental_input.json
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/history.jsonl
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/populations.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/top_cap.npz
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/runs/rya1281-solar-bound-temperature-v1/solar5792_bound_Fe_sampled/gridpoint_flux.csv
+    generator: scripts/run_bride_mac_checks.py
+    invocation: python scripts/run_bride_mac_checks.py --plan config/experiments/rya1281_mac_solar_bound_temperature_controls.json --output <new-immutable-run>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/report.json
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/author_MN_cap_Fe_neutral_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/solar5752_bound_Fe_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/solar5762_bound_Fe_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/solar5772_bound_Fe_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/solar5782_bound_Fe_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/analysis/solar5792_bound_Fe_sampled_departures.csv
+    generator: scripts/analyze_bride_solar_control.py
+    invocation: python scripts/analyze_bride_solar_control.py --solar-run <baseline-run> <temperature-run> --output <new-immutable-review>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/report.json
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/author_MN_cap_Fe_neutral_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/solar5752_bound_Fe_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/solar5762_bound_Fe_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/solar5772_bound_Fe_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/solar5782_bound_Fe_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/kitt_peak/solar5792_bound_Fe_sampled_profiles.csv
+    generator: scripts/compare_bride_fe_kitt_peak.py
+    invocation: python scripts/compare_bride_fe_kitt_peak.py --receipt <solar-review>/report.json --output <new-immutable-comparison>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/rates/5752/report.json
+    generator: scripts/replay_bride_bound_rates.py
+    invocation: python scripts/replay_bride_bound_rates.py --case-directory <exact-bound-case> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5752/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5752/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/rates/5762/report.json
+    generator: scripts/replay_bride_bound_rates.py
+    invocation: python scripts/replay_bride_bound_rates.py --case-directory <exact-bound-case> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5762/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5762/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/rates/5772/report.json
+    generator: scripts/replay_bride_bound_rates.py
+    invocation: python scripts/replay_bride_bound_rates.py --case-directory <exact-bound-case> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5772/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5772/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/rates/5782/report.json
+    generator: scripts/replay_bride_bound_rates.py
+    invocation: python scripts/replay_bride_bound_rates.py --case-directory <exact-bound-case> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5782/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5782/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/rates/5792/report.json
+    generator: scripts/replay_bride_bound_rates.py
+    invocation: python scripts/replay_bride_bound_rates.py --case-directory <exact-bound-case> --output <new-immutable-replay>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5792/report.json
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/photo/5792/photoionization.csv
+    generator: scripts/audit_bride_photoionization.py
+    invocation: python scripts/audit_bride_photoionization.py --rate-report <exact-bound-replay>/report.json --output <new-immutable-photo>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/diagnostics/report.json
+    generator: scripts/summarize_bride_solar_diagnostics.py
+    invocation: python scripts/summarize_bride_solar_diagnostics.py --analysis <solar-review>/report.json --rate-reports <five-exact-rate-reports> --photo-reports <five-exact-photo-reports> --output <new-immutable-summary>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
+  - artifact: rya1281/solar_bound_v1/diagnostics/summary.csv
+    generator: scripts/summarize_bride_solar_diagnostics.py
+    invocation: python scripts/summarize_bride_solar_diagnostics.py --analysis <solar-review>/report.json --rate-reports <five-exact-rate-reports> --photo-reports <five-exact-photo-reports> --output <new-immutable-summary>
+    ticket: RYA-1281
+    note: Byte-identical immutable Mac solar/temperature review copy; source commits and hashes retained, scientific HOLD.
