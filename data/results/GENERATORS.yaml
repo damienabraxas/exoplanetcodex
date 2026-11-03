@@ -26865,3 +26865,16 @@ artifacts:
     generator: scripts/audit_bride_kitt_residuals.py
     invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-stark-coupled-v1 --continuum-reference iag --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/h2_tables_v1/report.json
+    generator: scripts/audit_bride_h2_tables.py
+    invocation: python scripts/audit_bride_h2_tables.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_tables_v1/hydrogen_column.csv
+    generator: scripts/audit_bride_h2_tables.py
+    invocation: python scripts/audit_bride_h2_tables.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_tables_v1/source_intake.json
+    generator: scripts/intake_bride_h2_tables.py
+    invocation: python scripts/intake_bride_h2_tables.py --metadata <pinned-author-directory-api-json> --license-metadata <pinned-license-api-json>
+    note: Receipt copied byte-identically from registered experimental source holding; pinned downloads prepared with .download suffix, all Git blob IDs checked before acceptance.
+    ticket: RYA-1281

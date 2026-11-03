@@ -125,6 +125,12 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_molecular_tables:
+    root: work
+    rel: bride_inputs/rya1281/barklem-collet-cd2f54ed
+    env: CODEX_BRIDE_MOLECULAR_TABLES
+    kind: dir
+    desc: Pinned author Barklem-Collet2016 tables with November2022 correction; experimental chemistry source, not production CNO/EOS admission.
   experiments.bride_fe_packet:
     root: work
     rel: bride_inputs/rya1281/fe-nuv-packet-v1

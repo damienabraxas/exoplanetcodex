@@ -924,3 +924,13 @@ hashes and independent archived R+C reconstruction pass. Actual56row H2 full-use
 request refuses. Generator/invocation diagnostics exactly2436 prior, zero added/
 removed; whitespace/mirror/pointer pass. Refreshed main f8c723a8 unchanged; existing
 library/tracker/gold debt retained. Child In Progress/parent In Review verified.
+
+## 2026-11-03 full-domain H2 chemistry source
+
+See [H2 table control review](h2_table_control_review.md). Eight pinned author
+files accepted in a separate registered source holding, corrected2022 tables;
+all56 solar layers covered. Source-prescribed transformed cubic interpolation,
+independent root and nuclei checks pass. Eq7 reconstruction difference explicitly
+unassigned; published Kp unchanged. Six focused/regression tests pass. Compact
+source receipt/report/full column archived. H2 not yet installed in RT; next
+paired pressure intervention must preserve partial-EOS scope. Scientific HOLD.
