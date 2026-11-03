@@ -899,3 +899,28 @@ native stdout remains hash-referenced externally; no whitespace-stripped raw
 copy presented as original. LF CSV replays preserve flux arrays exactly. Global
 generator diagnostics match2436 baseline, zero added/removed; staged whitespace,
 register/mirror/pointer pass. Existing library/unindexed/off-Mac debt retained.
+
+2026-11-02 explicit Stark/H2 and coupledO checkpoint:738 native original-fragment
+Stark calculations validate supplied/fallback port within3.102e-6; sourceexport
+choice kept separate, no fit. Fixed NONE/provided/Cowley modes same source; NONE
+array-identical to HHe pressure result, Stark window changes<=0.002701mA.
+One warm coupledCowley O solve converges16iterations/24.258s, originaljoint1e-6/
+conservation1e-10/600s budgets, noNg rejection. Freshrate4.137014e-7 (in-loop
+6.44e-15), independently reconstructed from saved separateR+C. FullJ/rates/pop/
+history retained. Popdelta0.015714%, profilefeedback<=1.452e-5, areaschange
+-0.002235/-0.002860/-0.001696mA vsfixedCowley, no main-gap explanation.
+H2 heldK85 fit1000-9000 covers52/56 only; four9163-9930K rows refused forfulluse,
+neverzero-filled/dropped. PartialchemH2/nHmax7.48e-4, Hneutraldepletion0.001496,
+nuclei residual1.33e-8 atnative1e-3 chemstep; not EOS precision/adoption. H2 not
+installed inRT.35tests pass (13focused+22regression), native738additionalnumeric
+fixtures. Implementation checkpoints e9f553ed/3b7b9592;35artifacts/3figures,
+review stark_coupled_control_review.md. Registerv202 trace/H2 rows/SEQUENCE.
+No verified new science bug; initial isolatedwrapper loop-index compile failure
+corrected beforeacceptedv2, rawfailed evidence retained. No source/gold/abundance/
+production/merge/adoption change; HOLD. Nextfull-domainchemistry/EOS, freshboundxi,
+independentmatched1D/3D/sourceclosure and continuum/reference; C/N beforeFe/star.
+Final verification:35artifact/3figure byte identity, all current generator/helper
+hashes and independent archived R+C reconstruction pass. Actual56row H2 full-use
+request refuses. Generator/invocation diagnostics exactly2436 prior, zero added/
+removed; whitespace/mirror/pointer pass. Refreshed main f8c723a8 unchanged; existing
+library/tracker/gold debt retained. Child In Progress/parent In Review verified.

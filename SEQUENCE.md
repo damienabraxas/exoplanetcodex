@@ -1,3 +1,7 @@
+## 2026-11-02 — Stark and coupled oxygen controls
+
+- **RYA-1281** — Verify Stark conventions, expose H2 coverage gap, and converge bounded coupled O; feedback too small for window gap.
+
 ## 2026-11-02 — source-selected Fe pressure widths
 
 - **RYA-1281** — Verify native broadening branches and test neutral-H/He widths; isolate small oxygen-window response from Fe wings.

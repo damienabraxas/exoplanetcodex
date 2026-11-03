@@ -26725,3 +26725,143 @@ artifacts:
     generator: scripts/audit_bride_kitt_residuals.py
     invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-pressure-pressure-final-v1 --continuum-reference iag --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/source/report.json
+    generator: scripts/prepare_bride_fe_stark.py
+    invocation: python scripts/prepare_bride_fe_stark.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/source/input.txt
+    generator: scripts/prepare_bride_fe_stark.py
+    invocation: python scripts/prepare_bride_fe_stark.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/h2/report.json
+    generator: scripts/audit_bride_h2_domain.py
+    invocation: python scripts/audit_bride_h2_domain.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/h2/covered_chemistry.csv
+    generator: scripts/audit_bride_h2_domain.py
+    invocation: python scripts/audit_bride_h2_domain.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/report.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/input_manifest.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/flux.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/neutral_reservoir.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/neutral_colliders.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/none/widths.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode none --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/report.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/input_manifest.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/flux.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/neutral_reservoir.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/neutral_colliders.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/provided/widths.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode provided --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/report.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/input_manifest.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/flux.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/neutral_reservoir.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/neutral_colliders.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/cowley/widths.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/report.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/input_manifest.json
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/flux.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/neutral_reservoir.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/neutral_colliders.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/widths.csv
+    generator: scripts/run_bride_fe_stark_controls.py
+    invocation: python scripts/run_bride_fe_stark_controls.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode cowley --coupled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/history.jsonl
+    generator: pipeline/bride_coupled_control.py
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/populations.npz
+    generator: pipeline/bride_coupled_control.py
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/coupled/rates.npz
+    generator: pipeline/bride_coupled_control.py
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/analysis/report.json
+    generator: scripts/analyze_bride_fe_stark_controls.py
+    invocation: python scripts/analyze_bride_fe_stark_controls.py --runs <registered-mac-store>/rya1281-fe-stark-none-v1 <registered-mac-store>/rya1281-fe-stark-provided-v1 <registered-mac-store>/rya1281-fe-stark-cowley-v1 <registered-mac-store>/rya1281-fe-stark-coupled-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/analysis/profiles.csv
+    generator: scripts/analyze_bride_fe_stark_controls.py
+    invocation: python scripts/analyze_bride_fe_stark_controls.py --runs <registered-mac-store>/rya1281-fe-stark-none-v1 <registered-mac-store>/rya1281-fe-stark-provided-v1 <registered-mac-store>/rya1281-fe-stark-cowley-v1 <registered-mac-store>/rya1281-fe-stark-coupled-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/continuum/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-stark-coupled-v1 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/stark_coupled_v1/continuum/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-stark-coupled-v1 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
