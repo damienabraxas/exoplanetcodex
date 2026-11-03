@@ -1,3 +1,7 @@
+## 2026-11-02 — wide oxygen continuum controls
+
+- **RYA-1281** — Reproduce wide fixed-population flux; expose synthesis/IAG continuum spread and retain mixed-opacity qualification gate.
+
 ## 2026-11-02 — oxygen local-continuum audit
 
 - **RYA-1281** — Separate bounded ORCH continuum controls from shipped Kitt baseline; expose coverage and one-sided-anchor limits.

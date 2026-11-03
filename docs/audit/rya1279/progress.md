@@ -835,3 +835,20 @@ HOLD, no new SE/opacity/abundance/source change or verified run defect.
 Verification:6 existing local-continuum tests pass; exact archive/generator hash,
 refusal and residual arithmetic checks pass. Generator/invocation guard matches
 prior2436 diagnostics exactly (zero added/removed); whitespace/mirror/pointer pass.
+
+2026-11-02 wide continuum follow-up:7763-7783A fixed-population flux replay
+matches original3.312e-12,5.868s/616382464-byte process-lifetime peak RSS.
+All continuum neighborhoods now covered; O-only guided anchors remain one-sided,
+2refused/first only numerical-bound pass. IAG existing reference leg passes bounds
+but moves areas opposite observed envelope:81.7358/70.8172/57.7034mA, model gaps
+11.95/12.23/15.48%. No favorable-control selection/adoption.388 canonical atomic
+candidate rows inventoried, not strengths/installed blends; native passive atom
+scan has no bound-bound centres in span. Mixed-opacity qualification next.
+22profiled cap/reference/observable/continuum tests pass; initial unprofiled skip
+explained in wide_continuum_control_review.md. Early detailed-static activeAtoms
+lookup failed before accepted output; corrected to eqPops, no physics fallback.
+Four result artifacts/two figures archived; registerv199/SEQUENCE, HOLD.
+Final archive/generator hashes and all4result/2figure byte-identity checks pass.
+Generator/invocation guard matches2436 prior diagnostics, zero added/removed.
+Mirror/pointer/whitespace pass; library audit retains existing unindexed debt,
+12off-Mac paths, no new literature acquisition or uncatalogued-source claim.

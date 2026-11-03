@@ -26601,3 +26601,19 @@ artifacts:
     generator: scripts/audit_bride_kitt_residuals.py
     invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/wide_continuum_v1/replay.json
+    generator: scripts/replay_bride_wide_flux.py
+    invocation: python scripts/replay_bride_wide_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/wide_continuum_v1/flux.csv
+    generator: scripts/replay_bride_wide_flux.py
+    invocation: python scripts/replay_bride_wide_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/wide_continuum_v1/synthesis_reference.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-wide-flux-v4 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/wide_continuum_v1/iag_reference.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-wide-flux-v4 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
