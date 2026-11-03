@@ -934,3 +934,14 @@ independent root and nuclei checks pass. Eq7 reconstruction difference explicitl
 unassigned; published Kp unchanged. Six focused/regression tests pass. Compact
 source receipt/report/full column archived. H2 not yet installed in RT; next
 paired pressure intervention must preserve partial-EOS scope. Scientific HOLD.
+
+## 2026-11-03 H2 pressure-collider pair
+
+See [paired control review](h2_collider_control_review.md). New off case exactly
+replays the old fixed Cowley spectrum; molecular colliders include depleted HI.
+Direct O-aperture changes -0.000031/-0.000058/-0.000093mA are negligible,
+with native H/continuum/O collisions unchanged. ORCH continuum legs rerun;
+reference spread persists.36 tests pass;16 artifacts/4 figures retained.
+No verified new accepted science/production bug. Next fresh solar xi0.9/1/1.1
+requires exact-input producer/certificate qualification, no xi1 relabeling.
+Scientific HOLD; partial pressure intervention is not complete H2/EOS admission.

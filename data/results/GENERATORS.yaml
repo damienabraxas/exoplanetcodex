@@ -26878,3 +26878,67 @@ artifacts:
     invocation: python scripts/intake_bride_h2_tables.py --metadata <pinned-author-directory-api-json> --license-metadata <pinned-license-api-json>
     note: Receipt copied byte-identically from registered experimental source holding; pinned downloads prepared with .download suffix, all Git blob IDs checked before acceptance.
     ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/input_manifest.json
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/report.json
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/flux.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/neutral_colliders.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/widths.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/off/neutral_reservoir.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode off --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/input_manifest.json
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/report.json
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/flux.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/neutral_colliders.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/widths.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/molecular/neutral_reservoir.csv
+    generator: scripts/run_bride_h2_colliders.py
+    invocation: python scripts/run_bride_h2_colliders.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --mode molecular --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/analysis/report.json
+    generator: scripts/analyze_bride_h2_colliders.py
+    invocation: python scripts/analyze_bride_h2_colliders.py --runs <registered-mac-store>/rya1281-h2-collider-off-v1 <registered-mac-store>/rya1281-h2-collider-molecular-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/analysis/profiles.csv
+    generator: scripts/analyze_bride_h2_colliders.py
+    invocation: python scripts/analyze_bride_h2_colliders.py --runs <registered-mac-store>/rya1281-h2-collider-off-v1 <registered-mac-store>/rya1281-h2-collider-molecular-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/continuum/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-h2-collider-molecular-v1 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/h2_colliders_v1/continuum/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-h2-collider-molecular-v1 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
