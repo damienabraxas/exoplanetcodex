@@ -70,10 +70,13 @@ class TraceFeIBackground(BackgroundProvider):
             for line in self.lines:
                 x,e=lte_line_coefficients(self.wave[self.mask],a.temperature,ions[0]/U,a.vturb,
                     lambda0_nm=line['lambda0_vac_nm'],mass_amu=self.mass,
-                    excitation_eV=line['excitation_eV'],loggf=line['loggf'],gamma_s_inv=line['gamma_rad_s_inv'])
+                    excitation_eV=line['excitation_eV'],loggf=line['loggf'],gamma_s_inv=self.line_width(line,a))
                 extinction+=x;emission+=e
             self.cache=([v.copy() for v in actual],extinction,emission)
         if any(not np.array_equal(x,y) for x,y in zip(actual,self.cache[0])):
             raise ValueError('Cached trace coefficients refuse changed local fields')
         chi[self.mask]+=self.cache[1];eta[self.mask]+=self.cache[2]
         if not np.isfinite(chi).all() or not np.isfinite(eta).all():raise ValueError('Nonfinite mixed opacity')
+
+    def line_width(self,line,atmosphere):
+        return line["gamma_rad_s_inv"]

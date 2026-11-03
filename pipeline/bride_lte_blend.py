@@ -13,12 +13,15 @@ def lte_line_coefficients(wavelength_nm, temperature, n_ion_over_partition,
     from scipy.special import wofz
     import lightweaver.constants as c
     w=np.asarray(wavelength_nm);T=np.asarray(temperature)
-    arrays=(w,T,np.asarray(n_ion_over_partition),np.asarray(vturb_m_s))
-    scalars=(lambda0_nm,mass_amu,excitation_eV,loggf,gamma_s_inv)
+    arrays=(w,T,np.asarray(n_ion_over_partition),np.asarray(vturb_m_s),np.asarray(gamma_s_inv))
+    scalars=(lambda0_nm,mass_amu,excitation_eV,loggf)
     if (not all(np.isfinite(a).all() for a in arrays) or not np.isfinite(scalars).all()
             or np.any(w<=0) or np.any(T<=0) or np.any(n_ion_over_partition<0)
-            or np.any(np.asarray(vturb_m_s)<0) or lambda0_nm<=0 or gamma_s_inv<0 or mass_amu<=0):
+            or np.any(np.asarray(vturb_m_s)<0) or lambda0_nm<=0 or np.any(np.asarray(gamma_s_inv)<0) or mass_amu<=0):
         raise ValueError('Invalid LTE line inputs')
+    gamma=np.asarray(gamma_s_inv)
+    if gamma.ndim>1 or (gamma.ndim==1 and gamma.shape!=T.shape):raise ValueError('Width must be scalar or one per depth')
+    if gamma.ndim:gamma_s_inv=gamma
     nu=c.CLight/(w[:,None]*1e-9);nu0=c.CLight/(lambda0_nm*1e-9)
     doppler=nu0/c.CLight*np.sqrt(2*c.KBoltzmann*T/(mass_amu*c.Amu)+np.asarray(vturb_m_s)**2)
     profile=wofz((nu-nu0)/doppler+1j*gamma_s_inv/(4*np.pi*doppler)).real/(np.sqrt(np.pi)*doppler)

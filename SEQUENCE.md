@@ -1,3 +1,7 @@
+## 2026-11-02 — source-selected Fe pressure widths
+
+- **RYA-1281** — Verify native broadening branches and test neutral-H/He widths; isolate small oxygen-window response from Fe wings.
+
 ## 2026-11-02 — source-matched trace Fe opacity
 
 - **RYA-1281** — Add bounded41-line FeI mixed-opacity control; separate tiny direct O-window effect from continuum-anchor changes.

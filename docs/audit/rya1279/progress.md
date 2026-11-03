@@ -877,3 +877,25 @@ current generator hashes pass. Generator/invocation guard exactly2436 prior
 diagnostics, zero added/removed. Mirror/pointer/whitespace pass; existing library
 unindexed debt/off-Mac paths retained. Registerv200 adds explicit trace-opacity
 row with source/artifact citations; full opacity/abundance qualification OPEN.
+
+2026-11-02 source-selected Fe pressure widths: pinned original ANSTEE/interpolation
+and DEPTH fragments compiled only on Mac;34W/4A/2C/1B actual recipes, not blanket
+negative-fdamp assumption. Native width arithmetic max5.947e-7 relative; recorded
+LW masses/constants supplied explicitly, not full TS EOS parity. NeutralH/He
+used, H0/Htotal0.95445-1; H2/Stark explicitly absent. Four native MARCS corner H2
+screens not target truth/error bound. New natural-only array-identical to prior;
+HHe pressure adds intrinsic0.04674/0.08844/0.14235mA; total41line+pressure effects
+stay below0.25mA. Fe7780 wings change strongly, O gap not explained. Guided
+continuum estimates pass bounds but opacity-dependent geometry/reference spread
+persists; no favorable selection/adoption. Fixed O populations and identical
+paired continuum; coupledSE still owed.32tests pass. Runtime11.241/11.135s,
+process peaks737345536/738754560bytes,1thread.16artifacts/3figures fe_pressure_v1;
+review fe_pressure_control_review.md, registerv201/SEQUENCE/trace row. No new
+verified science defect, source/gold/abundance/production/merge/adoption change.
+Next explicit Stark/H2/component/other-opacity qualification, then continuum,
+velocity/LSF/xi and coupledO; C/N beforeFe/star, scientificHOLD.
+Final16artifact/3figure byte-identity/current-generator checks pass. Source raw
+native stdout remains hash-referenced externally; no whitespace-stripped raw
+copy presented as original. LF CSV replays preserve flux arrays exactly. Global
+generator diagnostics match2436 baseline, zero added/removed; staged whitespace,
+register/mirror/pointer pass. Existing library/unindexed/off-Mac debt retained.

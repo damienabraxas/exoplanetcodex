@@ -26661,3 +26661,67 @@ artifacts:
     generator: scripts/audit_bride_kitt_residuals.py
     invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-mixed-fe-natural-v2 --continuum-reference iag --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/source/report.json
+    generator: scripts/prepare_bride_fe_pressure.py
+    invocation: python scripts/prepare_bride_fe_pressure.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/source/input.txt
+    generator: scripts/prepare_bride_fe_pressure.py
+    invocation: python scripts/prepare_bride_fe_pressure.py --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/natural/report.json
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode natural --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/natural/flux.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode natural --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/natural/neutral_reservoir.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode natural --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/natural/neutral_colliders.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode natural --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/natural/widths.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode natural --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/pressure/report.json
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode pressure --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/pressure/flux.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode pressure --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/pressure/neutral_reservoir.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode pressure --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/pressure/neutral_colliders.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode pressure --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/pressure/widths.csv
+    generator: scripts/replay_bride_fe_pressure_flux.py
+    invocation: python scripts/replay_bride_fe_pressure_flux.py --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines data/results/rya1281/trace_fe_v1/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --mode pressure --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/analysis/report.json
+    generator: scripts/analyze_bride_fe_pressure_control.py
+    invocation: python scripts/analyze_bride_fe_pressure_control.py --natural <registered-mac-store>/rya1281-fe-pressure-natural-final-v1 --pressure <registered-mac-store>/rya1281-fe-pressure-pressure-final-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/analysis/profiles.csv
+    generator: scripts/analyze_bride_fe_pressure_control.py
+    invocation: python scripts/analyze_bride_fe_pressure_control.py --natural <registered-mac-store>/rya1281-fe-pressure-natural-final-v1 --pressure <registered-mac-store>/rya1281-fe-pressure-pressure-final-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/continuum/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-pressure-pressure-final-v1 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/fe_pressure_v1/continuum/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-fe-pressure-pressure-final-v1 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
