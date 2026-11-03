@@ -26839,15 +26839,15 @@ artifacts:
     ticket: RYA-1281
   - artifact: rya1281/stark_coupled_v1/coupled/history.jsonl
     generator: pipeline/bride_coupled_control.py
-    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; full wrapper invocation is registered on coupled/report.json, with input and control hashes in coupled/input_manifest.json.
     ticket: RYA-1281
   - artifact: rya1281/stark_coupled_v1/coupled/populations.npz
     generator: pipeline/bride_coupled_control.py
-    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; full wrapper invocation is registered on coupled/report.json, with input and control hashes in coupled/input_manifest.json.
     ticket: RYA-1281
   - artifact: rya1281/stark_coupled_v1/coupled/rates.npz
     generator: pipeline/bride_coupled_control.py
-    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; wrapper invocation and sources are recorded in coupled/input_manifest.json.
+    note: Emitted by solve_coupled via scripts/run_bride_fe_stark_controls.py --mode cowley --coupled; full wrapper invocation is registered on coupled/report.json, with input and control hashes in coupled/input_manifest.json.
     ticket: RYA-1281
   - artifact: rya1281/stark_coupled_v1/analysis/report.json
     generator: scripts/analyze_bride_fe_stark_controls.py
