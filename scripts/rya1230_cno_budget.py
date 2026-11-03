@@ -538,9 +538,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     else:
         tell_excluded = {}
     #: RYA-1232 (Ryan): Fe has hundreds of lines -- a leg-unstable Fe line is simply dropped,
-    #: whatever the count; the 5% cap that HOLDS the product protects scarce-line elements.
-    _fe = str(prod["element"].iloc[0]) == "Fe"
-    if unstable and (_fe or len(unstable) <= max(1, int(0.05 * n))) and n - len(unstable) >= 2:
+    #: whatever the count. RYA-1315 (Ryan, 11-02): the same for every element -- a line the
+    #: engine cannot resolve under a perturbation is dropped, not a reason to hold a product
+    #: with good values (Na HARPS Graded held on 2 of 16). Still held: more than half the pool
+    #: unstable (a broken leg, not marginal lines), or fewer than 2 lines left.
+    if unstable and 2 * len(unstable) <= n and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
