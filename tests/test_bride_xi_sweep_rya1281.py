@@ -38,3 +38,20 @@ def test_reconstructed_xi_requires_fresh_binding():
     np.testing.assert_array_equal(ls['column_mass_kg_m2'],ms['column_mass_kg_m2'])
     assert low['vturb_m_s']==900 and mid['vturb_m_s']==1000
     with pytest.raises(ValueError):validate_binding(local_binding(mid,8.7),low,8.7)
+
+
+def test_fresh_coefficient_context_uses_xi_and_refuses_live_change():
+    from config.constants import require_codex_path
+    from pipeline.bride_xi_sweep import reconstruct
+    from pipeline.bride_solar_control import bound_fe_factory
+    from pipeline.bride_reference import make_reference_context
+    from pipeline.bride_top_cap import FiniteColumnCap
+    from pipeline.multi_atom import read_multi_atom
+    from dataclasses import replace
+    plan,_=inputs();case=plan['cases'][0];base,s,contract,_=reconstruct(case)
+    atom=replace(read_multi_atom(require_codex_path('experiments.bride_oxygen_atom')),abundance=case['abundance'])
+    provider,_=bound_fe_factory(require_codex_path('experiments.bride_xi_coefficients')/case['name'],base,s,atom.abundance,column_contract=contract)
+    ctx=make_reference_context(s,atom,rays=2,qscale=1,fe_background=provider,experimental_column_cap=FiniteColumnCap(s['column_mass_kg_m2'][0]/s['rho_kg_m3'][0]))
+    np.testing.assert_array_equal(ctx.atmos.pyAtmos.vturb,np.full(56,900.))
+    ctx.atmos.pyAtmos.vturb[0]=np.nextafter(900.,np.inf)
+    with pytest.raises(ValueError,match='geometry/velocity'):ctx.background.update_background(ctx.atmos)

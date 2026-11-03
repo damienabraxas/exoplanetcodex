@@ -1,0 +1,52 @@
+# Bride solar parameter exploration: staged sweep
+
+Ryan explicitly requested a broader sweep on2026-11-03. The0.9/1.0/1.1km/s
+microturbulence slice is the first local check, not the complete promised sweep.
+Every subsequent slice must state its actual inputs, changed axes and coverage;
+there is no automatic claim that earlier controls used the current physics.
+All science stays on the Mac under the existing bounded, serial authorization.
+Scientific HOLD; fixedO8.70 baseline is not a measured solar abundance.
+
+## Current executable slice
+
+`config/experiments/rya1281_mac_xi_slice.json` declares a list of named cases,
+fixed solar5772/g4.438/full56-depth thermodynamic structure, O8.70, bound FeI
+continuum,41 source FeI pressure lines and Cowley Stark, native atomic H/EOS.
+H2 pressure-only result is separate; full chemistry/continuum/O collisions are
+not admitted, so H2 stays omitted in this coupled slice.
+
+Each requested xi has a fresh native producer evaluation, output-xi check and
+complete certificate. Cross-case and one-ULP changes refuse. Adding more xi
+amplitudes requires an explicit plan and fresh inputs, not a runner rewrite or
+certificate relabel. The current implementation refuses changing another axis
+inside a microturbulence-only phase. Future axes need their own validated input
+contracts. A malformed or out-of-coverage case fails rather than being dropped.
+
+## Broader sweep inventory
+
+| Axis or control | Evidence already present | Next coverage / dependencies |
+|---|---|---|
+| Microturbulence | Earlier native-node0.5/0.9/1/1.1/1.5 controls use older physics | Fresh solar0.9/1/1.1 first; extend to0.5/1.5 and intermediate values after local response/validity review. Do not stop at three values or fit xi to Kitt. |
+| Effective temperature | Five fresh solar5752-5792K at10K spacing with bound continuum; sparse Fe-line widths added later | Wider temperature range and useful sampling, constrained by actual atmosphere/atom/opacity domains; repeat with matched source physics and held-out grid checks.10K sampling is not10K physical accuracy. |
+| Surface gravity | Earlier native-node checks, not fresh source-matched solar series | Source-matched solar gravity slice, complete geometry/density/cap bindings; range from parameter provenance and grid coverage, not target residual. |
+| Composition: metallicity, alpha and individual CNO/Fe | Native composition explicit; O8.70 fixed; earlier diagnostic O perturbations | Fresh producer/EOS/opacity inputs for each declared composition. Distinguish active-O response from atmosphere mixture response. Passive Fe for oxygen is not the Fe abundance milestone. |
+| H/electron reservoirs and chemistry | Native charge/EOS audits, full-domain H2 source and partial collider check | Full H/Hminus/H2, electron/charge and metal/molecular consistency; separate source prescriptions, never arbitrary ne/rho scalings promoted as physical atmospheres. |
+| Atomic data and collisions | Source tables/conventions and numerous numerical controls preserved | Source-backed alternatives and uncertainty inputs; no fitted rate/gf multiplier chosen to match Kitt. Independent matched1D oxygen benchmark remains indispensable. |
+| Broader line/molecular opacity |41 FeI lines; combined components and other species omitted | Source-qualified components, species and later CNO molecular opacity; preserve accounting and fixed-physics counterpart. |
+| Continuum/tellurics/observation | Shipped Kitt baseline plus ORCH envelope/synthesis/IAG reference legs; reference/anchor sensitivity remains | Qualify continuum geometry, masks and independent-reference spread. These are conditioning/reference choices, not free parameters to optimize. No second telluric correction. |
+| Broadening/velocity/instrument response | Canonical and zero/gravitational RV variants retained | Source/uncertainty-backed vmac/vsini/FTS-LSF controls; wavelength frame fixed by source, not a fitted vacuum/air choice. |
+| Numerical resolution and boundaries | Finite cap, wavelength/angular/depth and convergence controls exist at specified earlier physics | Convergence at representative sweep extremes; distinguish numerical error from parameter response and physical boundary uncertainty. |
+| Model family/dimensionality | Experimental static1D solar O777 | Independent matched1D reference, atmosphere-family spread, then1.5D/full3D with actual validated grids/backend. No claim1D parameter sweeps establish3D NLTE. |
+
+Begin with one axis at a time and a matching nominal control. After those
+responses and coverage are understood, select combined parameter points to test
+interactions (e.g. Teff-xi and gravity-composition); do not assume separability.
+Predeclare those combinations before looking for a favorable residual. Preserve
+failed/out-of-domain cases, not just converged or visually attractive spectra.
+Record timing/memory for actual cases before scheduling any larger lattice.
+
+The immediate species sequence remains oxygen, C/N (CNO), then Fe abundance,
+then a reference star with verified spectra/parameters/abundance. Additional
+oxygen lines and bands need appropriate atoms, blends and observations; O777
+VIS controls are not full-spectrum/all-band validation. HARPS does not cover
+O777; any HARPS oxygen test must use a separately qualified overlapping line.
