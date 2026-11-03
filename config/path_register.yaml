@@ -154,6 +154,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_xi_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-xi-coefficients-v1
+    env: CODEX_BRIDE_XI_COEFFICIENTS
+    kind: dir
+    desc: Fresh exact-input xi sweep certificates; experimental only, no native/provider admission.
   experiments.bride_bound_point_coefficients:
     root: work
     rel: bride_mac_checks/rya1281-bound-point-coefficients-v3
