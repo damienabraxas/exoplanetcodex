@@ -76,7 +76,7 @@ def main():
         generator=fingerprint(__file__), comparison=fingerprint(args.comparison),
         observation=fingerprint(observation), profiles=fingerprint(profiles),
         wide_spectrum=wide_receipt, continuum_code=fingerprint(lc.__file__), holding=holding, policy=reason,
-        caveats='Fixed diagnostic partitions are not isolated oxygen EWs or blend identifications. No errors/covariance or optimization. Local controls never replace immutable baseline. Oxygen-only anchors are incomplete-opacity diagnostics.', lines=[])
+        caveats='Fixed diagnostic partitions are not isolated oxygen EWs or blend identifications. No errors/covariance or optimization. Local controls never replace immutable baseline. Model-guided anchors remain incomplete-opacity diagnostics.', lines=[])
     result['continuum_reference'] = args.continuum_reference
     if args.continuum_reference == 'iag':
         allowed_iag, why_iag = gate_holding('solar_iag','iag_fts_solar_atlas')

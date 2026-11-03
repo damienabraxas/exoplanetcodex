@@ -852,3 +852,28 @@ Final archive/generator hashes and all4result/2figure byte-identity checks pass.
 Generator/invocation guard matches2436 prior diagnostics, zero added/removed.
 Mirror/pointer/whitespace pass; library audit retains existing unindexed debt,
 12off-Mac paths, no new literature acquisition or uncatalogued-source claim.
+
+2026-11-02 actual trace-Fe mixed opacity:41 exact source/canonical single lines,
+6combined entries explicitly excluded. Natural Voigt only, no pressure/HFS/
+isotope/molecule/other-species. Source packet reconstructed before consumption;
+tampered coefficients refused even with retained source hashes. Same bound
+Fe continuum, added LTE chi/eta in same RT, no normalized-spectra product.
+Fixed O populations/continuum arrays unchanged. Zero-line dense control2.139e-8;
+added intrinsic O-window areas0.07987/0.15150/0.00792mA, too small for gap.
+Strong neighboring FeI7780.557 restored. Trace/native neutral Fe ratio1.031-1.185
+recorded without fitted scaling. Guided continuum levels now0.996767/0.996354/
+0.992868 all numerical passes, but first/third one-sided; third corrected observed
+area46.99687 below model. IAG/envelope controls unchanged; no favorable selection.
+29focused/regression tests pass. Tests initially hit module import/cancellation
+assertion issue, corrected with actual package import/operand-scaled roundoff
+bound, no physical tolerance change. Final serial replays10.754/11.041s, peakRSS
+698302464/735723520bytes process-lifetime,1thread.11artifacts/3figures at trace_fe_v1,
+review trace_fe_control_review.md. Registerv200/SEQUENCE; no verified new science
+bug, source/observation/gold/abundance/production/merge/adoption change, HOLD.
+Next source-backed pressure/component/other-species/molecular qualification,
+then continuum geometry/reference, velocity/LSF and matched xi. C/N before Fe/star.
+Final verification: all11results/3figures byte-identical to immutable originals;
+current generator hashes pass. Generator/invocation guard exactly2436 prior
+diagnostics, zero added/removed. Mirror/pointer/whitespace pass; existing library
+unindexed debt/off-Mac paths retained. Registerv200 adds explicit trace-opacity
+row with source/artifact citations; full opacity/abundance qualification OPEN.

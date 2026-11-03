@@ -1,0 +1,102 @@
+{
+  "schema": "codex.bride_mixed_fe_flux/1",
+  "scientific_admission": "HOLD",
+  "mode": "natural",
+  "generator": {
+    "name": "replay_bride_mixed_fe_flux.py",
+    "bytes": 10192,
+    "sha256": "4439703d269255f65104f4895e0edb8ce57c3d8bc275896a31436dd387c6635a"
+  },
+  "provider": {
+    "name": "bride_trace_fe_lines.py",
+    "bytes": 4350,
+    "sha256": "c65d7c7e2c6fa2814193d7c0224559045be0e6debf56bc2470a65993683d3b23"
+  },
+  "line_coefficients": {
+    "name": "bride_lte_blend.py",
+    "bytes": 3429,
+    "sha256": "005a4d1275703888309105f08a1a00dc468a173165ba5cf97f5da702a040d84c"
+  },
+  "lines": {
+    "name": "lines.json",
+    "bytes": 110825,
+    "sha256": "cf84901b4e1e50012ce987788a68f1af975b5b35ac146619581ab26342f63ee0"
+  },
+  "partition": {
+    "name": "pf_Kurucz.input",
+    "bytes": 592244,
+    "sha256": "a7d15b25406b2736331253b6457d8ef4cfa3f3ef2275462120999121b8a734a8"
+  },
+  "selected_line_count": 41,
+  "excluded_component_count": 6,
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7118,
+    "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+  },
+  "source_populations": {
+    "name": "populations.npz",
+    "bytes": 36823,
+    "sha256": "e754d9df4823bb9c044da898751b022553bb4efbeeb67ff5839db37571cdd14c"
+  },
+  "source_flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+  },
+  "binding": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "wide_baseline": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "811bf321f12c4834335ff53f84b1c07a44c659aa33c68cf8ed135ef82aa60e13"
+  },
+  "no_blend_baseline_max_flux_difference": 0.6062781243996525,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "e5ef9a03a04f155333c44e9ec74703ace351abd04954d8c936d3c314c18754ab"
+  },
+  "neutral_reservoir": {
+    "name": "neutral_reservoir.csv",
+    "bytes": 5704,
+    "sha256": "071586dc705bea72216a340104b8831f3e96b394065de0c8ed58af23c3ed47b5"
+  },
+  "trace_to_native_FeI_range": [
+    1.030915361936328,
+    1.1846144864807049
+  ],
+  "radiation": {
+    "iterations": 65,
+    "final_J_change": 8.29726543027931e-09,
+    "final_boundary_change": 1.117806121881141e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "continuum_radiation": {
+    "iterations": 36,
+    "final_J_change": 6.308356947926086e-09,
+    "final_boundary_change": 4.075227660636093e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "telemetry": {
+    "elapsed_seconds": 11.041261457838118,
+    "process_peak_rss_bytes": 735723520,
+    "host_load_start": [
+      2.53955078125,
+      2.45703125,
+      2.2431640625
+    ],
+    "host_load_end": [
+      2.4560546875,
+      2.44140625,
+      2.240234375
+    ],
+    "context_threads": 1
+  },
+  "caveats": "41 source-matched natural-Voigt FeI trace lines only; no pressure/HFS/isotope/molecular/other-species opacity. Kurucz LTE reservoir is separate from limited native Fe atom, ratio reported. Same transfer equation, no spectrum multiplication or opacity scale; fixed O populations, no SE feedback or Fe abundance measurement."
+}

@@ -1,3 +1,7 @@
+## 2026-11-02 — source-matched trace Fe opacity
+
+- **RYA-1281** — Add bounded41-line FeI mixed-opacity control; separate tiny direct O-window effect from continuum-anchor changes.
+
 ## 2026-11-02 — wide oxygen continuum controls
 
 - **RYA-1281** — Reproduce wide fixed-population flux; expose synthesis/IAG continuum spread and retain mixed-opacity qualification gate.
