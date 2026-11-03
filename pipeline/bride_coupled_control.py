@@ -45,8 +45,17 @@ def solve_coupled(ctx,atom,original,output,start):
     residual=float(np.max(abs(net)/np.maximum(gross,np.finfo(float).tiny)))
     np.testing.assert_array_equal(final,active.n)
     if residual>=controls['rtol']:raise ValueError('Fresh coupled rate residual exceeds original outer tolerance')
+    collisions=active.C.copy()
+    for i in range(len(collisions)):collisions[i,i]=0.
+    radiative=np.zeros_like(collisions)
+    for transition in active.trans:
+        radiative[transition.j,transition.i]+=transition.Rij
+        radiative[transition.i,transition.j]+=transition.Rji
+    np.savez_compressed(output/'rates.npz',total_rates_s_inv=rates,collision_rates_offdiag_s_inv=collisions,
+        radiative_rates_offdiag_s_inv=radiative,net_flow_m3_s=net,gross_flow_m3_s=gross,
+        wavelength_vac_nm=np.array(ctx.spect.wavelength),Jnu_W_m2_sr_Hz=np.array(ctx.spect.J))
     np.savez_compressed(output/'populations.npz',populations=final,nstar=active.nStar,initial_populations=initial)
     return final,dict(controls=controls,iterations=iteration+1,final_diagnostics=row,fresh_physical_rate_residual=residual,
         fresh_radiation=fresh,max_relative_population_change_from_initial=float(np.max(abs(final/initial-1))),
         source_spline=spline,source_mn=mn,history=fingerprint(output/'history.jsonl'),populations=fingerprint(output/'populations.npz'),
-        helper=fingerprint(__file__))
+        rates=fingerprint(output/'rates.npz'),helper=fingerprint(__file__))
