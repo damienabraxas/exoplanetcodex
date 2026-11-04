@@ -100,11 +100,11 @@ def main():
         ax.plot(xis[order],values[order],'o-');ax.axhline(0,color='black',lw=.5)
         ax.set_ylabel('Area change (mA)');ax.set_title(f'{centre:.3f} AIR A');ax.grid(alpha=.2)
     axes[-1].set_xlabel('Microturbulence (km/s)')
-    fig.suptitle('First local xi slice: change from nominal1.0km/s; fresh coupled O\nFixed thermal structure and O8.70; no abundance fit or uncertainty bound')
+    fig.suptitle('Declared xi slice: change from nominal1.0km/s; fresh coupled O\nFixed thermal structure and O8.70; no abundance fit or uncertainty bound')
     fig.tight_layout();response=args.output/'xi_response.png';fig.savefig(response,dpi=150);plt.close(fig)
     result['response_figure']=fingerprint(response)
     path=args.output/'profiles.csv';np.savetxt(path,np.column_stack(profiles),delimiter=',',header=','.join(labels),comments='')
-    result.update(profiles=fingerprint(path),figure=fingerprint(figure),caveats='First local xi slice of broader program, not full sweep. Fresh coupled O, fixed solar thermal structure; no self-consistent atmosphere response, H2 EOS, abundance or full3D admission. Both RV variants retained, no optimization.')
+    result.update(profiles=fingerprint(path),figure=fingerprint(figure),caveats='Declared xi slice within broader program, not full parameter sweep. Fresh coupled O, fixed solar thermal structure; no self-consistent atmosphere response, H2 EOS, abundance or full3D admission. Both RV variants retained, no optimization.')
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print('Areas vs nominal',result['area_changes_vs_nominal_mA']);print('Independent rates',rate_checks)
 
