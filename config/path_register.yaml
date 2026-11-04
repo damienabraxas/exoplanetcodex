@@ -154,6 +154,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_ng_controls:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-control-v1
+    env: CODEX_BRIDE_NG_CONTROLS
+    kind: dir
+    desc: Recorded native Ng-on/off lower-gravity controls; derived arrays and explicit failures, no physics admission.
   experiments.bride_thermal_extreme_refinements:
     root: work
     rel: bride_mac_checks/rya1281-thermal-extremes-matched-v1

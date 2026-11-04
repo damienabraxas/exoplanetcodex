@@ -19,6 +19,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--refine-numerics',action='store_true')
     parser.add_argument('--warm-start-run',type=Path)
+    parser.add_argument('--ng-control',choices=('record','off'))
     parser.add_argument('--case-directory',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--lines',type=Path,required=True)
@@ -29,6 +30,7 @@ def main():
     parser.add_argument('--stark-source',type=Path,required=True)
     args=parser.parse_args()
     if args.warm_start_run is not None and not args.refine_numerics:raise ValueError('Matched initial guess is restricted to numerical refinement')
+    if args.ng_control is not None and (not args.refine_numerics or args.warm_start_run is None):raise ValueError('Ng comparison requires refined matched initialization')
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 bounded replay only')
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
@@ -69,6 +71,12 @@ def main():
     certificate=args.coefficients/case['bound_point_coefficients']
     provider,bound=bound_fe_factory(certificate,base,s,source.abundance,column_contract=contract)
     m['controls']=effective_controls(m['controls'],args.refine_numerics)
+    ng_experiment=None
+    if args.ng_control is not None:
+        ng_path=ROOT/'config/experiments/rya1281_ng_control.json';ng_plan=json.loads(ng_path.read_text())
+        if (ng_plan['schema']!='codex.bride_ng_experiment/1' or case['name']!=ng_plan['case']
+                or args.ng_control not in ng_plan['modes'] or args.plan.resolve()!=ROOT/ng_plan['physical_plan']):raise ValueError('Outside declared Ng experiment')
+        m['controls']['ng']=args.ng_control=='record';ng_experiment=fingerprint(ng_path)
     data,cert=load_bound_coefficients(certificate,base,source.abundance)
     producer=json.loads((certificate/cert['source_report']['name']).read_text())
     producer_case=next(c for c in producer['cases']if c['name']==case['name'])
@@ -124,7 +132,10 @@ def main():
         generator=fingerprint(__file__),mode='cowley',population_mode='coupled',
         H2='OMITTED: atomic baseline retained; H2 EOS/continuum/O-collision consistency not admitted',controls=m['controls'],
         code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),scientific_admission='HOLD')
-    ctx=make_reference_context(s,source,rays=m['controls']['rays'],qscale=m['controls']['qscale'],ng=True,
+    if args.ng_control is not None:
+        input_manifest.update(ng_control=args.ng_control,ng_experiment=ng_experiment,
+            iteration_recorder=fingerprint(ROOT/'pipeline/bride_iteration_trace.py'))
+    ctx=make_reference_context(s,source,rays=m['controls']['rays'],qscale=m['controls']['qscale'],ng=m['controls']['ng'],
         fixed_populations=None,fe_background=line_provider,extra_wavelengths_vac_nm=extra,
         experimental_column_cap=FiniteColumnCap(length))
     from pipeline.bride_coupled_control import solve_coupled
@@ -146,7 +157,13 @@ def main():
     local_mn=install_author_mn_pair(ctx,source,require_codex_path('experiments.bride_barklem_oxygen'),oracle)
     if local_mn!=m['author_charge_control']:raise ValueError('Changed author collision source/prescription')
     m['native_spline_control']=local_spline
-    pop,coupled=solve_coupled(ctx,source,m,args.output,start)
+    if args.ng_control is None:pop,coupled=solve_coupled(ctx,source,m,args.output,start)
+    else:
+        from pipeline.bride_iteration_trace import StatEquilTrace
+        with StatEquilTrace(ctx,args.output/'iteration_updates.jsonl',args.output/'history.jsonl')as observed:
+            pop,coupled=solve_coupled(observed,source,m,args.output,start)
+        coupled.update(iteration_updates=fingerprint(args.output/'iteration_updates.jsonl'),
+            recorder=fingerprint(ROOT/'pipeline/bride_iteration_trace.py'),recorder_overhead_seconds=observed.overhead_seconds)
     radiation=coupled['fresh_radiation']
     np.testing.assert_array_equal(ctx.kwargs['eqPops'].atomicPops[PeriodicTable['O']].nStar,target_nstar)
     continuum=make_reference_context(s,source,rays=m['controls']['rays'],qscale=m['controls']['qscale'],
@@ -202,6 +219,7 @@ def main():
             host_load_start=load_start,host_load_end=os.getloadavg(),context_threads=1),
         caveats='41 source-matched FeI lines, Explicit neutral-H/He widths plus NONE/supplied/Cowley Stark prescription. H2 omitted to retain atomic EOS/continuum/O collision baseline; no HFS/isotope/molecular/other-species opacity; Teff/logg use interpolated source fields with new local densities and LTE populations, not a fresh atmosphere-equilibrium solution. Kurucz LTE reservoir is separate from limited native Fe atom, ratio reported. Same transfer equation, no spectrum multiplication or opacity scale; Population mode explicitly recorded, optional bounded O SE; no Fe abundance measurement or opacity/continuum adoption.')
     result['initialization']=initialization
+    if args.ng_control is not None:result.update(ng_control=args.ng_control,ng_experiment=ng_experiment)
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(mode='cowley',delta=difference,neutral_ratio=result['trace_to_native_FeI_range'],telemetry=result['telemetry'])))
 
