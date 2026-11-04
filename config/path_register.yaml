@@ -156,10 +156,16 @@ entries:
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
   experiments.bride_thermal_extreme_refinements:
     root: work
-    rel: bride_mac_checks/rya1281-thermal-extremes-refined-v1
+    rel: bride_mac_checks/rya1281-thermal-extremes-matched-v1
     env: CODEX_BRIDE_THERMAL_EXTREME_REFINEMENTS
     kind: dir
     desc: Complete derived endpoint numerical-refinement archives, including external R/C/J arrays with verified receipts.
+  experiments.bride_thermal_extreme_legacy:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-extremes-refined-v1
+    env: CODEX_BRIDE_THERMAL_EXTREME_LEGACY
+    kind: dir
+    desc: Preserved original-solar-start endpoint refinement attempt; no acceptance implied.
   experiments.bride_thermal_refined_rates:
     root: work
     rel: bride_mac_checks/rya1281-thermal-refined-v1/rates.npz

@@ -18,6 +18,7 @@ sys.path.insert(0,str(ROOT))
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--refine-numerics',action='store_true')
+    parser.add_argument('--warm-start-run',type=Path)
     parser.add_argument('--case-directory',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--lines',type=Path,required=True)
@@ -27,6 +28,7 @@ def main():
     parser.add_argument('--pressure-source',type=Path,required=True)
     parser.add_argument('--stark-source',type=Path,required=True)
     args=parser.parse_args()
+    if args.warm_start_run is not None and not args.refine_numerics:raise ValueError('Matched initial guess is restricted to numerical refinement')
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 bounded replay only')
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
@@ -122,13 +124,20 @@ def main():
         generator=fingerprint(__file__),mode='cowley',population_mode='coupled',
         H2='OMITTED: atomic baseline retained; H2 EOS/continuum/O-collision consistency not admitted',controls=m['controls'],
         code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),scientific_admission='HOLD')
-    (args.output/'input_manifest.json').write_text(json.dumps(input_manifest,indent=2,allow_nan=False)+'\n')
     ctx=make_reference_context(s,source,rays=m['controls']['rays'],qscale=m['controls']['qscale'],ng=True,
         fixed_populations=None,fe_background=line_provider,extra_wavelengths_vac_nm=extra,
         experimental_column_cap=FiniteColumnCap(length))
     from pipeline.bride_coupled_control import solve_coupled
     target_nstar=ctx.activeAtoms[0].nStar.copy()
-    ctx.activeAtoms[0].n[:]=warm_start(pop,nstar,target_nstar,ctx.activeAtoms[0].nTotal)
+    initialization=dict(mode='original_solar_departures',populations=fingerprint(origin/'populations.npz'))
+    if args.warm_start_run is not None:
+        from pipeline.bride_thermal_initial import matched_start
+        expected=dict(input_manifest,baseline_controls=plan['controls'])
+        initial,initialization=matched_start(args.warm_start_run,expected,target_nstar,ctx.activeAtoms[0].nTotal)
+        ctx.activeAtoms[0].n[:]=initial
+    else:ctx.activeAtoms[0].n[:]=warm_start(pop,nstar,target_nstar,ctx.activeAtoms[0].nTotal)
+    input_manifest['initialization']=initialization
+    (args.output/'input_manifest.json').write_text(json.dumps(input_manifest,indent=2,allow_nan=False)+'\n')
     from pipeline.bride_native_spline import NativeTautsp,install_native_collision_control
     from pipeline.bride_charge_contract import install_author_mn_pair
     oracle=NativeTautsp(require_codex_path('experiments.bride_multi_spline_oracle'))
@@ -192,6 +201,7 @@ def main():
         telemetry=dict(elapsed_seconds=time.perf_counter()-start,process_peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
             host_load_start=load_start,host_load_end=os.getloadavg(),context_threads=1),
         caveats='41 source-matched FeI lines, Explicit neutral-H/He widths plus NONE/supplied/Cowley Stark prescription. H2 omitted to retain atomic EOS/continuum/O collision baseline; no HFS/isotope/molecular/other-species opacity; Teff/logg use interpolated source fields with new local densities and LTE populations, not a fresh atmosphere-equilibrium solution. Kurucz LTE reservoir is separate from limited native Fe atom, ratio reported. Same transfer equation, no spectrum multiplication or opacity scale; Population mode explicitly recorded, optional bounded O SE; no Fe abundance measurement or opacity/continuum adoption.')
+    result['initialization']=initialization
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(mode='cowley',delta=difference,neutral_ratio=result['trace_to_native_FeI_range'],telemetry=result['telemetry'])))
 

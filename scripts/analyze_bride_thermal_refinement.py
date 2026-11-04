@@ -20,13 +20,22 @@ def verify_pair(base, refined, plan):
             raise ValueError('Wrong numerical replay physics')
     if base['numeric_refinement'] or not refined['numeric_refinement']:
         raise ValueError('Require baseline/refinement pair')
-    for key in ('case', 'plan', 'generator', 'sweep_adapter', 'certificate',
+    for key in ('case', 'plan', 'sweep_adapter', 'certificate',
                 'atmosphere_sources', 'local_binding', 'stark_source', 'stark_kernel',
                 'pressure_source', 'pressure_provider', 'provider', 'line_coefficients',
                 'lines', 'partition', 'source_manifest', 'source_populations',
                 'source_flux', 'source_binding', 'wide_baseline'):
         if base[key] != refined[key]:
             raise ValueError('Refinement changes physical/source identity: ' + key)
+    initial = refined.get('initialization', {})
+    if initial.get('mode') == 'matched_physical_baseline':
+        from pipeline.bride_reference import fingerprint
+        if (initial['populations'] != base['coupled']['populations']
+                or initial['helper'] != fingerprint(ROOT/'pipeline/bride_thermal_initial.py')
+                or refined['generator'] != fingerprint(ROOT/'scripts/run_bride_thermal_sweep.py')):
+            raise ValueError('Changed matched initialization/runner provenance')
+    elif base['generator'] != refined['generator']:
+        raise ValueError('Changed legacy generator')
     if (base['coupled']['controls'] != plan['controls'] or
             refined['coupled']['controls'] != effective_controls(plan['controls'], True)):
         raise ValueError('Changed numerical refinement controls/budgets')
@@ -65,6 +74,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--plan', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--failed-attempt-log', type=Path, required=True)
     args = p.parse_args()
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint
@@ -83,6 +93,17 @@ def main():
     result = dict(schema='codex.bride_thermal_refinement_review/1', scientific_admission='HOLD',
                   generator=fingerprint(__file__), plan=fingerprint(args.plan), cases=[],
                   scope='Combined angular/wavelength/flux-ray sampling at four predeclared endpoints plus existing nominal. No fit, new physical accuracy threshold, or individual error attribution. Observations and continuum controls unchanged.')
+    failed = require_codex_path('experiments.bride_thermal_extreme_legacy')/'thermal_T5572'
+    failed_input = json.loads((failed/'input_manifest.json').read_text())
+    failed_history = [json.loads(line) for line in (failed/'history.jsonl').read_text().splitlines()]
+    if ((failed/'report.json').exists() or not failed_input['numeric_refinement']
+            or failed_input['case'] != plan['cases'][0]
+            or not args.failed_attempt_log.read_text().rstrip().endswith('TimeoutError: Fixed-population cap radiation budget exceeded')):
+        raise ValueError('Wrong legacy timeout evidence')
+    result['failed_original_solar_start'] = dict(status='BUDGET_EXHAUSTED_NOT_ACCEPTED',
+        resource_key='experiments.bride_thermal_extreme_legacy', case='thermal_T5572',
+        input_manifest=fingerprint(failed/'input_manifest.json'), history=fingerprint(failed/'history.jsonl'),
+        log=fingerprint(args.failed_attempt_log), completed_iterations=len(failed_history), last_diagnostics=failed_history[-1])
     fig, axes = plt.subplots(2, 1, figsize=(12, 8))
     profiles = []; labels = ['wavelength_air_A']; wave = None
     for name in ENDPOINTS + ('thermal_nominal',):
@@ -90,7 +111,12 @@ def main():
         refined = refined_root/name if name in ENDPOINTS else store/'rya1281-thermal-refined-v1'
         receipts = [json.loads((d/'report.json').read_text()) for d in (baseline, refined)]
         base, ref = receipts
+        if fingerprint(baseline/'report.json') != fingerprint(ROOT/'data/results/rya1281/thermal_slice_v1/runs'/name/'report.json'):
+            raise ValueError('Baseline differs from archived physical control')
         verify_pair(base, ref, plan)
+        if name in ENDPOINTS and (ref.get('initialization', {}).get('mode') != 'matched_physical_baseline'
+                or ref['initialization']['report'] != fingerprint(baseline/'report.json')):
+            raise ValueError('Wrong matched baseline initialization')
         declared = next(c for c in plan['cases'] if c['name'] == name)
         if base['case'] != declared or base['plan'] != fingerprint(args.plan):
             raise ValueError('Relabelled case/plan')
@@ -108,6 +134,7 @@ def main():
             inputs = json.loads((d/'input_manifest.json').read_text())
             if (inputs['case'] != r['case'] or inputs['controls'] != r['coupled']['controls']
                     or inputs['local_binding'] != r['local_binding']
+                    or inputs.get('initialization') != r.get('initialization')
                     or inputs['numeric_refinement'] != r['numeric_refinement']):
                 raise ValueError('Input/report identity disagreement')
             history = [json.loads(line) for line in (d/'history.jsonl').read_text().splitlines()]
