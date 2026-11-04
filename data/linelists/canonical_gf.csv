@@ -9457,7 +9457,7 @@ gf_017139,pk_db71818e3ccd,20,2.0,Ca II,4664.828,8.438,1,-2.235,K99,,synth(GES),s
 gf_017140,pk_0991cd3255f3,20,2.0,Ca II,4716.743,7.047,1,-0.938,K99,,synth(GES),pending,-0.938,,-2.351,True,False,True,,,,,False,KURUCZ,False
 gf_017141,pk_c69742e398fa,20,2.0,Ca II,4721.022,7.05,2,-0.7618,K99,,synth(GES),pending,-0.7618,,-2.197,True,False,True,,,,,False,KURUCZ,False
 gf_017142,pk_424c899cd5a8,20,2.0,Ca II,4799.973,8.438,3,-0.2139,K99,,synth(GES),pending,-0.2139,,-0.4168,True,False,True,,,,,False,KURUCZ,False
-gf_017143,pk_95e64dafbe27,20,2.0,Ca II,5001.479,7.505,1,-0.507,VALD3,,regions(VALD3),agreed,-0.506,-0.507,-0.507,True,True,True,0.001,,,,False,VALD3,False
+gf_017143,pk_95e64dafbe27,20,2.0,Ca II,5001.479,7.505,1,-0.507,"Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.1: 9 Ca I features + 5 Ca II (gf: AGSS21 Table A.1); NIST ASD class D (-0.523)",D,regions(VALD3),agreed,-0.506,-0.507,-0.507,True,True,True,0.001,CA_AGSS21,0.1761,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_017144,pk_56500eb1543c,20,2.0,Ca II,5019.971,7.515,1,-0.247,TB,,synth(GES),single_source,-0.247,,-0.247,True,False,True,,,,,False,OTHER,False
 gf_017145,pk_99178be39e50,20,2.0,Ca II,5021.138,7.515,1,-1.207,TB,,synth(GES),single_source,-1.207,,-1.207,True,False,True,,,,,False,OTHER,False
 gf_017146,pk_dfcec6685664,20,2.0,Ca II,5096.248,8.438,2,-2.0938,K99,,synth(GES),single_source,-2.0938,,,True,False,False,,,,,False,KURUCZ,False
@@ -9498,7 +9498,7 @@ gf_017180,pk_6bab3f658b62,20,2.0,Ca II,6158.901,9.24,1,-1.898,K99,,synth(GES),si
 gf_017181,pk_09db42de3903,20,2.0,Ca II,6199.804,9.017,1,-0.532,K99,,synth(GES),single_source,-0.532,,,True,False,False,,,,,False,KURUCZ,False
 gf_017182,pk_e69f3f6c34f1,20,2.0,Ca II,6203.151,9.018,2,-0.3568,K99,,synth(GES),single_source,-0.3568,,,True,False,False,,,,,False,KURUCZ,False
 gf_017183,pk_9965089923d2,20,2.0,Ca II,6411.563,9.675,3,-2.942,K99,,synth(GES),single_source,-2.942,,,True,False,False,,,,,False,KURUCZ,False
-gf_017184,pk_d0e8eb9586ee,20,2.0,Ca II,6456.875,8.438,1,0.155,VALD3,,regions(VALD3),pending,0.412,0.155,0.4119,True,True,True,0.257,,,,False,VALD3,False
+gf_017184,pk_d0e8eb9586ee,20,2.0,Ca II,6456.875,8.438,1,0.412,"Asplund, Amarsi & Grevesse 2021 (A&A 653, A141) Table A.1: 9 Ca I features + 5 Ca II (gf: AGSS21 Table A.1) (= GES synth list 0.412; VALD3 0.155 superseded, RYA-1311); no NIST class -- sigma charged as class C like Ca II 8248.796",,regions(VALD3),adopted_rya1311_ca_agss21,0.412,0.155,0.4119,True,True,True,0.257,CA_AGSS21,0.0969,10.1051/0004-6361/202140445,False,PUBLISHED-SET,False
 gf_017185,pk_780d5d349930,20,2.0,Ca II,6517.64,9.017,1,-1.444,K99,,synth(GES),single_source,-1.444,,,True,False,False,,,,,False,KURUCZ,False
 gf_017186,pk_c8795d2c9d91,20,2.0,Ca II,6517.916,9.018,1,-1.189,K99,,synth(GES),single_source,-1.189,,,True,False,False,,,,,False,KURUCZ,False
 gf_017187,pk_6178f1bdbda7,20,2.0,Ca II,6549.892,9.675,3,-1.818,K99,,synth(GES),single_source,-1.818,,,True,False,False,,,,,False,KURUCZ,False
