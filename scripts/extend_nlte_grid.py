@@ -32,10 +32,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from pipeline.species import parse_ion, _INT2ROMAN
 from pipeline import pysme_nlte as pn                     # noqa: E402
-from pipeline.element_prepare import SYNTH_LISTS, OUT     # noqa: E402
+from pipeline.element_prepare import (SYNTH_LISTS, OUT, engine_a_table,  # noqa: E402
+                                      engine_a_provenance)
 
 GES = Path(os.environ.get("ISPEC_DIR", "/mnt/codex-data/engines/ispec_src")) / \
     "input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv"
+#: The near-UV band's list (RYA-759; generated, not tracked). GES starts at 4200 A, so without
+#: this every near-UV line looked unidentified and was held (RYA-1315: 211 Ti II lines).
+NEARUV = (3000.0, 3780.0, ROOT / "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv")
 #: The node set the Si extension used (solar, Teff/logg/[Fe/H] steps, the benchmark stars).
 NODES = [(5772, 4.44, 0.0), (5100, 4.44, 0.0), (6200, 4.44, 0.0), (5772, 4.0, 0.0),
          (5772, 4.7, 0.0), (5772, 4.44, -0.3), (5172, 4.43, 0.31), (5100, 4.5, 0.5),
@@ -47,7 +51,7 @@ ION = 1
 
 
 def _synth_rows(wl: float) -> pd.DataFrame:
-    path = GES
+    path = NEARUV[2] if NEARUV[0] <= wl < NEARUV[1] else GES
     for lo, f in SYNTH_LISTS:
         if wl >= lo:
             path = f
@@ -82,14 +86,26 @@ def atomic(wl: float):
     return loggf, ep, ep + 12398.42 / wl, (vw if vw > 0 else 0.0)
 
 
+#: wavelength -> why its levels could not be resolved (RYA-1315). One unlabelled line used
+#: to abort every other line in the batch; it is now held, printed, and written to provenance.
+UNLABELLED: dict = {}
+
+
 def build_lines(waves):
     out = []
     for wl in waves:
-        data = atomic(wl)
-        loggf, ep, eup, vw = data[:4]
-        tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup, ion=ION)
+        try:
+            data = atomic(wl)
+            loggf, ep, eup, vw = data[:4]
+            tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup, ion=ION)
+        except ValueError as exc:
+            UNLABELLED[round(wl, 3)] = str(exc)
+            print(f"  {wl:10.3f} HELD: {exc}", flush=True)
+            continue
         if ION != 1 and (jl != data[5] or ju != data[6]):
-            raise ValueError(f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component")
+            UNLABELLED[round(wl, 3)] = f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component"
+            print(f"  {wl:10.3f} HELD: {UNLABELLED[round(wl, 3)]}", flush=True)
+            continue
         line = (wl, loggf, ep, jl, eup, ju, tl, tu, vw)
         out.append(line + (None, data[4]) if ION != 1 else line)
         print(f"  {wl:10.3f} loggf={loggf:+.3f} EP={ep:.3f} {tl} -> {tu} "
@@ -137,8 +153,8 @@ def main(argv=None) -> int:
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args(argv)
     ELEMENT, ION = a.element, a.ion
-    csv_path = ROOT / "data" / "nlte_grids" / f"{ELEMENT}_Amarsi2020_PySME.csv"
-    prov_path = csv_path.with_suffix(".prov.json")
+    csv_path = engine_a_table(ELEMENT, root=ROOT)
+    prov_path = engine_a_provenance(csv_path)
     rep = json.loads((OUT / f"{a.star}_{ELEMENT}.json").read_text())
     from config.constants import SOLAR_ASPLUND2021
     pn._A_SUN.setdefault(ELEMENT, SOLAR_ASPLUND2021[ELEMENT])
@@ -196,7 +212,7 @@ def main(argv=None) -> int:
                                     "grid": "Amarsi 2020 GALAH PySME departure grid (pysme_nlte)",
                                     "note": "new table; no banked rows to regress against"})
     prov.setdefault("extensions", []).append({
-        "ticket": "RYA-1233", "date": str(date.today()),
+        "ticket": os.environ.get("CODEX_TICKET", "RYA-1233"), "date": str(date.today()),
         "ion": ION, "added_waves": sorted({r["wave_A"] for r in rows}),
         "why": f"prepare check D: {len(new)} gf-graded {ELEMENT} {_INT2ROMAN[ION]} lines had no ENGINE-A row",
         "atomic_data": ("log gf + EP from canonical_gf (the values the measurement used); vdW "
@@ -211,6 +227,7 @@ def main(argv=None) -> int:
             bucket[f"{w:.3f}"] = (
                 "identically 0 at every node despite confirmed departure application; "
                 "held under the no-placeholder-zero admission policy; cause unestablished" if w in {round(z, 3) for z in zero} else
+                UNLABELLED[w] if w in UNLABELLED else
                 "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)")
     prov_path.write_text(json.dumps(prov, indent=2) + "\n")
     return 0

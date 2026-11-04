@@ -54,6 +54,7 @@ def units_for(star: str, element: str, *, report: dict,
     reported = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
                 for c in report.get("cells", [])}
     out = []
+    # RYA-1311/1315: Reference Grade cells were built and never published without "reference".
     for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "reference", "codex", "deep"]):
         identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
                     d.engine_deck, rm.pool_tier(d))
@@ -61,8 +62,10 @@ def units_for(star: str, element: str, *, report: dict,
         # GRADED selector. Accept that spelling when matching the descriptor's
         # SET-* selector so artifacts already built by the orchestrator reach the
         # budget/publication stage. Canonical and deep pools remain exact matches.
+        # RYA-1315: never on a NARROWED run -- a codex-only Na run pulled 6 Kitt Peak SET cells
+        # it never built into the budget, and their legs re-ran them in full.
         if identity not in built and not (
-                identity not in reported
+                not report.get("scope") and identity not in reported
                 and d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
                 and (*identity[:-1], "GRADED") in built):
             continue
@@ -101,8 +104,27 @@ def _identity(row: dict) -> tuple:
                  ("ion", "band", "instrument", "holding", "selector", "treatment"))
 
 
+def _built_from(rec: dict | None) -> str | None:
+    """A unit's legs are keyed on what its cell was built from: the inputs hash, plus the
+    forced-rebuild stamp where `--force` rebuilt it at an unchanged hash (RYA-1315)."""
+    rec = rec or {}
+    h = rec.get("inputs_hash")
+    return f"{h} forced {rec['forced_at']}" if rec.get("forced_at") else h
+
+
+def _scope_cells(report: dict) -> dict[tuple, set]:
+    """(ion, band, holding, selector) -> treatments, for every cell a narrowed run BUILT."""
+    out: dict[tuple, set] = {}
+    for c in report.get("cells", []):
+        if c.get("status") in BUILT:
+            out.setdefault((c["ion"], c["band"], c["holding"], c.get("pool") or ""), set()).update(
+                rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ()))
+    return out
+
+
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str) -> list[str]:
+                         held: list, why: str, started: str,
+                         scope: dict[tuple, set] | None = None) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -133,6 +155,16 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
+    if scope is not None:
+        # RYA-1315: a narrowed run withdraws only what it re-measured and could not stand
+        # behind -- a product in its scope that it HELD or quarantined. One it did not
+        # re-emit at all is left live; out-of-scope products are never considered.
+        def _held(p):
+            return (f"{p.get('band')} {p.get('holding')} {p.get('selector')} {p.get('treatment')}"
+                    in why_held or pp.key_of(p) in quarantined_now)
+        gone = [p for p in gone if str(p.get("treatment")) in scope.get(
+                    (str(p.get("ion")), str(p.get("band")), str(p.get("holding")),
+                     str(p.get("selector") or "")), ()) and _held(p)]
     if not gone:
         return []
     now = pp._now()
@@ -264,14 +296,15 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
 
 
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
-            interpreter: str | None = None, reason: str | None = None,
-            budget: str = "asplund") -> dict:
+            interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
-    # RYA-1250: publish prices, files and withdraws per UNIT, so it must see the whole element.
-    # A one-band report once made it treat 132 of 172 Mg units as gone.
-    if report.get("scope"):
-        raise ValueError(f"publish refuses a narrowed run report (scope {report['scope']}); "
-                         f"run the whole element")
+    # RYA-1250: a one-band report once made publish treat 132 of 172 Mg units as gone.
+    # RYA-1315: a NARROWED report publishes its own cells only -- legs are filed by signature
+    # (never deleted), the stage is written into rather than rebuilt (every live product's
+    # `copied_to` points there), and only products INSIDE the scope can be withdrawn.
+    scoped = bool(report.get("scope"))
+    if report.get("dry_run"):
+        raise ValueError("publish refuses a dry-run report: it built nothing to price")
     if report.get("star") not in (None, star) or report.get("element") not in (None, element):
         raise ValueError(f"publish: report is for {report.get('star')} {report.get('element')}, "
                          f"not {star} {element}")
@@ -289,35 +322,14 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         return summary
     ufile = work / "units.txt"
     ufile.write_text("\n".join(u[1] for u in units) + "\n")
-    ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
-    if budget == "asplund":
-        # RYA-1311 (Ryan 2026-11-03): the published uncertainty is Asplund+2021's and it
-        # needs no re-run -- every term is read off the cell's own nominal products. Each
-        # unit's recorded artifacts (the run ledger) are its nominal; no leg is run.
-        import shutil
-        legs = work / "asplund"
-        shutil.rmtree(legs, ignore_errors=True)
-        for i, u in enumerate(units):
-            nom = legs / f"unit{i:02d}" / "nominal"
-            nom.mkdir(parents=True)
-            for art in (ledger.get(u[3]) or {}).get("artifacts", []):
-                src = ROOT / art["path"]
-                if src.exists():
-                    shutil.copy2(src, nom / src.name)
-            (nom / "DONE").write_text("asplund: the cell's recorded artifacts\n")
-        (legs / "units.txt").write_text(ufile.read_text())
-        summary["budget"] = "asplund"
-        summary["legs_incomplete"] = []
-        return _assemble_and_publish(star, element, work=work, legs=legs, stage=stage,
-                                     units=units, summary=summary, py=py, reason=reason,
-                                     started=started, extra=["--asplund"])
     # Leg directories are keyed by unit index and the legs runner skips a leg whose DONE
     # exists, so legs are reused across invocations -- ONLY while the unit's command line and
     # its own cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
     # or synthesis-list change re-built the cells and then priced them from stale legs.
     # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
+    ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
     reuse_legs(legs, work / "units.prev.json",
-               [unit_signature(u[1], (ledger.get(u[3]) or {}).get("inputs_hash")) for u in units])
+               [unit_signature(u[1], _built_from(ledger.get(u[3]))) for u in units])
     # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
     # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
     for done in legs.glob("unit*/*/DONE"):
@@ -335,21 +347,17 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if not missing:
             break
     summary["legs_incomplete"] = missing
-    return _assemble_and_publish(star, element, work=work, legs=legs, stage=stage,
-                                 units=units, summary=summary, py=py, reason=reason,
-                                 started=started, extra=[])
-
-
-def _assemble_and_publish(star, element, *, work, legs, stage, units, summary, py, reason,
-                          started, extra):
     import shutil
     prev_stage = work / "stage.prev"
     shutil.rmtree(prev_stage, ignore_errors=True)
-    if stage.exists():
+    if scoped:
+        stage.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(stage, prev_stage)  # the out-of-scope files stay where the feed points
+    elif stage.exists():
         stage.rename(prev_stage)        # kept until superseded records are preserved
     rep = work / "report.json"
     subprocess.run([py, "scripts/rya1230_cno_budget.py", "--legs", str(legs), "--stage", str(stage),
-                    "--report", str(rep), *extra], cwd=ROOT, check=True)
+                    "--report", str(rep)], cwd=ROOT, check=True)
     r = json.loads(rep.read_text())
     keep = []
     for o in r["products"]:
@@ -370,11 +378,8 @@ def _assemble_and_publish(star, element, *, work, legs, stage, units, summary, p
     r["products"] = keep
     pub = work / "publish.json"
     pub.write_text(json.dumps(r, indent=1, default=str) + "\n")
-    why = reason or (f"orchestrator --publish ({rm._code_commit()[:12]}): "
-                     + ("Asplund+2021 Sect. 2.1 uncertainty from the cell's nominal products"
-                        if "--asplund" in extra else
-                        "RYA-587 budget from paired legs on each product's own pool")
-                     + "; published through publish_product's gates")
+    why = reason or (f"orchestrator --publish ({rm._code_commit()[:12]}): RYA-587 budget from paired "
+                     f"legs on each product's own pool; published through publish_product's gates")
     # publish_product directly, one staged product at a time, through its own gates --
     # with --origin-path so `copied_to` is recorded (feed_repo_reconciliation, RYA-1080).
     done = set()
@@ -401,8 +406,11 @@ def _assemble_and_publish(star, element, *, work, legs, stage, units, summary, p
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
-    summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started)
+    summary["withdrawn"] = _withdraw_superseded(
+        star, element, stage=stage, keep=keep, held=summary["held"], why=why, started=started,
+        scope=_scope_cells(report) if scoped else None)
+    if scoped:
+        summary["scope"] = report["scope"]
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict

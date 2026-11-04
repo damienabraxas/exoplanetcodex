@@ -502,9 +502,13 @@ def publication_problems(product):
         scope = product_scope(product, star=star, indicator_ids=ids or [])
         budget = validate(product.get("uncertainty"), scope=scope)
         terms = {c["name"]: c for c in budget["components"]}
-        if product.get("band") in {"NIR", "H", "K"} and terms["telluric"]["state"] == "N/A":
+        #: RYA-1315: a term recorded N/A as outside the Asplund+2021 budget is not owed
+        asplund_na = {k for k, c in terms.items()
+                      if c["state"] == "N/A" and (c.get("evidence") or {}).get("asplund_budget")}
+        if (product.get("band") in {"NIR", "H", "K"} and terms["telluric"]["state"] == "N/A"
+                and "telluric" not in asplund_na):
             raise UncertaintyError("IR products require quantified telluric residual uncertainty")
-        if terms["stellar.xi"]["state"] == "N/A":
+        if terms["stellar.xi"]["state"] == "N/A" and "stellar.xi" not in asplund_na:
             evidence = terms["stellar.xi"]["evidence"]
             if evidence.get("parameter_exists") is not False:
                 raise UncertaintyError("xi N/A requires evidence that this route has no xi parameter")

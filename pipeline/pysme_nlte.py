@@ -238,6 +238,23 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06, 
             float(J[il]), float(J[iu]))
 
 
+#: Grids whose `.grd` level array `read_amarsi_grid` mis-parses (RYA-545: Mallinson 2024 Ti,
+#: same v1.10 container, different layout). Their levels are read from the grid's own shipped
+#: label table -- the file its README says line labels must match, in the grid's level order.
+_LABEL_TABLE = {'Ti': 'label_Ti.txt'}
+
+
+def _label_levels(element: str) -> dict:
+    """The shipped label table as the `read_amarsi_grid` keys labels_by_selection_rules reads.
+    Format '(i4,x,a4,x,a30,x,a10,x,f5.1,x,f20.9)'; species 'Ti 1' etc. RYA-1315."""
+    rows = [ln for ln in (_GRID_DIR / _LABEL_TABLE[element]).read_text().splitlines()
+            if ln.strip() and not ln.lstrip().startswith('#')]
+    enc = lambda s: s.strip().encode('latin1')                       # noqa: E731
+    return {'spec': [enc(r[5:9]) for r in rows], 'conf': [enc(r[10:40]) for r in rows],
+            'term': [enc(r[41:51]) for r in rows],
+            'J': [float(r[52:57]) for r in rows], 'energy': [float(r[58:78]) for r in rows]}
+
+
 def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
                               tol: float = 0.06, *, ion=1):
     """Grid level labels for a line, the upper level chosen by the LS SELECTION RULES
@@ -251,8 +268,11 @@ def labels_by_selection_rules(element: str, elow_eV: float, eup_eV: float,
     took 3D2 and found the departure coefficients differ by <0.01% where the line forms.
     Here: lower = nearest level within `tol`; upper = the NEAREST level within `tol` of the
     opposite parity with |dJ| <= 1 and not J 0->0. None within `tol` RAISES."""
-    from pipeline.nlte_bfactor_synth import read_amarsi_grid
-    g = read_amarsi_grid(element)
+    if element in _LABEL_TABLE:
+        g = _label_levels(element)
+    else:
+        from pipeline.nlte_bfactor_synth import read_amarsi_grid
+        g = read_amarsi_grid(element)
     E = np.asarray(g.get('energy'), float)
     J = np.asarray(g.get('J'), float)
     conf, term = g.get('conf'), g.get('term')

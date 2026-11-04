@@ -61,32 +61,29 @@ from pipeline.uncertainty_contract import (  # noqa: E402
 from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
-#: RYA-1311 (Ryan 2026-11-03): the published uncertainty is ASPLUND+2021's (Sect. 2.1), and it
-#: needs no re-run: statistical (the nominal fit) (+) half the 3D effect (+) NLTE, all read off
-#: the cell's own nominal products. `--asplund` budgets from those alone; the RYA-587
-#: perturbation legs (xi, continuum quantiles, core window, MARCS, IAG reference, telluric
-#: scale) are not run and their components are N/A, as in Asplund's budget.
-ASPLUND_ONLY = False
-ASPLUND_NA_SOURCE = ("not part of the published uncertainty: Asplund, Amarsi & Grevesse 2021 "
-                     "Sect. 2.1 (statistical (+) half the 3D effect (+) NLTE); no perturbation "
-                     "leg is run (RYA-1311, Ryan 2026-11-03)")
-_TREATMENT_TAIL = re.compile(r"_(1D-LTE|ENGINE-[A-Z0-9-]+|synth-[A-Za-z0-9-]+)_lines\.csv$")
+SCOTT2015 = ROOT / "data/reference/scott2015/scott2015_line_models.csv"
 
 
-def _unit_3d_effect(nominal_dir: Path, lines_stem: str, statistic):
-    """The pool's own 3D effect (3D-NLTE minus 1D-NLTE per line, ENGINE-A pair) from the
-    unit's nominal products, for any treatment of that pool; None when the pair is absent."""
-    base = _TREATMENT_TAIL.sub("", lines_stem)
-    f3, f1 = nominal_dir / f"{base}_ENGINE-A-3DNLTE_lines.csv", nominal_dir / f"{base}_ENGINE-A_lines.csv"
-    if not (f3.exists() and f1.exists()):
+def scott_atmosphere(element: str, ion: str, pool_w, statistic=np.mean) -> dict | None:
+    """Asplund+2021 Sect. 2.1's two atmosphere terms for a pool, from Scott+2015 I/II's per-line
+    LTE abundances in the 3D, <3D> and Holweger & Mueller (1974) models:
+        temperature structure = 1/2 |mean(<3D> - HM)|,  inhomogeneities = 1/2 |mean(3D - <3D>)|
+    averaged over the pool's lines Scott tabulates (0.05 A); a pool with none of them takes the
+    species' own Scott lines (Asplund's per-element value). None when Scott has no such species."""
+    t = pd.read_csv(SCOTT2015)
+    t = t[(t.element == element) & (t.ion == ion)]
+    if t.empty:
         return None
-    def _d(f):
-        a = pd.read_csv(f)
-        a = a[a.in_aggregate == True]                                         # noqa: E712
-        return dict(zip(a.wavelength_air_A.round(3), a.nlte_delta_dex.astype(float)))
-    d3, d1 = _d(f3), _d(f1)
-    common = sorted(set(d3) & set(d1))
-    return float(statistic([d3[w] - d1[w] for w in common])) if common else None
+    wa = t.wavelength_nm.astype(float) * 10.0
+    pool = [float(w) for w in pool_w]
+    hit = t[[any(abs(w - x) <= 0.05 for x in pool) for w in wa]]
+    use, basis = (hit, "pool lines") if len(hit) else (t, "species mean (no pool line in Scott)")
+    temp = float(statistic(use.A_mean3D - use.A_HM))
+    inhom = float(statistic(use.A_3D - use.A_mean3D))
+    return {"temperature_structure_dex": abs(temp) / 2.0, "inhomogeneity_dex": abs(inhom) / 2.0,
+            "mean_3Dmean_minus_HM_dex": temp, "mean_3D_minus_3Dmean_dex": inhom,
+            "n_scott_lines": int(len(use)), "basis": basis,
+            "scott_wavelengths_A": sorted(round(float(w) * 10.0, 3) for w in use.wavelength_nm)}
 DELTA_XI = 0.2912
 XI_STEP = 0.10
 C_STEP, SIGMA_C = 0.10, 0.04
@@ -564,9 +561,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     else:
         tell_excluded = {}
     #: RYA-1232 (Ryan): Fe has hundreds of lines -- a leg-unstable Fe line is simply dropped,
-    #: whatever the count; the 5% cap that HOLDS the product protects scarce-line elements.
-    _fe = str(prod["element"].iloc[0]) == "Fe"
-    if unstable and (_fe or len(unstable) <= max(1, int(0.05 * n))) and n - len(unstable) >= 2:
+    #: whatever the count. RYA-1315 (Ryan, 11-02): the same for every element -- a line the
+    #: engine cannot resolve under a perturbation is dropped, not a reason to hold a product
+    #: with good values (Na HARPS Graded held on 2 of 16). Still held: more than half the pool
+    #: unstable (a broken leg, not marginal lines), or fewer than 2 lines left.
+    if unstable and 2 * len(unstable) <= n and n - len(unstable) >= 2:
         acc = acc[~_near(acc["wavelength_air_A"], list(unstable))]
         n = len(acc)
         _ab = acc["abundance"].astype(float)
@@ -820,8 +819,22 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                               "n_paired": pc["n_paired"]}))
     lever("profile_ew", "core", "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
           {"varied": "fit half-width", "nominal_A": hw, "alternate_A": 0.25})
-    lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-          {"varied": "atmosphere grid"})
+    #: RYA-1315 (Ryan, 11-03): Asplund+2021's atmosphere terms, from Scott+2015's per-line
+    #: 3D / <3D> / HM74 abundances -- not a MARCS-vs-ATLAS9 leg. A species Scott does not
+    #: tabulate (C/N/O) keeps its own route below.
+    scott = scott_atmosphere(element, _ion, _pool_w) if _ion else None
+    if scott is not None:
+        comps.append(dict(
+            name="model_atmosphere",
+            sigma_dex=float(np.hypot(scott["temperature_structure_dex"], scott["inhomogeneity_dex"])),
+            state="MEASURED",
+            source=("Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half "
+                    "the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II "
+                    f"({scott['basis']}, n={scott['n_scott_lines']})"),
+            evidence={"pool_sha256": digest, **scott}))
+    else:
+        lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
+              {"varied": "atmosphere grid"})
 
     # telluric: per line, through the line's own dA/df
     cs = _leg_lines(unit_dir / "cscale", lines_stem)
@@ -1025,23 +1038,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                       source="SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
                       evidence={"harness_residual_dex": 0.0}))
 
-    if ASPLUND_ONLY:
-        if three_d is None:
-            three_d = _unit_3d_effect(nominal_dir, lines_stem, statistic)
-        comps = [c for c in comps if c["name"] != "model_atmosphere"]
-        if three_d is not None:
-            comps.append(dict(name="model_atmosphere", sigma_dex=abs(three_d) / 2.0, state="MEASURED",
-                              source=("Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term: half "
-                                      "the pool's own 3D effect (3D-NLTE minus 1D-NLTE, ENGINE-A pair)"),
-                              evidence={"pool_sha256": digest, f"{aggregation}_3d_effect_dex": three_d}))
-        have = {c["name"] for c in comps}
-        from pipeline.uncertainty_contract import COMPONENTS as _ALL
-        for _name in _ALL:
-            if _name not in have:
-                comps.append(dict(name=_name, sigma_dex=None, state="N/A", source=ASPLUND_NA_SOURCE,
-                                  evidence={"budget": "asplund"}))
-        notes = [x for x in notes if "missing" not in x]
-        three_d = None
+    #: RYA-1315 (Ryan, 11-03): the published sigma is Asplund+2021's; the RYA-587 terms whose
+    #: legs are no longer run are NOT PART OF THAT BUDGET -- recorded N/A, never HOLD.
+    _have = {c["name"] for c in comps}
+    for _name, _legs in (("stellar.xi", ("xi_minus", "xi_plus")), ("continuum", ("q80", "q97", "contref")),
+                         ("profile_ew", ("core",)), ("telluric", ("cscale",))):
+        if _name not in _have and not any((unit_dir / lg).is_dir() for lg in _legs):
+            comps.append(dict(name=_name, sigma_dex=None, state="N/A",
+                              source=("not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, "
+                                      "half the 3D effect, NLTE); RYA-1315 runs only those legs"),
+                              evidence={"asplund_budget": True, "legs_not_run": list(_legs)}))
+            notes[:] = [x for x in notes if not x.startswith((_name.split(".")[-1], f"{_name}:"))]
+
+    if scott is not None:
+        three_d = None                 # the inhomogeneity term is already Scott's 3D - <3D>
     if three_d is not None:
         ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
         if ma is None:
@@ -1078,11 +1088,7 @@ def main() -> int:
     ap.add_argument("--nominal", type=Path, nargs="*", default=[])
     ap.add_argument("--stage", type=Path, required=True)
     ap.add_argument("--report", type=Path, required=True)
-    ap.add_argument("--asplund", action="store_true",
-                    help="Asplund+2021 budget from the nominal products alone (no legs)")
     a = ap.parse_args()
-    global ASPLUND_ONLY
-    ASPLUND_ONLY = a.asplund
     gf = pd.read_csv(GF, low_memory=False)
     units = [shlex.split(l) for l in (a.legs / "units.txt").read_text().splitlines() if l.strip()]
     a.stage.mkdir(parents=True, exist_ok=True)
