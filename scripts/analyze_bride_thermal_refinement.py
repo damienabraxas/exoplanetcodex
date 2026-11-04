@@ -12,7 +12,7 @@ CENTRES = (7771.944, 7774.166, 7775.388)  # AIR A, same held O777 apertures
 RESOURCE = 'experiments.bride_thermal_extreme_refinements'
 
 
-def verify_pair(base, refined, plan):
+def verify_pair(base, refined, plan, *, ng_control=None):
     from pipeline.bride_thermal_sweep import effective_controls
     for r in (base, refined):
         if (r['schema'] != 'codex.bride_thermal_flux/1' or r['mode'] != 'cowley'
@@ -36,8 +36,13 @@ def verify_pair(base, refined, plan):
             raise ValueError('Changed matched initialization/runner provenance')
     elif base['generator'] != refined['generator']:
         raise ValueError('Changed legacy generator')
+    expected=effective_controls(plan['controls'], True)
+    if ng_control is not None:
+        if ng_control not in ('record','off') or refined.get('ng_control')!=ng_control:raise ValueError('Wrong declared Ng comparison')
+        expected['ng']=ng_control=='record'
+    elif refined.get('ng_control') is not None:raise ValueError('Declare the Ng comparison explicitly')
     if (base['coupled']['controls'] != plan['controls'] or
-            refined['coupled']['controls'] != effective_controls(plan['controls'], True)):
+            refined['coupled']['controls'] != expected):
         raise ValueError('Changed numerical refinement controls/budgets')
     for key in ('source_spline', 'source_mn', 'helper'):
         if base['coupled'][key] != refined['coupled'][key]:

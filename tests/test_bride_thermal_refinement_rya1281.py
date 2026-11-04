@@ -28,6 +28,11 @@ def test_pair_rejects_wrong_physics_case_and_relaxed_budget():
     verify_pair(base, matched, plan)
     matched['initialization']['populations'] = {}
     with pytest.raises(ValueError, match='initialization'): verify_pair(base, matched, plan)
+    matched['initialization']['populations']=base['coupled']['populations']
+    matched['ng_control']='off';matched['coupled']['controls']['ng']=False
+    with pytest.raises(ValueError,match='explicitly'):verify_pair(base,matched,plan)
+    verify_pair(base,matched,plan,ng_control='off')
+    with pytest.raises(ValueError,match='declared'):verify_pair(base,matched,plan,ng_control='record')
 
 
 def test_independent_balance_discriminates_populations_operator_and_nuclei():
