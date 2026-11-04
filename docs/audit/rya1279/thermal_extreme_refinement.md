@@ -24,3 +24,18 @@ archives remain there if over the repository size ceiling, with verified receipt
 Base main f8c723a85f905425b1f7ae189f15a8763998ffc0; stacked base
 4635c7421a7dee8671ffefe05d771c68da1cd24e; initial HEAD
 d61e4ab9b8034d337b2bf2564688a4da4e46094e. No merge/production/publication.
+
+## Conditional initialization improvement, declared before the first outcome
+
+The legacy runner starts every thermal refinement from the old solar control,
+including off-solar cases. If this bounded replay exhausts its budget, retain
+that complete failed attempt and stop the legacy serial batch. The next bounded
+attempt may instead initialize each refinement from its own already converged,
+exact physical baseline. Validate case/source/certificate/local fields and
+original controls, saved population/rate/history hashes, positive nuclei totals
+and exact LTE state before using that guess. Re-solve with all original joint,
+fresh-rate, conservation, iteration and time limits unchanged. This improves an
+initial guess, not the atmosphere, atom or fitted parameters. Record the alternate
+initialization and code lineage explicitly; do not call the failed replay passed.
+Use a separate immutable root rya1281-thermal-extremes-matched-v1 and keep the
+legacy attempt root intact. No increase of the600-second per-attempt budget.

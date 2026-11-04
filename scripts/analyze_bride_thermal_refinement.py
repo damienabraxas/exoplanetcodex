@@ -105,6 +105,19 @@ def main():
                 if fingerprint(d/filename) != r[key]: raise ValueError('Changed replay evidence: '+filename)
             for filename, key in (('populations.npz', 'populations'), ('rates.npz', 'rates'), ('history.jsonl', 'history')):
                 if fingerprint(d/filename) != r['coupled'][key]: raise ValueError('Changed coupled evidence: '+filename)
+            inputs = json.loads((d/'input_manifest.json').read_text())
+            if (inputs['case'] != r['case'] or inputs['controls'] != r['coupled']['controls']
+                    or inputs['local_binding'] != r['local_binding']
+                    or inputs['numeric_refinement'] != r['numeric_refinement']):
+                raise ValueError('Input/report identity disagreement')
+            history = [json.loads(line) for line in (d/'history.jsonl').read_text().splitlines()]
+            if (len(history) != r['coupled']['iterations'] or len(history) < 3
+                    or history[-1] != r['coupled']['final_diagnostics']):
+                raise ValueError('Wrong joint convergence history')
+            last = history[-1]
+            if (max(last[k] for k in ('population_change', 'physical_rate_residual', 'J_change', 'cap_boundary_change')) >= plan['controls']['rtol']
+                    or last['particle_conservation_error'] > 1e-10):
+                raise ValueError('Joint convergence failed')
             with np.load(d/'populations.npz') as saved: pop = saved['populations'].copy()
             binding = r['local_binding']['local_binding']
             target = np.array(binding['nH_m3'])*10**(binding['scalars']['active_oxygen_abundance_dex']-12)
@@ -115,6 +128,8 @@ def main():
         a, b = arrays
         if any(not all(np.isfinite(x[k]).all() for k in x.dtype.names) or np.any(x['continuum_Fnu_W_m2_Hz'] <= 0) for x in arrays):
             raise ValueError('Invalid flux/continuum arrays')
+        for x in arrays:
+            np.testing.assert_array_equal(x['normalized_flux'], x['Fnu_W_m2_Hz']/x['continuum_Fnu_W_m2_Hz'])
         np.testing.assert_array_equal(a['wavelength_air_A'], b['wavelength_air_A'])
         if wave is None: wave = a['wavelength_air_A']; profiles.append(wave)
         np.testing.assert_array_equal(wave, a['wavelength_air_A'])
