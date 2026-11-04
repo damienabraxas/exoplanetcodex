@@ -63,7 +63,7 @@ IAG81.73581/70.81716/57.70338 and p95 envelope74.10889/63.73224/49.94709
 unchanged. Reference/anchor qualification still dominates interpretation, no
 favorable continuum or xi selected, no second telluric correction or LSF/RV fit.
 
-[Seven-point response](../../../data/output/rya1281/xi_wide_v1/combined/combined_xi_response.png)
+[Seven-point response](../../../data/output/rya1281/xi_wide_v1/combined_v3/combined_xi_response.png)
 and [wider spectral comparison](../../../data/output/rya1281/xi_wide_v1/analysis/xi_control.png).
 
 ## Adaptive-grid reconstruction diagnostic
@@ -124,14 +124,14 @@ at case startup; it did not alter a job/result and subsequent reads report the
 preparing state. No new verified accepted science/production bug; no bug-ledger
 row fabricated for expected source-domain refusals.
 
-69artifacts/13figures are byte-identical copies in xi_wide_v1 result/output roots.
+71artifacts/14figures are byte-identical copies in xi_wide_v1 result/output roots.
 Full producer coefficient arrays remain in registered external holdings; copied
 certificate metadata is not a standalone packet. Actual generator/helper writers
 and commands registered. External Mac roots:
 `rya1281-xi-wide-source-v1`, `rya1281-xi-wide-coefficients-v1`,
 `rya1281-xi-wide-coupled-v1`, `rya1281-xi-wide-review-v1`,
-`rya1281-xi-wide-continuum-v1`, `rya1281-xi-combined-v2`,
-`rya1281-parameter-domain-v1`. Combinedv1 retained, v2 adds profile checks.
+`rya1281-xi-wide-continuum-v1`, `rya1281-xi-combined-v3`,
+`rya1281-parameter-domain-v1`. Combinedv1/v2 retained. v3 makes CLI declarations explicit for the static generator checker; all comparison metrics, curve CSV and figure remain identical to v2. Initial checker added two false flag diagnostics for the dynamic declarations; corrected before push.
 
 Next: source-matched Teff/gravity inputs and representative numerical refinement
 at extremes. Preserve both refused hotter candidates until collision-source

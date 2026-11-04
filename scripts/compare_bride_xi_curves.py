@@ -41,7 +41,11 @@ def interpolate_profile(x,line,continuum,target,method):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    for name in ('local-plan','wide-plan','local-root','wide-root','output'):p.add_argument('--'+name,type=Path,required=True)
+    p.add_argument('--local-plan',type=Path,required=True)
+    p.add_argument('--wide-plan',type=Path,required=True)
+    p.add_argument('--local-root',type=Path,required=True)
+    p.add_argument('--wide-root',type=Path,required=True)
+    p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
     from pipeline.bride_reference import fingerprint
     from pipeline.bride_observables import window_integral

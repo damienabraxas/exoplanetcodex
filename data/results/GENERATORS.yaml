@@ -27396,3 +27396,11 @@ artifacts:
     generator: scripts/audit_bride_parameter_domain.py
     invocation: python scripts/audit_bride_parameter_domain.py --plan config/experiments/rya1281_parameter_domain.json --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/xi_wide_v1/combined_v3/report.json
+    generator: scripts/compare_bride_xi_curves.py
+    invocation: python scripts/compare_bride_xi_curves.py --local-plan config/experiments/rya1281_mac_xi_slice.json --wide-plan config/experiments/rya1281_mac_xi_wide.json --local-root <registered-mac-store>/rya1281-xi-coupled-v1 --wide-root <registered-mac-store>/rya1281-xi-wide-coupled-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_wide_v1/combined_v3/curve.csv
+    generator: scripts/compare_bride_xi_curves.py
+    invocation: python scripts/compare_bride_xi_curves.py --local-plan config/experiments/rya1281_mac_xi_slice.json --wide-plan config/experiments/rya1281_mac_xi_wide.json --local-root <registered-mac-store>/rya1281-xi-coupled-v1 --wide-root <registered-mac-store>/rya1281-xi-wide-coupled-v1 --output <new-immutable-directory>
+    ticket: RYA-1281
