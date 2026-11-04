@@ -1,3 +1,7 @@
+## 2026-11-04 — oxygen numerical endpoints and profile geometry
+
+- **RYA-1281** — Verify three refined endpoints, retain lower-g timeout, expose xi shape information; numerical/reference gates stay open.
+
 ## 2026-11-02 — Stark and coupled oxygen controls
 
 - **RYA-1281** — Verify Stark conventions, expose H2 coverage gap, and converge bounded coupled O; feedback too small for window gap.

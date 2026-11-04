@@ -27767,3 +27767,163 @@ artifacts:
     generator: scripts/receipt_bride_refined_rates.py
     invocation: python scripts/receipt_bride_refined_rates.py --report <registered-mac-store>/rya1281-thermal-refined-v1/report.json --output <new-receipt-json>
     ticket: RYA-1281
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/flux.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/neutral_colliders.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/neutral_reservoir.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/populations.npz
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/report.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5572/widths.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/logs/rya1281-matched-thermal_T5572.log
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/flux.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/neutral_colliders.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/neutral_reservoir.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/populations.npz
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/report.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_T5822/widths.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/logs/rya1281-matched-thermal_T5822.log
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5822 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_T5822 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4338/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4338 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4338/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4338 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/logs/rya1281-matched-thermal_g4338.log
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4338 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/flux.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/neutral_colliders.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/neutral_reservoir.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/populations.npz
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/report.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/runs/thermal_g4538/widths.csv
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/logs/rya1281-matched-thermal_g4538.log
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_g4538 --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4538 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/legacy_timeout/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/legacy_timeout/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --refine-numerics --case thermal_T5572 --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/analysis/profiles.csv
+    generator: "scripts/analyze_bride_thermal_refinement.py"
+    invocation: "python scripts/analyze_bride_thermal_refinement.py --plan config/experiments/rya1281_mac_thermal_slice.json --failed-attempt-log data/results/rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log --output <new-immutable-directory> --failed-refinements thermal_g4338 --failure-log-dir <archived-logs-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/analysis/report.json
+    generator: "scripts/analyze_bride_thermal_refinement.py"
+    invocation: "python scripts/analyze_bride_thermal_refinement.py --plan config/experiments/rya1281_mac_thermal_slice.json --failed-attempt-log data/results/rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log --output <new-immutable-directory> --failed-refinements thermal_g4338 --failure-log-dir <archived-logs-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/analysis/thermal_T5572_rates_external.json
+    generator: "scripts/analyze_bride_thermal_refinement.py"
+    invocation: "python scripts/analyze_bride_thermal_refinement.py --plan config/experiments/rya1281_mac_thermal_slice.json --failed-attempt-log data/results/rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log --output <new-immutable-directory> --failed-refinements thermal_g4338 --failure-log-dir <archived-logs-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/analysis/thermal_T5822_rates_external.json
+    generator: "scripts/analyze_bride_thermal_refinement.py"
+    invocation: "python scripts/analyze_bride_thermal_refinement.py --plan config/experiments/rya1281_mac_thermal_slice.json --failed-attempt-log data/results/rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log --output <new-immutable-directory> --failed-refinements thermal_g4338 --failure-log-dir <archived-logs-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/analysis/thermal_g4538_rates_external.json
+    generator: "scripts/analyze_bride_thermal_refinement.py"
+    invocation: "python scripts/analyze_bride_thermal_refinement.py --plan config/experiments/rya1281_mac_thermal_slice.json --failed-attempt-log data/results/rya1281/thermal_extremes_v1/logs/rya1281-extreme-thermal_T5572.log --output <new-immutable-directory> --failed-refinements thermal_g4338 --failure-log-dir <archived-logs-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/profile_geometry/directions.csv
+    generator: "scripts/analyze_bride_profile_geometry.py"
+    invocation: "python scripts/analyze_bride_profile_geometry.py --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/thermal_extremes_v1/profile_geometry/report.json
+    generator: "scripts/analyze_bride_profile_geometry.py"
+    invocation: "python scripts/analyze_bride_profile_geometry.py --output <new-immutable-directory>"
+    ticket: "RYA-1281"

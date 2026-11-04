@@ -35,7 +35,7 @@ contracts. A malformed or out-of-coverage case fails rather than being dropped.
 | Broader line/molecular opacity |41 FeI lines; combined components and other species omitted | Source-qualified components, species and later CNO molecular opacity; preserve accounting and fixed-physics counterpart. |
 | Continuum/tellurics/observation | Shipped Kitt baseline plus ORCH envelope/synthesis/IAG reference legs; reference/anchor sensitivity remains | Qualify continuum geometry, masks and independent-reference spread. These are conditioning/reference choices, not free parameters to optimize. No second telluric correction. |
 | Broadening/velocity/instrument response | Canonical and zero/gravitational RV variants retained | Source/uncertainty-backed vmac/vsini/FTS-LSF controls; wavelength frame fixed by source, not a fitted vacuum/air choice. |
-| Numerical resolution and boundaries | Finite cap, wavelength/angular/depth and convergence controls exist at specified earlier physics | Combined nominal rays3->5/qscale1->2/flux5->7 converges; O-area differences<=0.002881mA. Representative extremes/individual contributions remain owed; numerical checks do not validate physical boundaries. |
+| Numerical resolution and boundaries | Finite cap, wavelength/angular/depth and convergence controls exist at specified earlier physics | Combined nominal rays3->5/qscale1->2/flux5->7 converges; O-area differences<=0.002881mA. Matched5572/5822/g4.538 refinements pass with max area0.0048073mA; g4.338 hits original600s limit, not accepted (thermal_extreme_refinement.md). Xi extremes/individual contributions remain owed; numerical checks do not validate physical boundaries. |
 | Model family/dimensionality | Experimental static1D solar O777 | Independent matched1D reference, atmosphere-family spread, then1.5D/full3D with actual validated grids/backend. No claim1D parameter sweeps establish3D NLTE. |
 
 Begin with one axis at a time and a matching nominal control. After those
@@ -50,3 +50,5 @@ then a reference star with verified spectra/parameters/abundance. Additional
 oxygen lines and bands need appropriate atoms, blends and observations; O777
 VIS controls are not full-spectrum/all-band validation. HARPS does not cover
 O777; any HARPS oxygen test must use a separately qualified overlapping line.
+
+Full-profile finite geometry now separates xi response more than three areas do; T/g remain similar. Both fixed RV variants checked; source-backed broadening/continuum/abundance nuisance and noise controls are required before any inverse interpretation. Next numerical work must instrument actual Ng flags and compare declared controls for the unqualified lower-gravity endpoint.
