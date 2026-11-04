@@ -79,6 +79,8 @@ def failed_attempt(directory, base, plan, log, matched):
     inputs = json.loads((directory/'input_manifest.json').read_text())
     history = [json.loads(line) for line in (directory/'history.jsonl').read_text().splitlines()]
     if ((directory/'report.json').exists() or not history or not inputs['numeric_refinement']
+            or inputs['schema'] != 'codex.bride_thermal_input/1'
+            or inputs['mode'] != 'cowley' or inputs['population_mode'] != 'coupled'
             or inputs['controls'] != effective_controls(plan['controls'], True)
             or log.read_text().rstrip().splitlines()[-1] not in (
                 'TimeoutError: Fixed-population cap radiation budget exceeded',
@@ -153,6 +155,9 @@ def main():
         if name in ENDPOINTS and (ref.get('initialization', {}).get('mode') != 'matched_physical_baseline'
                 or ref['initialization']['report'] != fingerprint(baseline/'report.json')):
             raise ValueError('Wrong matched baseline initialization')
+        if name in ENDPOINTS:
+            with np.load(baseline/'populations.npz') as old, np.load(refined/'populations.npz') as new:
+                np.testing.assert_array_equal(old['populations'], new['initial_populations'])
         declared = next(c for c in plan['cases'] if c['name'] == name)
         if base['case'] != declared or base['plan'] != fingerprint(args.plan):
             raise ValueError('Relabelled case/plan')
@@ -204,6 +209,7 @@ def main():
             area_delta_mA=(np.array(area[1])-area[0]).tolist(), max_aperture_profile_delta=profile_max,
             max_full_region_profile_delta=float(np.max(abs(delta))), iterations=ref['coupled']['iterations'], telemetry=ref['telemetry'])
         if name in ENDPOINTS:
+            entry['matched_initial_populations_array_identity'] = True
             entry['external_rates'] = dict(schema='codex.bride_external_derived_artifact/1', resource_key=RESOURCE,
                 relative_path=name+'/rates.npz', artifact=fingerprint(refined/'rates.npz'), source_report=fingerprint(refined/'report.json'),
                 source_writer=ref['coupled']['helper'], scientific_admission='HOLD')

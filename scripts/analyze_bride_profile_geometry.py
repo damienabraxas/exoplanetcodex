@@ -67,9 +67,12 @@ def main():
         scaled = full/np.array(geometry['column_norms'])
         for column, name in enumerate(AXES):
             profiles.append(scaled[:, column]); labels.append(variant+'_'+name+'_unit_response')
-            for panel in panels[row]: panel.plot(wave, scaled[:, column], label=name)
+            for panel, centre in zip(panels[row], centres):
+                inside = (wave >= centre-.5) & (wave <= centre+.5)
+                panel.plot(wave[inside], scaled[inside, column], label=name)
         for panel, centre in zip(panels[row], centres):
             panel.set_xlim(centre-.5, centre+.5); panel.grid(alpha=.2); panel.legend(fontsize=8)
+            panel.ticklabel_format(axis='x', style='plain', useOffset=False)
             panel.set_xlabel('AIR wavelength (Angstrom)')
         panels[row, 0].set_ylabel(variant+'\nUnit response (Euclidean norm)')
     fig.suptitle('Finite temperature/gravity/xi response shapes in held O777 profiles\nBoth fixed broadening/RV variants; geometry only, no noise model or fit')

@@ -39,6 +39,11 @@ initial guess, not the atmosphere, atom or fitted parameters. Record the alterna
 initialization and code lineage explicitly; do not call the failed replay passed.
 Use a separate immutable root rya1281-thermal-extremes-matched-v1 and keep the
 legacy attempt root intact. No increase of the600-second per-attempt budget.
+The manifest's legacy initial_populations/report source_populations receipts
+retain the original solar lineage. The new initialization receipt identifies
+the actual matched starting populations. The solver also saves the actual
+initial array in populations.npz; analysis requires exact array identity with
+that case's archived converged baseline, not just a matching label.
 
 ## Independent light analysis while the serial RT batch runs
 

@@ -50,12 +50,15 @@ def test_independent_balance_discriminates_populations_operator_and_nuclei():
 
 def test_timeout_receipt_cannot_accept_a_report_or_different_physical_case(tmp_path):
     from scripts.analyze_bride_thermal_refinement import failed_attempt
-    from config.constants import require_codex_path
-    legacy = require_codex_path('experiments.bride_thermal_extreme_legacy')/'thermal_T5572'
     base = json.loads((ROOT/'data/results/rya1281/thermal_slice_v1/runs/thermal_T5572/report.json').read_text())
     plan = json.loads((ROOT/'config/experiments/rya1281_mac_thermal_slice.json').read_text())
-    for name in ('input_manifest.json', 'history.jsonl'):
-        (tmp_path/name).write_bytes((legacy/name).read_bytes())
+    inputs = {k:base[k] for k in ('case', 'plan', 'sweep_adapter', 'certificate', 'atmosphere_sources',
+        'local_binding', 'source_manifest', 'source_binding', 'lines', 'pressure_source', 'stark_source', 'generator')}
+    controls = dict(plan['controls'], rays=5, qscale=2, flux_rays=7)
+    inputs.update(schema='codex.bride_thermal_input/1', numeric_refinement=True,
+        mode='cowley', population_mode='coupled', controls=controls)
+    (tmp_path/'input_manifest.json').write_text(json.dumps(inputs))
+    (tmp_path/'history.jsonl').write_text(json.dumps(base['coupled']['final_diagnostics'])+'\n')
     log = tmp_path/'attempt.log'
     log.write_text('TimeoutError: Fixed-population cap radiation budget exceeded\n')
     assert failed_attempt(tmp_path, base, plan, log, False)['status'] == 'BUDGET_EXHAUSTED_NOT_ACCEPTED'

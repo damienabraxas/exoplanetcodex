@@ -6,9 +6,8 @@ import pytest
 
 
 def test_matched_start_requires_case_fields_controls_and_exact_lte_state():
-    from config.constants import require_codex_path
     from pipeline.bride_thermal_initial import matched_start
-    d = require_codex_path('experiments.bride_mac_grid')/'rya1281-thermal-coupled-v1/thermal_T5572'
+    d = Path(__file__).resolve().parents[1]/'data/results/rya1281/thermal_slice_v1/runs/thermal_T5572'
     r = json.loads((d/'report.json').read_text())
     expected = {k:r[k] for k in ('case', 'plan', 'sweep_adapter', 'certificate', 'atmosphere_sources',
         'local_binding', 'source_manifest', 'source_binding', 'lines', 'pressure_source', 'stark_source')}
