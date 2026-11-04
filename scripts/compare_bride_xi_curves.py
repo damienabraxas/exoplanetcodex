@@ -23,6 +23,22 @@ def check_shared_inputs(reports):
     if any(f!=fields[0]for f in fields):raise ValueError('Incompatible fixed atmosphere/composition')
 
 
+def interpolate_profile(x,line,continuum,target,method):
+    """Interpolate positive line/continuum flux separately; no extrapolation."""
+    x=np.asarray(x);line=np.asarray(line);continuum=np.asarray(continuum)
+    if len(x)<2 or np.any(np.diff(x)<=0)or not x[0]<=target<=x[-1]:raise ValueError('Invalid profile grid/domain')
+    if line.ndim!=2 or line.shape!=continuum.shape or line.shape[0]!=len(x):raise ValueError('Invalid profile shape')
+    if not all(np.isfinite(v).all()and np.all(v>0)for v in (line,continuum)):raise ValueError('Invalid physical flux')
+    if method=='pchip':
+        numerator=PchipInterpolator(x,line,axis=0,extrapolate=False)(target)
+        denominator=PchipInterpolator(x,continuum,axis=0,extrapolate=False)(target)
+    elif method=='linear':
+        numerator=np.array([np.interp(target,x,v)for v in line.T])
+        denominator=np.array([np.interp(target,x,v)for v in continuum.T])
+    else:raise ValueError('Unknown curve operator')
+    return numerator/denominator
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('local-plan','wide-plan','local-root','wide-root','output'):p.add_argument('--'+name,type=Path,required=True)
@@ -49,13 +65,23 @@ def main():
             if xi in unique:np.testing.assert_array_equal(areas,unique[xi])
             unique[xi]=areas
     wide=sorted(groups[1],key=lambda v:v[0]);wx=np.array([v[0]for v in wide]);wy=np.array([v[1]for v in wide])
+    for v in wide:np.testing.assert_array_equal(v[2]['wavelength_air_A'],wide[0][2]['wavelength_air_A'])
+    line_cube=np.array([v[2]['Fnu_W_m2_Hz']for v in wide]);continuum_cube=np.array([v[2]['continuum_Fnu_W_m2_Hz']for v in wide])
     diagnostic=[]
     for xi,area,data in groups[0]:
         if xi in wx:continue
         if not wx[0]<xi<wx[-1]:raise ValueError('No curve extrapolation permitted')
         linear=np.array([np.interp(xi,wx,wy[:,j])for j in range(3)])
         cubic=PchipInterpolator(wx,wy,axis=0,extrapolate=False)(xi)
-        diagnostic.append(dict(xi_km_s=xi,linear_minus_actual_mA=(linear-area).tolist(),pchip_minus_actual_mA=(cubic-area).tolist()))
+        wave=data['wavelength_air_A'];np.testing.assert_array_equal(wave,wide[0][2]['wavelength_air_A'])
+        profile_checks={}
+        for method in ('linear','pchip'):
+            prediction=interpolate_profile(wx,line_cube,continuum_cube,xi,method)
+            error=prediction-data['normalized_flux']
+            profile_checks[method]=dict(max_abs_normalized_flux_error=float(max(abs(error))),
+                oxygen_aperture_max_error=[float(max(abs(error[abs(wave-c)<=.5])))for c in (7771.944,7774.166,7775.388)])
+        diagnostic.append(dict(xi_km_s=xi,linear_minus_actual_mA=(linear-area).tolist(),pchip_minus_actual_mA=(cubic-area).tolist(),
+            profile_reconstruction=profile_checks,profile_method='Interpolate emergent Fnu and continuum separately, then divide; no SE or interpolated-population admission'))
     args.output.mkdir(parents=True,exist_ok=False)
     path=args.output/'curve.csv';xs=np.array(sorted(unique));ys=np.array([unique[x]for x in xs]);delta=ys-nominal[0][1]
     np.savetxt(path,np.column_stack((xs,ys,delta)),delimiter=',',header='xi_km_s,area7771_mA,area7774_mA,area7775_mA,delta7771_mA,delta7774_mA,delta7775_mA',comments='')

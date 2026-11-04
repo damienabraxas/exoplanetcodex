@@ -9,7 +9,7 @@ Scientific HOLD; fixedO8.70 baseline is not a measured solar abundance.
 
 ## Current executed slice
 
-`config/experiments/rya1281_mac_xi_slice.json` declares a list of named cases,
+`config/experiments/rya1281_mac_xi_slice.json` and `rya1281_mac_xi_wide.json` declare named cases,
 fixed solar5772/g4.438/full56-depth thermodynamic structure, O8.70, bound FeI
 continuum,41 source FeI pressure lines and Cowley Stark, native atomic H/EOS.
 H2 pressure-only result is separate; full chemistry/continuum/O collisions are
@@ -26,9 +26,9 @@ contracts. A malformed or out-of-coverage case fails rather than being dropped.
 
 | Axis or control | Evidence already present | Next coverage / dependencies |
 |---|---|---|
-| Microturbulence | Earlier native-node0.5/0.9/1/1.1/1.5 controls use older physics | Fresh solar0.9/1/1.1 completed (see xi_slice_control_review.md); extend to0.5/1.5 and intermediate values after local response/validity review. Do not stop at three values or fit xi to Kitt. |
-| Effective temperature | Five fresh solar5752-5792K at10K spacing with bound continuum; sparse Fe-line widths added later | Wider temperature range and useful sampling, constrained by actual atmosphere/atom/opacity domains; repeat with matched source physics and held-out grid checks.10K sampling is not10K physical accuracy. |
-| Surface gravity | Earlier native-node checks, not fresh source-matched solar series | Source-matched solar gravity slice, complete geometry/density/cap bindings; range from parameter provenance and grid coverage, not target residual. |
+| Microturbulence | Earlier native-node0.5/0.9/1/1.1/1.5 controls use older physics | Seven fresh distinct solar points0.5/0.75/0.9/1/1.1/1.25/1.5 completed (xi_wide_control_review.md). Representative numerical refinements and interactions remain owed; no xi fitted to Kitt. |
+| Effective temperature | Five fresh solar5752-5792K at10K spacing with bound continuum; sparse Fe-line widths added later | Wider source-matched slice owed. Preflight5572/5672/5772/5822 passes collision temperature domain;5872/5972 refused at976tables because deep T exceeds10000K. Resolve source coverage, no extrapolation.10K sampling is not10K physical accuracy. |
+| Surface gravity | Earlier native-node checks, not fresh source-matched solar series | Preflightg4.338/4.388/4.438/4.488/4.538 at5772 passes collision temperature domain only. Fresh source/certificates/O solves still owed; complete geometry/density/cap bindings required. |
 | Composition: metallicity, alpha and individual CNO/Fe | Native composition explicit; O8.70 fixed; earlier diagnostic O perturbations | Fresh producer/EOS/opacity inputs for each declared composition. Distinguish active-O response from atmosphere mixture response. Passive Fe for oxygen is not the Fe abundance milestone. |
 | H/electron reservoirs and chemistry | Native charge/EOS audits, full-domain H2 source and partial collider check | Full H/Hminus/H2, electron/charge and metal/molecular consistency; separate source prescriptions, never arbitrary ne/rho scalings promoted as physical atmospheres. |
 | Atomic data and collisions | Source tables/conventions and numerous numerical controls preserved | Source-backed alternatives and uncertainty inputs; no fitted rate/gf multiplier chosen to match Kitt. Independent matched1D oxygen benchmark remains indispensable. |

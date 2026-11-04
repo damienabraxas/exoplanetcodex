@@ -957,3 +957,14 @@ Independent saved-R+C residuals3.02-4.14e-7 pass; nominal flux replays exactly.
 O-aperture responses0.26-0.47mA per0.1km/s, no xi selected to close Kitt gap.
 38tests pass,42artifacts/8figures retained, all ORCH continuum legs rerun.
 Mac only, full EOS/reference/opacity/continuum/dimensionality gates OPEN; HOLD.
+
+## 2026-11-03 wider xi and next-axis source-domain checks
+
+[Wider review](xi_wide_control_review.md): five fresh0.5/0.75/1/1.25/1.5
+O solves converge with independent2.47-4.14e-7 rate residuals; nominal replays
+exactly. Seven distinct points combined, nonlinear response. Raw-flux profile
+reconstruction checked separately from aperture-area interpolation. Wider Teff/
+gravity preflight covers9/11 cases;5872/5972 refused at976source tables, no
+extrapolation or depth cut.40tests pass;69artifacts/13figures retained.
+New Teff/gravity source certificates/solves and numerical refinements remain
+owed. Broader sweep/independent O/full EOS/continuum/3D gates OPEN; HOLD.

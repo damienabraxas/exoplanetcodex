@@ -20,3 +20,12 @@ def test_comparison_accepts_declared_xi_variation_but_rejects_other_changes():
     with pytest.raises(ValueError,match='coupled control'):check_shared_inputs(bad)
     bad=copy.deepcopy(r);bad[1]['population_mode']='fixed'
     with pytest.raises(ValueError,match='physics mode'):check_shared_inputs(bad)
+
+
+def test_profile_reconstruction_preserves_raw_flux_ratio_and_domain():
+    from scripts.compare_bride_xi_curves import interpolate_profile
+    line=np.array([[2.,4.],[6.,12.]]);continuum=np.array([[4.,8.],[8.,16.]])
+    for method in ('linear','pchip'):
+        np.testing.assert_allclose(interpolate_profile([.5,1.5],line,continuum,1.,method),2/3,rtol=1e-15)
+        with pytest.raises(ValueError,match='domain'):interpolate_profile([.5,1.5],line,continuum,1.6,method)
+    with pytest.raises(ValueError,match='physical flux'):interpolate_profile([.5,1.5],line,continuum*0,1.,'pchip')
