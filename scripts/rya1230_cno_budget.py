@@ -61,6 +61,32 @@ from pipeline.uncertainty_contract import (  # noqa: E402
 from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
+#: RYA-1311 (Ryan 2026-11-03): the published uncertainty is ASPLUND+2021's (Sect. 2.1), and it
+#: needs no re-run: statistical (the nominal fit) (+) half the 3D effect (+) NLTE, all read off
+#: the cell's own nominal products. `--asplund` budgets from those alone; the RYA-587
+#: perturbation legs (xi, continuum quantiles, core window, MARCS, IAG reference, telluric
+#: scale) are not run and their components are N/A, as in Asplund's budget.
+ASPLUND_ONLY = False
+ASPLUND_NA_SOURCE = ("not part of the published uncertainty: Asplund, Amarsi & Grevesse 2021 "
+                     "Sect. 2.1 (statistical (+) half the 3D effect (+) NLTE); no perturbation "
+                     "leg is run (RYA-1311, Ryan 2026-11-03)")
+_TREATMENT_TAIL = re.compile(r"_(1D-LTE|ENGINE-[A-Z0-9-]+|synth-[A-Za-z0-9-]+)_lines\.csv$")
+
+
+def _unit_3d_effect(nominal_dir: Path, lines_stem: str, statistic):
+    """The pool's own 3D effect (3D-NLTE minus 1D-NLTE per line, ENGINE-A pair) from the
+    unit's nominal products, for any treatment of that pool; None when the pair is absent."""
+    base = _TREATMENT_TAIL.sub("", lines_stem)
+    f3, f1 = nominal_dir / f"{base}_ENGINE-A-3DNLTE_lines.csv", nominal_dir / f"{base}_ENGINE-A_lines.csv"
+    if not (f3.exists() and f1.exists()):
+        return None
+    def _d(f):
+        a = pd.read_csv(f)
+        a = a[a.in_aggregate == True]                                         # noqa: E712
+        return dict(zip(a.wavelength_air_A.round(3), a.nlte_delta_dex.astype(float)))
+    d3, d1 = _d(f3), _d(f1)
+    common = sorted(set(d3) & set(d1))
+    return float(statistic([d3[w] - d1[w] for w in common])) if common else None
 DELTA_XI = 0.2912
 XI_STEP = 0.10
 C_STEP, SIGMA_C = 0.10, 0.04
@@ -999,6 +1025,23 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                       source="SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
                       evidence={"harness_residual_dex": 0.0}))
 
+    if ASPLUND_ONLY:
+        if three_d is None:
+            three_d = _unit_3d_effect(nominal_dir, lines_stem, statistic)
+        comps = [c for c in comps if c["name"] != "model_atmosphere"]
+        if three_d is not None:
+            comps.append(dict(name="model_atmosphere", sigma_dex=abs(three_d) / 2.0, state="MEASURED",
+                              source=("Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term: half "
+                                      "the pool's own 3D effect (3D-NLTE minus 1D-NLTE, ENGINE-A pair)"),
+                              evidence={"pool_sha256": digest, f"{aggregation}_3d_effect_dex": three_d}))
+        have = {c["name"] for c in comps}
+        from pipeline.uncertainty_contract import COMPONENTS as _ALL
+        for _name in _ALL:
+            if _name not in have:
+                comps.append(dict(name=_name, sigma_dex=None, state="N/A", source=ASPLUND_NA_SOURCE,
+                                  evidence={"budget": "asplund"}))
+        notes = [x for x in notes if "missing" not in x]
+        three_d = None
     if three_d is not None:
         ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
         if ma is None:
@@ -1035,7 +1078,11 @@ def main() -> int:
     ap.add_argument("--nominal", type=Path, nargs="*", default=[])
     ap.add_argument("--stage", type=Path, required=True)
     ap.add_argument("--report", type=Path, required=True)
+    ap.add_argument("--asplund", action="store_true",
+                    help="Asplund+2021 budget from the nominal products alone (no legs)")
     a = ap.parse_args()
+    global ASPLUND_ONLY
+    ASPLUND_ONLY = a.asplund
     gf = pd.read_csv(GF, low_memory=False)
     units = [shlex.split(l) for l in (a.legs / "units.txt").read_text().splitlines() if l.strip()]
     a.stage.mkdir(parents=True, exist_ok=True)
