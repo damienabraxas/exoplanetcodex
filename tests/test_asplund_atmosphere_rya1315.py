@@ -46,3 +46,32 @@ def test_restamp_replaces_only_model_atmosphere_and_passes_the_gate():
         {k: v for k, v in after.items() if k != "model_atmosphere"}
     assert p["A"] == feed["products"][0]["A"]
     assert publication_problems(p) == []
+
+
+def _with_transition_na(evidence):
+    import numpy as np
+    from pipeline import uncertainty_contract as uc
+    from tests.test_uncertainty_contract_rya587 import complete_product
+    p = complete_product()
+    u = p["uncertainty"]
+    comps = [c for c in u["components"] if c["name"] != "transition_data"]
+    comps.append(uc.component("transition_data", None, state="N/A",
+                              source="not in the Asplund+2021 Sect. 2.1 budget", evidence=evidence))
+    numeric = [c for c in comps if c["state"] in {"MEASURED", "DEFINED"}]
+    p["uncertainty"] = uc.assemble(u["scope"], comps,
+                                   covariance=np.diag([c["sigma_dex"] ** 2 for c in numeric]).tolist(),
+                                   covariance_source=u["covariance_source"], assumptions=u["assumptions"])
+    p["sigma_reported"] = p["uncertainty"]["sigma_reported"]
+    return p
+
+
+def test_unpriced_gf_line_is_na_on_an_asplund_budget_not_a_hold():
+    """RYA-1315: Asplund+2021 leaves atomic data out; a line with no gf sigma no longer holds."""
+    from pipeline import uncertainty_contract as uc
+    ids = ["physical-transition-1", "physical-transition-2"]
+    pool = uc.pool_digest(ids)
+    ok = {"asplund_budget": True, "pool_sha256": pool, "indicator_ids": ids,
+          "unpriced_ids": ids[1:]}
+    assert uc.publication_problems(_with_transition_na(ok)) == []
+    assert uc.publication_problems(_with_transition_na({**ok, "pool_sha256": "other"}))
+    assert uc.publication_problems(_with_transition_na({**ok, "asplund_budget": None}))

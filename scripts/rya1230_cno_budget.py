@@ -676,8 +676,10 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         tags.append(source_key(str(m.lab_source_tag) if pd.notna(m.lab_source_tag) else "",
                                str(m.loggf_reference),
                                str(m.nist_grade) if pd.notna(m.nist_grade) else ""))
-    if any(math.isnan(s) for s in sig):
-        return {"row": row, "skip": "a pool line carries no published gf sigma"}
+    #: RYA-1315 (Ryan, 11-03): Asplund+2021 Sect. 2.1 does not include atomic data in the
+    #: abundance uncertainty, so a line with no published gf sigma no longer holds the product;
+    #: transition_data is then recorded N/A (asplund_budget), naming the unpriced lines.
+    unpriced = [x for x, s_ in zip(ids, sig) if math.isnan(s_)]
     digest = pool_digest(ids)
     if single_sigma is not None:
         sys.path.insert(0, str(ROOT / "scripts"))
@@ -706,9 +708,17 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         else:
             notes.append("measurement: the pool is ONE resolved feature; single-line pricing owed")
     w = [1.0 / n] * n
-    cov, cov_note = _gf_covariance(sig, src, tags)
-    comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
-                                 covariance_source=cov_note))
+    if unpriced:
+        comps.append(dict(name="transition_data", sigma_dex=None, state="N/A",
+                          source=("not in the Asplund+2021 Sect. 2.1 budget (atomic data not "
+                                  "included); a pool line carries no published gf sigma"),
+                          evidence={"asplund_budget": True, "indicator_ids": ids,
+                                    "line_sources": src, "unpriced_ids": unpriced,
+                                    "pool_sha256": digest}))
+    else:
+        cov, cov_note = _gf_covariance(sig, src, tags)
+        comps.append(transition_data(ids, sig, w, covariance=cov, sources=src,
+                                     covariance_source=cov_note))
     for name, why in (("stellar.logg", "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)"),
                       ("stellar.metallicity", "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)")):
         comps.append(dict(name=name, sigma_dex=0.0, state="DEFINED", source=why,
