@@ -48,3 +48,16 @@ def test_refinement_changes_sampling_only_and_clipping_count_not_source():
     validate_spline_receipt(actual,ref,atom,56)
     actual['source_directions']=False
     with pytest.raises(ValueError):validate_spline_receipt(actual,ref,atom,56)
+
+
+def test_analysis_rejects_changed_fields_and_diagnostic_column_even_with_new_digest():
+    from config.constants import require_codex_path
+    from scripts.analyze_bride_thermal_sweep import verify_case_binding
+    from pipeline.bride_opacity_binding import binding_digest
+    r=json.loads((require_codex_path('experiments.bride_mac_grid')/'rya1281-thermal-coupled-v1/thermal_nominal/report.json').read_text())
+    c=json.loads((require_codex_path('experiments.bride_thermal_coefficients')/'thermal_nominal/manifest.json').read_text())
+    verify_case_binding(r,c)
+    bad=copy.deepcopy(r);b=bad['local_binding']['local_binding'];b['fields']['temperature_K'][0]+=1.;bad['local_binding']['binding_sha256']=binding_digest(b)
+    with pytest.raises(ValueError,match='fields differ'):verify_case_binding(bad,c)
+    bad=copy.deepcopy(r);b=bad['local_binding']['local_binding'];b['column_mass_kg_m2'][0]*=1.01;bad['local_binding']['binding_sha256']=binding_digest(b)
+    with pytest.raises(ValueError,match='constructed thermal column'):verify_case_binding(bad,c)
