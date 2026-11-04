@@ -51,6 +51,8 @@ solar correction table or a mean-3D label. The readiness audit at
 
 | Rule | Why |
 |---|---|
+| **Uncertainty is Asplund+2021 Sect. 2.1 for EVERY element, and nothing is re-run for it** (Ryan, 2026-11-03). Statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03), all from the cell's own nominal products. Never run or propose the RYA-587 perturbation legs (xi, continuum quantiles, core, contref, marcs, cscale). If `--publish` would launch them, that is a bug. | The legs cost about 3 days an element and never fed the published bar (Sect. 7a). |
+| **Grades: Asplund Reference Grade (the published set), Reference Grade (lab gf) and Codex Grade all publish; only Deep is dropped.** A band without Asplund lines takes lab lines, then Codex, then Deep only if nothing else exists. | Ryan, 2026-11-03. |
 | **The orchestrator does the work; the agent starts runs and reports.** Change code only after the issue is reported to Ryan and agreed. | The goal is a pipeline that runs A to Z without an agent steering it. |
 | **Data lives on Sirius.** Paths come from `config/path_register.yaml` (Sirius defaults). Never hardcode a path; never keep an env file outside the repo. | Another agent must reproduce your run. |
 | **Raw spectra are never used.** Spectra are telluric-corrected and normalised ONCE per holding and then frozen. Do not re-prepare or re-gate them. | Settled for every element. |
@@ -207,7 +209,8 @@ matcher can resolve. Prepare reports these as `route_requirements`.
 ```bash
 python run_pipeline.py --star solar --element <El> --jobs 8 --publish > publish_<El>.log 2>&1
 ```
-One command: measures every cell, builds the uncertainty budget legs, assembles, publishes
+One command: measures every cell, prices each product's Asplund uncertainty from the cell's
+own products (no re-run), publishes
 to `data/products/solar/<El>.json`, withdraws superseded products, writes the verdict and
 coverage. Resolve permitted compute from current science authority and the ticket; historical
 Mac runs are not general authorization. Expect a long run. Run it in the background and
