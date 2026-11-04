@@ -9,6 +9,13 @@ import time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
+def validate_output(path):
+    from config.constants import codex_path
+    if path.resolve()!=codex_path('experiments.bride_ng_controls').resolve():
+        raise ValueError('Use registered fresh experiment output (override resource for replay)')
+    if path.exists():raise FileExistsError('Preserve existing experiment output')
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output',type=Path,required=True);args=p.parse_args()
@@ -16,7 +23,7 @@ def main():
     from pipeline.bride_reference import fingerprint
     from importlib.metadata import version
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':raise ValueError('Mac/LW0.16.1 only')
-    if args.output.resolve()!=require_codex_path('experiments.bride_ng_controls').resolve():raise ValueError('Use registered fresh experiment output (override resource for replay)')
+    validate_output(args.output)
     plan_path=ROOT/'config/experiments/rya1281_ng_control.json';plan=json.loads(plan_path.read_text())
     if plan['schema']!='codex.bride_ng_experiment/1' or plan['modes']!=['record','off']:raise ValueError('Changed declared two-control experiment')
     store=require_codex_path('experiments.bride_mac_grid');coeff=require_codex_path('experiments.bride_thermal_coefficients')

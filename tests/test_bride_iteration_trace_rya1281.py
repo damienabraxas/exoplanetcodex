@@ -63,3 +63,15 @@ def test_recording_real_native_backend_preserves_analytic_fixture_arrays(monkeyp
     assert rows and len(rows)==len(recorded['history'])
     assert all(len(r['ngAccelerated'])==1 and r['updatedPops'] for r in rows)
     assert any(any(r['ngAccelerated']) for r in rows)==ng
+
+
+def test_new_registered_output_is_not_required_to_exist_and_old_outputs_refuse(monkeypatch,tmp_path):
+    from scripts.run_bride_ng_controls import validate_output
+    import config.constants
+    registered=tmp_path/'new-derived-output'
+    monkeypatch.setattr(config.constants,'codex_path',lambda key:registered)
+    validate_output(registered)
+    assert not registered.exists()
+    with pytest.raises(ValueError):validate_output(tmp_path/'different-output')
+    registered.mkdir()
+    with pytest.raises(FileExistsError):validate_output(registered)
