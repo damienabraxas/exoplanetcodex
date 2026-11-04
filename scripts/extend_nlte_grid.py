@@ -99,12 +99,12 @@ def build_lines(waves):
             loggf, ep, eup, vw = data[:4]
             tl, tu, jl, ju, note = pn.labels_by_selection_rules(ELEMENT, ep, eup, ion=ION)
         except ValueError as exc:
-            UNLABELLED[round(wl, 3)] = str(exc)
+            UNLABELLED[wl] = str(exc)
             print(f"  {wl:10.3f} HELD: {exc}", flush=True)
             continue
         if ION != 1 and (jl != data[5] or ju != data[6]):
-            UNLABELLED[round(wl, 3)] = f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component"
-            print(f"  {wl:10.3f} HELD: {UNLABELLED[round(wl, 3)]}", flush=True)
+            UNLABELLED[wl] = f"{ELEMENT} {ION} {wl}: grid J values disagree with identified component"
+            print(f"  {wl:10.3f} HELD: {UNLABELLED[wl]}", flush=True)
             continue
         line = (wl, loggf, ep, jl, eup, ju, tl, tu, vw)
         out.append(line + (None, data[4]) if ION != 1 else line)
@@ -219,7 +219,7 @@ def main(argv=None) -> int:
             bucket[f"{w:.3f}"] = (
                 "identically 0 at every node despite confirmed departure application; "
                 "held under the no-placeholder-zero admission policy; cause unestablished" if w in {round(z, 3) for z in zero} else
-                UNLABELLED[w] if w in UNLABELLED else
+                held if (held := next((v for k, v in UNLABELLED.items() if abs(k - w) < 5e-4), None)) else
                 "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)")
     prov_path.write_text(json.dumps(prov, indent=2) + "\n")
     return 0
