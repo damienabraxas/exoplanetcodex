@@ -62,8 +62,10 @@ def units_for(star: str, element: str, *, report: dict,
         # GRADED selector. Accept that spelling when matching the descriptor's
         # SET-* selector so artifacts already built by the orchestrator reach the
         # budget/publication stage. Canonical and deep pools remain exact matches.
+        # RYA-1315: never on a NARROWED run -- a codex-only Na run pulled 6 Kitt Peak SET cells
+        # it never built into the budget, and their legs re-ran them in full.
         if identity not in built and not (
-                identity not in reported
+                not report.get("scope") and identity not in reported
                 and d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
                 and (*identity[:-1], "GRADED") in built):
             continue
