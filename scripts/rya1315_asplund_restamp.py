@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "scripts"), str(ROOT)]
 
 from pipeline.uncertainty_contract import assemble  # noqa: E402
-from rya1230_cno_budget import scott_atmosphere  # noqa: E402
+from pipeline.asplund_atmosphere import scott_atmosphere  # noqa: E402
 
 _GF = pd.read_csv(ROOT / "data/linelists/canonical_gf.csv", low_memory=False,
                   usecols=["physical_id", "wavelength_air_A"])
@@ -63,6 +63,10 @@ def restamp(product: dict, element: str) -> str | None:
                    required_extra=tuple(u.get("required_extra") or ()))
     product["uncertainty"] = doc
     product["sigma_reported"] = doc["sigma_reported"]
+    if "sigma_syst_components" in product:
+        # the Fe schema derives sigma_syst / sigma_syst_complete from the budget (RYA-1178/1232)
+        from rya1178_emit_fe_schema import _rya587_systematic
+        _rya587_systematic(product)
     return None
 
 
