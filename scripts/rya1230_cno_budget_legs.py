@@ -61,14 +61,70 @@ LEGS = {
     "blendgf": ({"CODEX_GF_OVERRIDE": "pk_b3d47c33d602=-1.44"}, []),
 }
 #: RYA-1315 (Ryan, 11-03: "only ever do it how Asplund et al. are doing it"): the published
-#: sigma is Asplund+2021 Sect. 2.1 -- stat (+) atmosphere (+) half the 3D effect (+) NLTE.
-#: Only `nominal` (stat) and `marcs` (atmosphere) need a leg; 3D and NLTE come from the
-#: product's own corrections. The old RYA-587 legs (xi, core, q80/q97, contref) are no longer
-#: run. Fe keeps `cscale`: it selects lines (telluric-contaminated Fe lines are dropped, as
-#: Asplund drops them), it does not price anything published.
-DEFAULT_LEGS = ("nominal", "marcs")
+#: sigma is Asplund+2021 Sect. 2.1 -- statistical (+) half(<3D> - HM74) (+) half(3D - <3D>)
+#: (+) NLTE. The statistical term is the cell's own fit, the two atmosphere terms are read
+#: per line from Scott+2015 I/II (data/reference/scott2015/scott2015_line_models.csv), NLTE from the
+#: cell's own correction. So `nominal` is the CELL'S RECORDED ARTIFACTS (the run ledger,
+#: sha-checked), not a re-run, and no RYA-587 perturbation leg is run. Fe keeps `cscale`
+#: only to drop telluric-contaminated lines (line selection, as Asplund does).
+DEFAULT_LEGS = ("nominal",)
 RYA587_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale")
 FE_EXTRA_LEGS = ("cscale",)
+
+
+def nominal_from_ledger(units: list[list[str]], out: Path, star: str = "solar") -> list[int]:
+    """Fill unitNN/nominal from the cell's recorded artifacts instead of re-running it.
+
+    A unit is matched to its ledger cell by its derive arguments (the same `resolve` the
+    publisher used to write them); every artifact must exist with the recorded sha256, or
+    the unit is left to run. Returns the units filled."""
+    import hashlib
+    import json
+    import shutil
+    from pipeline import run_matrix as rm
+    from pipeline.run_descriptor import resolve
+    if not rm.LEDGER.exists():
+        return []
+    ledger = json.loads(rm.LEDGER.read_text())
+    want = {}
+    for i, u in enumerate(units):
+        if (out / f"unit{i:02d}" / "nominal" / "DONE").exists() or "--element" not in u:
+            continue
+        want.setdefault(u[u.index("--element") + 1], {})[shlex.join(u)] = i
+    filled = []
+    for element, by_args in want.items():
+        holdings = {a.split()[a.split().index("--holding") + 1] for a in by_args
+                    if "--holding" in a.split()}
+        for d in rm.expand(star, element, methods=["synthesis"],
+                           pools=["set", "reference", "codex", "deep"]):
+            if holdings and d.holding not in holdings:
+                continue
+            try:
+                step = next(s for s in resolve(d, interpreter=None, ispec_dir=None).steps
+                            if s["name"] == "derive_products")
+            except Exception:                                           # noqa: BLE001
+                continue
+            args = list(step["args"])
+            if "--out" in args:
+                j = args.index("--out")
+                del args[j:j + 2]
+            i = by_args.get(shlex.join(args))
+            if i is None:
+                continue
+            arts = (ledger.get(rm.ledger_key(star, d, rm._band_of(d, star).name_declared)) or {}
+                    ).get("artifacts") or []
+            srcs = [(ROOT / a["path"], a.get("sha256")) for a in arts]
+            if not srcs or not all(f.exists() and hashlib.sha256(f.read_bytes()).hexdigest() == h
+                                   for f, h in srcs):
+                continue
+            nom = out / f"unit{i:02d}" / "nominal"
+            shutil.rmtree(nom, ignore_errors=True)
+            nom.mkdir(parents=True)
+            for f, _ in srcs:
+                shutil.copy2(f, nom / f.name)
+            (nom / "DONE").write_text("0 (the cell's recorded artifacts, sha-checked; not re-run)\n")
+            filled.append(i)
+    return filled
 
 
 def parse_units(path: Path) -> list[list[str]]:
@@ -122,6 +178,9 @@ def main() -> int:
     if not (a.out / "units.txt").exists():
         (a.out / "units.txt").write_text("\n".join(shlex.join(u) for u in units) + "\n")
     keep = None if a.only_units is None else {int(x) for x in a.only_units.split(",")}
+    if "nominal" in a.legs.split(","):
+        filled = nominal_from_ledger(units, a.out)
+        print(f"nominal from the cells' recorded artifacts: {len(filled)}/{len(units)} units", flush=True)
     def legs_of(u):
         legs = a.legs.split(",")
         if a.legs == ",".join(DEFAULT_LEGS) and "--element" in u and u[u.index("--element") + 1] == "Fe":

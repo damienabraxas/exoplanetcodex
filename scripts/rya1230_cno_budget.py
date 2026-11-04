@@ -61,6 +61,29 @@ from pipeline.uncertainty_contract import (  # noqa: E402
 from pipeline.paired_differential import UnpairableProducts, paired_differential  # noqa: E402
 
 GF = ROOT / "data/linelists/canonical_gf.csv"
+SCOTT2015 = ROOT / "data/reference/scott2015/scott2015_line_models.csv"
+
+
+def scott_atmosphere(element: str, ion: str, pool_w, statistic=np.mean) -> dict | None:
+    """Asplund+2021 Sect. 2.1's two atmosphere terms for a pool, from Scott+2015 I/II's per-line
+    LTE abundances in the 3D, <3D> and Holweger & Mueller (1974) models:
+        temperature structure = 1/2 |mean(<3D> - HM)|,  inhomogeneities = 1/2 |mean(3D - <3D>)|
+    averaged over the pool's lines Scott tabulates (0.05 A); a pool with none of them takes the
+    species' own Scott lines (Asplund's per-element value). None when Scott has no such species."""
+    t = pd.read_csv(SCOTT2015)
+    t = t[(t.element == element) & (t.ion == ion)]
+    if t.empty:
+        return None
+    wa = t.wavelength_nm.astype(float) * 10.0
+    pool = [float(w) for w in pool_w]
+    hit = t[[any(abs(w - x) <= 0.05 for x in pool) for w in wa]]
+    use, basis = (hit, "pool lines") if len(hit) else (t, "species mean (no pool line in Scott)")
+    temp = float(statistic(use.A_mean3D - use.A_HM))
+    inhom = float(statistic(use.A_3D - use.A_mean3D))
+    return {"temperature_structure_dex": abs(temp) / 2.0, "inhomogeneity_dex": abs(inhom) / 2.0,
+            "mean_3Dmean_minus_HM_dex": temp, "mean_3D_minus_3Dmean_dex": inhom,
+            "n_scott_lines": int(len(use)), "basis": basis,
+            "scott_wavelengths_A": sorted(round(float(w) * 10.0, 3) for w in use.wavelength_nm)}
 DELTA_XI = 0.2912
 XI_STEP = 0.10
 C_STEP, SIGMA_C = 0.10, 0.04
@@ -796,8 +819,22 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                               "n_paired": pc["n_paired"]}))
     lever("profile_ew", "core", "fit window +/-0.25 A core vs the band's fixed window, paired on this pool",
           {"varied": "fit half-width", "nominal_A": hw, "alternate_A": 0.25})
-    lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-          {"varied": "atmosphere grid"})
+    #: RYA-1315 (Ryan, 11-03): Asplund+2021's atmosphere terms, from Scott+2015's per-line
+    #: 3D / <3D> / HM74 abundances -- not a MARCS-vs-ATLAS9 leg. A species Scott does not
+    #: tabulate (C/N/O) keeps its own route below.
+    scott = scott_atmosphere(element, _ion, _pool_w) if _ion else None
+    if scott is not None:
+        comps.append(dict(
+            name="model_atmosphere",
+            sigma_dex=float(np.hypot(scott["temperature_structure_dex"], scott["inhomogeneity_dex"])),
+            state="MEASURED",
+            source=("Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half "
+                    "the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II "
+                    f"({scott['basis']}, n={scott['n_scott_lines']})"),
+            evidence={"pool_sha256": digest, **scott}))
+    else:
+        lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
+              {"varied": "atmosphere grid"})
 
     # telluric: per line, through the line's own dA/df
     cs = _leg_lines(unit_dir / "cscale", lines_stem)
@@ -1013,6 +1050,8 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                               evidence={"asplund_budget": True, "legs_not_run": list(_legs)}))
             notes[:] = [x for x in notes if not x.startswith((_name.split(".")[-1], f"{_name}:"))]
 
+    if scott is not None:
+        three_d = None                 # the inhomogeneity term is already Scott's 3D - <3D>
     if three_d is not None:
         ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
         if ma is None:

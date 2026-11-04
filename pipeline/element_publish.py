@@ -54,7 +54,8 @@ def units_for(star: str, element: str, *, report: dict,
     reported = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
                 for c in report.get("cells", [])}
     out = []
-    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
+    # RYA-1311/1315: Reference Grade cells were built and never published without "reference".
+    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "reference", "codex", "deep"]):
         identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
                     d.engine_deck, rm.pool_tier(d))
         # Older run reports represented a published line-set cell as the generic
