@@ -1001,6 +1001,18 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                       source="SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
                       evidence={"harness_residual_dex": 0.0}))
 
+    #: RYA-1315 (Ryan, 11-03): the published sigma is Asplund+2021's; the RYA-587 terms whose
+    #: legs are no longer run are NOT PART OF THAT BUDGET -- recorded N/A, never HOLD.
+    _have = {c["name"] for c in comps}
+    for _name, _legs in (("stellar.xi", ("xi_minus", "xi_plus")), ("continuum", ("q80", "q97", "contref")),
+                         ("profile_ew", ("core",)), ("telluric", ("cscale",))):
+        if _name not in _have and not any((unit_dir / lg).is_dir() for lg in _legs):
+            comps.append(dict(name=_name, sigma_dex=None, state="N/A",
+                              source=("not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, "
+                                      "half the 3D effect, NLTE); RYA-1315 runs only those legs"),
+                              evidence={"asplund_budget": True, "legs_not_run": list(_legs)}))
+            notes[:] = [x for x in notes if not x.startswith((_name.split(".")[-1], f"{_name}:"))]
+
     if three_d is not None:
         ma = next((c for c in comps if c["name"] == "model_atmosphere"), None)
         if ma is None:

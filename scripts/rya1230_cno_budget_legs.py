@@ -60,7 +60,15 @@ LEGS = {
     # of the adopted VALD value -> the blend term
     "blendgf": ({"CODEX_GF_OVERRIDE": "pk_b3d47c33d602=-1.44"}, []),
 }
-DEFAULT_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale")
+#: RYA-1315 (Ryan, 11-03: "only ever do it how Asplund et al. are doing it"): the published
+#: sigma is Asplund+2021 Sect. 2.1 -- stat (+) atmosphere (+) half the 3D effect (+) NLTE.
+#: Only `nominal` (stat) and `marcs` (atmosphere) need a leg; 3D and NLTE come from the
+#: product's own corrections. The old RYA-587 legs (xi, core, q80/q97, contref) are no longer
+#: run. Fe keeps `cscale`: it selects lines (telluric-contaminated Fe lines are dropped, as
+#: Asplund drops them), it does not price anything published.
+DEFAULT_LEGS = ("nominal", "marcs")
+RYA587_LEGS = ("nominal", "xi_minus", "xi_plus", "core", "q80", "q97", "contref", "marcs", "cscale")
+FE_EXTRA_LEGS = ("cscale",)
 
 
 def parse_units(path: Path) -> list[list[str]]:
@@ -114,9 +122,14 @@ def main() -> int:
     if not (a.out / "units.txt").exists():
         (a.out / "units.txt").write_text("\n".join(shlex.join(u) for u in units) + "\n")
     keep = None if a.only_units is None else {int(x) for x in a.only_units.split(",")}
-    tasks = [(i, u, leg) for i, u in enumerate(units) for leg in a.legs.split(",")
+    def legs_of(u):
+        legs = a.legs.split(",")
+        if a.legs == ",".join(DEFAULT_LEGS) and "--element" in u and u[u.index("--element") + 1] == "Fe":
+            legs += [lg for lg in FE_EXTRA_LEGS if lg not in legs]
+        return legs
+    tasks = [(i, u, leg) for i, u in enumerate(units) for leg in legs_of(u)
              if keep is None or i in keep]
-    print(f"{len(units)} units x {len(a.legs.split(','))} legs = {len(tasks)} runs", flush=True)
+    print(f"{len(units)} units, legs {a.legs} = {len(tasks)} runs", flush=True)
     with ThreadPoolExecutor(a.jobs) as ex:
         for msg in ex.map(lambda t: run_leg(t[0], t[1], t[2], a.out, sys.executable), tasks):
             print(msg, flush=True)
