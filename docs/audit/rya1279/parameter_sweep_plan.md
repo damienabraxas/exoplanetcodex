@@ -7,7 +7,7 @@ there is no automatic claim that earlier controls used the current physics.
 All science stays on the Mac under the existing bounded, serial authorization.
 Scientific HOLD; fixedO8.70 baseline is not a measured solar abundance.
 
-## Current executable slice
+## Current executed slice
 
 `config/experiments/rya1281_mac_xi_slice.json` declares a list of named cases,
 fixed solar5772/g4.438/full56-depth thermodynamic structure, O8.70, bound FeI
@@ -26,7 +26,7 @@ contracts. A malformed or out-of-coverage case fails rather than being dropped.
 
 | Axis or control | Evidence already present | Next coverage / dependencies |
 |---|---|---|
-| Microturbulence | Earlier native-node0.5/0.9/1/1.1/1.5 controls use older physics | Fresh solar0.9/1/1.1 first; extend to0.5/1.5 and intermediate values after local response/validity review. Do not stop at three values or fit xi to Kitt. |
+| Microturbulence | Earlier native-node0.5/0.9/1/1.1/1.5 controls use older physics | Fresh solar0.9/1/1.1 completed (see xi_slice_control_review.md); extend to0.5/1.5 and intermediate values after local response/validity review. Do not stop at three values or fit xi to Kitt. |
 | Effective temperature | Five fresh solar5752-5792K at10K spacing with bound continuum; sparse Fe-line widths added later | Wider temperature range and useful sampling, constrained by actual atmosphere/atom/opacity domains; repeat with matched source physics and held-out grid checks.10K sampling is not10K physical accuracy. |
 | Surface gravity | Earlier native-node checks, not fresh source-matched solar series | Source-matched solar gravity slice, complete geometry/density/cap bindings; range from parameter provenance and grid coverage, not target residual. |
 | Composition: metallicity, alpha and individual CNO/Fe | Native composition explicit; O8.70 fixed; earlier diagnostic O perturbations | Fresh producer/EOS/opacity inputs for each declared composition. Distinguish active-O response from atmosphere mixture response. Passive Fe for oxygen is not the Fe abundance milestone. |

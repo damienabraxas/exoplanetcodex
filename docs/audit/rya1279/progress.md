@@ -945,3 +945,15 @@ reference spread persists.36 tests pass;16 artifacts/4 figures retained.
 No verified new accepted science/production bug. Next fresh solar xi0.9/1/1.1
 requires exact-input producer/certificate qualification, no xi1 relabeling.
 Scientific HOLD; partial pressure intervention is not complete H2/EOS admission.
+
+## 2026-11-03 fresh xi slice and broader sweep directive
+
+Ryan requested an eventual full sweep beyond the initial microturbulence values.
+[Broader sweep inventory](parameter_sweep_plan.md) distinguishes physical axes,
+source/reference choices and numerical controls; wider amplitudes and interactions
+remain owed. [First slice review](xi_slice_control_review.md): fresh producer
+xi0.9/1/1.1 certificates and three coupled O solves,71/16/76iterations.
+Independent saved-R+C residuals3.02-4.14e-7 pass; nominal flux replays exactly.
+O-aperture responses0.26-0.47mA per0.1km/s, no xi selected to close Kitt gap.
+38tests pass,42artifacts/8figures retained, all ORCH continuum legs rerun.
+Mac only, full EOS/reference/opacity/continuum/dimensionality gates OPEN; HOLD.

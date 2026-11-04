@@ -26942,3 +26942,175 @@ artifacts:
     generator: scripts/audit_bride_kitt_residuals.py
     invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-h2-collider-molecular-v1 --continuum-reference iag --output <new-immutable-directory>
     ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/producer/run_report.json
+    generator: scripts/prepare_bride_xi_coefficients.py
+    invocation: python scripts/prepare_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --build <registered-mac-store>/rya1281-ts-point-build-v2 --reference-run <registered-mac-store>/rya1281-ts-nuv-v1/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/report.json
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/checks.csv
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/native_identity/manifest.json
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    note: Full coefficient arrays/source reports stay immutable in registered external holding; this is a metadata copy, not a standalone coefficient packet.
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/solar5772_xi090/manifest.json
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    note: Full coefficient arrays/source reports stay immutable in registered external holding; this is a metadata copy, not a standalone coefficient packet.
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/solar5772_xi100/manifest.json
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    note: Full coefficient arrays/source reports stay immutable in registered external holding; this is a metadata copy, not a standalone coefficient packet.
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/certificates/solar5772_xi110/manifest.json
+    generator: scripts/bind_bride_xi_coefficients.py
+    invocation: python scripts/bind_bride_xi_coefficients.py --plan config/experiments/rya1281_mac_xi_slice.json --run <registered-mac-store>/rya1281-xi-source-v1/report.json --output <new-immutable-directory>
+    note: Full coefficient arrays/source reports stay immutable in registered external holding; this is a metadata copy, not a standalone coefficient packet.
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/input_manifest.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/populations.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/report.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/flux.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/rates.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/neutral_colliders.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/widths.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/neutral_reservoir.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi090/history.jsonl
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi090 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi090/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi090 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi090/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi090 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/input_manifest.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/populations.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/report.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/flux.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/rates.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/neutral_colliders.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/widths.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/neutral_reservoir.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi100/history.jsonl
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi100 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi100/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi100 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi100/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi100 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/input_manifest.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/populations.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/report.json
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/flux.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/rates.npz
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/neutral_colliders.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/widths.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/neutral_reservoir.csv
+    generator: scripts/run_bride_xi_sweep.py
+    invocation: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/runs/solar5772_xi110/history.jsonl
+    generator: pipeline/bride_coupled_control.py
+    note: "Emitted by solve_coupled through wrapper: python scripts/run_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --case solar5772_xi110 --coefficients <registered-xi-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi110/synthesis.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi110 --continuum-reference synthesis --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/continuum/solar5772_xi110/iag.json
+    generator: scripts/audit_bride_kitt_residuals.py
+    invocation: python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi110 --continuum-reference iag --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/analysis/report.json
+    generator: scripts/analyze_bride_xi_sweep.py
+    invocation: python scripts/analyze_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --runs <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi090 <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi100 <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi110 --output <new-immutable-directory>
+    ticket: RYA-1281
+  - artifact: rya1281/xi_slice_v1/analysis/profiles.csv
+    generator: scripts/analyze_bride_xi_sweep.py
+    invocation: python scripts/analyze_bride_xi_sweep.py --plan config/experiments/rya1281_mac_xi_slice.json --runs <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi090 <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi100 <registered-mac-store>/rya1281-xi-coupled-v1/solar5772_xi110 --output <new-immutable-directory>
+    ticket: RYA-1281
