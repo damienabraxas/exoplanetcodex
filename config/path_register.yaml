@@ -154,6 +154,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_thermal_refined_rates:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-refined-v1/rates.npz
+    env: CODEX_BRIDE_THERMAL_REFINED_RATES
+    kind: file
+    desc: Complete derived nominal-refinement R/C/J arrays; exceeds git5MiB ceiling, hash-receipted in thermal_slice_v1.
   experiments.bride_thermal_coefficients:
     root: work
     rel: bride_mac_checks/rya1281-thermal-coefficients-v1

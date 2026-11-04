@@ -130,11 +130,52 @@ def main():
     np.testing.assert_array_equal(rf['wavelength_air_A'],wave)
     result['numerical_refinement']=dict(report=fingerprint(args.refined_run/'report.json'),controls=refined['coupled']['controls'],
         max_abs_normalized_flux_change=float(max(abs(rf['normalized_flux']-arrays[baseline]['normalized_flux']))),
+        aperture_max_abs_flux_change=[float(max(abs((rf['normalized_flux']-arrays[baseline]['normalized_flux'])[abs(wave-c)<=.5])))for c in (7771.944,7774.166,7775.388)],
         aperture_area_changes_mA=[1000*window_integral(wave,rf['normalized_flux'],c-.5,c+.5)-result['cases'][baseline]['intrinsic'][j]['area_mA']for j,c in enumerate((7771.944,7774.166,7775.388))],
         caveat='Combined angular/wavelength/flux-ray refinement at nominal only, not independent bounds on each numerical error or all parameter extremes')
+    fig,axes=plt.subplots(3,1,figsize=(9,8))
+    delta=rf['normalized_flux']-arrays[baseline]['normalized_flux']
+    for ax,centre in zip(axes,(7771.944,7774.166,7775.388)):
+        mask=abs(wave-centre)<=.5;ax.plot(wave[mask],delta[mask]*1e6);ax.axhline(0,color='black',lw=.5)
+        ax.ticklabel_format(axis='x',useOffset=False);ax.set_ylabel('Flux change (ppm)');ax.set_title(f'{centre:.3f} AIR A');ax.grid(alpha=.2)
+    axes[-1].set_xlabel('AIR wavelength (Angstrom)');fig.suptitle('Combined nominal numerical refinement minus baseline\nMore angular rays, wavelength sampling and flux rays; no physical input change')
+    fig.tight_layout();refinement_figure=args.output/'numerical_refinement.png';fig.savefig(refinement_figure,dpi=150);plt.close(fig)
+    result['numerical_refinement']['figure']=fingerprint(refinement_figure)
     previous=ROOT/'data/results/rya1281/xi_wide_v1/runs/solar5772_wide_xi100/flux.csv'
     np.testing.assert_array_equal(arrays[baseline],np.genfromtxt(previous,delimiter=',',names=True))
     result['nominal_replay_array_identity']=True
+    # Compare finite area-response directions, not an inverse covariance fit.
+    vectors={};intervals={}
+    for axis,field in (('temperature','teff'),('gravity','logg')):
+        low=[i for i,c in enumerate(plan['cases'])if plan['sweep']['case_axes'][c['name']]==axis and c[field]<base_case[field]]
+        high=[i for i,c in enumerate(plan['cases'])if plan['sweep']['case_axes'][c['name']]==axis and c[field]>base_case[field]]
+        if not low or not high:raise ValueError('Direction diagnostic requires declared bracketing cases')
+        left=max(low,key=lambda i:plan['cases'][i][field]);right=min(high,key=lambda i:plan['cases'][i][field])
+        vectors[axis]=np.array([v['area_mA']for v in result['cases'][right]['intrinsic']])-np.array([v['area_mA']for v in result['cases'][left]['intrinsic']])
+        intervals[axis]=[plan['cases'][left][field],plan['cases'][right][field]]
+    xi_areas=[];xi_receipts=[]
+    for name in ('solar5772_xi090','solar5772_xi110'):
+        directory=ROOT/'data/results/rya1281/xi_slice_v1/runs'/name
+        old=json.loads((directory/'report.json').read_text())
+        for key in ('stark_source','stark_kernel','pressure_source','pressure_provider','provider','line_coefficients','lines','partition','source_manifest','source_populations','source_binding','wide_baseline'):
+            if old[key]!=nominal[key]:raise ValueError('Incompatible xi response source: '+key)
+        for key in ('controls','source_spline','source_mn','helper'):
+            if old['coupled'][key]!=nominal['coupled'][key]:raise ValueError('Incompatible xi coupled prescription: '+key)
+        import copy
+        expected=copy.deepcopy(nominal['local_binding']['local_binding']);expected['scalars']['vturb_m_s']=old['case']['xi']*1000
+        if old['local_binding']['local_binding']!=expected:raise ValueError('Incompatible xi thermal fields')
+        if fingerprint(directory/'flux.csv')!=old['flux']:raise ValueError('Changed prior xi flux')
+        data=np.genfromtxt(directory/'flux.csv',delimiter=',',names=True)
+        np.testing.assert_array_equal(data['wavelength_air_A'],wave)
+        xi_areas.append(np.array([1000*window_integral(wave,data['normalized_flux'],c-.5,c+.5)for c in (7771.944,7774.166,7775.388)]));xi_receipts.append(fingerprint(directory/'report.json'))
+    vectors['xi']=xi_areas[1]-xi_areas[0];intervals['xi']=[.9,1.1]
+    cosines={}
+    for a,b in (('temperature','gravity'),('temperature','xi'),('gravity','xi')):
+        denominator=np.linalg.norm(vectors[a])*np.linalg.norm(vectors[b])
+        if denominator==0:raise ValueError('Zero response direction')
+        cosines[a+'_'+b]=float(np.dot(vectors[a],vectors[b])/denominator)
+    result['response_directions']=dict(intervals=intervals,area_change_vectors_mA={k:v.tolist()for k,v in vectors.items()},signed_cosines=cosines,prior_xi_reports=xi_receipts,
+        interpretation='Finite three-aperture responses are nearly aligned or opposed, making discrimination from strengths alone fragile. Not proof of exact degeneracy, full-profile equality, derivatives, inverse covariance or physical uncertainties.')
     path=args.output/'profiles.csv';np.savetxt(path,np.column_stack(profiles),delimiter=',',header=','.join(labels),comments='')
     result.update(profiles=fingerprint(path),figure=fingerprint(figure),caveats='Declared interpolated Teff/gravity responses, fixed xi/composition/O8.70. Not new atmosphere-equilibrium solutions, complete EOS/opacity, abundance or full3D admission. Both RV variants retained; no optimization.')
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')

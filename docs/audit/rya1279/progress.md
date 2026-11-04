@@ -968,3 +968,14 @@ gravity preflight covers9/11 cases;5872/5972 refused at976source tables, no
 extrapolation or depth cut.40tests pass;71artifacts/14figures retained.
 New Teff/gravity source certificates/solves and numerical refinements remain
 owed. Broader sweep/independent O/full EOS/continuum/3D gates OPEN; HOLD.
+
+## 2026-11-03 fresh thermal cases and nominal numerical refinement
+
+[Review](thermal_control_review.md): six fresh source-matched Teff/gravity
+physical cases and one denser nominal numerical solve converge. Seven source
+identities/110refusals;45tests and seven independent R+C checks pass.
++50K adds3.76/3.38/2.83mA; g-0.1 adds2.45/2.28/2.00mA. Nominal refinement
+changes areas at most0.002881mA; three area-response directions for T/g/xi
+are nearly aligned/opposed, not an inverse covariance or proof of exact
+degeneracy.89artifacts/17figures retained; ORCH continuum spread remains.
+Independent O/reference/EOS/opacity/continuum/3D gates OPEN, no fit/adoption.
