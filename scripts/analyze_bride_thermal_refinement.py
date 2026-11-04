@@ -59,6 +59,8 @@ def independent_balance(pop, radiative, collision, stored_total, target_total, r
     if np.any(total[indices, indices] != 0):
         raise ValueError('Offdiagonal arrays have nonzero diagonal')
     outgoing = total.sum(axis=0)
+    if np.any(outgoing <= 0):
+        raise ValueError('Disconnected rate equation')
     total[indices, indices] = -outgoing
     np.testing.assert_allclose(total, stored_total, rtol=128*np.finfo(float).eps, atol=0)
     net = np.einsum('ijd,jd->id', total, pop)
@@ -70,11 +72,41 @@ def independent_balance(pop, radiative, collision, stored_total, target_total, r
     return dict(residual=residual, particle_conservation_error=conservation)
 
 
+def failed_attempt(directory, base, plan, log, matched):
+    """Explicitly retain a verified budget refusal, with no inferred spectrum."""
+    from pipeline.bride_reference import fingerprint
+    from pipeline.bride_thermal_sweep import effective_controls
+    inputs = json.loads((directory/'input_manifest.json').read_text())
+    history = [json.loads(line) for line in (directory/'history.jsonl').read_text().splitlines()]
+    if ((directory/'report.json').exists() or not history or not inputs['numeric_refinement']
+            or inputs['controls'] != effective_controls(plan['controls'], True)
+            or log.read_text().rstrip().splitlines()[-1] not in (
+                'TimeoutError: Fixed-population cap radiation budget exceeded',
+                'TimeoutError: Original coupled budget exceeded')):
+        raise ValueError('Wrong timeout evidence')
+    for key in ('case', 'plan', 'sweep_adapter', 'certificate', 'atmosphere_sources',
+                'local_binding', 'source_manifest', 'source_binding', 'lines', 'pressure_source', 'stark_source'):
+        if inputs[key] != base[key]: raise ValueError('Failed attempt changes physical/source input: '+key)
+    if matched:
+        initial = inputs['initialization']
+        if (initial['mode'] != 'matched_physical_baseline' or initial['populations'] != base['coupled']['populations']
+                or initial['helper'] != fingerprint(ROOT/'pipeline/bride_thermal_initial.py')
+                or inputs['generator'] != fingerprint(ROOT/'scripts/run_bride_thermal_sweep.py')):
+            raise ValueError('Wrong failed matched initialization')
+    elif inputs['generator'] != base['generator']:
+        raise ValueError('Wrong failed legacy generator')
+    return dict(status='BUDGET_EXHAUSTED_NOT_ACCEPTED', case=base['case']['name'],
+        input_manifest=fingerprint(directory/'input_manifest.json'), history=fingerprint(directory/'history.jsonl'),
+        log=fingerprint(log), completed_iterations=len(history), last_diagnostics=history[-1])
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--plan', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--failed-attempt-log', type=Path, required=True)
+    p.add_argument('--failed-refinements', nargs='*', default=[])
+    p.add_argument('--failure-log-dir', type=Path)
     args = p.parse_args()
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint
@@ -94,21 +126,25 @@ def main():
                   generator=fingerprint(__file__), plan=fingerprint(args.plan), cases=[],
                   scope='Combined angular/wavelength/flux-ray sampling at four predeclared endpoints plus existing nominal. No fit, new physical accuracy threshold, or individual error attribution. Observations and continuum controls unchanged.')
     failed = require_codex_path('experiments.bride_thermal_extreme_legacy')/'thermal_T5572'
-    failed_input = json.loads((failed/'input_manifest.json').read_text())
-    failed_history = [json.loads(line) for line in (failed/'history.jsonl').read_text().splitlines()]
-    if ((failed/'report.json').exists() or not failed_input['numeric_refinement']
-            or failed_input['case'] != plan['cases'][0]
-            or not args.failed_attempt_log.read_text().rstrip().endswith('TimeoutError: Fixed-population cap radiation budget exceeded')):
-        raise ValueError('Wrong legacy timeout evidence')
-    result['failed_original_solar_start'] = dict(status='BUDGET_EXHAUSTED_NOT_ACCEPTED',
-        resource_key='experiments.bride_thermal_extreme_legacy', case='thermal_T5572',
-        input_manifest=fingerprint(failed/'input_manifest.json'), history=fingerprint(failed/'history.jsonl'),
-        log=fingerprint(args.failed_attempt_log), completed_iterations=len(failed_history), last_diagnostics=failed_history[-1])
+    failed_base = json.loads((store/'rya1281-thermal-coupled-v1/thermal_T5572/report.json').read_text())
+    result['failed_original_solar_start'] = dict(failed_attempt(failed, failed_base, plan, args.failed_attempt_log, False),
+        resource_key='experiments.bride_thermal_extreme_legacy')
+    if len(set(args.failed_refinements)) != len(args.failed_refinements) or not set(args.failed_refinements) <= set(ENDPOINTS):
+        raise ValueError('Unknown/duplicate failed refinement')
     fig, axes = plt.subplots(2, 1, figsize=(12, 8))
     profiles = []; labels = ['wavelength_air_A']; wave = None
     for name in ENDPOINTS + ('thermal_nominal',):
         baseline = store/'rya1281-thermal-coupled-v1'/name
         refined = refined_root/name if name in ENDPOINTS else store/'rya1281-thermal-refined-v1'
+        if name in args.failed_refinements:
+            if args.failure_log_dir is None: raise ValueError('Explicit failed-refinement logs required')
+            base = json.loads((baseline/'report.json').read_text())
+            if fingerprint(baseline/'report.json') != fingerprint(ROOT/'data/results/rya1281/thermal_slice_v1/runs'/name/'report.json'):
+                raise ValueError('Changed failed-case baseline')
+            entry = failed_attempt(refined, base, plan, args.failure_log_dir/('rya1281-matched-'+name+'.log'), True)
+            entry['resource_key'] = RESOURCE
+            result['cases'].append(entry)
+            continue
         receipts = [json.loads((d/'report.json').read_text()) for d in (baseline, refined)]
         base, ref = receipts
         if fingerprint(baseline/'report.json') != fingerprint(ROOT/'data/results/rya1281/thermal_slice_v1/runs'/name/'report.json'):
@@ -163,7 +199,7 @@ def main():
         delta = b['normalized_flux'] - a['normalized_flux']
         area = [[1000*window_integral(wave, x['normalized_flux'], c-.5, c+.5) for c in CENTRES] for x in arrays]
         profile_max = [float(np.max(abs(delta[(wave >= c-.5) & (wave <= c+.5)]))) for c in CENTRES]
-        entry = dict(case=name, baseline_report=fingerprint(baseline/'report.json'), refined_report=fingerprint(refined/'report.json'),
+        entry = dict(case=name, status='CONVERGED_EXPERIMENT', baseline_report=fingerprint(baseline/'report.json'), refined_report=fingerprint(refined/'report.json'),
             independent_balance=balance, baseline_area_mA=area[0], refined_area_mA=area[1],
             area_delta_mA=(np.array(area[1])-area[0]).tolist(), max_aperture_profile_delta=profile_max,
             max_full_region_profile_delta=float(np.max(abs(delta))), iterations=ref['coupled']['iterations'], telemetry=ref['telemetry'])
@@ -179,7 +215,7 @@ def main():
     axes[0].set(xlim=(7770.5, 7776.5), xlabel='AIR wavelength (Angstrom)', ylabel='Refined minus baseline flux')
     axes[1].set(xlabel='O aperture centre, AIR (Angstrom)', ylabel='Refined minus baseline area (mA)')
     for ax in axes: ax.grid(alpha=.2); ax.legend(fontsize=8)
-    fig.suptitle('Numerical-only refinement at declared thermal/gravity endpoints\nFixed source physics, no abundance/parameter fit; scientific HOLD')
+    fig.suptitle('Completed numerical refinement pairs; failures retained in report\nFixed source physics, no abundance/parameter fit; scientific HOLD')
     fig.tight_layout()
     args.output.mkdir(parents=True, exist_ok=False)
     fig.savefig(args.output/'endpoint_refinement.png', dpi=150); plt.close(fig)
@@ -190,7 +226,7 @@ def main():
     for entry in result['cases']:
         if 'external_rates' in entry:
             (args.output/(entry['case']+'_rates_external.json')).write_text(json.dumps(entry['external_rates'], indent=2, allow_nan=False)+'\n')
-    print(json.dumps([dict(case=c['case'], area_delta_mA=c['area_delta_mA'], balance=c['independent_balance']) for c in result['cases']]))
+    print(json.dumps(result['cases']))
 
 
 if __name__ == '__main__': main()

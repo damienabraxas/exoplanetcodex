@@ -39,3 +39,16 @@ initial guess, not the atmosphere, atom or fitted parameters. Record the alterna
 initialization and code lineage explicitly; do not call the failed replay passed.
 Use a separate immutable root rya1281-thermal-extremes-matched-v1 and keep the
 legacy attempt root intact. No increase of the600-second per-attempt budget.
+
+## Independent light analysis while the serial RT batch runs
+
+Use only the already archived thermal/xi profile products to compare finite
+temperature5672->5822K, gravity4.338->4.538 and xi0.9->1.1km/s response directions.
+Check exact shared nominal arrays, observation, broadening and source receipts.
+Compare unit Euclidean directions over the union of the same three AIR O777
+apertures, retaining both broadening/RV variants. Report signed cosines and
+singular values of the unit-column profile matrix, alongside existing area
+directions. This is unweighted geometry on a fixed grid: no noise model,
+covariance, inversion, uncertainty estimate or observational identifiability
+claim. No chosen favorable variant, new RT, continuum correction or fit. It
+asks whether line shape carries distinctions lost by integrating three areas.

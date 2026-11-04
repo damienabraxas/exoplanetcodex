@@ -20,6 +20,14 @@ def test_pair_rejects_wrong_physics_case_and_relaxed_budget():
         with pytest.raises(ValueError): verify_pair(base, bad, plan)
     bad = copy.deepcopy(ref); bad['coupled']['controls']['seconds_per_case'] += 1
     with pytest.raises(ValueError, match='budgets'): verify_pair(base, bad, plan)
+    from pipeline.bride_reference import fingerprint
+    matched = copy.deepcopy(ref)
+    matched['initialization'] = dict(mode='matched_physical_baseline', populations=base['coupled']['populations'],
+        helper=fingerprint(ROOT/'pipeline/bride_thermal_initial.py'))
+    matched['generator'] = fingerprint(ROOT/'scripts/run_bride_thermal_sweep.py')
+    verify_pair(base, matched, plan)
+    matched['initialization']['populations'] = {}
+    with pytest.raises(ValueError, match='initialization'): verify_pair(base, matched, plan)
 
 
 def test_independent_balance_discriminates_populations_operator_and_nuclei():
@@ -36,3 +44,24 @@ def test_independent_balance_discriminates_populations_operator_and_nuclei():
         independent_balance(pop, off, np.zeros_like(off), total, np.array([6.]), 1e-6)
     with pytest.raises(AssertionError):
         independent_balance(pop, off, np.zeros_like(off), total*.9, np.array([5.]), 1e-6)
+    with pytest.raises(ValueError, match='Disconnected'):
+        independent_balance(pop, np.zeros_like(off), np.zeros_like(off), np.zeros_like(off), np.array([5.]), 1e-6)
+
+
+def test_timeout_receipt_cannot_accept_a_report_or_different_physical_case(tmp_path):
+    from scripts.analyze_bride_thermal_refinement import failed_attempt
+    from config.constants import require_codex_path
+    legacy = require_codex_path('experiments.bride_thermal_extreme_legacy')/'thermal_T5572'
+    base = json.loads((ROOT/'data/results/rya1281/thermal_slice_v1/runs/thermal_T5572/report.json').read_text())
+    plan = json.loads((ROOT/'config/experiments/rya1281_mac_thermal_slice.json').read_text())
+    for name in ('input_manifest.json', 'history.jsonl'):
+        (tmp_path/name).write_bytes((legacy/name).read_bytes())
+    log = tmp_path/'attempt.log'
+    log.write_text('TimeoutError: Fixed-population cap radiation budget exceeded\n')
+    assert failed_attempt(tmp_path, base, plan, log, False)['status'] == 'BUDGET_EXHAUSTED_NOT_ACCEPTED'
+    bad = copy.deepcopy(base); bad['case']['teff'] = 5822
+    with pytest.raises(ValueError, match='physical/source'):
+        failed_attempt(tmp_path, bad, plan, log, False)
+    (tmp_path/'report.json').write_text('{}')
+    with pytest.raises(ValueError, match='timeout'):
+        failed_attempt(tmp_path, base, plan, log, False)
