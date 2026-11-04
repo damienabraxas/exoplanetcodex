@@ -154,6 +154,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_thermal_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-coefficients-v1
+    env: CODEX_BRIDE_THERMAL_COEFFICIENTS
+    kind: dir
+    desc: Fresh experimental Teff/gravity coefficients and exact bindings; no automatic admission.
   experiments.bride_xi_wide_coefficients:
     root: work
     rel: bride_mac_checks/rya1281-xi-wide-coefficients-v1
