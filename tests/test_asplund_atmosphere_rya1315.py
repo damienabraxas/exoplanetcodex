@@ -25,3 +25,24 @@ def test_pool_without_scott_lines_takes_the_species_value_and_unknown_species_is
 def test_no_rya587_leg_is_run_by_default():
     assert legs.DEFAULT_LEGS == ("nominal",)
     assert legs.FE_EXTRA_LEGS == ("cscale",)
+
+
+def test_restamp_replaces_only_model_atmosphere_and_passes_the_gate():
+    import json
+    import subprocess
+    import rya1315_asplund_restamp as rs
+    from pipeline.uncertainty_contract import publication_problems
+    feed = json.loads(subprocess.run(["git", "show", "origin/main:data/products/solar/Al.json"],
+                                     capture_output=True, text=True, cwd=ROOT).stdout or "{}")
+    if not feed.get("products"):
+        import pytest
+        pytest.skip("origin/main Al feed not available")
+    p = json.loads(json.dumps(feed["products"][0]))
+    before = {c["name"]: c for c in p["uncertainty"]["components"]}
+    assert rs.restamp(p, "Al") is None
+    after = {c["name"]: c for c in p["uncertainty"]["components"]}
+    assert "Scott+2015" in after["model_atmosphere"]["source"]
+    assert {k: v for k, v in before.items() if k != "model_atmosphere"} == \
+        {k: v for k, v in after.items() if k != "model_atmosphere"}
+    assert p["A"] == feed["products"][0]["A"]
+    assert publication_problems(p) == []
