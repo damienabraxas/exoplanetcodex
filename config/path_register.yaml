@@ -160,6 +160,18 @@ entries:
     env: CODEX_BRIDE_CONTINUUM_ANCHOR
     kind: dir
     desc: Derived frozen-profile anchor/denominator diagnostics; raw external source spectra remain read-only.
+  experiments.bride_continuum_support:
+    root: work
+    rel: bride_mac_checks/rya1281-continuum-support-v1
+    env: CODEX_BRIDE_CONTINUUM_SUPPORT
+    kind: dir
+    desc: Explicit clipping termination and actual coefficient support; preserves native continuum values and prior anchor audit.
+  experiments.bride_iag_quality:
+    root: work
+    rel: bride_mac_checks/rya1281-iag-quality-v1
+    env: CODEX_BRIDE_IAG_QUALITY
+    kind: dir
+    desc: Read-only Baker IAG O777 flag coverage and unresolved fractional-flag provenance; no spectrum changes.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1

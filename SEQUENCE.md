@@ -1,5 +1,7 @@
 ## 2026-11-04 — oxygen numerical endpoints and profile geometry
 
+- **RYA-1281** — Expose continuum support/termination without changing fits; verify local IAG flags and retain global fractional-flag discrepancy (register v212).
+
 - **RYA-1281** — Decompose frozen continuum references; trace extrapolated anchors and characterize final-pass support/count defect (register v211).
 
 - **RYA-1281** — Complete lower-g refinement with cost-only extension; fresh rates pass, continuum/reference spread remains dominant.

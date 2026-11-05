@@ -28047,3 +28047,11 @@ artifacts:
     generator: "scripts/audit_bride_continuum_anchors.py"
     invocation: "python scripts/audit_bride_continuum_anchors.py --output <new-registered-continuum-anchor-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/continuum_support_v1/report.json
+    generator: "scripts/audit_bride_continuum_anchors.py"
+    invocation: "python scripts/audit_bride_continuum_anchors.py --output <new-registered-continuum-support-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/iag_quality_v1/report.json
+    generator: "scripts/audit_bride_iag_quality.py"
+    invocation: "python scripts/audit_bride_iag_quality.py --output <new-registered-iag-quality-directory>"
+    ticket: "RYA-1281"
