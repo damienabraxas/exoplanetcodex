@@ -172,6 +172,12 @@ entries:
     env: CODEX_BRIDE_IAG_QUALITY
     kind: dir
     desc: Read-only Baker IAG O777 flag coverage and unresolved fractional-flag provenance; no spectrum changes.
+  experiments.bride_resolution_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-reference-resolution-v1
+    env: CODEX_BRIDE_RESOLUTION_AUDIT
+    kind: dir
+    desc: Frozen O777 Gaussian resolution sensitivity; no calibrated FTS kernel or adoption.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1
